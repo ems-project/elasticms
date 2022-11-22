@@ -1,0 +1,8 @@
+parameters:
+    paths:
+        - %currentWorkingDirectory%/src
+    excludes_analyse:
+        - %currentWorkingDirectory%/vendor/*
+    reportUnmatchedIgnoredErrors: false
+    level: 8
+    inferPrivatePropertyTypeFromConstructor: true

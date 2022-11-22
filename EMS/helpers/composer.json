@@ -1,0 +1,64 @@
+{
+	"name" : "elasticms/helpers",
+	"description" : "Enclose and simplify regular PHP functions in PHPStan compliant functions",
+	"type" : "library",
+	"keywords" : [
+		"php",
+		"phpstan",
+		"helpers"
+	],
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "David Mattei",
+			"email" : "david.mattei@smals.be"
+		},
+		{
+			"name" : "Mathieu De Keyzer",
+			"email" : "mathieu@dekeyzer.net"
+		}
+	],
+	"require" : {
+		"php": "^7.4",
+        "ext-json": "*",
+        "ext-tidy": "*"
+	},
+	"require-dev" : {
+		"friendsofphp/php-cs-fixer" : "^3.0",
+		"mockery/mockery" : "^0.9",
+		"phpstan/phpstan": "^0.12",
+		"phpunit/phpunit" : "^9.5",
+		"phpstan/phpstan-phpunit": "^0.12.8",
+		"phpstan/extension-installer": "^1.1"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"EMS\\Helpers\\" : "src/"
+		},
+		"exclude-from-classmap" : [
+			"tests/"
+		]
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"EMS\\Helpers\\Tests\\" : "tests/"
+		}
+	},
+	"config": {
+		"lock": false,
+		"sort-packages": true,
+		"allow-plugins": {
+			"phpstan/extension-installer": true
+		}
+	},
+	"extra" : {
+		"branch-alias" : {
+			"dev-master" : "0.1-dev"
+		}
+	},
+	"scripts": {
+		"phpcs": "php-cs-fixer fix",
+		"phpstan": "phpstan analyse",
+		"phpunit":  "phpunit",
+		"phpall": "php-cs-fixer fix && phpunit && phpstan"
+	}
+}

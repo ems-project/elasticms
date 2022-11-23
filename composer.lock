@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "b0798757d12ebe9e4cf800a6dd592289",
+    "packages": [],
+    "packages-dev": [
+        {
+            "name": "symplify/monorepo-builder-prefixed",
+            "version": "9.0.19",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symplify/monorepo-builder-prefixed.git",
+                "reference": "2bd63b92342f3a19fd53f332c9e8fcf0fd29241f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symplify/monorepo-builder-prefixed/zipball/2bd63b92342f3a19fd53f332c9e8fcf0fd29241f",
+                "reference": "2bd63b92342f3a19fd53f332c9e8fcf0fd29241f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "replace": {
+                "symplify/monorepo-builder": "self.version"
+            },
+            "bin": [
+                "bin/monorepo-builder"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed scoped version of \"symplify/monorepo-builder\" package",
+            "support": {
+                "issues": "https://github.com/symplify/monorepo-builder-prefixed/issues",
+                "source": "https://github.com/symplify/monorepo-builder-prefixed/tree/9.0.19"
+            },
+            "abandoned": "symplify/monorepo-builder",
+            "time": "2020-12-25T21:52:41+00:00"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -35,8 +36,7 @@ class CurlCommand extends AbstractCommand
     private EventDispatcherInterface $eventDispatcher;
     private ControllerResolverInterface $controllerResolver;
     private AssetRuntime $assetRuntime;
-    /** @var Session<mixed> */
-    private Session $session;
+    private SessionInterface $session;
     private RequestStack $requestStack;
     private StorageManager $storageManager;
 
@@ -46,9 +46,6 @@ class CurlCommand extends AbstractCommand
     private ?string $baseUrl;
     private bool $save;
 
-    /**
-     * @param Session<mixed> $session
-     */
     public function __construct(EventDispatcherInterface $eventDispatcher, ControllerResolverInterface $controllerResolver, RequestStack $requestStack, StorageManager $storageManager, AssetRuntime $assetRuntime)
     {
         parent::__construct();

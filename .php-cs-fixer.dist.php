@@ -7,6 +7,8 @@ if (!file_exists(__DIR__.'/elasticms-cli/src')) {
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/elasticms-cli/src')
     ->in(__DIR__.'/elasticms-cli/tests')
+    ->in(__DIR__.'/elasticms-web/src')
+    ->in(__DIR__.'/elasticms-web/tests')
     ->in(__DIR__.'/EMS/client-helper-bundle/src')
     ->in(__DIR__.'/EMS/client-helper-bundle/tests')
     ->in(__DIR__.'/EMS/common-bundle/src')

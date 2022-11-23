@@ -10,6 +10,7 @@
   <coverage>
     <include>
       <directory>./elasticms-cli/src/</directory>
+      <directory>./elasticms-web/src/</directory>
       <directory>./EMS/client-helper-bundle/src/</directory>
       <directory>./EMS/common-bundle/src/</directory>
       <directory>./EMS/form-bundle/src/</directory>
@@ -30,6 +31,7 @@
   <testsuites>
       <testsuite name="Unit suite">
           <directory>./elasticms-cli/tests</directory>
+          <directory>./elasticms-web/tests</directory>
           <directory>./EMS/client-helper-bundle/tests</directory>
           <directory>./EMS/common-bundle/tests</directory>
           <directory>./EMS/form-bundle/tests</directory>

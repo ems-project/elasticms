@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Search;
 
-use Elastica\Suggest\Term;
 use Elastica\Aggregation\AbstractAggregation;
 use Elastica\Aggregation\Filter as FilterAggregation;
 use Elastica\Aggregation\Nested as NestedAggregation;
@@ -15,6 +14,7 @@ use Elastica\Query\BoolQuery;
 use Elastica\Query\Nested;
 use Elastica\Query\Terms;
 use Elastica\Suggest;
+use Elastica\Suggest\Term;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\CommonBundle\Search\Search as CommonSearch;
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\DependencyInjection;
 
-use Psr\Cache\CacheItemPoolInterface;
 use EMS\ClientHelperBundle\Helper\Api\Client as ApiClient;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateLoader;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

@@ -178,7 +178,7 @@ final class Filter
 
         if (null !== $this->value) {
             if (\is_array($this->value)) {
-                $this->value = \array_map(fn($v) => \is_string($v) ? RequestHelper::replace($request, $v) : $v, $this->value);
+                $this->value = \array_map(fn ($v) => \is_string($v) ? RequestHelper::replace($request, $v) : $v, $this->value);
             } elseif (\is_string($this->value)) {
                 $this->value = RequestHelper::replace($request, $this->value);
             }

@@ -151,7 +151,7 @@ final class ApiService
 
         $hits = $results['hits'];
 
-        $response->addData('count', is_countable($hits['hits']) ? \count($hits['hits']) : 0);
+        $response->addData('count', \is_countable($hits['hits']) ? \count($hits['hits']) : 0);
         $response->addData('total', $hits['total']);
         $response->addData('scroll', $results['_scroll_id']);
 

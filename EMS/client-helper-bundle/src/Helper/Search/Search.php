@@ -207,7 +207,7 @@ final class Search
      */
     public function getActiveFilters()
     {
-        return \array_filter($this->filters, fn(Filter $filter) => $filter->isActive() && $filter->isPublic());
+        return \array_filter($this->filters, fn (Filter $filter) => $filter->isActive() && $filter->isPublic());
     }
 
     public function getPage(): int

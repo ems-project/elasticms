@@ -6,11 +6,10 @@ class Aggregation
 {
     private string $name;
     /** @var array<mixed> */
-    private $buckets;
-    /** @var int */
-    private $count;
+    private array $buckets;
+    private int $count;
     /** @var array<mixed> */
-    private $raw;
+    private array $raw;
 
     /**
      * @param array<mixed> $aggregation

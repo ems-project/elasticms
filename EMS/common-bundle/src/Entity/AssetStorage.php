@@ -14,13 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
 class AssetStorage implements EntityInterface
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(name="created", type="datetime")
@@ -28,18 +26,14 @@ class AssetStorage implements EntityInterface
     private ?\DateTime $created = null;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="modified", type="datetime")
      */
-    private $modified;
+    private ?\DateTime $modified = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="hash", type="string", length=1024, unique=true)
      */
-    private $hash;
+    private ?string $hash = null;
 
     /**
      * @var string|resource
@@ -49,18 +43,14 @@ class AssetStorage implements EntityInterface
     private $contents;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="size", type="bigint")
      */
-    private $size;
+    private ?int $size = null;
 
     /**
-     * @var bool
-     *
      * @ORM\Column(name="confirmed", type="boolean", options={"default" : 0})
      */
-    private $confirmed;
+    private ?bool $confirmed = null;
 
     public function setId(int $id): void
     {
@@ -81,6 +71,10 @@ class AssetStorage implements EntityInterface
 
     public function getHash(): string
     {
+        if (null === $this->hash) {
+            throw new \RuntimeException('Unexpected null hash');
+        }
+
         return $this->hash;
     }
 
@@ -136,11 +130,19 @@ class AssetStorage implements EntityInterface
 
     public function getModified(): \DateTime
     {
+        if (null === $this->modified) {
+            throw new \RuntimeException('Unexpected null modified');
+        }
+
         return $this->modified;
     }
 
     public function getSize(): int
     {
+        if (null === $this->size) {
+            throw new \RuntimeException('Unexpected null size');
+        }
+
         return $this->size;
     }
 
@@ -153,6 +155,10 @@ class AssetStorage implements EntityInterface
 
     public function isConfirmed(): bool
     {
+        if (null === $this->confirmed) {
+            throw new \RuntimeException('Unexpected null confirmed');
+        }
+
         return $this->confirmed;
     }
 

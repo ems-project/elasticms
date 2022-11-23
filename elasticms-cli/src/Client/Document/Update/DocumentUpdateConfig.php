@@ -66,22 +66,18 @@ final class DocumentUpdateConfig
                     ->setAllowedTypes('contentType', 'string')
                     ->setAllowedTypes('indexEmsId', 'int')
                     ->setAllowedTypes('collectionField', ['null', 'string'])
-                    ->setNormalizer('mapping', function (Options $options, array $value) {
-                        return \array_map(fn ($map) => new UpdateMap($map), $value);
-                    })
+                    ->setNormalizer('mapping', fn (Options $options, array $value) => \array_map(fn ($map) => new UpdateMap($map), $value))
                 ;
             })
-            ->setNormalizer('dataColumns', function (Options $options, array $value) {
-                return \array_map(function (array $column) {
-                    $class = DataColumn::TYPES[$column['type']] ?? false;
+            ->setNormalizer('dataColumns', fn (Options $options, array $value) => \array_map(function (array $column) {
+                $class = DataColumn::TYPES[$column['type']] ?? false;
 
-                    if (!$class) {
-                        throw new \RuntimeException(\sprintf('Invalid column type "%s", allowed type "%s"', $column['type'], \implode('|', \array_keys(DataColumn::TYPES))));
-                    }
+                if (!$class) {
+                    throw new \RuntimeException(\sprintf('Invalid column type "%s", allowed type "%s"', $column['type'], \implode('|', \array_keys(DataColumn::TYPES))));
+                }
 
-                    return new $class($column);
-                }, $value);
-            })
+                return new $class($column);
+            }, $value))
         ;
 
         return $optionsResolver;

@@ -22,7 +22,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable
     /** @var ?JsonMenuNested */
     private ?JsonMenuNested $parent = null;
     /** @var string[] */
-    private array $descendantIds;
+    private array $descendantIds = [];
 
     /**
      * @param array<mixed> $data
@@ -35,8 +35,6 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable
         $this->object = $data['object'] ?? [];
 
         $children = $data['children'] ?? [];
-
-        $this->descendantIds = [];
         foreach ($children as $child) {
             $childItem = new JsonMenuNested($child);
             $childItem->setParent($this);
@@ -52,7 +50,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable
            'id' => '_root',
            'type' => '_root',
            'label' => '_root',
-           'children' => \json_decode($structure, true),
+           'children' => \json_decode($structure, true, 512, JSON_THROW_ON_ERROR),
         ]);
     }
 

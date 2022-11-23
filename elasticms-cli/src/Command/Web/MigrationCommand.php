@@ -39,7 +39,7 @@ class MigrationCommand extends AbstractCommand
     private bool $continue;
     private bool $dryRun;
     private string $rapportsFolder;
-    private ?string $ouuid;
+    private ?string $ouuid = null;
     private bool $dump;
     private AdminHelper $adminHelper;
     private int $maxUpdate;

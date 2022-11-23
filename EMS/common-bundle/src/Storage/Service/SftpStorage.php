@@ -8,20 +8,13 @@ use Psr\Log\LoggerInterface;
 
 class SftpStorage extends AbstractUrlStorage
 {
-    /** @var string */
-    private $host;
-    /** @var string */
-    private $path;
-    /** @var int */
-    private $port;
-    /** @var string */
-    private $username;
-    /** @var string */
-    private $publicKeyFile;
-    /** @var string */
-    private $privateKeyFile;
-    /** @var string|null */
-    private $passwordPhrase;
+    private string $host;
+    private string $path;
+    private int $port;
+    private string $username;
+    private string $publicKeyFile;
+    private string $privateKeyFile;
+    private ?string $passwordPhrase;
     /** @var resource|null */
     private $sftp = null;
 

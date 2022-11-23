@@ -32,7 +32,7 @@ class RequestRuntime implements RuntimeExtensionInterface
 
         $locale = $request->getLocale();
 
-        return isset($source[$attribute.$locale]) ? $source[$attribute.$locale] : '';
+        return $source[$attribute.$locale] ?? '';
     }
 
     /**

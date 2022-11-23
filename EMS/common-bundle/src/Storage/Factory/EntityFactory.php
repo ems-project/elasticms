@@ -15,12 +15,9 @@ class EntityFactory extends AbstractFactory implements StorageFactoryInterface
     public const STORAGE_TYPE = 'db';
     /** @var string */
     public const STORAGE_CONFIG_ACTIVATE = 'activate';
-    /** @var LoggerInterface */
-    private $logger;
-    /** @var bool */
-    private $registered = false;
-    /** @var Registry */
-    private $doctrine;
+    private LoggerInterface $logger;
+    private bool $registered = false;
+    private Registry $doctrine;
 
     public function __construct(LoggerInterface $logger, Registry $doctrine)
     {

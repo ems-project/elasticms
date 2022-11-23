@@ -11,7 +11,7 @@ class Html
      */
     public static function prettyPrint(?string $source, array $parseStringConfig = []): string
     {
-        $source = $source ?? '';
+        $source ??= '';
         $formatter = new \tidy();
         $formatter->parseString($source, \array_merge([
             'indent' => true,
@@ -26,8 +26,8 @@ class Html
 
     public static function compare(?string $html1, ?string $html2): int
     {
-        $html1 = $html1 ?? '';
-        $html2 = $html2 ?? '';
+        $html1 ??= '';
+        $html2 ??= '';
         $formatterHtml1 = new \tidy();
         $formatterHtml1->parseString($html1);
         $formatterHtml2 = new \tidy();
@@ -38,7 +38,7 @@ class Html
 
     public static function isHtml(?string $source): bool
     {
-        $source = $source ?? '';
+        $source ??= '';
 
         return $source !== \strip_tags($source);
     }

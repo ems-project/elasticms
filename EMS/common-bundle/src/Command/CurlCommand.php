@@ -35,14 +35,14 @@ class CurlCommand extends AbstractCommand
     private EventDispatcherInterface $eventDispatcher;
     private ControllerResolverInterface $controllerResolver;
     private AssetRuntime $assetRuntime;
-    private SessionInterface $session;
+    private ?SessionInterface $session = null;
     private RequestStack $requestStack;
     private StorageManager $storageManager;
 
     private string $url;
     private string $method;
     private string $filename;
-    private ?string $baseUrl;
+    private ?string $baseUrl = null;
     private bool $save;
 
     public function __construct(EventDispatcherInterface $eventDispatcher, ControllerResolverInterface $controllerResolver, RequestStack $requestStack, StorageManager $storageManager, AssetRuntime $assetRuntime)
@@ -50,7 +50,6 @@ class CurlCommand extends AbstractCommand
         parent::__construct();
         $this->eventDispatcher = $eventDispatcher;
         $this->controllerResolver = $controllerResolver;
-        $this->session = $requestStack->getSession();
         $this->requestStack = $requestStack;
         $this->storageManager = $storageManager;
         $this->assetRuntime = $assetRuntime;
@@ -102,7 +101,7 @@ class CurlCommand extends AbstractCommand
     {
         $kernel = new HttpKernel($this->eventDispatcher, $this->controllerResolver);
         $request = Request::create($this->url, $this->method);
-        $request->setSession($this->session);
+        $request->setSession($this->getSession());
         $this->requestStack->push($request);
         $handle = \fopen($this->filename, 'w');
         if (false === $handle) {
@@ -148,5 +147,15 @@ class CurlCommand extends AbstractCommand
             EmsFields::CONTENT_MIME_TYPE_FIELD,
             UrlGeneratorInterface::ABSOLUTE_PATH
         );
+    }
+
+    private function getSession(): SessionInterface
+    {
+        if (null !== $this->session) {
+            return $this->session;
+        }
+        $this->session = $this->requestStack->getSession();
+
+        return $this->session;
     }
 }

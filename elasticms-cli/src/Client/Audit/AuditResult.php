@@ -34,7 +34,7 @@ class AuditResult
     private ?string $lighthouseReport = null;
     private ?float $accessibility = null;
     private ?float $bestPractices = null;
-    private ?string $mimetype;
+    private ?string $mimetype = null;
     private \DateTimeImmutable $datetime;
     private ?\DateTimeImmutable $tikaDatetime = null;
     private ?\DateTimeImmutable $lighthouseDatetime = null;
@@ -257,9 +257,7 @@ class AuditResult
             'lighthouse_timestamp' => null === $this->lighthouseDatetime ? null : $this->lighthouseDatetime->format('c'),
             'tika_timestamp' => null === $this->tikaDatetime ? null : $this->tikaDatetime->format('c'),
             'pa11y_timestamp' => null === $this->pa11yDatetime ? null : $this->pa11yDatetime->format('c'),
-        ]), function ($k) {
-            return null !== $k;
-        });
+        ]), fn ($k) => null !== $k);
     }
 
     public function addInternalLink(Url $link): void

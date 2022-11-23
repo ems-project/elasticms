@@ -58,9 +58,7 @@ class InternalLink implements HtmlInterface
             try {
                 $path = $this->config->findInternalLink($url, $this->rapport);
                 $item->setAttribute($attribute, $path);
-            } catch (ClientException $e) {
-                $this->rapport->addResourceInError($resource, $url, $e->getCode(), $e->getMessage(), 'internal-link');
-            } catch (RequestException $e) {
+            } catch (ClientException|RequestException $e) {
                 $this->rapport->addResourceInError($resource, $url, $e->getCode(), $e->getMessage(), 'internal-link');
             }
         }

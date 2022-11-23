@@ -14,11 +14,11 @@ class Document implements DocumentInterface
     /** @var string */
     private $contentType;
     /** @var array<mixed> */
-    private $source;
+    private array $source;
     /** @var string */
     private $index;
     /** @var array<string, mixed> */
-    private $raw;
+    private array $raw;
     /** @var string|null */
     private $highlight;
 

@@ -8,17 +8,13 @@ use Symfony\Component\HttpFoundation\HeaderBag;
 
 class StreamRange
 {
-    /** @var int */
-    private $fileSize;
-    /** @var int */
-    private $end;
-    /** @var int */
-    private $start;
+    private int $fileSize;
+    private int $end;
+    private int $start = 0;
 
     public function __construct(HeaderBag $headerBag, int $fileSize)
     {
         $this->fileSize = $fileSize;
-        $this->start = 0;
         $this->end = $this->fileSize - 1;
 
         $this->parseRangeHeader($headerBag);
@@ -35,7 +31,7 @@ class StreamRange
             return;
         }
 
-        list($start, $end) = \explode('-', \substr($range, 6), 2) + [0];
+        [$start, $end] = \explode('-', \substr($range, 6), 2) + [0];
 
         $this->end = ('' === $end) ? $this->fileSize - 1 : (int) $end;
 

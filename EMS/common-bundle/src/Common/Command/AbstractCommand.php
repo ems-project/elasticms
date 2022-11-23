@@ -111,7 +111,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
             return;
         }
 
-        if (\count($argument) > 0) {
+        if ((\is_countable($argument) ? \count($argument) : 0) > 0) {
             return;
         }
 

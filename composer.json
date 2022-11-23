@@ -101,14 +101,11 @@
         }
     },
     "scripts": {
+      "rector":  "rector",
       "phpcs": "php-cs-fixer fix",
       "phpstan": "phpstan analyse --memory-limit 1G",
       "phpunit":  "phpunit",
-      "phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G",
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        }
+      "phpall": "rector && php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
     },
     "extra": {
         "symfony": {

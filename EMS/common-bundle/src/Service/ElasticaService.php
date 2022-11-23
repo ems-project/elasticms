@@ -455,7 +455,7 @@ class ElasticaService
             })
             ->setNormalizer('body', function (Options $options, $value) {
                 if (\is_string($value)) {
-                    $value = \json_decode($value, true);
+                    $value = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
                 }
                 if (null === $value) {
                     return [];
@@ -530,7 +530,7 @@ class ElasticaService
             }
 
             if (null === $search->getRegex()) {
-                $filteredIndices = \array_merge($filteredIndices, $indices);
+                $filteredIndices = [...$filteredIndices, ...$indices];
                 continue;
             }
 
@@ -615,7 +615,7 @@ class ElasticaService
         foreach (['query', 'aggs', 'post_filter'] as $attribute) {
             $resolver->setNormalizer($attribute, function (Options $options, $value) {
                 if (\is_string($value)) {
-                    $value = \json_decode($value, true);
+                    $value = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
                 }
 
                 return $value;

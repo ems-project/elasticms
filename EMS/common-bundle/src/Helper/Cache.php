@@ -6,8 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Cache
 {
-    /** @var string */
-    private $hashAlgo;
+    private string $hashAlgo;
 
     public function __construct(string $hashAlgo)
     {
@@ -28,7 +27,7 @@ class Cache
         $response->setCache([
             'etag' => $etag,
             'max_age' => $immutableRoute ? 604800 : 600,
-            's_maxage' => $immutableRoute ? 2678400 : 3600,
+            's_maxage' => $immutableRoute ? 2_678_400 : 3600,
             'public' => true,
             'private' => false,
             'immutable' => $immutableRoute,

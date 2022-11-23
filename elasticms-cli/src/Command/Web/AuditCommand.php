@@ -56,7 +56,7 @@ class AuditCommand extends AbstractCommand
     private bool $pa11y;
     private bool $tika;
     private bool $all;
-    private ?string $ignoreRegex;
+    private ?string $ignoreRegex = null;
     private bool $tikaJar;
     private string $tikaBaseUrl;
 

@@ -31,9 +31,8 @@ class Search
     private int $size = 10;
     private int $from = 0;
     /** @var array<mixed>|null */
-    private $sort = null;
-    /** @var AbstractQuery|null */
-    private $postFilter = null;
+    private ?array $sort = null;
+    private ?AbstractQuery $postFilter = null;
     private ?Suggest $suggest = null;
     /** @var array<mixed>|null */
     private ?array $highlight = null;

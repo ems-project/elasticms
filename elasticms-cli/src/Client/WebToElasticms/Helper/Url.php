@@ -232,9 +232,7 @@ class Url
     {
         $enc_url = \preg_replace_callback(
             '%[^:/@?&=#]+%usD',
-            function ($matches) {
-                return \urlencode($matches[0]);
-            },
+            fn ($matches) => \urlencode($matches[0]),
             $url
         );
 

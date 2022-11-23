@@ -16,7 +16,7 @@ final class Profile implements ProfileInterface
     private array $roles;
     /** @var string[] */
     private array $circles;
-    private ?\DateTimeImmutable $lastLogin;
+    private ?\DateTimeImmutable $lastLogin = null;
 
     /**
      * @param array<string, mixed> $data

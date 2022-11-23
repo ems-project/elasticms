@@ -6,8 +6,7 @@ use Elastica\Aggregation\AbstractAggregation;
 
 class ElasticaAggregation extends AbstractAggregation
 {
-    /** @var ?string */
-    private $basename;
+    private ?string $basename = null;
 
     public function __construct(string $name)
     {

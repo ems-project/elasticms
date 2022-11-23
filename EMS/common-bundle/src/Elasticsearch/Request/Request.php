@@ -7,13 +7,10 @@ namespace EMS\CommonBundle\Elasticsearch\Request;
 class Request implements RequestInterface
 {
     /** @var array<mixed> */
-    private $body;
-    /** @var string */
-    private $index;
-    /** @var string */
-    private $scroll = '30s';
-    /** @var int */
-    private $size = 10;
+    private array $body;
+    private string $index;
+    private string $scroll = '30s';
+    private int $size = 10;
 
     /**
      * @param array<mixed> $body

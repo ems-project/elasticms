@@ -25,7 +25,7 @@ class PdfGenerator implements PdfGeneratorInterface
 
     public function generateResponseFromHtml(string $html, ?PdfPrintOptions $options = null): Response
     {
-        $options = $options ?? new PdfPrintOptions([]);
+        $options ??= new PdfPrintOptions([]);
         $pdf = new Pdf($options->getFilename(), $html);
 
         $pdfOutput = $this->pdfPrinter->getPdfOutput($pdf, $options);
@@ -43,7 +43,7 @@ class PdfGenerator implements PdfGeneratorInterface
 
     public function generateStreamedResponseFromHtml(string $html, ?PdfPrintOptions $options = null): StreamedResponse
     {
-        $options = $options ?? new PdfPrintOptions([]);
+        $options ??= new PdfPrintOptions([]);
         $pdf = new Pdf($options->getFilename(), $html);
 
         return $this->pdfPrinter->getStreamedResponse($pdf, $options);

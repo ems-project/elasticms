@@ -18,8 +18,7 @@ class HttpFactory extends AbstractFactory implements StorageFactoryInterface
     public const STORAGE_CONFIG_GET_URL = 'get-url';
     /** @var string */
     public const STORAGE_CONFIG_AUTH_KEY = 'auth-key';
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {

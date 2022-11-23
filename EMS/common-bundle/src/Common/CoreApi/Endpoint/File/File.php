@@ -64,8 +64,8 @@ final class File implements FileInterface
         $symfonyFile = new SymfonyFile($realPath, false);
         $exploded = \explode(DIRECTORY_SEPARATOR, $realPath);
 
-        $mimeType = $mimeType ?? $symfonyFile->guessExtension() ?? 'application/octet-stream';
-        $filename = $filename ?? \end($exploded);
+        $mimeType ??= $symfonyFile->guessExtension() ?? 'application/octet-stream';
+        $filename ??= \end($exploded);
 
         $fromByte = $this->initUpload($hash, $filesize, $filename, $mimeType);
         if ($fromByte < 0) {

@@ -14,7 +14,7 @@ class ManifestRuntime implements RuntimeExtensionInterface
             return $manifestUrl;
         }
 
-        $manifest = \json_decode($contents, true);
+        $manifest = \json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
 
         if (!isset($manifest[$resource])) {
             return $manifestUrl;

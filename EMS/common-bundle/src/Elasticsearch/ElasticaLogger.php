@@ -13,15 +13,14 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
 {
     private ?LoggerInterface $logger;
     /** @var array<mixed> */
-    private $queries = [];
+    private array $queries = [];
     private bool $debug;
-    private bool $enabled;
+    private bool $enabled = true;
 
     public function __construct(?LoggerInterface $logger = null, bool $debug = false)
     {
         $this->logger = $logger;
         $this->debug = $debug;
-        $this->enabled = true;
     }
 
     public function isEnabled(): bool

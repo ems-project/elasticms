@@ -21,17 +21,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Processor
 {
-    /** @var StorageManager */
-    private $storageManager;
-    /** @var LoggerInterface */
-    private $logger;
+    private StorageManager $storageManager;
+    private LoggerInterface $logger;
 
     public const BUFFER_SIZE = 8192;
-    /** @var Cache */
-    private $cacheHelper;
+    private Cache $cacheHelper;
 
-    /** @var string */
-    private $projectDir;
+    private string $projectDir;
 
     public function __construct(StorageManager $storageManager, LoggerInterface $logger, Cache $cacheHelper, string $projectDir)
     {
@@ -43,7 +39,7 @@ class Processor
 
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
-        $configJson = \json_decode($this->storageManager->getContents($configHash), true);
+        $configJson = \json_decode($this->storageManager->getContents($configHash), true, 512, JSON_THROW_ON_ERROR);
         $config = new Config($this->storageManager, $hash, $configHash, $configJson);
 
         return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
@@ -57,7 +53,7 @@ class Processor
 
         $authorization = \strval($request->headers->get('Authorization'));
         if (!$config->isAuthorized($authorization)) {
-            $response = new Response('Unauthorized access', 401);
+            $response = new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
             $response->headers->set('WWW-Authenticate', 'basic realm="Access to ressource"');
 
             return $response;

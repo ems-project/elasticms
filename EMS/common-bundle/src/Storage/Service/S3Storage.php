@@ -10,14 +10,12 @@ use Psr\Log\LoggerInterface;
 
 class S3Storage extends AbstractUrlStorage
 {
-    /** @var S3Client */
-    private $s3Client = null;
+    private ?S3Client $s3Client = null;
 
-    /** @var string */
-    private $bucket;
+    private string $bucket;
 
     /** @var array{version?:string,credentials?:array{key:string,secret:string},region?:string} */
-    private $credentials;
+    private array $credentials;
     private ?string $uploadFolder;
     private ?string $bucketHash = null;
 
@@ -68,7 +66,7 @@ class S3Storage extends AbstractUrlStorage
 
         $path = $this->getUploadPath($hash);
         $this->initDirectory($path);
-        $result = $this->s3Client->putObject([
+        $result = $this->getS3Client()->putObject([
             'Bucket' => $this->bucket,
             'Key' => \substr($path, 1 + \strlen($this->getBaseUrl())),
             'Metadata' => [
@@ -107,7 +105,7 @@ class S3Storage extends AbstractUrlStorage
             return;
         }
         $source = $this->getUploadPath($hash);
-        $this->s3Client->deleteObject([
+        $this->getS3Client()->deleteObject([
             'Bucket' => $this->bucket,
             'Key' => \substr($source, 1 + \strlen($this->getBaseUrl())),
         ]);
@@ -121,5 +119,14 @@ class S3Storage extends AbstractUrlStorage
         return \stream_context_create([
             's3' => ['seekable' => true],
         ]);
+    }
+
+    private function getS3Client(): S3Client
+    {
+        if (null === $this->s3Client) {
+            throw new \RuntimeException('Unexpected null confirmed');
+        }
+
+        return $this->s3Client;
     }
 }

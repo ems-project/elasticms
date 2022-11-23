@@ -21,7 +21,7 @@ class UpdateCommand extends AbstractCommand
     public const FOLDER = 'folder';
     private string $configType;
     private string $entityName;
-    private ?string $jsonPath;
+    private ?string $jsonPath = null;
     private AdminHelper $adminHelper;
     private string $folder;
 

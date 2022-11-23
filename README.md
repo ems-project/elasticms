@@ -31,6 +31,10 @@ vendor/bin/monorepo-builder merge
 
 Then resolve composer conflicts.
 
+```bash
+composer update
+```
+
 Add the repo's `src` and `tests` folders to the `.php-cs-fixer.dist.php` file. Run `composer phpcs`.
 
 Add the repo's `src` folder to the `phpstan.neon.dist` file. Run `composer phpstan`.

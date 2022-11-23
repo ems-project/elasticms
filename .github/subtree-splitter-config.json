@@ -6,9 +6,24 @@
       "target": "git@github.com:ems-project/elasticms-cli"
     },
     {
+      "name": "client-helper-bundle",
+      "directory": "EMS/client-helper-bundle",
+      "target": "git@github.com:ems-project/EMSClientHelperBundle.git"
+    },
+    {
       "name": "common-bundle",
       "directory": "EMS/common-bundle",
       "target": "git@github.com:ems-project/EMSCommonBundle.git"
+    },
+    {
+      "name": "form-bundle",
+      "directory": "EMS/form-bundle",
+      "target": "git@github.com:ems-project/EMSFormBundle.git"
+    },
+    {
+      "name": "submission-bundle",
+      "directory": "EMS/submission-bundle",
+      "target": "git@github.com:ems-project/EMSSubmissionBundle.git"
     },
     {
       "name": "helpers",

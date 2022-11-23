@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\Tests\Unit\Standard;
 
-use PHPUnit\Framework\TestCase;
 use EMS\Helpers\Standard\Type;
+use PHPUnit\Framework\TestCase;
 
 class TypeTest extends TestCase
 {

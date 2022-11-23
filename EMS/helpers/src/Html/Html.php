@@ -42,5 +42,4 @@ class Html
 
         return $source !== \strip_tags($source);
     }
-
 }

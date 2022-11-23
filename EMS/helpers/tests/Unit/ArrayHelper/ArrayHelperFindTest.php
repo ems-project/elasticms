@@ -12,11 +12,11 @@ class ArrayHelperFindTest extends TestCase
     public function provider(): array
     {
         return [
-            'test simple find' => [ 'find', ['a' => 1, 'b' => 2, 'find' => 'test'], ['test'] ],
-            'test recursive find' => [ 'find', ['a' => 1, 'b' => 2, 'c' => [ 'c1' => 1, 'c2' => [ 'find' => 'test' ] ], 'd' => 4 ], ['test'] ],
-            'test not found' => [ 'find', ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4 ], [] ],
-            'test duplicate' => [ 'find', ['a' => [ 'find' => 'testA' ], 'b' => [ 'find' => 'testB' ] ], ['testA'] ],
-            'test null' => [ 'find', ['a' => 1, 'b' => 2, 'find' => null ], [null] ],
+            'test simple find' => ['find', ['a' => 1, 'b' => 2, 'find' => 'test'], ['test']],
+            'test recursive find' => ['find', ['a' => 1, 'b' => 2, 'c' => ['c1' => 1, 'c2' => ['find' => 'test']], 'd' => 4], ['test']],
+            'test not found' => ['find', ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4], []],
+            'test duplicate' => ['find', ['a' => ['find' => 'testA'], 'b' => ['find' => 'testB']], ['testA']],
+            'test null' => ['find', ['a' => 1, 'b' => 2, 'find' => null], [null]],
         ];
     }
 

@@ -23,15 +23,15 @@ class ArrayHelperMapTest extends TestCase
             ArrayHelper::map($data, fn ($v, $p) => 'a' === $p ? 'A' : $v)
         );
 
-        $recursiveData = [ 1 => [ 2 => [ 3 => [ 'test' => 0 ]] ]];
+        $recursiveData = [1 => [2 => [3 => ['test' => 0]]]];
 
         $this->assertSame(
-            [ 1 => [ 2 => [ 3 => [ 'test' => 'MAP' ]] ]],
+            [1 => [2 => [3 => ['test' => 'MAP']]]],
             ArrayHelper::map($recursiveData, fn ($v, $p) => 'test' === $p ? 'MAP' : $v)
         );
 
         $this->assertSame(
-            [ 1 => 'flat'],
+            [1 => 'flat'],
             ArrayHelper::map($recursiveData, fn ($v, $p) => 1 === $p ? 'flat' : $v)
         );
     }

@@ -1,0 +1,34 @@
+name: 'Split up the monorepo into subrepositories'
+
+on:
+    push:
+        branches:
+            - '4.*'
+
+jobs:
+    sync_commits:
+        runs-on: ubuntu-latest
+        name: Sync commits
+        if: github.repository == 'ems-project/elasticms'
+        steps:
+            -   uses: actions/checkout@v2
+                with:
+                    persist-credentials: false
+                    fetch-depth: 0
+
+            -   uses: frankdejonge/use-github-token@1.0.1
+                with:
+                    authentication: 'ems-project:${{ secrets.PERSONAL_GITHUB_TOKEN }}'
+                    user_name: 'Elasticms'
+                    user_email: 'info@elasticms.eu'
+
+            -   name: Cache splitsh-lite
+                uses: actions/cache@v2
+                with:
+                    path: './splitsh'
+                    key: '${{ runner.os }}-splitsh-v101'
+
+            -   name: subtree split
+                uses: acrobat/subtree-splitter@v1
+                with:
+                    config-path: .github/subtree-splitter-config.json

@@ -1,0 +1,9 @@
+{
+  "subtree-splits": [
+    {
+      "name": "helpers",
+      "directory": "EMS/helpers",
+      "target": "git@github.com:ems-project/helpers.git"
+    }
+  ]
+}

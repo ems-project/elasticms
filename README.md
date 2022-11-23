@@ -10,15 +10,17 @@ elasticMS's monorepo
 * `composer phpunit`: Runs unit tests suite 
 * `composer phpall`: Runs all previous commands
 
+
+
 # Migrate a repo
 
 ## First steps ([source](https://medium.com/lgtm/migrating-to-the-monorepo-582106142654))
 
 ```bash
-git remote add form-bundle git@github.com:ems-project/EMSFormBundle.git
-git fetch form-bundle
-git read-tree --prefix=EMS/form-bundle -u form-bundle/4.x
-git commit -m "Migrate form-bundle repo to src/form-bundle"
+git remote add submission-bundle git@github.com:ems-project/EMSSubmissionBundle.git
+git fetch submission-bundle
+git read-tree --prefix=EMS/submission-bundle -u submission-bundle/4.x
+git commit -m "Migrate submission-bundle repo to src/submission-bundle"
 ```
 
 ## Second steps ([source](https://tomasvotruba.com/blog/2020/06/15/how-to-create-monorepo-from-existing-repositories-in-7-steps/))

@@ -1,0 +1,11 @@
+{%- block requestBody -%}
+    {%- set message = {'test': 'test'} -%}
+    {{- message|json_encode|raw -}}
+{%- endblock -%}
+
+{%- block handleResponseExtra -%}
+    {%- set extra = {
+        'uid': (response.getHttpResponseContentJSON.uid)
+    } -%}
+    {{- extra|json_encode|raw -}}
+{%- endblock -%}

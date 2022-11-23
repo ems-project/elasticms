@@ -1,0 +1,17 @@
+{%- block files -%}
+    {%- set files = [
+        {
+            'path': 'test/' ~ data.attachments.0.getClientOriginalName(),
+            'content_path': data.attachments.0.getPathname(),
+        },
+        {
+            'path': data.attachments.1.getClientOriginalName(),
+            'content_path': data.attachments.1.getPathname(),
+        },
+        {
+            'path': responses.0.filename,
+            'content_base64': responses.0.content,
+        }
+    ] -%}
+    {{-  files|json_encode|raw -}}
+{%- endblock -%}

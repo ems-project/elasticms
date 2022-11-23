@@ -36,6 +36,8 @@
         "giggsey/libphonenumber-for-php": "^8.12",
         "guzzlehttp/guzzle": "^6.3",
         "kevinrob/guzzle-cache-middleware": "^4.0",
+        "league/flysystem-memory": "^2.0",
+        "league/flysystem-sftp-v3": "^2.0",
         "phpoffice/phpspreadsheet": "^1.16",
         "promphp/prometheus_client_php": "^2.6",
         "ramsey/uuid-doctrine": "^1.6",
@@ -53,6 +55,7 @@
         "symfony/framework-bundle": "^5.4",
         "symfony/http-client": "^5.4",
         "symfony/intl": "^5.4",
+        "symfony/mailer": "^5.4",
         "symfony/mime": "^5.4",
         "symfony/monolog-bundle": "^3.8",
         "symfony/options-resolver": "^5.4",
@@ -101,7 +104,8 @@
             "EMS\\ClientHelperBundle\\": "EMS/client-helper-bundle/src/",
             "EMS\\CommonBundle\\": "EMS/common-bundle/src/",
             "EMS\\FormBundle\\": "EMS/form-bundle/src/",
-            "EMS\\Helpers\\": "EMS/helpers/src/"
+            "EMS\\Helpers\\": "EMS/helpers/src/",
+            "EMS\\SubmissionBundle\\": "EMS/submission-bundle/src/"
         }
     },
     "autoload-dev": {
@@ -110,7 +114,8 @@
             "EMS\\ClientHelperBundle\\Tests\\": "EMS/client-helper-bundle/tests/",
             "EMS\\CommonBundle\\Tests\\": "EMS/common-bundle/tests/",
             "EMS\\FormBundle\\Tests\\": "EMS/form-bundle/tests/",
-            "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/"
+            "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/",
+            "EMS\\SubmissionBundle\\Tests\\": "EMS/submission-bundle/tests/"
         }
     },
     "scripts": {
@@ -131,6 +136,7 @@
         "elasticms/common-bundle": "self.version",
         "elasticms/form-bundle": "self.version",
         "elasticms/helpers": "self.version",
+        "elasticms/submission-bundle": "self.version",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php72": "*"

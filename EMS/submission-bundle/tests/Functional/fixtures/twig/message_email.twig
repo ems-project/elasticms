@@ -1,0 +1,20 @@
+{% autoescape %}
+    {% set message = {
+        'from': 'noreply@test.test',
+        'subject': 'Test multiple file upload',
+        'body': data.files|map(v => v.getClientOriginalName())|join(' | '),
+        'attachments': [
+            {
+                'pathname': data.files.0.getPathname(),
+                'originalName': data.files.0.getClientOriginalName(),
+                'mimeType': data.files.0.getClientMimeType(),
+            },
+            {
+                'pathname': data.files.1.getPathname(),
+                'originalName': data.files.1.getClientOriginalName(),
+                'mimeType': data.files.1.getClientMimeType(),
+            }
+        ]
+    } %}
+{% endautoescape %}
+{{ message|json_encode|raw }}

@@ -5,6 +5,7 @@ parameters:
         - %currentWorkingDirectory%/EMS/common-bundle/src
         - %currentWorkingDirectory%/EMS/form-bundle/src
         - %currentWorkingDirectory%/EMS/helpers/src
+        - %currentWorkingDirectory%/EMS/submission-bundle/src
     excludePaths:
         - %currentWorkingDirectory%/vendor/*
         - %currentWorkingDirectory%/EMS/common-bundle/src/Resources/*

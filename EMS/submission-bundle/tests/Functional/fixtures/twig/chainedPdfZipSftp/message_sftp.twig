@@ -1,0 +1,9 @@
+{%- block files -%}
+    {%- set files = [
+        {
+            'path': responses.1.filename,
+            'content_base64': responses.1.content,
+        }
+    ] -%}
+    {{-  files|json_encode|raw -}}
+{%- endblock -%}

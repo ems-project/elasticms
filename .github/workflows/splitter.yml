@@ -18,7 +18,7 @@ jobs:
 
             -   uses: frankdejonge/use-github-token@1.0.1
                 with:
-                    authentication: 'ems-project:${{ secrets.PERSONAL_GITHUB_TOKEN }}'
+                    authentication: 'ems-project:${{ secrets.SPLITTER_TOKEN }}'
                     user_name: 'Elasticms'
                     user_email: 'info@elasticms.eu'
 

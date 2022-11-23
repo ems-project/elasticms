@@ -19,20 +19,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class Config
 {
-    /** @var string */
-    private $assetHash;
+    private string $assetHash;
     /** @var array<string, mixed> */
-    private $options;
-    /** @var string */
-    private $configHash;
-    /** @var string */
-    private $cacheKey;
-    /** @var ?string */
-    private $filename;
-    /** @var StorageManager */
-    private $storageManager;
-    /** @var bool */
-    private $cacheableResult;
+    private array $options;
+    private string $configHash;
+    private string $cacheKey;
+    private ?string $filename;
+    private StorageManager $storageManager;
+    private bool $cacheableResult;
 
     /**
      * @param array<string, mixed> $options
@@ -323,12 +317,12 @@ final class Config
         if (false === \strpos($authorization, ' ')) {
             return false;
         }
-        list($basic, $key) = \explode(' ', $authorization);
+        [$basic, $key] = \explode(' ', $authorization);
 
         if (0 !== \strcasecmp('Basic', $basic)) {
             throw new \RuntimeException(\sprintf('Unexpected authorization type %s', $basic));
         }
-        list($username2, $password2) = \explode(':', Base64::decode($key));
+        [$username2, $password2] = \explode(':', Base64::decode($key));
 
         return $username === $username2 && $password === $password2;
     }
@@ -379,9 +373,7 @@ final class Config
 
                 return true;
             })
-            ->setNormalizer(EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD, function (Options $options, $value) {
-                return null !== $value ? new \DateTime($value) : null;
-            })
+            ->setNormalizer(EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD, fn (Options $options, $value) => null !== $value ? new \DateTime($value) : null)
         ;
 
         return $resolver->resolve($options);

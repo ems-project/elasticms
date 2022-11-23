@@ -41,8 +41,6 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
 
     /**
      * @param array<mixed> $config
-     *
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function generateSpreadsheet(array $config): StreamedResponse
     {
@@ -66,8 +64,6 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
 
     /**
      * @param array<mixed> $config
-     *
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function generateSpreadsheetCacheableResponse(array $config): Response
     {

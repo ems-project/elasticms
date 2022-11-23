@@ -7,8 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class EncoderTest extends TestCase
 {
-    /** @var Encoder */
-    private $encoder;
+    private Encoder $encoder;
 
     protected function setUp(): void
     {

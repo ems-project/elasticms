@@ -10,10 +10,8 @@ use Psr\Log\LoggerInterface;
 
 class Image
 {
-    /** @var Config */
-    private $config;
-    /** @var string|null */
-    private $watermark;
+    private Config $config;
+    private ?string $watermark = null;
     private ?LoggerInterface $logger;
 
     public function __construct(Config $config, ?LoggerInterface $logger = null)
@@ -55,7 +53,7 @@ class Image
         $rotatedWidth = Type::integer(\imagesx($image));
         $rotatedHeight = Type::integer(\imagesy($image));
 
-        list($width, $height) = $this->getWidthHeight($rotatedWidth, $rotatedHeight);
+        [$width, $height] = $this->getWidthHeight($rotatedWidth, $rotatedHeight);
 
         if (null !== $this->config->getResize()) {
             $image = $this->applyResizeAndBackground($image, $width, $height, $rotatedWidth, $rotatedHeight);
@@ -106,21 +104,21 @@ class Image
         $height = $this->config->getHeight();
 
         if ('ratio' !== $this->config->getResize()) {
-            $width = ('*' == $width ? $originalWidth : $width);
-            $height = ('*' == $height ? $originalHeight : $height);
+            $width = (0 === $width ? $originalWidth : $width);
+            $height = (0 === $height ? $originalHeight : $height);
 
-            return [\intval($width), \intval($height)];
+            return [$width, $height];
         }
 
         $ratio = $originalWidth / $originalHeight;
 
-        if ('*' == $width && '*' == $height) {
+        if (0 === $width && 0 === $height) {
             // unable to calculate ratio, silently return original size (backward compatibility)
             return [\intval($originalWidth), \intval($originalHeight)];
         }
 
-        if ('*' == $width || '*' == $height) {
-            if ('*' == $height) {
+        if (0 === $width || 0 === $height) {
+            if (0 === $height) {
                 // recalculate height
                 $height = \ceil((float) $width / $ratio);
             } else {

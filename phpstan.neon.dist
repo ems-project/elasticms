@@ -1,0 +1,11 @@
+parameters:
+    paths:
+        - %currentWorkingDirectory%/elasticms-cli/src
+        - %currentWorkingDirectory%/EMS/common-bundle/src
+        - %currentWorkingDirectory%/EMS/helpers/src
+    excludePaths:
+        - %currentWorkingDirectory%/vendor/*
+        - %currentWorkingDirectory%/EMS/common-bundle/src/Resources/*
+    level: 8
+    parallel:
+        maximumNumberOfProcesses: 2

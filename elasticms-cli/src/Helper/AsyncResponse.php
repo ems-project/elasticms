@@ -11,7 +11,7 @@ class AsyncResponse
 {
     private PromiseInterface $promise;
     private ?ResponseInterface $response = null;
-    private $trimWhiteSpaces;
+    private bool $trimWhiteSpaces;
 
     public function __construct(PromiseInterface $promise, bool $trimWhiteSpaces = true)
     {

@@ -13,7 +13,6 @@ class DataLink
 {
     public const TYPE = 'data-link';
     private ConfigManager $config;
-    private string $currentUrl;
     private Rapport $rapport;
 
     public function __construct(ConfigManager $config, Rapport $rapport)

@@ -22,7 +22,7 @@ final class DocumentUpdaterTest extends TestCase
     private MockObject $coreApi;
     private MockObject $io;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->coreApi = $this->createMock(CoreApiInterface::class);
         $this->io = $this->createMock(SymfonyStyle::class);

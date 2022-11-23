@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Client\Audit;
 
 use App\Client\WebToElasticms\Helper\Url;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
@@ -23,7 +22,6 @@ class Cache
     private array $urls = [];
     /** @var string[] */
     private array $hosts = [];
-    private LoggerInterface $logger;
     private ?string $lastUpdated = null;
     private ?string $current = null;
     private ?string $status = null;
@@ -31,11 +29,8 @@ class Cache
     private int $startedAt;
     private Report $report;
 
-    public function __construct(?Url $baseUrl = null, ?LoggerInterface $logger = null)
+    public function __construct(?Url $baseUrl = null)
     {
-        if (null !== $logger) {
-            $this->logger = $logger;
-        }
         if (null !== $baseUrl) {
             $this->addUrl($baseUrl);
         } else {
@@ -51,13 +46,12 @@ class Cache
         return self::getSerializer()->serialize($this, $format);
     }
 
-    public static function deserialize(string $data, LoggerInterface $logger, string $format = JsonEncoder::FORMAT): Cache
+    public static function deserialize(string $data, string $format = JsonEncoder::FORMAT): Cache
     {
         $config = self::getSerializer()->deserialize($data, Cache::class, $format);
         if (!$config instanceof Cache) {
             throw new \RuntimeException('Unexpected non Cache object');
         }
-        $config->logger = $logger;
 
         return $config;
     }

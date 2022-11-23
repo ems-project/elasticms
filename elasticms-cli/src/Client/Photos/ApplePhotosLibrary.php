@@ -5,6 +5,9 @@ namespace App\Client\Photos;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
+/**
+ * @template photo_array of array{Z_PK: int, ZUUID: string, ZORIGINALFILENAME: string, ZANALYSISSTATEMODIFICATIONDATE: float|null, ZADDEDDATE: float, ZDATECREATED: float|null, ZLATITUDE: float|null, ZLONGITUDE: float|null}
+ */
 class ApplePhotosLibrary implements PhotosLibraryInterface
 {
     private string $libraryPath;
@@ -31,14 +34,14 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
             throw new \RuntimeException('Unexpected false result');
         }
         while ($tmpRow = $results->fetchArray()) {
-            /** @var array{Z_PK: int, ZUUID: string, ZORIGINALFILENAME: string, ZANALYSISSTATEMODIFICATIONDATE: float|null, ZADDEDDATE: float, ZDATECREATED: float|null, ZLATITUDE: float|null, ZLONGITUDE: float} $row */
+            /** @var photo_array $row */
             $row = $tmpRow;
             yield $this->generatePhoto($row);
         }
     }
 
     /**
-     * @param array{Z_PK: int, ZUUID: string, ZORIGINALFILENAME: string, ZANALYSISSTATEMODIFICATIONDATE: float|null, ZADDEDDATE: float, ZDATECREATED: float|null, ZLATITUDE: float|null, ZLONGITUDE: float} $row
+     * @param photo_array $row
      */
     private function generatePhoto(array $row): Photo
     {

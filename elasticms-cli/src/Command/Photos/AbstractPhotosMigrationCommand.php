@@ -9,7 +9,6 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Mime\MimeTypes;
 
@@ -18,7 +17,6 @@ abstract class AbstractPhotosMigrationCommand extends AbstractCommand
     private const OPTION_CONTENT_TYPE_NAME = 'content-type-name';
     private const OPTION_UPLOAD_ORIGINAL = 'upload-original';
     private AdminHelper $adminHelper;
-    private ConsoleLogger $logger;
     private string $contentTypeName;
     private PhotosLibraryInterface $library;
     private MimeTypes $mimeTypes;
@@ -40,7 +38,6 @@ abstract class AbstractPhotosMigrationCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
-        $this->logger = new ConsoleLogger($output);
         $this->contentTypeName = $this->getOptionString(self::OPTION_CONTENT_TYPE_NAME);
         $this->uploadOriginal = $this->getOptionBool(self::OPTION_UPLOAD_ORIGINAL);
     }

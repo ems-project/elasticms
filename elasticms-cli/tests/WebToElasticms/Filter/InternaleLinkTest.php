@@ -28,7 +28,7 @@ class InternaleLinkTest extends TestCase
         $cacheManager = new CacheManager(\sys_get_temp_dir());
         $rapport = new Rapport($cacheManager, \sys_get_temp_dir());
 
-        $internalLink = new InternalLink($logger, $config, $rapport, 'https://demo.com/a/b');
+        $internalLink = new InternalLink($config, $rapport, 'https://demo.com/a/b');
 
         $crawler = new Crawler(
             '<div style="padding: inherit;"><a href="https://demo.com/toto/link">Url</a></div>
@@ -68,7 +68,7 @@ class InternaleLinkTest extends TestCase
 <div style="padding: inherit;"><a href="../fr/glossaire">link</a></div>
 <div style="padding: inherit;"><a href="/fr/glossaire">link</a></div>
 <div style="padding: inherit;"><a href="/autre">link</a> toto <a href="/fr/glossaire">link</a> totot</div>');
-        $internalLink = new InternalLink($logger, $config, $rapport, 'https://demo.com/a/b');
+        $internalLink = new InternalLink($config, $rapport, 'https://demo.com/a/b');
 
         $internalLink->process($webResource, $crawler->filter('body'));
         $this->assertEquals('<div style="padding: inherit;">Url</div>

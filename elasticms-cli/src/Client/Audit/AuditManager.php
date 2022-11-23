@@ -62,7 +62,7 @@ class AuditManager
             $this->startPa11yAudit($audit, $result);
         }
         if ($result->isHtml() && ($this->all || $this->lighthouse)) {
-            $this->startLighthouseAudit($audit);
+            $this->startLighthouseAudit($audit, $result);
         }
         if ($this->tikaJar && $this->tika) {
             throw new \RuntimeException('--tika and --tika-jar can not be activated at the same time');
@@ -78,7 +78,7 @@ class AuditManager
             $this->addPa11yAudit($audit, $result);
         }
         if ($result->isHtml() && ($this->all || $this->lighthouse)) {
-            $this->addLighthouseAudit($audit);
+            $this->addLighthouseAudit($audit, $result);
         }
         if ($this->all || $this->tika) {
             $this->addTikaAudits($audit, $result);
@@ -135,7 +135,7 @@ class AuditManager
     private function startPa11yAudit(AuditResult $audit, HttpResult $result): void
     {
         if (!$result->isHtml()) {
-            $this->logger->notice(\sprintf('Mimetype %s not supported to audit accessibility', $result->getMimetype()));
+            $this->logger->notice(\sprintf('Mimetype %s not supported by the pa11y audit', $result->getMimetype()));
 
             return;
         }
@@ -152,8 +152,6 @@ class AuditManager
     private function addPa11yAudit(AuditResult $audit, HttpResult $result): void
     {
         if (!$result->isHtml()) {
-            $this->logger->notice(\sprintf('Mimetype %s not supported to audit accessibility', $result->getMimetype()));
-
             return;
         }
 
@@ -166,8 +164,13 @@ class AuditManager
         $this->logger->notice('Pa11y audit collected');
     }
 
-    private function startLighthouseAudit(AuditResult $audit): void
+    private function startLighthouseAudit(AuditResult $audit, HttpResult $result): void
     {
+        if (!$result->isHtml()) {
+            $this->logger->notice(\sprintf('Mimetype %s not supported by the Lighthouse audit', $result->getMimetype()));
+
+            return;
+        }
         $this->logger->notice('Start Lighthouse audit');
         try {
             $this->lighthouseAudit = new LighthouseWrapper($audit->getUrl()->getUrl());
@@ -177,8 +180,11 @@ class AuditManager
         }
     }
 
-    private function addLighthouseAudit(AuditResult $audit): void
+    private function addLighthouseAudit(AuditResult $audit, HttpResult $result): void
     {
+        if (!$result->isHtml()) {
+            return;
+        }
         $this->logger->notice('Collect Lighthouse audit');
         try {
             $lighthouse = $this->lighthouseAudit->getJson();

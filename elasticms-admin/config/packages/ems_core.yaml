@@ -1,0 +1,109 @@
+parameters:
+    #Deprecated parameters
+    env(ELASTICSEARCH_CLUSTER): '["http://localhost:9200"]'
+    env(TIKA_SERVER): ''
+    env(TIKA_DOWNLOAD_URL): 'http://apache.belnet.be/tika/tika-app-1.22.jar'
+    env(EMS_PRIVATE_KEY): ''
+    env(EMS_PUBLIC_KEY): ''
+    env(EMS_INSTANCE_ID): 'elasticms_'
+    env(EMS_NAME): '<i class="ems-icon-ball"></i> elastic<b>ms</b>'
+    env(EMS_SHORTNAME): '<i class="ems-icon-ball"></i><span class="sr-only">elasticms</span>'
+    env(EMS_PAGING_SIZE): 20
+    env(EMS_THEME_COLOR): 'blue'
+    env(EMS_DATE_TIME_FORMAT): 'j/m/Y \a\t G:i'
+    env(EMS_DATEPICKER_FORMAT): 'dd/mm/yyyy'
+    env(EMS_DATEPICKER_WEEKSTART): 1
+    env(EMS_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED): '[0, 6]'
+    env(EMS_FROM_EMAIL_ADDRESS): 'elasticms@example.com'
+    env(EMS_FROM_EMAIL_NAME): 'elasticms'
+    env(EMS_ASSET_CONFIG): '[]'
+    env(EMS_CIRCLES_OBJECT): ''
+
+    env(LDAP_BASE_DN): ~
+    env(LDAP_SEARCH_DN): ~
+    env(LDAP_SEARCH_PASSWORD): ~
+    env(LDAP_PASSWORD_ATTRIBUTE): ~
+    env(LDAP_DEFAULT_ROLES): '[]'
+    env(LDAP_FILTER): ~
+    env(LDAP_EXTRA_FIELDS): '[]'
+    env(LDAP_EMAIL_FIELD): ~
+    env(LDAP_DISPLAY_NAME_FIELD): ~
+    env(LDAP_GIVEN_NAME_FIELD): ~
+    env(LDAP_LAST_NAME_FIELD): ~
+    env(LDAP_UID_KEY): ~
+
+    #Parameters
+    env(EMS_ELASTICSEARCH_HOSTS): '%env(string:ELASTICSEARCH_CLUSTER)%'
+    env(EMSCO_TIKA_SERVER): '%env(string:TIKA_SERVER)%'
+    env(EMSCO_TIKA_DOWNLOAD_URL): '%env(string:TIKA_DOWNLOAD_URL)%'
+    env(EMSCO_PRIVATE_KEY): '%env(string:EMS_PRIVATE_KEY)%'
+    env(EMSCO_PUBLIC_KEY): '%env(string:EMS_PUBLIC_KEY)%'
+    env(EMSCO_INSTANCE_ID): '%env(string:EMS_INSTANCE_ID)%'
+    env(EMSCO_NAME): '%env(string:EMS_NAME)%'
+    env(EMSCO_SHORTNAME): '%env(string:EMS_SHORTNAME)%'
+    env(EMSCO_PAGING_SIZE): '%env(string:EMS_PAGING_SIZE)%'
+    env(EMSCO_THEME_COLOR): '%env(string:EMS_THEME_COLOR)%'
+    env(EMSCO_DATE_TIME_FORMAT): '%env(string:EMS_DATE_TIME_FORMAT)%'
+    env(EMSCO_DATEPICKER_FORMAT): '%env(string:EMS_DATEPICKER_FORMAT)%'
+    env(EMSCO_DATEPICKER_WEEKSTART): '%env(string:EMS_DATEPICKER_WEEKSTART)%'
+    env(EMSCO_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED): '%env(string:EMS_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED)%'
+    env(EMSCO_FROM_EMAIL_ADDRESS): '%env(string:EMS_FROM_EMAIL_ADDRESS)%'
+    env(EMSCO_FROM_EMAIL_NAME): '%env(string:EMS_FROM_EMAIL_NAME)%'
+    env(EMSCO_ASSET_CONFIG): '%env(string:EMS_ASSET_CONFIG)%'
+    env(EMSCO_CIRCLES_OBJECT): '%env(string:EMS_CIRCLES_OBJECT)%'
+    env(EMSCO_TRIGGER_JOB_FROM_WEB): true
+    env(EMSCO_PRE_GENERATED_OUUIDS): false
+    env(EMSCO_DEFAULT_BULK_SIZE): 500
+    env(EMSCO_URL_USER): ~
+
+    env(EMSCO_LDAP_ENABLED): true
+    env(EMSCO_LDAP_DN_STRING): ~
+    env(EMSCO_LDAP_BASE_DN): '%env(string:LDAP_BASE_DN)%'
+    env(EMSCO_LDAP_SEARCH_DN): '%env(string:LDAP_SEARCH_DN)%'
+    env(EMSCO_LDAP_SEARCH_PASSWORD): '%env(string:LDAP_SEARCH_PASSWORD)%'
+    env(EMSCO_LDAP_PASSWORD_ATTRIBUTE): '%env(string:LDAP_PASSWORD_ATTRIBUTE)%'
+    env(EMSCO_LDAP_DEFAULT_ROLES): '%env(string:LDAP_DEFAULT_ROLES)%'
+    env(EMSCO_LDAP_FILTER): '%env(string:LDAP_FILTER)%'
+    env(EMSCO_LDAP_EXTRA_FIELDS): '%env(string:LDAP_EXTRA_FIELDS)%'
+    env(EMSCO_LDAP_EMAIL_FIELD): '%env(string:LDAP_EMAIL_FIELD)%'
+    env(EMSCO_LDAP_DISPLAY_NAME_FIELD): '%env(string:LDAP_DISPLAY_NAME_FIELD)%'
+    env(EMSCO_LDAP_UID_KEY): '%env(string:LDAP_UID_KEY)%'
+
+ems_core:
+    private_key:  '%env(string:EMSCO_PRIVATE_KEY)%'
+    public_key:  '%env(string:EMSCO_PUBLIC_KEY)%'
+    elasticsearch_cluster: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
+    instance_id: '%env(string:EMSCO_INSTANCE_ID)%'
+    name: '%env(string:EMSCO_NAME)%'
+    shortname: '%env(string:EMSCO_SHORTNAME)%'
+    paging_size: '%env(int:EMSCO_PAGING_SIZE)%'
+    theme_color: '%env(string:EMSCO_THEME_COLOR)%'
+    date_time_format:  '%env(string:EMSCO_DATE_TIME_FORMAT)%'
+    datepicker_format:  '%env(string:EMSCO_DATEPICKER_FORMAT)%'
+    datepicker_weekstart:  '%env(int:EMSCO_DATEPICKER_WEEKSTART)%'
+    datepicker_daysofweek_highlighted: '%env(json:EMSCO_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED)%'
+    from_email:
+        address: '%env(string:EMSCO_FROM_EMAIL_ADDRESS)%'
+        sender_name: '%env(string:EMSCO_FROM_EMAIL_NAME)%'
+    circles_object: '%env(string:EMSCO_CIRCLES_OBJECT)%'
+    asset_config: '%env(json:EMSCO_ASSET_CONFIG)%'
+    tika_server: '%env(string:EMSCO_TIKA_SERVER)%'
+    tika_download_url: '%env(string:EMSCO_TIKA_DOWNLOAD_URL)%'
+    trigger_job_from_web:  '%env(bool:EMSCO_TRIGGER_JOB_FROM_WEB)%'
+    pre_generated_ouuids: '%env(bool:EMSCO_PRE_GENERATED_OUUIDS)%'
+    default_bulk_size: '%env(int:EMSCO_DEFAULT_BULK_SIZE)%'
+    url_user: '%env(string:EMSCO_URL_USER)%'
+
+    ldap:
+        enabled: '%env(bool:EMSCO_LDAP_ENABLED)%'
+        dn_string: '%env(string:EMSCO_LDAP_DN_STRING)%'
+        base_dn: '%env(string:EMSCO_LDAP_BASE_DN)%'
+        search_dn: '%env(string:EMSCO_LDAP_SEARCH_DN)%'
+        search_password: '%env(string:EMSCO_LDAP_SEARCH_PASSWORD)%'
+        password_attribute: '%env(EMSCO_LDAP_PASSWORD_ATTRIBUTE)%'
+        default_roles: '%env(json:EMSCO_LDAP_DEFAULT_ROLES)%'
+        filter: '%env(string:EMSCO_LDAP_FILTER)%'
+        extra_fields: '%env(json:EMSCO_LDAP_EXTRA_FIELDS)%'
+        email_field: '%env(string:EMSCO_LDAP_EMAIL_FIELD)%'
+        display_name_field: '%env(string:EMSCO_LDAP_DISPLAY_NAME_FIELD)%'
+        uid_key: '%env(string:EMSCO_LDAP_UID_KEY)%'

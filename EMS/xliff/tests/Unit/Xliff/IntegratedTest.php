@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Tests\Unit\Xliff;
 
-
 use EMS\Helpers\Html\Html;
 use EMS\Helpers\Standard\Json;
 use EMS\Xliff\Xliff\Entity\InsertReport;

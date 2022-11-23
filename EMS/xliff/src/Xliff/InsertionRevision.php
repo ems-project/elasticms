@@ -208,7 +208,7 @@ class InsertionRevision
         if (null === $mainDocument) {
             throw new \RuntimeException('Unexpected null owner document');
         }
-        $domXpath = new \DOMXpath($mainDocument);
+        $domXpath = new \DOMXPath($mainDocument);
         $domXpath->registerNamespace('ns', $this->document->lookupNamespaceURI(null));
 
         $result = $domXpath->query('//ns:target');

@@ -8,7 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Extractor
 {
-    //Source: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-html/xliff-profile-html-1.2.html#SectionDetailsElements
+    // Source: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-html/xliff-profile-html-1.2.html#SectionDetailsElements
     public const PRE_DEFINED_VALUES = [
         'b' => 'bold',
         'br' => 'lb',

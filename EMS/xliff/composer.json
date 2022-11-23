@@ -21,13 +21,13 @@
 		"php": "^7.4",
         "ext-dom": "*",
         "elasticms/helpers": "^1.0",
-        "symfony/dom-crawler": "^4.4 || ^5.4",
-        "symfony/property-access": "^4.4 || ^5.4"
+        "symfony/dom-crawler": "^5.4",
+        "symfony/property-access": "^5.4"
     },
 	"require-dev" : {
 		"friendsofphp/php-cs-fixer" : "^3.0",
 		"mockery/mockery" : "^0.9",
-		"phpstan/phpstan": "^0.12",
+		"phpstan/phpstan": "^1.0",
 		"phpunit/phpunit" : "^9.5",
 		"phpstan/phpstan-phpunit": "^0.12.8",
 		"phpstan/extension-installer": "^1.1"

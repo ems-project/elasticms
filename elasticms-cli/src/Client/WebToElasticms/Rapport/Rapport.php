@@ -86,7 +86,7 @@ class Rapport
         if (!isset($this->missingInternalUrls[$url->getPath()])) {
             return false;
         }
-        $this->missingInternalUrls[$url->getPath()][] = $url->getReferer();
+        $this->missingInternalUrls[$url->getPath()][] = $url->getReferer() ?? '';
 
         return true;
     }

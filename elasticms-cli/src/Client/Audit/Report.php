@@ -89,7 +89,7 @@ class Report
         } elseif (\strlen($this->brokenLinks[$hash]['referrers']) > 1000) {
             $this->brokenLinks[$hash]['referrers'] .= '.';
         } else {
-            $this->brokenLinks[$hash]['referrers'] .= ','.$urlReport->getUrl()->getReferer() ?? '';
+            $this->brokenLinks[$hash]['referrers'] .= ','.($urlReport->getUrl()->getReferer() ?? '');
         }
     }
 
@@ -176,13 +176,13 @@ class Report
         if (!isset($this->ignoredLinks[$hash])) {
             $this->ignoredLinks[$hash] = [
                 'url' => $url->getUrl(),
-                'message' => $message ?? '',
+                'message' => $message,
                 'referrers' => $url->getReferer() ?? '',
             ];
         } elseif (\strlen($this->ignoredLinks[$hash]['referrers']) > 1000) {
             $this->ignoredLinks[$hash]['referrers'] .= '.';
         } else {
-            $this->ignoredLinks[$hash]['referrers'] .= ','.$url->getReferer() ?? '';
+            $this->ignoredLinks[$hash]['referrers'] .= ','.($url->getReferer() ?? '');
         }
     }
 

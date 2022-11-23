@@ -267,6 +267,14 @@ class AuditResult
         $this->internalLinks[] = $link;
     }
 
+    /**
+     * @return Url[]
+     */
+    public function getInternalLinks(): array
+    {
+        return $this->internalLinks;
+    }
+
     public function addExternalLink(UrlReport $testUrl): void
     {
         $this->externalLinks[] = $testUrl;

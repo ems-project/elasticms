@@ -223,13 +223,13 @@ class AuditCommand extends AbstractCommand
     protected function loadAuditCache(): Cache
     {
         if (!\file_exists($this->jsonPath)) {
-            return new Cache($this->baseUrl, $this->logger);
+            return new Cache($this->baseUrl);
         }
         $contents = \file_get_contents($this->jsonPath);
         if (false === $contents) {
             throw new \RuntimeException('Unexpected false config file');
         }
-        $cache = Cache::deserialize($contents, $this->logger);
+        $cache = Cache::deserialize($contents);
         $cache->addUrl($this->baseUrl);
 
         return $cache;

@@ -10,7 +10,6 @@ use App\Client\WebToElasticms\Helper\Url;
 use App\Client\WebToElasticms\Rapport\Rapport;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 class InternalLink implements HtmlInterface
@@ -18,14 +17,12 @@ class InternalLink implements HtmlInterface
     public const TYPE = 'internal-link';
     private ConfigManager $config;
     private string $currentUrl;
-    private LoggerInterface $logger;
     private Rapport $rapport;
 
-    public function __construct(LoggerInterface $logger, ConfigManager $config, Rapport $rapport, string $currentUrl)
+    public function __construct(ConfigManager $config, Rapport $rapport, string $currentUrl)
     {
         $this->config = $config;
         $this->currentUrl = $currentUrl;
-        $this->logger = $logger;
         $this->rapport = $rapport;
     }
 
@@ -78,7 +75,7 @@ class InternalLink implements HtmlInterface
                     throw new \RuntimeException('Unexpected non DOMElement object');
                 }
                 $document = $item->ownerDocument;
-                if (!$document instanceof \DOMDocument) {
+                if (!$document instanceof \DOMDocument || null === $item->nodeValue) {
                     throw new \RuntimeException('Unexpected non DOMDocument object');
                 }
                 $textNode = $document->createTextNode($item->nodeValue);

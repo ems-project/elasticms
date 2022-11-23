@@ -18,7 +18,6 @@ use App\Client\WebToElasticms\Filter\Html\StyleCleaner;
 use App\Client\WebToElasticms\Filter\Html\TagCleaner;
 use App\Client\WebToElasticms\Helper\Url;
 use App\Client\WebToElasticms\Rapport\Rapport;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -27,14 +26,12 @@ class Html
     public const TYPE = 'html';
     private ConfigManager $config;
     private Document $document;
-    private LoggerInterface $logger;
     private Rapport $rapport;
 
-    public function __construct(ConfigManager $config, Document $document, LoggerInterface $logger, Rapport $rapport)
+    public function __construct(ConfigManager $config, Document $document, Rapport $rapport)
     {
         $this->config = $config;
         $this->document = $document;
-        $this->logger = $logger;
         $this->rapport = $rapport;
     }
 
@@ -124,14 +121,14 @@ class Html
             } else {
                 switch ($filterType) {
                     case Striptag::TYPE:
-                        $filter = new Striptag($this->config);
+                        $filter = new Striptag();
                         $asHtml = false;
                         break;
                     case InternalLink::TYPE:
-                        $filter = new InternalLink($this->logger, $this->config, $rapport, $resource->getUrl());
+                        $filter = new InternalLink($this->config, $rapport, $resource->getUrl());
                         break;
                     case StyleCleaner::TYPE:
-                        $filter = new StyleCleaner($this->config);
+                        $filter = new StyleCleaner();
                         break;
                     case ClassCleaner::TYPE:
                         $filter = new ClassCleaner($this->config);
@@ -166,7 +163,7 @@ class Html
                     if (!\is_string($content)) {
                         throw new \RuntimeException(\sprintf('Unexpected non string content for filter %s', Src::TYPE));
                     }
-                    $filter = new Src($this->logger, $this->config, $resource->getUrl(), $this->rapport);
+                    $filter = new Src($this->config, $resource->getUrl(), $this->rapport);
                     $content = $filter->process($content);
                     break;
                 case DataLink::TYPE:

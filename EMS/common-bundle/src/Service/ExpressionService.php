@@ -10,14 +10,11 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class ExpressionService implements ExpressionServiceInterface
 {
-    /** @var ExpressionLanguage|null */
-    private $expressionLanguage;
-    /** @var LoggerInterface */
-    private $logger;
+    private ?ExpressionLanguage $expressionLanguage = null;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {
-        $this->expressionLanguage = null;
         $this->logger = $logger;
     }
 
@@ -59,18 +56,12 @@ final class ExpressionService implements ExpressionServiceInterface
         $expressionLanguage = new ExpressionLanguage();
         $expressionLanguage->register(
             'date',
-            function ($date) {
-                return \sprintf('(new \DateTime(%s))', $date);
-            },
-            function (array $values, $date) {
-                return new \DateTime($date);
-            }
+            fn ($date) => \sprintf('(new \DateTime(%s))', $date),
+            fn (array $values, $date) => new \DateTime($date)
         );
         $expressionLanguage->register(
             'date_modify',
-            function ($date, $modify) {
-                return \sprintf('%s->modify(%s)', $date, $modify);
-            },
+            fn ($date, $modify) => \sprintf('%s->modify(%s)', $date, $modify),
             function (array $values, $date, $modify) {
                 if (!$date instanceof \DateTime) {
                     throw new \RuntimeException('date_modify() expects parameter 1 to be a Date');

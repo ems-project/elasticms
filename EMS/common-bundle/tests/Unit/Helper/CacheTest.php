@@ -8,11 +8,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CacheTest extends TestCase
 {
-    /** @var Cache */
-    private $cache;
+    private Cache $cache;
 
-    /** @var Response */
-    private $response;
+    private Response $response;
 
     protected function setUp(): void
     {
@@ -49,7 +47,7 @@ class CacheTest extends TestCase
     public function testMakeResponseCacheableReturnSameMaxAgeTrue(): void
     {
         $this->cache->makeResponseCacheable($this->response, 'test', null, true);
-        self::assertSame(2678400, $this->response->getMaxAge());
+        self::assertSame(2_678_400, $this->response->getMaxAge());
     }
 
     public function testMakeResponseCacheableReturnSameLastUpdateDateNotNull(): void

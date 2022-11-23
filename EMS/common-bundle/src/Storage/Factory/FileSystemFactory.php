@@ -10,16 +10,12 @@ use Psr\Log\LoggerInterface;
 
 class FileSystemFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    /** @var string */
     public const STORAGE_TYPE = 'fs';
-    /** @var string */
     public const STORAGE_CONFIG_PATH = 'path';
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
     /** @var string[] */
-    private $usedFolder = [];
-    /** @var string */
-    private $projectDir;
+    private array $usedFolder = [];
+    private string $projectDir;
 
     public function __construct(LoggerInterface $logger, string $projectDir)
     {

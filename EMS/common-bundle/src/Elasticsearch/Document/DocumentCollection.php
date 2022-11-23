@@ -31,7 +31,7 @@ final class DocumentCollection implements DocumentCollectionInterface
 
     public function count(): int
     {
-        return \count($this->documents);
+        return \count((array) $this->documents);
     }
 
     /**

@@ -56,9 +56,7 @@ class AssetRuntime
                 \file_put_contents($checkFilename, $hash);
             }
 
-            $excludeCheckFile = function (SplFileInfo $f) use ($checkFilename) {
-                return $f->getPathname() !== $checkFilename;
-            };
+            $excludeCheckFile = fn (SplFileInfo $f) => $f->getPathname() !== $checkFilename;
 
             return \iterator_to_array(Finder::create()->in($saveDir)->files()->filter($excludeCheckFile)->getIterator());
         } catch (\Exception $e) {

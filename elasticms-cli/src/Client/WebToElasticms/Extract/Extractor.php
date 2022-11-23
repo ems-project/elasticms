@@ -85,10 +85,7 @@ class Extractor
                 } else {
                     try {
                         $this->extractDataFromResource($document, $resource, $data);
-                    } catch (ClientException $e) {
-                        $rapport->addResourceInError($resource, new Url($resource->getUrl()), $e->getCode(), $e->getMessage());
-                        $withoutError = false;
-                    } catch (RequestException $e) {
+                    } catch (ClientException|RequestException $e) {
                         $rapport->addResourceInError($resource, new Url($resource->getUrl()), $e->getCode(), $e->getMessage());
                         $withoutError = false;
                     }

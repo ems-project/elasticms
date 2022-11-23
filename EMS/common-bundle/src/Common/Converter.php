@@ -32,7 +32,7 @@ class Converter
         $pow = \floor(($bytes ? \log($bytes) : 0) / \log(1024));
         $pow = \min($pow, \count($units) - 1);
 
-        $bytes /= \pow(1024, $pow);
+        $bytes /= 1024 ** $pow;
 
         return \round($bytes, $precision).' '.$units[$pow];
     }
@@ -48,9 +48,11 @@ class Converter
         if (\is_object($var) && \method_exists($var, 'toString')) {
             return $var->toString();
         }
-        $json = \json_encode($var);
-
-        return (false !== $json) ? $json : $defaultValue;
+        try {
+            return \json_encode($var, JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            return $defaultValue;
+        }
     }
 
     private static function convertSpecialChars(string $str): string

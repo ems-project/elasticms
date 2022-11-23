@@ -12,7 +12,7 @@ class Type
     /** @var Computer[] */
     private array $computers = [];
     /** @var string[] */
-    private $tempFields = [];
+    private array $tempFields = [];
 
     /**
      * @return mixed[]

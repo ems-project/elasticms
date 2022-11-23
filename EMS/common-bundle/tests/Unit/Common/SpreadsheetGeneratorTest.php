@@ -8,8 +8,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SpreadsheetGeneratorTest extends TestCase
 {
-    /** @var SpreadsheetGeneratorService */
-    private $spreadSheetGenerator;
+    private SpreadsheetGeneratorService $spreadSheetGenerator;
 
     protected function setUp(): void
     {

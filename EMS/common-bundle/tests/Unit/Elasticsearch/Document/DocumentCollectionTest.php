@@ -9,8 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class DocumentCollectionTest extends TestCase
 {
-    /** @var ResponseInterface */
-    private $mockResponse;
+    private ResponseInterface $mockResponse;
 
     protected function setUp(): void
     {

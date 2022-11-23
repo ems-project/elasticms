@@ -11,12 +11,11 @@ final class Form implements FormInterface
 {
     private Client $client;
     /** @var string[] */
-    private array $endPoint;
+    private array $endPoint = ['api', 'forms'];
 
     public function __construct(Client $client)
     {
         $this->client = $client;
-        $this->endPoint = ['api', 'forms'];
     }
 
     public function createVerification(string $value): string

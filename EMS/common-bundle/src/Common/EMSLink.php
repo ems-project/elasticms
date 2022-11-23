@@ -7,21 +7,13 @@ use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 class EMSLink
 {
     public const EMSLINK_ASSET_PREFIX = 'ems://asset:';
-    /**
-     * object|asset.
-     *
-     * @var string
-     */
-    private $linkType = 'object';
+    private string $linkType = 'object';
 
     /** @var string */
     private $contentType;
 
-    /** @var string */
-    private $ouuid;
-
-    /** @var string|null */
-    private $query = null;
+    private ?string $ouuid = null;
+    private ?string $query = null;
 
     /**
      * Regex for searching ems links in content
@@ -129,6 +121,10 @@ class EMSLink
 
     public function getOuuid(): string
     {
+        if (null === $this->ouuid) {
+            throw new \RuntimeException('Unexpected null OUUID');
+        }
+
         return $this->ouuid;
     }
 

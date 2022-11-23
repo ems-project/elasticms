@@ -16,7 +16,7 @@ class Scroll implements \Iterator
     private Client $client;
     private Search $search;
     private string $expireTime;
-    private ?string $nextScrollId;
+    private ?string $nextScrollId = null;
     private int $currentPage;
     private ResponseInterface $currentResponse;
     private int $index = 0;

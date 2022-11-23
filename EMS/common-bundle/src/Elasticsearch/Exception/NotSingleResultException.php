@@ -6,8 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch\Exception;
 
 class NotSingleResultException extends \Exception
 {
-    /** @var int */
-    private $total;
+    private int $total;
 
     public function __construct(int $total)
     {

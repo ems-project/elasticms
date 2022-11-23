@@ -26,8 +26,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
     public const STORAGE_CONFIG_PASSWORD_PHRASE = 'password-phrase';
     /** @var string */
     public const STORAGE_CONFIG_PORT = 'port';
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {

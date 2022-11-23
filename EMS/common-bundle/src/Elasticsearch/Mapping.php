@@ -8,8 +8,7 @@ use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 
 final class Mapping
 {
-    /** @var Client */
-    private $client;
+    private Client $client;
 
     public function __construct(Client $client)
     {

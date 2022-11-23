@@ -39,9 +39,7 @@ class Encoder
     {
         $telRegex = '/(?P<tel>"tel:.*")/i';
 
-        $encodedText = \preg_replace_callback($telRegex, function ($match) {
-            return $this->htmlEncode($match['tel']);
-        }, $text);
+        $encodedText = \preg_replace_callback($telRegex, fn ($match) => $this->htmlEncode($match['tel']), $text);
 
         if (null === $encodedText) {
             return $text;
@@ -58,9 +56,7 @@ class Encoder
     {
         $urlRegex = '/(?P<proto>([\w\d\-\.]+:)?)\/\/(?P<host>[\w\d\-\.]+(:[0-9]+)?)\/(?P<baseurl>([\w\d\-\._]+\/)*)(?P<target>[\w\d\-\._]+)/';
 
-        $encodedText = \preg_replace_callback($urlRegex, function ($matches) {
-            return \sprintf('<a href="%s//%s/%s%s">%s</a>', $matches['proto'], $matches['host'], $matches['baseurl'], $matches['target'], $matches['target']);
-        }, $text);
+        $encodedText = \preg_replace_callback($urlRegex, fn ($matches) => \sprintf('<a href="%s//%s/%s%s">%s</a>', $matches['proto'], $matches['host'], $matches['baseurl'], $matches['target'], $matches['target']), $text);
 
         if (null === $encodedText) {
             return $text;
@@ -71,7 +67,7 @@ class Encoder
 
     public function webalizeForUsers(string $text): ?string
     {
-        return $this->webalize($text, $this->webalizeRemovableRegex, $this->webalizeDashableRegex);
+        return static::webalize($text, $this->webalizeRemovableRegex, $this->webalizeDashableRegex);
     }
 
     public static function webalize(string $text, string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX): string
@@ -105,9 +101,7 @@ class Encoder
     {
         $emailRegex = '/(?P<email>[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3}))/i';
 
-        $encodedText = \preg_replace_callback($emailRegex, function ($match) {
-            return $this->htmlEncode($match['email']);
-        }, $text);
+        $encodedText = \preg_replace_callback($emailRegex, fn ($match) => $this->htmlEncode($match['email']), $text);
 
         if (null === $encodedText) {
             return $text;
@@ -129,9 +123,7 @@ class Encoder
     {
         $piiRegex = '/<span class="pii">(?P<pii>.*)<\/span>/m';
 
-        $encodedText = \preg_replace_callback($piiRegex, function ($match) {
-            return $this->htmlEncode($match['pii']);
-        }, $text);
+        $encodedText = \preg_replace_callback($piiRegex, fn ($match) => $this->htmlEncode($match['pii']), $text);
 
         if (null === $encodedText) {
             return $text;

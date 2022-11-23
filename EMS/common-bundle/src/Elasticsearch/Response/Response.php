@@ -16,14 +16,13 @@ final class Response implements ResponseInterface
     private $total;
 
     /** @var array<int, mixed> */
-    private $hits;
+    private array $hits;
 
     /** @var string|null */
     private $scrollId;
-    /** @var bool */
-    private $accurate;
+    private bool $accurate = true;
     /** @var array<mixed> */
-    private $aggregations;
+    private array $aggregations;
 
     /**
      * @param array<mixed> $response
@@ -31,7 +30,6 @@ final class Response implements ResponseInterface
     private function __construct(array $response)
     {
         $this->total = $response['hits']['total']['value'] ?? $response['hits']['total'] ?? 0;
-        $this->accurate = true;
 
         $relation = $response['hits']['total']['relation'] ?? null;
         if (null !== $relation && 'eq' !== $relation) {

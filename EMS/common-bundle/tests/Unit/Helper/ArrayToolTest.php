@@ -7,8 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayToolTest extends TestCase
 {
-    /** @var ArrayTool */
-    private $arrayTool;
+    private ArrayTool $arrayTool;
 
     protected function setUp(): void
     {

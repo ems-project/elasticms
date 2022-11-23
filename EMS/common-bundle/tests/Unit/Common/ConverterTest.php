@@ -7,8 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConverterTest extends TestCase
 {
-    /** @var Converter */
-    private $converter;
+    private Converter $converter;
 
     protected function setUp(): void
     {
@@ -50,9 +49,9 @@ class ConverterTest extends TestCase
         return [
             [243, '243 B', '243 B', '243 B'],
             [2496, '2.44 KB', '2 KB', '2.4375 KB'],
-            [24962496, '23.81 MB', '24 MB', '23.8061 MB'],
-            [249624962496, '232.48 GB', '232 GB', '232.4814 GB'],
-            [2496249624962496, '2270.33 TB', '2270 TB', '2270.3258 TB'],
+            [24_962_496, '23.81 MB', '24 MB', '23.8061 MB'],
+            [249_624_962_496, '232.48 GB', '232 GB', '232.4814 GB'],
+            [2_496_249_624_962_496, '2270.33 TB', '2270 TB', '2270.3258 TB'],
         ];
     }
 

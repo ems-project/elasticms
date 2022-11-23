@@ -8,6 +8,7 @@ use App\Client\HttpClient\HttpResult;
 use App\Client\WebToElasticms\Config\Analyzer;
 use App\Client\WebToElasticms\Config\ConfigManager;
 use App\Client\WebToElasticms\Config\Document;
+use App\Client\WebToElasticms\Config\Extractor;
 use App\Client\WebToElasticms\Config\WebResource;
 use App\Client\WebToElasticms\Filter\Attr\DataLink;
 use App\Client\WebToElasticms\Filter\Attr\Src;
@@ -62,7 +63,7 @@ class Html
             }
 
             switch ($extractor->getStrategy()) {
-                case \App\Client\WebToElasticms\Config\Extractor::FIRST:
+                case Extractor::FIRST:
                     if (0 === \count($basket)) {
                         $this->rapport->addExtractError($resource, $extractor, $content->count());
                     } else {
@@ -72,21 +73,21 @@ class Html
                         $this->assignExtractedProperty($resource, $extractor, $data, $basket[0]);
                     }
                     break;
-                case \App\Client\WebToElasticms\Config\Extractor::ONE:
+                case Extractor::ONE:
                     if (1 !== \count($basket)) {
                         $this->rapport->addExtractError($resource, $extractor, $content->count());
                     } else {
                         $this->assignExtractedProperty($resource, $extractor, $data, $basket[0]);
                     }
                     break;
-                case \App\Client\WebToElasticms\Config\Extractor::ZERO_ONE:
+                case Extractor::ZERO_ONE:
                     if (\count($basket) > 1) {
                         $this->rapport->addExtractError($resource, $extractor, $content->count());
                     } elseif (1 === \count($basket)) {
                         $this->assignExtractedProperty($resource, $extractor, $data, $basket[0]);
                     }
                     break;
-                case \App\Client\WebToElasticms\Config\Extractor::N:
+                case Extractor::N:
                     if (\count($basket) > 0) {
                         $this->assignExtractedProperty($resource, $extractor, $data, $basket);
                     }
@@ -101,14 +102,14 @@ class Html
      * @param array<mixed> $data
      * @param mixed        $content
      */
-    protected function assignExtractedProperty(WebResource $resource, \App\Client\WebToElasticms\Config\Extractor $extractor, array &$data, $content): void
+    protected function assignExtractedProperty(WebResource $resource, Extractor $extractor, array &$data, $content): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
         $property = \str_replace(['%locale%'], [$resource->getLocale()], $extractor->getProperty());
         $propertyAccessor->setValue($data, $property, $content);
     }
 
-    private function applyFilters(WebResource $resource, Crawler $content, \App\Client\WebToElasticms\Config\Extractor $extractor, Rapport $rapport): string
+    private function applyFilters(WebResource $resource, Crawler $content, Extractor $extractor, Rapport $rapport): string
     {
         $asHtml = true;
         foreach ($extractor->getFilters() as $filterType) {
@@ -149,7 +150,7 @@ class Html
     /**
      * @return mixed
      */
-    private function applyAttrFilters(WebResource $resource, string $content, \App\Client\WebToElasticms\Config\Extractor $extractor, Rapport $rapport)
+    private function applyAttrFilters(WebResource $resource, string $content, Extractor $extractor, Rapport $rapport)
     {
         foreach ($extractor->getFilters() as $filterType) {
             $type = '';

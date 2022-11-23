@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class StatusCommand extends AbstractCommand
 {
+    protected static $defaultName = Commands::STATUS;
     private const OPTION_TIMEOUT = 'timeout';
     private const OPTION_SILENT = 'silent';
     private const OPTION_WAIT_FOR_STATUS = 'wait-for-status';
@@ -30,9 +31,7 @@ class StatusCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this
-            ->setName(Commands::STATUS)
-            ->setDescription('Returns the health status of the elasticsearch cluster and of the different storage services.')
+        $this->setDescription('Returns the health status of the elasticsearch cluster and of the different storage services.')
             ->addOption(
                 self::OPTION_SILENT,
                 null,

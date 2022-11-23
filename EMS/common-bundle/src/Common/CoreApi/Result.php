@@ -39,11 +39,11 @@ class Result
 
     public function isSuccess(): bool
     {
-        return null !== $this->success ? $this->success : true;
+        return $this->success ?? true;
     }
 
     public function isAcknowledged(): bool
     {
-        return null !== $this->acknowledged ? $this->acknowledged : true;
+        return $this->acknowledged ?? true;
     }
 }

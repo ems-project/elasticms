@@ -13,14 +13,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HttpStorage extends AbstractUrlStorage
 {
-    /** @var string */
     public const INIT_URL = '/api/file/init-upload';
-    /** @var string */
-    private $baseUrl;
-    /** @var string */
-    private $getUrl;
-    /** @var string|null */
-    private $authKey;
+    private string $baseUrl;
+    private string $getUrl;
+    private ?string $authKey;
 
     public function __construct(LoggerInterface $logger, string $baseUrl, string $getUrl, int $usage, ?string $authKey = null, int $hotSynchronizeLimit = 0)
     {
@@ -73,7 +69,7 @@ class HttpStorage extends AbstractUrlStorage
         try {
             $result = $this->getClient()->get('/status.json');
             if (200 == $result->getStatusCode()) {
-                $status = \json_decode($result->getBody()->getContents(), true);
+                $status = \json_decode($result->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
                 if (isset($status['status']) && \in_array($status['status'], ['green', 'yellow'])) {
                     return true;
                 }

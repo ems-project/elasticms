@@ -1,0 +1,49 @@
+parameters:
+    #Deprecated parameters
+    env(EMSCH_ELASTICSEARCH_CLUSTER): '["http://localhost:9200"]'
+    env(STORAGE_PATH): ''
+    env(EMSCH_BACKEND_URL): ~
+    env(S3_BUCKET): ''
+    env(S3_CREDENTIALS): '[]'
+
+    #Parameters
+    env(EMS_HASH_ALGO): 'sha1'
+    env(EMS_STORAGES): '[{"type":"fs","path":"%env(string:STORAGE_PATH)%"},{"type":"s3","credentials":%env(string:S3_CREDENTIALS)%,"bucket":"%env(string:S3_BUCKET)%"},{"type":"http","base-url":"%env(string:EMSCH_BACKEND_URL)%"}]'
+    env(EMS_ELASTICSEARCH_HOSTS): '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
+    env(EMS_BACKEND_URL): ~
+    env(EMS_BACKEND_API_KEY): ~
+
+    env(EMS_CACHE): 'file_system'
+    env(EMS_CACHE_PREFIX): ~
+    env(EMS_REDIS_HOST): '%env(REDIS_HOST)%'
+    env(EMS_REDIS_PORT): '%env(int:REDIS_PORT)%'
+    env(EMS_METRIC_ENABLED): false
+    env(EMS_METRIC_HOST): ''
+    env(EMS_METRIC_PORT): ~
+    env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
+    env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
+
+
+ems_common:
+    hash_algo: '%env(string:EMS_HASH_ALGO)%'
+    elasticsearch_hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
+    storages: '%env(json:EMS_STORAGES)%'
+    backend_url: '%env(string:EMS_BACKEND_URL)%'
+    backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
+    webalize:
+        removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
+        dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'
+    cache:
+        type: '%env(EMS_CACHE)%'
+        prefix: '%env(string:EMS_CACHE_PREFIX)%'
+        redis:
+            host: '%env(EMS_REDIS_HOST)%'
+            port: '%env(int:EMS_REDIS_PORT)%'
+    metric:
+        enabled: '%env(bool:EMS_METRIC_ENABLED)%'
+        host: '%env(string:EMS_METRIC_HOST)%'
+        port: '%env(EMS_METRIC_PORT)%'
+
+when@dev:
+    ems_common:
+        profiler: true

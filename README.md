@@ -10,8 +10,6 @@ elasticMS's monorepo
 * `composer phpunit`: Runs unit tests suite 
 * `composer phpall`: Runs all previous commands
 
-
-
 # Migrate a repo
 
 ## First steps ([source](https://medium.com/lgtm/migrating-to-the-monorepo-582106142654))

@@ -185,14 +185,14 @@ class InsertionRevision
             if (!$field->hasAttribute($tag)) {
                 return $defaultValue;
             }
-            $attribute = $field->getAttribute($tag) ?? null;
+            $attribute = $field->getAttribute($tag);
         } elseif (!isset($this->nameSpaces[$nameSpace])) {
             return $defaultValue;
         } else {
             if (!$field->hasAttributeNS($this->nameSpaces[$nameSpace], $tag)) {
                 return $defaultValue;
             }
-            $attribute = $field->getAttributeNS($this->nameSpaces[$nameSpace], $tag) ?? null;
+            $attribute = $field->getAttributeNS($this->nameSpaces[$nameSpace], $tag);
         }
 
         return \strval($attribute);
@@ -216,6 +216,9 @@ class InsertionRevision
             throw new \RuntimeException('Unexpected false xpath //ns:target result');
         }
         foreach ($result as $target) {
+            if (!$target instanceof \DOMElement) {
+                throw new \RuntimeException(\sprintf('Unexpected DOMElement: %s', \get_class($target)));
+            }
             if (null === $this->targetLocale) {
                 $this->targetLocale = $this->getAttributeValue($target, 'xml:lang');
                 continue;
@@ -330,7 +333,11 @@ class InsertionRevision
             if ('html' !== $attribute->prefix) {
                 continue;
             }
-            $tag->setAttribute($attribute->localName, $attribute->value);
+            $attributeLocalName = $attribute->localName;
+            if (null === $attributeLocalName) {
+                throw new \RuntimeException('Unexpected null attribute local name');
+            }
+            $tag->setAttribute($attributeLocalName, $attribute->value);
         }
     }
 
@@ -355,7 +362,6 @@ class InsertionRevision
         }
 
         $expectedSourceValue = $expectedSourceValue ?? '';
-        $sourceValue = $sourceValue ?? '';
         if ($expectedSourceValue !== $sourceValue) {
             $insertReport->addError($expectedSourceValue, $sourceValue, $sourcePropertyPath, $this->contentType, $this->ouuid, $this->revisionId);
         }

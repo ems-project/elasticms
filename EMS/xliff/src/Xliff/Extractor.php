@@ -253,6 +253,9 @@ class Extractor
         $group = new \DOMElement('group');
         $xliffElement->appendChild($group);
         foreach ($groupAttributes as $attribute => $value) {
+            if (null === $value) {
+                throw new \RuntimeException('Unexpected null value');
+            }
             $group->setAttribute($attribute, $value);
         }
         if (null === $id) {
@@ -269,15 +272,6 @@ class Extractor
     {
         $id = $this->getId($domNode, $attributeName);
         $xliffElement->setAttribute('id', $id);
-    }
-
-    private function empty(string $nodeValue): bool
-    {
-        if (\ctype_space($nodeValue) || '' === $nodeValue) {
-            return true;
-        }
-
-        return false;
     }
 
     private function getXPath(\DOMNode $sourceNode): ?string
@@ -417,6 +411,9 @@ class Extractor
         $segment = new \DOMElement($qualifiedName);
         $xliffElement->appendChild($segment);
         foreach ($attributes as $attribute => $value) {
+            if (null === $value) {
+                throw new \RuntimeException('Unexpected null value');
+            }
             $segment->setAttribute($attribute, $value);
         }
 
@@ -494,7 +491,11 @@ class Extractor
                     if (!$value instanceof \DOMAttr) {
                         throw new \RuntimeException('Unexpected attribute object');
                     }
-                    $subNode->setAttribute('html:'.$value->nodeName, $value->nodeValue);
+                    $nodeValue = $value->nodeValue;
+                    if (null === $nodeValue) {
+                        throw new \RuntimeException('Unexpected null node value');
+                    }
+                    $subNode->setAttribute('html:'.$value->nodeName, $nodeValue);
                 }
                 $this->fillInline($child, $subNode);
             } elseif ($child instanceof \DOMText) {

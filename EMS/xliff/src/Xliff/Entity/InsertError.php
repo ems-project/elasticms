@@ -39,4 +39,9 @@ class InsertError
     {
         return $this->sourceValue;
     }
+
+    public function getSourcePropertyPath(): string
+    {
+        return $this->sourcePropertyPath;
+    }
 }

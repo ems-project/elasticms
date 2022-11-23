@@ -18,8 +18,8 @@ jobs:
 
             -   uses: frankdejonge/use-github-token@1.0.2
                 with:
-                    authentication: 'ems-project:${{ secrets.SPLITTER_TOKEN }}'
-                    user_name: 'Elasticms'
+                    authentication: 'Davidmattei:${{ secrets.SPLITTER_TOKEN }}'
+                    user_name: 'Davidmattei'
                     user_email: 'info@elasticms.eu'
 
             -   name: Cache splitsh-lite

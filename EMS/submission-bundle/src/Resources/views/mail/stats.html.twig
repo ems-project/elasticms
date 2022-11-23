@@ -1,0 +1,29 @@
+{# @var count \EMS\SubmissionBundle\Dto\FormSubmissionsCountDto #}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Simple Transactional Email</title>
+        <title></title>
+    </head>
+    <body>
+        <p>Hello,</p>
+        <p>During the last <strong>{{ count.period }}</strong>:</p>
+        <ul>
+            <li><strong>{{ count.periodFailed }}</strong> {{ formName }} are in error</li>
+            <li><strong>{{ count.periodWaiting }}</strong> {{ formName }} are waiting for processing</li>
+            <li><strong>{{ count.periodProcessed }}</strong> {{ formName }} are processed</li>
+            <li><strong>{{ count.periodTotal }}</strong> {{ formName }} forms are submitted</li>
+        </ul>
+        <p>And in total we have:</p>
+        <ul>
+            <li><strong>{{ count.failed }}</strong> {{ formName }} are in error</li>
+            <li><strong>{{ count.waiting }}</strong> {{ formName }} are waiting for processing</li>
+            <li><strong>{{ count.processed }}</strong> {{ formName }} are processed</li>
+            <li><strong>{{ count.total }}</strong> {{ formName }} forms are submitted</li>
+        </ul>
+        <p>Regards,</p>
+        <p><i>{{ from }}</i></p>
+    </body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+        <service id="emss.handler.database" class="EMS\SubmissionBundle\Handler\DatabaseHandler">
+            <argument type="service" id="doctrine"/>
+            <argument type="service" id="emss.twig.renderer"/>
+            <argument type="service" id="emss.response.transformer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.email" class="EMS\SubmissionBundle\Handler\EmailHandler">
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="emss.twig.renderer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.http" class="EMS\SubmissionBundle\Handler\HttpHandler">
+            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
+            <argument type="service" id="emss.twig.renderer"/>
+            <argument type="service" id="emss.response.transformer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.multipart" class="EMS\SubmissionBundle\Handler\MultipartHandler">
+            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
+            <argument type="service" id="emss.twig.renderer"/>
+            <argument type="service" id="emss.response.transformer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.pdf" class="EMS\SubmissionBundle\Handler\PdfHandler">
+            <argument type="service" id="EMS\CommonBundle\Service\Pdf\PdfPrinterInterface"/>
+            <argument type="service" id="emss.twig.renderer"/>
+            <argument type="service" id="emss.response.transformer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.service_now" class="EMS\SubmissionBundle\Handler\ServiceNowHandler">
+            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
+            <argument>%emss.default_timeout%</argument>
+            <argument type="service" id="emss.twig.renderer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.sftp" class="EMS\SubmissionBundle\Handler\SftpHandler">
+            <argument type="service" id="emss.filesystem.factory"/>
+            <argument type="service" id="emss.response.transformer"/>
+            <argument type="service" id="emss.twig.renderer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.soap" class="EMS\SubmissionBundle\Handler\SoapHandler">
+            <argument type="service" id="emss.twig.renderer"/>
+            <argument type="service" id="emss.response.transformer"/>
+            <tag name="emsf.handler" />
+        </service>
+        <service id="emss.handler.zip" class="EMS\SubmissionBundle\Handler\ZipHandler">
+            <argument type="service" id="emss.twig.renderer"/>
+            <argument type="service" id="emss.response.transformer"/>
+            <tag name="emsf.handler" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+        <service id="emss.connection.transformer" class="EMS\SubmissionBundle\Connection\Transformer">
+            <argument>%emss.connections%</argument>
+        </service>
+        <service id="emss.command.database_stats" class="EMS\SubmissionBundle\Command\DatabaseStatsCommand">
+            <argument type="service" id="mailer"/>
+            <argument type="service" id="emss.repository.form_submission"/>
+            <tag name="console.command" />
+        </service>
+        <service id="emss.event_subscriber.form_submission_request" class="EMS\SubmissionBundle\EventSubscriber\FormSubmissionRequestSubscriber">
+            <argument type="service" id="emss.repository.form_submission"/>
+            <tag name="kernel.event_subscriber" />
+        </service>
+        <service id="emss.repository.form_submission" class="EMS\SubmissionBundle\Repository\FormSubmissionRepository">
+            <argument type="service" id="doctrine" />
+        </service>
+        <service id="emss.response.transformer" class="EMS\SubmissionBundle\Response\ResponseTransformer">
+            <argument type="service" id="emss.twig.renderer"/>
+        </service>
+        <service id="emss.twig.renderer" class="EMS\SubmissionBundle\Twig\TwigRenderer">
+            <argument type="service" id="twig" />
+        </service>
+        <service id="emss.filesystem.factory" class="EMS\SubmissionBundle\FilesystemFactory"/>
+        <service id="emss.twig.extension.connection" class="EMS\SubmissionBundle\Twig\ConnectionExtension">
+            <tag name="twig.extension" />
+        </service>
+        <service id="emss.twig.runtime.connection" class="EMS\SubmissionBundle\Twig\ConnectionRuntime">
+            <argument type="service" id="emss.connection.transformer" />
+            <tag name="twig.runtime" />
+        </service>
+
+        <service id="emss.metric.submission_metric_collector" class="EMS\SubmissionBundle\Metric\SubmissionMetricCollector">
+            <argument type="service" id="emss.repository.form_submission"/>
+            <argument type="service" id="doctrine.dbal.default_connection"/>
+            <tag name="ems.metric_collector"/>
+        </service>
+    </services>
+</container>

@@ -1,0 +1,80 @@
+{
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.4.5",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-sqlite3": "*",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "elasticms/common-bundle": "^2.0",
+        "kevinrob/guzzle-cache-middleware": "^4.0",
+        "symfony/console": "5.4.*",
+        "symfony/css-selector": "5.4.*",
+        "symfony/dotenv": "5.4.*",
+        "symfony/flex": "^1.17|^2",
+        "symfony/framework-bundle": "5.4.*",
+        "symfony/runtime": "5.4.*",
+        "symfony/yaml": "5.4.*"
+    },
+    "require-dev": {
+      "friendsofphp/php-cs-fixer": "^3.0",
+      "phpstan/phpstan": "^0.12",
+      "phpunit/phpunit": "^7.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+      "phpcs": "php-cs-fixer fix",
+      "phpstan": "phpstan analyse",
+      "phpunit": "phpunit",
+      "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "5.4.*"
+        }
+    }
+}

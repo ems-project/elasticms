@@ -1,0 +1,19 @@
+{
+  "update": {
+    "contentType": "page",
+    "indexEmsId": 0,
+    "mapping": [
+      { "field": "title", "indexDataColumn": 1 },
+      { "field": "description", "indexDataColumn": 2 }
+    ]
+  },
+  "dataColumns": [
+    {
+      "index": 5,
+      "type": "businessId",
+      "field": "code",
+      "contentType": "product",
+      "scrollSize": 2000
+    }
+  ]
+}

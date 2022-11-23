@@ -23,7 +23,7 @@ class IntegratedTest extends TestCase
 
         foreach ($finder as $file) {
             $basename = $file->getBasename('.json');
-            list($ouuid, $revisionId) = \explode('_', $basename);
+            [$ouuid, $revisionId] = \explode('_', $basename);
             $source = Json::decode(\file_get_contents($file->getPathname()));
             $target = Json::decode(\file_get_contents(\join(DIRECTORY_SEPARATOR, [$resourcesPath, 'targets', $file->getBasename()])));
             $xliff = $this->generateXliff($ouuid, $revisionId, $source, $target);

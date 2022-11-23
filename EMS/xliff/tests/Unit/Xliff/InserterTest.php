@@ -61,7 +61,7 @@ Click here</a>
                 if (!\file_exists($expectedFilename)) {
                     \file_put_contents($expectedFilename, \json_encode($target, JSON_PRETTY_PRINT));
                 }
-                $expected = \json_decode(\file_get_contents($expectedFilename), true);
+                $expected = \json_decode(\file_get_contents($expectedFilename), true, 512, JSON_THROW_ON_ERROR);
                 $this->assertEquals($expected, $target, \sprintf('For the document ems://%s:%s revision %s during the test %s', $document->getContentType(), $document->getOuuid(), $document->getRevisionId(), $fileNameWithExtension));
             }
         }

@@ -37,9 +37,9 @@ class InsertionRevision
         $this->sourceLocale = $sourceLocale;
         $this->targetLocale = $targetLocale;
         if (\version_compare($this->version, '2.0') < 0) {
-            list($this->contentType, $this->ouuid, $this->revisionId) = \explode(':', DomHelper::getStringAttr($document, 'original'));
+            [$this->contentType, $this->ouuid, $this->revisionId] = \explode(':', DomHelper::getStringAttr($document, 'original'));
         } else {
-            list($this->contentType, $this->ouuid, $this->revisionId) = \explode(':', DomHelper::getStringAttr($document, 'id'));
+            [$this->contentType, $this->ouuid, $this->revisionId] = \explode(':', DomHelper::getStringAttr($document, 'id'));
         }
     }
 
@@ -178,7 +178,7 @@ class InsertionRevision
             $nameSpace = null;
             $tag = $attributeName;
         } else {
-            list($nameSpace, $tag) = \explode(':', $attributeName);
+            [$nameSpace, $tag] = \explode(':', $attributeName);
         }
 
         if (null === $nameSpace) {
@@ -361,7 +361,7 @@ class InsertionRevision
             throw new \RuntimeException(\sprintf('Unexpected %s field format', $format));
         }
 
-        $expectedSourceValue = $expectedSourceValue ?? '';
+        $expectedSourceValue ??= '';
         if ($expectedSourceValue !== $sourceValue) {
             $insertReport->addError($expectedSourceValue, $sourceValue, $sourcePropertyPath, $this->contentType, $this->ouuid, $this->revisionId);
         }

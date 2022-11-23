@@ -234,7 +234,7 @@ class Extractor
         if (\version_compare($this->xliffVersion, '2.0') < 0) {
             $groupAttributes = [];
             if (null === $id) {
-                $groupAttributes['restype'] = $this->getRestype($sourceNode->nodeName);
+                $groupAttributes['restype'] = static::getRestype($sourceNode->nodeName);
             }
             if (null !== $sourceNode->attributes) {
                 foreach ($sourceNode->attributes as $value) {
@@ -391,7 +391,7 @@ class Extractor
             ];
             if (null !== $sourceNode && $sourceNode instanceof \DOMElement) {
                 $attributes = [
-                    'restype' => $this->getRestype($sourceNode->nodeName),
+                    'restype' => static::getRestype($sourceNode->nodeName),
                 ];
             }
         } else {
@@ -486,7 +486,7 @@ class Extractor
             if ($child instanceof \DOMElement) {
                 $subNode = new \DOMElement('g');
                 $source->appendChild($subNode);
-                $subNode->setAttribute('ctype', $this->getRestype($child->nodeName));
+                $subNode->setAttribute('ctype', static::getRestype($child->nodeName));
                 foreach ($child->attributes ?? [] as $value) {
                     if (!$value instanceof \DOMAttr) {
                         throw new \RuntimeException('Unexpected attribute object');

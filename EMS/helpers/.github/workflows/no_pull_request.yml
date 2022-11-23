@@ -10,4 +10,4 @@ jobs:
         steps:
             - uses: superbrothers/close-pull-request@v3
               with:
-                  comment: "Read only repository, make pr on https://github.com/ems-project/elasticms"
+                  comment: "Read only repository, make pr on https://github.com/ems-project/elasticms."

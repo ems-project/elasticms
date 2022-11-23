@@ -506,7 +506,7 @@ final class ClientRequest implements ClientRequestInterface
 
         $hits = $search['hits'];
 
-        if (1 !== \count($hits['hits'])) {
+        if (1 !== (is_countable($hits['hits']) ? \count($hits['hits']) : 0)) {
             throw new SingleResultException(\sprintf('expected 1 result, got %d', $hits['hits']));
         }
 

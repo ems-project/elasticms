@@ -14,9 +14,7 @@ final class RequestHelper
     {
         $subject = self::replaceLocale($subject, $request->getLocale());
 
-        $result = \preg_replace_callback(self::PATTERN, function ($match) use ($request) {
-            return $request->get($match['parameter'], $match[0]);
-        }, $subject);
+        $result = \preg_replace_callback(self::PATTERN, fn($match) => $request->get($match['parameter'], $match[0]), $subject);
 
         if (!\is_string($result)) {
             throw new \RuntimeException(\sprintf('replace request failed for subject %s', $subject));

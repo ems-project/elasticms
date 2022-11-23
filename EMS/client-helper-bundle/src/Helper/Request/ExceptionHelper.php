@@ -52,7 +52,7 @@ final class ExceptionHelper
         return new Response($this->twig->render($template, [
             'trans_default_domain' => $this->manager->getDefault()->getCacheKey(),
             'status_code' => $code,
-            'status_text' => isset(Response::$statusTexts[$code]) ? Response::$statusTexts[$code] : '',
+            'status_text' => Response::$statusTexts[$code] ?? '',
             'exception' => $exception,
         ]));
     }

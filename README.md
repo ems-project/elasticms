@@ -38,6 +38,8 @@ Add the repo's `src` folder to the `phpstan.neon.dist` file. Run `composer phpst
 
 Add the repo's `src` and `tests` folders to the `phpunit.xml.dist` file. Run `composer phpunit`.
 
+Run `composer rector`.
+
 
 
 

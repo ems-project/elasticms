@@ -22,7 +22,7 @@ final class Transformer
     private LoggerInterface $logger;
     private string $template;
     /** @var array<string, mixed> */
-    private array $documents;
+    private array $documents = [];
 
     public function __construct(AssetRuntime $assetRuntime, ClientRequestManager $clientRequestManager, Generator $generator, Environment $twig, LoggerInterface $logger, ?string $template)
     {
@@ -32,7 +32,6 @@ final class Transformer
         $this->twig = $twig;
         $this->logger = $logger;
         $this->template = $template ?? '@EMSCH/template/{type}.ems_link.twig';
-        $this->documents = [];
     }
 
     public function getGenerator(): Generator
@@ -67,7 +66,7 @@ final class Transformer
 
             return null;
         } catch (\Exception $ex) {
-            $this->logger->error(\sprintf('%s match (%s)', $ex->getMessage(), \json_encode($match)));
+            $this->logger->error(\sprintf('%s match (%s)', $ex->getMessage(), \json_encode($match, JSON_THROW_ON_ERROR)));
 
             return null;
         }
@@ -87,7 +86,7 @@ final class Transformer
             }
 
             $generation = $this->generate($cleanMatch, $config);
-            $route = (null !== $generation ? $generation : $match[0]);
+            $route = ($generation ?? $match[0]);
             $srcAttribute = $match['src'] ?? false;
             $baseUrl = $config['baseUrl'] ?? '';
 

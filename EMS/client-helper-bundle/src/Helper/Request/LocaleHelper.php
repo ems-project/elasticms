@@ -69,6 +69,6 @@ final class LocaleHelper
         $regex = \sprintf('/^\/(?P<locale>%s).*$/', \implode('|', $this->locales));
         \preg_match($regex, $uri, $matches);
 
-        return isset($matches['locale']) ? $matches['locale'] : false;
+        return $matches['locale'] ?? false;
     }
 }

@@ -15,8 +15,8 @@ final class Synonym
 {
     /** @var string[] */
     private array $types;
-    private ?string $field;
-    private ?string $searchField;
+    private ?string $field = null;
+    private ?string $searchField = null;
     /** @var array<mixed> */
     private array $filter;
 

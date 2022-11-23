@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\DependencyInjection;
 
+use Psr\Cache\CacheItemPoolInterface;
 use EMS\ClientHelperBundle\Helper\Api\Client as ApiClient;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateLoader;
@@ -99,7 +100,7 @@ final class EMSClientHelperExtension extends Extension
             new Reference('emsch.helper_cache'),
             new Reference('emsch.helper_content_type'),
             new Reference('logger'),
-            new Reference('Psr\Cache\CacheItemPoolInterface'),
+            new Reference(CacheItemPoolInterface::class),
             $name,
             $options,
         ]);

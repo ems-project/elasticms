@@ -14,7 +14,7 @@ final class Token
 
     public function __construct(string $hashcash)
     {
-        list($this->level, $this->csrf, $this->random) = \explode(Token::DELIMITER, $hashcash);
+        [$this->level, $this->csrf, $this->random] = \explode(Token::DELIMITER, $hashcash);
     }
 
     public function getLevel(): int

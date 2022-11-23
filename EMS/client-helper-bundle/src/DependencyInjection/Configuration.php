@@ -54,7 +54,7 @@ final class Configuration implements ConfigurationInterface
                     ->beforeNormalization()
                         ->ifArray()
                         ->then(function ($v) {
-                            if (1 === \count($v)) {
+                            if (1 === (is_countable($v) ? \count($v) : 0)) {
                                 $v[\key($v)]['default'] = true;
 
                                 return $v;

@@ -18,7 +18,7 @@ final class TemplateName
     public function __construct(string $name)
     {
         $match = $this->match($name);
-        list($contentType, $searchValue, $searchField) = $match;
+        [$contentType, $searchValue, $searchField] = $match;
 
         $this->contentType = $contentType;
         $this->searchValue = $searchValue;

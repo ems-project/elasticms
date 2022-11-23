@@ -9,7 +9,7 @@ use EMS\CommonBundle\Common\EMSLink;
 final class HierarchicalStructure
 {
     /** @var array<mixed> */
-    private array $children;
+    private array $children = [];
     private string $type;
     private string $id;
     /** @var array<mixed> */
@@ -26,7 +26,6 @@ final class HierarchicalStructure
         $this->type = $type;
         $this->id = $id;
         $this->source = $source;
-        $this->children = [];
         if (!empty($activeChild)) {
             $this->active = $id === $activeChild->getOuuid() && $type === $activeChild->getContentType();
         }

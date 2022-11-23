@@ -8,11 +8,11 @@ use EMS\ClientHelperBundle\Helper\ContentType\ContentType;
 
 final class Settings
 {
-    private ?string $routeContentTypeName;
-    private ?ContentType $routeContentType;
+    private ?string $routeContentTypeName = null;
+    private ?ContentType $routeContentType = null;
 
-    private ?string $translationContentTypeName;
-    private ?ContentType $translationContentType;
+    private ?string $translationContentTypeName = null;
+    private ?ContentType $translationContentType = null;
 
     /** @var ContentType[] */
     private array $templateContentTypes = [];

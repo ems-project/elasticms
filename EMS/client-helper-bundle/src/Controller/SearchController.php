@@ -33,7 +33,7 @@ final class SearchController
 
         $context = \array_merge($result['context'], $search);
 
-        $response = new Response($this->templating->render($result['template'], $context), 200);
+        $response = new Response($this->templating->render($result['template'], $context), Response::HTTP_OK);
         $this->cacheHelper->makeResponseCacheable($request, $response);
 
         return $response;

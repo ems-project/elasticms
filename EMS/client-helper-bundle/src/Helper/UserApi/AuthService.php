@@ -24,7 +24,7 @@ final class AuthService
         ];
 
         $client = $this->client->createClient(['Content-Type' => 'application/json']);
-        $response = $client->post('auth-token', ['body' => \json_encode($credentials)]);
+        $response = $client->post('auth-token', ['body' => \json_encode($credentials, JSON_THROW_ON_ERROR)]);
 
         return new JsonResponse($response->getBody()->getContents());
     }

@@ -91,7 +91,7 @@ final class Handler implements HandlerInterface
         }
 
         try {
-            return $this->clientRequest->searchOne($route->getOption('type'), \json_decode($json, true), $indexRegex);
+            return $this->clientRequest->searchOne($route->getOption('type'), \json_decode($json, true, 512, JSON_THROW_ON_ERROR), $indexRegex);
         } catch (SingleResultException $e) {
             throw new NotFoundHttpException();
         }

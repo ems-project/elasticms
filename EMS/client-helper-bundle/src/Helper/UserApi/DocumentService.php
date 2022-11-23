@@ -60,7 +60,7 @@ final class DocumentService
             \compact('body')
         );
 
-        $draft = \json_decode($draftResponse->getBody()->getContents(), true);
+        $draft = \json_decode($draftResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
         $finalizeUrl = \sprintf('api/data/%s/finalize/%d', $contentType, $draft['revision_id']);
         $finalizeResponse = $client->post($finalizeUrl);

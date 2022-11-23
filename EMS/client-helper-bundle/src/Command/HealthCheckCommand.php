@@ -17,6 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class HealthCheckCommand extends AbstractCommand
 {
+    protected static $defaultName = 'emsch:health-check';
     private EnvironmentHelper $environmentHelper;
     private ?StorageManager $storageManager;
     private ElasticaService $elasticaService;
@@ -34,9 +35,7 @@ final class HealthCheckCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this
-            ->setName('emsch:health-check')
-            ->setDescription('Performs system health check.')
+        $this->setDescription('Performs system health check.')
             ->setHelp('Verify that the assets folder exists and is not empty. Verify that the Elasticsearch cluster is at least yellow and that the configured indexes exist.')
             ->addOption('green', 'g', InputOption::VALUE_NONE, 'Require a green Elasticsearch cluster health.', null)
             ->addOption('skip-storage', 's', InputOption::VALUE_NONE, 'Skip the storage health check.', null);

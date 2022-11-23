@@ -102,8 +102,6 @@ final class EmbedController extends AbstractController
         return $this->clientRequest->getCacheResponse([
             'template' => $template,
             'context' => $context,
-        ], $cacheType, function () use ($template, $context) {
-            return new Response($this->templating->render($template, $context));
-        });
+        ], $cacheType, fn() => new Response($this->templating->render($template, $context)));
     }
 }

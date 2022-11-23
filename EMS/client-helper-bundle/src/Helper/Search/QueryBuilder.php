@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Search;
 
+use Elastica\Suggest\Term;
 use Elastica\Aggregation\AbstractAggregation;
 use Elastica\Aggregation\Filter as FilterAggregation;
 use Elastica\Aggregation\Nested as NestedAggregation;
@@ -248,7 +249,7 @@ final class QueryBuilder
 
         $suggest = new Suggest();
         foreach ($this->search->getSuggestFields() as $field) {
-            $term = new Suggest\Term('suggest-'.$field, $field);
+            $term = new Term('suggest-'.$field, $field);
             $term->setText($queryString);
             $suggest->addSuggestion($term);
         }

@@ -87,10 +87,10 @@ final class Filter
         $this->active = isset($options['active']) ? (bool) $options['active'] : true;
         $this->optional = isset($options['optional']) ? (bool) $options['optional'] : false;
         $this->aggSize = isset($options['aggs_size']) ? (int) $options['aggs_size'] : null;
-        $this->sortField = isset($options['sort_field']) ? $options['sort_field'] : null;
-        $this->sortOrder = isset($options['sort_order']) ? $options['sort_order'] : 'asc';
-        $this->reversedNested = isset($options['reversed_nested']) ? $options['reversed_nested'] : false;
-        $this->dateFormat = isset($options['date_format']) ? $options['date_format'] : 'd-m-Y H:i:s';
+        $this->sortField = $options['sort_field'] ?? null;
+        $this->sortOrder = $options['sort_order'] ?? 'asc';
+        $this->reversedNested = $options['reversed_nested'] ?? false;
+        $this->dateFormat = $options['date_format'] ?? 'd-m-Y H:i:s';
         $this->setPostFilter($options);
 
         if (isset($options['value'])) {
@@ -178,9 +178,7 @@ final class Filter
 
         if (null !== $this->value) {
             if (\is_array($this->value)) {
-                $this->value = \array_map(function ($v) use ($request) {
-                    return \is_string($v) ? RequestHelper::replace($request, $v) : $v;
-                }, $this->value);
+                $this->value = \array_map(fn($v) => \is_string($v) ? RequestHelper::replace($request, $v) : $v, $this->value);
             } elseif (\is_string($this->value)) {
                 $this->value = RequestHelper::replace($request, $this->value);
             }

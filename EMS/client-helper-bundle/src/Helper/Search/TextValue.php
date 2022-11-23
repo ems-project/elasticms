@@ -20,14 +20,13 @@ final class TextValue
     private string $field;
     private string $analyzer;
     /** @var AbstractQuery[] */
-    private array $synonyms;
+    private array $synonyms = [];
 
     public function __construct(string $text, string $field, string $analyzer)
     {
         $this->text = $text;
         $this->field = $field;
         $this->analyzer = $analyzer;
-        $this->synonyms = [];
     }
 
     public function getAnalyzer(): string

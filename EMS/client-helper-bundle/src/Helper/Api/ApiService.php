@@ -53,7 +53,7 @@ final class ApiService
         if (null !== $validationTemplate) {
             return \json_decode($this->twig->render($validationTemplate, [
                 'document' => $body,
-            ]), true);
+            ]), true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $body;
@@ -151,7 +151,7 @@ final class ApiService
 
         $hits = $results['hits'];
 
-        $response->addData('count', \count($hits['hits']));
+        $response->addData('count', is_countable($hits['hits']) ? \count($hits['hits']) : 0);
         $response->addData('total', $hits['total']);
         $response->addData('scroll', $results['_scroll_id']);
 
@@ -187,7 +187,7 @@ final class ApiService
      */
     public function createDocument(string $apiName, string $type, ?string $ouuid, array $body): string
     {
-        $ouuid = $ouuid ?? Uuid::uuid4()->toString();
+        $ouuid ??= Uuid::uuid4()->toString();
         $apiClient = $this->getApiClient($apiName);
         $response = $apiClient->initNewDocument($type, $body, $ouuid);
 

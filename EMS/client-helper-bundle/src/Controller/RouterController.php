@@ -43,7 +43,7 @@ final class RouterController
         $result = $this->handler->handle($request);
         $json = $this->templating->render($result['template'], $result['context']);
 
-        $data = \json_decode($json, true);
+        $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         if (!isset($data['url'])) {
             throw new NotFoundHttpException($data['message'] ?? 'Page not found');
         }
@@ -56,7 +56,7 @@ final class RouterController
         $result = $this->handler->handle($request);
         $json = $this->templating->render($result['template'], $result['context']);
 
-        $data = \json_decode($json, true);
+        $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         if (\is_string($data['config'] ?? false)) {
             return $this->processor->getResponse($request, $data['hash'], $data['config'], $data['filename'], $data['immutable'] ?? false);
@@ -72,7 +72,7 @@ final class RouterController
         $result = $this->handler->handle($request);
         $json = $this->templating->render($result['template'], $result['context']);
 
-        $data = \json_decode($json, true);
+        $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         if (false === $data) {
             throw new \RuntimeException('JSON is expected with at least a content field as a string');

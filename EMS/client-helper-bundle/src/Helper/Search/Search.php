@@ -207,9 +207,7 @@ final class Search
      */
     public function getActiveFilters()
     {
-        return \array_filter($this->filters, function (Filter $filter) {
-            return $filter->isActive() && $filter->isPublic();
-        });
+        return \array_filter($this->filters, fn(Filter $filter) => $filter->isActive() && $filter->isPublic());
     }
 
     public function getPage(): int
@@ -335,7 +333,7 @@ final class Search
      */
     private function setAnalyzer(array $analyzers, string $locale): void
     {
-        $this->analyzer = isset($analyzers[$locale]) ? $analyzers[$locale] : 'standard';
+        $this->analyzer = $analyzers[$locale] ?? 'standard';
     }
 
     /**

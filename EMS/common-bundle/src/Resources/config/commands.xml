@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="ems.command.status" class="EMS\CommonBundle\Command\StatusCommand">
+            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
+            <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.curl" class="EMS\CommonBundle\Command\CurlCommand">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="controller_resolver"/>
+            <argument type="service" id="session"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="ems_common.storage.manager"/>
+            <argument type="service" id="ems_common.twig.runtime.asset"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.logs.clear" class="EMS\CommonBundle\Command\ClearLogsCommand">
+            <argument type="service" id="ems_common.repository.log"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.admin.login" class="EMS\CommonBundle\Command\Admin\LoginCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%ems_common.backend_url%</argument>
+            <tag name="console.command" command="ems:admin:login"/>
+        </service>
+        <service id="ems.command.admin.get" class="EMS\CommonBundle\Command\Admin\GetCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="console.command" command="ems:admin:get"/>
+        </service>
+        <service id="ems.command.admin.update" class="EMS\CommonBundle\Command\Admin\UpdateCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="console.command" command="ems:admin:update"/>
+        </service>
+        <service id="ems.command.admin.create" class="EMS\CommonBundle\Command\Admin\CreateCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="console.command" command="ems:admin:create"/>
+        </service>
+        <service id="ems.command.admin.delete" class="EMS\CommonBundle\Command\Admin\DeleteCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command" command="ems:admin:delete"/>
+        </service>
+        <service id="ems.command.admin.job" class="EMS\CommonBundle\Command\Admin\JobCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="console.command" command="ems:admin:job"/>
+        </service>
+        <service id="ems.command.document.download" class="EMS\CommonBundle\Command\Document\DownloadCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="console.command" command="ems:document:download"/>
+        </service>
+        <service id="ems.command.document.update" class="EMS\CommonBundle\Command\Document\UpdateCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="console.command" command="ems:document:upload"/>
+        </service>
+    </services>
+</container>

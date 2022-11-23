@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="ems_common.elasticsearch.elastica_logger" class="EMS\CommonBundle\Elasticsearch\ElasticaLogger">
+            <argument type="service" id="logger" on-invalid="null" />
+            <argument>%kernel.debug%</argument>
+            <tag name="monolog.logger" channel="elastica" />
+        </service>
+
+        <service id="ems_common.core_api.factory" class="EMS\CommonBundle\Common\CoreApi\CoreApiFactory">
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.storage.manager" />
+            <argument>%ems_common.backend_api_insecure%</argument>
+        </service>
+
+        <!-- use this factory services, it will set the tracer to common.ems.logger -->
+        <service id="ems_common.elasticsearch.factory" class="EMS\CommonBundle\Elasticsearch\Factory">
+            <argument type="service" id="logger" />
+            <argument>%kernel.environment%</argument>
+            <tag name="monolog.logger" channel="elasticsearch"/>
+        </service>
+
+        <service id="ems_common.elastica.factory" class="EMS\CommonBundle\Elasticsearch\ElasticaFactory">
+            <argument type="service" id="ems_common.elasticsearch.elastica_logger" />
+            <argument>%kernel.environment%</argument>
+            <tag name="monolog.logger" channel="elasticsearch"/>
+        </service>
+
+        <service id="EMS\CommonBundle\Elasticsearch\Client" alias="ems_common.elastica.client"/>
+        <service id="ems_common.elastica.client" class="EMS\CommonBundle\Elasticsearch\Client">
+            <factory service="ems_common.elastica.factory" method="fromConfig"/>
+            <argument>%ems_common.elasticsearch_hosts%</argument>
+        </service>
+
+        <service id="EMS\CommonBundle\Elasticsearch\Mapping" alias="ems_common.service.mapping"/>
+        <service id="ems_common.service.mapping" class="EMS\CommonBundle\Elasticsearch\Mapping">
+            <argument type="service" id="ems_common.elastica.client"/>
+        </service>
+
+        <service id="ems_common.event_listener.command" class="EMS\CommonBundle\EventListener\CommandListener">
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="ems_common.text.encoder" class="EMS\CommonBundle\Helper\Text\Encoder">
+            <argument type="string">%ems_common.webalize.removable_regex%</argument>
+            <argument type="string">%ems_common.webalize.dashable_regex%</argument>
+            <tag name="twig.runtime" />
+        </service>
+        <service id="ems_common.helper.cache" class="EMS\CommonBundle\Helper\Cache">
+            <argument type="string">%ems_common.hash_algo%</argument>
+        </service>
+        <service id="ems_common.json.decoder" class="EMS\CommonBundle\Json\Decoder"/>
+        <service id="ems_common.service.expression_service" class="EMS\CommonBundle\Service\ExpressionService">
+            <argument type="service" id="logger" />
+        </service>
+        <service id="ems_common.service.spreadsheet_generator_service" class="EMS\CommonBundle\Common\SpreadsheetGeneratorService">
+            <argument type="service" id="logger" />
+        </service>
+        <service id="EMS\CommonBundle\Service\ElasticaService" alias="ems_common.service.elastica"/>
+        <service id="ems_common.service.elastica" class="EMS\CommonBundle\Service\ElasticaService">
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.elastica.client" />
+        </service>
+        <service id="ems.helper.admin_api" class="EMS\CommonBundle\Common\Admin\AdminHelper">
+            <argument type="service" id="ems_common.core_api.factory" />
+            <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
+            <argument type="service" id="logger" />
+        </service>
+
+        <!-- twig -->
+        <service id="ems_common.twig.runtime.text" class="EMS\CommonBundle\Twig\TextRuntime">
+            <argument type="service" id="ems_common.text.encoder" />
+            <argument type="service" id="ems_common.json.decoder" />
+            <argument type="service" id="logger" />
+            <tag name="twig.runtime" />
+        </service>
+        <service id="ems_common.twig.runtime.search" class="EMS\CommonBundle\Twig\SearchRuntime">
+            <argument type="service" id="ems_common.service.elastica" />
+            <tag name="twig.runtime" />
+        </service>
+
+        <service id="ems_common.file.reader" class="EMS\CommonBundle\Common\File\FileReader" />
+
+        <!-- pdf -->
+        <service id="ems_common.pdf.printer.dom" class="EMS\CommonBundle\Service\Pdf\DomPdfPrinter">
+            <argument type="string">%kernel.project_dir%</argument>
+            <argument type="string">%kernel.cache_dir%</argument>
+        </service>
+        <service id="EMS\CommonBundle\Service\Pdf\PdfPrinterInterface" alias="ems_common.pdf.printer.dom" />
+        <service id="emsch.common.pdf_generator" class="EMS\CommonBundle\Service\Pdf\PdfGenerator">
+            <argument type="service" id="EMS\CommonBundle\Service\Pdf\PdfPrinterInterface"/>
+        </service>
+
+        <!-- envProcessor -->
+        <service id="urlencode.env_var_processor" class="EMS\CommonBundle\DependencyInjection\EnvVarProcessor\UrlEncodeEnvVarProcessor" >
+              <tag name="container.env_var_processor" />
+        </service>
+
+        <service id="ems.common.cache" class="EMS\CommonBundle\Common\Cache\Cache">
+            <argument>%ems_common.cache_config%</argument>
+            <argument>%kernel.cache_dir%</argument>
+        </service>
+
+        <service id="ems_common.route.loader" class="EMS\CommonBundle\Common\Route\Loader">
+            <argument>%ems.metric.enabled%</argument>
+            <tag name="routing.route_loader"/>
+        </service>
+
+        <service id="ems_common.composer.info" class="EMS\CommonBundle\Common\Composer\ComposerInfo">
+            <argument>%kernel.project_dir%</argument>
+            <call method="build"></call>
+        </service>
+    </services>
+</container>

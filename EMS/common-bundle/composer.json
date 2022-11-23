@@ -1,0 +1,89 @@
+{
+	"name" : "elasticms/common-bundle",
+	"description" : "All code shared between the EMS client helper and the EMS core",
+	"type" : "symfony-bundle",
+	"keywords" : [
+		"elasticms"
+	],
+	"license" : "MIT",
+	"authors" : [
+		{
+			"name" : "EMS Community",
+			"homepage" : "https://github.com/ems-project/EMSCommonBundle/contributors"
+		}
+	],
+	"require" : {
+		"php": "^7.4",
+		"ext-dom": "*",
+		"ext-exif": "*",
+		"ext-gd": "*",
+		"ext-iconv": "*",
+		"ext-json": "*",
+		"ext-mbstring": "*",
+		"ext-zip": "*",
+		"aws/aws-sdk-php": "^3.109",
+		"cebe/markdown": "^1.2",
+		"doctrine/doctrine-bundle": "^2.7",
+		"doctrine/orm": "^2.6",
+		"dompdf/dompdf": "^v2.0",
+		"elasticms/helpers": "^1.0",
+		"guzzlehttp/guzzle": "^6.3",
+		"phpoffice/phpspreadsheet": "^1.16",
+		"promphp/prometheus_client_php": "^2.6",
+		"ramsey/uuid-doctrine": "^1.6",
+		"ruflin/elastica": "^7.2",
+		"symfony/console": "^5.4",
+		"symfony/dom-crawler": "^5.4",
+		"symfony/event-dispatcher": "^5.4",
+		"symfony/expression-language": "^5.4",
+		"symfony/framework-bundle": "^5.4",
+		"symfony/http-client": "^5.4",
+		"symfony/mime": "^4.4|^5.4",
+		"symfony/monolog-bundle": "^3.8",
+		"symfony/options-resolver": "^5.4",
+		"symfony/process": "^5.4",
+		"symfony/property-access": "^5.4",
+		"symfony/routing": "^5.4",
+		"symfony/security-core": "^5.4",
+		"symfony/serializer": "^5.4",
+		"symfony/stopwatch": "^5.4",
+		"symfony/translation": "^5.4",
+		"twig/cache-extra": "^3.4",
+		"twig/cssinliner-extra": "^3.4",
+		"twig/extra-bundle": "^3.4",
+		"twig/html-extra": "^3.4",
+		"twig/inky-extra": "^3.4",
+		"twig/intl-extra": "^3.4",
+		"twig/markdown-extra": "^3.4",
+		"twig/string-extra": "^3.4",
+		"twig/twig": "^3.0"
+	},
+	"require-dev" : {
+		"friendsofphp/php-cs-fixer": "^3.0",
+		"phpstan/phpstan": "^1.0",
+		"phpstan/phpstan-doctrine": "^1.3",
+		"phpstan/phpstan-symfony": "^1.2",
+		"symfony/test-pack": "^1.0",
+		"symfony/yaml": "^5.4"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"EMS\\CommonBundle\\" : "src/"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"EMS\\CommonBundle\\Tests\\" : "tests/"
+		}
+	},
+	"config": {
+		"lock": false,
+		"sort-packages": true
+	},
+	"scripts": {
+		"phpcs": "php-cs-fixer fix",
+		"phpstan": "phpstan analyse --memory-limit 1G",
+		"phpunit":  "phpunit",
+		"phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
+	}
+}

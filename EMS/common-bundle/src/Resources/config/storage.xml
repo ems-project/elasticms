@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="ems_common.storage.manager" class="EMS\CommonBundle\Storage\StorageManager">
+            <argument type="service" id="logger" />
+            <argument type="service" id="file_locator" />
+            <argument type="tagged" tag="ems_common.storage.factory"/>
+            <argument type="string">%ems_common.hash_algo%</argument>
+            <argument type="string">%ems_common.storages%</argument>
+        </service>
+        <service id="ems_common.controller.file" class="EMS\CommonBundle\Controller\FileController">
+            <argument type="service" id="ems_common.storage.processor"/>
+            <argument type="service" id="ems_common.twig.runtime.request"/>
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+            <tag name="container.service_subscriber"/>
+        </service>
+
+        <service id="ems_common.storage.processor" class="EMS\CommonBundle\Storage\Processor\Processor">
+            <argument type="service" id="ems_common.storage.manager"/>
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.helper.cache" />
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="monolog.logger" channel="ems_common"/>
+        </service>
+
+        <service id="ems_common.storage.factory.fs" class="EMS\CommonBundle\Storage\Factory\FileSystemFactory">
+            <argument type="service" id="logger" />
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="ems_common.storage.factory" alias="fs"/>
+        </service>
+
+        <service id="ems_common.storage.factory.http" class="EMS\CommonBundle\Storage\Factory\HttpFactory">
+            <argument type="service" id="logger" />
+            <tag name="ems_common.storage.factory" alias="http"/>
+        </service>
+
+        <service id="ems_common.storage.factory.db" class="EMS\CommonBundle\Storage\Factory\EntityFactory">
+            <argument type="service" id="logger" />
+            <argument type="service" id="doctrine" />
+            <tag name="ems_common.storage.factory" alias="db"/>
+        </service>
+
+        <service id="ems_common.storage.factory.s3" class="EMS\CommonBundle\Storage\Factory\S3Factory">
+            <argument type="service" id="logger" />
+            <tag name="ems_common.storage.factory" alias="s3"/>
+        </service>
+
+        <service id="ems_common.storage.factory.sftp" class="EMS\CommonBundle\Storage\Factory\SftpFactory">
+            <argument type="service" id="logger" />
+            <tag name="ems_common.storage.factory" alias="sftp"/>
+        </service>
+
+        <service id="EMS\CommonBundle\Storage\StorageManager" alias="ems_common.storage.manager" />
+        <service id="EMS\CommonBundle\Storage\Processor\Processor" alias="ems_common.storage.processor" />
+    </services>
+</container>

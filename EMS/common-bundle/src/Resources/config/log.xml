@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" autoconfigure="false" autowire="false" />
+
+        <service id="ems_common.repository.log" class="EMS\CommonBundle\Repository\LogRepository" public="true">
+            <argument type="service" id="doctrine"/>
+        </service>
+
+        <service id="ems_common.common_log.localized_logger_factory" class="EMS\CommonBundle\Common\Log\LocalizedLoggerFactory">
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="ems_common.monolog.doctrine" class="EMS\CommonBundle\Common\Log\DoctrineHandler">
+            <argument type="service" id="ems_common.repository.log" />
+            <argument type="service" id="security.token_storage" />
+            <argument type="string">%ems_common.log_level%</argument>
+        </service>
+    </services>
+</container>

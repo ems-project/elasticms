@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="ems_common.twig.extension.common" class="EMS\CommonBundle\Twig\CommonExtension">
+            <tag name="twig.extension" />
+        </service>
+        <service id="ems_common.twig.runtime.asset" alias="EMS\CommonBundle\Twig\AssetRuntime"/>
+        <service id="EMS\CommonBundle\Twig\AssetRuntime">
+            <argument type="service" id="ems_common.storage.manager" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface" />
+            <argument type="service" id="EMS\CommonBundle\Storage\Processor\Processor" />
+            <argument type="string">%kernel.cache_dir%</argument>
+            <tag name="twig.runtime" />
+        </service>
+        <service id="ems_common.twig.runtime.request" alias="EMS\CommonBundle\Twig\RequestRuntime"/>
+        <service id="ems_common.twig.runtime.manifest" class="EMS\CommonBundle\Twig\ManifestRuntime">
+            <tag name="twig.runtime" />
+        </service>
+        <service id="ems_common.twig.runtime.info" class="EMS\CommonBundle\Twig\InfoRuntime">
+            <argument type="service" id="ems_common.composer.info"/>
+            <tag name="twig.runtime" />
+        </service>
+        <service id="EMS\CommonBundle\Twig\RequestRuntime">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="EMS\CommonBundle\Twig\AssetRuntime" />
+            <tag name="twig.runtime" />
+        </service>
+
+
+    </services>
+</container>

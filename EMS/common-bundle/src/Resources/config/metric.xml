@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" autoconfigure="false" autowire="false" />
+
+        <service id="ems.metric.collector" class="EMS\CommonBundle\Common\Metric\MetricCollector">
+            <argument type="service" id="ems.common.cache" />
+            <argument type="tagged_iterator" tag="ems.metric_collector" />
+        </service>
+
+        <service id="ems.metric.metric_event_listener" class="EMS\CommonBundle\Common\Metric\MetricEventListener">
+            <argument type="service" id="ems.metric.collector"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="ems.command.metric_collect" class="EMS\CommonBundle\Command\MetricCollectCommand">
+            <argument type="service" id="ems.metric.collector"/>
+            <tag name="console.command" command="ems:metric:collect"/>
+        </service>
+        <service id="ems.controller.metric" class="EMS\CommonBundle\Controller\MetricController">
+            <argument type="service" id="ems.metric.collector" />
+            <argument>%ems.metric.port%</argument>
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+            <tag name="container.service_subscriber"/>
+        </service>
+
+        <service id="ems.metric.ems_info_metric_collector" class="EMS\CommonBundle\Common\Metric\EmsInfoMetricCollector">
+            <argument type="service" id="ems_common.composer.info"/>
+            <tag name="ems.metric_collector"/>
+        </service>
+    </services>
+</container>

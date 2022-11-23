@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="ems_common.data_collector.elastica" class="EMS\CommonBundle\DataCollector\ElasticaDataCollector">
+            <argument type="service" id="ems_common.elasticsearch.elastica_logger" />
+            <argument type="service" id="ems_common.service.elastica" />
+            <tag name="data_collector" template="@EMSCommon/DataCollector/elastica.html.twig" id="elastica" />
+        </service>
+    </services>
+</container>

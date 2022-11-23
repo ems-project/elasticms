@@ -1,0 +1,62 @@
+[
+  {
+    "id": "3d97346d-6c6e-44a8-8ead-5cb54fc3cb1f",
+    "label": "League 1",
+    "type": "league",
+    "object": {
+      "label": "League 1"
+    },
+    "children": [
+      {
+        "id": "77d39331-88ff-4335-b249-9abb09264af7",
+        "label": "club 1",
+        "type": "club",
+        "object": {
+          "label": "club 1"
+        },
+        "children": [
+          {
+            "id": "c7b74edf-5cd1-4af8-a5f0-2ae8fdcc1540",
+            "label": "test player 1",
+            "type": "player",
+            "object": {
+              "label": "test player 1",
+              "structure_player": "structure_player:e6c8a71f-3464-4b72-b97b-bcb6eb40d654"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "8a68224b-9e8c-427d-84a7-516395953800",
+    "label": "League 2",
+    "type": "league",
+    "object": {
+      "label": "League 2"
+    },
+    "children": [
+      {
+        "id": "032f6b45-8f4e-4fe2-8d42-2df4afa08c7c",
+        "label": "club 2",
+        "type": "club",
+        "object": {
+          "label": "club 2"
+        },
+        "children": [
+          {
+            "id": "85b756a7-6ac3-4be6-bcbb-dd66753b792f",
+            "label": "test player 3",
+            "type": "player",
+            "object": {
+              "label": "test player 3",
+              "structure_player": "structure_player:e6c8a71f-3464-4b72-b97b-bcb6eb40d654"
+            },
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]

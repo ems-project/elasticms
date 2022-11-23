@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface" alias="ems_common.core_api.factory" />
+        <service id="EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface" alias="ems_common.elasticsearch.elastica_logger" />
+
+        <service id="EMS\CommonBundle\Contracts\File\FileReaderInterface" alias="ems_common.file.reader" />
+        <service id="EMS\CommonBundle\Contracts\Generator\Pdf\PdfGeneratorInterface" alias="emsch.common.pdf_generator" />
+
+        <service id="EMS\CommonBundle\Contracts\Log\LocalizedLoggerFactoryInterface" alias="ems_common.common_log.localized_logger_factory" />
+
+        <service id="EMS\CommonBundle\Contracts\ExpressionServiceInterface" alias="ems_common.service.expression_service" />
+        <service id="EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface" alias="ems_common.service.spreadsheet_generator_service" />
+
+    </services>
+</container>

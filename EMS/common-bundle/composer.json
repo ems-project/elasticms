@@ -38,7 +38,7 @@
 		"symfony/expression-language": "^5.4",
 		"symfony/framework-bundle": "^5.4",
 		"symfony/http-client": "^5.4",
-		"symfony/mime": "^4.4|^5.4",
+		"symfony/mime": "^5.4",
 		"symfony/monolog-bundle": "^3.8",
 		"symfony/options-resolver": "^5.4",
 		"symfony/process": "^5.4",

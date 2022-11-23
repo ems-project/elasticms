@@ -10,12 +10,10 @@ use Symfony\Component\HttpClient\Response\MockResponse;
 
 final class ServiceNowHandlerTest extends AbstractHandlerTest
 {
-    /** @var string */
-    private $credentials;
+    private string $credentials;
     /** @var ResponseFactory */
     private $responseFactory;
-    /** @var array */
-    private $endpoint;
+    private array $endpoint;
 
     protected function setUp(): void
     {
@@ -67,7 +65,7 @@ final class ServiceNowHandlerTest extends AbstractHandlerTest
 
         $this->assertEquals(
             '{"status":"success","data":"{\"message\": \"example\"}"}',
-            $this->handle($this->createForm(), \json_encode($this->endpoint), $message)->getResponse()
+            $this->handle($this->createForm(), \json_encode($this->endpoint, JSON_THROW_ON_ERROR), $message)->getResponse()
         );
     }
 
@@ -111,7 +109,7 @@ final class ServiceNowHandlerTest extends AbstractHandlerTest
             }
         );
 
-        $handle = $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint), $message);
+        $handle = $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint, JSON_THROW_ON_ERROR), $message);
 
         $this->assertEquals(
             '{"status":"success","data":"{\"result\":{\"sys_id\":98765}}"}',
@@ -133,7 +131,7 @@ final class ServiceNowHandlerTest extends AbstractHandlerTest
 
         $this->assertEquals(
             '{"status":"error","data":"Submission failed, contact your admin. (Attachment submission failed: HTTP 404 returned for \"https:\/\/example.service-now.com\/api\/now\/v1\/attachment\/file?file_name=attachment.txt&table_name=table_name&table_sys_id=\".)"}',
-            $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint), $message)->getResponse()
+            $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint, JSON_THROW_ON_ERROR), $message)->getResponse()
         );
     }
 
@@ -156,7 +154,7 @@ final class ServiceNowHandlerTest extends AbstractHandlerTest
 
         $this->assertEquals(
             '{"status":"error","data":"{\"status\": \"failure\", \"message\": \"example\"}"}',
-            $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint), $message)->getResponse()
+            $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint, JSON_THROW_ON_ERROR), $message)->getResponse()
         );
     }
 
@@ -179,7 +177,7 @@ final class ServiceNowHandlerTest extends AbstractHandlerTest
 
         $this->assertEquals(
             '{"status":"error","data":"invalid json test"}',
-            $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint), $message)->getResponse()
+            $this->handle($this->createFormUploadFiles(), \json_encode($this->endpoint, JSON_THROW_ON_ERROR), $message)->getResponse()
         );
     }
 }

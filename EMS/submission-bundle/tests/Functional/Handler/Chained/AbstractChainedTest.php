@@ -19,8 +19,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 abstract class AbstractChainedTest extends AbstractFunctionalTest
 {
-    /** @var FormInterface */
-    private $form;
+    private FormInterface $form;
     /** @var FormConfig */
     protected $formConfig;
     /** @var HandleResponseCollector */

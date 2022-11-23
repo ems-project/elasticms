@@ -61,7 +61,7 @@ final class PdfHandlerTest extends AbstractHandlerTest
         $message = \file_get_contents(__DIR__.'/../fixtures/pdf/pdf.html');
         $response = $this->handle($this->createForm(['info' => 'test.pdf']), '{ "filename": "{{ test }}" }', $message);
 
-        $decodedResponse = \json_decode($response->getResponse(), true);
+        $decodedResponse = \json_decode($response->getResponse(), true, 512, JSON_THROW_ON_ERROR);
         $this->assertEquals('error', $decodedResponse['status']);
     }
 

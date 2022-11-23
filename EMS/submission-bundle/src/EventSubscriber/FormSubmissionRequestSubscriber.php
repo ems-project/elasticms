@@ -12,8 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class FormSubmissionRequestSubscriber implements EventSubscriberInterface
 {
-    /** @var FormSubmissionRepository */
-    private $formSubmissionRepository;
+    private FormSubmissionRepository $formSubmissionRepository;
 
     public function __construct(FormSubmissionRepository $formSubmissionRepository)
     {

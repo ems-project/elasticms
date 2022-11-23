@@ -7,7 +7,7 @@ namespace EMS\SubmissionBundle\Connection;
 final class Connection
 {
     /** @var array<string, string> */
-    private $connection;
+    private array $connection;
 
     /**
      * @param array<string, string> $connection

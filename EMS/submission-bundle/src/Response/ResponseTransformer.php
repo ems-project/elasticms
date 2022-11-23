@@ -10,8 +10,7 @@ use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 final class ResponseTransformer
 {
-    /** @var TwigRenderer */
-    private $twigRenderer;
+    private TwigRenderer $twigRenderer;
 
     /**
      * Twig block inside the message template,

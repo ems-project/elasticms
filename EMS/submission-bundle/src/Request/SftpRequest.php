@@ -12,9 +12,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class SftpRequest extends AbstractRequest
 {
     /** @var array{host: string, port: int, username?: string, password?: string, privateKey?: string, root: string, timeout: int} */
-    private $endpoint;
+    private array $endpoint;
     /** @var array<mixed> */
-    private $files;
+    private array $files;
 
     /**
      * @param array<string, mixed> $endpoint
@@ -72,7 +72,7 @@ final class SftpRequest extends AbstractRequest
                 if ('' !== $value) {
                     $decode = \base64_decode($value);
 
-                    return $decode ? $decode : 'invalid base64 encoding';
+                    return $decode ?: 'invalid base64 encoding';
                 }
 
                 return $value;

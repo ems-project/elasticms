@@ -16,12 +16,9 @@ use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 final class SftpHandler extends AbstractHandler
 {
-    /** @var FilesystemFactoryInterface */
-    private $filesystemFactory;
-    /** @var ResponseTransformer */
-    private $responseTransformer;
-    /** @var TwigRenderer */
-    private $twigRenderer;
+    private FilesystemFactoryInterface $filesystemFactory;
+    private ResponseTransformer $responseTransformer;
+    private TwigRenderer $twigRenderer;
 
     public function __construct(
         FilesystemFactoryInterface $filesystemFactory,

@@ -9,10 +9,8 @@ use EMS\SubmissionBundle\Request\ZipRequest;
 
 final class ZipHandleResponse extends AbstractHandleResponse
 {
-    /** @var ZipRequest */
-    private $zipRequest;
-    /** @var string */
-    private $content;
+    private ZipRequest $zipRequest;
+    private string $content;
 
     public function __construct(ZipRequest $zipRequest, string $content)
     {

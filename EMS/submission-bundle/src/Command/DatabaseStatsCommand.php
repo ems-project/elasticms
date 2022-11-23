@@ -60,7 +60,7 @@ final class DatabaseStatsCommand extends Command
         $counts = $this->repository->getCounts($formName, $period, $instance);
         $style->table(
             ['type', 'value'],
-            \array_merge($counts->toArrayPeriod(), [new TableSeparator()], $counts->toArray())
+            [...$counts->toArrayPeriod(), ...[new TableSeparator()], ...$counts->toArray()]
         );
 
         if (null !== $emailTo) {

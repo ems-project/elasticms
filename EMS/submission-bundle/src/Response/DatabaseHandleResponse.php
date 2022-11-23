@@ -9,10 +9,7 @@ use EMS\SubmissionBundle\Entity\FormSubmission;
 
 final class DatabaseHandleResponse extends AbstractHandleResponse
 {
-    /**
-     * @var FormSubmission
-     */
-    private $formSubmission;
+    private FormSubmission $formSubmission;
 
     public function __construct(FormSubmission $formSubmission)
     {

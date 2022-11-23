@@ -6,17 +6,14 @@ namespace EMS\SubmissionBundle\Request;
 
 final class EmailRequest
 {
-    /** @var string */
-    private $endpoint;
+    private string $endpoint;
     /** @var string */
     private $from;
-    /** @var string */
-    private $subject;
-    /** @var string */
-    private $body = '';
+    private string $subject;
+    private string $body = '';
     private string $contentType = '';
     /** @var array<array<mixed>> */
-    private $attachments;
+    private array $attachments;
 
     /**
      * @param array<string, mixed> $message

@@ -12,10 +12,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class PdfRequest extends AbstractRequest
 {
     /** @var array{filename: string, orientation: string, size: string} */
-    protected $endpoint;
+    protected array $endpoint;
 
-    /** @var string */
-    private $html;
+    private string $html;
 
     /**
      * @param array<string, mixed> $endpoint

@@ -32,7 +32,7 @@ final class ServiceNowRequest
         $this->attachmentEndpoint = $endpoint['attachmentEndpoint'] ?? '/api/now/attachment/file';
 
         if (!empty($message['body'])) {
-            $body = \json_encode($message['body']);
+            $body = \json_encode($message['body'], JSON_THROW_ON_ERROR);
             $this->body = (!empty($body)) ? $body : '';
         }
 

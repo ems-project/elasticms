@@ -9,10 +9,8 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class HttpHandleResponse extends AbstractHandleResponse
 {
-    /** @var ResponseInterface */
-    private $response;
-    /** @var string */
-    private $responseContent;
+    private ResponseInterface $response;
+    private string $responseContent;
 
     public function __construct(ResponseInterface $response, string $responseContent, string $data = 'Submission send by http.')
     {
@@ -37,6 +35,6 @@ final class HttpHandleResponse extends AbstractHandleResponse
      */
     public function getHttpResponseContentJSON(): array
     {
-        return \json_decode($this->responseContent, true) ?? [];
+        return \json_decode($this->responseContent, true, 512, JSON_THROW_ON_ERROR) ?? [];
     }
 }

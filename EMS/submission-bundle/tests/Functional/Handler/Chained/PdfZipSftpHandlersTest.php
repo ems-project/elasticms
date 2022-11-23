@@ -23,8 +23,7 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTest
     private $sftpHandler;
     /** @var ZipHandler */
     private $zipHandler;
-    /** @var string */
-    private $tempFile;
+    private string $tempFile;
 
     protected function setUp(): void
     {

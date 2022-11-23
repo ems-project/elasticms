@@ -9,20 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class DatabaseRequest
 {
-    /** @var string */
-    private $formName;
-    /** @var string */
-    private $instance;
-    /** @var string */
-    private $locale;
+    private string $formName;
+    private string $instance;
+    private string $locale;
     /** @var array<mixed> */
-    private $data;
+    private array $data;
     /** @var array<int, array{filename: string, mimeType: string, base64: string, size: string, form_field: string}> */
-    private $files;
-    /** @var string */
-    private $label;
-    /** @var \DateTime|null */
-    private $expireDate;
+    private array $files;
+    private string $label;
+    private ?\DateTime $expireDate;
 
     /**
      * @param array<string, mixed> $databaseRecord
@@ -110,9 +105,7 @@ final class DatabaseRequest
             $fileResolver = new OptionsResolver();
             $fileResolver->setRequired(['filename', 'mimeType', 'base64', 'size', 'form_field']);
 
-            $resolvedDatabaseRecord['files'] = \array_map(function (array $file) use ($fileResolver) {
-                return $fileResolver->resolve($file);
-            }, $resolvedDatabaseRecord['files']);
+            $resolvedDatabaseRecord['files'] = \array_map(fn (array $file) => $fileResolver->resolve($file), $resolvedDatabaseRecord['files']);
 
             return $resolvedDatabaseRecord;
         } catch (ExceptionInterface $e) {

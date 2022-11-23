@@ -6,8 +6,7 @@ namespace EMS\SubmissionBundle;
 
 final class SoapClient
 {
-    /** @var \SoapClient */
-    private $client;
+    private \SoapClient $client;
 
     /**
      * @param array<mixed> $options

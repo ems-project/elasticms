@@ -16,10 +16,8 @@ use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 final class SoapHandler extends AbstractHandler
 {
-    /** @var TwigRenderer */
-    private $twigRenderer;
-    /** @var ResponseTransformer */
-    private $responseTransformer;
+    private TwigRenderer $twigRenderer;
+    private ResponseTransformer $responseTransformer;
 
     public function __construct(
         TwigRenderer $twigRenderer,

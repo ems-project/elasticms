@@ -9,7 +9,7 @@ final class Transformer
     /**
      * @var array<array<string, string>>
      */
-    private $connections;
+    private array $connections;
 
     /**
      * @param array<array<string, string>> $connections

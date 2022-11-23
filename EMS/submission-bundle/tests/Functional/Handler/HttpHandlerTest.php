@@ -121,9 +121,7 @@ final class HttpHandlerTest extends AbstractHandlerTest
     {
         $endpoint = \json_encode(['url' => 'http://example.test/api/form']);
 
-        $this->responseFactory->setCallback(function (string $method, string $url, array $options = []) use ($response) {
-            return $response;
-        });
+        $this->responseFactory->setCallback(fn (string $method, string $url, array $options = []) => $response);
 
         $expected = '{"status":"error","data":"Submission failed, contact your admin. (HTTP %d returned for \"http:\/\/example.test\/api\/form\".)"}';
 

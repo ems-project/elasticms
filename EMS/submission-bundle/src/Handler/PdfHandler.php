@@ -16,12 +16,9 @@ use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 final class PdfHandler extends AbstractHandler
 {
-    /** @var PdfPrinterInterface */
-    private $pdfPrinter;
-    /** @var TwigRenderer */
-    private $twigRenderer;
-    /** @var ResponseTransformer */
-    private $responseTransformer;
+    private PdfPrinterInterface $pdfPrinter;
+    private TwigRenderer $twigRenderer;
+    private ResponseTransformer $responseTransformer;
 
     public function __construct(
         PdfPrinterInterface $pdfPrinter,

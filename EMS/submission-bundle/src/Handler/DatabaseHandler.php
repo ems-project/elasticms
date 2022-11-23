@@ -17,12 +17,9 @@ use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 final class DatabaseHandler extends AbstractHandler
 {
-    /** @var Registry */
-    private $registry;
-    /** @var TwigRenderer */
-    private $twigRenderer;
-    /** @var ResponseTransformer */
-    private $responseTransformer;
+    private Registry $registry;
+    private TwigRenderer $twigRenderer;
+    private ResponseTransformer $responseTransformer;
 
     public function __construct(
         Registry $registry,

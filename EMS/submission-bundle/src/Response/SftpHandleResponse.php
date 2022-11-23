@@ -9,11 +9,10 @@ use EMS\SubmissionBundle\Request\SftpRequest;
 
 final class SftpHandleResponse extends AbstractHandleResponse
 {
-    /** @var SftpRequest */
-    private $sftpRequest;
+    private SftpRequest $sftpRequest;
 
     /** @var array<array{path: string, contents: string}> */
-    private $transportedFiles;
+    private array $transportedFiles;
 
     /**
      * @param array<array{path: string, contents: string}> $transportedFiles

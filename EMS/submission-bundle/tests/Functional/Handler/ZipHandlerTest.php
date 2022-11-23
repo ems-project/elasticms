@@ -10,8 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class ZipHandlerTest extends AbstractHandlerTest
 {
-    /** @var string */
-    private $tempFile;
+    private string $tempFile;
 
     protected function setUp(): void
     {
@@ -115,7 +114,7 @@ final class ZipHandlerTest extends AbstractHandlerTest
 
         /** @var ZipHandleResponse $handleResponse */
         $handleResponse = $this->handle($this->createFormUploadFiles(), '', $message);
-        $decodedResponse = \json_decode($handleResponse->getResponse(), true);
+        $decodedResponse = \json_decode($handleResponse->getResponse(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertEquals('error', $decodedResponse['status']);
     }

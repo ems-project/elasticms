@@ -11,8 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FilesystemFactoryTest extends TestCase
 {
-    /** @var FilesystemFactory */
-    private $filesystemFactory;
+    private FilesystemFactory $filesystemFactory;
 
     protected function setUp(): void
     {

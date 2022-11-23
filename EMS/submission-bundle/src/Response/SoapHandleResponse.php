@@ -9,8 +9,7 @@ use EMS\SubmissionBundle\Request\SoapRequest;
 
 final class SoapHandleResponse extends AbstractHandleResponse
 {
-    /** @var SoapRequest */
-    private $soapRequest;
+    private SoapRequest $soapRequest;
     /** @var mixed */
     private $soapResponse;
 

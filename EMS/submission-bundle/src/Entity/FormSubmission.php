@@ -21,56 +21,44 @@ use Ramsey\Uuid\UuidInterface;
 class FormSubmission implements EntityInterface
 {
     /**
-     * @var UuidInterface
-     *
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
-    private $id;
+    private UuidInterface $id;
 
     /**
-     * @var \Datetime
-     *
      * @ORM\Column(name="created", type="datetime")
      */
-    private $created;
+    private \DateTime $created;
 
     /**
-     * @var \Datetime
-     *
      * @ORM\Column(name="modified", type="datetime")
      */
-    private $modified;
+    private \DateTime $modified;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="instance", type="string", length=255)
      */
-    private $instance;
+    private string $instance;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="locale", type="string", length=2)
      */
-    private $locale;
+    private string $locale;
 
     /**
      * @var array<string, mixed>|null
      *
      * @ORM\Column(name="data", type="json", nullable=true)
      */
-    private $data;
+    private ?array $data;
 
     /**
      * @var Collection<int, FormSubmissionFile>
@@ -80,39 +68,29 @@ class FormSubmission implements EntityInterface
     protected $files;
 
     /**
-     * @var \DateTime|null
-     *
      * @ORM\Column(name="expire_date", type="date", nullable=true)
      */
-    private $expireDate;
+    private ?\DateTime $expireDate;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="label", type="string", length=255)
      */
-    private $label;
+    private string $label;
 
     /**
-     * @var int
-     *
      * @ORM\Column(name="process_try_counter", type="integer", nullable=false, options={"default": 0})
      */
-    private $processTryCounter;
+    private int $processTryCounter = 0;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="process_id", type="string", length=255, nullable=true)
      */
-    private $processId;
+    private ?string $processId = null;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="process_by", type="string", length=255, nullable=true)
      */
-    private $processBy;
+    private ?string $processBy = null;
 
     public function __construct(DatabaseRequest $databaseRequest)
     {
@@ -121,7 +99,6 @@ class FormSubmission implements EntityInterface
         $this->id = Uuid::uuid4();
         $this->created = $now;
         $this->modified = $now;
-        $this->processTryCounter = 0;
 
         $this->name = $databaseRequest->getFormName();
         $this->instance = $databaseRequest->getInstance();
@@ -237,6 +214,10 @@ class FormSubmission implements EntityInterface
 
     public function getProcessBy(): string
     {
+        if (null === $this->processBy) {
+            throw new \RuntimeException('Unexpected null processBy');
+        }
+
         return $this->processBy;
     }
 }

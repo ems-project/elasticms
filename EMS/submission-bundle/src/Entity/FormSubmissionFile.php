@@ -18,36 +18,28 @@ use Ramsey\Uuid\UuidInterface;
 class FormSubmissionFile implements EntityInterface
 {
     /**
-     * @var UuidInterface
-     *
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
-    private $id;
+    private UuidInterface $id;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="created", type="datetime")
      */
-    private $created;
+    private \DateTime $created;
 
     /**
-     * @var \DateTime
-     *
      * @ORM\Column(name="modified", type="datetime")
      */
-    private $modified;
+    private \DateTime $modified;
 
     /**
-     * @var FormSubmission
-     *
      * @ORM\ManyToOne(targetEntity="EMS\SubmissionBundle\Entity\FormSubmission", inversedBy="files")
      * @ORM\JoinColumn(name="form_submission_id", referencedColumnName="id")
      */
-    private $formSubmission;
+    private FormSubmission $formSubmission;
 
     /**
      * @var string|resource
@@ -57,32 +49,24 @@ class FormSubmissionFile implements EntityInterface
     private $file;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="filename", type="string")
      */
-    private $filename;
+    private string $filename;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="form_field", type="string")
      */
-    private $formField;
+    private string $formField;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="mime_type", type="string", length=1024)
      */
-    private $mimeType;
+    private string $mimeType;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="size", type="bigint")
      */
-    private $size;
+    private string $size;
 
     /**
      * @param array<string, string> $file

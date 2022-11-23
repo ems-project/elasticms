@@ -10,9 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class HttpRequest extends AbstractRequest
 {
     /** @var array{method: string, url: string, ignore_body_value: string|null}|array<mixed> */
-    private $endpoint;
-    /** @var string */
-    private $body;
+    private array $endpoint;
+    private string $body;
 
     private const HTTP_OPTIONS = [
         'auth_basic' => null,

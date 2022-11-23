@@ -127,7 +127,7 @@ final class SftpHandlerTest extends AbstractHandlerTest
         /** @var SftpHandleResponse $handleResponse */
         $handleResponse = $this->handle($this->createFormUploadFiles(), $endpoint, $message);
 
-        $jsonResponse = \json_decode($handleResponse->getResponse(), true);
+        $jsonResponse = \json_decode($handleResponse->getResponse(), true, 512, JSON_THROW_ON_ERROR);
 
         $this->assertEquals('error', $jsonResponse['status']);
     }

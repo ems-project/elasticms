@@ -10,10 +10,8 @@ use EMS\SubmissionBundle\Request\PdfRequest;
 
 final class PdfHandleResponse extends AbstractHandleResponse
 {
-    /** @var PdfRequest */
-    private $pdfRequest;
-    /** @var PdfOutput */
-    private $pdfOutput;
+    private PdfRequest $pdfRequest;
+    private PdfOutput $pdfOutput;
 
     public function __construct(PdfRequest $pdfRequest, PdfOutput $pdfOutput)
     {

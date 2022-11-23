@@ -32,4 +32,8 @@ vendor/bin/monorepo-builder merge
 
 Then resolve composer conflicts.
 
+Add the repo's `src` and `test` folder to the `.php-cs-fixer.dist.php` file. Run `composer phpcs`.
+
+
+
 

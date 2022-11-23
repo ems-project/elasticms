@@ -1,0 +1,80 @@
+{% block ems_markup_row -%}
+    {{ form.vars.config.markup|raw }}
+{%- endblock ems_markup_row  %}
+
+{% block ems_subform_row -%}
+    <div role="group" aria-labelledby="{{ form.vars.config.name }}">
+        <div id="{{ config.name }}">{{ form.vars.config.label }}</div>
+        {% for child in form.children|filter(child => not child.rendered) %}
+            {{ form_row(child) }}
+        {% endfor %}
+    </div>
+{%- endblock ems_subform_row %}
+
+{%- block ems_nested_choice_row %}
+    {% for child in form.children|filter(child => not child.rendered) %}
+        {{ form_row(child) }}
+    {% endfor %}
+{%- endblock ems_nested_choice_row %}
+
+{%- block ems_file_row -%}
+    {%- set browseLabel = "#{name}_browse"|trans({}, ems_translation_domain) -%}
+    {%- if "#{name}_browse" == browseLabel -%}
+        {%- set browseLabel = "ems_file_browse"|trans({}, ems_translation_domain) -%}
+    {%- endif -%}
+    {%- set label_attr = {
+        'data-browse': browseLabel,
+        'placeholder': label_attr.placeholder|default(form.vars.label|default(none))
+    } -%}
+    {{- form_row(form, {label_attr: label_attr}) -}}
+{%- endblock -%}
+
+
+
+{%- block number_widget -%}
+    {%- set type = type|default('text') -%}
+    {%- if confirmation_value_field is defined -%}
+        {{- block('_ems_confirmation_widget') -}}
+    {%- else -%}
+        {{- block('form_widget_simple') -}}
+    {%- endif -%}
+{%- endblock -%}
+
+{%- block hidden_widget -%}
+    {%- set type = type|default('hidden') -%}
+    {%- if confirmation_value_field is defined -%}
+        {{- block('_ems_confirmation_widget') -}}
+    {%- else -%}
+        {{- block('form_widget_simple') -}}
+    {%- endif -%}
+{%- endblock -%}
+
+{%- block _ems_confirmation_widget -%}
+    <div class="input-group">
+        <div class="input-group-append">
+            <button class="btn btn-success btn-send-confirmation" type="button"
+                    data-token="{{ csrf_token(ems_config_id) }}"
+                    data-name="{{ name }}"
+                    data-value-id="{{ attribute(form.parent.children, confirmation_value_field).vars.id }}">
+                {{ "button_confirm_#{name}"|trans({}, ems_translation_domain) }}
+            </button>
+        </div>
+        {% set attr = attr|merge({inputmode: 'numeric', pattern: '[0-9]*', autocomplete: 'one-time-code' }) -%}
+        {{ block('form_widget_simple') }}
+    </div>
+{%- endblock -%}
+
+{%- block ems_send_confirmation_widget -%}
+    {% deprecated 'The send confirmation form field type is deprecated and will be removed! Use hiddenType or NumberType' %}
+    <div class="input-group">
+        <div class="input-group-append">
+            <button class="btn btn-success btn-send-confirmation" type="button"
+                    data-token="{{ csrf_token(token_id) }}"
+                    data-name="{{ name }}"
+                    data-value-id="{{ attribute(form.parent.children, value_field).vars.id }}">
+                {{ 'ems_send_confirmation'|trans({}, ems_translation_domain) }}
+            </button>
+        </div>
+        {{- block('form_widget_simple') -}}
+    </div>
+{%- endblock -%}

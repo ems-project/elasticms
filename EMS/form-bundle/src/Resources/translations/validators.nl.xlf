@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="nl" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="niss_insz">
+                <source>The social security number "{{string}}" is invalid.</source>
+                <target>Het rijksregisternummer "{{string}}" is ongeldig.</target>
+            </trans-unit>
+            <trans-unit id="belgium_phone">
+                <source>The phone number "{{string}}" is invalid.</source>
+                <target>Het telefoonnummer "{{string}}" is ongeldig.</target>
+            </trans-unit>
+            <trans-unit id="confirm_email">
+                <source>The "{{field1}}" and "Confirm {{field2}}" fields must match.</source>
+                <target>De velden "{{field1}}" en "Bevestig {{field2}}" moeten dezelfde waarde hebben.</target>
+            </trans-unit>
+            <trans-unit id="confirm_label">
+                 <source>Confirm %field%</source>
+                 <target>Bevestig %field%</target>
+            </trans-unit>
+            <trans-unit id="date_label">
+                <source>%label_date% (dd/mm/yyyy)</source>
+                <target>%label_date% (dd/mm/jjjj)</target>
+            </trans-unit>
+            <trans-unit id="time_label">
+                <source>%label_time% (hh:mm)</source>
+                <target>%label_time% (uu:mm)</target>
+            </trans-unit>
+            <trans-unit id="confirm_code_invalid">
+                <source>The confirmation code "{{code}}" is not valid.</source>
+                <target>Bevestigingscode "{{code}}" is niet geldig.</target>
+            </trans-unit>
+            <trans-unit id="confirm_code_missing">
+                <source>You have not requested a confirmation code.</source>
+                <target>U hebt geen bevestigingscode gevraagd.</target>
+            </trans-unit>
+            <trans-unit id="birth_date">
+                <source>The date must be in the past.</source>
+                <target>De datum moet in het verleden liggen.</target>
+            </trans-unit>
+            <trans-unit id="birth_date_age">
+                <source>The date must be earlier than "{{age}}".</source>
+                <target>De datum moet vroeger zijn dan {{age}}.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="emsf.form_config.factory" class="EMS\FormBundle\FormConfig\FormConfigFactory">
+            <argument type="service" id="EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface"/>
+            <argument type="service" id="cache.app" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.twig.runtime.text" />
+            <argument type="string">%emsf.ems_config%</argument>
+            <tag name="monolog.logger" channel="ems_common"/>
+        </service>
+        <service id="emsf.form" class="EMS\FormBundle\Components\Form">
+            <argument type="service" id="emsf.form_config.factory"/>
+            <tag name="form.type"/>
+        </service>
+        <service id="emsf.subform" class="EMS\FormBundle\Components\Form\SubFormType">
+            <argument type="service" id="emsf.form_config.factory"/>
+            <tag name="form.type"/>
+        </service>
+        <service id="emsf.nested.choice" class="EMS\FormBundle\Components\Form\NestedChoiceType">
+            <argument type="service" id="emsf.form_config.factory"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="emsf.submission.client" class="EMS\FormBundle\Submission\Client">
+            <argument type="service" id="EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface"/>
+            <argument type="tagged" tag="emsf.handler"/>
+        </service>
+        <service id="emsf.security.guard" class="EMS\FormBundle\Security\Guard">
+            <argument type="service" id="logger" />
+            <argument type="string">%emsf.hashcash.difficulty%</argument>
+        </service>
+
+        <!-- services -->
+        <service id="emsf.service.confirmation" class="EMS\FormBundle\Service\Confirmation\ConfirmationService">
+            <argument type="service" id="emsf.form_config.factory"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="emsf.endpoint_manager"/>
+        </service>
+
+        <service id="EMS\FormBundle\Contracts\Confirmation\VerificationCodeGeneratorInterface" alias="emsf.service.confirmation.verification_code_generator" />
+        <service id="emsf.service.confirmation.verification_code_generator" class="EMS\FormBundle\Service\Confirmation\VerificationCodeGenerator">
+            <argument type="service" id="EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface"/>
+            <argument type="service" id="session"/>
+        </service>
+
+        <service id="EMS\FormBundle\Contracts\EndpointManagerInterface" alias="emsf.endpoint_manager" />
+        <service id="emsf.endpoint_manager" class="EMS\FormBundle\Service\Endpoint\EndpointManager">
+            <argument>%emsf.endpoints%</argument>
+            <argument type="tagged" tag="emsf.endpoint.type"/>
+            <argument type="service" id="logger"/>
+        </service>
+        <service id="emsf.endpoint.confirmation.http" class="EMS\FormBundle\Service\Confirmation\Endpoint\HttpEndpointType">
+            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="EMS\FormBundle\Contracts\Confirmation\VerificationCodeGeneratorInterface"/>
+            <tag name="emsf.endpoint.type"/>
+        </service>
+
+        <!-- Constraint services -->
+        <service id="emsf.validator.verification_code" class="EMS\FormBundle\Components\Constraint\IsVerificationCodeValidator">
+            <argument type="service" id="emsf.service.confirmation"/>
+            <tag name="validator.constraint_validator" alias="EMS\FormBundle\Components\Constraint\IsVerificationCodeValidator" />
+        </service>
+        <service id="emsf.validator.required_if" class="EMS\FormBundle\Components\Constraint\IsRequiredIfValidator">
+            <argument type="service" id="logger"/>
+            <tag name="validator.constraint_validator" alias="EMS\FormBundle\Components\Constraint\IsRequiredIfValidator" />
+        </service>
+        <service id="emsf.validator.expression" class="EMS\FormBundle\Components\Constraint\IsExpressionValidator">
+            <argument type="service" id="EMS\CommonBundle\Contracts\ExpressionServiceInterface"/>
+            <tag name="validator.constraint_validator" alias="EMS\FormBundle\Components\Constraint\IsExpressionValidator" />
+        </service>
+
+        <!-- form -->
+        <service id="emsf.form.extension.field" class="EMS\FormBundle\Form\Extension\FieldExtension">
+            <tag name="form.type_extension" priority="1" />
+        </service>
+        <service id="emsf.form.extension.confirmation" class="EMS\FormBundle\Form\Extension\ConfirmationExtension">
+            <tag name="form.type_extension" priority="0" />
+        </service>
+
+        <!-- controllers -->
+        <service id="emsf.controller.debug" class="EMS\FormBundle\Controller\DebugController"  public="true">
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="emsf.submission.client"/>
+            <argument type="service" id="twig" />
+            <argument type="service" id="router" />
+            <argument type="string">%emsch.locales%</argument>
+        </service>
+        <service id="emsf.controller.form" class="EMS\FormBundle\Controller\FormController"  public="true">
+            <argument type="service" id="form.factory"/>
+            <argument type="service" id="emsf.submission.client"/>
+            <argument type="service" id="emsf.security.guard"/>
+            <argument type="service" id="twig" />
+        </service>
+        <service id="emsf.controller.confirmation" class="EMS\FormBundle\Controller\ConfirmationController" public="true">
+            <argument type="service" id="emsf.security.guard"/>
+            <argument type="service" id="emsf.service.confirmation"/>
+            <argument type="service" id="logger"/>
+        </service>
+        <service id="emsf.twig.extension.form" class="EMS\FormBundle\Twig\FormExtension">
+            <tag name="twig.extension" />
+        </service>
+        <service id="emsf.twig.endpoint_runtime" class="EMS\FormBundle\Twig\EndpointRuntime">
+            <argument type="service" id="logger"/>
+            <argument type="service" id="emsf.endpoint_manager"/>
+            <tag name="twig.runtime" />
+        </service>
+    </services>
+</container>

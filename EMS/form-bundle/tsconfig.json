@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "src/Resources/public",
+    "removeComments": true,
+    "strict": true,
+    "noEmitOnError": true,
+    "lib": ["esnext", "webworker", "dom", "dom.iterable", "scripthost"]
+  },
+  "include": [
+    "tests/js/**/*.ts",
+    "tests/js/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

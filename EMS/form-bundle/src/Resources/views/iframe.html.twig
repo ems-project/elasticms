@@ -1,0 +1,12 @@
+{% trans_default_domain config.translationDomain %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <title>{{ 'form'|trans({}, 'messages') }}</title>
+    <meta charset="UTF-8" />
+    <meta property="id" data-id="{{ config.id }}" />
+    <meta property="domains" data-list="{{ config.domains|json_encode }}" />
+</head>
+<body>
+    <script src="{{ asset('backend.js', 'emsform') }}"></script>
+</body>

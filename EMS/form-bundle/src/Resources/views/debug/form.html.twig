@@ -1,0 +1,50 @@
+{% extends '@EMSForm/debug/base.html.twig' %}
+
+{% set config = form.vars.form_config %}
+{% set validate = app.request.get('validate')|default('1')  %}
+{% trans_default_domain config.translationDomain %}
+{% form_theme form with config.themes %}
+
+{% block title %}Debug form{% endblock %}
+
+{% block actions %}
+    {% set requestQuery = app.request.query.all|merge({ 'ouuid': config.id }) %}
+    <div class="btn-group px-2" role="group" aria-label="go iframe">
+        <a href="{{ path('_emsf_debug_iframe', { 'ouuid': config.id, '_locale': locale }) }}" class="btn btn-primary btn-sm"><b>IFRAME</b></a>
+    </div>
+    <div class="btn-group px-2" role="group" aria-label="Locales">
+        {% for l in locales %}
+            <a href="{{ path(app.request.get('_route'), requestQuery|merge({'_locale': l })) }}" class="btn btn-sm btn-outline-warning {{ l == locale ? "active" }}"><b>{{ l|upper }}</b></a>
+        {% endfor %}
+    </div>
+    <div class="btn-group px-2" role="group" aria-label="Validation">
+        <button class="btn btn-sm btn-light" disabled>JS validation</button>
+        <a href="{{ path(app.request.get('_route'), requestQuery|merge({'validate': '1', '_locale': locale })) }}" class="btn btn-sm {{ validate == '1' ? 'btn-success' : 'btn-outline-success' }}"><b>ON</b></a>
+        <a href="{{ path(app.request.get('_route'), requestQuery|merge({'validate': '0', '_locale': locale })) }}" class="btn btn-sm {{ validate == '0' ? 'btn-danger' : 'btn-outline-danger' }}"><b>OFF</b></a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% include config.template %}
+{% endblock %}
+
+{% block footer %}
+    {{ dump(config) }}
+    {{ dump(response) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="application/javascript" src="{{ asset('bundles/emsform/js/formDebug.js') }}"></script>
+    <script type="application/javascript" src="{{ asset('bundles/emsform/js/validation.js') }}"></script>
+    <script type="application/javascript" src="{{ asset('bundles/emsform/js/dynamicFields.js') }}"></script>
+    <script type="application/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            let form = document.getElementById("{{ form.vars.attr.id }}");
+            {% if validate == 1 %}
+            formValidation(form);
+            {% endif %}
+            dynamicFields(form, window.emsFormDebug);
+        });
+    </script>
+    {{ parent() }}
+{% endblock %}

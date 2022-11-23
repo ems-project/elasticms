@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="de" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="niss_insz">
+                <source>The social security number "{{string}}" is invalid.</source>
+                <target>Die Nationalregisternummer "{{string}}" ist ungültig.</target>
+            </trans-unit>
+            <trans-unit id="belgium_phone">
+                <source>The phone number "{{string}}" is invalid.</source>
+                <target>Die Telefonnummer "{{string}}" ist ungültig.</target>
+            </trans-unit>
+            <trans-unit id="confirm_email">
+                <source>The "{{field1}}" and "Confirm {{field2}}" fields must match.</source>
+                <target>Die Felder "{{field1}}" und "{{field2}} bestätigen" müssen übereinstimmen.</target>
+            </trans-unit>
+            <trans-unit id="confirm_label">
+                <source>Confirm %field%</source>
+                <target>%field% bestätigen</target>
+            </trans-unit>
+            <trans-unit id="date_label">
+                <source>%label_date% (dd/mm/yyyy)</source>
+                <target>%label_date% (dd/mm/jjjj)</target>
+            </trans-unit>
+            <trans-unit id="time_label">
+                <source>%label_time% (hh:mm)</source>
+                <target>%label_time% (uu:mm)</target>
+            </trans-unit>
+            <trans-unit id="confirm_code_invalid">
+                <source>The confirmation code "{{code}}" is not valid.</source>
+                <target>Der Bestätigungscode "{{code}}" ist ungültig.</target>
+            </trans-unit>
+            <trans-unit id="confirm_code_missing">
+                <source>You have not requested a confirmation code.</source>
+                <target>Sie haben keinen Bestätigungscode beantragt.</target>
+            </trans-unit>
+            <trans-unit id="birth_date">
+                <source>The date must be in the past.</source>
+                <target>Das Datum muss in der Vergangenheit liegen.</target>
+            </trans-unit>
+            <trans-unit id="birth_date_age">
+                <source>The date must be earlier than "{{age}}".</source>
+                <target>Das Datum muss vor dem "{{age}}" liegen.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

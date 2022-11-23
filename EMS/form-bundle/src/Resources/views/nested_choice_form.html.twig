@@ -1,0 +1,6 @@
+{% set config = form.vars.form_config %}
+{% trans_default_domain config.translationDomain %}
+{% form_theme form with config.themes %}
+{% apply spaceless %}
+{{ form(form) }}
+{% endapply %}

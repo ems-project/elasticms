@@ -17,11 +17,10 @@ elasticMS's monorepo
 ## First steps ([source](https://medium.com/lgtm/migrating-to-the-monorepo-582106142654))
 
 ```bash
-git remote add persephone git@github.com:lgtm/persephone
-git fetch persephone
-git read-tree --prefix=src/persephone --u persephone/master
-git commit -m "Migrate persephone repo to src/persephone"
-git commit -m "Migrate persephone repo to src/persephone"
+git remote add form-bundle git@github.com:ems-project/EMSFormBundle.git
+git fetch form-bundle
+git read-tree --prefix=EMS/form-bundle -u form-bundle/4.x
+git commit -m "Migrate form-bundle repo to src/form-bundle"
 ```
 
 ## Second steps ([source](https://tomasvotruba.com/blog/2020/06/15/how-to-create-monorepo-from-existing-repositories-in-7-steps/))

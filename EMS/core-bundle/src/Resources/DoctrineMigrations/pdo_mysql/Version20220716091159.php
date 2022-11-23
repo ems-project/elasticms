@@ -42,7 +42,7 @@ final class Version20220716091159 extends AbstractMigration
     public function webalizeName(string $table): void
     {
         $stmt = $this->connection->prepare("SELECT * FROM $table");
-        foreach ($stmt->executeQuery() as $view) {
+        foreach ($stmt->executeQuery()->iterateAssociative() as $view) {
             if (!isset($view['id']) || !isset($view['name'])) {
                 continue;
             }

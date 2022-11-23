@@ -10,7 +10,7 @@ trait ScriptContentTypeFields
     public function scriptEncodeFields(AbstractMigration $migration): void
     {
         $emptyStringToNull = function (?string $value): ?string {
-            return $value && \strlen($value) > 0 ? $value : null;
+            return null !== $value && \strlen($value) > 0 ? $value : null;
         };
 
         $result = $migration->connection->executeQuery('select * from content_type');

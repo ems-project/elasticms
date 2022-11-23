@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        https://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- services -->
+        <service id="emsch.user_api.client_factory" class="EMS\ClientHelperBundle\Helper\UserApi\ClientFactory" public="false">
+            <argument type="string">%emsch.user_api.url%</argument>
+        </service>
+
+        <service id="emsch.user_api.auth" class="EMS\ClientHelperBundle\Helper\UserApi\AuthService" public="false">
+            <argument type="service" id="emsch.user_api.client_factory" />
+        </service>
+        <service id="emsch.user_api.document" class="EMS\ClientHelperBundle\Helper\UserApi\DocumentService" public="false">
+            <argument type="service" id="emsch.user_api.client_factory" />
+        </service>
+        <service id="emsch.user_api.file" class="EMS\ClientHelperBundle\Helper\UserApi\FileService" public="false">
+            <argument type="service" id="emsch.user_api.client_factory" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="emsch.user_api.test" class="EMS\ClientHelperBundle\Helper\UserApi\TestService" public="false">
+            <argument type="service" id="emsch.user_api.client_factory" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="emsch.user_api.user" class="EMS\ClientHelperBundle\Helper\UserApi\UserService" public="false">
+            <argument type="service" id="emsch.user_api.client_factory" />
+        </service>
+
+        <!-- controllers -->
+        <service id="emsch.controller.user_api.document" class="EMS\ClientHelperBundle\Controller\UserApi\DocumentController" public="true">
+            <argument type="service" id="emsch.user_api.document" />
+        </service>
+        <service id="emsch.controller.user_api.file" class="EMS\ClientHelperBundle\Controller\UserApi\FileController" public="true">
+            <argument type="service" id="emsch.user_api.file" />
+        </service>
+        <service id="emsch.controller.user_api.login" class="EMS\ClientHelperBundle\Controller\UserApi\LoginController" public="true">
+            <argument type="service" id="emsch.user_api.auth" />
+        </service>
+        <service id="emsch.controller.user_api.profile" class="EMS\ClientHelperBundle\Controller\UserApi\ProfileController" public="true">
+            <argument type="service" id="emsch.user_api.user" />
+        </service>
+        <service id="emsch.controller.user_api.test" class="EMS\ClientHelperBundle\Controller\UserApi\TestController" public="true">
+            <argument type="service" id="emsch.user_api.test" />
+        </service>
+        <service id="emsch.controller.user_api.user" class="EMS\ClientHelperBundle\Controller\UserApi\UserController" public="true">
+            <argument type="service" id="emsch.user_api.user" />
+        </service>
+    </services>
+</container>

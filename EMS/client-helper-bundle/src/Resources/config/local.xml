@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="emsch.helper.local_environment_factory" class="EMS\ClientHelperBundle\Helper\Local\LocalEnvironmentFactory">
+            <argument>%kernel.project_dir%</argument>
+        </service>
+        <service id="emsch.helper.local" class="EMS\ClientHelperBundle\Helper\Local\LocalHelper">
+            <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="emsch.helper_content_type" />
+            <argument type="service" id="emsch.helper.builders" />
+            <argument type="service" id="emsch.helper.environment.api"/>
+            <argument type="service" id="logger" />
+            <argument type="string">%kernel.project_dir%</argument>
+        </service>
+
+        <service id="emsch.command.local" class="EMS\ClientHelperBundle\Command\Local\AbstractLocalCommand" abstract="true" public="false">
+            <argument type="service" id="emsch.helper_environment" />
+            <argument type="service" id="emsch.helper.local" />
+        </service>
+
+        <service id="emsch.command.local.login" class="EMS\ClientHelperBundle\Command\Local\LoginCommand" parent="emsch.command.local">
+            <tag name="console.command" command="emsch:local:login"/>
+        </service>
+        <service id="emsch.command.local.pull" class="EMS\ClientHelperBundle\Command\Local\PullCommand" parent="emsch.command.local">
+            <tag name="console.command" command="emsch:local:pull"/>
+        </service>
+        <service id="emsch.command.local.push" class="EMS\ClientHelperBundle\Command\Local\PushCommand" parent="emsch.command.local">
+            <tag name="console.command" command="emsch:local:push"/>
+        </service>
+        <service id="emsch.command.local.status" class="EMS\ClientHelperBundle\Command\Local\StatusCommand" parent="emsch.command.local">
+            <tag name="console.command" command="emsch:local:status"/>
+        </service>
+        <service id="emsch.command.local.upload_assets" class="EMS\ClientHelperBundle\Command\Local\UploadAssetsCommand" parent="emsch.command.local">
+            <argument type="string">%emsch.asset_local_folder%</argument>
+            <tag name="console.command" command="emsch:local:upload-assets"/>
+        </service>
+        <service id="emsch.command.local.folder_upload" class="EMS\ClientHelperBundle\Command\Local\FolderUploadCommand" parent="emsch.command.local">
+            <tag name="console.command" command="emsch:local:folder-upload"/>
+        </service>
+    </services>
+</container>

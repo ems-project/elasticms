@@ -18,7 +18,7 @@ final class EndpointManager implements EndpointManagerInterface, RuntimeExtensio
     /** @var EndpointInterface[] */
     private array $endpoints = [];
     /** @var \Traversable|EndpointTypeInterface[] */
-    private $endpointTypes;
+    private iterable $endpointTypes;
 
     /**
      * @param array<mixed>                         $envConfig

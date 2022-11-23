@@ -10,10 +10,8 @@ use Symfony\Component\Mime\MimeTypes;
 
 final class FormDataFile
 {
-    /** @var UploadedFile */
-    private $file;
-    /** @var ElementInterface */
-    private $formElement;
+    private UploadedFile $file;
+    private ElementInterface $formElement;
 
     public function __construct(UploadedFile $file, ElementInterface $formElement)
     {

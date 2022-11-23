@@ -40,7 +40,7 @@ final class VerificationCodeGenerator implements VerificationCodeGeneratorInterf
         $verificationCode = $this->session->get($this->getSessionKey($confirmValue));
 
         if (null === $verificationCode) {
-            $verificationCode = \sprintf('%d%05d', \mt_rand(1, 9), \mt_rand(0, 99999));
+            $verificationCode = \sprintf('%d%05d', \random_int(1, 9), \random_int(0, 99999));
             $this->session->set($this->getSessionKey($confirmValue), $verificationCode);
         }
 

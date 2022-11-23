@@ -21,8 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Form extends AbstractType
 {
-    /** @var FormConfigFactory */
-    private $configFactory;
+    private FormConfigFactory $configFactory;
 
     public function __construct(FormConfigFactory $configFactory)
     {
@@ -64,9 +63,7 @@ class Form extends AbstractType
         $resolver
             ->setRequired(['ouuid', 'locale'])
             ->setDefault('config', null)
-            ->setNormalizer('config', function (Options $options, $value) {
-                return $value ? $value : $this->configFactory->create($options['ouuid'], $options['locale']);
-            })
+            ->setNormalizer('config', fn (Options $options, $value) => $value ?: $this->configFactory->create($options['ouuid'], $options['locale']))
             ->setNormalizer('attr', function (Options $options, $value) {
                 if (!isset($options['config'])) {
                     return $value;

@@ -6,12 +6,9 @@ use EMS\FormBundle\Components\Form\MarkupType;
 
 class MarkupConfig implements ElementInterface
 {
-    /** @var string */
-    private $id;
-    /** @var string */
-    private $name;
-    /** @var string */
-    private $markup;
+    private string $id;
+    private string $name;
+    private string $markup;
     /**
      * @var mixed[]
      */

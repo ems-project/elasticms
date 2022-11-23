@@ -4,12 +4,9 @@ namespace EMS\FormBundle\FormConfig;
 
 class SubmissionConfig
 {
-    /** @var string */
-    private $class;
-    /** @var string */
-    private $endpoint;
-    /** @var string */
-    private $message;
+    private string $class;
+    private string $endpoint;
+    private string $message;
 
     public function __construct(string $class, string $endpoint, string $message)
     {

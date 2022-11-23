@@ -153,9 +153,7 @@ class FormConfigFactory
     {
         $choices = $this->getDocument($emsLink, ['values', 'labels_'.$locale, 'choice_sort']);
 
-        $decoder = function (string $input) {
-            return \json_decode($input, true);
-        };
+        $decoder = fn (string $input) => \json_decode($input, true, 512, JSON_THROW_ON_ERROR);
 
         $source = $choices->getSource();
         $fieldChoicesConfig = new FieldChoicesConfig(

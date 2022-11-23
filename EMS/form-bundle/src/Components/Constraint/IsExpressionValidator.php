@@ -10,8 +10,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class IsExpressionValidator extends ConstraintValidator
 {
-    /** @var ExpressionServiceInterface */
-    private $expressionService;
+    private ExpressionServiceInterface $expressionService;
 
     public function __construct(ExpressionServiceInterface $expressionService)
     {

@@ -7,10 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Guard
 {
-    /** @var LoggerInterface */
-    private $logger;
-    /** @var int */
-    private $difficulty;
+    private LoggerInterface $logger;
+    private int $difficulty;
 
     public function __construct(LoggerInterface $logger, int $difficulty)
     {

@@ -14,7 +14,7 @@ class Client
 {
     private ClientRequestInterface $clientRequest;
     /** @var \Traversable<AbstractHandler> */
-    private $handlers;
+    private \Traversable $handlers;
 
     /** @param \Traversable<AbstractHandler> $handlers */
     public function __construct(ClientRequestManagerInterface $clientRequestManager, \Traversable $handlers)

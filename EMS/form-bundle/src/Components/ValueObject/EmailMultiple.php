@@ -9,8 +9,7 @@ use Symfony\Component\Validator\Validation;
 
 final class EmailMultiple
 {
-    /** @var string */
-    private $emails;
+    private string $emails;
 
     public function __construct(string $emails)
     {

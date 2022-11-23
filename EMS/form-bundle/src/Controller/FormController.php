@@ -60,7 +60,7 @@ class FormController extends AbstractFormController
         if (!\is_string($content)) {
             throw new \RuntimeException('Unexpected non-string request content');
         }
-        $data = \json_decode($content, true);
+        $data = \json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             $data = [];
         }

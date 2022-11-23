@@ -57,7 +57,7 @@ final class HttpEndpointType extends ConfirmationEndpointType implements Endpoin
 
         $response = $this->request($endpoint, $replaceBody);
 
-        $result = \json_decode($response->getContent(), true);
+        $result = \json_decode($response->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         if (!\is_array($result) || !isset($result['ResultCode']) || 0 !== $result['ResultCode']) {
             throw new \Exception(\sprintf('Invalid endpoint response %s', $response->getContent()));

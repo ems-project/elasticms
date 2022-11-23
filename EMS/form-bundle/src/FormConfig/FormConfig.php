@@ -8,7 +8,7 @@ class FormConfig extends AbstractFormConfig
 {
     /** @var string[] */
     private array $domains = [];
-    private string $template;
+    private string $template = '@EMSForm/form.html.twig';
     /** @var string[] */
     private array $themes = [];
     /** @var array<SubmissionConfig|string> */
@@ -17,8 +17,6 @@ class FormConfig extends AbstractFormConfig
     public function __construct(string $id, string $locale, string $translationDomain)
     {
         parent::__construct($id, $locale, $translationDomain);
-
-        $this->template = '@EMSForm/form.html.twig';
         $this->themes[] = '@EMSForm/form_theme.html.twig';
     }
 

@@ -6,8 +6,7 @@ use EMS\FormBundle\Components\Form\SubFormType;
 
 class SubFormConfig extends AbstractFormConfig implements ElementInterface
 {
-    /** @var string */
-    private $label;
+    private string $label;
 
     public function __construct(string $id, string $locale, string $translationDomain, string $name, string $label)
     {

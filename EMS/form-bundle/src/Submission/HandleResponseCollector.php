@@ -22,13 +22,13 @@ class HandleResponseCollector
 
     public function toJson(): string
     {
-        $responses = \array_map(function (HandleResponseInterface $response) {
-            return $response->getResponse();
-        }, $this->responses);
+        $responses = \array_map(fn (HandleResponseInterface $response) => $response->getResponse(), $this->responses);
 
-        $json = \json_encode($responses);
-
-        return false !== $json ? $json : '';
+        try {
+            return \json_encode($responses, JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            return '';
+        }
     }
 
     /**
@@ -36,8 +36,6 @@ class HandleResponseCollector
      */
     public function getSummaries(): array
     {
-        return \array_map(function (HandleResponseInterface $response) {
-            return $response->getSummary();
-        }, $this->responses);
+        return \array_map(fn (HandleResponseInterface $response) => $response->getSummary(), $this->responses);
     }
 }

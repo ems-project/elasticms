@@ -13,7 +13,7 @@ abstract class AbstractField implements FieldInterface
     /** @var FieldConfig */
     protected $config;
     /** @var ValidationInterface[] */
-    private $validations = [];
+    private array $validations = [];
 
     public function __construct(FieldConfig $config)
     {
@@ -102,9 +102,7 @@ abstract class AbstractField implements FieldInterface
     /** @return Constraint[] */
     protected function getValidationConstraints(): array
     {
-        return \array_map(function (ValidationInterface $validation) {
-            return $validation->getConstraint();
-        }, $this->validations);
+        return \array_map(fn (ValidationInterface $validation) => $validation->getConstraint(), $this->validations);
     }
 
     /** @return array<array<string>> */

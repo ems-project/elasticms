@@ -4,18 +4,14 @@ namespace EMS\FormBundle\Security;
 
 class HashcashToken
 {
-    /** @var string */
-    private $hash;
-    /** @var string */
-    private $nonce;
-    /** @var string */
-    private $data;
-    /** @var string */
-    private $token;
+    private string $hash;
+    private string $nonce;
+    private string $data;
+    private string $token;
 
     public function __construct(string $header, string $token)
     {
-        list($hash, $nonce, $data) = \explode('|', $header);
+        [$hash, $nonce, $data] = \explode('|', $header);
 
         $this->hash = $hash;
         $this->nonce = $nonce;

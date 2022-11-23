@@ -4,10 +4,8 @@ namespace EMS\FormBundle\Components\ValueObject;
 
 class NumberValue
 {
-    /** @var string */
-    private $input;
-    /** @var string */
-    private $digits;
+    private string $input;
+    private string $digits;
 
     public function __construct(string $number)
     {

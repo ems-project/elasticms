@@ -5,7 +5,7 @@ namespace EMS\FormBundle\Components\ValueObject;
 class SymfonyFormFieldsByNameArray
 {
     /** @var mixed[] */
-    private $fields;
+    private array $fields;
 
     /** @param mixed[] $fields */
     public function __construct(array $fields)
@@ -20,9 +20,11 @@ class SymfonyFormFieldsByNameArray
             return '';
         }
 
-        $json = \json_encode(\array_diff(\array_keys($this->flattenWithKeys($this->fields)), $exclude));
-
-        return false === $json ? '' : $json;
+        try {
+            return \json_encode(\array_diff(\array_keys($this->flattenWithKeys($this->fields)), $exclude), JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            return '';
+        }
     }
 
     /**

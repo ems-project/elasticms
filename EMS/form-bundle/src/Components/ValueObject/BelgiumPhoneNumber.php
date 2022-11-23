@@ -4,8 +4,7 @@ namespace EMS\FormBundle\Components\ValueObject;
 
 class BelgiumPhoneNumber
 {
-    /** @var NumberValue */
-    private $number;
+    private NumberValue $number;
 
     public const LOCAL = 'local';
     public const INTERNATIONAL_PLUS = 'plus';

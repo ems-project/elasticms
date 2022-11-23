@@ -8,7 +8,7 @@ abstract class AbstractHandler
 {
     public function canHandle(string $class): bool
     {
-        return $class === \get_called_class();
+        return $class === static::class;
     }
 
     abstract public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface;

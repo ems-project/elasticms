@@ -3,12 +3,12 @@
 namespace EMS\FormBundle\Components\Validation;
 
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints\Count;
 
 class MaxCount extends AbstractValidation
 {
     public function getConstraint(): Constraint
     {
-        return new Constraints\Count(['max' => $this->value]);
+        return new Count(['max' => $this->value]);
     }
 }

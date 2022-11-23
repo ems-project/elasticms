@@ -3,12 +3,12 @@
 namespace EMS\FormBundle\Components\Validation;
 
 use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints\Count;
 
 class MinCount extends AbstractValidation
 {
     public function getConstraint(): Constraint
     {
-        return new Constraints\Count(['min' => $this->value]);
+        return new Count(['min' => $this->value]);
     }
 }

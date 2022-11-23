@@ -71,6 +71,6 @@ class DebugController extends AbstractFormController
     {
         $forward = $this->router->generate('_emsf_dynamic_field_ajax', ['ouuid' => $ouuid, '_locale' => $request->getLocale()]);
 
-        return new RedirectResponse($forward, 307);
+        return new RedirectResponse($forward, Response::HTTP_TEMPORARY_REDIRECT);
     }
 }

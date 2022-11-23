@@ -26,7 +26,7 @@ class BisNumber extends RrNumber
     protected function validate(): bool
     {
         $baseInt = (int) $this->base;
-        $baseModifier = 2000000;
+        $baseModifier = 2_000_000;
 
         // augment once for person with unknown sex
         $this->base = \sprintf('%d', $baseInt + $baseModifier);

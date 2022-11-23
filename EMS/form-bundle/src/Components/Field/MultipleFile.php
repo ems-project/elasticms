@@ -19,17 +19,13 @@ class MultipleFile extends File
     protected function getValidationConstraints(): array
     {
         $constraints = parent::getValidationConstraints();
-        $countConstraints = \array_filter($constraints, function (Constraint $constraint) {
-            return $constraint instanceof Count;
-        });
+        $countConstraints = \array_filter($constraints, fn (Constraint $constraint) => $constraint instanceof Count);
 
         if ($countConstraints == $constraints) {
             return $constraints;
         }
 
-        $otherConstraints = \array_filter($constraints, function (Constraint $constraint) {
-            return !$constraint instanceof Count;
-        });
+        $otherConstraints = \array_filter($constraints, fn (Constraint $constraint) => !$constraint instanceof Count);
 
         return \array_merge($countConstraints, [new All(['constraints' => $otherConstraints])]);
     }

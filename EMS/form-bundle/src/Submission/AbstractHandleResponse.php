@@ -40,12 +40,14 @@ abstract class AbstractHandleResponse implements HandleResponseInterface
 
     public function getResponse(): string
     {
-        $json = \json_encode(\array_merge([
-            'status' => $this->status,
-            'data' => $this->data,
-        ], $this->extra));
-
-        return false === $json ? '' : $json;
+        try {
+            return \json_encode(\array_merge([
+                'status' => $this->status,
+                'data' => $this->data,
+            ], $this->extra), JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            return '';
+        }
     }
 
     /**

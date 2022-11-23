@@ -13,7 +13,6 @@
         <service id="ems.command.curl" class="EMS\CommonBundle\Command\CurlCommand">
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="controller_resolver"/>
-            <argument type="service" id="session"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="ems_common.storage.manager"/>
             <argument type="service" id="ems_common.twig.runtime.asset"/>

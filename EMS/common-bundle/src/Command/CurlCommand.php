@@ -49,12 +49,12 @@ class CurlCommand extends AbstractCommand
     /**
      * @param Session<mixed> $session
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, ControllerResolverInterface $controllerResolver, Session $session, RequestStack $requestStack, StorageManager $storageManager, AssetRuntime $assetRuntime)
+    public function __construct(EventDispatcherInterface $eventDispatcher, ControllerResolverInterface $controllerResolver, RequestStack $requestStack, StorageManager $storageManager, AssetRuntime $assetRuntime)
     {
         parent::__construct();
         $this->eventDispatcher = $eventDispatcher;
         $this->controllerResolver = $controllerResolver;
-        $this->session = $session;
+        $this->session = $requestStack->getSession();
         $this->requestStack = $requestStack;
         $this->storageManager = $storageManager;
         $this->assetRuntime = $assetRuntime;

@@ -1,0 +1,78 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <service id="emsch.routing.chain_router" class="Symfony\Cmf\Component\Routing\ChainRouter">
+            <call method="add">
+                <argument type="service" id="router.default"/>
+            </call>
+            <call method="setContext">
+                <argument type="service" id="router.request_context" />
+            </call>
+        </service>
+
+        <service id="emsch.helper.router" class="EMS\ClientHelperBundle\Helper\Routing\Router">
+            <argument type="service" id="emsch.helper_environment" />
+            <argument type="service" id="emsch.helper.routing.builder" />
+            <tag name="emsch.router" priority="100" /> <!-- before symfony router -->
+        </service>
+
+        <service id="EMS\ClientHelperBundle\Contracts\Request\HandlerInterface" alias="emsch.routing.handler" />
+        <service id="emsch.routing.handler" class="EMS\ClientHelperBundle\Helper\Request\Handler">
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="router" />
+            <argument type="service" id="profiler" on-invalid="null" />
+        </service>
+
+        <service id="emsch.controller.router" class="EMS\ClientHelperBundle\Controller\RouterController">
+            <argument type="service" id="emsch.routing.handler" />
+            <argument type="service" id="twig"/>
+            <argument type="service" id="ems_common.storage.processor"/>
+            <argument type="service" id="emsch.helper_cache"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="emsch.controller.cache" class="EMS\ClientHelperBundle\Controller\CacheController">
+            <argument type="service" id="emsch.helper_cache"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="emsch.controller.pdf" class="EMS\ClientHelperBundle\Controller\PdfController">
+            <argument type="service" id="emsch.routing.handler" />
+            <argument type="service" id="twig"/>
+            <argument type="service" id="emsch.common.pdf_generator"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="emsch.controller.spreadsheet" class="EMS\ClientHelperBundle\Controller\SpreadsheetController">
+            <argument type="service" id="emsch.routing.handler" />
+            <argument type="service" id="twig"/>
+            <argument type="service" id="ems_common.service.spreadsheet_generator_service"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="emsch.routing.url.generator" class="EMS\ClientHelperBundle\Helper\Routing\Url\Generator">
+            <argument type="service" id="Symfony\Component\Routing\RouterInterface" />
+        </service>
+        <service id="emsch.routing.url.transformer" class="EMS\ClientHelperBundle\Helper\Routing\Url\Transformer">
+            <argument type="service" id="ems_common.twig.runtime.asset"/>
+            <argument type="service" id="emsch.manager.client_request"/>
+            <argument type="service" id="emsch.routing.url.generator" />
+            <argument type="service" id="twig" />
+            <argument type="service" id="logger" />
+            <argument><!-- template regex injected --></argument>
+            <tag name="monolog.logger" channel="emsch_routing"/>
+        </service>
+
+        <service id="emsch.twig.runtime.routing" class="EMS\ClientHelperBundle\Twig\RoutingRuntime">
+            <argument type="service" id="emsch.routing.url.transformer" />
+            <tag name="twig.runtime" />
+        </service>
+
+    </services>
+</container>

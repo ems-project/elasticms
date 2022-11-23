@@ -1,0 +1,152 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="env(EMSCH_ENV)"/>
+    </parameters>
+
+    <services>
+        <defaults public="false" />
+
+        <service id="EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface" alias="emsch.manager.client_request" />
+        <service id="emsch.manager.client_request" class="EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager">
+            <argument type="tagged" tag="emsch.client_request"/>
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="emsch_manager"/>
+        </service>
+
+        <service id="emsch.helper_content_type" class="EMS\ClientHelperBundle\Helper\ContentType\ContentTypeHelper" />
+
+        <service id="EMS\ClientHelperBundle\Contracts\Environment\EnvironmentHelperInterface" alias="emsch.helper_environment" />
+        <service id="emsch.helper_environment" class="EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper">
+            <argument type="service" id="emsch.helper.environment_factory" />
+            <argument type="service" id="request_stack" />
+            <argument type="string">%env(string:EMSCH_ENV)%</argument>
+            <argument type="string">%emsch.request_environments%</argument>
+        </service>
+        <service id="emsch.helper.environment_factory" class="EMS\ClientHelperBundle\Helper\Environment\EnvironmentFactory">
+            <call method="setLocalEnvironmentFactory">
+                <argument type="service" id="emsch.helper.local_environment_factory" on-invalid="null"/>
+            </call>
+        </service>
+        <service id="emsch.helper.environment.api" class="EMS\ClientHelperBundle\Helper\Environment\EnvironmentApi">
+            <argument type="service" id="EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface" />
+        </service>
+
+        <service id="emsch.helper.request.emsch_request_resolver" class="EMS\ClientHelperBundle\Helper\Request\EmschRequestResolver">
+            <tag name="controller.argument_value_resolver" priority="100"/>
+        </service>
+
+        <service id="emsch.helper_locale" class="EMS\ClientHelperBundle\Helper\Request\LocaleHelper">
+            <argument type="string">%emsch.locales%</argument>
+        </service>
+        <service id="emsch.helper_exception" class="EMS\ClientHelperBundle\Helper\Request\ExceptionHelper">
+            <argument type="service" id="twig" />
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument>%emsch.handle_exceptions%</argument>
+            <argument>%kernel.debug%</argument>
+            <argument><!-- template injection --></argument>
+        </service>
+
+        <service id="emsch.helper_cache" class="EMS\ClientHelperBundle\Helper\Cache\CacheHelper">
+            <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
+            <argument type="service" id="logger" />
+            <argument type="string">%emsch.etag_hash_algo%</argument>
+        </service>
+
+        <service id="emsch.helper.translator" class="EMS\ClientHelperBundle\Helper\Translation\Translator">
+            <argument type="service" id="emsch.helper_environment" />
+            <argument type="service" id="emsch.helper.translation.builder" />
+            <argument type="service" id="translator.default" />
+            <tag name="kernel.cache_warmer" />
+        </service>
+
+        <service id="emsch.helper_hashcash" class="EMS\ClientHelperBundle\Helper\Hashcash\HashcashHelper">
+            <argument type="service" id="security.csrf.token_manager" />
+        </service>
+
+        <!-- event listeners -->
+        <service id="emsch.kernel_listener" class="EMS\ClientHelperBundle\EventListener\KernelListener">
+            <argument type="service" id="emsch.helper_environment"/>
+            <argument type="service" id="emsch.helper.translator" />
+            <argument type="service" id="emsch.helper_locale" />
+            <argument type="service" id="emsch.helper_exception" />
+            <argument type="string">%emsch.bind_locale%</argument>
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <service id="emsch.event_listener.cache_listener" class="EMS\ClientHelperBundle\EventListener\CacheListener">
+            <argument type="service" id="emsch.helper_cache"/>
+            <argument type="service" id="emsch.controller.cache"/>
+            <argument type="service" id="kernel"/>
+            <argument type="service" id="logger"/>
+            <argument type="service" id="EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface"/>
+            <tag name="kernel.event_subscriber" />
+        </service>
+
+        <!-- twig -->
+        <service id="emsch.twig.extension.helper" class="EMS\ClientHelperBundle\Twig\HelperExtension">
+            <tag name="twig.extension" />
+        </service>
+        <service id="emsch.twig.runtime.request_helper" class="EMS\ClientHelperBundle\Twig\AdminMenuRuntime">
+            <argument type="service" id="emsch.helper_environment"/>
+            <tag name="twig.runtime" />
+        </service>
+        <service id="emsch.twig.runtime.asset" class="EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime">
+            <argument type="service" id="ems_common.storage.manager" />
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="twig.runtime" />
+        </service>
+        <service id="emsch.twig.runtime.asset_vserion_strategy" class="EMS\ClientHelperBundle\Helper\Asset\AssetVersionStrategy">
+            <argument type="service" id="emsch.twig.runtime.asset" />
+            <argument type="string">%emsch.asset_local_folder%</argument>
+        </service>
+        <service id="emsch.twig.runtime.client_request" class="EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestRuntime">
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="logger" />
+            <tag name="monolog.logger" channel="emsch_request"/>
+            <tag name="twig.runtime" />
+        </service>
+
+        <!-- controllers -->
+        <service id="emsch.controller.search" class="EMS\ClientHelperBundle\Controller\SearchController" public="true">
+            <argument type="service" id="emsch.search.manager" />
+            <argument type="service" id="emsch.routing.handler" />
+            <argument type="service" id="twig" />
+            <argument type="service" id="emsch.helper_cache"/>
+        </service>
+        <service id="emsch.controller.embed" class="EMS\ClientHelperBundle\Controller\EmbedController" public="true">
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="emsch.helper_cache"/>
+            <argument type="service" id="twig" />
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+            <tag name="container.service_subscriber"/>
+        </service>
+        <service id="EMS\ClientHelperBundle\Controller\AssetController" alias="emsch.controller.asset" public="true" />
+        <service id="emsch.controller.asset" class="EMS\ClientHelperBundle\Controller\AssetController" public="true">
+            <argument type="service" id="EMS\CommonBundle\Twig\AssetRuntime"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <call method="setContainer">
+                <argument type="service" id="Psr\Container\ContainerInterface"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+            <tag name="container.service_subscriber"/>
+        </service>
+        <service id="EMS\ClientHelperBundle\Controller\EmbedController" alias="emsch.controller.embed" public="true" />
+
+        <!-- commands -->
+        <service id="emsch.command.health_check" class="EMS\ClientHelperBundle\Command\HealthCheckCommand">
+            <argument type="service" id="emsch.helper_environment" />
+            <argument type="service" id="ems_common.service.elastica"/>
+            <argument type="service" id="ems_common.storage.manager" on-invalid="null" />
+            <tag name="console.command" />
+        </service>
+    </services>
+</container>

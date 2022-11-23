@@ -1,0 +1,55 @@
+{
+	"name" : "elasticms/client-helper-bundle",
+	"description" : "An elasticms extension for client helper functions (Graphical frontend, API, ... )",
+	"type" : "symfony-bundle",
+	"keywords" : [
+		"elasticms"
+	],
+	"license" : "MIT",
+	"authors" : [
+		{
+			"name" : "EMS Community",
+			"homepage" : "https://github.com/ems-project/EMSClientHelperBundle/contributors"
+		}
+	],
+	"require" : {
+		"php": "^7.4",
+		"composer/ca-bundle": "^1.1",
+		"elasticms/common-bundle": "^4.0",
+		"symfony-cmf/routing": "^2.3",
+		"symfony/asset": "^5.4",
+		"symfony/console": "^5.4",
+		"symfony/event-dispatcher": "^5.4",
+		"symfony/mime": "^5.4",
+		"symfony/security-csrf": "^5.4",
+		"symfony/twig-bundle": "^5.4",
+		"symfony/yaml": "^5.4"
+	},
+	"require-dev" : {
+		"friendsofphp/php-cs-fixer": "^3.0",
+		"phpstan/phpstan": "^1.0",
+		"phpstan/phpstan-doctrine": "^1.3",
+		"phpstan/phpstan-symfony": "^1.2",
+		"symfony/test-pack": "^1.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"EMS\\ClientHelperBundle\\" : "src/"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"EMS\\ClientHelperBundle\\Tests\\" : "tests/"
+		}
+	},
+	"config": {
+		"lock": false,
+		"sort-packages": true
+	},
+	"scripts": {
+		"phpcs": "php-cs-fixer fix",
+		"phpstan": "phpstan analyse --memory-limit 1G",
+		"phpunit":  "phpunit",
+		"phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
+	}
+}

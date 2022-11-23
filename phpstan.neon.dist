@@ -1,6 +1,7 @@
 parameters:
     paths:
         - %currentWorkingDirectory%/elasticms-cli/src
+        - %currentWorkingDirectory%/EMS/client-helper-bundle/src
         - %currentWorkingDirectory%/EMS/common-bundle/src
         - %currentWorkingDirectory%/EMS/helpers/src
     excludePaths:

@@ -8,6 +8,7 @@ framework:
   secret: 1621180219f163d89dc399e88cfc1807ab6448cf
   session:
     handler_id: ~
+    storage_factory_id: session.storage.factory.native
   mailer:
     dsn: 'null://null'
   router:
@@ -43,7 +44,7 @@ services:
     arguments: [ '@doctrine' ]
 
   functional_test.message_listener:
-    alias: mailer.logger_message_listener
+    alias: mailer.message_logger_listener
 
   # alias the service so we can access it in the tests
   functional_test.emss.handler.email:

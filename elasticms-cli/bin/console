@@ -4,11 +4,21 @@
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
-    throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
+$autoLoad = dirname(__DIR__).'/vendor/autoload_runtime.php';
+if (!is_file($autoLoad)) {
+  $autoLoad = dirname(__DIR__).'/../vendor/autoload_runtime.php';
 }
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+if (!is_file($autoLoad)) {
+  throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
+}
+require_once $autoLoad;
+
+$_SERVER['APP_RUNTIME_OPTIONS'] = [
+  'disable_dotenv' => ('true' === ($_SERVER['APP_DISABLE_DOTENV'] ?? false)),
+  'prod_envs' => ['prod', 'redis'],
+  'project_dir' => dirname(__DIR__),
+];
 
 return function (array $context) {
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);

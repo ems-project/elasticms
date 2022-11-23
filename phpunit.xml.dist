@@ -16,6 +16,7 @@
       <directory>./EMS/form-bundle/src/</directory>
       <directory>./EMS/helpers/src/</directory>
       <directory>./EMS/submission-bundle/src/</directory>
+      <directory>./EMS/xliff/src/</directory>
     </include>
   </coverage>
 
@@ -37,6 +38,7 @@
           <directory>./EMS/form-bundle/tests</directory>
           <directory>./EMS/helpers/tests/Unit</directory>
           <directory>./EMS/submission-bundle/tests</directory>
+          <directory>./EMS/xliff/tests</directory>
       </testsuite>
   </testsuites>
 </phpunit>

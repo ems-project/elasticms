@@ -33,6 +33,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.6",
         "dompdf/dompdf": "^v2.0",
+        "giggsey/libphonenumber-for-php": "^8.12",
         "guzzlehttp/guzzle": "^6.3",
         "kevinrob/guzzle-cache-middleware": "^4.0",
         "phpoffice/phpspreadsheet": "^1.16",
@@ -48,8 +49,10 @@
         "symfony/event-dispatcher": "^5.4",
         "symfony/expression-language": "^5.4",
         "symfony/flex": "^1.17|^2",
+        "symfony/form": "^5.4",
         "symfony/framework-bundle": "^5.4",
         "symfony/http-client": "^5.4",
+        "symfony/intl": "^5.4",
         "symfony/mime": "^5.4",
         "symfony/monolog-bundle": "^3.8",
         "symfony/options-resolver": "^5.4",
@@ -63,6 +66,7 @@
         "symfony/stopwatch": "^5.4",
         "symfony/translation": "^5.4",
         "symfony/twig-bundle": "^5.4",
+        "symfony/validator": "^5.4",
         "symfony/yaml": "^5.4",
         "twig/cache-extra": "^3.4",
         "twig/cssinliner-extra": "^3.4",
@@ -96,6 +100,7 @@
             "App\\": "elasticms-cli/src/",
             "EMS\\ClientHelperBundle\\": "EMS/client-helper-bundle/src/",
             "EMS\\CommonBundle\\": "EMS/common-bundle/src/",
+            "EMS\\FormBundle\\": "EMS/form-bundle/src/",
             "EMS\\Helpers\\": "EMS/helpers/src/"
         }
     },
@@ -104,6 +109,7 @@
             "App\\Tests\\": "elasticms-cli/tests/",
             "EMS\\ClientHelperBundle\\Tests\\": "EMS/client-helper-bundle/tests/",
             "EMS\\CommonBundle\\Tests\\": "EMS/common-bundle/tests/",
+            "EMS\\FormBundle\\Tests\\": "EMS/form-bundle/tests/",
             "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/"
         }
     },
@@ -123,6 +129,7 @@
     "replace": {
         "elasticms/client-helper-bundle": "self.version",
         "elasticms/common-bundle": "self.version",
+        "elasticms/form-bundle": "self.version",
         "elasticms/helpers": "self.version",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",

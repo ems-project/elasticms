@@ -1,0 +1,27 @@
+{% set locale = app.request.locale %}
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{  block('title') }}</title>
+    <link rel="icon" href="{{ asset('bundles/emsform/static/favicon.ico') }}">
+</head>
+<body class="bg-dark">
+    <div class="wrapper m-5">
+        <div class="bg-secondary px-2 py-2">
+            <div class="d-flex justify-content-between">
+                <div><span class="font-weight-bold text-white">{{  block('title') }}</span></div>
+                <div>{% block actions %}{% endblock %}</div>
+            </div>
+        </div>
+        <div id="wrapper-form" class="bg-light px-4 py-2">
+            {% block content %}{% endblock %}
+        </div>
+        {% block footer %}{% endblock %}
+    </div>
+    {% block javascripts %}
+        <script type="application/javascript" src="{{ asset('bundles/emsform/js/debug.js') }}"></script>
+    {% endblock %}
+</body>
+</html>

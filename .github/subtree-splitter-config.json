@@ -1,6 +1,16 @@
 {
   "subtree-splits": [
     {
+      "name": "elasticms-cli",
+      "directory": "elasticms-cli",
+      "target": "git@github.com:ems-project/elasticms-cli"
+    },
+    {
+      "name": "common-bundle",
+      "directory": "EMS/common-bundle",
+      "target": "git@github.com:ems-project/EMSCommonBundle.git"
+    },
+    {
       "name": "helpers",
       "directory": "EMS/helpers",
       "target": "git@github.com:ems-project/helpers.git"

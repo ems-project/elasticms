@@ -13,6 +13,7 @@
       <directory>./elasticms-web/src/</directory>
       <directory>./EMS/client-helper-bundle/src/</directory>
       <directory>./EMS/common-bundle/src/</directory>
+      <directory>./EMS/core-bundle/src/</directory>
       <directory>./EMS/form-bundle/src/</directory>
       <directory>./EMS/helpers/src/</directory>
       <directory>./EMS/submission-bundle/src/</directory>
@@ -35,6 +36,7 @@
           <directory>./elasticms-web/tests</directory>
           <directory>./EMS/client-helper-bundle/tests</directory>
           <directory>./EMS/common-bundle/tests</directory>
+          <directory>./EMS/core-bundle/tests</directory>
           <directory>./EMS/form-bundle/tests</directory>
           <directory>./EMS/helpers/tests/Unit</directory>
           <directory>./EMS/submission-bundle/tests</directory>

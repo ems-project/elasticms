@@ -21,6 +21,11 @@
       "target": "git@github.com:ems-project/EMSCommonBundle.git"
     },
     {
+      "name": "core-bundle",
+      "directory": "EMS/core-bundle",
+      "target": "git@github.com:ems-project/EMSCoreBundle.git"
+    },
+    {
       "name": "form-bundle",
       "directory": "EMS/form-bundle",
       "target": "git@github.com:ems-project/EMSFormBundle.git"

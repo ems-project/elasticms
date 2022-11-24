@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="emsch.helper.builder" class="EMS\ClientHelperBundle\Helper\Builder\AbstractBuilder" abstract="true" public="false" >
+            <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="logger" />
+            <argument type="string">%emsch.locales%</argument>
+            <argument type="string">%emsch.search_limit%</argument>
+        </service>
+
+        <service id="emsch.helper.builders" class="EMS\ClientHelperBundle\Helper\Builder\Builders">
+            <argument type="service" id="emsch.helper.routing.builder" />
+            <argument type="service" id="emsch.helper.templating.builder" />
+            <argument type="service" id="emsch.helper.translation.builder" />
+        </service>
+
+        <service id="emsch.helper.routing.builder" class="EMS\ClientHelperBundle\Helper\Routing\RoutingBuilder" parent="emsch.helper.builder" />
+        <service id="emsch.helper.templating.builder" class="EMS\ClientHelperBundle\Helper\Templating\TemplateBuilder" parent="emsch.helper.builder" />
+        <service id="emsch.helper.translation.builder" class="EMS\ClientHelperBundle\Helper\Translation\TranslationBuilder" parent="emsch.helper.builder" />
+    </services>
+</container>

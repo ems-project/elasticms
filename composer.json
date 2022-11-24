@@ -28,16 +28,22 @@
         "ext-zip": "*",
         "aws/aws-sdk-php": "^3.109",
         "cebe/markdown": "^1.2",
+        "composer/ca-bundle": "^1.1",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.6",
         "dompdf/dompdf": "^v2.0",
+        "giggsey/libphonenumber-for-php": "^8.12",
         "guzzlehttp/guzzle": "^6.3",
         "kevinrob/guzzle-cache-middleware": "^4.0",
+        "league/flysystem-memory": "^2.0",
+        "league/flysystem-sftp-v3": "^2.0",
         "phpoffice/phpspreadsheet": "^1.16",
         "promphp/prometheus_client_php": "^2.6",
         "ramsey/uuid-doctrine": "^1.6",
         "ruflin/elastica": "^7.2",
+        "symfony-cmf/routing": "^2.3",
+        "symfony/asset": "^5.4",
         "symfony/console": "^5.4",
         "symfony/css-selector": "^5.4",
         "symfony/dom-crawler": "^5.4",
@@ -45,9 +51,12 @@
         "symfony/event-dispatcher": "^5.4",
         "symfony/expression-language": "^5.4",
         "symfony/flex": "^1.17|^2",
+        "symfony/form": "^5.4",
         "symfony/framework-bundle": "^5.4",
         "symfony/http-client": "^5.4",
-        "symfony/mime": "^4.4|^5.4",
+        "symfony/intl": "^5.4",
+        "symfony/mailer": "^5.4",
+        "symfony/mime": "^5.4",
         "symfony/monolog-bundle": "^3.8",
         "symfony/options-resolver": "^5.4",
         "symfony/process": "^5.4",
@@ -55,9 +64,12 @@
         "symfony/routing": "^5.4",
         "symfony/runtime": "^5.4",
         "symfony/security-core": "^5.4",
+        "symfony/security-csrf": "^5.4",
         "symfony/serializer": "^5.4",
         "symfony/stopwatch": "^5.4",
         "symfony/translation": "^5.4",
+        "symfony/twig-bundle": "^5.4",
+        "symfony/validator": "^5.4",
         "symfony/yaml": "^5.4",
         "twig/cache-extra": "^3.4",
         "twig/cssinliner-extra": "^3.4",
@@ -79,9 +91,9 @@
         "phpstan/phpstan-phpunit": "^1.0",
         "phpstan/phpstan-symfony": "^1.2",
         "phpunit/phpunit": "^9.5",
+        "rector/rector": "^0.14.8",
         "symfony/test-pack": "^1.0",
-        "symplify/monorepo-builder-prefixed": "^9.0",
-        "rector/rector": "^0.14.8"
+        "symplify/monorepo-builder-prefixed": "^9.0"
     },
     "autoload": {
         "exclude-from-classmap": [
@@ -89,23 +101,29 @@
         ],
         "psr-4": {
             "App\\": "elasticms-cli/src/",
+            "EMS\\ClientHelperBundle\\": "EMS/client-helper-bundle/src/",
             "EMS\\CommonBundle\\": "EMS/common-bundle/src/",
-            "EMS\\Helpers\\": "EMS/helpers/src/"
+            "EMS\\FormBundle\\": "EMS/form-bundle/src/",
+            "EMS\\Helpers\\": "EMS/helpers/src/",
+            "EMS\\SubmissionBundle\\": "EMS/submission-bundle/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "App\\Tests\\": "elasticms-cli/tests/",
+            "EMS\\ClientHelperBundle\\Tests\\": "EMS/client-helper-bundle/tests/",
             "EMS\\CommonBundle\\Tests\\": "EMS/common-bundle/tests/",
-            "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/"
+            "EMS\\FormBundle\\Tests\\": "EMS/form-bundle/tests/",
+            "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/",
+            "EMS\\SubmissionBundle\\Tests\\": "EMS/submission-bundle/tests/"
         }
     },
     "scripts": {
-      "rector":  "rector",
-      "phpcs": "php-cs-fixer fix",
-      "phpstan": "phpstan analyse --memory-limit 1G",
-      "phpunit":  "phpunit",
-      "phpall": "rector && php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
+        "rector": "rector",
+        "phpcs": "php-cs-fixer fix",
+        "phpstan": "phpstan analyse --memory-limit 1G",
+        "phpunit": "phpunit",
+        "phpall": "rector && php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
     },
     "extra": {
         "symfony": {
@@ -114,19 +132,22 @@
         }
     },
     "replace": {
+        "elasticms/client-helper-bundle": "self.version",
         "elasticms/common-bundle": "self.version",
+        "elasticms/form-bundle": "self.version",
         "elasticms/helpers": "self.version",
+        "elasticms/submission-bundle": "self.version",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php72": "*"
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "phpstan/extension-installer": true,
             "symfony/flex": false,
             "symfony/runtime": false
         }
-    }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

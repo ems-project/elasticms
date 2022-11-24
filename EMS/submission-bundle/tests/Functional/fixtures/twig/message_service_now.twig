@@ -1,0 +1,21 @@
+{% autoescape %}
+    {% set message = {
+        'body': {
+            'title': 'Test serviceNow',
+            'info': data.info
+        },
+        'attachments': [
+            {
+                'pathname': data.files.0.getPathname(),
+                'originalName': data.files.0.getClientOriginalName(),
+                'mimeType': data.files.0.getClientMimeType(),
+            },
+            {
+                'pathname': data.files.1.getPathname(),
+                'originalName': data.files.1.getClientOriginalName(),
+                'mimeType': data.files.1.getClientMimeType(),
+            }
+        ]
+    } %}
+{% endautoescape %}
+{{ message|json_encode|raw }}

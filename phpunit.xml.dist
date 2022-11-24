@@ -10,8 +10,11 @@
   <coverage>
     <include>
       <directory>./elasticms-cli/src/</directory>
+      <directory>./EMS/client-helper-bundle/src/</directory>
       <directory>./EMS/common-bundle/src/</directory>
+      <directory>./EMS/form-bundle/src/</directory>
       <directory>./EMS/helpers/src/</directory>
+      <directory>./EMS/submission-bundle/src/</directory>
     </include>
   </coverage>
 
@@ -22,13 +25,16 @@
       <ini name="memory_limit" value="-1"/>
       <env name="SYMFONY_PHPUNIT_VERSION" value="9.5"/>
       <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
-      <env name="KERNEL_CLASS" value="EMS\CommonBundle\Tests\Integration\App\Kernel"/>
+      <env name="KERNEL_CLASS" value="EMS\SubmissionBundle\Tests\Functional\App\Kernel"/>
   </php>
   <testsuites>
       <testsuite name="Unit suite">
           <directory>./elasticms-cli/tests</directory>
+          <directory>./EMS/client-helper-bundle/tests</directory>
           <directory>./EMS/common-bundle/tests</directory>
+          <directory>./EMS/form-bundle/tests</directory>
           <directory>./EMS/helpers/tests/Unit</directory>
+          <directory>./EMS/submission-bundle/tests</directory>
       </testsuite>
   </testsuites>
 </phpunit>

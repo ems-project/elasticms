@@ -1,0 +1,4 @@
+{%- block requestBody -%}
+    {%- set message = {'test': 'test'} -%}
+    {{- message|json_encode|raw -}}
+{%- endblock -%}

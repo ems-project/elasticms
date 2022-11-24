@@ -1,0 +1,64 @@
+{
+  "name": "form-bundle",
+  "version": "1.0.0",
+  "description": "EMSFormBundle",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production --env prod --progress --profile",
+    "start": "webpack --mode development --env dev --watch --progress --profile",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ems-project/EMSFormBundle.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ems-project/EMSFormBundle/issues"
+  },
+  "homepage": "https://github.com/ems-projectEMSFormBundle#readme",
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/plugin-transform-runtime": "^7.19.1",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.19.3",
+    "@babel/preset-typescript": "^7.18.6",
+    "@babel/runtime-corejs3": "^7.19.1",
+    "@types/jest": "^27.0.3",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "blob-polyfill": "^6.0.20211015",
+    "child-replace-with-polyfill": "^1.0.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "core-js-pure": "^3.16.3",
+    "css-loader": "^6.7.1",
+    "eslint": "^6.8.0",
+    "eslint-loader": "^2.2.1",
+    "file-loader": "^6.2.0",
+    "formdata-polyfill": "^3.0.20",
+    "hashcash-token": "^1.0.0",
+    "jest": "^27.4.5",
+    "style-loader": "^3.3.1",
+    "ts-jest": "^27.1.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4",
+    "url-loader": "^4.1.1",
+    "url-polyfill": "^1.1.12",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-manifest-plugin": "^5.0.0"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "i18next": "^17.3.1",
+    "intl-tel-input": "^17.0.13",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
+    "stream-browserify": "^3.0.0"
+  }
+}

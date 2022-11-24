@@ -1,0 +1,55 @@
+{
+	"name" : "elasticms/submission-bundle",
+	"description" : "Submit data based on elasticms configurations",
+	"type" : "symfony-bundle",
+	"keywords" : [
+		"elasticms"
+	],
+	"license" : "MIT",
+	"authors" : [
+		{
+			"name" : "EMS Community",
+			"homepage" : "https://github.com/ems-project/EMSSubmissionBundle/contributors"
+		}
+	],
+	"require" : {
+		"php" : "^7.4",
+		"elasticms/form-bundle" : "^4.0",
+		"league/flysystem-memory": "^2.0",
+		"league/flysystem-sftp-v3": "^2.0",
+		"symfony/console": "^5.4",
+		"symfony/event-dispatcher": "^5.4",
+		"symfony/http-client": "^5.4",
+		"symfony/options-resolver": "^5.4",
+		"symfony/mailer": "^5.4",
+		"symfony/mime": "^5.4",
+		"symfony/twig-bundle": "^5.4"
+    },
+	"require-dev" : {
+		"friendsofphp/php-cs-fixer" : "^3.0",
+		"phpstan/phpstan": "^1.0",
+		"phpstan/phpstan-doctrine": "^1.3",
+		"phpstan/phpstan-symfony": "^1.2",
+		"symfony/test-pack": "^1.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"EMS\\SubmissionBundle\\" : "src/"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"EMS\\SubmissionBundle\\Tests\\" : "tests/"
+		}
+	},
+	"config": {
+		"lock": false,
+		"sort-packages": true
+	},
+	"scripts": {
+		"phpcs": "php-cs-fixer fix",
+		"phpstan": "phpstan analyse --memory-limit 1G",
+		"phpunit": "phpunit",
+		"phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
+	}
+}

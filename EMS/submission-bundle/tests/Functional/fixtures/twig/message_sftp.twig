@@ -1,0 +1,13 @@
+{%- block files -%}
+    {%- set files = [
+        {
+            'path': 'test/' ~ data.files.0.getClientOriginalName(),
+            'content_path': data.files.0.getPathname(),
+        },
+        {
+            'path': data.files.1.getClientOriginalName(),
+            'content_path': data.files.1.getPathname(),
+        }
+    ] -%}
+    {{-  files|json_encode|raw -}}
+{%- endblock -%}

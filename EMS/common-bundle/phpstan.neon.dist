@@ -1,8 +1,0 @@
-parameters:
-    paths:
-        - %currentWorkingDirectory%/src
-    excludePaths:
-        - %currentWorkingDirectory%/src/Resources/*
-    level: 8
-    parallel:
-        maximumNumberOfProcesses: 2

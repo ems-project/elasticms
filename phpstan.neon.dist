@@ -3,10 +3,12 @@ includes:
 
 parameters:
     paths:
+        - %currentWorkingDirectory%/elasticms-admin/src
         - %currentWorkingDirectory%/elasticms-cli/src
         - %currentWorkingDirectory%/elasticms-web/src
         - %currentWorkingDirectory%/EMS/client-helper-bundle/src
         - %currentWorkingDirectory%/EMS/common-bundle/src
+        - %currentWorkingDirectory%/EMS/core-bundle/src
         - %currentWorkingDirectory%/EMS/form-bundle/src
         - %currentWorkingDirectory%/EMS/helpers/src
         - %currentWorkingDirectory%/EMS/submission-bundle/src

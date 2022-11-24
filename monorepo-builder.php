@@ -10,6 +10,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::PACKAGE_DIRECTORIES, [
         __DIR__ . '/EMS',
         __DIR__ . '/elasticms-cli',
+        __DIR__ . '/elasticms-web',
+        __DIR__ . '/elasticms-admin',
     ]);
 
     // how skip packages in loaded direectories?

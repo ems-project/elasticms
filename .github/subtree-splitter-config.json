@@ -36,7 +36,7 @@
       "target": "git@github.com:ems-project/helpers.git"
     },
     {
-      "name": "helpers",
+      "name": "xliff",
       "directory": "EMS/xliff",
       "target": "git@github.com:ems-project/xliff.git"
     }

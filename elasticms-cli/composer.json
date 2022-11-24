@@ -21,7 +21,6 @@
         "symfony/yaml": "^5.4"
     },
     "require-dev": {
-      "friendsofphp/php-cs-fixer": "^3.0",
       "phpstan/phpstan": "^1.0",
       "phpunit/phpunit": "^9.5"
     },

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Data;
 
 use App\Client\Data\Data;
-use Monolog\Test\TestCase;
+use PHPUnit\Framework\TestCase;
 
 final class DataTest extends TestCase
 {

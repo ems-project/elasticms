@@ -1,0 +1,7 @@
+parameters:
+  env(EMSS_CONNECTIONS): '[]'
+  env(EMSS_DEFAULT_TIMEOUT): 10
+
+ems_submission:
+  default_timeout: '%env(int:EMSS_DEFAULT_TIMEOUT)%'
+  connections: '%env(json:EMSS_CONNECTIONS)%'

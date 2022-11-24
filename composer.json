@@ -97,7 +97,8 @@
     },
     "autoload": {
         "exclude-from-classmap": [
-            "EMS/helpers/tests/"
+            "EMS/helpers/tests/",
+            "EMS/xliff/tests/"
         ],
         "psr-4": {
             "App\\": "elasticms-cli/src/",
@@ -105,7 +106,8 @@
             "EMS\\CommonBundle\\": "EMS/common-bundle/src/",
             "EMS\\FormBundle\\": "EMS/form-bundle/src/",
             "EMS\\Helpers\\": "EMS/helpers/src/",
-            "EMS\\SubmissionBundle\\": "EMS/submission-bundle/src/"
+            "EMS\\SubmissionBundle\\": "EMS/submission-bundle/src/",
+            "EMS\\Xliff\\": "EMS/xliff/src/"
         }
     },
     "autoload-dev": {
@@ -115,7 +117,8 @@
             "EMS\\CommonBundle\\Tests\\": "EMS/common-bundle/tests/",
             "EMS\\FormBundle\\Tests\\": "EMS/form-bundle/tests/",
             "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/",
-            "EMS\\SubmissionBundle\\Tests\\": "EMS/submission-bundle/tests/"
+            "EMS\\SubmissionBundle\\Tests\\": "EMS/submission-bundle/tests/",
+            "EMS\\Xliff\\Tests\\": "EMS/xliff/tests/"
         }
     },
     "scripts": {
@@ -137,6 +140,7 @@
         "elasticms/form-bundle": "self.version",
         "elasticms/helpers": "self.version",
         "elasticms/submission-bundle": "self.version",
+        "elasticms/xliff": "self.version",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php72": "*"

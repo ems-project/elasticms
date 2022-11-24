@@ -1,0 +1,7 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$prefix of method DOMNode\\:\\:lookupNamespaceURI\\(\\) expects string, null given\\.$#"
+			count: 1
+			path: src/Xliff/InsertionRevision.php
+

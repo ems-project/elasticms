@@ -1,0 +1,20 @@
+files:
+  resource: '@EMSCommonBundle/Resources/config/routing/file.xml'
+
+helper:
+  resource: '@EMSClientHelperBundle/Resources/config/routing/helper.xml'
+
+forms:
+  resource: '@EMSFormBundle/Resources/config/routing/form.xml'
+
+user_api:
+  resource: '@EMSClientHelperBundle/Resources/config/routing/user_api.xml'
+  prefix: /user_api
+
+asset:
+  resource: '@EMSClientHelperBundle/Resources/config/routing/asset.xml'
+  prefix: /bundles
+
+ems_common:
+  resource: 'ems_common.route.loader::load'
+  type: service

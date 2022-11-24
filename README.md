@@ -17,10 +17,10 @@ elasticMS's monorepo
 ## First steps ([source](https://medium.com/lgtm/migrating-to-the-monorepo-582106142654))
 
 ```bash
-git remote add submission-bundle git@github.com:ems-project/EMSSubmissionBundle.git
-git fetch submission-bundle
-git read-tree --prefix=EMS/submission-bundle -u submission-bundle/4.x
-git commit -m "Migrate submission-bundle repo to src/submission-bundle"
+git remote add xliff git@github.com:ems-project/xliff.git
+git fetch xliff
+git read-tree --prefix=EMS/xliff -u xliff/4.x
+git commit -m "Migrate xliff repo to EMS/xliff"
 ```
 
 ## Second steps ([source](https://tomasvotruba.com/blog/2020/06/15/how-to-create-monorepo-from-existing-repositories-in-7-steps/))

@@ -1,0 +1,7 @@
+framework:
+    assets:
+        packages:
+            emsform:
+                json_manifest_path: '%kernel.project_dir%/public/bundles/emsform/manifest.json'
+            emsch:
+                version_strategy: 'emsch.twig.runtime.asset_vserion_strategy'

@@ -1,0 +1,49 @@
+parameters:
+    env(EMSCH_ELASTICSEARCH_CLUSTER):   '["http://localhost:9200"]'
+    env(EMS_ELASTICSEARCH_HOSTS):       '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
+    env(EMSCH_LOCALES):                 '["fr","nl"]'
+    env(EMSCH_BIND_LOCALE):             true
+    env(EMSCH_ENVS):                    '{}'
+
+    env(EMSCH_ROUTE_TYPE):              'route'
+    env(EMSCH_TRANSLATION_TYPE):        'label'
+    env(EMSCH_ASSET_CONFIG_TYPE):       ~
+    env(EMSCH_SEARCH_CONFIG):           '{}'
+    env(EMSCH_TEMPLATES):               '{"template": {"name": "name","code": "body"}}'
+
+    env(EMSCH_TEMPLATE_ERROR):          '@@EMSCH/template/error{code}.html.twig'
+    env(EMSCH_TEMPLATE_EMS_LINK):       '@@EMSCH/template/{type}.ems_link.twig'
+
+    env(EMSCH_BACKEND_URL):             ~
+    env(EMSCH_BACKEND_API_KEY):         ~
+    env(EMSCH_ASSET_LOCAL_FOLDER):      ~
+    env(EMSCH_SEARCH_LIMIT):            '1000'
+
+ems_client_helper:
+    api:
+        backend:
+            url: '%env(string:EMSCH_BACKEND_URL)%'
+            key: '%env(string:EMSCH_BACKEND_API_KEY)%'
+    locales: '%env(json:EMSCH_LOCALES)%'
+    bind_locale: '%env(bool:EMSCH_BIND_LOCALE)%'
+    asset_local_folder: '%env(string:EMSCH_ASSET_LOCAL_FOLDER)%'
+    request_environments: '%env(json:EMSCH_ENVS)%'
+    search_limit: '%env(int:EMSCH_SEARCH_LIMIT)%'
+    elasticms:
+        website:
+            api: {"enable": true, "name": "backend"}
+            hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
+            route_type: '%env(string:EMSCH_ROUTE_TYPE)%'
+            translation_type: '%env(string:EMSCH_TRANSLATION_TYPE)%'
+            asset_config_type: '%env(string:EMSCH_ASSET_CONFIG_TYPE)%'
+            templates: '%env(json:EMSCH_TEMPLATES)%'
+            search_config: '%env(json:EMSCH_SEARCH_CONFIG)%'
+    templates:
+        error:    '%env(string:EMSCH_TEMPLATE_ERROR)%'
+        ems_link:  '%env(string:EMSCH_TEMPLATE_EMS_LINK)%'
+    user_api:
+        url: '%env(string:EMSCH_BACKEND_URL)%'
+
+when@dev:
+    ems_client_helper:
+        local: true

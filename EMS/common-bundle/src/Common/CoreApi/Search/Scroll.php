@@ -33,7 +33,7 @@ class Scroll implements \Iterator
         return $this->currentResponse->getDocument($this->index);
     }
 
-    public function next()
+    public function next(): void
     {
         ++$this->index;
         if ($this->index >= $this->currentResponse->getTotalDocuments()) {

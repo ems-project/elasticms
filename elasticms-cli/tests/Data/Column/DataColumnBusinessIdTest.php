@@ -12,7 +12,7 @@ use EMS\CommonBundle\Common\CoreApi\Search\Scroll;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Search\Search as SearchObject;
-use Monolog\Test\TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;

@@ -14,6 +14,9 @@ use Symfony\Component\Mailer\EventListener\MessageLoggerListener;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
+/**
+ * @env KERNEL_CLASS=EMS\SubmissionBundle\Tests\Functional\App\Kernel
+ */
 final class DatabaseStatsCommandTest extends KernelTestCase
 {
     private MockObject $repository;

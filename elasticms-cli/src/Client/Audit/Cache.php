@@ -158,9 +158,10 @@ class Cache
         if ($counter < 1 || $duration < 1) {
             $this->status = 'Starting...';
             $output->write($this->status);
+
             return;
         }
-        $rate =  $duration / $counter;
+        $rate = $duration / $counter;
         $estimateSeconds = \round($rate * ($total - $treated));
         $estimateDatetime = new \DateTimeImmutable(\sprintf('+%s seconds', $estimateSeconds));
         $dateIntervalFormat = $estimateSeconds > (24 * 60 * 60) ? '%a days %h:%I:%S' : '%h:%I:%S';

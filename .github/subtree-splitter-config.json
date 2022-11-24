@@ -1,6 +1,11 @@
 {
   "subtree-splits": [
     {
+      "name": "elasticms-admin",
+      "directory": "elasticms-admin",
+      "target": "git@github.com:ems-project/elasticms-admin"
+    },
+    {
       "name": "elasticms-cli",
       "directory": "elasticms-cli",
       "target": "git@github.com:ems-project/elasticms-cli"

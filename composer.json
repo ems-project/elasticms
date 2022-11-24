@@ -114,7 +114,8 @@
         "symfony/phpunit-bridge": "^6.1",
         "symfony/test-pack": "^1.0",
         "symfony/web-profiler-bundle": "^5.4",
-        "symplify/monorepo-builder-prefixed": "^9.0"
+        "symplify/monorepo-builder-prefixed": "^9.0",
+        "zalas/phpunit-globals": "^2.3"
     },
     "autoload": {
         "exclude-from-classmap": [

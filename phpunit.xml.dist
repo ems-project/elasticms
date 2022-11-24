@@ -9,6 +9,7 @@
 
   <coverage>
     <include>
+      <directory>./elasticms-admin/src/</directory>
       <directory>./elasticms-cli/src/</directory>
       <directory>./elasticms-web/src/</directory>
       <directory>./EMS/client-helper-bundle/src/</directory>
@@ -28,10 +29,29 @@
       <ini name="memory_limit" value="-1"/>
       <env name="SYMFONY_PHPUNIT_VERSION" value="9.5"/>
       <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
-      <env name="KERNEL_CLASS" value="EMS\SubmissionBundle\Tests\Functional\App\Kernel"/>
+      <env name="APP_ENV" value="test" />
+      <env name="APP_DEBUG" value="1" />
+      <env name="APP_SECRET" value="s$cretf0rt3st" />
+      <env name="SHELL_VERBOSITY" value="-1" />
+
+      <!-- ###+ symfony/swiftmailer-bundle ### -->
+      <!-- For Gmail as a transport, use: "gmail://username:password@localhost" -->
+      <!-- For a generic SMTP server, use: "smtp://localhost:25?encryption=&auth_mode=" -->
+      <!-- Delivery is disabled by default via "null://localhost" -->
+      <env name="MAILER_URL" value="null://localhost"/>
+      <!-- ###- symfony/swiftmailer-bundle ### -->
+
+      <!-- ###+ doctrine/doctrine-bundle ### -->
+      <!-- Format described at http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/configuration.html#connecting-using-a-url -->
+      <!-- For an SQLite database, use: "sqlite:///%kernel.project_dir%/var/data.db" -->
+      <!-- Configure your db driver and server_version in config/packages/doctrine.yaml -->
+      <env name="DATABASE_URL" value="mysql://db_user:db_password@127.0.0.1:3306/db_name"/>
+      <!-- ###- doctrine/doctrine-bundle ### -->
   </php>
   <testsuites>
       <testsuite name="Unit suite">
+          <directory>./elasticms-admin/tests</directory>
+          <exclude>./elasticms-admin/tests/Controller</exclude>
           <directory>./elasticms-cli/tests</directory>
           <directory>./elasticms-web/tests</directory>
           <directory>./EMS/client-helper-bundle/tests</directory>
@@ -43,4 +63,11 @@
           <directory>./EMS/xliff/tests</directory>
       </testsuite>
   </testsuites>
+
+  <listeners>
+    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+  </listeners>
+  <extensions>
+    <extension class="Zalas\PHPUnit\Globals\AnnotationExtension" />
+  </extensions>
 </phpunit>

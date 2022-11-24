@@ -6,12 +6,25 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * @env KERNEL_CLASS=App\Kernel
+ * @env EMS_CACHE_PREFIX=test_cache_prefix
+ * @env EMS_STORAGES=[{"type":"fs","path":"/tmp"}]
+ */
 class DefaultControllerTest extends WebTestCase
 {
+    public function testRedirect()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals('/dashboard', $client->getResponse()->headers->get('location'));
+    }
+
     public function testIndex()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/login');
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
         $this->assertContains('Sign in to start your session', $crawler->filter('p.login-box-msg')->text());
     }

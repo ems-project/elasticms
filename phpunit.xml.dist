@@ -10,6 +10,7 @@
   <coverage>
     <include>
       <directory>./elasticms-admin/src/</directory>
+      <exclude>./elasticms-admin/tests/Controller</exclude>
       <directory>./elasticms-cli/src/</directory>
       <directory>./elasticms-web/src/</directory>
       <directory>./EMS/client-helper-bundle/src/</directory>

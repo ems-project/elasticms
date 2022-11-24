@@ -1,12 +1,11 @@
 <?php
 
-use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
-use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
-use EMS\CommonBundle\EMSCommonBundle;
-use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
 return [
-    FrameworkBundle::class => ['all' => true],
-    DoctrineBundle::class => ['all' => true],
-    EMSCommonBundle::class => ['all' => true],
-    DoctrineMigrationsBundle::class => ['all' => true],
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
+    Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class => ['all' => true],
+    EMS\CommonBundle\EMSCommonBundle::class => ['all' => true],
+    Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle::class => ['all' => true],
+    Symfony\Bundle\TwigBundle\TwigBundle::class => ['all' => true],
+    Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
+    Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
 ];

@@ -153,7 +153,14 @@ class Cache
         $treated = $this->currentPos() + 1;
         $total = \count($this->urls);
         $now = new \DateTimeImmutable();
-        $rate = \doubleval($now->getTimestamp() - $this->startedDatetime->getTimestamp()) / \doubleval($treated - $this->startedAt);
+        $counter = \doubleval($treated - $this->startedAt);
+        $duration = \doubleval($now->getTimestamp() - $this->startedDatetime->getTimestamp());
+        if ($counter < 1 || $duration < 1) {
+            $this->status = 'Starting...';
+            $output->write($this->status);
+            return;
+        }
+        $rate =  $duration / $counter;
         $estimateSeconds = \round($rate * ($total - $treated));
         $estimateDatetime = new \DateTimeImmutable(\sprintf('+%s seconds', $estimateSeconds));
         $dateIntervalFormat = $estimateSeconds > (24 * 60 * 60) ? '%a days %h:%I:%S' : '%h:%I:%S';

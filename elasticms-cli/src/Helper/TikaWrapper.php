@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
+use EMS\Helpers\Standard\Text;
 use Psr\Http\Message\StreamInterface;
 
 class TikaWrapper extends ProcessWrapper
@@ -56,7 +57,7 @@ class TikaWrapper extends ProcessWrapper
     public function getOutput(): string
     {
         if ($this->trimWhiteSpaces) {
-            return TextHelper::trim(parent::getOutput());
+            return Text::superTrim(parent::getOutput());
         }
 
         return parent::getOutput();

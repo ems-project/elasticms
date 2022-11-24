@@ -1,9 +1,19 @@
 {
   "subtree-splits": [
     {
+      "name": "elasticms-admin",
+      "directory": "elasticms-admin",
+      "target": "git@github.com:ems-project/elasticms-admin"
+    },
+    {
       "name": "elasticms-cli",
       "directory": "elasticms-cli",
       "target": "git@github.com:ems-project/elasticms-cli"
+    },
+    {
+      "name": "elasticms-web",
+      "directory": "elasticms-web",
+      "target": "git@github.com:ems-project/elasticms-web"
     },
     {
       "name": "client-helper-bundle",
@@ -14,6 +24,11 @@
       "name": "common-bundle",
       "directory": "EMS/common-bundle",
       "target": "git@github.com:ems-project/EMSCommonBundle.git"
+    },
+    {
+      "name": "core-bundle",
+      "directory": "EMS/core-bundle",
+      "target": "git@github.com:ems-project/EMSCoreBundle.git"
     },
     {
       "name": "form-bundle",
@@ -29,6 +44,11 @@
       "name": "helpers",
       "directory": "EMS/helpers",
       "target": "git@github.com:ems-project/helpers.git"
+    },
+    {
+      "name": "xliff",
+      "directory": "EMS/xliff",
+      "target": "git@github.com:ems-project/xliff.git"
     }
   ]
 }

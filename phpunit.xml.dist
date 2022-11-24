@@ -51,6 +51,7 @@
   <testsuites>
       <testsuite name="Unit suite">
           <directory>./elasticms-admin/tests</directory>
+          <exclude>./elasticms-admin/tests/Controller</exclude>
           <directory>./elasticms-cli/tests</directory>
           <directory>./elasticms-web/tests</directory>
           <directory>./EMS/client-helper-bundle/tests</directory>

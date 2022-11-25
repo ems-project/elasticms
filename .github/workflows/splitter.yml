@@ -5,8 +5,8 @@ on:
         branches:
             - '4.*'
         paths:
-            - 'src/elasticms-*/**'
-            - 'src/EMS/**'
+            - 'elasticms-*/**'
+            - 'EMS/**'
         tags-ignore:
             - '*'
 

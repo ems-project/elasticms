@@ -1,4 +1,5 @@
 {
+    "name": "ems-project/elasticms",
     "authors": [
         {
             "name": "David Mattei",
@@ -96,7 +97,8 @@
         "twig/intl-extra": "^3.4",
         "twig/markdown-extra": "^3.4",
         "twig/string-extra": "^3.4",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "symplify/monorepo-builder": "^11.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
@@ -114,7 +116,6 @@
         "symfony/phpunit-bridge": "^6.1",
         "symfony/test-pack": "^1.0",
         "symfony/web-profiler-bundle": "^5.4",
-        "symplify/monorepo-builder-prefixed": "^9.0",
         "zalas/phpunit-globals": "^2.3"
     },
     "autoload": {

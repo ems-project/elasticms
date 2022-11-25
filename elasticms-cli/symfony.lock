@@ -134,6 +134,12 @@
     "guzzlehttp/psr7": {
         "version": "1.8.3"
     },
+    "guzzlehttp/ringphp": {
+        "version": "1.1.1"
+    },
+    "guzzlehttp/streams": {
+        "version": "3.0.0"
+    },
     "kevinrob/guzzle-cache-middleware": {
         "version": "v4.0.0"
     },
@@ -173,8 +179,23 @@
     "phenx/php-svg-lib": {
         "version": "0.4.0"
     },
+    "php-cs-fixer/diff": {
+        "version": "v2.0.2"
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "2.2.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "5.3.0"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "1.6.0"
+    },
     "phpoffice/phpspreadsheet": {
         "version": "1.21.0"
+    },
+    "phpspec/prophecy": {
+        "version": "v1.15.0"
     },
     "phpstan/phpstan": {
         "version": "0.12.99"
@@ -190,6 +211,9 @@
     },
     "phpunit/php-timer": {
         "version": "2.1.3"
+    },
+    "phpunit/php-token-stream": {
+        "version": "3.1.3"
     },
     "phpunit/phpunit": {
         "version": "7.5",
@@ -398,18 +422,6 @@
     "symfony/monolog-bridge": {
         "version": "v5.4.3"
     },
-    "symfony/monolog-bundle": {
-        "version": "3.8",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "3.7",
-            "ref": "213676c4ec929f046dfde5ea8e97625b81bc0578"
-        },
-        "files": [
-            "config/packages/monolog.yaml"
-        ]
-    },
     "symfony/options-resolver": {
         "version": "v5.4.3"
     },
@@ -465,6 +477,15 @@
     "symfony/security-core": {
         "version": "v5.4.3"
     },
+    "symfony/security-csrf": {
+        "version": "v5.4.3"
+    },
+    "symfony/security-guard": {
+        "version": "v5.4.3"
+    },
+    "symfony/security-http": {
+        "version": "v5.4.3"
+    },
     "symfony/serializer": {
         "version": "v5.4.3"
     },
@@ -493,19 +514,6 @@
     "symfony/translation-contracts": {
         "version": "v2.5.0"
     },
-    "symfony/twig-bundle": {
-        "version": "5.4",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "5.4",
-            "ref": "bb2178c57eee79e6be0b297aa96fc0c0def81387"
-        },
-        "files": [
-            "config/packages/twig.yaml",
-            "templates/base.html.twig"
-        ]
-    },
     "symfony/var-dumper": {
         "version": "v5.4.3"
     },
@@ -518,10 +526,10 @@
     "theseer/tokenizer": {
         "version": "1.2.1"
     },
-    "twig/extra-bundle": {
-        "version": "v3.4.0"
-    },
     "twig/twig": {
         "version": "v2.14.11"
+    },
+    "webmozart/assert": {
+        "version": "1.10.0"
     }
 }

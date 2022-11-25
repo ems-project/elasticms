@@ -12,7 +12,6 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "elasticms/common-bundle": "^4.2",
         "kevinrob/guzzle-cache-middleware": "^4.0",
-        "phpdocumentor/reflection-docblock": "^5.3",
         "symfony/console": "^5.4",
         "symfony/css-selector": "^5.4",
         "symfony/dotenv": "^5.4",

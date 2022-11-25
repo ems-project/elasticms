@@ -3,12 +3,12 @@ name: 'Code Quality'
 on:
   pull_request:
     paths:
-      - 'src/elasticms-*/**'
-      - 'src/EMS/**'
+      - 'elasticms-*/**'
+      - 'EMS/**'
   push:
     paths:
-      - 'src/elasticms-*/**'
-      - 'src/EMS/**'
+      - 'elasticms-*/**'
+      - 'EMS/**'
 
 env:
   PHP_VERSION: 7.4

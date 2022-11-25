@@ -1,8 +1,0 @@
-parameters:
-    paths:
-        - %currentWorkingDirectory%/src
-    excludes_analyse:
-        - %currentWorkingDirectory%/vendor/*
-    level: 8
-    parallel:
-        maximumNumberOfProcesses: 2

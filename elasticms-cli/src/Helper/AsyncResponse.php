@@ -3,6 +3,7 @@
 namespace App\Helper;
 
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Text;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -21,7 +22,7 @@ class AsyncResponse
 
     public function getContent(): string
     {
-        return $this->trimWhiteSpaces ? TextHelper::trim($this->getResponse()->getBody()->getContents()) : $this->getResponse()->getBody()->getContents();
+        return $this->trimWhiteSpaces ? Text::superTrim($this->getResponse()->getBody()->getContents()) : $this->getResponse()->getBody()->getContents();
     }
 
     public function getStream(): StreamInterface

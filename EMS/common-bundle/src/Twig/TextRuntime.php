@@ -8,6 +8,7 @@ use EMS\CommonBundle\Json\Decoder;
 use EMS\CommonBundle\Json\JsonMenu;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DomCrawler\Crawler;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class TextRuntime implements RuntimeExtensionInterface
@@ -80,5 +81,10 @@ class TextRuntime implements RuntimeExtensionInterface
 
             return $text;
         }
+    }
+
+    public function domCrawler(string $node, string $uri = null, string $baseHref = null): Crawler
+    {
+        return new Crawler($node, $uri, $baseHref);
     }
 }

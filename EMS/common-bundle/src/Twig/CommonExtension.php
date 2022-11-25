@@ -46,6 +46,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_temp_file', [AssetRuntime::class, 'temporaryFile']),
             new TwigFilter('ems_asset_average_color', [AssetRuntime::class, 'assetAverageColor'], ['is_safe' => ['html']]),
             new TwigFilter('ems_replace_regex', [TextRuntime::class, 'replaceRegex'], ['is_safe' => ['html']]),
+            new TwigFilter('ems_dom_crawler', [TextRuntime::class, 'domCrawler']),
             new TwigFilter('ems_base64_encode', [Base64::class, 'encode']),
             new TwigFilter('ems_base64_decode', [Base64::class, 'decode']),
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),

@@ -33,7 +33,7 @@ jobs:
                     key: '${{ runner.os }}-splitsh-v101'
 
             -   name: subtree split
-                uses: acrobat/subtree-splitter@v1.1.3
+                uses: Davidmattei/subtree-splitter@fatal-delete-tag
                 with:
                     config-path: .github/subtree-packages.json
                     batch-size: 1

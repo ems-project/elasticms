@@ -4,9 +4,6 @@ on:
     push:
         branches:
             - '4.*'
-        paths:
-            - 'elasticms-*/**'
-            - 'EMS/**'
         tags-ignore:
             - '*'
 

@@ -33,7 +33,7 @@ jobs:
                     key: '${{ runner.os }}-splitsh-v101'
 
             -   name: subtree split
-                uses: Davidmattei/subtree-splitter@fatal-delete-tag
+                uses: Davidmattei/subtree-splitter@main
                 with:
                     config-path: .github/subtree-packages.json
                     batch-size: 1

@@ -1,5 +1,8 @@
 name: Commit Quality
-on: [pull_request_target]
+
+on:
+  pull_request_target:
+
 jobs:
   semantic-pull-request:
     name: Semantic-Pull-Request

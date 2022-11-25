@@ -4,6 +4,11 @@ on:
     push:
         branches:
             - '4.*'
+        paths:
+            - 'src/elasticms-*/**'
+            - 'src/EMS/**'
+        tags-ignore:
+            - '*'
 
 jobs:
     sync_commits:

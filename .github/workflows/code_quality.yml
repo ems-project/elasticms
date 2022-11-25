@@ -1,5 +1,14 @@
-name: Code Quality
-on: [pull_request, push]
+name: 'Code Quality'
+
+on:
+  pull_request:
+    paths:
+      - 'src/elasticms-*/**'
+      - 'src/EMS/**'
+  push:
+    paths:
+      - 'src/elasticms-*/**'
+      - 'src/EMS/**'
 
 env:
   PHP_VERSION: 7.4

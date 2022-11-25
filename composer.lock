@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "449bd25f2fa07f17787b7fd3f667f03b",
+    "content-hash": "9b5a774cb4ef94752d54f2efa8b31bc7",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -11183,6 +11183,52 @@
             "time": "2022-10-03T15:15:50+00:00"
         },
         {
+            "name": "symplify/monorepo-builder",
+            "version": "11.1.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symplify/monorepo-builder.git",
+                "reference": "a0549c6ba63a3ee35403f26e51563c82e4a599dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symplify/monorepo-builder/zipball/a0549c6ba63a3ee35403f26e51563c82e4a599dc",
+                "reference": "a0549c6ba63a3ee35403f26e51563c82e4a599dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "bin": [
+                "bin/monorepo-builder"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "10.3-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed version of Not only Composer tools to build a Monorepo.",
+            "support": {
+                "source": "https://github.com/symplify/monorepo-builder/tree/11.1.17"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.me/rectorphp",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/tomasvotruba",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-11-10T15:19:39+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.5",
             "source": {
@@ -14861,42 +14907,6 @@
                 }
             ],
             "time": "2022-10-01T21:59:28+00:00"
-        },
-        {
-            "name": "symplify/monorepo-builder-prefixed",
-            "version": "9.0.19",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symplify/monorepo-builder-prefixed.git",
-                "reference": "2bd63b92342f3a19fd53f332c9e8fcf0fd29241f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symplify/monorepo-builder-prefixed/zipball/2bd63b92342f3a19fd53f332c9e8fcf0fd29241f",
-                "reference": "2bd63b92342f3a19fd53f332c9e8fcf0fd29241f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.3"
-            },
-            "replace": {
-                "symplify/monorepo-builder": "self.version"
-            },
-            "bin": [
-                "bin/monorepo-builder"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Prefixed scoped version of \"symplify/monorepo-builder\" package",
-            "support": {
-                "issues": "https://github.com/symplify/monorepo-builder-prefixed/issues",
-                "source": "https://github.com/symplify/monorepo-builder-prefixed/tree/9.0.19"
-            },
-            "abandoned": "symplify/monorepo-builder",
-            "time": "2020-12-25T21:52:41+00:00"
         },
         {
             "name": "theseer/tokenizer",

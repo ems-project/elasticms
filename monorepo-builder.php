@@ -1,40 +1,32 @@
 <?php
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use Symplify\ComposerJsonManipulator\ValueObject\ComposerJsonSection;
-use Symplify\MonorepoBuilder\ValueObject\Option;
+declare(strict_types=1);
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $parameters = $containerConfigurator->parameters();
+use Symplify\MonorepoBuilder\Config\MBConfig;
 
-    $parameters->set(Option::PACKAGE_DIRECTORIES, [
+
+return static function (MBConfig $config): void {
+
+    $config->packageDirectories([
         __DIR__ . '/EMS',
         __DIR__ . '/elasticms-cli',
         __DIR__ . '/elasticms-web',
         __DIR__ . '/elasticms-admin',
     ]);
 
-    // how skip packages in loaded direectories?
-//    $parameters->set(Option::PACKAGE_DIRECTORIES_EXCLUDES, [__DIR__ . '/packages/secret-package']);
+    $config->workers([
+        \Symplify\MonorepoBuilder\Release\ReleaseWorker\TagVersionReleaseWorker::class
+    ]);
 
-    // "merge" command related
-
-    // what extra parts to add after merge?
-//    $parameters->set(Option::DATA_TO_APPEND, [
-//        ComposerJsonSection::AUTOLOAD_DEV => [
-//            'psr-4' => [
-//                'Symplify\Tests\\' => 'tests',
-//            ],
-//        ],
-//        ComposerJsonSection::REQUIRE_DEV => [
-//            'phpstan/phpstan' => '^0.12',
-//        ],
-//    ]);
+//    $containerConfigurator->import(__DIR__ . '/release/config/services.php');
 //
-//    $parameters->set(Option::DATA_TO_REMOVE, [
-//        ComposerJsonSection::REQUIRE => [
-//            // the line is removed by key, so version is irrelevant, thus *
-//            'phpunit/phpunit' => '*',
-//        ],
+//    $parameters = $containerConfigurator->parameters();
+//    $parameters->set(Option::PACKAGE_DIRECTORIES, [
+//        __DIR__ . '/EMS',
+//        __DIR__ . '/elasticms-cli',
+//        __DIR__ . '/elasticms-web',
+//        __DIR__ . '/elasticms-admin',
 //    ]);
+//    $parameters->set('enable_default_release_workers', false);
+//    $parameters->set('is_stage_required', true);
 };

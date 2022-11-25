@@ -1,9 +1,0 @@
-{
-  "subtree-splits": [
-    {
-      "name": "test",
-      "directory": "EMS/test",
-      "target": "git@github.com:ems-project/test"
-    }
-  ]
-}

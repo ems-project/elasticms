@@ -1,12 +1,11 @@
-name: 'Tag packages'
+name: 'Rollback release'
 
 on:
-    workflow_dispatch:
-        inputs:
-            tag:
-                description: New tag
-                required: true
-                type: text
+    delete:
+        branches-ignore:
+            - '*'
+        tags:
+            - '*'
 
 jobs:
     sync_packages:

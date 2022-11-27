@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Helper;
+namespace App\CLI\Helper;
 
 use EMS\Helpers\Standard\Text;
 use Psr\Http\Message\StreamInterface;

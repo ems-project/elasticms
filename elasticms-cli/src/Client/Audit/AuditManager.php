@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Audit;
+namespace App\CLI\Client\Audit;
 
-use App\Client\HttpClient\CacheManager;
-use App\Client\HttpClient\HttpResult;
-use App\Client\WebToElasticms\Helper\Url;
-use App\Helper\AsyncResponse;
-use App\Helper\HtmlHelper;
-use App\Helper\LighthouseWrapper;
-use App\Helper\Pa11yWrapper;
-use App\Helper\TikaClient;
-use App\Helper\TikaMetaResponse;
-use App\Helper\TikaWrapper;
+use App\CLI\Client\HttpClient\CacheManager;
+use App\CLI\Client\HttpClient\HttpResult;
+use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Helper\AsyncResponse;
+use App\CLI\Helper\HtmlHelper;
+use App\CLI\Helper\LighthouseWrapper;
+use App\CLI\Helper\Pa11yWrapper;
+use App\CLI\Helper\TikaClient;
+use App\CLI\Helper\TikaMetaResponse;
+use App\CLI\Helper\TikaWrapper;
 use EMS\CommonBundle\Common\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;

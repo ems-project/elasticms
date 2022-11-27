@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\ExpressionLanguage;
+namespace App\CLI\Tests\ExpressionLanguage;
 
-use App\ExpressionLanguage\Functions;
+use App\CLI\ExpressionLanguage\Functions;
 use EMS\CommonBundle\Common\Standard\Json;
 use PHPUnit\Framework\TestCase;
 

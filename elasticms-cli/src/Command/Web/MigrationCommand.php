@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Web;
+namespace App\CLI\Command\Web;
 
-use App\Client\HttpClient\CacheManager;
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Extract\Extractor;
-use App\Client\WebToElasticms\Rapport\Rapport;
-use App\Client\WebToElasticms\Update\UpdateManager;
-use App\Commands;
+use App\CLI\Client\HttpClient\CacheManager;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Extract\Extractor;
+use App\CLI\Client\WebToElasticms\Rapport\Rapport;
+use App\CLI\Client\WebToElasticms\Update\UpdateManager;
+use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\Standard\Json;

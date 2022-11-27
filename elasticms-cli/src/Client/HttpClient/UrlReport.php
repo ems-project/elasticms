@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Client\HttpClient;
+namespace App\CLI\Client\HttpClient;
 
-use App\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Helper\Url;
 
 class UrlReport
 {

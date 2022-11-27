@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Command\Photos;
+namespace App\CLI\Command\Photos;
 
-use App\Client\Photos\ApplePhotosLibrary;
-use App\Client\Photos\PhotosLibraryInterface;
-use App\Commands;
+use App\CLI\Client\Photos\ApplePhotosLibrary;
+use App\CLI\Client\Photos\PhotosLibraryInterface;
+use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Data\Column;
+namespace App\CLI\Client\Data\Column;
 
-use App\Client\Data\Data;
+use App\CLI\Client\Data\Data;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Exists;
 use EMS\CommonBundle\Common\CoreApi\Search\Scroll;

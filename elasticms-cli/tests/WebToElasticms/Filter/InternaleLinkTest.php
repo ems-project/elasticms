@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\WebToElasticms\Filter;
+namespace App\CLI\Tests\WebToElasticms\Filter;
 
-use App\Client\HttpClient\CacheManager;
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Config\WebResource;
-use App\Client\WebToElasticms\Filter\Html\InternalLink;
-use App\Client\WebToElasticms\Rapport\Rapport;
+use App\CLI\Client\HttpClient\CacheManager;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Filter\Html\InternalLink;
+use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;

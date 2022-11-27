@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use App\Kernel;
+use App\CLI\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
 $autoLoad = dirname(__DIR__).'/vendor/autoload_runtime.php';

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helper;
+namespace App\CLI\Helper;
 
 use Symfony\Component\DomCrawler\Crawler;
 

@@ -59,12 +59,12 @@
   },
   "autoload": {
     "psr-4": {
-      "App\\": "src/"
+      "App\\Admin\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "App\\Tests\\": "tests/"
+      "App\\Admin\\Tests\\": "tests/"
     }
   },
   "replace": {

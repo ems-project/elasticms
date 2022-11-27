@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Update;
+namespace App\CLI\Client\WebToElasticms\Update;
 
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Extract\ExtractedData;
-use App\Client\WebToElasticms\Rapport\Rapport;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Extract\ExtractedData;
+use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;

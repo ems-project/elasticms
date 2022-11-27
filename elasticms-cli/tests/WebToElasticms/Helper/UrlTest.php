@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\WebToElasticms\Helper;
+namespace App\CLI\Tests\WebToElasticms\Helper;
 
-use App\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Helper\Url;
 use PHPUnit\Framework\TestCase;
 
 class UrlTest extends TestCase

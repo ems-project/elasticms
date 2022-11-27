@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Config;
+namespace App\CLI\Client\WebToElasticms\Config;
 
-use App\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Helper\Url;
 
 class Document
 {

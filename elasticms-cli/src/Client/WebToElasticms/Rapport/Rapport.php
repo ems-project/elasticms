@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Rapport;
+namespace App\CLI\Client\WebToElasticms\Rapport;
 
-use App\Client\HttpClient\CacheManager;
-use App\Client\WebToElasticms\Config\Document;
-use App\Client\WebToElasticms\Config\Extractor;
-use App\Client\WebToElasticms\Config\WebResource;
-use App\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\HttpClient\CacheManager;
+use App\CLI\Client\WebToElasticms\Config\Document;
+use App\CLI\Client\WebToElasticms\Config\Extractor;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Helper\Url;
 use EMS\CommonBundle\Common\SpreadsheetGeneratorService;
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;

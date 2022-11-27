@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\WebToElasticms\Helper;
+namespace App\CLI\Tests\WebToElasticms\Helper;
 
-use App\Helper\HtmlHelper;
-use App\Helper\TikaClient;
+use App\CLI\Helper\HtmlHelper;
+use App\CLI\Helper\TikaClient;
 use GuzzleHttp\Psr7\BufferStream;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;

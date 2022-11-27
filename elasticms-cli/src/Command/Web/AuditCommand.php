@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Web;
+namespace App\CLI\Command\Web;
 
-use App\Client\Audit\AuditManager;
-use App\Client\Audit\AuditResult;
-use App\Client\Audit\Cache;
-use App\Client\Audit\Report;
-use App\Client\HttpClient\CacheManager;
-use App\Client\HttpClient\UrlReport;
-use App\Client\WebToElasticms\Helper\Url;
-use App\Commands;
-use App\Helper\TikaClient;
+use App\CLI\Client\Audit\AuditManager;
+use App\CLI\Client\Audit\AuditResult;
+use App\CLI\Client\Audit\Cache;
+use App\CLI\Client\Audit\Report;
+use App\CLI\Client\HttpClient\CacheManager;
+use App\CLI\Client\HttpClient\UrlReport;
+use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Commands;
+use App\CLI\Helper\TikaClient;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\Standard\Json;

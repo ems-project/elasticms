@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Extract;
+namespace App\CLI\Client\WebToElasticms\Extract;
 
-use App\Client\HttpClient\HttpResult;
-use App\Client\WebToElasticms\Config\Analyzer;
-use App\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\HttpClient\HttpResult;
+use App\CLI\Client\WebToElasticms\Config\Analyzer;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
 
 class EmptyExtractor
 {

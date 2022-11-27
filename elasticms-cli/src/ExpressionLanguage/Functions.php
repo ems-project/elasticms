@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\ExpressionLanguage;
+namespace App\CLI\ExpressionLanguage;
 
-use App\Helper\Pa11yWrapper;
+use App\CLI\Helper\Pa11yWrapper;
 use EMS\CommonBundle\Common\Standard\Json;
 use Ramsey\Uuid\Uuid;
 

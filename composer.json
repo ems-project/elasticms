@@ -125,7 +125,7 @@
         "psr-4": {
             "App\\Admin\\": "elasticms-admin/src/",
             "App\\CLI\\": "elasticms-cli/src/",
-            "App\\": "elasticms-web/src/",
+            "App\\Web\\": "elasticms-web/src/",
             "EMS\\ClientHelperBundle\\": "EMS/client-helper-bundle/src/",
             "EMS\\CommonBundle\\": "EMS/common-bundle/src/",
             "EMS\\CoreBundle\\": "EMS/core-bundle/src/",
@@ -139,7 +139,7 @@
         "psr-4": {
             "App\\Admin\\Tests\\": "elasticms-admin/tests/",
             "App\\CLI\\Tests\\": "elasticms-cli/tests/",
-            "App\\Tests\\": "elasticms-admin/tests/",
+            "App\\Web\\Tests\\": "elasticms-admin/tests/",
             "EMS\\ClientHelperBundle\\Tests\\": "EMS/client-helper-bundle/tests/",
             "EMS\\CommonBundle\\Tests\\": "EMS/common-bundle/tests/",
             "EMS\\CoreBundle\\Tests\\": "EMS/core-bundle/tests/",

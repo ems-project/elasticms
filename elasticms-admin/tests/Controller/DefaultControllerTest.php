@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @env KERNEL_CLASS=App\Kernel
@@ -17,7 +18,7 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', '/');
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
         $this->assertEquals('/dashboard', $client->getResponse()->headers->get('location'));
     }
 

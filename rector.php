@@ -11,6 +11,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__ . '/EMS',
         __DIR__ . '/elasticms-cli',
+        __DIR__ . '/elasticms-admin',
     ]);
 
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);

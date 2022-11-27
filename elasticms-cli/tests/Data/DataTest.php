@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Data;
+namespace App\CLI\Tests\Data;
 
-use App\Client\Data\Data;
+use App\CLI\Client\Data\Data;
 use PHPUnit\Framework\TestCase;
 
 final class DataTest extends TestCase

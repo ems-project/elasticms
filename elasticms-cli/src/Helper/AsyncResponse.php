@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helper;
+namespace App\CLI\Helper;
 
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Text;

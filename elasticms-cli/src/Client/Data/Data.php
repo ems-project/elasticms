@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Data;
+namespace App\CLI\Client\Data;
 
 /**
  * @implements \IteratorAggregate<array<mixed>>

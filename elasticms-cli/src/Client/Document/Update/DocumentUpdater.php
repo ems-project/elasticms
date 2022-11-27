@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Document\Update;
+namespace App\CLI\Client\Document\Update;
 
-use App\Client\Data\Column\TransformContext;
-use App\Client\Data\Data;
+use App\CLI\Client\Data\Column\TransformContext;
+use App\CLI\Client\Data\Data;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Common\Standard\Type;

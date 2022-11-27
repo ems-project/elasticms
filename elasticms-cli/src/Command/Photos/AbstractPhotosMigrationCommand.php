@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Command\Photos;
+namespace App\CLI\Command\Photos;
 
-use App\Client\Photos\Photo;
-use App\Client\Photos\PhotosLibraryInterface;
+use App\CLI\Client\Photos\Photo;
+use App\CLI\Client\Photos\PhotosLibraryInterface;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\EmsFields;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Client\Photos;
+namespace App\CLI\Client\Photos;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;

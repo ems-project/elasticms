@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Document\Update;
+namespace App\CLI\Tests\Document\Update;
 
-use App\Client\Document\Update\DocumentUpdateConfig;
+use App\CLI\Client\Document\Update\DocumentUpdateConfig;
 use PHPUnit\Framework\TestCase;
 
 final class DocumentUpdateConfigTest extends TestCase

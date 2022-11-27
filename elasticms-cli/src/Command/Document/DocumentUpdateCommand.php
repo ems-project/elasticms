@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Document;
+namespace App\CLI\Command\Document;
 
-use App\Client\Data\Data;
-use App\Client\Document\Update\DocumentUpdateConfig;
-use App\Client\Document\Update\DocumentUpdater;
-use App\Commands;
+use App\CLI\Client\Data\Data;
+use App\CLI\Client\Document\Update\DocumentUpdateConfig;
+use App\CLI\Client\Document\Update\DocumentUpdater;
+use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;

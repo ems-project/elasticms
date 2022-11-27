@@ -123,9 +123,9 @@
             "EMS/xliff/tests/"
         ],
         "psr-4": {
+            "App\\CLI\\": "elasticms-cli/src/",
             "App\\": [
                 "elasticms-admin/src/",
-                "elasticms-cli/src/",
                 "elasticms-web/src/"
             ],
             "EMS\\ClientHelperBundle\\": "EMS/client-helper-bundle/src/",
@@ -139,9 +139,9 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "App\\CLI\\Tests\\": "elasticms-cli/tests/",
             "App\\Tests\\": [
                 "elasticms-admin/tests/",
-                "elasticms-cli/tests/",
                 "elasticms-web/tests/"
             ],
             "EMS\\ClientHelperBundle\\Tests\\": "EMS/client-helper-bundle/tests/",

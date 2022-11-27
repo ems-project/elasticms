@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Client\HttpClient;
+namespace App\CLI\Client\HttpClient;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;

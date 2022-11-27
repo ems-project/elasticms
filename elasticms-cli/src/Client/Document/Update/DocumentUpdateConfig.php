@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Document\Update;
+namespace App\CLI\Client\Document\Update;
 
-use App\Client\Data\Column\DataColumn;
+use App\CLI\Client\Data\Column\DataColumn;
 use EMS\CommonBundle\Common\Standard\Json;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;

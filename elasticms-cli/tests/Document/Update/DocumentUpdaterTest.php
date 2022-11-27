@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Document\Update;
+namespace App\CLI\Tests\Document\Update;
 
-use App\Client\Data\Column\DataColumn;
-use App\Client\Data\Column\TransformContext;
-use App\Client\Data\Data;
-use App\Client\Document\Update\DocumentUpdateConfig;
-use App\Client\Document\Update\DocumentUpdater;
+use App\CLI\Client\Data\Column\DataColumn;
+use App\CLI\Client\Data\Column\TransformContext;
+use App\CLI\Client\Data\Data;
+use App\CLI\Client\Document\Update\DocumentUpdateConfig;
+use App\CLI\Client\Document\Update\DocumentUpdater;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use PHPUnit\Framework\MockObject\MockObject;

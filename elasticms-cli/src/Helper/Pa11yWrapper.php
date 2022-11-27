@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Helper;
+namespace App\CLI\Helper;
 
 class Pa11yWrapper extends ProcessWrapper
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Audit;
+namespace App\CLI\Client\Audit;
 
 class SecurityWarning
 {

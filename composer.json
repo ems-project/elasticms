@@ -44,7 +44,7 @@
         "endroid/qr-code-bundle": "^3.4",
         "firebase/php-jwt": "^5.2",
         "giggsey/libphonenumber-for-php": "^8.12",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^6.3",
         "http-interop/http-factory-guzzle": "^1.0",
         "kevinrob/guzzle-cache-middleware": "^4.0",
         "league/flysystem-memory": "^2.0",

@@ -20,7 +20,7 @@
 	"require" : {
 		"php": "^7.4",
         "ext-dom": "*",
-        "elasticms/helpers": "^1.0",
+        "elasticms/helpers": "^4.3",
         "symfony/dom-crawler": "^5.4",
         "symfony/property-access": "^5.4"
     },

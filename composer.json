@@ -1,4 +1,5 @@
 {
+    "name": "ems-project/elasticms",
     "authors": [
         {
             "name": "David Mattei",
@@ -100,6 +101,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
+        "http-interop/http-factory-guzzle": "^1.0",
+        "knplabs/github-api": "^3.0",
+        "knplabs/packagist-api": "^2.0",
         "mockery/mockery": "^0.9",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/extension-installer": "^1.1",
@@ -114,7 +118,7 @@
         "symfony/phpunit-bridge": "^6.1",
         "symfony/test-pack": "^1.0",
         "symfony/web-profiler-bundle": "^5.4",
-        "symplify/monorepo-builder-prefixed": "^9.0",
+        "symplify/monorepo-builder": "^11.1",
         "zalas/phpunit-globals": "^2.3"
     },
     "autoload": {
@@ -146,7 +150,8 @@
             "EMS\\FormBundle\\Tests\\": "EMS/form-bundle/tests/",
             "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/",
             "EMS\\SubmissionBundle\\Tests\\": "EMS/submission-bundle/tests/",
-            "EMS\\Xliff\\Tests\\": "EMS/xliff/tests/"
+            "EMS\\Xliff\\Tests\\": "EMS/xliff/tests/",
+            "EMS\\Release\\": "release/"
         }
     },
     "scripts": {
@@ -176,6 +181,7 @@
         "symfony/polyfill-php72": "*"
     },
     "config": {
+        "sort-packages": true,
         "allow-plugins": {
             "phpstan/extension-installer": true,
             "symfony/flex": false,

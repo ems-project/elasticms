@@ -6,9 +6,6 @@ on:
             - '4.*'
         tags-ignore:
             - '*'
-    delete:
-        tags:
-            - '*'
 
 jobs:
     sync_commits:

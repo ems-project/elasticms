@@ -34,10 +34,10 @@ class AuditManager
     private TikaWrapper $tikaTextAudit;
     private TikaWrapper $tikaLinksAudit;
     private TikaWrapper $tikaMetaAudit;
-    private TikaClient $tikaClient;
     private TikaMetaResponse $metaRequest;
     private AsyncResponse $htmlRequest;
     private int $tikaMaxSize;
+    private string $tikaServerUrl;
 
     public function __construct(CacheManager $cacheManager, LoggerInterface $logger, bool $all, bool $pa11y, bool $lighthouse, bool $tika, bool $tikaJar, string $tikaServerUrl, int $tikaMaxSize)
     {
@@ -49,7 +49,7 @@ class AuditManager
         $this->tika = $tika;
         $this->all = $all;
         $this->tikaMaxSize = $tikaMaxSize;
-        $this->tikaClient = new TikaClient($tikaServerUrl);
+        $this->tikaServerUrl = $tikaServerUrl;
     }
 
     public function analyze(Url $url, HttpResult $result, Report $report): AuditResult
@@ -336,8 +336,8 @@ class AuditManager
 
             return;
         }
-        $this->metaRequest = $this->tikaClient->meta($result->getStream());
-        $this->htmlRequest = $this->tikaClient->html($result->getStream());
+        $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result->getStream());
+        $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result->getStream());
     }
 
     private function addTikaAudits(AuditResult $audit, HttpResult $result): void

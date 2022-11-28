@@ -345,4 +345,9 @@ class AuditResult
     {
         $this->size = $size;
     }
+
+    public function getSize(): int
+    {
+        return $this->size;
+    }
 }

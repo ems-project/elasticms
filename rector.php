@@ -10,7 +10,9 @@ use \Rector\Symfony\Set\SymfonySetList;
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
         __DIR__ . '/EMS',
+        __DIR__ . '/elasticms-admin',
         __DIR__ . '/elasticms-cli',
+        __DIR__ . '/elasticms-web',
     ]);
 
     $rectorConfig->rule(InlineConstructorDefaultToPropertyRector::class);

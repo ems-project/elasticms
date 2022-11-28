@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Config;
+namespace App\CLI\Client\WebToElasticms\Config;
 
-use App\Client\HttpClient\CacheManager;
-use App\Client\WebToElasticms\Helper\Url;
-use App\Client\WebToElasticms\Rapport\Rapport;
-use App\ExpressionLanguage\Functions;
+use App\CLI\Client\HttpClient\CacheManager;
+use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Rapport\Rapport;
+use App\CLI\ExpressionLanguage\Functions;
 use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;

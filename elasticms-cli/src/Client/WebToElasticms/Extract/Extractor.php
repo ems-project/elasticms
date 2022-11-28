@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Extract;
+namespace App\CLI\Client\WebToElasticms\Extract;
 
-use App\Client\HttpClient\CacheManager;
-use App\Client\WebToElasticms\Config\Computer;
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Config\Document as WebDocument;
-use App\Client\WebToElasticms\Config\WebResource;
-use App\Client\WebToElasticms\Helper\ExpressionData;
-use App\Client\WebToElasticms\Helper\Url;
-use App\Client\WebToElasticms\Rapport\Rapport;
+use App\CLI\Client\HttpClient\CacheManager;
+use App\CLI\Client\WebToElasticms\Config\Computer;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Config\Document as WebDocument;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Helper\ExpressionData;
+use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use GuzzleHttp\Exception\ClientException;

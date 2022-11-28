@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Helper;
+namespace App\CLI\Client\WebToElasticms\Helper;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;

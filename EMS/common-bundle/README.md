@@ -1,9 +1,13 @@
 EMSCommonBundle
 =============
 
-All code shared between the client helper and the core
+All code shared between the client helper bundle and the core bundle
 
-Documentation
--------------
 
-[Documentation](../master/doc)
+Resources
+---------
+
+* [Documentation](https://ems-project.github.io/#/dev/common-bundle/index.md)
+* [Report issues](https://github.com/ems-project/elasticms/issues) and
+  [send Pull Requests](https://github.com/ems-project/elasticms/pulls)
+  in the [main Symfony repository](https://github.com/ems-project/elasticms)

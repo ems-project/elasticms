@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Extract;
+namespace App\CLI\Client\WebToElasticms\Extract;
 
-use App\Client\WebToElasticms\Config\Document;
+use App\CLI\Client\WebToElasticms\Config\Document;
 
 class ExtractedData
 {

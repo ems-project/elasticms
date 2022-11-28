@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\WebToElasticms\Filter;
+namespace App\CLI\Tests\WebToElasticms\Filter;
 
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Config\WebResource;
-use App\Client\WebToElasticms\Filter\Html\Striptag;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Filter\Html\Striptag;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 

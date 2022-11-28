@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Client\Photos;
+namespace App\CLI\Client\Photos;
 
 class Photo
 {

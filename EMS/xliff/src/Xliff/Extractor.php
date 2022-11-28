@@ -352,7 +352,14 @@ class Extractor
 
     private function isSegmentNode(\DOMNode $sourceNode): bool
     {
-        foreach ($sourceNode->childNodes as $child) {
+        if (!$sourceNode->hasChildNodes()) {
+            return true;
+        }
+        if (!$sourceNode->childNodes instanceof \DOMNodeList) {
+            throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', \get_class($sourceNode->childNodes)));
+        }
+        for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
+            $child = $sourceNode->childNodes->item($i);
             if ($child instanceof \DOMElement && !\in_array($child->nodeName, self::INTERNAL_TAGS)) {
                 return false;
             }
@@ -441,9 +448,22 @@ class Extractor
         }
 
         if ($htmlEncodeInlines) {
-            foreach ($sourceNode->childNodes as $childNode) {
-                $textValue = \str_replace('&#13;', '', $childNode->ownerDocument->saveXML($childNode));
-                $source->appendChild(new \DOMText($textValue));
+            if ($sourceNode->hasChildNodes()) {
+                if (!$sourceNode->childNodes instanceof \DOMNodeList) {
+                    throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', \get_class($sourceNode->childNodes)));
+                }
+                for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
+                    $childNode = $sourceNode->childNodes->item($i);
+                    if (null === $childNode || null === $childNode->ownerDocument) {
+                        throw new \RuntimeException('Unexpected null object');
+                    }
+                    $xml = $childNode->ownerDocument->saveXML($childNode);
+                    if (false === $xml) {
+                        throw new \RuntimeException('Unexpected false xml');
+                    }
+                    $textValue = \str_replace('&#13;', '', $xml);
+                    $source->appendChild(new \DOMText($textValue));
+                }
             }
         } else {
             $this->fillInline($sourceNode, $source);
@@ -472,8 +492,22 @@ class Extractor
             $target->appendChild($text);
         }
         if ($htmlEncodeInlines) {
-            foreach ($foundTargetNode->childNodes as $childNode) {
-                $target->appendChild(new \DOMText($childNode->ownerDocument->saveXML($childNode)));
+            if (!$foundTargetNode->hasChildNodes()) {
+                return;
+            }
+            if (!$foundTargetNode->childNodes instanceof \DOMNodeList) {
+                throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', \get_class($foundTargetNode->childNodes)));
+            }
+            for ($i = 0; $i < $foundTargetNode->childNodes->length; ++$i) {
+                $childNode = $foundTargetNode->childNodes->item($i);
+                if (null === $childNode || null === $childNode->ownerDocument) {
+                    throw new \RuntimeException('Unexpected null object');
+                }
+                $xml = $childNode->ownerDocument->saveXML($childNode);
+                if (false === $xml) {
+                    throw new \RuntimeException('Unexpected false xml');
+                }
+                $target->appendChild(new \DOMText($xml));
             }
         } else {
             $this->fillInline($foundTargetNode, $target);
@@ -482,7 +516,11 @@ class Extractor
 
     private function fillInline(\DOMNode $sourceNode, \DOMElement $source): void
     {
-        foreach ($sourceNode->childNodes as $child) {
+        if (!$sourceNode->hasChildNodes()) {
+            return;
+        }
+        for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
+            $child = $sourceNode->childNodes->item($i);
             if ($child instanceof \DOMElement) {
                 $subNode = new \DOMElement('g');
                 $source->appendChild($subNode);

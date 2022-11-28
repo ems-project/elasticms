@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Helper;
+namespace App\CLI\Helper;
 
-use App\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Helper\Url;
 use GuzzleHttp\Client;
 use Psr\Http\Message\StreamInterface;
 

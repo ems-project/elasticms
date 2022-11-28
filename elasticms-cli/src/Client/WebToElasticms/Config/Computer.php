@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Config;
+namespace App\CLI\Client\WebToElasticms\Config;
 
 class Computer
 {

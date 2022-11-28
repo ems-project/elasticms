@@ -98,7 +98,8 @@
         "twig/intl-extra": "^3.4",
         "twig/markdown-extra": "^3.4",
         "twig/string-extra": "^3.4",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "symplify/monorepo-builder": "^11.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
@@ -127,11 +128,9 @@
             "EMS/xliff/tests/"
         ],
         "psr-4": {
-            "App\\": [
-                "elasticms-admin/src/",
-                "elasticms-cli/src/",
-                "elasticms-web/src/"
-            ],
+            "App\\Admin\\": "elasticms-admin/src/",
+            "App\\CLI\\": "elasticms-cli/src/",
+            "App\\Web\\": "elasticms-web/src/",
             "EMS\\ClientHelperBundle\\": "EMS/client-helper-bundle/src/",
             "EMS\\CommonBundle\\": "EMS/common-bundle/src/",
             "EMS\\CoreBundle\\": "EMS/core-bundle/src/",
@@ -143,11 +142,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": [
-                "elasticms-admin/tests/",
-                "elasticms-cli/tests/",
-                "elasticms-web/tests/"
-            ],
+            "App\\Admin\\Tests\\": "elasticms-admin/tests/",
+            "App\\CLI\\Tests\\": "elasticms-cli/tests/",
+            "App\\Web\\Tests\\": "elasticms-admin/tests/",
             "EMS\\ClientHelperBundle\\Tests\\": "EMS/client-helper-bundle/tests/",
             "EMS\\CommonBundle\\Tests\\": "EMS/common-bundle/tests/",
             "EMS\\CoreBundle\\Tests\\": "EMS/core-bundle/tests/",

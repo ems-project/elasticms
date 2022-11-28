@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Document\Update;
+namespace App\CLI\Client\Document\Update;
 
 final class UpdateMap
 {

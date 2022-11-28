@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Filter\Html;
+namespace App\CLI\Client\WebToElasticms\Filter\Html;
 
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ClassCleaner implements HtmlInterface

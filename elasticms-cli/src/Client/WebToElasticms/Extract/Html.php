@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Extract;
+namespace App\CLI\Client\WebToElasticms\Extract;
 
-use App\Client\HttpClient\HttpResult;
-use App\Client\WebToElasticms\Config\Analyzer;
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Config\Document;
-use App\Client\WebToElasticms\Config\Extractor;
-use App\Client\WebToElasticms\Config\WebResource;
-use App\Client\WebToElasticms\Filter\Attr\DataLink;
-use App\Client\WebToElasticms\Filter\Attr\Src;
-use App\Client\WebToElasticms\Filter\Html\ClassCleaner;
-use App\Client\WebToElasticms\Filter\Html\InternalLink;
-use App\Client\WebToElasticms\Filter\Html\Striptag;
-use App\Client\WebToElasticms\Filter\Html\StyleCleaner;
-use App\Client\WebToElasticms\Filter\Html\TagCleaner;
-use App\Client\WebToElasticms\Helper\Url;
-use App\Client\WebToElasticms\Rapport\Rapport;
+use App\CLI\Client\HttpClient\HttpResult;
+use App\CLI\Client\WebToElasticms\Config\Analyzer;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Config\Document;
+use App\CLI\Client\WebToElasticms\Config\Extractor;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Filter\Attr\DataLink;
+use App\CLI\Client\WebToElasticms\Filter\Attr\Src;
+use App\CLI\Client\WebToElasticms\Filter\Html\ClassCleaner;
+use App\CLI\Client\WebToElasticms\Filter\Html\InternalLink;
+use App\CLI\Client\WebToElasticms\Filter\Html\Striptag;
+use App\CLI\Client\WebToElasticms\Filter\Html\StyleCleaner;
+use App\CLI\Client\WebToElasticms\Filter\Html\TagCleaner;
+use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -116,7 +116,7 @@ class Html
             if (\str_starts_with($filterType, DataLink::TYPE)) {
                 $length = \strlen(DataLink::TYPE) < \strlen($filterType) ? \strlen(DataLink::TYPE) + 1 : \strlen(DataLink::TYPE);
                 $type = \substr($filterType, $length);
-                $filter = new \App\Client\WebToElasticms\Filter\Html\DataLink($this->config, $rapport);
+                $filter = new \App\CLI\Client\WebToElasticms\Filter\Html\DataLink($this->config, $rapport);
                 $filter->process($resource, $content, $type);
                 $asHtml = false;
             } else {

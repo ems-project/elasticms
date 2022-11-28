@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Audit;
+namespace App\CLI\Client\Audit;
 
-use App\Client\HttpClient\UrlReport;
-use App\Client\WebToElasticms\Helper\Url;
-use App\Helper\StringStream;
+use App\CLI\Client\HttpClient\UrlReport;
+use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Helper\StringStream;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\File\File;
 
 class AuditResult

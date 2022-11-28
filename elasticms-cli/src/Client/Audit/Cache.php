@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Client\Audit;
+namespace App\CLI\Client\Audit;
 
-use App\Client\WebToElasticms\Helper\Url;
+use App\CLI\Client\WebToElasticms\Helper\Url;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;

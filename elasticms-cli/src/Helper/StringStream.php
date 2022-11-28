@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Helper;
+namespace App\CLI\Helper;
 
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;

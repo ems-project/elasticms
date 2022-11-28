@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Filter\Html;
+namespace App\CLI\Client\WebToElasticms\Filter\Html;
 
-use App\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Config\WebResource;
 use Symfony\Component\DomCrawler\Crawler;
 
 interface HtmlInterface

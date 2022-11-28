@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Data\Column;
+namespace App\CLI\Tests\Data\Column;
 
-use App\Client\Data\Column\DataColumnBusinessId;
-use App\Client\Data\Column\TransformContext;
-use App\Client\Data\Data;
+use App\CLI\Client\Data\Column\DataColumnBusinessId;
+use App\CLI\Client\Data\Column\TransformContext;
+use App\CLI\Client\Data\Data;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Search\Search;
 use EMS\CommonBundle\Common\CoreApi\Search\Scroll;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;

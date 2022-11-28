@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Client\WebToElasticms\Filter\Attr;
+namespace App\CLI\Client\WebToElasticms\Filter\Attr;
 
-use App\Client\WebToElasticms\Config\ConfigManager;
-use App\Client\WebToElasticms\Rapport\Rapport;
+use App\CLI\Client\WebToElasticms\Config\ConfigManager;
+use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 
 class DataLink
 {

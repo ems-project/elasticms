@@ -32,6 +32,7 @@ class AuditCommand extends AbstractCommand
     private const OPTION_MAX_UPDATES = 'max-updates';
     private const OPTION_IGNORE_REGEX = 'ignore-regex';
     private const OPTION_TIKA_BASE_URL = 'tika-base-url';
+    private const OPTION_TIKA_MAX_SIZE = 'tika-max-size';
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_PA11Y = 'pa11y';
     private const OPTION_TIKA = 'tika';
@@ -59,6 +60,7 @@ class AuditCommand extends AbstractCommand
     private ?string $ignoreRegex = null;
     private bool $tikaJar;
     private string $tikaBaseUrl;
+    private float $tikaMaxSize;
 
     public function __construct(AdminHelper $adminHelper)
     {
@@ -92,7 +94,8 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'cache']))
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
-            ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url', TikaClient::TIKA_BASE_URL);
+            ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url', TikaClient::TIKA_BASE_URL)
+            ->addOption(self::OPTION_TIKA_MAX_SIZE, null, InputOption::VALUE_OPTIONAL, 'File bigger than this limit are not send to Tika [in MB]', 5);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -114,6 +117,7 @@ class AuditCommand extends AbstractCommand
         $this->maxUpdate = $this->getOptionInt(self::OPTION_MAX_UPDATES);
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
         $this->tikaBaseUrl = $this->getOptionString(self::OPTION_TIKA_BASE_URL);
+        $this->tikaMaxSize = $this->getOptionFloat(self::OPTION_TIKA_MAX_SIZE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -136,7 +140,7 @@ class AuditCommand extends AbstractCommand
         }
         $report = $this->auditCache->getReport();
 
-        $auditManager = new AuditManager($this->cacheManager, $this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaJar, $this->tikaBaseUrl);
+        $auditManager = new AuditManager($this->cacheManager, $this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaJar, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024));
         $this->io->title(\sprintf('Starting auditing %s', $this->baseUrl->getUrl()));
         $counter = 0;
         $finish = true;

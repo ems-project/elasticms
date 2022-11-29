@@ -170,6 +170,19 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return $default;
     }
 
+    protected function getOptionFloat(string $name, ?float $default = null): float
+    {
+        if (null !== $option = $this->input->getOption($name)) {
+            return \floatval($option);
+        }
+
+        if (null === $default) {
+            throw new \RuntimeException(\sprintf('Missing option "%s"', $name));
+        }
+
+        return $default;
+    }
+
     /**
      * @return int[]
      */

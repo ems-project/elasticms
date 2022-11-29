@@ -5,8 +5,8 @@ require __DIR__.'/../vendor/autoload.php';
 use Symfony\Component\Console\Application;
 
 $application = new Application('release', '1.0.0');
-$command = new \EMS\Release\Command\ReleaseCommand();
 
-$application->add($command);
+$application->add((new \EMS\Release\Command\PackagesReleaseCommand()));
+$application->add((new \EMS\Release\Command\PackagesInfoCommand()));
 
 $application->run();

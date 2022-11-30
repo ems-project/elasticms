@@ -348,6 +348,11 @@ class AuditResult
         $this->size = $size;
     }
 
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+
     public function setDescription(?string $description): void
     {
         $this->description = $description;

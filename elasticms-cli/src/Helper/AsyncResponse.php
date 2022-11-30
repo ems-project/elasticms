@@ -4,17 +4,17 @@ namespace App\CLI\Helper;
 
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Text;
-use GuzzleHttp\Promise\PromiseInterface;
+use Http\Promise\Promise as HttplugPromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 class AsyncResponse
 {
-    private PromiseInterface $promise;
+    private HttplugPromiseInterface $promise;
     private ?ResponseInterface $response = null;
     private bool $trimWhiteSpaces;
 
-    public function __construct(PromiseInterface $promise, bool $trimWhiteSpaces = true)
+    public function __construct(HttplugPromiseInterface $promise, bool $trimWhiteSpaces = true)
     {
         $this->promise = $promise;
         $this->trimWhiteSpaces = $trimWhiteSpaces;

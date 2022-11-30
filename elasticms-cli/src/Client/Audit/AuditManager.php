@@ -344,8 +344,8 @@ class AuditManager
 
             return;
         }
-        $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result->getStream());
-        $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result->getStream());
+        $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result->getStream(), $result->getMimetype());
+        $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result->getStream(), $result->getMimetype());
     }
 
     private function addTikaAudits(AuditResult $audit, HttpResult $result): void

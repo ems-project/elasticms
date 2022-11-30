@@ -14,6 +14,7 @@ use App\CLI\Helper\Pa11yWrapper;
 use App\CLI\Helper\TikaClient;
 use App\CLI\Helper\TikaMetaResponse;
 use App\CLI\Helper\TikaWrapper;
+use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Common\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
@@ -33,11 +34,12 @@ class AuditManager
     private TikaWrapper $tikaTextAudit;
     private TikaWrapper $tikaLinksAudit;
     private TikaWrapper $tikaMetaAudit;
-    private TikaClient $tikaClient;
     private TikaMetaResponse $metaRequest;
     private AsyncResponse $htmlRequest;
+    private int $tikaMaxSize;
+    private string $tikaServerUrl;
 
-    public function __construct(CacheManager $cacheManager, LoggerInterface $logger, bool $all, bool $pa11y, bool $lighthouse, bool $tika, bool $tikaJar, string $tikaServerUrl)
+    public function __construct(CacheManager $cacheManager, LoggerInterface $logger, bool $all, bool $pa11y, bool $lighthouse, bool $tika, bool $tikaJar, string $tikaServerUrl, int $tikaMaxSize)
     {
         $this->cacheManager = $cacheManager;
         $this->logger = $logger;
@@ -46,7 +48,8 @@ class AuditManager
         $this->tikaJar = $tikaJar;
         $this->tika = $tika;
         $this->all = $all;
-        $this->tikaClient = new TikaClient($tikaServerUrl);
+        $this->tikaMaxSize = $tikaMaxSize;
+        $this->tikaServerUrl = $tikaServerUrl;
     }
 
     public function analyze(Url $url, HttpResult $result, Report $report): AuditResult
@@ -68,7 +71,7 @@ class AuditManager
             throw new \RuntimeException('--tika and --tika-jar can not be activated at the same time');
         }
         if (($this->all && !$this->tikaJar) || $this->tika) {
-            $this->startTikaAudits($result);
+            $this->startTikaAudits($audit, $result);
         }
         if ($this->tikaJar) {
             $this->startTikaJarAudits($audit, $result);
@@ -325,14 +328,26 @@ class AuditManager
         return \trim($tag->eq(0)->attr($attr) ?? '');
     }
 
-    private function startTikaAudits(HttpResult $result): void
+    private function startTikaAudits(AuditResult $audit, HttpResult $result): void
     {
-        $this->metaRequest = $this->tikaClient->meta($result->getStream());
-        $this->htmlRequest = $this->tikaClient->html($result->getStream());
+        $size = $audit->getSize();
+        if ($size <= 0 || $size > $this->tikaMaxSize) {
+            $audit->addWarning(\sprintf('File too big to be send to tika: %s', Converter::formatBytes($size)));
+
+            return;
+        }
+        $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result->getStream());
+        $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result->getStream());
     }
 
     private function addTikaAudits(AuditResult $audit, HttpResult $result): void
     {
+        $size = $audit->getSize();
+        if ($size <= 0 || $size > $this->tikaMaxSize) {
+            $audit->addWarning(\sprintf('File too big to be send to tika: %s', Converter::formatBytes($size)));
+
+            return;
+        }
         $this->logger->notice('Collect Tika audit');
         try {
             $html = new HtmlHelper($this->htmlRequest->getContent());

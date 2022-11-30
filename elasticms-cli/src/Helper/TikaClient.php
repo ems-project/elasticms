@@ -3,14 +3,14 @@
 namespace App\CLI\Helper;
 
 use App\CLI\Client\WebToElasticms\Helper\Url;
-use GuzzleHttp\Client;
 use Psr\Http\Message\StreamInterface;
+use Symfony\Component\HttpClient\HttplugClient;
 
 class TikaClient
 {
     public const TIKA_BASE_URL = 'http://localhost:9998/';
     private Url $serverUrl;
-    private ?Client $client = null;
+    private ?HttplugClient $client = null;
 
     public function __construct(string $serverBaseUrl = self::TIKA_BASE_URL)
     {
@@ -32,12 +32,12 @@ class TikaClient
         return $this->putAcceptHtml('tika', $asset);
     }
 
-    private function getClient(): Client
+    private function getClient(): HttplugClient
     {
         if (null !== $this->client) {
             return $this->client;
         }
-        $this->client = new Client();
+        $this->client = new HttplugClient();
 
         return $this->client;
     }
@@ -45,40 +45,34 @@ class TikaClient
     private function putAcceptText(string $url, StreamInterface $asset): AsyncResponse
     {
         $this->rewind($asset);
-
-        return new AsyncResponse($this->getClient()->putAsync($this->serverUrl->getUrl($url), [
+        $request = $this->getClient()->createRequest('PUT', $this->serverUrl->getUrl($url), [
             'headers' => [
                 'Accept' => 'text/plain',
             ],
             'body' => $asset,
-        ],
-        ));
+        ]);
+
+        return new AsyncResponse($this->getClient()->sendAsyncRequest($request));
     }
 
     private function putAcceptJson(string $url, StreamInterface $asset): AsyncResponse
     {
         $this->rewind($asset);
+        $request = $this->getClient()->createRequest('PUT', $this->serverUrl->getUrl($url), [
+            'Accept' => 'application/json',
+        ], $asset);
 
-        return new AsyncResponse($this->getClient()->putAsync($this->serverUrl->getUrl($url), [
-            'headers' => [
-                'Accept' => 'application/json',
-            ],
-            'body' => $asset,
-        ],
-        ));
+        return new AsyncResponse($this->getClient()->sendAsyncRequest($request));
     }
 
     private function putAcceptHtml(string $url, StreamInterface $asset): AsyncResponse
     {
         $this->rewind($asset);
+        $request = $this->getClient()->createRequest('PUT', $this->serverUrl->getUrl($url), [
+            'Accept' => 'text/html',
+        ], $asset);
 
-        return new AsyncResponse($this->getClient()->putAsync($this->serverUrl->getUrl($url), [
-            'headers' => [
-                'Accept' => 'text/html',
-            ],
-            'body' => $asset,
-        ],
-        ));
+        return new AsyncResponse($this->getClient()->sendAsyncRequest($request));
     }
 
     private function rewind(StreamInterface $asset): void

@@ -47,7 +47,7 @@ class AuditResult
     private ?string $canonical = null;
     private ?string $author = null;
     private int $size = 0;
-    private ?string $description;
+    private ?string $description = null;
 
     public function __construct(Url $url)
     {

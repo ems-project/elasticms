@@ -47,6 +47,7 @@ class AuditResult
     private ?string $canonical = null;
     private ?string $author = null;
     private int $size = 0;
+    private ?string $description;
 
     public function __construct(Url $url)
     {
@@ -251,6 +252,7 @@ class AuditResult
             'title' => $this->title,
             'canonical' => $this->canonical,
             'content' => $this->content,
+            'description' => $this->description,
             'size' => $this->size,
             'author' => $this->author,
             'timestamp' => $this->datetime->format('c'),
@@ -344,5 +346,10 @@ class AuditResult
     public function setSize(int $size): void
     {
         $this->size = $size;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 }

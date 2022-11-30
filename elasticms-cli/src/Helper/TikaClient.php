@@ -46,11 +46,8 @@ class TikaClient
     {
         $this->rewind($asset);
         $request = $this->getClient()->createRequest('PUT', $this->serverUrl->getUrl($url), [
-            'headers' => [
-                'Accept' => 'text/plain',
-            ],
-            'body' => $asset,
-        ]);
+            'Accept' => 'text/plain',
+        ], $asset);
 
         return new AsyncResponse($this->getClient()->sendAsyncRequest($request));
     }

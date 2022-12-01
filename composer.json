@@ -51,6 +51,8 @@
         "ocramius/doctrine-batch-utils": "^2.5",
         "phpoffice/phpspreadsheet": "^1.16",
         "promphp/prometheus_client_php": "^2.6",
+        "psr/cache": "^2.0",
+        "psr/simple-cache": "^2.0",
         "ramsey/uuid-doctrine": "^1.8",
         "ruflin/elastica": "^7.2",
         "sensio/framework-extra-bundle": "^6.2",

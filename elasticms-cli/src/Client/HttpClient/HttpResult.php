@@ -6,6 +6,7 @@ namespace App\CLI\Client\HttpClient;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use Symfony\Component\Mime\MimeTypes;
 
 class HttpResult
 {
@@ -48,11 +49,32 @@ class HttpResult
     public function getMimetype(): string
     {
         $mimeType = $this->getResponse()->getHeader('Content-Type');
-        if (1 !== \count($mimeType)) {
-            throw new \RuntimeException('Unexpected number of mime-type headers %d', \count($mimeType));
+        if (!empty($mimeType)) {
+            return $mimeType[0];
         }
 
-        return $mimeType[0];
+        $filename = \tempnam(\sys_get_temp_dir(), 'guess-mime-type');
+
+        if ($filename) {
+            $resource = \fopen($filename, 'w');
+            if ($resource) {
+                $handler = $this->getResponse()->getBody();
+                if (0 !== $handler->tell()) {
+                    $handler->rewind();
+                }
+
+                while (!$handler->eof()) {
+                    \fwrite($resource, $handler->read(1024 * 1024));
+                }
+                \fclose($resource);
+
+                $mimeTypes = new MimeTypes();
+
+                return $mimeTypes->guessMimeType($filename) ?? 'application/bin';
+            }
+        }
+
+        return 'application/bin';
     }
 
     public function getStream(): StreamInterface

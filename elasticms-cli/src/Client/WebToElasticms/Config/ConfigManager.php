@@ -15,6 +15,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ExpressionLanguage;
+use Symfony\Component\HttpClient\Exception\ServerException;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
@@ -304,7 +305,10 @@ class ConfigManager
             $rapport->inAssetsError($url->getUrl(), $url->getReferer());
 
             return [];
-        }
+        }/* catch (ServerException $e) {
+            $rapport->inAssetsError($url->getUrl(), $url->getReferer());
+            return [];
+        }*/
         if (0 === \strlen($hash)) {
             throw new \RuntimeException('Unexpected empty hash');
         }

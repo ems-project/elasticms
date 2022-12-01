@@ -6,10 +6,7 @@ namespace EMS\Helpers\Standard;
 
 final class Type
 {
-    /**
-     * @param mixed $value
-     */
-    public static function string($value): string
+    public static function string(mixed $value): string
     {
         if (!\is_string($value)) {
             throw new \RuntimeException(\sprintf("Expect a string got '%s'", \gettype($value)));
@@ -18,10 +15,7 @@ final class Type
         return $value;
     }
 
-    /**
-     * @param mixed $value
-     */
-    public static function integer($value): int
+    public static function integer(mixed $value): int
     {
         if (!\is_int($value)) {
             throw new \RuntimeException(\sprintf("Expect an integer got '%s'", \gettype($value)));

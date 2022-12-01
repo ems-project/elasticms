@@ -16,17 +16,11 @@ use Elastica\Query\QueryString;
  */
 final class TextValue
 {
-    private string $text;
-    private string $field;
-    private string $analyzer;
     /** @var AbstractQuery[] */
     private array $synonyms = [];
 
-    public function __construct(string $text, string $field, string $analyzer)
+    public function __construct(private readonly string $text, private readonly string $field, private readonly string $analyzer)
     {
-        $this->text = $text;
-        $this->field = $field;
-        $this->analyzer = $analyzer;
     }
 
     public function getAnalyzer(): string
@@ -76,7 +70,7 @@ final class TextValue
             return $matchPhrase;
         }
 
-        if (false !== \strpos($this->text, '*')) {
+        if (str_contains($this->text, '*')) {
             $queryString = new QueryString($this->text);
             $queryString->setDefaultField($field);
             $queryString->setAnalyzer($analyzer);

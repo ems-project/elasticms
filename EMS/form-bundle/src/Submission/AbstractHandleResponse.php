@@ -8,8 +8,8 @@ abstract class AbstractHandleResponse implements HandleResponseInterface
     /** @var mixed[] */
     protected array $extra = [];
 
-    public const STATUS_SUCCESS = 'success';
-    public const STATUS_ERROR = 'error';
+    final public const STATUS_SUCCESS = 'success';
+    final public const STATUS_ERROR = 'error';
 
     public function __construct(string $status, protected string $data)
     {

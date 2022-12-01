@@ -11,7 +11,7 @@ use Symfony\Component\Process\Process;
 
 class ProcessWrapper
 {
-    public const BUFFER_SIZE = 1024 * 1024;
+    final public const BUFFER_SIZE = 1024 * 1024;
     private ?Process $process = null;
 
     /**

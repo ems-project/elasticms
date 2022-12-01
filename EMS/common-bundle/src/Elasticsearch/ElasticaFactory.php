@@ -21,7 +21,7 @@ class ElasticaFactory
     {
         $servers = [];
         foreach ($hosts as $host) {
-            if (!str_ends_with($host, '/')) {
+            if (!\str_ends_with($host, '/')) {
                 $host .= '/';
             }
             $servers[] = ['url' => $host];

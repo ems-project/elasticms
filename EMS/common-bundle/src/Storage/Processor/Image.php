@@ -132,22 +132,14 @@ class Image
         return [\intval($width), \intval($height)];
     }
 
-    /**
-     * @param resource $temp
-     */
-    private function fillBackgroundColor($temp): void
+    private function fillBackgroundColor(\GdImage $temp): void
     {
         $solidColour = $this->getBackgroundColor($temp);
         \imagesavealpha($temp, true);
         \imagefill($temp, 0, 0, $solidColour);
     }
 
-    /**
-     * @param resource $image
-     *
-     * @return resource
-     */
-    private function applyResizeAndBackground($image, int $width, int $height, int $originalWidth, int $originalHeight)
+    private function applyResizeAndBackground(\GdImage $image, int $width, int $height, int $originalWidth, int $originalHeight): \GdImage
     {
         $temp = $this->imageCreate($width, $height);
 
@@ -191,12 +183,7 @@ class Image
         return $temp;
     }
 
-    /**
-     * @param resource $image
-     *
-     * @return resource
-     */
-    private function applyBackground($image, int $width, int $height)
+    private function applyBackground(\GdImage $image, int $width, int $height): \GdImage
     {
         $temp = $this->imageCreate($width, $height);
 
@@ -207,12 +194,7 @@ class Image
         return $temp;
     }
 
-    /**
-     * @param resource $image
-     *
-     * @return resource
-     */
-    private function applyCorner($image, int $width, int $height)
+    private function applyCorner(\GdImage $image, int $width, int $height): \GdImage
     {
         $radius = $this->config->getRadius();
         $color = $this->config->getBorderColor() ?? $this->config->getBackground();
@@ -271,12 +253,7 @@ class Image
         return $image;
     }
 
-    /**
-     * @param resource $image
-     *
-     * @return resource
-     */
-    private function applyWatermark($image, int $width, int $height)
+    private function applyWatermark(\GdImage $image, int $width, int $height): \GdImage
     {
         if (null === $this->watermark) {
             return $image;
@@ -292,10 +269,7 @@ class Image
         return $image;
     }
 
-    /**
-     * @param resource $image
-     */
-    private function applyFlips($image, bool $flipHorizontal, bool $flipVertical): void
+    private function applyFlips(\GdImage $image, bool $flipHorizontal, bool $flipVertical): void
     {
         if ($flipHorizontal && $flipVertical) {
             \imageflip($image, IMG_FLIP_BOTH);
@@ -306,12 +280,7 @@ class Image
         }
     }
 
-    /**
-     * @param resource $image
-     *
-     * @return resource
-     */
-    private function rotate($image, float $angle)
+    private function rotate(\GdImage $image, float $angle): \GdImage
     {
         if (0 == $angle) {
             return $image;
@@ -326,10 +295,7 @@ class Image
         return $rotated;
     }
 
-    /**
-     * @param resource $temp
-     */
-    private function getBackgroundColor($temp): int
+    private function getBackgroundColor(\GdImage $temp): int
     {
         $background = $this->config->getBackground();
         $solidColour = \imagecolorallocatealpha(
@@ -357,12 +323,8 @@ class Image
      * 7 = 90 degrees anticlockwise: image has been flipped back-to-front and is on its far side.
      * 8 = 90 degrees anticlockwise, mirrored: image is on its far side.
      * ref: https://sirv.com/help/articles/rotate-photos-to-be-upright/.
-     *
-     * @param resource $image
-     *
-     * @return resource
      */
-    private function autorotate(string $filename, $image)
+    private function autorotate(string $filename, \GdImage $image): \GdImage
     {
         if (!$this->config->getAutoRotate()) {
             return $image;
@@ -412,10 +374,7 @@ class Image
         return $image;
     }
 
-    /**
-     * @return resource
-     */
-    private function imageCreate(int $width, int $height)
+    private function imageCreate(int $width, int $height): \GdImage
     {
         if (!\function_exists('imagecreatetruecolor') || false === ($image = \imagecreatetruecolor($width, $height))) {
             $image = \imagecreate($width, $height);
@@ -427,11 +386,7 @@ class Image
         return $image;
     }
 
-    /**
-     * @param resource $dstImage
-     * @param resource $srcImage
-     */
-    private function imageCopyResized($dstImage, $srcImage, int $dstX, int $dstY, int $srcX, int $srcY, int $dstWidth, int $dstHeight, int $srcWidth, int $srcHeight): void
+    private function imageCopyResized(\GdImage $dstImage, \GdImage $srcImage, int $dstX, int $dstY, int $srcX, int $srcY, int $dstWidth, int $dstHeight, int $srcWidth, int $srcHeight): void
     {
         if (\function_exists('imagecreatetruecolor') && \function_exists('imagecopyresampled')) {
             $resizeFunction = 'imagecopyresampled';

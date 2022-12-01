@@ -88,6 +88,9 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
         return $this->queries;
     }
 
+    /**
+     * @param array<mixed> $context
+     */
     public function log($level, $message, array $context = []): void
     {
         if (null !== $this->logger && $this->isEnabled()) {

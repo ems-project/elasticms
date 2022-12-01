@@ -34,7 +34,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
             return null;
         }
 
-        if (str_starts_with($path, '.')) {
+        if (\str_starts_with($path, '.')) {
             $path = $this->projectDir.DIRECTORY_SEPARATOR.$path;
         }
 

@@ -17,6 +17,7 @@ class EntityStorage implements StorageInterface, \Stringable
 {
     private readonly ObjectManager $manager;
     private readonly AssetStorageRepository $repository;
+
     public function __construct(Registry $doctrine, private readonly int $usage, private readonly int $hotSynchronizeLimit = 0)
     {
         $this->manager = $doctrine->getManager();
@@ -28,10 +29,12 @@ class EntityStorage implements StorageInterface, \Stringable
         }
         $this->repository = $repository;
     }
+
     public function head(string $hash): bool
     {
         return $this->repository->head($hash);
     }
+
     public function getSize(string $hash): int
     {
         $size = $this->repository->getSize($hash);
@@ -41,6 +44,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return $size;
     }
+
     public function create(string $hash, string $filename): bool
     {
         $entity = $this->createEntity($hash);
@@ -60,6 +64,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return true;
     }
+
     private function createEntity(string $hash): AssetStorage
     {
         $entity = $this->repository->findByHash($hash);
@@ -70,6 +75,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return $entity;
     }
+
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         $entity = $this->repository->findByHash($hash, $confirmed);
@@ -91,6 +97,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return new Stream($resource);
     }
+
     public function health(): bool
     {
         try {
@@ -100,10 +107,12 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return false;
     }
+
     public function __toString(): string
     {
         return EntityStorage::class;
     }
+
     public function remove(string $hash): bool
     {
         if (!$this->head($hash)) {
@@ -112,6 +121,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return $this->repository->removeByHash($hash);
     }
+
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $entity = $this->repository->findByHash($hash, false);
@@ -128,6 +138,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return true;
     }
+
     public function finalizeUpload(string $hash): bool
     {
         $entity = $this->repository->findByHash($hash, false);
@@ -142,6 +153,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return false;
     }
+
     public function addChunk(string $hash, string $chunk): bool
     {
         $entity = $this->repository->findByHash($hash, false);
@@ -162,14 +174,17 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return false;
     }
+
     public function getUsage(): int
     {
         return $this->usage;
     }
+
     public function getHotSynchronizeLimit(): int
     {
         return $this->hotSynchronizeLimit;
     }
+
     public function removeUpload(string $hash): void
     {
         try {
@@ -181,6 +196,7 @@ class EntityStorage implements StorageInterface, \Stringable
         } catch (\Throwable) {
         }
     }
+
     protected function isUsageSupported(int $usageRequested): bool
     {
         if ($usageRequested >= self::STORAGE_USAGE_EXTERNAL) {

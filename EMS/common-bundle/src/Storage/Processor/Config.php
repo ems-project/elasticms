@@ -243,7 +243,7 @@ final class Config
 
     private function setCacheableResult(): void
     {
-        $this->cacheableResult = null !== $this->getCacheContext() && EmsFields::ASSET_CONFIG_TYPE_IMAGE == $this->getConfigType() && \is_string($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE]) && str_starts_with($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE], 'image/') && !$this->isSvg();
+        $this->cacheableResult = null !== $this->getCacheContext() && EmsFields::ASSET_CONFIG_TYPE_IMAGE == $this->getConfigType() && \is_string($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE]) && \str_starts_with($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE], 'image/') && !$this->isSvg();
     }
 
     public function getCacheContext(): ?string
@@ -308,7 +308,7 @@ final class Config
         if (!\is_string($username) || !\is_string($password)) {
             return true;
         }
-        if (!str_contains($authorization, ' ')) {
+        if (!\str_contains($authorization, ' ')) {
             return false;
         }
         [$basic, $key] = \explode(' ', $authorization);

@@ -14,7 +14,9 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
     public function __construct(private readonly LoggerInterface $logger, private readonly int $usage, private readonly int $hotSynchronizeLimit)
     {
     }
+
     abstract protected function getBaseUrl(): string;
+
     protected function initDirectory(string $filename): void
     {
         if ($this->usage >= self::STORAGE_USAGE_EXTERNAL) {
@@ -29,6 +31,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
             }
         }
     }
+
     protected function getUploadPath(string $hash, string $ds = '/'): string
     {
         return \join($ds, [
@@ -37,6 +40,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
             $hash,
         ]);
     }
+
     protected function getPath(string $hash, string $ds = '/'): string
     {
         return \join($ds, [
@@ -45,10 +49,12 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
             $hash,
         ]);
     }
+
     public function head(string $hash): bool
     {
         return \file_exists($this->getPath($hash));
     }
+
     public function create(string $hash, string $filename): bool
     {
         $path = $this->getPath($hash);
@@ -56,6 +62,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
         return \copy($filename, $path);
     }
+
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         if ($confirmed) {
@@ -78,10 +85,12 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
         return new Stream($resource);
     }
+
     public function health(): bool
     {
         return \is_dir($this->getBaseUrl());
     }
+
     public function getSize(string $hash): int
     {
         $path = $this->getPath($hash);
@@ -97,7 +106,9 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
         return $size;
     }
+
     abstract public function __toString(): string;
+
     public function remove(string $hash): bool
     {
         $file = $this->getPath($hash);
@@ -107,6 +118,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
         return true;
     }
+
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $path = $this->getUploadPath($hash);
@@ -114,6 +126,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
         return false !== \file_put_contents($path, '');
     }
+
     public function addChunk(string $hash, string $chunk): bool
     {
         $path = $this->getUploadPath($hash);
@@ -140,6 +153,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
         return true;
     }
+
     public function finalizeUpload(string $hash): bool
     {
         $source = $this->getUploadPath($hash);
@@ -171,14 +185,17 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 
         return $copyResult;
     }
+
     public function getUsage(): int
     {
         return $this->usage;
     }
+
     public function getHotSynchronizeLimit(): int
     {
         return $this->hotSynchronizeLimit;
     }
+
     public function removeUpload(string $hash): void
     {
         try {
@@ -189,6 +206,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         } catch (\Throwable) {
         }
     }
+
     /**
      * @return resource|null
      */

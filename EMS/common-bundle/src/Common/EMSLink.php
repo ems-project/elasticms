@@ -45,7 +45,7 @@ class EMSLink implements \Stringable
 
     public static function fromText(string $text): EMSLink
     {
-        $pattern = str_starts_with($text, 'ems://') ? self::PATTERN : self::SIMPLE_PATTERN;
+        $pattern = \str_starts_with($text, 'ems://') ? self::PATTERN : self::SIMPLE_PATTERN;
         \preg_match($pattern, $text, $match);
 
         return self::fromMatch($match);

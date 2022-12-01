@@ -64,7 +64,7 @@ class Search
     }
 
     /**
-     * @return string[]|array{includes: string[], excludes: string[]}
+     * @return array<mixed>
      */
     public function getSources(): array
     {

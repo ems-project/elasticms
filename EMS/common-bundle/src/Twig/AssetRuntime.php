@@ -177,9 +177,6 @@ class AssetRuntime
                 throw new \RuntimeException('Unexpected imagecolorat error');
             }
             $rgb = \imagecolorsforindex($image, $index);
-            if (false === $rgb) {
-                throw new \RuntimeException('Unexpected imagecolorsforindex error');
-            }
             $red = \round(\round(($rgb['red'] ?? 255) / 0x33) * 0x33);
             $green = \round(\round(($rgb['green'] ?? 255) / 0x33) * 0x33);
             $blue = \round(\round(($rgb['blue'] ?? 255) / 0x33) * 0x33);

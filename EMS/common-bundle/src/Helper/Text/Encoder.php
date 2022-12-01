@@ -165,7 +165,7 @@ class Encoder
         ];
 
         foreach ($icon_classes as $text => $icon) {
-            if (str_starts_with($mimeType, $text)) {
+            if (\str_starts_with($mimeType, $text)) {
                 return $icon[$versionIndex];
             }
         }

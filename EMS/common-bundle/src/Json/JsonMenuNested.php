@@ -97,9 +97,9 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     }
 
     /**
-     * @return iterable<JsonMenuNested>|JsonMenuNested[]
+     * @return \Traversable<JsonMenuNested>
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->children as $child) {
             yield $child;

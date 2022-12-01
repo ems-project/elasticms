@@ -287,7 +287,6 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     }
 
     /**
-     * @param Response|StreamedResponse                                                          $response
      * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
      */
     private function attachResponseHeader(Response|StreamedResponse $response, array $config, string $type): void

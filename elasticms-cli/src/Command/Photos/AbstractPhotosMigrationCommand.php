@@ -16,16 +16,14 @@ abstract class AbstractPhotosMigrationCommand extends AbstractCommand
 {
     private const OPTION_CONTENT_TYPE_NAME = 'content-type-name';
     private const OPTION_UPLOAD_ORIGINAL = 'upload-original';
-    private AdminHelper $adminHelper;
     private string $contentTypeName;
     private PhotosLibraryInterface $library;
-    private MimeTypes $mimeTypes;
+    private readonly MimeTypes $mimeTypes;
     private bool $uploadOriginal;
 
-    public function __construct(AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
         $this->mimeTypes = new MimeTypes();
     }
 

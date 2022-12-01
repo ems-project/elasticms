@@ -10,16 +10,10 @@ use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 
 class Src
 {
-    public const TYPE = 'src';
-    private ConfigManager $config;
-    private string $currentUrl;
-    private Rapport $rapport;
+    final public const TYPE = 'src';
 
-    public function __construct(ConfigManager $config, string $currentUrl, Rapport $rapport)
+    public function __construct(private readonly ConfigManager $config, private readonly string $currentUrl, private readonly Rapport $rapport)
     {
-        $this->config = $config;
-        $this->currentUrl = $currentUrl;
-        $this->rapport = $rapport;
     }
 
     /**

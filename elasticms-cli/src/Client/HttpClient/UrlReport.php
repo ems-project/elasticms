@@ -8,15 +8,8 @@ use App\CLI\Client\WebToElasticms\Helper\Url;
 
 class UrlReport
 {
-    private Url $url;
-    private int $statusCode;
-    private ?string $message;
-
-    public function __construct(Url $url, int $statusCode, ?string $message = null)
+    public function __construct(private readonly Url $url, private readonly int $statusCode, private readonly ?string $message = null)
     {
-        $this->url = $url;
-        $this->statusCode = $statusCode;
-        $this->message = $message;
     }
 
     public function getUrl(): Url

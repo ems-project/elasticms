@@ -17,14 +17,12 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class CacheManager
 {
-    private Client $client;
+    private readonly Client $client;
     /** @var UrlReport[] */
     private array $cachedReport = [];
-    private string $cacheFolder;
 
-    public function __construct(string $cacheFolder, bool $allowRedirect = true)
+    public function __construct(private readonly string $cacheFolder, bool $allowRedirect = true)
     {
-        $this->cacheFolder = $cacheFolder;
         $stack = HandlerStack::create();
         $stack->push(
             new CacheMiddleware(

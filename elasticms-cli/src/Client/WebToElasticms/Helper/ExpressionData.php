@@ -9,18 +9,13 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class ExpressionData
 {
-    /**
-     * @var mixed[]
-     */
-    private array $data;
-    private PropertyAccessor $propertyAccessor;
+    private readonly PropertyAccessor $propertyAccessor;
 
     /**
      * @param array<mixed> $data
      */
-    public function __construct(array $data)
+    public function __construct(private readonly array $data)
     {
-        $this->data = $data;
         $this->propertyAccessor = new PropertyAccessor();
     }
 

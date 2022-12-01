@@ -9,13 +9,8 @@ use Psr\Http\Message\StreamInterface;
 
 class HttpResult
 {
-    private ?ResponseInterface $response;
-    private ?string $errorMessage;
-
-    public function __construct(?ResponseInterface $response, string $errorMessage = null)
+    public function __construct(private readonly ?ResponseInterface $response, private ?string $errorMessage = null)
     {
-        $this->response = $response;
-        $this->errorMessage = $errorMessage;
         if (null === $this->response && null === $this->errorMessage) {
             $this->errorMessage = 'Response is missing';
         }
@@ -63,7 +58,7 @@ class HttpResult
     public function isHtml(): bool
     {
         foreach (['text/html', 'text/xml', 'application/xhtml+xml', 'application/xml'] as $mimeType) {
-            if (0 === \strpos($this->getMimetype(), $mimeType)) {
+            if (str_starts_with($this->getMimetype(), $mimeType)) {
                 return true;
             }
         }

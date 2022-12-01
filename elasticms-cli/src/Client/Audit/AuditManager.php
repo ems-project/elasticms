@@ -21,13 +21,6 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class AuditManager
 {
-    private LoggerInterface $logger;
-    private bool $lighthouse;
-    private bool $pa11y;
-    private bool $tika;
-    private bool $tikaJar;
-    private CacheManager $cacheManager;
-    private bool $all;
     private Pa11yWrapper $pa11yAudit;
     private LighthouseWrapper $lighthouseAudit;
     private TikaWrapper $tikaLocaleAudit;
@@ -36,20 +29,9 @@ class AuditManager
     private TikaWrapper $tikaMetaAudit;
     private TikaMetaResponse $metaRequest;
     private AsyncResponse $htmlRequest;
-    private int $tikaMaxSize;
-    private string $tikaServerUrl;
 
-    public function __construct(CacheManager $cacheManager, LoggerInterface $logger, bool $all, bool $pa11y, bool $lighthouse, bool $tika, bool $tikaJar, string $tikaServerUrl, int $tikaMaxSize)
+    public function __construct(private readonly CacheManager $cacheManager, private readonly LoggerInterface $logger, private readonly bool $all, private readonly bool $pa11y, private readonly bool $lighthouse, private readonly bool $tika, private readonly bool $tikaJar, private readonly string $tikaServerUrl, private readonly int $tikaMaxSize)
     {
-        $this->cacheManager = $cacheManager;
-        $this->logger = $logger;
-        $this->pa11y = $pa11y;
-        $this->lighthouse = $lighthouse;
-        $this->tikaJar = $tikaJar;
-        $this->tika = $tika;
-        $this->all = $all;
-        $this->tikaMaxSize = $tikaMaxSize;
-        $this->tikaServerUrl = $tikaServerUrl;
     }
 
     public function analyze(Url $url, HttpResult $result, Report $report): AuditResult
@@ -256,8 +238,8 @@ class AuditManager
                 $audit->addLinks(new Url($link, $audit->getUrl()->getUrl()));
             }
             $meta = $this->tikaMetaAudit->getJson();
-            $audit->setTitle(null === ($meta['dc:title'] ?? null) ? null : \trim($meta['dc:title']));
-            $audit->setAuthor(null === ($meta['dc:author'] ?? null) ? null : \trim($meta['dc:author']));
+            $audit->setTitle(null === ($meta['dc:title'] ?? null) ? null : \trim((string) $meta['dc:title']));
+            $audit->setAuthor(null === ($meta['dc:author'] ?? null) ? null : \trim((string) $meta['dc:author']));
         } catch (\Throwable $e) {
             $this->logger->critical(\sprintf('Tika audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
         }
@@ -281,7 +263,7 @@ class AuditManager
             for ($i = 0; $i < $content->count(); ++$i) {
                 $item = $content->eq($i);
                 $href = $item->attr('href');
-                if (null === $href || 0 === \strlen($href) || '#' === \substr($href, 0, 1)) {
+                if (null === $href || 0 === \strlen($href) || str_starts_with($href, '#')) {
                     continue;
                 }
                 $audit->addLinks(new Url($href, $audit->getUrl()->getUrl()));

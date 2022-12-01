@@ -10,14 +10,10 @@ use Psr\Http\Message\StreamInterface;
 
 class AsyncResponse
 {
-    private HttplugPromiseInterface $promise;
     private ?ResponseInterface $response = null;
-    private bool $trimWhiteSpaces;
 
-    public function __construct(HttplugPromiseInterface $promise, bool $trimWhiteSpaces = true)
+    public function __construct(private readonly HttplugPromiseInterface $promise, private readonly bool $trimWhiteSpaces = true)
     {
-        $this->promise = $promise;
-        $this->trimWhiteSpaces = $trimWhiteSpaces;
     }
 
     public function getContent(): string
@@ -45,7 +41,7 @@ class AsyncResponse
         }
         $response = $this->promise->wait();
         if (!$response instanceof ResponseInterface) {
-            throw new \RuntimeException(\sprintf('Unexpected response type %s', \get_class($response)));
+            throw new \RuntimeException(\sprintf('Unexpected response type %s', $response::class));
         }
         $this->response = $response;
 

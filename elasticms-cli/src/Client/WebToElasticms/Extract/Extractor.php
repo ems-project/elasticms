@@ -22,18 +22,10 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Extractor
 {
-    private ConfigManager $config;
-    private CacheManager $cache;
-    private ExpressionLanguage $expressionLanguage;
-    private LoggerInterface $logger;
-    private Rapport $rapport;
+    private readonly ExpressionLanguage $expressionLanguage;
 
-    public function __construct(ConfigManager $config, CacheManager $cache, LoggerInterface $logger, Rapport $rapport)
+    public function __construct(private readonly ConfigManager $config, private readonly CacheManager $cache, private readonly LoggerInterface $logger, private readonly Rapport $rapport)
     {
-        $this->config = $config;
-        $this->cache = $cache;
-        $this->logger = $logger;
-        $this->rapport = $rapport;
         $this->expressionLanguage = $config->getExpressionLanguage();
     }
 
@@ -131,13 +123,10 @@ class Extractor
     {
         $result = $this->cache->get($resource->getUrl());
         $analyzer = $this->config->getAnalyzer($resource->getType());
-        switch ($analyzer->getType()) {
-            case Html::TYPE:
-                $extractor = new Html($this->config, $document, $this->rapport);
-                break;
-            default:
-                throw new \RuntimeException(\sprintf('Type of analyzer %s unknown', $analyzer->getType()));
-        }
+        $extractor = match ($analyzer->getType()) {
+            Html::TYPE => new Html($this->config, $document, $this->rapport),
+            default => throw new \RuntimeException(\sprintf('Type of analyzer %s unknown', $analyzer->getType())),
+        };
         $extractor->extractData($resource, $result, $analyzer, $data);
     }
 

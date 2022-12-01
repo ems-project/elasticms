@@ -20,8 +20,8 @@ final class DataColumnBusinessId extends DataColumn
     public string $contentType;
     public int $scrollSize;
     /** @var ?array<mixed> */
-    private ?array $scrollMust;
-    private bool $removeNotFound;
+    private readonly ?array $scrollMust;
+    private readonly bool $removeNotFound;
 
     private int $notFound = 0;
     /** @var array<mixed> */

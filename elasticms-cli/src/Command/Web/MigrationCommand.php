@@ -26,12 +26,12 @@ class MigrationCommand extends AbstractCommand
     private const ARG_CONFIG_FILE_PATH = 'json-path';
     private const OPTION_CONTINUE = 'continue';
     private const ARG_OUUID = 'OUUID';
-    public const OPTION_CACHE_FOLDER = 'cache-folder';
-    public const OPTION_MAX_UPDATES = 'max-updates';
-    public const OPTION_FORCE = 'force';
-    public const OPTION_DRY_RUN = 'dry-run';
-    public const OPTION_DUMP = 'dump';
-    public const OPTION_RAPPORTS_FOLDER = 'rapports-folder';
+    final public const OPTION_CACHE_FOLDER = 'cache-folder';
+    final public const OPTION_MAX_UPDATES = 'max-updates';
+    final public const OPTION_FORCE = 'force';
+    final public const OPTION_DRY_RUN = 'dry-run';
+    final public const OPTION_DUMP = 'dump';
+    final public const OPTION_RAPPORTS_FOLDER = 'rapports-folder';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
@@ -41,13 +41,11 @@ class MigrationCommand extends AbstractCommand
     private string $rapportsFolder;
     private ?string $ouuid = null;
     private bool $dump;
-    private AdminHelper $adminHelper;
     private int $maxUpdate;
 
-    public function __construct(AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
     }
 
     protected function configure(): void

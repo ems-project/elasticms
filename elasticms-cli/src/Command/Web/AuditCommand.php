@@ -47,7 +47,6 @@ class AuditCommand extends AbstractCommand
     private bool $continue;
     private bool $dryRun;
     private string $reportsFolder;
-    private AdminHelper $adminHelper;
     private int $maxUpdate;
     private Url $baseUrl;
     private Cache $auditCache;
@@ -62,10 +61,9 @@ class AuditCommand extends AbstractCommand
     private string $tikaBaseUrl;
     private float $tikaMaxSize;
 
-    public function __construct(AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
     }
 
     protected function configure(): void

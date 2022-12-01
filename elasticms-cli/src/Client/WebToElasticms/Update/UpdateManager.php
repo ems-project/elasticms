@@ -14,17 +14,8 @@ use Psr\Log\LoggerInterface;
 
 class UpdateManager
 {
-    private CoreApiInterface $coreApi;
-    private ConfigManager $configManager;
-    private LoggerInterface $logger;
-    private bool $dryRun;
-
-    public function __construct(CoreApiInterface $coreApi, ConfigManager $configManager, LoggerInterface $logger, bool $dryRun)
+    public function __construct(private readonly CoreApiInterface $coreApi, private readonly ConfigManager $configManager, private readonly LoggerInterface $logger, private readonly bool $dryRun)
     {
-        $this->coreApi = $coreApi;
-        $this->configManager = $configManager;
-        $this->logger = $logger;
-        $this->dryRun = $dryRun;
     }
 
     public function update(ExtractedData $extractedData, bool $force, Rapport $rapport): void

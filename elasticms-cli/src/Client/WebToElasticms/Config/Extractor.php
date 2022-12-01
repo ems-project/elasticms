@@ -6,10 +6,10 @@ namespace App\CLI\Client\WebToElasticms\Config;
 
 class Extractor
 {
-    public const ONE = '1';
-    public const ZERO_ONE = '0-1';
-    public const N = 'n';
-    public const FIRST = 'first';
+    final public const ONE = '1';
+    final public const ZERO_ONE = '0-1';
+    final public const N = 'n';
+    final public const FIRST = 'first';
     private string $selector;
     private ?string $attribute = null;
     private string $property;

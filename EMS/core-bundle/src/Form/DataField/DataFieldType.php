@@ -198,9 +198,9 @@ abstract class DataFieldType extends AbstractType
      *
      * @return array<mixed>
      */
-    public function getElasticsearchQuery(DataField $dataField, array $options = []): never
+    public function getElasticsearchQuery(DataField $dataField, array $options = []): array
     {
-        throw new \Exception('virtual method should be implemented by child class : '.$this::class);
+        return [];
     }
 
     /**
@@ -232,10 +232,9 @@ abstract class DataFieldType extends AbstractType
      *
      * @return array<mixed>
      */
-    public function getChoiceList(FieldType $fieldType, array $choices): never
+    public function getChoiceList(FieldType $fieldType, array $choices): array
     {
-        // TODO: should be abstract ??
-        throw new ContentTypeStructureException('The field '.$fieldType->getName().' of the content type '.$fieldType->giveContentType()->getName().' does not have a limited list of values!');
+        return [];
     }
 
     public static function getIcon(): string
@@ -465,12 +464,10 @@ abstract class DataFieldType extends AbstractType
      * @param array<mixed> $option
      *
      * @return array<mixed>
-     *
-     * @throws \Exception
      */
-    public static function filterSubField(array $data, array $option): never
+    public static function filterSubField(array $data, array $option): array
     {
-        throw new \Exception('Only a non-container datafield which is virtual (i.e. a non-nested datarange) can be filtered');
+        return [];
     }
 
     /**

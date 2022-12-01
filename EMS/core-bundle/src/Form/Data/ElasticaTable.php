@@ -73,7 +73,7 @@ class ElasticaTable extends TableAbstract
         }
     }
 
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         $search = $this->getSearch($this->getSearchValue());
         $resultSet = $this->elasticaService->search($search);
@@ -85,7 +85,7 @@ class ElasticaTable extends TableAbstract
         }
     }
 
-    public function count()
+    public function count(): int
     {
         if (null === $this->count) {
             $search = $this->getSearch($this->getSearchValue());

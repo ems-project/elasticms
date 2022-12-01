@@ -14,6 +14,7 @@ use EMS\CoreBundle\Service\Mapping;
 
 final class RevisionSearcher
 {
+    /** @var int<1, max> */
     private int $size;
     private string $timeout = self::DEFAULT_TIME_OUT;
 
@@ -25,7 +26,7 @@ final class RevisionSearcher
         private readonly EntityManagerInterface $entityManager,
         string $defaultScrollSize
     ) {
-        $this->size = \intval($defaultScrollSize);
+        $this->setSize((int) $defaultScrollSize);
     }
 
     public function getSize(): int
@@ -33,9 +34,12 @@ final class RevisionSearcher
         return $this->size;
     }
 
+    /**
+     * @param int $size
+     */
     public function setSize(int $size): void
     {
-        $this->size = $size;
+        $this->size = $size > 0 ? $size : 100;
     }
 
     public function setTimeout(string $timeout): void

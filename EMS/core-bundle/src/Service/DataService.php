@@ -66,8 +66,7 @@ class DataService
     final public const ALGO = OPENSSL_ALGO_SHA1;
     protected const SCROLL_TIMEOUT = '1m';
 
-    /** @var false|resource|null */
-    private $private_key = null;
+    private null|false|\OpenSSLAsymmetricKey $private_key = null;
     private ?string $public_key = null;
 
     /** @var array<mixed> */
@@ -558,7 +557,7 @@ class DataService
     public function getPublicKey(): ?string
     {
         if ($this->private_key && empty($this->public_key)) {
-            $certificate = \openssl_pkey_get_private($this->private_key); /* @phpstan-ignore-line */
+            $certificate = \openssl_pkey_get_private($this->private_key);
             if (false === $certificate) {
                 throw new \RuntimeException('Private key not found');
             }
@@ -569,10 +568,13 @@ class DataService
         return $this->public_key;
     }
 
+    /**
+     * @return ?array<mixed>
+     */
     public function getCertificateInfo(): ?array
     {
         if ($this->private_key) {
-            $certificate = \openssl_pkey_get_private($this->private_key); /* @phpstan-ignore-line */
+            $certificate = \openssl_pkey_get_private($this->private_key);
             if (false === $certificate) {
                 throw new \RuntimeException('Private key not found');
             }
@@ -879,6 +881,7 @@ class DataService
      * Parcours all fields and call DataFieldsType postFinalizeTreament function.
      *
      * @param FormInterface<FormInterface> $form
+     * @param ?array<mixed>                $previousObjectArray
      */
     public function postFinalizeTreatment(string $type, string $id, FormInterface $form, ?array $previousObjectArray = null): void
     {

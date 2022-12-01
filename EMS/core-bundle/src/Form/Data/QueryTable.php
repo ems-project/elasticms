@@ -50,9 +50,9 @@ class QueryTable extends TableAbstract
     }
 
     /**
-     * @return \IteratorAggregate<string, QueryRow>
+     * @return \Traversable<string, QueryRow>
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->service->query($this->getFrom(), $this->getSize(), $this->getOrderField(), $this->getOrderDirection(), $this->getSearchValue(), $this->context) as $data) {
             $id = $data[$this->idField] ?? null;
@@ -63,7 +63,7 @@ class QueryTable extends TableAbstract
         }
     }
 
-    public function count()
+    public function count(): int
     {
         return $this->service->countQuery($this->getSearchValue(), $this->context);
     }

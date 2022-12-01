@@ -109,11 +109,6 @@ class ExtractedData
             $matches,
             PREG_PATTERN_ORDER
         );
-        $metaArray = \array_combine($matches[1], $matches[2]);
-        if (false === $metaArray) {
-            return [];
-        }
-
-        return $metaArray;
+        return \array_combine($matches[1], $matches[2]);
     }
 }

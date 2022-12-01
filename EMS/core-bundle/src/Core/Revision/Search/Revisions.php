@@ -15,6 +15,9 @@ use EMS\CoreBundle\Entity\Revision;
  */
 final class Revisions implements \IteratorAggregate
 {
+    /**
+     * @param int<1, max> $batchSize
+     */
     public function __construct(private readonly QueryBuilder $qb, private readonly ResultSet $resultSet, private readonly int $batchSize = 50)
     {
     }
@@ -52,12 +55,15 @@ final class Revisions implements \IteratorAggregate
     }
 
     /**
-     * @return SimpleBatchIteratorAggregate|Revision[]
+     * @return iterable|Revision[]
      */
-    public function transaction(): SimpleBatchIteratorAggregate
+    public function transaction(): iterable
     {
+        /** @var Revision[] $results */
+        $results = $this->qb->getQuery()->getResult();
+
         return SimpleBatchIteratorAggregate::fromArrayResult(
-            $this->qb->getQuery()->getResult(),
+            $results,
             $this->qb->getEntityManager(),
             $this->batchSize
         );

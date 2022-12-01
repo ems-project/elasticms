@@ -41,6 +41,9 @@ class RevisionService implements RevisionServiceInterface
         return true;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function compare(Revision $revision, int $compareRevisionId): ?array
     {
         $logContext = [
@@ -185,6 +188,9 @@ class RevisionService implements RevisionServiceInterface
         return $this->dataService->newDocument($contentType, null === $uuid ? null : $uuid->toString(), $rawData, $username);
     }
 
+    /**
+     * @param array<mixed> $mergeRawData
+     */
     public function copy(Revision $revision, ?array $mergeRawData = null): void
     {
         $copiedRevision = $revision->clone();

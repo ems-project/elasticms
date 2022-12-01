@@ -54,9 +54,9 @@ final class EntityTable extends TableAbstract
     }
 
     /**
-     * @return \IteratorAggregate<string, EntityRow>
+     * @return \Traversable<string, EntityRow>
      */
-    public function getIterator(): iterable
+    public function getIterator(): \Traversable
     {
         foreach ($this->entityService->get($this->getFrom(), $this->getSize(), $this->getOrderField(), $this->getOrderDirection(), $this->getSearchValue(), $this->context) as $entity) {
             yield \strval($entity->getId()) => new EntityRow($entity);

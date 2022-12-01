@@ -221,7 +221,7 @@ class NotificationService
     }
 
     /**
-     * Call to display notifications in header menu.
+     * @param ?array<mixed> $filters
      */
     public function menuNotification(?array $filters = null): int
     {

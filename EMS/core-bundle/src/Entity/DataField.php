@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @implements \IteratorAggregate<DataField>
- * @implements \ArrayAccess<int, DataField>
+ * @implements \ArrayAccess<int, mixed>
  */
 #[Assert\Callback(['Vendor\Package\Validator', 'validate'])]
 class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
@@ -67,9 +67,9 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         $this->children->offsetSet($offset, $value);
     }
 
-    public function offsetExists(mixed $offset)
+    public function offsetExists(mixed $offset): bool
     {
-        if ((\is_int($offset) || \ctype_digit($offset)) && !$this->children->offsetExists($offset) && null !== $this->fieldType && $this->fieldType->getChildren()->count() > 0) {
+        if (\is_int($offset) && !$this->children->offsetExists($offset) && null !== $this->fieldType && $this->fieldType->getChildren()->count() > 0) {
             $value = new DataField();
             $this->children->offsetSet($offset, $value);
 
@@ -79,20 +79,17 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         return $this->children->offsetExists($offset);
     }
 
-    public function offsetUnset(mixed $offset)
+    public function offsetUnset(mixed $offset): void
     {
         $this->children->offsetUnset($offset);
     }
 
-    /**
-     * @return mixed
-     */
-    public function offsetGet(mixed $offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return (0 === $offset) ? $this->children : $this->children->offsetGet($offset);
     }
 
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return $this->children->getIterator();
     }
@@ -401,6 +398,9 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         }
     }
 
+    /**
+     * @param ?array<mixed> $rawData
+     */
     public function setArrayTextValue(?array $rawData): DataField
     {
         if (null === $rawData) {
@@ -417,6 +417,9 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getArrayTextValue(): ?array
     {
         if (null === $this->rawData) {

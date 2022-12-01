@@ -71,17 +71,17 @@ class ContentTypeRoles implements \ArrayAccess
         return isset($this->roles[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?string
     {
         return $this->roles[$offset] ?? null;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->roles[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->roles[$offset]);
     }

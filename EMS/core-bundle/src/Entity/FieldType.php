@@ -10,6 +10,7 @@ use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;
 use EMS\Helpers\Standard\DateTime;
+use phpDocumentor\Reflection\Types\ClassString;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -33,11 +34,11 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     protected $id;
 
     /**
-     * @var string
+     * @var class-string<DataFieldType>
      *
      * @ORM\Column(name="type", type="string", length=255)
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var string
@@ -191,13 +192,11 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
-     * Set type.
-     *
-     * @param string $type
+     * @param class-string<DataFieldType> $type
      *
      * @return FieldType
      */
-    public function setType($type)
+    public function setType(string $type): FieldType
     {
         $this->type = $type;
 
@@ -205,11 +204,9 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
-     * Get type.
-     *
-     * @return string
+     * @return class-string<DataFieldType>
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -714,6 +711,9 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return false;
     }
 
+    /**
+     * @param array<mixed> $options
+     */
     public function setOptions(?array $options): self
     {
         $this->options = $options ?? [];

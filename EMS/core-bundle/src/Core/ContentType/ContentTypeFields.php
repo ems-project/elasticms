@@ -60,17 +60,17 @@ class ContentTypeFields implements \ArrayAccess
         return isset($this->fields[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): ?string
     {
         return $this->fields[$offset] ?? null;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->fields[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->fields[$offset]);
     }

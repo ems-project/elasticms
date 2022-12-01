@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use EMS\Helpers\Standard\DateTime;
 
 /**
- * Revision.
- *
  * @ORM\Table(name="cache_asset_extractor")
  * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks()
@@ -40,55 +38,42 @@ class CacheAssetExtractor
         $this->modified = DateTime::create('now');
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return CacheAssetExtractor
-     */
-    public function setId($id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
 
-    /**
-     * @param string $hash
-     *
-     * @return CacheAssetExtractor
-     */
-    public function setHash($hash)
+    public function setHash(string $hash): self
     {
         $this->hash = $hash;
 
         return $this;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getData(): ?array
     {
         return $this->data;
     }
 
     /**
-     * @return CacheAssetExtractor
+     * @param array<mixed> $data
      */
-    public function setData(?array $data)
+    public function setData(?array $data): self
     {
         $this->data = $data;
 

@@ -6,15 +6,11 @@ namespace EMS\SubmissionBundle\Connection;
 
 final class Connection
 {
-    /** @var array<string, string> */
-    private array $connection;
-
     /**
      * @param array<string, string> $connection
      */
-    public function __construct(array $connection)
+    public function __construct(private array $connection)
     {
-        $this->connection = $connection;
     }
 
     public function getKey(string $key): string

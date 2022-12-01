@@ -16,13 +16,8 @@ use Symfony\Component\Mime\Email;
 
 final class EmailHandler extends AbstractHandler
 {
-    private Mailer $mailer;
-    private TwigRenderer $twigRenderer;
-
-    public function __construct(Mailer $mailer, TwigRenderer $twigRenderer)
+    public function __construct(private readonly Mailer $mailer, private readonly TwigRenderer $twigRenderer)
     {
-        $this->mailer = $mailer;
-        $this->twigRenderer = $twigRenderer;
     }
 
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface
@@ -60,7 +55,7 @@ final class EmailHandler extends AbstractHandler
             }
 
             if (isset($attachment['base64'])) {
-                $data = \base64_decode($attachment['base64']);
+                $data = \base64_decode((string) $attachment['base64']);
                 $message->attach($data, $filename, $mimeType);
             } elseif (isset($attachment['pathname'])) {
                 $message->attachFromPath($attachment['pathname'], $filename, $mimeType);

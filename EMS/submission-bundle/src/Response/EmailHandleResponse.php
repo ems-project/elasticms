@@ -9,12 +9,8 @@ use Symfony\Component\Mime\Email;
 
 final class EmailHandleResponse extends AbstractHandleResponse
 {
-    private Email $message;
-
-    public function __construct(Email $message)
+    public function __construct(private readonly Email $message)
     {
-        $this->message = $message;
-
         parent::__construct(self::STATUS_SUCCESS, 'Submission send by mail.');
     }
 

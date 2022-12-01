@@ -16,15 +16,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class ZipHandler extends AbstractHandler
 {
-    private TwigRenderer $twigRenderer;
-    private ResponseTransformer $responseTransformer;
-
-    public function __construct(
-        TwigRenderer $twigRenderer,
-        ResponseTransformer $responseTransformer
-    ) {
-        $this->twigRenderer = $twigRenderer;
-        $this->responseTransformer = $responseTransformer;
+    public function __construct(private readonly TwigRenderer $twigRenderer, private readonly ResponseTransformer $responseTransformer)
+    {
     }
 
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface

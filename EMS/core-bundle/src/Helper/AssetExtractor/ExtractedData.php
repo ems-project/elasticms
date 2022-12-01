@@ -109,6 +109,7 @@ class ExtractedData
             $matches,
             PREG_PATTERN_ORDER
         );
+
         return \array_combine($matches[1], $matches[2]);
     }
 }

@@ -10,7 +10,6 @@ use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;
 use EMS\Helpers\Standard\DateTime;
-use phpDocumentor\Reflection\Types\ClassString;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -193,8 +192,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
 
     /**
      * @param class-string<DataFieldType> $type
-     *
-     * @return FieldType
      */
     public function setType(string $type): FieldType
     {

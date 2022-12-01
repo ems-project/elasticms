@@ -4,7 +4,6 @@ namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
-use EMS\CoreBundle\Exception\ContentTypeStructureException;
 use EMS\CoreBundle\Form\DataField\Options\OptionsType;
 use EMS\CoreBundle\Form\Field\SelectPickerType;
 use EMS\CoreBundle\Service\ElasticsearchService;

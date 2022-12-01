@@ -34,9 +34,6 @@ final class RevisionSearcher
         return $this->size;
     }
 
-    /**
-     * @param int $size
-     */
     public function setSize(int $size): void
     {
         $this->size = $size > 0 ? $size : 100;

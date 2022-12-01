@@ -12,7 +12,7 @@ abstract class AbstractConstraintValidator extends ConstraintValidator
             new $class($value);
 
             return true;
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return false;
         }
     }

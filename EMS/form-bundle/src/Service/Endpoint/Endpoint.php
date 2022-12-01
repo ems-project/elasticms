@@ -9,13 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class Endpoint implements EndpointInterface
 {
-    private string $fieldName;
-    private ?string $messageTranslationKey;
-    private HttpRequest $httpRequest;
-    private bool $saveSession;
-    private string $type;
+    private readonly string $fieldName;
+    private readonly ?string $messageTranslationKey;
+    private readonly HttpRequest $httpRequest;
+    private readonly bool $saveSession;
+    private readonly string $type;
     /** @var array<mixed> */
-    private array $options;
+    private readonly array $options;
 
     /** @param array<string, mixed> $config */
     public function __construct(array $config)

@@ -26,7 +26,7 @@ class HandleResponseCollector
 
         try {
             return \json_encode($responses, JSON_THROW_ON_ERROR);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return '';
         }
     }

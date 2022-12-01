@@ -4,11 +4,11 @@ namespace EMS\FormBundle\Components\ValueObject;
 
 class BelgiumPhoneNumber
 {
-    private NumberValue $number;
+    private readonly NumberValue $number;
 
-    public const LOCAL = 'local';
-    public const INTERNATIONAL_PLUS = 'plus';
-    public const INTERNATIONAL_ZEROS = 'zeros';
+    final public const LOCAL = 'local';
+    final public const INTERNATIONAL_PLUS = 'plus';
+    final public const INTERNATIONAL_ZEROS = 'zeros';
 
     public function __construct(string $phone)
     {
@@ -77,7 +77,7 @@ class BelgiumPhoneNumber
         }
 
         if (self::LOCAL === $numberType) {
-            return 0 === \strpos($this->transform(), '0');
+            return \str_starts_with($this->transform(), '0');
         }
 
         return false;
@@ -85,11 +85,11 @@ class BelgiumPhoneNumber
 
     private function getNumberType(): string
     {
-        if (0 === \strpos($this->transform(), '+')) {
+        if (\str_starts_with($this->transform(), '+')) {
             return self::INTERNATIONAL_PLUS;
         }
 
-        if (0 === \strpos($this->transform(), '00')) {
+        if (\str_starts_with($this->transform(), '00')) {
             return self::INTERNATIONAL_ZEROS;
         }
 
@@ -98,7 +98,7 @@ class BelgiumPhoneNumber
 
     public function transform(): string
     {
-        if (0 === \strpos($this->number->getInput(), '+')) {
+        if (\str_starts_with($this->number->getInput(), '+')) {
             return '+'.$this->number->getDigits();
         }
 

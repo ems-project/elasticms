@@ -12,13 +12,8 @@ use Symfony\Component\Form\FormInterface;
 
 class NestedChoiceEventSubscriber implements EventSubscriberInterface
 {
-    private FieldInterface $field;
-    private FieldChoicesConfig $choices;
-
-    public function __construct(FieldInterface $field, FieldChoicesConfig $choices)
+    public function __construct(private readonly FieldInterface $field, private readonly FieldChoicesConfig $choices)
     {
-        $this->field = $field;
-        $this->choices = $choices;
     }
 
     /** @return string[] */
@@ -100,7 +95,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
 
         try {
             $this->choices->addChoice($choice);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return;
         }
 

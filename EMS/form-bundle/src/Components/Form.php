@@ -21,11 +21,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Form extends AbstractType
 {
-    private FormConfigFactory $configFactory;
-
-    public function __construct(FormConfigFactory $configFactory)
+    public function __construct(private readonly FormConfigFactory $configFactory)
     {
-        $this->configFactory = $configFactory;
     }
 
     /**

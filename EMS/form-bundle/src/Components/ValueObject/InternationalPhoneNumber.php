@@ -9,7 +9,7 @@ use libphonenumber\PhoneNumberUtil;
 
 final class InternationalPhoneNumber
 {
-    private NumberValue $number;
+    private readonly NumberValue $number;
 
     public function __construct(string $phone)
     {
@@ -34,7 +34,7 @@ final class InternationalPhoneNumber
         $phoneNumberUtil = PhoneNumberUtil::getInstance();
         try {
             $phoneNumberObject = $phoneNumberUtil->parse($this->number->getInput(), null);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

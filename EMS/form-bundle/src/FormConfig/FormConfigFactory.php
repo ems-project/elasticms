@@ -15,28 +15,22 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 class FormConfigFactory
 {
-    private ClientRequestInterface $client;
-    private AdapterInterface $cache;
-    private LoggerInterface $logger;
+    private readonly ClientRequestInterface $client;
     /** @var array{type_form_validation: string, name: string, cacheable: bool, domain: string, load_from_json: bool, submission_field: string, theme_field: string, form_template_field: string, form_field: string, form_subform_field: string, type_form_choice: string, type_form_subform: string, type_form_markup: string, type_form_field: string, type: string} */
     private array $emsConfig;
-    private bool $loadFromJson;
-    private TextRuntime $textRuntime;
+    private readonly bool $loadFromJson;
 
     /**
      * @param array{type_form_validation: string, name: string, cacheable: bool, domain: string, load_from_json: bool, submission_field: string, theme_field: string, form_template_field: string, form_field: string, form_subform_field: string, type_form_choice: string, type_form_subform: string, type_form_markup: string, type_form_field: string, type: string} $emsConfig
      */
     public function __construct(
         ClientRequestManagerInterface $manager,
-        AdapterInterface $cache,
-        LoggerInterface $logger,
-        TextRuntime $textRuntime,
+        private readonly AdapterInterface $cache,
+        private readonly LoggerInterface $logger,
+        private readonly TextRuntime $textRuntime,
         array $emsConfig
     ) {
         $this->client = $manager->getDefault();
-        $this->cache = $cache;
-        $this->logger = $logger;
-        $this->textRuntime = $textRuntime;
         $this->loadFromJson = $emsConfig[Configuration::LOAD_FROM_JSON];
         $this->emsConfig = $emsConfig;
     }
@@ -76,7 +70,7 @@ class FormConfigFactory
     {
         $validityTags = '';
         foreach ($this->emsConfig as $key => $value) {
-            if ('type' !== \substr($key, 0, 4)) {
+            if (!\str_starts_with($key, 'type')) {
                 continue;
             }
 
@@ -203,16 +197,12 @@ class FormConfigFactory
 
     private function createElement(Document $element, string $locale, AbstractFormConfig $config): ElementInterface
     {
-        switch ($element->getContentType()) {
-            case $this->emsConfig[Configuration::TYPE_FORM_FIELD]:
-                return $this->createFieldConfig($element, $locale, $config);
-            case $this->emsConfig[Configuration::TYPE_FORM_MARKUP]:
-                return new MarkupConfig($element->getId(), $element->getSource()['name'], $element->getSource()['markup_'.$locale]);
-            case $this->emsConfig[Configuration::TYPE_FORM_SUBFORM]:
-                return $this->createSubFormConfig($element, $locale, $config->getTranslationDomain());
-        }
-
-        throw new \RuntimeException(\sprintf('Implementation for configuration with name %s is missing', $element->getContentType()));
+        return match ($element->getContentType()) {
+            $this->emsConfig[Configuration::TYPE_FORM_FIELD] => $this->createFieldConfig($element, $locale, $config),
+            $this->emsConfig[Configuration::TYPE_FORM_MARKUP] => new MarkupConfig($element->getId(), $element->getSource()['name'], $element->getSource()['markup_'.$locale]),
+            $this->emsConfig[Configuration::TYPE_FORM_SUBFORM] => $this->createSubFormConfig($element, $locale, $config->getTranslationDomain()),
+            default => throw new \RuntimeException(\sprintf('Implementation for configuration with name %s is missing', $element->getContentType())),
+        };
     }
 
     /** @param string[] $elementEmsLinks */
@@ -346,16 +336,12 @@ class FormConfigFactory
 
     private function createElementFromJson(JsonMenuNested $element, string $locale, AbstractFormConfig $formConfig): ElementInterface
     {
-        switch ($element->getType()) {
-            case $this->emsConfig[Configuration::TYPE_FORM_FIELD]:
-                return $this->createFieldConfigFromJson($element, $locale, $formConfig);
-            case $this->emsConfig[Configuration::TYPE_FORM_MARKUP]:
-                return $this->createMarkupFromJson($element, $locale);
-            case $this->emsConfig[Configuration::TYPE_FORM_SUBFORM]:
-                return $this->createSubFormConfigFromJson($element, $locale, $formConfig->getTranslationDomain());
-        }
-
-        throw new \RuntimeException(\sprintf('Implementation for configuration with name %s is missing', $element->getType()));
+        return match ($element->getType()) {
+            $this->emsConfig[Configuration::TYPE_FORM_FIELD] => $this->createFieldConfigFromJson($element, $locale, $formConfig),
+            $this->emsConfig[Configuration::TYPE_FORM_MARKUP] => $this->createMarkupFromJson($element, $locale),
+            $this->emsConfig[Configuration::TYPE_FORM_SUBFORM] => $this->createSubFormConfigFromJson($element, $locale, $formConfig->getTranslationDomain()),
+            default => throw new \RuntimeException(\sprintf('Implementation for configuration with name %s is missing', $element->getType())),
+        };
     }
 
     private function createMarkupFromJson(JsonMenuNested $document, string $locale): MarkupConfig

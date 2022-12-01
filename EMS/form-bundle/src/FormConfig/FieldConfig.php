@@ -4,9 +4,6 @@ namespace EMS\FormBundle\FormConfig;
 
 class FieldConfig implements ElementInterface
 {
-    private string $id;
-    private string $name;
-    private string $type;
     /** @var string[] */
     private array $class = [];
     private string $className;
@@ -17,26 +14,17 @@ class FieldConfig implements ElementInterface
     /** @var ValidationConfig[] */
     private array $validations = [];
     private ?FieldChoicesConfig $choices = null;
-    private AbstractFormConfig $parentForm;
-    /** @var mixed[] */
-    private array $meta;
 
     /**
      * @param mixed[] $meta
      */
-    public function __construct(string $id, string $name, string $type, string $className, AbstractFormConfig $parentForm, array $meta = [])
+    public function __construct(private readonly string $id, private readonly string $name, private readonly string $type, string $className, private readonly AbstractFormConfig $parentForm, private array $meta = [])
     {
         if (!\class_exists($className)) {
             throw new \Exception(\sprintf('Error field class "%s" does not exists!', $className));
         }
-
-        $this->id = $id;
-        $this->name = $name;
-        $this->type = $type;
         $this->className = $className;
         $this->class[] = $name;
-        $this->parentForm = $parentForm;
-        $this->meta = $meta;
     }
 
     public function getId(): string

@@ -44,6 +44,7 @@ final class IndexService
                     'index_name' => $indexName,
                     'counter' => \count($index->getAliases()),
                 ]);
+                return;
             }
             $index->delete();
             $this->logger->notice('log.index.delete_orphan_index', [

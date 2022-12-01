@@ -57,9 +57,9 @@ abstract class DataFieldType extends AbstractType
     /**
      * Perfom field specfifc post-finalized treatment. It returns the children if it's a container.
      *
-     * @param ?array<mixed> $previousData
+     * @param ?array<string, mixed> $previousData
      *
-     * @return ?array<mixed>
+     * @return ?array<string, mixed>
      */
     public function postFinalizeTreatment(string $type, string $id, DataField $dataField, ?array $previousData): ?array
     {
@@ -279,7 +279,7 @@ abstract class DataFieldType extends AbstractType
      *
      * @return array<mixed>
      */
-    public function importData(DataField $dataField, $sourceArray, bool $isMigration): array
+    public function importData(DataField $dataField, string|array $sourceArray, bool $isMigration): array
     {
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
         if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {

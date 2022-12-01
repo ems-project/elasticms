@@ -569,7 +569,7 @@ class DataService
     }
 
     /**
-     * @return ?array<mixed>
+     * @return ?array<mixed, mixed>
      */
     public function getCertificateInfo(): ?array
     {
@@ -881,7 +881,7 @@ class DataService
      * Parcours all fields and call DataFieldsType postFinalizeTreament function.
      *
      * @param FormInterface<FormInterface> $form
-     * @param ?array<mixed>                $previousObjectArray
+     * @param ?array<string, mixed>        $previousObjectArray
      */
     public function postFinalizeTreatment(string $type, string $id, FormInterface $form, ?array $previousObjectArray = null): void
     {

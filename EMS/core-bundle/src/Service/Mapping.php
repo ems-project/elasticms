@@ -116,7 +116,7 @@ class Mapping
     /**
      * @param string[] $environmentNames
      *
-     * @return ?array<mixed>
+     * @return ?array<string, mixed>
      */
     public function getMapping(array $environmentNames): ?array
     {

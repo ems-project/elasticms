@@ -221,7 +221,7 @@ class NotificationService
     }
 
     /**
-     * @param ?array<mixed> $filters
+     * @param ?array<string, mixed> $filters
      */
     public function menuNotification(?array $filters = null): int
     {

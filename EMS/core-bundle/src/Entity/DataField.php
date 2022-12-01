@@ -399,7 +399,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
     }
 
     /**
-     * @param ?array<mixed> $rawData
+     * @param ?array<string, mixed> $rawData
      */
     public function setArrayTextValue(?array $rawData): DataField
     {

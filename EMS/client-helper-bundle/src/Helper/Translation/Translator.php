@@ -11,18 +11,8 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 final class Translator implements CacheWarmerInterface
 {
-    private EnvironmentHelper $environmentHelper;
-    private TranslationBuilder $builder;
-    private SymfonyTranslator $translator;
-
-    public function __construct(
-        EnvironmentHelper $environmentHelper,
-        TranslationBuilder $translationBuilder,
-        SymfonyTranslator $translator
-    ) {
-        $this->environmentHelper = $environmentHelper;
-        $this->builder = $translationBuilder;
-        $this->translator = $translator;
+    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly TranslationBuilder $builder, private readonly SymfonyTranslator $translator)
+    {
     }
 
     public function addCatalogues(): void
@@ -50,7 +40,7 @@ final class Translator implements CacheWarmerInterface
             foreach ($this->environmentHelper->getEnvironments() as $environment) {
                 $this->loadEnvironment($environment);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
 
         return [];

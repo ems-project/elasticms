@@ -12,13 +12,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class AssetController extends AbstractController
 {
-    private string $projectDir;
-    private AssetRuntime $assetRuntime;
-
-    public function __construct(AssetRuntime $assetRuntime, string $projectDir)
+    public function __construct(private readonly AssetRuntime $assetRuntime, private readonly string $projectDir)
     {
-        $this->assetRuntime = $assetRuntime;
-        $this->projectDir = $projectDir;
     }
 
     public function proxyToEnvironmentAlias(string $requestPath, string $alias): Response

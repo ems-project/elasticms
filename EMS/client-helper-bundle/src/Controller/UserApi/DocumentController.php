@@ -10,11 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class DocumentController
 {
-    private DocumentService $documentService;
-
-    public function __construct(DocumentService $documentService)
+    public function __construct(private readonly DocumentService $documentService)
     {
-        $this->documentService = $documentService;
     }
 
     public function show(string $contentType, string $ouuid, Request $request): JsonResponse

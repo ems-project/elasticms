@@ -12,15 +12,12 @@ final class ClientRequestManager implements ClientRequestManagerInterface
     /** @var array<string, ClientRequest> */
     private array $clientRequests = [];
     private ClientRequest $default;
-    private LoggerInterface $logger;
 
     /**
      * @param iterable|ClientRequest[] $clientRequests
      */
-    public function __construct(iterable $clientRequests, LoggerInterface $logger)
+    public function __construct(iterable $clientRequests, private readonly LoggerInterface $logger)
     {
-        $this->logger = $logger;
-
         foreach ($clientRequests as $clientRequest) {
             $this->clientRequests[$clientRequest->getName()] = $clientRequest;
 

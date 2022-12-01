@@ -14,15 +14,11 @@ use Twig\Environment;
 
 final class EmbedController extends AbstractController
 {
-    private ClientRequest $clientRequest;
-    private CacheHelper $cacheHelper;
-    private Environment $templating;
+    private readonly ClientRequest $clientRequest;
 
-    public function __construct(ClientRequestManager $manager, CacheHelper $cacheHelper, Environment $templating)
+    public function __construct(ClientRequestManager $manager, private readonly CacheHelper $cacheHelper, private readonly Environment $templating)
     {
         $this->clientRequest = $manager->getDefault();
-        $this->cacheHelper = $cacheHelper;
-        $this->templating = $templating;
     }
 
     /**

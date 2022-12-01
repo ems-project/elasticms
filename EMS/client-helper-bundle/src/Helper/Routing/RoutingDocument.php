@@ -10,7 +10,7 @@ use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 
 final class RoutingDocument implements BuilderDocumentInterface
 {
-    private string $id;
+    private readonly string $id;
     /** @var array<mixed> */
     private array $source;
 

@@ -11,19 +11,17 @@ use Symfony\Component\Yaml\Yaml;
 
 final class RoutingFile implements \Countable
 {
-    private TemplateFiles $templateFiles;
     /** @var array<string, mixed> */
     private array $routes = [];
 
     private const FILE_NAME = 'routes.yaml';
 
-    public function __construct(string $directory, TemplateFiles $templateFiles)
+    public function __construct(string $directory, private readonly TemplateFiles $templateFiles)
     {
         $file = $directory.\DIRECTORY_SEPARATOR.self::FILE_NAME;
         $content = \file_exists($file) ? (\file_get_contents($file) ?: '') : false;
         /** @var array<string, mixed> $routes */
         $routes = \file_exists($file) && $content ? Yaml::parse($content) : [];
-        $this->templateFiles = $templateFiles;
 
         foreach ($routes as $name => $data) {
             if (isset($data['config'])) {

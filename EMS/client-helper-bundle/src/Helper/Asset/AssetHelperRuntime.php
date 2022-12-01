@@ -12,17 +12,13 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class AssetHelperRuntime implements RuntimeExtensionInterface
 {
-    private StorageManager $storageManager;
-    private ClientRequestManager $manager;
-    private string $publicDir;
-    private Filesystem $filesystem;
+    private readonly string $publicDir;
+    private readonly Filesystem $filesystem;
     private ?string $versionHash = null;
     private ?string $versionSaveDir = null;
 
-    public function __construct(StorageManager $storageManager, ClientRequestManager $manager, string $projectDir)
+    public function __construct(private readonly StorageManager $storageManager, private readonly ClientRequestManager $manager, string $projectDir)
     {
-        $this->storageManager = $storageManager;
-        $this->manager = $manager;
         $this->publicDir = $projectDir.'/public';
 
         $this->filesystem = new Filesystem();

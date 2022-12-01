@@ -11,10 +11,7 @@ final class Response
     /** @var array<mixed> */
     private array $data;
 
-    /**
-     * @param mixed $data
-     */
-    public function addData(string $name, $data): void
+    public function addData(string $name, mixed $data): void
     {
         if (!\is_array($data)) {
             $this->data[$name] = $data;

@@ -10,7 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 final class VersionLockFile
 {
-    private string $filename;
+    private readonly string $filename;
     /** @var array<mixed> */
     private array $lock = [];
     private const NAME = 'version.lock';

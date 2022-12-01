@@ -9,13 +9,8 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class Router extends BaseRouter
 {
-    private EnvironmentHelper $environmentHelper;
-    private RoutingBuilder $builder;
-
-    public function __construct(EnvironmentHelper $environmentHelper, RoutingBuilder $routeBuilder)
+    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly RoutingBuilder $builder)
     {
-        $this->environmentHelper = $environmentHelper;
-        $this->builder = $routeBuilder;
     }
 
     public function getRouteCollection(): RouteCollection

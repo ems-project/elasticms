@@ -28,37 +28,12 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 final class ClientRequest implements ClientRequestInterface
 {
     private const CONTENT_TYPE_LIMIT = 500;
-    private EnvironmentHelper $environmentHelper;
-    private CacheHelper $cacheHelper;
-    private ContentTypeHelper $contentTypeHelper;
-    private LoggerInterface $logger;
-    private CacheItemPoolInterface $cache;
-    /** @var array<string, mixed> */
-    private array $options;
-    private string $name;
-    private ElasticaService $elasticaService;
 
     /**
      * @param array<string, mixed> $options
      */
-    public function __construct(
-        ElasticaService $elasticaService,
-        EnvironmentHelper $environmentHelper,
-        CacheHelper $cacheHelper,
-        ContentTypeHelper $contentTypeHelper,
-        LoggerInterface $logger,
-        CacheItemPoolInterface $cache,
-        string $name,
-        array $options = []
-    ) {
-        $this->environmentHelper = $environmentHelper;
-        $this->cacheHelper = $cacheHelper;
-        $this->contentTypeHelper = $contentTypeHelper;
-        $this->logger = $logger;
-        $this->cache = $cache;
-        $this->options = $options;
-        $this->elasticaService = $elasticaService;
-        $this->name = $name;
+    public function __construct(private readonly ElasticaService $elasticaService, private readonly EnvironmentHelper $environmentHelper, private readonly CacheHelper $cacheHelper, private readonly ContentTypeHelper $contentTypeHelper, private readonly LoggerInterface $logger, private readonly CacheItemPoolInterface $cache, private readonly string $name, private array $options = [])
+    {
     }
 
     public function getUrl(): string
@@ -83,7 +58,7 @@ final class ClientRequest implements ClientRequestInterface
         foreach ($this->elasticaService->getIndicesFromAlias($this->getAlias()) as $index) {
             try {
                 return $this->elasticaService->filterStopWords($index, $analyzer, $words);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
             }
         }
 
@@ -133,7 +108,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<string, mixed>|false
      */
-    public function getByEmsKey(string $emsLink, array $sourceFields = [])
+    public function getByEmsKey(string $emsLink, array $sourceFields = []): array|false
     {
         $type = ClientRequest::getType($emsLink);
         if (null === $type) {
@@ -153,7 +128,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<string, mixed>|false
      */
-    public function getByOuuid(string $type, string $ouuid, array $sourceFields = [], array $sourceExclude = [])
+    public function getByOuuid(string $type, string $ouuid, array $sourceFields = [], array $sourceExclude = []): array|false
     {
         $this->logger->debug('ClientRequest : getByOuuid {type}:{id}', ['type' => $type, 'id' => $ouuid]);
 
@@ -162,7 +137,7 @@ final class ClientRequest implements ClientRequestInterface
                 $document = $this->elasticaService->getDocument($index, $type, $ouuid, $sourceFields, $sourceExclude);
 
                 return $document->getRaw();
-            } catch (NotFoundException $e) {
+            } catch (NotFoundException) {
             }
         }
 
@@ -218,7 +193,7 @@ final class ClientRequest implements ClientRequestInterface
         foreach ($this->elasticaService->getIndicesFromAlias($this->getAlias()) as $index) {
             try {
                 return $this->elasticaService->getFieldAnalyzer($index, $field);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
             }
         }
 
@@ -499,7 +474,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array{_id: string, _type?: string, _source: array<mixed>}
      */
-    public function searchOne($type, array $body, ?string $indexRegex = null): array
+    public function searchOne(string|array $type, array $body, ?string $indexRegex = null): array
     {
         $this->logger->debug('ClientRequest : searchOne for {type}', ['type' => $type, 'body' => $body, 'indexRegex' => $indexRegex]);
         $search = $this->search($type, $body, 0, 2, [], $indexRegex);

@@ -10,24 +10,14 @@ use EMS\CommonBundle\Common\Standard\Json;
 
 final class TemplateDocument implements BuilderDocumentInterface
 {
-    private string $id;
-    /** @var array<mixed> */
-    private array $source;
-    /** @var array<string, string> */
-    private array $mapping;
-
     public const PREFIX = '@EMSCH';
 
     /**
-     * @param array<mixed> $source
-     * @param array<mixed> $mapping
+     * @param array<mixed>          $source
+     * @param array<string, string> $mapping
      */
-    public function __construct(string $id, array $source, array $mapping)
+    public function __construct(private readonly string $id, private array $source, private array $mapping)
     {
-        $this->id = $id;
-        $this->source = $source;
-        $this->mapping = $mapping;
-
         if (!isset($this->source[$this->mapping['name']])) {
             throw new TemplatingException(\sprintf('Invalid EMSCH_TEMPLATES mapping %s', Json::encode($mapping)));
         }

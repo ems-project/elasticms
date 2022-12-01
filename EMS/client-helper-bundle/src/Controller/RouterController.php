@@ -15,17 +15,8 @@ use Twig\Environment;
 
 final class RouterController
 {
-    private Handler $handler;
-    private Environment $templating;
-    private Processor $processor;
-    private CacheHelper $cacheHelper;
-
-    public function __construct(Handler $handler, Environment $templating, Processor $processor, CacheHelper $cacheHelper)
+    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly Processor $processor, private readonly CacheHelper $cacheHelper)
     {
-        $this->handler = $handler;
-        $this->templating = $templating;
-        $this->processor = $processor;
-        $this->cacheHelper = $cacheHelper;
     }
 
     public function handle(Request $request): Response

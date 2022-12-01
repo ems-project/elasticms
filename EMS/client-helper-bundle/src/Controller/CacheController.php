@@ -10,11 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CacheController
 {
-    private CacheHelper $cacheHelper;
-
-    public function __construct(CacheHelper $cacheHelper)
+    public function __construct(private readonly CacheHelper $cacheHelper)
     {
-        $this->cacheHelper = $cacheHelper;
     }
 
     public function getCacheHelper(): CacheHelper

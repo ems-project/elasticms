@@ -70,7 +70,7 @@ final class TextValue
             return $matchPhrase;
         }
 
-        if (str_contains($this->text, '*')) {
+        if (\str_contains($this->text, '*')) {
             $queryString = new QueryString($this->text);
             $queryString->setDefaultField($field);
             $queryString->setAnalyzer($analyzer);

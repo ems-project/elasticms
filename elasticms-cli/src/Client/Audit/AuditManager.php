@@ -263,7 +263,7 @@ class AuditManager
             for ($i = 0; $i < $content->count(); ++$i) {
                 $item = $content->eq($i);
                 $href = $item->attr('href');
-                if (null === $href || 0 === \strlen($href) || str_starts_with($href, '#')) {
+                if (null === $href || 0 === \strlen($href) || \str_starts_with($href, '#')) {
                     continue;
                 }
                 $audit->addLinks(new Url($href, $audit->getUrl()->getUrl()));

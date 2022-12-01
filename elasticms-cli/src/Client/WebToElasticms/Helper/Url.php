@@ -115,7 +115,7 @@ class Url
             }
         }
 
-        if (!str_starts_with($path, '/')) {
+        if (!\str_starts_with($path, '/')) {
             $path = $relativeToPath.$path;
         }
         $patterns = ['#(/\.?/)#', '#/(?!\.\.)[^/]+/\.\./#'];
@@ -125,7 +125,7 @@ class Url
                 throw new \RuntimeException(\sprintf('Unexpected non string path %s', $path));
             }
         }
-        if (!str_starts_with($path, '/')) {
+        if (!\str_starts_with($path, '/')) {
             $path = '/'.$path;
         }
 

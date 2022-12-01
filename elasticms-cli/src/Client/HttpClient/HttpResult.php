@@ -58,7 +58,7 @@ class HttpResult
     public function isHtml(): bool
     {
         foreach (['text/html', 'text/xml', 'application/xhtml+xml', 'application/xml'] as $mimeType) {
-            if (str_starts_with($this->getMimetype(), $mimeType)) {
+            if (\str_starts_with($this->getMimetype(), $mimeType)) {
                 return true;
             }
         }

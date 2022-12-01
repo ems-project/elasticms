@@ -34,7 +34,7 @@ class InternalLink implements HtmlInterface
             }
 
             $href = $item->getAttribute($attribute);
-            if (str_starts_with($href, 'ems://')) {
+            if (\str_starts_with($href, 'ems://')) {
                 continue;
             }
             $url = new Url($href, $this->currentUrl);

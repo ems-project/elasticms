@@ -9,11 +9,8 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\MetaInterface;
 
 final class Meta implements MetaInterface
 {
-    private Client $client;
-
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
-        $this->client = $client;
     }
 
     public function getDefaultContentTypeEnvironmentAlias(string $contentTypeName): string

@@ -10,13 +10,8 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class ElasticaFactory
 {
-    private LoggerInterface $logger;
-    private string $env;
-
-    public function __construct(LoggerInterface $logger, string $env)
+    public function __construct(private readonly LoggerInterface $logger, private readonly string $env)
     {
-        $this->logger = $logger;
-        $this->env = $env;
     }
 
     /**
@@ -26,7 +21,7 @@ class ElasticaFactory
     {
         $servers = [];
         foreach ($hosts as $host) {
-            if ('/' !== \substr($host, -1)) {
+            if (!str_ends_with($host, '/')) {
                 $host .= '/';
             }
             $servers[] = ['url' => $host];

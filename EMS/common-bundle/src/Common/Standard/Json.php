@@ -6,10 +6,7 @@ namespace EMS\CommonBundle\Common\Standard;
 
 final class Json
 {
-    /**
-     * @param mixed $value
-     */
-    public static function encode($value, bool $pretty = false): string
+    public static function encode(mixed $value, bool $pretty = false): string
     {
         $options = $pretty ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : 0;
         $encoded = \json_encode($value, $options);

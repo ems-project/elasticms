@@ -19,24 +19,18 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class Config
 {
-    private string $assetHash;
     /** @var array<string, mixed> */
     private array $options;
-    private string $configHash;
     private string $cacheKey;
     private ?string $filename;
-    private StorageManager $storageManager;
     private bool $cacheableResult;
 
     /**
      * @param array<string, mixed> $options
      */
-    public function __construct(StorageManager $storageManager, string $assetHash, string $configHash, array $options = [])
+    public function __construct(private readonly StorageManager $storageManager, private readonly string $assetHash, private readonly string $configHash, array $options = [])
     {
-        $this->storageManager = $storageManager;
-        $this->assetHash = $assetHash;
         $this->options = $this->resolve($options);
-        $this->configHash = $configHash;
         $this->setCacheKeyAndFilename();
         $this->setCacheableResult();
 
@@ -249,7 +243,7 @@ final class Config
 
     private function setCacheableResult(): void
     {
-        $this->cacheableResult = null !== $this->getCacheContext() && EmsFields::ASSET_CONFIG_TYPE_IMAGE == $this->getConfigType() && \is_string($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE]) && 0 === \strpos($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE], 'image/') && !$this->isSvg();
+        $this->cacheableResult = null !== $this->getCacheContext() && EmsFields::ASSET_CONFIG_TYPE_IMAGE == $this->getConfigType() && \is_string($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE]) && str_starts_with($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE], 'image/') && !$this->isSvg();
     }
 
     public function getCacheContext(): ?string
@@ -314,7 +308,7 @@ final class Config
         if (!\is_string($username) || !\is_string($password)) {
             return true;
         }
-        if (false === \strpos($authorization, ' ')) {
+        if (!str_contains($authorization, ' ')) {
             return false;
         }
         [$basic, $key] = \explode(' ', $authorization);

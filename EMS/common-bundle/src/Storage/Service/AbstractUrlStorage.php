@@ -9,21 +9,12 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-abstract class AbstractUrlStorage implements StorageInterface
+abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 {
-    private int $usage;
-    private LoggerInterface $logger;
-    private int $hotSynchronizeLimit;
-
-    public function __construct(LoggerInterface $logger, int $usage, int $hotSynchronizeLimit)
+    public function __construct(private readonly LoggerInterface $logger, private readonly int $usage, private readonly int $hotSynchronizeLimit)
     {
-        $this->logger = $logger;
-        $this->usage = $usage;
-        $this->hotSynchronizeLimit = $hotSynchronizeLimit;
     }
-
     abstract protected function getBaseUrl(): string;
-
     protected function initDirectory(string $filename): void
     {
         if ($this->usage >= self::STORAGE_USAGE_EXTERNAL) {
@@ -33,12 +24,11 @@ abstract class AbstractUrlStorage implements StorageInterface
         if (!\file_exists($directoryName)) {
             try {
                 \mkdir($directoryName, 0777, true);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 $this->logger->warning('Not able to create a {directoryName} folder', ['directoryName' => $directoryName]);
             }
         }
     }
-
     protected function getUploadPath(string $hash, string $ds = '/'): string
     {
         return \join($ds, [
@@ -47,7 +37,6 @@ abstract class AbstractUrlStorage implements StorageInterface
             $hash,
         ]);
     }
-
     protected function getPath(string $hash, string $ds = '/'): string
     {
         return \join($ds, [
@@ -56,12 +45,10 @@ abstract class AbstractUrlStorage implements StorageInterface
             $hash,
         ]);
     }
-
     public function head(string $hash): bool
     {
         return \file_exists($this->getPath($hash));
     }
-
     public function create(string $hash, string $filename): bool
     {
         $path = $this->getPath($hash);
@@ -69,7 +56,6 @@ abstract class AbstractUrlStorage implements StorageInterface
 
         return \copy($filename, $path);
     }
-
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         if ($confirmed) {
@@ -92,12 +78,10 @@ abstract class AbstractUrlStorage implements StorageInterface
 
         return new Stream($resource);
     }
-
     public function health(): bool
     {
         return \is_dir($this->getBaseUrl());
     }
-
     public function getSize(string $hash): int
     {
         $path = $this->getPath($hash);
@@ -113,9 +97,7 @@ abstract class AbstractUrlStorage implements StorageInterface
 
         return $size;
     }
-
     abstract public function __toString(): string;
-
     public function remove(string $hash): bool
     {
         $file = $this->getPath($hash);
@@ -125,7 +107,6 @@ abstract class AbstractUrlStorage implements StorageInterface
 
         return true;
     }
-
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $path = $this->getUploadPath($hash);
@@ -133,7 +114,6 @@ abstract class AbstractUrlStorage implements StorageInterface
 
         return false !== \file_put_contents($path, '');
     }
-
     public function addChunk(string $hash, string $chunk): bool
     {
         $path = $this->getUploadPath($hash);
@@ -160,7 +140,6 @@ abstract class AbstractUrlStorage implements StorageInterface
 
         return true;
     }
-
     public function finalizeUpload(string $hash): bool
     {
         $source = $this->getUploadPath($hash);
@@ -192,17 +171,14 @@ abstract class AbstractUrlStorage implements StorageInterface
 
         return $copyResult;
     }
-
     public function getUsage(): int
     {
         return $this->usage;
     }
-
     public function getHotSynchronizeLimit(): int
     {
         return $this->hotSynchronizeLimit;
     }
-
     public function removeUpload(string $hash): void
     {
         try {
@@ -210,10 +186,9 @@ abstract class AbstractUrlStorage implements StorageInterface
             if (\file_exists($file)) {
                 \unlink($file);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
-
     /**
      * @return resource|null
      */

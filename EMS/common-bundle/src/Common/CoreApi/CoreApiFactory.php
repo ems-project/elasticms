@@ -11,15 +11,8 @@ use Psr\Log\LoggerInterface;
 
 final class CoreApiFactory implements CoreApiFactoryInterface
 {
-    private LoggerInterface $logger;
-    private StorageManager $storageManager;
-    private bool $insecure;
-
-    public function __construct(LoggerInterface $logger, StorageManager $storageManager, bool $insecure = false)
+    public function __construct(private readonly LoggerInterface $logger, private readonly StorageManager $storageManager, private readonly bool $insecure = false)
     {
-        $this->logger = $logger;
-        $this->storageManager = $storageManager;
-        $this->insecure = $insecure;
     }
 
     public function create(string $baseUrl): CoreApiInterface

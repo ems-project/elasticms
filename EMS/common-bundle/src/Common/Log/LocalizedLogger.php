@@ -13,15 +13,8 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
 {
     private const PATTERN = '/%(?<parameter>(_|)[[:alnum:]_]*)%/m';
 
-    private LoggerInterface $logger;
-    private TranslatorInterface $translator;
-    private string $translationDomain;
-
-    public function __construct(LoggerInterface $logger, TranslatorInterface $translator, string $translationDomain)
+    public function __construct(private readonly LoggerInterface $logger, private readonly TranslatorInterface $translator, private readonly string $translationDomain)
     {
-        $this->logger = $logger;
-        $this->translator = $translator;
-        $this->translationDomain = $translationDomain;
     }
 
     public function log($level, $message, array $context = []): void

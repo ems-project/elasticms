@@ -10,11 +10,8 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\UserInterface;
 
 final class User implements UserInterface
 {
-    private Client $client;
-
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
-        $this->client = $client;
     }
 
     /**

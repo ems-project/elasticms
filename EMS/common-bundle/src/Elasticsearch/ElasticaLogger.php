@@ -11,16 +11,12 @@ use Psr\Log\LoggerInterface;
 
 class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
 {
-    private ?LoggerInterface $logger;
     /** @var array<mixed> */
     private array $queries = [];
-    private bool $debug;
     private bool $enabled = true;
 
-    public function __construct(?LoggerInterface $logger = null, bool $debug = false)
+    public function __construct(private readonly ?LoggerInterface $logger = null, private readonly bool $debug = false)
     {
-        $this->logger = $logger;
-        $this->debug = $debug;
     }
 
     public function isEnabled(): bool
@@ -43,7 +39,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
      * @param array<mixed>        $connection Host, port, transport, and headers of the query
      * @param array<mixed>        $query      Arguments
      */
-    public function logQuery(string $path, string $method, $data, float $queryTime, array $connection = [], array $query = [], int $engineTime = 0, int $itemCount = 0): void
+    public function logQuery(string $path, string $method, array|string $data, float $queryTime, array $connection = [], array $query = [], int $engineTime = 0, int $itemCount = 0): void
     {
         $executionMS = $queryTime * 1000;
 

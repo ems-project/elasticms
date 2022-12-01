@@ -6,19 +6,14 @@ namespace EMS\CommonBundle\Elasticsearch\Request;
 
 class Request implements RequestInterface
 {
-    /** @var array<mixed> */
-    private array $body;
-    private string $index;
     private string $scroll = '30s';
     private int $size = 10;
 
     /**
      * @param array<mixed> $body
      */
-    public function __construct(string $index, array $body)
+    public function __construct(private readonly string $index, private readonly array $body)
     {
-        $this->index = $index;
-        $this->body = $body;
     }
 
     public function getScroll(): string

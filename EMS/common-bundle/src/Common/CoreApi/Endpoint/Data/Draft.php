@@ -9,8 +9,8 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DraftInterface;
 
 final class Draft implements DraftInterface
 {
-    private int $id;
-    private ?string $ouuid;
+    private readonly int $id;
+    private readonly ?string $ouuid;
 
     public function __construct(Result $result)
     {

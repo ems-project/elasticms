@@ -15,11 +15,8 @@ use EMS\CommonBundle\Search\Search as SearchObject;
 
 class Search implements SearchInterface
 {
-    private Client $client;
-
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
-        $this->client = $client;
     }
 
     public function search(SearchObject $search): ResponseInterface

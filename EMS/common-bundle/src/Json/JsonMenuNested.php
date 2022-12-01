@@ -10,10 +10,10 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 /**
  * @implements \IteratorAggregate<JsonMenuNested>
  */
-final class JsonMenuNested implements \IteratorAggregate, \Countable
+final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringable
 {
     private string $id;
-    private string $type;
+    private readonly string $type;
     private string $label;
     /** @var array<mixed> */
     private array $object;
@@ -54,7 +54,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable
         ]);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->label;
     }

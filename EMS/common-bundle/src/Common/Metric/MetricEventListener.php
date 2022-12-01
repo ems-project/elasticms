@@ -11,11 +11,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class MetricEventListener implements EventSubscriberInterface
 {
-    private MetricCollector $metricCollector;
-
-    public function __construct(MetricCollector $metricCollector)
+    public function __construct(private readonly MetricCollector $metricCollector)
     {
-        $this->metricCollector = $metricCollector;
     }
 
     /**

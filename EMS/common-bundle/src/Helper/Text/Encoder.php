@@ -7,13 +7,8 @@ use EMS\CommonBundle\DependencyInjection\Configuration;
 
 class Encoder
 {
-    private string $webalizeRemovableRegex;
-    private string $webalizeDashableRegex;
-
-    public function __construct(string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX)
+    public function __construct(private readonly string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, private readonly string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX)
     {
-        $this->webalizeRemovableRegex = $webalizeRemovableRegex;
-        $this->webalizeDashableRegex = $webalizeDashableRegex;
     }
 
     public function htmlEncode(string $text): string
@@ -170,7 +165,7 @@ class Encoder
         ];
 
         foreach ($icon_classes as $text => $icon) {
-            if (0 === \strpos($mimeType, $text)) {
+            if (str_starts_with($mimeType, $text)) {
                 return $icon[$versionIndex];
             }
         }

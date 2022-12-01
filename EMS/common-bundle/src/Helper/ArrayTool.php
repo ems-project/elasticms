@@ -8,10 +8,8 @@ class ArrayTool
      * Normalize and json encode an array in order to compute its hash.
      *
      * @param array<mixed> $array
-     *
-     * @return false|string
      */
-    public static function normalizeAndSerializeArray(array &$array, int $sort_flags = SORT_REGULAR, int $jsonEncodeOptions = 0)
+    public static function normalizeAndSerializeArray(array &$array, int $sort_flags = SORT_REGULAR, int $jsonEncodeOptions = 0): false|string
     {
         ArrayTool::normalizeArray($array, $sort_flags);
 

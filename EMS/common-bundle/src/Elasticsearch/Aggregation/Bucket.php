@@ -6,9 +6,9 @@ class Bucket
 {
     /** @var string|null */
     private $key;
-    private int $count;
+    private readonly int $count;
     /** @var array<string, mixed> */
-    private array $raw;
+    private readonly array $raw;
 
     /**
      * @param array<string, mixed> $bucket

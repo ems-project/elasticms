@@ -11,11 +11,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PdfGenerator implements PdfGeneratorInterface
 {
-    private PdfPrinterInterface $pdfPrinter;
-
-    public function __construct(PdfPrinterInterface $pdfPrinter)
+    public function __construct(private readonly PdfPrinterInterface $pdfPrinter)
     {
-        $this->pdfPrinter = $pdfPrinter;
     }
 
     public function createOptionsFromHtml(string $html): PdfPrintOptions

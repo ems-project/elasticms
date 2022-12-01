@@ -11,11 +11,8 @@ use Symfony\Component\HttpClient\Exception\TransportException;
 
 final class Admin implements AdminInterface
 {
-    private Client $client;
-
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
-        $this->client = $client;
     }
 
     public function getConfig(string $typeName): ConfigInterface
@@ -40,7 +37,7 @@ final class Admin implements AdminInterface
             $this->client->post(\implode('/', ['api', 'admin', 'start-job', $jobId]), [], [
                 'max_duration' => 1,
             ]);
-        } catch (TransportException $e) {
+        } catch (TransportException) {
         }
     }
 }

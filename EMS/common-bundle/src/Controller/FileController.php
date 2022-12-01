@@ -12,13 +12,8 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class FileController extends AbstractController
 {
-    private Processor $processor;
-    private RequestRuntime $requestRuntime;
-
-    public function __construct(Processor $processor, RequestRuntime $requestRuntime)
+    public function __construct(private readonly Processor $processor, private readonly RequestRuntime $requestRuntime)
     {
-        $this->processor = $processor;
-        $this->requestRuntime = $requestRuntime;
     }
 
     public function asset(Request $request, string $hash, string $hash_config, string $filename): Response

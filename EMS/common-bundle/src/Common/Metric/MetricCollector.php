@@ -16,10 +16,6 @@ use Psr\Cache\CacheItemInterface;
 
 final class MetricCollector
 {
-    private Cache $cache;
-    /** @var iterable<MetricCollectorInterface> */
-    private iterable $collectors;
-
     private ?CollectorRegistry $collectorRegistry = null;
     private ?Adapter $storageAdapter = null;
 
@@ -28,10 +24,8 @@ final class MetricCollector
     /**
      * @param iterable<MetricCollectorInterface> $collectors
      */
-    public function __construct(Cache $cache, iterable $collectors)
+    public function __construct(private readonly Cache $cache, private readonly iterable $collectors)
     {
-        $this->cache = $cache;
-        $this->collectors = $collectors;
     }
 
     public function clear(): void

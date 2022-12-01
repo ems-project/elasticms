@@ -10,14 +10,10 @@ use Psr\Log\LoggerInterface;
 
 class Image
 {
-    private Config $config;
     private ?string $watermark = null;
-    private ?LoggerInterface $logger;
 
-    public function __construct(Config $config, ?LoggerInterface $logger = null)
+    public function __construct(private readonly Config $config, private readonly ?LoggerInterface $logger = null)
     {
-        $this->config = $config;
-        $this->logger = $logger;
     }
 
     public function setWatermark(string $watermark): void

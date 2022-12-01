@@ -23,14 +23,12 @@ use Psr\Log\LoggerInterface;
 
 final class CoreApi implements CoreApiInterface
 {
-    private Client $client;
-    private File $fileEndpoint;
-    private Search $searchEndpoint;
-    private DataExtract $dataExtractEndpoint;
+    private readonly File $fileEndpoint;
+    private readonly Search $searchEndpoint;
+    private readonly DataExtract $dataExtractEndpoint;
 
-    public function __construct(Client $client, StorageManager $storageManager)
+    public function __construct(private readonly Client $client, StorageManager $storageManager)
     {
-        $this->client = $client;
         $this->fileEndpoint = new File($client, $storageManager);
         $this->searchEndpoint = new Search($client);
         $this->dataExtractEndpoint = new DataExtract($client);
@@ -101,7 +99,7 @@ final class CoreApi implements CoreApiInterface
     {
         try {
             return $this->client->get('/api/test')->isSuccess();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
     }

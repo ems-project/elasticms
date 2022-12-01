@@ -13,7 +13,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 class CommandListener implements EventSubscriberInterface
 {
-    private Stopwatch $stopwatch;
+    private readonly Stopwatch $stopwatch;
 
     public function __construct()
     {

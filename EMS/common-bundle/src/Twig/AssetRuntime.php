@@ -21,21 +21,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AssetRuntime
 {
-    private StorageManager $storageManager;
-    private LoggerInterface $logger;
-    private Filesystem $filesystem;
-    private UrlGeneratorInterface $urlGenerator;
-    private Processor $processor;
-    private string $cacheDir;
+    private readonly Filesystem $filesystem;
 
-    public function __construct(StorageManager $storageManager, LoggerInterface $logger, UrlGeneratorInterface $urlGenerator, Processor $processor, string $cacheDir)
+    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly UrlGeneratorInterface $urlGenerator, private readonly Processor $processor, private readonly string $cacheDir)
     {
-        $this->storageManager = $storageManager;
-        $this->logger = $logger;
         $this->filesystem = new Filesystem();
-        $this->urlGenerator = $urlGenerator;
-        $this->processor = $processor;
-        $this->cacheDir = $cacheDir;
     }
 
     /**
@@ -195,7 +185,7 @@ class AssetRuntime
             $blue = \round(\round(($rgb['blue'] ?? 255) / 0x33) * 0x33);
 
             return \sprintf('#%02X%02X%02X', $red, $green, $blue);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return '#FFFFFF';
         }
     }
@@ -221,7 +211,7 @@ class AssetRuntime
 
         try {
             $imageSize = Image::imageSize($tempFile);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             return null;
         }
 
@@ -229,12 +219,12 @@ class AssetRuntime
             'width' => $imageSize[0],
             'height' => $imageSize[1],
             'mimeType' => $imageSize['mime'],
-            'extension' => \explode('/', $imageSize['mime'])[1],
+            'extension' => \explode('/', (string) $imageSize['mime'])[1],
         ];
 
         try {
             $imageResolution = Image::imageResolution($tempFile);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             return $imageInfo;
         }
 

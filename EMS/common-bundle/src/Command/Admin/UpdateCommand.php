@@ -15,20 +15,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateCommand extends AbstractCommand
 {
-    public const CONFIG_TYPE = 'config-type';
-    public const ENTITY_NAME = 'entity-name';
-    public const JSON_PATH = 'json-path';
-    public const FOLDER = 'folder';
+    final public const CONFIG_TYPE = 'config-type';
+    final public const ENTITY_NAME = 'entity-name';
+    final public const JSON_PATH = 'json-path';
+    final public const FOLDER = 'folder';
     private string $configType;
     private string $entityName;
     private ?string $jsonPath = null;
-    private AdminHelper $adminHelper;
     private string $folder;
 
-    public function __construct(AdminHelper $adminHelper, string $projectFolder)
+    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
     }
 

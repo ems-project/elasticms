@@ -32,7 +32,7 @@ class AssetStorageRepository extends EntityRepository
             $qb = $this->getQuery($hash, $confirmed)->select('count(a.hash)');
 
             return 0 !== $qb->getQuery()->getSingleScalarResult();
-        } catch (NonUniqueResultException $e) {
+        } catch (NonUniqueResultException) {
             return false;
         }
     }
@@ -45,7 +45,7 @@ class AssetStorageRepository extends EntityRepository
             $qb->setParameter(':hash', $hash, Types::STRING);
 
             return false !== $qb->getQuery()->execute();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
     }
@@ -56,7 +56,7 @@ class AssetStorageRepository extends EntityRepository
 
         try {
             return $qb->getQuery()->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
+        } catch (NonUniqueResultException) {
             return null;
         }
     }
@@ -67,7 +67,7 @@ class AssetStorageRepository extends EntityRepository
             $qb = $this->getQuery($hash, $confirmed)->select('a.size');
 
             return $qb->getQuery()->getSingleScalarResult();
-        } catch (NonUniqueResultException $e) {
+        } catch (NonUniqueResultException) {
             return null;
         }
     }

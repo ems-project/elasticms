@@ -13,15 +13,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class TextRuntime implements RuntimeExtensionInterface
 {
-    private Encoder $encoder;
-    private Decoder $decoder;
-    private LoggerInterface $logger;
-
-    public function __construct(Encoder $encoder, Decoder $decoder, LoggerInterface $logger)
+    public function __construct(private readonly Encoder $encoder, private readonly Decoder $decoder, private readonly LoggerInterface $logger)
     {
-        $this->encoder = $encoder;
-        $this->decoder = $decoder;
-        $this->logger = $logger;
     }
 
     public function emsHtml(string $html): EmsHtml

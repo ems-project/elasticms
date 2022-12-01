@@ -18,7 +18,7 @@ class Document implements DocumentInterface
     /** @var string */
     private $index;
     /** @var array<string, mixed> */
-    private array $raw;
+    private readonly array $raw;
     /** @var string|null */
     private $highlight;
 

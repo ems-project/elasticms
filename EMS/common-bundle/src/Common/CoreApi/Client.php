@@ -18,13 +18,11 @@ class Client
 {
     /** @var array<string, string> */
     private array $headers = [];
-    private string $baseUrl;
-    private HttpClientInterface $client;
+    private readonly HttpClientInterface $client;
     private LoggerInterface $logger;
 
-    public function __construct(string $baseUrl, LoggerInterface $logger, bool $insecure)
+    public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $insecure)
     {
-        $this->baseUrl = $baseUrl;
         $this->client = new CurlHttpClient([
             'base_uri' => $baseUrl,
             'headers' => ['Content-Type' => 'application/json'],

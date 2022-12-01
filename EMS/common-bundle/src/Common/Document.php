@@ -4,19 +4,11 @@ namespace EMS\CommonBundle\Common;
 
 class Document
 {
-    private string $contentType;
-    private string $ouuid;
-    /** @var array<mixed> */
-    private array $source;
-
     /**
      * @param array<mixed> $source
      */
-    public function __construct(string $contentType, string $ouuid, array $source)
+    public function __construct(private readonly string $contentType, private readonly string $ouuid, private readonly array $source)
     {
-        $this->contentType = $contentType;
-        $this->ouuid = $ouuid;
-        $this->source = $source;
     }
 
     public function getContentType(): string

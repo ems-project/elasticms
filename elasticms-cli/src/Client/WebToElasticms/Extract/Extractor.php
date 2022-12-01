@@ -98,7 +98,7 @@ class Extractor
             }
 
             if ($emptyExtractor) {
-                $hash = $this->hashFromResources($document);
+                $hash = $this->hashFromUrls($document);
             } else {
                 $hash = \sha1(Json::encode($data));
             }
@@ -196,17 +196,11 @@ class Extractor
         $this->config->setLastUpdated(null);
     }
 
-    private function hashFromResources(WebDocument $document): string
+    private function hashFromUrls(WebDocument $document): string
     {
         $hashContext = \hash_init('sha1');
         foreach ($document->getResources() as $resource) {
-            $handler = $this->cache->get($resource->getUrl())->getStream();
-            if (0 !== $handler->tell()) {
-                $handler->rewind();
-            }
-            while (!$handler->eof()) {
-                \hash_update($hashContext, $handler->read(1024 * 1024));
-            }
+            \hash_update($hashContext, $resource->getUrl());
         }
 
         return \hash_final($hashContext);

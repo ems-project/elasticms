@@ -20,17 +20,17 @@ class TikaClientTest extends TestCase
         $streamDutch->write('Hoi, hoe gaat het met je vanmorgen?');
         $client = new TikaClient();
 
-        $this->assertEquals('fr', $client->meta($streamFrench)->getLocale());
-        $this->assertEquals('nl', $client->meta($streamDutch)->getLocale());
+        $this->assertEquals('fr', $client->meta($streamFrench, 'text/plain')->getLocale());
+        $this->assertEquals('nl', $client->meta($streamDutch, 'text/plain')->getLocale());
     }
 
     public function testWordFile(): void
     {
         $client = new TikaClient();
         $bonjourDocx = new Stream(\fopen(\join(DIRECTORY_SEPARATOR, [__DIR__, 'resources', 'Bonjour.docx']), 'r'));
-        $meta = $client->meta($bonjourDocx);
-        $text = $client->text($bonjourDocx);
-        $html = new HtmlHelper($client->html($bonjourDocx)->getContent());
+        $meta = $client->meta($bonjourDocx, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        $text = $client->text($bonjourDocx, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        $html = new HtmlHelper($client->html($bonjourDocx, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')->getContent());
         $this->assertEquals('fr', $meta->getLocale());
         $this->assertEquals('Mathieu De Keyzer', $meta->getCreator());
         $this->assertEquals('Texte de test tika', $meta->getTitle());
@@ -46,10 +46,10 @@ class TikaClientTest extends TestCase
     public function testPdfFile(): void
     {
         $client = new TikaClient();
-        $bonjourDocx = new Stream(\fopen(\join(DIRECTORY_SEPARATOR, [__DIR__, 'resources', 'Bonjour.pdf']), 'r'));
-        $meta = $client->meta($bonjourDocx);
-        $text = $client->text($bonjourDocx);
-        $html = new HtmlHelper($client->html($bonjourDocx)->getContent());
+        $bonjourPdf = new Stream(\fopen(\join(DIRECTORY_SEPARATOR, [__DIR__, 'resources', 'Bonjour.pdf']), 'r'));
+        $meta = $client->meta($bonjourPdf, 'application/pdf');
+        $text = $client->text($bonjourPdf, 'application/pdf');
+        $html = new HtmlHelper($client->html($bonjourPdf, 'application/pdf')->getContent());
         $this->assertEquals('fr', $meta->getLocale());
         $this->assertEquals('Mathieu De Keyzer', $meta->getCreator());
         $this->assertEquals(new \DateTimeImmutable('2022-11-13T10:46:47Z'), $meta->getCreated());

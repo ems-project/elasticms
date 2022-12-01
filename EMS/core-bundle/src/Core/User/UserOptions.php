@@ -12,7 +12,7 @@ class UserOptions implements \ArrayAccess
     /** @var array<string, bool> */
     private array $options = [];
 
-    public const SIMPLIFIED_UI = 'simplified_ui';
+    final public const SIMPLIFIED_UI = 'simplified_ui';
 
     /**
      * @param array<string, bool> $data

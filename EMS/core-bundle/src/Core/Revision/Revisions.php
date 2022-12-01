@@ -13,13 +13,8 @@ use EMS\CoreBundle\Entity\Revision;
  */
 final class Revisions implements \IteratorAggregate
 {
-    private QueryBuilder $qb;
-    private int $batchSize;
-
-    public function __construct(QueryBuilder $qb, int $batchSize = 50)
+    public function __construct(private readonly QueryBuilder $qb, private int $batchSize = 50)
     {
-        $this->qb = $qb;
-        $this->batchSize = $batchSize;
     }
 
     public function setBatchSize(int $batchSize): void

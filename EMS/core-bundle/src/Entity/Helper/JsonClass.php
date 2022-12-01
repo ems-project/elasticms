@@ -8,20 +8,10 @@ use EMS\CoreBundle\Entity\EntityInterface;
 
 class JsonClass implements \JsonSerializable
 {
-    /** @var class-string */
-    private string $class;
-
-    /** @var array<mixed> */
-    private array $constructorArguments;
-    /** @var array<string, mixed> */
-    private array $properties;
-    /** @var string[] */
-    private array $replacedFields;
-
-    public const CLASS_INDEX = 'class';
-    public const CONSTRUCTOR_ARGUMENTS_INDEX = 'arguments';
-    public const PROPERTIES_INDEX = 'properties';
-    public const REPLACED_FIELDS = 'replaced';
+    final public const CLASS_INDEX = 'class';
+    final public const CONSTRUCTOR_ARGUMENTS_INDEX = 'arguments';
+    final public const PROPERTIES_INDEX = 'properties';
+    final public const REPLACED_FIELDS = 'replaced';
 
     /**
      * @param array<string, mixed> $properties
@@ -29,12 +19,8 @@ class JsonClass implements \JsonSerializable
      * @param array<mixed>         $constructorArguments
      * @param string[]             $replacedFields
      */
-    public function __construct(array $properties, string $class, array $constructorArguments = [], array $replacedFields = [])
+    public function __construct(private array $properties, private readonly string $class, private readonly array $constructorArguments = [], private array $replacedFields = [])
     {
-        $this->class = $class;
-        $this->constructorArguments = $constructorArguments;
-        $this->properties = $properties;
-        $this->replacedFields = $replacedFields;
     }
 
     public static function fromJsonString(string $jsonString): self
@@ -69,10 +55,7 @@ class JsonClass implements \JsonSerializable
         unset($this->properties[$name]);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function updateProperty(string $name, $value): void
+    public function updateProperty(string $name, mixed $value): void
     {
         $this->properties[$name] = $value;
     }

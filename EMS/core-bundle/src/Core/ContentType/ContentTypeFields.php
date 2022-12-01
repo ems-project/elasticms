@@ -14,14 +14,14 @@ class ContentTypeFields implements \ArrayAccess
     /** @var array<string, ?string> */
     private array $fields = [];
 
-    public const LABEL = 'label';
-    public const COLOR = 'color';
-    public const SORT = 'sort';
-    public const TOOLTIP = 'tooltip';
-    public const CIRCLES = 'circles';
-    public const BUSINESS_ID = 'business_id';
-    public const CATEGORY = 'category';
-    public const ASSET = 'asset';
+    final public const LABEL = 'label';
+    final public const COLOR = 'color';
+    final public const SORT = 'sort';
+    final public const TOOLTIP = 'tooltip';
+    final public const CIRCLES = 'circles';
+    final public const BUSINESS_ID = 'business_id';
+    final public const CATEGORY = 'category';
+    final public const ASSET = 'asset';
 
     private const FIELDS = [
         self::LABEL,

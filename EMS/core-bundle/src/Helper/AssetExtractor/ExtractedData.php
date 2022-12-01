@@ -6,15 +6,11 @@ use EMS\CommonBundle\Common\Standard\Json;
 
 class ExtractedData
 {
-    /** @var mixed[] */
-    private array $source;
-
     /**
      * @param array<string, mixed> $source
      */
-    public function __construct(array $source)
+    public function __construct(private array $source)
     {
-        $this->source = $source;
     }
 
     public static function fromJsonString(string $json): self

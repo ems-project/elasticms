@@ -12,8 +12,8 @@ class VersionOptions implements \ArrayAccess
     /** @var array<string, bool> */
     private array $options = [];
 
-    public const DATES_READ_ONLY = 'dates_read_only';
-    public const DATES_INTERVAL_ONE_DAY = 'dates_interval_one_day';
+    final public const DATES_READ_ONLY = 'dates_read_only';
+    final public const DATES_INTERVAL_ONE_DAY = 'dates_interval_one_day';
 
     /**
      * @param array<string, bool> $data

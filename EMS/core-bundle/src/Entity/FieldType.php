@@ -22,7 +22,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FieldType extends JsonDeserializer implements \JsonSerializable
 {
     use CreatedModifiedTrait;
-    public const DISPLAY_OPTIONS = 'displayOptions';
+    final public const DISPLAY_OPTIONS = 'displayOptions';
     /**
      * @var int
      *
@@ -158,7 +158,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
      *
      * set the data value(s) from a string received from the symfony form) in the context of this field
      */
-    public function setDataValue($input, DataField &$dataField): void
+    public function setDataValue(mixed $input, DataField &$dataField): never
     {
         throw new \Exception('Deprecated method');
 //         $type = $this->getType();
@@ -185,7 +185,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return $out;
     }
 
-    public function getDataValue(DataField &$dataField): void
+    public function getDataValue(DataField &$dataField): never
     {
         throw new \Exception('Deprecated method');
     }
@@ -356,11 +356,9 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
-     * @param mixed $default
-     *
      * @return mixed
      */
-    public function getRestrictionOption(string $key, $default = null)
+    public function getRestrictionOption(string $key, mixed $default = null)
     {
         $options = $this->getRestrictionOptions();
         if (isset($options[$key])) {
@@ -371,11 +369,9 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
-     * @param mixed $default
-     *
      * @return mixed
      */
-    public function getMigrationOption(string $key, $default = null)
+    public function getMigrationOption(string $key, mixed $default = null)
     {
         $options = $this->getMigrationOptions();
         if (isset($options[$key])) {
@@ -501,8 +497,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     /**
      * Set contentType.
      *
-     * @param ContentType $contentType
-     *
      * @return FieldType
      */
     public function setContentType(ContentType $contentType = null)
@@ -562,7 +556,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
      */
     public function __get(string $key): ?FieldType
     {
-        if (0 !== \strpos($key, 'ems_')) {
+        if (!\str_starts_with($key, 'ems_')) {
             throw new \Exception('unprotected ems get with key '.$key);
         } else {
             $key = \substr($key, 4);
@@ -587,13 +581,11 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
-     * @param mixed $input
-     *
      * @throws \Exception
      */
-    public function __set(string $key, $input): void
+    public function __set(string $key, mixed $input): void
     {
-        if (0 !== \strpos($key, 'ems_')) {
+        if (!\str_starts_with($key, 'ems_')) {
             throw new \Exception('unprotected ems set with key '.$key);
         } else {
             $key = \substr($key, 4);
@@ -702,11 +694,9 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     /**
      * Get child by path.
      *
-     * @return FieldType|false
-     *
      * @deprecated it's not clear if its the mapping of the rawdata or of the formdata (with ou without the virtual fields) see the same function in the contenttypeservice
      */
-    public function getChildByPath(string $path)
+    public function getChildByPath(string $path): FieldType|false
     {
         $elem = \explode('.', $path);
 
@@ -724,9 +714,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return false;
     }
 
-    /**
-     * @param ?array<mixed> $options
-     */
     public function setOptions(?array $options): self
     {
         $this->options = $options ?? [];

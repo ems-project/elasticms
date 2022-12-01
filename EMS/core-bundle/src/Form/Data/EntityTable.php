@@ -9,24 +9,16 @@ use EMS\CoreBundle\Service\EntityServiceInterface;
 
 final class EntityTable extends TableAbstract
 {
-    private EntityServiceInterface $entityService;
     private bool $loadAll;
     private ?int $count = null;
     private ?int $totalCount = null;
     private bool $massAction = true;
-    /**
-     * @var mixed|null
-     */
-    private $context;
 
     /**
      * @param mixed $context
      */
-    public function __construct(EntityServiceInterface $entityService, string $ajaxUrl, $context = null, int $loadAllMaxRow = 400)
+    public function __construct(private readonly EntityServiceInterface $entityService, string $ajaxUrl, private $context = null, int $loadAllMaxRow = 400)
     {
-        $this->entityService = $entityService;
-        $this->context = $context;
-
         if ($this->count() > $loadAllMaxRow) {
             parent::__construct($ajaxUrl, 0, 0);
             $this->loadAll = false;

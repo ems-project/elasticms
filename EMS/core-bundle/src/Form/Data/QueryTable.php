@@ -9,24 +9,14 @@ use EMS\CoreBundle\Service\QueryServiceInterface;
 class QueryTable extends TableAbstract
 {
     private bool $loadAll;
-    /**
-     * @var mixed|null
-     */
-    private $context;
-    private QueryServiceInterface $service;
-    private string $queryName;
     private bool $massAction = true;
     private string $idField = 'id';
 
     /**
      * @param mixed $context
      */
-    public function __construct(QueryServiceInterface $service, string $queryName, string $ajaxUrl, $context = null, int $loadAllMaxRow = 400)
+    public function __construct(private readonly QueryServiceInterface $service, private readonly string $queryName, string $ajaxUrl, private $context = null, int $loadAllMaxRow = 400)
     {
-        $this->context = $context;
-        $this->service = $service;
-        $this->queryName = $queryName;
-
         if ($this->count() > $loadAllMaxRow) {
             parent::__construct($ajaxUrl, 0, 0);
             $this->loadAll = false;

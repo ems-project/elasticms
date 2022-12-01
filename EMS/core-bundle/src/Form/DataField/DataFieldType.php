@@ -24,15 +24,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 abstract class DataFieldType extends AbstractType
 {
-    protected AuthorizationCheckerInterface $authorizationChecker;
-    protected FormRegistryInterface $formRegistry;
-    protected ElasticsearchService $elasticsearchService;
-
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, FormRegistryInterface $formRegistry, ElasticsearchService $elasticsearchService)
+    public function __construct(protected AuthorizationCheckerInterface $authorizationChecker, protected FormRegistryInterface $formRegistry, protected ElasticsearchService $elasticsearchService)
     {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->formRegistry = $formRegistry;
-        $this->elasticsearchService = $elasticsearchService;
     }
 
     /**
@@ -205,9 +198,9 @@ abstract class DataFieldType extends AbstractType
      *
      * @return array<mixed>
      */
-    public function getElasticsearchQuery(DataField $dataField, array $options = []): array
+    public function getElasticsearchQuery(DataField $dataField, array $options = []): never
     {
-        throw new \Exception('virtual method should be implemented by child class : '.\get_class($this));
+        throw new \Exception('virtual method should be implemented by child class : '.$this::class);
     }
 
     /**
@@ -215,7 +208,7 @@ abstract class DataFieldType extends AbstractType
      *
      * @param array<mixed> $options
      */
-    public function getDataValue(DataField &$dataValues, array $options): void
+    public function getDataValue(DataField &$dataValues, array $options): never
     {
         // TODO: should be abstract ??
         throw new \Exception('This function should never be called');
@@ -224,10 +217,9 @@ abstract class DataFieldType extends AbstractType
     /**
      * set the data value(s) from a string recieved from the symfony form) in the context of this field.
      *
-     * @param mixed        $input
      * @param array<mixed> $options
      */
-    public function setDataValue($input, DataField &$dataValues, array $options): void
+    public function setDataValue(mixed $input, DataField &$dataValues, array $options): never
     {
         // TODO: should be abstract ??
         throw new \Exception('This function should never be called');
@@ -240,7 +232,7 @@ abstract class DataFieldType extends AbstractType
      *
      * @return array<mixed>
      */
-    public function getChoiceList(FieldType $fieldType, array $choices): array
+    public function getChoiceList(FieldType $fieldType, array $choices): never
     {
         // TODO: should be abstract ??
         throw new ContentTypeStructureException('The field '.$fieldType->getName().' of the content type '.$fieldType->giveContentType()->getName().' does not have a limited list of values!');
@@ -370,10 +362,8 @@ abstract class DataFieldType extends AbstractType
 
     /**
      * Test if the field is valid.
-     *
-     * @param mixed $masterRawData
      */
-    public function isValid(DataField &$dataField, DataField $parent = null, &$masterRawData = null): bool
+    public function isValid(DataField &$dataField, DataField $parent = null, mixed &$masterRawData = null): bool
     {
         if ($this->hasDeletedParent($parent)) {
             return true;
@@ -384,10 +374,8 @@ abstract class DataFieldType extends AbstractType
 
     /**
      * Test if the requirment of the field is reached.
-     *
-     * @param mixed $masterRawData
      */
-    public function isMandatory(DataField &$dataField, DataField $parent = null, &$masterRawData = null): bool
+    public function isMandatory(DataField &$dataField, DataField $parent = null, mixed &$masterRawData = null): bool
     {
         $isValidMandatory = true;
         // Get FieldType mandatory option
@@ -418,7 +406,7 @@ abstract class DataFieldType extends AbstractType
     public static function resolve(array $rawData, array $parentRawData, string $path, ?string $default = null): ?string
     {
         $current = $rawData;
-        if (\strlen($path) && '.' === \substr($path, 0, 1)) {
+        if (\strlen($path) && \str_starts_with($path, '.')) {
             $current = $parentRawData;
         }
 
@@ -480,7 +468,7 @@ abstract class DataFieldType extends AbstractType
      *
      * @throws \Exception
      */
-    public static function filterSubField(array $data, array $option): array
+    public static function filterSubField(array $data, array $option): never
     {
         throw new \Exception('Only a non-container datafield which is virtual (i.e. a non-nested datarange) can be filtered');
     }

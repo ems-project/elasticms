@@ -80,17 +80,12 @@ class CacheAssetExtractor
         return $this;
     }
 
-    /**
-     * @return ?array<mixed>
-     */
     public function getData(): ?array
     {
         return $this->data;
     }
 
     /**
-     * @param ?array<mixed> $data
-     *
      * @return CacheAssetExtractor
      */
     public function setData(?array $data)

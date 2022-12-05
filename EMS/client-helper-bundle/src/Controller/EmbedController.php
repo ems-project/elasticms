@@ -50,11 +50,12 @@ final class EmbedController extends AbstractController
     }
 
     /**
-     * @param array<mixed> $body
-     * @param array<mixed> $args
-     * @param string[]     $sourceExclude
+     * @param string|string[]|null $searchType
+     * @param array<mixed>         $body
+     * @param array<mixed>         $args
+     * @param string[]             $sourceExclude
      */
-    public function renderBlockAction(string $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, ?string $cacheType = null, array $sourceExclude = []): Response
+    public function renderBlockAction(null|string|array $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, ?string $cacheType = null, array $sourceExclude = []): Response
     {
         $cacheKey = [
             'EMSCH_Block',

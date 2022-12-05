@@ -78,5 +78,9 @@
             <tag name="twig.runtime" />
         </service>
 
+        <service id="emsco.twig_components.file_browser" class="EMS\CoreBundle\Twig\Components\FileBrowserComponent">
+            <argument type="service" id="ems_common.storage.manager" />
+            <tag name="twig.component" key="file_browser" template="@EMSCore/components/file_browser.html.twig"  />
+        </service>
     </services>
 </container>

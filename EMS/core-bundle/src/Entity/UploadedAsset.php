@@ -26,7 +26,7 @@ class UploadedAsset implements EntityInterface
     /**
      * @ORM\Column(name="status", type="string", length=64, nullable=true)
      */
-    private string $status;
+    private ?string $status = null;
 
     /**
      * @ORM\Column(name="sha1", type="string", length=128)

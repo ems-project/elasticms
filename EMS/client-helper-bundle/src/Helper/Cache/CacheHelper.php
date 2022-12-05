@@ -13,18 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CacheHelper
 {
-    private CacheItemPoolInterface $cache;
-    private LoggerInterface $logger;
-    private string $hashAlgo;
-
-    public function __construct(
-        CacheItemPoolInterface $cache,
-        LoggerInterface $logger,
-        string $hashAlgo
-    ) {
-        $this->cache = $cache;
-        $this->logger = $logger;
-        $this->hashAlgo = $hashAlgo;
+    public function __construct(private readonly CacheItemPoolInterface $cache, private readonly LoggerInterface $logger, private readonly string $hashAlgo)
+    {
     }
 
     public function getResponse(string $cacheKey): ?Response

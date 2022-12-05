@@ -12,21 +12,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class SftpRequest extends AbstractRequest
 {
     /** @var array{host: string, port: int, username?: string, password?: string, privateKey?: string, root: string, timeout: int} */
-    private array $endpoint;
-    /** @var array<mixed> */
-    private array $files;
+    private readonly array $endpoint;
 
     /**
      * @param array<string, mixed> $endpoint
      * @param array<mixed>         $files
      */
-    public function __construct(array $endpoint, array $files)
+    public function __construct(array $endpoint, private readonly array $files)
     {
         /** @var array{host: string, port: int, username?: string, password?: string, privateKey?: string, root: string, timeout: int} $endpoint */
         $endpoint = $this->resolveEndpoint($endpoint);
 
         $this->endpoint = $endpoint;
-        $this->files = $files;
     }
 
     public function getAdapter(): SftpAdapter

@@ -6,7 +6,7 @@ class RrNumber
 {
     /** @var string */
     protected $base;
-    private string $controlNumber;
+    private readonly string $controlNumber;
 
     public const RRN = '/(?<base>(?<year>\d\d)(?<month>\d\d)(?<day>\d\d)(?<dayCounter>\d\d\d))(?<controlNumber>\d\d)/m';
 

@@ -16,7 +16,7 @@ final class DomPdfPrinter implements PdfPrinterInterface
     public function __construct(string $projectDir, string $cacheDir)
     {
         $this->domPdfRootDirectories = [$projectDir];
-        if (0 !== \strpos($cacheDir, $projectDir)) {
+        if (!\str_starts_with($cacheDir, $projectDir)) {
             $this->domPdfRootDirectories[] = $cacheDir;
         }
     }

@@ -10,19 +10,13 @@ use Psr\Log\LoggerInterface;
 
 class HttpFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    /** @var string */
-    public const STORAGE_TYPE = 'http';
-    /** @var string */
-    public const STORAGE_CONFIG_BASE_URL = 'base-url';
-    /** @var string */
-    public const STORAGE_CONFIG_GET_URL = 'get-url';
-    /** @var string */
-    public const STORAGE_CONFIG_AUTH_KEY = 'auth-key';
-    private LoggerInterface $logger;
+    final public const STORAGE_TYPE = 'http';
+    final public const STORAGE_CONFIG_BASE_URL = 'base-url';
+    final public const STORAGE_CONFIG_GET_URL = 'get-url';
+    final public const STORAGE_CONFIG_AUTH_KEY = 'auth-key';
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
-        $this->logger = $logger;
     }
 
     /**

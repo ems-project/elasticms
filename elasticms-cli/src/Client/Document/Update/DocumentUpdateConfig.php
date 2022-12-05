@@ -18,7 +18,7 @@ final class DocumentUpdateConfig
     public int $updateIndexEmsId;
     /** @var UpdateMap[] */
     public array $updateMapping;
-    private ?string $collectionField;
+    private readonly ?string $collectionField;
 
     /**
      * @param array<mixed> $config
@@ -41,7 +41,7 @@ final class DocumentUpdateConfig
     {
         try {
             $fileContent = \file_get_contents($filename);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             $fileContent = false;
         }
 

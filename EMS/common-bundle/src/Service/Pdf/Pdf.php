@@ -6,13 +6,8 @@ namespace EMS\CommonBundle\Service\Pdf;
 
 final class Pdf implements PdfInterface
 {
-    private string $filename;
-    private string $html;
-
-    public function __construct(string $filename, string $html)
+    public function __construct(private readonly string $filename, private readonly string $html)
     {
-        $this->filename = $filename;
-        $this->html = $html;
     }
 
     public function getFilename(): string

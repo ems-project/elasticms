@@ -15,19 +15,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GetCommand extends AbstractCommand
 {
-    public const CONFIG_TYPE = 'config-type';
-    public const EXPORT = 'export';
-    public const FOLDER = 'folder';
-    private AdminHelper $adminHelper;
+    final public const CONFIG_TYPE = 'config-type';
+    final public const EXPORT = 'export';
+    final public const FOLDER = 'folder';
     private string $configType;
     private bool $export;
     private string $folder;
     private CoreApiInterface $coreApi;
 
-    public function __construct(AdminHelper $adminHelper, string $projectFolder)
+    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
     }
 

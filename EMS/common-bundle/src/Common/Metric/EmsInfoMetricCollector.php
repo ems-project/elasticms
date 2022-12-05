@@ -10,11 +10,8 @@ use Prometheus\CollectorRegistry;
 
 final class EmsInfoMetricCollector implements MetricCollectorInterface
 {
-    private ComposerInfo $composerInfo;
-
-    public function __construct(ComposerInfo $composerInfo)
+    public function __construct(private readonly ComposerInfo $composerInfo)
     {
-        $this->composerInfo = $composerInfo;
     }
 
     public function getName(): string

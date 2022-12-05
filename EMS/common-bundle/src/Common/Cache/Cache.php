@@ -12,8 +12,7 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 final class Cache
 {
-    private Config $config;
-    private string $cacheDir;
+    private readonly Config $config;
 
     private ?\Redis $redis = null;
     private ?AdapterInterface $adapter = null;
@@ -31,10 +30,9 @@ final class Cache
     /**
      * @param array<mixed> $config
      */
-    public function __construct(array $config, string $cacheDir)
+    public function __construct(array $config, private readonly string $cacheDir)
     {
         $this->config = new Config($config);
-        $this->cacheDir = $cacheDir;
     }
 
     public function isApc(): bool

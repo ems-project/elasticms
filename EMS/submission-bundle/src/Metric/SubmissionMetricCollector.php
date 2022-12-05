@@ -12,9 +12,6 @@ use Prometheus\CollectorRegistry;
 
 final class SubmissionMetricCollector implements MetricCollectorInterface
 {
-    private FormSubmissionRepository $formSubmissionRepository;
-    private Connection $connection;
-
     private const VALID_UNTIL = '+5 minutes';
     private const GAUGES = [
         'total' => 'Total form submissions',
@@ -22,10 +19,8 @@ final class SubmissionMetricCollector implements MetricCollectorInterface
         'errors_total' => 'Total count error submissions',
     ];
 
-    public function __construct(FormSubmissionRepository $formSubmissionRepository, Connection $connection)
+    public function __construct(private readonly FormSubmissionRepository $formSubmissionRepository, private readonly Connection $connection)
     {
-        $this->formSubmissionRepository = $formSubmissionRepository;
-        $this->connection = $connection;
     }
 
     public function getName(): string
@@ -67,7 +62,7 @@ final class SubmissionMetricCollector implements MetricCollectorInterface
             $this->connection->connect();
 
             return $this->connection->isConnected();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
     }

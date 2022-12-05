@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Exception\TemplatingException;
 
 final class TemplateName
 {
-    private string $contentType;
-    private string $searchValue;
-    private ?string $searchField;
+    private readonly string $contentType;
+    private readonly string $searchValue;
+    private readonly ?string $searchField;
 
     private const REGEX_MATCH_OUUID = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*):(?<search_val>.*)$/';
     private const REGEX_MATCH_NAME = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*)\/(?<search_val>.*)$/';

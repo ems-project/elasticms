@@ -9,13 +9,11 @@ use Psr\Http\Message\StreamInterface;
 
 class TikaWrapper extends ProcessWrapper
 {
-    private string $tikaJar;
-    private bool $trimWhiteSpaces;
+    private readonly string $tikaJar;
 
-    private function __construct(StreamInterface $stream, string $option, string $cacheFolder, bool $trimWhiteSpaces = false, float $timeout = 3 * 60.0)
+    private function __construct(StreamInterface $stream, string $option, string $cacheFolder, private readonly bool $trimWhiteSpaces = false, float $timeout = 3 * 60.0)
     {
         $this->tikaJar = \join(DIRECTORY_SEPARATOR, [$cacheFolder, 'tika.jar']);
-        $this->trimWhiteSpaces = $trimWhiteSpaces;
         parent::__construct(['java', '-Djava.awt.headless=true', '-jar', $this->tikaJar, $option], $stream, $timeout);
     }
 

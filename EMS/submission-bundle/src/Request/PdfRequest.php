@@ -14,18 +14,15 @@ final class PdfRequest extends AbstractRequest
     /** @var array{filename: string, orientation: string, size: string} */
     protected array $endpoint;
 
-    private string $html;
-
     /**
      * @param array<string, mixed> $endpoint
      */
-    public function __construct(array $endpoint, string $html)
+    public function __construct(array $endpoint, private readonly string $html)
     {
         /** @var array{filename: string, orientation: string, size: string} $endpoint */
         $endpoint = $this->resolveEndpoint($endpoint);
 
         $this->endpoint = $endpoint;
-        $this->html = $html;
     }
 
     public function getFilename(): string

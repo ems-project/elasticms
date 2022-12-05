@@ -9,13 +9,11 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 
 final class Form implements FormInterface
 {
-    private Client $client;
     /** @var string[] */
     private array $endPoint = ['api', 'forms'];
 
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
-        $this->client = $client;
     }
 
     public function createVerification(string $value): string

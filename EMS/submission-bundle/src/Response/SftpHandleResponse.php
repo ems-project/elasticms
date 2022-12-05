@@ -9,20 +9,12 @@ use EMS\SubmissionBundle\Request\SftpRequest;
 
 final class SftpHandleResponse extends AbstractHandleResponse
 {
-    private SftpRequest $sftpRequest;
-
-    /** @var array<array{path: string, contents: string}> */
-    private array $transportedFiles;
-
     /**
      * @param array<array{path: string, contents: string}> $transportedFiles
      */
-    public function __construct(SftpRequest $sftpRequest, array $transportedFiles)
+    public function __construct(private readonly SftpRequest $sftpRequest, private readonly array $transportedFiles)
     {
         parent::__construct(self::STATUS_SUCCESS, 'Submission send by sftp.');
-
-        $this->sftpRequest = $sftpRequest;
-        $this->transportedFiles = $transportedFiles;
     }
 
     public function getSftpRequest(): SftpRequest

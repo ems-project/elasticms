@@ -10,11 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class TestController
 {
-    private TestService $testService;
-
-    public function __construct(TestService $testService)
+    public function __construct(private readonly TestService $testService)
     {
-        $this->testService = $testService;
     }
 
     public function __invoke(Request $request): JsonResponse

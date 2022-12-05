@@ -11,21 +11,14 @@ use Symfony\Component\Process\Process;
 
 class ProcessWrapper
 {
-    public const BUFFER_SIZE = 1024 * 1024;
-    private float $timeout;
-    /** @var string[] */
-    private array $command;
+    final public const BUFFER_SIZE = 1024 * 1024;
     private ?Process $process = null;
-    private ?StreamInterface $stream;
 
     /**
      * @param string[] $command
      */
-    public function __construct(array $command, ?StreamInterface $stream = null, float $timeout = 3 * 60.0)
+    public function __construct(private readonly array $command, private readonly ?StreamInterface $stream = null, private readonly float $timeout = 3 * 60.0)
     {
-        $this->timeout = $timeout;
-        $this->command = $command;
-        $this->stream = $stream;
     }
 
     public function start(): void

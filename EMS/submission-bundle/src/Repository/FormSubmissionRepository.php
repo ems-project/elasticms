@@ -52,7 +52,7 @@ class FormSubmissionRepository extends ServiceEntityRepository
                 ->setParameter('id', $id);
 
             return $qb->getQuery()->getOneOrNullResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }

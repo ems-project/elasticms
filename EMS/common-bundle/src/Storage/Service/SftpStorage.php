@@ -8,30 +8,12 @@ use Psr\Log\LoggerInterface;
 
 class SftpStorage extends AbstractUrlStorage
 {
-    private string $host;
-    private string $path;
-    private int $port;
-    private string $username;
-    private string $publicKeyFile;
-    private string $privateKeyFile;
-    private ?string $passwordPhrase;
     /** @var resource|null */
     private $sftp = null;
 
-    /**
-     * @param null $passwordPhrase
-     */
-    public function __construct(LoggerInterface $logger, string $host, string $path, string $username, string $publicKeyFile, string $privateKeyFile, int $usage, int $hotSynchronizeLimit = 0, ?string $passwordPhrase = null, int $port = 22)
+    public function __construct(LoggerInterface $logger, private readonly string $host, private readonly string $path, private readonly string $username, private readonly string $publicKeyFile, private readonly string $privateKeyFile, int $usage, int $hotSynchronizeLimit = 0, private readonly ?string $passwordPhrase = null, private readonly int $port = 22)
     {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
-        $this->host = $host;
-        $this->path = $path;
-        $this->port = $port;
-
-        $this->username = $username;
-        $this->publicKeyFile = $publicKeyFile;
-        $this->privateKeyFile = $privateKeyFile;
-        $this->passwordPhrase = $passwordPhrase;
     }
 
     protected function getBaseUrl(): string

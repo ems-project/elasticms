@@ -76,7 +76,7 @@ final class PdfHandlerTest extends AbstractHandlerTest
         /** @var EmailHandler $emailHandler */
         $emailHandler = $this->container->get('functional_test.emss.handler.email');
         $emailMessage = \file_get_contents(__DIR__.'/../fixtures/twig/message_pdf_email.twig');
-        $emailSubmission = new SubmissionConfig(\get_class($emailHandler), 'user@example.test', $emailMessage);
+        $emailSubmission = new SubmissionConfig($emailHandler::class, 'user@example.test', $emailMessage);
 
         $responseCollector = new HandleResponseCollector();
         $responseCollector->addResponse($pdfResponse);

@@ -6,22 +6,19 @@ namespace EMS\SubmissionBundle\Request;
 
 final class EmailRequest
 {
-    private string $endpoint;
     /** @var string */
     private $from;
-    private string $subject;
+    private readonly string $subject;
     private string $body = '';
     private string $contentType = '';
     /** @var array<array<mixed>> */
-    private array $attachments;
+    private readonly array $attachments;
 
     /**
      * @param array<string, mixed> $message
      */
-    public function __construct(string $endpoint, array $message)
+    public function __construct(private readonly string $endpoint, array $message)
     {
-        $this->endpoint = $endpoint;
-
         if (!isset($message['from'])) {
             throw new \Exception('From email address not defined.');
         }

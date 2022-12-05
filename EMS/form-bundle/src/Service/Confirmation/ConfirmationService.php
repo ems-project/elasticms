@@ -16,21 +16,8 @@ use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 final class ConfirmationService
 {
-    private FormConfigFactory $configFactory;
-    private CsrfTokenManager $csrfTokenManager;
-    private LoggerInterface $logger;
-    private EndpointManager $endpointManager;
-
-    public function __construct(
-        FormConfigFactory $configFactory,
-        CsrfTokenManager $csrfTokenManager,
-        LoggerInterface $logger,
-        EndpointManager $endpointManager
-    ) {
-        $this->configFactory = $configFactory;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->logger = $logger;
-        $this->endpointManager = $endpointManager;
+    public function __construct(private readonly FormConfigFactory $configFactory, private readonly CsrfTokenManager $csrfTokenManager, private readonly LoggerInterface $logger, private readonly EndpointManager $endpointManager)
+    {
     }
 
     public function getVerificationCode(string $fieldName, string $confirmValue): ?string

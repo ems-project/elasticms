@@ -10,17 +10,13 @@ use Psr\Log\LoggerInterface;
 
 class FileSystemFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    public const STORAGE_TYPE = 'fs';
-    public const STORAGE_CONFIG_PATH = 'path';
-    private LoggerInterface $logger;
+    final public const STORAGE_TYPE = 'fs';
+    final public const STORAGE_CONFIG_PATH = 'path';
     /** @var string[] */
     private array $usedFolder = [];
-    private string $projectDir;
 
-    public function __construct(LoggerInterface $logger, string $projectDir)
+    public function __construct(private readonly LoggerInterface $logger, private readonly string $projectDir)
     {
-        $this->logger = $logger;
-        $this->projectDir = $projectDir;
     }
 
     /**
@@ -38,7 +34,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
             return null;
         }
 
-        if ('.' === \substr($path, 0, 1)) {
+        if (\str_starts_with($path, '.')) {
             $path = $this->projectDir.DIRECTORY_SEPARATOR.$path;
         }
 

@@ -6,13 +6,8 @@ namespace App\CLI\Client\Audit;
 
 class SecurityWarning
 {
-    private string $type;
-    private string $value;
-
-    public function __construct(string $type, string $value)
+    public function __construct(private readonly string $type, private readonly string $value)
     {
-        $this->type = $type;
-        $this->value = $value;
     }
 
     public function getType(): string

@@ -6,13 +6,10 @@ namespace EMS\CommonBundle\Common\Text;
 
 use Twig\Markup;
 
-final class EmsHtml extends Markup
+final class EmsHtml extends Markup implements \Stringable
 {
-    private string $html;
-
-    public function __construct(string $html)
+    public function __construct(private string $html)
     {
-        $this->html = $html;
     }
 
     public function __toString(): string

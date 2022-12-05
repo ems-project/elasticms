@@ -27,16 +27,11 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     {
         $config = $this->resolveOptions($config);
 
-        switch ($config[self::WRITER]) {
-            case self::XLSX_WRITER:
-                $this->getXlsxStreamedFile($config, $filename);
-                break;
-            case self::CSV_WRITER:
-                $this->getCsvStreamedFile($config, $filename);
-                break;
-            default:
-                throw new \RuntimeException('Unknown Spreadsheet writer');
-        }
+        match ($config[self::WRITER]) {
+            self::XLSX_WRITER => $this->getXlsxStreamedFile($config, $filename),
+            self::CSV_WRITER => $this->getCsvStreamedFile($config, $filename),
+            default => throw new \RuntimeException('Unknown Spreadsheet writer'),
+        };
     }
 
     /**
@@ -46,16 +41,11 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     {
         $config = $this->resolveOptions($config);
 
-        switch ($config[self::WRITER]) {
-            case self::XLSX_WRITER:
-                $response = $this->getXlsxStreamedResponse($config);
-                break;
-            case self::CSV_WRITER:
-                $response = $this->getCsvStreamedResponse($config);
-                break;
-            default:
-                throw new \RuntimeException('Unknown Spreadsheet writer');
-        }
+        $response = match ($config[self::WRITER]) {
+            self::XLSX_WRITER => $this->getXlsxStreamedResponse($config),
+            self::CSV_WRITER => $this->getCsvStreamedResponse($config),
+            default => throw new \RuntimeException('Unknown Spreadsheet writer'),
+        };
 
         $response->headers->set('Cache-Control', 'max-age=0');
 
@@ -69,16 +59,11 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     {
         $config = $this->resolveOptions($config);
 
-        switch ($config[self::WRITER]) {
-            case self::XLSX_WRITER:
-                $response = $this->getXlsxResponse($config);
-                break;
-            case self::CSV_WRITER:
-                $response = $this->getCsvResponse($config);
-                break;
-            default:
-                throw new \RuntimeException('Unknown Spreadsheet writer');
-        }
+        $response = match ($config[self::WRITER]) {
+            self::XLSX_WRITER => $this->getXlsxResponse($config),
+            self::CSV_WRITER => $this->getCsvResponse($config),
+            default => throw new \RuntimeException('Unknown Spreadsheet writer'),
+        };
 
         $response->headers->set('Cache-Control', 'max-age=0');
 
@@ -302,10 +287,9 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     }
 
     /**
-     * @param Response|StreamedResponse                                                          $response
      * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
      */
-    private function attachResponseHeader($response, array $config, string $type): void
+    private function attachResponseHeader(Response|StreamedResponse $response, array $config, string $type): void
     {
         $response->headers->set('Content-Type', $type);
         $response->headers->set('Content-Disposition', \sprintf('%s;filename="%s.%s"', $config[self::CONTENT_DISPOSITION], $config[self::CONTENT_FILENAME], $config[self::WRITER]));

@@ -14,11 +14,11 @@ use Symfony\Component\HttpFoundation\Request;
 final class Synonym
 {
     /** @var string[] */
-    private array $types;
+    private readonly array $types;
     private ?string $field = null;
     private ?string $searchField = null;
     /** @var array<mixed> */
-    private array $filter;
+    private readonly array $filter;
 
     /**
      * @param array{types?: ?string[], field?: ?string, search?: ?string, filter?: ?array<mixed>} $data

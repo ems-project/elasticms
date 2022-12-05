@@ -13,18 +13,14 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
 {
     private const PATTERN = '/%(?<parameter>(_|)[[:alnum:]_]*)%/m';
 
-    private LoggerInterface $logger;
-    private TranslatorInterface $translator;
-    private string $translationDomain;
-
-    public function __construct(LoggerInterface $logger, TranslatorInterface $translator, string $translationDomain)
+    public function __construct(private readonly LoggerInterface $logger, private readonly TranslatorInterface $translator, private readonly string $translationDomain)
     {
-        $this->logger = $logger;
-        $this->translator = $translator;
-        $this->translationDomain = $translationDomain;
     }
 
-    public function log($level, $message, array $context = []): void
+    /**
+     * @param array<string, mixed> $context
+     */
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         $this->logger->log($level, $this->translateMessage($message, $context), $context);
     }
@@ -32,11 +28,11 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
     /**
      * @param array<string, mixed> $context
      */
-    private function translateMessage(string $message, array &$context): string
+    private function translateMessage(string|\Stringable $message, array &$context): string
     {
         $context['translation_message'] = $message;
-        $translation = $this->translator->trans($message, [], $this->translationDomain);
+        $translation = $this->translator->trans((string) $message, [], $this->translationDomain);
 
-        return \preg_replace_callback(self::PATTERN, fn ($match) => $context[$match['parameter']] ?? $match['parameter'], $translation) ?? $message;
+        return \preg_replace_callback(self::PATTERN, fn ($match) => $context[$match['parameter']] ?? $match['parameter'], $translation) ?? (string) $message;
     }
 }

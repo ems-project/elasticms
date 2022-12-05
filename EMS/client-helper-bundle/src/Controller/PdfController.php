@@ -12,15 +12,8 @@ use Twig\Environment;
 
 final class PdfController
 {
-    private Handler $handler;
-    private Environment $templating;
-    private PdfGeneratorInterface $pdfGenerator;
-
-    public function __construct(Handler $handler, Environment $templating, PdfGeneratorInterface $pdfGenerator)
+    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly PdfGeneratorInterface $pdfGenerator)
     {
-        $this->handler = $handler;
-        $this->templating = $templating;
-        $this->pdfGenerator = $pdfGenerator;
     }
 
     public function __invoke(EmschRequest $request): Response

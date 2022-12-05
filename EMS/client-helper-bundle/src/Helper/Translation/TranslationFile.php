@@ -7,7 +7,7 @@ namespace EMS\ClientHelperBundle\Helper\Translation;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Yaml\Yaml;
 
-final class TranslationFile implements \Countable
+final class TranslationFile implements \Countable, \Stringable
 {
     public string $resource;
     public string $format;

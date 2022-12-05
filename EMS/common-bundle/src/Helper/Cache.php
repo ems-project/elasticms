@@ -6,11 +6,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Cache
 {
-    private string $hashAlgo;
-
-    public function __construct(string $hashAlgo)
+    public function __construct(private readonly string $hashAlgo)
     {
-        $this->hashAlgo = $hashAlgo;
     }
 
     public function generateEtag(Response $response): ?string

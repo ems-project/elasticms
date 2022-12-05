@@ -15,19 +15,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DocumentUpdater
 {
-    private Data $data;
-    private DocumentUpdateConfig $config;
-    private CoreApiInterface $coreApi;
-    private SymfonyStyle $io;
-    private bool $dryRun;
-
-    public function __construct(Data $data, DocumentUpdateConfig $config, CoreApiInterface $coreApi, SymfonyStyle $io, bool $dryRun)
+    public function __construct(private readonly Data $data, private readonly DocumentUpdateConfig $config, private readonly CoreApiInterface $coreApi, private readonly SymfonyStyle $io, private readonly bool $dryRun)
     {
-        $this->data = $data;
-        $this->config = $config;
-        $this->coreApi = $coreApi;
-        $this->io = $io;
-        $this->dryRun = $dryRun;
     }
 
     public function executeColumnTransformers(): self

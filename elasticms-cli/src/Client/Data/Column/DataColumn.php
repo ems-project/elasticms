@@ -9,15 +9,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class DataColumn
 {
-    public int $columnIndex;
-
-    public const TYPES = [
+    final public const TYPES = [
         'businessId' => DataColumnBusinessId::class,
     ];
 
-    public function __construct(int $index)
+    public function __construct(public int $columnIndex)
     {
-        $this->columnIndex = $index;
     }
 
     public function transform(Data $data, TransformContext $transformContext): void

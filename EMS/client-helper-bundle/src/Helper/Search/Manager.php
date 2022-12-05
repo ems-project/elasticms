@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class Manager
 {
-    private ClientRequest $clientRequest;
+    private readonly ClientRequest $clientRequest;
 
     public function __construct(ClientRequestManager $clientRequestManager)
     {

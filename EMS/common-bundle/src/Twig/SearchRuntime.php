@@ -15,14 +15,11 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class SearchRuntime implements RuntimeExtensionInterface
 {
-    private ElasticaService $elasticaService;
-
     /** @var array<mixed> */
     private array $nestedCache = [];
 
-    public function __construct(ElasticaService $elasticaService)
+    public function __construct(private readonly ElasticaService $elasticaService)
     {
-        $this->elasticaService = $elasticaService;
     }
 
     /**
@@ -31,7 +28,7 @@ final class SearchRuntime implements RuntimeExtensionInterface
      *
      * @return array<mixed>
      */
-    public function nestedSearch(string $alias, $contentTypeNames, string $nestedFieldName, array $search): array
+    public function nestedSearch(string $alias, string|array $contentTypeNames, string $nestedFieldName, array $search): array
     {
         $choices = $this->getNestedSearchChoices($alias, $contentTypeNames, $nestedFieldName);
 
@@ -51,7 +48,7 @@ final class SearchRuntime implements RuntimeExtensionInterface
      *
      * @return array<mixed>
      */
-    private function getNestedSearchChoices(string $alias, $contentTypeNames, string $nestedFieldName): array
+    private function getNestedSearchChoices(string $alias, string|array $contentTypeNames, string $nestedFieldName): array
     {
         $contentTypeNames = \is_string($contentTypeNames) ? [$contentTypeNames] : $contentTypeNames;
         $cacheKey = Hash::array([$alias, ...$contentTypeNames, $nestedFieldName]);

@@ -9,7 +9,7 @@ class Converter
         $clean = Converter::convertSpecialChars($str);
         try {
             $clean = \iconv('UTF-8', 'ASCII//TRANSLIT', $clean);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $clean = false;
         }
 
@@ -37,10 +37,7 @@ class Converter
         return \round($bytes, $precision).' '.$units[$pow];
     }
 
-    /**
-     * @param mixed $var
-     */
-    public static function stringify($var, string $defaultValue = ''): string
+    public static function stringify(mixed $var, string $defaultValue = ''): string
     {
         if (!\is_array($var) && !\is_object($var)) {
             return \strval($var);
@@ -50,7 +47,7 @@ class Converter
         }
         try {
             return \json_encode($var, JSON_THROW_ON_ERROR);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return $defaultValue;
         }
     }

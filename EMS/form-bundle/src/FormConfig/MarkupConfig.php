@@ -6,23 +6,11 @@ use EMS\FormBundle\Components\Form\MarkupType;
 
 class MarkupConfig implements ElementInterface
 {
-    private string $id;
-    private string $name;
-    private string $markup;
-    /**
-     * @var mixed[]
-     */
-    private array $meta;
-
     /**
      * @param mixed[] $meta
      */
-    public function __construct(string $id, string $name, string $markup, array $meta = [])
+    public function __construct(private readonly string $id, private readonly string $name, private readonly string $markup, private array $meta = [])
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->markup = $markup;
-        $this->meta = $meta;
     }
 
     public function getId(): string

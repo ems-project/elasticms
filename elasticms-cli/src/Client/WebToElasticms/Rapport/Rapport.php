@@ -30,15 +30,13 @@ class Rapport
     /** @var string[][] */
     private array $updatedDocuments = [['CRUD', 'Content Type', 'OUUID', 'Locale', 'URL']];
 
-    private string $filename;
-    private SpreadsheetGeneratorService $spreadsheetGeneratorService;
-    private CacheManager $cacheManager;
+    private readonly string $filename;
+    private readonly SpreadsheetGeneratorService $spreadsheetGeneratorService;
 
-    public function __construct(CacheManager $cacheManager, string $folder)
+    public function __construct(private readonly CacheManager $cacheManager, string $folder)
     {
         $this->filename = $folder.DIRECTORY_SEPARATOR.\sprintf('WebToElasticms-Rapport-%s.xlsx', \date('Ymd-His'));
         $this->spreadsheetGeneratorService = new SpreadsheetGeneratorService();
-        $this->cacheManager = $cacheManager;
     }
 
     public function save(): void

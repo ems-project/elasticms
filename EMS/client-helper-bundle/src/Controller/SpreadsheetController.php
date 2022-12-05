@@ -13,15 +13,8 @@ use Twig\Environment;
 
 final class SpreadsheetController
 {
-    private Handler $handler;
-    private Environment $templating;
-    private SpreadsheetGeneratorServiceInterface $spreadsheetGenerator;
-
-    public function __construct(Handler $handler, Environment $templating, SpreadsheetGeneratorServiceInterface $spreadsheetGenerator)
+    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator)
     {
-        $this->handler = $handler;
-        $this->templating = $templating;
-        $this->spreadsheetGenerator = $spreadsheetGenerator;
     }
 
     public function __invoke(EmschRequest $request): Response

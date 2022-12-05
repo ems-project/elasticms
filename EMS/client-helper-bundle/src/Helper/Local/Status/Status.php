@@ -8,12 +8,10 @@ use EMS\ClientHelperBundle\Helper\Builder\BuilderDocumentInterface;
 
 final class Status
 {
-    private string $name;
-    private Items $items;
+    private readonly Items $items;
 
-    public function __construct(string $name)
+    public function __construct(private readonly string $name)
     {
-        $this->name = $name;
         $this->items = new Items([]);
     }
 

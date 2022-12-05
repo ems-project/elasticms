@@ -25,7 +25,7 @@ class Cache
     private ?string $lastUpdated = null;
     private ?string $current = null;
     private ?string $status = null;
-    private \DateTimeImmutable $startedDatetime;
+    private readonly \DateTimeImmutable $startedDatetime;
     private int $startedAt;
     private Report $report;
 

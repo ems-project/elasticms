@@ -11,12 +11,10 @@ use Symfony\Component\Finder\Finder;
 final class ConfigHelper
 {
     public const DEFAULT_FOLDER = 'admin';
-    private string $directory;
-    private ConfigInterface $config;
+    private readonly string $directory;
 
-    public function __construct(ConfigInterface $config, string $saveFolder)
+    public function __construct(private readonly ConfigInterface $config, string $saveFolder)
     {
-        $this->config = $config;
         $this->directory = \implode(DIRECTORY_SEPARATOR, [$saveFolder, $this->config->getType()]);
         if (!\is_dir($this->directory)) {
             \mkdir($this->directory, 0777, true);

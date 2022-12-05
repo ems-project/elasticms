@@ -9,11 +9,8 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\DataExtractInterface;
 
 final class DataExtract implements DataExtractInterface
 {
-    private Client $client;
-
-    public function __construct(Client $client)
+    public function __construct(private readonly Client $client)
     {
-        $this->client = $client;
     }
 
     /**

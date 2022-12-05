@@ -20,27 +20,24 @@ final class Environment
     public const REQUEST_CONFIG = 'request';
     public const ALIAS_CONFIG = 'alias';
     public const REMOTE_CLUSTER = 'remote_cluster';
-
-    private string $name;
     private bool $active = false;
-    private string $alias;
-    private ?string $regex;
-    private ?string $routePrefix;
-    private ?string $backend;
+    private readonly string $alias;
+    private readonly ?string $regex;
+    private readonly ?string $routePrefix;
+    private readonly ?string $backend;
     /** @var array<string, mixed> */
     private array $request = [];
     /** @var array<mixed> */
     private array $options;
-    private string $hash;
+    private readonly string $hash;
     private ?LocalEnvironment $local = null;
-    private ?string $remoteCluster;
+    private readonly ?string $remoteCluster;
 
     /**
      * @param array<string, mixed> $config
      */
-    public function __construct(string $name, array $config)
+    public function __construct(private readonly string $name, array $config)
     {
-        $this->name = $name;
         $this->alias = $config[self::ALIAS_CONFIG] ?? $name;
         $this->remoteCluster = $config[self::REMOTE_CLUSTER] ?? null;
         $this->regex = $config[self::REGEX_CONFIG] ?? null;

@@ -9,18 +9,12 @@ use EMS\ClientHelperBundle\Helper\Environment\Environment;
 
 final class ContentType implements ContentTypeInterface
 {
-    private Environment $environment;
-    private string $name;
     private \DateTimeImmutable $lastPublished;
-    private int $total;
     /** @var mixed */
     private $cache = null;
 
-    public function __construct(Environment $environment, string $name, int $total)
+    public function __construct(private readonly Environment $environment, private readonly string $name, private readonly int $total)
     {
-        $this->environment = $environment;
-        $this->name = $name;
-        $this->total = $total;
         $this->lastPublished = new \DateTimeImmutable();
     }
 
@@ -60,10 +54,7 @@ final class ContentType implements ContentTypeInterface
         return $this->cache;
     }
 
-    /**
-     * @param mixed $cache
-     */
-    public function setCache($cache): void
+    public function setCache(mixed $cache): void
     {
         $this->cache = $cache;
     }

@@ -13,23 +13,11 @@ use Twig\Environment;
 
 class DebugController extends AbstractFormController
 {
-    private FormFactory $formFactory;
-    private Client $client;
-    private Environment $twig;
-    /** @var string[] */
-    private array $locales = [];
-    private RouterInterface $router;
-
     /**
      * @param string [] $locales
      */
-    public function __construct(FormFactory $formFactory, Client $client, Environment $twig, RouterInterface $router, array $locales)
+    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Environment $twig, private readonly RouterInterface $router, private readonly array $locales)
     {
-        $this->formFactory = $formFactory;
-        $this->client = $client;
-        $this->twig = $twig;
-        $this->locales = $locales;
-        $this->router = $router;
     }
 
     public function iframe(Request $request, string $ouuid): Response

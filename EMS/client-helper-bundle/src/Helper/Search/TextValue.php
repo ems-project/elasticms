@@ -6,8 +6,8 @@ namespace EMS\ClientHelperBundle\Helper\Search;
 
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
-use Elastica\Query\Match;
 use Elastica\Query\MatchPhrase;
+use Elastica\Query\MatchQuery;
 use Elastica\Query\QueryString;
 
 /**
@@ -16,17 +16,11 @@ use Elastica\Query\QueryString;
  */
 final class TextValue
 {
-    private string $text;
-    private string $field;
-    private string $analyzer;
     /** @var AbstractQuery[] */
     private array $synonyms = [];
 
-    public function __construct(string $text, string $field, string $analyzer)
+    public function __construct(private readonly string $text, private readonly string $field, private readonly string $analyzer)
     {
-        $this->text = $text;
-        $this->field = $field;
-        $this->analyzer = $analyzer;
     }
 
     public function getAnalyzer(): string
@@ -44,7 +38,7 @@ final class TextValue
         if (!\is_string($contentType) || !\is_string($ouuid)) {
             throw new \RuntimeException('Wrong document structure');
         }
-        $match = new Match($synonymField);
+        $match = new MatchQuery($synonymField);
         $match->setFieldQuery($synonymField, \sprintf('%s:%s', $contentType, $ouuid));
         $match->setFieldOperator($synonymField, 'AND');
         $this->synonyms[] = $match;
@@ -76,7 +70,7 @@ final class TextValue
             return $matchPhrase;
         }
 
-        if (false !== \strpos($this->text, '*')) {
+        if (\str_contains($this->text, '*')) {
             $queryString = new QueryString($this->text);
             $queryString->setDefaultField($field);
             $queryString->setAnalyzer($analyzer);
@@ -86,7 +80,7 @@ final class TextValue
             return $queryString;
         }
 
-        $match = new Match($field);
+        $match = new MatchQuery($field);
         $match->setFieldQuery($field, $this->text);
         $match->setFieldBoost($field, $boost);
 

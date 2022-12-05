@@ -4,7 +4,7 @@ namespace EMS\FormBundle\Components\ValueObject;
 
 class BelgiumOnssRszNumber
 {
-    private NumberValue $number;
+    private readonly NumberValue $number;
 
     public function __construct(string $nsso)
     {

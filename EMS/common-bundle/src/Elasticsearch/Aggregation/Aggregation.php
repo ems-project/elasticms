@@ -4,19 +4,17 @@ namespace EMS\CommonBundle\Elasticsearch\Aggregation;
 
 class Aggregation
 {
-    private string $name;
     /** @var array<mixed> */
-    private array $buckets;
-    private int $count;
+    private readonly array $buckets;
+    private readonly int $count;
     /** @var array<mixed> */
-    private array $raw;
+    private readonly array $raw;
 
     /**
      * @param array<mixed> $aggregation
      */
-    public function __construct(string $name, array $aggregation)
+    public function __construct(private readonly string $name, array $aggregation)
     {
-        $this->name = $name;
         $this->buckets = $aggregation['buckets'] ?? [];
         $this->count = $aggregation['doc_count'] ?? 0;
         $this->raw = $aggregation;

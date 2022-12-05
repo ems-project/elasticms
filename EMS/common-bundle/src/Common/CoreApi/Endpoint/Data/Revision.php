@@ -9,10 +9,10 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
 
 final class Revision implements RevisionInterface
 {
-    private int $id;
-    private string $ouuid;
+    private readonly int $id;
+    private readonly string $ouuid;
     /** @var array<string, mixed> */
-    private array $rawData;
+    private readonly array $rawData;
 
     public function __construct(Result $result)
     {

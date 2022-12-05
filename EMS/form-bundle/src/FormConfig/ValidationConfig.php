@@ -4,31 +4,14 @@ namespace EMS\FormBundle\FormConfig;
 
 class ValidationConfig
 {
-    private string $id;
-    private string $name;
-    private string $className;
-    /** @var mixed */
-    private $defaultValue;
-    /** @var mixed */
-    private $value;
-    private ?string $fieldLabel = null;
+    private readonly string $className;
 
-    /**
-     * @param mixed $defaultValue
-     * @param mixed $value
-     */
-    public function __construct(string $id, string $name, string $className, ?string $fieldLabel, $defaultValue = null, $value = null)
+    public function __construct(private readonly string $id, private readonly string $name, string $className, private readonly ?string $fieldLabel, private readonly mixed $defaultValue = null, private readonly mixed $value = null)
     {
         if (!\class_exists($className)) {
             throw new \Exception(\sprintf('Error validation class "%s" does not exists!', $className));
         }
-
-        $this->id = $id;
-        $this->name = $name;
         $this->className = $className;
-        $this->fieldLabel = $fieldLabel;
-        $this->defaultValue = $defaultValue;
-        $this->value = $value;
     }
 
     public function getId(): string

@@ -24,10 +24,6 @@ class Search
     private array $contentTypes = [];
     /** @var AbstractAggregation[] */
     private array $aggregations = [];
-    /** @var AbstractQuery|array<mixed>|null */
-    private $query;
-    /** @var string[] */
-    private array $indices;
     private int $size = 10;
     private int $from = 0;
     /** @var array<mixed>|null */
@@ -43,10 +39,8 @@ class Search
      * @param string[]                        $indices
      * @param AbstractQuery|array<mixed>|null $query
      */
-    public function __construct(array $indices, $query = null)
+    public function __construct(private readonly array $indices, private $query = null)
     {
-        $this->indices = $indices;
-        $this->query = $query;
     }
 
     public function serialize(string $format = 'json'): string
@@ -70,7 +64,7 @@ class Search
     }
 
     /**
-     * @return string[]|array{includes: string[], excludes: string[]}
+     * @return array<mixed>
      */
     public function getSources(): array
     {

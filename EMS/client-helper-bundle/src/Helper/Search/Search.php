@@ -13,12 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class Search
 {
-    private Request $request;
     private ?string $indexRegex;
     /** @var string[] */
-    private array $types;
+    private readonly array $types;
     /** @var array<string, int> [facet_name => size], used for aggregation */
-    private array $facets;
+    private readonly array $facets;
     /** @var Synonym[] */
     private array $synonyms = [];
     /** @var string[] */
@@ -30,9 +29,9 @@ final class Search
     /** @var int[] */
     private array $sizes;
     /** @var array<mixed> */
-    private array $defaultSorts;
+    private readonly array $defaultSorts;
     /** @var array<mixed> */
-    private array $sorts;
+    private readonly array $sorts;
     /** @var array<mixed> */
     private array $highlight = [];
 
@@ -47,9 +46,8 @@ final class Search
     private string $analyzer;
     private string $sortOrder = 'asc';
 
-    public function __construct(Request $request, ClientRequest $clientRequest)
+    public function __construct(private readonly Request $request, ClientRequest $clientRequest)
     {
-        $this->request = $request;
         $options = $this->getOptions($request, $clientRequest);
 
         if (isset($options['facets'])) {

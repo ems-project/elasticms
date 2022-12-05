@@ -11,11 +11,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class LocalizedLoggerFactory implements LocalizedLoggerFactoryInterface
 {
-    private TranslatorInterface $translator;
-
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     public function __invoke(LoggerInterface $logger, string $translationDomain): LocalizedLoggerInterface

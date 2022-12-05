@@ -4,13 +4,11 @@ namespace App\CLI\Helper;
 
 class TikaMetaResponse
 {
-    private AsyncResponse $response;
     /** @var string[]|null */
     private ?array $meta = null;
 
-    public function __construct(AsyncResponse $promise)
+    public function __construct(private readonly AsyncResponse $response)
     {
-        $this->response = $promise;
     }
 
     /**

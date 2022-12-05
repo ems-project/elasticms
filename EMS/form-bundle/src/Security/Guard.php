@@ -7,13 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Guard
 {
-    private LoggerInterface $logger;
-    private int $difficulty;
-
-    public function __construct(LoggerInterface $logger, int $difficulty)
+    public function __construct(private readonly LoggerInterface $logger, private readonly int $difficulty)
     {
-        $this->logger = $logger;
-        $this->difficulty = $difficulty;
     }
 
     public function getDifficulty(): int

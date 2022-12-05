@@ -10,11 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class FileController
 {
-    private FileService $fileService;
-
-    public function __construct(FileService $fileService)
+    public function __construct(private readonly FileService $fileService)
     {
-        $this->fileService = $fileService;
     }
 
     public function create(Request $request): JsonResponse

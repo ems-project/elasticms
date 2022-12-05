@@ -37,7 +37,7 @@ abstract class AbstractHandlerTest extends AbstractFunctionalTest
     protected function handle(FormInterface $form, string $endpoint, string $message): HandleResponseInterface
     {
         $handler = $this->getHandler();
-        $submissionConfig = new SubmissionConfig(\get_class($handler), $endpoint, $message);
+        $submissionConfig = new SubmissionConfig($handler::class, $endpoint, $message);
 
         $handleRequest = new HandleRequest($form, $this->formConfig, new HandleResponseCollector(), $submissionConfig);
 

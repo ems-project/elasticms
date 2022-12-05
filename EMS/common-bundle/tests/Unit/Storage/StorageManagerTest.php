@@ -150,10 +150,7 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals(2, \count($storageManagerB->headIn($hash)));
     }
 
-    /**
-     * @return false|string
-     */
-    protected function getFsDir()
+    protected function getFsDir(): false|string
     {
         $fsDir = \tempnam(\sys_get_temp_dir(), 'StorageManagerTest');
         \unlink($fsDir);

@@ -12,24 +12,8 @@ use Twig\Environment;
 
 final class ExceptionHelper
 {
-    private Environment $twig;
-    private ClientRequestManager $manager;
-    private string $template;
-    private bool $enabled;
-    private bool $debug;
-
-    public function __construct(
-        Environment $twig,
-        ClientRequestManager $manager,
-        bool $enabled,
-        bool $debug,
-        string $template = ''
-    ) {
-        $this->twig = $twig;
-        $this->manager = $manager;
-        $this->enabled = $enabled;
-        $this->debug = $debug;
-        $this->template = $template;
+    public function __construct(private readonly Environment $twig, private readonly ClientRequestManager $manager, private readonly bool $enabled, private readonly bool $debug, private readonly string $template = '')
+    {
     }
 
     public function isEnabled(): bool
@@ -37,10 +21,7 @@ final class ExceptionHelper
         return $this->enabled;
     }
 
-    /**
-     * @return Response|false
-     */
-    public function renderError(FlattenException $exception)
+    public function renderError(FlattenException $exception): Response|false
     {
         if ('' === $this->template || $this->debug) {
             return false;
@@ -81,7 +62,7 @@ final class ExceptionHelper
             $loader->getSourceContext($template)->getCode();
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

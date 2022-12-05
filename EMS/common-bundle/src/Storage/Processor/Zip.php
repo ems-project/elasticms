@@ -11,11 +11,8 @@ use ZipStream\ZipStream;
 
 class Zip
 {
-    private Config $config;
-
-    public function __construct(Config $config)
+    public function __construct(private readonly Config $config)
     {
-        $this->config = $config;
     }
 
     public function generate(): StreamInterface

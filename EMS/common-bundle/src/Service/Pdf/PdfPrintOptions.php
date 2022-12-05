@@ -6,14 +6,14 @@ namespace EMS\CommonBundle\Service\Pdf;
 
 class PdfPrintOptions
 {
-    private string $filename;
-    private bool $attachment;
-    private bool $compress;
-    private bool $html5Parsing;
-    private bool $isPhpEnabled;
-    private string $orientation;
-    private string $size;
-    private ?string $chroot;
+    private readonly string $filename;
+    private readonly bool $attachment;
+    private readonly bool $compress;
+    private readonly bool $html5Parsing;
+    private readonly bool $isPhpEnabled;
+    private readonly string $orientation;
+    private readonly string $size;
+    private readonly ?string $chroot;
 
     public const FILENAME = 'filename';
     public const ATTACHMENT = 'attachment';

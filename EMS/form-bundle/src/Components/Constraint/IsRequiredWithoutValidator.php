@@ -20,7 +20,7 @@ class IsRequiredWithoutValidator extends AbstractConstraintValidator
         }
 
         if (\is_null($constraint->otherField)) {
-            throw new \InvalidArgumentException(\sprintf('The %s::$otherField parameter value is not valid.', \get_class($constraint)));
+            throw new \InvalidArgumentException(\sprintf('The %s::$otherField parameter value is not valid.', $constraint::class));
         }
 
         if (!$this->isRequiredWithout($value, $constraint->otherField)) {
@@ -34,7 +34,7 @@ class IsRequiredWithoutValidator extends AbstractConstraintValidator
     {
         try {
             $otherFieldValue = $this->context->getRoot()->get($otherField)->getData();
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return false;
         }
 

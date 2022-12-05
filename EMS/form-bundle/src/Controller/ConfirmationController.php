@@ -15,15 +15,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 final class ConfirmationController
 {
-    private Guard $guard;
-    private ConfirmationService $confirmationService;
-    private LoggerInterface $logger;
-
-    public function __construct(Guard $guard, ConfirmationService $confirmationService, LoggerInterface $logger)
+    public function __construct(private readonly Guard $guard, private readonly ConfirmationService $confirmationService, private readonly LoggerInterface $logger)
     {
-        $this->guard = $guard;
-        $this->confirmationService = $confirmationService;
-        $this->logger = $logger;
     }
 
     public function postSend(Request $request, string $ouuid): Response

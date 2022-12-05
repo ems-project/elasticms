@@ -10,11 +10,8 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class IsRequiredIfValidator extends ConstraintValidator
 {
-    private LoggerInterface $logger;
-
-    public function __construct(LoggerInterface $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
-        $this->logger = $logger;
     }
 
     public function validate($value, Constraint $constraint): void
@@ -53,8 +50,7 @@ class IsRequiredIfValidator extends ConstraintValidator
         }
     }
 
-    /** @param mixed $value */
-    private function isEmpty($value): bool
+    private function isEmpty(mixed $value): bool
     {
         if (null === $value || '' === $value) {
             return true;

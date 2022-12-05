@@ -9,13 +9,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class RequestRuntime implements RuntimeExtensionInterface
 {
-    private RequestStack $requestStack;
-    private AssetRuntime $assetRuntime;
-
-    public function __construct(RequestStack $requestStack, AssetRuntime $assetRuntime)
+    public function __construct(private readonly RequestStack $requestStack, private readonly AssetRuntime $assetRuntime)
     {
-        $this->requestStack = $requestStack;
-        $this->assetRuntime = $assetRuntime;
     }
 
     /**

@@ -5,10 +5,6 @@ namespace App\CLI\Client\Photos;
 class Photo
 {
     private const DATETIME_FORMAT = 'c';
-    private string $ouuid;
-    private string $filename;
-    private string $libraryType;
-    private string $source;
     /** @var mixed[]|null */
     private ?array $previewFile = null;
     /**
@@ -22,12 +18,8 @@ class Photo
     /** @var mixed[]|null */
     private ?array $location = null;
 
-    public function __construct(string $libraryType, string $source, string $ouuid, string $filename)
+    public function __construct(private readonly string $libraryType, private readonly string $source, private readonly string $ouuid, private readonly string $filename)
     {
-        $this->libraryType = $libraryType;
-        $this->source = $source;
-        $this->ouuid = $ouuid;
-        $this->filename = $filename;
     }
 
     public function getOuuid(): string

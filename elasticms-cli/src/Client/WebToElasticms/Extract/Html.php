@@ -24,16 +24,10 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Html
 {
-    public const TYPE = 'html';
-    private ConfigManager $config;
-    private Document $document;
-    private Rapport $rapport;
+    final public const TYPE = 'html';
 
-    public function __construct(ConfigManager $config, Document $document, Rapport $rapport)
+    public function __construct(private readonly ConfigManager $config, private readonly Document $document, private readonly Rapport $rapport)
     {
-        $this->config = $config;
-        $this->document = $document;
-        $this->rapport = $rapport;
     }
 
     /**
@@ -100,12 +94,11 @@ class Html
 
     /**
      * @param array<mixed> $data
-     * @param mixed        $content
      */
-    protected function assignExtractedProperty(WebResource $resource, Extractor $extractor, array &$data, $content): void
+    protected function assignExtractedProperty(WebResource $resource, Extractor $extractor, array &$data, mixed $content): void
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        $property = \str_replace(['%locale%'], [$resource->getLocale()], $extractor->getProperty());
+        $property = \str_replace(['%locale%'], [$resource->getLocale()], (string) $extractor->getProperty());
         $propertyAccessor->setValue($data, $property, $content);
     }
 

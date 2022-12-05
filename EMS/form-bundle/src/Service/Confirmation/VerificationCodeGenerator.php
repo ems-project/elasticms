@@ -11,13 +11,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class VerificationCodeGenerator implements VerificationCodeGeneratorInterface
 {
-    private CoreApiInterface $coreApi;
-    private SessionInterface $session;
-
-    public function __construct(CoreApiInterface $coreApi, SessionInterface $session)
+    public function __construct(private readonly CoreApiInterface $coreApi, private readonly SessionInterface $session)
     {
-        $this->coreApi = $coreApi;
-        $this->session = $session;
     }
 
     public function getVerificationCode(EndpointInterface $endpoint, string $confirmValue): ?string

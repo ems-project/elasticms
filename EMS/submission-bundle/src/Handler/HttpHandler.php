@@ -17,18 +17,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class HttpHandler extends AbstractHandler
 {
-    private HttpClientInterface $client;
-    private TwigRenderer $twigRenderer;
-    private ResponseTransformer $responseTransformer;
-
-    public function __construct(
-        HttpClientInterface $client,
-        TwigRenderer $twigRenderer,
-        ResponseTransformer $responseTransformer
-    ) {
-        $this->client = $client;
-        $this->twigRenderer = $twigRenderer;
-        $this->responseTransformer = $responseTransformer;
+    public function __construct(private readonly HttpClientInterface $client, private readonly TwigRenderer $twigRenderer, private readonly ResponseTransformer $responseTransformer)
+    {
     }
 
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface

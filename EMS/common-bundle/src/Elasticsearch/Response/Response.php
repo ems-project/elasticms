@@ -16,7 +16,7 @@ final class Response implements ResponseInterface
     private $total;
 
     /** @var array<int, mixed> */
-    private array $hits;
+    private readonly array $hits;
 
     /** @var string|null */
     private $scrollId;

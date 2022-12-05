@@ -18,17 +18,12 @@ class StorageManager
     private array $adapters = [];
     /** @var StorageFactoryInterface[] */
     private array $factories = [];
-    private FileLocatorInterface $fileLocator;
-    private LoggerInterface $logger;
-    private string $hashAlgo;
-    /** @var array<array{type?: string, url?: string, required?: bool, read-only?: bool}> */
-    private array $storageConfigs;
 
     /**
      * @param iterable<StorageFactoryInterface>                                            $factories
      * @param array<array{type?: string, url?: string, required?: bool, read-only?: bool}> $storageConfigs
      */
-    public function __construct(LoggerInterface $logger, FileLocatorInterface $fileLocator, iterable $factories, string $hashAlgo, array $storageConfigs = [])
+    public function __construct(private readonly LoggerInterface $logger, private readonly FileLocatorInterface $fileLocator, iterable $factories, private readonly string $hashAlgo, private readonly array $storageConfigs = [])
     {
         foreach ($factories as $factory) {
             if (!$factory instanceof StorageFactoryInterface) {
@@ -36,10 +31,6 @@ class StorageManager
             }
             $this->addStorageFactory($factory);
         }
-        $this->logger = $logger;
-        $this->fileLocator = $fileLocator;
-        $this->hashAlgo = $hashAlgo;
-        $this->storageConfigs = $storageConfigs;
         $this->registerServicesFromConfigs();
     }
 
@@ -110,7 +101,7 @@ class StorageManager
                     $this->hotSynchronize($hash, $adapter, $missingIn);
 
                     return $adapter->read($hash);
-                } catch (\Throwable $e) {
+                } catch (\Throwable) {
                     continue;
                 }
             } else {
@@ -259,7 +250,7 @@ class StorageManager
         foreach ($this->adapters as $adapter) {
             try {
                 return $adapter->getSize($hash);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 continue;
             }
         }
@@ -271,7 +262,7 @@ class StorageManager
         foreach ($this->adapters as $adapter) {
             try {
                 $stream = $adapter->read($hash);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 continue;
             }
 
@@ -291,7 +282,7 @@ class StorageManager
 
             try {
                 $handler = $adapter->read($hash, false);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 continue;
             }
 
@@ -354,7 +345,7 @@ class StorageManager
                 if ($adapter->remove($hash)) {
                     ++$count;
                 }
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 continue;
             }
         }

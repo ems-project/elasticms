@@ -9,11 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class AuthService
 {
-    private ClientFactory $client;
-
-    public function __construct(ClientFactory $client)
+    public function __construct(private readonly ClientFactory $client)
     {
-        $this->client = $client;
     }
 
     public function getUserAuthToken(Request $request): JsonResponse

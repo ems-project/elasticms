@@ -12,13 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class ApiController
 {
-    private ApiService $service;
-    private HashcashHelper $hashcashHelper;
-
-    public function __construct(ApiService $service, HashcashHelper $hashcashHelper)
+    public function __construct(private readonly ApiService $service, private readonly HashcashHelper $hashcashHelper)
     {
-        $this->service = $service;
-        $this->hashcashHelper = $hashcashHelper;
     }
 
     public function contentTypes(string $apiName): JsonResponse

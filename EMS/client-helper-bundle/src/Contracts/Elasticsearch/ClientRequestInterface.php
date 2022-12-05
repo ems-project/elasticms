@@ -23,7 +23,7 @@ interface ClientRequestInterface
      *
      * @return array<string, mixed>|false
      */
-    public function getByEmsKey(string $emsLink, array $sourceFields = []);
+    public function getByEmsKey(string $emsLink, array $sourceFields = []): array|false;
 
     /**
      * @param string[] $ouuids
@@ -33,9 +33,7 @@ interface ClientRequestInterface
     public function getByOuuids(string $type, array $ouuids): array;
 
     /**
-     * @param mixed $default
-     *
      * @return mixed|null
      */
-    public function getOption(string $propertyPath, $default = null);
+    public function getOption(string $propertyPath, mixed $default = null);
 }

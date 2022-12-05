@@ -10,17 +10,11 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class AdminMenuRuntime implements RuntimeExtensionInterface
 {
-    private EnvironmentHelper $environmentHelper;
-
-    public function __construct(EnvironmentHelper $environmentHelper)
+    public function __construct(private readonly EnvironmentHelper $environmentHelper)
     {
-        $this->environmentHelper = $environmentHelper;
     }
 
-    /**
-     * @param EMSLink|string $emsLink
-     */
-    public function showAdminMenu($emsLink): string
+    public function showAdminMenu(EMSLink|string $emsLink): string
     {
         $backend = $this->environmentHelper->getBackend();
 

@@ -8,7 +8,6 @@ use EMS\CommonBundle\Common\Standard\Json;
 
 final class ComposerInfo
 {
-    private string $projectDir;
     /** @var array<string, string> */
     private array $versionPackages = [];
 
@@ -21,9 +20,8 @@ final class ComposerInfo
         'symfony/framework-bundle' => 'symfony',
     ];
 
-    public function __construct(string $rootDir)
+    public function __construct(private readonly string $projectDir)
     {
-        $this->projectDir = $rootDir;
     }
 
     /**

@@ -9,11 +9,8 @@ use Twig\Environment;
 
 final class TwigRenderer
 {
-    private Environment $templating;
-
-    public function __construct(Environment $templating)
+    public function __construct(private readonly Environment $templating)
     {
-        $this->templating = $templating;
     }
 
     public function renderEndpoint(HandleRequestInterface $handleRequest): string
@@ -45,7 +42,7 @@ final class TwigRenderer
             return null;
         }
 
-        $context = \array_merge($context, $this->getContext($handleRequest));
+        $context = [...$context, ...$this->getContext($handleRequest)];
 
         return $template->renderBlock($blockName, $context);
     }

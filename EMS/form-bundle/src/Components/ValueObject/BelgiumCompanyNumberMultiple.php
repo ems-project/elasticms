@@ -4,7 +4,7 @@ namespace EMS\FormBundle\Components\ValueObject;
 
 class BelgiumCompanyNumberMultiple
 {
-    private NumberValue $number;
+    private readonly NumberValue $number;
 
     public function __construct(string $companyNumbers)
     {
@@ -25,7 +25,7 @@ class BelgiumCompanyNumberMultiple
         foreach ($numbers as $number) {
             try {
                 new BelgiumCompanyNumber($number);
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 return false;
             }
         }

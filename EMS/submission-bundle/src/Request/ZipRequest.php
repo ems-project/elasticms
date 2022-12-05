@@ -9,21 +9,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class ZipRequest extends AbstractRequest
 {
     /** @var array{filename: string} */
-    private array $endpoint;
-    /** @var array<mixed> */
-    private array $files;
+    private readonly array $endpoint;
 
     /**
      * @param array<string, mixed> $endpoint
      * @param array<mixed>         $files
      */
-    public function __construct(array $endpoint, array $files)
+    public function __construct(array $endpoint, private readonly array $files)
     {
         /** @var array{filename: string} $endpoint */
         $endpoint = $this->resolveEndpoint($endpoint);
 
         $this->endpoint = $endpoint;
-        $this->files = $files;
     }
 
     public function getFilename(): string

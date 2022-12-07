@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <service id="emsco.config.param_converter" class="EMS\CoreBundle\Core\Config\ConfigParamConverter">
+            <argument type="service" id="ems_common.storage.manager" />
+            <tag name="request.param_converter" converter="emsco.config" />
+        </service>
+
+    </services>
+</container>

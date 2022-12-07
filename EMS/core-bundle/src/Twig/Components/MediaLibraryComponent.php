@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Twig\Components;
 
 use EMS\CommonBundle\Storage\StorageManager;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 
-/**
- * @template TData of array{contentTypeName: string}
- */
 final class MediaLibraryComponent
 {
-    public function __construct(private readonly StorageManager $storageManager)
+    public function __construct(protected readonly StorageManager $storageManager)
     {
     }
 
@@ -22,22 +19,17 @@ final class MediaLibraryComponent
     public string $hash;
 
     /**
-     * @param TData $data
+     * @param array<mixed> $data
      *
-     * @return TData
+     * @return array<mixed>
      */
     #[PreMount]
     public function validate(array $data): array
     {
-        $resolver = new OptionsResolver();
-        $resolver->setRequired([
-            'contentTypeName',
-        ]);
+        $config = new MediaLibraryConfig($data);
 
-        /** @var TData $validated */
-        $validated = $resolver->resolve($data);
-        $this->hash = $this->storageManager->saveConfig($validated);
+        $this->hash = $this->storageManager->saveConfig($config->options);
 
-        return $validated;
+        return $config->options;
     }
 }

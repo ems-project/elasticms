@@ -51,6 +51,11 @@
         <!-- Api -->
         <service id="EMS\CoreBundle\Controller\Api\AuthTokenLoginController"/>
 
+        <!-- Component -->
+        <service id="EMS\CoreBundle\Controller\Component\MediaLibraryController" public="true">
+            <tag name="controller.service_arguments"/>
+        </service>
+
         <!-- ContentManagement -->
         <service id="EMS\CoreBundle\Controller\ContentManagement\ActionController" public="true">
             <argument type="service" id="logger" />

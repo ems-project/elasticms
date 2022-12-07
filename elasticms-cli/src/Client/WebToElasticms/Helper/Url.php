@@ -28,9 +28,11 @@ class Url
     private ?string $query;
     private ?string $fragment;
     private ?string $referer;
+    private ?string $refererLabel;
 
-    public function __construct(string $url, string $referer = null)
+    public function __construct(string $url, ?string $referer = null, ?string $refererLabel = null)
     {
+        $this->refererLabel = $refererLabel;
         $parsed = self::mb_parse_url($url);
         $relativeParsed = [];
         if (null !== $referer) {
@@ -276,5 +278,10 @@ class Url
         $resolved = $optionsResolver->resolve($parts);
         /* @var array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string} $resolved */
         return $resolved;
+    }
+
+    public function getRefererLabel(): ?string
+    {
+        return $this->refererLabel;
     }
 }

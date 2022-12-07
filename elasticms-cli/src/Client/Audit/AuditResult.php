@@ -6,6 +6,7 @@ namespace App\CLI\Client\Audit;
 
 use App\CLI\Client\HttpClient\UrlReport;
 use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\StringStream;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\File\File;
 
@@ -200,11 +201,6 @@ class AuditResult
         $this->content = $content;
     }
 
-    public function addLinks(Url $url): void
-    {
-        $this->links[$url->getId()] = $url;
-    }
-
     /**
      * @param mixed[] $init
      *
@@ -231,6 +227,7 @@ class AuditResult
         return \array_filter(\array_merge($init, [
             'url' => $this->url->getUrl(),
             'referer' => $this->url->getReferer(),
+            'referer_label' => $this->url->getRefererLabel(),
             'pa11y' => $this->pa11y,
             'import_hash_resources' => $this->hash,
             'security' => $security,
@@ -349,5 +346,12 @@ class AuditResult
     public function getSize(): int
     {
         return $this->size;
+    }
+
+    public function addLinks(HtmlHelper $htmlHelper): void
+    {
+        foreach ($htmlHelper->getLinks() as $url) {
+            $this->links[$url->getId()] = $url;
+        }
     }
 }

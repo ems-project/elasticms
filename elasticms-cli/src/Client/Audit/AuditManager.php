@@ -261,6 +261,14 @@ class AuditManager
             $audit->setTitle($htmlHelper->getUniqueTextValue($report, 'h1'));
             $audit->setCanonical($htmlHelper->getUniqueTextAttr($report, 'link[rel="canonical"]', 'href'));
             $audit->setAuthor($htmlHelper->getUniqueTextAttr($report, 'meta[name="author"]', 'content', false));
+            $description = $htmlHelper->getUniqueTextAttr($report, 'meta[name="description"]', 'content');
+            if (null !== $description && \strlen($description) < 20) {
+                $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too short: %d', \strlen($description))]);
+            }
+            if (null !== $description && \strlen($description) > 200) {
+                $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too long: %d', \strlen($description))]);
+            }
+            $audit->setDescription($description);
         } catch (\Throwable $e) {
             $this->logger->critical(\sprintf('Crawler audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
         }

@@ -192,7 +192,12 @@ class AuditResult
 
     public function setLocale(?string $locale): void
     {
-        $this->locale = $locale;
+        if (null === $locale || '' === \trim($locale)) {
+            $this->locale = null;
+
+            return;
+        }
+        $this->locale = \trim($locale);
     }
 
     public function setContent(string $content): void

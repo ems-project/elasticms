@@ -6,8 +6,10 @@
     <services>
 
         <!-- Config -->
-        <service id="emsco.config.abstract_config_factory" class="EMS\CoreBundle\Core\Config\AbstractConfigFactory">
-            <argument type="service" id="ems_common.storage.manager" />
+        <service id="emsco.config.abstract_config_factory" class="EMS\CoreBundle\Core\Config\AbstractConfigFactory" abstract="true">
+            <call method="setStorageManager">
+                <argument type="service" id="ems_common.storage.manager" />
+            </call>
         </service>
         <service id="emsco.config.param_converter" class="EMS\CoreBundle\Core\Config\ConfigParamConverter">
             <argument type="tagged_locator" tag="emsco.config.factory" index-by="config"/>
@@ -18,6 +20,7 @@
         <service id="emsco.core.media_library.config_factory"
                  class="EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfigFactory"
                  parent="emsco.config.abstract_config_factory">
+            <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService" />
             <tag name="emsco.config.factory" config="EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig" />
         </service>
     </services>

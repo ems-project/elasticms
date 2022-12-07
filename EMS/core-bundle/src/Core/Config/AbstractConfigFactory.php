@@ -11,9 +11,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 abstract class AbstractConfigFactory implements ConfigFactoryInterface
 {
-    public function __construct(
-        private readonly StorageManager $storageManager
-    ) {
+    private ?StorageManager $storageManager = null;
+
+    public function getStorageManager(): StorageManager
+    {
+        return $this->storageManager ?: throw new \Exception('Storage manager not set');
+    }
+
+    public function setStorageManager(StorageManager $storageManager): void
+    {
+        $this->storageManager = $storageManager;
     }
 
     /**
@@ -21,7 +28,7 @@ abstract class AbstractConfigFactory implements ConfigFactoryInterface
      */
     protected function getHash(array $options): string
     {
-        return $this->storageManager->saveConfig($options);
+        return $this->getStorageManager()->saveConfig($options);
     }
 
     /**
@@ -30,7 +37,7 @@ abstract class AbstractConfigFactory implements ConfigFactoryInterface
     protected function getOptions(string $hash): array
     {
         try {
-            return Json::decode($this->storageManager->getContents($hash));
+            return Json::decode($this->getStorageManager()->getContents($hash));
         } catch (NotFoundException) {
             throw new NotFoundHttpException();
         }

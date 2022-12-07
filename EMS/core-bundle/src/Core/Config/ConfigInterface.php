@@ -6,4 +6,5 @@ namespace EMS\CoreBundle\Core\Config;
 
 interface ConfigInterface
 {
+    public function getHash(): string;
 }

@@ -26,7 +26,7 @@ final class MediaLibraryComponent
     #[PreMount]
     public function validate(array $options): array
     {
-        $this->hash = $this->mediaLibraryConfigFactory->create($options)->getHash();
+        $this->hash = $this->mediaLibraryConfigFactory->createFromOptions($options)->getHash();
 
         return $options;
     }

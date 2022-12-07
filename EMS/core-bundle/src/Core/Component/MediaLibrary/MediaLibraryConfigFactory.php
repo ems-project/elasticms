@@ -6,6 +6,8 @@ namespace EMS\CoreBundle\Core\Component\MediaLibrary;
 
 use EMS\CoreBundle\Core\Config\AbstractConfigFactory;
 use EMS\CoreBundle\Core\Config\ConfigFactoryInterface;
+use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,33 +17,41 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
     {
     }
 
-    /** {@inheritdoc} */
-    public function create(array $options): MediaLibraryConfig
-    {
-        $resolvedOptions = $this->resolveOptions($options);
-        $hash = $this->getHash($resolvedOptions);
-
-        $contentType = $this->contentTypeService->giveByName($resolvedOptions['contentTypeName']);
-
-        return new MediaLibraryConfig($hash, $contentType);
-    }
-
-    public function createFromHash(string $hash): MediaLibraryConfig
-    {
-        $options = $this->getOptions($hash);
-
-        return $this->create($options);
-    }
-
     /**
-     * @param array<mixed> $options
-     *
-     * @return array{contentTypeName: string}
+     * @param array{
+     *   'contentTypeName': string,
+     *   'field_path': string,
+     *   'field_file': string
+     * } $options
      */
-    private function resolveOptions(array $options): array
+    public function create(string $hash, array $options): MediaLibraryConfig
+    {
+        $contentType = $this->contentTypeService->giveByName($options['contentTypeName']);
+
+        return new MediaLibraryConfig(
+            $hash,
+            $contentType,
+            $this->getField($contentType, $options['field_path'])->getName(),
+            $this->getField($contentType, $options['field_file'])->getName()
+        );
+    }
+
+    private function getField(ContentType $contentType, string $name): FieldType
+    {
+        $field = $contentType->getFieldType()->getChildByName($name);
+
+        return $field ?: throw new \RuntimeException(\vsprintf('Field "%s" not found in "%s" contentType', [$name, $contentType->getName()]));
+    }
+
+    /** {@inheritdoc} */
+    protected function resolveOptions(array $options): array
     {
         $resolver = new OptionsResolver();
         $resolver
+            ->setDefaults([
+                'field_path' => 'media_path',
+                'field_file' => 'media_file',
+            ])
             ->setRequired([
                 'contentTypeName',
             ]);

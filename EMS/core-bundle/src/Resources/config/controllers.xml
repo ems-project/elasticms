@@ -53,6 +53,7 @@
 
         <!-- Component -->
         <service id="EMS\CoreBundle\Controller\Component\MediaLibraryController" public="true">
+            <argument type="service" id="emsco.core.media_library" />
             <tag name="controller.service_arguments"/>
         </service>
 

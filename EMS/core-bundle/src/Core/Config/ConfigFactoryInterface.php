@@ -7,7 +7,7 @@ namespace EMS\CoreBundle\Core\Config;
 interface ConfigFactoryInterface
 {
     /** @param array<mixed> $options */
-    public function create(array $options): ConfigInterface;
+    public function createFromOptions(array $options): ConfigInterface;
 
     public function createFromHash(string $hash): ConfigInterface;
 }

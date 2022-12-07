@@ -11,7 +11,9 @@ class MediaLibraryConfig implements ConfigInterface
 {
     public function __construct(
         private readonly string $hash,
-        public readonly ContentType $contentType
+        public readonly ContentType $contentType,
+        public readonly string $fieldPath,
+        public readonly string $fieldFile
     ) {
     }
 

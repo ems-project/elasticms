@@ -13,6 +13,33 @@ abstract class AbstractConfigFactory implements ConfigFactoryInterface
 {
     private ?StorageManager $storageManager = null;
 
+    /**
+     * @param array<mixed> $options
+     *
+     * @return array<mixed>
+     */
+    abstract protected function resolveOptions(array $options): array;
+
+    /**
+     * @param array<mixed> $options
+     */
+    abstract protected function create(string $hash, array $options): ConfigInterface;
+
+    public function createFromOptions(array $options): ConfigInterface
+    {
+        $resolvedOptions = $this->resolveOptions($options);
+        $hash = $this->getHash($resolvedOptions);
+
+        return $this->create($hash, $resolvedOptions);
+    }
+
+    public function createFromHash(string $hash): ConfigInterface
+    {
+        $options = $this->getOptions($hash);
+
+        return $this->createFromOptions($options);
+    }
+
     public function getStorageManager(): StorageManager
     {
         return $this->storageManager ?: throw new \Exception('Storage manager not set');

@@ -5,10 +5,16 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
+        <!-- Config -->
         <service id="emsco.config.param_converter" class="EMS\CoreBundle\Core\Config\ConfigParamConverter">
             <argument type="service" id="ems_common.storage.manager" />
+            <argument type="tagged_locator" tag="emsco.config.factory" index-by="config"/>
             <tag name="request.param_converter" converter="emsco.config" />
         </service>
 
+        <!-- Media Library -->
+        <service id="emsco.core.media_library.config_factory" class="EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfigFactory">
+            <tag name="emsco.config.factory" config="EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig" />
+        </service>
     </services>
 </container>

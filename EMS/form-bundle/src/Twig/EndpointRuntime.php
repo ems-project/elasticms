@@ -10,13 +10,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class EndpointRuntime implements RuntimeExtensionInterface
 {
-    private EndpointManager $endpointManager;
-    private LoggerInterface $logger;
-
-    public function __construct(LoggerInterface $logger, EndpointManager $endpointManager)
+    public function __construct(private readonly LoggerInterface $logger, private readonly EndpointManager $endpointManager)
     {
-        $this->endpointManager = $endpointManager;
-        $this->logger = $logger;
     }
 
     /**

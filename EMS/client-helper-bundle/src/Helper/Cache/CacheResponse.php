@@ -10,23 +10,13 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class CacheResponse
 {
-    private int $statusCode;
-    private string $log;
-    /** @var array<mixed> */
-    private array $headers;
-    private ?string $content;
-
     public const HEADER_X_EMSCH_CACHE = 'X-emsch-cache';
 
     /**
      * @param array<mixed> $headers
      */
-    public function __construct(int $statusCode, string $log, array $headers = [], ?string $content = null)
+    public function __construct(private readonly int $statusCode, private readonly string $log, private readonly array $headers = [], private readonly ?string $content = null)
     {
-        $this->statusCode = $statusCode;
-        $this->log = $log;
-        $this->headers = $headers;
-        $this->content = $content;
     }
 
     public static function fromException(\Throwable $e): self

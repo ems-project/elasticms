@@ -14,20 +14,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class HttpEndpointType extends ConfirmationEndpointType implements EndpointTypeInterface
 {
-    private HttpClientInterface $httpClient;
-    private TranslatorInterface $translator;
-    private VerificationCodeGeneratorInterface $verificationCodeGenerator;
-
     public const NAME = 'http';
 
-    public function __construct(
-        HttpClientInterface $httpClient,
-        TranslatorInterface $translator,
-        VerificationCodeGeneratorInterface $verificationCodeGenerator
-    ) {
-        $this->httpClient = $httpClient;
-        $this->translator = $translator;
-        $this->verificationCodeGenerator = $verificationCodeGenerator;
+    public function __construct(private readonly HttpClientInterface $httpClient, private readonly TranslatorInterface $translator, private readonly VerificationCodeGeneratorInterface $verificationCodeGenerator)
+    {
     }
 
     public function canExecute(EndpointInterface $endpoint): bool

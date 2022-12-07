@@ -10,11 +10,8 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class Loader
 {
-    private bool $metricEnabled;
-
-    public function __construct(bool $metricEnabled)
+    public function __construct(private readonly bool $metricEnabled)
     {
-        $this->metricEnabled = $metricEnabled;
     }
 
     public function load(): RouteCollection

@@ -38,13 +38,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ElasticaService
 {
     private const MAX_INDICES_BY_ALIAS = 100;
-    private LoggerInterface $logger;
-    private Client $client;
 
-    public function __construct(LoggerInterface $logger, Client $client)
+    public function __construct(private readonly LoggerInterface $logger, private readonly Client $client)
     {
-        $this->client = $client;
-        $this->logger = $logger;
     }
 
     public function getUrl(): string

@@ -11,19 +11,10 @@ use Psr\Log\LoggerInterface;
 
 class AdminHelper
 {
-    private CoreApiFactoryInterface $coreApiFactory;
-    private CacheItemPoolInterface $cache;
-    private LoggerInterface $logger;
     private ?CoreApiInterface $coreApi = null;
 
-    public function __construct(
-        CoreApiFactoryInterface $coreApiFactory,
-        CacheItemPoolInterface $cache,
-        LoggerInterface $logger
-    ) {
-        $this->coreApiFactory = $coreApiFactory;
-        $this->cache = $cache;
-        $this->logger = $logger;
+    public function __construct(private readonly CoreApiFactoryInterface $coreApiFactory, private readonly CacheItemPoolInterface $cache, private readonly LoggerInterface $logger)
+    {
     }
 
     public function login(string $baseUrl, string $username, string $password): CoreApiInterface

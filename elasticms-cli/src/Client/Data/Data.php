@@ -9,15 +9,11 @@ namespace App\CLI\Client\Data;
  */
 class Data implements \Countable, \IteratorAggregate
 {
-    /** @var array<mixed> */
-    private array $data;
-
     /**
      * @param array<mixed> $data
      */
-    public function __construct(array $data)
+    public function __construct(private array $data)
     {
-        $this->data = $data;
     }
 
     public function slice(?int $offset, ?int $length = null): void

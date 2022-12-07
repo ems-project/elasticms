@@ -4,13 +4,11 @@ namespace EMS\FormBundle\Components\ValueObject;
 
 class NumberValue
 {
-    private string $input;
-    private string $digits;
+    private readonly string $digits;
 
-    public function __construct(string $number)
+    public function __construct(private readonly string $input)
     {
-        $this->input = $number;
-        $this->digits = $this->filterNumbers($number);
+        $this->digits = $this->filterNumbers($input);
     }
 
     public function getInput(): string

@@ -12,11 +12,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class FormSubmissionRequestSubscriber implements EventSubscriberInterface
 {
-    private FormSubmissionRepository $formSubmissionRepository;
-
-    public function __construct(FormSubmissionRepository $formSubmissionRepository)
+    public function __construct(private readonly FormSubmissionRepository $formSubmissionRepository)
     {
-        $this->formSubmissionRepository = $formSubmissionRepository;
     }
 
     public function onKernelController(ControllerEvent $event): void

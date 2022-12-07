@@ -7,16 +7,10 @@ namespace EMS\SubmissionBundle\Connection;
 final class Transformer
 {
     /**
-     * @var array<array<string, string>>
-     */
-    private array $connections;
-
-    /**
      * @param array<array<string, string>> $connections
      */
-    public function __construct(array $connections)
+    public function __construct(private readonly array $connections)
     {
-        $this->connections = $connections;
     }
 
     /**

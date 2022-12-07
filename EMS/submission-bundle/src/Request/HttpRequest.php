@@ -10,8 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class HttpRequest extends AbstractRequest
 {
     /** @var array{method: string, url: string, ignore_body_value: string|null}|array<mixed> */
-    private array $endpoint;
-    private string $body;
+    private readonly array $endpoint;
 
     private const HTTP_OPTIONS = [
         'auth_basic' => null,
@@ -24,13 +23,12 @@ final class HttpRequest extends AbstractRequest
     /**
      * @param array<string, mixed> $endpoint
      */
-    public function __construct(array $endpoint, string $body)
+    public function __construct(array $endpoint, private readonly string $body)
     {
         /** @var array{method: string, url: string, ignore_body_value: string|null} $endpoint */
         $endpoint = $this->resolveEndpoint($endpoint);
 
         $this->endpoint = $endpoint;
-        $this->body = $body;
     }
 
     public function getMethod(): string

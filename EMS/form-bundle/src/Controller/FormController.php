@@ -16,17 +16,8 @@ use Twig\Environment;
 
 class FormController extends AbstractFormController
 {
-    private FormFactory $formFactory;
-    private Client $client;
-    private Guard $guard;
-    private Environment $twig;
-
-    public function __construct(FormFactory $formFactory, Client $client, Guard $guard, Environment $twig)
+    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Guard $guard, private readonly Environment $twig)
     {
-        $this->formFactory = $formFactory;
-        $this->client = $client;
-        $this->guard = $guard;
-        $this->twig = $twig;
     }
 
     public function iframe(Request $request, string $ouuid): Response

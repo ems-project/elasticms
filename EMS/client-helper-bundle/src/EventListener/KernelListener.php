@@ -19,24 +19,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class KernelListener implements EventSubscriberInterface
 {
-    private EnvironmentHelper $environmentHelper;
-    private Translator $translationHelper;
-    private LocaleHelper $localeHelper;
-    private ExceptionHelper $exceptionHelper;
-    private bool $bindLocale;
-
-    public function __construct(
-        EnvironmentHelper $environmentHelper,
-        Translator $translationHelper,
-        LocaleHelper $localeHelper,
-        ExceptionHelper $exceptionHelper,
-        bool $bindLocale
-    ) {
-        $this->environmentHelper = $environmentHelper;
-        $this->translationHelper = $translationHelper;
-        $this->localeHelper = $localeHelper;
-        $this->exceptionHelper = $exceptionHelper;
-        $this->bindLocale = $bindLocale;
+    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly Translator $translationHelper, private readonly LocaleHelper $localeHelper, private readonly ExceptionHelper $exceptionHelper, private readonly bool $bindLocale)
+    {
     }
 
     /**

@@ -9,11 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class UserService
 {
-    private ClientFactory $client;
-
-    public function __construct(ClientFactory $client)
+    public function __construct(private readonly ClientFactory $client)
     {
-        $this->client = $client;
     }
 
     public function getUsers(Request $request): JsonResponse

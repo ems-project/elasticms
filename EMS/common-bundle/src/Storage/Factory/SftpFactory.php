@@ -10,27 +10,17 @@ use Psr\Log\LoggerInterface;
 
 class SftpFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    /** @var string */
-    public const STORAGE_TYPE = 'sftp';
-    /** @var string */
-    public const STORAGE_CONFIG_HOST = 'host';
-    /** @var string */
-    public const STORAGE_CONFIG_PATH = 'path';
-    /** @var string */
-    public const STORAGE_CONFIG_USERNAME = 'username';
-    /** @var string */
-    public const STORAGE_CONFIG_PUBLIC_KEY_FILE = 'public-key-file';
-    /** @var string */
-    public const STORAGE_CONFIG_PRIVATE_KEY_FILE = 'private-key-file';
-    /** @var string */
-    public const STORAGE_CONFIG_PASSWORD_PHRASE = 'password-phrase';
-    /** @var string */
-    public const STORAGE_CONFIG_PORT = 'port';
-    private LoggerInterface $logger;
+    final public const STORAGE_TYPE = 'sftp';
+    final public const STORAGE_CONFIG_HOST = 'host';
+    final public const STORAGE_CONFIG_PATH = 'path';
+    final public const STORAGE_CONFIG_USERNAME = 'username';
+    final public const STORAGE_CONFIG_PUBLIC_KEY_FILE = 'public-key-file';
+    final public const STORAGE_CONFIG_PRIVATE_KEY_FILE = 'private-key-file';
+    final public const STORAGE_CONFIG_PASSWORD_PHRASE = 'password-phrase';
+    final public const STORAGE_CONFIG_PORT = 'port';
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
-        $this->logger = $logger;
     }
 
     /**

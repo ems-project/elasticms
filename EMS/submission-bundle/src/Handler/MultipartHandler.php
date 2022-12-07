@@ -21,18 +21,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class MultipartHandler extends AbstractHandler
 {
-    private HttpClientInterface $client;
-    private TwigRenderer $twigRenderer;
-    private ResponseTransformer $responseTransformer;
-
-    public function __construct(
-        HttpClientInterface $client,
-        TwigRenderer $twigRenderer,
-        ResponseTransformer $responseTransformer
-    ) {
-        $this->client = $client;
-        $this->twigRenderer = $twigRenderer;
-        $this->responseTransformer = $responseTransformer;
+    public function __construct(private readonly HttpClientInterface $client, private readonly TwigRenderer $twigRenderer, private readonly ResponseTransformer $responseTransformer)
+    {
     }
 
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface
@@ -97,11 +87,9 @@ final class MultipartHandler extends AbstractHandler
     }
 
     /**
-     * @param mixed $data
-     *
      * @return mixed
      */
-    private function searchAndReplaceFiles($data, FormData $formData)
+    private function searchAndReplaceFiles(mixed $data, FormData $formData)
     {
         if (\is_string($data) && $formData->isFileUuid($data)) {
             return $this->getDataPart($formData->getFileFromUuid($data));

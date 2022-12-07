@@ -46,7 +46,7 @@ final class ContentTypeHelper
             $response = Response::fromResultSet($clientRequest->commonSearch($search));
 
             return ContentTypeCollection::fromResponse($environment, $response);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return new ContentTypeCollection();
         }
     }

@@ -4,15 +4,8 @@ namespace EMS\FormBundle\FormConfig;
 
 class SubmissionConfig
 {
-    private string $class;
-    private string $endpoint;
-    private string $message;
-
-    public function __construct(string $class, string $endpoint, string $message)
+    public function __construct(private readonly string $class, private readonly string $endpoint, private readonly string $message)
     {
-        $this->class = $class;
-        $this->endpoint = $endpoint;
-        $this->message = $message;
     }
 
     public function getClass(): string

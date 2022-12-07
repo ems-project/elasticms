@@ -8,19 +8,11 @@ use App\CLI\Client\WebToElasticms\Config\Document;
 
 class ExtractedData
 {
-    private Document $document;
-    /**
-     * @var mixed[]
-     */
-    private array $data;
-
     /**
      * @param array<mixed> $data
      */
-    public function __construct(Document $document, array $data)
+    public function __construct(private readonly Document $document, private readonly array $data)
     {
-        $this->document = $document;
-        $this->data = $data;
     }
 
     public function getDocument(): Document

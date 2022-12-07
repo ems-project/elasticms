@@ -10,15 +10,9 @@ use EMS\SubmissionBundle\Request\PdfRequest;
 
 final class PdfHandleResponse extends AbstractHandleResponse
 {
-    private PdfRequest $pdfRequest;
-    private PdfOutput $pdfOutput;
-
-    public function __construct(PdfRequest $pdfRequest, PdfOutput $pdfOutput)
+    public function __construct(private readonly PdfRequest $pdfRequest, private readonly PdfOutput $pdfOutput)
     {
         parent::__construct(self::STATUS_SUCCESS, 'Submission pdf ready');
-
-        $this->pdfRequest = $pdfRequest;
-        $this->pdfOutput = $pdfOutput;
     }
 
     public function getFilename(): string

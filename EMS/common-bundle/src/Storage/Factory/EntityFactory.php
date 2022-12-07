@@ -12,17 +12,13 @@ use Psr\Log\LoggerInterface;
 class EntityFactory extends AbstractFactory implements StorageFactoryInterface
 {
     /** @var string */
-    public const STORAGE_TYPE = 'db';
+    final public const STORAGE_TYPE = 'db';
     /** @var string */
-    public const STORAGE_CONFIG_ACTIVATE = 'activate';
-    private LoggerInterface $logger;
+    final public const STORAGE_CONFIG_ACTIVATE = 'activate';
     private bool $registered = false;
-    private Registry $doctrine;
 
-    public function __construct(LoggerInterface $logger, Registry $doctrine)
+    public function __construct(private readonly LoggerInterface $logger, private readonly Registry $doctrine)
     {
-        $this->logger = $logger;
-        $this->doctrine = $doctrine;
     }
 
     /**

@@ -18,7 +18,7 @@ class BisNumber extends RrNumber
     {
         try {
             parent::__construct($number);
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             throw new \Exception(\sprintf('invalid bis data: %s', $number));
         }
     }

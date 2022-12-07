@@ -4,9 +4,9 @@ namespace EMS\CommonBundle\Common;
 
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 
-class EMSLink
+class EMSLink implements \Stringable
 {
-    public const EMSLINK_ASSET_PREFIX = 'ems://asset:';
+    final public const EMSLINK_ASSET_PREFIX = 'ems://asset:';
     private string $linkType = 'object';
 
     /** @var string */
@@ -22,8 +22,8 @@ class EMSLink
      * Example: <a href="ems://object:page:AV44kX4b1tfmVMOaE61u">example</a>
      * link_type => object, content_type => page, ouuid => AV44kX4b1tfmVMOaE61u
      */
-    public const PATTERN = '/((?P<src>src="))?ems:\/\/(?P<link_type>.*?):(?:(?P<content_type>([[:alnum:]]|_)*?):)?(?P<ouuid>([[:alnum:]]|-|_)*)(?:\?(?P<query>(?:[^"|\']*)))?/';
-    public const SIMPLE_PATTERN = '/(?:(?P<content_type>.*?):)?(?P<ouuid>([[:alnum:]]|-|_)*)/';
+    final public const PATTERN = '/((?P<src>src="))?ems:\/\/(?P<link_type>.*?):(?:(?P<content_type>([[:alnum:]]|_)*?):)?(?P<ouuid>([[:alnum:]]|-|_)*)(?:\?(?P<query>(?:[^"|\']*)))?/';
+    final public const SIMPLE_PATTERN = '/(?:(?P<content_type>.*?):)?(?P<ouuid>([[:alnum:]]|-|_)*)/';
 
     private function __construct()
     {
@@ -45,7 +45,7 @@ class EMSLink
 
     public static function fromText(string $text): EMSLink
     {
-        $pattern = 'ems://' === \substr($text, 0, 6) ? self::PATTERN : self::SIMPLE_PATTERN;
+        $pattern = \str_starts_with($text, 'ems://') ? self::PATTERN : self::SIMPLE_PATTERN;
         \preg_match($pattern, $text, $match);
 
         return self::fromMatch($match);

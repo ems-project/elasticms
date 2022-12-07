@@ -9,12 +9,8 @@ use Symfony\Component\Validator\Validation;
 
 final class EmailMultiple
 {
-    private string $emails;
-
-    public function __construct(string $emails)
+    public function __construct(private readonly string $emails)
     {
-        $this->emails = $emails;
-
         if (!$this->validate()) {
             throw new \Exception(\sprintf('At least one email is not valid: %s', $this->emails));
         }

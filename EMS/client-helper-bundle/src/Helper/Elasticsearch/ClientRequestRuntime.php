@@ -14,17 +14,11 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class ClientRequestRuntime implements RuntimeExtensionInterface
 {
-    private ClientRequestManager $manager;
-    private RequestStack $requestStack;
-    private LoggerInterface $logger;
     /** @var Document[] */
     private array $documents = [];
 
-    public function __construct(ClientRequestManager $manager, RequestStack $requestStack, LoggerInterface $logger)
+    public function __construct(private readonly ClientRequestManager $manager, private readonly RequestStack $requestStack, private readonly LoggerInterface $logger)
     {
-        $this->manager = $manager;
-        $this->requestStack = $requestStack;
-        $this->logger = $logger;
     }
 
     /**
@@ -34,7 +28,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
      *
      * @return array<mixed>
      */
-    public function search($type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null): array
+    public function search(null|string|array $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null): array
     {
         $client = $this->manager->getDefault();
 

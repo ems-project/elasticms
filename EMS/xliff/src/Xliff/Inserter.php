@@ -6,12 +6,12 @@ use EMS\Xliff\XML\DomHelper;
 
 class Inserter
 {
-    private string $version;
+    private readonly string $version;
     /** @var string[] */
     private array $nameSpaces = [];
-    private \DOMNode $xliff;
-    private ?string $sourceLocale;
-    private ?string $targetLocale;
+    private readonly \DOMNode $xliff;
+    private readonly ?string $sourceLocale;
+    private readonly ?string $targetLocale;
 
     public function __construct(\DOMDocument $document)
     {

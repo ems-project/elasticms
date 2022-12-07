@@ -9,15 +9,9 @@ use EMS\SubmissionBundle\Request\ZipRequest;
 
 final class ZipHandleResponse extends AbstractHandleResponse
 {
-    private ZipRequest $zipRequest;
-    private string $content;
-
-    public function __construct(ZipRequest $zipRequest, string $content)
+    public function __construct(private readonly ZipRequest $zipRequest, private readonly string $content)
     {
         parent::__construct(self::STATUS_SUCCESS, 'Submission zip ready.');
-
-        $this->zipRequest = $zipRequest;
-        $this->content = $content;
     }
 
     public function getContent(): string

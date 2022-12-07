@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class SoapRequest extends AbstractRequest
 {
     /** @var array{operation: string, wsdl: string|null, options: array<string, mixed>} */
-    private array $endpoint;
+    private readonly array $endpoint;
 
     /**
      * @param array<mixed> $endpoint

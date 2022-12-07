@@ -42,7 +42,7 @@ abstract class AbstractRequest
             }
 
             if (isset($file['content_base64'])) {
-                $content = \base64_decode($file['content_base64']);
+                $content = \base64_decode((string) $file['content_base64']);
             }
 
             if (isset($content) && false !== $content) {

@@ -13,13 +13,8 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 final class File implements FileInterface
 {
-    private Client $client;
-    private StorageManager $storageManager;
-
-    public function __construct(Client $client, StorageManager $storageManager)
+    public function __construct(private readonly Client $client, private readonly StorageManager $storageManager)
     {
-        $this->client = $client;
-        $this->storageManager = $storageManager;
     }
 
     public function uploadStream(StreamInterface $stream, string $filename, string $mimeType): string
@@ -154,7 +149,7 @@ final class File implements FileInterface
     {
         try {
             return $this->client->head('/api/file/'.$hash);
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
     }

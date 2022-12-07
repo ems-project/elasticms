@@ -14,15 +14,11 @@ use Twig\Environment;
 
 final class EmbedController extends AbstractController
 {
-    private ClientRequest $clientRequest;
-    private CacheHelper $cacheHelper;
-    private Environment $templating;
+    private readonly ClientRequest $clientRequest;
 
-    public function __construct(ClientRequestManager $manager, CacheHelper $cacheHelper, Environment $templating)
+    public function __construct(ClientRequestManager $manager, private readonly CacheHelper $cacheHelper, private readonly Environment $templating)
     {
         $this->clientRequest = $manager->getDefault();
-        $this->cacheHelper = $cacheHelper;
-        $this->templating = $templating;
     }
 
     /**
@@ -54,11 +50,12 @@ final class EmbedController extends AbstractController
     }
 
     /**
-     * @param array<mixed> $body
-     * @param array<mixed> $args
-     * @param string[]     $sourceExclude
+     * @param string|string[]|null $searchType
+     * @param array<mixed>         $body
+     * @param array<mixed>         $args
+     * @param string[]             $sourceExclude
      */
-    public function renderBlockAction(string $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, ?string $cacheType = null, array $sourceExclude = []): Response
+    public function renderBlockAction(null|string|array $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, ?string $cacheType = null, array $sourceExclude = []): Response
     {
         $cacheKey = [
             'EMSCH_Block',

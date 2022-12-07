@@ -4,19 +4,11 @@ namespace EMS\FormBundle\FormConfig;
 
 abstract class AbstractFormConfig
 {
-    private string $id;
-    private string $name;
-    private string $locale;
     /** @var ElementInterface[] */
     private array $elements = [];
-    private string $translationDomain;
 
-    public function __construct(string $id, string $locale, string $translationDomain, string $name = '')
+    public function __construct(private readonly string $id, private readonly string $locale, private readonly string $translationDomain, private string $name = '')
     {
-        $this->id = $id;
-        $this->locale = $locale;
-        $this->name = $name;
-        $this->translationDomain = $translationDomain;
     }
 
     public function getId(): string

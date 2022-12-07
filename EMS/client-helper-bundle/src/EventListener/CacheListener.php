@@ -20,24 +20,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class CacheListener implements EventSubscriberInterface
 {
-    private CacheHelper $cacheHelper;
-    private CacheController $cacheController;
-    private Kernel $kernel;
-    private LoggerInterface $logger;
-    private QueryLoggerInterface $queryLogger;
-
-    public function __construct(
-        CacheHelper $cacheHelper,
-        CacheController $cacheController,
-        Kernel $kernel,
-        LoggerInterface $logger,
-        QueryLoggerInterface $queryLogger
-    ) {
-        $this->cacheHelper = $cacheHelper;
-        $this->cacheController = $cacheController;
-        $this->kernel = $kernel;
-        $this->logger = $logger;
-        $this->queryLogger = $queryLogger;
+    public function __construct(private readonly CacheHelper $cacheHelper, private readonly CacheController $cacheController, private readonly Kernel $kernel, private readonly LoggerInterface $logger, private readonly QueryLoggerInterface $queryLogger)
+    {
     }
 
     /**

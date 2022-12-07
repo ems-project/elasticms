@@ -55,7 +55,7 @@ class SpreadsheetGeneratorTest extends TestCase
     private function callMethod($object, string $method, array $parameters = [])
     {
         try {
-            $className = \get_class($object);
+            $className = $object::class;
             $reflection = new \ReflectionClass($className);
         } catch (\ReflectionException $e) {
             throw new \Exception($e->getMessage());

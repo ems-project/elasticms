@@ -9,15 +9,13 @@ use Symfony\Component\Finder\SplFileInfo;
 
 final class TemplateFile
 {
-    private string $ouuid;
-    private string $name;
-    private string $path;
-    private string $contentTypeName;
+    private readonly string $ouuid;
+    private readonly string $name;
+    private readonly string $path;
 
-    public function __construct(SplFileInfo $file, string $contentTypeName)
+    public function __construct(SplFileInfo $file, private readonly string $contentTypeName)
     {
         $this->path = $file->getPathname();
-        $this->contentTypeName = $contentTypeName;
 
         $pathName = $file->getRelativePathname();
         if ('/' !== \DIRECTORY_SEPARATOR) {

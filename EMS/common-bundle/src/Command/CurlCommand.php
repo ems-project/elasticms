@@ -26,18 +26,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class CurlCommand extends AbstractCommand
 {
-    public const ARGUMENT_URL = 'url';
-    public const ARGUMENT_FILENAME = 'filename';
-    public const OPTION_METHOD = 'method';
-    public const OPTION_BASE_URL = 'base-url';
-    public const OPTION_SAVE = 'save';
+    final public const ARGUMENT_URL = 'url';
+    final public const ARGUMENT_FILENAME = 'filename';
+    final public const OPTION_METHOD = 'method';
+    final public const OPTION_BASE_URL = 'base-url';
+    final public const OPTION_SAVE = 'save';
     protected static $defaultName = Commands::CURL;
-    private EventDispatcherInterface $eventDispatcher;
-    private ControllerResolverInterface $controllerResolver;
-    private AssetRuntime $assetRuntime;
     private ?SessionInterface $session = null;
-    private RequestStack $requestStack;
-    private StorageManager $storageManager;
 
     private string $url;
     private string $method;
@@ -45,14 +40,9 @@ class CurlCommand extends AbstractCommand
     private ?string $baseUrl = null;
     private bool $save;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher, ControllerResolverInterface $controllerResolver, RequestStack $requestStack, StorageManager $storageManager, AssetRuntime $assetRuntime)
+    public function __construct(private readonly EventDispatcherInterface $eventDispatcher, private readonly ControllerResolverInterface $controllerResolver, private readonly RequestStack $requestStack, private readonly StorageManager $storageManager, private readonly AssetRuntime $assetRuntime)
     {
         parent::__construct();
-        $this->eventDispatcher = $eventDispatcher;
-        $this->controllerResolver = $controllerResolver;
-        $this->requestStack = $requestStack;
-        $this->storageManager = $storageManager;
-        $this->assetRuntime = $assetRuntime;
     }
 
     protected function configure(): void
@@ -81,20 +71,20 @@ class CurlCommand extends AbstractCommand
         $this->io->writeln(\sprintf('The file %s has been generated', $this->filename));
 
         if (!$this->save && null === $this->baseUrl) {
-            return parent::EXECUTE_SUCCESS;
+            return self::EXECUTE_SUCCESS;
         }
 
         $hash = $this->storageManager->saveFile($this->filename, StorageInterface::STORAGE_USAGE_ASSET);
         $this->io->writeln(\sprintf('The file has been saved with the id %s', $hash));
 
         if (null === $this->baseUrl) {
-            return parent::EXECUTE_SUCCESS;
+            return self::EXECUTE_SUCCESS;
         }
 
         $url = $this->getUrl($hash);
         $this->io->writeln(\sprintf('The file is available at %s', $url));
 
-        return parent::EXECUTE_SUCCESS;
+        return self::EXECUTE_SUCCESS;
     }
 
     protected function performRequest(): void

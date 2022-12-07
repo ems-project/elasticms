@@ -20,7 +20,7 @@ class Document implements DocumentInterface
     /**
      * @var array<mixed>
      */
-    private array $source;
+    private readonly array $source;
 
     /**
      * @param array<mixed> $document

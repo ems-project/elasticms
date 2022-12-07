@@ -18,7 +18,7 @@ use Ramsey\Uuid\Uuid;
  */
 class LogRepository extends ServiceEntityRepository
 {
-    private Connection $connection;
+    private readonly Connection $connection;
 
     private const COLUMN_TYPES = [
         'id' => Types::STRING,

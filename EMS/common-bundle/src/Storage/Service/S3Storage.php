@@ -11,23 +11,14 @@ use Psr\Log\LoggerInterface;
 class S3Storage extends AbstractUrlStorage
 {
     private ?S3Client $s3Client = null;
-
-    private string $bucket;
-
-    /** @var array{version?:string,credentials?:array{key:string,secret:string},region?:string} */
-    private array $credentials;
-    private ?string $uploadFolder;
     private ?string $bucketHash = null;
 
     /**
-     * @param array{version?:string,credentials?:array{key:string,secret:string},region?:string} $s3Credentials
+     * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
      */
-    public function __construct(LoggerInterface $logger, array $s3Credentials, string $s3Bucket, int $usage, int $hotSynchronizeLimit = 0, string $uploadFolder = null)
+    public function __construct(LoggerInterface $logger, private readonly array $credentials, private readonly string $bucket, int $usage, int $hotSynchronizeLimit = 0, private readonly ?string $uploadFolder = null)
     {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
-        $this->bucket = $s3Bucket;
-        $this->credentials = $s3Credentials;
-        $this->uploadFolder = $uploadFolder;
     }
 
     protected function getBaseUrl(): string

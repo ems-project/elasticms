@@ -18,9 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class DocumentUpdateCommand extends AbstractCommand
 {
-    private AdminHelper $adminHelper;
-    private FileReaderInterface $fileReader;
-
     private string $configFile;
     private string $dataFilePath;
 
@@ -38,11 +35,9 @@ final class DocumentUpdateCommand extends AbstractCommand
     private const OPTION_DATA_SKIP_FIRST_ROW = 'data-skip-first';
     private const OPTION_DRY_RUN = 'dry-run';
 
-    public function __construct(AdminHelper $adminHelper, FileReaderInterface $fileReader)
+    public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
-        $this->fileReader = $fileReader;
     }
 
     protected function configure(): void

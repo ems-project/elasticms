@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.248.0",
+            "version": "3.252.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "69a49ff367447d9753c068326b4ac0d437a230dd"
+                "reference": "5cc35b5f66d026d99ba843dba6fe1783571c20af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/69a49ff367447d9753c068326b4ac0d437a230dd",
-                "reference": "69a49ff367447d9753c068326b4ac0d437a230dd",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5cc35b5f66d026d99ba843dba6fe1783571c20af",
+                "reference": "5cc35b5f66d026d99ba843dba6fe1783571c20af",
                 "shasum": ""
             },
             "require": {
@@ -146,9 +146,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.248.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.252.1"
             },
-            "time": "2022-11-28T02:55:22+00:00"
+            "time": "2022-12-02T19:21:15+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -2026,16 +2026,16 @@
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "164b3a73cd78686e2af683a6d7a06b77eb32e828"
+                "reference": "7b552f5c7b86722836f2409192c62f9f835f8820"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/164b3a73cd78686e2af683a6d7a06b77eb32e828",
-                "reference": "164b3a73cd78686e2af683a6d7a06b77eb32e828",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/7b552f5c7b86722836f2409192c62f9f835f8820",
+                "reference": "7b552f5c7b86722836f2409192c62f9f835f8820",
                 "shasum": ""
             },
             "require": {
@@ -2075,22 +2075,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/4.3.0"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/4.3.1"
             },
-            "time": "2022-11-28T19:56:50+00:00"
+            "time": "2022-12-05T08:27:16+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "2874169238996b7ba36d212e53b537ef1c56e9ed"
+                "reference": "ecc4097ff0f860641ac660f74237f200b4ba76ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/2874169238996b7ba36d212e53b537ef1c56e9ed",
-                "reference": "2874169238996b7ba36d212e53b537ef1c56e9ed",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/ecc4097ff0f860641ac660f74237f200b4ba76ee",
+                "reference": "ecc4097ff0f860641ac660f74237f200b4ba76ee",
                 "shasum": ""
             },
             "require": {
@@ -2164,22 +2164,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/4.3.0"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/4.3.1"
             },
-            "time": "2022-11-28T19:56:50+00:00"
+            "time": "2022-12-05T08:27:16+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
-                "reference": "9fd876dfa4d26783d0761f490626eae206ca728d"
+                "reference": "028f3899120f2015d020122a2649a856c9d679dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/9fd876dfa4d26783d0761f490626eae206ca728d",
-                "reference": "9fd876dfa4d26783d0761f490626eae206ca728d",
+                "url": "https://api.github.com/repos/ems-project/EMSFormBundle/zipball/028f3899120f2015d020122a2649a856c9d679dd",
+                "reference": "028f3899120f2015d020122a2649a856c9d679dd",
                 "shasum": ""
             },
             "require": {
@@ -2216,22 +2216,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/4.3.0"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/4.3.1"
             },
-            "time": "2022-11-28T19:56:50+00:00"
+            "time": "2022-12-05T08:27:16+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
-                "reference": "e3dfcab7e442caadbe0b9386e89dbec319f57e93"
+                "reference": "f83eca7c2eb30b4a9bed55c605e49d96ae0980b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/helpers/zipball/e3dfcab7e442caadbe0b9386e89dbec319f57e93",
-                "reference": "e3dfcab7e442caadbe0b9386e89dbec319f57e93",
+                "url": "https://api.github.com/repos/ems-project/helpers/zipball/f83eca7c2eb30b4a9bed55c605e49d96ae0980b9",
+                "reference": "f83eca7c2eb30b4a9bed55c605e49d96ae0980b9",
                 "shasum": ""
             },
             "require": {
@@ -2278,22 +2278,22 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/4.3.0"
+                "source": "https://github.com/ems-project/helpers/tree/4.3.1"
             },
-            "time": "2022-11-27T11:09:43+00:00"
+            "time": "2022-12-05T08:27:16+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
-                "reference": "d8e468b0eba002a78315cd69614b36c8bda04f48"
+                "reference": "a360833921f16561f2b0323499d7b1788c2ab57b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/d8e468b0eba002a78315cd69614b36c8bda04f48",
-                "reference": "d8e468b0eba002a78315cd69614b36c8bda04f48",
+                "url": "https://api.github.com/repos/ems-project/EMSSubmissionBundle/zipball/a360833921f16561f2b0323499d7b1788c2ab57b",
+                "reference": "a360833921f16561f2b0323499d7b1788c2ab57b",
                 "shasum": ""
             },
             "require": {
@@ -2333,9 +2333,9 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/4.3.0"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/4.3.1"
             },
-            "time": "2022-11-28T19:56:50+00:00"
+            "time": "2022-12-05T08:27:16+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -3914,30 +3914,30 @@
         },
         {
             "name": "markbaker/matrix",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MarkBaker/PHPMatrix.git",
-                "reference": "c66aefcafb4f6c269510e9ac46b82619a904c576"
+                "reference": "728434227fe21be27ff6d86621a1b13107a2562c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MarkBaker/PHPMatrix/zipball/c66aefcafb4f6c269510e9ac46b82619a904c576",
-                "reference": "c66aefcafb4f6c269510e9ac46b82619a904c576",
+                "url": "https://api.github.com/repos/MarkBaker/PHPMatrix/zipball/728434227fe21be27ff6d86621a1b13107a2562c",
+                "reference": "728434227fe21be27ff6d86621a1b13107a2562c",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "phpcompatibility/php-compatibility": "^9.0",
+                "dealerdirect/phpcodesniffer-composer-installer": "dev-master",
+                "phpcompatibility/php-compatibility": "^9.3",
                 "phpdocumentor/phpdocumentor": "2.*",
                 "phploc/phploc": "^4.0",
                 "phpmd/phpmd": "2.*",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.3",
+                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
                 "sebastian/phpcpd": "^4.0",
-                "squizlabs/php_codesniffer": "^3.4"
+                "squizlabs/php_codesniffer": "^3.7"
             },
             "type": "library",
             "autoload": {
@@ -3964,9 +3964,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MarkBaker/PHPMatrix/issues",
-                "source": "https://github.com/MarkBaker/PHPMatrix/tree/3.0.0"
+                "source": "https://github.com/MarkBaker/PHPMatrix/tree/3.0.1"
             },
-            "time": "2021-07-01T19:01:15+00:00"
+            "time": "2022-12-02T22:17:43+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -5639,20 +5639,20 @@
         },
         {
             "name": "ruflin/elastica",
-            "version": "7.2.0",
+            "version": "7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ruflin/Elastica.git",
-                "reference": "8fe61767b604a10e40b0b59c9511c4317cae3cb8"
+                "reference": "75fca5bf2b6792d35dae6c5efeda2322bce914e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/8fe61767b604a10e40b0b59c9511c4317cae3cb8",
-                "reference": "8fe61767b604a10e40b0b59c9511c4317cae3cb8",
+                "url": "https://api.github.com/repos/ruflin/Elastica/zipball/75fca5bf2b6792d35dae6c5efeda2322bce914e4",
+                "reference": "75fca5bf2b6792d35dae6c5efeda2322bce914e4",
                 "shasum": ""
             },
             "require": {
-                "elasticsearch/elasticsearch": "^7.1.1",
+                "elasticsearch/elasticsearch": "^7.10",
                 "ext-json": "*",
                 "nyholm/dsn": "^2.0.0",
                 "php": "^7.2 || ^8.0",
@@ -5702,9 +5702,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ruflin/Elastica/issues",
-                "source": "https://github.com/ruflin/Elastica/tree/7.2.0"
+                "source": "https://github.com/ruflin/Elastica/tree/7.3.0"
             },
-            "time": "2022-08-02T13:28:12+00:00"
+            "time": "2022-11-30T14:21:43+00:00"
         },
         {
             "name": "sabberworm/php-css-parser",
@@ -5835,6 +5835,7 @@
                 "issues": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/issues",
                 "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.9"
             },
+            "abandoned": "Symfony",
             "time": "2022-11-01T17:17:13+00:00"
         },
         {
@@ -13729,16 +13730,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v6.1.8",
+            "version": "v6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "c8163ef70aaa7011bff1a0ca60138d88249a54f3"
+                "reference": "1bd3b17db6d2ec284efbdc916600e880d6d858df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/c8163ef70aaa7011bff1a0ca60138d88249a54f3",
-                "reference": "c8163ef70aaa7011bff1a0ca60138d88249a54f3",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/1bd3b17db6d2ec284efbdc916600e880d6d858df",
+                "reference": "1bd3b17db6d2ec284efbdc916600e880d6d858df",
                 "shasum": ""
             },
             "require": {
@@ -13792,7 +13793,7 @@
             "description": "Provides utilities for PHPUnit, especially user deprecation notices management",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/phpunit-bridge/tree/v6.1.8"
+                "source": "https://github.com/symfony/phpunit-bridge/tree/v6.2.0"
             },
             "funding": [
                 {
@@ -13808,7 +13809,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-14T10:13:26+00:00"
+            "time": "2022-11-18T19:08:09+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",

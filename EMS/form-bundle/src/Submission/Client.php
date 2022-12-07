@@ -12,15 +12,12 @@ use Symfony\Component\Form\FormInterface;
 
 class Client
 {
-    private ClientRequestInterface $clientRequest;
-    /** @var \Traversable<AbstractHandler> */
-    private \Traversable $handlers;
+    private readonly ClientRequestInterface $clientRequest;
 
     /** @param \Traversable<AbstractHandler> $handlers */
-    public function __construct(ClientRequestManagerInterface $clientRequestManager, \Traversable $handlers)
+    public function __construct(ClientRequestManagerInterface $clientRequestManager, private readonly \Traversable $handlers)
     {
         $this->clientRequest = $clientRequestManager->getDefault();
-        $this->handlers = $handlers;
     }
 
     /**

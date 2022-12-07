@@ -10,11 +10,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class DocumentService
 {
-    private ClientFactory $client;
-
-    public function __construct(ClientFactory $client)
+    public function __construct(private readonly ClientFactory $client)
     {
-        $this->client = $client;
     }
 
     public function getDocument(string $contentType, string $ouuid, Request $request): JsonResponse

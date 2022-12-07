@@ -10,17 +10,14 @@ use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 final class ResponseTransformer
 {
-    private TwigRenderer $twigRenderer;
-
     /**
      * Twig block inside the message template,
      * containing a json that will merged into the response data.
      */
     private const BLOCK_EXTRA = 'handleResponseExtra';
 
-    public function __construct(TwigRenderer $twigRenderer)
+    public function __construct(private readonly TwigRenderer $twigRenderer)
     {
-        $this->twigRenderer = $twigRenderer;
     }
 
     public function transform(HandleRequestInterface $handleRequest, AbstractHandleResponse $handleResponse): AbstractHandleResponse

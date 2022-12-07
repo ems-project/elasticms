@@ -20,18 +20,14 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class Handler implements HandlerInterface
 {
-    private ClientRequest $clientRequest;
-    private RouterInterface $router;
-    private ?Profiler $profiler;
+    private readonly ClientRequest $clientRequest;
 
     public function __construct(
         ClientRequestManager $manager,
-        RouterInterface $router,
-        ?Profiler $profiler
+        private readonly RouterInterface $router,
+        private readonly ?Profiler $profiler
     ) {
         $this->clientRequest = $manager->getDefault();
-        $this->router = $router;
-        $this->profiler = $profiler;
     }
 
     /**
@@ -92,7 +88,7 @@ final class Handler implements HandlerInterface
 
         try {
             return $this->clientRequest->searchOne($route->getOption('type'), \json_decode($json, true, 512, JSON_THROW_ON_ERROR), $indexRegex);
-        } catch (SingleResultException $e) {
+        } catch (SingleResultException) {
             throw new NotFoundHttpException();
         }
     }

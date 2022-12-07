@@ -10,11 +10,8 @@ use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterf
 
 final class EnvironmentApi
 {
-    private CoreApiFactoryInterface $coreApiFactory;
-
-    public function __construct(CoreApiFactoryInterface $coreApiFactory)
+    public function __construct(private readonly CoreApiFactoryInterface $coreApiFactory)
     {
-        $this->coreApiFactory = $coreApiFactory;
     }
 
     public function api(Environment $environment): CoreApiInterface

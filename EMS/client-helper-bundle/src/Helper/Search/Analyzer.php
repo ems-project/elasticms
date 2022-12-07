@@ -8,11 +8,8 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 
 final class Analyzer
 {
-    private ClientRequest $clientRequest;
-
-    public function __construct(ClientRequest $clientRequest)
+    public function __construct(private readonly ClientRequest $clientRequest)
     {
-        $this->clientRequest = $clientRequest;
     }
 
     /**

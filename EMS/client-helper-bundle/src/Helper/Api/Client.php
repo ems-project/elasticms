@@ -12,14 +12,10 @@ use GuzzleHttp\Client as HttpClient;
  */
 final class Client
 {
-    private HttpClient $client;
-    private string $key;
-    private string $name;
+    private readonly HttpClient $client;
 
-    public function __construct(string $name, string $baseUrl, string $key)
+    public function __construct(private readonly string $name, string $baseUrl, private readonly string $key)
     {
-        $this->name = $name;
-        $this->key = $key;
         $this->client = HttpClientFactory::create($baseUrl, ['X-Auth-Token' => $this->key]);
     }
 

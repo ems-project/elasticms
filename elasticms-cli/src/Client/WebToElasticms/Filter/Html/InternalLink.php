@@ -14,16 +14,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class InternalLink implements HtmlInterface
 {
-    public const TYPE = 'internal-link';
-    private ConfigManager $config;
-    private string $currentUrl;
-    private Rapport $rapport;
+    final public const TYPE = 'internal-link';
 
-    public function __construct(ConfigManager $config, Rapport $rapport, string $currentUrl)
+    public function __construct(private readonly ConfigManager $config, private readonly Rapport $rapport, private readonly string $currentUrl)
     {
-        $this->config = $config;
-        $this->currentUrl = $currentUrl;
-        $this->rapport = $rapport;
     }
 
     public function process(WebResource $resource, Crawler $content): void
@@ -40,7 +34,7 @@ class InternalLink implements HtmlInterface
             }
 
             $href = $item->getAttribute($attribute);
-            if (0 === \strpos($href, 'ems://')) {
+            if (\str_starts_with($href, 'ems://')) {
                 continue;
             }
             $url = new Url($href, $this->currentUrl);

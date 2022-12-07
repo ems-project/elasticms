@@ -8,8 +8,8 @@ use Symfony\Component\HttpClient\HttplugClient;
 
 class TikaClient
 {
-    public const TIKA_BASE_URL = 'http://localhost:9998/';
-    private Url $serverUrl;
+    final public const TIKA_BASE_URL = 'http://localhost:9998/';
+    private readonly Url $serverUrl;
     private ?HttplugClient $client = null;
 
     public function __construct(string $serverBaseUrl = self::TIKA_BASE_URL)

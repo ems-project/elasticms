@@ -11,11 +11,8 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class IsVerificationCodeValidator extends ConstraintValidator
 {
-    private ConfirmationService $confirmationService;
-
-    public function __construct(ConfirmationService $confirmationService)
+    public function __construct(private readonly ConfirmationService $confirmationService)
     {
-        $this->confirmationService = $confirmationService;
     }
 
     public function validate($value, Constraint $constraint): void

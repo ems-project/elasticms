@@ -9,19 +9,12 @@ use EMS\SubmissionBundle\Request\SoapRequest;
 
 final class SoapHandleResponse extends AbstractHandleResponse
 {
-    private SoapRequest $soapRequest;
-    /** @var mixed */
-    private $soapResponse;
-
     /**
      * @param mixed $soapResponse
      */
-    public function __construct(SoapRequest $sftpRequest, $soapResponse)
+    public function __construct(private readonly SoapRequest $soapRequest, private $soapResponse)
     {
         parent::__construct(self::STATUS_SUCCESS, 'Submission send by soap.');
-
-        $this->soapRequest = $sftpRequest;
-        $this->soapResponse = $soapResponse;
     }
 
     public function getSoapRequest(): SoapRequest

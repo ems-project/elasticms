@@ -10,7 +10,7 @@ interface DocumentCollectionInterface extends \IteratorAggregate, \Countable
     public function count(): int;
 
     /**
-     * @return DocumentInterface[]
+     * @return \Traversable<DocumentInterface>
      */
-    public function getIterator(): iterable;
+    public function getIterator(): \Traversable;
 }

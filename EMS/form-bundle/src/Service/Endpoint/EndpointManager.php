@@ -12,26 +12,15 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class EndpointManager implements EndpointManagerInterface, RuntimeExtensionInterface
 {
-    /** @var array<mixed> */
-    private array $config;
-    private LoggerInterface $logger;
     /** @var EndpointInterface[] */
     private array $endpoints = [];
-    /** @var \Traversable|EndpointTypeInterface[] */
-    private iterable $endpointTypes;
 
     /**
-     * @param array<mixed>                         $envConfig
+     * @param array<mixed>                         $config
      * @param \Traversable|EndpointTypeInterface[] $endpointTypes
      */
-    public function __construct(
-        array $envConfig,
-        \Traversable $endpointTypes,
-        LoggerInterface $logger
-    ) {
-        $this->config = $envConfig;
-        $this->endpointTypes = $endpointTypes;
-        $this->logger = $logger;
+    public function __construct(private readonly array $config, private readonly \Traversable $endpointTypes, private readonly LoggerInterface $logger)
+    {
     }
 
     public function getEndpointType(EndpointInterface $endpoint): EndpointTypeInterface

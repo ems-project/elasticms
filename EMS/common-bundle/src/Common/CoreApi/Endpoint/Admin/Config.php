@@ -9,15 +9,11 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
 
 class Config implements ConfigInterface
 {
-    private Client $client;
     /** @var string[] */
-    private array $endPoint;
-    private string $configType;
+    private readonly array $endPoint;
 
-    public function __construct(Client $client, string $configType)
+    public function __construct(private readonly Client $client, private readonly string $configType)
     {
-        $this->client = $client;
-        $this->configType = $configType;
         $this->endPoint = ['api', 'admin', $configType];
     }
 

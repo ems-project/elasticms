@@ -10,27 +10,20 @@ use Symfony\Component\Form\FormInterface;
 
 final class HandleRequest implements HandleRequestInterface
 {
-    /** @var FormInterface<FormInterface> */
-    private FormInterface $form;
-    private FormData $formData;
-    private FormConfig $formConfig;
-    private HandleResponseCollector $responseCollector;
-    private SubmissionConfig $submissionConfig;
+    private readonly FormData $formData;
+    private readonly FormConfig $formConfig;
 
     /**
      * @param FormInterface<FormInterface> $form
      */
     public function __construct(
-        FormInterface $form,
+        private readonly FormInterface $form,
         FormConfig $formConfig,
-        HandleResponseCollector $responseCollector,
-        SubmissionConfig $submissionConfig
+        private readonly HandleResponseCollector $responseCollector,
+        private readonly SubmissionConfig $submissionConfig
     ) {
-        $this->form = $form;
         $this->formData = new FormData($formConfig, $form);
         $this->formConfig = $formConfig;
-        $this->responseCollector = $responseCollector;
-        $this->submissionConfig = $submissionConfig;
     }
 
     public function addResponse(HandleResponseInterface $response): void

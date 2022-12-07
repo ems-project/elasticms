@@ -9,20 +9,17 @@ use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 
 final class TranslationDocument implements BuilderDocumentInterface
 {
-    private string $id;
+    private readonly string $id;
     /** @var array<mixed> */
     private array $source;
-    /** @var string[] */
-    private array $locales;
 
     /**
      * @param string[] $locales
      */
-    public function __construct(DocumentInterface $document, array $locales)
+    public function __construct(DocumentInterface $document, private readonly array $locales)
     {
         $this->id = $document->getId();
         $this->source = $document->getSource();
-        $this->locales = $locales;
     }
 
     public function getId(): string

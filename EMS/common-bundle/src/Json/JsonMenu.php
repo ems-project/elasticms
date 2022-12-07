@@ -4,8 +4,6 @@ namespace EMS\CommonBundle\Json;
 
 class JsonMenu
 {
-    private string $json;
-    private string $glue;
     /** @var array<mixed> */
     private $structure;
     /** @var array<string, string> */
@@ -15,11 +13,9 @@ class JsonMenu
     /** @var array<mixed> */
     private array $items = [];
 
-    public function __construct(string $source, string $glue)
+    public function __construct(private readonly string $json, private readonly string $glue)
     {
-        $this->json = $source;
-        $this->glue = $glue;
-        $this->structure = \json_decode($source, true, 512, JSON_THROW_ON_ERROR);
+        $this->structure = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         $this->recursiveWalk($this->structure);
     }
 

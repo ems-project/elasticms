@@ -14,18 +14,8 @@ use EMS\CommonBundle\Common\Standard\Hash;
 
 final class Builders
 {
-    private RoutingBuilder $routing;
-    private TemplateBuilder $templating;
-    private TranslationBuilder $translation;
-
-    public function __construct(
-        RoutingBuilder $routingBuilder,
-        TemplateBuilder $templating,
-        TranslationBuilder $translation
-    ) {
-        $this->routing = $routingBuilder;
-        $this->templating = $templating;
-        $this->translation = $translation;
+    public function __construct(private readonly RoutingBuilder $routing, private readonly TemplateBuilder $templating, private readonly TranslationBuilder $translation)
+    {
     }
 
     /**

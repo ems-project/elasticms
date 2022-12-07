@@ -19,15 +19,15 @@ use Symfony\Component\Serializer\Serializer;
 class Url
 {
     private const ABSOLUTE_SCHEME = ['mailto', 'javascript', 'tel'];
-    private string $scheme;
-    private string $host;
-    private ?int $port;
-    private ?string $user;
-    private ?string $password;
-    private string $path;
-    private ?string $query;
-    private ?string $fragment;
-    private ?string $referer;
+    private readonly string $scheme;
+    private readonly string $host;
+    private readonly ?int $port;
+    private readonly ?string $user;
+    private readonly ?string $password;
+    private readonly string $path;
+    private readonly ?string $query;
+    private readonly ?string $fragment;
+    private readonly ?string $referer;
 
     public function __construct(string $url, string $referer = null)
     {
@@ -115,7 +115,7 @@ class Url
             }
         }
 
-        if ('/' !== \substr($path, 0, 1)) {
+        if (!\str_starts_with($path, '/')) {
             $path = $relativeToPath.$path;
         }
         $patterns = ['#(/\.?/)#', '#/(?!\.\.)[^/]+/\.\./#'];
@@ -125,7 +125,7 @@ class Url
                 throw new \RuntimeException(\sprintf('Unexpected non string path %s', $path));
             }
         }
-        if ('/' !== \substr($path, 0, 1)) {
+        if (!\str_starts_with($path, '/')) {
             $path = '/'.$path;
         }
 
@@ -232,7 +232,7 @@ class Url
     {
         $enc_url = \preg_replace_callback(
             '%[^:/@?&=#]+%usD',
-            fn ($matches) => \urlencode($matches[0]),
+            fn ($matches) => \urlencode((string) $matches[0]),
             $url
         );
 

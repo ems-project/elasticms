@@ -6,15 +6,8 @@ namespace App\CLI\Client\WebToElasticms\Config;
 
 class WebResource
 {
-    private string $url;
-    private string $locale;
-    private string $type;
-
-    public function __construct(string $url, string $locale, string $type)
+    public function __construct(private string $url, private string $locale, private string $type)
     {
-        $this->url = $url;
-        $this->locale = $locale;
-        $this->type = $type;
     }
 
     public function getUrl(): string

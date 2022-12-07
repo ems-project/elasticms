@@ -12,14 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MetricCollectCommand extends AbstractCommand
 {
-    private MetricCollector $metricCollector;
-
     private const OPTION_CLEAR = 'clear';
 
-    public function __construct(MetricCollector $metricCollector)
+    public function __construct(private readonly MetricCollector $metricCollector)
     {
         parent::__construct();
-        $this->metricCollector = $metricCollector;
     }
 
     protected function configure(): void

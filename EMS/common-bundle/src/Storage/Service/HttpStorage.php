@@ -13,17 +13,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HttpStorage extends AbstractUrlStorage
 {
-    public const INIT_URL = '/api/file/init-upload';
-    private string $baseUrl;
-    private string $getUrl;
-    private ?string $authKey;
+    final public const INIT_URL = '/api/file/init-upload';
 
-    public function __construct(LoggerInterface $logger, string $baseUrl, string $getUrl, int $usage, ?string $authKey = null, int $hotSynchronizeLimit = 0)
+    public function __construct(LoggerInterface $logger, private readonly string $baseUrl, private readonly string $getUrl, int $usage, private readonly ?string $authKey = null, int $hotSynchronizeLimit = 0)
     {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
-        $this->baseUrl = $baseUrl;
-        $this->getUrl = $getUrl;
-        $this->authKey = $authKey;
     }
 
     public static function addChunkUrl(string $hash): string
@@ -76,7 +70,7 @@ class HttpStorage extends AbstractUrlStorage
             }
 
             return false;
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             return false;
         }
     }
@@ -85,7 +79,7 @@ class HttpStorage extends AbstractUrlStorage
     {
         try {
             return $this->getClient()->get($this->getUrl.$hash)->getBody();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new NotFoundHttpException($hash);
         }
     }
@@ -101,7 +95,7 @@ class HttpStorage extends AbstractUrlStorage
             ]);
 
             return 200 === $result->getStatusCode();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new NotFoundHttpException($hash);
         }
     }
@@ -117,7 +111,7 @@ class HttpStorage extends AbstractUrlStorage
             ]);
 
             return 200 === $result->getStatusCode();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new NotFoundHttpException($hash);
         }
     }
@@ -131,7 +125,7 @@ class HttpStorage extends AbstractUrlStorage
     {
         try {
             return 200 === $this->getClient()->head($this->getUrl.$hash)->getStatusCode();
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             throw new NotFoundHttpException($hash);
         }
     }
@@ -152,7 +146,7 @@ class HttpStorage extends AbstractUrlStorage
             ]);
 
             return true;
-        } catch (GuzzleException $e) {
+        } catch (GuzzleException) {
             return false;
         }
     }
@@ -169,11 +163,11 @@ class HttpStorage extends AbstractUrlStorage
 
             $metas = \stream_get_meta_data($fd);
             foreach ($metas['wrapper_data'] ?? [] as $meta) {
-                if (\preg_match('/^content\-length: (.*)$/i', $meta, $matches, PREG_OFFSET_CAPTURE)) {
+                if (\preg_match('/^content\-length: (.*)$/i', (string) $meta, $matches, PREG_OFFSET_CAPTURE)) {
                     return \intval($matches[1][0]);
                 }
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
         throw new NotFoundHttpException($hash);
     }

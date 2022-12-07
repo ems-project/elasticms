@@ -144,4 +144,89 @@ class Functions
 
         return JSON::encode($data);
     }
+
+    /**
+     * @param array<string, string[]> $values,
+     * @param array<string, string[]> $keys,
+     */
+    public static function arrayToJsonMenuNested(array $values, array $keys): string
+    {
+        $data = [];
+        foreach ($keys as $key => $key_val) {
+            if (is_array($key_val)) {
+             /*   dump($values[$key]);
+                dump($key_val);*/
+                $objects = self::mergeArrayForJsonMenuNested($values[$key], $key_val);
+                foreach ($objects as $object) {
+                    $item = [
+                        'id' => Uuid::uuid4()->toString(),
+                        'type' => $key,
+                        'object' => $object
+                    ];
+                    $data[] = $item;
+                }
+            } else {
+                foreach ($values[$key][$key_val] as $value)
+                {
+                    $item = [
+                        'id' => Uuid::uuid4()->toString(),
+                        'type' => $key,
+                        'object' => [ $key_val => $value]
+                    ];
+                    $data[] = $item;
+                }
+            }
+        }
+      /*  dump('184');
+        dump($data);*/
+        return JSON::encode($data);
+    }
+
+    /**
+     * @param array<string, string[]> $values,
+     * @param array<string, string[]> $keys,
+     * @return array<string, string[]>
+     */
+    static private function mergeArrayForJsonMenuNested(array $values, array $keys): array
+    {   $data = [];
+        foreach ($keys as $key => $key_val) {
+            if (is_array($key_val)) {
+                if (\array_key_exists($key, $values)) {
+//                    dump('key 195');
+//                    dump($key);
+//                    dump($data);
+                    $results = self::mergeArrayForJsonMenuNested($values[$key], $key_val);
+                    $array = [];
+                    foreach ($results as $k => $result) {
+                        $array[$k][$key] = $result;
+                    }
+//                    dump('array');
+//                    dump($array);
+                    $data = \array_merge($data, $array);
+
+                } else {
+//                    dump('$key_val 198');
+//                    dump($key_val);
+                    $data = \array_merge_recursive($data, self::mergeArrayForJsonMenuNested($values, $key_val));
+                }
+            }
+            else {
+//                dump('$key_val 203');
+//                dump($key_val);
+                foreach ($values[$key_val] as $k => $value) {
+//                    dump($k);
+                    if (\array_key_exists($k, $data)) {
+                        $data[$k] = \array_merge( $data[$k], [$key_val => $value]);
+                    } else if (\array_key_exists('i_' . $k, $data)) {
+                        $data['i_' . $k] = \array_merge( $data['i_' . $k], [$key_val => $value]);
+                    } else {
+                        $data['i_' . $k] = [$key_val => $value];
+                    }
+                }
+            }
+//            dump('show data for');
+//            dump($data);
+        }
+        return $data;
+    }
 }

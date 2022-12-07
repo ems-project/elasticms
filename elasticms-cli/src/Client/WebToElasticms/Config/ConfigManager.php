@@ -436,6 +436,11 @@ class ConfigManager
             fn ($arguments, $values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => (null === $values || null === $fieldName || null === $typeName) ? null : Functions::listToJsonMenuNested($values, $fieldName, $typeName, $labels, $labelField, $multiplex)
         );
 
+        $this->expressionLanguage->register('array_to_json_menu_nested',
+            fn ($values, $keys) => \sprintf('((null === %1$s || null === %2$s)) ? null : \\App\\ExpressionLanguage\\Functions::arrayToJsonMenuNested(%1$s, %2$s))', \strval($values), \strval($keys)),
+            fn ($arguments, $values, $keys) => (null === $values || null === $keys) ? null : Functions::arrayToJsonMenuNested($values, $keys)
+        );
+
         return $this->expressionLanguage;
     }
 

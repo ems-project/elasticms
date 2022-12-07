@@ -13,17 +13,8 @@ use Twig\Environment;
 
 final class SearchController
 {
-    private Manager $manager;
-    private Handler $handler;
-    private Environment $templating;
-    private CacheHelper $cacheHelper;
-
-    public function __construct(Manager $manager, Handler $handler, Environment $templating, CacheHelper $cacheHelper)
+    public function __construct(private readonly Manager $manager, private readonly Handler $handler, private readonly Environment $templating, private readonly CacheHelper $cacheHelper)
     {
-        $this->manager = $manager;
-        $this->handler = $handler;
-        $this->templating = $templating;
-        $this->cacheHelper = $cacheHelper;
     }
 
     public function handle(Request $request): Response

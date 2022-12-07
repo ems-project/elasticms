@@ -28,11 +28,9 @@ class Url
     private readonly ?string $query;
     private readonly ?string $fragment;
     private readonly ?string $referer;
-    private readonly ?string $refererLabel;
 
-    public function __construct(string $url, ?string $referer = null, ?string $refererLabel = null)
+    public function __construct(string $url, ?string $referer = null, private readonly ?string $refererLabel = null)
     {
-        $this->refererLabel = $refererLabel;
         $parsed = self::mb_parse_url($url);
         $relativeParsed = [];
         if (null !== $referer) {

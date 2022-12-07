@@ -9,12 +9,10 @@ use Symfony\Component\DomCrawler\Crawler;
 class HtmlHelper
 {
     private readonly Crawler $crawler;
-    private readonly Url $referer;
 
-    public function __construct(string $content, Url $referer)
+    public function __construct(string $content, private readonly Url $referer)
     {
         $this->crawler = new Crawler($content);
-        $this->referer = $referer;
     }
 
     /**

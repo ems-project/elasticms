@@ -12,20 +12,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class DoctrineHandler extends AbstractProcessingHandler
 {
-    private LogRepository $logRepository;
-    private TokenStorageInterface $tokenStorage;
-    private int $minLevel;
-
     private const SECRET_VALUE = '***';
     private const SECRET_KEYS = ['api_key'];
 
-    public function __construct(LogRepository $logRepository, TokenStorageInterface $tokenStorage, int $minLevel)
+    public function __construct(private readonly LogRepository $logRepository, private readonly TokenStorageInterface $tokenStorage, private readonly int $minLevel)
     {
         parent::__construct();
-
-        $this->logRepository = $logRepository;
-        $this->tokenStorage = $tokenStorage;
-        $this->minLevel = $minLevel;
     }
 
     /**

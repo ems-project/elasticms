@@ -10,15 +10,13 @@ use Psr\Log\LoggerInterface;
 
 class S3Factory extends AbstractFactory implements StorageFactoryInterface
 {
-    public const STORAGE_TYPE = 's3';
-    public const STORAGE_CONFIG_CREDENTIALS = 'credentials';
-    public const STORAGE_CONFIG_BUCKET = 'bucket';
-    public const STORAGE_CONFIG_UPLOAD_FOLDER = 'upload-folder';
-    private LoggerInterface $logger;
+    final public const STORAGE_TYPE = 's3';
+    final public const STORAGE_CONFIG_CREDENTIALS = 'credentials';
+    final public const STORAGE_CONFIG_BUCKET = 'bucket';
+    final public const STORAGE_CONFIG_UPLOAD_FOLDER = 'upload-folder';
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(private readonly LoggerInterface $logger)
     {
-        $this->logger = $logger;
     }
 
     public function createService(array $parameters): ?StorageInterface

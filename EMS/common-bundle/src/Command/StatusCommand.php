@@ -19,14 +19,9 @@ class StatusCommand extends AbstractCommand
     private const OPTION_SILENT = 'silent';
     private const OPTION_WAIT_FOR_STATUS = 'wait-for-status';
 
-    private ElasticaService $elasticaService;
-    private StorageManager $storageManager;
-
-    public function __construct(ElasticaService $elasticaService, StorageManager $storageManager)
+    public function __construct(private readonly ElasticaService $elasticaService, private readonly StorageManager $storageManager)
     {
         parent::__construct();
-        $this->elasticaService = $elasticaService;
-        $this->storageManager = $storageManager;
     }
 
     protected function configure(): void

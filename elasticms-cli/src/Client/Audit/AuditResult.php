@@ -12,7 +12,6 @@ use EMS\CommonBundle\Common\CoreApi\Endpoint\File\File;
 
 class AuditResult
 {
-    private Url $url;
     private string $hash;
     /** @var Url[] */
     private array $links = [];
@@ -36,7 +35,7 @@ class AuditResult
     private ?float $accessibility = null;
     private ?float $bestPractices = null;
     private ?string $mimetype = null;
-    private \DateTimeImmutable $datetime;
+    private readonly \DateTimeImmutable $datetime;
     private ?\DateTimeImmutable $tikaDatetime = null;
     private ?\DateTimeImmutable $lighthouseDatetime = null;
     private ?\DateTimeImmutable $pa11yDatetime = null;
@@ -48,10 +47,10 @@ class AuditResult
     private ?string $canonical = null;
     private ?string $author = null;
     private int $size = 0;
+    private ?string $description = null;
 
-    public function __construct(Url $url)
+    public function __construct(private readonly Url $url)
     {
-        $this->url = $url;
         $this->datetime = new \DateTimeImmutable();
     }
 
@@ -248,6 +247,7 @@ class AuditResult
             'title' => $this->title,
             'canonical' => $this->canonical,
             'content' => $this->content,
+            'description' => $this->description,
             'size' => $this->size,
             'author' => $this->author,
             'timestamp' => $this->datetime->format('c'),
@@ -346,6 +346,11 @@ class AuditResult
     public function getSize(): int
     {
         return $this->size;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 
     public function addLinks(HtmlHelper $htmlHelper): void

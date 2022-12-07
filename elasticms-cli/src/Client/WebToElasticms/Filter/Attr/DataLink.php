@@ -9,16 +9,10 @@ use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 
 class DataLink
 {
-    public const TYPE = 'data-link';
-    private ConfigManager $config;
-    private string $currentUrl;
-    private Rapport $rapport;
+    final public const TYPE = 'data-link';
 
-    public function __construct(ConfigManager $config, string $currentUrl, Rapport $rapport)
+    public function __construct(private readonly ConfigManager $config, private readonly string $currentUrl, private readonly Rapport $rapport)
     {
-        $this->config = $config;
-        $this->currentUrl = $currentUrl;
-        $this->rapport = $rapport;
     }
 
     public function process(string $href, string $type): string

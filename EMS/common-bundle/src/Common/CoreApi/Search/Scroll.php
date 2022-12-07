@@ -13,19 +13,13 @@ use EMS\CommonBundle\Search\Search;
  */
 class Scroll implements \Iterator
 {
-    private Client $client;
-    private Search $search;
-    private string $expireTime;
     private ?string $nextScrollId = null;
     private int $currentPage;
     private ResponseInterface $currentResponse;
     private int $index = 0;
 
-    public function __construct(Client $client, Search $search, string $expireTime = '3m')
+    public function __construct(private readonly Client $client, private readonly Search $search, private readonly string $expireTime = '3m')
     {
-        $this->client = $client;
-        $this->search = $search;
-        $this->expireTime = $expireTime;
     }
 
     public function current(): DocumentInterface

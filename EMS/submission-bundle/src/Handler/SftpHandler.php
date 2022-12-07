@@ -16,18 +16,8 @@ use EMS\SubmissionBundle\Twig\TwigRenderer;
 
 final class SftpHandler extends AbstractHandler
 {
-    private FilesystemFactoryInterface $filesystemFactory;
-    private ResponseTransformer $responseTransformer;
-    private TwigRenderer $twigRenderer;
-
-    public function __construct(
-        FilesystemFactoryInterface $filesystemFactory,
-        ResponseTransformer $responseTransformer,
-        TwigRenderer $twigRenderer
-    ) {
-        $this->filesystemFactory = $filesystemFactory;
-        $this->responseTransformer = $responseTransformer;
-        $this->twigRenderer = $twigRenderer;
+    public function __construct(private readonly FilesystemFactoryInterface $filesystemFactory, private readonly ResponseTransformer $responseTransformer, private readonly TwigRenderer $twigRenderer)
+    {
     }
 
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface

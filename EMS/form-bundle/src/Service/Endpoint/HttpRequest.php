@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class HttpRequest
 {
-    private string $method;
-    private string $url;
+    private readonly string $method;
+    private readonly string $url;
     /** @var mixed[] */
-    private array $headers;
-    private string $body;
+    private readonly array $headers;
+    private readonly string $body;
     /** @var array<string, mixed> */
-    private array $options;
+    private readonly array $options;
 
     /** @param array<string, mixed> $config */
     public function __construct(array $config)

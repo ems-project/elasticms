@@ -8,13 +8,8 @@ use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 final class AssetVersionStrategy implements VersionStrategyInterface
 {
-    private AssetHelperRuntime $assetHelperRuntime;
-    private ?string $localFolder;
-
-    public function __construct(AssetHelperRuntime $assetHelperRuntime, ?string $localFolder)
+    public function __construct(private readonly AssetHelperRuntime $assetHelperRuntime, private readonly ?string $localFolder)
     {
-        $this->assetHelperRuntime = $assetHelperRuntime;
-        $this->localFolder = $localFolder;
     }
 
     /**

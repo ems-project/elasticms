@@ -20,14 +20,9 @@ final class DatabaseStatsCommand extends Command
 {
     protected static $defaultName = 'emss:database:stats';
 
-    private Mailer $mailer;
-    private FormSubmissionRepository $repository;
-
-    public function __construct(Mailer $mailer, FormSubmissionRepository $repository)
+    public function __construct(private readonly Mailer $mailer, private readonly FormSubmissionRepository $repository)
     {
         parent::__construct();
-        $this->mailer = $mailer;
-        $this->repository = $repository;
     }
 
     protected function configure(): void

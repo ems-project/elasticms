@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Storage;
 
 class NotSavedException extends \RuntimeException
 {
-    private string $hash;
+    private readonly string $hash;
 
     public function __construct(string $hash)
     {

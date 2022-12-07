@@ -13,16 +13,14 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class Route
 {
-    private string $name;
     /** @var array<mixed> */
     private array $options;
 
     /**
      * @param array<mixed> $options
      */
-    private function __construct(string $name, array $options)
+    private function __construct(private readonly string $name, array $options)
     {
-        $this->name = $name;
         $this->options = $this->resolveOptions($options);
     }
 
@@ -77,7 +75,7 @@ final class Route
         }
 
         if (null !== $this->options['prefix']) {
-            if ('/' !== \substr($path, 0, 1)) {
+            if (!\str_starts_with($path, '/')) {
                 $path = $this->options['prefix'].'/'.$path;
             } else {
                 $path = $this->options['prefix'].$path;

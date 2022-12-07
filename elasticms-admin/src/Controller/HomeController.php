@@ -10,9 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/", name="homepage")
-     */
+    #[Route(path: '/', name: 'homepage')]
     public function indexAction(): RedirectResponse
     {
         return $this->redirectToRoute('ems_core_dashboard');

@@ -15,27 +15,16 @@ class InsertionRevision
     private const HTML_FIELD = 'html_field';
     private const SIMPLE_FIELD = 'simple_field';
     private const UNKNOWN_FIELD_TYPE = 'UNKNOWN_FIELD_TYPE';
-    public const LOCALE_PLACE_HOLDER = '%locale%';
-    private string $version;
+    final public const LOCALE_PLACE_HOLDER = '%locale%';
     private string $contentType;
     private string $ouuid;
     private string $revisionId;
-    private \DOMElement $document;
-    private ?string $sourceLocale;
-    private ?string $targetLocale;
-    /** @var string[] */
-    private array $nameSpaces;
 
     /**
      * @param string[] $nameSpaces
      */
-    public function __construct(\DOMElement $document, string $version, array $nameSpaces, ?string $sourceLocale, ?string $targetLocale)
+    public function __construct(private readonly \DOMElement $document, private readonly string $version, private array $nameSpaces, private readonly ?string $sourceLocale, private ?string $targetLocale)
     {
-        $this->document = $document;
-        $this->version = $version;
-        $this->nameSpaces = $nameSpaces;
-        $this->sourceLocale = $sourceLocale;
-        $this->targetLocale = $targetLocale;
         if (\version_compare($this->version, '2.0') < 0) {
             [$this->contentType, $this->ouuid, $this->revisionId] = \explode(':', DomHelper::getStringAttr($document, 'original'));
         } else {
@@ -70,16 +59,11 @@ class InsertionRevision
     public function extractTranslations(InsertReport $insertReport, array &$extractedRawData, array &$insertRawData): void
     {
         foreach ($this->getTranslatedFields() as $segment) {
-            switch ($this->fieldType($segment)) {
-                case self::HTML_FIELD:
-                    $this->importHtmlField($insertReport, $segment, $extractedRawData, $insertRawData);
-                    break;
-                case self::SIMPLE_FIELD:
-                    $this->importSimpleField($insertReport, $segment, $extractedRawData, $insertRawData);
-                    break;
-                default:
-                    throw new \RuntimeException('Unexpected field type');
-            }
+            match ($this->fieldType($segment)) {
+                self::HTML_FIELD => $this->importHtmlField($insertReport, $segment, $extractedRawData, $insertRawData),
+                self::SIMPLE_FIELD => $this->importSimpleField($insertReport, $segment, $extractedRawData, $insertRawData),
+                default => throw new \RuntimeException('Unexpected field type'),
+            };
         }
     }
 
@@ -174,7 +158,7 @@ class InsertionRevision
 
     public function getAttributeValue(\DOMElement $field, string $attributeName, ?string $defaultValue = null): ?string
     {
-        if (false === \strpos($attributeName, ':')) {
+        if (!\str_contains($attributeName, ':')) {
             $nameSpace = null;
             $tag = $attributeName;
         } else {
@@ -217,7 +201,7 @@ class InsertionRevision
         }
         foreach ($result as $target) {
             if (!$target instanceof \DOMElement) {
-                throw new \RuntimeException(\sprintf('Unexpected DOMElement: %s', \get_class($target)));
+                throw new \RuntimeException(\sprintf('Unexpected DOMElement: %s', $target::class));
             }
             if (null === $this->targetLocale) {
                 $this->targetLocale = $this->getAttributeValue($target, 'xml:lang');
@@ -313,7 +297,7 @@ class InsertionRevision
         if (isset($flipped[$restype])) {
             return $flipped[$restype];
         }
-        if (0 === \strpos($restype, 'x-html-')) {
+        if (\str_starts_with($restype, 'x-html-')) {
             return \substr($restype, 7);
         }
 

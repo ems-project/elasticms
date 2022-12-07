@@ -9,15 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class LocaleHelper
 {
-    /** @var string[] */
-    private array $locales;
-
     /**
      * @param string[] $locales
      */
-    public function __construct(array $locales)
+    public function __construct(private readonly array $locales)
     {
-        $this->locales = $locales;
     }
 
     public function redirectMissingLocale(Request $request): RedirectResponse
@@ -39,10 +35,7 @@ final class LocaleHelper
         return new RedirectResponse($url);
     }
 
-    /**
-     * @return string|false
-     */
-    public function getLocale(Request $request)
+    public function getLocale(Request $request): string|false
     {
         $locale = $request->attributes->get('_locale', false);
 
@@ -61,10 +54,7 @@ final class LocaleHelper
         return false;
     }
 
-    /**
-     * @return string|false
-     */
-    private function getLocaleFromUri(string $uri)
+    private function getLocaleFromUri(string $uri): string|false
     {
         $regex = \sprintf('/^\/(?P<locale>%s).*$/', \implode('|', $this->locales));
         \preg_match($regex, $uri, $matches);

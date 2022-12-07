@@ -15,22 +15,14 @@ use Twig\Environment;
 
 final class Transformer
 {
-    private AssetRuntime $assetRuntime;
-    private ClientRequest $clientRequest;
-    private Generator $generator;
-    private Environment $twig;
-    private LoggerInterface $logger;
-    private string $template;
+    private readonly ClientRequest $clientRequest;
+    private readonly string $template;
     /** @var array<string, mixed> */
     private array $documents = [];
 
-    public function __construct(AssetRuntime $assetRuntime, ClientRequestManager $clientRequestManager, Generator $generator, Environment $twig, LoggerInterface $logger, ?string $template)
+    public function __construct(private readonly AssetRuntime $assetRuntime, ClientRequestManager $clientRequestManager, private readonly Generator $generator, private readonly Environment $twig, private readonly LoggerInterface $logger, ?string $template)
     {
-        $this->assetRuntime = $assetRuntime;
         $this->clientRequest = $clientRequestManager->getDefault();
-        $this->generator = $generator;
-        $this->twig = $twig;
-        $this->logger = $logger;
         $this->template = $template ?? '@EMSCH/template/{type}.ems_link.twig';
     }
 

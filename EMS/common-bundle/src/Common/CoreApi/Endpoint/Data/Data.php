@@ -12,13 +12,11 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
 
 final class Data implements DataInterface
 {
-    private Client $client;
     /** @var string[] */
-    private array $endPoint;
+    private readonly array $endPoint;
 
-    public function __construct(Client $client, string $contentType)
+    public function __construct(private readonly Client $client, string $contentType)
     {
-        $this->client = $client;
         $this->endPoint = ['api', 'data', $contentType];
     }
 

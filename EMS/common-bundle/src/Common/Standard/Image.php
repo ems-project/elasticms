@@ -8,10 +8,7 @@ use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 final class Image
 {
-    /**
-     * @return resource
-     */
-    public static function imageCreateFromString(string $resource)
+    public static function imageCreateFromString(string $resource): \GdImage
     {
         $image = \imagecreatefromstring($resource);
 
@@ -30,7 +27,7 @@ final class Image
         $resource = self::imageCreateFromFilename($imageFile);
         $imageResolution = \imageresolution($resource);
 
-        if (false === $imageResolution) {
+        if (!\is_array($imageResolution)) {
             throw new \RuntimeException('Unexpected false resolution');
         }
 
@@ -51,10 +48,7 @@ final class Image
         return $imageSize;
     }
 
-    /**
-     * @return resource
-     */
-    public static function imageCreateFromFilename(string $filename)
+    public static function imageCreateFromFilename(string $filename): \GdImage
     {
         $symfonyFile = new SymfonyFile($filename, false);
         switch ($symfonyFile->guessExtension()) {

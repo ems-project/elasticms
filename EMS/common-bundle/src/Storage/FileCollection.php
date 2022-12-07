@@ -9,19 +9,11 @@ namespace EMS\CommonBundle\Storage;
  */
 final class FileCollection implements \IteratorAggregate
 {
-    /** @var array<mixed, mixed> */
-    private array $files;
-    private StorageManager $storageManager;
-
     /**
-     * FileCollection constructor.
-     *
      * @param array<mixed, mixed> $files
      */
-    public function __construct(array $files, StorageManager $storageManager)
+    public function __construct(private readonly array $files, private readonly StorageManager $storageManager)
     {
-        $this->files = $files;
-        $this->storageManager = $storageManager;
     }
 
     /**

@@ -14,7 +14,7 @@ class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
 {
     protected static $defaultName = Commands::APPLE_PHOTOS_MIGRATION;
 
-    public const ARG_PHOTOS_LIBRARY_PATH = 'photos-library-path';
+    final public const ARG_PHOTOS_LIBRARY_PATH = 'photos-library-path';
     private string $applePhotosPathPath;
 
     public function __construct(AdminHelper $adminHelper)

@@ -14,12 +14,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class UploadAssetsCommand extends AbstractLocalCommand
 {
     private const ARG_BASE_URL = 'base_url';
-    private ?string $assetLocalFolder;
 
-    public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper, ?string $assetLocalFolder)
+    public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper, private readonly ?string $assetLocalFolder)
     {
         parent::__construct($environmentHelper, $localHelper);
-        $this->assetLocalFolder = $assetLocalFolder;
     }
 
     protected function configure(): void

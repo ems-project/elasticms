@@ -20,18 +20,14 @@ abstract class AbstractLocalCommand extends AbstractCommand
 {
     protected CoreApiInterface $coreApi;
     protected Environment $environment;
-    protected EnvironmentHelper $environmentHelper;
-    protected LocalHelper $localHelper;
     protected LocalEnvironment $localEnvironment;
     protected LoggerInterface $logger;
 
     private const OPTION_EMSCH_ENV = 'emsch_env';
 
-    public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper)
+    public function __construct(protected EnvironmentHelper $environmentHelper, protected LocalHelper $localHelper)
     {
         parent::__construct();
-        $this->environmentHelper = $environmentHelper;
-        $this->localHelper = $localHelper;
     }
 
     protected function configure(): void

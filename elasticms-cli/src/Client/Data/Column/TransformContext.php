@@ -9,12 +9,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class TransformContext
 {
-    public CoreApiInterface $coreApi;
-    public SymfonyStyle $io;
-
-    public function __construct(CoreApiInterface $coreApi, SymfonyStyle $io)
+    public function __construct(public CoreApiInterface $coreApi, public SymfonyStyle $io)
     {
-        $this->coreApi = $coreApi;
-        $this->io = $io;
     }
 }

@@ -14,13 +14,8 @@ use Twig\Source;
  */
 final class TemplateLoader implements LoaderInterface
 {
-    private EnvironmentHelper $environmentHelper;
-    private TemplateBuilder $builder;
-
-    public function __construct(EnvironmentHelper $environmentHelper, TemplateBuilder $templateBuilder)
+    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly TemplateBuilder $builder)
     {
-        $this->environmentHelper = $environmentHelper;
-        $this->builder = $templateBuilder;
     }
 
     /**

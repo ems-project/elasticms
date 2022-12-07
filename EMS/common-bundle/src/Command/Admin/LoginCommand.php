@@ -18,14 +18,10 @@ class LoginCommand extends AbstractCommand
     private const ARG_BASE_URL = 'base-url';
     private const OPTION_USERNAME = 'username';
     private const OPTION_PASSWORD = 'password';
-    private AdminHelper $adminHelper;
-    private ?string $backendUrl;
 
-    public function __construct(AdminHelper $adminHelper, ?string $backendUrl)
+    public function __construct(private readonly AdminHelper $adminHelper, private ?string $backendUrl)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
-        $this->backendUrl = $backendUrl;
     }
 
     protected function configure(): void

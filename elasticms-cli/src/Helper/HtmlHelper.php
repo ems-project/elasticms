@@ -8,8 +8,8 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class HtmlHelper
 {
-    private Crawler $crawler;
-    private Url $referer;
+    private readonly Crawler $crawler;
+    private readonly Url $referer;
 
     public function __construct(string $content, Url $referer)
     {
@@ -27,7 +27,7 @@ class HtmlHelper
         for ($i = 0; $i < $content->count(); ++$i) {
             $item = $content->eq($i);
             $href = $item->attr('href');
-            if (null === $href || 0 === \strlen($href) || '#' === \substr($href, 0, 1)) {
+            if (null === $href || 0 === \strlen($href) || \str_starts_with($href, '#')) {
                 continue;
             }
             $externalLinks[] = new Url($href, $this->referer->getUrl(), \html_entity_decode($item->text()));

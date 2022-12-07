@@ -10,15 +10,11 @@ use Symfony\Component\Validator\Constraint;
 
 abstract class AbstractField implements FieldInterface
 {
-    /** @var FieldConfig */
-    protected $config;
     /** @var ValidationInterface[] */
     private array $validations = [];
 
-    public function __construct(FieldConfig $config)
+    public function __construct(protected FieldConfig $config)
     {
-        $this->config = $config;
-
         foreach ($config->getValidations() as $id => $validationConfig) {
             $this->validations[$id] = $this->createValidation($validationConfig);
         }
@@ -111,7 +107,7 @@ abstract class AbstractField implements FieldInterface
         $html5Attributes = [];
 
         foreach ($this->validations as $validation) {
-            $html5Attributes = \array_merge($html5Attributes, $validation->getHtml5Attribute());
+            $html5Attributes = [...$html5Attributes, ...$validation->getHtml5Attribute()];
         }
 
         return $html5Attributes;

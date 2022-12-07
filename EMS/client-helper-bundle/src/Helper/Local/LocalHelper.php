@@ -22,30 +22,18 @@ use Symfony\Component\Finder\Finder;
 
 final class LocalHelper
 {
-    private CacheItemPoolInterface $cache;
-    private ClientRequest $clientRequest;
-    private ContentTypeHelper $contentTypeHelper;
-    private Builders $builders;
-    private EnvironmentApi $environmentApi;
-    private LoggerInterface $logger;
-    private string $projectDir;
+    private readonly ClientRequest $clientRequest;
 
     public function __construct(
-        CacheItemPoolInterface $cache,
+        private readonly CacheItemPoolInterface $cache,
         ClientRequestManager $clientRequestManager,
-        ContentTypeHelper $contentTypeHelper,
-        Builders $builders,
-        EnvironmentApi $environmentApi,
-        LoggerInterface $logger,
-        string $projectDir
+        private readonly ContentTypeHelper $contentTypeHelper,
+        private readonly Builders $builders,
+        private readonly EnvironmentApi $environmentApi,
+        private LoggerInterface $logger,
+        private readonly string $projectDir
     ) {
-        $this->cache = $cache;
         $this->clientRequest = $clientRequestManager->getDefault();
-        $this->contentTypeHelper = $contentTypeHelper;
-        $this->builders = $builders;
-        $this->environmentApi = $environmentApi;
-        $this->logger = $logger;
-        $this->projectDir = $projectDir;
     }
 
     public function api(Environment $environment): CoreApiInterface

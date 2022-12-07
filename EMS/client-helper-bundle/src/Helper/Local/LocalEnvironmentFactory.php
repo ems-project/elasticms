@@ -8,7 +8,7 @@ use EMS\ClientHelperBundle\Helper\Environment\Environment;
 
 final class LocalEnvironmentFactory
 {
-    private string $path;
+    private readonly string $path;
 
     public function __construct(string $projectDir)
     {

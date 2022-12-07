@@ -9,17 +9,10 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-abstract class AbstractUrlStorage implements StorageInterface
+abstract class AbstractUrlStorage implements StorageInterface, \Stringable
 {
-    private int $usage;
-    private LoggerInterface $logger;
-    private int $hotSynchronizeLimit;
-
-    public function __construct(LoggerInterface $logger, int $usage, int $hotSynchronizeLimit)
+    public function __construct(private readonly LoggerInterface $logger, private readonly int $usage, private readonly int $hotSynchronizeLimit)
     {
-        $this->logger = $logger;
-        $this->usage = $usage;
-        $this->hotSynchronizeLimit = $hotSynchronizeLimit;
     }
 
     abstract protected function getBaseUrl(): string;
@@ -33,7 +26,7 @@ abstract class AbstractUrlStorage implements StorageInterface
         if (!\file_exists($directoryName)) {
             try {
                 \mkdir($directoryName, 0777, true);
-            } catch (\Throwable $e) {
+            } catch (\Throwable) {
                 $this->logger->warning('Not able to create a {directoryName} folder', ['directoryName' => $directoryName]);
             }
         }
@@ -210,7 +203,7 @@ abstract class AbstractUrlStorage implements StorageInterface
             if (\file_exists($file)) {
                 \unlink($file);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 

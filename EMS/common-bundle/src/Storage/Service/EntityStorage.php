@@ -13,23 +13,19 @@ use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class EntityStorage implements StorageInterface
+class EntityStorage implements StorageInterface, \Stringable
 {
-    private ObjectManager $manager;
-    private AssetStorageRepository $repository;
-    private int $usage;
-    private int $hotSynchronizeLimit;
+    private readonly ObjectManager $manager;
+    private readonly AssetStorageRepository $repository;
 
-    public function __construct(Registry $doctrine, int $usage, int $hotSynchronizeLimit = 0)
+    public function __construct(Registry $doctrine, private readonly int $usage, private readonly int $hotSynchronizeLimit = 0)
     {
         $this->manager = $doctrine->getManager();
-        $this->usage = $usage;
-        $this->hotSynchronizeLimit = $hotSynchronizeLimit;
 
         // TODO: Quick fix, should be done using Dependency Injection, as it would prevent the RuntimeException!
         $repository = $this->manager->getRepository(AssetStorage::class);
         if (!$repository instanceof AssetStorageRepository) {
-            throw new \RuntimeException(\sprintf('%s has a repository that should be of type %s. But %s is given.', EntityStorage::class, AssetStorage::class, \get_class($repository)));
+            throw new \RuntimeException(\sprintf('%s has a repository that should be of type %s. But %s is given.', EntityStorage::class, AssetStorage::class, $repository::class));
         }
         $this->repository = $repository;
     }
@@ -106,7 +102,7 @@ class EntityStorage implements StorageInterface
     {
         try {
             return $this->repository->count([]) >= 0;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         return false;
@@ -197,7 +193,7 @@ class EntityStorage implements StorageInterface
             if (null !== $entity) {
                 $this->repository->delete($entity);
             }
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
         }
     }
 

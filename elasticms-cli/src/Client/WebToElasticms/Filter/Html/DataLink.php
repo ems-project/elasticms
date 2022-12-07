@@ -11,14 +11,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class DataLink
 {
-    public const TYPE = 'data-link';
-    private ConfigManager $config;
-    private Rapport $rapport;
+    final public const TYPE = 'data-link';
 
-    public function __construct(ConfigManager $config, Rapport $rapport)
+    public function __construct(private readonly ConfigManager $config, private readonly Rapport $rapport)
     {
-        $this->config = $config;
-        $this->rapport = $rapport;
     }
 
     public function process(WebResource $resource, Crawler $content, string $type): void

@@ -36,12 +36,6 @@ class FormSubmissionFile implements EntityInterface
     private \DateTime $modified;
 
     /**
-     * @ORM\ManyToOne(targetEntity="EMS\SubmissionBundle\Entity\FormSubmission", inversedBy="files")
-     * @ORM\JoinColumn(name="form_submission_id", referencedColumnName="id")
-     */
-    private FormSubmission $formSubmission;
-
-    /**
      * @var string|resource
      *
      * @ORM\Column(name="file", type="blob")
@@ -71,15 +65,17 @@ class FormSubmissionFile implements EntityInterface
     /**
      * @param array<string, string> $file
      */
-    public function __construct(FormSubmission $formSubmission, array $file)
+    public function __construct(/**
+     * @ORM\ManyToOne(targetEntity="EMS\SubmissionBundle\Entity\FormSubmission", inversedBy="files")
+     * @ORM\JoinColumn(name="form_submission_id", referencedColumnName="id")
+     */
+    private FormSubmission $formSubmission, array $file)
     {
         $now = new \DateTime();
 
         $this->id = Uuid::uuid4();
         $this->created = $now;
         $this->modified = $now;
-
-        $this->formSubmission = $formSubmission;
         $this->file = \base64_decode($file['base64']);
         $this->filename = $file['filename'];
         $this->formField = $file['form_field'];

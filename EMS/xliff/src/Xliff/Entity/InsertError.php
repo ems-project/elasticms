@@ -4,21 +4,8 @@ namespace EMS\Xliff\Xliff\Entity;
 
 class InsertError
 {
-    private string $expectedSourceValue;
-    private string $sourceValue;
-    private string $sourcePropertyPath;
-    private string $contentType;
-    private string $ouuid;
-    private string $revisionId;
-
-    public function __construct(string $expectedSourceValue, string $sourceValue, string $sourcePropertyPath, string $contentType, string $ouuid, string $revisionId)
+    public function __construct(private readonly string $expectedSourceValue, private readonly string $sourceValue, private readonly string $sourcePropertyPath, private readonly string $contentType, private readonly string $ouuid, private readonly string $revisionId)
     {
-        $this->expectedSourceValue = $expectedSourceValue;
-        $this->sourceValue = $sourceValue;
-        $this->sourcePropertyPath = $sourcePropertyPath;
-        $this->contentType = $contentType;
-        $this->ouuid = $ouuid;
-        $this->revisionId = $revisionId;
     }
 
     public function getRevisionIdentifier(): string

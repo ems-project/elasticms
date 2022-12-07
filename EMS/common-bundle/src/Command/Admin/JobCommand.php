@@ -15,16 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class JobCommand extends AbstractCommand
 {
-    public const JOB_ID = 'job-id';
-    private AdminHelper $adminHelper;
+    final public const JOB_ID = 'job-id';
     private CoreApiInterface $coreApi;
     private string $jobIdOrJsonFile;
-    private string $folder;
+    private readonly string $folder;
 
-    public function __construct(AdminHelper $adminHelper, string $projectFolder)
+    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
     }
 

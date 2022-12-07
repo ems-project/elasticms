@@ -13,7 +13,7 @@
   "type": "project",
   "minimum-stability": "RC",
   "require": {
-    "php": "^7.4",
+    "php": "^8.1",
     "ext-gd": "*",
     "ext-iconv": "*",
     "ext-json": "*",
@@ -91,7 +91,8 @@
   },
   "extra": {
     "symfony": {
-      "allow-contrib": false
+      "allow-contrib": false,
+      "require": "^5.4"
     }
   }
 }

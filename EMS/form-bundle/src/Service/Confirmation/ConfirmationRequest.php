@@ -11,10 +11,10 @@ final class ConfirmationRequest
 {
     /** @var string */
     private $codeField;
-    private string $locale;
+    private readonly string $locale;
     /** @var string */
     private $token;
-    private string $value;
+    private readonly string $value;
 
     public function __construct(Request $request)
     {

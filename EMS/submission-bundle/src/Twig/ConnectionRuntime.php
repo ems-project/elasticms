@@ -9,11 +9,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class ConnectionRuntime implements RuntimeExtensionInterface
 {
-    private Transformer $transformer;
-
-    public function __construct(Transformer $transformer)
+    public function __construct(private readonly Transformer $transformer)
     {
-        $this->transformer = $transformer;
     }
 
     public function transform(string $content): string

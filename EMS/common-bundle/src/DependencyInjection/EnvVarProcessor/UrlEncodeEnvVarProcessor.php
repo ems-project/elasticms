@@ -10,7 +10,7 @@ class UrlEncodeEnvVarProcessor implements EnvVarProcessorInterface
     {
         $env = $getEnv($name);
 
-        return \urlencode($env);
+        return \urlencode((string) $env);
     }
 
     /**

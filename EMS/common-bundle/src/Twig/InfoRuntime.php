@@ -9,11 +9,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 final class InfoRuntime implements RuntimeExtensionInterface
 {
-    private ComposerInfo $composerInfo;
-
-    public function __construct(ComposerInfo $composerInfo)
+    public function __construct(private readonly ComposerInfo $composerInfo)
     {
-        $this->composerInfo = $composerInfo;
     }
 
     public function version(string $shortName): string

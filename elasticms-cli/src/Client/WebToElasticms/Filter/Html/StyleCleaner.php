@@ -9,7 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class StyleCleaner implements HtmlInterface
 {
-    public const TYPE = 'style-cleaner';
+    final public const TYPE = 'style-cleaner';
 
     public function process(WebResource $resource, Crawler $content): void
     {

@@ -9,7 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class Extractor
 {
     // Source: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-html/xliff-profile-html-1.2.html#SectionDetailsElements
-    public const PRE_DEFINED_VALUES = [
+    final public const PRE_DEFINED_VALUES = [
         'b' => 'bold',
         'br' => 'lb',
         'caption' => 'caption',
@@ -83,26 +83,22 @@ class Extractor
         'var',
         'wbr',
     ];
-    public const XLIFF_1_2 = '1.2';
-    public const XLIFF_2_0 = '2.0';
-    public const XLIFF_VERSIONS = [self::XLIFF_1_2, self::XLIFF_2_0];
+    final public const XLIFF_1_2 = '1.2';
+    final public const XLIFF_2_0 = '2.0';
+    final public const XLIFF_VERSIONS = [self::XLIFF_1_2, self::XLIFF_2_0];
 
     private int $nextId = 1;
-    private string $xliffVersion;
-    private string $sourceLocale;
-    private ?string $targetLocale;
-    private \DOMElement $xliff;
-    private \DOMDocument $dom;
+    private readonly string $xliffVersion;
+    private readonly \DOMElement $xliff;
+    private readonly \DOMDocument $dom;
 
-    public function __construct(string $sourceLocale, ?string $targetLocale = null, string $xliffVersion = self::XLIFF_1_2)
+    public function __construct(private readonly string $sourceLocale, private readonly ?string $targetLocale = null, string $xliffVersion = self::XLIFF_1_2)
     {
         if (!\in_array($xliffVersion, self::XLIFF_VERSIONS)) {
             throw new \RuntimeException(\sprintf('Unsupported XLIFF version "%s", use one of the supported one: %s', $xliffVersion, \join(', ', self::XLIFF_VERSIONS)));
         }
 
         $this->nextId = 1;
-        $this->sourceLocale = $sourceLocale;
-        $this->targetLocale = $targetLocale;
         $this->xliffVersion = $xliffVersion;
 
         switch ($xliffVersion) {
@@ -356,7 +352,7 @@ class Extractor
             return true;
         }
         if (!$sourceNode->childNodes instanceof \DOMNodeList) {
-            throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', \get_class($sourceNode->childNodes)));
+            throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $sourceNode->childNodes::class));
         }
         for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
             $child = $sourceNode->childNodes->item($i);
@@ -450,7 +446,7 @@ class Extractor
         if ($htmlEncodeInlines) {
             if ($sourceNode->hasChildNodes()) {
                 if (!$sourceNode->childNodes instanceof \DOMNodeList) {
-                    throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', \get_class($sourceNode->childNodes)));
+                    throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $sourceNode->childNodes::class));
                 }
                 for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
                     $childNode = $sourceNode->childNodes->item($i);
@@ -496,7 +492,7 @@ class Extractor
                 return;
             }
             if (!$foundTargetNode->childNodes instanceof \DOMNodeList) {
-                throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', \get_class($foundTargetNode->childNodes)));
+                throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $foundTargetNode->childNodes::class));
             }
             for ($i = 0; $i < $foundTargetNode->childNodes->length; ++$i) {
                 $childNode = $foundTargetNode->childNodes->item($i);

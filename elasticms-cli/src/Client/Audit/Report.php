@@ -22,7 +22,7 @@ class Report
     private array $ignoredLinks = [['URL', 'Error message', 'Referrers']];
     /** @var string[][] */
     private array $warnings = [['URL', 'Warning message', 'Referrer']];
-    private SpreadsheetGeneratorService $spreadsheetGeneratorService;
+    private readonly SpreadsheetGeneratorService $spreadsheetGeneratorService;
 
     public function __construct()
     {

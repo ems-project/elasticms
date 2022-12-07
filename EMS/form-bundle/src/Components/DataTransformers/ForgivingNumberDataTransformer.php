@@ -10,15 +10,11 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
  */
 class ForgivingNumberDataTransformer implements DataTransformerInterface
 {
-    /** @var string[] */
-    private array $transformerClasses;
-
     /**
      * @param string[] $transformerClasses
      */
-    public function __construct(array $transformerClasses)
+    public function __construct(private readonly array $transformerClasses)
     {
-        $this->transformerClasses = $transformerClasses;
     }
 
     public function transform($value)
@@ -39,7 +35,7 @@ class ForgivingNumberDataTransformer implements DataTransformerInterface
                 if (\method_exists($validation, 'transform')) {
                     return $validation->transform();
                 }
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 continue;
             }
         }

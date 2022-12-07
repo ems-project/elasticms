@@ -9,15 +9,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class DatabaseRequest
 {
-    private string $formName;
-    private string $instance;
-    private string $locale;
+    private readonly string $formName;
+    private readonly string $instance;
+    private readonly string $locale;
     /** @var array<mixed> */
-    private array $data;
+    private readonly array $data;
     /** @var array<int, array{filename: string, mimeType: string, base64: string, size: string, form_field: string}> */
-    private array $files;
-    private string $label;
-    private ?\DateTime $expireDate;
+    private readonly array $files;
+    private readonly string $label;
+    private readonly ?\DateTime $expireDate;
 
     /**
      * @param array<string, mixed> $databaseRecord

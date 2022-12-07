@@ -11,13 +11,8 @@ use Psr\Log\LoggerInterface;
 
 class Factory
 {
-    private LoggerInterface $logger;
-    private string $env;
-
-    public function __construct(LoggerInterface $logger, string $env)
+    public function __construct(private readonly LoggerInterface $logger, private readonly string $env)
     {
-        $this->logger = $logger;
-        $this->env = $env;
     }
 
     /**

@@ -10,10 +10,6 @@ final class HierarchicalStructure
 {
     /** @var array<mixed> */
     private array $children = [];
-    private string $type;
-    private string $id;
-    /** @var array<mixed> */
-    private array $source;
     /** @var mixed */
     private $data;
     private bool $active = false;
@@ -21,11 +17,8 @@ final class HierarchicalStructure
     /**
      * @param array<mixed> $source
      */
-    public function __construct(string $type, string $id, array $source, EMSLink $activeChild = null)
+    public function __construct(private readonly string $type, private readonly string $id, private readonly array $source, EMSLink $activeChild = null)
     {
-        $this->type = $type;
-        $this->id = $id;
-        $this->source = $source;
         if (!empty($activeChild)) {
             $this->active = $id === $activeChild->getOuuid() && $type === $activeChild->getContentType();
         }
@@ -73,10 +66,7 @@ final class HierarchicalStructure
         return $this->data;
     }
 
-    /**
-     * @param mixed $data
-     */
-    public function setData($data): HierarchicalStructure
+    public function setData(mixed $data): HierarchicalStructure
     {
         $this->data = $data;
 

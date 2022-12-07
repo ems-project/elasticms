@@ -10,12 +10,10 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 class ApplePhotosLibrary implements PhotosLibraryInterface
 {
-    private string $libraryPath;
-    private \SQLite3 $photosDatabase;
+    private readonly \SQLite3 $photosDatabase;
 
-    public function __construct(string $libraryPath)
+    public function __construct(private readonly string $libraryPath)
     {
-        $this->libraryPath = $libraryPath;
         $this->photosDatabase = new \SQLite3($this->libraryPath.'/database/Photos.sqlite', SQLITE3_OPEN_READONLY);
     }
 
@@ -100,7 +98,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
             $albums[] = [
                 'type' => 'album',
                 'name' => $row['ZTITLE'],
-                'parent' => 'photo_album:'.\strtolower($row['ZUUID']),
+                'parent' => 'photo_album:'.\strtolower((string) $row['ZUUID']),
                 'order' => $row['Z_FOK_3ASSETS'],
             ];
         }

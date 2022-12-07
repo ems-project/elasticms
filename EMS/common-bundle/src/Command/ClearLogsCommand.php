@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ClearLogsCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::CLEAR_LOGS;
-    private LogRepository $logRepository;
     private \DateTime $before;
     /** @var string[] */
     private array $channels = [];
@@ -22,10 +21,9 @@ class ClearLogsCommand extends AbstractCommand
     private const OPTION_BEFORE = 'before';
     private const OPTION_CHANNEL = 'channel';
 
-    public function __construct(LogRepository $logRepository)
+    public function __construct(private readonly LogRepository $logRepository)
     {
         parent::__construct();
-        $this->logRepository = $logRepository;
     }
 
     protected function configure(): void

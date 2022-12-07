@@ -24,20 +24,13 @@ use Psr\Log\LoggerInterface;
 abstract class AbstractBuilder
 {
     protected ClientRequest $clientRequest;
-    protected LoggerInterface $logger;
-    /** @var string[] */
-    protected array $locales;
-    private int $searchLimit;
 
     /**
      * @param string[] $locales
      */
-    public function __construct(ClientRequestManager $manager, LoggerInterface $logger, array $locales, int $searchLimit)
+    public function __construct(ClientRequestManager $manager, protected LoggerInterface $logger, protected array $locales, private readonly int $searchLimit)
     {
         $this->clientRequest = $manager->getDefault();
-        $this->logger = $logger;
-        $this->locales = $locales;
-        $this->searchLimit = $searchLimit;
     }
 
     public function settings(Environment $environment): Settings

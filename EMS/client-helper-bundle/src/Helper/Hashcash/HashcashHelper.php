@@ -10,11 +10,8 @@ use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 final class HashcashHelper
 {
-    private CsrfTokenManager $csrfTokenManager;
-
-    public function __construct(CsrfTokenManager $csrfTokenManager)
+    public function __construct(private readonly CsrfTokenManager $csrfTokenManager)
     {
-        $this->csrfTokenManager = $csrfTokenManager;
     }
 
     public function validateHashcash(Request $request, string $csrfId, int $hashcashLevel = 4, string $hashAlgo = 'sha256'): void

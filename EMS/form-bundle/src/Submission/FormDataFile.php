@@ -10,13 +10,8 @@ use Symfony\Component\Mime\MimeTypes;
 
 final class FormDataFile
 {
-    private UploadedFile $file;
-    private ElementInterface $formElement;
-
-    public function __construct(UploadedFile $file, ElementInterface $formElement)
+    public function __construct(private readonly UploadedFile $file, private readonly ElementInterface $formElement)
     {
-        $this->file = $file;
-        $this->formElement = $formElement;
     }
 
     public function base64(): ?string

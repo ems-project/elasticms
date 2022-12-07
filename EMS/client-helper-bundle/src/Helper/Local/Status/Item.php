@@ -8,18 +8,16 @@ use EMS\CommonBundle\Common\Standard\Hash;
 
 final class Item
 {
-    private string $key;
-    private string $id;
+    private readonly string $id;
     private ?string $idOrigin = null;
-    private string $contentType;
+    private readonly string $contentType;
     /** @var array<mixed> */
     private array $dataLocal = [];
     /** @var array<mixed> */
     private array $dataOrigin = [];
 
-    private function __construct(string $key, string $contentType)
+    private function __construct(private readonly string $key, string $contentType)
     {
-        $this->key = $key;
         $this->id = Hash::string($contentType.$key);
         $this->contentType = $contentType;
     }

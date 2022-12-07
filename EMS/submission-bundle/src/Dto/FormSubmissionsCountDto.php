@@ -14,9 +14,6 @@ final class FormSubmissionsCountDto
     public $waiting = 0;
     /** @var int */
     public $total = 0;
-
-    /** @var string */
-    public $period;
     /** @var int */
     public $periodFailed = 0;
     /** @var int */
@@ -26,9 +23,8 @@ final class FormSubmissionsCountDto
     /** @var int */
     public $periodTotal = 0;
 
-    public function __construct(string $period)
+    public function __construct(public string $period)
     {
-        $this->period = $period;
     }
 
     /**

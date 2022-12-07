@@ -10,10 +10,10 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class Result
 {
-    private ?bool $acknowledged;
-    private ?bool $success;
+    private readonly ?bool $acknowledged;
+    private readonly ?bool $success;
     /** @var array<mixed> */
-    private array $data;
+    private readonly array $data;
 
     public function __construct(ResponseInterface $response, LoggerInterface $logger)
     {

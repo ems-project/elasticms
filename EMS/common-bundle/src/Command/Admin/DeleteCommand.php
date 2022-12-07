@@ -12,16 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteCommand extends AbstractCommand
 {
-    public const CONFIG_TYPE = 'config-type';
-    public const ENTITY_NAME = 'entity-name';
+    final public const CONFIG_TYPE = 'config-type';
+    final public const ENTITY_NAME = 'entity-name';
     private string $configType;
     private string $entityName;
-    private AdminHelper $adminHelper;
 
-    public function __construct(AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
     }
 
     public function initialize(InputInterface $input, OutputInterface $output): void

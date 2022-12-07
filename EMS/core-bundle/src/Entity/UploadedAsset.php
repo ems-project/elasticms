@@ -26,7 +26,7 @@ class UploadedAsset implements EntityInterface
     /**
      * @ORM\Column(name="status", type="string", length=64, nullable=true)
      */
-    private string $status;
+    private ?string $status = null;
 
     /**
      * @ORM\Column(name="sha1", type="string", length=128)
@@ -54,18 +54,14 @@ class UploadedAsset implements EntityInterface
     private bool $available;
 
     /**
-     * @var int|string
-     *
      * @ORM\Column(name="size", type="bigint")
      */
-    private $size;
+    private int|string|null $size = null;
 
     /**
-     * @var int|string
-     *
      * @ORM\Column(name="uploaded", type="bigint")
      */
-    private $uploaded;
+    private int|string|null $uploaded = null;
 
     /**
      * @ORM\Column(name="hash_algo", type="string", length=32, options={"default" : "sha1"})
@@ -96,7 +92,7 @@ class UploadedAsset implements EntityInterface
     }
 
     /**
-     * @return array{sha1:string, type:string, available:bool, name:string, size:int, status:string, uploaded:int, user:string}
+     * @return array{sha1:string, type:string, available:bool, name:string, size:int, status: ?string, uploaded:int, user:string}
      */
     public function getResponse(): array
     {
@@ -122,26 +118,14 @@ class UploadedAsset implements EntityInterface
         return $this->id;
     }
 
-    /**
-     * Set status.
-     *
-     * @param string $status
-     *
-     * @return UploadedAsset
-     */
-    public function setStatus($status)
+    public function setStatus(?string $status): self
     {
         $this->status = $status;
 
         return $this;
     }
 
-    /**
-     * Get status.
-     *
-     * @return string
-     */
-    public function getStatus()
+    public function getStatus(): ?string
     {
         return $this->status;
     }

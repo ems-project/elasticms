@@ -21,20 +21,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Processor
 {
-    private StorageManager $storageManager;
-    private LoggerInterface $logger;
+    final public const BUFFER_SIZE = 8192;
 
-    public const BUFFER_SIZE = 8192;
-    private Cache $cacheHelper;
-
-    private string $projectDir;
-
-    public function __construct(StorageManager $storageManager, LoggerInterface $logger, Cache $cacheHelper, string $projectDir)
+    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly Cache $cacheHelper, private readonly string $projectDir)
     {
-        $this->storageManager = $storageManager;
-        $this->logger = $logger;
-        $this->cacheHelper = $cacheHelper;
-        $this->projectDir = $projectDir;
     }
 
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
@@ -143,7 +133,7 @@ class Processor
                 $file = $this->hashToFilename($config->getAssetHash());
             }
             $generatedImage = $config->isSvg() ? $file : $image->generate($file, $cacheFilename);
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             $generatedImage = $image->generate($this->storageManager->getPublicImage('big-logo.png'));
         }
 
@@ -175,7 +165,7 @@ class Processor
 
         try {
             return $this->storageManager->getStream($config->getAssetHash());
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             throw new NotFoundHttpException(\sprintf('File %s not found', $config->getAssetHash()));
         }
     }
@@ -232,7 +222,7 @@ class Processor
 
         try {
             $streamRange = new StreamRange($request->headers, $fileSize);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return $response;
         }
 

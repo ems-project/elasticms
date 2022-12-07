@@ -8,13 +8,11 @@ use Symfony\Component\HttpFoundation\HeaderBag;
 
 class StreamRange
 {
-    private int $fileSize;
     private int $end;
     private int $start = 0;
 
-    public function __construct(HeaderBag $headerBag, int $fileSize)
+    public function __construct(HeaderBag $headerBag, private readonly int $fileSize)
     {
-        $this->fileSize = $fileSize;
         $this->end = $this->fileSize - 1;
 
         $this->parseRangeHeader($headerBag);

@@ -8,13 +8,13 @@ use EMS\CommonBundle\Common\Standard\DateTime;
 
 final class EMSSource implements EMSSourceInterface
 {
-    private string $contentType;
-    private string $hash;
-    private ?string $finalizedBy;
+    private readonly string $contentType;
+    private readonly string $hash;
+    private readonly ?string $finalizedBy;
     private ?\DateTimeInterface $finalizationDateTime = null;
     private ?\DateTimeInterface $publicationDateTime = null;
     /** @var array<mixed> */
-    private array $source;
+    private readonly array $source;
 
     public const FIELD_CONTENT_TYPE = '_contenttype';
     public const FIELD_FINALIZED_BY = '_finalized_by';

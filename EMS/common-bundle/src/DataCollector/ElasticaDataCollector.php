@@ -12,13 +12,8 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class ElasticaDataCollector extends DataCollector
 {
-    private ElasticaLogger $logger;
-    private ElasticaService $elasticaService;
-
-    public function __construct(ElasticaLogger $logger, ElasticaService $elasticaService)
+    public function __construct(private readonly ElasticaLogger $logger, private readonly ElasticaService $elasticaService)
     {
-        $this->logger = $logger;
-        $this->elasticaService = $elasticaService;
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void

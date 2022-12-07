@@ -18,14 +18,12 @@ class DownloadCommand extends AbstractCommand
     private const CONTENT_TYPE = 'content-type';
     private const FOLDER = 'folder';
     private const DEFAULT_FOLDER = 'document';
-    private AdminHelper $adminHelper;
     private string $contentType;
     private string $folder;
 
-    public function __construct(AdminHelper $adminHelper, string $projectFolder)
+    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
     {
         parent::__construct();
-        $this->adminHelper = $adminHelper;
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.self::DEFAULT_FOLDER;
     }
 

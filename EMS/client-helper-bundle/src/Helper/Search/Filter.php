@@ -18,15 +18,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class Filter
 {
-    private ClientRequest $clientRequest;
-    private string $name;
-    private string $type;
+    private readonly string $type;
     private string $field;
     private ?string $secondaryField = null;
     private ?string $nestedPath = null;
 
     private ?string $sortField = null;
-    private string $sortOrder;
+    private readonly string $sortOrder;
     private bool $reversedNested = false;
 
     private ?int $aggSize = null;
@@ -69,15 +67,11 @@ final class Filter
     /**
      * @param array<mixed> $options
      */
-    public function __construct(ClientRequest $clientRequest, string $name, array $options)
+    public function __construct(private readonly ClientRequest $clientRequest, private readonly string $name, array $options)
     {
-        $this->clientRequest = $clientRequest;
-
         if (!\in_array($options['type'], self::TYPES)) {
             throw new \Exception(\sprintf('invalid filter type %s', $options['type']));
         }
-
-        $this->name = $name;
         $this->type = $options['type'];
         $this->field = $options['field'] ?? $name;
         $this->secondaryField = $options['secondary_field'] ?? null;
@@ -266,10 +260,7 @@ final class Filter
         return $this->reversedNested;
     }
 
-    /**
-     * @param mixed $value
-     */
-    private function setQuery($value): void
+    private function setQuery(mixed $value): void
     {
         switch ($this->type) {
             case self::TYPE_TERM:

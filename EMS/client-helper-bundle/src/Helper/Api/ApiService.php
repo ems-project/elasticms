@@ -22,25 +22,12 @@ final class ApiService
 {
     private const EMS_AJAX_MESSAGE_LEVELS = ['error', 'warning'];
 
-    /** @var ClientRequest[] */
-    private iterable $clientRequests;
-    /** @var Client[] */
-    private iterable $apiClients;
-    private UrlGeneratorInterface $urlGenerator;
-    private Environment $twig;
-    private LoggerInterface $logger;
-
     /**
      * @param ClientRequest[] $clientRequests
      * @param Client[]        $apiClients
      */
-    public function __construct(LoggerInterface $logger, Environment $twig, UrlGeneratorInterface $urlGenerator, iterable $clientRequests = [], iterable $apiClients = [])
+    public function __construct(private readonly LoggerInterface $logger, private readonly Environment $twig, private readonly UrlGeneratorInterface $urlGenerator, private readonly iterable $clientRequests = [], private readonly iterable $apiClients = [])
     {
-        $this->logger = $logger;
-        $this->twig = $twig;
-        $this->urlGenerator = $urlGenerator;
-        $this->clientRequests = $clientRequests;
-        $this->apiClients = $apiClients;
     }
 
     /**
@@ -65,7 +52,7 @@ final class ApiService
      *
      * @return array<string,mixed>
      */
-    private function treatFiles(array $body, string $apiName, $files): array
+    private function treatFiles(array $body, string $apiName, FileBag|array $files): array
     {
         /** @var string $fieldKey */
         foreach ($files as $fieldKey => $fileField) {
@@ -214,7 +201,7 @@ final class ApiService
         if (!$response['success']) {
             try {
                 $apiClient->discardDraft($type, $revisionId);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $this->logger->warning('emsch.api_service.discard_exception', [
                     'ouuid' => $ouuid,
                     'type' => $type,
@@ -242,7 +229,7 @@ final class ApiService
         // TODO: remove this hack once the ems back is returning the file hash as parameter
         if (!isset($response[EmsFields::CONTENT_FILE_HASH_FIELD_]) && isset($response['url'])) {
             $output_array = [];
-            \preg_match('/\/data\/file\/view\/(?P<hash>.*)\?.*/', $response['url'], $output_array);
+            \preg_match('/\/data\/file\/view\/(?P<hash>.*)\?.*/', (string) $response['url'], $output_array);
             if (isset($output_array['hash'])) {
                 $response[EmsFields::CONTENT_FILE_HASH_FIELD_] = $output_array['hash'];
             }

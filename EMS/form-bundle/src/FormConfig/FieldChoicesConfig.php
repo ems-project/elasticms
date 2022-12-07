@@ -4,9 +4,8 @@ namespace EMS\FormBundle\FormConfig;
 
 class FieldChoicesConfig
 {
-    private string $id;
     /** @var mixed[] */
-    private array $values;
+    private readonly array $values;
     /** @var mixed[] */
     private array $labels;
     /** @var mixed[] */
@@ -18,7 +17,7 @@ class FieldChoicesConfig
      * @param mixed[] $values
      * @param mixed[] $labels
      */
-    public function __construct(string $id, array $values, array $labels)
+    public function __construct(private readonly string $id, array $values, array $labels)
     {
         if (\count($labels) > \count($values)) {
             $this->placeholder = \array_shift($labels);
@@ -27,8 +26,6 @@ class FieldChoicesConfig
         if (\count($values) !== \count($labels)) {
             throw new \Exception(\sprintf('Invalid choice list: %d values != %d labels!', \count($values), \count($labels)));
         }
-
-        $this->id = $id;
         $this->values = $values;
         $this->labels = $labels;
         $this->sort = null;
@@ -160,7 +157,7 @@ class FieldChoicesConfig
 
         $list = \array_combine($this->getTopLevel($labels), $this->getTopLevel($values));
 
-        return $this->sort(\is_array($list) ? $list : []);
+        return $this->sort($list);
     }
 
     /**

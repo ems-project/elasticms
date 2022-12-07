@@ -4,19 +4,17 @@ namespace EMS\FormBundle\Security;
 
 class HashcashToken
 {
-    private string $hash;
-    private string $nonce;
-    private string $data;
-    private string $token;
+    private readonly string $hash;
+    private readonly string $nonce;
+    private readonly string $data;
 
-    public function __construct(string $header, string $token)
+    public function __construct(string $header, private readonly string $token)
     {
         [$hash, $nonce, $data] = \explode('|', $header);
 
         $this->hash = $hash;
         $this->nonce = $nonce;
         $this->data = $data;
-        $this->token = $token;
     }
 
     public function isValid(int $difficulty): bool

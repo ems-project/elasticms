@@ -14,13 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class FileService
 {
-    private ClientFactory $client;
-    private LoggerInterface $logger;
-
-    public function __construct(ClientFactory $client, LoggerInterface $logger)
+    public function __construct(private readonly ClientFactory $client, private readonly LoggerInterface $logger)
     {
-        $this->client = $client;
-        $this->logger = $logger;
     }
 
     public function uploadFile(Request $request): JsonResponse

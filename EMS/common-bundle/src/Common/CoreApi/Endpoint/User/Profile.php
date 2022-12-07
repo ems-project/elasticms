@@ -8,14 +8,14 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\ProfileInterface;
 
 final class Profile implements ProfileInterface
 {
-    private int $id;
-    private string $username;
-    private string $email;
-    private ?string $displayName;
+    private readonly int $id;
+    private readonly string $username;
+    private readonly string $email;
+    private readonly ?string $displayName;
     /** @var string[] */
-    private array $roles;
+    private readonly array $roles;
     /** @var string[] */
-    private array $circles;
+    private readonly array $circles;
     private ?\DateTimeImmutable $lastLogin = null;
 
     /**

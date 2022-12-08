@@ -42,16 +42,16 @@ class UrlTest extends TestCase
 
     public function testSerialize(): void
     {
-        $this->assertEquals('{"url":"https://google.com/","referer":null}', (new Url('https://google.com'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/","referer":null}', (new Url('https://user:password@google.com'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/toto.txt","referer":"https://user:password@google.com/"}', (new Url('/aa/../bb/vv/../../toto.txt', 'https://user:password@google.com'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/toto.txt","referer":"https://user:password@google.com/"}', (new Url('./toto.txt', 'https://user:password@google.com/aaa/../'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/toto.txt","referer":"https://user:password@google.com/aaa"}', (new Url('./toto.txt', 'https://user:password@google.com/aaa'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/"}', (new Url('./toto.txt', 'https://user:password@google.com/aaa/'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/"}', (new Url('./toto.txt#anchor', 'https://user:password@google.com/aaa/'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt?anchor=toto&foo=bar","referer":"https://user:password@google.com/aaa/"}', (new Url('./toto.txt?anchor=toto&foo=bar', 'https://user:password@google.com/aaa/'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/"}', (new Url('./toto.txt#anchor?anchor=toto&foo=bar', 'https://user:password@google.com/aaa/'))->serialize());
-        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/#anchor?anchor=toto&foo=bar"}', (new Url('./toto.txt', 'https://user:password@google.com/aaa/#anchor?anchor=toto&foo=bar'))->serialize());
+        $this->assertEquals('{"url":"https://google.com/","referer":null,"refererLabel":null}', (new Url('https://google.com'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/","referer":null,"refererLabel":null}', (new Url('https://user:password@google.com'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/toto.txt","referer":"https://user:password@google.com/","refererLabel":null}', (new Url('/aa/../bb/vv/../../toto.txt', 'https://user:password@google.com'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/toto.txt","referer":"https://user:password@google.com/","refererLabel":null}', (new Url('./toto.txt', 'https://user:password@google.com/aaa/../'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/toto.txt","referer":"https://user:password@google.com/aaa","refererLabel":null}', (new Url('./toto.txt', 'https://user:password@google.com/aaa'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/","refererLabel":null}', (new Url('./toto.txt', 'https://user:password@google.com/aaa/'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/","refererLabel":null}', (new Url('./toto.txt#anchor', 'https://user:password@google.com/aaa/'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt?anchor=toto&foo=bar","referer":"https://user:password@google.com/aaa/","refererLabel":null}', (new Url('./toto.txt?anchor=toto&foo=bar', 'https://user:password@google.com/aaa/'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/","refererLabel":null}', (new Url('./toto.txt#anchor?anchor=toto&foo=bar', 'https://user:password@google.com/aaa/'))->serialize());
+        $this->assertEquals('{"url":"https://user:password@google.com/aaa/toto.txt","referer":"https://user:password@google.com/aaa/#anchor?anchor=toto&foo=bar","refererLabel":null}', (new Url('./toto.txt', 'https://user:password@google.com/aaa/#anchor?anchor=toto&foo=bar'))->serialize());
     }
 
     public function testDeserialize(): void

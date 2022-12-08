@@ -172,7 +172,7 @@ final class LocalHelper
         }
 
         foreach ($environment->getLocal()->getTranslations()->getData() as $name => $data) {
-            $status->addItemLocal($name, $contentTypeName, $data);
+            $status->addItemLocal((string) $name, $contentTypeName, $data);
         }
 
         return $status;

@@ -34,7 +34,7 @@ final class TranslationDocument implements BuilderDocumentInterface
 
     public function getName(): string
     {
-        return $this->source['key'];
+        return (string) $this->source['key'];
     }
 
     /**

@@ -18,19 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class HealthCheckCommand extends AbstractCommand
 {
     protected static $defaultName = 'emsch:health-check';
-    private EnvironmentHelper $environmentHelper;
-    private ?StorageManager $storageManager;
-    private ElasticaService $elasticaService;
 
     public function __construct(
-        EnvironmentHelper $environmentHelper,
-        ElasticaService $elasticaService,
-        StorageManager $storageManager = null
+        private readonly EnvironmentHelper $environmentHelper,
+        private readonly ElasticaService $elasticaService,
+        private readonly ?StorageManager $storageManager = null
     ) {
         parent::__construct();
-        $this->environmentHelper = $environmentHelper;
-        $this->elasticaService = $elasticaService;
-        $this->storageManager = $storageManager;
     }
 
     protected function configure(): void

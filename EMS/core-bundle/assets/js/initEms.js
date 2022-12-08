@@ -247,7 +247,7 @@ import JsonMenuNested from "./module/jsonMenuNested";
     }
 
     function initMediaLibrary() {
-        let elements = document.getElementsByClassName('media-library');
+        let elements = document.getElementsByClassName('media-lib');
 
         [].forEach.call(elements, function (el) {
             new MediaLibrary(el);

@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -23,7 +24,8 @@ class MediaLibraryController
         private readonly MediaLibraryService $mediaLibraryService,
         private readonly AjaxService $ajax,
         private readonly TranslatorInterface $translator,
-        private readonly FormFactory $formFactory
+        private readonly FormFactory $formFactory,
+        private readonly FlashBagInterface $flashBag,
     ) {
     }
 
@@ -44,6 +46,8 @@ class MediaLibraryController
             if ($form->isValid()) {
                 $folderName = (string) $form->get('folder_name')->getData();
                 if ($this->mediaLibraryService->createFolder($config, $folderName)) {
+                    $this->flashBag->clear();
+
                     return $this->getAjaxModal()->getSuccessResponse([]);
                 }
             }

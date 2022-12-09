@@ -11,10 +11,16 @@ class MediaLibraryConfig implements ConfigInterface
 {
     public function __construct(
         private readonly string $hash,
+        private readonly string $id,
         public readonly ContentType $contentType,
         public readonly string $fieldPath,
         public readonly string $fieldFile
     ) {
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getHash(): string

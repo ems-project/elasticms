@@ -17,6 +17,8 @@ final class MediaLibraryComponent
 
     #[ExposeInTemplate('hash')]
     public string $hash;
+    #[ExposeInTemplate('id')]
+    public string $id;
 
     /**
      * @param array<mixed> $options
@@ -26,7 +28,10 @@ final class MediaLibraryComponent
     #[PreMount]
     public function validate(array $options): array
     {
-        $this->hash = $this->mediaLibraryConfigFactory->createFromOptions($options)->getHash();
+        $config = $this->mediaLibraryConfigFactory->createFromOptions($options);
+
+        $this->hash = $config->getHash();
+        $this->id = $config->getId();
 
         return $options;
     }

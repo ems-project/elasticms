@@ -1,0 +1,6 @@
+media_library:
+    folder:
+        add:
+            title: 'Add folder'
+            submit: 'Create'
+            cancel: 'Cancel'

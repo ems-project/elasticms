@@ -250,7 +250,7 @@ import JsonMenuNested from "./module/jsonMenuNested";
         let elements = document.getElementsByClassName('media-lib');
 
         [].forEach.call(elements, function (el) {
-            new MediaLibrary(el);
+            new MediaLibrary(el, { ajaxUrlPath: '/component/media-lib' });
         });
     }
 

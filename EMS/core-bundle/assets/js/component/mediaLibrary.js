@@ -2,13 +2,13 @@ import ajaxModal from "./../helper/ajaxModal";
 import { ajaxJsonGet } from "../helper/ajax";
 
 export default class MediaLibrary {
-    #baseUri
+    #ajaxUrlPath
     #hash;
     #el;
     #listFiles;
 
-    constructor (el) {
-        this.#baseUri = '/component/media-lib';
+    constructor (el, options) {
+        this.#ajaxUrlPath = options.ajaxUrlPath;
         this.#el = el;
         this.#hash = el.dataset.hash;
         this.#listFiles = el.querySelector("ul.media-lib-files");
@@ -32,13 +32,13 @@ export default class MediaLibrary {
         }
 
         ajaxModal.load({
-            url: [this.#baseUri, this.#hash, 'add-folder'].join('/'),
+            url: [this.#ajaxUrlPath, this.#hash, 'add-folder'].join('/'),
             size: 'sm'
         }, callback);
     }
 
     _getFiles() {
-        ajaxJsonGet([this.#baseUri, this.#hash, 'files'].join('/'), (json, request) => {
+        ajaxJsonGet([this.#ajaxUrlPath, this.#hash, 'files'].join('/'), (json) => {
             for (let jsonFileId in json) {
                 let jsonFile = json[jsonFileId];
                 const fileProperties = ['filename', 'filesize', 'mimetype'];

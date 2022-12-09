@@ -6,13 +6,20 @@ export default class MediaLibrary {
     #hash;
     #el;
     #listFiles;
+    #listFolders;
 
     constructor (el, options) {
         this.#ajaxUrlPath = options.ajaxUrlPath;
         this.#el = el;
         this.#hash = el.dataset.hash;
-        this.#listFiles = el.querySelector("ul.media-lib-files");
+        this.#listFiles = el.querySelector("ul.media-lib-list-files");
+        this.#listFolders = el.querySelector("ul.media-lib-list-folders");
+        this._init();
+    }
+
+    _init() {
         this._addEventListeners();
+        this._getFolders();
         this._getFiles();
     }
 
@@ -54,6 +61,22 @@ export default class MediaLibrary {
                 liFile.appendChild(divFile);
 
                 this.#listFiles.appendChild(liFile);
+            }
+        });
+    }
+
+    _getFolders() {
+        ajaxJsonGet([this.#ajaxUrlPath, this.#hash, 'folders'].join('/'), (json) => {
+            for (let jsonFolderId in json) {
+                let jsonFolder = json[jsonFolderId];
+
+                let divFolder = document.createElement("div");
+                divFolder.textContent = jsonFolder['name'];
+
+                let liFolder = document.createElement("li");
+                liFolder.appendChild(divFolder);
+
+                this.#listFolders.appendChild(liFolder);
             }
         });
     }

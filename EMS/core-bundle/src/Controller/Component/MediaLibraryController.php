@@ -34,6 +34,11 @@ class MediaLibraryController
         return new JsonResponse($this->mediaLibraryService->getFiles($config));
     }
 
+    public function getFolders(MediaLibraryConfig $config): JsonResponse
+    {
+        return new JsonResponse($this->mediaLibraryService->getFolders($config));
+    }
+
     public function addFolder(MediaLibraryConfig $config, Request $request): JsonResponse
     {
         $form = $this->formFactory->createBuilder(FormType::class, [])

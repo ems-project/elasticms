@@ -9,4 +9,9 @@
         <default key="_controller">EMS\CoreBundle\Controller\Component\MediaLibraryController::getFiles</default>
     </route>
 
+    <route id="emsco.media_library.add_folder" path="/media-lib/{hash}/add-folder" methods="GET POST">
+        <requirement key="hash">.*</requirement>
+        <default key="_controller">EMS\CoreBundle\Controller\Component\MediaLibraryController::addFolder</default>
+    </route>
+
 </routes>

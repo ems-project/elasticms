@@ -1,0 +1,17 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "german_stop",
+        "dirty": true,
+        "label": "german_stop",
+        "options": {
+            "remove_trailing": true,
+            "stopwords": "_german_",
+            "type": "stop",
+            "ignore_case": false
+        },
+        "orderKey": 10
+    },
+    "replaced": []
+}

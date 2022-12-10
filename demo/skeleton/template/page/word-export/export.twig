@@ -1,0 +1,33 @@
+{% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% set locale = app.request.locale %}
+{% set htmlAttributes = {
+    "xmlns:o": "urn:schemas-microsoft-com:office:office",
+    "xmlns:w": "urn:schemas-microsoft-com:office:word",
+    "xmlns": "http://www.w3.org/TR/REC-html40",
+    "lang": locale
+} %}
+
+{% set contentType = app.request.get('contentType') %}
+{% set ouuid = app.request.get('ouuid') %}
+{% set document = [contentType, ouuid]|join(':') %}
+
+{% set structureNode = false %}
+{% if source._contenttype == 'structure' %}
+    {% set localeStructure = attribute(source, locale).structure|default('{}')|ems_json_menu_decode %}
+    {% set break = false %}
+    {% for path in source.paths %}
+        {% if not break and path.locale == locale and path.target == document %}
+            {% set structureNode = localeStructure.getItem(path.uid)|default(false) %}
+            {% set break = true %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% set page = document|emsch_get %}
+
+{% block title %}
+    {{- attribute(page.source, locale).title|default('error.page-not-found'|trans) -}}
+{% endblock %}
+

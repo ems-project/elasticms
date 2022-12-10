@@ -1,0 +1,18 @@
+{
+    "file": {
+        "_author": null,
+        "_content": "Dummy PDF file\r\n\r\n\r\n\tDummy PDF file",
+        "_date": null,
+        "_language": "en",
+        "_title": null,
+        "filename": "test_pdf_13KB.pdf",
+        "filesize": 13264,
+        "mimetype": "application/pdf",
+        "sha1": "90ffd2359008d82298821d16b21778c5c39aec36"
+    },
+    "label": "pdf test",
+    "locales": [
+        "en"
+    ],
+    "type": "test"
+}

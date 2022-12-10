@@ -1,0 +1,13 @@
+{% extends '@EMSCH/template/variables.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block request %}
+{%- if 'live' in trans_default_domain and app.request.host in canonicals -%}
+User-agent: *
+Disallow: /bundles/
+{% else %}
+User-agent: *
+Disallow: /
+{% endif %}
+Sitemap: {{ url('sitemap.xml') }}
+{% endblock %}

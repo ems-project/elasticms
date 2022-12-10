@@ -1,0 +1,16 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\QuerySearch",
+    "arguments": [],
+    "properties": {
+        "label": "Documents",
+        "name": "documents",
+        "environments": [],
+        "options": {
+            "query": "{\r\n    \"query\": {\r\n        \"bool\": {\r\n            \"should\": [\r\n                {\r\n                    \"multi_match\": {\r\n                        \"fields\": [\r\n                            \"label_search\",\r\n                            \"label_search._2gram\",\r\n                            \"label_search._3gram\"\r\n                        ],\r\n                        \"query\": \"%query%\",\r\n                        \"operator\": \"and\",\r\n                        \"type\": \"bool_prefix\",\r\n                        \"boost\": 10\r\n                    }\r\n                },\r\n                {\r\n                    \"multi_match\": {\r\n                        \"fields\": [\r\n                            \"live_search\",\r\n                            \"live_search._2gram\",\r\n                            \"live_search._3gram\"\r\n                        ],\r\n                        \"query\": \"%query%\",\r\n                        \"operator\": \"and\",\r\n                        \"type\": \"bool_prefix\"\r\n                    }\r\n                },\r\n                {\r\n                    \"query_string\": {\r\n                        \"query\": \"*\",\r\n                        \"default_operator\": \"AND\",\r\n                        \"boost\": 1,\r\n                        \"default_field\": \"all_*\"\r\n                    }\r\n                },\r\n                {\r\n                    \"query_string\": {\r\n                        \"query\": \"*\",\r\n                        \"default_operator\": \"AND\",\r\n                        \"boost\": 1,\r\n                        \"default_field\": \"all_*\"\r\n                    }\r\n                }\r\n            ],\r\n            \"minimum_should_match\": 1,\r\n            \"must\": [\r\n                {\r\n                    \"terms\": {\r\n                        \"_contenttype\": [\"page\",\"slideshow\"]\r\n                    }\r\n                }\r\n            ]\r\n        }\r\n    }\r\n}"
+        },
+        "orderKey": 9999
+    },
+    "replaced": [
+        "environments"
+    ]
+}

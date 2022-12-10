@@ -1,0 +1,11 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Schedule",
+    "arguments": [],
+    "properties": {
+        "name": "check-aliases",
+        "cron": "*/5 * * * *",
+        "command": "ems:check:aliases --repair",
+        "orderKey": 100
+    },
+    "replaced": []
+}

@@ -1,0 +1,7 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Job",
+    "arguments": [],
+    "properties": {
+        "command": "ems:environment:rebuild preview"
+    }
+}

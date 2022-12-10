@@ -1,0 +1,10 @@
+{% extends '@EMSCH/template/base/bootstrap.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}
+{% block metatitle %}{{ attribute(source, locale).metatitle|default(block('title')) }}{% endblock %}
+
+{% block main -%}
+    <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink)) }}>{{ block('title') }}</h1>
+    {% block blocks %}{% endblock %}
+{%- endblock main %}

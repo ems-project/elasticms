@@ -1,0 +1,5 @@
+{% extends '@EMSCH/template/slideshow/blocks/abstract-block.html.twig' %}
+
+{% block section %}
+  {{ item.object.body|default('')|replace(wyiwygReplaces)|emsch_routing }}
+{% endblock %}

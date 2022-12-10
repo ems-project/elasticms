@@ -1,0 +1,18 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "empty_elision",
+        "dirty": true,
+        "label": "empty_elision",
+        "options": {
+            "articles": [
+                ""
+            ],
+            "type": "elision",
+            "articles_case": false
+        },
+        "orderKey": 3
+    },
+    "replaced": []
+}

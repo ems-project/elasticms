@@ -1,0 +1,55 @@
+#back2top {
+    color: $white;
+    background: rgba($primary, .9);
+    width: 4.16em;
+    height: 4.16em;
+    border-radius: 50%;
+    overflow:hidden;
+    position:fixed;
+    right:5rem;
+    bottom:2.5rem;
+    z-index:999;
+    font-size: .75em;
+    line-height:1.1;
+    text-align:center;
+    text-decoration:none;
+    transition: all 0.35s;
+    display: block;
+
+    @include media-breakpoint-down(md) {
+        display: none !important;
+    }
+
+    > * {
+        position:absolute;
+        left:50%;
+        top:50%;
+        transform: translate(-50%,-50%);
+        transition: all 0.35s;
+    }
+
+    span {
+        display:block;
+    }
+
+    .fas {
+        display:none;
+        font-size:1.35rem;
+        margin-top: -4.5em;
+        @include media-breakpoint-up(lg){
+            display:block;
+        }
+    }
+    &:hover {
+        background:rgba($primary, 1);
+        text-decoration:none;
+        span {
+            @include media-breakpoint-up(lg){
+                margin-top: 4.5em;
+            }
+        }
+        .fas {
+            margin-top:0;
+        }
+    }
+}

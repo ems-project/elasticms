@@ -1,0 +1,17 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "dutch_stop",
+        "dirty": true,
+        "label": "dutch_stop",
+        "options": {
+            "remove_trailing": true,
+            "stopwords": "_dutch_",
+            "type": "stop",
+            "ignore_case": false
+        },
+        "orderKey": 2
+    },
+    "replaced": []
+}

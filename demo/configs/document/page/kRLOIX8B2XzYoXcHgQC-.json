@@ -1,0 +1,23 @@
+{
+    "en": {
+        "show": true,
+        "slug": "contact-us",
+        "structure": "[{\"id\":\"8338efe4-41a2-4d3c-a23f-aaf3ea8db73b\",\"label\":\"Contact form\",\"type\":\"form\",\"object\":{\"link\":\"form_instance:kBI0IX8B2XzYoXcHXQAj\",\"label\":\"Contact form\"},\"children\":[]}]",
+        "title": "Contact us"
+    },
+    "fr": {
+        "show": true,
+        "slug": "contactez-nous",
+        "structure": "[]",
+        "title": "Contactez-nous"
+    },
+    "label": "Contact form",
+    "search_en": [
+        "Contact us",
+        "Contact form"
+    ],
+    "search_fr": [
+        "Contactez-nous"
+    ],
+    "type": "page"
+}

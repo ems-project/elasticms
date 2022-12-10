@@ -1,0 +1,62 @@
+{% apply spaceless %}
+    {% set url = null %}
+    {%- if attribute(source, locale).show|default(null) -%}
+        {% set paths = emsch_search('structure', {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "nested": {
+                            "path": "paths",
+                            "query": {
+                                "term": {
+                                    "paths.target": "page:#{id}"
+                                }
+                            }
+                        }
+                        },
+                        {
+                            "nested": {
+                            "path": "paths",
+                            "query": {
+                                "term": {
+                                    "paths.locale": "#{locale}"
+                                }
+                            }
+                        }
+                        }
+                    ]
+                }
+            },
+            "sort": [
+                {
+                    "order": {
+                        "order": "asc",
+                        "missing": "_last"
+                    }
+                }
+            ],
+            "_source": [
+                "paths.*"
+            ]
+        }).hits.hits.0._source.paths|default([]) %}
+
+        {% for path in paths|filter(path => path.target|default(null) == "page:#{id}" and path.locale|default(null) == locale) %}
+            {% set url = path('emsch_path', {path: path.path, _locale: locale}) %}
+        {% endfor %}
+
+        {% if url is same as (null) %}
+            {% if attribute(source, locale).slug == '/' %}
+                {% set url = path('emsch_homepage', {_locale: locale}) %}
+            {% else %}
+                {% set url = path('emsch_page', {slug: attribute(source, locale).slug, _locale: locale}) %}
+            {% endif %}
+        {% endif %}
+
+    {% endif %}
+    {% if url %}
+        {{ url }}
+    {% else %}
+        {{ path('emsch_missing_translation', {contentType: 'page', ouuid: id, _locale: locale}) }}
+    {% endif %}
+{%  endapply %}

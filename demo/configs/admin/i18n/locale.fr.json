@@ -1,0 +1,26 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\I18n",
+    "arguments": [],
+    "properties": {
+        "identifier": "locale.fr",
+        "content": [
+            {
+                "locale": "en",
+                "text": "French"
+            },
+            {
+                "locale": "fr",
+                "text": "Fran\u00e7ais"
+            },
+            {
+                "locale": "nl",
+                "text": "Frans"
+            },
+            {
+                "locale": "de",
+                "text": "Franz\u00f6sisch"
+            }
+        ]
+    },
+    "replaced": []
+}

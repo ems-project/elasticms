@@ -1,0 +1,21 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "html_strip",
+        "dirty": true,
+        "label": "html_strip",
+        "options": {
+            "filter": [
+                "standard"
+            ],
+            "char_filter": [
+                "html_strip"
+            ],
+            "type": "custom",
+            "tokenizer": "standard"
+        },
+        "orderKey": 6
+    },
+    "replaced": []
+}

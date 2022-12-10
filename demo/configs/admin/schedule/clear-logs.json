@@ -1,0 +1,11 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Schedule",
+    "arguments": [],
+    "properties": {
+        "name": "clear-logs",
+        "cron": "0 2 * * 0",
+        "command": "ems:logs:clear",
+        "orderKey": 200
+    },
+    "replaced": []
+}

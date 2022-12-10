@@ -1,0 +1,15 @@
+{
+    "file": {
+        "_author": null,
+        "_content": null,
+        "_date": null,
+        "_language": null,
+        "_title": null,
+        "filename": "test_jpeg_7KB.jpeg",
+        "filesize": 6421,
+        "mimetype": "image/jpeg",
+        "sha1": "51e284f5ccc59d2fd5d7bd24b57867455f7a3059"
+    },
+    "label": "jpeg test",
+    "type": "test"
+}

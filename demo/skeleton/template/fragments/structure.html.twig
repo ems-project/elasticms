@@ -1,0 +1,25 @@
+{% extends '@EMSCH/template/variables.twig' %}
+{% set rawData = structure|emsch_get.source %}
+{% set paths = rawData.paths|default([])|array_key('uid') %}
+{% set blocks = attribute(rawData, locale).structure|default("{}")|ems_json_menu_nested_decode %}
+
+{% set urls = {} %}
+
+{% set baseUrl = '' %}
+{% if app.user %}
+    {% set baseUrl = "/channel/#{trans_default_domain}" %}
+{% endif %}
+
+{% for item in blocks %}
+    {% set pathInfo = attribute(paths, item.id)|default(false) %}
+    {% if pathInfo %}
+        {% set urls = urls|merge({(item.id): path('emsch_path', {path: pathInfo.path})}) %}
+    {% elseif item.object.link is defined %}
+        {% if item.object.link|slice(0,1) == '/' %}
+            {% set urls = urls|merge({(item.id): baseUrl~item.object.link}) %}
+        {% else %}
+            {% set urls = urls|merge({(item.id): item.object.link}) %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+

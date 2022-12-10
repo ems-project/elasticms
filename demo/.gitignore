@@ -1,0 +1,4 @@
+/dist/
+/node_modules/
+/skeleton/version.lock
+.env.local

@@ -1,0 +1,10 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\WysiwygProfile",
+    "arguments": [],
+    "properties": {
+        "name": "Sample",
+        "config": "{\r\n\"uiColor\": \"#66AB16\",\r\n\"pasteFromWordRemoveFontStyles\": true,\r\n\"pasteFromWordRemoveStyles\": true,\r\n\"language\": \"en\",\r\n\"removeButtons\": \"Italic\",\r\n\"plugins\": \"adv_link,uploadimage,imagebrowser,a11yhelp,basicstyles,bidi,blockquote,clipboard,colorbutton,colordialog,contextmenu,dialogadvtab,div,elementspath,enterkey,entities,filebrowser,find,flash,floatingspace,font,format,horizontalrule,htmlwriter,image2,iframe,indentlist,indentblock,justify,language,list,liststyle,magicline,maximize,newpage,pagebreak,pastefromword,pastetext,preview,print,removeformat,resize,save,scayt,selectall,showblocks,showborders,smiley,sourcearea,specialchar,stylescombo,tab,table,tabletools,templates,toolbar,undo,wsc,wysiwygarea\",\r\n\"toolbarGroups\": [{\r\n\"name\": \"document\",\r\n\"groups\": [\"mode\", \"document\", \"doctools\"]\r\n}, {\r\n\"name\": \"clipboard\",\r\n\"groups\": [\"clipboard\", \"undo\"]\r\n}, {\r\n\"name\": \"editing\",\r\n\"groups\": [\"find\", \"spellchecker\"]\r\n}, {\r\n\"name\": \"forms\"\r\n},\r\n\"/\", {\r\n\"name\": \"basicstyles\",\r\n\"groups\": [\"basicstyles\", \"cleanup\"]\r\n}, {\r\n\"name\": \"paragraph\",\r\n\"groups\": [\"list\", \"indent\", \"blocks\", \"align\", \"bidi\"]\r\n}, {\r\n\"name\": \"links\"\r\n}, {\r\n\"name\": \"insert\"\r\n},\r\n\"/\", {\r\n\"name\": \"styles\"\r\n}, {\r\n\"name\": \"colors\"\r\n}, {\r\n\"name\": \"tools\"\r\n}, {\r\n\"name\": \"others\"\r\n}, {\r\n\"name\": \"about\"\r\n}\r\n]\r\n}",
+        "orderKey": 4
+    },
+    "replaced": []
+}

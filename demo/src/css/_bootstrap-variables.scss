@@ -1,0 +1,21 @@
+// This file is meant in order to override Bootstrap variables
+// Go to node_modules/bootstrap/scss/_variables.scss file to see which variables can be override
+$elasticms_pink: #F44997;
+$elasticms_yellow: #FFD201;
+$elasticms_light_blue: #00A7E2;
+$elasticms_dark_blue: #0078A2;
+$elasticms_lagoon: #00BCB1;
+$elasticms_green: #8ECA2F;
+
+$blue:    $elasticms_dark_blue;
+$green:   #518400;
+$pink:    $elasticms_pink;
+$yellow:  #8d7400;
+$teal:    $elasticms_lagoon;
+$cyan:    #007fac;
+
+$breadcrumb-bg: #feffff;
+
+$navbar-dark-color:                 #d0d0d0;
+$navbar-dark-hover-color:           #ffffff;
+$navbar-dark-disabled-color:        #b0b0b0;

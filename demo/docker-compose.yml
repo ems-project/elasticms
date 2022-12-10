@@ -1,0 +1,198 @@
+version: "2.4"
+
+services:
+
+  traefik:
+    image: "traefik:v2.2"
+    command:
+      - "--log.level=WARNING"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8888:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  es01:
+    image: elastic/elasticsearch:7.11.2
+    environment:
+      - node.name=es01
+      - cluster.name=es7-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+      - node.store.allow_mmap=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
+  es02:
+    image: elastic/elasticsearch:7.11.2
+    environment:
+      - node.name=es02
+      - cluster.name=es7-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+      - node.store.allow_mmap=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data02:/usr/share/elasticsearch/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
+  es03:
+    image: elastic/elasticsearch:7.11.2
+    environment:
+      - node.name=es03
+      - cluster.name=es7-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+      - node.store.allow_mmap=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data03:/usr/share/elasticsearch/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
+
+  kibana:
+    image: elastic/kibana:7.11.2
+    environment:
+      - TZ=Europe/Brussels
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+      - SERVER_NAME=kibana.localhost
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kibana.rule=Host(`kibana.localhost`)"
+      - "traefik.http.routers.kibana.entrypoints=web"
+      - "traefik.http.routers.kibana.service=kibana"
+      - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+
+  postgres:
+    image: postgres:12
+    environment:
+      - POSTGRES_PASSWORD=s3cr3t
+      - TZ=Europe/Brussels
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  tika:
+    image: apache/tika
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tika.rule=Host(`tika.localhost`)"
+      - "traefik.http.routers.tika.entrypoints=web"
+
+  minio:
+    image: minio/minio
+    volumes:
+      - s3:/data
+    environment:
+      MINIO_ACCESS_KEY: accesskey
+      MINIO_SECRET_KEY: secretkey
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio.rule=Host(`minio.localhost`)"
+      - "traefik.http.routers.minio.service=minio"
+      - "traefik.http.routers.minio.entrypoints=web"
+      - "traefik.http.services.minio.loadbalancer.server.port=9001"
+
+  redis:
+    image: centos/redis-5-centos7
+    volumes:
+      - redis:/var/lib/redis/data
+
+  mailhog:
+    image: mailhog/mailhog
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailhog.rule=Host(`mailhog.localhost`)"
+      - "traefik.http.routers.mailhog.service=mailhog"
+      - "traefik.http.routers.mailhog.entrypoints=web"
+      - "traefik.http.routers.mailhog-tls.rule=Host(`mailhog.localhost`)"
+      - "traefik.http.routers.mailhog-tls.service=mailhog"
+      - "traefik.http.routers.mailhog-tls.entrypoints=websecure"
+      - "traefik.http.routers.mailhog-tls.tls=true"
+      - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
+
+  admin-local:
+    extends:
+      file: docker-elasticms.yml
+      service: admin
+    networks:
+      default:
+        aliases:
+          - local.ems-demo-admin.localhost
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.admin-local.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin.localhost`)"
+      - "traefik.http.routers.admin-local.entrypoints=web"
+      - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
+
+  web-local:
+    extends:
+      file: docker-elasticms.yml
+      service: web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.varnish.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web.localhost`)"
+      - "traefik.http.routers.varnish.entrypoints=web,websecure"
+      - "traefik.http.routers.varnish.service=varnish"
+      - "traefik.http.services.varnish.loadbalancer.server.port=6081"
+      - "traefik.http.routers.skeleton.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web-nocache.localhost`)"
+      - "traefik.http.routers.skeleton.entrypoints=web,websecure"
+      - "traefik.http.routers.skeleton.service=skeleton"
+      - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
+
+volumes:
+  data01:
+  data02:
+  data03:
+  redis:
+  s3:
+  postgres:
+
+networks:
+    default:
+        name: skeleton

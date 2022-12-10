@@ -1,0 +1,25 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "english_for_highlighting",
+        "dirty": true,
+        "label": "english_for_highlighting",
+        "options": {
+            "filter": [
+                "standard",
+                "lowercase",
+                "empty_elision",
+                "english_stemmer",
+                "english_stop"
+            ],
+            "char_filter": [
+                "html_strip"
+            ],
+            "type": "custom",
+            "tokenizer": "standard"
+        },
+        "orderKey": 3
+    },
+    "replaced": []
+}

@@ -1,0 +1,26 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\I18n",
+    "arguments": [],
+    "properties": {
+        "identifier": "asset.type.manual",
+        "content": [
+            {
+                "locale": "en",
+                "text": "Manual"
+            },
+            {
+                "locale": "fr",
+                "text": "Manuel"
+            },
+            {
+                "locale": "nl",
+                "text": "Handleiding"
+            },
+            {
+                "locale": "de",
+                "text": "Benutzerhandbuch"
+            }
+        ]
+    },
+    "replaced": []
+}

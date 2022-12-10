@@ -1,0 +1,26 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "french_for_highlighting",
+        "dirty": true,
+        "label": "french_for_highlighting",
+        "options": {
+            "filter": [
+                "standard",
+                "asciifolding",
+                "lowercase",
+                "french_elision",
+                "french_stemmer",
+                "french_stop"
+            ],
+            "char_filter": [
+                "html_strip"
+            ],
+            "type": "custom",
+            "tokenizer": "standard"
+        },
+        "orderKey": 4
+    },
+    "replaced": []
+}

@@ -1,0 +1,14 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\I18n",
+    "arguments": [],
+    "properties": {
+        "identifier": "overview.legend",
+        "content": [
+            {
+                "locale": "en",
+                "text": "{\r\n    \"published\" : {\r\n        \"color\" : \"green\",\r\n        \"icon\": \"fa fa-check\",\r\n        \"label\" : \"Last version published in live i18n\"\r\n    },\r\n    \"warning\" : {\r\n        \"color\" : \"orange\",\r\n        \"icon\": \"fa fa-warning\",\r\n        \"label\" : \"A version published in live but not the last\"\r\n    },\r\n    \"unpublished\" : {\r\n        \"color\" : \"red\",\r\n        \"icon\": \"fa fa-times\",\r\n        \"label\" : \"Last version published in live\"\r\n    }\r\n}"
+            }
+        ]
+    },
+    "replaced": []
+}

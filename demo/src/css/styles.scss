@@ -1,0 +1,17 @@
+@import "bootstrap-variables";
+@import "~bootstrap";
+$fa-font-path: "../../node_modules/@fortawesome/fontawesome-free/webfonts" !default;
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+$admin-menu-icon-fill: 'white';
+$admin-menu-icon-size: 16;
+$admin-menu-font-color: #FFFFFF;
+@import "~@elasticms/admin-menu/css/style";
+@import "aria";
+@import "back2top";
+@import "custom";
+@import "external-link";
+@import "debug";
+@import "multilevel_navbar";

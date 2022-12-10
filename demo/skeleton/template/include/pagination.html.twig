@@ -1,0 +1,62 @@
+{# extremePagesLimit: the number of first and last pages to be displayed #}
+{# nearbyPagesLimit: the number of pages that are displayed around the active page #}
+{#    
+    {% if results.hits.hits|length > 0 %}
+        {% set lastPage = (results.hits.total / search.size)|round(0, 'ceil') -1 %}
+        {% include '@EMSCH/template/include/pagination.html.twig' with {
+            anchor: "search-results",
+            searchRoute: "emsch_search_#{targetGroup}.#{locale}",
+            searchRouteAjax: "emsch_search_#{targetGroup}_json.#{locale}",
+            currentFilters: app.request.query,
+            currentPage: search.page,
+            pageParameter: 'p',
+            extremePagesLimit: 3, 
+            nearbyPagesLimit: 3,
+            lastPage: lastPage > 1000 ? 1000 : lastPage,
+        }  %}
+    {% endif %}
+#}
+
+{%- trans_default_domain trans_default_domain -%}
+{%- if lastPage > 0 -%}   
+    {% set loadMoreButton %}
+        {% apply spaceless %}
+            {% if searchRouteAjax|default(false) %}
+                <div class="col-md-8 col-lg-6 offset-md-2 offset-lg-3 data-ajax-search-loading-hide" {% if lastPage == 0 %}style="display: none;"{% endif %}>
+                    <button data-ajax-search-load-more-url="{{ path(searchRouteAjax, currentFilters|merge({(pageParameter): currentPage+1})) }}" type="button" class="btn btn-secondary btn-lg btn-block"><i class="fas fa-chevron-down"></i> {{ 'ajax-search.load-more'|trans }}</button>
+                </div>
+            {% endif %}
+        {% endapply %}
+    {% endset %}
+
+    <div {% if searchRouteAjax|default(false) %}data-ajax-search-replace="{{ loadMoreButton|e('html_attr') }}"{% endif %}>
+        <nav>
+		    <ul class="pagination list-inline pagination-sm justify-content-center">
+                {%- if currentPage > 0 -%}
+                    <li class="page-item"><a class="page-link" href="{{ path(searchRoute, currentFilters|merge({(pageParameter): currentPage-1})) }}#{{ anchor }}">«  <span class="sr-only">({{'search.pagination.previous'|trans}})</span></a></li>
+
+                    {%- for i in range(0, extremePagesLimit)|filter(i => ( i < currentPage - nearbyPagesLimit )) -%}
+                        <li class="page-item"><a class="page-link" href="{{ path(searchRoute, currentFilters|merge({(pageParameter): i})) }}#{{ anchor }}">{{ i+1 }}</a></li>
+                    {%- endfor -%}
+
+                    {%- if extremePagesLimit + 1 < currentPage - nearbyPagesLimit %}
+                        <li class="page-item"><span class="sep-dots">...</span></li>
+                    {%- endif -%}
+
+                    {%- for i in range(currentPage-nearbyPagesLimit, currentPage-1)|filter(i => ( i >= 0 )) -%}
+                        <li class="page-item"><a class="page-link" href="{{ path(searchRoute, currentFilters|merge({(pageParameter): i})) }}#{{ anchor }}">{{ i+1 }}</a></li>
+                    {%- endfor -%}
+                {%- endif -%}
+                <li class="page-item active">
+                    <a class="page-link" href="{{ path(searchRoute, currentFilters|merge({ (pageParameter): currentPage })) }}#{{ anchor }}">{{ currentPage+1 }} <span class="sr-only">({{'search.pagination.current'|trans}})</span></a>
+                </li>
+                {%- for i in range(currentPage+1, currentPage + nearbyPagesLimit)|filter(i => (i <= lastPage) ) %}
+                    <li class="page-item"><a class="page-link" href="{{ path(searchRoute, currentFilters|merge({(pageParameter): i})) }}#{{ anchor }}">{{ i+1 }}</a></li>
+                {%- endfor -%}
+                {% if currentPage < lastPage -%}
+                    <li class="page-item"><a class="page-link" href="{{ path(searchRoute, currentFilters|merge({(pageParameter): currentPage+1})) }}#{{ anchor }}">»  <span class="sr-only">({{'search.pagination.next'|trans}})</span></a></li>
+                {%- endif -%}
+            </ul>
+        </nav>
+    </div>
+{%- endif -%}

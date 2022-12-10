@@ -1,0 +1,25 @@
+{% extends '@EMSCH/template/variables.twig' %}
+
+{%  if emsLink is defined %}
+    {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
+    {% set contentTypeWithMissingTranslation = ['page'] %}
+
+    {% if emsLink.contentType|default(null) in ['structure'] %}
+        {% set link = "ems://object:#{target.contentType}:#{target.ouuid}" %}
+        {% set ouuid = target.ouuid %}
+    {% else %}
+        {% set link = emsLink.__toString() %}
+        {% set ouuid = emsLink.ouuid %}
+    {% endif %}
+
+    {% set canonicalUrls = {} %}
+    {% for locale in locales %}
+        {% set canonicalUrls = canonicalUrls|merge({
+            (locale): link|emsch_routing(locale, app.request.getBaseUrl),
+        }) %}
+    {% endfor %}
+
+    {% set canonicalUrl = app.request.getSchemeAndHttpHost()~attribute(canonicalUrls, app.request.locale) %}
+    {% set canonicalUrls = canonicalUrls|default([])|filter((u, l) => l != app.request.locale and u != link|default(''))|map(u => app.request.getSchemeAndHttpHost()~u) %}
+    {% set switchUrls = canonicalUrls|filter((u,l) => source._contenttype in contentTypeWithMissingTranslation or attribute(source, l).show|default(false)) %}
+{% endif %}

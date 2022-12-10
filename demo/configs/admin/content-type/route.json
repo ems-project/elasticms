@@ -1,0 +1,450 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\ContentType",
+    "arguments": [],
+    "properties": {
+        "name": "route",
+        "pluralName": "Routes",
+        "singularName": "Route",
+        "icon": "fa fa-map-signs",
+        "description": null,
+        "indexTwig": null,
+        "extra": null,
+        "lockBy": null,
+        "lockUntil": null,
+        "deleted": false,
+        "askForOuuid": false,
+        "color": "orange",
+        "fieldType": {
+            "class": "EMS\\CoreBundle\\Entity\\FieldType",
+            "arguments": [],
+            "properties": {
+                "__initializer__": null,
+                "__cloner__": null,
+                "__isInitialized__": true,
+                "type": "EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType",
+                "name": "source",
+                "contentType": null,
+                "deleted": false,
+                "description": null,
+                "options": {
+                    "displayOptions": {
+                        "label": null,
+                        "class": null,
+                        "lastOfRow": false,
+                        "helptext": null,
+                        "icon": null
+                    },
+                    "restrictionOptions": {
+                        "minimum_role": null
+                    },
+                    "extraOptions": {
+                        "extra": null,
+                        "postProcessing": null
+                    }
+                },
+                "orderKey": 0,
+                "parent": null,
+                "children": [
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                            "name": "name",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Name",
+                                    "class": "col-md-4",
+                                    "lastOfRow": false,
+                                    "helptext": "name of the route",
+                                    "prefixIcon": null,
+                                    "prefixText": null,
+                                    "suffixIcon": null,
+                                    "suffixText": null,
+                                    "placeholder": null,
+                                    "icon": null
+                                },
+                                "mappingOptions": {
+                                    "index": null,
+                                    "analyzer": "keyword",
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": true,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 0,
+                            "parent": null,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\DataLinkFieldType",
+                            "name": "template_static",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Template Static",
+                                    "class": "col-md-4",
+                                    "dynamicLoading": true,
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "multiple": false,
+                                    "sortable": false,
+                                    "type": "template",
+                                    "searchId": null,
+                                    "defaultValue": null
+                                },
+                                "mappingOptions": {
+                                    "index": "not_analyzed",
+                                    "analyzer": null,
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "postProcessing": null,
+                                    "updateReferersField": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 1,
+                            "parent": null,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                            "name": "template_source",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Source Template",
+                                    "class": "col-md-4",
+                                    "lastOfRow": false,
+                                    "helptext": "Template from query result",
+                                    "prefixIcon": null,
+                                    "prefixText": null,
+                                    "suffixIcon": null,
+                                    "suffixText": null,
+                                    "placeholder": "[template]",
+                                    "icon": null
+                                },
+                                "mappingOptions": {
+                                    "index": null,
+                                    "analyzer": null,
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 2,
+                            "parent": null,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\CodeFieldType",
+                            "name": "config",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Config",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": "path (string or array), defaults, requirements",
+                                    "icon": null,
+                                    "maxLines": 25,
+                                    "height": null,
+                                    "language": "ace/mode/json",
+                                    "theme": "ace/theme/monokai"
+                                },
+                                "mappingOptions": {
+                                    "index": null,
+                                    "analyzer": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": true,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "postProcessing": "{% if _source.body is defined and _source.body != null %}\r\n{{ _source.body|json_encode|raw }}\r\n{% endif %}"
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 3,
+                            "parent": null,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\CodeFieldType",
+                            "name": "query",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Query",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "icon": null,
+                                    "maxLines": 25,
+                                    "height": null,
+                                    "language": "ace/mode/json",
+                                    "theme": "ace/theme/monokai"
+                                },
+                                "mappingOptions": {
+                                    "index": null,
+                                    "analyzer": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "postProcessing": "{% if _source.query is defined and _source.query != null %}\r\n{{ _source.query|json_encode|raw }}\r\n{% endif %}"
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 4,
+                            "parent": null,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\IntegerFieldType",
+                            "name": "order",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Order",
+                                    "class": "hidden",
+                                    "lastOfRow": false,
+                                    "helptext": null
+                                },
+                                "mappingOptions": {
+                                    "index": null,
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 5,
+                            "parent": null,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                            "name": "index_regex",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Index Regex",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "prefixIcon": null,
+                                    "prefixText": null,
+                                    "suffixIcon": null,
+                                    "suffixText": null,
+                                    "placeholder": null,
+                                    "icon": null
+                                },
+                                "mappingOptions": {
+                                    "index": null,
+                                    "analyzer": "standard",
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 6,
+                            "parent": null,
+                            "children": []
+                        },
+                        "replaced": []
+                    }
+                ]
+            },
+            "replaced": []
+        },
+        "refererFieldName": null,
+        "sortOrder": "asc",
+        "orderKey": 8,
+        "rootContentType": false,
+        "editTwigWithWysiwyg": true,
+        "webContent": false,
+        "autoPublish": false,
+        "templates": [],
+        "views": [
+            {
+                "class": "EMS\\CoreBundle\\Entity\\View",
+                "arguments": [],
+                "properties": {
+                    "name": "overview-v",
+                    "type": "ems.view.report",
+                    "label": "Overview v2",
+                    "icon": "fa fa-list",
+                    "options": {
+                        "body": "{}",
+                        "size": 0,
+                        "template": "{% set columns = [] %}\r\n{% set columns = columns|merge([\r\n   {\r\n        \"label\": \"#\",\r\n        \"template\": \"{{ data.source.order|default(999) }}\",\r\n        \"orderField\": \"order\"\r\n    },{\r\n        \"label\": \"Name\",\r\n        \"template\": '<a href=\"' ~ \"{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}\"~'\">' ~\"{{ data.source.name }}</a>\",\r\n        \"orderField\": \"name\"\r\n    },{\r\n        \"label\": \"Path\",\r\n        \"template\": \"\r\n        {% set path = attribute(data.source.config|default({})|ems_json_decode, 'path')|default('N/A') %}\r\n            {% if path is iterable %}\r\n                <ul>\r\n                    {% for l, item in path %}\r\n                        <li>{{ l }} : {{ item }}</li>\r\n                    {% endfor %}\r\n                </ul>\r\n            {% else %}\r\n                <span class=\"~'\"'~\"{% if attribute(data.source.config|default({})|ems_json_decode, 'path') is not defined %}text-gray{% endif %}\"~'\"'~\">{{ path }}</span>\r\n            {% endif %}\r\n        \"\r\n    },{\r\n        \"label\": \"Template\",\r\n        \"template\": \"<span class=\"~'\"'~\"{% if data.source.template_static is not defined %}text-gray{% endif %}\"~'\"'~\">{{ data.source.template_static|default('N/A')|data_link }}</span>\"\r\n    },{\r\n        \"label\": \"Query\",\r\n        \"template\": \"{{ data.source.query is defined ? 'Yes' : 'No' }}\"\r\n    }\r\n]) %}\r\n\r\n{% set columnLive %}{% verbatim %}\r\n    <i style=\"color: {{ docInfo.published('live') and docInfo.aligned('live') ? 'green' : 'red' }}\" \r\n    class=\"{{ docInfo.published('live') and docInfo.aligned('live') ? 'fa fa-check' : 'fa fa-eye-slash' }}\"></i>\r\n{% endverbatim %}{% endset %}\r\n\r\n{% set columns = columns|merge([\r\n    {\r\n        \"label\": \"Last Update\", \r\n        \"template\": '\r\n            <div style=\"width: 130px;\" data-toggle=\"tooltip\" data-placement=\"top\" aria-hidden=\"true\" title=\"By {{ data.source._finalized_by }}\" >\r\n                {{ data.source._finalization_datetime|default ? data.source._finalization_datetime|date(\"d/m/Y (H:i)\") : \"N.A.\" }}\r\n            </div>\r\n        ', \r\n        \"orderField\": \"_finalization_datetime\"\r\n    },\r\n    { \"label\": \"Live\", \"template\": columnLive|format },\r\n    {\r\n        \"label\": \"Action\",\r\n        \"template\": '\r\n            <div class=\"btn-group btn-group-sm\" style=\"width: 130px;\">\r\n              <a href=\"{{ docInfo.draft ? path(\"ems_revision_edit\", {revisionId: revisionId}) : docInfo.aligned(\"live\") ? path(\"revision.new-draft\", {type: data.contentType, ouuid: data.id }) : path(\"revision.publish_to\", {revisionId: revisionId, envId: liveId, redirectToUrl: path(\"data.customindexview\", {viewId: '~view.id~'})}) }}\" class=\"btn btn-default\" style=\"width: 100px;\">\r\n                {{ docInfo.draft ? \"Edit draft\" : docInfo.aligned(\"live\") ? \"Edit\" : \"Publish in live\" }}\r\n              </a>\r\n              <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\" aria-expanded=\"false\">\r\n                <span class=\"caret\">\r\n                </span>\r\n                <span class=\"sr-only\">Toggle Dropdown\r\n                </span>\r\n              </button>\r\n              <ul class=\"dropdown-menu\" role=\"menu\">\r\n                <li>\r\n                  <a href=\"{{ path(\"data.revisions\", {ouuid: data.id, type: data.contentType} ) }}\">Revision</a>\r\n                </li>\r\n                {% if docInfo.draft %}\r\n                    <li><a href=\"{{ path(\"revision.publish_to\", {revisionId: revisionId, envId: previewId}) }}\">Publish in preview</a></li>\r\n                {% elseif not docInfo.aligned(\\'live\\') %}\r\n                    <li><a href=\"{{ path(\"revision.new-draft\", {type: data.contentType, ouuid: data.id }) }}\">Edit</a></li>\r\n                {% endif %}\r\n              </ul>\r\n            </div>\r\n        ',\r\n        \"orderField\": \"_finalization_datetime\" \r\n    }\r\n]) %}\r\n\r\n{% set must = {} %}\r\n{% set filterQuery = [ {\r\n  \"multi_match\": {\r\n    \"fields\": [\r\n      \"live_search\",\r\n      \"live_search._2gram\",\r\n      \"live_search._3gram\"\r\n    ],\r\n    \"query\": \"%query%\",\r\n    \"operator\": \"and\", \r\n    \"type\": \"bool_prefix\"\r\n  \r\n  } } ] %}\r\n\r\n{{ emsco_datatable(['preview'],[contentType.name], {\r\n    \"frontendOptions\": { \"pageLength\": 100, \"order\": [[(columns|length - 3), 'desc']] },\r\n    \"default_sort\": { \"_finalization_datetime\": \"desc\", \"_score\": \"asc\" },\r\n    \"empty_query\": must,\r\n    \"query\": { \"bool\": { \"must\": must|merge(filterQuery) } },\r\n    \"row_context\": \"{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = line.data.id|get_revision_id(line.data.contentType) %}{% set liveId = 3 %}{% set previewId = 2 %}\",\r\n    \"columns\": columns\r\n}) }}",
+                        "header": null,
+                        "javascript": "<script>\r\n    $('#DataTables_Table_0').on( 'draw.dt', function () {\r\n        $('[data-toggle=\"tooltip\"]').tooltip();\r\n    });\r\n</script>"
+                    },
+                    "orderKey": 3,
+                    "public": false,
+                    "role": "ROLE_USER"
+                },
+                "replaced": []
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\View",
+                "arguments": [],
+                "properties": {
+                    "name": "overview",
+                    "type": "ems.view.report",
+                    "label": "Overview",
+                    "icon": "fa fa-list-ul",
+                    "options": {
+                        "body": "{}",
+                        "size": 0,
+                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template/admin/view/overview.twig\") }}",
+                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template/admin/view/overview.twig\") }}",
+                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template/admin/view/overview.twig\") }}"
+                    },
+                    "orderKey": 3,
+                    "public": false,
+                    "role": "ROLE_USER"
+                },
+                "replaced": []
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\View",
+                "arguments": [],
+                "properties": {
+                    "name": "sort",
+                    "type": "ems.view.sorter",
+                    "label": "Sort",
+                    "icon": "glyphicon glyphicon-sort-by-order",
+                    "options": {
+                        "body": "{}",
+                        "size": 500,
+                        "field": "order"
+                    },
+                    "orderKey": 4,
+                    "public": false,
+                    "role": "not-defined"
+                },
+                "replaced": []
+            }
+        ],
+        "defaultValue": null,
+        "versionTags": [],
+        "versionOptions": [],
+        "versionFields": [],
+        "roles": [],
+        "fields": []
+    },
+    "replaced": []
+}

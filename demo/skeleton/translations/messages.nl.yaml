@@ -1,0 +1,6 @@
+error:
+    target-not-found: 'Page not found'
+navbar:
+    swith-to-locale: Nederlands
+site:
+    name: 'Demo website'

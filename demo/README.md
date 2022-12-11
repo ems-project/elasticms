@@ -35,16 +35,14 @@ Go back to your console:
  * `sh ems.sh create_users local`
    * A `demo` admin user is created with the email and the password that you provide
    * You have now access to an empty [elasticms-admin](http://local.ems-demo-admin.localhost/dashboard) 
- * `sh ems.sh load_config local` will setup elasticms's configuration, content types, documents & so forth.
-     * The script will ask for the `demo` admin user you just defined
+ * `sh ems.sh config_push local` will setup elasticms's configuration, content types, documents & so forth.
+     * The script will ask for the `demo`'s password you just defined
 
 It's all set: [elasticms-admin](http://local.ems-demo-admin.localhost/dashboard)
 
 Check the [web preview](http://local.preview-ems-demo-web.localhost/) and the [web live](http://local.live-ems-demo-web.localhost/)
 
 You can now login with your just defined password and the username `demo` in [elasticms](http://local.ems-demo-admin.localhost/dashboard).
-
-## Jobs
 
 ## User
 
@@ -57,6 +55,8 @@ Some default user are created by the `create_users` command:
 ## Commands
 
 List the available commands with this command: `sh ems.sh --help`
+
+In this demo project only one `local` environment have been defined.
 
 ```
 Usage: ems.sh <command> [options]

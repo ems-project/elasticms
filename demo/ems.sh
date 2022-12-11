@@ -147,7 +147,7 @@ sub_config_push(){
   echo "Upload documents"
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:document:upload page
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:document:upload structure
-  docker compose exec -u ${UID:-1000} web-${environment} preview ems:document:upload publication
+#  docker compose exec -u ${UID:-1000} web-${environment} preview ems:document:upload publication
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:document:upload slideshow
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:document:upload form_instance
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:document:upload asset

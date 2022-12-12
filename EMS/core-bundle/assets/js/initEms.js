@@ -248,12 +248,14 @@ import JsonMenuNested from "./module/jsonMenuNested";
 
     function initMediaLibrary() {
         let elements = document.getElementsByClassName('media-lib');
+        let bodyData = document.querySelector('body').dataset;
 
         [].forEach.call(elements, function (el) {
             new MediaLibrary(el, {
-                ajaxUrlPath: '/component/media-lib',
-                ajaxInitUpload: document.querySelector('body').dataset.initUpload,
-                hashAlgo: document.querySelector('body').dataset.hashAlgo,
+                urlMediaLib: '/component/media-lib',
+                urlInitUpload: bodyData.initUpload,
+                urlFileView: bodyData.fileView,
+                hashAlgo: bodyData.hashAlgo,
             });
         });
     }

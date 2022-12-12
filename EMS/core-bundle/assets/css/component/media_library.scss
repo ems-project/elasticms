@@ -1,48 +1,74 @@
-
-.media-lib {
+div.media-lib {
   display: flex;
   flex-direction: column;
   border: solid 1px #ddd;
   color: #333333;
 
-  .media-lib-header .btn i {
-    margin-right: 8px;
-  }
-
-  .media-lib-header,
-  .media-lib-footer {
-    min-height: 30px;
-    flex-shrink: 0;
-    padding: 8px;
-    background-color: #f5f5f5;
+  .btn i { margin-right: 4px; }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
   }
 
   div.media-lib-content {
-    border-top: solid 1px #ddd;
-    border-bottom: solid 1px #ddd;
-    flex-grow: 1;
     display: flex;
+    flex-grow: 1;
     height: calc(100vh - 200px);
 
+    div.media-nav-bar {
+      padding: 8px;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #DCDCDC;
+    }
+
     div.media-lib-left-column {
+      display: flex;
+      flex-direction: column;
       resize: horizontal;
       overflow: auto;
-      overflow-x: hidden;
       width: 20%;
       min-width: 10%;
       max-width: 50%;
       flex-shrink:0;
-      display: flex;
-      flex-direction: column;
       background-color: #DCDCDC;
+      border-right: solid 1px #ddd;
+
+      div.media-lib-folders {
+        overflow: auto;
+        overflow-x: hidden;
+
+        ul.media-lib-list-folders {
+          width: 100%;
+
+          li {
+            &::before {
+              content: "\f114";
+              font-family: "FontAwesome", serif;
+              margin-right: 8px;
+            }
+
+            &:hover {
+              background-color: #f5f5f5;
+              cursor: pointer;
+            }
+
+            display: flex;
+            flex-direction: row;
+            background-color: #FFFFFF;
+            border-bottom: solid 1px #ddd;
+            padding: 8px;
+          }
+        }
+      }
     }
 
     div.media-lib-right-column {
-      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
       width: 80%;
       flex-grow: 1;
-      border-left: solid 1px #ddd;
-      padding: 8px;
       background-color: #FFF;
 
       div.media-lib-uploads {
@@ -50,51 +76,54 @@
         border: solid 1px #ddd;
         width: 100%;
         padding: 16px 16px 8px;
+
+        ul.media-lib-list-uploads {
+          width: 100%;
+
+          li {
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            background-color: #FFFFFF;
+            margin-bottom: 8px;
+            border: 1px solid #ddd;
+          }
+        }
+      }
+
+      div.media-lib-files {
+        overflow-y: auto;
+        height: 100%;
+
+        ul.media-lib-list-files {
+          display: flex;
+          flex-direction: column;
+
+          li {
+            &:first-child { font-weight: bold; }
+
+            padding: 8px;
+            border-bottom: 1px dashed #DCDCDC;
+
+            display: flex;
+            flex-wrap: nowrap;
+
+            > div {
+              flex: 1;
+
+              &:last-child { flex: none; width: 120px; }
+            }
+          }
+        }
       }
     }
   }
 
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    &.media-lib-list-uploads {
-      li {
-        display: flex;
-        flex-direction: column;
-        padding: 16px;
-        background-color: #FFFFFF;
-        margin-bottom: 8px;
-        border: 1px solid #ddd;
-      }
-    }
-
-    &.media-lib-list-folders {
-      width: 100%;
-
-      li {
-        &::before {
-          content: "\f114";
-          font-family: "FontAwesome", serif;
-          margin-right: 8px;
-        }
-
-        &:hover {
-          background-color: #f5f5f5;
-          cursor: pointer;
-        }
-
-        display: flex;
-        flex-direction: row;
-        background-color: #FFFFFF;
-        border-bottom: solid 1px #ddd;
-        padding: 8px;
-      }
-    }
-
-    &.media-lib-list-files {
-
-    }
+  div.media-lib-footer {
+    min-height: 30px;
+    flex-shrink: 0;
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #DCDCDC;
   }
 }

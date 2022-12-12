@@ -1,4 +1,5 @@
 media_library:
+    home: 'Home'
     folder:
         add:
             title: 'Add folder'

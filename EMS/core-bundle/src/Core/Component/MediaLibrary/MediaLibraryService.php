@@ -9,19 +9,25 @@ use Elastica\Query\AbstractQuery;
 use Elastica\Query\Exists;
 use Elastica\Query\Nested;
 use Elastica\ResultSet;
+use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Service\DataService;
-use EMS\CoreBundle\Service\Mapping;
+use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use Ramsey\Uuid\Uuid;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MediaLibraryService
 {
     public function __construct(
         private readonly ElasticaService $elasticaService,
         private readonly RevisionService $revisionService,
-        private readonly DataService $dataService
+        private readonly DataService $dataService,
+        private readonly FileService $fileService,
+        private readonly TranslatorInterface $translator
     ) {
     }
 
@@ -30,11 +36,13 @@ class MediaLibraryService
      */
     public function createFile(MediaLibraryConfig $config, string $fileHash, array $file): bool
     {
+        $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($fileHash) : $file['mimetype']);
+
         return $this->create($config, [
             $config->fieldPath => $file['filename'],
-            $config->fieldFile => \array_merge($file, [
-                Mapping::HASH_FIELD => $fileHash,
-            ]),
+            $config->fieldFile => \array_filter(\array_merge($file, [
+                'sha1' => $fileHash,
+            ])),
         ]);
     }
 
@@ -48,7 +56,7 @@ class MediaLibraryService
     /**
      * @return array<int, array{
      *      path: string,
-     *      file?: array{filename: string, filesize: int, mimetype: string, sha1: string }
+     *      file?: array{name: string, size: string, type: string, hash: string }
      * }>
      */
     public function getFiles(MediaLibraryConfig $config): array
@@ -58,7 +66,7 @@ class MediaLibraryService
 
         $docs = $this->search($config, $searchQuery)->getDocuments();
 
-        return \array_map(fn (Document $doc) => MediaLibraryFile::createFromDocument($config, $doc)->toArray(), $docs);
+        return \array_map(fn (Document $doc) => $this->getFile($config, $doc)->toArray(), $docs);
     }
 
     /**
@@ -87,6 +95,18 @@ class MediaLibraryService
         return 0 === $form->getErrors(true)->count();
     }
 
+    private function getFile(MediaLibraryConfig $config, Document $document): MediaLibraryFile
+    {
+        $file = MediaLibraryFile::createFromDocument($config, $document);
+        $file->size = Converter::formatBytes((int) $file->size);
+
+        if ($file->type) {
+            $file->type = $this->translator->trans($file->type, [], EMSCoreBundle::TRANS_MIMETYPES);
+        }
+
+        return $file;
+    }
+
     private function search(MediaLibraryConfig $config, AbstractQuery $query): ResultSet
     {
         $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
@@ -95,5 +115,15 @@ class MediaLibraryService
         $search->setSize(100);
 
         return $this->elasticaService->search($search);
+    }
+
+    private function getMimeType(string $fileHash): string
+    {
+        $tempFile = $this->fileService->temporaryFilename($fileHash);
+        \file_put_contents($tempFile, $this->fileService->getResource($fileHash));
+
+        $type = (new File($tempFile))->getMimeType();
+
+        return $type ?: 'application/bin';
     }
 }

@@ -4,14 +4,14 @@ import ProgressBar from "../helper/progressBar";
 import FileUploader from "@elasticms/file-uploader";
 
 export default class MediaLibrary {
-    #ajaxUrlPath;
-    #ajaxInitUpload;
+    #urlMediaLib;
+    #urlInitUpload;
+    #urlViewFile;
 
+    #el;
     #hash;
     #hashAlgo;
     #uploading = {};
-
-    #el;
 
     #divUploads;
     #listFiles;
@@ -19,11 +19,14 @@ export default class MediaLibrary {
     #listUploads;
 
     constructor (el, options) {
-        this.#ajaxUrlPath = options.ajaxUrlPath;
-        this.#ajaxInitUpload = options.ajaxInitUpload;
+        this.#urlMediaLib = options.urlMediaLib;
+        this.#urlInitUpload = options.urlInitUpload;
+        this.#urlViewFile = options.urlFileView;
+
         this.#el = el;
         this.#hash = el.dataset.hash;
         this.#hashAlgo = options.hashAlgo;
+
         this.#divUploads = el.querySelector('div.media-lib-uploads');
         this.#listFiles = el.querySelector("ul.media-lib-list-files");
         this.#listFolders = el.querySelector("ul.media-lib-list-folders");
@@ -65,7 +68,7 @@ export default class MediaLibrary {
         new FileUploader({
             file: file,
             algo: this.#hashAlgo,
-            initUrl: this.#ajaxInitUpload,
+            initUrl: this.#urlInitUpload,
             onHashAvailable: function(hash, type, name) {
                 progressBar.status('Hash available');
                 progressBar.progress(0);
@@ -86,7 +89,7 @@ export default class MediaLibrary {
                 progressBar.progress(100);
                 progressBar.style('success');
 
-                ajaxJsonPost([mediaLib.#ajaxUrlPath, mediaLib.#hash, 'add-file', fileHash].join('/'), JSON.stringify({
+                ajaxJsonPost([mediaLib.#urlMediaLib, mediaLib.#hash, 'add-file', fileHash].join('/'), JSON.stringify({
                     'file': {
                         'filename': file.name,
                         'filesize': file.size,
@@ -125,26 +128,37 @@ export default class MediaLibrary {
         }
 
         ajaxModal.load({
-            url: [this.#ajaxUrlPath, this.#hash, 'add-folder'].join('/'),
+            url: [this.#urlMediaLib, this.#hash, 'add-folder'].join('/'),
             size: 'sm'
         }, callback);
     }
 
     _getFiles() {
-        ajaxJsonGet([this.#ajaxUrlPath, this.#hash, 'files'].join('/'), (json) => {
+        ajaxJsonGet([this.#urlMediaLib, this.#hash, 'files'].join('/'), (json) => {
             for (let jsonFileId in json) {
                 let jsonFile = json[jsonFileId];
-                const fileProperties = ['filename', 'filesize', 'mimetype'];
-
-                let divFile = document.createElement("div");
-                fileProperties.forEach(fileProperty => {
-                    let divProperty = document.createElement("div");
-                    divProperty.textContent = jsonFile['file'][fileProperty];
-                    divFile.appendChild(divProperty);
-                });
+                const fileProperties = ['name', 'type', 'size'];
 
                 let liFile = document.createElement("li");
-                liFile.appendChild(divFile);
+
+                fileProperties.forEach(fileProperty => {
+                    let divProperty = document.createElement("div");
+
+                    if ('name' === fileProperty) {
+                        let nameLink = document.createElement('a');
+                        nameLink.download = jsonFile['file']['name'];
+                        nameLink.href = this.#urlViewFile
+                            .replace(/__file_identifier__/g, jsonFile['file']['hash'])
+                            .replace(/__file_name__/g, jsonFile['file']['name']);
+
+                        nameLink.textContent = jsonFile['file']['name'];
+                        divProperty.appendChild(nameLink);
+                    } else {
+                        divProperty.textContent = jsonFile['file'][fileProperty];
+                    }
+
+                    liFile.appendChild(divProperty);
+                });
 
                 this.#listFiles.appendChild(liFile);
             }
@@ -152,7 +166,7 @@ export default class MediaLibrary {
     }
 
     _getFolders() {
-        ajaxJsonGet([this.#ajaxUrlPath, this.#hash, 'folders'].join('/'), (json) => {
+        ajaxJsonGet([this.#urlMediaLib, this.#hash, 'folders'].join('/'), (json) => {
             for (let jsonFolderId in json) {
                 let jsonFolder = json[jsonFolderId];
 

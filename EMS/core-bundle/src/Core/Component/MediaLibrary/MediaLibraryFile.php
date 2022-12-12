@@ -8,34 +8,41 @@ use Elastica\Document;
 
 class MediaLibraryFile
 {
-    /**
-     * @param ?array{filename: string, filesize: int, mimetype: string, sha1: string } $file
-     */
     private function __construct(
         private readonly string $path,
-        private readonly ?array $file
+        private readonly string $name,
+        public string|int $size,
+        public ?string $type,
+        private readonly string $hash,
     ) {
     }
 
     public static function createFromDocument(MediaLibraryConfig $config, Document $document): self
     {
+        $file = $document->get($config->fieldFile);
+
         return new self(
             (string) $document->get($config->fieldPath),
-            $document->has($config->fieldFile) ? $document->get($config->fieldFile) : null
+            $file['filename'],
+            $file['filesize'] ?? 0,
+            $file['mimetype'] ?? null,
+            $file['sha1']
         );
     }
 
     /**
-     * @return array{ path: string, file?: array{filename: string, filesize: int, mimetype: string, sha1: string } }
+     * @return array{ path: string, file?: array{name: string, size: string, type: string, hash: string } }
      */
     public function toArray(): array
     {
-        $file = ['path' => $this->path];
-
-        if ($this->file) {
-            $file['file'] = $this->file;
-        }
-
-        return $file;
+        return [
+            'path' => $this->path,
+            'file' => [
+                'name' => $this->name,
+                'size' => (string) $this->size,
+                'type' => (string) $this->type,
+                'hash' => $this->hash,
+            ],
+        ];
     }
 }

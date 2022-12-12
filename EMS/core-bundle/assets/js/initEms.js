@@ -250,7 +250,11 @@ import JsonMenuNested from "./module/jsonMenuNested";
         let elements = document.getElementsByClassName('media-lib');
 
         [].forEach.call(elements, function (el) {
-            new MediaLibrary(el, { ajaxUrlPath: '/component/media-lib' });
+            new MediaLibrary(el, {
+                ajaxUrlPath: '/component/media-lib',
+                ajaxInitUpload: document.querySelector('body').dataset.initUpload,
+                hashAlgo: document.querySelector('body').dataset.hashAlgo,
+            });
         });
     }
 

@@ -9,11 +9,13 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\EMSCoreBundle;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -66,6 +68,20 @@ class MediaLibraryController
             ])
             ->setFooter('footerAddFolder')
             ->getResponse();
+    }
+
+    public function addFile(MediaLibraryConfig $config, Request $request, string $fileHash): JsonResponse
+    {
+        $requestJson = Json::decode($request->getContent());
+        $file = $requestJson['file'];
+
+        if (!$this->mediaLibraryService->createFile($config, $fileHash, $file)) {
+            return new JsonResponse(['messages' => $this->flashBag->all()], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $this->flashBag->clear();
+
+        return new JsonResponse([], Response::HTTP_CREATED);
     }
 
     private function getAjaxModal(): AjaxModal

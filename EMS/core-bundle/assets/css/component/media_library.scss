@@ -5,6 +5,10 @@
   border: solid 1px #ddd;
   color: #333333;
 
+  .media-lib-header .btn i {
+    margin-right: 8px;
+  }
+
   .media-lib-header,
   .media-lib-footer {
     min-height: 30px;
@@ -13,31 +17,58 @@
     background-color: #f5f5f5;
   }
 
-  .media-lib-content {
+  div.media-lib-content {
     border-top: solid 1px #ddd;
     border-bottom: solid 1px #ddd;
     flex-grow: 1;
     display: flex;
     height: calc(100vh - 200px);
-  }
 
-  .media-lib-left-column {
-    resize: horizontal;
-    overflow: auto;
-    overflow-x: hidden;
-    width: 20%;
-    min-width: 10%;
-    max-width: 50%;
-    flex-shrink:0;
-    display: flex;
-    flex-direction: column;
-    background-color: #DCDCDC;
+    div.media-lib-left-column {
+      resize: horizontal;
+      overflow: auto;
+      overflow-x: hidden;
+      width: 20%;
+      min-width: 10%;
+      max-width: 50%;
+      flex-shrink:0;
+      display: flex;
+      flex-direction: column;
+      background-color: #DCDCDC;
+    }
+
+    div.media-lib-right-column {
+      overflow-y: auto;
+      width: 80%;
+      flex-grow: 1;
+      border-left: solid 1px #ddd;
+      padding: 8px;
+      background-color: #FFF;
+
+      div.media-lib-uploads {
+        background-color: #f5f5f5;
+        border: solid 1px #ddd;
+        width: 100%;
+        padding: 16px 16px 8px;
+      }
+    }
   }
 
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
+
+    &.media-lib-list-uploads {
+      li {
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        background-color: #FFFFFF;
+        margin-bottom: 8px;
+        border: 1px solid #ddd;
+      }
+    }
 
     &.media-lib-list-folders {
       width: 100%;
@@ -60,29 +91,10 @@
         border-bottom: solid 1px #ddd;
         padding: 8px;
       }
-
     }
 
     &.media-lib-list-files {
 
     }
-
-
-
   }
-
-  .media-lib-right-column {
-    overflow-y: auto;
-    width: 80%;
-    flex-grow: 1;
-    border-left: solid 1px #ddd;
-    padding: 8px 16px;
-    background-color: #FFF;
-  }
-
-
-
-
-
-
 }

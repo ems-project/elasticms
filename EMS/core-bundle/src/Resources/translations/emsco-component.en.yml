@@ -4,3 +4,6 @@ media_library:
             title: 'Add folder'
             submit: 'Create'
             cancel: 'Cancel'
+    file:
+        add:
+            title: 'Upload'

@@ -1,7 +1,13 @@
 {% trans_default_domain 'emsco-component' %}
 <div class="media-lib" id="{{ id }}" data-hash="{{ hash }}">
     <div class="media-lib-header">
-        <button class="btn btn-xs btn-primary btn-add-folder">{{ 'media_library.folder.add.title'|trans }}</button>
+        <button class="btn btn-sm btn-primary btn-add-folder">
+            <i class="fa fa-folder-o" aria-hidden="true"></i>{{ 'media_library.folder.add.title'|trans }}
+        </button>
+        <input type="file" id="media-lib-upload-{{ id }}" class="file-uploader-input" multiple="multiple">
+        <label class="btn btn-sm btn-primary" for="media-lib-upload-{{ id }}">
+            <i class="fa fa-upload"></i>{{ 'media_library.file.add.title'|trans }}
+        </label>
     </div>
     <div class="media-lib-content">
         <div class="media-lib-left-column">
@@ -10,6 +16,10 @@
             </div>
         </div>
         <div class="media-lib-right-column">
+            <div class="media-lib-uploads" style="display: none;">
+                <ul class="media-lib-list-uploads"></ul>
+            </div>
+
             <ul class="media-lib-list-files"></ul>
         </div>
     </div>

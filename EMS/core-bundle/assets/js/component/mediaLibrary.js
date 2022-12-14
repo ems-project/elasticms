@@ -18,6 +18,7 @@ export default class MediaLibrary {
     #listFiles;
     #listFolders;
     #listUploads;
+    #listBreadcrumb;
 
     constructor (el, options) {
         this.#urlMediaLib = options.urlMediaLib;
@@ -32,6 +33,7 @@ export default class MediaLibrary {
         this.#listFiles = el.querySelector("ul.media-lib-list-files");
         this.#listFolders = el.querySelector("ul.media-lib-list-folders");
         this.#listUploads = el.querySelector('ul.media-lib-list-uploads');
+        this.#listBreadcrumb = el.querySelector('ul.media-lib-list-breadcrumb');
         this._init();
     }
 
@@ -43,10 +45,10 @@ export default class MediaLibrary {
 
     _addEventListeners() {
         this.#el.querySelectorAll('button.btn-add-folder').forEach(button => {
-            button.onclick = () => this._clickAddFolder();
+            button.onclick = () => this._addFolder();
         });
         this.#el.querySelector('.file-uploader-input').onchange = (event) => {
-            Array.from(event.target.files).forEach((file) => this._upload(file));
+            Array.from(event.target.files).forEach((file) => this._addFile(file));
             event.target.value = "";
         };
         this.#el.querySelector('button.btn-home').onclick = () => this._openFolder();
@@ -58,21 +60,44 @@ export default class MediaLibrary {
         }
     }
 
-    _openFolder(folder, button)
+    _openFolder(folder, clickedButton)
     {
         this.#listFolders.querySelectorAll('button').forEach((li) => li.classList.remove('active'))
-        if (button) {
-            let parentLi = button.parentNode;
-            if (parentLi.classList.contains('media-lib-folder-children')) {
+        let button = document.querySelector(`button[data-folder="${folder}"]`);
+        if (button) { button.classList.add('active'); }
+
+        if (clickedButton) {
+            let parentLi = clickedButton.parentNode;
+            if (parentLi && parentLi.classList.contains('media-lib-folder-children')) {
                 parentLi.classList.toggle('open');
             }
-            button.classList.add('active');
         }
+
         this.#activeFolder = folder;
         this._getFiles(folder);
     }
 
-    _upload(file) {
+    _openFolderDeep(folder)
+    {
+        let parentFolder = '';
+        folder.split('/').filter(f => f !== '').forEach((folderName) => {
+            parentFolder += `/${folderName}`;
+
+            let parentButton = document.querySelector(`button[data-folder="${parentFolder}"]`);
+            let parentLi = parentButton ? parentButton.parentNode : null;
+
+            if (parentLi && parentLi.classList.contains('media-lib-folder-children')) {
+                parentLi.classList.add('open');
+            }
+        });
+
+        if ('' !== parentFolder) {
+            let button = document.querySelector(`button[data-folder="${parentFolder}"]`);
+            button.classList.add('active');
+        }
+    }
+
+    _addFile(file) {
         let id = 'upload-'+ Date.now();
         this.#uploading[id] = 'start';
 
@@ -111,7 +136,7 @@ export default class MediaLibrary {
                 progressBar.progress(100);
                 progressBar.style('success');
 
-                ajaxJsonPost(mediaLib._url('add-file/'+fileHash), JSON.stringify({
+                ajaxJsonPost(mediaLib._makeUrl('add-file/'+fileHash), JSON.stringify({
                     'file': {
                         'filename': file.name,
                         'filesize': file.size,
@@ -141,90 +166,117 @@ export default class MediaLibrary {
         });
     }
 
-    _clickAddFolder() {
-        ajaxModal.load({ url: this._url('add-folder'), size: 'sm'}, (json) => {
-            if (json.hasOwnProperty('success') && json.success === true) {
-                this._getFolders();
+    _addFolder() {
+        ajaxModal.load({ url: this._makeUrl('add-folder'), size: 'sm'}, (json) => {
+            if (json.hasOwnProperty('folder')) {
+                this._getFolders(json.folder);
             }
         });
     }
 
-    _url(action) {
-        let url = [this.#urlMediaLib, this.#hash, action].join('/');
-        if (this.#activeFolder) {
-            url += '?' + new URLSearchParams({folder: this.#activeFolder}).toString();
-        }
-        return url;
-    }
-
-    _getFiles() {
+    _getFiles(folder) {
         this.#listFiles.innerHTML = '';
-        ajaxJsonGet(this._url('files'), (json) => {
-            if (json.length > 0) {
-                let liHeading = document.createElement("li");
-                ['Name', 'Type', 'Size'].forEach(fileProperty => {
-                    let divProperty = document.createElement("div");
-                    divProperty.textContent = fileProperty;
-                    liHeading.appendChild(divProperty);
-                });
-                this.#listFiles.appendChild(liHeading);
-            }
-
-            for (let jsonFileId in json) {
-                let jsonFile = json[jsonFileId];
-                const fileProperties = ['name', 'type', 'size'];
-
-                let liFile = document.createElement("li");
-
-                fileProperties.forEach(fileProperty => {
-                    let divProperty = document.createElement("div");
-
-                    if ('name' === fileProperty) {
-                        let nameLink = document.createElement('a');
-                        nameLink.download = jsonFile['file']['name'];
-                        nameLink.href = this.#urlViewFile
-                            .replace(/__file_identifier__/g, jsonFile['file']['hash'])
-                            .replace(/__file_name__/g, jsonFile['file']['name']);
-
-                        nameLink.textContent = jsonFile['file']['name'];
-                        divProperty.appendChild(nameLink);
-                    } else {
-                        divProperty.textContent = jsonFile['file'][fileProperty];
-                    }
-
-                    liFile.appendChild(divProperty);
-                });
-
-                this.#listFiles.appendChild(liFile);
-            }
-        });
+        this._makeBreadcrumb(folder);
+        ajaxJsonGet(this._makeUrl('files'), (files) => { this._makeFileItems(files, this.#listFiles) });
     }
 
-    _getFolders() {
+    _getFolders(openFolder) {
         this.#listFolders.innerHTML = '';
         ajaxJsonGet([this.#urlMediaLib, this.#hash, 'folders'].join('/'), (folders) => {
-            this._addFolderItems(folders, this.#listFolders);
+            this._makeFolderItems(folders, this.#listFolders);
+
+            if (openFolder) {
+                this._openFolderDeep(openFolder);
+            }
+
         });
     }
 
-    _addFolderItems(folders, list) {
-        folders.forEach((folder) => {
-            let buttonFolder = document.createElement("button");
-            buttonFolder.textContent = folder['name'];
-            buttonFolder.dataset.folder = folder['path'];
-            buttonFolder.classList.add('media-lib-link-folder')
+    _makeBreadcrumb(folder)
+    {
+        this.#listBreadcrumb.style.display = 'flex';
+        this.#listBreadcrumb.innerHTML = '';
+        folder = ''.concat('/home', folder || '');
+        let currentPath = '';
 
+        folder.split('/').filter(f => f !== '').forEach((folderName) => {
+            if (folderName !== 'home') {
+                currentPath = currentPath.concat('/', folderName);
+            }
+
+            let item = document.createElement('li');
+            item.appendChild(this._makeFolderButton(folderName, currentPath));
+
+            this.#listBreadcrumb.appendChild(item);
+        });
+    }
+
+    _makeFileItems(files, list)
+    {
+        if (files.length > 0) {
+            let liHeading = document.createElement("li");
+            ['Name', 'Type', 'Size'].forEach(fileProperty => {
+                let divProperty = document.createElement("div");
+                divProperty.textContent = fileProperty;
+                liHeading.appendChild(divProperty);
+            });
+            list.appendChild(liHeading);
+        }
+
+        files.forEach((file) => {
+            let nameLink = document.createElement('a');
+            nameLink.download = file['file']['name'];
+            nameLink.href = this.#urlViewFile
+                .replace(/__file_identifier__/g, file['file']['hash'])
+                .replace(/__file_name__/g, file['file']['name']);
+            nameLink.textContent = file['file']['name'];
+
+            let divName = document.createElement("div");
+            divName.appendChild(nameLink);
+
+            let divType = document.createElement("div");
+            divType.textContent = file['file']['type'];
+
+            let divSize = document.createElement("div");
+            divSize.textContent = file['file']['size'];
+
+            let liFile = document.createElement("li");
+            liFile.append(divName, divType, divSize);
+
+            list.appendChild(liFile);
+        });
+    }
+
+    _makeFolderItems(folders, list) {
+        folders.forEach((folder) => {
             let liFolder = document.createElement("li");
-            liFolder.appendChild(buttonFolder);
+            liFolder.appendChild(this._makeFolderButton(folder['name'], folder['path']));
 
             if (folder.hasOwnProperty('children')) {
                 let ulChildren = document.createElement('ul');
-                this._addFolderItems(folder.children, ulChildren);
+                this._makeFolderItems(folder.children, ulChildren);
                 liFolder.appendChild(ulChildren);
                 liFolder.classList.add('media-lib-folder-children');
             }
 
             list.appendChild(liFolder);
         });
+    }
+
+    _makeFolderButton(name, path) {
+        let button = document.createElement("button");
+        button.textContent = name;
+        button.dataset.folder = path;
+        button.classList.add('media-lib-link-folder');
+
+        return button;
+    }
+
+    _makeUrl(action) {
+        let url = [this.#urlMediaLib, this.#hash, action].join('/');
+        if (this.#activeFolder) {
+            url += '?' + new URLSearchParams({folder: this.#activeFolder}).toString();
+        }
+        return url;
     }
 }

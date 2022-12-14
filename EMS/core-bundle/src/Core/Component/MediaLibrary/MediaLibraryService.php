@@ -141,7 +141,10 @@ class MediaLibraryService
         $search->setContentTypes([$config->contentType->getName()]);
         $search->setFrom(0);
         $search->setSize(5000);
-        $search->setSort([$config->fieldPath.'.alpha_order' => ['order' => 'asc']]);
+
+        if ($config->fieldOrderAlpha) {
+            $search->setSort([$config->fieldOrderAlpha => ['order' => 'asc']]);
+        }
 
         return $this->elasticaService->search($search);
     }

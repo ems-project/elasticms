@@ -16,6 +16,7 @@ class MediaLibraryConfig implements ConfigInterface
         public readonly string $fieldPath,
         public readonly string $fieldLocation,
         public readonly string $fieldFile,
+        public readonly ?string $fieldOrderAlpha,
     ) {
     }
 

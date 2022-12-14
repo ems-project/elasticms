@@ -22,7 +22,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
      *   id: string,
      *   contentTypeName: string,
      *   field_path: string,
-     *   field_folder: string,
+     *   field_location: string,
      *   field_file: string
      * } $options
      */
@@ -35,7 +35,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
             (string) $options['id'],
             $contentType,
             $this->getField($contentType, $options['field_path'])->getName(),
-            $this->getField($contentType, $options['field_folder'])->getName(),
+            $this->getField($contentType, $options['field_location'])->getName(),
             $this->getField($contentType, $options['field_file'])->getName()
         );
     }
@@ -54,7 +54,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
         $resolver
             ->setDefaults([
                 'field_path' => 'media_path',
-                'field_folder' => 'media_folder',
+                'field_location' => 'media_location',
                 'field_file' => 'media_file',
             ])
             ->setRequired([

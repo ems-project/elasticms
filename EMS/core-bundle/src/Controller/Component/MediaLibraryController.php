@@ -33,7 +33,7 @@ class MediaLibraryController
 
     public function getFiles(MediaLibraryConfig $config, Request $request): JsonResponse
     {
-        return new JsonResponse($this->mediaLibraryService->getFiles($config, $this->getFolder($request)));
+        return new JsonResponse($this->mediaLibraryService->getFiles($config, $this->getPath($request)));
     }
 
     public function getFolders(MediaLibraryConfig $config): JsonResponse
@@ -51,15 +51,13 @@ class MediaLibraryController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $folder = $this->getFolder($request);
+                $path = $this->getPath($request);
                 $folderName = (string) $form->get('folder_name')->getData();
 
-                if ($this->mediaLibraryService->createFolder($config, $folderName, $folder)) {
+                if ($this->mediaLibraryService->createFolder($config, $folderName, $path)) {
                     $this->flashBag->clear();
 
-                    return $this->getAjaxModal()->getSuccessResponse([
-                        'folder' => $folder,
-                    ]);
+                    return $this->getAjaxModal()->getSuccessResponse(['path' => $path]);
                 }
             }
         }
@@ -79,7 +77,7 @@ class MediaLibraryController
         $requestJson = Json::decode($request->getContent());
         $file = $requestJson['file'];
 
-        if (!$this->mediaLibraryService->createFile($config, $fileHash, $file, $this->getFolder($request))) {
+        if (!$this->mediaLibraryService->createFile($config, $fileHash, $file, $this->getPath($request))) {
             return new JsonResponse(['messages' => $this->flashBag->all()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -88,9 +86,9 @@ class MediaLibraryController
         return new JsonResponse([], Response::HTTP_CREATED);
     }
 
-    private function getFolder(Request $request): string
+    private function getPath(Request $request): string
     {
-        return $request->query->has('folder') ? $request->query->get('folder').'/' : '/';
+        return $request->query->has('path') ? $request->query->get('path').'/' : '/';
     }
 
     private function getAjaxModal(): AjaxModal

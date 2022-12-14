@@ -35,24 +35,24 @@ class MediaLibraryService
     /**
      * @param array{filename: string, filesize: string, mimetype: string} $file
      */
-    public function createFile(MediaLibraryConfig $config, string $fileHash, array $file, string $folder): bool
+    public function createFile(MediaLibraryConfig $config, string $fileHash, array $file, string $path): bool
     {
         $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($fileHash) : $file['mimetype']);
 
         return $this->create($config, [
-            $config->fieldPath => $folder.$file['filename'],
-            $config->fieldFolder => $folder,
+            $config->fieldPath => $path.$file['filename'],
+            $config->fieldLocation => $path,
             $config->fieldFile => \array_filter(\array_merge($file, [
                 'sha1' => $fileHash,
             ])),
         ]);
     }
 
-    public function createFolder(MediaLibraryConfig $config, string $folderName, string $folder): bool
+    public function createFolder(MediaLibraryConfig $config, string $folderName, string $path): bool
     {
         return $this->create($config, [
-            $config->fieldPath => $folder.$folderName,
-            $config->fieldFolder => $folder,
+            $config->fieldPath => $path.$folderName,
+            $config->fieldLocation => $path,
         ]);
     }
 
@@ -62,13 +62,13 @@ class MediaLibraryService
      *      file?: array{name: string, size: string, type: string, hash: string }
      * }>
      */
-    public function getFiles(MediaLibraryConfig $config, string $folder): array
+    public function getFiles(MediaLibraryConfig $config, string $path): array
     {
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
 
-        if ($folder) {
-            $searchQuery->addMust((new Term())->setTerm($config->fieldFolder, $folder));
+        if ($path) {
+            $searchQuery->addMust((new Term())->setTerm($config->fieldLocation, $path));
         }
 
         $docs = $this->search($config, $searchQuery)->getDocuments();

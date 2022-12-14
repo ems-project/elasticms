@@ -12,7 +12,7 @@ export default class MediaLibrary {
     #hash;
     #hashAlgo;
     #uploading = {};
-    #activeFolder;
+    #activePath;
 
     #divUploads;
     #listFiles;
@@ -55,15 +55,15 @@ export default class MediaLibrary {
         this.#el.onclick = (event) => {
             let target = event.target;
             if (target.classList.contains('media-lib-link-folder')) {
-                this._openFolder(target.dataset.folder, target);
+                this._openFolder(target.dataset.path, target);
             }
         }
     }
 
-    _openFolder(folder, clickedButton)
+    _openFolder(path, clickedButton)
     {
         this.#listFolders.querySelectorAll('button').forEach((li) => li.classList.remove('active'))
-        let button = document.querySelector(`button[data-folder="${folder}"]`);
+        let button = document.querySelector(`button[data-path="${path}"]`);
         if (button) { button.classList.add('active'); }
 
         if (clickedButton) {
@@ -73,17 +73,17 @@ export default class MediaLibrary {
             }
         }
 
-        this.#activeFolder = folder;
-        this._getFiles(folder);
+        this.#activePath = path;
+        this._getFiles(path);
     }
 
-    _openFolderDeep(folder)
+    _openPath(path)
     {
-        let parentFolder = '';
-        folder.split('/').filter(f => f !== '').forEach((folderName) => {
-            parentFolder += `/${folderName}`;
+        let currentPath = '';
+        path.split('/').filter(f => f !== '').forEach((folderName) => {
+            currentPath += `/${folderName}`;
 
-            let parentButton = document.querySelector(`button[data-folder="${parentFolder}"]`);
+            let parentButton = document.querySelector(`button[data-path="${currentPath}"]`);
             let parentLi = parentButton ? parentButton.parentNode : null;
 
             if (parentLi && parentLi.classList.contains('media-lib-folder-children')) {
@@ -91,9 +91,9 @@ export default class MediaLibrary {
             }
         });
 
-        if ('' !== parentFolder) {
-            let button = document.querySelector(`button[data-folder="${parentFolder}"]`);
-            button.classList.add('active');
+        if ('' !== currentPath) {
+            let button = document.querySelector(`button[data-path="${currentPath}"]`);
+            if (button) button.classList.add('active');
         }
     }
 
@@ -168,38 +168,34 @@ export default class MediaLibrary {
 
     _addFolder() {
         ajaxModal.load({ url: this._makeUrl('add-folder'), size: 'sm'}, (json) => {
-            if (json.hasOwnProperty('folder')) {
-                this._getFolders(json.folder);
+            if (json.hasOwnProperty('path')) {
+                this._getFolders(json.path);
             }
         });
     }
 
-    _getFiles(folder) {
+    _getFiles(path) {
         this.#listFiles.innerHTML = '';
-        this._makeBreadcrumb(folder);
+        this._makeBreadcrumb(path);
         ajaxJsonGet(this._makeUrl('files'), (files) => { this._makeFileItems(files, this.#listFiles) });
     }
 
-    _getFolders(openFolder) {
+    _getFolders(openPath) {
         this.#listFolders.innerHTML = '';
         ajaxJsonGet([this.#urlMediaLib, this.#hash, 'folders'].join('/'), (folders) => {
             this._makeFolderItems(folders, this.#listFolders);
-
-            if (openFolder) {
-                this._openFolderDeep(openFolder);
-            }
-
+            if (openPath) { this._openPath(openPath); }
         });
     }
 
-    _makeBreadcrumb(folder)
+    _makeBreadcrumb(path)
     {
         this.#listBreadcrumb.style.display = 'flex';
         this.#listBreadcrumb.innerHTML = '';
-        folder = ''.concat('/home', folder || '');
+        path = ''.concat('/home', path || '');
         let currentPath = '';
 
-        folder.split('/').filter(f => f !== '').forEach((folderName) => {
+        path.split('/').filter(f => f !== '').forEach((folderName) => {
             if (folderName !== 'home') {
                 currentPath = currentPath.concat('/', folderName);
             }
@@ -266,7 +262,7 @@ export default class MediaLibrary {
     _makeFolderButton(name, path) {
         let button = document.createElement("button");
         button.textContent = name;
-        button.dataset.folder = path;
+        button.dataset.path = path;
         button.classList.add('media-lib-link-folder');
 
         return button;
@@ -274,8 +270,8 @@ export default class MediaLibrary {
 
     _makeUrl(action) {
         let url = [this.#urlMediaLib, this.#hash, action].join('/');
-        if (this.#activeFolder) {
-            url += '?' + new URLSearchParams({folder: this.#activeFolder}).toString();
+        if (this.#activePath) {
+            url += '?' + new URLSearchParams({path: this.#activePath}).toString();
         }
         return url;
     }

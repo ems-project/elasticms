@@ -144,7 +144,7 @@ export default class MediaLibrary {
     _clickAddFolder() {
         ajaxModal.load({ url: this._url('add-folder'), size: 'sm'}, (json) => {
             if (json.hasOwnProperty('success') && json.success === true) {
-                this._reloadFolders();
+                this._getFolders();
             }
         });
     }
@@ -200,12 +200,8 @@ export default class MediaLibrary {
         });
     }
 
-    _reloadFolders() {
-        this.#listFolders.innerHTML = '';
-        setTimeout(() => this._getFolders(), 1000);
-    }
-
     _getFolders() {
+        this.#listFolders.innerHTML = '';
         ajaxJsonGet([this.#urlMediaLib, this.#hash, 'folders'].join('/'), (folders) => {
             this._addFolderItems(folders, this.#listFolders);
         });

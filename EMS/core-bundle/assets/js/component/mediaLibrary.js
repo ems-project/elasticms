@@ -12,6 +12,7 @@ export default class MediaLibrary {
     #hash;
     #hashAlgo;
     #uploading = {};
+    #activeFolder;
 
     #divUploads;
     #listFiles;
@@ -48,6 +49,27 @@ export default class MediaLibrary {
             Array.from(event.target.files).forEach((file) => this._upload(file));
             event.target.value = "";
         };
+        this.#el.querySelector('button.btn-home').onclick = () => this._openFolder();
+        this.#el.onclick = (event) => {
+            let target = event.target;
+            if (target.classList.contains('media-lib-link-folder')) {
+                this._openFolder(target.dataset.folder, target);
+            }
+        }
+    }
+
+    _openFolder(folder, button)
+    {
+        this.#listFolders.querySelectorAll('button').forEach((li) => li.classList.remove('active'))
+        if (button) {
+            let parentLi = button.parentNode;
+            if (parentLi.classList.contains('media-lib-folder-children')) {
+                parentLi.classList.toggle('open');
+            }
+            button.classList.add('active');
+        }
+        this.#activeFolder = folder;
+        this._getFiles(folder);
     }
 
     _upload(file) {
@@ -89,7 +111,7 @@ export default class MediaLibrary {
                 progressBar.progress(100);
                 progressBar.style('success');
 
-                ajaxJsonPost([mediaLib.#urlMediaLib, mediaLib.#hash, 'add-file', fileHash].join('/'), JSON.stringify({
+                ajaxJsonPost(mediaLib._url('add-file/'+fileHash), JSON.stringify({
                     'file': {
                         'filename': file.name,
                         'filesize': file.size,
@@ -102,6 +124,7 @@ export default class MediaLibrary {
 
                         if (Object.keys(mediaLib.#uploading).length === 0) {
                             mediaLib.#divUploads.style.display = 'none';
+                            mediaLib._getFiles();
                         }
                     } else {
                         progressBar.status('Error: ' + message);
@@ -119,22 +142,34 @@ export default class MediaLibrary {
     }
 
     _clickAddFolder() {
-        console.debug(this.#uploading);
-
-        let callback = (json) => {
+        ajaxModal.load({ url: this._url('add-folder'), size: 'sm'}, (json) => {
             if (json.hasOwnProperty('success') && json.success === true) {
-                //reload folders
+                this._reloadFolders();
             }
-        }
+        });
+    }
 
-        ajaxModal.load({
-            url: [this.#urlMediaLib, this.#hash, 'add-folder'].join('/'),
-            size: 'sm'
-        }, callback);
+    _url(action) {
+        let url = [this.#urlMediaLib, this.#hash, action].join('/');
+        if (this.#activeFolder) {
+            url += '?' + new URLSearchParams({folder: this.#activeFolder}).toString();
+        }
+        return url;
     }
 
     _getFiles() {
-        ajaxJsonGet([this.#urlMediaLib, this.#hash, 'files'].join('/'), (json) => {
+        this.#listFiles.innerHTML = '';
+        ajaxJsonGet(this._url('files'), (json) => {
+            if (json.length > 0) {
+                let liHeading = document.createElement("li");
+                ['Name', 'Type', 'Size'].forEach(fileProperty => {
+                    let divProperty = document.createElement("div");
+                    divProperty.textContent = fileProperty;
+                    liHeading.appendChild(divProperty);
+                });
+                this.#listFiles.appendChild(liHeading);
+            }
+
             for (let jsonFileId in json) {
                 let jsonFile = json[jsonFileId];
                 const fileProperties = ['name', 'type', 'size'];
@@ -165,19 +200,35 @@ export default class MediaLibrary {
         });
     }
 
+    _reloadFolders() {
+        this.#listFolders.innerHTML = '';
+        setTimeout(() => this._getFolders(), 1000);
+    }
+
     _getFolders() {
-        ajaxJsonGet([this.#urlMediaLib, this.#hash, 'folders'].join('/'), (json) => {
-            for (let jsonFolderId in json) {
-                let jsonFolder = json[jsonFolderId];
+        ajaxJsonGet([this.#urlMediaLib, this.#hash, 'folders'].join('/'), (folders) => {
+            this._addFolderItems(folders, this.#listFolders);
+        });
+    }
 
-                let divFolder = document.createElement("div");
-                divFolder.textContent = jsonFolder['name'];
+    _addFolderItems(folders, list) {
+        folders.forEach((folder) => {
+            let buttonFolder = document.createElement("button");
+            buttonFolder.textContent = folder['name'];
+            buttonFolder.dataset.folder = folder['path'];
+            buttonFolder.classList.add('media-lib-link-folder')
 
-                let liFolder = document.createElement("li");
-                liFolder.appendChild(divFolder);
+            let liFolder = document.createElement("li");
+            liFolder.appendChild(buttonFolder);
 
-                this.#listFolders.appendChild(liFolder);
+            if (folder.hasOwnProperty('children')) {
+                let ulChildren = document.createElement('ul');
+                this._addFolderItems(folder.children, ulChildren);
+                liFolder.appendChild(ulChildren);
+                liFolder.classList.add('media-lib-folder-children');
             }
+
+            list.appendChild(liFolder);
         });
     }
 }

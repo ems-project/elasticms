@@ -31,9 +31,9 @@ class MediaLibraryController
     ) {
     }
 
-    public function getFiles(MediaLibraryConfig $config): JsonResponse
+    public function getFiles(MediaLibraryConfig $config, Request $request): JsonResponse
     {
-        return new JsonResponse($this->mediaLibraryService->getFiles($config));
+        return new JsonResponse($this->mediaLibraryService->getFiles($config, $this->getFolder($request)));
     }
 
     public function getFolders(MediaLibraryConfig $config): JsonResponse
@@ -52,7 +52,7 @@ class MediaLibraryController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $folderName = (string) $form->get('folder_name')->getData();
-                if ($this->mediaLibraryService->createFolder($config, $folderName)) {
+                if ($this->mediaLibraryService->createFolder($config, $folderName, $this->getFolder($request))) {
                     $this->flashBag->clear();
 
                     return $this->getAjaxModal()->getSuccessResponse([]);
@@ -75,13 +75,18 @@ class MediaLibraryController
         $requestJson = Json::decode($request->getContent());
         $file = $requestJson['file'];
 
-        if (!$this->mediaLibraryService->createFile($config, $fileHash, $file)) {
+        if (!$this->mediaLibraryService->createFile($config, $fileHash, $file, $this->getFolder($request))) {
             return new JsonResponse(['messages' => $this->flashBag->all()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $this->flashBag->clear();
 
         return new JsonResponse([], Response::HTTP_CREATED);
+    }
+
+    private function getFolder(Request $request): string
+    {
+        return $request->query->has('folder') ? $request->query->get('folder').'/' : '/';
     }
 
     private function getAjaxModal(): AjaxModal

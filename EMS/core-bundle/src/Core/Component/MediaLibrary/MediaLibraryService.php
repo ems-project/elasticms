@@ -8,6 +8,7 @@ use Elastica\Document;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\Exists;
 use Elastica\Query\Nested;
+use Elastica\Query\Term;
 use Elastica\ResultSet;
 use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Search\Search;
@@ -34,22 +35,24 @@ class MediaLibraryService
     /**
      * @param array{filename: string, filesize: string, mimetype: string} $file
      */
-    public function createFile(MediaLibraryConfig $config, string $fileHash, array $file): bool
+    public function createFile(MediaLibraryConfig $config, string $fileHash, array $file, string $folder): bool
     {
         $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($fileHash) : $file['mimetype']);
 
         return $this->create($config, [
-            $config->fieldPath => $file['filename'],
+            $config->fieldPath => $folder.$file['filename'],
+            $config->fieldFolder => $folder,
             $config->fieldFile => \array_filter(\array_merge($file, [
                 'sha1' => $fileHash,
             ])),
         ]);
     }
 
-    public function createFolder(MediaLibraryConfig $config, string $folderName): bool
+    public function createFolder(MediaLibraryConfig $config, string $folderName, string $folder): bool
     {
         return $this->create($config, [
-            $config->fieldPath => $folderName,
+            $config->fieldPath => $folder.$folderName,
+            $config->fieldFolder => $folder,
         ]);
     }
 
@@ -59,10 +62,14 @@ class MediaLibraryService
      *      file?: array{name: string, size: string, type: string, hash: string }
      * }>
      */
-    public function getFiles(MediaLibraryConfig $config): array
+    public function getFiles(MediaLibraryConfig $config, string $folder): array
     {
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
+
+        if ($folder) {
+            $searchQuery->addMust((new Term())->setTerm($config->fieldFolder, $folder));
+        }
 
         $docs = $this->search($config, $searchQuery)->getDocuments();
 
@@ -79,7 +86,16 @@ class MediaLibraryService
 
         $docs = $this->search($config, $searchQuery)->getDocuments();
 
-        return \array_map(fn (Document $doc) => ['name' => $doc->get($config->fieldPath)], $docs);
+        $folders = new MediaLibraryFolders();
+
+        foreach ($docs as $document) {
+            $folderPath = $document->get($config->fieldPath);
+            $currentPath = \array_filter(\explode('/', $folderPath));
+            $folderName = \basename($folderPath);
+            $folders->add($currentPath, $folderName, $folderPath);
+        }
+
+        return $folders->toArray();
     }
 
     /**
@@ -107,16 +123,6 @@ class MediaLibraryService
         return $file;
     }
 
-    private function search(MediaLibraryConfig $config, AbstractQuery $query): ResultSet
-    {
-        $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
-        $search->setContentTypes([$config->contentType->getName()]);
-        $search->setFrom(0);
-        $search->setSize(100);
-
-        return $this->elasticaService->search($search);
-    }
-
     private function getMimeType(string $fileHash): string
     {
         $tempFile = $this->fileService->temporaryFilename($fileHash);
@@ -125,5 +131,16 @@ class MediaLibraryService
         $type = (new File($tempFile))->getMimeType();
 
         return $type ?: 'application/bin';
+    }
+
+    private function search(MediaLibraryConfig $config, AbstractQuery $query): ResultSet
+    {
+        $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
+        $search->setContentTypes([$config->contentType->getName()]);
+        $search->setFrom(0);
+        $search->setSize(5000);
+        $search->setSort([$config->fieldPath.'.alpha_order' => ['order' => 'asc']]);
+
+        return $this->elasticaService->search($search);
     }
 }

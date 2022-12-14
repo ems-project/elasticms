@@ -9,13 +9,12 @@ div.media-lib {
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 100%;
   }
 
   div.media-lib-content {
     display: flex;
     flex-grow: 1;
-    height: calc(100vh - 200px);
+    height: calc(90vh - 200px);
 
     div.media-nav-bar {
       padding: 8px;
@@ -32,7 +31,7 @@ div.media-lib {
       min-width: 10%;
       max-width: 50%;
       flex-shrink:0;
-      background-color: #DCDCDC;
+      background-color: #d2d6de;
       border-right: solid 1px #ddd;
 
       div.media-lib-folders {
@@ -40,25 +39,62 @@ div.media-lib {
         overflow-x: hidden;
 
         ul.media-lib-list-folders {
-          width: 100%;
-
           li {
-            &::before {
-              content: "\f114";
-              font-family: "FontAwesome", serif;
-              margin-right: 8px;
-            }
-
-            &:hover {
-              background-color: #f5f5f5;
-              cursor: pointer;
-            }
-
             display: flex;
-            flex-direction: row;
-            background-color: #FFFFFF;
-            border-bottom: solid 1px #ddd;
-            padding: 8px;
+            flex-direction: column;
+            background-color: #f5f5f5;
+
+            button.media-lib-link-folder {
+              background-color: #f5f5f5;
+              border: 0;
+              text-align: left;
+              color: #333;
+              padding: 8px;
+
+              &::before {
+                content: "\f07b";
+                font-weight: normal;
+                color: #777;
+                font-family: "FontAwesome", serif;
+                margin-right: 8px;
+              }
+
+              &.active, &:hover {
+                color: $brand-primary;
+                &::before { color: $brand-primary; }
+              }
+            }
+
+            ul {
+              display: none;
+              padding-left: 8px;
+              width: auto;
+            }
+
+            &.media-lib-folder-children {
+              & > button.media-lib-link-folder::after {
+                content: "\f104";
+                color: #777777;
+                font-family: "FontAwesome", serif;
+                float: right;
+              }
+            }
+            &.media-lib-folder-children.open {
+                & > button.media-lib-link-folder::before { content: "\f07c"; }
+                & > button.media-lib-link-folder::after { content: "\f107"; }
+                & > ul { display: block; }
+            }
+          }
+
+          & > li {
+            & > button.media-lib-link-folder {
+              border-bottom: 1px solid #DCDCDC;
+              background-color: #FFFFFF;
+              &:hover { background-color: #d9edf7; }
+            }
+            & > ul {
+              border-bottom: 1px solid #DCDCDC;
+            }
           }
         }
       }

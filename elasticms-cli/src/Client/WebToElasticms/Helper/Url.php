@@ -29,7 +29,7 @@ class Url
     private readonly ?string $fragment;
     private readonly ?string $referer;
 
-    public function __construct(string $url, string $referer = null)
+    public function __construct(string $url, ?string $referer = null, private readonly ?string $refererLabel = null)
     {
         $parsed = self::mb_parse_url($url);
         $relativeParsed = [];
@@ -276,5 +276,10 @@ class Url
         $resolved = $optionsResolver->resolve($parts);
         /* @var array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string} $resolved */
         return $resolved;
+    }
+
+    public function getRefererLabel(): ?string
+    {
+        return $this->refererLabel;
     }
 }

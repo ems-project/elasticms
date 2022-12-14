@@ -305,6 +305,7 @@ class ConfigManager
 
             return [];
         }
+
         if (0 === \strlen($hash)) {
             throw new \RuntimeException('Unexpected empty hash');
         }
@@ -430,6 +431,11 @@ class ConfigManager
         $this->expressionLanguage->register('list_to_json_menu_nested',
             fn ($values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => \sprintf('((null === %1$s || null === %2$s || null === %3$s) ? null : \\App\\ExpressionLanguage\\Functions::listToJsonMenuNested(%1$s, %2$s, %3$s, %4$s, %5$s, %6$s))', \strval($values), $fieldName, $typeName, \strval($labels), $labelField, \strval($multiplex)),
             fn ($arguments, $values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => (null === $values || null === $fieldName || null === $typeName) ? null : Functions::listToJsonMenuNested($values, $fieldName, $typeName, $labels, $labelField, $multiplex)
+        );
+
+        $this->expressionLanguage->register('array_to_json_menu_nested',
+            fn ($values, $keys) => \sprintf('((null === %1$s || null === %2$s)) ? null : \\App\\ExpressionLanguage\\Functions::arrayToJsonMenuNested(%1$s, %2$s))', \strval($values), \strval($keys)),
+            fn ($arguments, $values, $keys) => (null === $values || null === $keys) ? null : Functions::arrayToJsonMenuNested($values, $keys)
         );
 
         return $this->expressionLanguage;

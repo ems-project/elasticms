@@ -17,7 +17,6 @@ use App\CLI\Helper\TikaWrapper;
 use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Common\Standard\Json;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DomCrawler\Crawler;
 
 class AuditManager
 {
@@ -233,10 +232,8 @@ class AuditManager
             if ($result->isHtml()) {
                 return;
             }
-            $html = new HtmlHelper($this->tikaLinksAudit->getOutput());
-            foreach ($html->getLinks() as $link) {
-                $audit->addLinks(new Url($link, $audit->getUrl()->getUrl()));
-            }
+            $htmlHelper = new HtmlHelper($this->tikaLinksAudit->getOutput(), $audit->getUrl());
+            $audit->addLinks($htmlHelper);
             $meta = $this->tikaMetaAudit->getJson();
             $audit->setTitle(null === ($meta['dc:title'] ?? null) ? null : \trim((string) $meta['dc:title']));
             $audit->setAuthor(null === ($meta['dc:author'] ?? null) ? null : \trim((string) $meta['dc:author']));
@@ -258,21 +255,13 @@ class AuditManager
         try {
             $stream = $result->getResponse()->getBody();
             $stream->rewind();
-            $crawler = new Crawler($stream->getContents());
-            $content = $crawler->filter('a');
-            for ($i = 0; $i < $content->count(); ++$i) {
-                $item = $content->eq($i);
-                $href = $item->attr('href');
-                if (null === $href || 0 === \strlen($href) || \str_starts_with($href, '#')) {
-                    continue;
-                }
-                $audit->addLinks(new Url($href, $audit->getUrl()->getUrl()));
-            }
-            $audit->setMetaTitle($this->getUniqueTextValue($report, $audit, $crawler, 'title'));
-            $audit->setTitle($this->getUniqueTextValue($report, $audit, $crawler, 'h1'));
-            $audit->setCanonical($this->getUniqueTextAttr($report, $audit, $crawler, 'link[rel="canonical"]', 'href'));
-            $audit->setAuthor($this->getUniqueTextAttr($report, $audit, $crawler, 'meta[name="author"]', 'content', false));
-            $description = $this->getUniqueTextAttr($report, $audit, $crawler, 'meta[name="description"]', 'content');
+            $htmlHelper = new HtmlHelper($stream->getContents(), $audit->getUrl());
+            $audit->addLinks($htmlHelper);
+            $audit->setMetaTitle($htmlHelper->getUniqueTextValue($report, 'title'));
+            $audit->setTitle($htmlHelper->getUniqueTextValue($report, 'h1'));
+            $audit->setCanonical($htmlHelper->getUniqueTextAttr($report, 'link[rel="canonical"]', 'href'));
+            $audit->setAuthor($htmlHelper->getUniqueTextAttr($report, 'meta[name="author"]', 'content', false));
+            $description = $htmlHelper->getUniqueTextAttr($report, 'meta[name="description"]', 'content');
             if (null !== $description && \strlen($description) < 20) {
                 $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too short: %d', \strlen($description))]);
             }
@@ -284,38 +273,6 @@ class AuditManager
             $this->logger->critical(\sprintf('Crawler audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
         }
         $this->logger->notice('HTML parsed');
-    }
-
-    private function getUniqueTextValue(Report $report, AuditResult $audit, Crawler $crawler, string $selector): ?string
-    {
-        $tag = $crawler->filter($selector);
-        if (0 === $tag->count() || 0 === \strlen(\trim($tag->eq(0)->text()))) {
-            $report->addWarning($audit->getUrl(), [\sprintf('%s is missing', $selector)]);
-
-            return null;
-        }
-        if ($tag->count() > 1) {
-            $report->addWarning($audit->getUrl(), [\sprintf('%s is present %d times', $selector, $tag->count())]);
-        }
-
-        return \trim($tag->eq(0)->text());
-    }
-
-    private function getUniqueTextAttr(Report $report, AuditResult $audit, Crawler $crawler, string $selector, string $attr, bool $withWarnings = true): ?string
-    {
-        $tag = $crawler->filter($selector);
-        if (0 === $tag->count() || 0 === \strlen(\trim($tag->eq(0)->attr($attr) ?? ''))) {
-            if ($withWarnings) {
-                $report->addWarning($audit->getUrl(), [\sprintf('%s is missing', $selector)]);
-            }
-
-            return null;
-        }
-        if ($tag->count() > 1) {
-            $report->addWarning($audit->getUrl(), [\sprintf('%s is present %d times', $selector, $tag->count())]);
-        }
-
-        return \trim($tag->eq(0)->attr($attr) ?? '');
     }
 
     private function startTikaAudits(AuditResult $audit, HttpResult $result): void
@@ -340,16 +297,14 @@ class AuditManager
         }
         $this->logger->notice('Collect Tika audit');
         try {
-            $html = new HtmlHelper($this->htmlRequest->getContent());
+            $htmlHelper = new HtmlHelper($this->htmlRequest->getContent(), $audit->getUrl());
             $audit->setLocale($this->metaRequest->getLocale());
-            $audit->setContent($html->getText());
+            $audit->setContent($htmlHelper->getText());
             $audit->setTikaDatetime();
             if ($result->isHtml()) {
                 return;
             }
-            foreach ($html->getLinks() as $link) {
-                $audit->addLinks(new Url($link, $audit->getUrl()->getUrl()));
-            }
+            $audit->addLinks($htmlHelper);
             $audit->setTitle($this->metaRequest->getTitle());
             $audit->setAuthor($this->metaRequest->getCreator());
         } catch (\Throwable $e) {

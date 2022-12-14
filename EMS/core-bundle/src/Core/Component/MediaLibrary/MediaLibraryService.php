@@ -108,6 +108,8 @@ class MediaLibraryService
         $form = $this->revisionService->createRevisionForm($revision);
         $this->dataService->finalizeDraft($revision, $form);
 
+        $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());
+
         return 0 === $form->getErrors(true)->count();
     }
 

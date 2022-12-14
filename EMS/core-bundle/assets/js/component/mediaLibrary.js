@@ -4,65 +4,145 @@ import ProgressBar from "../helper/progressBar";
 import FileUploader from "@elasticms/file-uploader";
 
 export default class MediaLibrary {
-    #urlMediaLib;
-    #urlInitUpload;
-    #urlViewFile;
-
     #el;
     #hash;
-    #hashAlgo;
-    #uploading = {};
     #activePath;
-
-    #divUploads;
-    #listFiles;
-    #listFolders;
-    #listUploads;
-    #listBreadcrumb;
+    #options = {};
+    #elements = {};
 
     constructor (el, options) {
-        this.#urlMediaLib = options.urlMediaLib;
-        this.#urlInitUpload = options.urlInitUpload;
-        this.#urlViewFile = options.urlFileView;
+        this.#options = options;
+        this.#hash = el.dataset.hash;
 
         this.#el = el;
-        this.#hash = el.dataset.hash;
-        this.#hashAlgo = options.hashAlgo;
+        this.#elements = {
+            btnHome: el.querySelector('button.btn-home'),
+            btnAddFolder: el.querySelector('button.btn-add-folder'),
+            inputUpload:  el.querySelector('input.file-uploader-input'),
+            listFiles: el.querySelector("ul.media-lib-list-files"),
+            listFolders: el.querySelector("ul.media-lib-list-folders"),
+            listUploads: el.querySelector('ul.media-lib-list-uploads'),
+            listBreadcrumb: el.querySelector('ul.media-lib-list-breadcrumb')
+        };
+        this.#elements.uploadLabel = el.querySelector(`label[for="${this.#elements.inputUpload.id}"]`);
 
-        this.#divUploads = el.querySelector('div.media-lib-uploads');
-        this.#listFiles = el.querySelector("ul.media-lib-list-files");
-        this.#listFolders = el.querySelector("ul.media-lib-list-folders");
-        this.#listUploads = el.querySelector('ul.media-lib-list-uploads');
-        this.#listBreadcrumb = el.querySelector('ul.media-lib-list-breadcrumb');
         this._init();
     }
 
     _init() {
         this._addEventListeners();
-        this._getFolders();
-        this._getFiles();
+        this._disableButtons();
+        Promise
+            .allSettled([this._getFolders(), this._getFiles()])
+            .then(() => this._enableButtons());
+    }
+
+    _disableButtons() {
+        this.#el.querySelectorAll('button').forEach(button => button.disabled = true);
+        this.#elements.uploadLabel.setAttribute('disabled', 'disabled');
+    }
+    _enableButtons() {
+        this.#el.querySelectorAll('button').forEach(button => button.disabled = false);
+        this.#elements.uploadLabel.removeAttribute('disabled');
     }
 
     _addEventListeners() {
-        this.#el.querySelectorAll('button.btn-add-folder').forEach(button => {
-            button.onclick = () => this._addFolder();
-        });
-        this.#el.querySelector('.file-uploader-input').onchange = (event) => {
-            Array.from(event.target.files).forEach((file) => this._addFile(file));
-            event.target.value = "";
-        };
-        this.#el.querySelector('button.btn-home').onclick = () => this._openFolder();
+        this.#elements.btnAddFolder.onclick = () => this._addFolder();
+        this.#elements.btnHome.onclick = () => this._loadFolder();
+        this.#elements.inputUpload.onchange = (event) => { this._addFiles(Array.from(event.target.files)); };
         this.#el.onclick = (event) => {
-            let target = event.target;
-            if (target.classList.contains('media-lib-link-folder')) {
-                this._openFolder(target.dataset.path, target);
+            if (event.target.classList.contains('media-lib-link-folder')) {
+                this._loadFolder(event.target.dataset.path, event.target);
             }
         }
     }
 
-    _openFolder(path, clickedButton)
-    {
-        this.#listFolders.querySelectorAll('button').forEach((li) => li.classList.remove('active'))
+    _addFiles(files) {
+        this._disableButtons();
+        let path = this.#activePath;
+
+        Promise
+            .allSettled(files.map((file) => this._addFile(file, path)))
+            .then(() => {
+                this.#elements.inputUpload.value = "";
+                this._loadFolder(path);
+            });
+    }
+    _addFile(file, path) {
+        return new Promise((resolve, reject) => {
+            let id = 'upload-' + Date.now();
+            let progressBar = new ProgressBar('progress-' + id, {
+                'label': file.name
+            });
+
+            let fileHash = null;
+            let mediaLib = this;
+            let liUpload = document.createElement('li');
+            liUpload.append(progressBar.element());
+            this.#elements.listUploads.appendChild(liUpload);
+
+            new FileUploader({
+                file: file,
+                algo: this.#options.hashAlgo,
+                initUrl: this.#options.urlInitUpload,
+                onHashAvailable: function (hash) {
+                    progressBar.status('Hash available');
+                    progressBar.progress(0);
+                    fileHash = hash;
+                },
+                onProgress: function (status, progress, remaining) {
+                    if (status === 'Computing hash') {
+                        progressBar.status('Calculating ...');
+                        progressBar.progress(remaining);
+                    }
+                    if (status === 'Uploading') {
+                        progressBar.status('Uploading: ' + remaining);
+                        progressBar.progress(Math.round(progress * 100));
+                    }
+                },
+                onUploaded: function () {
+                    progressBar.status('Uploaded');
+                    progressBar.progress(100);
+                    progressBar.style('success');
+
+                    ajaxJsonPost(mediaLib._makeUrl('add-file/' + fileHash, path), JSON.stringify({
+                        'file': { 'filename': file.name, 'filesize': file.size, 'mimetype': file.type}
+                    }), (json, request) => {
+                        if (request.status === 201) {
+                            resolve();
+                            mediaLib.#elements.listUploads.removeChild(liUpload);
+                        } else {
+                            reject();
+                            progressBar.status('Error: ' + message);
+                            progressBar.progress(100);
+                            progressBar.style('danger');
+                        }
+                    });
+                },
+                onError: function (message) {
+                    progressBar.status('Error: ' + message);
+                    progressBar.progress(100);
+                    progressBar.style('danger');
+                }
+            });
+
+        });
+    }
+    _addFolder() {
+        ajaxModal.load({ url: this._makeUrl('add-folder'), size: 'sm'}, (json) => {
+            if (json.hasOwnProperty('success')) {
+                this._disableButtons();
+                this._getFolders(json.path).then(() => this._enableButtons());
+            }
+        });
+    }
+
+    _loadFolder(path, clickedButton) {
+        this._disableButtons();
+
+        this.#elements.listFolders.querySelectorAll('button')
+            .forEach((li) => li.classList.remove('active'));
+
         let button = document.querySelector(`button[data-path="${path}"]`);
         if (button) { button.classList.add('active'); }
 
@@ -74,11 +154,9 @@ export default class MediaLibrary {
         }
 
         this.#activePath = path;
-        this._getFiles(path);
+        this._getFiles(path).then(() => this._enableButtons());
     }
-
-    _openPath(path)
-    {
+    _openPath(path) {
         let currentPath = '';
         path.split('/').filter(f => f !== '').forEach((folderName) => {
             currentPath += `/${folderName}`;
@@ -97,101 +175,30 @@ export default class MediaLibrary {
         }
     }
 
-    _addFile(file) {
-        let id = 'upload-'+ Date.now();
-        this.#uploading[id] = 'start';
-
-        let progressBar = new ProgressBar('progress-' + id, {
-            'label': file.name
-        });
-
-        let fileHash = null;
-        let mediaLib = this;
-        let liUpload = document.createElement('li');
-        liUpload.append(progressBar.element());
-        this.#listUploads.appendChild(liUpload);
-        this.#divUploads.style.display = 'block';
-
-        new FileUploader({
-            file: file,
-            algo: this.#hashAlgo,
-            initUrl: this.#urlInitUpload,
-            onHashAvailable: function(hash, type, name) {
-                progressBar.status('Hash available');
-                progressBar.progress(0);
-                fileHash = hash;
-            },
-            onProgress: function(status, progress, remaining){
-                if (status === 'Computing hash') {
-                    progressBar.status('Calculating ...');
-                    progressBar.progress(remaining);
-                }
-                if (status === 'Uploading') {
-                    progressBar.status('Uploading: ' + remaining);
-                    progressBar.progress(Math.round(progress*100));
-                }
-            },
-            onUploaded: function(){
-                progressBar.status('Uploaded');
-                progressBar.progress(100);
-                progressBar.style('success');
-
-                ajaxJsonPost(mediaLib._makeUrl('add-file/'+fileHash), JSON.stringify({
-                    'file': {
-                        'filename': file.name,
-                        'filesize': file.size,
-                        'mimetype': file.type
-                    }
-                }), (json, request) => {
-                    if (request.status === 201) {
-                        delete mediaLib.#uploading[id];
-                        mediaLib.#listUploads.removeChild(liUpload);
-
-                        if (Object.keys(mediaLib.#uploading).length === 0) {
-                            mediaLib.#divUploads.style.display = 'none';
-                            mediaLib._getFiles();
-                        }
-                    } else {
-                        progressBar.status('Error: ' + message);
-                        progressBar.progress(100);
-                        progressBar.style('danger');
-                    }
-                });
-            },
-            onError: function(message, code){
-                progressBar.status('Error: ' + message);
-                progressBar.progress(100);
-                progressBar.style('danger');
-            }
-        });
-    }
-
-    _addFolder() {
-        ajaxModal.load({ url: this._makeUrl('add-folder'), size: 'sm'}, (json) => {
-            if (json.hasOwnProperty('path')) {
-                this._getFolders(json.path);
-            }
-        });
-    }
-
     _getFiles(path) {
-        this.#listFiles.innerHTML = '';
-        this._makeBreadcrumb(path);
-        ajaxJsonGet(this._makeUrl('files'), (files) => { this._makeFileItems(files, this.#listFiles) });
+        return new Promise((resolve) => {
+            this.#elements.listFiles.innerHTML = '';
+            this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
+            ajaxJsonGet(this._makeUrl('files'), (files) => {
+                this._appendFileItems(files, this.#elements.listFiles);
+                resolve();
+            });
+        })
     }
-
     _getFolders(openPath) {
-        this.#listFolders.innerHTML = '';
-        ajaxJsonGet([this.#urlMediaLib, this.#hash, 'folders'].join('/'), (folders) => {
-            this._makeFolderItems(folders, this.#listFolders);
-            if (openPath) { this._openPath(openPath); }
+        return new Promise((resolve) => {
+            this.#elements.listFolders.innerHTML = '';
+            ajaxJsonGet([this.#options.urlMediaLib, this.#hash, 'folders'].join('/'), (folders) => {
+                this._appendFolderItems(folders, this.#elements.listFolders);
+                if (openPath) { this._openPath(openPath); }
+                resolve();
+            });
         });
     }
 
-    _makeBreadcrumb(path)
-    {
-        this.#listBreadcrumb.style.display = 'flex';
-        this.#listBreadcrumb.innerHTML = '';
+    _appendBreadcrumbItems(path, list) {
+        list.style.display = 'flex';
+        list.innerHTML = '';
         path = ''.concat('/home', path || '');
         let currentPath = '';
 
@@ -203,12 +210,10 @@ export default class MediaLibrary {
             let item = document.createElement('li');
             item.appendChild(this._makeFolderButton(folderName, currentPath));
 
-            this.#listBreadcrumb.appendChild(item);
+            list.appendChild(item);
         });
     }
-
-    _makeFileItems(files, list)
-    {
+    _appendFileItems(files, list) {
         if (files.length > 0) {
             let liHeading = document.createElement("li");
             ['Name', 'Type', 'Size'].forEach(fileProperty => {
@@ -222,7 +227,7 @@ export default class MediaLibrary {
         files.forEach((file) => {
             let nameLink = document.createElement('a');
             nameLink.download = file['file']['name'];
-            nameLink.href = this.#urlViewFile
+            nameLink.href = this.#options.urlFileView
                 .replace(/__file_identifier__/g, file['file']['hash'])
                 .replace(/__file_name__/g, file['file']['name']);
             nameLink.textContent = file['file']['name'];
@@ -242,15 +247,14 @@ export default class MediaLibrary {
             list.appendChild(liFile);
         });
     }
-
-    _makeFolderItems(folders, list) {
+    _appendFolderItems(folders, list) {
         folders.forEach((folder) => {
             let liFolder = document.createElement("li");
             liFolder.appendChild(this._makeFolderButton(folder['name'], folder['path']));
 
             if (folder.hasOwnProperty('children')) {
                 let ulChildren = document.createElement('ul');
-                this._makeFolderItems(folder.children, ulChildren);
+                this._appendFolderItems(folder.children, ulChildren);
                 liFolder.appendChild(ulChildren);
                 liFolder.classList.add('media-lib-folder-children');
             }
@@ -261,18 +265,21 @@ export default class MediaLibrary {
 
     _makeFolderButton(name, path) {
         let button = document.createElement("button");
+        button.disabled = true;
         button.textContent = name;
         button.dataset.path = path;
         button.classList.add('media-lib-link-folder');
 
         return button;
     }
+    _makeUrl(action, path) {
+        let url = [this.#options.urlMediaLib, this.#hash, action].join('/');
+        path = path || this.#activePath;
 
-    _makeUrl(action) {
-        let url = [this.#urlMediaLib, this.#hash, action].join('/');
-        if (this.#activePath) {
-            url += '?' + new URLSearchParams({path: this.#activePath}).toString();
+        if (path) {
+            url += '?' + new URLSearchParams({path: path}).toString();
         }
+
         return url;
     }
 }

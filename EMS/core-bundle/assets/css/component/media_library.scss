@@ -4,7 +4,15 @@ div.media-lib {
   border: solid 1px #ddd;
   color: #333333;
 
-  .btn i { margin-right: 4px; }
+  button[disabled], label[disabled] {
+    opacity: 100%;
+    cursor: progress;
+  }
+
+  .btn i {
+    margin-right: 4px;
+  }
+
   ul {
     list-style: none;
     margin: 0;
@@ -44,7 +52,10 @@ div.media-lib {
           font-size: 12px;
           background-color: transparent;
           color: $brand-primary;
-          &:hover { text-decoration: underline; }
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
 
         li:not(:last-child)::after {
@@ -63,7 +74,7 @@ div.media-lib {
       width: 20%;
       min-width: 10%;
       max-width: 50%;
-      flex-shrink:0;
+      flex-shrink: 0;
       background-color: #d2d6de;
       border-right: solid 1px #ddd;
 
@@ -94,7 +105,10 @@ div.media-lib {
 
               &.active, &:hover {
                 color: $brand-primary;
-                &::before { color: $brand-primary; }
+
+                &::before {
+                  color: $brand-primary;
+                }
               }
             }
 
@@ -112,10 +126,19 @@ div.media-lib {
                 float: right;
               }
             }
+
             &.media-lib-folder-children.open {
-                & > button.media-lib-link-folder::before { content: "\f07c"; }
-                & > button.media-lib-link-folder::after { content: "\f107"; }
-                & > ul { display: block; }
+              & > button.media-lib-link-folder::before {
+                content: "\f07c";
+              }
+
+              & > button.media-lib-link-folder::after {
+                content: "\f107";
+              }
+
+              & > ul {
+                display: block;
+              }
             }
           }
 
@@ -123,8 +146,12 @@ div.media-lib {
             & > button.media-lib-link-folder {
               border-bottom: 1px solid #DCDCDC;
               background-color: #FFFFFF;
-              &:hover { background-color: #d9edf7; }
+
+              &:hover {
+                background-color: #d9edf7;
+              }
             }
+
             & > ul {
               border-bottom: 1px solid #DCDCDC;
             }
@@ -140,21 +167,20 @@ div.media-lib {
       flex-grow: 1;
       background-color: #FFF;
 
-      div.media-lib-uploads {
-        background-color: #f5f5f5;
+      ul.media-lib-list-uploads {
         width: 100%;
-        padding: 8px;
 
-        ul.media-lib-list-uploads {
-          width: 100%;
-          margin-top: 8px;
-          li {
-            display: flex;
-            flex-direction: column;
-            padding: 16px;
-            background-color: #FFFFFF;
-            margin-bottom: 8px;
-            border: 1px solid #ddd;
+        li {
+          display: flex;
+          flex-direction: column;
+          padding: 8px;
+          background-color: #f5f5f5;
+
+          div.core-js-progress {
+            background: #FFFFFF;
+            padding: 8px;
+            border-radius: 3px;
+            border: 1px solid #DCDCDC;
           }
         }
       }
@@ -168,19 +194,27 @@ div.media-lib {
           flex-direction: column;
 
           li {
-            &:first-child { font-weight: bold; }
+            &:first-child {
+              font-weight: bold;
+            }
 
             padding: 8px 16px;
             border-bottom: 1px dashed #DCDCDC;
             display: flex;
             flex-wrap: nowrap;
 
-            a:hover { text-decoration: underline; }
+            a:hover {
+              text-decoration: underline;
+            }
 
             > div {
               flex: 1;
 
-              &:last-child { flex: none; width: 120px; text-align: right; }
+              &:last-child {
+                flex: none;
+                width: 120px;
+                text-align: right;
+              }
             }
           }
         }

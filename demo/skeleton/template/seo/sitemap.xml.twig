@@ -1,0 +1,68 @@
+{% extends '@EMSCH/template/variables.twig' %}
+
+{% block dom %}
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="{{ asset('other/xsl/sitemap.xsl', 'emsch') }}"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+{#    <sitemap>#}
+{#        <loc>{{ path('sitemap.xml') }}</loc>#}
+{#        <lastmod>{{ 'now'|date('Y-m-d') }}</lastmod>#}
+{#    </sitemap>#}
+    {%  for url in urls %}
+        <url>
+            <loc>{{ url.loc }}</loc>
+            <lastmod>{{ url.lastmod|date('c') }}</lastmod>
+            <changefreq>{{ url.changefreq }}</changefreq>
+            <priority>{{ url.priority }}</priority>
+        </url>
+    {% endfor %}
+
+</urlset>
+{% endblock %}
+
+{% block request %}
+    {% set paths = [] %}
+    {% for structure in emsch_search('structure', {
+        "size": 1000,
+        "_source": ["paths.locale","paths.target","paths.path"],
+    }).hits.hits|default([]) %}
+        {%  for path in structure._source.paths|default([])|filter(path => path.target|default(null) != null) %}
+            {%  set paths = paths|merge({(path.target): attribute(paths, path.target)|default([])|merge({ (path.locale): path }) }) %}
+        {%  endfor %}
+    {%  endfor %}
+
+    {% set urls = [] %}
+    {% for page in emsch_search('page', {
+        "sort": {
+            "_finalization_datetime": {
+                "order": "desc",
+                "missing": "_last",
+                "unmapped_type": "long"
+            }
+        },
+        "size": 1000,
+        "_source": ["_finalization_datetime"]|merge(locales|map(l => "#{l}.title"))|merge(locales|map(l => "#{l}.slug"))|merge(locales|map(l => "#{l}.show")),
+    }).hits.hits|default([]) %}
+        {%  for locale in locales %}
+            {% if attribute(page._source, locale).show|default(false) %}
+                {%  set loc = false %}
+                {% if attribute(paths, "page:#{page._id}") is defined and attribute(attribute(paths, "page:#{page._id}"), locale) is defined %}
+                    {%  set loc = url('emsch_path', {_locale: locale, path: attribute(attribute(paths, "page:#{page._id}"), locale).path}) %}
+                {% elseif attribute(page._source, locale).slug|default(false) and attribute(page._source, locale).slug == '/' %}
+                    {%  set loc = url('emsch_homepage', {_locale: locale}) %}
+                {% elseif attribute(page._source, locale).slug|default(false) %}
+                    {%  set loc = url('emsch_page', {_locale: locale, slug: attribute(page._source, locale).slug}) %}
+                {% endif %}
+                {%  if loc %}
+                    {% set urls = urls|merge([{
+                        loc: loc,
+                        changefreq: 'weekly',
+                        priority: 0.7,
+                        lastmod: page._source._finalization_datetime|default('now'),
+                    }]) %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {{ block('dom') }}
+{% endblock -%}

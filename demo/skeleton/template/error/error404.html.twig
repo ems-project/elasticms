@@ -1,0 +1,8 @@
+{% extends '@EMSCH/template/error/error.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block canonical %}{% endblock %}
+
+{% block title %}{{ 'error.404.title'|trans }}{% endblock %}
+{% block icon %}<i class="fa fa-times-circle" aria-hidden="true"></i> {% endblock %}
+{% block description %}{{ 'error.404.description'|trans }}{% endblock %}

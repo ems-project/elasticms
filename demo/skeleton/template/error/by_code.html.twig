@@ -1,0 +1,8 @@
+{% set statusCode = app.request.get('statusCode')|default('500') %}
+{% if statusCode in ['404'] %}
+    {% set baseTemplate = "@EMSCH/template/error/error#{statusCode}.html.twig" %}
+{% else %}
+    {% set baseTemplate = "@EMSCH/template/error/error.html.twig" %}
+{% endif %}
+
+{% extends baseTemplate %}

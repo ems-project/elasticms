@@ -1,0 +1,15 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "german_stemmer",
+        "dirty": true,
+        "label": "german_stemmer",
+        "options": {
+            "type": "stemmer",
+            "name": "light_german"
+        },
+        "orderKey": 9
+    },
+    "replaced": []
+}

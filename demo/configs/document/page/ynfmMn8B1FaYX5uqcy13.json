@@ -1,0 +1,22 @@
+{
+    "en": {
+        "show": true,
+        "slug": "seo-pages",
+        "structure": "[]",
+        "title": "SEO pages"
+    },
+    "fr": {
+        "show": true,
+        "slug": "vues-seo",
+        "structure": "[]",
+        "title": "Vues SEO"
+    },
+    "label": "SEO pages",
+    "search_en": [
+        "SEO pages"
+    ],
+    "search_fr": [
+        "Vues SEO"
+    ],
+    "type": "page"
+}

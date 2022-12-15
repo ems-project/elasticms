@@ -1,0 +1,80 @@
+{% extends 'bootstrap_4_layout.html.twig' %}
+
+{% block form_row -%}
+    {% if ems_meta.rules|default([])|length > 0 %}
+        {% set row_attr = row_attr|merge({
+            'data-rules': ems_meta.rules|json_encode,
+            'data-show-hide': ems_meta.show_hide|default('show'),
+            'data-all-any': ems_meta.all_any|default('any'),
+        }) %}
+    {%  endif %}
+    {{ parent() }}
+{% endblock  %}
+
+{% block checkbox_row -%}
+    {% if ems_meta.rules|default([])|length > 0 %}
+        {% set row_attr = row_attr|merge({
+            'data-rules': ems_meta.rules|json_encode,
+            'data-show-hide': ems_meta.show_hide|default('show'),
+            'data-all-any': ems_meta.all_any|default('any'),
+        }) %}
+    {%  endif %}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <{{ element|default('div') }}{% with {attr: row_attr|merge({class: (row_attr.class|default('') ~ ' form-group')|trim})} %}{{ block('attributes') }}{% endwith %}>
+    {{- form_label(form) -}}
+    {{- form_widget(form, widget_attr) -}}
+    {{- form_help(form) -}}
+    </{{ element|default('div') }}>
+{% endblock  %}
+
+
+{% block button_row -%}
+    {% if ems_meta.rules|default([])|length > 0 %}
+        {% set row_attr = row_attr|merge({
+            'data-rules': ems_meta.rules|json_encode,
+            'data-show-hide': ems_meta.show_hide|default('show'),
+            'data-all-any': ems_meta.all_any|default('any'),
+        }) %}
+    {%  endif %}
+    {{ parent() }}
+{%- endblock %}
+
+{% block ems_markup_row -%}
+    {% set attr = attr|merge({
+        'class': 'form-group',
+    }) %}
+    {% if config.meta.rules|default([])|length > 0 %}
+        {% set attr = attr|merge({
+            'data-rules': config.meta.rules|json_encode,
+            'data-show-hide': config.meta.show_hide|default('show'),
+            'data-all-any': config.meta.all_any|default('any'),
+        }) %}
+    {%  endif %}
+    <div {{ block('attributes') }}>
+        {{ form.vars.config.markup|emsch_routing }}
+    </div>
+{%- endblock %}
+
+{% block file_widget -%}
+    {% set label_attr = label_attr|merge({
+        'class': ems_meta.class|default(''),
+    }) %}
+    {{ parent() }}
+    <ul class="file-list"></ul>
+{% endblock -%}
+
+{% block repeated_row -%}
+    {% set row_attr = row_attr|merge({
+        'data-rules': ems_meta.rules|json_encode,
+        'data-show-hide': ems_meta.show_hide|default('show'),
+        'data-all-any': ems_meta.all_any|default('any'),
+    }) %}
+    {{ form_row(form.first, { 'attr': {'class': ems_meta.class|default('')}, row_attr: row_attr  }) }}
+    {{ form_row(form.second, { 'attr': {'class': ems_meta.class|default('')}, row_attr: row_attr  }) }}
+{% endblock -%}

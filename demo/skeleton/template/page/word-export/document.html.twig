@@ -1,0 +1,88 @@
+{% extends '@EMSCH/template/page/word-export/export.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{#{% block title %}#}
+{#    {{- attribute(page.source, locale).title|default('error.page-not-found'|trans) -}}#}
+{#{% endblock %}#}
+
+{% block request %}
+    <html
+        {% for k, attr in htmlAttributes %}
+            {{ k }}={{ attr }}
+        {% endfor %}
+{#        xmlns:o="urn:schemas-microsoft-com:office:office"#}
+{#        xmlns:w="urn:schemas-microsoft-com:office:word"#}
+{#        xmlns="http://www.w3.org/TR/REC-html40"#}
+{#        lang="{{ locale }}"#}
+    >
+    <head>
+        <meta charset='utf-8'>
+        <title>{{ block('title') }}</title>
+        <style type="text/css">
+            /*we need |inline_css in the feature https://twig.symfony.com/doc/2.x/filters/inline_css.html*/
+            {% include '@EMSCH/template/page/word-export/css.twig' %}
+        </style>
+    </head>
+    <body lang="{{ locale }}">
+    <table id="page-layout" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td>
+                <div class="page-header-space" aria-hidden="true">&nbsp;</div>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <div>
+                    <h1>{{ block('title') }}</h1>
+                </div>
+                <div class="content-wysiwyg">
+                    {% with {
+                        'structure': attribute(page.source, locale).structure|default('{}')|ems_json_decode,
+                        'isWordExport': true,
+                        'trans_default_domain': trans_default_domain
+                    } %}
+                        {{ block("render", "@EMSCH/template/page/blocks/abstract-block.html.twig") }}
+                    {% endwith %}
+                </div>
+            </td>
+        </tr>
+        {# Annexes #}
+        {% if structureNode is defined and structureNode %}
+            {% for index, child in structureNode.children %}
+                {% if child.object is defined and child.object.page is defined %}
+                    {% set childPage = child.object.page|emsch_get %}
+                    <tr>
+                        <td>
+                            <div class="new-page">
+                                <h1><a name="anchor_{{ childPage.ouuid }}">
+                                        {{ 'annexe'|trans }} {{ index+1 }}: {{ attribute(childPage.source, locale).title|default(childPage.source.label) }}
+                                    </a>
+                                </h1>
+                                {% with {
+                                    'structure': attribute(childPage.source, locale).content|default('{}')|ems_json_decode,
+                                    'isWordExport': true,
+                                    'trans_default_domain': trans_default_domain,
+                                } %}
+                                    {{ block("render", "@EMSCH/template/blocks/abstract-block.html.twig") }}
+                                {% endwith %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>
+                <div class="page-footer-space" aria-hidden="true">&nbsp</div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    </body>
+    </html>
+{% endblock request %}

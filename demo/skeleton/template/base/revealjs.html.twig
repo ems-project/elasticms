@@ -1,0 +1,29 @@
+{% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('css/slideshow.css', 'emsch') }}">
+{% endblock %}
+
+
+{% block body %}
+    <div class="reveal">
+        <div class="slides">
+            {% block blocks %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('js/slideshow.js', 'emsch') }}"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

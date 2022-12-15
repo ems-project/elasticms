@@ -1,0 +1,17 @@
+{% apply spaceless %}
+    {% trans_default_domain trans_default_domain %}
+
+    {% set locale = app.request.locale %}
+    {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
+    {% set wyiwygReplaces = {
+        'src="https://www.youtube.com/': 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/',
+    } %}
+    {% set assetPath = emsch_assets_version('d1a0ebbea79e3869b4d784880c619ef95a4043b2') %}
+    {% set baseUrl = '/' %}
+    {% if app.user %}
+        {% set baseUrl = "/channel/#{trans_default_domain}" %}
+    {% endif %}
+
+    {%- block request %}{% endblock request -%}
+
+{% endapply %}

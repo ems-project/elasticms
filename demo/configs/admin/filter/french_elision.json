@@ -1,0 +1,30 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "french_elision",
+        "dirty": true,
+        "label": "french_elision",
+        "options": {
+            "articles": [
+                "l",
+                "m",
+                "t",
+                "qu",
+                "n",
+                "s",
+                "j",
+                "d",
+                "c",
+                "jusqu",
+                "quoiqu",
+                "lorsqu",
+                "puisq"
+            ],
+            "type": "elision",
+            "articles_case": false
+        },
+        "orderKey": 6
+    },
+    "replaced": []
+}

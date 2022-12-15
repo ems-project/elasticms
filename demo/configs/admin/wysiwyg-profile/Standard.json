@@ -1,0 +1,10 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\WysiwygProfile",
+    "arguments": [],
+    "properties": {
+        "name": "Standard",
+        "config": "{\r\n    \"plugins\": \"adv_link,uploadimage,imagebrowser,a11yhelp,basicstyles,bidi,clipboard,colorbutton,colordialog,contextmenu,dialogadvtab,div,elementspath,enterkey,entities,filebrowser,find,floatingspace,format,horizontalrule,htmlwriter,image2,indentlist,indentblock,justify,language,list,liststyle,magicline,maximize,newpage,preview,removeformat,resize,save,scayt,selectall,showborders,sourcearea,specialchar,stylescombo,tab,table,tabletools,templates,toolbar,undo,wsc,wysiwygarea\",\r\n    \"pasteFromWordRemoveFontStyles\": true,\r\n    \"pasteFromWordRemoveStyles\": true,\r\n    \"removeButtons\": \"Paste,Anchor,HorizontalRule,Underline,Strike\",\r\n    \"language\": \"en\",\r\n    \"toolbarGroups\": [\r\n        {\r\n            \"name\": \"clipboard\",\r\n            \"groups\": [\"clipboard\", \"undo\"]\r\n        },\r\n        {\r\n            \"name\": \"editing\"\r\n        },\r\n        {\r\n            \"name\": \"links\"\r\n        },\r\n        {\r\n            \"name\": \"insert\"\r\n        },\r\n        {\r\n            \"name\": \"tools\",\r\n            \"groups\": [\"mode\"]\r\n        },\r\n        {\r\n            \"name\": \"basicstyles\",\r\n            \"groups\": [\"basicstyles\", \"cleanup\"]\r\n        },\r\n        {\r\n            \"name\": \"paragraph\",\r\n            \"groups\": [\"list\", \"indent\", \"blocks\", \"align\"]\r\n        },\r\n        {\r\n            \"name\": \"styles\"\r\n        }\r\n    ]\r\n}",
+        "orderKey": 1
+    },
+    "replaced": []
+}

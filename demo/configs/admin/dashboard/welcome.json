@@ -1,0 +1,23 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Dashboard",
+    "arguments": [],
+    "properties": {
+        "name": "welcome",
+        "icon": "fa fa-home",
+        "label": "Welcome to elasticms",
+        "sidebarMenu": true,
+        "notificationMenu": false,
+        "landingPage": true,
+        "quickSearch": false,
+        "type": "ems_core.dashboard.template",
+        "role": "ROLE_USER",
+        "color": "light-blue",
+        "options": {
+            "body": "<P>\r\nWelcome to your elasticms demo website.\r\n</P>",
+            "header": null,
+            "footer": null
+        },
+        "orderKey": 1
+    },
+    "replaced": []
+}

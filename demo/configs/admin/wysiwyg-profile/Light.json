@@ -1,0 +1,10 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\WysiwygProfile",
+    "arguments": [],
+    "properties": {
+        "name": "Light",
+        "config": "{ \n\"pasteFromWordRemoveFontStyles\": true,\n\"pasteFromWordRemoveStyles\": true,\n\"language\": \"en\",\n\"toolbar\": [ \n[\"Styles\", \"Format\", \"Font\", \"FontSize\"], \n[\"Bold\", \"Italic\"], \n[\"NumberedList\", \"BulletedList\", \"-\", \"JustifyLeft\", \"JustifyCenter\", \"JustifyRight\", \"JustifyBlock\"], \n[\"Image\", \"Table\", \"-\", \"Link\"] \n], \n\"removePlugins\": \"link,about\", \n\"extraPlugins\": \"adv_link,\" \n}",
+        "orderKey": 2
+    },
+    "replaced": []
+}

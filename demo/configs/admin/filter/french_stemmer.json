@@ -1,0 +1,15 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "french_stemmer",
+        "dirty": true,
+        "label": "french_stemmer",
+        "options": {
+            "type": "stemmer",
+            "name": "light_french"
+        },
+        "orderKey": 7
+    },
+    "replaced": []
+}

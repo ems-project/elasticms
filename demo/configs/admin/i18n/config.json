@@ -1,0 +1,14 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\I18n",
+    "arguments": [],
+    "properties": {
+        "identifier": "config",
+        "content": [
+            {
+                "locale": "en",
+                "text": "{\r\n  \"locales\": [\r\n    \"en\",\r\n    \"fr\",\r\n    \"nl\",\r\n    \"de\"\r\n  ]\r\n}"
+            }
+        ]
+    },
+    "replaced": []
+}

@@ -1,0 +1,8 @@
+{% set config = form.vars.form_config %}
+{% trans_default_domain config.translationDomain %}
+{% form_theme form with [
+    '@EMSForm/form_theme.html.twig',
+    '@EMSCH/template/form/theme/bootstrap_4_with_visibility.html.twig',
+] %}
+
+{{ form(form) }}

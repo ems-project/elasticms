@@ -1,0 +1,17 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Channel",
+    "arguments": [],
+    "properties": {
+        "name": "live",
+        "alias": "demo_pgsql_v1_live",
+        "public": false,
+        "label": "Live",
+        "options": {
+            "searchConfig": "[]",
+            "entryPath": "./",
+            "attributes": "{\r\n    \"_locale\": \"en\",\r\n    \"_backend\": \"http:\\/\\/demo-admin.localhost\",\r\n    \"EMSCH_ENV\": \"demo_pgsql_v1_live\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"demo_pgsql_v1_live\\\",\\\"request\\\":{},\\\"backend\\\":\\\"https:\\/\\/demo-admin.localhost\\\"}}\"\r\n}"
+        },
+        "orderKey": 2
+    },
+    "replaced": []
+}

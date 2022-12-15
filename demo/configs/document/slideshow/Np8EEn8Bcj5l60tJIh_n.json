@@ -1,0 +1,17 @@
+{
+    "en": {
+        "blocks": "[{\"id\":\"c11481b4-db34-4025-b6c9-a1e406da0839\",\"label\":\"Architecture\",\"type\":\"section\",\"object\":{\"label\":\"Architecture\",\"body\":\"<h2>First of all elasticms is a software architecture</h2>\"},\"children\":[{\"id\":\"4b923f4a-dcb6-460b-bbcf-d3c7435855fe\",\"label\":\"\",\"type\":\"section\",\"object\":{\"body\":\"<p>Sub section 2</p>\",\"label\":\"\"},\"children\":[]}]},{\"id\":\"92711a07-69cf-4fd0-8cb8-4f1ca11896e3\",\"label\":\"Benefits\",\"type\":\"section\",\"object\":{\"label\":\"Benefits\",\"body\":\"<h2>Benefits</h2>\"},\"children\":[]}]",
+        "meta_description": "Presentation about elasticms",
+        "show": true,
+        "slug": "toto",
+        "title": "Why elasticms"
+    },
+    "fr": {
+        "blocks": "[{\"id\":\"81b0e05d-dfd5-4acb-bf6b-e6dee4e67b52\",\"label\":\"\",\"type\":\"section\",\"object\":{\"body\":\"<h2>elasticms est avant tout une architecture</h2>\\r\\n\\r\\n<ul>\\r\\n\\t<li>L&#39;id&eacute;e de base est de s&eacute;parer l&#39;outil de gestion de contenu du site web</li>\\r\\n\\t<li>Et de mettre elasticsearch entre les 2</li>\\r\\n</ul>\",\"label\":\"\"},\"children\":[]}]",
+        "show": true,
+        "slug": "toto",
+        "title": "Pourquoi elasticms"
+    },
+    "label": "Why elasticms?",
+    "publication_date": "2022/02/19"
+}

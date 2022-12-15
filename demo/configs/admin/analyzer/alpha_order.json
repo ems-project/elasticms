@@ -1,0 +1,20 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "alpha_order",
+        "dirty": true,
+        "label": "alpha_order",
+        "options": {
+            "filter": [
+                "asciifolding",
+                "lowercase"
+            ],
+            "char_filter": [],
+            "type": "custom",
+            "tokenizer": "keyword"
+        },
+        "orderKey": 1
+    },
+    "replaced": []
+}

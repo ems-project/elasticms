@@ -1,0 +1,11 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Schedule",
+    "arguments": [],
+    "properties": {
+        "name": "remove-expired-submissions",
+        "cron": "0 3 * * *",
+        "command": "ems:submissions:remove-expired",
+        "orderKey": 4
+    },
+    "replaced": []
+}

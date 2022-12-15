@@ -1,0 +1,10 @@
+error:
+    target-not-found: 'Page non trouvée'
+missing:
+    but-available-in: 'Version en français :'
+    description: 'Voir ci-dessous pour des versions alternatives.'
+    title: 'Ce contenu n''est pas disponible en français'
+navbar:
+    swith-to-locale: Français
+site:
+    name: 'Site web Démo'

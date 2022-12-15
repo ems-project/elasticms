@@ -1,0 +1,25 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "german_for_highlighting",
+        "dirty": true,
+        "label": "german_for_highlighting",
+        "options": {
+            "filter": [
+                "standard",
+                "lowercase",
+                "empty_elision",
+                "german_stemmer",
+                "german_stop"
+            ],
+            "char_filter": [
+                "html_strip"
+            ],
+            "type": "custom",
+            "tokenizer": "standard"
+        },
+        "orderKey": 5
+    },
+    "replaced": []
+}

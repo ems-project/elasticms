@@ -1,0 +1,11 @@
+{% extends '@EMSCH/template/variables.twig' %}
+
+{%- block request %}
+    {% apply spaceless %}
+        {{ {
+            url: asset('img/head/icon128.png', 'emsch'),
+            status: 301
+        }|json_encode|raw }}
+    {% endapply %}
+{% endblock request -%}
+

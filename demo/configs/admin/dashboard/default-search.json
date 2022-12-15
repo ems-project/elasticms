@@ -1,0 +1,23 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Dashboard",
+    "arguments": [],
+    "properties": {
+        "name": "default-search",
+        "icon": "fa fa-search",
+        "label": "Default search",
+        "sidebarMenu": false,
+        "notificationMenu": false,
+        "landingPage": false,
+        "quickSearch": true,
+        "type": "ems_core.dashboard.template",
+        "role": "ROLE_USER",
+        "color": "light-blue",
+        "options": {
+            "body": "This the default search dashboards",
+            "header": null,
+            "footer": null
+        },
+        "orderKey": 2
+    },
+    "replaced": []
+}

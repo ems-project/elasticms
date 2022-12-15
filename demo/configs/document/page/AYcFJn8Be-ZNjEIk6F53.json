@@ -1,0 +1,21 @@
+{
+    "en": {
+        "metatitle": "Form with visibility fields",
+        "show": true,
+        "slug": "advance-form",
+        "structure": "[{\"id\":\"9f1570ea-4a38-4070-94ff-5cb4edc29f13\",\"label\":\"Here is an advance form (with show and hide rules).\",\"type\":\"text\",\"object\":{\"body\":\"<p>Here is an advance form (with show and hide rules).</p>\",\"label\":\"Here is an advance form (with show and hide rules).\"},\"children\":[]},{\"id\":\"846b64d4-d9c5-4720-b137-53165d90da60\",\"label\":\"Advance form\",\"type\":\"form\",\"object\":{\"label\":\"Advance form\",\"link\":\"form_instance:AIfwJX8Be-ZNjEIkQF4o\"},\"children\":[]}]",
+        "title": "Advance form"
+    },
+    "fr": {
+        "show": false,
+        "structure": "[]"
+    },
+    "label": "Advance form",
+    "search_en": [
+        "Advance form",
+        "Here is an advance form (with show and hide rules).",
+        "Here is an advance form (with show and hide rules).",
+        "Advance form"
+    ],
+    "type": "page"
+}

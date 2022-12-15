@@ -1,0 +1,15 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "dutch_stemmer",
+        "dirty": true,
+        "label": "dutch_stemmer",
+        "options": {
+            "type": "stemmer",
+            "name": "dutch"
+        },
+        "orderKey": 1
+    },
+    "replaced": []
+}

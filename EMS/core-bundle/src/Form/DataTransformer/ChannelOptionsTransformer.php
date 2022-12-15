@@ -39,10 +39,9 @@ final class ChannelOptionsTransformer implements DataTransformerInterface
     {
         $defaultFormatted = (isset($value[$attribute]) && '' !== $value[$attribute]) ? $value[$attribute] : '{}';
         $formatted = \json_decode($defaultFormatted, true, 512, JSON_THROW_ON_ERROR);
-        if (null === $formatted) {
-            return $defaultFormatted;
-        }
 
-        return \json_encode($formatted, JSON_PRETTY_PRINT);
+        return (null !== $formatted && \json_encode($formatted, JSON_PRETTY_PRINT))
+            ? \json_encode($formatted, JSON_PRETTY_PRINT)
+            : '{}';
     }
 }

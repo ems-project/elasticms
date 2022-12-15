@@ -16,6 +16,11 @@
       "target": "git@github.com:ems-project/elasticms-web"
     },
     {
+      "name": "demo",
+      "directory": "demo",
+      "target": "git@github.com:ems-project/demo-website"
+    },
+    {
       "name": "client-helper-bundle",
       "directory": "EMS/client-helper-bundle",
       "target": "git@github.com:ems-project/EMSClientHelperBundle.git"

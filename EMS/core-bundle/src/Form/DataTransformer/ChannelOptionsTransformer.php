@@ -37,11 +37,12 @@ final class ChannelOptionsTransformer implements DataTransformerInterface
      */
     private function jsonFormat(array $value, string $attribute): string
     {
-        $defaultFormatted = (isset($value[$attribute]) && '' !== $value[$attribute]) ? $value[$attribute] : '{}';
-        $formatted = \json_decode($defaultFormatted, true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $formatted = \json_decode($value[$attribute] ?? '', true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            return $value[$attribute] ?? '';
+        }
 
-        return (null !== $formatted && \json_encode($formatted, JSON_PRETTY_PRINT))
-            ? \json_encode($formatted, JSON_PRETTY_PRINT)
-            : '{}';
+        return \json_encode($formatted, JSON_PRETTY_PRINT);
     }
 }

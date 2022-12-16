@@ -1,3 +1,4 @@
+github: ["/.github"]
 documentation: ["*.md"]
 elasticms-admin: ["/elasticms-admin"]
 elasticms-web: ["/elasticms-web"]

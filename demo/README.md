@@ -1,6 +1,14 @@
 # elasticms-demo
 A default elasticms local setup using docker compose
 
+Resources
+---------
+
+* [Documentation](https://ems-project.github.io/#/elasticms-cli/index)
+* [Report issues](https://github.com/ems-project/elasticms/issues) and
+  [send Pull Requests](https://github.com/ems-project/elasticms/pulls)
+  in the [elasticMS mono repository](https://github.com/ems-project/elasticms)
+
 ## Prerequisites
 
 You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows).

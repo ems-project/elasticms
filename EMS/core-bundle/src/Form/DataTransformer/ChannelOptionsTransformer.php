@@ -43,6 +43,6 @@ final class ChannelOptionsTransformer implements DataTransformerInterface
             return $value[$attribute] ?? '';
         }
 
-        return \json_encode($formatted, JSON_PRETTY_PRINT);
+        return \json_encode($formatted, JSON_PRETTY_PRINT) ?? '';
     }
 }

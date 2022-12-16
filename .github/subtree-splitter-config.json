@@ -18,7 +18,7 @@
     {
       "name": "demo",
       "directory": "demo",
-      "target": "git@github.com:ems-project/demo-website"
+      "target": "git@github.com:ems-project/elasticms-demo"
     },
     {
       "name": "client-helper-bundle",

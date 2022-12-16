@@ -42,7 +42,8 @@ final class ChannelOptionsTransformer implements DataTransformerInterface
         } catch (\Throwable $e) {
             return $value[$attribute] ?? '';
         }
+        $reEncoded = \json_encode($formatted, JSON_PRETTY_PRINT);
 
-        return \json_encode($formatted, JSON_PRETTY_PRINT) ?? '';
+        return false === $reEncoded ? '' : $reEncoded;
     }
 }

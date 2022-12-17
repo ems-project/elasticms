@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class BackupCommand extends AbstractCommand
 {
     final public const EXPORT = 'export';
+    final public const EXPORT_FOLDER = 'export-folder';
     final public const CONFIGS_FOLDER = 'configs-folder';
     final public const DOCUMENTS_FOLDER = 'documents-folder';
     private bool $export;
@@ -36,6 +37,11 @@ class BackupCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->export = $this->getOptionBool(self::EXPORT);
+        $exportFolder = $this->getOptionStringNull(self::EXPORT_FOLDER);
+        if (null !== $exportFolder) {
+            $this->configsFolder = $exportFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
+            $this->documentsFolder = $exportFolder.DIRECTORY_SEPARATOR.DownloadCommand::DEFAULT_FOLDER;
+        }
         $configsFolder = $this->getOptionStringNull(self::CONFIGS_FOLDER);
         if (null !== $configsFolder) {
             $this->configsFolder = $configsFolder;
@@ -49,7 +55,8 @@ class BackupCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addOption(self::EXPORT, null, InputOption::VALUE_NONE, 'Backup elasticMS\'s configs in JSON files');
+        $this->addOption(self::EXPORT, null, InputOption::VALUE_NONE, 'Backup elasticMS\'s configs in JSON files (dry run by default)');
+        $this->addOption(self::EXPORT_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Global export folder (can be overwritten per type of exports)');
         $this->addOption(self::CONFIGS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export configs folder');
         $this->addOption(self::DOCUMENTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export documents folder');
     }

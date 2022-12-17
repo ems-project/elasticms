@@ -55,10 +55,28 @@ class BackupCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        foreach ($this->coreApi->admin()->getConfigTypes() as $configType) {
-            \dump($configType);
+        $configTypes = $this->coreApi->admin()->getConfigTypes();
+        $rows = [];
+        $this->io->progressStart(\count($configTypes));
+        foreach ($configTypes as $configType) {
+            $rows[] = [$configType, $this->backupConfig($configType)];
+            $this->io->progressAdvance();
         }
+        $this->io->progressFinish();
+        $this->io->table(['Config Type', '# Configs'], $rows);
 
         return self::EXECUTE_SUCCESS;
+    }
+
+    private function backupConfig(string $configType): int
+    {
+        $configApi = $this->coreApi->admin()->getConfig($configType);
+        $configHelper = new ConfigHelper($configApi, $this->folder);
+
+        if ($this->export) {
+            $configHelper->update();
+        }
+
+        return \count($configApi->index());
     }
 }

@@ -52,9 +52,7 @@ class EntitiesController
 
     public function getEntityNames(): Response
     {
-        return new JsonResponse([
-            'config-types' => $this->entitiesHelper->getEntityNames(),
-        ]);
+        return new JsonResponse($this->entitiesHelper->getEntityNames());
     }
 
     public function update(string $entity, string $name, Request $request): Response

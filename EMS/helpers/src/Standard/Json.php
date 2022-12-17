@@ -48,4 +48,22 @@ final class Json
 
         return JSON_ERROR_NONE === \json_last_error();
     }
+
+    /**
+     * @return array<mixed>
+     */
+    public static function decodeFile(string $path): array
+    {
+        if (!\file_exists($path)) {
+            throw new \RuntimeException(\sprintf('File does not exists: %s', $path));
+        }
+
+        $content = \file_get_contents($path, true);
+
+        if (!\is_string($content)) {
+            throw new \RuntimeException(\sprintf('No content for %s', $path));
+        }
+
+        return self::decode($content);
+    }
 }

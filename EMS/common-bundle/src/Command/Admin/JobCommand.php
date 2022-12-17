@@ -45,7 +45,7 @@ class JobCommand extends AbstractCommand
         $configHelper = new ConfigHelper($configApi, $this->folder);
 
         if (!$this->coreApi->isAuthenticated()) {
-            $this->io->error(\sprintf('Not authenticated for %s, run emsch:local:login', $this->coreApi->getBaseUrl()));
+            $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->coreApi->getBaseUrl()));
 
             return self::EXECUTE_ERROR;
         }

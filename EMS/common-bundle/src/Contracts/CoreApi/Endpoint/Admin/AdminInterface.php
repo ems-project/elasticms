@@ -19,4 +19,9 @@ interface AdminInterface
      * @return string[]
      */
     public function getConfigTypes(): array;
+
+    /**
+     * @return string[]
+     */
+    public function getContentTypes(): array;
 }

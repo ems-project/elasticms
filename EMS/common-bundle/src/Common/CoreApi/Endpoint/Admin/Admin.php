@@ -48,4 +48,12 @@ final class Admin implements AdminInterface
 
         return $configTypes;
     }
+
+    public function getContentTypes(): array
+    {
+        /** @var string[] $contentTypes */
+        $contentTypes = $this->client->get(\implode('/', ['api', 'admin', 'content-types']))->getData();
+
+        return $contentTypes;
+    }
 }

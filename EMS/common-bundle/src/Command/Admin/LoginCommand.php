@@ -18,6 +18,7 @@ class LoginCommand extends AbstractCommand
     private const ARG_BASE_URL = 'base-url';
     private const OPTION_USERNAME = 'username';
     private const OPTION_PASSWORD = 'password';
+    private string $username;
 
     public function __construct(private readonly AdminHelper $adminHelper, private ?string $backendUrl)
     {
@@ -43,8 +44,9 @@ class LoginCommand extends AbstractCommand
         if (null === $input->getOption(self::OPTION_USERNAME)) {
             $input->setOption(self::OPTION_USERNAME, $this->io->askQuestion(new Question('Username')));
         }
+        $this->username = $this->getOptionString(self::OPTION_USERNAME);
 
-        if (null === $input->getOption(self::OPTION_PASSWORD)) {
+        if (null === $input->getOption(self::OPTION_PASSWORD) && !$this->adminHelper->alreadyConnected($this->backendUrl, $this->username)) {
             $input->setOption(self::OPTION_PASSWORD, $this->io->askHidden('Password'));
         }
     }
@@ -60,15 +62,21 @@ class LoginCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Admin - login');
         if (null === $this->backendUrl) {
             throw new \RuntimeException('Backend\'s URL not defined');
         }
 
+        if (null === $input->getOption(self::OPTION_PASSWORD) && $this->adminHelper->alreadyConnected($this->backendUrl, $this->username)) {
+            $this->io->success(\sprintf('User %s already connected on %s', $this->username, $this->adminHelper->getCoreApi()->getBaseUrl()));
+
+            return self::EXECUTE_SUCCESS;
+        }
+        $this->io->title('Admin - login');
+
         try {
             $coreApi = $this->adminHelper->login(
                 $this->backendUrl,
-                $this->getOptionString(self::OPTION_USERNAME),
+                $this->username,
                 $this->getOptionString(self::OPTION_PASSWORD)
             );
         } catch (NotAuthenticatedExceptionInterface $e) {

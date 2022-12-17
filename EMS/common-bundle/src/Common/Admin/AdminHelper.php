@@ -28,6 +28,28 @@ class AdminHelper
         return $this->coreApi;
     }
 
+    public function alreadyConnected(string $baseUrl, string $username): bool
+    {
+        if (null !== $this->coreApi) {
+            return true;
+        }
+        $coreApi = $this->coreApiFactory->create($baseUrl);
+        $coreApi->setLogger($this->logger);
+        $token = $this->apiCacheToken($coreApi)->get();
+        if (!\is_string($token)) {
+            return false;
+        }
+        $coreApi->setToken($token);
+        $user = $coreApi->user();
+        if ($user->getProfileAuthenticated()->getUsername() === $username) {
+            $this->coreApi = $coreApi;
+
+            return true;
+        }
+
+        return false;
+    }
+
     private function apiCacheBaseUrl(): CacheItemInterface
     {
         return $this->cache->getItem('ems_admin_base_url');

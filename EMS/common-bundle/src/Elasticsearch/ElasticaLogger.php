@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch;
 
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
 

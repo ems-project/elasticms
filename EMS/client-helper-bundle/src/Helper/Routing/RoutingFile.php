@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 

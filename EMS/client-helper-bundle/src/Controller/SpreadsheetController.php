@@ -6,8 +6,8 @@ namespace EMS\ClientHelperBundle\Controller;
 
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 

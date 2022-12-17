@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\CLI\ExpressionLanguage;
 
 use App\CLI\Helper\Pa11yWrapper;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
 
 class Functions

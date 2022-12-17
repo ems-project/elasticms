@@ -11,6 +11,10 @@
         <default key="_format">json</default>
         <default key="_controller">EMS\CoreBundle\Controller\Api\Admin\EntitiesController:jobStatus</default>
     </route>
+    <route id="emsco_api_config_types" path="/config-types" methods="GET">
+        <default key="_format">json</default>
+        <default key="_controller">EMS\CoreBundle\Controller\Api\Admin\EntitiesController:getEntityNames</default>
+    </route>
     <route id="emsco_api_content_type_index" path="/{entity}" methods="GET">
         <default key="_format">json</default>
         <default key="_controller">EMS\CoreBundle\Controller\Api\Admin\EntitiesController:index</default>

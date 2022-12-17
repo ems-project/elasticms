@@ -55,6 +55,10 @@ class BackupCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
+        foreach ($this->coreApi->admin()->getConfigTypes() as $configType) {
+            \dump($configType);
+        }
+
         return self::EXECUTE_SUCCESS;
     }
 }

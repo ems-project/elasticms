@@ -66,4 +66,15 @@ final class Json
 
         return self::decode($content);
     }
+
+    public static function prettyPrint(string $data): string
+    {
+        try {
+            $formatted = \json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+
+            return self::encode($formatted, true);
+        } catch (\Throwable) {
+            return $data;
+        }
+    }
 }

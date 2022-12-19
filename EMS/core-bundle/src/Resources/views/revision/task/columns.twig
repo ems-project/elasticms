@@ -9,7 +9,11 @@
 {%- endblock -%}
 
 {%- block version_tag -%}
-    {{ data.versionTagField }}
+    {%- if data.versionTagField -%}
+        {{- 'revision.version_tag'|trans({'%version_tag%': data.versionTagField}) -}}
+    {%- else -%}
+        {{- 'revision.version_tag.empty'|trans -}}
+    {%- endif -%}
 {%- endblock -%}
 {%- block owner -%}{{- data.owner|displayname -}}{%- endblock -%}
 {%- block assignee -%}{{- data.taskCurrent.assignee|displayname -}}{%- endblock -%}

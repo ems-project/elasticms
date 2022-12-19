@@ -43,6 +43,7 @@ security:
             entry_point: emsco.security.authenticator.form_login
             custom_authenticators:
                 - emsco.security.authenticator.auth_token_login
+                - emsco.security.authenticator.auth_token_ldap
                 - emsco.security.authenticator.form_login
                 - emsco.security.authenticator.form_login_ldap
             form_login_ldap: ~

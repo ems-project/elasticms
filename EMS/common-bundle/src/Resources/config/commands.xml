@@ -32,6 +32,11 @@
             <argument type="string">%kernel.project_dir%</argument>
             <tag name="console.command" command="ems:admin:get"/>
         </service>
+        <service id="ems.command.admin.get" class="EMS\CommonBundle\Command\Admin\BackupCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="string">%kernel.project_dir%</argument>
+            <tag name="console.command" command="ems:admin:backup"/>
+        </service>
         <service id="ems.command.admin.update" class="EMS\CommonBundle\Command\Admin\UpdateCommand">
             <argument type="service" id="ems.helper.admin_api"/>
             <argument type="string">%kernel.project_dir%</argument>

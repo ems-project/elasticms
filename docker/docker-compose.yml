@@ -4,7 +4,7 @@ services:
 
     traefik:
         image: "traefik:v2.2"
-        container_name: "traefik_ems"
+        container_name: "ems-mono-traefik"
         command:
             #- "--log.level=DEBUG"
             - "--api.insecure=true"
@@ -22,7 +22,7 @@ services:
 # This image is a small and easy application to test traefik's configuration
 #    whoami:
 #        image: "containous/whoami"
-#        container_name: "simple-service"
+#        container_name: "ems-mono-simple-service"
 #        labels:
 #            - "traefik.enable=true"
 #            - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
@@ -33,7 +33,7 @@ services:
 
     es01:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-        container_name: es01
+        container_name: ems-mono-es01
         environment:
             - node.name=es01
             - cluster.name=es7-docker-cluster
@@ -59,7 +59,7 @@ services:
             - "traefik.http.services.es.loadbalancer.server.port=9200"
     es02:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-        container_name: es02
+        container_name: ems-mono-es02
         environment:
             - node.name=es02
             - cluster.name=es7-docker-cluster
@@ -83,7 +83,7 @@ services:
             - "traefik.http.services.es.loadbalancer.server.port=9200"
     es03:
         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-        container_name: es03
+        container_name: ems-mono-es03
         environment:
             - node.name=es03
             - cluster.name=es7-docker-cluster
@@ -107,7 +107,7 @@ services:
             - "traefik.http.services.es.loadbalancer.server.port=9200"
 
     kibana:
-        container_name: kibana
+        container_name: ems-mono-kibana
         image: docker.elastic.co/kibana/kibana:7.9.2
         ports:
             - 5601:5601
@@ -123,7 +123,7 @@ services:
             - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
     postgres:
-        container_name: postgres
+        container_name: ems-mono-postgres
         image: postgres:12
         ports:
             - "5432:5432"
@@ -138,7 +138,7 @@ services:
 
     mariadb:
         image: linuxserver/mariadb
-        container_name: mariadb
+        container_name: ems-mono-mariadb
         ports:
             - "3306:3306"
         environment:
@@ -151,7 +151,7 @@ services:
 
     tika:
         image: apache/tika
-        container_name: tika
+        container_name: ems-mono-tika
         ports:
             - "9998:9998"
         labels:
@@ -161,7 +161,7 @@ services:
 
     minio:
         image: minio/minio
-        container_name: minio
+        container_name: ems-mono-minio
         volumes:
             - s3:/data
         ports:
@@ -184,7 +184,7 @@ services:
 
     redis:
         image: centos/redis-5-centos7
-        container_name: redis
+        container_name: ems-mono-redis
         ports:
             - 6379:6379
         volumes:
@@ -192,6 +192,7 @@ services:
 
     redis-commander:
         image: rediscommander/redis-commander:latest
+        container_name: ems-mono-redis-commander
         environment:
             - REDIS_HOSTS=local:redis:6379
         labels:
@@ -203,7 +204,7 @@ services:
 
     mailhog:
         image: mailhog/mailhog
-        container_name: mailhog_ems
+        container_name: ems-mono-mailhog
         ports:
             - 1025:1025 # smtp server
             #- 8025:8025 # web ui

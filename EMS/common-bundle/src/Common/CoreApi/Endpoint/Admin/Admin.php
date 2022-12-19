@@ -40,4 +40,20 @@ final class Admin implements AdminInterface
         } catch (TransportException) {
         }
     }
+
+    public function getConfigTypes(): array
+    {
+        /** @var string[] $configTypes */
+        $configTypes = $this->client->get(\implode('/', ['api', 'admin', 'config-types']))->getData();
+
+        return $configTypes;
+    }
+
+    public function getContentTypes(): array
+    {
+        /** @var string[] $contentTypes */
+        $contentTypes = $this->client->get(\implode('/', ['api', 'admin', 'content-types']))->getData();
+
+        return $contentTypes;
+    }
 }

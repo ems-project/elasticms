@@ -28,14 +28,16 @@ final class TaskCreateCommand extends AbstractCommand
     private array $task;
     private string $searchQuery;
 
+    private string $requester;
     private ?string $fieldAssignee = null;
     private ?string $fieldDeadline = null;
     private ?string $notPublished = null;
 
-    private const USER = 'SYSTEM_TASK_MANAGER';
+    private const DEFAULT_REQUESTER = 'SYSTEM_TASK_MANAGER';
 
     public const ARGUMENT_ENVIRONMENT = 'environment';
     public const OPTION_TASK = 'task';
+    public const OPTION_REQUESTER = 'requester';
     public const OPTION_FIELD_ASSIGNEE = 'field-assignee';
     public const OPTION_FIELD_DEADLINE = 'field-deadline';
     public const OPTION_NOT_PUBLISHED = 'not-published';
@@ -60,6 +62,7 @@ final class TaskCreateCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_ENVIRONMENT, InputArgument::REQUIRED)
             ->addOption(self::OPTION_TASK, null, InputOption::VALUE_REQUIRED, '{\"title\":\"title\",\"assignee\":\"username\",\"description\":\"optional\"}')
             ->addOption(self::OPTION_FIELD_ASSIGNEE, null, InputOption::VALUE_REQUIRED, 'assignee field in es document')
+            ->addOption(self::OPTION_REQUESTER, null, InputOption::VALUE_REQUIRED, 'requester')
             ->addOption(self::OPTION_FIELD_DEADLINE, null, InputOption::VALUE_REQUIRED, 'deadline field in es document')
             ->addOption(self::OPTION_NOT_PUBLISHED, null, InputOption::VALUE_REQUIRED, 'only for revisions not published in this environment')
             ->addOption(self::OPTION_SCROLL_SIZE, null, InputOption::VALUE_REQUIRED, 'Size of the elasticsearch scroll request')
@@ -78,6 +81,7 @@ final class TaskCreateCommand extends AbstractCommand
         $this->environment = $this->environmentService->giveByName($environmentName);
 
         $this->task = Json::decode($this->getOptionString(self::OPTION_TASK));
+        $this->requester = $this->getOptionString(self::OPTION_REQUESTER, self::OPTION_REQUESTER);
         $this->fieldAssignee = $this->getOptionStringNull(self::OPTION_FIELD_ASSIGNEE);
         $this->fieldDeadline = $this->getOptionStringNull(self::OPTION_FIELD_DEADLINE);
         $this->notPublished = $this->getOptionStringNull(self::OPTION_NOT_PUBLISHED);
@@ -100,7 +104,7 @@ final class TaskCreateCommand extends AbstractCommand
         $this->io->progressStart($search->getTotal());
 
         foreach ($this->revisionSearcher->search($this->environment, $search) as $revisions) {
-            $this->revisionSearcher->lock($revisions, self::USER);
+            $this->revisionSearcher->lock($revisions, self::DEFAULT_REQUESTER);
 
             foreach ($revisions->transaction() as $revision) {
                 if (null !== $document = $revisions->getDocument($revision)) {
@@ -151,6 +155,6 @@ final class TaskCreateCommand extends AbstractCommand
             $taskDTO->deadline = $deadline->format('d/m/Y');
         }
 
-        $this->taskManager->taskCreateFromRevision($taskDTO, $revision, self::USER);
+        $this->taskManager->taskCreateFromRevision($taskDTO, $revision, $this->requester);
     }
 }

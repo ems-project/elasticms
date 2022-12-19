@@ -15,7 +15,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data01:/usr/share/elasticsearch/data
+      - elk7_data01:/usr/share/elasticsearch/data
   es02:
     image: elastic/elasticsearch:7.11.2
     environment:
@@ -32,7 +32,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data02:/usr/share/elasticsearch/data
+      - elk7_data02:/usr/share/elasticsearch/data
   es03:
     image: elastic/elasticsearch:7.11.2
     environment:
@@ -49,7 +49,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data03:/usr/share/elasticsearch/data
+      - elk7_data03:/usr/share/elasticsearch/data
   kibana:
     image: elastic/kibana:7.11.2
     environment:

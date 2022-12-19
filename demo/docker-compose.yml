@@ -18,6 +18,10 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
+  setup:
+    extends:
+      file: docker-${ELK_VERSION-elk7}.yml
+      service: setup
   es01:
     extends:
       file: docker-${ELK_VERSION-elk7}.yml
@@ -145,13 +149,18 @@ services:
       - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
 
 volumes:
-  data01:
-  data02:
-  data03:
+  elk7_data01:
+  elk7_data02:
+  elk7_data03:
+  elk8_data01:
+  elk8_data02:
+  elk8_data03:
+  elk8_certs:
+  elk8_kibanadata:
   redis:
   s3:
   postgres:
 
 networks:
-    default:
-        name: skeleton
+  default:
+    name: skeleton

@@ -167,11 +167,6 @@ trait RevisionTaskTrait
         return \in_array($task->getId(), $this->getTaskApprovedIds(), true);
     }
 
-    public function isTaskEnabled(): bool
-    {
-        return true; // @todo option on contentType?
-    }
-
     public function setTaskCurrent(?Task $task): void
     {
         $this->taskCurrent = $task;

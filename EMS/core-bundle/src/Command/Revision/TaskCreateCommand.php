@@ -119,7 +119,7 @@ final class TaskCreateCommand extends AbstractCommand
 
     private function createTask(Revision $revision, Document $document): void
     {
-        if (!$revision->isTaskEnabled()) {
+        if (!$revision->giveContentType()->tasksEnabled()) {
             $this->io->warning(\sprintf('Skipping revision %s tasks not enabled', $revision));
 
             return;

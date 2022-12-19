@@ -22,6 +22,7 @@ final class Version20221219144622 extends AbstractMigration
         $this->addSql('ALTER TABLE task ALTER created_by SET NOT NULL');
 
         $this->addSql('ALTER TABLE revision DROP owner');
+        $this->addSql('ALTER TABLE content_type ADD settings JSON DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -33,5 +34,6 @@ final class Version20221219144622 extends AbstractMigration
 
         $this->addSql('ALTER TABLE task DROP created_by');
         $this->addSql('ALTER TABLE revision ADD owner TEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE content_type DROP settings');
     }
 }

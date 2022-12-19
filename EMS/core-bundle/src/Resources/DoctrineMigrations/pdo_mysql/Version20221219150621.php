@@ -21,6 +21,7 @@ final class Version20221219150621 extends AbstractMigration
         $this->addSql("update task set task.created_by = JSON_UNQUOTE(JSON_EXTRACT(logs, '$[0].username'))");
         $this->addSql('ALTER TABLE task MODIFY created_by LONGTEXT NOT NULL');
         $this->addSql('ALTER TABLE revision DROP owner');
+        $this->addSql('ALTER TABLE content_type ADD settings LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json)\'');
     }
 
     public function down(Schema $schema): void
@@ -32,5 +33,6 @@ final class Version20221219150621 extends AbstractMigration
 
         $this->addSql('ALTER TABLE task DROP created_by');
         $this->addSql('ALTER TABLE revision ADD owner LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE content_type DROP settings');
     }
 }

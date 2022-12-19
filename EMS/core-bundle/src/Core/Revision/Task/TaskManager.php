@@ -161,7 +161,7 @@ final class TaskManager
 
     public function taskCreateFromRevision(TaskDTO $taskDTO, Revision $revision, string $username): Task
     {
-        $task = Task::createFromDTO($taskDTO);
+        $task = Task::createFromDTO($taskDTO, $username);
         $revision->addTask($task, $username);
 
         $this->dispatchEvent($this->createTaskEvent($task, $revision, $username), TaskEvent::CREATE);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\FormBundle\Service\Endpoint;
 
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\FormBundle\Contracts\EndpointManagerInterface;
 use EMS\FormBundle\Service\Confirmation\Endpoint\HttpEndpointType;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 

@@ -16,7 +16,7 @@ final class Hash
      */
     public static function array(array $value, ?string $prefix = null): string
     {
-        return self::hash(Json::encode($value), $prefix);
+        return self::hash(\EMS\Helpers\Standard\Json::encode($value), $prefix);
     }
 
     private static function hash(string $value, ?string $prefix = null): string

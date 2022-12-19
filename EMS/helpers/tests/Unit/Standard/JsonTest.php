@@ -29,4 +29,13 @@ class JsonTest extends TestCase
         $this->expectException(\RuntimeException::class);
         Json::decode('"foo":"\/bar"}');
     }
+
+    public function testPrettyPrint()
+    {
+        self::assertSame('{
+    "foo": "/bar"
+}', Json::prettyPrint('{"foo":"\/bar"}'));
+        self::assertSame('{"foo":"\/bar"', Json::prettyPrint('{"foo":"\/bar"'));
+        self::assertSame('null', Json::prettyPrint('null'));
+    }
 }

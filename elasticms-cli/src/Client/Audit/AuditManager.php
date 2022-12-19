@@ -15,7 +15,7 @@ use App\CLI\Helper\TikaClient;
 use App\CLI\Helper\TikaMetaResponse;
 use App\CLI\Helper\TikaWrapper;
 use EMS\CommonBundle\Common\Converter;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 
 class AuditManager

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Admin;
 
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Finder\Finder;
 
 final class ConfigHelper

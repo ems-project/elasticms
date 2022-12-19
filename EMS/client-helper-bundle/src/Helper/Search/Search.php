@@ -7,8 +7,8 @@ namespace EMS\ClientHelperBundle\Helper\Search;
 use Elastica\Query\AbstractQuery;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Request\RequestHelper;
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Request;
 
 final class Search

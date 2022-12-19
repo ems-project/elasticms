@@ -10,6 +10,7 @@ use EMS\CoreBundle\Core\Revision\Task\TaskDTO;
 use EMS\CoreBundle\Core\Revision\Task\TaskManager;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
+use EMS\CoreBundle\Entity\Task;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskType;
@@ -99,7 +100,7 @@ final class TaskController extends AbstractController
         $revision = $tasks->getRevision();
         $ajaxTemplate = $this->getAjaxTemplate();
 
-        if ($revision->hasTaskCurrent() && $this->taskManager->isTaskRequester($revision->getTaskCurrent())) {
+        if ($revision->hasTaskCurrent() && Task::STATUS_PROGRESS !== $revision->getTaskCurrent()->getStatus()) {
             $action = $request->get('action');
             $formValidation = $this->createCommentForm('validation', 'approve' !== $action);
             $formValidation->handleRequest($request);

@@ -20,6 +20,8 @@ final class Version20221219144622 extends AbstractMigration
         $this->addSql('ALTER TABLE task ADD created_by TEXT DEFAULT NULL');
         $this->addSql("UPDATE task SET created_by = logs->0->>'username'");
         $this->addSql('ALTER TABLE task ALTER created_by SET NOT NULL');
+
+        $this->addSql('ALTER TABLE revision DROP owner');
     }
 
     public function down(Schema $schema): void
@@ -30,5 +32,6 @@ final class Version20221219144622 extends AbstractMigration
         );
 
         $this->addSql('ALTER TABLE task DROP created_by');
+        $this->addSql('ALTER TABLE revision ADD owner TEXT DEFAULT NULL');
     }
 }

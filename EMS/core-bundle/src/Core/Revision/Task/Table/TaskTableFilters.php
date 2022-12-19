@@ -11,7 +11,7 @@ class TaskTableFilters
     /** @var string[] */
     public array $assignee = [];
     /** @var string[] */
-    public array $owner = [];
+    public array $requester = [];
 
     /**
      * @return array<string, string[]>
@@ -21,7 +21,7 @@ class TaskTableFilters
         return \array_filter([
             TaskTableService::COL_STATUS => $this->status,
             TaskTableService::COL_ASSIGNEE => $this->assignee,
-            TaskTableService::COL_OWNER => $this->owner,
+            TaskTableService::COL_REQUESTER => $this->requester,
         ]);
     }
 }

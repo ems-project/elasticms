@@ -43,8 +43,8 @@ class RevisionTaskFiltersType extends AbstractType
                 'label_property' => 'displayName',
             ]);
         }
-        if (TaskManager::TAB_OWNER !== $options['tab']) {
-            $builder->add('owner', SelectUserPropertyType::class, [
+        if (TaskManager::TAB_REQUESTER !== $options['tab']) {
+            $builder->add('requester', SelectUserPropertyType::class, [
                 'required' => false,
                 'allow_add' => false,
                 'multiple' => true,

@@ -18,10 +18,10 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-  setup:
+  setup_elk:
     extends:
       file: docker-${ELK_VERSION-elk7}.yml
-      service: setup
+      service: setup_elk
   es01:
     extends:
       file: docker-${ELK_VERSION-elk7}.yml

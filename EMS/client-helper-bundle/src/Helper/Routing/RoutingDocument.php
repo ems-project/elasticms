@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
 use EMS\ClientHelperBundle\Helper\Builder\BuilderDocumentInterface;
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
+use EMS\Helpers\Standard\Json;
 
 final class RoutingDocument implements BuilderDocumentInterface
 {

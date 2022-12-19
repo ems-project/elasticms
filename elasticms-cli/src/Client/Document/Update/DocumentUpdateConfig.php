@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\CLI\Client\Document\Update;
 
 use App\CLI\Client\Data\Column\DataColumn;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

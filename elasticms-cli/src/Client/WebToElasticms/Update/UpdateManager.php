@@ -7,9 +7,9 @@ namespace App\CLI\Client\WebToElasticms\Update;
 use App\CLI\Client\WebToElasticms\Config\ConfigManager;
 use App\CLI\Client\WebToElasticms\Extract\ExtractedData;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 
 class UpdateManager

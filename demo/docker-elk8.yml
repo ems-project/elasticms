@@ -68,8 +68,6 @@ services:
     volumes:
       - elk8_certs:/usr/share/elasticsearch/config/certs
       - elk8_data01:/usr/share/elasticsearch/data
-    ports:
-      - ${ES_PORT}:9200
     environment:
       - node.name=es01
       - cluster.name=${CLUSTER_NAME}
@@ -196,8 +194,6 @@ services:
     volumes:
       - elk8_certs:/usr/share/kibana/config/certs
       - elk8_kibanadata:/usr/share/kibana/data
-    ports:
-      - ${KIBANA_PORT}:5601
     environment:
       - SERVERNAME=kibana
       - ELASTICSEARCH_HOSTS=https://es01:9200

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\CLI\Tests\ExpressionLanguage;
 
 use App\CLI\ExpressionLanguage\Functions;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use PHPUnit\Framework\TestCase;
 
 class FunctionsTest extends TestCase

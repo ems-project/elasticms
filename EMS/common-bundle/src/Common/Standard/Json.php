@@ -2,68 +2,65 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated
+ */
+
 namespace EMS\CommonBundle\Common\Standard;
 
 final class Json
 {
+    /**
+     * @deprecated
+     */
     public static function encode(mixed $value, bool $pretty = false): string
     {
-        $options = $pretty ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : 0;
-        $encoded = \json_encode($value, $options);
+        @\trigger_error(\sprintf('The function %s::encode has been deprecated, use %s::encode instead', self::class, \EMS\Helpers\Standard\Json::class), E_USER_DEPRECATED);
 
-        if (false === $encoded) {
-            throw new \RuntimeException('failed encoding json');
-        }
-
-        return $encoded;
-    }
-
-    public static function escape(string $value, bool $pretty = false): string
-    {
-        $encoded = self::encode($value, $pretty);
-        if (\strlen($encoded) < 2) {
-            throw new \RuntimeException('Unexpected too short string');
-        }
-
-        return \substr($encoded, 1, \strlen($encoded) - 2);
+        return \EMS\Helpers\Standard\Json::encode($value, $pretty);
     }
 
     /**
+     * @deprecated
+     */
+    public static function escape(string $value, bool $pretty = false): string
+    {
+        @\trigger_error(\sprintf('The function %s::escape has been deprecated, use %s::escape instead', self::class, \EMS\Helpers\Standard\Json::class), E_USER_DEPRECATED);
+
+        return \EMS\Helpers\Standard\Json::escape($value, $pretty);
+    }
+
+    /**
+     * @deprecated
+     *
      * @return array<mixed>
      */
     public static function decode(string $value): array
     {
-        $decoded = \json_decode($value, true);
+        @\trigger_error(\sprintf('The function %s::decode has been deprecated, use %s::decode instead', self::class, \EMS\Helpers\Standard\Json::class), E_USER_DEPRECATED);
 
-        if (JSON_ERROR_NONE !== \json_last_error() || !\is_array($decoded)) {
-            throw new \RuntimeException(\sprintf('Invalid json %s', \json_last_error_msg()));
-        }
-
-        return $decoded;
+        return \EMS\Helpers\Standard\Json::decode($value);
     }
 
     /**
+     * @deprecated
+     *
      * @return array<mixed>
      */
     public static function decodeFile(string $path): array
     {
-        if (!\file_exists($path)) {
-            throw new \RuntimeException(\sprintf('File does not exists: %s', $path));
-        }
+        @\trigger_error(\sprintf('The function %s::decodeFile has been deprecated, use %s::decodeFile instead', self::class, \EMS\Helpers\Standard\Json::class), E_USER_DEPRECATED);
 
-        $content = \file_get_contents($path, true);
-
-        if (!\is_string($content)) {
-            throw new \RuntimeException(\sprintf('No content for %s', $path));
-        }
-
-        return Json::decode($content);
+        return \EMS\Helpers\Standard\Json::decodeFile($path);
     }
 
+    /**
+     * @deprecated
+     */
     public static function isJson(string $string): bool
     {
-        \json_decode($string);
+        @\trigger_error(\sprintf('The function %s::isJson has been deprecated, use %s::isJson instead', self::class, \EMS\Helpers\Standard\Json::class), E_USER_DEPRECATED);
 
-        return JSON_ERROR_NONE === \json_last_error();
+        return \EMS\Helpers\Standard\Json::isJson($string);
     }
 }

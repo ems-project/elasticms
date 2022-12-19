@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
 use EMS\ClientHelperBundle\Helper\Templating\TemplateDocument;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Route as SymfonyRoute;

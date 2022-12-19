@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Local;
 
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Filesystem\Filesystem;
 
 final class VersionLockFile

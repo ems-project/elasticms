@@ -1,0 +1,64 @@
+services:
+  setup_elk:
+    image: elastic/elasticsearch:${ELK8_STACK_VERSION}
+    command: >
+      bash -c '
+        echo "All done!";
+      '
+  es01:
+    image: elastic/elasticsearch:${ELK7_STACK_VERSION}
+    environment:
+      - node.name=es01
+      - cluster.name=es7-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+      - node.store.allow_mmap=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elk7_data01:/usr/share/elasticsearch/data
+  es02:
+    image: elastic/elasticsearch:${ELK7_STACK_VERSION}
+    environment:
+      - node.name=es02
+      - cluster.name=es7-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+      - node.store.allow_mmap=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elk7_data02:/usr/share/elasticsearch/data
+  es03:
+    image: elastic/elasticsearch:${ELK7_STACK_VERSION}
+    environment:
+      - node.name=es03
+      - cluster.name=es7-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+      - node.store.allow_mmap=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elk7_data03:/usr/share/elasticsearch/data
+  kibana:
+    image: elastic/kibana:${ELK7_STACK_VERSION}
+    environment:
+      - TZ=Europe/Brussels
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+      - SERVER_NAME=kibana.localhost

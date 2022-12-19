@@ -18,23 +18,14 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
+  setup_elk:
+    extends:
+      file: docker-${ELK_VERSION-elk7}.yml
+      service: setup_elk
   es01:
-    image: elastic/elasticsearch:7.11.2
-    environment:
-      - node.name=es01
-      - cluster.name=es7-docker-cluster
-      - discovery.seed_hosts=es02,es03
-      - cluster.initial_master_nodes=es01,es02,es03
-      - cluster.routing.allocation.disk.threshold_enabled=false
-      - bootstrap.memory_lock=true
-      - node.store.allow_mmap=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data01:/usr/share/elasticsearch/data
+    extends:
+      file: docker-${ELK_VERSION-elk7}.yml
+      service: es01
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -42,22 +33,9 @@ services:
       - "traefik.http.routers.es.service=es"
       - "traefik.http.services.es.loadbalancer.server.port=9200"
   es02:
-    image: elastic/elasticsearch:7.11.2
-    environment:
-      - node.name=es02
-      - cluster.name=es7-docker-cluster
-      - discovery.seed_hosts=es01,es03
-      - cluster.initial_master_nodes=es01,es02,es03
-      - cluster.routing.allocation.disk.threshold_enabled=false
-      - bootstrap.memory_lock=true
-      - node.store.allow_mmap=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data02:/usr/share/elasticsearch/data
+    extends:
+      file: docker-${ELK_VERSION-elk7}.yml
+      service: es02
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -65,22 +43,9 @@ services:
       - "traefik.http.routers.es.service=es"
       - "traefik.http.services.es.loadbalancer.server.port=9200"
   es03:
-    image: elastic/elasticsearch:7.11.2
-    environment:
-      - node.name=es03
-      - cluster.name=es7-docker-cluster
-      - discovery.seed_hosts=es01,es02
-      - cluster.initial_master_nodes=es01,es02,es03
-      - cluster.routing.allocation.disk.threshold_enabled=false
-      - bootstrap.memory_lock=true
-      - node.store.allow_mmap=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data03:/usr/share/elasticsearch/data
+    extends:
+      file: docker-${ELK_VERSION-elk7}.yml
+      service: es03
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -89,11 +54,9 @@ services:
       - "traefik.http.services.es.loadbalancer.server.port=9200"
 
   kibana:
-    image: elastic/kibana:7.11.2
-    environment:
-      - TZ=Europe/Brussels
-      - ELASTICSEARCH_HOSTS=http://es01:9200
-      - SERVER_NAME=kibana.localhost
+    extends:
+      file: docker-${ELK_VERSION-elk7}.yml
+      service: kibana
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.kibana.rule=Host(`kibana.localhost`)"
@@ -186,13 +149,17 @@ services:
       - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
 
 volumes:
-  data01:
-  data02:
-  data03:
+  elk7_data01:
+  elk7_data02:
+  elk7_data03:
+  elk8_data01:
+  elk8_data02:
+  elk8_data03:
+  elk8_kibanadata:
   redis:
   s3:
   postgres:
 
 networks:
-    default:
-        name: skeleton
+  default:
+    name: skeleton

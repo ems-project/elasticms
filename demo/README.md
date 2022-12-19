@@ -31,6 +31,19 @@ Open a terminal and run the following commands:
 * `sh npm.sh run prod`: Build the frontend assets (js, css, ...)
 * `docker compose up -d`: Start the docker container (in daemon mode)
 
+
+### ELK stack version
+
+If you want to use elasticsearch 8 instead of elasticsearch 7, define this variable first:
+```bash
+export ELK_VERSION=elk8
+```
+
+If you want to use elasticsearch 7 set that variable to `elk7`.
+
+
+
+
 Before continuing, check that all services have been correctly started by running `docker compose ps`. All services must be in `running` status or in `running (healthy)` status. 
 
 Go to [minio](http://minio.localhost/login) and login with those credentials:

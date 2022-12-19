@@ -723,21 +723,6 @@ class ContentTypeService implements EntityServiceInterface
         return [$emptyLabel => null] + \array_combine($versionTagsLabels, $versionTags);
     }
 
-    /**
-     * @return string[]
-     */
-    public function getAllVersionTags(): array
-    {
-        $versionTags = [];
-        foreach ($this->getAll() as $contentType) {
-            if ($contentType->isActive()) {
-                $versionTags = \array_merge($versionTags, $contentType->getVersionTags());
-            }
-        }
-
-        return \array_unique($versionTags);
-    }
-
     public function deleteByItemName(string $name): string
     {
         $contentTypeRepository = $this->getContentTypeRepository();

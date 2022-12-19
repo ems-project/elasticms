@@ -14,4 +14,14 @@ interface AdminInterface
     public function getJobStatus(string $jobId): array;
 
     public function startJob(string $jobId): void;
+
+    /**
+     * @return string[]
+     */
+    public function getConfigTypes(): array;
+
+    /**
+     * @return string[]
+     */
+    public function getContentTypes(): array;
 }

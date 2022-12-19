@@ -55,7 +55,7 @@ class GetCommand extends AbstractCommand
         $this->io->section(\sprintf('Getting %s\'s configurations from %s', $this->configType, $this->coreApi->getBaseUrl()));
 
         if (!$this->coreApi->isAuthenticated()) {
-            $this->io->error(\sprintf('Not authenticated for %s, run emsch:local:login', $this->coreApi->getBaseUrl()));
+            $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->coreApi->getBaseUrl()));
 
             return self::EXECUTE_ERROR;
         }

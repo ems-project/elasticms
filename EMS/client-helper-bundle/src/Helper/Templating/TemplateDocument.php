@@ -6,7 +6,7 @@ namespace EMS\ClientHelperBundle\Helper\Templating;
 
 use EMS\ClientHelperBundle\Exception\TemplatingException;
 use EMS\ClientHelperBundle\Helper\Builder\BuilderDocumentInterface;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 
 final class TemplateDocument implements BuilderDocumentInterface
 {

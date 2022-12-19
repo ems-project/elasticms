@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Common\Standard;
 
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use PHPUnit\Framework\TestCase;
 
 class JsonTest extends TestCase

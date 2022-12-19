@@ -295,6 +295,7 @@
             <argument type="service" id="ems.service.elasticsearch" />
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="ems.service.environment" />
+            <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService" />
             <tag name="ems.form.datafieldtype" alias="version_tag" />
             <tag name="form.type"/>
         </service>

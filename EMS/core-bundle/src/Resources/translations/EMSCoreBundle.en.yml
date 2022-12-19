@@ -506,7 +506,7 @@ task.create.title: 'Add a new task'
 task.dashboard.action.change_owner: 'Change owner'
 task.dashboard.action.edit_revision: 'Edit revision'
 task.dashboard.action.go_revision: Revision
-task.dashboard.column.version: Version
+task.dashboard.column.version_tag: 'New version'
 task.dashboard.column.actions: Actions
 task.dashboard.column.assignee: Assignee
 task.dashboard.column.deadline: Deadline
@@ -907,3 +907,6 @@ log.data.revision.added_to_release: 'Document "%label%" has been added to releas
 log.data.revision.can_not_add_draft_in_release: 'Revision in draft mode can not be added to a release'
 log.data.revision.document_already_in_release_but_updated: 'Document "%label%" has been updated with a new revision in release "%release%"'
 log.data.revision.already_in_release: 'This revision of document "%label%" was already in release "%release%"'
+revision.version_tag: 'Yes as %version_tag%'
+revision.version_tag.empty: 'No (Silent publish)'
+

@@ -19,6 +19,7 @@ parameters:
     env(EMS_ASSET_CONFIG): '[]'
     env(EMS_CIRCLES_OBJECT): ''
 
+    env(LDAP_DN_STRING): ~
     env(LDAP_BASE_DN): ~
     env(LDAP_SEARCH_DN): ~
     env(LDAP_SEARCH_PASSWORD): ~
@@ -28,8 +29,6 @@ parameters:
     env(LDAP_EXTRA_FIELDS): '[]'
     env(LDAP_EMAIL_FIELD): ~
     env(LDAP_DISPLAY_NAME_FIELD): ~
-    env(LDAP_GIVEN_NAME_FIELD): ~
-    env(LDAP_LAST_NAME_FIELD): ~
     env(LDAP_UID_KEY): ~
 
     #Parameters
@@ -57,7 +56,7 @@ parameters:
     env(EMSCO_URL_USER): ~
 
     env(EMSCO_LDAP_ENABLED): true
-    env(EMSCO_LDAP_DN_STRING): ~
+    env(EMSCO_LDAP_DN_STRING): '%env(string:LDAP_DN_STRING)%'
     env(EMSCO_LDAP_BASE_DN): '%env(string:LDAP_BASE_DN)%'
     env(EMSCO_LDAP_SEARCH_DN): '%env(string:LDAP_SEARCH_DN)%'
     env(EMSCO_LDAP_SEARCH_PASSWORD): '%env(string:LDAP_SEARCH_PASSWORD)%'

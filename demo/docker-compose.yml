@@ -155,7 +155,6 @@ volumes:
   elk8_data01:
   elk8_data02:
   elk8_data03:
-  elk8_certs:
   elk8_kibanadata:
   redis:
   s3:

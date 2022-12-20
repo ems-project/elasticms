@@ -8,13 +8,14 @@ use EMS\Release\Config;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InfoCommand extends AbstractGithubCommand
+class GitHubBranchesCommand extends AbstractGithubCommand
 {
-    protected static $defaultName = 'info';
+    protected static $defaultName = 'github:branches';
+    protected static $defaultDescription = 'List branches for all repositories';
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Info');
+        $this->io->title('GitHub: branches');
 
         $this->info(\array_keys(Config::$applications), 'applications');
         $this->info(\array_keys(Config::$docker), 'docker');

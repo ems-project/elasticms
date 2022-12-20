@@ -6,8 +6,9 @@ use Symfony\Component\Console\Application;
 
 $application = new Application('release', '1.0.0');
 
-$application->add((new \EMS\Release\Command\InfoCommand()));
-$application->add((new \EMS\Release\Command\PackagesReleaseCommand()));
-$application->add((new \EMS\Release\Command\PackagesInfoCommand()));
+$application->add((new \EMS\Release\Command\ComposerUpdate()));
+$application->add((new \EMS\Release\Command\GitHubBranchesCommand()));
+$application->add((new \EMS\Release\Command\GithubReleasePackages()));
+$application->add((new \EMS\Release\Command\PackagistInfo()));
 
 $application->run();

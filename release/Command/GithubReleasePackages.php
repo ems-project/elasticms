@@ -14,9 +14,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class PackagesReleaseCommand extends AbstractGithubCommand
+class GithubReleasePackages extends AbstractGithubCommand
 {
-    protected static $defaultName = 'packages:release';
+    protected static $defaultName = 'github:release:packages';
+    protected static $defaultDescription = '1) Release packages';
 
     private string $branch;
     private string $version;
@@ -30,7 +31,6 @@ class PackagesReleaseCommand extends AbstractGithubCommand
             ->addArgument('version', InputArgument::REQUIRED, 'version')
             ->addArgument('previousVersion', InputArgument::REQUIRED, 'previousVersion')
             ->addOption('force', null, InputOption::VALUE_NONE, 'overwrite release')
-            ->setDescription('Release packages on Github')
         ;
     }
 
@@ -46,7 +46,7 @@ class PackagesReleaseCommand extends AbstractGithubCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Packages release');
+        $this->io->title('GitHub : Release : Packages');
 
         $pg = $this->io->createProgressBar(\count(Config::$packages));
         $pg->start();

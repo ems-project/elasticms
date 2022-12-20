@@ -25,7 +25,7 @@ services:
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
       - xpack.security.transport.ssl.enabled=false
-      - xpack.license.self_generated.type=${LICENSE}
+      - xpack.license.self_generated.type=${ELK8_LICENSE}
     mem_limit: ${MEM_LIMIT}
     ulimits:
       memlock:
@@ -54,7 +54,7 @@ services:
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
       - xpack.security.transport.ssl.enabled=false
-      - xpack.license.self_generated.type=${LICENSE}
+      - xpack.license.self_generated.type=${ELK8_LICENSE}
     mem_limit: ${MEM_LIMIT}
     ulimits:
       memlock:
@@ -83,7 +83,7 @@ services:
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
       - xpack.security.transport.ssl.enabled=false
-      - xpack.license.self_generated.type=${LICENSE}
+      - xpack.license.self_generated.type=${ELK8_LICENSE}
     mem_limit: ${MEM_LIMIT}
     ulimits:
       memlock:

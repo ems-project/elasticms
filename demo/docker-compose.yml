@@ -156,6 +156,9 @@ volumes:
   elk8_data02:
   elk8_data03:
   elk8_kibanadata:
+  os2_data01:
+  os2_data02:
+  os2_data03:
   redis:
   s3:
   postgres:

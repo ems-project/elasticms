@@ -54,7 +54,6 @@ class ComposerUpdate extends Command
         $packages = $lockFile['packages'];
         $emsPackages = \array_filter($packages, fn (array $package) => \in_array($package['name'], Config::$packages));
 
-
         $rows = array_map(fn (array $package) => [
             $package['name'],
             $package['version'],
@@ -72,7 +71,6 @@ class ComposerUpdate extends Command
         $updateProcess->setWorkingDirectory($directory);
 
         $this->processHelper->run($output, $updateProcess);
-
         $this->filesystem->remove($directory.'/vendor');
     }
 }

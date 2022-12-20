@@ -8,6 +8,12 @@ class Config
 {
     public static string $organization = 'ems-project';
 
+    public static array $applications = [
+        'admin' => 'elasticms/elasticms-admin',
+        'web' => 'elasticms/elasticms-web',
+        'cli' => 'elasticms/elasticms-cli',
+    ];
+
     public static array $packages = [
         'EMSClientHelperBundle' => 'elasticms/client-helper-bundle',
         'EMSCommonBundle' => 'elasticms/common-bundle',

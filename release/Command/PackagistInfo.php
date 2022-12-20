@@ -12,9 +12,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class PackagesInfoCommand extends Command
+class PackagistInfo extends Command
 {
-    protected static $defaultName = 'packages:info';
+    protected static $defaultName = 'packagist:info';
+    protected static $defaultDescription = '2) Check if packages are published';
 
     private SymfonyStyle $io;
     private ClientPackagist $packagistApi;
@@ -25,7 +26,6 @@ class PackagesInfoCommand extends Command
     {
         $this
             ->addArgument('version', InputArgument::REQUIRED, 'version')
-            ->setDescription('Show packagist information')
         ;
     }
 
@@ -38,7 +38,7 @@ class PackagesInfoCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('Packages info');
+        $this->io->title('Packagist info');
 
         $pg = $this->io->createProgressBar(\count(Config::$packages));
         $pg->start();

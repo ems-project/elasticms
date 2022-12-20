@@ -39,11 +39,10 @@ class ComposerUpdate extends Command
             $this->io->section(sprintf('Updating: %s', $name));
             $this->runComposerUpdate($output, $this->workingDir . $name);
             $this->io->newLine();
-        }
-
-        foreach (\array_keys(Config::$applications) as $name) {
             $this->printEmsPackages($name);
         }
+
+        $this->io->info('Commit composer.lock files and wait for split before releasing admin/web/cli');
 
         return 0;
     }

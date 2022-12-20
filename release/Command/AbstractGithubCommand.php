@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class AbstractGithubCommand extends Command
+abstract class AbstractGithubCommand extends Command
 {
     protected SymfonyStyle $io;
     protected ClientGithub $githubApi;

@@ -14,13 +14,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class PackagesReleaseCommand extends Command
+abstract class AbstractGithubRelease extends AbstractGithubCommand
 {
-    protected static $defaultName = 'packages:release';
-
-    private SymfonyStyle $io;
-    private ClientGithub $githubApi;
-
     private string $branch;
     private string $version;
     private string $previousVersion;
@@ -33,18 +28,12 @@ class PackagesReleaseCommand extends Command
             ->addArgument('version', InputArgument::REQUIRED, 'version')
             ->addArgument('previousVersion', InputArgument::REQUIRED, 'previousVersion')
             ->addOption('force', null, InputOption::VALUE_NONE, 'overwrite release')
-            ->setDescription('Release packages on Github')
         ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
-        if (null === $githubApiToken = $_SERVER['GITHUB_API_TOKEN'] ?? null) {
-            throw new \RuntimeException('GITHUB_API_TOKEN not defined!');
-        }
-        $this->githubApi = new ClientGithub();
-        $this->githubApi->authenticate($githubApiToken, AuthMethod::JWT);
+        parent::initialize($input, $output);
 
         $this->branch = (string) $input->getArgument('branch');
         $this->version = (string) $input->getArgument('version');
@@ -52,16 +41,14 @@ class PackagesReleaseCommand extends Command
         $this->force = true === $input->getOption('force');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function release(array $repositories): int
     {
-        $this->io->title('Packages release');
-
         $pg = $this->io->createProgressBar(\count(Config::$packages));
         $pg->start();
 
         $rows = [];
 
-        foreach (Config::$packages as $name => $packageName) {
+        foreach ($repositories as $name => $packageName) {
             $release = $this->getRelease($name);
 
             if ($release && !$this->force) {
@@ -93,7 +80,7 @@ class PackagesReleaseCommand extends Command
     {
         $releaseNotes = $this->generateNotes($name);
 
-        $release = $this->githubApi->repo()->releases()->create(Config::$organization, $name, [
+        $release = $this->githubApi->repo()->releases()->create(self::ORG, $name, [
             'tag_name' => $this->version,
             'target_commitish' => $this->branch,
             'name' => $releaseNotes['name'],
@@ -105,14 +92,14 @@ class PackagesReleaseCommand extends Command
 
     private function deleteRelease(string $name, int $releaseId)
     {
-        $this->githubApi->repo()->releases()->remove(Config::$organization, $name, $releaseId);
-        $this->githubApi->git()->references()->remove(Config::$organization, $name, 'tags/'.$this->version);
+        $this->githubApi->repo()->releases()->remove(self::ORG, $name, $releaseId);
+        $this->githubApi->git()->references()->remove(self::ORG, $name, 'tags/'.$this->version);
     }
 
     private function getRelease(string $name): ?array
     {
         try {
-            return $this->githubApi->repo()->releases()->tag(Config::$organization, $name, $this->version);
+            return $this->githubApi->repo()->releases()->tag(self::ORG, $name, $this->version);
         } catch (\Throwable $e) {
             return null;
         }
@@ -120,14 +107,14 @@ class PackagesReleaseCommand extends Command
 
     private function getReleaseSha(string $name): string
     {
-        $ref = $this->githubApi->git()->references()->show(Config::$organization, $name, 'tags/'.$this->version);
+        $ref = $this->githubApi->git()->references()->show(self::ORG, $name, 'tags/'.$this->version);
 
         return $ref['object']['sha'];
     }
 
     private function generateNotes(string $name): array
     {
-        return $this->githubApi->repo()->releases()->generateNotes(Config::$organization, $name, [
+        return $this->githubApi->repo()->releases()->generateNotes(self::ORG, $name, [
             'tag_name' => $this->version,
             'target_commitish' => $this->branch,
             'previous_tag_name' => $this->previousVersion

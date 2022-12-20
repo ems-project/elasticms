@@ -3,7 +3,7 @@ name: 'Split up the monorepo into subrepositories'
 on:
     push:
         branches:
-            - '4.*'
+            - '5.*'
         tags-ignore:
             - '*'
 

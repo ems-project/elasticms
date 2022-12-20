@@ -43,7 +43,7 @@ abstract class AbstractGithubRelease extends AbstractGithubCommand
 
     protected function release(array $repositories): int
     {
-        $pg = $this->io->createProgressBar(\count(Config::$packages));
+        $pg = $this->io->createProgressBar(\count($repositories));
         $pg->start();
 
         $rows = [];

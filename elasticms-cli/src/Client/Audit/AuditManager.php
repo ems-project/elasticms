@@ -264,8 +264,7 @@ class AuditManager
             $description = $htmlHelper->getUniqueTextAttr($report, 'meta[name="description"]', 'content');
             if (null !== $description && \strlen($description) < 20) {
                 $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too short: %d', \strlen($description))]);
-            }
-            if (null !== $description && \strlen($description) > 200) {
+            } elseif (null !== $description && \strlen($description) > 200) {
                 $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too long: %d', \strlen($description))]);
             }
             $audit->setDescription($description);

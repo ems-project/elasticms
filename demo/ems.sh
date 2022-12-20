@@ -96,14 +96,15 @@ sub_config_push(){
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update wysiwyg-profile Standard
 
   echo "Create/Update i18n"
+  docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n asset.type.manual
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n config
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n ems.documentation.body
-  docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n locale.fr
-  docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n locale.nl
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n locale.de
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n locale.en
+  docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n locale.fr
+  docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n locale.nl
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n locales
-  docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n asset.type.manual
+  docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update i18n overview.legend
 
   echo "Create/Update Environments"
   docker compose exec -u ${UID:-1000} web-${environment} preview ems:admin:update environment preview

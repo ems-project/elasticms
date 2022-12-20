@@ -50,13 +50,14 @@ class Url
         $this->host = $host;
 
         $this->referer = null === $referer ? null : (new Url($referer))->getUrl(null, true);
-        $this->user = $parsed['user'] ?? $relativeParsed['user'] ?? null;
-        $this->password = $parsed['pass'] ?? $relativeParsed['pass'] ?? null;
-        $this->port = $parsed['port'] ?? $relativeParsed['port'] ?? null;
+        $this->user = $parsed['user'] ?? (isset($relativeParsed['user']) ? (string) $relativeParsed['user'] : null);
+        $this->password = $parsed['pass'] ?? (isset($relativeParsed['pass']) ? (string) $relativeParsed['pass'] : null);
+        $this->port = $parsed['port'] ?? (isset($relativeParsed['port']) ? (int) $relativeParsed['port'] : null);
         $this->query = $parsed['query'] ?? null;
         $this->fragment = $parsed['fragment'] ?? null;
 
-        $this->path = $this->getAbsolutePath($parsed['path'] ?? '/', $relativeParsed['path'] ?? '/');
+        $relativeTo = isset($relativeParsed['path']) ? (string) $relativeParsed['path'] : '/';
+        $this->path = $this->getAbsolutePath($parsed['path'] ?? '/', $relativeTo);
     }
 
     public function serialize(string $format = JsonEncoder::FORMAT): string
@@ -273,8 +274,9 @@ class Url
         $optionsResolver->setAllowedTypes('query', ['string', 'null']);
         $optionsResolver->setAllowedTypes('fragment', ['string', 'null']);
 
-        $resolved = $optionsResolver->resolve($parts);
         /* @var array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string} $resolved */
+        $resolved = $optionsResolver->resolve($parts);
+
         return $resolved;
     }
 

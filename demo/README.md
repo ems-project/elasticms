@@ -39,7 +39,11 @@ If you want to use elasticsearch 8 instead of elasticsearch 7, define this varia
 export ELK_VERSION=elk8
 ```
 
-If you want to use elasticsearch 7 set that variable to `elk7`.
+Available stacks:
+
+ * `elk7`: elasticsearch 7.11.2
+ * `elk8`: elasticsearch 8.5.3
+ * `os2`: OpenSearch 2.4.1
 
 
 

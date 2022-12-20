@@ -22,6 +22,7 @@ services:
         hard: -1
     volumes:
       - elk7_data01:/usr/share/elasticsearch/data
+    mem_limit: ${MEM_LIMIT}
   es02:
     image: elastic/elasticsearch:${ELK7_STACK_VERSION}
     environment:
@@ -39,6 +40,7 @@ services:
         hard: -1
     volumes:
       - elk7_data02:/usr/share/elasticsearch/data
+    mem_limit: ${MEM_LIMIT}
   es03:
     image: elastic/elasticsearch:${ELK7_STACK_VERSION}
     environment:
@@ -56,6 +58,7 @@ services:
         hard: -1
     volumes:
       - elk7_data03:/usr/share/elasticsearch/data
+    mem_limit: ${MEM_LIMIT}
   kibana:
     image: elastic/kibana:${ELK7_STACK_VERSION}
     environment:

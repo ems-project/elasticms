@@ -600,12 +600,12 @@ final class ClientRequest implements ClientRequestInterface
             $response = $function();
             $response->setLastModified($lastPublishedDate);
             $this->cache->save($cachedHierarchy->set($response));
-            $this->logger->notice('log.cache_missed', [
+            $this->logger->info('log.cache_missed', [
                 'cache_key' => $cacheHash,
                 'type' => $type,
             ]);
         } else {
-            $this->logger->notice('log.cache_hit', [
+            $this->logger->info('log.cache_hit', [
                 'cache_key' => $cacheHash,
                 'type' => $type,
             ]);

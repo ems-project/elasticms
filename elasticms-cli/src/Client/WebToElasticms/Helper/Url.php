@@ -22,8 +22,8 @@ class Url
     private readonly string $scheme;
     private readonly string $host;
     private readonly ?int $port;
-    private readonly ?string $user;
-    private readonly ?string $password;
+    private ?string $user;
+    private ?string $password;
     private readonly string $path;
     private readonly ?string $query;
     private readonly ?string $fragment;
@@ -180,9 +180,19 @@ class Url
         return $this->user;
     }
 
+    public function setUser(?string $user): void
+    {
+        $this->user = $user;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
+    }
+
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
     }
 
     public function getPath(): string

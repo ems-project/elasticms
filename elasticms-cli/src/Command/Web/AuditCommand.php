@@ -136,9 +136,6 @@ class AuditCommand extends AbstractCommand
 
         $this->io->section('Load config');
         $this->cacheManager = new CacheManager($this->cacheFolder, false);
-        if (null !== $this->username && null !== $this->password) {
-            $this->cacheManager->setHostAuth($this->baseUrl->getHost(), $this->username, $this->password);
-        }
         $api = $this->adminHelper->getCoreApi()->data($this->contentType);
 
         $this->auditCache = $this->loadAuditCache();
@@ -155,6 +152,10 @@ class AuditCommand extends AbstractCommand
         $finish = true;
         while ($this->auditCache->hasNext()) {
             $url = $this->auditCache->next();
+            if (null !== $this->username && null !== $this->password) {
+                $url->setPassword($this->password);
+                $url->setUser($this->username);
+            }
             if (null !== $this->ignoreRegex && \preg_match(\sprintf('/%s/', $this->ignoreRegex), $url->getPath())) {
                 $this->logger->notice('Ignored by regex');
                 $report->addIgnoredUrl($url, 'Ignored by regex');

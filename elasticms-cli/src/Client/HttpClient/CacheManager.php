@@ -20,6 +20,8 @@ class CacheManager
     private readonly Client $client;
     /** @var UrlReport[] */
     private array $cachedReport = [];
+    /** @var array<string, string[]> */
+    private array $authSite = [];
 
     public function __construct(private readonly string $cacheFolder, bool $allowRedirect = true)
     {
@@ -45,7 +47,7 @@ class CacheManager
     public function get(string $url): HttpResult
     {
         try {
-            return new HttpResult($this->client->get($url));
+            return new HttpResult($this->client->get($url, $this->getHostOption($url)));
         } catch (ClientException|RequestException $e) {
             return new HttpResult($e->getResponse(), $e->getMessage());
         }
@@ -54,9 +56,9 @@ class CacheManager
     public function head(string $url): HttpResult
     {
         try {
-            $head = new HttpResult($this->client->head($url, [
+            $head = new HttpResult($this->client->head($url, $this->getHostOption($url, [
                 RequestOptions::CONNECT_TIMEOUT => 3,
-            ]));
+            ])));
         } catch (ClientException|RequestException $e) {
             $response = $e->getResponse();
             if (null === $response || !\in_array($response->getStatusCode(), [405, 404])) {
@@ -99,5 +101,22 @@ class CacheManager
     public function getCacheFolder(): string
     {
         return $this->cacheFolder;
+    }
+
+    public function setHostAuth(string $host, string $username, string $password): void
+    {
+        $this->authSite[$host] = [$username, $password];
+    }
+
+    /**
+     * @param mixed[] $options
+     *
+     * @return mixed[]
+     */
+    private function getHostOption(string $url, array $options = []): array
+    {
+        $url = new Url($url);
+
+        return \array_merge(\array_filter(['auth' => $this->authSite[$url->getHost()] ?? []]), $options);
     }
 }

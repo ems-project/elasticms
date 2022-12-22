@@ -136,6 +136,9 @@ class AuditCommand extends AbstractCommand
 
         $this->io->section('Load config');
         $this->cacheManager = new CacheManager($this->cacheFolder, false);
+        if (null !== $this->username && null !== $this->password) {
+            $this->cacheManager->setHostAuth($this->baseUrl->getHost(), $this->username, $this->password);
+        }
         $api = $this->adminHelper->getCoreApi()->data($this->contentType);
 
         $this->auditCache = $this->loadAuditCache();

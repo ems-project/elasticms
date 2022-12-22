@@ -169,20 +169,25 @@ class Report
 
     public function addIgnoredUrl(Url $url, string $message): void
     {
+        $this->addIgnoredUrlWithReferer($url->getUrl(), $url->getReferer(), $message);
+    }
+
+    public function addIgnoredUrlWithReferer(string $url, ?string $referer, string $message): void
+    {
         $hash = \sha1(\implode(':', [
-            $url->getUrl(),
+            $url,
             $message,
         ]));
         if (!isset($this->ignoredLinks[$hash])) {
             $this->ignoredLinks[$hash] = [
-                'url' => $url->getUrl(),
+                'url' => $url,
                 'message' => $message,
-                'referrers' => $url->getReferer() ?? '',
+                'referrers' => $referer ?? '',
             ];
         } elseif (\strlen($this->ignoredLinks[$hash]['referrers']) > 1000) {
             $this->ignoredLinks[$hash]['referrers'] .= '.';
         } else {
-            $this->ignoredLinks[$hash]['referrers'] .= ','.($url->getReferer() ?? '');
+            $this->ignoredLinks[$hash]['referrers'] .= ','.($referer ?? '');
         }
     }
 

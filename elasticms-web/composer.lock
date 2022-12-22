@@ -58,16 +58,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.254.0",
+            "version": "3.254.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "9e07cddf9be6ab241c241344ca2e9cf33e32a22e"
+                "reference": "c020b283360bd802ee24959ffb63d70603f8b408"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9e07cddf9be6ab241c241344ca2e9cf33e32a22e",
-                "reference": "9e07cddf9be6ab241c241344ca2e9cf33e32a22e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c020b283360bd802ee24959ffb63d70603f8b408",
+                "reference": "c020b283360bd802ee24959ffb63d70603f8b408",
                 "shasum": ""
             },
             "require": {
@@ -146,9 +146,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.254.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.254.1"
             },
-            "time": "2022-12-19T19:23:23+00:00"
+            "time": "2022-12-20T19:28:05+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -618,16 +618,16 @@
         },
         {
             "name": "doctrine/collections",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "6930dc3b23f2470b6bf77342586483b7fa370d0f"
+                "reference": "425857d49df4812ca9199691d7d7aa66097d94f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/6930dc3b23f2470b6bf77342586483b7fa370d0f",
-                "reference": "6930dc3b23f2470b6bf77342586483b7fa370d0f",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/425857d49df4812ca9199691d7d7aa66097d94f3",
+                "reference": "425857d49df4812ca9199691d7d7aa66097d94f3",
                 "shasum": ""
             },
             "require": {
@@ -684,7 +684,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/collections/issues",
-                "source": "https://github.com/doctrine/collections/tree/2.1.0"
+                "source": "https://github.com/doctrine/collections/tree/2.1.1"
             },
             "funding": [
                 {
@@ -700,7 +700,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-16T07:10:43+00:00"
+            "time": "2022-12-08T22:30:56+00:00"
         },
         {
             "name": "doctrine/common",
@@ -1967,16 +1967,16 @@
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "69c709edbc999347fd0f9d7d6f0db43c1e750dd3"
+                "reference": "e75bf2e0b82b4a9da81d443e4195552d3a8e7003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/69c709edbc999347fd0f9d7d6f0db43c1e750dd3",
-                "reference": "69c709edbc999347fd0f9d7d6f0db43c1e750dd3",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/e75bf2e0b82b4a9da81d443e4195552d3a8e7003",
+                "reference": "e75bf2e0b82b4a9da81d443e4195552d3a8e7003",
                 "shasum": ""
             },
             "require": {
@@ -2016,22 +2016,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/5.0.0"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/5.0.1"
             },
-            "time": "2022-12-20T14:14:07+00:00"
+            "time": "2022-12-21T00:38:31+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "0f8841749dd4f346724e72f0c45fbb62bc9ceac1"
+                "reference": "0b70af53eaa936e9657a931013076d49f06c4dff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/0f8841749dd4f346724e72f0c45fbb62bc9ceac1",
-                "reference": "0f8841749dd4f346724e72f0c45fbb62bc9ceac1",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/0b70af53eaa936e9657a931013076d49f06c4dff",
+                "reference": "0b70af53eaa936e9657a931013076d49f06c4dff",
                 "shasum": ""
             },
             "require": {
@@ -2105,13 +2105,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.0.0"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.0.1"
             },
-            "time": "2022-12-20T14:14:07+00:00"
+            "time": "2022-12-21T09:48:58+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2157,13 +2157,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/5.0.0"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/5.0.1"
             },
             "time": "2022-12-20T14:14:07+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2219,13 +2219,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/5.0.0"
+                "source": "https://github.com/ems-project/helpers/tree/5.0.1"
             },
             "time": "2022-12-19T08:20:27+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "5.0.0",
+            "version": "5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2274,7 +2274,7 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/5.0.0"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/5.0.1"
             },
             "time": "2022-12-20T14:14:07+00:00"
         },

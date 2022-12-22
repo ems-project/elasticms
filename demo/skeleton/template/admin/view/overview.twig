@@ -48,8 +48,8 @@
         {% set columns = columns|merge([
             {
                 "label": "EMS label",
-                "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data.source.ems_label }}</a>",
-                "orderField": "ems_label.alpha_order"
+                "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data.source.label }}</a>",
+                "orderField": "label.alpha_order"
             }
         ]) %}
     {% endif %}
@@ -65,10 +65,12 @@
     {% endif %}
     {% set infoEnv = 'overview.legend'|i18n('en') %}
 
-    <h4>Legend for Live</h4>
-    {% for info in infoEnv|ems_json_decode %}
-        <span><i style="color: {{ info.color }}" class="{{ info.icon }}"></i>  {{ info.label }}</span>
-    {% endfor %}
+    <div class="mb-3">
+        <h4>Legend for Live</h4>
+        {% for info in infoEnv|ems_json_decode %}
+            <span class="ml-2"><i style="color: {{ info.color }}" class="{{ info.icon }}"></i>  {{ info.label }}</span>
+        {% endfor %}
+    </div>
 
     {% set columnPreview %}{% verbatim %}
     <i style="color: {{ docInfo.published('preview') and not docInfo.hasDraft ? infoEnv.published.color : infoEnv.warning.color }}"
@@ -142,7 +144,7 @@
             {% with { 'filters' : filters, 'selections': selections } %}{{ block('filters') }}{% endwith %}
         {% endif %}
         {{ emsco_datatable(['preview'],[contentType.name], {
-            "frontendOptions": { "pageLength": 100, "order": [[(columns|length - 3), 'desc']] },
+            "frontendOptions": { "pageLength": 100, "order": [[(columns|length - 4), 'desc']] },
             "default_sort": { "_finalization_datetime": "desc", "_score": "asc" },
             "empty_query": must,
             "query": { "bool": { "must": must|merge(filterQuery) } },

@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 #sh pg_drop.sh
 

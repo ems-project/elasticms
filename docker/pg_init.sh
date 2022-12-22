@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 #sh pg_init.sh my_database schema_my_database_adm
 

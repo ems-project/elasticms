@@ -16,22 +16,19 @@ class HtmlHelper
     }
 
     /**
-     * @return Url[]
+     * @return array<string, string>
      */
-    public function getLinks(): array
+    public function getLinks(): iterable
     {
         $content = $this->crawler->filter('a');
-        $externalLinks = [];
         for ($i = 0; $i < $content->count(); ++$i) {
             $item = $content->eq($i);
             $href = $item->attr('href');
             if (null === $href || 0 === \strlen($href) || \str_starts_with($href, '#')) {
                 continue;
             }
-            $externalLinks[] = new Url($href, $this->referer->getUrl(), \html_entity_decode($item->text()));
+            yield $href => \html_entity_decode($item->text());
         }
-
-        return $externalLinks;
     }
 
     public function getText(): string
@@ -71,5 +68,10 @@ class HtmlHelper
         }
 
         return \trim($tag->eq(0)->attr($attr) ?? '');
+    }
+
+    public function getReferer(): Url
+    {
+        return $this->referer;
     }
 }

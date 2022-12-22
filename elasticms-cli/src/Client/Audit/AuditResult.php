@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\CLI\Client\Audit;
 
 use App\CLI\Client\HttpClient\UrlReport;
+use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\StringStream;
@@ -358,10 +359,14 @@ class AuditResult
         $this->description = $description;
     }
 
-    public function addLinks(HtmlHelper $htmlHelper): void
+    public function addLinks(HtmlHelper $htmlHelper, Report $report): void
     {
-        foreach ($htmlHelper->getLinks() as $url) {
-            $this->links[$url->getId()] = $url;
+        foreach ($htmlHelper->getLinks() as $href => $label) {
+            try {
+                $this->links[$href] = new Url($href, $htmlHelper->getReferer()->getUrl(), $label);
+            } catch (NotParsableUrlException $e) {
+                $report->addIgnoredUrlWithReferer($e->getUrl(), $e->getReferer(), $e->getMessage());
+            }
         }
     }
 }

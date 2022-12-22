@@ -65,10 +65,10 @@ class AuditManager
             $this->addLighthouseAudit($audit, $result);
         }
         if ($this->all || $this->tika) {
-            $this->addTikaAudits($audit, $result);
+            $this->addTikaAudits($audit, $result, $report);
         }
         if ($this->tikaJar) {
-            $this->addTikaJarAudits($audit, $result);
+            $this->addTikaJarAudits($audit, $result, $report);
         }
 
         return $audit;
@@ -222,7 +222,7 @@ class AuditManager
         }
     }
 
-    private function addTikaJarAudits(AuditResult $audit, HttpResult $result): void
+    private function addTikaJarAudits(AuditResult $audit, HttpResult $result, Report $report): void
     {
         $this->logger->notice('Collect Tika Jar audit');
         try {
@@ -233,7 +233,7 @@ class AuditManager
                 return;
             }
             $htmlHelper = new HtmlHelper($this->tikaLinksAudit->getOutput(), $audit->getUrl());
-            $audit->addLinks($htmlHelper);
+            $audit->addLinks($htmlHelper, $report);
             $meta = $this->tikaMetaAudit->getJson();
             $audit->setTitle(null === ($meta['dc:title'] ?? null) ? null : \trim((string) $meta['dc:title']));
             $audit->setAuthor(null === ($meta['dc:author'] ?? null) ? null : \trim((string) $meta['dc:author']));
@@ -256,7 +256,7 @@ class AuditManager
             $stream = $result->getResponse()->getBody();
             $stream->rewind();
             $htmlHelper = new HtmlHelper($stream->getContents(), $audit->getUrl());
-            $audit->addLinks($htmlHelper);
+            $audit->addLinks($htmlHelper, $report);
             $audit->setMetaTitle($htmlHelper->getUniqueTextValue($report, 'title'));
             $audit->setTitle($htmlHelper->getUniqueTextValue($report, 'h1'));
             $audit->setCanonical($htmlHelper->getUniqueTextAttr($report, 'link[rel="canonical"]', 'href'));
@@ -286,7 +286,7 @@ class AuditManager
         $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result->getStream(), $result->getMimetype());
     }
 
-    private function addTikaAudits(AuditResult $audit, HttpResult $result): void
+    private function addTikaAudits(AuditResult $audit, HttpResult $result, Report $report): void
     {
         $size = $audit->getSize();
         if ($size <= 0 || $size > $this->tikaMaxSize) {
@@ -303,7 +303,7 @@ class AuditManager
             if ($result->isHtml()) {
                 return;
             }
-            $audit->addLinks($htmlHelper);
+            $audit->addLinks($htmlHelper, $report);
             $audit->setTitle($this->metaRequest->getTitle());
             $audit->setAuthor($this->metaRequest->getCreator());
         } catch (\Throwable $e) {

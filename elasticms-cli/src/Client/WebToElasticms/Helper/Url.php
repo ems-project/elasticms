@@ -31,21 +31,21 @@ class Url
 
     public function __construct(string $url, ?string $referer = null, private readonly ?string $refererLabel = null)
     {
-        $parsed = self::mb_parse_url($url);
+        $parsed = self::mb_parse_url($url, $referer);
         $relativeParsed = [];
         if (null !== $referer) {
-            $relativeParsed = self::mb_parse_url($referer);
+            $relativeParsed = self::mb_parse_url($referer, $referer);
         }
 
         $scheme = $parsed['scheme'] ?? $relativeParsed['scheme'] ?? null;
         if (null === $scheme) {
-            throw new \RuntimeException(\sprintf('Unexpected null scheme: %s with referer: %s', $url, $referer));
+            throw new NotParsableUrlException($url, $referer, 'unexpected null scheme');
         }
         $this->scheme = $scheme;
 
         $host = $parsed['host'] ?? $relativeParsed['host'] ?? null;
         if (null === $host) {
-            throw new \RuntimeException('Unexpected null host');
+            throw new NotParsableUrlException($url, $referer, 'unexpected null host');
         }
         $this->host = $host;
 
@@ -229,7 +229,7 @@ class Url
     /**
      * @return array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string}
      */
-    public static function mb_parse_url(string $url): array
+    public static function mb_parse_url(string $url, ?string $referer = null): array
     {
         $enc_url = \preg_replace_callback(
             '%[^:/@?&=#]+%usD',
@@ -238,13 +238,13 @@ class Url
         );
 
         if (null === $enc_url) {
-            throw new \RuntimeException(\sprintf('Unexpected wrong url %s', $url));
+            throw new NotParsableUrlException($url, $referer, 'url encoding issue');
         }
 
         $parts = \parse_url($enc_url);
 
         if (false === $parts) {
-            throw new \RuntimeException(\sprintf('Unexpected wrong url %s', $url));
+            throw new NotParsableUrlException($url, $referer, 'parsing issue');
         }
 
         foreach ($parts as $name => $value) {

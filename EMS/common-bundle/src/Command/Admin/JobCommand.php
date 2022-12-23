@@ -78,7 +78,7 @@ class JobCommand extends AbstractCommand
         $this->writeOutput($status);
 
         $this->io->section('Job\'s status:');
-        $this->echoStatus($status);
+        $this->echoStatus($this->coreApi->admin()->getJobStatus($this->jobIdOrJsonFile));
 
         return self::EXECUTE_SUCCESS;
     }

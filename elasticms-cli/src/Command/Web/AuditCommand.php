@@ -174,7 +174,7 @@ class AuditCommand extends AbstractCommand
                 }
                 continue;
             }
-            if ($result->getResponse()->getStatusCode() >= 400) {
+            if ($result->getResponse()->getStatusCode() >= 300) {
                 $report->addWarning($url, [\sprintf('Return code %d', $result->getResponse()->getStatusCode())]);
             }
             $auditResult = $auditManager->analyze($url, $result, $report);

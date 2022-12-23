@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteCommand extends AbstractCommand
@@ -25,6 +26,7 @@ class DeleteCommand extends AbstractCommand
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->adminHelper->setLogger(new ConsoleLogger($output));
         $this->configType = $this->getArgumentString(self::CONFIG_TYPE);
         $this->entityName = $this->getArgumentString(self::ENTITY_NAME);
     }

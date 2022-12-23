@@ -17,8 +17,7 @@ class AdminHelper
         private readonly CoreApiFactoryInterface $coreApiFactory,
         private readonly CacheItemPoolInterface $cache,
         private LoggerInterface $logger
-    )
-    {
+    ) {
     }
 
     public function setLogger(LoggerInterface $logger): void

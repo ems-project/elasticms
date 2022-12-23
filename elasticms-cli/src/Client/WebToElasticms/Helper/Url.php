@@ -19,15 +19,15 @@ use Symfony\Component\Serializer\Serializer;
 class Url
 {
     private const ABSOLUTE_SCHEME = ['mailto', 'javascript', 'tel'];
-    private readonly string $scheme;
-    private readonly string $host;
-    private readonly ?int $port;
+    private string $scheme;
+    private string $host;
+    private ?int $port;
     private ?string $user;
     private ?string $password;
-    private readonly string $path;
-    private readonly ?string $query;
-    private readonly ?string $fragment;
-    private readonly ?string $referer;
+    private string $path;
+    private ?string $query;
+    private ?string $fragment;
+    private ?string $referer;
 
     public function __construct(string $url, ?string $referer = null, private readonly ?string $refererLabel = null)
     {
@@ -37,19 +37,43 @@ class Url
             $relativeParsed = self::mb_parse_url($referer, $referer);
         }
 
+        $sameHost = ($parsed['scheme'] ?? null) === ($relativeParsed['scheme'] ?? null) && ($parsed['host'] ?? null) === ($relativeParsed['host'] ?? null) && ($parsed['port'] ?? null) === ($relativeParsed['port'] ?? null);
+        $sameHost = $sameHost || (null === ($parsed['scheme'] ?? null) && null === ($parsed['host'] ?? null) && null === ($parsed['port'] ?? null));
+
+        $this->referer = null === $referer ? null : (new Url($referer))->getUrl(null, true);
+
+        if (!$sameHost) {
+            $scheme = $parsed['scheme'] ?? $relativeParsed['scheme'] ?? null;
+            if (null === $scheme) {
+                throw new NotParsableUrlException($url, $referer, 'unexpected null scheme');
+            }
+            $this->scheme = (string) $scheme;
+            $host = $parsed['host'] ?? null;
+            if (null === $host) {
+                throw new NotParsableUrlException($url, $referer, 'unexpected null host');
+            }
+            $this->host = $host;
+            $this->user = $parsed['user'] ?? null;
+            $this->password = $parsed['pass'] ?? null;
+            $this->port = $parsed['port'] ?? null;
+            $this->query = $parsed['query'] ?? null;
+            $this->fragment = $parsed['fragment'] ?? null;
+            $this->path = $this->cleanPath($parsed['path'] ?? '/');
+
+            return;
+        }
+
         $scheme = $parsed['scheme'] ?? $relativeParsed['scheme'] ?? null;
         if (null === $scheme) {
             throw new NotParsableUrlException($url, $referer, 'unexpected null scheme');
         }
-        $this->scheme = $scheme;
-
+        $this->scheme = (string) $scheme;
         $host = $parsed['host'] ?? $relativeParsed['host'] ?? null;
         if (null === $host) {
             throw new NotParsableUrlException($url, $referer, 'unexpected null host');
         }
-        $this->host = $host;
+        $this->host = (string) $host;
 
-        $this->referer = null === $referer ? null : (new Url($referer))->getUrl(null, true);
         $this->user = $parsed['user'] ?? (isset($relativeParsed['user']) ? (string) $relativeParsed['user'] : null);
         $this->password = $parsed['pass'] ?? (isset($relativeParsed['pass']) ? (string) $relativeParsed['pass'] : null);
         $this->port = $parsed['port'] ?? (isset($relativeParsed['port']) ? (int) $relativeParsed['port'] : null);
@@ -119,18 +143,8 @@ class Url
         if (!\str_starts_with($path, '/')) {
             $path = $relativeToPath.$path;
         }
-        $patterns = ['#(/\.?/)#', '#/(?!\.\.)[^/]+/\.\./#'];
-        for ($n = 1; $n > 0;) {
-            $path = \preg_replace($patterns, '/', $path, -1, $n);
-            if (!\is_string($path)) {
-                throw new \RuntimeException(\sprintf('Unexpected non string path %s', $path));
-            }
-        }
-        if (!\str_starts_with($path, '/')) {
-            $path = '/'.$path;
-        }
 
-        return $path;
+        return $this->cleanPath($path);
     }
 
     public function getUrl(string $path = null, bool $withFragment = false): string
@@ -180,19 +194,9 @@ class Url
         return $this->user;
     }
 
-    public function setUser(?string $user): void
-    {
-        $this->user = $user;
-    }
-
     public function getPassword(): ?string
     {
         return $this->password;
-    }
-
-    public function setPassword(?string $password): void
-    {
-        $this->password = $password;
     }
 
     public function getPath(): string
@@ -293,5 +297,21 @@ class Url
     public function getRefererLabel(): ?string
     {
         return $this->refererLabel;
+    }
+
+    private function cleanPath(string $path): string
+    {
+        $patterns = ['#(/\.?/)#', '#/(?!\.\.)[^/]+/\.\./#'];
+        for ($n = 1; $n > 0;) {
+            $path = \preg_replace($patterns, '/', $path, -1, $n);
+            if (!\is_string($path)) {
+                throw new \RuntimeException(\sprintf('Unexpected non string path %s', $path));
+            }
+        }
+        if (!\str_starts_with($path, '/')) {
+            $path = '/'.$path;
+        }
+
+        return $path;
     }
 }

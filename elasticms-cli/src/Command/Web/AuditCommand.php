@@ -41,8 +41,6 @@ class AuditCommand extends AbstractCommand
     private const OPTION_LIGHTHOUSE = 'lighthouse';
     private const OPTION_CONTENT_TYPE = 'content-type';
     private const OPTION_REPORTS_FOLDER = 'reports-folder';
-    private const OPTION_USERNAME = 'username';
-    private const OPTION_PASSWORD = 'password';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
@@ -62,8 +60,6 @@ class AuditCommand extends AbstractCommand
     private bool $tikaJar;
     private string $tikaBaseUrl;
     private float $tikaMaxSize;
-    private ?string $username;
-    private ?string $password;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -97,9 +93,7 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
             ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url', TikaClient::TIKA_BASE_URL)
-            ->addOption(self::OPTION_TIKA_MAX_SIZE, null, InputOption::VALUE_OPTIONAL, 'File bigger than this limit are not send to Tika [in MB]', 5)
-            ->addOption(self::OPTION_USERNAME, null, InputOption::VALUE_OPTIONAL, 'Username if the site is protected by a password')
-            ->addOption(self::OPTION_PASSWORD, null, InputOption::VALUE_OPTIONAL, 'Username if the site is protected by a password');
+            ->addOption(self::OPTION_TIKA_MAX_SIZE, null, InputOption::VALUE_OPTIONAL, 'File bigger than this limit are not send to Tika [in MB]', 5);
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -122,8 +116,6 @@ class AuditCommand extends AbstractCommand
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
         $this->tikaBaseUrl = $this->getOptionString(self::OPTION_TIKA_BASE_URL);
         $this->tikaMaxSize = $this->getOptionFloat(self::OPTION_TIKA_MAX_SIZE);
-        $this->username = $this->getOptionStringNull(self::OPTION_USERNAME);
-        $this->password = $this->getOptionStringNull(self::OPTION_PASSWORD);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -152,10 +144,6 @@ class AuditCommand extends AbstractCommand
         $finish = true;
         while ($this->auditCache->hasNext()) {
             $url = $this->auditCache->next();
-            if (null !== $this->username && null !== $this->password) {
-                $url->setPassword($this->password);
-                $url->setUser($this->username);
-            }
             if (null !== $this->ignoreRegex && \preg_match(\sprintf('/%s/', $this->ignoreRegex), $url->getPath())) {
                 $this->logger->notice('Ignored by regex');
                 $report->addIgnoredUrl($url, 'Ignored by regex');

@@ -11,6 +11,7 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GetCommand extends AbstractCommand
@@ -32,6 +33,7 @@ class GetCommand extends AbstractCommand
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->adminHelper->setLogger(new ConsoleLogger($output));
         $this->configType = $this->getArgumentString(self::CONFIG_TYPE);
         $this->export = $this->getOptionBool(self::EXPORT);
         $folder = $this->getOptionStringNull(self::FOLDER);

@@ -10,6 +10,7 @@ use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterf
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
@@ -54,6 +55,7 @@ class LoginCommand extends AbstractCommand
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->adminHelper->setLogger(new ConsoleLogger($output));
         $baseUrl = $this->getArgumentStringNull(self::ARG_BASE_URL);
         if (null !== $baseUrl) {
             $this->backendUrl = $baseUrl;

@@ -1,6 +1,6 @@
 services:
   setup_elk:
-    image: elastic/elasticsearch:${ELK8_STACK_VERSION}
+    image: elastic/elasticsearch:${ELK7_STACK_VERSION}
     command: >
       bash -c '
         echo "All done!";

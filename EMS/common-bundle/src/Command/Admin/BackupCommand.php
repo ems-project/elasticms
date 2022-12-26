@@ -21,10 +21,14 @@ class BackupCommand extends AbstractCommand
     final public const EXPORT_FOLDER = 'export-folder';
     final public const CONFIGS_FOLDER = 'configs-folder';
     final public const DOCUMENTS_FOLDER = 'documents-folder';
+    final public const CONFIGS_OPTION = 'configs';
+    final public const DOCUMENTS_OPTION = 'documents';
     private bool $export;
     private string $configsFolder;
     private string $documentsFolder;
     private CoreApiInterface $coreApi;
+    private bool $exportConfigsOnly;
+    private bool $exportDocumentsOnly;
 
     public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
     {
@@ -50,6 +54,8 @@ class BackupCommand extends AbstractCommand
         if (null !== $documentsFolder) {
             $this->documentsFolder = $documentsFolder;
         }
+        $this->exportConfigsOnly = $this->getOptionBool(self::CONFIGS_OPTION);
+        $this->exportDocumentsOnly = $this->getOptionBool(self::DOCUMENTS_OPTION);
     }
 
     protected function configure(): void
@@ -59,6 +65,8 @@ class BackupCommand extends AbstractCommand
         $this->addOption(self::EXPORT_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Global export folder (can be overwritten per type of exports)');
         $this->addOption(self::CONFIGS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export configs folder');
         $this->addOption(self::DOCUMENTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export documents folder');
+        $this->addOption(self::CONFIGS_OPTION, null, InputOption::VALUE_NONE, 'Export elasticMS\'s configs only');
+        $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, 'Export elasticMS\'s documents only');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -73,25 +81,13 @@ class BackupCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $configTypes = $this->coreApi->admin()->getConfigTypes();
-        $rows = [];
-        $this->io->progressStart(\count($configTypes));
-        foreach ($configTypes as $configType) {
-            $rows[] = [$configType, $this->backupConfig($configType)];
-            $this->io->progressAdvance();
+        if ($this->exportConfigsOnly || !$this->exportDocumentsOnly) {
+            $this->exportConfigs();
         }
-        $this->io->progressFinish();
-        $this->io->table(['Config Type', '# Configs'], $rows);
 
-        $contentTypes = $this->coreApi->admin()->getContentTypes();
-        $rows = [];
-        $this->io->progressStart(\count($contentTypes));
-        foreach ($contentTypes as $contentType) {
-            $rows[] = [$contentType, $this->backupDocuments($contentType)];
-            $this->io->progressAdvance();
+        if ($this->exportDocumentsOnly || !$this->exportConfigsOnly) {
+            $this->exportDocuments();
         }
-        $this->io->progressFinish();
-        $this->io->table(['Content Type', '# Documents'], $rows);
 
         return self::EXECUTE_SUCCESS;
     }
@@ -127,5 +123,31 @@ class BackupCommand extends AbstractCommand
         }
 
         return $counter;
+    }
+
+    private function exportConfigs(): void
+    {
+        $configTypes = $this->coreApi->admin()->getConfigTypes();
+        $rows = [];
+        $this->io->progressStart(\count($configTypes));
+        foreach ($configTypes as $configType) {
+            $rows[] = [$configType, $this->backupConfig($configType)];
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+        $this->io->table(['Config Type', '# Configs'], $rows);
+    }
+
+    private function exportDocuments(): void
+    {
+        $contentTypes = $this->coreApi->admin()->getContentTypes();
+        $rows = [];
+        $this->io->progressStart(\count($contentTypes));
+        foreach ($contentTypes as $contentType) {
+            $rows[] = [$contentType, $this->backupDocuments($contentType)];
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+        $this->io->table(['Content Type', '# Documents'], $rows);
     }
 }

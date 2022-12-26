@@ -2,22 +2,10 @@ version: "2.4"
 
 services:
 
-    traefik:
-        image: "traefik:v2.2"
-        container_name: "ems-mono-traefik"
-        command:
-            #- "--log.level=DEBUG"
-            - "--api.insecure=true"
-            - "--providers.docker=true"
-            - "--providers.docker.exposedbydefault=false"
-            - "--entrypoints.web.address=:80"
-            - "--entrypoints.websecure.address=:443"
-        ports:
-            - "80:80"
-            - "443:443"
-            - "8888:8080"
-        volumes:
-            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+  traefik:
+    extends:
+      file: ../demo/docker-compose.yml
+      service: traefik
 
 # This image is a small and easy application to test traefik's configuration
 #    whoami:
@@ -31,205 +19,136 @@ services:
 #            - "traefik.http.routers.whoami-tls.rule=Host(`whoami.localhost`)"
 #            - "traefik.http.routers.whoami-tls.entrypoints=websecure"
 
-    es01:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-        container_name: ems-mono-es01
-        environment:
-            - node.name=es01
-            - cluster.name=es7-docker-cluster
-            - discovery.seed_hosts=es02,es03
-            - cluster.initial_master_nodes=es01,es02,es03
-            - cluster.routing.allocation.disk.threshold_enabled=false
-            - bootstrap.memory_lock=true
-            - node.store.allow_mmap=false
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-        ports:
-            - 9200:9200
-        volumes:
-            - data01:/usr/share/elasticsearch/data
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-            - "traefik.http.routers.es.entrypoints=web"
-            - "traefik.http.routers.es.service=es"
-            - "traefik.http.services.es.loadbalancer.server.port=9200"
-    es02:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-        container_name: ems-mono-es02
-        environment:
-            - node.name=es02
-            - cluster.name=es7-docker-cluster
-            - discovery.seed_hosts=es01,es03
-            - cluster.initial_master_nodes=es01,es02,es03
-            - cluster.routing.allocation.disk.threshold_enabled=false
-            - bootstrap.memory_lock=true
-            - node.store.allow_mmap=false
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-        volumes:
-            - data02:/usr/share/elasticsearch/data
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-            - "traefik.http.routers.es.entrypoints=web"
-            - "traefik.http.routers.es.service=es"
-            - "traefik.http.services.es.loadbalancer.server.port=9200"
-    es03:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-        container_name: ems-mono-es03
-        environment:
-            - node.name=es03
-            - cluster.name=es7-docker-cluster
-            - discovery.seed_hosts=es01,es02
-            - cluster.initial_master_nodes=es01,es02,es03
-            - cluster.routing.allocation.disk.threshold_enabled=false
-            - bootstrap.memory_lock=true
-            - node.store.allow_mmap=false
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-        volumes:
-            - data03:/usr/share/elasticsearch/data
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.es.rule=Host(`es.localhost`)"
-            - "traefik.http.routers.es.entrypoints=web"
-            - "traefik.http.routers.es.service=es"
-            - "traefik.http.services.es.loadbalancer.server.port=9200"
+  setup_elk:
+    extends:
+      file: ../demo/docker-${ELK_VERSION-elk7}.yml
+      service: setup_elk
+  es01:
+    extends:
+      file: ../demo/docker-${ELK_VERSION-elk7}.yml
+      service: es01
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
+  es02:
+    extends:
+      file: ../demo/docker-${ELK_VERSION-elk7}.yml
+      service: es02
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
+  es03:
+    extends:
+      file: ../demo/docker-${ELK_VERSION-elk7}.yml
+      service: es03
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
 
-    kibana:
-        container_name: ems-mono-kibana
-        image: docker.elastic.co/kibana/kibana:7.9.2
-        ports:
-            - 5601:5601
-        environment:
-            - TZ=Europe/Brussels
-            - ELASTICSEARCH_HOSTS=http://es01:9200
-            - SERVER_NAME=kibana.localhost
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.kibana.rule=Host(`kibana.localhost`)"
-            - "traefik.http.routers.kibana.entrypoints=web"
-            - "traefik.http.routers.kibana.service=kibana"
-            - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+  kibana:
+    extends:
+      file: ../demo/docker-${ELK_VERSION-elk7}.yml
+      service: kibana
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kibana.rule=Host(`kibana.localhost`)"
+      - "traefik.http.routers.kibana.entrypoints=web"
+      - "traefik.http.routers.kibana.service=kibana"
+      - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
-    postgres:
-        container_name: ems-mono-postgres
-        image: postgres:12
-        ports:
-            - "5432:5432"
-        environment:
-            - POSTGRES_PASSWORD=adminpg
-            - TZ=Europe/Brussels
-            - PUID=1000
-            - PGID=1000
-        volumes:
-            - postgres:/var/lib/postgresql/data
-            - ../configs/samples:/opt/samples
 
-    mariadb:
-        image: linuxserver/mariadb
-        container_name: ems-mono-mariadb
-        ports:
-            - "3306:3306"
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - MYSQL_ROOT_PASSWORD=mariadb
-            - TZ=Europe/Brussels
-        volumes:
-            - mariadb:/config
+  postgres:
+    container_name: ems-mono-postgres
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=adminpg
+      - TZ=Europe/Brussels
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
-    tika:
-        image: apache/tika
-        container_name: ems-mono-tika
-        ports:
-            - "9998:9998"
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.tika.rule=Host(`tika.localhost`)"
-            - "traefik.http.routers.tika.entrypoints=web"
+  mariadb:
+    image: linuxserver/mariadb
+    container_name: ems-mono-mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=mariadb
+      - TZ=Europe/Brussels
+    volumes:
+      - mariadb:/config
 
-    minio:
-        image: minio/minio
-        container_name: ems-mono-minio
-        volumes:
-            - s3:/data
-        ports:
-            - 9000:9000
-        environment:
-            MINIO_ACCESS_KEY: accesskey
-            MINIO_SECRET_KEY: secretkey
-        command: server /data --console-address ":9001"
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-            interval: 30s
-            timeout: 20s
-            retries: 3
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.minio.rule=Host(`minio.localhost`)"
-            - "traefik.http.routers.minio.service=minio"
-            - "traefik.http.routers.minio.entrypoints=web"
-            - "traefik.http.services.minio.loadbalancer.server.port=9001"
+  tika:
+    extends:
+      file: ../demo/docker-compose.yml
+      service: tika
+    container_name: ems-mono-tika
+    ports:
+      - "9998:9998"
 
-    redis:
-        image: centos/redis-5-centos7
-        container_name: ems-mono-redis
-        ports:
-            - 6379:6379
-        volumes:
-            - redis:/var/lib/redis/data
+  minio:
+    extends:
+      file: ../demo/docker-compose.yml
+      service: minio
+    container_name: ems-mono-minio
+    ports:
+      - 9000:9000
 
-    redis-commander:
-        image: rediscommander/redis-commander:latest
-        container_name: ems-mono-redis-commander
-        environment:
-            - REDIS_HOSTS=local:redis:6379
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.redis-commander.rule=Host(`redis-commander.localhost`)"
-            - "traefik.http.routers.redis-commander.service=redis-commander"
-            - "traefik.http.routers.redis-commander.entrypoints=web"
-            - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
+  redis:
+    extends:
+      file: ../demo/docker-compose.yml
+      service: redis
+    container_name: ems-mono-redis
+    ports:
+      - 6379:6379
 
-    mailhog:
-        image: mailhog/mailhog
-        container_name: ems-mono-mailhog
-        ports:
-            - 1025:1025 # smtp server
-            #- 8025:8025 # web ui
-        labels:
-            - "traefik.enable=true"
-            - "traefik.http.routers.mailhog.rule=Host(`mailhog.localhost`)"
-            - "traefik.http.routers.mailhog.service=mailhog"
-            - "traefik.http.routers.mailhog.entrypoints=web"
-            - "traefik.http.routers.mailhog-tls.rule=Host(`mailhog.localhost`)"
-            - "traefik.http.routers.mailhog-tls.service=mailhog"
-            - "traefik.http.routers.mailhog-tls.entrypoints=websecure"
-            - "traefik.http.routers.mailhog-tls.tls=true"
-            - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: ems-mono-redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.redis-commander.rule=Host(`redis-commander.localhost`)"
+      - "traefik.http.routers.redis-commander.service=redis-commander"
+      - "traefik.http.routers.redis-commander.entrypoints=web"
+      - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
+
+  mailhog:
+    extends:
+      file: ../demo/docker-compose.yml
+      service: mailhog
+    container_name: ems-mono-mailhog
+    ports:
+      - 1025:1025 # smtp server
+      #- 8025:8025 # web ui
+
 volumes:
-    data01:
-        driver: local
-    data02:
-        driver: local
-    data03:
-        driver: local
-    redis:
-        driver: local
-    s3:
-        driver: local
-    mariadb:
-        driver: local
-    postgres:
-        driver: local
+  elk7_data01:
+  elk7_data02:
+  elk7_data03:
+  elk8_data01:
+  elk8_data02:
+  elk8_data03:
+  elk8_kibanadata:
+  os2_data01:
+  os2_data02:
+  os2_data03:
+  redis:
+  s3:
+  mariadb:
+  postgres:

@@ -14,7 +14,7 @@ indent_style = space
 trim_trailing_whitespace = false
 max_line_length = 80
 
-[*.{yml,php,html,twig,js}]
+[*.{php,html,twig,js}]
 indent_size = 4
 
 [COMMIT_EDITMSG]

@@ -101,6 +101,23 @@ services:
       - "traefik.http.routers.minio.entrypoints=web"
       - "traefik.http.services.minio.loadbalancer.server.port=9001"
 
+  setup_minio:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c '
+        echo "Waiting for minio availability";
+        until curl -s -o /dev/null -w "%{http_code}"  http://minio:9000/minio/health/live | grep -q "200"; do sleep 30; done;
+        echo "Minio is ready";
+        /usr/bin/mc config host rm local;
+        /usr/bin/mc config host add local http://minio:9000 accesskey secretkey;
+        /usr/bin/mc mb --ignore-existing local/demo;
+        /usr/bin/mc anonymous set download local/demo;
+        echo "All done!";
+        exit 0;
+      '
+
   redis:
     image: centos/redis-5-centos7
     volumes:

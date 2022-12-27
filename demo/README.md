@@ -29,6 +29,7 @@ If your linux user id is different thant 1000, please define a UID variable with
 Open a terminal and run the following commands:
 * `sh npm.sh install`: install NPM dependencies
 * `sh npm.sh run prod`: Build the frontend assets (js, css, ...)
+* `docker compose pull`: Ensure to get the last images
 * `docker compose up -d`: Start the docker container (in daemon mode)
 
 
@@ -48,13 +49,15 @@ Available stacks:
 
 
 
-Before continuing, check that all services have been correctly started by running `docker compose ps`. All services must be in `running` status or in `running (healthy)` status. 
+Before continuing, check that all services have been correctly started by running `docker compose ps`. All services must be in `running` status or in `running (healthy)` status.
+Except for the `setup_elk` and the `setup_minio` which should be in `exited (0) status.
 
 Go to [minio](http://minio.localhost/login) and login with those credentials:
 
 * user: accesskey
 * password: secretkey
-  And create a `demo` bucket.
+
+Verify that a `demo` bucket has been created, otherwise create it.
 
 Go back to your console:
  * `sh ems.sh create_users local`

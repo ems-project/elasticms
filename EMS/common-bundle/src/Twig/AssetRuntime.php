@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Twig;
 
 use EMS\CommonBundle\Common\Standard\Image;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CommonBundle\Storage\NotSavedException;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Processor;
@@ -131,9 +132,11 @@ class AssetRuntime
         }
 
         if (!($config[EmsFields::ASSET_CONFIG_GET_FILE_PATH] ?? false)) {
+            $basename = (new Encoder())->webalizeForUsers(\basename($filename));
+
             return $this->urlGenerator->generate($route, [
                 'hash_config' => $hashConfig,
-                'filename' => \basename($filename),
+                'filename' => $basename,
                 'hash' => $hash ?? $hashConfig,
             ], $referenceType);
         }

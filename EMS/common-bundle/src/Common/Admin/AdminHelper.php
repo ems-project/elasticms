@@ -13,15 +13,23 @@ class AdminHelper
 {
     private ?CoreApiInterface $coreApi = null;
 
-    public function __construct(private readonly CoreApiFactoryInterface $coreApiFactory, private readonly CacheItemPoolInterface $cache, private readonly LoggerInterface $logger)
+    public function __construct(
+        private readonly CoreApiFactoryInterface $coreApiFactory,
+        private readonly CacheItemPoolInterface $cache,
+        private LoggerInterface $logger
+    ) {
+    }
+
+    public function setLogger(LoggerInterface $logger): void
     {
+        $this->logger = $logger;
     }
 
     public function login(string $baseUrl, string $username, string $password): CoreApiInterface
     {
         $this->coreApi = $this->coreApiFactory->create($baseUrl);
-        $this->coreApi->authenticate($username, $password);
         $this->coreApi->setLogger($this->logger);
+        $this->coreApi->authenticate($username, $password);
         $this->cache->save($this->apiCacheBaseUrl()->set($this->coreApi->getBaseUrl()));
         $this->cache->save($this->apiCacheToken($this->coreApi)->set($this->coreApi->getToken()));
 

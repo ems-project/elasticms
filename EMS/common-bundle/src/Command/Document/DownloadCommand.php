@@ -11,6 +11,7 @@ use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DownloadCommand extends AbstractCommand
@@ -30,6 +31,7 @@ class DownloadCommand extends AbstractCommand
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->adminHelper->setLogger(new ConsoleLogger($output));
         $this->contentType = $this->getArgumentString(self::CONTENT_TYPE);
         $folder = $this->getOptionStringNull(self::FOLDER);
         if (null !== $folder) {

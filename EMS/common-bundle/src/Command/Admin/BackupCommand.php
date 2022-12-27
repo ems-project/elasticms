@@ -13,6 +13,7 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Search\Search;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class BackupCommand extends AbstractCommand
@@ -40,6 +41,7 @@ class BackupCommand extends AbstractCommand
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->adminHelper->setLogger(new ConsoleLogger($output));
         $this->export = $this->getOptionBool(self::EXPORT);
         $exportFolder = $this->getOptionStringNull(self::EXPORT_FOLDER);
         if (null !== $exportFolder) {

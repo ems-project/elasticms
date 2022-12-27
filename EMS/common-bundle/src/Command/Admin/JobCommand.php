@@ -11,6 +11,7 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class JobCommand extends AbstractCommand
@@ -29,6 +30,7 @@ class JobCommand extends AbstractCommand
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->adminHelper->setLogger(new ConsoleLogger($output));
         $this->jobIdOrJsonFile = $this->getArgumentString(self::JOB_ID);
     }
 
@@ -78,7 +80,7 @@ class JobCommand extends AbstractCommand
         $this->writeOutput($status);
 
         $this->io->section('Job\'s status:');
-        $this->echoStatus($status);
+        $this->echoStatus($this->coreApi->admin()->getJobStatus($this->jobIdOrJsonFile));
 
         return self::EXECUTE_SUCCESS;
     }

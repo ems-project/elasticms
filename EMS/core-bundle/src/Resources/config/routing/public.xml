@@ -17,7 +17,7 @@
     </route>
     <route id="ems_file_download_public" path="/public/file/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::downloadFileAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
 
     <!-- Deprecated routes -->
     <route id="ems_custom_view_public" path="/public/view/{viewId}"

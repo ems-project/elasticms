@@ -6,10 +6,10 @@
 
     <route id="revision.publish_to" path="/to/{revisionId}/{envId}"
            controller="EMS\CoreBundle\Controller\ContentManagement\PublishController::publishToAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="search.publish" path="/search-result"
            controller="EMS\CoreBundle\Controller\ContentManagement\PublishController::publishSearchResult"
-           methods="GET POST">
+           methods="GET|POST">
         <default key="deleted">0</default>
         <default key="managed">1</default>
     </route>

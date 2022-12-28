@@ -6,10 +6,10 @@
 
     <route id="ems.api.file.view" path="/view/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::viewFileAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
     <route id="file.api.download" path="/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::downloadFileAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
     <route id="file.api.init-upload" path="/init-upload/{sha1}/{size}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::initUploadFileAction"
            methods="POST"

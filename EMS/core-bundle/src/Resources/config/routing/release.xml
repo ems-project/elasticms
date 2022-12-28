@@ -6,28 +6,28 @@
 
     <route id="emsco_release_index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::index"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_release_add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::add"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_release_edit" path="/edit/{release}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::edit"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_release_view" path="/view/{release}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::view"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_release_delete" path="/delete/{release}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::delete"
            methods="POST"/>
     <route id="emsco_release_set_status" path="/{release}/set-status/{status}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::changeStatus"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_release_add_revision" path="/{release}/add-revision/{emsLinkToAdd}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::addRevision"
            methods="POST"/>
     <route id="emsco_release_add_revisions" path="/{release}/add-revisions"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::addRevisions"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_release_ajax_data_table" path="/release-datatable.json"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::ajaxReleaseTable"
            methods="GET"/>

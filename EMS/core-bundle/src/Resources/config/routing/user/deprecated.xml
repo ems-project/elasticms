@@ -13,10 +13,10 @@
            methods="GET"/>
     <route id="user.add" path="/add"
            controller="EMS\CoreBundle\Controller\UserController::addUserAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="user.edit" path="/{id}/edit"
            controller="EMS\CoreBundle\Controller\UserController::editUserAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="user.delete" path="/{id}/delete"
            controller="EMS\CoreBundle\Controller\UserController::removeUserAction"
            methods="POST"/>

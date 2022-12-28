@@ -9,13 +9,13 @@
            methods="GET"/>
     <route id="ems_analyzer_edit" path="/edit/{analyzer}"
            controller="EMS\CoreBundle\Controller\ContentManagement\AnalyzerController::edit"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_analyzer_delete" path="/delete/{analyzer}"
            controller="EMS\CoreBundle\Controller\ContentManagement\AnalyzerController::delete"
            methods="POST"/>
     <route id="ems_analyzer_add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\AnalyzerController::add"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_analyzer_export" path="/export/{analyzer}.json"
            controller="EMS\CoreBundle\Controller\ContentManagement\AnalyzerController::export"
            methods="GET"/>

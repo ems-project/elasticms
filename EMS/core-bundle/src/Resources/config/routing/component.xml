@@ -17,7 +17,7 @@
 
     <route id="emsco.media_library.add_folder" path="/media-lib/{hash}/add-folder"
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::addFolder"
-           methods="GET POST">
+           methods="GET|POST">
         <requirement key="hash">.*</requirement>
     </route>
 

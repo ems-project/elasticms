@@ -6,6 +6,6 @@
 
     <route id="ems_api_images_index" path="/images"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::indexImagesAction"
-           methods="GET HEAD"
+           methods="GET|HEAD"
            format="json"/>
 </routes>

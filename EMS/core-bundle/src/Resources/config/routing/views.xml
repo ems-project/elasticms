@@ -20,7 +20,7 @@
            methods="POST"/>
     <route id="emsco_views_criteria_table" path="/criteria/table/{view}"
            controller="EMS\CoreBundle\Controller\Views\CriteriaController::generateCriteriaTableAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_views_criteria_add" path="/criteria/addCriterion/{view}"
            controller="EMS\CoreBundle\Controller\Views\CriteriaController::addCriteriaAction"
            methods="POST"/>
@@ -47,7 +47,7 @@
            methods="POST"/>
     <route id="views.criteria.table" path="/criteria/table/{view}"
            controller="EMS\CoreBundle\Controller\Views\CriteriaController::generateCriteriaTableAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="views.criteria.add" path="/criteria/addCriterion/{view}"
            controller="EMS\CoreBundle\Controller\Views\CriteriaController::addCriteriaAction"
            methods="POST"/>

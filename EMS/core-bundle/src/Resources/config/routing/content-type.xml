@@ -6,7 +6,7 @@
 
     <route id="emsco_contenttype_update_from_json" path="/json-update/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::updateFromJsonAction"
-           methods="GET POST"
+           methods="GET|POST"
            format="html"/>
     <route id="contenttype.remove" path="/remove/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::removeAction"
@@ -22,25 +22,25 @@
            methods="POST"/>
     <route id="contenttype.add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::addAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="contenttype.index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::indexAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="contenttype.unreferenced" path="/unreferenced"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::unreferencedAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_contenttype_field_edit" path="/{contentType}/field/{field}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::editFieldAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_contenttype_reorder" path="/reorder/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::reorderAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="contenttype.edit" path="/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::editAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="contenttype.structure" path="/structure/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::editStructureAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="contenttype.export" path="/export/{contentType}.{_format}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::exportAction"
            methods="GET"

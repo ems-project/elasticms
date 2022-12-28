@@ -6,18 +6,18 @@
 
     <route id="ems_core_action_index" path="/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::index"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_action_add" path="/{contentType}/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::add"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_action_edit" path="/{contentType}/edit/{action}.{_format}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::edit"
            format="html"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_action_delete" path="/{contentType}/delete/{action}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::delete"
            methods="POST"/>
     <route id="ems_core_action_datatable_ajax" path="/{contentType}/datatable.json"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::ajaxDataTableAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
 </routes>

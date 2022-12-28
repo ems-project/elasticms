@@ -6,13 +6,13 @@
 
     <route id="ems_core_query_search_index" path="/"
            controller="EMS\CoreBundle\Controller\QuerySearchController::index"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_query_search_add" path="/add"
            controller="EMS\CoreBundle\Controller\QuerySearchController::add"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_query_search_edit" path="/edit/{query_search}"
            controller="EMS\CoreBundle\Controller\QuerySearchController::edit"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_query_search_delete" path="/delete/{query_search}"
            controller="EMS\CoreBundle\Controller\QuerySearchController::delete"
            methods="POST"/>

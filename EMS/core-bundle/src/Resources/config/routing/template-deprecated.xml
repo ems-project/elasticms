@@ -6,16 +6,16 @@
 
     <route id="template.datatable.ajax" path="/{contentType}/datatable.json"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::ajaxDataTableAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="template.index" path="/{type}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::indexAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
     <route id="template.add" path="/add/{type}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::addAction"
-           methods="GET POST HEAD"/>
+           methods="GET|POST|HEAD"/>
     <route id="template.edit" path="/edit/{id}.{_format}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::editAction"
-           methods="GET POST HEAD"
+           methods="GET|POST|HEAD"
            format="html"/>
     <route id="template.remove" path="/remove/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ActionController::removeAction"

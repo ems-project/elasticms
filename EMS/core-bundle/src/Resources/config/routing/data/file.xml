@@ -6,23 +6,23 @@
 
     <route id="ems.file.view" path="/view/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::viewFileAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
     <route id="ems_file_view" path="/view/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::viewFileAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
     <route id="file.download" path="/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::downloadFileAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
     <route id="ems_file_download" path="/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::downloadFileAction"
-           methods="GET HEAD"/>
+           methods="GET|HEAD"/>
     <route id="ems_file_extract_forced" path="/extract/forced/{sha1}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::extractFileContentForced"
-           methods="GET HEAD"
+           methods="GET|HEAD"
            format="json"/>
     <route id="ems_file_extract" path="/extract/{sha1}.{_format}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::extractFileContent"
-           methods="GET HEAD"
+           methods="GET|HEAD"
            format="json"/>
     <route id="file.init-upload" path="/init-upload/{sha1}/{size}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FileController::initUploadFileAction"

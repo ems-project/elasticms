@@ -12,10 +12,10 @@
            methods="GET"/>
     <route id="emsco_user_add" path="/add"
            controller="EMS\CoreBundle\Controller\UserController::addUserAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_user_edit" path="/edit/{user}"
            controller="EMS\CoreBundle\Controller\UserController::edit"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_user_delete" path="/delete/{user}"
            controller="EMS\CoreBundle\Controller\UserController::delete"
            methods="POST"/>
@@ -27,6 +27,7 @@
            methods="POST"/>
     <route id="emsco_user_spreadsheet_export" path="/users.{_format}"
            controller="EMS\CoreBundle\Controller\UserController::spreadsheetExport"
-           methods="GET" format="csv|xlsx"/>
+           methods="GET"
+           format="csv|xlsx"/>
 
 </routes>

@@ -10,7 +10,7 @@
            format="html"/>
     <route id="emsco_job_add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\JobController::create"
-           methods="GET POST"
+           methods="GET|POST"
            format="html"/>
     <route id="job.emsco_job_delete" path="/delete/{job}"
            controller="EMS\CoreBundle\Controller\ContentManagement\JobController::delete"
@@ -26,14 +26,14 @@
            format="html"/>
     <route id="emsco_schedule_index" path="/schedule.{_format}"
            controller="EMS\CoreBundle\Controller\Job\ScheduleController::index"
-           methods="GET POST"
+           methods="GET|POST"
            format="html"/>
     <route id="emsco_schedule_add" path="/schedule/add"
            controller="EMS\CoreBundle\Controller\Job\ScheduleController::add"
-           methods="GET,POST"/>
+           methods="GET|POST"/>
     <route id="emsco_schedule_edit" path="/schedule/edit/{schedule}.{_format}"
            controller="EMS\CoreBundle\Controller\Job\ScheduleController::edit"
-           methods="GET,POST"
+           methods="GET|POST"
            format="html"/>
     <route id="emsco_schedule_duplicate" path="/schedule/duplicate/{schedule}"
            controller="EMS\CoreBundle\Controller\Job\ScheduleController::duplicate"
@@ -49,7 +49,7 @@
            format="html"/>
     <route id="job.add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\JobController::create"
-           methods="GET POST"
+           methods="GET|POST"
            format="html"/>
     <route id="job.delete" path="/delete/{job}"
            controller="EMS\CoreBundle\Controller\ContentManagement\JobController::delete"

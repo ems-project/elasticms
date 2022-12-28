@@ -6,7 +6,7 @@
 
     <route id="ems_core_task_ajax_datatable" path="/tasks/dashboard/{tab}.json"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxDataTable"
-           methods="GET POST">
+           methods="GET|POST">
         <requirement key="tab">user|requester|manager</requirement>
         <default key="tab">user</default>
     </route>
@@ -25,10 +25,10 @@
 
     <route id="ems_core_task_ajax_task" path="/data/revisions/{revisionId}/task"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxGetTask"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_task_ajax_tasks" path="/data/revisions/{revisionId}/tasks"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxGetTasks"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_task_ajax_tasks_approved" path="/data/revisions/{revisionId}/tasks-approved"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxGetTasksApproved"
            methods="GET"/>
@@ -38,10 +38,10 @@
            methods="GET"/>
     <route id="ems_core_task_ajax_modal_create" path="/data/revisions/{revisionId}/create-modal"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxModalCreate"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_task_ajax_modal_update" path="/data/revisions/{revisionId}/update-modal/{taskId}"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxModalUpdate"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_task_ajax_modal_history" path="/data/revisions/{revisionId}/history-modal/{taskId}"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxModalHistory"
            methods="GET"/>

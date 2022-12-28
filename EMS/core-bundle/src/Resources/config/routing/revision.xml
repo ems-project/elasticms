@@ -6,5 +6,5 @@
 
     <route id="revision.unpublish" path="/unpublish/{revisionId}/{envId}"
            controller="EMS\CoreBundle\Controller\ContentManagement\PublishController::unPublishAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
 </routes>

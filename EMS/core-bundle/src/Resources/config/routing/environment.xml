@@ -15,20 +15,20 @@
            methods="POST"/>
     <route id="environment.add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::addAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="environment.edit" path="/edit/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="environment.view" path="/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::viewAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="environment.rebuild" path="/rebuild/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::rebuild"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="environment.index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::indexAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_environment_index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::indexAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
 </routes>

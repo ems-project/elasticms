@@ -9,10 +9,10 @@
            methods="GET"/>
     <route id="i18n_new" path="/new"
            controller="EMS\CoreBundle\Controller\I18nController::newAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="i18n_edit" path="/{id}/edit"
            controller="EMS\CoreBundle\Controller\I18nController::editAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="i18n_delete" path="/{id}"
            controller="EMS\CoreBundle\Controller\I18nController::deleteAction"
            methods="POST"/>

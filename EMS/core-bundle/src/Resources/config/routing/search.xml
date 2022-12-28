@@ -15,8 +15,8 @@
            methods="POST"/>
     <route id="ems_search" path="/search"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::searchAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="elasticsearch.search" path="/search"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::searchAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
 </routes>

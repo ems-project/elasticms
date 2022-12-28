@@ -41,7 +41,7 @@
            methods="GET"/>
     <route id="emsco_data_new_draft" path="/new-draft/{type}/{ouuid}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::newDraftAction"
-           methods="POST,GET"/>
+           methods="POST|GET"/>
     <route id="emsco_data_delete" path="/delete/{type}/{ouuid}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::deleteAction"
            methods="POST"/>
@@ -56,7 +56,7 @@
            methods="POST"/>
     <route id="emsco_data_private_view" path="/custom-index-view/{viewId}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::customIndexViewAction"
-           methods="GET,POST">
+           methods="GET|POST">
         <default key="public">0</default>
     </route>
     <route id="emsco_data_private_action" path="/action/{environmentName}/{templateId}/{ouuid}/{_download}"
@@ -85,10 +85,10 @@
            methods="GET"/>
     <route id="emsco_data_add" path="/add/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::addAction"
-           methods="GET,POST"/>
+           methods="GET|POST"/>
     <route id="emsco_data_trash" path="/trash/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::trashAction"
-           methods="GET,POST"/>
+           methods="GET|POST"/>
     <route id="emsco_data_duplicate_with_jsoncontent" path="/duplicate-json/{contentType}/{ouuid}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::duplicateWithJsonContentAction"
            methods="POST"/>
@@ -126,12 +126,12 @@
            methods="GET"/>
     <route id="emsco_pick_a_release" path="/pick-a-release/{revision}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::pickRelease"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_data_add_revision_to_release" path="/add-to-release/{revision}/{release}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::addRevisionById"
            methods="POST"/>
 
-    <!--- Deprecated routes -->
+    <!-- Deprecated routes -->
     <route id="ems_data_default_search" path="/{name}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::rootAction"
            methods="GET"/>
@@ -223,7 +223,7 @@
            methods="POST"/>
     <route id="data.add" path="/add/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::addAction"
-           methods="GET,POST"/>
+           methods="GET|POST"/>
     <route id="revision.revert" path="/revisions/revert/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::revertRevisionAction"
            methods="POST"/>

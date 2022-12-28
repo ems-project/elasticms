@@ -6,14 +6,14 @@
 
     <route id="emsco_view_index" path="/{type}.{_format}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::index"
-           methods="GET,POST"
+           methods="GET|POST"
            format="html"/>
     <route id="emsco_view_add" path="/add/{type}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::add"
-           methods="GET,POST"/>
+           methods="GET|POST"/>
     <route id="emsco_view_edit" path="/edit/{view}.{_format}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::edit"
-           methods="GET,POST"
+           methods="GET|POST"
            format="html"/>
     <route id="emsco_view_duplicate" path="/duplicate/{view}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::duplicate"
@@ -25,13 +25,13 @@
     <!-- Deprecated routes -->
     <route id="view.index" path="/{type}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::indexDeprecated"
-           methods="GET,POST"/>
+           methods="GET|POST"/>
     <route id="view.add" path="/add/{type}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::addDeprecated"
-           methods="GET,POST"/>
+           methods="GET|POST"/>
     <route id="view.edit" path="/edit/{id}.{_format}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::editDeprecated"
-           methods="GET,POST"
+           methods="GET|POST"
            format="html"/>
     <route id="view.remove" path="/delete/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::deleteDeprecated"

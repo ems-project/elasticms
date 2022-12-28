@@ -6,7 +6,7 @@
 
     <route id="ems_core_uploaded_file_index" path="/"
            controller="EMS\CoreBundle\Controller\UploadedFileController::index"
-           methods="GET POST"/>
+           methods="GET|POST"/>
 
     <route id="ems_core_uploaded_file_ajax" path="/datatable.json"
            controller="EMS\CoreBundle\Controller\UploadedFileController::ajaxDataTableGroupedByHash"

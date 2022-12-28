@@ -9,7 +9,7 @@
            methods="GET"/>
     <route id="form.submissions" path="/submissions"
            controller="EMS\CoreBundle\Controller\Form\SubmissionController::indexAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="form.submissions.process" path="/submissions/process/{formSubmission}"
            controller="EMS\CoreBundle\Controller\Form\SubmissionController::process"
            methods="POST"/>

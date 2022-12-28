@@ -6,5 +6,5 @@
 
     <route id="environment.align" path="/align"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::alignAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
 </routes>

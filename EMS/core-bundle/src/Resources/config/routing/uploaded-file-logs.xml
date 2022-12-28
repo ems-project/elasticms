@@ -6,7 +6,7 @@
 
     <route id="ems_core_uploaded_file_logs" path="/"
            controller="EMS\CoreBundle\Controller\UploadedFileController::logs"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_core_uploaded_file_show_hide" path="/show-hide/{assetId}"
            controller="EMS\CoreBundle\Controller\UploadedFileController::showHide"
            methods="POST"/>

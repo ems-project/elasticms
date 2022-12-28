@@ -12,11 +12,11 @@
 
     <route id="ems_asset" path="/data/asset/{hash_config}/{hash}/{filename}"
            controller="EMS\CoreBundle\Controller\ContentManagement\AssetController::assetAction"
-           methods="GET,HEAD"/>
+           methods="GET|HEAD"/>
     <route id="emsco_asset_public" path="/public/asset/{hash_config}/{hash}/{filename}"
            controller="EMS\CoreBundle\Controller\ContentManagement\AssetController::assetAction"
-           methods="GET,HEAD"/>
+           methods="GET|HEAD"/>
     <route id="ems_asset_processor" path="/asset/{processor}/{hash}"
            controller="EMS\CoreBundle\Controller\ContentManagement\AssetController::assetProcessorAction"
-           methods="GET,HEAD"/>
+           methods="GET|HEAD"/>
 </routes>

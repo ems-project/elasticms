@@ -6,10 +6,10 @@
 
     <route id="elasticsearch.alias.add" path="/alias/add/{name}"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::addAliasAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="elasticsearch.search.delete" path="/delete-search/{id}"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::deleteSearchAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="ems_search_set_default_search_from" path="/set-default-search/{id}/{contentType}"
            controller="EMS\CoreBundle\Controller\ElasticsearchController::setDefaultSearchAction"
            methods="POST">

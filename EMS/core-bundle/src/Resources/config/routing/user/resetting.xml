@@ -6,12 +6,12 @@
 
     <route id="emsco_user_resetting_request" path="/resetting/request"
            controller="EMS\CoreBundle\Controller\User\ResettingController::request"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="emsco_user_resetting_check_email" path="/resetting/check_email"
            controller="EMS\CoreBundle\Controller\User\ResettingController::checkEmail"
            methods="GET"/>
     <route id="emsco_user_resetting_reset" path="/resetting/reset/{token}"
            controller="EMS\CoreBundle\Controller\User\ResettingController::reset"
-           methods="GET POST"/>
+           methods="GET|POST"/>
 
 </routes>

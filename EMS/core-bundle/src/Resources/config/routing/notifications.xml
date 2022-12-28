@@ -18,20 +18,20 @@
            methods="POST"/>
     <route id="notification.menu" path="/menu"
            controller="EMS\CoreBundle\Controller\NotificationController::menuNotificationAction"
-           methods="GET POST"/>
+           methods="GET|POST"/>
     <route id="notifications.list" path="/list"
            controller="EMS\CoreBundle\Controller\NotificationController::listNotificationsAction"
-           methods="GET POST">
+           methods="GET|POST">
         <default key="folder">inbox</default>
     </route>
     <route id="notifications.inbox" path="/inbox"
            controller="EMS\CoreBundle\Controller\NotificationController::listNotificationsAction"
-           methods="GET POST">
+           methods="GET|POST">
         <default key="folder">inbox</default>
     </route>
     <route id="notifications.sent" path="/sent"
            controller="EMS\CoreBundle\Controller\NotificationController::listNotificationsAction"
-           methods="GET POST">
+           methods="GET|POST">
         <default key="folder">sent</default>
     </route>
 </routes>

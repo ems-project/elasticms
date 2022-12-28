@@ -2,15 +2,15 @@
 <routes xmlns="http://symfony.com/schema/routing"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing
-        http://symfony.com/schema/routing/routing-1.0.xsd">
+        https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="emsch_api_content_types" path="{apiName}/content-types" methods="GET">
-        <default key="_controller">emsch.controller.api::contentTypes</default>
-    </route>
-    <route id="emsch_api_content_type" path="{apiName}/content-types/{contentType}" methods="GET">
-        <default key="_controller">emsch.controller.api::contentType</default>
-    </route>
-    <route id="emsch_api_document" path="{apiName}/content-types/{contentType}/{ouuid}" methods="GET">
-        <default key="_controller">emsch.controller.api::document</default>
-    </route>
+    <route id="emsch_api_content_types" path="{apiName}/content-types"
+           controller="emsch.controller.api::contentTypes"
+           methods="GET"/>
+    <route id="emsch_api_content_type" path="{apiName}/content-types/{contentType}"
+           controller="emsch.controller.api::contentType"
+           methods="GET"/>
+    <route id="emsch_api_document" path="{apiName}/content-types/{contentType}/{ouuid}"
+           controller="emsch.controller.api::document"
+           methods="GET"/>
 </routes>

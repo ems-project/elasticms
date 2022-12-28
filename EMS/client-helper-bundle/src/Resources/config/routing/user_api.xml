@@ -4,17 +4,35 @@
         xsi:schemaLocation="http://symfony.com/schema/routing
         https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="emsch_user_api_test" path="/test" controller="emsch.controller.user_api.test" methods="GET" />
+    <route id="emsch_user_api_test" path="/test"
+           controller="emsch.controller.user_api.test"
+           methods="GET" />
 
-    <route id="emsch_user_api_login" path="/login" controller="emsch.controller.user_api.login" methods="POST" />
+    <route id="emsch_user_api_login" path="/login"
+           controller="emsch.controller.user_api.login"
+           methods="POST" />
 
-    <route id="emsch_user_api_users" path="/users" controller="emsch.controller.user_api.user::index" methods="GET" />
-    <route id="emsch_user_api_profile" path="/profile" controller="emsch.controller.user_api.profile" methods="GET" />
+    <route id="emsch_user_api_users" path="/users"
+           controller="emsch.controller.user_api.user::index"
+           methods="GET" />
+    <route id="emsch_user_api_profile" path="/profile"
+           controller="emsch.controller.user_api.profile"
+           methods="GET" />
 
-    <route id="emsch_user_api_create_file" path="/file" controller="emsch.controller.user_api.file::create" methods="POST" />
+    <route id="emsch_user_api_create_file" path="/file"
+           controller="emsch.controller.user_api.file::create"
+           methods="POST" />
 
-    <route id="emsch_user_api_document" path="/documents/{contentType}/{ouuid}" controller="emsch.controller.user_api.document::show" methods="GET" />
-    <route id="emsch_user_api_create_document" path="/documents/{contentType}" controller="emsch.controller.user_api.document::create" methods="POST" />
-    <route id="emsch_user_api_update_document" path="/documents/{contentType}/{ouuid}" controller="emsch.controller.user_api.document::update" methods="PUT" />
-    <route id="emsch_user_api_merge_document" path="/documents/{contentType}/{ouuid}" controller="emsch.controller.user_api.document::merge" methods="PATCH" />
+    <route id="emsch_user_api_document" path="/documents/{contentType}/{ouuid}"
+           controller="emsch.controller.user_api.document::show"
+           methods="GET" />
+    <route id="emsch_user_api_create_document" path="/documents/{contentType}"
+           controller="emsch.controller.user_api.document::create"
+           methods="POST" />
+    <route id="emsch_user_api_update_document" path="/documents/{contentType}/{ouuid}"
+           controller="emsch.controller.user_api.document::update"
+           methods="PUT" />
+    <route id="emsch_user_api_merge_document" path="/documents/{contentType}/{ouuid}"
+           controller="emsch.controller.user_api.document::merge"
+           methods="PATCH" />
 </routes>

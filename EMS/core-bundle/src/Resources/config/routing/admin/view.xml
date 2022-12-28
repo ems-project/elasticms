@@ -22,7 +22,6 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::delete"
            methods="POST"/>
 
-    <!-- Deprecated routes -->
     <route id="view.index" path="/{type}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::indexDeprecated"
            methods="GET|POST"/>

@@ -32,7 +32,6 @@
            controller="EMS\CoreBundle\Controller\Dashboard\DashboardController::setQuickSearch"
            methods="POST"/>
 
-    <!-- Deprecated routes -->
     <route id="ems_core_dashboard" path="/dashboard"
            controller="EMS\CoreBundle\Controller\DashboardController::landing"
            methods="GET"/>

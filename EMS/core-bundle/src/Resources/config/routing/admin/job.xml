@@ -5,27 +5,27 @@
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="emsco_job_index" path="/" methods="GET">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:index</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::index</default>
         <default key="_format">html</default>
     </route>
     <route id="emsco_job_add" path="/add" methods="GET POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:create</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::create</default>
         <default key="_format">html</default>
     </route>
     <route id="job.emsco_job_delete" path="/delete/{job}" methods="POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:delete</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::delete</default>
         <default key="_format">html</default>
     </route>
     <route id="emsco_job_clean" path="/clean" methods="POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:clean</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::clean</default>
         <default key="_format">html</default>
     </route>
     <route id="emsco_job_admin_start" path="/start/{job}" methods="POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:startJob</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::startJob</default>
         <default key="_format">html</default>
     </route>
     <route id="emsco_schedule_index" path="/schedule.{_format}" methods="GET POST">
-        <default key="_controller">EMS\CoreBundle\Controller\Job\ScheduleController:index</default>
+        <default key="_controller">EMS\CoreBundle\Controller\Job\ScheduleController::index</default>
         <default key="_format">html</default>
     </route>
     <route id="emsco_schedule_add" path="/schedule/add" methods="GET,POST">
@@ -44,23 +44,23 @@
 
 
     <route id="job.index" path="/" methods="GET">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:index</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::index</default>
         <default key="_format">html</default>
     </route>
     <route id="job.add" path="/add" methods="GET POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:create</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::create</default>
         <default key="_format">html</default>
     </route>
     <route id="job.delete" path="/delete/{job}" methods="POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:delete</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::delete</default>
         <default key="_format">html</default>
     </route>
     <route id="job.clean" path="/clean" methods="POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:clean</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::clean</default>
         <default key="_format">html</default>
     </route>
     <route id="job.start" path="/start/{job}" methods="POST">
-        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController:startJob</default>
+        <default key="_controller">EMS\CoreBundle\Controller\ContentManagement\JobController::startJob</default>
         <default key="_format">html</default>
     </route>
 

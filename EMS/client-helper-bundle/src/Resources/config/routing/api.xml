@@ -5,12 +5,12 @@
         https://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="emsch_api_content_types" path="{apiName}/content-types"
-           controller="emsch.controller.api::contentTypes"
+           controller="EMS\ClientHelperBundle\Controller\ApiController::contentTypes"
            methods="GET"/>
     <route id="emsch_api_content_type" path="{apiName}/content-types/{contentType}"
-           controller="emsch.controller.api::contentType"
+           controller="EMS\ClientHelperBundle\Controller\ApiController::contentType"
            methods="GET"/>
     <route id="emsch_api_document" path="{apiName}/content-types/{contentType}/{ouuid}"
-           controller="emsch.controller.api::document"
+           controller="EMS\ClientHelperBundle\Controller\ApiController::document"
            methods="GET"/>
 </routes>

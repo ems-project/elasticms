@@ -5,27 +5,27 @@
         https://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="emsf_iframe" path="/iframe/{ouuid}/{_locale}"
-           controller="emsf.controller.form::iframe"
+           controller="EMS\FormBundle\Controller\FormController::iframe"
            methods="GET">
         <default key="_locale">%locale%</default>
     </route>
     <route id="emsf_form" path="/form/{ouuid}/{_locale}"
-           controller="emsf.controller.form::submitForm"
+           controller="EMS\FormBundle\Controller\FormController::submitForm"
            methods="POST">
         <default key="_locale">%locale%</default>
     </route>
     <route id="emsf_init_form" path="/init-form/{ouuid}/{_locale}"
-           controller="emsf.controller.form::initForm"
+           controller="EMS\FormBundle\Controller\FormController::initForm"
            methods="POST">
         <default key="_locale">%locale%</default>
     </route>
     <route id="_emsf_dynamic_field_ajax" path="/ajax/{ouuid}/{_locale}"
-           controller="emsf.controller.form::dynamicFieldAjax"
+           controller="EMS\FormBundle\Controller\FormController::dynamicFieldAjax"
            methods="POST">
         <default key="_locale">%locale%</default>
     </route>
     <route id="emsf_confirmation" path="/form/send-confirmation/{ouuid}/{_locale}"
-           controller="emsf.controller.confirmation::postSend"
+           controller="EMS\FormBundle\Controller\ConfirmationController::postSend"
            methods="POST">
         <default key="_locale">%locale%</default>
     </route>

@@ -29,22 +29,22 @@
         </service>
 
         <!-- controllers -->
-        <service id="emsch.controller.user_api.document" class="EMS\ClientHelperBundle\Controller\UserApi\DocumentController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\UserApi\DocumentController" public="true">
             <argument type="service" id="emsch.user_api.document" />
         </service>
-        <service id="emsch.controller.user_api.file" class="EMS\ClientHelperBundle\Controller\UserApi\FileController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\UserApi\FileController" public="true">
             <argument type="service" id="emsch.user_api.file" />
         </service>
-        <service id="emsch.controller.user_api.login" class="EMS\ClientHelperBundle\Controller\UserApi\LoginController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\UserApi\LoginController" public="true">
             <argument type="service" id="emsch.user_api.auth" />
         </service>
-        <service id="emsch.controller.user_api.profile" class="EMS\ClientHelperBundle\Controller\UserApi\ProfileController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\UserApi\ProfileController" public="true">
             <argument type="service" id="emsch.user_api.user" />
         </service>
-        <service id="emsch.controller.user_api.test" class="EMS\ClientHelperBundle\Controller\UserApi\TestController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\UserApi\TestController" public="true">
             <argument type="service" id="emsch.user_api.test" />
         </service>
-        <service id="emsch.controller.user_api.user" class="EMS\ClientHelperBundle\Controller\UserApi\UserController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\UserApi\UserController" public="true">
             <argument type="service" id="emsch.user_api.user" />
         </service>
     </services>

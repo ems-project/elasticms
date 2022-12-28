@@ -21,7 +21,7 @@
            controller="EMS\CoreBundle\Controller\UserController::removeUserAction"
            methods="POST"/>
     <route id="user.enabling" path="/{id}/enabling"
-           controller="EMS\CoreBundle\Controller\UserController::enablingUserAction"
+           controller="EMS\CoreBundle\Controller\UserController::enabling"
            methods="POST"/>
     <route id="EMS_user_apikey" path="/{username}/apikey"
            controller="EMS\CoreBundle\Controller\UserController::apiKeyAction"

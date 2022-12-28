@@ -87,20 +87,20 @@
         </service>
 
         <!-- controllers -->
-        <service id="emsf.controller.debug" class="EMS\FormBundle\Controller\DebugController"  public="true">
+        <service id="EMS\FormBundle\Controller\DebugController"  public="true">
             <argument type="service" id="form.factory"/>
             <argument type="service" id="emsf.submission.client"/>
             <argument type="service" id="twig" />
             <argument type="service" id="router" />
             <argument type="string">%emsch.locales%</argument>
         </service>
-        <service id="emsf.controller.form" class="EMS\FormBundle\Controller\FormController"  public="true">
+        <service id="EMS\FormBundle\Controller\FormController"  public="true">
             <argument type="service" id="form.factory"/>
             <argument type="service" id="emsf.submission.client"/>
             <argument type="service" id="emsf.security.guard"/>
             <argument type="service" id="twig" />
         </service>
-        <service id="emsf.controller.confirmation" class="EMS\FormBundle\Controller\ConfirmationController" public="true">
+        <service id="EMS\FormBundle\Controller\ConfirmationController" public="true">
             <argument type="service" id="emsf.security.guard"/>
             <argument type="service" id="emsf.service.confirmation"/>
             <argument type="service" id="logger"/>

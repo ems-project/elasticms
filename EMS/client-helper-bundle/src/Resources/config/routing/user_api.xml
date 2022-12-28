@@ -5,34 +5,34 @@
         https://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="emsch_user_api_test" path="/test"
-           controller="emsch.controller.user_api.test"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\TestController"
            methods="GET" />
 
     <route id="emsch_user_api_login" path="/login"
-           controller="emsch.controller.user_api.login"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\LoginController"
            methods="POST" />
 
     <route id="emsch_user_api_users" path="/users"
-           controller="emsch.controller.user_api.user::index"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\UserController::index"
            methods="GET" />
     <route id="emsch_user_api_profile" path="/profile"
-           controller="emsch.controller.user_api.profile"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\ProfileController"
            methods="GET" />
 
     <route id="emsch_user_api_create_file" path="/file"
-           controller="emsch.controller.user_api.file::create"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\FileController::create"
            methods="POST" />
 
     <route id="emsch_user_api_document" path="/documents/{contentType}/{ouuid}"
-           controller="emsch.controller.user_api.document::show"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\DocumentController::show"
            methods="GET" />
     <route id="emsch_user_api_create_document" path="/documents/{contentType}"
-           controller="emsch.controller.user_api.document::create"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\DocumentController::create"
            methods="POST" />
     <route id="emsch_user_api_update_document" path="/documents/{contentType}/{ouuid}"
-           controller="emsch.controller.user_api.document::update"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\DocumentController::update"
            methods="PUT" />
     <route id="emsch_user_api_merge_document" path="/documents/{contentType}/{ouuid}"
-           controller="emsch.controller.user_api.document::merge"
+           controller="EMS\ClientHelperBundle\Controller\UserApi\DocumentController::merge"
            methods="PATCH" />
 </routes>

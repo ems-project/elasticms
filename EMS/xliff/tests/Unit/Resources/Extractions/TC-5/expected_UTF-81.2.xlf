@@ -31,19 +31,10 @@
       <group id="[%locale%][body2]">
         <trans-unit restype="x-html-p" html:title="Information about Mount Hood" id="/html/body/p">
           <source xml:lang="en">
-    This
-
-
-    is
-
-    Mount Hood:
-    &lt;img src="mthood.jpg" alt="Mount Hood with its snow-covered top"/&gt;
+  This is Mount Hood: &lt;img src="mthood.jpg" alt="Mount Hood with its snow-covered top"/&gt;
 </source>
           <target xml:lang="fr" state="needs-translation">
-    Ceci
-    est
-    Mount
-    Hood: &lt;img src="mthood.jpg" alt="Mount Hood avec son sommet enneig&amp;#xE9;"/&gt;
+  Ceci est Mount Hood: &lt;img src="mthood.jpg" alt="Mount Hood avec son sommet enneig&amp;#xE9;"/&gt;
 </target>
         </trans-unit>
       </group>

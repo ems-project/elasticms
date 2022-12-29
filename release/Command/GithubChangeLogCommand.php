@@ -101,7 +101,7 @@ class GithubChangeLogCommand extends AbstractGithubCommand
             }
         }
 
-        if (!$content = \file_get_contents($this->file)) {
+        if (false === $content = \file_get_contents($this->file)) {
             throw new \Exception(\sprintf('Could not read %s', $this->file));
         }
 

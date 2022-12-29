@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class PackagistInfo extends Command
 {
     protected static $defaultName = 'packagist:info';
-    protected static $defaultDescription = '2) Check if packages are published';
+    protected static $defaultDescription = 'Check if packages are published';
 
     private SymfonyStyle $io;
     private ClientPackagist $packagistApi;

@@ -16,7 +16,7 @@ use Symfony\Component\Process\Process;
 class ComposerUpdate extends Command
 {
     protected static $defaultName = 'composer:update';
-    protected static $defaultDescription = '3) Composer update admin/web/cli';
+    protected static $defaultDescription = 'Composer update admin/web/cli';
 
     private SymfonyStyle $io;
     private ProcessHelper $processHelper;

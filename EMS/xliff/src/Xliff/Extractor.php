@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Xliff;
 
+use EMS\Helpers\Html\Html;
 use Symfony\Component\DomCrawler\Crawler;
 
 class Extractor
@@ -204,8 +205,8 @@ class Extractor
 
     public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, ?string $targetHtml = null, bool $isFinal = false, bool $htmlEncodeInlines = false): void
     {
-        $sourceCrawler = new Crawler($sourceHtml);
-        $targetCrawler = new Crawler($targetHtml);
+        $sourceCrawler = new Crawler(Html::prettyPrint($sourceHtml));
+        $targetCrawler = new Crawler(Html::prettyPrint($targetHtml));
         $added = false;
         foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
             $this->addGroupNode($document, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines, $fieldPath);

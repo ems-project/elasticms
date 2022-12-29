@@ -29,7 +29,11 @@ class Processor
 
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
-        $configJson = \json_decode($this->storageManager->getContents($configHash), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $configJson = \json_decode($this->storageManager->getContents($configHash), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            $configJson = [];
+        }
         $config = new Config($this->storageManager, $hash, $configHash, $configJson);
 
         return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);

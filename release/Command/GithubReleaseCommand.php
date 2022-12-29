@@ -5,14 +5,10 @@ declare(strict_types=1);
 namespace EMS\Release\Command;
 
 use EMS\Release\Config;
-use Github\AuthMethod;
-use Github\Client as ClientGithub;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class GithubReleaseCommand extends AbstractGithubCommand
 {
@@ -25,7 +21,7 @@ class GithubReleaseCommand extends AbstractGithubCommand
 
     public function __construct(string $type, string $description)
     {
-        parent::__construct(sprintf('github:release:%s', $type));
+        parent::__construct(\sprintf('github:release:%s', $type));
         $this->setDescription($description);
         $this->type = $type;
     }
@@ -52,11 +48,14 @@ class GithubReleaseCommand extends AbstractGithubCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('GitHub : Release : '.ucfirst($this->type));
+        $this->io->title('GitHub : Release : '.\ucfirst($this->type));
 
         return $this->release(Config::REPOSITORIES[$this->type]);
     }
 
+    /**
+     * @param array<string, string> $repositories
+     */
     protected function release(array $repositories): int
     {
         $pg = $this->io->createProgressBar(\count($repositories));
@@ -87,7 +86,7 @@ class GithubReleaseCommand extends AbstractGithubCommand
         $pg->finish();
         $this->io->newLine(2);
 
-        $this->io->table([ 'package', 'status', 'sha', 'url'], $rows);
+        $this->io->table(['package', 'status', 'sha', 'url'], $rows);
 
         return 0;
     }
@@ -106,12 +105,15 @@ class GithubReleaseCommand extends AbstractGithubCommand
         return $release['html_url'];
     }
 
-    private function deleteRelease(string $name, int $releaseId)
+    private function deleteRelease(string $name, int $releaseId): void
     {
         $this->githubApi->repo()->releases()->remove(self::ORG, $name, $releaseId);
         $this->githubApi->git()->references()->remove(self::ORG, $name, 'tags/'.$this->version);
     }
 
+    /**
+     * @return ?array<mixed>
+     */
     private function getRelease(string $name): ?array
     {
         try {
@@ -128,12 +130,15 @@ class GithubReleaseCommand extends AbstractGithubCommand
         return $ref['object']['sha'];
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function generateNotes(string $name): array
     {
         return $this->githubApi->repo()->releases()->generateNotes(self::ORG, $name, [
             'tag_name' => $this->version,
             'target_commitish' => $this->branch,
-            'previous_tag_name' => $this->previousVersion
+            'previous_tag_name' => $this->previousVersion,
         ]);
     }
 }

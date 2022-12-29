@@ -13,6 +13,7 @@ parameters:
         - %currentWorkingDirectory%/EMS/helpers/src
         - %currentWorkingDirectory%/EMS/submission-bundle/src
         - %currentWorkingDirectory%/EMS/xliff/src
+        - %currentWorkingDirectory%/release
     excludePaths:
         - %currentWorkingDirectory%/vendor/*
         - %currentWorkingDirectory%/EMS/common-bundle/src/Resources/*

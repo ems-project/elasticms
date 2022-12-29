@@ -52,14 +52,14 @@ class PackagistInfo extends Command
             $version = $versions[$this->version] ?? null;
             $dist = $version ? $version->getDist() : null;
 
-            $rows[] = [ $packageName, $version ? $version->getVersion() : 'X', ($dist ? $dist->getReference() : 'X')];
+            $rows[] = [$packageName, $version ? $version->getVersion() : 'X', $dist ? $dist->getReference() : 'X'];
             $pg->advance();
         }
 
         $pg->finish();
         $this->io->newLine(2);
 
-        $this->io->table([ 'package', 'version', 'sha'], $rows);
+        $this->io->table(['package', 'version', 'sha'], $rows);
 
         return 0;
     }

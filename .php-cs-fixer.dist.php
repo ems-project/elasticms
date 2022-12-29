@@ -25,6 +25,7 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/EMS/submission-bundle/tests')
     ->in(__DIR__.'/EMS/xliff/src')
     ->in(__DIR__.'/EMS/xliff/tests')
+    ->in(__DIR__.'/release')
     ->exclude('/EMS/helpers/tmp')
 ;
 

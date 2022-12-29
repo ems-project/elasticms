@@ -9,6 +9,7 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/elasticms-*/tests')
     ->in(__DIR__.'/EMS/*/src')
     ->in(__DIR__.'/EMS/*/tests')
+    ->in(__DIR__.'/release')
     ->exclude('/EMS/helpers/tmp')
 ;
 

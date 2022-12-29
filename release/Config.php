@@ -6,25 +6,50 @@ namespace EMS\Release;
 
 class Config
 {
-    public static array $applications = [
+    /** @var array<string, array<string, string>> */
+    public const REPOSITORIES = [
+        'applications' => self::APPLICATIONS,
+        'docker' => self::DOCKER,
+        'packages' => self::PACKAGES,
+    ];
+
+    /** @var array<string, string> */
+    public const APPLICATIONS = [
         'elasticms-admin' => 'elasticms/elasticms-admin',
         'elasticms-web' => 'elasticms/elasticms-web',
         'elasticms-cli' => 'elasticms/elasticms-cli',
     ];
 
-    public static array $docker = [
+    /** @var array<string, string> */
+    public const DOCKER = [
         'elasticms-admin-docker' => 'elasticms/elasticms-admin-docker',
         'elasticms-web-docker' => 'elasticms/elasticms-web-docker',
         'elasticms-cli-docker' => 'elasticms/elasticms-cli-docker',
     ];
 
-    public static array $packages = [
+    /** @var array<string, string> */
+    public const PACKAGES = [
         'EMSClientHelperBundle' => 'elasticms/client-helper-bundle',
         'EMSCommonBundle' => 'elasticms/common-bundle',
         'EMSCoreBundle' => 'elasticms/core-bundle',
         'EMSFormBundle' => 'elasticms/form-bundle',
         'EMSSubmissionBundle' => 'elasticms/submission-bundle',
         'helpers' => 'elasticms/helpers',
-        'xliff' => 'elasticms/xliff'
+        'xliff' => 'elasticms/xliff',
+    ];
+
+    /** @var array<string, string> */
+    public const PULL_REQUESTS = [
+        'feat' => 'Features',
+        'fix' => 'Bug Fixes',
+        'docs' => 'Documentation',
+        'style' => 'Styles',
+        'refactor' => 'Code Refactoring',
+        'perf' => 'Performance Improvements',
+        'test' => 'Tests',
+        'build' => 'Builds',
+        'ci' => 'Continuous Integrations',
+        'chore' => 'Chores',
+        'revert' => 'Reverts',
     ];
 }

@@ -9,9 +9,9 @@ $application = new Application('release', '1.0.0');
 $application->add((new \EMS\Release\Command\ComposerUpdate()));
 
 $application->add((new \EMS\Release\Command\GitHubBranchesCommand()));
-$application->add((new \EMS\Release\Command\GithubReleaseApplications()));
-$application->add((new \EMS\Release\Command\GithubReleaseDocker()));
-$application->add((new \EMS\Release\Command\GithubReleasePackages()));
+$application->add((new \EMS\Release\Command\GithubReleaseCommand('applications', '4) Release applications admin/web/cli')));
+$application->add((new \EMS\Release\Command\GithubReleaseCommand('packages', '1) Release packages')));
+$application->add((new \EMS\Release\Command\GithubReleaseCommand('docker', '5) Release docker admin/web/cli')));
 
 $application->add((new \EMS\Release\Command\PackagistInfo()));
 

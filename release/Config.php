@@ -6,19 +6,25 @@ namespace EMS\Release;
 
 class Config
 {
-    public static array $applications = [
+    public const REPOSITORIES = [
+        'applications' => self::APPLICATIONS,
+        'docker' => self::DOCKER,
+        'packages' => self::PACKAGES,
+    ];
+
+    public const APPLICATIONS = [
         'elasticms-admin' => 'elasticms/elasticms-admin',
         'elasticms-web' => 'elasticms/elasticms-web',
         'elasticms-cli' => 'elasticms/elasticms-cli',
     ];
 
-    public static array $docker = [
+    public const DOCKER = [
         'elasticms-admin-docker' => 'elasticms/elasticms-admin-docker',
         'elasticms-web-docker' => 'elasticms/elasticms-web-docker',
         'elasticms-cli-docker' => 'elasticms/elasticms-cli-docker',
     ];
 
-    public static array $packages = [
+    public const PACKAGES = [
         'EMSClientHelperBundle' => 'elasticms/client-helper-bundle',
         'EMSCommonBundle' => 'elasticms/common-bundle',
         'EMSCoreBundle' => 'elasticms/core-bundle',

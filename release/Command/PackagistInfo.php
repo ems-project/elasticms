@@ -40,12 +40,12 @@ class PackagistInfo extends Command
     {
         $this->io->title('Packagist info');
 
-        $pg = $this->io->createProgressBar(\count(Config::$packages));
+        $pg = $this->io->createProgressBar(\count(Config::PACKAGES));
         $pg->start();
 
         $rows = [];
 
-        foreach (Config::$packages as $packageName) {
+        foreach (Config::PACKAGES as $packageName) {
             $package = $this->packagistApi->getComposerReleases($packageName)[$packageName];
             $versions = $package->getVersions();
 

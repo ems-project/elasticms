@@ -14,17 +14,26 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-abstract class AbstractGithubRelease extends AbstractGithubCommand
+class GithubReleaseCommand extends AbstractGithubCommand
 {
+    private string $type;
+
     private string $branch;
     private string $version;
     private string $previousVersion;
     private bool $force;
 
+    public function __construct(string $type, string $description)
+    {
+        parent::__construct(sprintf('github:release:%s', $type));
+        $this->setDescription($description);
+        $this->type = $type;
+    }
+
     protected function configure(): void
     {
         $this
-            ->addArgument('branch', InputArgument::REQUIRED, 'branch')
+            ->addArgument('target', InputArgument::REQUIRED, 'branch or hash')
             ->addArgument('version', InputArgument::REQUIRED, 'version')
             ->addArgument('previousVersion', InputArgument::REQUIRED, 'previousVersion')
             ->addOption('force', null, InputOption::VALUE_NONE, 'overwrite release')
@@ -35,10 +44,17 @@ abstract class AbstractGithubRelease extends AbstractGithubCommand
     {
         parent::initialize($input, $output);
 
-        $this->branch = (string) $input->getArgument('branch');
+        $this->branch = (string) $input->getArgument('target');
         $this->version = (string) $input->getArgument('version');
         $this->previousVersion = (string) $input->getArgument('previousVersion');
         $this->force = true === $input->getOption('force');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->io->title('GitHub : Release : '.ucfirst($this->type));
+
+        return $this->release(Config::REPOSITORIES[$this->type]);
     }
 
     protected function release(array $repositories): int

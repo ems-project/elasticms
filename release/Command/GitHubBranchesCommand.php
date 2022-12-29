@@ -17,9 +17,9 @@ class GitHubBranchesCommand extends AbstractGithubCommand
     {
         $this->io->title('GitHub: branches');
 
-        $this->info(\array_keys(Config::$applications), 'applications');
-        $this->info(\array_keys(Config::$docker), 'docker');
-        $this->info(\array_keys(Config::$packages), 'packages');
+        $this->info(\array_keys(Config::APPLICATIONS), 'applications');
+        $this->info(\array_keys(Config::DOCKER), 'docker');
+        $this->info(\array_keys(Config::PACKAGES), 'packages');
 
         return 0;
     }
@@ -42,5 +42,4 @@ class GitHubBranchesCommand extends AbstractGithubCommand
 
         return \implode(', ', $branches);
     }
-
 }

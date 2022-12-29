@@ -21,7 +21,7 @@ class ComposerUpdate extends Command
     private SymfonyStyle $io;
     private ProcessHelper $processHelper;
     private Filesystem $filesystem;
-    private string $workingDir;
+    private string $rootDir;
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
@@ -32,7 +32,7 @@ class ComposerUpdate extends Command
         $this->processHelper = $processHelper;
 
         $this->filesystem = new Filesystem();
-        $this->workingDir = __DIR__.'/../../';
+        $this->rootDir = __DIR__.'/../../';
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -41,7 +41,7 @@ class ComposerUpdate extends Command
 
         foreach (\array_keys(Config::APPLICATIONS) as $name) {
             $this->io->section(\sprintf('Updating: %s', $name));
-            $this->runComposerUpdate($output, $this->workingDir.$name);
+            $this->runComposerUpdate($output, $this->rootDir.$name);
             $this->io->newLine();
             $this->printEmsPackages($name);
         }
@@ -53,8 +53,8 @@ class ComposerUpdate extends Command
 
     private function printEmsPackages(string $name): void
     {
-        if (!$composerLockContent = \file_get_contents($this->workingDir.$name.'/composer.lock')) {
-            throw new \Exception(\sprintf('could not read composer.lock in %s', $this->workingDir.$name));
+        if (!$composerLockContent = \file_get_contents($this->rootDir.$name.'/composer.lock')) {
+            throw new \Exception(\sprintf('could not read composer.lock in %s', $this->rootDir.$name));
         }
 
         $composerLock = \json_decode($composerLockContent, true);

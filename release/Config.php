@@ -37,4 +37,19 @@ class Config
         'helpers' => 'elasticms/helpers',
         'xliff' => 'elasticms/xliff',
     ];
+
+    /** @var array<string, string> */
+    public const PULL_REQUESTS = [
+        'feat' => 'Features',
+        'fix' => 'Bug Fixes',
+        'docs' => 'Documentation',
+        'style' => 'Styles',
+        'refactor' => 'Code Refactoring',
+        'perf' => 'Performance Improvements',
+        'test' => 'Tests',
+        'build' => 'Builds',
+        'ci' => 'Continuous Integrations',
+        'chore' => 'Chores',
+        'revert' => 'Reverts',
+    ];
 }

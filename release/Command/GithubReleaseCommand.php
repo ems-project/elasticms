@@ -14,9 +14,9 @@ class GithubReleaseCommand extends AbstractGithubCommand
 {
     private string $type;
 
-    private string $branch;
+    private string $target;
     private string $version;
-    private string $previousVersion;
+    private ?string $previousVersion = null;
     private bool $force;
 
     public function __construct(string $type, string $description)
@@ -29,9 +29,9 @@ class GithubReleaseCommand extends AbstractGithubCommand
     protected function configure(): void
     {
         $this
-            ->addArgument('target', InputArgument::REQUIRED, 'branch or hash')
-            ->addArgument('version', InputArgument::REQUIRED, 'version')
-            ->addArgument('previousVersion', InputArgument::REQUIRED, 'previousVersion')
+            ->addArgument('version', InputArgument::REQUIRED, '(new) version')
+            ->addArgument('target', InputArgument::REQUIRED, 'branchName or hash')
+            ->addArgument('previousVersion', InputArgument::OPTIONAL, 'previousVersion')
             ->addOption('force', null, InputOption::VALUE_NONE, 'overwrite release')
         ;
     }
@@ -40,9 +40,9 @@ class GithubReleaseCommand extends AbstractGithubCommand
     {
         parent::initialize($input, $output);
 
-        $this->branch = (string) $input->getArgument('target');
+        $this->target = (string) $input->getArgument('target');
         $this->version = (string) $input->getArgument('version');
-        $this->previousVersion = (string) $input->getArgument('previousVersion');
+        $this->previousVersion = $input->getArgument('previousVersion');
         $this->force = true === $input->getOption('force');
     }
 
@@ -97,7 +97,7 @@ class GithubReleaseCommand extends AbstractGithubCommand
 
         $release = $this->githubApi->repo()->releases()->create(self::ORG, $name, [
             'tag_name' => $this->version,
-            'target_commitish' => $this->branch,
+            'target_commitish' => $this->target,
             'name' => $releaseNotes['name'],
             'body' => $releaseNotes['body'],
         ]);
@@ -135,10 +135,10 @@ class GithubReleaseCommand extends AbstractGithubCommand
      */
     private function generateNotes(string $name): array
     {
-        return $this->githubApi->repo()->releases()->generateNotes(self::ORG, $name, [
+        return $this->githubApi->repo()->releases()->generateNotes(self::ORG, $name, \array_filter([
             'tag_name' => $this->version,
-            'target_commitish' => $this->branch,
+            'target_commitish' => $this->target,
             'previous_tag_name' => $this->previousVersion,
-        ]);
+        ]));
     }
 }

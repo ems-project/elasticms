@@ -8,10 +8,9 @@ use EMS\CommonBundle\Service\Pdf\Pdf;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
 use EMS\CommonBundle\Service\Pdf\PdfPrintOptions;
 use EMS\CoreBundle\EMSCoreBundle;
-use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Form\Field\RenderOptionType;
-use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\TemplateRepository;
+use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\SearchService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +25,7 @@ class ActionController
 {
     public function __construct(
         private readonly TemplateRepository $templateRepository,
-        private readonly EnvironmentRepository $environmentRepository,
+        private readonly EnvironmentService $environmentService,
         private readonly SearchService $searchService,
         private readonly PdfPrinterInterface $pdfPrinter,
         private readonly LoggerInterface $logger,
@@ -47,17 +46,7 @@ class ActionController
             throw new NotFoundHttpException('Template type not found');
         }
 
-        $environment = $this->environmentRepository->findBy([
-            'name' => $environmentName,
-        ]);
-
-        if (!$environment || 1 != \count($environment)) {
-            throw new NotFoundHttpException('Environment type not found');
-        }
-
-        /** @var Environment $environment */
-        $environment = $environment[0];
-
+        $environment = $this->environmentService->giveByName($environmentName);
         $document = $this->searchService->get($environment, $template->giveContentType(), $ouuid);
 
         try {

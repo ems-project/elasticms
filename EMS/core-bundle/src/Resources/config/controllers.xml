@@ -241,7 +241,7 @@
         <!-- Revision -->
         <service id="EMS\CoreBundle\Controller\Revision\ActionController" public="true">
             <argument type="service" id="EMS\CoreBundle\Repository\TemplateRepository" />
-            <argument type="service" id="EMS\CoreBundle\Repository\EnvironmentRepository" />
+            <argument type="service" id="EMS\CoreBundle\Service\EnvironmentService" />
             <argument type="service" id="ems.service.search" />
             <argument type="service" id="ems_common.pdf.printer.dom" />
             <argument type="service" id="logger" />

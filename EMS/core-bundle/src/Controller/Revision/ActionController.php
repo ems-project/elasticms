@@ -49,63 +49,66 @@ class ActionController
 
         $body = $this->twig->createTemplate($template->getBody());
 
-        if (RenderOptionType::PDF === $template->getRenderOption() && ($_download || !$template->getPreview())) {
-            $output = $body->render([
-                'environment' => $environment,
-                'contentType' => $template->getContentType(),
-                'object' => $document,
-                'source' => $document->getSource(),
-                '_download' => true,
-            ]);
-            $filename = $this->generateFilename($template, $environment, $document, $_download);
-
-            $pdf = new Pdf($filename, $output);
-            $printOptions = new PdfPrintOptions([
-                PdfPrintOptions::ATTACHMENT => PdfPrintOptions::ATTACHMENT === $template->getDisposition(),
-                PdfPrintOptions::COMPRESS => true,
-                PdfPrintOptions::HTML5_PARSING => true,
-                PdfPrintOptions::ORIENTATION => $template->getOrientation() ?? 'portrait',
-                PdfPrintOptions::SIZE => $template->getSize() ?? 'A4',
-            ]);
-
-            return $this->pdfPrinter->getStreamedResponse($pdf, $printOptions);
-        }
-        if ($_download || (0 === \strcmp($template->getRenderOption(), RenderOptionType::EXPORT) && !$template->getPreview())) {
-            if (null != $template->getMimeType()) {
-                \header('Content-Type: '.$template->getMimeType());
+        if ($_download || !$template->getPreview()) {
+            try {
+                $output = $body->render([
+                    'environment' => $environment,
+                    'contentType' => $template->getContentType(),
+                    'object' => $document,
+                    'source' => $document->getSource(),
+                    '_download' => $_download,
+                ]);
+            } catch (\Throwable $e) {
+                $this->logger->error($e->getMessage());
+                $output = 'Error in template';
             }
-
             $filename = $this->generateFilename($template, $environment, $document, $_download);
 
-            if (!empty($template->getDisposition())) {
-                $attachment = ResponseHeaderBag::DISPOSITION_ATTACHMENT;
-                if ('inline' == $template->getDisposition()) {
-                    $attachment = ResponseHeaderBag::DISPOSITION_INLINE;
+            if (RenderOptionType::PDF === $template->getRenderOption()) {
+                $pdf = new Pdf($filename, $output);
+                $printOptions = new PdfPrintOptions([
+                    PdfPrintOptions::ATTACHMENT => PdfPrintOptions::ATTACHMENT === $template->getDisposition(),
+                    PdfPrintOptions::COMPRESS => true,
+                    PdfPrintOptions::HTML5_PARSING => true,
+                    PdfPrintOptions::ORIENTATION => $template->getOrientation() ?? 'portrait',
+                    PdfPrintOptions::SIZE => $template->getSize() ?? 'A4',
+                ]);
+
+                return $this->pdfPrinter->getStreamedResponse($pdf, $printOptions);
+            }
+            if (RenderOptionType::EXPORT === $template->getRenderOption()) {
+                if (null != $template->getMimeType()) {
+                    \header('Content-Type: '.$template->getMimeType());
                 }
-                \header("Content-Disposition: $attachment; filename=".$filename.($template->getExtension() ? '.'.$template->getExtension() : ''));
-            }
-            if (null != $template->getAllowOrigin()) {
-                \header('Access-Control-Allow-Origin: '.$template->getAllowOrigin());
-                \header('Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since');
-                \header('Access-Control-Allow-Methods: GET, HEAD, OPTIONS');
-            }
 
-            $output = $body->render([
-                'environment' => $environment,
-                'contentType' => $template->getContentType(),
-                'object' => $document,
-                'source' => $document->getSource(),
-            ]);
-            echo $output;
+                $filename = $this->generateFilename($template, $environment, $document, $_download);
 
-            exit;
+                if (!empty($template->getDisposition())) {
+                    $attachment = ResponseHeaderBag::DISPOSITION_ATTACHMENT;
+                    if ('inline' == $template->getDisposition()) {
+                        $attachment = ResponseHeaderBag::DISPOSITION_INLINE;
+                    }
+                    \header("Content-Disposition: $attachment; filename=".$filename.($template->getExtension() ? '.'.$template->getExtension() : ''));
+                }
+                if (null != $template->getAllowOrigin()) {
+                    \header('Access-Control-Allow-Origin: '.$template->getAllowOrigin());
+                    \header('Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since');
+                    \header('Access-Control-Allow-Methods: GET, HEAD, OPTIONS');
+                }
+
+                echo $output;
+
+                exit;
+            }
         }
 
         return new Response($this->twig->render('@EMSCore/data/custom-view.html.twig', [
             'template' => $template,
-            'object' => $document,
             'environment' => $environment,
             'contentType' => $template->getContentType(),
+            'object' => $document,
+            'source' => $document->getSource(),
+            '_download' => true,
             'body' => $body,
         ]));
     }

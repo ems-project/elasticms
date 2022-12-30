@@ -39,43 +39,43 @@ class ActionController
         bool $_download,
         bool $public): Response
     {
-        $template = $this->templateRepository->getById($templateId);
-        if ($public && !$template->isPublic()) {
+        $action = $this->templateRepository->getById($templateId);
+        if ($public && !$action->isPublic()) {
             throw new NotFoundHttpException('Template type not found');
         }
 
         $environment = $this->environmentService->giveByName($environmentName);
-        $document = $this->searchService->get($environment, $template->giveContentType(), $ouuid);
+        $document = $this->searchService->get($environment, $action->giveContentType(), $ouuid);
 
-        $body = $this->twig->createTemplate($template->getBody());
+        $body = $this->twig->createTemplate($action->getBody());
 
-        if ($_download || !$template->getPreview()) {
+        if ($_download || !$action->getPreview()) {
             try {
-                $output = $body->render([
+                $content = $body->render([
                     'environment' => $environment,
-                    'contentType' => $template->getContentType(),
+                    'contentType' => $action->getContentType(),
                     'object' => $document,
                     'source' => $document->getSource(),
                     '_download' => $_download,
                 ]);
             } catch (\Throwable $e) {
                 $this->logger->error($e->getMessage());
-                $output = 'Error in template';
+                $content = 'Error in template';
             }
-            $filename = $this->generateFilename($template, $environment, $document, $_download);
+            $filename = $this->generateFilename($action, $environment, $document, $_download);
 
-            if (RenderOptionType::PDF === $template->getRenderOption()) {
-                return $this->generatePdfResponse($template, $filename, $output);
+            if (RenderOptionType::PDF === $action->getRenderOption()) {
+                return $this->generatePdfResponse($action, $filename, $content);
             }
-            if (RenderOptionType::EXPORT === $template->getRenderOption()) {
-                return $this->generateExportResponse($template, $filename, $output);
+            if (RenderOptionType::EXPORT === $action->getRenderOption()) {
+                return $this->generateExportResponse($action, $filename, $content);
             }
         }
 
         return new Response($this->twig->render('@EMSCore/data/custom-view.html.twig', [
-            'template' => $template,
+            'template' => $action,
             'environment' => $environment,
-            'contentType' => $template->getContentType(),
+            'contentType' => $action->getContentType(),
             'object' => $document,
             'source' => $document->getSource(),
             '_download' => true,

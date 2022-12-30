@@ -74,7 +74,7 @@
           </trans-unit>
           <trans-unit restype="x-html-p" id="/html/body/div[3]/p[2]">
             <source xml:lang="nl"> Vanaf het 2<g ctype="x-html-sup">de</g> kwartaal 2021 wordt de doelgroepvermindering geschrapt voor <g ctype="x-html-strong">Wallonië</g>. </source>
-            <target xml:lang="de" state="final"> Ab dem 2. Quartal 2021 wird die Zielgruppenermäßigung für <g ctype="x-html-strong">Wallonien</g> abgeschafft. </target>
+            <target xml:lang="de" state="final"> Ab dem 2.<g ctype="x-html-sup"/> Quartal 2021 wird die Zielgruppenermäßigung für <g ctype="x-html-strong">Wallonien</g> abgeschafft. </target>
           </trans-unit>
         </group>
         <group restype="x-html-div" html:class="message alert" id="/html/body/div[4]">
@@ -97,7 +97,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[3]">
           <source xml:lang="nl"> Het gaat om werkzoekenden, waarmee bedoeld wordt de niet-werkende werknemers die als werkzoekende ingeschreven zijn bij de gewestelijke dienst voor arbeidsbemiddeling. Deze werkzoekenden moeten aangeworven zijn in het kader van een doorstromingsprogramma zoals bedoeld in het koninklijk besluit van 9 juni 1997 ter uitvoering van het artikel 7 § 1, 3<g ctype="x-html-sup">de</g> lid, m van de besluitwet van 28 december 1944 betreffende de maatschappelijke zekerheid der arbeiders. </source>
-          <target xml:lang="de" state="final"> Es betrifft Arbeitssuchende, mit denen nicht arbeitende Arbeitnehmer gemeint sind, die als Arbeitssuchende bei der regionalen Dienststelle für Arbeitsvermittlung eingetragen sind. Diese Arbeitssuchenden müssen im Rahmen eines Berufsübergangsprogramms im Sinne des Königlichen Erlasses vom 09.06.1997 in Ausführung von Artikel 7 § 1, Absatz 3, m des Erlassgesetzes vom 28.12.1994 über die soziale Sicherheit der Arbeitnehmer eingestellt worden sein. </target>
+          <target xml:lang="de" state="final"> Es betrifft Arbeitssuchende, mit denen nicht arbeitende Arbeitnehmer gemeint sind, die als Arbeitssuchende bei der regionalen Dienststelle für Arbeitsvermittlung eingetragen sind. Diese Arbeitssuchenden müssen im Rahmen eines Berufsübergangsprogramms im Sinne des Königlichen Erlasses vom 09.06.1997 in Ausführung von Artikel 7 § 1, Absatz 3, m des Erlassgesetzes vom 28.12.1994 über die soziale Sicherheit der Arbeitnehmer eingestellt worden sein. <g ctype="x-html-sup"/> </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[4]">
           <source xml:lang="nl"> Volgende categorieën komen in aanmerking: </source>

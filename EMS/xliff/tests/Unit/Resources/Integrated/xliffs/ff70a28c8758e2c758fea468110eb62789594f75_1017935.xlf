@@ -12,12 +12,20 @@
       </trans-unit>
       <group id="[introduction]">
         <trans-unit restype="x-html-p" id="/html/body/p[1]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[2]">
           <source xml:lang="nl"> Vanaf 1 juli 2017 introduceert Wallonië een nieuwe doelgroepvermindering voor oudere werknemers <g ctype="x-html-strong">ter vervanging</g> van de bestaande doelgroepvermindering ouderen. Dit geldt enkel voor de werknemers die werkzaam zijn in of afhangen van een vestigingseenheid in het <g ctype="x-html-strong">Waals Gewest</g> (zonder de Duitstalige Gemeenschap). Voor de werknemers tewerkgesteld in een andere regio wijzigt er niets. </source>
           <target xml:lang="de" state="final"> Ab 01.07.2017 führt die Wallonie eine neue Zielgruppenermäßigung für ältere Arbeitnehmer <g ctype="x-html-strong">als Ersatz</g> der bestehenden Zielgruppenermäßigung ältere Arbeitnehmer ein. Dies gilt nur für Arbeitnehmer, die in einer <g ctype="x-html-strong">Niederlassungseinheit in der Wallonie (ohne Deutschsprachige Gemeinschaft) tätig sind oder von ihr abhängig sind</g>. Für Arbeitnehmer, die in einer anderen Region beschäftigt sind, ändert sich nichts. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[2]">
+        <trans-unit restype="x-html-p" id="/html/body/p[3]">
           <source xml:lang="nl"> Het bedrag van de doelgroepvermindering hangt af van de leeftijd van de werknemer. </source>
           <target xml:lang="de" state="final"> Der Betrag der Zielgruppenermäßigung hängt vom Alter des Arbeitnehmers ab. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[4]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
         </trans-unit>
       </group>
       <group id="[description]">
@@ -80,7 +88,7 @@
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[3]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[3]/ul/li">
                 <source xml:lang="nl">vanaf het <g ctype="x-html-span" html:class="newWord">4<g ctype="x-html-sup">de</g> kwartaal 2021</g> is het plafond gelijk aan <g ctype="x-html-span" html:class="newWord">14.795,87 EUR</g>. </source>
-                <target xml:lang="de" state="final">ab dem <g ctype="x-html-span" html:class="newWord">4. Quartal 2021</g> entspricht die Grenze <g ctype="x-html-span" html:class="newWord">14.795,87 EUR</g>. </target>
+                <target xml:lang="de" state="final">ab dem <g ctype="x-html-span" html:class="newWord">4.<g ctype="x-html-sup"/> Quartal 2021</g> entspricht die Grenze <g ctype="x-html-span" html:class="newWord">14.795,87 EUR</g>. </target>
               </trans-unit>
             </group>
           </group>

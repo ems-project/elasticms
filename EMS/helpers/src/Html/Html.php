@@ -19,6 +19,7 @@ class Html
             'newline' => 'LF',
             'wrap' => 68,
             'hide-comments' => 1,
+            'drop-empty-elements' => false,
         ], $parseStringConfig));
 
         return \trim(\str_replace(["<body>\n  ", "\n</body>", "\n  ", '<body>'], ['', '', "\n", ''], $formatter->body()->value));

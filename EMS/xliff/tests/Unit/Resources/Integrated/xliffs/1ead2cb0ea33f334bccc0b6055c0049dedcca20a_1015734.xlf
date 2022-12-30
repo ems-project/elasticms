@@ -345,7 +345,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[25]">
           <source xml:lang="nl"> De vermindering voor middengeschoolde jongeren, kan dus enkel worden toegepast voor jongeren die bij de werkgever voor het eerst in dienst genomen worden vanaf het 1<g ctype="x-html-sup">ste</g> kwartaal van 2013. </source>
-          <target xml:lang="de" state="final"> Die Ermäßigung für Jugendliche mit Sekundarabschluss kann daher nur für Jugendliche angewandt werden, die bei dem Arbeitgeber zum ersten Mal ab dem 1. Quartal 2013 ihren Dienst antreten. </target>
+          <target xml:lang="de" state="final"> Die Ermäßigung für Jugendliche mit Sekundarabschluss kann daher nur für Jugendliche angewandt werden, die bei dem Arbeitgeber zum ersten Mal ab dem 1. Quartal 2013 ihren Dienst antreten. <g ctype="x-html-sup"/> </target>
         </trans-unit>
         <group restype="x-html-div" html:class="readMoreContent" id="/html/body/div[5]">
           <trans-unit restype="x-html-p" id="/html/body/div[5]/p[1]">
@@ -461,7 +461,7 @@
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[28]">
           <source xml:lang="nl"> Een forfaitair verminderingsbedrag <g ctype="x-html-strong">G<g ctype="x-html-sub">1</g></g> wordt toegekend aan de werkgever voor elke jongere die hij in dienst neemt tot en met het 4<g ctype="x-html-sup">de</g> kwartaal van het kalenderjaar dat zijn werknemer 18 wordt. Het betreft dus zowel jongeren aangeworven met als zonder startbaanovereenkomst en ongeacht of zij verbonden zijn met een leerovereenkomst of een arbeidsovereenkomst. </source>
-          <target xml:lang="de" state="final"> Eine Ermäßigungspauschale <g ctype="x-html-strong">G<g ctype="x-html-sub">1</g></g> wird dem Arbeitgeber für jeden Jugendlichen gewährt, den er bis zum vierten Quartal des Kalenderjahres einstellt, in dem sein Arbeitnehmer 18 Jahre alt wird. Es betrifft deshalb Jugendliche, die mit bzw. ohne Erstbeschäftigungsabkommen eingestellt wurden, unabhängig davon, ob sie einen Lehr- oder Arbeitsvertrag abgeschlossen haben. </target>
+          <target xml:lang="de" state="final"> Eine Ermäßigungspauschale <g ctype="x-html-strong">G<g ctype="x-html-sub">1</g></g> wird dem Arbeitgeber für jeden Jugendlichen gewährt, den er bis zum vierten Quartal des Kalenderjahres einstellt, in dem sein Arbeitnehmer 18 Jahre alt wird. <g ctype="x-html-sup"/> Es betrifft deshalb Jugendliche, die mit bzw. ohne Erstbeschäftigungsabkommen eingestellt wurden, unabhängig davon, ob sie einen Lehr- oder Arbeitsvertrag abgeschlossen haben. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[29]">
           <source xml:lang="nl">   </source>

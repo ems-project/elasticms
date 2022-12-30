@@ -146,7 +146,7 @@
           </trans-unit>
           <trans-unit restype="x-html-p" id="/html/body/div[2]/p[1]">
             <source xml:lang="nl"> Er worden geen gesubsidieerde contractuelen meer tewerkgesteld in het <g ctype="x-html-strong">Vlaams Gewest</g> bij de plaatselijke en provinciale besturen. De doelgroepvermindering kan in de DmfAPPL aangifte niet meer toegepast worden vanaf het <g ctype="x-html-strong">1<g ctype="x-html-sup">ste</g> kwartaal 2017</g>. </source>
-            <target xml:lang="de" state="final"> Es werden keine bezuschussten Vertragsbediensteten, die durch einen Arbeitsvertrag gebunden sind, in der <g ctype="x-html-strong">Flämischen Region</g> beschäftigt. Die Zielgruppenermäßigung kann an dem <g ctype="x-html-strong">ersten Quartal 2017</g> in der DmfAPPL-Meldung nicht mehr angewendet werden. </target>
+            <target xml:lang="de" state="final"> Es werden keine bezuschussten Vertragsbediensteten, die durch einen Arbeitsvertrag gebunden sind, in der <g ctype="x-html-strong">Flämischen Region</g> beschäftigt. Die Zielgruppenermäßigung kann an dem <g ctype="x-html-strong">ersten Quartal 2017</g> in der DmfAPPL-Meldung nicht mehr angewendet werden. <g ctype="x-html-sup"/> </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="/html/body/div[2]/p[2]">
             <source xml:lang="nl">   </source>

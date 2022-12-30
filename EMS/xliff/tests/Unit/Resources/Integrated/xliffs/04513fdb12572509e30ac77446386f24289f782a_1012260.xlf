@@ -111,6 +111,10 @@
             <target xml:lang="de" state="final">Asylsuchende. </target>
           </trans-unit>
         </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
         <group restype="x-html-div" html:class="alert message" id="/html/body/div">
           <trans-unit restype="x-html-h3" id="/html/body/div/h3">
             <source xml:lang="nl"> Vlaams Gewest: </source>
@@ -125,11 +129,19 @@
             <target xml:lang="de" state="final"> Die Ermäßigung ist am 31.12.2018 endgültig ausgelaufen.  </target>
           </trans-unit>
         </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[9]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[10]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
         <trans-unit restype="x-html-h2" id="/html/body/h2[3]">
           <source xml:lang="nl"> Bedrag van de vermindering </source>
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+        <trans-unit restype="x-html-p" id="/html/body/p[11]">
           <source xml:lang="nl"> Het OCMW heeft recht op een doelgroepvermindering <g ctype="x-html-strong">G<g ctype="x-html-sub">7</g></g> gedurende de volledige duur van de tewerkstelling. Gezien deze vermindering alle patronale basisbijdragen vrijstelt, mag ze ook worden toegepast wanneer er geen bezoldigde dagen zijn tijdens het kwartaal, maar b.v. alleen een eindejaarspremie wordt betaald. </source>
           <target xml:lang="de" state="final"> Das ÖSHZ hat Anspruch auf eine Zielgruppenermäßigung <g ctype="x-html-strong">G<g ctype="x-html-sub">7</g></g> während der gesamten Dauer der Beschäftigung. Da diese Ermäßigung von allen Arbeitgebergrundbeiträgen befreit, darf sie auch angewandt werden, wenn es im Quartal keine entlohnten Tage gibt, sondern z. B. nur eine Jahresendprämie bezahlt wird. </target>
         </trans-unit>
@@ -137,11 +149,23 @@
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[12]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[13]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[14]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
         <trans-unit restype="x-html-h2" id="/html/body/h2[4]">
           <source xml:lang="nl"> Te vervullen formaliteiten </source>
           <target xml:lang="de" state="final"> Zu erledigende Formalitäten </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[9]">
+        <trans-unit restype="x-html-p" id="/html/body/p[15]">
           <source xml:lang="nl"> Om te kunnen genieten van de vrijstelling van de werkgeversbijdragen moet het OCMW: </source>
           <target xml:lang="de" state="final"> Um die Befreiung von der Lohnsteuer beanspruchen zu können, muss das ÖSHZ: </target>
         </trans-unit>
@@ -155,7 +179,7 @@
             <target xml:lang="de" state="final">den Nachweis erbringen, dass dieser Arbeitnehmer unter den in Artikel 33 des Gesetzes vom 22.12.1995 angegebenen Bedingungen eingestellt wurde. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[10]">
+        <trans-unit restype="x-html-p" id="/html/body/p[16]">
           <source xml:lang="nl"> Het OCMW moet tevens een maatschappelijk werker aanduiden die belast is met de begeleiding van de tewerkgestelde personen bij hun arbeidsprestaties in het kader van artikel 60, §7. </source>
           <target xml:lang="de" state="final"> Das ÖSHZ muss zudem einen Sozialarbeiter benennen, der für die Betreuung der beschäftigten Personen bei ihren im Rahmen von Artikel 60, § 7, erbrachten Arbeitsleistungen zuständig ist. </target>
         </trans-unit>

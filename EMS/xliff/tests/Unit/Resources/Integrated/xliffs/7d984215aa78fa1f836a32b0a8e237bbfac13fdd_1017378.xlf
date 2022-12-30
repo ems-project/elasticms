@@ -26,6 +26,10 @@
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="/html/body/p[2]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[3]">
           <source xml:lang="nl"> De hiernavolgende tekst handelt enkel over de bijdragevermindering, de toekenning van de uitkeringen valt immers onder de bevoegdheid van de RVA of van het OCMW. </source>
           <target xml:lang="de" state="final"> Im folgenden Text werden nur die Bestimmungen bezüglich der Beitragsermäßigung behandelt; für die Gewährung der Entschädigungen ist das LfA oder das ÖSHZ zuständig. </target>
         </trans-unit>

@@ -22,7 +22,7 @@
           </trans-unit>
           <trans-unit restype="x-html-p" id="/html/body/div/p[3]">
             <source xml:lang="nl"> Deze doelgroepvermindering beoogt het 2<g ctype="x-html-sup">de</g> kwartaal 2021 en wordt toegekend voor maximum 5 werknemers <g ctype="x-html-strong">per vestigingseenheid</g>. Door het aanhouden van de economische problemen wordt de maatregel verlengd voor het 3<g ctype="x-html-sup">de</g> kwartaal 2021. </source>
-            <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung zielt auf das 2. Quartal 2021 ab und wird für maximal 5 Arbeitnehmer <g ctype="x-html-strong">pro Niederlassungseinheit</g> gewährt. Aufgrund der anhaltenden wirtschaftlichen Probleme wird die Maßnahme für das 3. Quartal 2021 verlängert. </target>
+            <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung zielt auf das 2.<g ctype="x-html-sup"/> Quartal 2021 ab und wird für maximal 5 Arbeitnehmer <g ctype="x-html-strong">pro Niederlassungseinheit</g> gewährt. Aufgrund der anhaltenden wirtschaftlichen Probleme wird die Maßnahme für das 3.<g ctype="x-html-sup"/> Quartal 2021 verlängert. </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="/html/body/div/p[4]">
             <source xml:lang="nl">   </source>
@@ -54,11 +54,11 @@
           </trans-unit>
           <trans-unit restype="listitem" id="/html/body/ul[1]/li[3]">
             <source xml:lang="nl">die in het 2<g ctype="x-html-sup">de</g> kwartaal 2021, een effectieve omzetdaling van minstens 60% hebben geleden ten opzichte van hetzelfde kwartaal twee jaar voordien, dus het 2<g ctype="x-html-sup">de</g> kwartaal 2019, om van de vermindering te kunnen genieten voor het 2<g ctype="x-html-sup">de</g> kwartaal 2021 </source>
-            <target xml:lang="de" state="final">die im 2. Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem gleichen Quartal vor 2 Jahren, d. h. dem 2. Quartal 2019, erlitten haben, um die Ermäßigung für das 2. Quartal 2021 beanspruchen zu können </target>
+            <target xml:lang="de" state="final">die im 2.<g ctype="x-html-sup"/> Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem gleichen Quartal vor 2 Jahren, d. h. dem 2.<g ctype="x-html-sup"/> Quartal 2019, erlitten haben, um die Ermäßigung für das 2.<g ctype="x-html-sup"/> Quartal 2021 beanspruchen zu können </target>
           </trans-unit>
           <trans-unit restype="listitem" id="/html/body/ul[1]/li[4]">
             <source xml:lang="nl">en die in het 3<g ctype="x-html-sup">de</g> kwartaal 2021, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van hetzelfde kwartaal twee jaar voordien, hetzij het 3<g ctype="x-html-sup">de</g> kwartaal 2019 om van de vermindering te kunnen genieten voor het 3<g ctype="x-html-sup">de</g> kwartaal 2021. </source>
-            <target xml:lang="de" state="final">und die im 3. Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem gleichen Quartal vor zwei Jahren, d. h. dem 3. Quartal 2019, erlitten haben, um die Ermäßigung für das 3. Quartal 2021 in Anspruch nehmen zu können. </target>
+            <target xml:lang="de" state="final">und die im 3.<g ctype="x-html-sup"/> Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem gleichen Quartal vor zwei Jahren, d. h. dem 3.<g ctype="x-html-sup"/> Quartal 2019, erlitten haben, um die Ermäßigung für das 3.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen zu können. </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="/html/body/p[3]">
@@ -133,7 +133,7 @@
             </trans-unit>
             <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[3]/strong[2]">
               <source xml:lang="nl">2<g ctype="x-html-sup">de</g> kwartaal 2021</source>
-              <target xml:lang="de" state="final">2. Quartal 2021</target>
+              <target xml:lang="de" state="final">2.<g ctype="x-html-sup"/> Quartal 2021</target>
             </trans-unit>
             <trans-unit id="/html/body/ul[2]/li[3]/text()[3]">
               <source xml:lang="nl">, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het </source>
@@ -141,7 +141,7 @@
             </trans-unit>
             <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[3]/strong[3]">
               <source xml:lang="nl">2<g ctype="x-html-sup">de</g> kwartaal 2019</source>
-              <target xml:lang="de" state="final">2. Quartal 2019</target>
+              <target xml:lang="de" state="final">2.<g ctype="x-html-sup"/> Quartal 2019</target>
             </trans-unit>
             <trans-unit id="/html/body/ul[2]/li[3]/text()[4]">
               <source xml:lang="nl"> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
@@ -150,7 +150,7 @@
             <group restype="x-html-ul" id="/html/body/ul[2]/li[3]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[3]/ul/li">
                 <source xml:lang="nl"> <g ctype="x-html-strong">of</g> die in het <g ctype="x-html-strong">2<g ctype="x-html-sup">de</g> kwartaal 2021</g> een effectieve daling hebben van minstens 60 % van de bij de RSZ aangegeven loonmassa ten opzichte van het <g ctype="x-html-strong">2<g ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die geen periodieke BTW-aangifte doen <g ctype="x-html-strong">om van de vermindering te kunnen genieten voor het 2<g ctype="x-html-sup">de</g> kwartaal 2021</g>. </source>
-                <target xml:lang="de" state="final"> <g ctype="x-html-strong">oder</g> die im <g ctype="x-html-strong">2. Quartal 2021</g> einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem <g ctype="x-html-strong">2. Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die keine periodische Mehrwertsteuererklärung vornehmen, <g ctype="x-html-strong">um die Ermäßigung für das 2. Quartal 2021 in Anspruch nehmen zu können</g> </target>
+                <target xml:lang="de" state="final"> <g ctype="x-html-strong">oder</g> die im <g ctype="x-html-strong">2.<g ctype="x-html-sup"/> Quartal 2021</g> einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem <g ctype="x-html-strong">2.<g ctype="x-html-sup"/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die keine periodische Mehrwertsteuererklärung vornehmen, <g ctype="x-html-strong">um die Ermäßigung für das 2.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen zu können</g> </target>
               </trans-unit>
             </group>
           </group>
@@ -161,7 +161,7 @@
             </trans-unit>
             <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[4]/strong[1]">
               <source xml:lang="nl"><g ctype="x-html-span" html:style="display: none;"> </g>en</source>
-              <target xml:lang="de" state="final">und</target>
+              <target xml:lang="de" state="final"><g ctype="x-html-span" html:style="display: none;"/>und</target>
             </trans-unit>
             <trans-unit id="/html/body/ul[2]/li[4]/text()[2]">
               <source xml:lang="nl"> die in het </source>
@@ -169,7 +169,7 @@
             </trans-unit>
             <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[4]/strong[2]">
               <source xml:lang="nl">3<g ctype="x-html-sup">de</g> kwartaal 2021</source>
-              <target xml:lang="de" state="final">3. Quartal 2021</target>
+              <target xml:lang="de" state="final">3.<g ctype="x-html-sup"/> Quartal 2021</target>
             </trans-unit>
             <trans-unit id="/html/body/ul[2]/li[4]/text()[3]">
               <source xml:lang="nl">, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het </source>
@@ -177,7 +177,7 @@
             </trans-unit>
             <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[4]/strong[3]">
               <source xml:lang="nl">3<g ctype="x-html-sup">de</g> kwartaal 2019</source>
-              <target xml:lang="de" state="final">3. Quartal 2019</target>
+              <target xml:lang="de" state="final">3.<g ctype="x-html-sup"/> Quartal 2019</target>
             </trans-unit>
             <trans-unit id="/html/body/ul[2]/li[4]/text()[4]">
               <source xml:lang="nl"> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
@@ -186,7 +186,7 @@
             <group restype="x-html-ul" id="/html/body/ul[2]/li[4]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[4]/ul/li">
                 <source xml:lang="nl"> <g ctype="x-html-strong">of</g> die in het <g ctype="x-html-strong">3<g ctype="x-html-sup">de</g> kwartaal 2021</g> een effectieve daling hebben van minstens 60 % van de bij de RSZ aangegeven loonmassa ten opzichte van het <g ctype="x-html-strong">3<g ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die geen periodieke BTW-aangifte doen <g ctype="x-html-strong">om van de vermindering te kunnen genieten voor het 3<g ctype="x-html-sup">de</g> kwartaal 2021</g>.<g ctype="x-html-span" html:style="display: none;"> </g> </source>
-                <target xml:lang="de" state="final"> <g ctype="x-html-strong">oder</g> die im <g ctype="x-html-strong">3. Quartal 2021</g> einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem <g ctype="x-html-strong">3. Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die keine periodische Mehrwertsteuererklärung vornehmen<g ctype="x-html-strong">, um die Entschädigung für das 3. Quartal 2021</g> in Anspruch nehmen zu können.<g ctype="x-html-span" html:style="display: none;"> </g> </target>
+                <target xml:lang="de" state="final"> <g ctype="x-html-strong">oder</g> die im <g ctype="x-html-strong">3.<g ctype="x-html-sup"/> Quartal 2021</g> einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem <g ctype="x-html-strong">3.<g ctype="x-html-sup"/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die keine periodische Mehrwertsteuererklärung vornehmen<g ctype="x-html-strong">, um die Entschädigung für das 3.<g ctype="x-html-sup"/> Quartal 2021</g> in Anspruch nehmen zu können.<g ctype="x-html-span" html:style="display: none;"> </g> </target>
               </trans-unit>
             </group>
           </group>
@@ -203,21 +203,29 @@
         </trans-unit>
         <trans-unit restype="x-html-h4" id="/html/body/h4[1]">
           <source xml:lang="nl"> <g ctype="x-html-strong">Categorie 1:</g> BTW<g ctype="x-html-strong">-</g>plichtige werkgevers die een periodieke BTW-aangifte indienen </source>
-          <target xml:lang="de" state="final"> <g ctype="x-html-strong">Kategorie 1:</g> Mehrwertsteuerpflichtige Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen </target>
+          <target xml:lang="de" state="final"> <g ctype="x-html-strong">Kategorie 1:</g> Mehrwertsteuerpflichtige<g ctype="x-html-strong"/> Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[4]">
           <source xml:lang="nl"> Deze werkgevers kunnen voor de maatregel in aanmerkingkomen voor het 2<g ctype="x-html-sup">de</g> kwartaal 2021 als ze in het 2<g ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling van minstens 60 % van de omzet hebben geleden, resulterend uit verrichtingen die moeten worden opgenomen in kader 2 van de periodieke BTW-aangifte, bedoeld in artikel 53, §1, eerste lid, 2°, van het BTW-wetboek, ten opzichte van de omzet resulterend uit dezelfde verrichtingen die in de periodieke BTW-aangifte voor het 2<g ctype="x-html-sup">de</g> kwartaal 2019 moesten worden opgenomen. </source>
-          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 2. Quartal 2021 in Anspruch nehmen, wenn sie im 2. Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem Umsatz aus denselben Verrichtungen erlitten haben, die in der periodischen Mehrwertsteuererklärung für das 2. Quartal 2019 aufzuführen waren, und dieser Rückgang aus den in Feld 2 der periodischen Mehrwertsteuererklärung gemäß Artikel 53 § 1 erster Absatz Nummer 2 des Mehrwertsteuergesetzbuches aufzuführenden Verrichtungen resultiert. </target>
+          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 2.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen, wenn sie im 2<g ctype="x-html-sup"/>. Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem Umsatz aus denselben Verrichtungen erlitten haben, die in der periodischen Mehrwertsteuererklärung für das 2.<g ctype="x-html-sup"/> Quartal 2019 aufzuführen waren, und dieser Rückgang aus den in Feld 2 der periodischen Mehrwertsteuererklärung gemäß Artikel 53 § 1 erster Absatz Nummer 2 des Mehrwertsteuergesetzbuches aufzuführenden Verrichtungen resultiert. </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[5]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[6]">
           <source xml:lang="nl"> Deze werkgevers kunnen voor de maatregel in aanmerking komen voor het 3<g ctype="x-html-sup">de</g> kwartaal 2021 als ze in het 3<g ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling van minstens 60 % van de omzet hebben geleden, resulterend uit verrichtingen die moeten worden opgenomen in kader 2 van de periodieke BTW-aangifte, bedoeld in artikel 53, §1, eerste lid, 2°, van het BTW-wetboek, ten opzichte van de omzet resulterend uit dezelfde verrichtingen die in de periodieke BTW-aangifte voor het 3<g ctype="x-html-sup">de</g> kwartaal 2019 moesten worden opgenomen. </source>
-          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 3. Quartal 2021 in Anspruch nehmen, wenn sie im 3. Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem Umsatz aus denselben Verrichtungen erlitten haben, die in der periodischen Mehrwertsteuererklärung für das 3. Quartal 2019 aufzuführen waren, und dieser Rückgang aus den in Feld 2 der periodischen Mehrwertsteuererklärung gemäß Artikel 53 § 1 erster Absatz Nummer 2 des Mehrwertsteuergesetzbuches aufzuführenden Verrichtungen resultiert. </target>
+          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 3.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen, wenn sie im 3.<g ctype="x-html-sup"/> Quartal 2021 einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem Umsatz aus denselben Verrichtungen erlitten haben, die in der periodischen Mehrwertsteuererklärung für das 3.<g ctype="x-html-sup"/> Quartal 2019 aufzuführen waren, und dieser Rückgang aus den in Feld 2 der periodischen Mehrwertsteuererklärung gemäß Artikel 53 § 1 erster Absatz Nummer 2 des Mehrwertsteuergesetzbuches aufzuführenden Verrichtungen resultiert. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[7]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
         </trans-unit>
         <trans-unit restype="x-html-h4" id="/html/body/h4[2]">
           <source xml:lang="nl"> <g ctype="x-html-strong">Categorie 2:</g> BTW-plichtige werkgevers die geen periodieke BTW-aangifte indienen </source>
           <target xml:lang="de" state="final"> <g ctype="x-html-strong">Kategorie 2:</g> Mehrwertsteuerpflichtige Arbeitgeber, die keine periodische Mehrwertsteuererklärung einreichen </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[6]">
+        <trans-unit restype="x-html-p" id="/html/body/p[8]">
           <source xml:lang="nl"> Het betreft </source>
           <target xml:lang="de" state="final"> Dies betrifft </target>
         </trans-unit>
@@ -235,27 +243,43 @@
             <target xml:lang="de" state="final">Unternehmen, die Teil einer Umsatzsteuereinheit sind, die die Umsatzsteuererklärungen für die gesamte Einheit ausführt. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[7]">
+        <trans-unit restype="x-html-p" id="/html/body/p[9]">
           <source xml:lang="nl"> Deze werkgevers kunnen aanspraak maken op de maatregel voor het 2<g ctype="x-html-sup">de</g> kwartaal 2021 als zij in het 2<g ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling hebben geleden van minstens 60% van de bij de RSZ aangegeven loonmassa ten opzichte van het 2<g ctype="x-html-sup">de</g> kwartaal 2019. </source>
-          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 2. Quartal 2021 in Anspruch nehmen, wenn sie im 2. Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 2. Quartal 2019, erlitten haben. </target>
+          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 2.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen, wenn sie im 2.<g ctype="x-html-sup"/> Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 2.<g ctype="x-html-sup"/> Quartal 2019, erlitten haben. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+        <trans-unit restype="x-html-p" id="/html/body/p[10]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[11]">
           <source xml:lang="nl"> Deze werkgevers kunnen aanspraak maken op de maatregel voor het 3<g ctype="x-html-sup">de</g> kwartaal 2021 als zij in het 3<g ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling hebben geleden van minstens 60% van de bij de RSZ aangegeven loonmassa ten opzichte van het 3<g ctype="x-html-sup">de</g> kwartaal 2019. </source>
-          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 3. Quartal 2021 in Anspruch nehmen, wenn sie im 3. Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 3. Quartal 2019, erlitten haben. </target>
+          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 3.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen, wenn sie im 3.<g ctype="x-html-sup"/> Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 3.<g ctype="x-html-sup"/> Quartal 2019, erlitten haben. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[12]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
         </trans-unit>
         <trans-unit restype="x-html-h4" id="/html/body/h4[3]">
           <source xml:lang="nl"> <g ctype="x-html-strong">Categorie 3:</g> werkgevers die niet BTW-plichtig zijn </source>
           <target xml:lang="de" state="final"> <g ctype="x-html-strong">Kategorie 3:</g> Nicht mehrwertsteuerpflichtige Arbeitgeber </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[9]">
+        <trans-unit restype="x-html-p" id="/html/body/p[13]">
           <source xml:lang="nl"> Deze werkgevers kunnen aanspraak maken op de maatregel voor het 2<g ctype="x-html-sup">de</g> kwartaal 2021 als zij in het 2<g ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling hebben geleden van minstens 60% van de bij de RSZ aangegeven loonmassa ten opzichte van het 2<g ctype="x-html-sup">de</g> kwartaal 2019. </source>
-          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 2. Quartal 2021 in Anspruch nehmen, wenn sie im 2. Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 2. Quartal 2019, erlitten haben. </target>
+          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 2.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen, wenn sie im 2.<g ctype="x-html-sup"/> Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 2.<g ctype="x-html-sup"/> Quartal 2019, erlitten haben. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[10]">
+        <trans-unit restype="x-html-p" id="/html/body/p[14]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[15]">
           <source xml:lang="nl"> Deze werkgevers kunnen aanspraak maken op de maatregel voor het 3<g ctype="x-html-sup">de</g> kwartaal 2021 als zij in het 3<g ctype="x-html-sup">de</g> kwartaal 2021 een effectieve daling hebben geleden van minstens 60% van de bij de RSZ aangegeven loonmassa ten opzichte van het 3<g ctype="x-html-sup">de</g>kwartaal 2019. </source>
-          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 3. Quartal 2021 in Anspruch nehmen, wenn sie im 3. Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 3. Quartal 2019, erlitten haben. </target>
+          <target xml:lang="de" state="final"> Diese Arbeitgeber können die Maßnahme für das 3.<g ctype="x-html-sup"/> Quartal 2021 in Anspruch nehmen, wenn sie im 3.<g ctype="x-html-sup"/> Quartal 2021 einen effektiven Rückgang der beim LSS gemeldeten Lohnsumme von mindestens 60 % gegenüber dem 3.<g ctype="x-html-sup"/> Quartal 2019, erlitten haben. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[11]">
+        <trans-unit restype="x-html-p" id="/html/body/p[16]">
+          <source xml:lang="nl"/>
+          <target xml:lang="de" state="final"/>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[17]">
           <source xml:lang="nl"> De RSZ zal a posteriori controles op het naleven van deze voorwaarde uitvoeren. </source>
           <target xml:lang="de" state="final"> Das LSS wird die Einhaltung dieser Bedingung nachträglich prüfen. </target>
         </trans-unit>
@@ -263,7 +287,7 @@
           <source xml:lang="nl"> Bijkomende voorwaarden </source>
           <target xml:lang="de" state="final"> Zusätzliche Bedingungen </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[12]">
+        <trans-unit restype="x-html-p" id="/html/body/p[18]">
           <source xml:lang="nl"> Om voor de doelgroepvermindering in aanmerking te komen, moet de werkgever aan de volgende bijkomende voorwaarden voldoen: </source>
           <target xml:lang="de" state="final"> Um die Zielgruppenermäßigung in Anspruch nehmen zu können, muss der Arbeitgeber die folgenden zusätzlichen Bedingungen erfüllen: </target>
         </trans-unit>
@@ -301,7 +325,7 @@
             <target xml:lang="de" state="final">die Unterrichtung und Anhörung des Betriebsrats oder, in Ermangelung eines solchen, der Gewerkschaftsvertretung oder, in Ermangelung eines solchen, der Arbeitnehmer über die Anwendung der Maßnahme im Unternehmen und die vom Arbeitgeber zu erfüllenden Bedingungen, insbesondere in Bezug auf die angebotenen Schulungen. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[13]">
+        <trans-unit restype="x-html-p" id="/html/body/p[19]">
           <source xml:lang="nl"> De RSZ zal a posteriori controles op het naleven van deze voorwaarden uitvoeren. </source>
           <target xml:lang="de" state="final"> Das LSS wird die Einhaltung der Bedingungen nachträglich überprüfen. </target>
         </trans-unit>
@@ -309,13 +333,13 @@
           <source xml:lang="nl"> Bedrag van de vermindering </source>
           <target xml:lang="de" state="final"> Betrag der Ermäßigung </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[14]">
+        <trans-unit restype="x-html-p" id="/html/body/p[20]">
           <source xml:lang="nl"> Het gaat om een doelgroepvermindering voor het <g ctype="x-html-strong">2<g ctype="x-html-sup">de</g> kwartaal 2021</g> en voor <g ctype="x-html-strong">het 3<g ctype="x-html-sup">de</g> kwartaal 2021</g><g ctype="x-html-strong">,</g> die overeenstemt met het saldo van de patronale basisbijdragen in de DmfA van de genoemde kwartalen voor maximum <g ctype="x-html-strong">5 werknemers per vestigingseenheid</g>. Deze werknemers moeten vallen onder het paritair comité voor het hotelbedrijf. </source>
-          <target xml:lang="de" state="final"> Es geht um die Zielgruppenermäßigung für das <g ctype="x-html-strong">2. Quartal 2021</g> und für das <g ctype="x-html-strong">3. Quartal 2021</g><g ctype="x-html-strong">,</g> die dem Saldo der Basisarbeitgeberbeiträge in der DmfA der genannten Quartale für maximal <g ctype="x-html-strong">5 Arbeitnehmer pro Niederlassungseinheit</g> entspricht. Diese Arbeitnehmer müssen der Paritätischen Kommission für das Hotelgewerbe angehören. </target>
+          <target xml:lang="de" state="final"> Es geht um die Zielgruppenermäßigung für das <g ctype="x-html-strong">2.<g ctype="x-html-sup"/> Quartal 2021</g> und für das <g ctype="x-html-strong">3.<g ctype="x-html-sup"/> Quartal 2021</g><g ctype="x-html-strong">,</g> die dem Saldo der Basisarbeitgeberbeiträge in der DmfA der genannten Quartale für maximal <g ctype="x-html-strong">5 Arbeitnehmer pro Niederlassungseinheit</g> entspricht. Diese Arbeitnehmer müssen der Paritätischen Kommission für das Hotelgewerbe angehören. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[15]">
+        <trans-unit restype="x-html-p" id="/html/body/p[21]">
           <source xml:lang="nl"> Deze doelgroepvermindering wordt aangevraagd via de gewone aangifte DmfA van het 2<g ctype="x-html-sup">de</g> kwartaal 2021 en van het 3<g ctype="x-html-sup">de</g> kwartaal 2021 met: </source>
-          <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung wird über die reguläre DmfA-Meldung des 2. Quartals 2021 und des 3. Quartals 2021 beantragt: </target>
+          <target xml:lang="de" state="final"> Diese Zielgruppenermäßigung wird über die reguläre DmfA-Meldung des 2.<g ctype="x-html-sup"/> Quartals 2021 und des 3.<g ctype="x-html-sup"/> Quartals 2021 beantragt: </target>
         </trans-unit>
         <group restype="x-html-ul" id="/html/body/ul[5]">
           <trans-unit restype="listitem" id="/html/body/ul[5]/li[1]">
@@ -335,11 +359,11 @@
             <target xml:lang="de" state="final">und vorbehaltlich der nachträglichen Prüfung durch das LSS (hinsichtlich des Umfangs und der Bedingungen) angenommen. </target>
           </trans-unit>
         </group>
-        <trans-unit restype="x-html-p" id="/html/body/p[16]">
+        <trans-unit restype="x-html-p" id="/html/body/p[22]">
           <source xml:lang="nl"> Als uit de controles a posteriori blijkt dat de werkgever niet in het toepassingsgebied van de maatregel valt en de toekenningsvoorwaarden niet naleeft, dan zal de vermindering in de DmfA-aangifte worden geannuleerd. </source>
           <target xml:lang="de" state="final"> Wenn eine nachträgliche Prüfung ergibt, dass der Arbeitgeber nicht in den Anwendungsbereich der Maßnahme fällt und die Bewilligungsbedingungen nicht erfüllt, wird die Ermäßigung in der DmfA-Meldung gestrichen. </target>
         </trans-unit>
-        <trans-unit restype="x-html-p" id="/html/body/p[17]">
+        <trans-unit restype="x-html-p" id="/html/body/p[23]">
           <source xml:lang="nl">   </source>
           <target xml:lang="de" state="final">   </target>
         </trans-unit>

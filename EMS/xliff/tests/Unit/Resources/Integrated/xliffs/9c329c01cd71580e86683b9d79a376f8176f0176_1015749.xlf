@@ -13,7 +13,7 @@
       <group id="[introduction]">
         <trans-unit restype="x-html-p" id="/html/body/p">
           <source xml:lang="nl"> Vanaf 1 januari 2014 wordt de vermindering voor de aanwerving van een 1<g ctype="x-html-sup">ste</g> werknemer in de hoedanigheid van huispersoneel als doelgroepvermindering geïntegreerd in het systeem van de geharmoniseerde verminderingen. </source>
-          <target xml:lang="de" state="final"> Ab 01.01.2014 wird die Ermäßigung bei der Einstellung des ersten Arbeitnehmers in der Eigenschaft als Hauspersonal als Zielgruppenermäßigung in das System der harmonisierten Ermäßigungen integriert. </target>
+          <target xml:lang="de" state="final"> Ab 01.01.2014 wird die Ermäßigung bei der Einstellung des ersten Arbeitnehmers in der Eigenschaft als Hauspersonal als Zielgruppenermäßigung in das System der harmonisierten Ermäßigungen integriert. <g ctype="x-html-sup"/> </target>
         </trans-unit>
       </group>
       <group id="[description]">
@@ -76,7 +76,7 @@
           </trans-unit>
           <trans-unit restype="x-html-p" id="/html/body/div/p[1]">
             <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 juli 2017</g> kan voor werknemers die in dienst treden bij een werkgever voor een tewerkstelling in Wallonië niet langer de 'doelgroepvermindering huispersoneel' toegepast worden. </source>
-            <target xml:lang="de" state="final"> Ab 01.07.2017 kann für Arbeitnehmer, die bei einem Arbeitgeber für eine Beschäftigung in Flandern eingestellt werden, nicht mehr die „Zielgruppenermäßigung Hauspersonal“ angewandt werden. </target>
+            <target xml:lang="de" state="final"> Ab 01.07.2017 kann für Arbeitnehmer, die bei einem Arbeitgeber für eine Beschäftigung in Flandern eingestellt werden, nicht mehr die „Zielgruppenermäßigung Hauspersonal“ angewandt werden.<g ctype="x-html-strong"/> </target>
           </trans-unit>
           <trans-unit restype="x-html-p" id="/html/body/div/p[2]">
             <source xml:lang="nl"> De vermindering is definitief stopgezet op 30 juni 2020.  </source>

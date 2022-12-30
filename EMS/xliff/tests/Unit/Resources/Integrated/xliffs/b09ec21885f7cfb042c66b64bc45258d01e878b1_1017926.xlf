@@ -146,7 +146,7 @@
         <group restype="x-html-ul" id="/html/body/ul[3]">
           <trans-unit restype="listitem" id="/html/body/ul[3]/li[1]">
             <source xml:lang="nl"> <g ctype="x-html-strong">categorie 1</g>: werknemers die niet tot een van de twee volgende categorieën behoren en vanaf het 2<g ctype="x-html-sup">de</g> kwartaal 2016 de werknemers van de Koninklijke Muntschouwburg en het Paleis voor Schone Kunsten tewerkgesteld onder arbeidsovereenkomst ; </source>
-            <target xml:lang="de" state="final"> <g ctype="x-html-strong">Kategorie</g>: Arbeitnehmer, die nicht zu einer der beiden folgenden Kategorien gehören und ab dem 2. Quartal 2016 die Arbeitnehmer des Théâtre Royal de la Monnaie und des Palais des Beaux-Arts, die mit einem Arbeitsvertrag angestellt sind; </target>
+            <target xml:lang="de" state="final"> <g ctype="x-html-strong">Kategorie</g>: Arbeitnehmer, die nicht zu einer der beiden folgenden Kategorien gehören und ab dem 2. Quartal 2016 die Arbeitnehmer des Théâtre Royal de la Monnaie und des Palais des Beaux-Arts, die mit einem Arbeitsvertrag angestellt sind; <g ctype="x-html-sup"/> </target>
           </trans-unit>
           <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]">
             <source xml:lang="nl"> <g ctype="x-html-strong">categorie 2</g>: werknemers tewerkgesteld door werkgevers die onder het toepassingsgebied van de <g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/deductions/otheremployersreductions/workpromotion_nonprofitsector.html"> sociale maribel</g> vallen met uitzondering van de werknemers tewerkgesteld bij een werkgever onder het paritair comité voor de diensten voor gezins- en bejaardenhulp en zij die worden tewerkgesteld in een erkende beschutte werkplaats; </source>
@@ -154,7 +154,7 @@
           </trans-unit>
           <trans-unit restype="listitem" id="/html/body/ul[3]/li[3]">
             <source xml:lang="nl"> <g ctype="x-html-strong">categorie 3</g>: werknemers die worden tewerkgesteld in een erkende beschutte werkplaats; vanaf het 2<g ctype="x-html-sup">de</g> kwartaal 2016 maakt men een onderscheid tussen werknemers voor wie de loonmatiging verschuldigd is en zij voor wie de loonmatiging niet verschuldigd is. </source>
-            <target xml:lang="de" state="final"> <g ctype="x-html-strong">Arbeitnehmer</g>, die in einer anerkannten beschützten Werkstätte beschäftigt werden; ab dem 2. Quartal 2016 wird unterschieden zwischen Arbeitnehmern, für die die Lohnmäßigung geschuldet wird, und Arbeitnehmern, für die keine Lohnmäßigung geschuldet wird. </target>
+            <target xml:lang="de" state="final"> <g ctype="x-html-strong">Arbeitnehmer</g>, die in einer anerkannten beschützten Werkstätte beschäftigt werden; ab dem 2. Quartal 2016 wird unterschieden zwischen Arbeitnehmern, für die die Lohnmäßigung geschuldet wird, und Arbeitnehmern, für die keine Lohnmäßigung geschuldet wird. <g ctype="x-html-sup"/> </target>
           </trans-unit>
         </group>
         <trans-unit restype="x-html-p" id="/html/body/p[15]">

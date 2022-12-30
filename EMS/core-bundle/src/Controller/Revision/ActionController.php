@@ -64,12 +64,11 @@ class ActionController
             }
             $filename = $this->generateFilename($action, $environment, $document, $_download);
 
-            if (RenderOptionType::PDF === $action->getRenderOption()) {
-                return $this->generatePdfResponse($action, $filename, $content);
-            }
-            if (RenderOptionType::EXPORT === $action->getRenderOption()) {
-                return $this->generateExportResponse($action, $filename, $content);
-            }
+            return match ($action->getRenderOption()) {
+                RenderOptionType::PDF => $this->generatePdfResponse($action, $filename, $content),
+                RenderOptionType::EXPORT => $this->generateExportResponse($action, $filename, $content),
+                default => throw new \Exception('Render options not supported')
+            };
         }
 
         return new Response($this->twig->render('@EMSCore/data/custom-view.html.twig', [

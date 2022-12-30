@@ -77,28 +77,27 @@ class ActionController
                 return $this->pdfPrinter->getStreamedResponse($pdf, $printOptions);
             }
             if (RenderOptionType::EXPORT === $template->getRenderOption()) {
-                if (null != $template->getMimeType()) {
-                    \header('Content-Type: '.$template->getMimeType());
+                $headers = [];
+                if (null !== $template->getMimeType()) {
+                    $headers['Content-Type'] = $template->getMimeType();
                 }
 
                 $filename = $this->generateFilename($template, $environment, $document, $_download);
 
-                if (!empty($template->getDisposition())) {
-                    $attachment = ResponseHeaderBag::DISPOSITION_ATTACHMENT;
-                    if ('inline' == $template->getDisposition()) {
-                        $attachment = ResponseHeaderBag::DISPOSITION_INLINE;
-                    }
-                    \header("Content-Disposition: $attachment; filename=".$filename.($template->getExtension() ? '.'.$template->getExtension() : ''));
+                if (null !== $template->getDisposition()) {
+                    $attachment = 'inline' == $template->getDisposition() ?
+                        ResponseHeaderBag::DISPOSITION_INLINE :
+                        ResponseHeaderBag::DISPOSITION_ATTACHMENT;
+                    $extension = ($template->getExtension() ? '.'.$template->getExtension() : '');
+                    $headers['Content-Disposition'] = \sprintf('%s;filename="%s.%s"', $attachment, $filename, $extension);
                 }
                 if (null != $template->getAllowOrigin()) {
-                    \header('Access-Control-Allow-Origin: '.$template->getAllowOrigin());
-                    \header('Access-Control-Allow-Headers: Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since');
-                    \header('Access-Control-Allow-Methods: GET, HEAD, OPTIONS');
+                    $headers['Access-Control-Allow-Origin'] = $template->getAllowOrigin();
+                    $headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since';
+                    $headers['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS';
                 }
 
-                echo $output;
-
-                exit;
+                return new Response($output, Response::HTTP_OK, $headers);
             }
         }
 

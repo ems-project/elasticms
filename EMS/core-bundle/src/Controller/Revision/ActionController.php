@@ -8,7 +8,6 @@ use EMS\CommonBundle\Common\Document;
 use EMS\CommonBundle\Service\Pdf\Pdf;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
 use EMS\CommonBundle\Service\Pdf\PdfPrintOptions;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Form\Field\RenderOptionType;
@@ -19,9 +18,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as Twig;
-use Twig\Error\Error;
 
 class ActionController
 {
@@ -31,7 +28,6 @@ class ActionController
         private readonly SearchService $searchService,
         private readonly PdfPrinterInterface $pdfPrinter,
         private readonly LoggerInterface $logger,
-        private readonly TranslatorInterface $translator,
         private readonly Twig $twig,
     ) {
     }
@@ -51,22 +47,7 @@ class ActionController
         $environment = $this->environmentService->giveByName($environmentName);
         $document = $this->searchService->get($environment, $template->giveContentType(), $ouuid);
 
-        try {
-            $body = $this->twig->createTemplate($template->getBody());
-        } catch (Error $e) {
-            $this->logger->error('log.template.twig.error', [
-                'template_id' => $template->getId(),
-                'template_name' => $template->getName(),
-                'template_label' => $template->getLabel(),
-                'error_message' => $e->getMessage(),
-            ]);
-            $body = $this->twig->createTemplate($this->translator->trans('log.template.twig.error', [
-                '%template_id%' => $template->getId(),
-                '%template_name%' => $template->getName(),
-                '%template_label%' => $template->getLabel(),
-                '%error_message%' => $e->getMessage(),
-            ], EMSCoreBundle::TRANS_DOMAIN));
-        }
+        $body = $this->twig->createTemplate($template->getBody());
 
         if (RenderOptionType::PDF === $template->getRenderOption() && ($_download || !$template->getPreview())) {
             $output = $body->render([

@@ -239,6 +239,16 @@
         </service>
 
         <!-- Revision -->
+        <service id="EMS\CoreBundle\Controller\Revision\ActionController" public="true">
+            <argument type="service" id="EMS\CoreBundle\Repository\TemplateRepository" />
+            <argument type="service" id="EMS\CoreBundle\Repository\EnvironmentRepository" />
+            <argument type="service" id="ems.service.search" />
+            <argument type="service" id="ems_common.pdf.printer.dom" />
+            <argument type="service" id="logger" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="twig" />
+        </service>
+
         <service id="EMS\CoreBundle\Controller\Revision\DetailController" public="true">
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems.service.data" />

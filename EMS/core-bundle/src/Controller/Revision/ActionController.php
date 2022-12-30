@@ -9,7 +9,6 @@ use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
 use EMS\CommonBundle\Service\Pdf\PdfPrintOptions;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Environment;
-use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Form\Field\RenderOptionType;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\TemplateRepository;
@@ -43,10 +42,8 @@ class ActionController
         bool $_download,
         bool $public): Response
     {
-        /** @var Template|null $template * */
-        $template = $this->templateRepository->find($templateId);
-
-        if (null === $template || ($public && !$template->isPublic())) {
+        $template = $this->templateRepository->getById($templateId);
+        if ($public && !$template->isPublic()) {
             throw new NotFoundHttpException('Template type not found');
         }
 

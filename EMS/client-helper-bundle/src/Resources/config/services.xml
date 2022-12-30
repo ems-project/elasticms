@@ -123,18 +123,14 @@
             <argument type="service" id="emsch.manager.client_request" />
             <argument type="service" id="emsch.helper_cache"/>
             <argument type="service" id="twig" />
-            <call method="setContainer">
-                <argument type="service" id="Psr\Container\ContainerInterface"/>
-            </call>
+            <call method="setContainer"/>
             <tag name="controller.service_arguments"/>
             <tag name="container.service_subscriber"/>
         </service>
         <service id="EMS\ClientHelperBundle\Controller\AssetController" public="true">
             <argument type="service" id="EMS\CommonBundle\Twig\AssetRuntime"/>
             <argument type="string">%kernel.project_dir%</argument>
-            <call method="setContainer">
-                <argument type="service" id="Psr\Container\ContainerInterface"/>
-            </call>
+            <call method="setContainer"/>
             <tag name="controller.service_arguments"/>
             <tag name="container.service_subscriber"/>
         </service>

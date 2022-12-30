@@ -24,9 +24,7 @@
         <service id="ems.controller.metric" class="EMS\CommonBundle\Controller\MetricController">
             <argument type="service" id="ems.metric.collector" />
             <argument>%ems.metric.port%</argument>
-            <call method="setContainer">
-                <argument type="service" id="Psr\Container\ContainerInterface"/>
-            </call>
+            <call method="setContainer"/>
             <tag name="controller.service_arguments"/>
             <tag name="container.service_subscriber"/>
         </service>

@@ -65,16 +65,7 @@ class ActionController
             $filename = $this->generateFilename($template, $environment, $document, $_download);
 
             if (RenderOptionType::PDF === $template->getRenderOption()) {
-                $pdf = new Pdf($filename, $output);
-                $printOptions = new PdfPrintOptions([
-                    PdfPrintOptions::ATTACHMENT => PdfPrintOptions::ATTACHMENT === $template->getDisposition(),
-                    PdfPrintOptions::COMPRESS => true,
-                    PdfPrintOptions::HTML5_PARSING => true,
-                    PdfPrintOptions::ORIENTATION => $template->getOrientation() ?? 'portrait',
-                    PdfPrintOptions::SIZE => $template->getSize() ?? 'A4',
-                ]);
-
-                return $this->pdfPrinter->getStreamedResponse($pdf, $printOptions);
+                return $this->generatePdfResponse($template, $filename, $output);
             }
             if (RenderOptionType::EXPORT === $template->getRenderOption()) {
                 return $this->generateExportResponse($template, $filename, $output);
@@ -90,6 +81,20 @@ class ActionController
             '_download' => true,
             'body' => $body,
         ]));
+    }
+
+    private function generatePdfResponse(Template $action, string $filename, string $content): Response
+    {
+        $pdf = new Pdf($filename, $content);
+        $printOptions = new PdfPrintOptions([
+            PdfPrintOptions::ATTACHMENT => PdfPrintOptions::ATTACHMENT === $action->getDisposition(),
+            PdfPrintOptions::COMPRESS => true,
+            PdfPrintOptions::HTML5_PARSING => true,
+            PdfPrintOptions::ORIENTATION => $action->getOrientation() ?? 'portrait',
+            PdfPrintOptions::SIZE => $action->getSize() ?? 'A4',
+        ]);
+
+        return $this->pdfPrinter->getStreamedResponse($pdf, $printOptions);
     }
 
     private function generateExportResponse(Template $action, string $filename, string $content): Response

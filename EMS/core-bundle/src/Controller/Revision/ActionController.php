@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Revision;
 
 use EMS\CommonBundle\Common\Document;
+use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Service\Pdf\Pdf;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
 use EMS\CommonBundle\Service\Pdf\PdfPrintOptions;
@@ -14,9 +15,10 @@ use EMS\CoreBundle\Form\Field\RenderOptionType;
 use EMS\CoreBundle\Repository\TemplateRepository;
 use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\SearchService;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment as Twig;
 
@@ -27,6 +29,7 @@ class ActionController
         private readonly EnvironmentService $environmentService,
         private readonly SearchService $searchService,
         private readonly PdfPrinterInterface $pdfPrinter,
+        private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator,
         private readonly LoggerInterface $logger,
         private readonly Twig $twig,
     ) {
@@ -98,25 +101,38 @@ class ActionController
 
     private function generateExportResponse(Template $action, string $filename, string $content): Response
     {
-        $headers = [];
-        if (null !== $action->getMimeType()) {
-            $headers['Content-Type'] = $action->getMimeType();
+        if ($action->isSpreadsheet()) {
+            $response = $this->spreadsheetGenerator->generateSpreadsheet([
+                SpreadsheetGeneratorServiceInterface::SHEETS => [[
+                    'name' => $filename,
+                    'rows' => Json::decode($content),
+                ]],
+                SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => $filename,
+                SpreadsheetGeneratorServiceInterface::WRITER => $action->getExtension(),
+            ]);
+        } else {
+            $response = new Response($content);
+            if (null !== $action->getMimeType()) {
+                $response->headers->set('Content-Type', $action->getMimeType());
+            }
         }
 
         if (null !== $action->getDisposition()) {
-            $attachment = 'inline' == $action->getDisposition() ?
-                ResponseHeaderBag::DISPOSITION_INLINE :
-                ResponseHeaderBag::DISPOSITION_ATTACHMENT;
-            $extension = ($action->getExtension() ? '.'.$action->getExtension() : '');
-            $headers['Content-Disposition'] = \sprintf('%s;filename="%s.%s"', $attachment, $filename, $extension);
+            $response->headers->set(
+                'Content-Disposition',
+                HeaderUtils::makeDisposition($action->getDisposition(), $filename.($action->getExtension() ?? ''))
+            );
         }
         if (null != $action->getAllowOrigin()) {
-            $headers['Access-Control-Allow-Origin'] = $action->getAllowOrigin();
-            $headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since';
-            $headers['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS';
+            $response->headers->set('Access-Control-Allow-Origin', $action->getAllowOrigin());
+            $response->headers->set(
+                'Access-Control-Allow-Headers',
+                'Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since'
+            );
+            $response->headers->set('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
         }
 
-        return new Response($content, Response::HTTP_OK, $headers);
+        return $response;
     }
 
     private function generateFilename(Template $action, Environment $environment, Document $document, bool $_download): string

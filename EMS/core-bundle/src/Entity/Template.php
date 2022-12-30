@@ -583,4 +583,9 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
     {
         $this->label = $label;
     }
+
+    public function isSpreadsheet(): bool
+    {
+        return false; // create column and form property
+    }
 }

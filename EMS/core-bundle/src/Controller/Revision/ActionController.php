@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Revision;
 
+use EMS\CommonBundle\Common\Document;
 use EMS\CommonBundle\Service\Pdf\Pdf;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
 use EMS\CommonBundle\Service\Pdf\PdfPrintOptions;
 use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Entity\Environment;
+use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Form\Field\RenderOptionType;
 use EMS\CoreBundle\Repository\TemplateRepository;
 use EMS\CoreBundle\Service\EnvironmentService;
@@ -18,7 +21,6 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as Twig;
-use Twig\Environment as TwigEnvironment;
 use Twig\Error\Error;
 
 class ActionController
@@ -74,13 +76,7 @@ class ActionController
                 'source' => $document->getSource(),
                 '_download' => true,
             ]);
-            $filename = $this->generateFilename($this->twig, $template->getFilename() ?? 'document.pdf', [
-                'environment' => $environment,
-                'contentType' => $template->getContentType(),
-                'object' => $document,
-                'source' => $document->getSource(),
-                '_download' => true,
-            ]);
+            $filename = $this->generateFilename($template, $environment, $document, $_download);
 
             $pdf = new Pdf($filename, $output);
             $printOptions = new PdfPrintOptions([
@@ -98,12 +94,7 @@ class ActionController
                 \header('Content-Type: '.$template->getMimeType());
             }
 
-            $filename = $this->generateFilename($this->twig, $template->getFilename() ?? $ouuid, [
-                'environment' => $environment,
-                'contentType' => $template->getContentType(),
-                'object' => $document,
-                'source' => $document->getSource(),
-            ]);
+            $filename = $this->generateFilename($template, $environment, $document, $_download);
 
             if (!empty($template->getDisposition())) {
                 $attachment = ResponseHeaderBag::DISPOSITION_ATTACHMENT;
@@ -138,17 +129,24 @@ class ActionController
         ]));
     }
 
-    /**
-     * @param array<string, mixed> $options
-     */
-    private function generateFilename(TwigEnvironment $twig, string $rawTemplate, array $options): string
+    private function generateFilename(Template $action, Environment $environment, Document $document, bool $_download): string
     {
+        $template = $action->getFilename();
+        $template ??= (RenderOptionType::PDF === $action->getRenderOption() ? 'document.pdf' : $document->getOuuid());
+
+        $twigTemplate = $this->twig->createTemplate($template);
+
         try {
-            $template = $twig->createTemplate($rawTemplate);
-            $filename = $template->render($options);
+            $filename = $twigTemplate->render([
+                'environment' => $environment,
+                'contentType' => $action->getContentType(),
+                'object' => $document,
+                'source' => $document->getSource(),
+                '_download' => $_download,
+            ]);
             $filename = \preg_replace('~[\r\n]+~', '', $filename);
-        } catch (\Throwable) {
-            $filename = null;
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage());
         }
 
         return $filename ?? 'error-in-filename-template';

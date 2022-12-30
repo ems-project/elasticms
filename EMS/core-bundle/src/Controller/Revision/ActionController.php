@@ -77,27 +77,7 @@ class ActionController
                 return $this->pdfPrinter->getStreamedResponse($pdf, $printOptions);
             }
             if (RenderOptionType::EXPORT === $template->getRenderOption()) {
-                $headers = [];
-                if (null !== $template->getMimeType()) {
-                    $headers['Content-Type'] = $template->getMimeType();
-                }
-
-                $filename = $this->generateFilename($template, $environment, $document, $_download);
-
-                if (null !== $template->getDisposition()) {
-                    $attachment = 'inline' == $template->getDisposition() ?
-                        ResponseHeaderBag::DISPOSITION_INLINE :
-                        ResponseHeaderBag::DISPOSITION_ATTACHMENT;
-                    $extension = ($template->getExtension() ? '.'.$template->getExtension() : '');
-                    $headers['Content-Disposition'] = \sprintf('%s;filename="%s.%s"', $attachment, $filename, $extension);
-                }
-                if (null != $template->getAllowOrigin()) {
-                    $headers['Access-Control-Allow-Origin'] = $template->getAllowOrigin();
-                    $headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since';
-                    $headers['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS';
-                }
-
-                return new Response($output, Response::HTTP_OK, $headers);
+                return $this->generateExportResponse($template, $filename, $output);
             }
         }
 
@@ -110,6 +90,29 @@ class ActionController
             '_download' => true,
             'body' => $body,
         ]));
+    }
+
+    private function generateExportResponse(Template $action, string $filename, string $content): Response
+    {
+        $headers = [];
+        if (null !== $action->getMimeType()) {
+            $headers['Content-Type'] = $action->getMimeType();
+        }
+
+        if (null !== $action->getDisposition()) {
+            $attachment = 'inline' == $action->getDisposition() ?
+                ResponseHeaderBag::DISPOSITION_INLINE :
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT;
+            $extension = ($action->getExtension() ? '.'.$action->getExtension() : '');
+            $headers['Content-Disposition'] = \sprintf('%s;filename="%s.%s"', $attachment, $filename, $extension);
+        }
+        if (null != $action->getAllowOrigin()) {
+            $headers['Access-Control-Allow-Origin'] = $action->getAllowOrigin();
+            $headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept, Accept-Language, If-None-Match, If-Modified-Since';
+            $headers['Access-Control-Allow-Methods'] = 'GET, HEAD, OPTIONS';
+        }
+
+        return new Response($content, Response::HTTP_OK, $headers);
     }
 
     private function generateFilename(Template $action, Environment $environment, Document $document, bool $_download): string

@@ -107,7 +107,6 @@
             <argument type="service" id="translator" />
             <argument type="service" id="ems.content_type.view_types" />
             <argument type="service" id="twig" />
-            <argument type="service" id="ems_common.pdf.printer.dom" />
             <argument type="service" id="ems.service.job" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>

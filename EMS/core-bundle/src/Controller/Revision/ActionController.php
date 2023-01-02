@@ -103,10 +103,7 @@ class ActionController
     {
         if ($action->isSpreadsheet()) {
             $response = $this->spreadsheetGenerator->generateSpreadsheet([
-                SpreadsheetGeneratorServiceInterface::SHEETS => [[
-                    'name' => $filename,
-                    'rows' => Json::decode($content),
-                ]],
+                SpreadsheetGeneratorServiceInterface::SHEETS => Json::decode($content),
                 SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => $filename,
                 SpreadsheetGeneratorServiceInterface::WRITER => $action->getExtension(),
             ]);
@@ -120,7 +117,7 @@ class ActionController
         if (null !== $action->getDisposition()) {
             $response->headers->set(
                 'Content-Disposition',
-                HeaderUtils::makeDisposition($action->getDisposition(), $filename.($action->getExtension() ?? ''))
+                HeaderUtils::makeDisposition($action->getDisposition(), $filename.'.'.($action->getExtension() ?? ''))
             );
         }
         if (null != $action->getAllowOrigin()) {

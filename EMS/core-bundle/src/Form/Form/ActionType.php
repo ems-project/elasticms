@@ -61,6 +61,7 @@ class ActionType extends AbstractType
             ->add('active', CheckboxType::class, ['required' => false, 'label' => 'Active'])
             ->add('renderOption', RenderOptionType::class, ['required' => true])
             ->add('accumulateInOneFile', CheckboxType::class, ['required' => false])
+            ->add('spreadsheet', CheckboxType::class, ['required' => false])
             ->add('mimeType', TextType::class, ['required' => false])
             ->add('emailContentType', TextType::class, ['required' => false, 'label' => 'Content type (ie: text/html)'])
             ->add('filename', CodeEditorType::class, [

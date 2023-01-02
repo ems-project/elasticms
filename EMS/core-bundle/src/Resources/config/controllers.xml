@@ -243,6 +243,7 @@
             <argument type="service" id="ems.service.search" />
             <argument type="service" id="ems_common.pdf.printer.dom" />
             <argument type="service" id="ems_common.service.spreadsheet_generator_service" />
+            <argument type="service" id="ems_core.core_ui.ajax_service" />
             <argument type="service" id="logger" />
             <argument type="service" id="twig" />
         </service>

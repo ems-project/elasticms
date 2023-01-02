@@ -8,6 +8,7 @@ import EmsListeners from "./EmsListeners";
 import MediaLibrary from "./component/mediaLibrary";
 import JsonMenu from "./module/jsonMenu";
 import JsonMenuNested from "./module/jsonMenuNested";
+import ajaxModal from "./helper/ajaxModal";
 
 (function(factory) {
     "use strict";
@@ -260,6 +261,19 @@ import JsonMenuNested from "./module/jsonMenuNested";
         });
     }
 
+    function intAjaxModalLinks() {
+        let ajaxModalLinks = document.querySelectorAll('a[data-ajax-modal-url]');
+        [].forEach.call(ajaxModalLinks, function (link) {
+            link.onclick = (event) => {
+                ajaxModal.load({
+                    url: event.target.dataset.ajaxModalUrl,
+                    size: event.target.dataset.ajaxModalSize
+                });
+            }
+        });
+    }
+
+
     $(document).ready(function() {
         activeMenu();
         loadLazyImages();
@@ -274,6 +288,7 @@ import JsonMenuNested from "./module/jsonMenuNested";
         initAjaxFormSave();
         initJsonMenu();
         initMediaLibrary();
+        intAjaxModalLinks();
 
         //cron to update the cluster status
         window.setInterval(function(){

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Controller\Revision;
+namespace EMS\CoreBundle\Controller\Revision\Action;
 
 use EMS\CommonBundle\Common\Document;
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Service\Pdf\Pdf;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
 use EMS\CommonBundle\Service\Pdf\PdfPrintOptions;
-use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Form\Field\RenderOptionType;
@@ -31,7 +30,6 @@ class ActionController
         private readonly SearchService $searchService,
         private readonly PdfPrinterInterface $pdfPrinter,
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator,
-        private readonly AjaxService $ajax,
         private readonly LoggerInterface $logger,
         private readonly Twig $twig,
     ) {
@@ -54,7 +52,8 @@ class ActionController
 
         $body = $this->twig->createTemplate($action->getBody());
 
-        if ($_download || !$action->getPreview()) {
+        if ($_download || !$action->getPreview()
+            && \in_array($action->getRenderOption(), [RenderOptionType::PDF, RenderOptionType::EXPORT])) {
             try {
                 $content = $body->render([
                     'environment' => $environment,
@@ -85,20 +84,6 @@ class ActionController
             '_download' => true,
             'body' => $body,
         ]));
-    }
-
-    public function modalImport(string $environmentName, int $templateId, string $ouuid): Response
-    {
-        $action = $this->templateRepository->getById($templateId);
-
-        $modal = $this->ajax->newAjaxModel('@EMSCore/action/modal_import.html.twig');
-
-        return $modal
-            ->setIcon($action->getIcon())
-            ->setTitleRaw($action->getLabel())
-            ->setBody('body')
-            ->setFooter('footer')
-            ->getResponse();
     }
 
     private function generatePdfResponse(Template $action, string $filename, string $content): Response

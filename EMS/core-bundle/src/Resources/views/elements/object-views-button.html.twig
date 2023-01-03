@@ -54,7 +54,7 @@
 							{% endif %}
 						{% elseif template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::IMPORT') %}
 							{%- if (is_granted(template.role)) or template.role == "not-defined" -%}
-								{%- set importModalUrl = path('emsco_data_action_modal_import',  {'environmentName': environment.name, 'templateId': template.id, 'ouuid': ouuid})  -%}
+								{%- set importModalUrl = path('emsco_data_action_import',  { 'templateId': template.id, 'ouuid': ouuid})  -%}
 								<li><a href="#" data-ajax-modal-url="{{ importModalUrl }}" data-ajax-modal-size="md"><i class="{{ template.icon|raw }}"></i>{{ template.label }}</a></li>
 							{%- endif -%}
 						{% else %}

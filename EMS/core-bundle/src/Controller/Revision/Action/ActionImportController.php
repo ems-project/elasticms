@@ -54,6 +54,7 @@ class ActionImportController
             if (!$this->importData($action, $revision, $form->get('import_file')->getData())) {
                 $this->logger->error('log.contenttype.action.import.error.failed');
             }
+
             return $modal->getSuccessResponse();
         }
 
@@ -82,6 +83,7 @@ class ActionImportController
                 $rows = \array_map(fn ($row) => Json::decode($twigTemplate->renderBlock('row', ['row' => $row])), $rows);
             } catch (\Throwable $e) {
                 $this->logger->error($e->getMessage(), ['noFlash' => true]);
+
                 return false;
             }
         }

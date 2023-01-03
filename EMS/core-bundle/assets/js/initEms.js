@@ -268,6 +268,10 @@ import ajaxModal from "./helper/ajaxModal";
                 ajaxModal.load({
                     url: event.target.dataset.ajaxModalUrl,
                     size: event.target.dataset.ajaxModalSize
+                }, (json) => {
+                    if (json.hasOwnProperty('success') && json.success === true) {
+                        location.reload();
+                    }
                 });
             }
         });

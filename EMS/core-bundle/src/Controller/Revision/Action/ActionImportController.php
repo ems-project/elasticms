@@ -51,11 +51,11 @@ class ActionImportController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->importData($action, $revision, $form->get('import_file')->getData())) {
+            if ($this->importData($action, $revision, $form->get('import_file')->getData())) {
+                return $modal->getSuccessResponse();
+            } else {
                 $this->logger->error('log.contenttype.action.import.error.failed');
             }
-
-            return $modal->getSuccessResponse();
         }
 
         return $modal

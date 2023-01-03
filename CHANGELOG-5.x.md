@@ -1,5 +1,47 @@
 # Changelog 5.x
 
+## 5.1.0 (2023-01-03)
+### Features
+* feat(action): import data action by @Davidmattei in https://github.com/ems-project/elasticms/pull/235
+* feat(action): support export spreadsheet by @Davidmattei in https://github.com/ems-project/elasticms/pull/230
+* feat(demo): create minio demo's bucket at docker compose up by @theus77 in https://github.com/ems-project/elasticms/pull/218
+* feat(demo): npx script by @theus77 in https://github.com/ems-project/elasticms/pull/217
+* feat(ui): ajax modal enter submit by @Davidmattei in https://github.com/ems-project/elasticms/pull/233
+* feat: audit with htpassword by @theus77 in https://github.com/ems-project/elasticms/pull/210
+* feat: export only configs or only documents in backup command by @theus77 in https://github.com/ems-project/elasticms/pull/214
+* feat: left menu create job link by @theus77 in https://github.com/ems-project/elasticms/pull/195
+* feat: opensearch 2 by @theus77 in https://github.com/ems-project/elasticms/pull/192
+* feat: schema rename script by @theus77 in https://github.com/ems-project/elasticms/pull/206
+* feat: webalize file name in order to avoid upper chars in assets url by @theus77 in https://github.com/ems-project/elasticms/pull/213
+### Bug Fixes
+* fix(admin/job): returns 500 exception by @Davidmattei in https://github.com/ems-project/elasticms/pull/211
+* fix(api/admin): logging by @Davidmattei in https://github.com/ems-project/elasticms/pull/212
+* fix(content-type): remove error on creation by @Davidmattei in https://github.com/ems-project/elasticms/pull/222
+* fix(contenttype): ems:contenttype:export walkRecursive by @Davidmattei in https://github.com/ems-project/elasticms/pull/219
+* fix(environment): 500 error legacy search not granted publication by @Davidmattei in https://github.com/ems-project/elasticms/pull/224
+* fix(notification): treat notification not refreshing by @Davidmattei in https://github.com/ems-project/elasticms/pull/234
+* fix(tasks): planned ids array_values by @Davidmattei in https://github.com/ems-project/elasticms/pull/208
+* fix(unpublish): count all environments (include default) by @Davidmattei in https://github.com/ems-project/elasticms/pull/223
+* fix(web-audit): not parsable url during web audit by @theus77 in https://github.com/ems-project/elasticms/pull/207
+* fix(xliff): inserter empty tags by @theus77 in https://github.com/ems-project/elasticms/pull/231
+* fix: catch json_decode error by @coppee in https://github.com/ems-project/elasticms/pull/227
+* fix: debug demo's overviews by @theus77 in https://github.com/ems-project/elasticms/pull/193
+* fix: ensure we have an object for the reverse_nested key. by @theus77 in https://github.com/ems-project/elasticms/pull/237
+* fix: target path redirect not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/220
+### Code Refactoring
+* refactor(controller): remove argument for setContainer by @Davidmattei in https://github.com/ems-project/elasticms/pull/229
+* refactor(routing): xml files by @Davidmattei in https://github.com/ems-project/elasticms/pull/221
+* refactor: docker from demo by @theus77 in https://github.com/ems-project/elasticms/pull/215
+* refactor: don't call rector in phpall (too heavy) by @theus77 in https://github.com/ems-project/elasticms/pull/216
+### Tests
+* test: baseline first test case by @theus77 in https://github.com/ems-project/elasticms/pull/225
+### Builds
+* build(release): add changelog 5.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/228
+### Continuous Integrations
+* ci(release): improve code and changeLog command by @Davidmattei in https://github.com/ems-project/elasticms/pull/198
+### Chores
+* chore(demo): update npm by @theus77 in https://github.com/ems-project/elasticms/pull/232
+
 ## 5.0.1 (2022-12-21)
 ### Bug Fixes
 * fix: cache missed or hit in the emsco flashbag by @theus77 in https://github.com/ems-project/elasticms/pull/197

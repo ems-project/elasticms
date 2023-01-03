@@ -59,7 +59,7 @@
            methods="GET|POST">
         <default key="public">0</default>
     </route>
-    <route id="emsco_data_action_import" path="/action/import/{templateId}/{ouuid}"
+    <route id="emsco_data_action_import" path="/action/import/{actionId}/{ouuid}"
            controller="EMS\CoreBundle\Controller\Revision\Action\ActionImportController"
            methods="GET|POST"
         />

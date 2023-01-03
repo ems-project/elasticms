@@ -250,6 +250,10 @@
             <argument type="service" id="EMS\CoreBundle\Repository\TemplateRepository" />
             <argument type="service" id="ems_core.core_ui.ajax_service" />
             <argument type="service" id="form.factory" />
+            <argument type="service" id="ems_common.file.reader" />
+            <argument type="service" id="ems.service.revision" />
+            <argument type="service" id="twig" />
+            <argument type="service" id="emsco.logger" />
         </service>
 
         <service id="EMS\CoreBundle\Controller\Revision\DetailController" public="true">

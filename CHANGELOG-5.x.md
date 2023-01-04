@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.1.1 (2023-01-04)
+### Bug Fixes
+* fix: psr/simple cache 2.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/239
+
 ## 5.1.0 (2023-01-03)
 ### Features
 * feat(action): import data action by @Davidmattei in https://github.com/ems-project/elasticms/pull/235

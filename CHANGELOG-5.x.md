@@ -1,5 +1,13 @@
 # Changelog 5.x
 
+## 5.1.2 (2023-01-06)
+### Bug Fixes
+* fix(datalinks): referrer-ems-id by @Davidmattei in https://github.com/ems-project/elasticms/pull/248
+* fix(cli): require doctrine annotations by @Davidmattei in https://github.com/ems-project/elasticms/pull/246
+* fix: allow numbers, bool and null in importData by @theus77 in https://github.com/ems-project/elasticms/pull/242
+### Code Refactoring
+* refactor: better raw data by @theus77 in https://github.com/ems-project/elasticms/pull/243
+
 ## 5.1.1 (2023-01-04)
 ### Bug Fixes
 * fix: psr/simple cache 2.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/239

@@ -31,7 +31,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     {
         $this->id = $data['id'];
         $this->type = $data['type'];
-        $this->label = $data['label'] ?? '';
+        $this->label = \strval($data['label']) ?: '';
         $this->object = $data['object'] ?? [];
 
         $children = $data['children'] ?? [];

@@ -2,6 +2,7 @@
 
 ## 5.1.2 (2023-01-06)
 ### Bug Fixes
+* fix(common/jmn): string spec for label on construct by @coppee in https://github.com/ems-project/elasticms/pull/249
 * fix(datalinks): referrer-ems-id by @Davidmattei in https://github.com/ems-project/elasticms/pull/248
 * fix(cli): require doctrine annotations by @Davidmattei in https://github.com/ems-project/elasticms/pull/246
 * fix: allow numbers, bool and null in importData by @theus77 in https://github.com/ems-project/elasticms/pull/242

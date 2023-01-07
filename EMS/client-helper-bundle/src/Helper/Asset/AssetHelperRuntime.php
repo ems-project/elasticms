@@ -71,7 +71,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     public function applyVersion(string $path): string
     {
         if (!empty($this->localFolder)) {
-            return \sprintf('%s/%s?hash=%s', $this->localFolder, $path, $this->getVersionHash());
+            return \sprintf('%s/%s', $this->localFolder, $path);
         }
 
         return \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $this->getVersionHash(), $path);

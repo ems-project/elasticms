@@ -36,7 +36,7 @@ final class RouterController
         $json = $this->templating->render($result['template'], $result['context']);
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-        if  (isset($data['path'])) {
+        if (isset($data['path'])) {
             return new BinaryFileResponse($data['path']);
         }
         if (!isset($data['url'])) {

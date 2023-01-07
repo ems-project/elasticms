@@ -97,6 +97,7 @@
         <service id="emsch.twig.runtime.asset" class="EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime">
             <argument type="service" id="ems_common.storage.manager" />
             <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="ems_common.twig.runtime.asset"/>
             <argument type="string">%kernel.project_dir%</argument>
             <argument type="string">%emsch.asset_local_folder%</argument>
             <tag name="twig.runtime" />

@@ -42,7 +42,7 @@ export ELK_VERSION=elk8
 
 Available stacks:
 
- * `elk7`: elasticsearch 7.11.2
+ * `elk7`: elasticsearch 7.17.7
  * `elk8`: elasticsearch 8.5.3
  * `os2`: OpenSearch 2.4.1
 

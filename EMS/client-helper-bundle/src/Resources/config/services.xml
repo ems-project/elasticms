@@ -98,11 +98,11 @@
             <argument type="service" id="ems_common.storage.manager" />
             <argument type="service" id="emsch.manager.client_request" />
             <argument type="string">%kernel.project_dir%</argument>
+            <argument type="string">%emsch.asset_local_folder%</argument>
             <tag name="twig.runtime" />
         </service>
         <service id="emsch.twig.runtime.asset_vserion_strategy" class="EMS\ClientHelperBundle\Helper\Asset\AssetVersionStrategy">
             <argument type="service" id="emsch.twig.runtime.asset" />
-            <argument type="string">%emsch.asset_local_folder%</argument>
         </service>
         <service id="emsch.twig.runtime.client_request" class="EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestRuntime">
             <argument type="service" id="emsch.manager.client_request" />

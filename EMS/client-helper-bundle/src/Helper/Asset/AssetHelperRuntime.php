@@ -17,7 +17,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     private ?string $versionHash = null;
     private ?string $versionSaveDir = null;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly ClientRequestManager $manager, string $projectDir)
+    public function __construct(private readonly StorageManager $storageManager, private readonly ClientRequestManager $manager, string $projectDir, private readonly ?string $localFolder)
     {
         $this->publicDir = $projectDir.'/public';
 
@@ -63,6 +63,15 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
 
         return $directory;
+    }
+
+    public function applyVersion(string $path): string
+    {
+        if (!empty($this->localFolder)) {
+            return \sprintf('%s/%s?hash=%s', $this->localFolder, $path, $this->getVersionHash());
+        }
+
+        return \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $this->getVersionHash(), $path);
     }
 
     public function getVersionHash(): string

@@ -31,6 +31,9 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
         $this->versionHash = $hash;
         $this->versionSaveDir = $saveDir;
+        if (!empty($this->localFolder)) {
+            return $this->publicDir . DIRECTORY_SEPARATOR . $this->localFolder;
+        }
 
         return $this->assets($hash, $saveDir, false);
     }

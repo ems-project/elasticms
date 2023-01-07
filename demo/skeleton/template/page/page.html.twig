@@ -7,4 +7,13 @@
 {% block main -%}
     <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink)) }}>{{ block('title') }}</h1>
     {% block blocks %}{% endblock %}
+    <img src="{{ emsch_asset('img/head/icon.png', {
+        _config_type: 'image',
+        _width: 310,
+        _height: 150,
+        _quality: 0,
+        _resize: 'fill',
+        _gravity: 'west',
+        _background: '#2e2e2e',
+    }) }}">
 {%- endblock main %}

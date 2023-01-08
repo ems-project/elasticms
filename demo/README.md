@@ -42,7 +42,7 @@ export ELK_VERSION=elk8
 
 Available stacks:
 
- * `elk7`: elasticsearch 7.11.2
+ * `elk7`: elasticsearch 7.17.7
  * `elk8`: elasticsearch 8.5.3
  * `os2`: OpenSearch 2.4.1
 
@@ -50,7 +50,7 @@ Available stacks:
 
 
 Before continuing, check that all services have been correctly started by running `docker compose ps`. All services must be in `running` status or in `running (healthy)` status.
-Except for the `setup_elk` and the `setup_minio` which should be in `exited (0) status.
+Except for the `setup_elk` and the `setup_minio` which should be in `exited (0)` status.
 
 Go to [minio](http://minio.localhost/login) and login with those credentials:
 

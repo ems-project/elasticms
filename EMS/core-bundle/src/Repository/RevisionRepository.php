@@ -1022,16 +1022,16 @@ class RevisionRepository extends EntityRepository
         $qbDeleteNotifications = $conn->createQueryBuilder();
         $qbDeleteNotifications
             ->delete('notification')
-            ->andWhere($qbDeleteNotifications->expr()->in('revision_id', $revisionIds))
-            ->setParameters($queryBuilder->getParameters());
+            ->andWhere($qbDeleteNotifications->expr()->in('revision_id', $revisionIds));
+        $this->copyParameters($qbDeleteNotifications, $queryBuilder);
 
         $qbDeleteNotifications->executeStatement();
 
         $qbDelete = $conn->createQueryBuilder();
         $qbDelete
             ->delete('revision')
-            ->andWhere($qbDelete->expr()->in('id', $revisionIds))
-            ->setParameters($queryBuilder->getParameters());
+            ->andWhere($qbDelete->expr()->in('id', $revisionIds));
+        $this->copyParameters($qbDelete, $queryBuilder);
 
         return $qbDelete->executeStatement();
     }
@@ -1074,5 +1074,12 @@ class RevisionRepository extends EntityRepository
             $this->_em->detach($detachableEntity);
         }
         $this->unlockRevisions($contentType, $username, false);
+    }
+
+    private function copyParameters(DBALQueryBuilder $target, DBALQueryBuilder $source): void
+    {
+        foreach ($source->getParameters() as $key => $value) {
+            $target->setParameter($key, $value, $source->getParameterType($key));
+        }
     }
 }

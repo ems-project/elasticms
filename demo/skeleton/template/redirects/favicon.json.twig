@@ -3,7 +3,12 @@
 {%- block request %}
     {% apply spaceless %}
         {{ {
-            url: asset('img/head/icon64.png', 'emsch'),
+            url: emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 64,
+                _height: 64,
+                _quality: 0,
+            }),
             status: 301
         }|json_encode|raw }}
     {% endapply %}

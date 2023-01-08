@@ -110,6 +110,11 @@ class Processor
             return $this->generateZip($config);
         }
 
+        $filename = $config->getFilename();
+        if (null !== $filename) {
+            return $this->getStreamFomFilename($filename);
+        }
+
         throw new \Exception(\sprintf('not able to generate file for the config %s', $config->getConfigHash()));
     }
 

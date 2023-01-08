@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
@@ -642,7 +643,7 @@ class RevisionRepository extends EntityRepository
         $qb
             ->from('revision', 'r')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
-            ->setParameter('ouuids', $ouuids, Types::SIMPLE_ARRAY);
+            ->setParameter('ouuids', $ouuids, Connection::PARAM_STR_ARRAY);
 
         return $this->deleteByQueryBuilder($qb);
     }

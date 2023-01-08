@@ -17,13 +17,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeleteCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::REVISION_DELETE;
-    private const ARGUMENT_CONTENT_TYPES = 'contentTypes';
+    private const ARGUMENT_CONTENT_TYPES = 'content-types';
     private const OPTION_MODE = 'mode';
 
     private const MODE_ALL = 'all';
+    private const MODE_BY_QUERY = 'by-query';
     private const MODE_OLDEST = 'oldest';
 
-    private const MODES = [self::MODE_ALL, self::MODE_OLDEST];
+    private const MODES = [self::MODE_ALL, self::MODE_OLDEST, self::MODE_BY_QUERY];
 
     /** @var string[] */
     private array $contentTypeNames = [];
@@ -42,20 +43,22 @@ class DeleteCommand extends AbstractCommand
         $this
             ->setDescription('Delete all/oldest revisions for content type(s)')
             ->addArgument(self::ARGUMENT_CONTENT_TYPES, InputArgument::IS_ARRAY, 'contentType names or "all"')
-            ->addOption(self::OPTION_MODE, null, InputOption::VALUE_REQUIRED, 'mode for deletion [all,oldest]', 'all')
+            ->addOption(self::OPTION_MODE, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_OPTIONAL, 'mode for deletion [all,oldest,by-query]', 'all')
         ;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        $this->choiceArgumentArray(
-            self::ARGUMENT_CONTENT_TYPES,
-            'Select one or more contentType(s)',
-            $this->contentTypeService->getAllNames()
-        );
-
-        $this->contentTypeNames = $this->getArgumentStringArray(self::ARGUMENT_CONTENT_TYPES);
         $this->mode = $this->getOptionString(self::OPTION_MODE);
+        if (in_array($this->mode, [self::MODE_ALL, self::MODE_OLDEST])) {
+            $this->choiceArgumentArray(
+                self::ARGUMENT_CONTENT_TYPES,
+                'Select one or more contentType(s)',
+                $this->contentTypeService->getAllNames()
+            );
+        }
+
+        $this->contentTypeNames = $this->getArgumentOptionalStringArray(self::ARGUMENT_CONTENT_TYPES);
 
         if (!\in_array($this->mode, self::MODES)) {
             throw new \RuntimeException(\sprintf('Invalid option "%s"', $this->mode));
@@ -68,6 +71,10 @@ class DeleteCommand extends AbstractCommand
         $this->io->note(\sprintf('Selected "%s" contentType(s)', \implode(',', $this->contentTypeNames)));
 
         $results = [];
+
+        if (self::MODE_BY_QUERY === $this->mode) {
+            return $this->deleteByQuery();
+        }
 
         foreach ($this->contentTypeNames as $contentTypeName) {
             $contentType = $this->contentTypeService->giveByName($contentTypeName);
@@ -87,6 +94,11 @@ class DeleteCommand extends AbstractCommand
             $this->io->success($results);
         }
 
+        return parent::EXECUTE_SUCCESS;
+    }
+
+    private function deleteByQuery(): int
+    {
         return parent::EXECUTE_SUCCESS;
     }
 }

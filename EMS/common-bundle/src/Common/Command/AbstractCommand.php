@@ -99,6 +99,14 @@ abstract class AbstractCommand extends Command implements CommandInterface
     }
 
     /**
+     * @return string[]
+     */
+    protected function getArgumentOptionalStringArray(string $name): array
+    {
+        return $this->input->getArgument($name);
+    }
+
+    /**
      * @param string[] $choices
      */
     protected function choiceArgumentArray(string $name, string $question, array $choices): void

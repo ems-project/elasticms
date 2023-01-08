@@ -312,6 +312,6 @@ class Url
             $path = '/'.$path;
         }
 
-        return $path;
+        return \str_replace('../', '', $path);
     }
 }

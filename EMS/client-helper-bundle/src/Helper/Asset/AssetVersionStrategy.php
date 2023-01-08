@@ -8,7 +8,7 @@ use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
 final class AssetVersionStrategy implements VersionStrategyInterface
 {
-    public function __construct(private readonly AssetHelperRuntime $assetHelperRuntime, private readonly ?string $localFolder)
+    public function __construct(private readonly AssetHelperRuntime $assetHelperRuntime)
     {
     }
 
@@ -25,10 +25,6 @@ final class AssetVersionStrategy implements VersionStrategyInterface
      */
     public function applyVersion($path): string
     {
-        if (!empty($this->localFolder)) {
-            return \sprintf('%s/%s?hash=%s', $this->localFolder, $path, $this->assetHelperRuntime->getVersionHash());
-        }
-
-        return \sprintf('%s/%s/%s', $this->assetHelperRuntime->getVersionSaveDir(), $this->assetHelperRuntime->getVersionHash(), $path);
+        return $this->assetHelperRuntime->applyVersion($path);
     }
 }

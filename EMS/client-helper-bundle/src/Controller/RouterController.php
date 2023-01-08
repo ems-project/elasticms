@@ -7,6 +7,7 @@ namespace EMS\ClientHelperBundle\Controller;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Storage\Processor\Processor;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,12 +30,15 @@ final class RouterController
         return $response;
     }
 
-    public function redirect(Request $request): RedirectResponse
+    public function redirect(Request $request): Response
     {
         $result = $this->handler->handle($request);
         $json = $this->templating->render($result['template'], $result['context']);
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        if (isset($data['path'])) {
+            return new BinaryFileResponse($data['path']);
+        }
         if (!isset($data['url'])) {
             throw new NotFoundHttpException($data['message'] ?? 'Page not found');
         }

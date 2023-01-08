@@ -3,13 +3,13 @@
 {%- block request %}
     {% apply spaceless %}
         {{ {
-            url: emsch_asset('img/head/icon.png', {
+            path: emsch_asset('img/head/icon.png', {
                 _config_type: 'image',
                 _width: 128,
                 _height: 128,
                 _quality: 0,
+                _get_file_path: true,
             }),
-            status: 301
         }|json_encode|raw }}
     {% endapply %}
 {% endblock request -%}

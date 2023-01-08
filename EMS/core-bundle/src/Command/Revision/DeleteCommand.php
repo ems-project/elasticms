@@ -74,7 +74,7 @@ class DeleteCommand extends AbstractCommand
             $this->io->section(\sprintf('Content Type: %s', $contentTypeName));
 
             if (self::MODE_ALL === $this->mode) {
-                $this->publishService->unpublishByContentTye($contentType);
+                $this->publishService->unpublishByContentType($contentType);
                 $result = $this->revisionService->deleteByContentType($contentType);
                 $results[] = \sprintf('Deleted all %d "%s" revisions', $result, $contentTypeName);
             } elseif (self::MODE_OLDEST === $this->mode) {

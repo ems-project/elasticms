@@ -169,7 +169,7 @@ class PublishService
         $this->bulker->delete($environment->getAlias(), $revision->giveOuuid());
     }
 
-    public function unpublishByContentTye(ContentType $contentType): void
+    public function unpublishByContentType(ContentType $contentType): void
     {
         foreach ($this->environmentService->getEnvironments() as $environment) {
             $alias = $environment->getAlias();

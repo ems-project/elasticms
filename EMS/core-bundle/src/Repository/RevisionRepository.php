@@ -632,6 +632,21 @@ class RevisionRepository extends EntityRepository
         return $this->deleteByQueryBuilder($qb);
     }
 
+    /**
+     * @param string[] $ouuids
+     */
+    public function deleteByOuuids(array $ouuids): int
+    {
+        $conn = $this->_em->getConnection();
+        $qb = $conn->createQueryBuilder();
+        $qb
+            ->from('revision', 'r')
+            ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
+            ->setParameter('ouuids', $ouuids, Types::SIMPLE_ARRAY);
+
+        return $this->deleteByQueryBuilder($qb);
+    }
+
     public function lockRevisions(?ContentType $contentType, \DateTime $until, string $by, bool $force = false, ?string $ouuid = null, bool $onlyCurrentRevision = true): int
     {
         $qbSelect = $this->createQueryBuilder('s');

@@ -183,6 +183,21 @@ class PublishService
         }
     }
 
+    /**
+     * @param string[] $ouuids
+     */
+    public function unpublishByOuuids(array $ouuids): void
+    {
+        foreach ($this->environmentService->getEnvironments() as $environment) {
+            $alias = $environment->getAlias();
+            foreach ($ouuids as $ouuid) {
+                $this->bulker->delete($alias, $ouuid);
+            }
+
+            $this->bulker->send(true);
+        }
+    }
+
     public function bulkFinished(): void
     {
         $this->bulker->send(true);

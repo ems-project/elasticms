@@ -247,8 +247,19 @@ class Cache
         return $this->report;
     }
 
-    public function getStartedDate(): \DateTimeImmutable
+    public function getStartedDate(): string
     {
-        return $this->startedDatetime;
+        return $this->startedDatetime->format(\DateTimeImmutable::ATOM);
+    }
+
+    public function setStartedDate(string $date): void
+    {
+        $parsedDate = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $date);
+
+        if (false === $parsedDate) {
+            \dump(\DateTimeImmutable::getLastErrors());
+            throw new \RuntimeException(\sprintf('Unexpected false date from %s', $date));
+        }
+        $this->startedDatetime = $parsedDate;
     }
 }

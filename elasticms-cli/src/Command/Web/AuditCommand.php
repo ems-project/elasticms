@@ -281,7 +281,7 @@ class AuditCommand extends AbstractCommand
         $boolQuery->addMust(new Terms('host', [$this->baseUrl->getHost()]));
         $boolQuery->addMust(new Terms(EMSSource::FIELD_CONTENT_TYPE, [$this->contentType]));
         $boolQuery->addMust(new Range('timestamp', [
-            'lt' => $this->auditCache->getStartedDate()->format('c'),
+            'lt' => $this->auditCache->getStartedDate(),
         ]));
 
         $body = Json::encode([

@@ -28,4 +28,6 @@ interface AdminInterface
     public function getContentTypes(): array;
 
     public function writeJobOutput(string $jobId, OutputInterface $output): void;
+
+    public function runCommand(string $command, OutputInterface $output): void;
 }

@@ -83,4 +83,20 @@ final class Admin implements AdminInterface
 
         return $contentTypes;
     }
+
+    public function runCommand(string $command, ?OutputInterface $output = null): void
+    {
+        $job = [
+            'class' => 'EMS\\CoreBundle\\Entity\\Job',
+            'arguments' => [],
+            'properties' => [
+                'command' => $command,
+            ],
+        ];
+        $jobId = $this->getConfig('job')->create($job);
+        $this->startJob($jobId);
+        if (null !== $output) {
+            $this->writeJobOutput($jobId, $output);
+        }
+    }
 }

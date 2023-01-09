@@ -291,16 +291,6 @@ class AuditCommand extends AbstractCommand
         ]);
 
         $command = \sprintf('emsco:revision:delete  --mode=by-query --query=\'%s\'', $body);
-        $job = [
-            'class' => 'EMS\\CoreBundle\\Entity\\Job',
-            'arguments' => [],
-            'properties' => [
-                'command' => $command,
-            ],
-        ];
-        $jobId = $this->adminHelper->getCoreApi()->admin()->getConfig('job')->create($job);
-        $this->adminHelper->getCoreApi()->admin()->startJob($jobId);
-
-        $this->adminHelper->getCoreApi()->admin()->writeJobOutput($jobId, $this->output);
+        $this->adminHelper->getCoreApi()->admin()->runCommand($command, $this->output);
     }
 }

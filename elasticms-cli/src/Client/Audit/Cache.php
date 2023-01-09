@@ -25,7 +25,7 @@ class Cache
     private ?string $lastUpdated = null;
     private ?string $current = null;
     private ?string $status = null;
-    private readonly \DateTimeImmutable $startedDatetime;
+    private \DateTimeImmutable $startedDatetime;
     private int $startedAt;
     private Report $report;
 
@@ -189,12 +189,15 @@ class Cache
         if (null !== $this->lastUpdated) {
             $this->current = $this->lastUpdated;
             $this->startedAt = $this->currentPos();
+        } else {
+            $this->reset();
         }
     }
 
     public function reset(): void
     {
         $this->report = new Report();
+        $this->startedDatetime = new \DateTimeImmutable();
         $this->lastUpdated = null;
     }
 
@@ -242,5 +245,10 @@ class Cache
     public function getReport(): Report
     {
         return $this->report;
+    }
+
+    public function getStartedDate(): \DateTimeImmutable
+    {
+        return $this->startedDatetime;
     }
 }

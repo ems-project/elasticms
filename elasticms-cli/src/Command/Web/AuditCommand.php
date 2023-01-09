@@ -228,7 +228,7 @@ class AuditCommand extends AbstractCommand
 
         $this->io->section('Save cache and report');
         $this->auditCache->save($this->jsonPath, $finish);
-        $report->save($this->reportsFolder);
+        $report->save($this->reportsFolder, $this->baseUrl->getHost());
 
         return self::EXECUTE_SUCCESS;
     }
@@ -301,27 +301,6 @@ class AuditCommand extends AbstractCommand
         $jobId = $this->adminHelper->getCoreApi()->admin()->getConfig('job')->create($job);
         $this->adminHelper->getCoreApi()->admin()->startJob($jobId);
 
-        while (true) {
-            $status = $this->adminHelper->getCoreApi()->admin()->getJobStatus($jobId);
-            $currentLine = 0;
-            if (\strlen($status['output'] ?? '') > 0) {
-                $counter = 0;
-                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $status['output']);
-                if (false === $lines) {
-                    throw new \RuntimeException('Unexpected false split lines');
-                }
-                foreach ($lines as $line) {
-                    if ($counter++ < $currentLine) {
-                        continue;
-                    }
-                    $currentLine = $counter;
-                    $this->io->writeln(\sprintf("<fg=yellow>></>\t%s", $line));
-                }
-            }
-            if ($status['done']) {
-                break;
-            }
-            \sleep(1);
-        }
+        $this->adminHelper->getCoreApi()->admin()->writeJobOutput($jobId, $this->output);
     }
 }

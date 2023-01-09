@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin;
 
+use Symfony\Component\Console\Output\OutputInterface;
+
 interface AdminInterface
 {
     public function getConfig(string $typeName): ConfigInterface;
@@ -24,4 +26,6 @@ interface AdminInterface
      * @return string[]
      */
     public function getContentTypes(): array;
+
+    public function writeJobOutput(string $jobId, OutputInterface $output): void;
 }

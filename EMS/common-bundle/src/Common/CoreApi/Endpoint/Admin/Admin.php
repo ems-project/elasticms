@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Admin;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
 final class Admin implements AdminInterface
@@ -38,6 +39,32 @@ final class Admin implements AdminInterface
                 'max_duration' => 1,
             ]);
         } catch (TransportException) {
+        }
+    }
+
+    public function writeJobOutput(string $jobId, OutputInterface $output): void
+    {
+        $currentLine = 0;
+        while (true) {
+            $status = $this->getJobStatus($jobId);
+            if (\strlen($status['output'] ?? '') > 0) {
+                $counter = 0;
+                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $status['output']);
+                if (false === $lines) {
+                    throw new \RuntimeException('Unexpected false split lines');
+                }
+                foreach ($lines as $line) {
+                    if ($counter++ < $currentLine) {
+                        continue;
+                    }
+                    $currentLine = $counter;
+                    $output->writeln(\sprintf("<fg=yellow>></>\t%s", $line));
+                }
+            }
+            if ($status['done']) {
+                break;
+            }
+            \sleep(1);
         }
     }
 

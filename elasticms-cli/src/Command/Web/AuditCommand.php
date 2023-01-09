@@ -204,6 +204,15 @@ class AuditCommand extends AbstractCommand
             if (!$this->dryRun) {
                 $assets = $auditResult->uploadAssets($this->adminHelper->getCoreApi()->file());
                 $rawData = $auditResult->getRawData($assets);
+                if ($this->pa11y && !isset($rawData['pa11y'])) {
+                    $rawData['pa11y'] = [];
+                }
+                if (!isset($rawData['security'])) {
+                    $rawData['security'] = [];
+                }
+                if (!isset($rawData['links'])) {
+                    $rawData['links'] = [];
+                }
                 $this->logger->debug(Json::encode($rawData, true));
                 $api->save($auditResult->getUrl()->getId(), $rawData);
                 $this->logger->notice('Document saved');

@@ -147,14 +147,14 @@ class Url
         return $this->cleanPath($path);
     }
 
-    public function getUrl(string $path = null, bool $withFragment = false): string
+    public function getUrl(string $path = null, bool $withFragment = false, bool $withPassword = true): string
     {
         if (null !== $path) {
             return (new Url($path, $this->getUrl()))->getUrl(null, $withFragment);
         }
         if (\in_array($this->getScheme(), self::ABSOLUTE_SCHEME)) {
             $url = \sprintf('%s:', $this->scheme);
-        } elseif (null !== $this->user && null !== $this->password) {
+        } elseif (null !== $this->user && null !== $this->password && $withPassword) {
             $url = \sprintf('%s://%s:%s@%s', $this->scheme, $this->user, $this->password, $this->host);
         } else {
             $url = \sprintf('%s://%s', $this->scheme, $this->host);
@@ -237,7 +237,7 @@ class Url
 
     public function getId(): string
     {
-        return \sha1($this->getUrl());
+        return \sha1($this->getUrl(null, false, false));
     }
 
     /**

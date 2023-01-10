@@ -230,7 +230,7 @@ class AuditResult
         }
 
         return \array_filter(\array_merge($init, [
-            'url' => $this->url->getUrl(),
+            'url' => $this->url->getUrl(null, false, false),
             'referer' => $this->url->getReferer(),
             'referer_label' => $this->url->getRefererLabel(),
             'pa11y' => $this->pa11y,

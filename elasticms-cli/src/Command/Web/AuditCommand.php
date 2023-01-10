@@ -13,8 +13,12 @@ use App\CLI\Client\HttpClient\UrlReport;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Commands;
 use App\CLI\Helper\TikaClient;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Range;
+use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -202,10 +206,10 @@ class AuditCommand extends AbstractCommand
                 $rawData = $auditResult->getRawData($assets);
                 $this->logger->debug(Json::encode($rawData, true));
                 $api->save($auditResult->getUrl()->getId(), $rawData);
+                $this->logger->notice('Document saved');
             } else {
                 $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
             }
-            $this->logger->notice('Document saved');
             $this->auditCache->setReport($report);
             $this->auditCache->save($this->jsonPath);
             $this->logger->notice('Cache saved');
@@ -218,9 +222,13 @@ class AuditCommand extends AbstractCommand
         }
         $this->auditCache->progressFinish($output, $counter);
 
+        if (!$this->auditCache->hasNext()) {
+            $this->deleteNonUpdated();
+        }
+
         $this->io->section('Save cache and report');
         $this->auditCache->save($this->jsonPath, $finish);
-        $report->save($this->reportsFolder);
+        $report->save($this->reportsFolder, $this->baseUrl->getHost());
 
         return self::EXECUTE_SUCCESS;
     }
@@ -264,5 +272,25 @@ class AuditCommand extends AbstractCommand
                 }
             }
         }
+    }
+
+    private function deleteNonUpdated(): void
+    {
+        $alias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+        $boolQuery = new BoolQuery();
+        $boolQuery->addMust(new Terms('host', [$this->baseUrl->getHost()]));
+        $boolQuery->addMust(new Terms(EMSSource::FIELD_CONTENT_TYPE, [$this->contentType]));
+        $boolQuery->addMust(new Range('timestamp', [
+            'lt' => $this->auditCache->getStartedDate(),
+        ]));
+
+        $body = Json::encode([
+            'index' => [$alias],
+            'body' => ['query' => $boolQuery->toArray()],
+            'size' => 50,
+        ]);
+
+        $command = \sprintf('emsco:revision:delete  --mode=by-query --query=\'%s\'', $body);
+        $this->adminHelper->getCoreApi()->admin()->runCommand($command, $this->output);
     }
 }

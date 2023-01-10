@@ -29,9 +29,9 @@ class Report
         $this->spreadsheetGeneratorService = new SpreadsheetGeneratorService();
     }
 
-    public function save(string $folder): void
+    public function save(string $folder, string $host): void
     {
-        $filename = $folder.DIRECTORY_SEPARATOR.\sprintf('Audit-Report-%s.xlsx', \date('Ymd-His'));
+        $filename = $folder.DIRECTORY_SEPARATOR.\sprintf('Audit-%s-%s.xlsx', $host, \date('Ymd-His'));
         $config = [
             SpreadsheetGeneratorServiceInterface::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_ATTACHMENT,
             SpreadsheetGeneratorServiceInterface::WRITER => SpreadsheetGeneratorServiceInterface::XLSX_WRITER,

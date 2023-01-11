@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\Html;
 
-class Html
+class HtmlHelper
 {
     /**
      * @param mixed[] $parseStringConfig

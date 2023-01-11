@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Xliff;
 
-use EMS\Helpers\Html\Html;
+use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Standard\Accessor;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
@@ -288,7 +288,7 @@ class InsertionRevision
             $html .= $document->saveXML($node);
         }
 
-        return Html::prettyPrint($html);
+        return HtmlHelper::prettyPrint($html);
     }
 
     private function restypeToTag(string $restype): string
@@ -339,8 +339,8 @@ class InsertionRevision
         $expectedSourceValue = $propertyAccessor->getValue($extractedRawData, $sourcePropertyPath);
 
         if ('html' === $format) {
-            $expectedSourceValue = Html::prettyPrint($expectedSourceValue);
-            $sourceValue = Html::prettyPrint($sourceValue);
+            $expectedSourceValue = HtmlHelper::prettyPrint($expectedSourceValue);
+            $sourceValue = HtmlHelper::prettyPrint($sourceValue);
         } elseif (null !== $format) {
             throw new \RuntimeException(\sprintf('Unexpected %s field format', $format));
         }

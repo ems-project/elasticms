@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\Helpers\Tests\Unit\Html;
+
+use EMS\Helpers\Html\HtmlSanitizerConfigBuilder;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+
+class HtmlSanitizerConfigBuilderTest extends TestCase
+{
+    public function testUndefinedOptionShouldThrowError(): void
+    {
+        $this->expectException(UndefinedOptionsException::class);
+        $this->factory(['test' => 'test']);
+    }
+
+    public function testAllowSafeElements(): void
+    {
+        $this->assertEmpty($this->factory(['allow_safe_elements' => false])->getAllowedElements());
+    }
+
+    public function testAllowLinksWithAllAttributes(): void
+    {
+        $elements = $this->factory([
+            'allow_safe_elements' => false,
+            'allow_elements' => [
+                ['tag' => 'a'],
+            ],
+        ])->getAllowedElements();
+
+        $this->assertArrayHasKey('a', $elements);
+        $this->assertNotEmpty($elements['a']);
+    }
+
+    public function testAllowDivWithClassAttribute(): void
+    {
+        $this->assertEquals(
+            ['div' => ['class' => true]],
+            $this->factory([
+                'allow_safe_elements' => false,
+                'allow_elements' => [
+                    ['tag' => 'div', 'attributes' => ['class']],
+                ],
+            ])->getAllowedElements()
+        );
+    }
+
+    public function testBlockElements(): void
+    {
+        $blockElements = $this->factory(['block_elements' => ['a', 'img', 'span']])->getBlockedElements();
+
+        $this->assertEquals(['a', 'img', 'span'], \array_keys($blockElements));
+    }
+
+    public function testDropElements(): void
+    {
+        $this->assertArrayHasKey('a', $this->factory()->getAllowedElements());
+        $this->assertArrayNotHasKey('a', $this->factory(['drop_elements' => ['a']])->getAllowedElements());
+    }
+
+    private function factory(array $settings = []): HtmlSanitizerConfig
+    {
+        return (new HtmlSanitizerConfigBuilder($settings))->build();
+    }
+}

@@ -17,7 +17,8 @@
 	"require" : {
 		"php": "^8.1",
         "ext-json": "*",
-        "ext-tidy": "*"
+        "ext-tidy": "*",
+		"symfony/html-sanitizer": "^6.2"
 	},
 	"require-dev" : {
 		"mockery/mockery" : "^0.9",

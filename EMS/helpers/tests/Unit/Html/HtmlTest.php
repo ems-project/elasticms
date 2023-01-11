@@ -7,7 +7,7 @@ namespace EMS\Helpers\Tests\Unit\Html;
 use EMS\Helpers\Html\Html;
 use PHPUnit\Framework\TestCase;
 
-class TypeTest extends TestCase
+class HtmlTest extends TestCase
 {
     public function testInt()
     {

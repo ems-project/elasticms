@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Tests\Unit\Xliff;
 
-use EMS\Helpers\Html\Html;
+use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Standard\Json;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\Xliff\Extractor;
@@ -79,7 +79,7 @@ class IntegratedTest extends TestCase
 
         foreach ($source as $field => $value) {
             if (\in_array($field, ['introduction', 'description'])) {
-                $this->assertEquals(Html::prettyPrint($inserted[$field]), Html::prettyPrint($target[$field] ?? null), \sprintf('Field %s for inserted document : %s', $field, $document->getOuuid()));
+                $this->assertEquals(HtmlHelper::prettyPrint($inserted[$field]), HtmlHelper::prettyPrint($target[$field] ?? null), \sprintf('Field %s for inserted document : %s', $field, $document->getOuuid()));
             } else {
                 $this->assertEquals($target[$field] ?? null, $inserted[$field], \sprintf('Field %s for inserted document : %s', $field, $document->getOuuid()));
             }

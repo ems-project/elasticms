@@ -27,7 +27,7 @@ class HtmlSanitizerConfigBuilderTest extends TestCase
         $elements = $this->factory([
             'allow_safe_elements' => false,
             'allow_elements' => [
-                ['tag' => 'a'],
+                ['name' => 'a'],
             ],
         ])->getAllowedElements();
 
@@ -42,7 +42,7 @@ class HtmlSanitizerConfigBuilderTest extends TestCase
             $this->factory([
                 'allow_safe_elements' => false,
                 'allow_elements' => [
-                    ['tag' => 'div', 'attributes' => ['class']],
+                    ['name' => 'div', 'attributes' => ['class']],
                 ],
             ])->getAllowedElements()
         );

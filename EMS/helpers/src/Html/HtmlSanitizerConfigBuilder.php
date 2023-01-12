@@ -34,8 +34,11 @@ class HtmlSanitizerConfigBuilder
         foreach ($this->settings as $setting => $value) {
             $config = match ($setting) {
                 'allow_safe_elements' => true === $value ? $config->allowSafeElements() : $config,
+                'allow_attributes' => $this->eachItem($config, $value,
+                    fn (HtmlSanitizerConfig $config, array $item) => $config->allowAttribute($item['name'], $item['elements'])
+                ),
                 'allow_elements' => $this->eachItem($config, $value,
-                    fn (HtmlSanitizerConfig $config, array $item) => $config->allowElement($item['tag'], $item['attributes'])
+                    fn (HtmlSanitizerConfig $config, array $item) => $config->allowElement($item['name'], $item['attributes'])
                 ),
                 'block_elements' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, string $item) => $config->blockElement($item)
@@ -72,8 +75,14 @@ class HtmlSanitizerConfigBuilder
                 'allow_elements' => function (OptionsResolver $allowElementsResolver) {
                     $allowElementsResolver
                         ->setPrototype(true)
-                        ->setRequired(['tag'])
+                        ->setRequired(['name'])
                         ->setDefaults(['attributes' => '*']);
+                },
+                'allow_attributes' => function (OptionsResolver $allowAttributesResolver) {
+                    $allowAttributesResolver
+                        ->setPrototype(true)
+                        ->setRequired(['name'])
+                        ->setDefaults(['elements' => '*']);
                 },
                 'block_elements' => [],
                 'drop_elements' => [],

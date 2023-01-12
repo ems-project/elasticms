@@ -58,14 +58,14 @@ HTML;
                 ['allow_safe_elements' => true],
             ],
             'testAllowAttributes' => [
-                '<div class="test">div test</div><span class="test">span test</span>',
-                '<div class="test">div test</div><span class="test">span test</span>',
-                ['allow_attributes' => ['class' => '*']],
+                '<div data-test="test">div test</div><span data-test="test">span test</span>',
+                '<div data-test="test">div test</div><span data-test="test">span test</span>',
+                ['allow_attributes' => ['data-test' => '*']],
             ],
             'testAllowElements' => [
-                '<div>div test</div><span>span test</span>',
-                '<div>div test</div>',
-                ['allow_safe_elements' => false, 'allow_elements' => ['div' => '*']],
+                '<div class="test" data-test="test">div test</div><span>span test</span>',
+                '<div class="test" data-test="test">div test</div>',
+                ['allow_safe_elements' => false, 'allow_elements' => ['div' => ['class', 'data-test']]],
             ],
             'testBlockElements' => [
                 '<div>div test</div><span>span test</span>',
@@ -96,6 +96,11 @@ HTML;
                 '<div class="text header">div test</div><span class="text paragraph">span test</span>',
                 '<div class="text test-header">div test</div><span class="text test-paragraph">span test</span>',
                 ['classes' => ['replace' => ['header' => 'test-header', 'paragraph' => 'test-paragraph']]],
+            ],
+            'testClassesWhitespace' => [
+                '<div class="  text-test    header   ">div test</div><span class="     text-test    paragraph   ">span test</span>',
+                '<div class="text-test">div test</div><span class="text-test">span test</span>',
+                ['classes' => ['allow' => ['text-test']]],
             ],
         ];
     }

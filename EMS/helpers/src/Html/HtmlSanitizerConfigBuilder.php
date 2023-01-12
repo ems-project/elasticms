@@ -12,8 +12,10 @@ class HtmlSanitizerConfigBuilder
     /**
      * @var array<mixed>|array{
      *     allow_safe_elements: bool,
-     *     allow_elements: array<int, array{tag: string, attributes: string|string[]}>,
+     *     allow_attributes: array<string, string|string[]>,
+     *     allow_elements: array<string, string|string[]>,
      *     block_elements: string[],
+     *     drop_attributes: array<string, string|string[]>,
      *     drop_elements: string[]
      * }
      */
@@ -42,6 +44,9 @@ class HtmlSanitizerConfigBuilder
                 ),
                 'block_elements' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, string $item) => $config->blockElement($item)
+                ),
+                'drop_attributes' => $this->eachItem($config, $value,
+                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->dropAttribute($key, $item)
                 ),
                 'drop_elements' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, string $item) => $config->dropElement($item)
@@ -72,9 +77,10 @@ class HtmlSanitizerConfigBuilder
         $optionsResolver
             ->setDefaults([
                 'allow_safe_elements' => true,
-                'allow_elements' => [],
                 'allow_attributes' => [],
+                'allow_elements' => [],
                 'block_elements' => [],
+                'drop_attributes' => [],
                 'drop_elements' => [],
             ])
             ->setAllowedTypes('allow_safe_elements', 'bool')

@@ -72,6 +72,11 @@ HTML;
                 '<div>div test</div>span test',
                 ['block_elements' => ['span']],
             ],
+            'testDropAttributes' => [
+                '<a href="https://example.com/" title="test">test</a>',
+                '<a href="https://example.com/">test</a>',
+                ['drop_attributes' => ['title' => '*']],
+            ],
             'testDropElements' => [
                 '<div>div test</div><span>span test</span>',
                 '<div>div test</div>',

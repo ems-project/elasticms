@@ -35,10 +35,10 @@ class HtmlSanitizerConfigBuilder
             $config = match ($setting) {
                 'allow_safe_elements' => true === $value ? $config->allowSafeElements() : $config,
                 'allow_attributes' => $this->eachItem($config, $value,
-                    fn (HtmlSanitizerConfig $config, array $item) => $config->allowAttribute($item['name'], $item['elements'])
+                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowAttribute($key, $item)
                 ),
                 'allow_elements' => $this->eachItem($config, $value,
-                    fn (HtmlSanitizerConfig $config, array $item) => $config->allowElement($item['name'], $item['attributes'])
+                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowElement($key, $item)
                 ),
                 'block_elements' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, string $item) => $config->blockElement($item)
@@ -58,8 +58,8 @@ class HtmlSanitizerConfigBuilder
      */
     private function eachItem(HtmlSanitizerConfig $config, array $items, callable $callback): HtmlSanitizerConfig
     {
-        foreach ($items as $item) {
-            $config = $callback($config, $item);
+        foreach ($items as $key => $item) {
+            $config = $callback($config, $item, $key);
         }
 
         return $config;
@@ -72,18 +72,8 @@ class HtmlSanitizerConfigBuilder
         $optionsResolver
             ->setDefaults([
                 'allow_safe_elements' => true,
-                'allow_elements' => function (OptionsResolver $allowElementsResolver) {
-                    $allowElementsResolver
-                        ->setPrototype(true)
-                        ->setRequired(['name'])
-                        ->setDefaults(['attributes' => '*']);
-                },
-                'allow_attributes' => function (OptionsResolver $allowAttributesResolver) {
-                    $allowAttributesResolver
-                        ->setPrototype(true)
-                        ->setRequired(['name'])
-                        ->setDefaults(['elements' => '*']);
-                },
+                'allow_elements' => [],
+                'allow_attributes' => [],
                 'block_elements' => [],
                 'drop_elements' => [],
             ])

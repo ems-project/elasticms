@@ -60,12 +60,12 @@ HTML;
             'testAllowAttributes' => [
                 '<div class="test">div test</div><span class="test">span test</span>',
                 '<div class="test">div test</div><span class="test">span test</span>',
-                ['allow_attributes' => [['name' => 'class', 'elements' => '*']]],
+                ['allow_attributes' => ['class' => '*']],
             ],
             'testAllowElements' => [
                 '<div>div test</div><span>span test</span>',
                 '<div>div test</div>',
-                ['allow_safe_elements' => false, 'allow_elements' => [['name' => 'div', 'attributes' => '*']]],
+                ['allow_safe_elements' => false, 'allow_elements' => ['div' => '*']],
             ],
             'testBlockElements' => [
                 '<div>div test</div><span>span test</span>',

@@ -26,9 +26,7 @@ class HtmlSanitizerConfigBuilderTest extends TestCase
     {
         $elements = $this->factory([
             'allow_safe_elements' => false,
-            'allow_elements' => [
-                ['name' => 'a'],
-            ],
+            'allow_elements' => ['a' => '*'],
         ])->getAllowedElements();
 
         $this->assertArrayHasKey('a', $elements);
@@ -41,9 +39,7 @@ class HtmlSanitizerConfigBuilderTest extends TestCase
             ['div' => ['class' => true]],
             $this->factory([
                 'allow_safe_elements' => false,
-                'allow_elements' => [
-                    ['name' => 'div', 'attributes' => ['class']],
-                ],
+                'allow_elements' => ['div' => ['class']],
             ])->getAllowedElements()
         );
     }

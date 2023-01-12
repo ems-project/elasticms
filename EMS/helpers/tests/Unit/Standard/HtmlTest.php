@@ -82,6 +82,21 @@ HTML;
                 '<div>div test</div>',
                 ['drop_elements' => ['span']],
             ],
+            'testClassesAllow' => [
+                '<div class="text header">div test</div><span class="text paragraph">span test</span>',
+                '<div class="text">div test</div><span class="text">span test</span>',
+                ['classes' => ['allow' => ['text']]],
+            ],
+            'testClassesDrop' => [
+                '<div class="text header">div test</div><span class="text paragraph">span test</span>',
+                '<div class="text">div test</div><span class="text">span test</span>',
+                ['classes' => ['drop' => ['header', 'paragraph']]],
+            ],
+            'testClassesReplace' => [
+                '<div class="text header">div test</div><span class="text paragraph">span test</span>',
+                '<div class="text test-header">div test</div><span class="text test-paragraph">span test</span>',
+                ['classes' => ['replace' => ['header' => 'test-header', 'paragraph' => 'test-paragraph']]],
+            ],
         ];
     }
 }

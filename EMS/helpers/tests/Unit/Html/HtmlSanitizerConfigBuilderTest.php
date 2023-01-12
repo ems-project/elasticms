@@ -71,7 +71,6 @@ class HtmlSanitizerConfigBuilderTest extends TestCase
         $this->assertArrayNotHasKey('a', $this->factory(['drop_elements' => ['a']])->getAllowedElements());
     }
 
-
     private function factory(array $settings = []): HtmlSanitizerConfig
     {
         return (new HtmlSanitizerConfigBuilder($settings))->build();

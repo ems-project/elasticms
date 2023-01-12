@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\Standard;
 
-use EMS\Helpers\Html\HtmlSanitizerConfigBuilder;
+use EMS\Helpers\Html\Sanitizer\HtmlSanitizerConfigBuilder;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
 
 class Html implements \Stringable

@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace EMS\Helpers\Html;
+namespace EMS\Helpers\Html\Sanitizer;
 
-use EMS\Helpers\Tests\Unit\Html\HtmlClassSanitizer;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -52,7 +51,7 @@ class HtmlSanitizerConfigBuilder
     public function build(): HtmlSanitizerConfig
     {
         $config = new HtmlSanitizerConfig();
-        $config = $config->withAttributeSanitizer(new HtmlClassSanitizer($this->classes));
+        $config = $config->withAttributeSanitizer(new HtmlSanitizerClass($this->classes));
 
         foreach ($this->configSettings as $setting => $value) {
             $config = match ($setting) {

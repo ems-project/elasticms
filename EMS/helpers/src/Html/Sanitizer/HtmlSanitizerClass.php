@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace EMS\Helpers\Tests\Unit\Html;
+namespace EMS\Helpers\Html\Sanitizer;
 
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 use Symfony\Component\HtmlSanitizer\Visitor\AttributeSanitizer\AttributeSanitizerInterface;
 
-class HtmlClassSanitizer implements AttributeSanitizerInterface
+class HtmlSanitizerClass implements AttributeSanitizerInterface
 {
     /**
      * @param array<mixed>|array{ allow: string[], drop: string[], replace: string[]} $settings

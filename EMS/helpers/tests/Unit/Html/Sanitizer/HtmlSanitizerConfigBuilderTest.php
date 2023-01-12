@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\Helpers\Tests\Unit\Html;
+namespace EMS\Helpers\Tests\Unit\Html\Sanitizer;
 
-use EMS\Helpers\Html\HtmlSanitizerConfigBuilder;
+use EMS\Helpers\Html\Sanitizer\HtmlSanitizerConfigBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;

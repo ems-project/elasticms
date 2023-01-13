@@ -3,7 +3,6 @@ version: "2.4"
 services:
 
   traefik:
-    container_name: ems-mono-traefik
     extends:
       file: ../demo/docker-compose.yml
       service: traefik
@@ -21,46 +20,41 @@ services:
 #            - "traefik.http.routers.whoami-tls.entrypoints=websecure"
 
   setup_elk:
-    container_name: ems-mono-setup-elk
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: setup_elk
   es01:
-    container_name: ems-mono-es01
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es01
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.es01.rule=Host(`es01.localhost`)"
-      - "traefik.http.routers.es01.entrypoints=web"
-      - "traefik.http.routers.es01.service=es01"
-      - "traefik.http.services.es01.loadbalancer.server.port=9200"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
   es02:
-    container_name: ems-mono-es02
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es02
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.es02.rule=Host(`es02.localhost`)"
-      - "traefik.http.routers.es02.entrypoints=web"
-      - "traefik.http.routers.es02.service=es02"
-      - "traefik.http.services.es02.loadbalancer.server.port=9200"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
   es03:
-    container_name: ems-mono-es03
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es03
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.es03.rule=Host(`es03.localhost`)"
-      - "traefik.http.routers.es03.entrypoints=web"
-      - "traefik.http.routers.es03.service=es03"
-      - "traefik.http.services.es03.loadbalancer.server.port=9200"
+      - "traefik.http.routers.es.rule=Host(`es.localhost`)"
+      - "traefik.http.routers.es.entrypoints=web"
+      - "traefik.http.routers.es.service=es"
+      - "traefik.http.services.es.loadbalancer.server.port=9200"
 
   kibana:
-    container_name: ems-mono-kibana
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: kibana

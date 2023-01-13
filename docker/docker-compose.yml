@@ -134,8 +134,7 @@ services:
       service: mailhog
     container_name: ems-mono-mailhog
     ports:
-      - 1025:1025 # smtp server
-      #- 8025:8025 # web ui
+      - 1025:1025
 
 volumes:
   elk7_data01:

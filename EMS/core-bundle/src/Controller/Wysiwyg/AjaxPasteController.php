@@ -18,8 +18,7 @@ class AjaxPasteController
     public function __construct(
         private readonly WysiwygProfileService $wysiwygProfileService,
         private readonly LoggerInterface $logger
-    )
-    {
+    ) {
     }
 
     public function __invoke(Request $request, int $wysiwygProfileId): JsonResponse

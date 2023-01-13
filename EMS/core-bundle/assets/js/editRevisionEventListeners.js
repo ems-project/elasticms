@@ -158,7 +158,7 @@ function editRevisionEventListeners(target, onChangeCallback = null){
 
             }
         });
-        
+
         if (ckconfig.hasOwnProperty('emsAjaxPaste')) {
             let editor = CKEDITOR.instances[$( this ).attr('id')];
             editor.on('beforePaste', (event) => {

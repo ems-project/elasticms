@@ -33,6 +33,7 @@ class AuditCommand extends AbstractCommand
     private const ARG_URL = 'url';
     private const OPTION_CONTINUE = 'continue';
     private const OPTION_CACHE_FOLDER = 'cache-folder';
+    private const OPTION_SAVE_FOLDER = 'save-folder';
     private const OPTION_MAX_UPDATES = 'max-updates';
     private const OPTION_IGNORE_REGEX = 'ignore-regex';
     private const OPTION_TIKA_BASE_URL = 'tika-base-url';
@@ -64,6 +65,7 @@ class AuditCommand extends AbstractCommand
     private bool $tikaJar;
     private string $tikaBaseUrl;
     private float $tikaMaxSize;
+    private ?string $saveFolder;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -94,6 +96,7 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
             ->addOption(self::OPTION_REPORTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where reports stored', \getcwd())
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']))
+            ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
             ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url', TikaClient::TIKA_BASE_URL)
@@ -118,6 +121,7 @@ class AuditCommand extends AbstractCommand
         $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
         $this->maxUpdate = $this->getOptionInt(self::OPTION_MAX_UPDATES);
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
+        $this->saveFolder = $this->getOptionStringNull(self::OPTION_SAVE_FOLDER);
         $this->tikaBaseUrl = $this->getOptionString(self::OPTION_TIKA_BASE_URL);
         $this->tikaMaxSize = $this->getOptionFloat(self::OPTION_TIKA_MAX_SIZE);
     }
@@ -218,6 +222,9 @@ class AuditCommand extends AbstractCommand
                 $this->logger->notice('Document saved');
             } else {
                 $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
+            }
+            if (null != $this->saveFolder) {
+                \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $auditResult->getUrl()->getId()), Json::encode($auditResult->getRawData([]), true));
             }
             $this->auditCache->setReport($report);
             $this->auditCache->save($this->jsonPath);

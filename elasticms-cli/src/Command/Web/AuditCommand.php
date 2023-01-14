@@ -231,8 +231,12 @@ class AuditCommand extends AbstractCommand
         }
         $this->auditCache->progressFinish($output, $counter);
 
-        if (!$this->auditCache->hasNext()) {
-            $this->deleteNonUpdated();
+        if (!$this->auditCache->hasNext() && !$this->dryRun) {
+            try {
+                $this->deleteNonUpdated();
+            } catch (\Throwable $e) {
+                $this->io->warning(\sprintf('The command was not able to delete old documents: %s', $e->getMessage()));
+            }
         }
 
         $this->io->section('Save cache and report');

@@ -10,6 +10,8 @@ use EMS\CoreBundle\Entity\ContentType;
 class MediaLibraryConfig implements ConfigInterface
 {
     public ?string $fieldPathOrder = null;
+    /** @var array<mixed> */
+    public array $defaultValue = [];
 
     public function __construct(
         private readonly string $hash,

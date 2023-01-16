@@ -103,6 +103,7 @@ class MediaLibraryService
      */
     private function create(MediaLibraryConfig $config, array $rawData): bool
     {
+        $rawData = \array_merge_recursive($config->defaultValue, $rawData);
         $revision = $this->revisionService->create($config->contentType, Uuid::uuid4(), $rawData);
 
         $form = $this->revisionService->createRevisionForm($revision);

@@ -12,6 +12,8 @@ class MediaLibraryConfig implements ConfigInterface
     public ?string $fieldPathOrder = null;
     /** @var array<mixed> */
     public array $defaultValue = [];
+    /** @var array<mixed> */
+    public array $searchQuery = [];
 
     public function __construct(
         private readonly string $hash,

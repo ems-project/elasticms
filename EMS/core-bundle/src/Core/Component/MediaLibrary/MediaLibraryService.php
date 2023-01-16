@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\MediaLibrary;
 
 use Elastica\Document;
-use Elastica\Query\AbstractQuery;
+use Elastica\Query\BoolQuery;
 use Elastica\Query\Exists;
 use Elastica\Query\Nested;
 use Elastica\Query\Term;
@@ -136,8 +136,12 @@ class MediaLibraryService
         return $type ?: 'application/bin';
     }
 
-    private function search(MediaLibraryConfig $config, AbstractQuery $query): ResultSet
+    private function search(MediaLibraryConfig $config, BoolQuery $query): ResultSet
     {
+        if ($config->searchQuery) {
+            $query->addMust($config->searchQuery);
+        }
+
         $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
         $search->setContentTypes([$config->contentType->getName()]);
         $search->setFrom(0);

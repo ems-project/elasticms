@@ -9,7 +9,7 @@ use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
-use EMS\CoreBundle\Form\Form\DashboardType;
+use EMS\CoreBundle\Form\Form\Dashboard\DashboardType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\CoreBundle\Routes;

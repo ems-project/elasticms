@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Form\Form;
+namespace EMS\CoreBundle\Form\Form\Dashboard;
 
 use EMS\CoreBundle\Core\Dashboard\DashboardService;
 use EMS\CoreBundle\EMSCoreBundle;

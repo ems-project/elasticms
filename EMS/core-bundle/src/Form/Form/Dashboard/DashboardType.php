@@ -94,8 +94,8 @@ final class DashboardType extends AbstractType
                 'icon' => 'fa fa-save',
             ]);
         } else {
-            $builder->add('options', $this->dashboardService->get($dashboard->getType())::class, [
-                'label' => false,
+            $builder->add('options', DashboardOptionsType::class, [
+                'dashboard' => $this->dashboardService->get($dashboard->getType()),
             ])
             ->add('save', SubmitEmsType::class, [
                 'attr' => [

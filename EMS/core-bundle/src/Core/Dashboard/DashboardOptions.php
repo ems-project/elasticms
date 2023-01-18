@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Dashboard;
 
 /**
- * @implements \ArrayAccess<string, string>
+ * @implements \ArrayAccess<string, bool|string>
  */
 class DashboardOptions implements \ArrayAccess
 {
-    /** @var array<string, string> */
+    /** @var array<string, bool|string> */
     private array $options = [];
 
+    final public const OBJECT_PICKER = 'object_picker';
     final public const BODY = 'body';
     final public const HEADER = 'header';
     final public const FOOTER = 'footer';
@@ -21,6 +22,7 @@ class DashboardOptions implements \ArrayAccess
     final public const FILE_DISPOSITION = 'fileDisposition';
 
     private const OPTIONS = [
+        self::OBJECT_PICKER,
         self::BODY,
         self::HEADER,
         self::FOOTER,
@@ -30,7 +32,7 @@ class DashboardOptions implements \ArrayAccess
     ];
 
     /**
-     * @param array<string, ?string> $data
+     * @param array<string, bool|string> $data
      */
     public function __construct(array $data)
     {
@@ -42,7 +44,7 @@ class DashboardOptions implements \ArrayAccess
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, true|string>
      */
     public function getOptions(): array
     {
@@ -54,7 +56,7 @@ class DashboardOptions implements \ArrayAccess
         return isset($this->options[$offset]);
     }
 
-    public function offsetGet($offset): ?string
+    public function offsetGet($offset): null|string|bool
     {
         return $this->options[$offset] ?? null;
     }

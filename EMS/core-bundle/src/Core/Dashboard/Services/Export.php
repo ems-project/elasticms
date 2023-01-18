@@ -19,16 +19,16 @@ class Export implements DashboardInterface
     {
         $response = new Response();
         try {
-            $body = $dashboard->option(DashboardOptions::BODY) ?? '';
+            $body = $dashboard->getOption(DashboardOptions::BODY) ?? '';
             $template = $this->twig->createTemplate($body, \sprintf('Body template for dashboard %s', $dashboard->getName()));
             $response->setContent($this->twig->render($template, [
                 'dashboard' => $dashboard,
                 'options' => $dashboard->getOptions(),
             ]));
 
-            $filename = $dashboard->option(DashboardOptions::FILENAME) ?? 'filename';
-            $disposition = $dashboard->option(DashboardOptions::FILE_DISPOSITION);
-            $mimetype = $dashboard->option(DashboardOptions::MIMETYPE);
+            $filename = $dashboard->getOption(DashboardOptions::FILENAME) ?? 'filename';
+            $disposition = $dashboard->getOption(DashboardOptions::FILE_DISPOSITION);
+            $mimetype = $dashboard->getOption(DashboardOptions::MIMETYPE);
 
             if (\is_string($mimetype)) {
                 $response->headers->set('Content-Type', $mimetype);

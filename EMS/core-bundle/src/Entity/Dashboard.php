@@ -125,9 +125,18 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
         $this->label = $label;
     }
 
-    public function option(string $option): ?string
+    public function getOption(string $option): ?string
     {
-        return $this->getOptions()[$option];
+        $option = $this->getOptions()[$option];
+
+        return \is_string($option) ? $option : null;
+    }
+
+    public function getOptionBool(string $option): bool
+    {
+        $option = $this->getOptions()[$option];
+
+        return \is_bool($option) ? $option : false;
     }
 
     public function getOptions(): DashboardOptions

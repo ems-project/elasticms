@@ -11,6 +11,7 @@ use EMS\CoreBundle\Core\Dashboard\Services\Template;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -27,16 +28,6 @@ class DashboardOptionsType extends AbstractType
     {
         $dashboard = $options['dashboard'];
 
-        if ($dashboard instanceof Export || $dashboard instanceof Template) {
-            $builder->add(DashboardOptions::BODY, CodeEditorType::class, [
-                'required' => true,
-                'language' => 'ace/mode/twig',
-                'row_attr' => [
-                    'class' => 'col-md-12',
-                ],
-            ]);
-        }
-
         match ($dashboard::class) {
             Export::class => $this->buildForExport($builder) ,
             Template::class => $this->buildForTemplate($builder),
@@ -50,6 +41,14 @@ class DashboardOptionsType extends AbstractType
     private function buildForTemplate(FormBuilderInterface $builder): void
     {
         $builder
+            ->add(DashboardOptions::OBJECT_PICKER, CheckboxType::class, ['required' => false])
+            ->add(DashboardOptions::BODY, CodeEditorType::class, [
+                'required' => true,
+                'language' => 'ace/mode/twig',
+                'row_attr' => [
+                    'class' => 'col-md-12',
+                ],
+            ])
             ->add(DashboardOptions::HEADER, CodeEditorType::class, [
                 'required' => true,
                 'language' => 'ace/mode/twig',
@@ -68,6 +67,13 @@ class DashboardOptionsType extends AbstractType
     private function buildForExport(FormBuilderInterface $builder): void
     {
         $builder
+            ->add(DashboardOptions::BODY, CodeEditorType::class, [
+                'required' => true,
+                'language' => 'ace/mode/twig',
+                'row_attr' => [
+                    'class' => 'col-md-12',
+                ],
+            ])
             ->add(DashboardOptions::FILENAME, CodeEditorType::class, [
                 'required' => false,
                 'row_attr' => ['class' => 'col-md-12'],

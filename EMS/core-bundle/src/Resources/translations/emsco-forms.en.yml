@@ -14,6 +14,7 @@ dashboard.export.inline: Inline
 dashboard.export.body: Body
 dashboard.export.filename: Filename
 dashboard.export.fileDisposition: Disposition
+dashboard.template.object_picker: 'Is object picker'
 dashboard.template.body: Body
 dashboard.template.header: Header
 dashboard.template.footer: Footer

@@ -68,6 +68,7 @@
             <argument type="service" id="ems.service.wysiwyg_styles_set"/>
             <argument type="service" id="ems.service.user"/>
             <argument type="service" id="router"/>
+            <argument type="service" id="ems.dashboard.manager"/>
             <tag name="twig.runtime" />
         </service>
 

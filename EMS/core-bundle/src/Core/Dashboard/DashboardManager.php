@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Dashboard;
 
+use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Core\UI\Menu;
@@ -17,7 +18,10 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class DashboardManager implements EntityServiceInterface
 {
-    public function __construct(private readonly DashboardRepository $dashboardRepository, private readonly LoggerInterface $logger, private readonly AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(
+        private readonly DashboardRepository $dashboardRepository,
+        private readonly LoggerInterface $logger,
+        private readonly AuthorizationCheckerInterface $authorizationChecker)
     {
     }
 
@@ -33,6 +37,14 @@ class DashboardManager implements EntityServiceInterface
         }
 
         return $this->dashboardRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
+    }
+
+    /**
+     * @return Collection<int, Dashboard>
+     */
+    public function getDashboards(): Collection
+    {
+        return $this->dashboardRepository->getAll();
     }
 
     public function getEntityName(): string

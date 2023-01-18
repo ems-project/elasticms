@@ -6,6 +6,8 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\Dashboard;
 
@@ -24,11 +26,11 @@ final class DashboardRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Dashboard[]
+     * @return ArrayCollection<int, Dashboard>
      */
-    public function getAll(): array
+    public function getAll(): Collection
     {
-        return $this->findBy([], ['orderKey' => 'ASC']);
+        return new ArrayCollection($this->findBy([], ['orderKey' => 'ASC']));
     }
 
     /**

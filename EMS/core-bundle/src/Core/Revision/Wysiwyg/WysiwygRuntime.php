@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Revision\Wysiwyg;
 
+use EMS\CoreBundle\Core\Dashboard\DashboardManager;
+use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
+use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Service\UserService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use EMS\Helpers\Standard\Json;
@@ -15,7 +18,8 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
     public function __construct(
         private readonly WysiwygStylesSetService $wysiwygStylesSetService,
         private readonly UserService $userService,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly DashboardManager $dashboardManager
     ) {
     }
 
@@ -25,6 +29,7 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
         $config['imageUploadUrl'] = $this->urlGenerator->generate('ems_image_upload_url');
         $config['imageBrowser_listUrl'] = $this->urlGenerator->generate('ems_images_index');
         $config['ems_filesUrl'] = $this->urlGenerator->generate('ems_core_uploaded_file_wysiwyg_index');
+        $config['ems']['dashboards'] = $this->getObjectPickerDashboard();
 
         return Json::encode([
             'config' => $config,
@@ -78,5 +83,21 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
         }
 
         return $styles;
+    }
+
+    /**
+     * @return array<int, array{name: string, label: string, icon: string, color: ?string}>
+     */
+    private function getObjectPickerDashboard(): array
+    {
+        return $this->dashboardManager->getDashboards()
+            ->filter(fn (Dashboard $dashboard) => $dashboard->getOptionBool(DashboardOptions::OBJECT_PICKER))
+            ->map(fn (Dashboard $dashboard) => [
+                'name' => $dashboard->getName(),
+                'label' => $dashboard->getLabel(),
+                'icon' => $dashboard->getIcon(),
+                'color' => $dashboard->getColor(),
+            ])
+            ->toArray();
     }
 }

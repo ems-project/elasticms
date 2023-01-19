@@ -45,12 +45,12 @@
         // Handles the event when the "Type" selection box is changed.
         var linkTypeChanged = function () {
             var dialog = this.getDialog(),
-                partIds = ['urlOptions', 'localPageOptions', 'fileLinkOptions', 'anchorOptions', 'emailOptions'], // added by @simo - http://blog.xoundboy.com/?p=393
+                partIds = ['dashboardOptions', 'urlOptions', 'localPageOptions', 'fileLinkOptions', 'anchorOptions', 'emailOptions'], // added by @simo - http://blog.xoundboy.com/?p=393
                 typeValue = this.getValue(),
                 uploadTab = dialog.definition.getContents('upload'),
                 uploadInitiallyHidden = uploadTab && uploadTab.hidden;
 
-            if (typeValue == 'url' || typeValue == 'localPage' || typeValue == 'fileLink') {
+            if ( ['dashboard', 'url', 'localPage', 'fileLink'].includes(typeValue)) {
                 if (editor.config.linkShowTargetTab)
                     dialog.showPage('target');
                 if (!uploadInitiallyHidden)
@@ -112,6 +112,7 @@
         let urlTypes = emsConfig.urlTypes !== undefined ? emsConfig.urlTypes : ['url', 'anchor', 'localPage', 'fileLink', 'email'];
 
         let items = [];
+        if (emsConfig.hasOwnProperty('dashboards')) items.push(['Dashboards', 'dashboard'])
         if (urlTypes.includes('url')) items.push([linkLang.toUrl, 'url']);
         if (urlTypes.includes('anchor')) items.push([linkLang.toAnchor, 'anchor']);
         if (urlTypes.includes('localPage')) items.push([linkLang.localPages, 'localPage']);
@@ -146,6 +147,12 @@
                             commit: function (data) {
                                 data.type = this.getValue();
                             }
+                        },
+                        {
+                            type: 'html',
+                            id: 'dashboardOptions',
+                            dashboardBrowser: true,
+                            html: ''
                         },
                         {
                             type: 'vbox',

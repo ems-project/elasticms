@@ -7,6 +7,7 @@ function initCKEditor() {
         CKEDITOR.plugins.addExternal('adv_link', assetPath+'bundles/emscore/js/cke-plugins/adv_link/plugin.js', '' );
         CKEDITOR.plugins.addExternal('div', assetPath+'bundles/emscore/js/cke-plugins/div/plugin.js', '' );
         CKEDITOR.plugins.addExternal('imagebrowser', assetPath+'bundles/emscore/js/cke-plugins/imagebrowser/plugin.js', '' );
+        CKEDITOR.plugins.addExternal('dashboard_browser', assetPath+'bundles/emscore/js/cke-plugins/dashboard_browser/plugin.js', '' );
 
         const wysiwygInfo = JSON.parse(document.querySelector('body').dataset.wysiwygInfo);
 

@@ -86,18 +86,18 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
     }
 
     /**
-     * @return array<int, array{name: string, label: string, icon: string, color: ?string}>
+     * @return array<int, array{label: string, url: string}>
      */
     private function getObjectPickerDashboard(): array
     {
-        return $this->dashboardManager->getDashboards()
+        return \array_values($this->dashboardManager->getDashboards()
             ->filter(fn (Dashboard $dashboard) => $dashboard->getOptionBool(DashboardOptions::OBJECT_PICKER))
             ->map(fn (Dashboard $dashboard) => [
-                'name' => $dashboard->getName(),
                 'label' => $dashboard->getLabel(),
-                'icon' => $dashboard->getIcon(),
-                'color' => $dashboard->getColor(),
+                'url' => $this->urlGenerator->generate('emsco_dashboard_object_picker', [
+                    'dashboardName' => $dashboard->getName(),
+                ]),
             ])
-            ->toArray();
+            ->toArray());
     }
 }

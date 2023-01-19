@@ -62,8 +62,8 @@
       data-file-view="{{ path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
       data-file-extract="{{ path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}"
       data-file-extract-forced="{{ path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' })|e('html_attr') }}">
-<div class="main">
     {% block main %}
+<div class="main">
 
   <!-- container Main. Contains page content -->
   <div class="{% block containerClass %}container{% endblock %}">

@@ -32,8 +32,8 @@
            controller="EMS\CoreBundle\Controller\Dashboard\DashboardController::setQuickSearch"
            methods="POST"/>
 
-    <route id="emsco_dashboard_object_picker" path="/dashboard/{dashboardName}/object-picker"
-           controller="EMS\CoreBundle\Controller\Dashboard\ObjectPickerController"
+    <route id="emsco_dashboard_modal" path="/dashboard/{dashboardName}/modal"
+           controller="EMS\CoreBundle\Controller\Dashboard\DashboardModalController"
            methods="GET" />
 
     <route id="ems_core_dashboard" path="/dashboard"

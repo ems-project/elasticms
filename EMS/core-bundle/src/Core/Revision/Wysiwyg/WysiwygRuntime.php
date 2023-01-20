@@ -94,7 +94,7 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
             ->filter(fn (Dashboard $dashboard) => $dashboard->getOptionBool(DashboardOptions::OBJECT_PICKER))
             ->map(fn (Dashboard $dashboard) => [
                 'label' => $dashboard->getLabel(),
-                'url' => $this->urlGenerator->generate('emsco_dashboard_object_picker', [
+                'url' => $this->urlGenerator->generate('emsco_dashboard_modal', [
                     'dashboardName' => $dashboard->getName(),
                 ]),
             ])

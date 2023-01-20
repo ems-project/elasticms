@@ -8,7 +8,7 @@ use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class ObjectPickerController
+class DashboardModalController
 {
     public function __construct(
         private readonly DashboardManager $dashboardManager,
@@ -22,11 +22,11 @@ class ObjectPickerController
         $response = new Response();
 
         try {
-            $response->setContent($this->twig->render('@EMSCore/dashboard/object-picker/dashboard.html.twig', [
+            $response->setContent($this->twig->render('@EMSCore/dashboard/modal/modal-dashboard.html.twig', [
                 'dashboard' => $dashboard,
             ]));
         } catch (\Throwable $e) {
-            $response->setContent($this->twig->render('@EMSCore/dashboard/object-picker/error.html.twig', [
+            $response->setContent($this->twig->render('@EMSCore/dashboard/modal/modal-error.html.twig', [
                 'exception' => $e,
                 'dashboard' => $dashboard,
             ]));

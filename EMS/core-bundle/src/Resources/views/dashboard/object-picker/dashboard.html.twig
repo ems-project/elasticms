@@ -3,6 +3,16 @@
 
 {% block title %}{{ dashboard.label }}{% endblock %}
 
+{%- block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('module/modal-dashboard.css', 'emscore') }}">
+{% endblock %}
+
+{%- block extraheader %}
+    {%- if dashboard.option('header') is not null -%}
+        {{- include(template_from_string(dashboard.option('header'), "Header template for Dashboard " ~ dashboard.name)) -}}
+    {%- endif -%}
+{% endblock %}
+
 {% block main %}
     {%- if dashboard.option('body') is not null -%}
         {{- include(template_from_string(dashboard.option('body'), "Body template for Dashboard " ~ dashboard.name)) -}}
@@ -10,6 +20,7 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script src="{{ asset('module/modal-dashboard.js', 'emscore') }}"></script>
     {%- if dashboard.option('footer') is not null -%}
         {{- include(template_from_string(dashboard.option('footer'), "Footer template for Dashboard " ~ dashboard.name)) -}}
     {%- endif -%}

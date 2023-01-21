@@ -28,7 +28,7 @@
                       <div class="carousel-inner">
                       	{% for item in data.hits.hits %}
                             <div class="item {% if loop.first %}active{% endif %}">
-                          		{% set path = 'https://github.com/ems-project/EMSCoreBundle/blob/master/Resources/public/images/logo.svg' %}
+                          		{% set path = asset('images/logo.svg', 'emscore') %}
     	                        {% if attribute(item._source, view.options.imageField) is defined %}
                                     {% set file = attribute(item._source, view.options.imageField) %}
                                     {% set path = path('ems.file.view', {'sha1':file.sha1, 'type':file.mimetype, 'name':file.filename }) %}

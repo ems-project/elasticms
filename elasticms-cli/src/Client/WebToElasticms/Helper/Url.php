@@ -237,7 +237,7 @@ class Url
 
     public function getId(): string
     {
-        return \sha1($this->getUrl(null, false, false));
+        return \sha1(\join('$', [Url::class, $this->getUrl(null, false, false)]));
     }
 
     /**

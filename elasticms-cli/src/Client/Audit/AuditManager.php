@@ -262,7 +262,9 @@ class AuditManager
             $audit->setCanonical($htmlHelper->getUniqueTextAttr($report, 'link[rel="canonical"]', 'href'));
             $audit->setAuthor($htmlHelper->getUniqueTextAttr($report, 'meta[name="author"]', 'content', false));
             $description = $htmlHelper->getUniqueTextAttr($report, 'meta[name="description"]', 'content');
-            if (null !== $description && \strlen($description) < 20) {
+            if (null === $description || 0 === \strlen($description)) {
+                $report->addWarning($audit->getUrl(), ['Meta description is missing']);
+            } elseif (\strlen($description) < 20) {
                 $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too short: %d', \strlen($description))]);
             } elseif (null !== $description && \strlen($description) > 200) {
                 $report->addWarning($audit->getUrl(), [\sprintf('Meta description is probably too long: %d', \strlen($description))]);

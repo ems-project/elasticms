@@ -223,13 +223,13 @@ class AuditCommand extends AbstractCommand
                     $rawData['links'] = [];
                 }
                 $this->logger->debug(Json::encode($rawData, true));
-                $api->save($auditResult->getUrl()->getId(), $rawData);
+                $api->save($this->auditCache->getUrlHash($auditResult->getUrl()), $rawData);
                 $this->logger->notice('Document saved');
             } else {
                 $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
             }
             if (null != $this->saveFolder) {
-                \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $auditResult->getUrl()->getId()), Json::encode($auditResult->getRawData([]), true));
+                \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData([]), true));
             }
             $this->auditCache->setReport($report);
             $this->auditCache->save($this->jsonPath);

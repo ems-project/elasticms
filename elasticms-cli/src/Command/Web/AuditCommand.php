@@ -10,6 +10,7 @@ use App\CLI\Client\Audit\Cache;
 use App\CLI\Client\Audit\Report;
 use App\CLI\Client\HttpClient\CacheManager;
 use App\CLI\Client\HttpClient\UrlReport;
+use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Commands;
 use App\CLI\Helper\TikaClient;
@@ -173,12 +174,16 @@ class AuditCommand extends AbstractCommand
                 if (null === $location) {
                     throw new \RuntimeException('Unexpected missing Location');
                 }
-                $link = new Url($location, $url->getUrl());
-                if ($this->auditCache->inHosts($link->getHost())) {
-                    $this->auditCache->addUrl($link);
-                    $report->addWarning($url, [\sprintf('Redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
-                } else {
-                    $report->addWarning($url, [\sprintf('External redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
+                try {
+                    $link = new Url($location, $url->getUrl());
+                    if ($this->auditCache->inHosts($link->getHost())) {
+                        $this->auditCache->addUrl($link);
+                        $report->addWarning($url, [\sprintf('Redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
+                    } else {
+                        $report->addWarning($url, [\sprintf('External redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
+                    }
+                } catch (NotParsableUrlException $e) {
+                    $report->addWarning($url, [\sprintf('Redirect to %s', $e->getMessage())]);
                 }
                 continue;
             }

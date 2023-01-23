@@ -235,11 +235,6 @@ class Url
         return \in_array($this->getScheme(), ['http', 'https']);
     }
 
-    public function getId(): string
-    {
-        return \sha1(\join('$', [Url::class, $this->getUrl(null, false, false)]));
-    }
-
     /**
      * @return array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string}
      */

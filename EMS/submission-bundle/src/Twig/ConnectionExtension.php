@@ -13,6 +13,7 @@ final class ConnectionExtension extends abstractExtension
     {
         return [
             new TwigFilter('emss_connection', [ConnectionRuntime::class, 'transform'], ['is_safe' => ['html']]),
+            new TwigFilter('emss_skip_submit', [ConnectionRuntime::class, 'skipSubmitException'], ['is_safe' => ['html']]),
         ];
     }
 }

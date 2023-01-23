@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Cache
 {
+    private const HASH_SEED = 'AuditHashSeed';
     /** @var array<string, Url> */
     private array $urls = [];
     /** @var string[] */
@@ -138,13 +139,19 @@ class Cache
 
     public function addUrl(Url $url): void
     {
-        if (isset($this->urls[$url->getId()])) {
+        $hash = $this->getUrlHash($url);
+        if (isset($this->urls[$hash])) {
             return;
         }
         if (!\in_array($url->getHost(), $this->hosts)) {
             $this->hosts[] = $url->getHost();
         }
-        $this->urls[$url->getId()] = $url;
+        $this->urls[$hash] = $url;
+    }
+
+    public function getUrlHash(Url $url): string
+    {
+        return \sha1(\join('$', [self::HASH_SEED, $url->getUrl(null, false, false)]));
     }
 
     public function progress(OutputInterface $output): void

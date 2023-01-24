@@ -45,8 +45,8 @@ final class ServiceNowHandler extends AbstractHandler
             }
 
             return $serviceNowResponse;
-        } catch (\Exception $exception) {
-            return new FailedHandleResponse(\sprintf('Submission failed, contact your admin. (%s)', $exception->getMessage()));
+        } catch (\Throwable $exception) {
+            return new FailedHandleResponse($exception);
         }
     }
 

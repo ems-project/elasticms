@@ -45,12 +45,13 @@ class PackagistInfo extends Command
 
         $rows = [];
 
-        foreach (Config::PACKAGES as $packageName) {
+        foreach (Config::PACKAGES as $repository) {
+            $packageName = Config::COMPOSER_PACKAGES[$repository];
             $package = $this->packagistApi->getComposerReleases($packageName)[$packageName];
             $versions = $package->getVersions();
 
             $version = $versions[$this->version] ?? null;
-            $dist = $version ? $version->getDist() : null;
+            $dist = $version?->getDist();
 
             $rows[] = [$packageName, $version ? $version->getVersion() : 'X', $dist ? $dist->getReference() : 'X'];
             $pg->advance();

@@ -18,8 +18,12 @@ class AjaxModal {
         }
 
         this.onKeyDown = (event) => {
-            let btnAjaxSubmit = this.modal.querySelector('#ajax-modal-submit')
-            if (btnAjaxSubmit && event.key === "Enter") {
+            if (event.key !== 'Enter' || event.shiftKey) return
+
+            let btnAjaxSubmit = this.modal.querySelector('#ajax-modal-submit');
+            let blockTargetElements = ['textarea', 'input', 'select', 'button', 'a'];
+
+            if (btnAjaxSubmit && !Array.from(blockTargetElements).includes(event.target.nodeName.toLowerCase())) {
                 event.preventDefault();
                 btnAjaxSubmit.click();
             }

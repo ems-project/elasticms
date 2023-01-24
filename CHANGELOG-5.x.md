@@ -1,5 +1,12 @@
 # Changelog 5.x
 
+## 5.2.1 (2023-01-25)
+### Bug Fixes
+* fix(core): ajax modal 'enter' in textarea closes modal  by @Davidmattei in https://github.com/ems-project/elasticms/pull/286
+* fix(core): ajax modal pick file browser by @Davidmattei in https://github.com/ems-project/elasticms/pull/288
+* fix(submission): allow reply to header in email request/handler by @theus77 in https://github.com/ems-project/elasticms/pull/285
+* fix(submission): skip submit by @theus77 in https://github.com/ems-project/elasticms/pull/287
+
 ## 5.2.0 (2023-01-24)
 ### Features
 * feat(audit): delete non updated audit documents by @theus77 in https://github.com/ems-project/elasticms/pull/256

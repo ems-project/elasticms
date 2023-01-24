@@ -54,7 +54,7 @@ class GithubReleaseCommand extends AbstractGithubCommand
     }
 
     /**
-     * @param array<string, string> $repositories
+     * @param string[] $repositories
      */
     protected function release(array $repositories): int
     {
@@ -63,22 +63,22 @@ class GithubReleaseCommand extends AbstractGithubCommand
 
         $rows = [];
 
-        foreach ($repositories as $name => $packageName) {
-            $release = $this->getRelease($name);
+        foreach ($repositories as $repository) {
+            $release = $this->getRelease($repository);
 
             if ($release && !$this->force) {
-                $rows[] = [$packageName, 'Already release', $this->getReleaseSha($name), $release['html_url']];
+                $rows[] = [$repository, 'Already release', $this->getReleaseSha($repository), $release['html_url']];
                 $pg->advance();
                 continue;
             } elseif ($release) {
-                $this->deleteRelease($name, $release['id']);
+                $this->deleteRelease($repository, $release['id']);
                 $status = 'Re-released';
             } else {
                 $status = 'Fresh release';
             }
 
-            $url = $this->createRelease($name);
-            $rows[] = [$packageName, $status, $this->getReleaseSha($name), $url];
+            $url = $this->createRelease($repository);
+            $rows[] = [$repository, $status, $this->getReleaseSha($repository), $url];
 
             $pg->advance();
         }

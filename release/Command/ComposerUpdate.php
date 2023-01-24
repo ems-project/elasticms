@@ -39,7 +39,7 @@ class ComposerUpdate extends Command
     {
         $this->io->title('Composer update');
 
-        foreach (\array_keys(Config::APPLICATIONS) as $name) {
+        foreach (Config::APPLICATIONS as $name) {
             $this->io->section(\sprintf('Updating: %s', $name));
             $this->runComposerUpdate($output, $this->rootDir.$name);
             $this->io->newLine();

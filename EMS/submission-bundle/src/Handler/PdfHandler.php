@@ -32,8 +32,8 @@ final class PdfHandler extends AbstractHandler
             $handleResponse = new PdfHandleResponse($pdfRequest, $pdfOutput);
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Exception $exception) {
-            return new FailedHandleResponse(\sprintf('Submission failed, contact your admin. (%s)', $exception->getMessage()));
+        } catch (\Throwable $exception) {
+            return new FailedHandleResponse($exception);
         }
     }
 }

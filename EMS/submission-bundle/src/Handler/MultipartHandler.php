@@ -52,8 +52,8 @@ final class MultipartHandler extends AbstractHandler
             $handleResponse = new HttpHandleResponse($httpResponse, $httpResponseContent, 'Submission send by multipart over http.');
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Exception $exception) {
-            return new FailedHandleResponse(\sprintf('Submission failed, contact your admin. (%s)', $exception->getMessage()));
+        } catch (\Throwable $exception) {
+            return new FailedHandleResponse($exception);
         }
     }
 

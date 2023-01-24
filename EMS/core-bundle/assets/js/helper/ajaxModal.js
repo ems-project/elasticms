@@ -9,7 +9,6 @@ class AjaxModal {
         this.modal = document.querySelector(this.selector);
         if (this.modal) {
             this.loadingElement = this.modal.querySelector('.modal-loading');
-            this.ajaxDataElements = this.modal.querySelectorAll('.ajax-data');
             $(document).on('hide.bs.modal', '.core-modal', (e) => {
                 if (e.target.id === this.modal.id) {
                     this.reset();

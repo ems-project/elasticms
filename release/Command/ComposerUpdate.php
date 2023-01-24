@@ -40,6 +40,10 @@ class ComposerUpdate extends Command
         $this->io->title('Composer update');
 
         foreach (Config::APPLICATIONS as $name) {
+            if ('elasticms-demo' === $name) {
+                continue;
+            }
+
             $this->io->section(\sprintf('Updating: %s', $name));
             $this->runComposerUpdate($output, $this->rootDir.$name);
             $this->io->newLine();
@@ -59,7 +63,7 @@ class ComposerUpdate extends Command
 
         $composerLock = \json_decode($composerLockContent, true);
         $packages = $composerLock['packages'];
-        $emsPackages = \array_filter($packages, fn (array $package) => \in_array($package['name'], Config::PACKAGES));
+        $emsPackages = \array_filter($packages, fn (array $package) => \in_array($package['name'], Config::COMPOSER_PACKAGES));
 
         $rows = [];
         foreach ($emsPackages as $package) {

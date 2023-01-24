@@ -34,6 +34,10 @@ final class EmailHandler extends AbstractHandler
                 ->to($emailRequest->getEndpoint())
                 ->html($emailRequest->getBody());
 
+            if (null !== ($replyTo = $emailRequest->getReplyTo())) {
+                $message->replyTo($replyTo);
+            }
+
             $this->addAttachments($emailRequest, $message);
 
             $this->mailer->send($message);

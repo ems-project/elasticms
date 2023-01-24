@@ -13,6 +13,7 @@ final class EmailRequest
     private string $contentType = '';
     /** @var array<array<mixed>> */
     private readonly array $attachments;
+    private ?string $replyTo;
 
     /**
      * @param array<string, mixed> $message
@@ -28,6 +29,7 @@ final class EmailRequest
         $this->body = $message['body'] ?? '';
         $this->attachments = $message['attachments'] ?? [];
         $this->contentType = $message['content-type'] ?? 'text/plain';
+        $this->replyTo = $message['reply-to'] ?? null;
     }
 
     public function getEndpoint(): string
@@ -61,5 +63,10 @@ final class EmailRequest
     public function getAttachments(): array
     {
         return $this->attachments;
+    }
+
+    public function getReplyTo(): ?string
+    {
+        return $this->replyTo;
     }
 }

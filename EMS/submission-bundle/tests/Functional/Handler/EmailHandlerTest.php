@@ -75,7 +75,7 @@ final class EmailHandlerTest extends AbstractHandlerTest
         ]);
 
         $this->assertEquals(
-            '{"status":"error","data":"Submission failed, contact your admin. Email \"\" does not comply with addr-spec of RFC 2822."}',
+            '{"status":"error","data":"Submission failed, contact your admin. (Email \"\" does not comply with addr-spec of RFC 2822.)"}',
             $this->handle($this->createForm(), '', $message)->getResponse()
         );
     }
@@ -83,7 +83,7 @@ final class EmailHandlerTest extends AbstractHandlerTest
     public function testEmptyMessage(): void
     {
         $this->assertEquals(
-            '{"status":"error","data":"Submission failed, contact your admin. From email address not defined."}',
+            '{"status":"error","data":"Submission failed, contact your admin. (From email address not defined.)"}',
             $this->handle($this->createForm(), 'user@example.com', '')->getResponse()
         );
     }

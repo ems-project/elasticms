@@ -198,31 +198,27 @@ class JsonMenuLinkFieldType extends DataFieldType
     public function viewTransform(DataField $dataField)
     {
         $temp = parent::viewTransform($dataField);
+        $out = [];
 
         if (empty($temp)) {
-            return ['value' => []];
-        }
-
-        if (\is_string($temp)) {
-            return ['value' => [$temp]];
-        }
-
-        if (\is_array($temp)) {
+            $out = [];
+        } elseif (\is_string($temp)) {
+            $out = [$temp];
+        } elseif (\is_array($temp)) {
             $out = [];
             foreach ($temp as $item) {
                 if (\is_string($item) || \is_integer($item)) {
                     $out[] = $item;
                 } else {
-                    $dataField->addMessage('Was not able to import the data : '.\json_encode($temp, JSON_THROW_ON_ERROR));
+                    $dataField->addMessage('Was not able to import the data : '.\json_encode($item, JSON_THROW_ON_ERROR));
                 }
             }
-
-            return ['value' => $out];
+        } else {
+            $dataField->addMessage('Was not able to import the data : '.\json_encode($out));
+            $out = [];
         }
 
-        $dataField->addMessage('Was not able to import the data : '.\json_encode($temp, JSON_THROW_ON_ERROR));
-
-        return ['value' => []];
+        return ['value' => $out];
     }
 
     /**

@@ -210,30 +210,39 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     public function viewTransform(DataField $dataField)
     {
         $temp = parent::viewTransform($dataField);
-
-        if (empty($temp)) {
-            return ['value' => []];
-        }
-
-        if (\is_string($temp)) {
-            return ['value' => [$temp]];
-        }
-
-        if (\is_array($temp)) {
-            $out = [];
-            foreach ($temp as $item) {
-                if (\is_string($item) || \is_integer($item)) {
-                    $out[] = $item;
-                } else {
-                    $dataField->addMessage('Was not able to import the data : '.\json_encode($temp, JSON_THROW_ON_ERROR));
+        $out = [];
+        if ($dataField->giveFieldType()->getDisplayOptions()['multiple']) {
+            if (empty($temp)) {
+                $out = [];
+            } elseif (\is_string($temp)) {
+                $out = [$temp];
+            } elseif (\is_array($temp)) {
+                $out = [];
+                foreach ($temp as $item) {
+                    if (\is_string($item) || \is_integer($item)) {
+                        $out[] = $item;
+                    } else {
+                        $dataField->addMessage('Was not able to import the data : '.\json_encode($item, JSON_THROW_ON_ERROR));
+                    }
                 }
+            } else {
+                $dataField->addMessage('Was not able to import the data : '.\json_encode($out));
+                $out = [];
             }
-
-            return ['value' => $out];
+        } else { // not mutiple
+            if (null === $temp) {
+                $out = null;
+            } elseif (\is_string($temp) || \is_integer($temp)) {
+                $out = $temp;
+            } elseif (\is_array($temp) && null != $temp && (\is_string(\array_values($temp)[0]) || \is_integer(\array_values($temp)[0]))) {
+                $out = \array_values($temp)[0];
+                $dataField->addMessage('Only the first item has been imported : '.\json_encode($temp, JSON_THROW_ON_ERROR));
+            } else {
+                $dataField->addMessage('Was not able to import the data : '.\json_encode($temp, JSON_THROW_ON_ERROR));
+                $out = [];
+            }
         }
 
-        $dataField->addMessage('Was not able to import the data : '.\json_encode($temp, JSON_THROW_ON_ERROR));
-
-        return ['value' => []];
+        return ['value' => $out];
     }
 }

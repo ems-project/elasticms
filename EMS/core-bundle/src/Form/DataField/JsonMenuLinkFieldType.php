@@ -68,7 +68,7 @@ class JsonMenuLinkFieldType extends DataFieldType
             ]);
 
             $isMigration = $options['migration'] ?? false;
-            $alreadyAssignedUuids = !$isMigration ? $this->collectAlreadyAssignedJsonMenuUids($fieldType, $options['raw_data'] ?? []) : [];
+            $alreadyAssignedUuids = !$isMigration ? $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []) : [];
 
             $scroll = $this->elasticaService->scroll($search);
             foreach ($scroll as $resultSet) {
@@ -227,7 +227,7 @@ class JsonMenuLinkFieldType extends DataFieldType
      *
      * @return array<mixed>
      */
-    private function collectAlreadyAssignedJsonMenuUids(FieldType $fieldType, array $rawData): array
+    private function collectAlreadyAssignedJsonUuids(FieldType $fieldType, array $rawData): array
     {
         $search = $this->elasticaService->convertElasticsearchSearch([
             'size' => 500,
@@ -247,14 +247,14 @@ class JsonMenuLinkFieldType extends DataFieldType
             ],
         ]);
 
-        $uids = [];
+        $uuids = [];
         $scroll = $this->elasticaService->scroll($search);
         foreach ($scroll as $resultSet) {
             foreach ($resultSet as $result) {
-                $uids = \array_merge($uids, $result->getSource()[$fieldType->getName()] ?? []);
+                $uuids = \array_merge($uuids, $result->getSource()[$fieldType->getName()] ?? []);
             }
         }
 
-        return \array_diff($uids, $rawData[$fieldType->getName()] ?? []);
+        return \array_diff($uuids, $rawData[$fieldType->getName()] ?? []);
     }
 }

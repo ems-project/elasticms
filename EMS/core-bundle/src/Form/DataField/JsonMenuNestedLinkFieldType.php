@@ -84,6 +84,10 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
             'body' => $options['query'],
         ]);
 
+        $isMigration = $options['migration'] ?? false;
+        $alreadyAssignedUuids = !$isMigration && $options['json_menu_nested_unique'] ?
+            $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []) : [];
+
         $scroll = $this->elasticaService->scroll($search);
         foreach ($scroll as $resultSet) {
             foreach ($resultSet as $result) {
@@ -96,6 +100,10 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                 $menu = $this->decoder->jsonMenuNestedDecode($json);
 
                 foreach ($menu as $item) {
+                    if (\in_array($item->getId(), $alreadyAssignedUuids)) {
+                        continue;
+                    }
+
                     if ((\is_countable($allowTypes) ? \count($allowTypes) : 0) > 0 && !\in_array($item->getType(), $allowTypes)) {
                         continue;
                     }
@@ -142,6 +150,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                 'expanded' => false,
                 'json_menu_nested_types' => null,
                 'json_menu_nested_field' => null,
+                'json_menu_nested_unique' => false,
                 'query' => null,
             ])
             ->setNormalizer('json_menu_nested_types', fn (Options $options, $value) => \explode(',', (string) $value))
@@ -161,6 +170,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
             ->add('multiple', CheckboxType::class, ['required' => false])
             ->add('json_menu_nested_types', TextType::class, ['required' => false])
             ->add('json_menu_nested_field', TextType::class, ['required' => true])
+            ->add('json_menu_nested_unique', CheckboxType::class, ['required' => false])
             ->add('query', CodeEditorType::class, ['required' => false, 'language' => 'ace/mode/json'])
         ;
 
@@ -244,5 +254,41 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         }
 
         return ['value' => $out];
+    }
+
+    /**
+     * @param array<mixed> $rawData
+     *
+     * @return array<mixed>
+     */
+    private function collectAlreadyAssignedJsonUuids(FieldType $fieldType, array $rawData): array
+    {
+        $search = $this->elasticaService->convertElasticsearchSearch([
+            'size' => 500,
+            'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
+            '_source' => $fieldType->getName(),
+            'type' => $fieldType->giveContentType()->getName(),
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [
+                                'exists' => ['field' => $fieldType->getName()],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $uuids = [];
+        $scroll = $this->elasticaService->scroll($search);
+        foreach ($scroll as $resultSet) {
+            foreach ($resultSet as $result) {
+                $uuids = \array_merge($uuids, $result->getSource()[$fieldType->getName()] ?? []);
+            }
+        }
+
+        return \array_diff($uuids, $rawData[$fieldType->getName()] ?? []);
     }
 }

@@ -46,3 +46,7 @@ ems_client_helper:
     ems_link:  '%env(string:EMSCH_TEMPLATE_EMS_LINK)%'
   user_api:
     url: '%env(string:EMSCH_BACKEND_URL)%'
+
+when@dev:
+  ems_client_helper:
+    local: true

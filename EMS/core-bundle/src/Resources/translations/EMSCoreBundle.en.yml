@@ -234,6 +234,8 @@ log:
         created: 'Schedule %name% has been created'
         updated: 'Schedule %name% has been updated'
 form:
+    field-type-type:
+        root: 'Form''s root'
     actions:
         delete_selected: 'Delete selected forms'
         delete_confirm: 'Are you sure?'

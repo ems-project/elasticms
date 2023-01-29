@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Form\Form;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
+use EMS\CoreBundle\Form\FieldType\FieldTypeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -51,7 +52,10 @@ final class FormType extends AbstractType
                 'icon' => 'fa fa-save',
             ]);
         } else {
-            $builder->add('save', SubmitEmsType::class, [
+            $builder->add('fieldType', FieldTypeType::class, [
+                'data' => $form->getFieldType(),
+            ])
+            ->add('save', SubmitEmsType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary btn-sm ',
                 ],

@@ -7,13 +7,13 @@
     <route id="ems_core_submission_ajax" path="/datatable.json"
            controller="EMS\CoreBundle\Controller\Form\SubmissionController::ajaxDataTable"
            methods="GET"/>
-    <route id="form.submissions" path="/submissions"
+    <route id="form.submissions" path="/"
            controller="EMS\CoreBundle\Controller\Form\SubmissionController::indexAction"
            methods="GET|POST"/>
-    <route id="form.submissions.process" path="/submissions/process/{formSubmission}"
+    <route id="form.submissions.process" path="/process/{formSubmission}"
            controller="EMS\CoreBundle\Controller\Form\SubmissionController::process"
            methods="POST"/>
-    <route id="form.submissions.download" path="/submissions/download/{formSubmission}"
+    <route id="form.submissions.download" path="/download/{formSubmission}"
            controller="EMS\CoreBundle\Controller\Form\SubmissionController::download"
            methods="GET">
         <requirement key="id">\S+</requirement>

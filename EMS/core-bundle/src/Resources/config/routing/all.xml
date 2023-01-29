@@ -8,6 +8,7 @@
             prefix="/data"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/public.xml"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/dashboard.xml"/>
+    <import resource="@EMSCoreBundle/Resources/config/routing/form.xml"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/action.xml"
             prefix="/action"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/channel.xml"

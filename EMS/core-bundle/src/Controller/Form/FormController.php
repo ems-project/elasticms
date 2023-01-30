@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Form;
 
+use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\Form\FormManager;
 use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Form\Data\EntityTable;
@@ -22,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FormController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly FormManager $formManager)
+    public function __construct(private readonly LoggerInterface $logger, private readonly FormManager $formManager, private readonly FieldTypeManager $fieldTypeManager)
     {
     }
 
@@ -78,19 +79,35 @@ class FormController extends AbstractController
 
     public function edit(Request $request, Form $form, bool $create = false): Response
     {
+        $inputFieldType = $request->request->all('form')['fieldType'] ?? [];
         $formType = $this->createForm(FormType::class, $form, [
             'create' => $create,
         ]);
         $formType->handleRequest($request);
 
         if ($formType->isSubmitted() && $formType->isValid()) {
-            $this->formManager->update($form);
-
             if ($create) {
+                $this->formManager->update($form);
+
                 return $this->redirectToRoute(Routes::FORM_ADMIN_EDIT, ['form' => $form->getId()]);
             }
+            // TODO: mark related content types as dirty. An event maybe?
+            $openFiledForm = $this->fieldTypeManager->handleRequest($form->getFieldType(), $inputFieldType);
+            $form->getFieldType()->updateOrderKeys();
 
-            return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
+            $this->formManager->update($form);
+            $saveButton = $formType->get('save');
+            if (!$saveButton instanceof SubmitButton) {
+                throw new \RuntimeException('Unexpected submit button type');
+            }
+            if ($saveButton->isClicked()) {
+                return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
+            }
+
+            return $this->redirectToRoute(Routes::FORM_ADMIN_EDIT, \array_filter([
+                'form' => $form->getId(),
+                'open' => $openFiledForm,
+            ]));
         }
 
         return $this->render($create ? '@EMSCore/admin-form/add.html.twig' : '@EMSCore/admin-form/edit.html.twig', [

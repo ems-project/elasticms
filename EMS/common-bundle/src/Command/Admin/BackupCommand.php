@@ -133,6 +133,9 @@ class BackupCommand extends AbstractCommand
         $rows = [];
         $this->io->progressStart(\count($configTypes));
         foreach ($configTypes as $configType) {
+            if (\in_array($configType, ['job'])) {
+                continue;
+            }
             $rows[] = [$configType, $this->backupConfig($configType)];
             $this->io->progressAdvance();
         }

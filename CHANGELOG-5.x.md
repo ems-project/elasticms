@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.2.3 (2023-02-01)
+### Bug Fixes
+* fix(core): emsco_skip_notification twig function by @theus77 in https://github.com/ems-project/elasticms/pull/306
+
 ## 5.2.2 (2023-01-30)
 ### Bug Fixes
 * fix(admin-api): do not backup jobs by @theus77 in https://github.com/ems-project/elasticms/pull/293

@@ -17,9 +17,9 @@ class GitHubBranchesCommand extends AbstractGithubCommand
     {
         $this->io->title('GitHub: branches');
 
-        $this->info(\array_keys(Config::APPLICATIONS), 'applications');
-        $this->info(\array_keys(Config::DOCKER), 'docker');
-        $this->info(\array_keys(Config::PACKAGES), 'packages');
+        $this->info(Config::APPLICATIONS, 'applications');
+        $this->info(Config::DOCKER, 'docker');
+        $this->info(Config::PACKAGES, 'packages');
 
         return 0;
     }

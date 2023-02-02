@@ -34,11 +34,15 @@ final class EmailHandler extends AbstractHandler
                 ->to($emailRequest->getEndpoint())
                 ->html($emailRequest->getBody());
 
+            if (null !== ($replyTo = $emailRequest->getReplyTo())) {
+                $message->replyTo($replyTo);
+            }
+
             $this->addAttachments($emailRequest, $message);
 
             $this->mailer->send($message);
-        } catch (\Exception $exception) {
-            return new FailedHandleResponse(\sprintf('Submission failed, contact your admin. %s', $exception->getMessage()));
+        } catch (\Throwable $exception) {
+            return new FailedHandleResponse($exception);
         }
 
         return new EmailHandleResponse($message);

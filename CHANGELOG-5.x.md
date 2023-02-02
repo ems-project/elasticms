@@ -1,5 +1,59 @@
 # Changelog 5.x
 
+## 5.2.3 (2023-02-01)
+### Bug Fixes
+* fix(core): emsco_skip_notification twig function by @theus77 in https://github.com/ems-project/elasticms/pull/306
+
+## 5.2.2 (2023-01-30)
+### Bug Fixes
+* fix(admin-api): do not backup jobs by @theus77 in https://github.com/ems-project/elasticms/pull/293
+* fix(admin-api): update views and actions keep id by @Davidmattei in https://github.com/ems-project/elasticms/pull/296
+* fix(core-twig): in_my_circles ($circles) must be of type array|string by @Davidmattei in https://github.com/ems-project/elasticms/pull/301
+* fix(jsonMenu): add convert to nested helper function by @Davidmattei in https://github.com/ems-project/elasticms/pull/299
+* fix(jsonMenu): recompute and already assigned by @Davidmattei in https://github.com/ems-project/elasticms/pull/295
+* fix(recompute): deep recompute skip deleted fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/297
+* fix(revision): detail broken if field named 'children' by @Davidmattei in https://github.com/ems-project/elasticms/pull/298
+
+## 5.2.1 (2023-01-25)
+### Bug Fixes
+* fix(core): ajax modal 'enter' in textarea closes modal  by @Davidmattei in https://github.com/ems-project/elasticms/pull/286
+* fix(core): ajax modal pick file browser by @Davidmattei in https://github.com/ems-project/elasticms/pull/288
+* fix(submission): allow reply to header in email request/handler by @theus77 in https://github.com/ems-project/elasticms/pull/285
+* fix(submission): skip submit by @theus77 in https://github.com/ems-project/elasticms/pull/287
+
+## 5.2.0 (2023-01-24)
+### Features
+* feat(audit): delete non updated audit documents by @theus77 in https://github.com/ems-project/elasticms/pull/256
+* feat(cli): save audit by @theus77 in https://github.com/ems-project/elasticms/pull/267
+* feat(common): ems_ascii_folding by @theus77 in https://github.com/ems-project/elasticms/pull/262
+* feat(dataTable): public datatable routes by @theus77 in https://github.com/ems-project/elasticms/pull/280
+* feat(emsch-local): ems asset by @theus77 in https://github.com/ems-project/elasticms/pull/251
+* feat(helper): html standard with sanitizer by @Davidmattei in https://github.com/ems-project/elasticms/pull/260
+* feat(media lib): defaultValue and searchQuery by @Davidmattei in https://github.com/ems-project/elasticms/pull/268
+* feat(revision): delete by query by @theus77 in https://github.com/ems-project/elasticms/pull/254
+* feat(skeleton): redirect to path (BinaryFileResponse) by @theus77 in https://github.com/ems-project/elasticms/pull/252
+* feat(submission): multipart handler new endpoint option headers by @theus77 in https://github.com/ems-project/elasticms/pull/261
+* feat(submission): skip submit by @theus77 in https://github.com/ems-project/elasticms/pull/273
+* feat(wyiswyg): paste html cleaner by @Davidmattei in https://github.com/ems-project/elasticms/pull/264
+### Bug Fixes
+* fix(audit): duplicate ouuids by @theus77 in https://github.com/ems-project/elasticms/pull/272
+* fix(audit): redirect to non parsable url by @theus77 in https://github.com/ems-project/elasticms/pull/279
+* fix(cli): ../ url by @theus77 in https://github.com/ems-project/elasticms/pull/253
+* fix(cli): avoid deleting in dry-run and just logs thing in case of error o… by @theus77 in https://github.com/ems-project/elasticms/pull/266
+* fix(cli): define all timeouts in cache manager by @theus77 in https://github.com/ems-project/elasticms/pull/255
+* fix(cli): dont log password in audit documents by @theus77 in https://github.com/ems-project/elasticms/pull/257
+* fix(cli): require doctrine annotations by @Davidmattei in https://github.com/ems-project/elasticms/pull/246
+* fix(ems_webalize): don't drop number by default by @theus77 in https://github.com/ems-project/elasticms/pull/283
+* fix(jsonMenuNested): copy all broken by @Davidmattei in https://github.com/ems-project/elasticms/pull/281
+* fix(rebuild): publishing multiple revisions in default env by @Davidmattei in https://github.com/ems-project/elasticms/pull/282
+### Code Refactoring
+* refactor(demo): improved demo's robots.txt by @theus77 in https://github.com/ems-project/elasticms/pull/250
+* refactor(ui): new logo by @theus77 in https://github.com/ems-project/elasticms/pull/278
+### Builds
+* build: add demo to release by @Davidmattei in https://github.com/ems-project/elasticms/pull/284
+### Chores
+* chore(docker): improve dev docker by @Davidmattei in https://github.com/ems-project/elasticms/pull/265
+
 ## 5.1.2 (2023-01-06)
 ### Bug Fixes
 * fix(common/jmn): string spec for label on construct by @coppee in https://github.com/ems-project/elasticms/pull/249

@@ -37,8 +37,8 @@ final class HttpHandler extends AbstractHandler
             }
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Exception $exception) {
-            return new FailedHandleResponse(\sprintf('Submission failed, contact your admin. (%s)', $exception->getMessage()));
+        } catch (\Throwable $exception) {
+            return new FailedHandleResponse($exception);
         }
     }
 }

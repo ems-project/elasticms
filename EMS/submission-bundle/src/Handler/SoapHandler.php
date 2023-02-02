@@ -33,8 +33,8 @@ final class SoapHandler extends AbstractHandler
             $handleResponse = new SoapHandleResponse($soapRequest, $soapResponse);
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Exception $exception) {
-            return new FailedHandleResponse(\sprintf('Submission failed, contact your admin. (%s)', $exception->getMessage()));
+        } catch (\Throwable $exception) {
+            return new FailedHandleResponse($exception);
         }
     }
 }

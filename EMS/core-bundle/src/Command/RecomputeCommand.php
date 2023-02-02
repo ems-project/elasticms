@@ -180,6 +180,7 @@ final class RecomputeCommand extends Command
                 $revisionType->setData($newRevision); // bind new revision on form
 
                 if ($this->optionDeep) {
+                    $newRevision->setRawData([]);
                     $viewData = $this->dataService->getSubmitData($revisionType->get('data')); // get view data of new revision
                     $revisionType->submit(['data' => $viewData]); // submit new revision (reverse model transformers called
                 }
@@ -200,8 +201,6 @@ final class RecomputeCommand extends Command
                 $this->em->persist($revision);
                 $this->em->persist($newRevision);
                 $this->em->flush();
-                $this->em->detach($revision);
-                $this->em->detach($newRevision);
 
                 $this->indexService->indexRevision($newRevision);
 
@@ -225,6 +224,7 @@ final class RecomputeCommand extends Command
             if ($transactionActive) {
                 $this->em->commit();
             }
+            $this->em->clear();
 
             $paginator = $this->revisionRepository->findAllLockedRevisions($this->contentType, self::LOCK_BY, $page, $limit);
             $iterator = $paginator->getIterator();

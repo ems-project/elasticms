@@ -15,8 +15,15 @@ final class TableItemAction
     /**
      * @param array<string, mixed> $routeParameters
      */
-    private function __construct(private readonly bool $post, private readonly string $route, private readonly string $labelKey, private readonly string $icon, private readonly ?string $messageKey, private readonly array $routeParameters, private bool $dynamic = false)
-    {
+    private function __construct(
+        private readonly bool $post,
+        private readonly string $route,
+        private readonly string $labelKey,
+        private readonly string $icon,
+        private readonly ?string $messageKey,
+        private readonly array $routeParameters,
+        private bool $dynamic = false
+    ) {
     }
 
     /**

@@ -29,7 +29,7 @@ final class TableItemAction
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public static function postAction(string $route, string $labelKey, string $icon, string $messageKey, array $routeParameters = []): TableItemAction
+    public static function postAction(string $route, string $labelKey, string $icon, ?string $messageKey, array $routeParameters = []): TableItemAction
     {
         return new self(true, $route, $labelKey, $icon, $messageKey, $routeParameters);
     }
@@ -45,7 +45,7 @@ final class TableItemAction
     /**
      * @param array<string, string> $routeParameters
      */
-    public static function postDynamicAction(string $route, string $labelKey, string $icon, string $messageKey, array $routeParameters = []): TableItemAction
+    public static function postDynamicAction(string $route, string $labelKey, string $icon, ?string $messageKey, array $routeParameters = []): TableItemAction
     {
         return new self(true, $route, $labelKey, $icon, $messageKey, $routeParameters, true);
     }

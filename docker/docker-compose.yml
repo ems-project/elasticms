@@ -27,6 +27,8 @@ services:
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es01
+    ports:
+      - "9201:9200"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -37,6 +39,8 @@ services:
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es02
+    ports:
+      - "9202:9200"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -47,6 +51,8 @@ services:
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es03
+    ports:
+      - "9203:9200"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"

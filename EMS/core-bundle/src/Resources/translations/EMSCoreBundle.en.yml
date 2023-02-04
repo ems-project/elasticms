@@ -844,10 +844,9 @@ Views: Views
 'replace by revision %date%': 'replace by revision %date%'
 dashboard.actions.delete_selected: 'Deleted selected'
 dashboard.actions.edit: Edit
-dashboard.actions.set_quick_search: 'As quick search'
-dashboard.actions.set_quick_search_confirm: 'Do you confirm'
-dashboard.actions.set_landing_page: 'As landing page'
-dashboard.actions.set_landing_page_confirm: 'Do you confirm'
+dashboard.actions.define: 'Define'
+dashboard.actions.define.set_quick_search: 'As quick search'
+dashboard.actions.define.set_landing_page: 'As landing page'
 dashboard.actions.delete: Delete
 dashboard.actions.delete_confirm: 'Do you confirm'
 dashboard.index.column.name: Name

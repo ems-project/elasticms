@@ -132,7 +132,7 @@ class DashboardController extends AbstractController
         $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.quick_search', 'quick_search', '@EMSCore/dashboard/columns.html.twig'));
         $table->addItemGetAction(Routes::DASHBOARD_ADMIN_EDIT, 'dashboard.actions.edit', 'pencil');
 
-        $defineAction = $table->addItemActionCollection('dashboard.actions.define', 'gear');
+        $defineAction = $table->addItemActionCollection('dashboard.actions.define.title', 'gear');
         $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_SET_LANDING_PAGE, 'dashboard.actions.define.set_landing_page', 'dot-circle-o');
         $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_SET_QUICK_SEARCH, 'dashboard.actions.define.set_quick_search', 'search');
 

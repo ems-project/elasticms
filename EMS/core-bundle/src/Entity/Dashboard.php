@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CoreBundle\Core\Dashboard\DashboardOptions;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -129,20 +130,19 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
         $this->label = $label;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function getOptions(): array
+    public function getOption(string $option): ?string
     {
-        return $this->options ?? [];
+        return $this->getOptions()[$option];
     }
 
-    /**
-     * @param array<string, mixed> $options
-     */
-    public function setOptions(array $options): void
+    public function getOptions(): DashboardOptions
     {
-        $this->options = $options;
+        return new DashboardOptions($this->options ?? []);
+    }
+
+    public function setOptions(DashboardOptions $options): void
+    {
+        $this->options = $options->getOptions();
     }
 
     public function getOrderKey(): int

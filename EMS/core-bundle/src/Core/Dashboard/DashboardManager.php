@@ -141,42 +141,24 @@ class DashboardManager implements EntityServiceInterface
         return $menu;
     }
 
-    public function setQuickSearch(Dashboard $dashboard): void
+    public function getDefinition(string $definition): ?Dashboard
     {
-        if ($dashboard->isQuickSearch()) {
-            return;
+        return $this->dashboardRepository->getDefinition($definition);
+    }
+
+    public function define(Dashboard $dashboard, string $definition): void
+    {
+        if (!\in_array($definition, Dashboard::DEFINITIONS)) {
+            throw new \Exception(\sprintf('Invalid definition passed "%s"', $definition));
         }
-        $quickSearch = $this->dashboardRepository->getQuickSearch();
-        if (null !== $quickSearch) {
-            $quickSearch->setQuickSearch(false);
-            $this->update($quickSearch);
+
+        if (null !== $currentDefinition = $this->dashboardRepository->getDefinition($definition)) {
+            $currentDefinition->setDefinition(null);
+            $this->update($dashboard);
         }
-        $dashboard->setQuickSearch(true);
+
+        $dashboard->setDefinition($definition);
         $this->update($dashboard);
-    }
-
-    public function setLandingPage(Dashboard $dashboard): void
-    {
-        if ($dashboard->isLandingPage()) {
-            return;
-        }
-        $landingPage = $this->dashboardRepository->getLandingPage();
-        if (null !== $landingPage) {
-            $landingPage->setLandingPage(false);
-            $this->update($landingPage);
-        }
-        $dashboard->setLandingPage(true);
-        $this->update($dashboard);
-    }
-
-    public function getLandingPage(): ?Dashboard
-    {
-        return $this->dashboardRepository->getLandingPage();
-    }
-
-    public function getQuickSearch(): ?Dashboard
-    {
-        return $this->dashboardRepository->getQuickSearch();
     }
 
     public function getByItemName(string $name): ?EntityInterface

@@ -433,14 +433,16 @@ dashboard:
             name: Name
             label: Label
             type: Type
-            landing_page: 'Landing page'
-            quick_search: 'Quick search'
+            definition: Definition
             public: Public
+    definition:
+        quick_search: 'Quick search'
+        landing_page: 'Landing page'
     actions:
         define:
             title: 'Define'
-            set_quick_search: 'As quick search'
-            set_landing_page: 'As landing page'
+            quick_search: 'As quick search'
+            landing_page: 'As landing page'
         delete_selected: 'Deleted selected'
         edit: Edit
         delete: Delete

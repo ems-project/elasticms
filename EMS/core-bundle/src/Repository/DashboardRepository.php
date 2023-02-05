@@ -135,13 +135,8 @@ final class DashboardRepository extends ServiceEntityRepository
         return $this->findOneBy(['name' => $name]);
     }
 
-    public function getQuickSearch(): ?Dashboard
+    public function getDefinition(string $definition): ?Dashboard
     {
-        return $this->findOneBy(['quickSearch' => true]);
-    }
-
-    public function getLandingPage(): ?Dashboard
-    {
-        return $this->findOneBy(['landingPage' => true]);
+        return $this->findOneBy(['definition' => $definition]);
     }
 }

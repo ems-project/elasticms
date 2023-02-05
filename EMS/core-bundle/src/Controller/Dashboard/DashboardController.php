@@ -107,16 +107,9 @@ class DashboardController extends AbstractController
         return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
     }
 
-    public function setQuickSearch(Dashboard $dashboard): Response
+    public function define(Dashboard $dashboard, string $definition): Response
     {
-        $this->dashboardManager->setQuickSearch($dashboard);
-
-        return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
-    }
-
-    public function setLandingPage(Dashboard $dashboard): Response
-    {
-        $this->dashboardManager->setLandingPage($dashboard);
+        $this->dashboardManager->define($dashboard, $definition);
 
         return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
     }
@@ -128,13 +121,12 @@ class DashboardController extends AbstractController
         $table->addColumn('dashboard.index.column.name', 'name');
         $table->addColumn('dashboard.index.column.label', 'label')->setItemIconCallback(fn (Dashboard $dashboard) => $dashboard->getIcon());
         $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.type', 'type', '@EMSCore/dashboard/columns.html.twig'));
-        $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.landing_page', 'landing_page', '@EMSCore/dashboard/columns.html.twig'));
-        $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.quick_search', 'quick_search', '@EMSCore/dashboard/columns.html.twig'));
+        $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.definition', 'definition', '@EMSCore/dashboard/columns.html.twig'));
         $table->addItemGetAction(Routes::DASHBOARD_ADMIN_EDIT, 'dashboard.actions.edit', 'pencil');
 
         $defineAction = $table->addItemActionCollection('dashboard.actions.define.title', 'gear');
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_SET_LANDING_PAGE, 'dashboard.actions.define.set_landing_page', 'dot-circle-o');
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_SET_QUICK_SEARCH, 'dashboard.actions.define.set_quick_search', 'search');
+        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.landing_page', 'dot-circle-o', null, ['definition' => Dashboard::DEFINITION_LANDING_PAGE]);
+        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.quick_search', 'search', null, ['definition' => Dashboard::DEFINITION_QUICK_SEARCH]);
 
         $table->addItemPostAction(Routes::DASHBOARD_ADMIN_DELETE, 'dashboard.actions.delete', 'trash', 'dashboard.actions.delete_confirm')->setButtonType('outline-danger');
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'dashboard.actions.delete_selected', 'dashboard.actions.delete_selected_confirm')

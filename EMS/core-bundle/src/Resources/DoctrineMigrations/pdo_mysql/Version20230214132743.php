@@ -25,6 +25,8 @@ final class Version20230214132743 extends AbstractMigration
         $this->addSql('UPDATE dashboard SET definition = :def WHERE landing_page = true', ['def' => Dashboard::DEFINITION_LANDING_PAGE]);
 
         $this->addSql('ALTER TABLE dashboard DROP landing_page, DROP quick_search');
+
+        $this->addSql('ALTER TABLE user DROP allowed_to_configure_wysiwyg, DROP wysiwyg_options');
     }
 
     public function down(Schema $schema): void
@@ -41,5 +43,7 @@ final class Version20230214132743 extends AbstractMigration
 
         $this->addSql('DROP INDEX definition_uniq ON dashboard');
         $this->addSql('ALTER TABLE dashboard DROP definition');
+
+        $this->addSql('ALTER TABLE `user` ADD allowed_to_configure_wysiwyg TINYINT(1) DEFAULT NULL, ADD wysiwyg_options LONGTEXT DEFAULT NULL');
     }
 }

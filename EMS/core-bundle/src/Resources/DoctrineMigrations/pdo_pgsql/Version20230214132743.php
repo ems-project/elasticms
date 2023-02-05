@@ -26,6 +26,9 @@ final class Version20230214132743 extends AbstractMigration
 
         $this->addSql('ALTER TABLE dashboard DROP landing_page');
         $this->addSql('ALTER TABLE dashboard DROP quick_search');
+
+        $this->addSql('ALTER TABLE "user" DROP allowed_to_configure_wysiwyg');
+        $this->addSql('ALTER TABLE "user" DROP wysiwyg_options');
     }
 
     public function down(Schema $schema): void
@@ -43,5 +46,8 @@ final class Version20230214132743 extends AbstractMigration
 
         $this->addSql('DROP INDEX definition_uniq');
         $this->addSql('ALTER TABLE dashboard DROP definition');
+
+        $this->addSql('ALTER TABLE "user" ADD allowed_to_configure_wysiwyg BOOLEAN DEFAULT NULL');
+        $this->addSql('ALTER TABLE "user" ADD wysiwyg_options TEXT DEFAULT NULL');
     }
 }

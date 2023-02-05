@@ -93,10 +93,12 @@ class Dashboard extends JsonDeserializer implements \JsonSerializable, EntityInt
 
     public const DEFINITION_LANDING_PAGE = 'landing_page';
     public const DEFINITION_QUICK_SEARCH = 'quick_search';
+    public const DEFINITION_BROWSER_IMAGE = 'browser_image';
 
     public const DEFINITIONS = [
         self::DEFINITION_QUICK_SEARCH,
         self::DEFINITION_LANDING_PAGE,
+        self::DEFINITION_BROWSER_IMAGE,
     ];
 
     public function __construct()

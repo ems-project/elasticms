@@ -127,6 +127,7 @@ class DashboardController extends AbstractController
         $defineAction = $table->addItemActionCollection('dashboard.actions.define.title', 'gear');
         $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.landing_page', 'dot-circle-o', null, ['definition' => Dashboard::DEFINITION_LANDING_PAGE]);
         $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.quick_search', 'search', null, ['definition' => Dashboard::DEFINITION_QUICK_SEARCH]);
+        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.browser_image', 'image', null, ['definition' => Dashboard::DEFINITION_BROWSER_IMAGE]);
 
         $table->addItemPostAction(Routes::DASHBOARD_ADMIN_DELETE, 'dashboard.actions.delete', 'trash', 'dashboard.actions.delete_confirm')->setButtonType('outline-danger');
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'dashboard.actions.delete_selected', 'dashboard.actions.delete_selected_confirm')

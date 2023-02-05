@@ -438,11 +438,13 @@ dashboard:
     definition:
         quick_search: 'Quick search'
         landing_page: 'Landing page'
+        browser_image: 'Image browser'
     actions:
         define:
             title: 'Define'
             quick_search: 'As quick search'
             landing_page: 'As landing page'
+            browser_image: 'As image browser'
         delete_selected: 'Deleted selected'
         edit: Edit
         delete: Delete

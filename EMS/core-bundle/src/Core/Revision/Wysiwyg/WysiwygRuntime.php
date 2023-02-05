@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Revision\Wysiwyg;
 
-use EMS\CoreBundle\Service\UserService;
+use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -14,7 +14,7 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private readonly WysiwygStylesSetService $wysiwygStylesSetService,
-        private readonly UserService $userService,
+        private readonly UserManager $userManager,
         private readonly UrlGeneratorInterface $urlGenerator
     ) {
     }
@@ -37,27 +37,21 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
      */
     private function getConfig(): array
     {
-        try {
-            $user = $this->userService->getCurrentUser();
-        } catch (\RuntimeException) {
+        $profile = $this->userManager->getUser()?->getWysiwygProfile();
+
+        if (null === $profile || null === $profileConfig = $profile->getConfig()) {
             return [];
         }
 
-        $profile = $user->getWysiwygProfile();
+        $config = Json::decode($profileConfig);
 
-        if ($profile && null !== $jsonConfig = $profile->getConfig()) {
-            $config = Json::decode($jsonConfig);
-
-            if (isset($config['ems']['paste'])) {
-                $config['emsAjaxPaste'] = $this->urlGenerator->generate('emsco_wysiwyg_ajax_paste', [
-                    'wysiwygProfileId' => $profile->getId(),
-                ]);
-            }
-
-            return $config;
+        if (isset($config['ems']['paste'])) {
+            $config['emsAjaxPaste'] = $this->urlGenerator->generate('emsco_wysiwyg_ajax_paste', [
+                'wysiwygProfileId' => $profile->getId(),
+            ]);
         }
 
-        return [];
+        return $config;
     }
 
     /**

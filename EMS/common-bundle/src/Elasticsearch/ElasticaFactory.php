@@ -17,7 +17,7 @@ class ElasticaFactory
     /**
      * @param array<string> $hosts
      */
-    public function fromConfig(array $hosts, string $connectionPool = SniffingConnectionPool::class): Client
+    public function fromConfig(array $hosts, ?string $connectionPool = null): Client
     {
         $servers = [];
         foreach ($hosts as $host) {
@@ -29,7 +29,7 @@ class ElasticaFactory
 
         $config = [
             'servers' => $servers,
-            'connectionPool' => $connectionPool,
+            'connectionPool' => $connectionPool ?? SniffingConnectionPool::class,
         ];
 
         $client = new Client($config);

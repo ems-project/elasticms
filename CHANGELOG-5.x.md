@@ -1,5 +1,19 @@
 # Changelog 5.x
 
+## 5.2.3 (2023-02-01)
+### Bug Fixes
+* fix(core): emsco_skip_notification twig function by @theus77 in https://github.com/ems-project/elasticms/pull/306
+
+## 5.2.2 (2023-01-30)
+### Bug Fixes
+* fix(admin-api): do not backup jobs by @theus77 in https://github.com/ems-project/elasticms/pull/293
+* fix(admin-api): update views and actions keep id by @Davidmattei in https://github.com/ems-project/elasticms/pull/296
+* fix(core-twig): in_my_circles ($circles) must be of type array|string by @Davidmattei in https://github.com/ems-project/elasticms/pull/301
+* fix(jsonMenu): add convert to nested helper function by @Davidmattei in https://github.com/ems-project/elasticms/pull/299
+* fix(jsonMenu): recompute and already assigned by @Davidmattei in https://github.com/ems-project/elasticms/pull/295
+* fix(recompute): deep recompute skip deleted fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/297
+* fix(revision): detail broken if field named 'children' by @Davidmattei in https://github.com/ems-project/elasticms/pull/298
+
 ## 5.2.1 (2023-01-25)
 ### Bug Fixes
 * fix(core): ajax modal 'enter' in textarea closes modal  by @Davidmattei in https://github.com/ems-project/elasticms/pull/286

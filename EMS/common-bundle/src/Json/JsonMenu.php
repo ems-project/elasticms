@@ -2,6 +2,9 @@
 
 namespace EMS\CommonBundle\Json;
 
+use EMS\Helpers\ArrayHelper\ArrayHelper;
+use EMS\Helpers\Standard\Json;
+
 class JsonMenu
 {
     /** @var array<mixed> */
@@ -17,6 +20,24 @@ class JsonMenu
     {
         $this->structure = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         $this->recursiveWalk($this->structure);
+    }
+
+    public function convertJsonMenuNested(): string
+    {
+        $structure = ArrayHelper::map($this->structure, function ($value) {
+            if (\is_array($value) && isset($value['id'])) {
+                return \array_filter([
+                    'id' => $value['id'],
+                    'label' => $value['label'],
+                    'type' => $value['contentType'] ?? $value['type'],
+                    'children' => $value['children'] ?? [],
+                ]);
+            }
+
+            return $value;
+        });
+
+        return Json::encode(JsonMenuNested::fromStructure(Json::encode($structure))->toArrayStructure());
     }
 
     /**

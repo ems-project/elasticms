@@ -29,6 +29,10 @@
            controller="EMS\CoreBundle\Controller\Dashboard\DashboardController::define"
            methods="POST"/>
 
+    <route id="emsco_dashboard_browse" path="/dashboard/browse/{dashboardName}"
+           controller="EMS\CoreBundle\Controller\Dashboard\DashboardBrowserController"
+           methods="GET" />
+
     <route id="ems_core_dashboard" path="/dashboard"
            controller="EMS\CoreBundle\Controller\DashboardController::landing"
            methods="GET"/>

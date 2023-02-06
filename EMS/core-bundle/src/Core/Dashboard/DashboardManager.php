@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Dashboard;
 
+use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Core\UI\Menu;
@@ -17,6 +18,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class DashboardManager implements EntityServiceInterface
 {
+    /** @var ?Collection<string, Dashboard> */
+    private ?Collection $definitions = null;
+
     public function __construct(private readonly DashboardRepository $dashboardRepository, private readonly LoggerInterface $logger, private readonly AuthorizationCheckerInterface $authorizationChecker)
     {
     }
@@ -143,7 +147,7 @@ class DashboardManager implements EntityServiceInterface
 
     public function getDefinition(string $definition): ?Dashboard
     {
-        return $this->dashboardRepository->getDefinition($definition);
+        return $this->getDefinitions()->get($definition);
     }
 
     public function define(Dashboard $dashboard, string $definition): void
@@ -198,5 +202,17 @@ class DashboardManager implements EntityServiceInterface
         $this->dashboardRepository->delete($dashboard);
 
         return $id;
+    }
+
+    /**
+     * @return Collection<string, Dashboard>
+     */
+    private function getDefinitions(): Collection
+    {
+        if (null === $this->definitions) {
+            $this->definitions = $this->dashboardRepository->getDefinitions();
+        }
+
+        return $this->definitions;
     }
 }

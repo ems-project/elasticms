@@ -439,12 +439,16 @@ dashboard:
         quick_search: 'Quick search'
         landing_page: 'Landing page'
         browser_image: 'Image browser'
+        browser_object: 'Object browser'
+        browser_file: 'File browser'
     actions:
         define:
             title: 'Define'
             quick_search: 'As quick search'
             landing_page: 'As landing page'
             browser_image: 'As image browser'
+            browser_object: 'As object browser'
+            browser_file: 'As file browser'
         delete_selected: 'Deleted selected'
         edit: Edit
         delete: Delete

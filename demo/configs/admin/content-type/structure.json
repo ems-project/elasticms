@@ -18,9 +18,6 @@
             "class": "EMS\\CoreBundle\\Entity\\FieldType",
             "arguments": [],
             "properties": {
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true,
                 "type": "EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType",
                 "name": "source",
                 "contentType": null,
@@ -735,7 +732,10 @@
                         },
                         "replaced": []
                     }
-                ]
+                ],
+                "__initializer__": null,
+                "__cloner__": null,
+                "__isInitialized__": true
             },
             "replaced": []
         },
@@ -775,7 +775,8 @@
         "versionOptions": [],
         "versionFields": [],
         "roles": [],
-        "fields": []
+        "fields": [],
+        "settings": null
     },
     "replaced": []
 }

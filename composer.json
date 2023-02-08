@@ -41,7 +41,7 @@
         "doctrine/orm": "^2.6",
         "dompdf/dompdf": "^v2.0",
         "dragonmantank/cron-expression": "^3.1",
-        "endroid/qr-code-bundle": "^3.4",
+        "endroid/qr-code-bundle": "^4.0",
         "giggsey/libphonenumber-for-php": "^8.12",
         "guzzlehttp/guzzle": "^6.3",
         "kevinrob/guzzle-cache-middleware": "^4.0",

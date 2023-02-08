@@ -35,13 +35,13 @@ final class Configuration implements ConfigurationInterface
                         ->scalarNode('ems_link')->defaultValue('@EMSCH/template/emsLinks/{type}.ems_link.twig')->end()
                     ->end()
                 ->end()
-                ->booleanNode('local')->defaultFalse()->end()
             ->end()
         ;
 
         $this->addElasticmsSection($rootNode);
         $this->addApiSection($rootNode);
         $this->addUserApiSection($rootNode);
+        $this->addLocalSection($rootNode);
 
         return $treeBuilder;
     }
@@ -145,6 +145,21 @@ final class Configuration implements ConfigurationInterface
                             ->scalarNode('url')
                                 ->info('url of the elasticms without /user_api')
                                 ->isRequired()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    }
+
+    private function addLocalSection(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('local')
+                    ->canBeEnabled()
+                        ->children()
+                            ->scalarNode('path')->end()
                         ->end()
                     ->end()
                 ->end()

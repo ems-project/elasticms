@@ -14,15 +14,15 @@ use Symfony\Component\Filesystem\Filesystem;
 final class LocalEnvironment
 {
     private readonly Filesystem $fileSystem;
-    private readonly string $directory;
 
     private ?RoutingFile $routingFile = null;
     private ?TemplateFiles $templatesFiles = null;
     private ?TranslationFiles $translationFiles = null;
 
-    public function __construct(private readonly Environment $environment, string $path)
-    {
-        $this->directory = $path.\DIRECTORY_SEPARATOR.$environment->getAlias();
+    public function __construct(
+        private readonly Environment $environment,
+        private readonly string $directory
+    ) {
         $this->fileSystem = new Filesystem();
     }
 

@@ -18,9 +18,6 @@
             "class": "EMS\\CoreBundle\\Entity\\FieldType",
             "arguments": [],
             "properties": {
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true,
                 "type": "EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType",
                 "name": "source",
                 "contentType": null,
@@ -29,7 +26,10 @@
                 "options": [],
                 "orderKey": 0,
                 "parent": null,
-                "children": []
+                "children": [],
+                "__initializer__": null,
+                "__cloner__": null,
+                "__isInitialized__": true
             },
             "replaced": []
         },
@@ -50,6 +50,7 @@
                     "type": "ems.view.report",
                     "label": "Overview",
                     "icon": "fa fa-list-ul",
+                    "options": null,
                     "orderKey": 0,
                     "public": false,
                     "role": null
@@ -62,7 +63,8 @@
         "versionOptions": [],
         "versionFields": [],
         "roles": [],
-        "fields": []
+        "fields": [],
+        "settings": null
     },
     "replaced": []
 }

@@ -5,6 +5,8 @@ namespace EMS\CoreBundle\Form\DataField;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\DataField\Options\OptionsType;
+use EMS\CoreBundle\Form\DataTransformer\DataFieldModelTransformer;
+use EMS\CoreBundle\Form\DataTransformer\DataFieldViewTransformer;
 use EMS\CoreBundle\Form\Field\SelectPickerType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use Symfony\Component\Form\AbstractType;
@@ -485,5 +487,27 @@ abstract class DataFieldType extends AbstractType
         $options = $this->elasticsearchService->updateMapping(\array_merge(['type' => 'string'], \array_filter($current->getMappingOptions())));
 
         return [$current->getName() => $options];
+    }
+
+    protected function buildChildForm(FieldType $fieldType, mixed $options, FormBuilderInterface $builder): void
+    {
+        if (!$fieldType->getDeleted()) {
+            /* merge the default options with the ones specified by the user */
+            $options = \array_merge([
+                'metadata' => $fieldType,
+                'label' => false,
+                'migration' => $options['migration'],
+                'with_warning' => $options['with_warning'],
+                'raw_data' => $options['raw_data'],
+                'disabled_fields' => $options['disabled_fields'],
+                'referrer-ems-id' => $options['referrer-ems-id'],
+            ], $fieldType->getDisplayOptions());
+
+            $builder->add($fieldType->getName(), $fieldType->getType(), $options);
+
+            $builder->get($fieldType->getName())
+                ->addViewTransformer(new DataFieldViewTransformer($fieldType, $this->formRegistry))
+                ->addModelTransformer(new DataFieldModelTransformer($fieldType, $this->formRegistry));
+        }
     }
 }

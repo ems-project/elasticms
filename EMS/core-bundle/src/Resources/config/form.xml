@@ -405,6 +405,10 @@
             <argument type="service" id="doctrine" />
             <tag name="form.type"/>
         </service>
+        <service id="ems.form.field.formpickertype" class="EMS\CoreBundle\Form\Field\FormPickerType">
+            <argument type="service" id="ems.form.manager" />
+            <tag name="form.type"/>
+        </service>
         <service id="ems.form.field.alignindexes" class="EMS\CoreBundle\Form\Field\AlignIndexesType">
             <argument type="service" id="ems.service.alias" />
             <tag name="form.type"/>

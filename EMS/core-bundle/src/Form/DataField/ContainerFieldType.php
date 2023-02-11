@@ -66,24 +66,7 @@ class ContainerFieldType extends DataFieldType
         $fieldType = $builder->getOptions()['metadata'];
 
         foreach ($fieldType->getChildren() as $child) {
-            if (!$child->getDeleted()) {
-                /* merge the default options with the ones specified by the user */
-                $options = \array_merge([
-                        'metadata' => $child,
-                        'label' => false,
-                        'migration' => $options['migration'],
-                        'with_warning' => $options['with_warning'],
-                        'raw_data' => $options['raw_data'],
-                        'disabled_fields' => $options['disabled_fields'],
-                        'referrer-ems-id' => $options['referrer-ems-id'],
-                ], $child->getDisplayOptions());
-
-                $builder->add($child->getName(), $child->getType(), $options);
-
-                $builder->get($child->getName())
-                    ->addViewTransformer(new DataFieldViewTransformer($child, $this->formRegistry))
-                    ->addModelTransformer(new DataFieldModelTransformer($child, $this->formRegistry));
-            }
+            $this->buildChildForm($child, $options, $builder);
         }
     }
 

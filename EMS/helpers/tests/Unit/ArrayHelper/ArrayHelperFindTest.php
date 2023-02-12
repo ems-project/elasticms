@@ -33,7 +33,7 @@ class ArrayHelperFindTest extends TestCase
         $this->assertSame('example', ArrayHelper::findString('test', ['test' => 'example']));
         $this->assertSame(null, ArrayHelper::findString('test', ['test' => null]));
 
-        $this->expectErrorMessage("Expect a string got 'integer'");
+        $this->expectExceptionMessage("Expect a string got 'integer'");
         $this->assertSame('1', ArrayHelper::findString('test', ['test' => 1]));
     }
 
@@ -42,7 +42,7 @@ class ArrayHelperFindTest extends TestCase
         $this->assertSame(999, ArrayHelper::findInteger('test', ['test' => 999]));
         $this->assertSame(null, ArrayHelper::findInteger('test', ['test' => null]));
 
-        $this->expectErrorMessage("Expect an integer got 'string'");
+        $this->expectExceptionMessage("Expect an integer got 'string'");
         $this->assertSame(1, ArrayHelper::findInteger('test', ['test' => '1']));
     }
 

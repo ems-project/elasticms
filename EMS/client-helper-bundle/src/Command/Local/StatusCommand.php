@@ -54,7 +54,7 @@ final class StatusCommand extends AbstractLocalCommand
             }
         }
 
-        return 1;
+        return self::EXECUTE_SUCCESS;
     }
 
     private function printStatus(OutputInterface $output, Status $status): void

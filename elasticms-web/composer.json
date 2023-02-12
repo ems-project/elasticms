@@ -11,7 +11,7 @@
         "elasticms/common-bundle": "^5.0",
         "elasticms/form-bundle": "^5.0",
         "elasticms/submission-bundle": "^5.0",
-        "endroid/qr-code-bundle": "^3.4",
+        "endroid/qr-code-bundle": "^4.0",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "^5.4",
         "symfony/dotenv": "^5.4",

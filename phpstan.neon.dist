@@ -13,7 +13,11 @@ parameters:
         - %currentWorkingDirectory%/release
     excludePaths:
         - %currentWorkingDirectory%/vendor/*
+        - %currentWorkingDirectory%/EMS/client-helper-bundle/src/Resources/*
         - %currentWorkingDirectory%/EMS/common-bundle/src/Resources/*
+        - %currentWorkingDirectory%/EMS/core-bundle/src/Resources/*
+        - %currentWorkingDirectory%/EMS/form-bundle/src/Resources/*
+        - %currentWorkingDirectory%/EMS/submission-bundle/src/Resources/*
     level: 8
     parallel:
         maximumNumberOfProcesses: 2

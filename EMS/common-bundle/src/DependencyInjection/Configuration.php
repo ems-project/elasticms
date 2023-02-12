@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('backend_url')->defaultValue(null)->end()
                 ->scalarNode('backend_api_key')->defaultValue(null)->end()
                 ->scalarNode('backend_api_insecure')->defaultValue(false)->end()
+                ->scalarNode('elasticsearch_connection_pool')->defaultValue(null)->end()
                 ->variableNode('elasticsearch_hosts')->defaultValue(self::ELASTICSEARCH_DEFAULT_HOSTS)->end()
                 ->integerNode('log_level')->defaultValue(self::LOG_LEVEL)->end()
             ->end()

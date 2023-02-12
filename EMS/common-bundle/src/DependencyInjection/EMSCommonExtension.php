@@ -41,6 +41,7 @@ class EMSCommonExtension extends Extension
         $container->setParameter('ems_common.backend_api_key', $config['backend_api_key']);
         $container->setParameter('ems_common.backend_api_insecure', $config['backend_api_insecure']);
         $container->setParameter('ems_common.elasticsearch_hosts', $config['elasticsearch_hosts']);
+        $container->setParameter('ems_common.elasticsearch_connection_pool', $config['elasticsearch_connection_pool']);
         $container->setParameter('ems_common.storages', $config['storages']);
         $container->setParameter('ems_common.log_level', $config['log_level']);
 

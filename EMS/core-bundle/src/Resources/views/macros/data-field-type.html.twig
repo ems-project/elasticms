@@ -1248,5 +1248,17 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_FormFieldType %}
-    <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|default([])|json_encode(constant('JSON_PRETTY_PRINT'))|internal_links }}</pre>
+    {% if dataField.fieldType.displayOptions.form is defined %}
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                {{ dataField.fieldType.displayOptions.label|default(dataField.fieldType.name) }}{% if is_super() %} ({{ dataField.fieldType.name }}){% endif %}
+            </div>
+            <div class="panel-body">
+                {{ 'view.macros.data-field-type.form.not-defined'|trans }}
+            </div>
+        </div>
+    {% else %}
+        Render form
+    {% endif %}
+{#    <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|default([])|json_encode(constant('JSON_PRETTY_PRINT'))|internal_links }}</pre>#}
 {% endblock %}

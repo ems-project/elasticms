@@ -37,7 +37,7 @@ class FormRuntime
         $fakeRevision = new Revision();
         $fakeRevision->setContentType($fakeContentType);
         $fakeRevision->setRawData($rawData);
-        $form = $this->revisionService->createRevisionForm($fakeRevision);
+        $form = $this->revisionService->createRevisionForm($fakeRevision, true);
 
         return $form->get('data');
     }

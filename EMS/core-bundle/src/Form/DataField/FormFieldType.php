@@ -29,6 +29,11 @@ class FormFieldType extends DataFieldType
         parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
     }
 
+    public static function isVisible(): bool
+    {
+        return false;
+    }
+
     public function getLabel(): string
     {
         return 'Refers to a form entity';
@@ -138,8 +143,6 @@ class FormFieldType extends DataFieldType
      */
     public static function getJsonNames(FieldType $current): array
     {
-        \dump($current);
-
         return [];
     }
 

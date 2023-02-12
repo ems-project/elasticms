@@ -42,6 +42,11 @@ abstract class DataFieldType extends AbstractType
         return \explode("\n", $cleaned);
     }
 
+    public static function isVisible(): bool
+    {
+        return true;
+    }
+
     public function getBlockPrefix(): string
     {
         return 'data_field_type';
@@ -259,6 +264,7 @@ abstract class DataFieldType extends AbstractType
                 'helptext' => null,
                 'disabled_fields' => [],
                 'referrer-ems-id' => null,
+                'is_visible' => true,
         ]);
     }
 
@@ -299,6 +305,7 @@ abstract class DataFieldType extends AbstractType
         $view->vars['lastOfRow'] = $options['lastOfRow'];
         $view->vars['helptext'] = $options['helptext'];
         $view->vars['isContainer'] = static::isContainer();
+        $view->vars['isVisible'] = static::isVisible();
         if (null == $options['label']) {
             $view->vars['label'] = false;
         }

@@ -17,6 +17,13 @@
             <argument type="service" id="ems_core.core_content_type_transformer.content_transformers"/>
             <tag name="form.type"/>
         </service>
+        <service id="ems.fieldtype.holder" class="EMS\CoreBundle\Form\DataField\HolderFieldType">
+            <argument type="service" id="security.authorization_checker" />
+            <argument type="service" id="form.registry" />
+            <argument type="service" id="ems.service.elasticsearch" />
+            <tag name="ems.form.datafieldtype" alias="holder" />
+            <tag name="form.type"/>
+        </service>
         <service id="ems.fieldtype.container" class="EMS\CoreBundle\Form\DataField\ContainerFieldType">
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="form.registry" />

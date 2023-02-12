@@ -1,22 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Defined a Container content type.
- * It's used to logically groups subfields together. However a Container is invisible in Elastic search.
- *
- * @author Mathieu De Keyzer <ems@theus.be>
- */
-class TabsFieldType extends DataFieldType
+class HolderFieldType extends DataFieldType
 {
     public function getLabel(): string
     {
-        return 'Visual tab container (invisible in Elasticsearch)';
+        return 'Invisible container';
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'holder_field_type';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function postFinalizeTreatment(string $type, string $id, DataField $dataField, ?array $previousData): ?array
+    {
+        if (!empty($previousData[$dataField->giveFieldType()->getName()])) {
+            return $previousData[$dataField->giveFieldType()->getName()];
+        }
+
+        return null;
     }
 
     /**
@@ -27,17 +41,9 @@ class TabsFieldType extends DataFieldType
         throw new \Exception('This method should never be called');
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getBlockPrefix(): string
-    {
-        return 'tabsfieldtype';
-    }
-
     public static function getIcon(): string
     {
-        return 'fa fa-object-group';
+        return 'fa fa-square-o';
     }
 
     /**
@@ -50,10 +56,18 @@ class TabsFieldType extends DataFieldType
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
 
-        /** @var FieldType $fieldType */
-        foreach ($fieldType->getChildren() as $fieldType) {
-            $this->buildChildForm($fieldType, $options, $builder);
+        foreach ($fieldType->getChildren() as $child) {
+            $this->buildChildForm($child, $options, $builder);
         }
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        /* set the default option value for this kind of compound field */
+        parent::configureOptions($resolver);
+        /* an optional icon can't be specified ritgh to the container label */
+        $resolver->setDefault('icon', null);
+        $resolver->setDefault('is_visible', false);
     }
 
     /**
@@ -72,6 +86,11 @@ class TabsFieldType extends DataFieldType
         return true;
     }
 
+    public static function isVisible(): bool
+    {
+        return false;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -79,7 +98,7 @@ class TabsFieldType extends DataFieldType
     {
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
-        // tabs aren't mapped in elasticsearch
+        // container aren't mapped in elasticsearch
         $optionsForm->remove('mappingOptions');
         $optionsForm->remove('migrationOptions');
         $optionsForm->get('restrictionOptions')->remove('mandatory');

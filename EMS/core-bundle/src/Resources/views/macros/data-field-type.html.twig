@@ -1248,17 +1248,41 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_FormFieldType %}
+    {% import "@EMSCore/macros/data-field-type.html.twig" as macros %}
     {% if dataField.fieldType.displayOptions.form is defined %}
+        {% set form = emsco_get_form(dataField.fieldType.displayOptions.form) %}
+        {% set errorMessage = 'view.macros.data-field-type.form.not-found' %}
+    {% endif %}
+    {% if form is defined and form %}
+        {% for field in form.fieldType.children %}
+            {% set blockName = field.type|replace({'\\': '_'}) %}
+            {% dump(blockName) %}
+            {% with {
+                'dataField': dataField,
+                'source': source,
+                'compare': compare,
+                'compareRawData': compareRawData,
+                'path': path,
+            } %}
+{#                {{ block(blockName) }}#}
+            {% endwith %}
+
+        {% endfor %}
+
+
+
+{#                {{ dump(dataField) }}#}
+{#                {{ dump(form) }}#}
+{#                {{ macros.renderDataField(form, source, compare, compareRawData) }}#}
+    {% else %}
         <div class="panel panel-warning">
             <div class="panel-heading">
                 {{ dataField.fieldType.displayOptions.label|default(dataField.fieldType.name) }}{% if is_super() %} ({{ dataField.fieldType.name }}){% endif %}
             </div>
             <div class="panel-body">
-                {{ 'view.macros.data-field-type.form.not-defined'|trans }}
+                {{ errorMessage|default('view.macros.data-field-type.form.not-defined')|trans }}
             </div>
         </div>
-    {% else %}
-        Render form
     {% endif %}
 {#    <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|default([])|json_encode(constant('JSON_PRETTY_PRINT'))|internal_links }}</pre>#}
 {% endblock %}

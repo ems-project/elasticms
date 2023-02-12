@@ -13,8 +13,13 @@ class FormRuntime
     {
     }
 
-    public function getFormByName(string $name): Form
+    public function getFormByName(string $name): ?Form
     {
-        return $this->formManager->getByName($name);
+        $form = $this->formManager->getByItemName($name);
+        if (null !== $form && !$form instanceof Form) {
+            throw new \RuntimeException('Unexpected non-Form entity');
+        }
+
+        return $form;
     }
 }

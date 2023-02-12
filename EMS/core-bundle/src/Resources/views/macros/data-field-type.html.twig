@@ -312,6 +312,13 @@
 	{{ _self.messages(dataField) }}
 {% endblock %}
 
+{% block EMS_CoreBundle_Form_DataField_HolderFieldType %}
+    {% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
+        {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path) }}
+    {% endfor %}
+{% endblock EMS_CoreBundle_Form_DataField_HolderFieldType %}
+
+
 {% block EMS_CoreBundle_Form_DataField_ContainerFieldType %}
 	{% set parent = dataField.fieldType.parent %}
 	{% set parentType = parent ? parent.type : false %}
@@ -1248,32 +1255,21 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_FormFieldType %}
-    {% import "@EMSCore/macros/data-field-type.html.twig" as macros %}
     {% if dataField.fieldType.displayOptions.form is defined %}
-        {% set form = emsco_get_form(dataField.fieldType.displayOptions.form) %}
+        {% set form = emsco_get_form(dataField.fieldType.displayOptions.form, dataField.rawData['source']) %}
         {% set errorMessage = 'view.macros.data-field-type.form.not-found' %}
     {% endif %}
     {% if form is defined and form %}
-        {% for field in form.fieldType.children %}
-            {% set blockName = field.type|replace({'\\': '_'}) %}
-            {% dump(blockName) %}
+        {% set blockName = form.normData.fieldType.type|replace({'\\': '_'}) %}
             {% with {
-                'dataField': dataField,
+                'dataField': emsco_get_data_field(form),
                 'source': source,
                 'compare': compare,
                 'compareRawData': compareRawData,
                 'path': path,
             } %}
-{#                {{ block(blockName) }}#}
+                {{ block(blockName) }}
             {% endwith %}
-
-        {% endfor %}
-
-
-
-{#                {{ dump(dataField) }}#}
-{#                {{ dump(form) }}#}
-{#                {{ macros.renderDataField(form, source, compare, compareRawData) }}#}
     {% else %}
         <div class="panel panel-warning">
             <div class="panel-heading">
@@ -1284,5 +1280,4 @@
             </div>
         </div>
     {% endif %}
-{#    <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|default([])|json_encode(constant('JSON_PRETTY_PRINT'))|internal_links }}</pre>#}
 {% endblock %}

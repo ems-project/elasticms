@@ -9,14 +9,13 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Entity\Revision;
-use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Service\DataService;
-use Symfony\Component\Form\FormFactory;
+use EMS\CoreBundle\Service\Revision\RevisionService;
 use Symfony\Component\Form\FormInterface;
 
 class FormRuntime
 {
-    public function __construct(protected FormManager $formManager, protected FormFactory $formFactory, protected DataService $dataService)
+    public function __construct(protected FormManager $formManager, protected DataService $dataService, protected RevisionService $revisionService)
     {
     }
 
@@ -38,7 +37,7 @@ class FormRuntime
         $fakeRevision = new Revision();
         $fakeRevision->setContentType($fakeContentType);
         $fakeRevision->setRawData($rawData);
-        $form = $this->formFactory->create(RevisionType::class, $fakeRevision, ['raw_data' => $rawData]);
+        $form = $this->revisionService->createRevisionForm($fakeRevision);
 
         return $form->get('data');
     }

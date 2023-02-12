@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Core\Form\FormManager;
+use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\FormPickerType;
@@ -75,7 +76,9 @@ class FormFieldType extends DataFieldType
         }
 
         $referredFieldType = $this->getReferredFieldType($fieldType);
-        $this->buildChildForm($referredFieldType, $options, $builder);
+        foreach ($referredFieldType->getChildren() as $child) {
+            $this->buildChildForm($child, $options, $builder);
+        }
     }
 
     /**
@@ -179,5 +182,25 @@ class FormFieldType extends DataFieldType
         $formName = $fieldType->getDisplayOption('form');
 
         return $this->formManager->getByName($formName)->getFieldType();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function reverseViewTransform($data, FieldType $fieldType): DataField
+    {
+        $referredFieldType = $this->getReferredFieldType($fieldType);
+
+        return parent::reverseViewTransform(RawDataTransformer::reverseTransform($referredFieldType, $data), $fieldType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function viewTransform(DataField $dataField)
+    {
+        $referredFieldType = $this->getReferredFieldType($dataField->getFieldType());
+
+        return RawDataTransformer::transform($referredFieldType, $dataField->getRawData());
     }
 }

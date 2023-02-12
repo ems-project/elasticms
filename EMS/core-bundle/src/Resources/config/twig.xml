@@ -90,8 +90,8 @@
 
         <service id="ems.twig.runtime.form" class="EMS\CoreBundle\Twig\FormRuntime">
             <argument type="service" id="ems.form.manager"/>
-            <argument type="service" id="form.factory" />
             <argument type="service" id="ems.service.data" />
+            <argument type="service" id="ems.service.revision" />
             <tag name="twig.runtime" />
         </service>
     </services>

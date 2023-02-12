@@ -1256,20 +1256,11 @@
 
 {% block EMS_CoreBundle_Form_DataField_FormFieldType %}
     {% if dataField.fieldType.displayOptions.form is defined %}
-        {% set form = emsco_get_form(dataField.fieldType.displayOptions.form, dataField.rawData['source']) %}
+        {% set form = emsco_get_form(dataField.fieldType.displayOptions.form, dataField.rawData) %}
         {% set errorMessage = 'view.macros.data-field-type.form.not-found' %}
     {% endif %}
     {% if form is defined and form %}
-        {% set blockName = form.normData.fieldType.type|replace({'\\': '_'}) %}
-            {% with {
-                'dataField': emsco_get_data_field(form),
-                'source': source,
-                'compare': compare,
-                'compareRawData': compareRawData,
-                'path': path,
-            } %}
-                {{ block(blockName) }}
-            {% endwith %}
+        {{ _self.renderDataFieldBlock(emsco_get_data_field(form), source, compare, compareRawData, '', path) }}
     {% else %}
         <div class="panel panel-warning">
             <div class="panel-heading">

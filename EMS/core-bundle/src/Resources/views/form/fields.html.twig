@@ -681,7 +681,16 @@
 
 {% block form_field_type_row %}
     {% for child in form.iterator %}
-        {{- form_row(child) -}}
+        {% if not child.vars.isVisible is defined or child.vars.isVisible %}
+            <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false)  %} has-error{% endif %}">
+                {{- form_row(child) -}}
+            </div>
+        {% else %}
+            {{- form_row(child) -}}
+        {% endif %}
+        {% if child.vars.lastOfRow is defined and child.vars.lastOfRow %}
+            </div><div class="row">
+        {% endif %}
     {% endfor %}
 {% endblock form_field_type_row %}
 

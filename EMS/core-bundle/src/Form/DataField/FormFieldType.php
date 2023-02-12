@@ -189,6 +189,9 @@ class FormFieldType extends DataFieldType
      */
     public function reverseViewTransform($data, FieldType $fieldType): DataField
     {
+        if (!\is_array($data)) {
+            return parent::reverseViewTransform($data, $fieldType);
+        }
         $referredFieldType = $this->getReferredFieldType($fieldType);
 
         return parent::reverseViewTransform(RawDataTransformer::reverseTransform($referredFieldType, $data), $fieldType);
@@ -199,8 +202,12 @@ class FormFieldType extends DataFieldType
      */
     public function viewTransform(DataField $dataField)
     {
-        $referredFieldType = $this->getReferredFieldType($dataField->getFieldType());
+        $rawData = $dataField->getRawData();
+        if (!\is_array($rawData)) {
+            return parent::viewTransform($dataField);
+        }
+        $referredFieldType = $this->getReferredFieldType($dataField->giveFieldType());
 
-        return RawDataTransformer::transform($referredFieldType, $dataField->getRawData());
+        return RawDataTransformer::transform($referredFieldType, $rawData);
     }
 }

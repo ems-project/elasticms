@@ -1,5 +1,12 @@
 # Changelog 5.x
 
+## 5.2.4 (2023-02-13)
+### Bug Fixes
+* fix(common): ems_webalize accii folding german by @Davidmattei in https://github.com/ems-project/elasticms/pull/322
+* fix(docker): expose cluster by @Davidmattei in https://github.com/ems-project/elasticms/pull/308
+* fix(jsonMenuNested): label not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/316
+* fix(revision): paste not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/315
+
 ## 5.2.3 (2023-02-01)
 ### Bug Fixes
 * fix(core): emsco_skip_notification twig function by @theus77 in https://github.com/ems-project/elasticms/pull/306

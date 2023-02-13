@@ -200,7 +200,8 @@
             "phpstan/extension-installer": true,
             "symfony/flex": false,
             "symfony/runtime": true,
-            "endroid/installer": false
+            "endroid/installer": false,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "stable",

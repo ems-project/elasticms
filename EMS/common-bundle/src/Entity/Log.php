@@ -10,15 +10,20 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="log_message")
+ *
  * @ORM\Entity
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Log implements EntityInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
     private UuidInterface $id;
@@ -89,6 +94,7 @@ class Log implements EntityInterface
 
     /**
      * @ORM\PrePersist
+     *
      * @ORM\PreUpdate
      */
     public function updateModified(): void

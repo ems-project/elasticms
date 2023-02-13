@@ -15,15 +15,20 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="form_submission")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class FormSubmission implements EntityInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
     private UuidInterface $id;
@@ -122,6 +127,7 @@ class FormSubmission implements EntityInterface
 
     /**
      * @ORM\PrePersist
+     *
      * @ORM\PreUpdate
      */
     public function updateModified(): void

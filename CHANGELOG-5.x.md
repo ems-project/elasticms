@@ -4,8 +4,11 @@
 ### Bug Fixes
 * fix(common): ems_webalize accii folding german by @Davidmattei in https://github.com/ems-project/elasticms/pull/322
 * fix(docker): expose cluster by @Davidmattei in https://github.com/ems-project/elasticms/pull/308
+* fix(environment): call clearCache by @Davidmattei in https://github.com/ems-project/elasticms/pull/324
 * fix(jsonMenuNested): label not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/316
 * fix(revision): paste not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/315
+### Chores
+* chore: phpcs & phpstan by @Davidmattei in https://github.com/ems-project/elasticms/pull/325
 
 ## 5.2.3 (2023-02-01)
 ### Bug Fixes

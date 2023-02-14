@@ -101,6 +101,7 @@ class HolderFieldType extends DataFieldType
         // container aren't mapped in elasticsearch
         $optionsForm->remove('mappingOptions');
         $optionsForm->remove('migrationOptions');
+        $optionsForm->remove('displayOptions');
         $optionsForm->get('restrictionOptions')->remove('mandatory');
         $optionsForm->get('restrictionOptions')->remove('mandatory_if');
     }

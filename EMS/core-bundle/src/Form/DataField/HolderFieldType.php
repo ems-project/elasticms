@@ -13,7 +13,7 @@ class HolderFieldType extends DataFieldType
 {
     public function getLabel(): string
     {
-        return 'Invisible container';
+        return 'Invisible container (Holder)';
     }
 
     public function getBlockPrefix(): string
@@ -52,9 +52,10 @@ class HolderFieldType extends DataFieldType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /* get the metadata associate */
-        /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
+        if (!$fieldType instanceof FieldType) {
+            throw new \RuntimeException('Unexpected non-FieldType entity');
+        }
 
         foreach ($fieldType->getChildren() as $child) {
             $this->buildChildForm($child, $options, $builder);
@@ -63,10 +64,7 @@ class HolderFieldType extends DataFieldType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        /* set the default option value for this kind of compound field */
         parent::configureOptions($resolver);
-        /* an optional icon can't be specified ritgh to the container label */
-        $resolver->setDefault('icon', null);
         $resolver->setDefault('is_visible', false);
     }
 
@@ -82,7 +80,6 @@ class HolderFieldType extends DataFieldType
      */
     public static function isContainer(): bool
     {
-        /* this kind of compound field may contain children */
         return true;
     }
 
@@ -98,7 +95,6 @@ class HolderFieldType extends DataFieldType
     {
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
-        // container aren't mapped in elasticsearch
         $optionsForm->remove('mappingOptions');
         $optionsForm->remove('migrationOptions');
         $optionsForm->remove('displayOptions');

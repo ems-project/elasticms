@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\User\UserManager;
+use EMS\CoreBundle\Core\User\UserOptions;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
@@ -15,6 +16,7 @@ use EMS\CoreBundle\Form\Data\DataLinksTableColumn;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\RolesTableColumn;
+use EMS\CoreBundle\Form\Form\FormFormType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Helper\DataTableRequest;
@@ -120,6 +122,32 @@ class UserController extends AbstractController
         }
 
         return $this->render('@EMSCore/user/edit.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
+    }
+
+    public function custom(User $user, Request $request): Response
+    {
+        $data = $user->getUserOptions()[UserOptions::CUSTOM_OPTIONS];
+        $form = $this->createForm(FormFormType::class, $data, [
+            FormFormType::ACTION_LABEL => 'user.custom-options.save',
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->getUserOptions()[UserOptions::CUSTOM_OPTIONS] = $data;
+            $this->userService->updateUser($user);
+            $this->logger->notice('log.user.custom-updated', [
+                'username_managed' => $user->getUsername(),
+                'user_display_name' => $user->getDisplayName(),
+                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
+            ]);
+
+            return $this->redirectToRoute(Routes::USER_INDEX);
+        }
+
+        return $this->render('@EMSCore/user/custom.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);

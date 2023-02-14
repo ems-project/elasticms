@@ -1,0 +1,19 @@
+{% extends '@EMSCore/user/user.html.twig' %}
+{% trans_default_domain 'emsco-twigs' %}
+
+
+
+{% block title %}{{ 'users.custom_edit.title'|trans({'%username%': user.displayName}) }}{% endblock %}
+{% block breadcrumbItems %}<li class="active">{{ 'users.custom_edit.breadcrumb'|trans }}</li>{% endblock breadcrumbItems %}
+
+{% block body %}
+    <div class="box box-primary">
+        {{ form_start(form) }}
+        <div class="box-body">
+        </div>
+        <div class="box-footer">
+            {{ form_row(form.action) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock body %}

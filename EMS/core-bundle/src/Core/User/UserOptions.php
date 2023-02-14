@@ -22,7 +22,7 @@ class UserOptions implements \ArrayAccess
     public function __construct(array $data)
     {
         $this->options[self::SIMPLIFIED_UI] = ($data[self::SIMPLIFIED_UI] ?? false);
-        $this->options[self::CUSTOM_OPTIONS] = ($data[self::CUSTOM_OPTIONS] ?? false);
+        $this->options[self::CUSTOM_OPTIONS] = ($data[self::CUSTOM_OPTIONS] ?? []);
     }
 
     public function isEnabled(string $option): bool

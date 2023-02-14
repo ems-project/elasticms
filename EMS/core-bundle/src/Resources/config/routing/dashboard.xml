@@ -28,6 +28,9 @@
     <route id="emsco_dashboard_admin_define" path="/admin/dashboard/{dashboard}/define/{definition}"
            controller="EMS\CoreBundle\Controller\Dashboard\DashboardController::define"
            methods="POST"/>
+    <route id="emsco_dashboard_admin_undefine" path="/admin/dashboard/{dashboard}/undefine"
+           controller="EMS\CoreBundle\Controller\Dashboard\DashboardController::undefine"
+           methods="POST"/>
 
     <route id="emsco_dashboard_browse" path="/dashboard/browse/{dashboardName}"
            controller="EMS\CoreBundle\Controller\Dashboard\DashboardBrowserController"

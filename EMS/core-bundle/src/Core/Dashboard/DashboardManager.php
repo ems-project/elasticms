@@ -165,6 +165,12 @@ class DashboardManager implements EntityServiceInterface
         $this->update($dashboard);
     }
 
+    public function undefine(Dashboard $dashboard): void
+    {
+        $dashboard->setDefinition(null);
+        $this->update($dashboard);
+    }
+
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->dashboardRepository->getByName($name);

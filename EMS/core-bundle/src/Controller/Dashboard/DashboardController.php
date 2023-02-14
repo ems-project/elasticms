@@ -114,6 +114,13 @@ class DashboardController extends AbstractController
         return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
     }
 
+    public function undefine(Dashboard $dashboard): Response
+    {
+        $this->dashboardManager->undefine($dashboard);
+
+        return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
+    }
+
     private function initTable(): EntityTable
     {
         $table = new EntityTable($this->dashboardManager, $this->generateUrl(Routes::DASHBOARD_ADMIN_INDEX_AJAX));
@@ -130,6 +137,7 @@ class DashboardController extends AbstractController
         $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.browser_image', 'image', null, ['definition' => Dashboard::DEFINITION_BROWSER_IMAGE]);
         $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.browser_object', 'book', null, ['definition' => Dashboard::DEFINITION_BROWSER_OBJECT]);
         $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.browser_file', 'file-image-o', null, ['definition' => Dashboard::DEFINITION_BROWSER_FILE]);
+        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_UNDEFINE, 'dashboard.actions.undefine', 'eraser', null);
 
         $table->addItemPostAction(Routes::DASHBOARD_ADMIN_DELETE, 'dashboard.actions.delete', 'trash', 'dashboard.actions.delete_confirm')->setButtonType('outline-danger');
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'dashboard.actions.delete_selected', 'dashboard.actions.delete_selected_confirm')

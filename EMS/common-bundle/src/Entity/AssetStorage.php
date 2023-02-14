@@ -8,14 +8,18 @@ use Doctrine\ORM\Mapping as ORM;
  * Analyzer.
  *
  * @ORM\Table(name="asset_storage")
+ *
  * @ORM\Entity(repositoryClass="EMS\CommonBundle\Repository\AssetStorageRepository")
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class AssetStorage implements EntityInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?int $id = null;
@@ -59,6 +63,7 @@ class AssetStorage implements EntityInterface
 
     /**
      * @ORM\PrePersist
+     *
      * @ORM\PreUpdate
      */
     public function updateModified(): void

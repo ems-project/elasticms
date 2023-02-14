@@ -1,6 +1,4 @@
 form:
-    form:
-        action: Action
     name: Name
     label: Label
     create: Create
@@ -964,8 +962,6 @@ schedule:
     save: Save
     saveAndClose: 'Save and Close'
 user:
-    custom-options:
-        save: 'Save custom options'
     locale: 'Language UI'
     locale_preferred: 'Language preferred'
     display_name: 'Display name'

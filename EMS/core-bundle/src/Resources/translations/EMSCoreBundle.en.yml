@@ -195,7 +195,6 @@ log:
     locked_exception_error: 'Document "%label%" is currently locked by %username%'
     privilege_exception_error: 'You don''t have enough privileges to edit this document'
     user:
-        custom-updated: '%user_display_name%''s custom options have been updated'
         api_key: 'New API key for the user %user_display_name%: %api_key%'
         deleted: 'The user %user_display_name% has been deleted'
         disabled: 'The user %user_display_name% has been disabled'
@@ -834,7 +833,6 @@ uploaded-file:
     delete-confirm: 'This will be removed'
 user:
     action:
-        custom_edit: 'Custom options'
         delete: Delete
         delete_confirm: 'Delete this user?'
         disable: Disable

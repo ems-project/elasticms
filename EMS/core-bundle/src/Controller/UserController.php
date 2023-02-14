@@ -6,7 +6,6 @@ use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\User\UserManager;
-use EMS\CoreBundle\Core\User\UserOptions;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
@@ -16,7 +15,6 @@ use EMS\CoreBundle\Form\Data\DataLinksTableColumn;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\RolesTableColumn;
-use EMS\CoreBundle\Form\Form\FormFormType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Helper\DataTableRequest;
@@ -32,13 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
-    public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly ?string $circleObject,
-        private readonly UserService $userService,
-        private readonly UserManager $userManager,
-        private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator,
-        private readonly ?string $customUserOptionsForm)
+    public function __construct(private readonly LoggerInterface $logger, private readonly ?string $circleObject, private readonly UserService $userService, private readonly UserManager $userManager, private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator)
     {
     }
 
@@ -122,32 +114,6 @@ class UserController extends AbstractController
         }
 
         return $this->render('@EMSCore/user/edit.html.twig', [
-            'form' => $form->createView(),
-            'user' => $user,
-        ]);
-    }
-
-    public function custom(User $user, Request $request): Response
-    {
-        $data = $user->getUserOptions()[UserOptions::CUSTOM_OPTIONS];
-        $form = $this->createForm(FormFormType::class, $data, [
-            FormFormType::ACTION_LABEL => 'user.custom-options.save',
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->getUserOptions()[UserOptions::CUSTOM_OPTIONS] = $data;
-            $this->userService->updateUser($user);
-            $this->logger->notice('log.user.custom-updated', [
-                'username_managed' => $user->getUsername(),
-                'user_display_name' => $user->getDisplayName(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-            ]);
-
-            return $this->redirectToRoute(Routes::USER_INDEX);
-        }
-
-        return $this->render('@EMSCore/user/custom.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -317,9 +283,6 @@ class UserController extends AbstractController
         $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));
 
         $table->addDynamicItemGetAction(Routes::USER_EDIT, 'user.action.edit', 'pencil', ['user' => 'id']);
-        if (null !== $this->customUserOptionsForm) {
-            $table->addDynamicItemGetAction(Routes::USER_CUSTOM_OPTIONS_EDIT, 'user.action.custom_edit', 'gears', ['user' => 'id']);
-        }
         $table->addDynamicItemGetAction('homepage', 'user.action.switch', 'user-secret', ['_switch_user' => 'username']);
         $table->addDynamicItemPostAction(Routes::USER_ENABLING, 'user.action.disable', 'user-times', 'user.action.disable_confirm', ['user' => 'id']);
         $table->addDynamicItemPostAction(Routes::USER_API_KEY, 'user.action.generate_api', 'key', 'user.action.generate_api_confirm', ['username' => 'username'])->addCondition(new Terms('roles', [Roles::ROLE_API]));

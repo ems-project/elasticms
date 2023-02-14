@@ -1,7 +1,3 @@
-users:
-    custom_edit:
-        title: '%username%''s custom options'
-        breadcrumb: 'Custom options'
 form:
     edit:
         title: 'Edit a form'

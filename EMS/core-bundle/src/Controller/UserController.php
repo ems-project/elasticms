@@ -30,7 +30,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly ?string $circleObject, private readonly UserService $userService, private readonly UserManager $userManager, private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator)
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly ?string $circleObject,
+        private readonly UserService $userService,
+        private readonly UserManager $userManager,
+        private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator,
+        private readonly ?string $customUserOptionsForm)
     {
     }
 
@@ -283,6 +289,9 @@ class UserController extends AbstractController
         $table->addColumnDefinition(new DatetimeTableColumn('user.index.column.lastLogin', 'lastLogin'));
 
         $table->addDynamicItemGetAction(Routes::USER_EDIT, 'user.action.edit', 'pencil', ['user' => 'id']);
+        if (null !== $this->customUserOptionsForm) {
+            $table->addDynamicItemGetAction(Routes::USER_CUSTOM_OPTIONS_EDIT, 'user.action.custom_edit', 'gears', ['user' => 'id']);
+        }
         $table->addDynamicItemGetAction('homepage', 'user.action.switch', 'user-secret', ['_switch_user' => 'username']);
         $table->addDynamicItemPostAction(Routes::USER_ENABLING, 'user.action.disable', 'user-times', 'user.action.disable_confirm', ['user' => 'id']);
         $table->addDynamicItemPostAction(Routes::USER_API_KEY, 'user.action.generate_api', 'key', 'user.action.generate_api_confirm', ['username' => 'username'])->addCondition(new Terms('roles', [Roles::ROLE_API]));

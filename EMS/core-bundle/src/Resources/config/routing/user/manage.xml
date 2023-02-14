@@ -16,6 +16,9 @@
     <route id="emsco_user_edit" path="/edit/{user}"
            controller="EMS\CoreBundle\Controller\UserController::edit"
            methods="GET|POST"/>
+    <route id="emsco_user_custom_options_edit" path="/custom/{user}"
+           controller="EMS\CoreBundle\Controller\UserController::custom"
+           methods="GET|POST"/>
     <route id="emsco_user_delete" path="/delete/{user}"
            controller="EMS\CoreBundle\Controller\UserController::delete"
            methods="POST"/>

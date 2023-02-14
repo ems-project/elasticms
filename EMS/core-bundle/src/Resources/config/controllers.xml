@@ -489,6 +489,7 @@
             <argument type="service" id="ems.service.user" />
             <argument type="service" id="emsco.manager.user" />
             <argument type="service" id="EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface"/>
+            <argument>%ems_core.custom_user_options_form%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

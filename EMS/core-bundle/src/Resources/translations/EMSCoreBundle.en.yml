@@ -833,6 +833,7 @@ uploaded-file:
     delete-confirm: 'This will be removed'
 user:
     action:
+        custom_edit: 'Custom options'
         delete: Delete
         delete_confirm: 'Delete this user?'
         disable: Disable

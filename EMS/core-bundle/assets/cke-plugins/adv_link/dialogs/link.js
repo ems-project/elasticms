@@ -109,17 +109,31 @@
 			anchors;
 
 
-		let urlTypes =  emsConfig.urlTypes !== undefined ? emsConfig.urlTypes : ['url', 'anchor', 'localPage', 'fileLink', 'email'];
-
+		let urlTypes = emsConfig.hasOwnProperty('urlTypes') ? emsConfig.urlTypes : ['url', 'anchor', 'localPage', 'fileLink', 'email'];
 		let items = [];
-		if (urlTypes.includes('url')) items.push([ linkLang.toUrl, 'url' ]);
-		if (urlTypes.includes('anchor')) items.push([ linkLang.toAnchor, 'anchor' ]);
-		if (urlTypes.includes('localPage')) items.push([ linkLang.localPages, 'localPage' ]);
-		if (urlTypes.includes('fileLink')) items.push([ linkLang.file, 'fileLink' ]);
-		if (urlTypes.includes('email')) items.push([ linkLang.toEmail, 'email' ]);
+
+		urlTypes.forEach((urlType) => {
+			switch (urlType) {
+				case 'url':
+					items.push([linkLang.toUrl, 'url'])
+					break;
+				case 'anchor':
+					items.push([linkLang.toAnchor, 'anchor'])
+					break;
+				case 'localPage':
+					items.push([linkLang.localPages, 'localPage'])
+					break;
+				case 'fileLink':
+					items.push([linkLang.file, 'fileLink'])
+					break;
+				case 'email':
+					items.push([linkLang.toEmail, 'email'])
+					break;
+			}
+		});
 
 		let localContentTypes = ems_wysiwyg_type_filters;
-		if (emsConfig.urlAllContentTypes !== undefined && !emsConfig.urlAllContentTypes) {
+		if (emsConfig.hasOwnProperty('urlAllContentTypes') && !emsConfig.urlAllContentTypes) {
 			localContentTypes = localContentTypes.filter(values => !values.includes('All content types'));
 		}
 
@@ -135,11 +149,11 @@
 					id: 'linkType',
 					type: 'select',
 					label: linkLang.type,
-					'default': 'url',
+					'default': urlTypes[0],
 					items: items,
 					onChange: linkTypeChanged,
 					setup: function( data ) {
-						this.setValue( data.type || 'url' );
+						this.setValue( data.type || urlTypes[0]);
 					},
 					commit: function( data ) {
 						data.type = this.getValue();

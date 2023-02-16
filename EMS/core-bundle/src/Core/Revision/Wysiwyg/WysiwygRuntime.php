@@ -21,13 +21,8 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
 
     public function getInfo(): string
     {
-        $config = $this->getConfig();
-        $config['imageUploadUrl'] = $this->urlGenerator->generate('ems_image_upload_url');
-        $config['imageBrowser_listUrl'] = $this->urlGenerator->generate('ems_images_index');
-        $config['ems_filesUrl'] = $this->urlGenerator->generate('ems_core_uploaded_file_wysiwyg_index');
-
         return Json::encode([
-            'config' => $config,
+            'config' => \array_merge_recursive($this->getDefaultConfig(), $this->getConfig()),
             'styles' => $this->getStyles(),
         ]);
     }
@@ -52,6 +47,18 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
         }
 
         return $config;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function getDefaultConfig(): array
+    {
+        return [
+            'imageUploadUrl' => $this->urlGenerator->generate('ems_image_upload_url'),
+            'imageBrowser_listUrl' => $this->urlGenerator->generate('ems_images_index'),
+            'ems_filesUrl' => $this->urlGenerator->generate('ems_core_uploaded_file_wysiwyg_index'),
+        ];
     }
 
     /**

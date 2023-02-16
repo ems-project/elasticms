@@ -106,7 +106,7 @@ class FormManager implements EntityServiceInterface
     {
         $form = $this->formRepository->getByName($name);
         if (null === $form) {
-            throw new NotFoundHttpException('Form not found');
+            throw new NotFoundHttpException(\sprintf('Form %s not found', $name));
         }
 
         return $form;
@@ -149,5 +149,13 @@ class FormManager implements EntityServiceInterface
         $this->formRepository->delete($form);
 
         return $id;
+    }
+
+    /**
+     * @return Form[]
+     */
+    public function getAll(): array
+    {
+        return $this->formRepository->getAll();
     }
 }

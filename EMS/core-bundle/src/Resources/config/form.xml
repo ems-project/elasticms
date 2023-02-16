@@ -299,6 +299,22 @@
             <tag name="ems.form.datafieldtype" alias="version_tag" />
             <tag name="form.type"/>
         </service>
+        <service id="ems.fieldtype.form" class="EMS\CoreBundle\Form\DataField\FormFieldType">
+            <argument type="service" id="security.authorization_checker" />
+            <argument type="service" id="form.registry" />
+            <argument type="service" id="ems.service.elasticsearch" />
+            <argument type="service" id="ems.form.fieldtype.fieldtypetype" />
+            <argument type="service" id="ems.form.manager" />
+            <tag name="ems.form.datafieldtype" alias="form" />
+            <tag name="form.type"/>
+        </service>
+        <service id="ems.fieldtype.holder" class="EMS\CoreBundle\Form\DataField\HolderFieldType">
+            <argument type="service" id="security.authorization_checker" />
+            <argument type="service" id="form.registry" />
+            <argument type="service" id="ems.service.elasticsearch" />
+            <tag name="ems.form.datafieldtype" alias="holder" />
+            <tag name="form.type"/>
+        </service>
 
         <!-- Form types -->
         <service id="ems.exteneded.collectiontype" class="EMS\CoreBundle\Form\Form\EmsCollectionType">
@@ -405,6 +421,10 @@
             <argument type="service" id="doctrine" />
             <tag name="form.type"/>
         </service>
+        <service id="ems.form.field.formpickertype" class="EMS\CoreBundle\Form\Field\FormPickerType">
+            <argument type="service" id="ems.form.manager" />
+            <tag name="form.type"/>
+        </service>
         <service id="ems.form.field.alignindexes" class="EMS\CoreBundle\Form\Field\AlignIndexesType">
             <argument type="service" id="ems.service.alias" />
             <tag name="form.type"/>
@@ -422,6 +442,13 @@
             <tag name="form.type"/>
         </service>
         <service id="ems_core.form_revision_task.filters" class="EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType">
+            <tag name="form.type"/>
+        </service>
+        <service id="ems_core.form.user" class="EMS\CoreBundle\Form\Form\UserOptionsType">
+            <argument type="service" id="ems.form.manager" />
+            <argument type="service" id="form.registry" />
+            <argument type="service" id="ems.service.data" />
+            <argument>%ems_core.custom_user_options_form%</argument>
             <tag name="form.type"/>
         </service>
     </services>

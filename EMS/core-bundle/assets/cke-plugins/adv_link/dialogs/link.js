@@ -173,12 +173,26 @@
 						className : 'select2',
 						title : linkLang.selectPageTitle,
 						items : [],
+						onChange: function (event) {
+							if (typeof event.data.value === 'object') {
+								let id = event.data.value.id;
+								let text = event.data.value.text;
+
+								this.select2.val(null).trigger('change');
+								if (this.select2.find("option[value='" + id + "']").length) {
+									this.select2.val(id).trigger('change');
+								} else {
+									let newOption = new Option(text, id, true, true);
+									this.select2.append(newOption).trigger('change');
+								}
+							}
+						},
 						onLoad : function(element) {
 
 							var objectPicker = $('#'+this.domId);
 							var typeFilter = objectPicker.parents('.cke_dialog_contents_body').find('select.adv_link_type_filter');
 
-							objectPicker.find('select').select2({
+							this.select2 = objectPicker.find('select').select2({
 								ajax: {
 									url: object_search_url,
 							    	dataType: 'json',
@@ -267,7 +281,7 @@
 						items : []
 					},{
                         type: 'button',
-                        id: 'browse',
+                        id: 'fileBrowse',
                         hidden: 'true',
                         filebrowser: 'info:fileTxt',
                         label: commonLang.browseServer

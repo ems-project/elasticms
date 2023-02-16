@@ -65,9 +65,12 @@ final class WysiwygRuntime implements RuntimeExtensionInterface
 
         foreach (Dashboard::DASHBOARD_BROWSERS as $definition) {
             if ($dashboard = $this->dashboardManager->getDefinition($definition)) {
-                $config['emsBrowsers'][$definition] = $this->urlGenerator->generate('emsco_dashboard_browse', [
-                    'dashboardName' => $dashboard->getName(),
-                ]);
+                $config['emsBrowsers'][$definition] = [
+                    'label' => $dashboard->getLabel(),
+                    'url' => $this->urlGenerator->generate('emsco_dashboard_browse', [
+                        'dashboardName' => $dashboard->getName(),
+                    ]),
+                ];
             }
         }
 

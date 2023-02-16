@@ -12,15 +12,20 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="form_submission_file")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class FormSubmissionFile implements EntityInterface
 {
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
     private UuidInterface $id;
@@ -67,6 +72,7 @@ class FormSubmissionFile implements EntityInterface
      */
     public function __construct(/**
      * @ORM\ManyToOne(targetEntity="EMS\SubmissionBundle\Entity\FormSubmission", inversedBy="files")
+     *
      * @ORM\JoinColumn(name="form_submission_id", referencedColumnName="id")
      */
     private FormSubmission $formSubmission, array $file)
@@ -85,6 +91,7 @@ class FormSubmissionFile implements EntityInterface
 
     /**
      * @ORM\PrePersist
+     *
      * @ORM\PreUpdate
      */
     public function updateModified(): void

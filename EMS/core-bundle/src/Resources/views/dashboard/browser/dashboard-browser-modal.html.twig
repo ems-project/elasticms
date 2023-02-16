@@ -14,9 +14,11 @@
 {% endblock %}
 
 {% block main %}
-    {%- if dashboard.option('body') is not null -%}
-        {{- include(template_from_string(dashboard.option('body'), "Body template for Dashboard " ~ dashboard.name)) -}}
-    {%- endif -%}
+    <div id="dashboard-browser" data-type="{{ dashboard.definition }}">
+        {%- if dashboard.option('body') is not null -%}
+            {{- include(template_from_string(dashboard.option('body'), "Body template for Dashboard " ~ dashboard.name)) -}}
+        {%- endif -%}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

@@ -1,5 +1,6 @@
 # elasticms-demo
-A default elasticms local setup using docker compose
+
+A demo elasticms local setup with docker compose.
 
 Resources
 ---------
@@ -11,7 +12,8 @@ Resources
 
 ## Prerequisites
 
-You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows).
+You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows). 
+It should also work with Docker Desktoo, but tell if you face issues with it.
 
 It's recommended to allow at least 6GB of memory to docker.
 
@@ -19,10 +21,6 @@ The following ports must be available:
  * 8888: Traefik UI
  * 80: Web HTTP
  * 443: Web HTTPS
-
-If your linux user id is different thant 1000, please define a UID variable with your user id:
-
-`export UID=1001`
 
 ## Install steps
 

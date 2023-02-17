@@ -11,6 +11,8 @@ use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Request;
 
+use function Symfony\Component\String\u;
+
 final class Search
 {
     private ?string $indexRegex;
@@ -22,6 +24,8 @@ final class Search
     private array $synonyms = [];
     /** @var string[] */
     private array $fields = [];
+    /** @var ?array<mixed> */
+    private ?array $querySearch = null;
     /** @var string[] */
     private array $suggestFields = [];
     /** @var Filter[] */
@@ -54,8 +58,13 @@ final class Search
             @\trigger_error('Deprecated facets, please use filters setting', E_USER_DEPRECATED);
         }
 
+        if (isset($options['fields']) && isset($options['query_search'])) {
+            throw new \RuntimeException('Cannot combine "fields" and "query" search config');
+        }
+
         $this->indexRegex = $options['index_regex'] ?? null;
         $this->types = $options['types']; // required
+        $this->querySearch = $options['query_search'] ?? null;
         $this->facets = $options['facets'] ?? [];
         $this->sizes = $options['sizes'] ?? [];
         $this->defaultSorts = $this->parseSorts($options['default_sorts'] ?? []);
@@ -141,6 +150,20 @@ final class Search
     public function getFields(): array
     {
         return $this->fields;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getQuerySearch(string $queryString): ?array
+    {
+        if (null === $this->querySearch) {
+            return null;
+        }
+
+        $stringQuerySearch = u(Json::encode($this->querySearch))->replace('%query%', $queryString)->toString();
+
+        return Json::decode($stringQuerySearch);
     }
 
     public function getAnalyzer(): string

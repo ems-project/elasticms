@@ -137,6 +137,7 @@ services:
       - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
 
   admin-local:
+    user: "${UID}:0"
     extends:
       file: docker-elasticms.yml
       service: admin
@@ -151,6 +152,7 @@ services:
       - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
 
   web-local:
+    user: "${UID}:0"
     extends:
       file: docker-elasticms.yml
       service: web

@@ -8,6 +8,7 @@ file_exists(dirname(__DIR__).'/vendor/autoload_runtime.php') ?
     require_once dirname(__DIR__).'/vendor/autoload_runtime.php' :
     require_once dirname(__DIR__).'/../vendor/autoload_runtime.php';
 
+$_SERVER['ELASTICMS_PATH'] = file_exists(dirname(__DIR__).'/vendor/elasticms') ?: dirname(__DIR__).'/../EMS';
 $_SERVER['APP_RUNTIME_OPTIONS'] = [
     'disable_dotenv' => ('true' === ($_SERVER['APP_DISABLE_DOTENV'] ?? false)),
     'prod_envs' => ['prod', 'redis'],

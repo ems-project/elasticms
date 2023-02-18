@@ -10,6 +10,19 @@ Resources
   [send Pull Requests](https://github.com/ems-project/elasticms/pulls)
   in the [elasticMS mono repository](https://github.com/ems-project/elasticms)
 
+
+## TL;DR
+```bash
+sh npm.sh install
+sh npm.sh run prod
+docker compose pull
+docker compose up -d
+sh ems.sh create_users local
+sh ems.sh config_push local
+```
+
+Go [here](http://local.ems-demo-admin.localhost/login)
+
 ## Prerequisites
 
 You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows). 

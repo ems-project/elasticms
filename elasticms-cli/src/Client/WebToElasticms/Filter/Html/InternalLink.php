@@ -56,7 +56,7 @@ class InternalLink implements HtmlInterface
                 continue;
             }
 
-            $path = $this->config->mediaFile($url, $this->rapport);
+            $path = $this->config->mediaFile($url, $this->rapport, $attribute);
             if (null !== $path) {
                 $item->setAttribute($attribute, $path);
                 continue;

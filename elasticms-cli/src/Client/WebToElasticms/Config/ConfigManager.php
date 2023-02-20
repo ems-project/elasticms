@@ -600,7 +600,7 @@ class ConfigManager
         }
     }
 
-    public function mediaFile(Url $url, Rapport $rapport): ?string
+    public function mediaFile(Url $url, Rapport $rapport, string $attribute): ?string
     {
         foreach ($this->htmlAsset2Document as $config) {
             $matches = [];
@@ -616,7 +616,7 @@ class ConfigManager
                 $path = '/'.$path;
             }
 
-            return $this->uploadMediaFile($config, $url, $rapport, $path);
+            return $this->uploadMediaFile($config, $url, $rapport, $path, $attribute);
         }
 
         return null;
@@ -625,7 +625,7 @@ class ConfigManager
     /**
      * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $config
      */
-    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path): string
+    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path, string $attribute): string
     {
         $exploded = \explode('/', $path);
         $ouuid = null;
@@ -670,6 +670,9 @@ class ConfigManager
             }
         }
 
-        return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
+        if('href' === $attribute) {
+            return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
+        }
+        return \sprintf('ems://file:%s:%s', $config['content_type'], $ouuid);
     }
 }

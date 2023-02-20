@@ -15,6 +15,7 @@ use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ExpressionLanguage;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
@@ -63,6 +64,9 @@ class ConfigManager
      */
     private array $documentsToClean = [];
     private ?string $lastUpdated = null;
+
+    /** @var array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[] */
+    private array $htmlAsset2Document = [];
 
     public function serialize(string $format = JsonEncoder::FORMAT): string
     {
@@ -559,5 +563,38 @@ class ConfigManager
     public function setLastUpdated(?string $lastUpdated): void
     {
         $this->lastUpdated = $lastUpdated;
+    }
+
+    /**
+     * @return array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[]
+     */
+    public function getHtmlAsset2Document(): array
+    {
+        return $this->htmlAsset2Document;
+    }
+
+    /**
+     * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[] $htmlAsset2Document
+     */
+    public function setHtmlAsset2Document(array $htmlAsset2Document): void
+    {
+        $configResolver = new OptionsResolver();
+        $configResolver
+            ->setRequired(['content_type', 'regex'])
+            ->setDefault('file_field', 'media_file')
+            ->setDefault('folder_field', 'media_folder')
+            ->setDefault('path_field', 'media_path')
+            ->setAllowedTypes('regex', 'string')
+            ->setAllowedTypes('content_type', 'string')
+            ->setAllowedTypes('file_field', 'string')
+            ->setAllowedTypes('folder_field', 'string')
+            ->setAllowedTypes('path_field', 'string')
+        ;
+        $this->htmlAsset2Document = [];
+        foreach ($htmlAsset2Document as $config) {
+            /** @var array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $resolved */
+            $resolved = $configResolver->resolve($config);
+            $this->htmlAsset2Document[] = $resolved;
+        }
     }
 }

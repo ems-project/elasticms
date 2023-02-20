@@ -55,6 +55,11 @@ class InternalLink implements HtmlInterface
             if ($this->isLinkToRemove($item, $path)) {
                 continue;
             }
+
+            if ($this->mediaFile($url)) {
+                return;
+            }
+
             try {
                 $path = $this->config->findInternalLink($url, $this->rapport);
                 $item->setAttribute($attribute, $path);
@@ -81,6 +86,36 @@ class InternalLink implements HtmlInterface
 
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    private function mediaFile(Url $url): bool
+    {
+        foreach ($this->config->getHtmlAsset2Document() as $config) {
+            $matches = [];
+            if (!\preg_match($config['regex'], $url->getPath(), $matches)) {
+                continue;
+            }
+            $position = \strpos($url->getPath(), $matches[0]);
+            if (false === $position) {
+                throw new \RuntimeException('Unexpected false position');
+            }
+            $path = \substr($url->getPath(), $position + \strlen($matches[0]));
+            if (!\str_starts_with($path, '/')) {
+                $path = '/'.$path;
+            }
+
+            $folder = \explode('/', $path);
+            \array_pop($folder);
+            $data = [
+                $config['file_field'] => $this->config->urlToAssetArray($url, $this->rapport),
+                $config['folder_field'] => \implode('/', $folder).'/',
+                $config['path_field'] => $path,
+            ];
+            \dump($data);
+            exit;
         }
 
         return false;

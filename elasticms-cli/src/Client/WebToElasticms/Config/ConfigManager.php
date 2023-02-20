@@ -8,9 +8,11 @@ use App\CLI\Client\HttpClient\CacheManager;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use App\CLI\ExpressionLanguage\Functions;
+use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
@@ -596,5 +598,55 @@ class ConfigManager
             $resolved = $configResolver->resolve($config);
             $this->htmlAsset2Document[] = $resolved;
         }
+    }
+
+    public function mediaFile(Url $url, Rapport $rapport): ?string
+    {
+        foreach ($this->htmlAsset2Document as $config) {
+            $matches = [];
+            if (!\preg_match($config['regex'], $url->getPath(), $matches)) {
+                continue;
+            }
+            $position = \strpos($url->getPath(), $matches[0]);
+            if (false === $position) {
+                throw new \RuntimeException('Unexpected false position');
+            }
+            $path = \substr($url->getPath(), $position + \strlen($matches[0]));
+            if (!\str_starts_with($path, '/')) {
+                $path = '/'.$path;
+            }
+
+            $folder = \explode('/', $path);
+            \array_pop($folder);
+            $data = [
+                $config['file_field'] => $this->urlToAssetArray($url, $rapport),
+                $config['folder_field'] => \implode('/', $folder).'/',
+                $config['path_field'] => $path,
+            ];
+
+            $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($config['content_type']);
+            $term = new Terms($config['path_field'], [$path]);
+            $search = new Search([$defaultAlias], $term->toArray());
+            $search->setContentTypes([$config['content_type']]);
+            $result = $this->coreApi->search()->search($search);
+            $document = null;
+            foreach ($result->getDocuments() as $item) {
+                $document = $item;
+            }
+            $contentTypeApi = $this->coreApi->data($config['content_type']);
+
+            if (null === $document) {
+                $draft = $contentTypeApi->create($data);
+            } elseif (\is_array($source = $data[$config['file_field']] ?? null) && \is_array($target = $document->getSource()[$config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null)) {
+                return \sprintf('ems://object:%s:%s', $document->getContentType(), $document->getId());
+            } else {
+                $draft = $contentTypeApi->update($document->getId(), $data);
+            }
+            $ouuid = $contentTypeApi->finalize($draft->getRevisionId());
+
+            return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
+        }
+
+        return null;
     }
 }

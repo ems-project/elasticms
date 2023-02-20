@@ -670,9 +670,10 @@ class ConfigManager
             }
         }
 
-        if('href' === $attribute) {
+        if ('href' === $attribute) {
             return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
         }
+
         return \sprintf('ems://file:%s:%s', $config['content_type'], $ouuid);
     }
 }

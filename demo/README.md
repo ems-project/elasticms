@@ -26,7 +26,7 @@ Go [here](http://local.ems-demo-admin.localhost/login)
 ## Prerequisites
 
 You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows). 
-It should also work with Docker Desktoo, but tell if you face issues with it.
+It should also work with Docker Desktop, tell us if you face issues with it.
 
 It's recommended to allow at least 6GB of memory to docker.
 

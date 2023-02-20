@@ -616,15 +616,34 @@ class ConfigManager
                 $path = '/'.$path;
             }
 
-            $folder = \explode('/', $path);
-            \array_pop($folder);
-            $data = [
-                $config['file_field'] => $this->urlToAssetArray($url, $rapport),
-                $config['folder_field'] => \implode('/', $folder).'/',
-                $config['path_field'] => $path,
-            ];
+            return $this->uploadMediaFile($config, $url, $rapport, $path);
+        }
 
-            $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($config['content_type']);
+        return null;
+    }
+
+    /**
+     * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $config
+     */
+    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path): string
+    {
+        $exploded = \explode('/', $path);
+        $ouuid = null;
+        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($config['content_type']);
+        $contentTypeApi = $this->coreApi->data($config['content_type']);
+        while (\count($exploded) > 1) {
+            $path = \implode('/', $exploded);
+            \array_pop($exploded);
+            $folder = \implode('/', $exploded).'/';
+
+            $data = [
+                $config['path_field'] => $path,
+                $config['folder_field'] => $folder,
+            ];
+            if (null === $ouuid) {
+                $data[$config['file_field']] = $this->urlToAssetArray($url, $rapport);
+            }
+
             $term = new Terms($config['path_field'], [$path]);
             $search = new Search([$defaultAlias], $term->toArray());
             $search->setContentTypes([$config['content_type']]);
@@ -632,21 +651,25 @@ class ConfigManager
             $document = null;
             foreach ($result->getDocuments() as $item) {
                 $document = $item;
+                break;
             }
-            $contentTypeApi = $this->coreApi->data($config['content_type']);
 
             if (null === $document) {
                 $draft = $contentTypeApi->create($data);
             } elseif (\is_array($source = $data[$config['file_field']] ?? null) && \is_array($target = $document->getSource()[$config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null)) {
-                return \sprintf('ems://object:%s:%s', $document->getContentType(), $document->getId());
+                $ouuid ??= $document->getId();
+                continue;
             } else {
                 $draft = $contentTypeApi->update($document->getId(), $data);
             }
-            $ouuid = $contentTypeApi->finalize($draft->getRevisionId());
 
-            return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
+            if (null === $ouuid) {
+                $ouuid = $contentTypeApi->finalize($draft->getRevisionId());
+            } else {
+                $contentTypeApi->finalize($draft->getRevisionId());
+            }
         }
 
-        return null;
+        return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
     }
 }

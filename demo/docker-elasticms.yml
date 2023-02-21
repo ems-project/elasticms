@@ -2,8 +2,10 @@ services:
 
   admin:
     image: elasticms/admin:${EMS_VERSION}
+    depends_on:
+      - postgres
     environment:
-      - APP_ENV=dev
+      - APP_ENV=prod
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Brussels

@@ -137,6 +137,7 @@ services:
       - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
 
   admin-local:
+    user: $UID:0
     extends:
       file: docker-elasticms.yml
       service: admin
@@ -151,6 +152,7 @@ services:
       - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
 
   web-local:
+    user: $UID:0
     extends:
       file: docker-elasticms.yml
       service: web
@@ -164,6 +166,18 @@ services:
       - "traefik.http.routers.skeleton.entrypoints=web,websecure"
       - "traefik.http.routers.skeleton.service=skeleton"
       - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
+
+  setup_ems:
+    user: $UID:0
+    extends:
+      file: docker-elasticms.yml
+      service: admin
+    command: >
+      bash -c '
+        echo "Waiting for Elasticms Admin availability";
+        until curl -s -H "Host: local.ems-demo-admin.localhost" http://localhost:9000/status.json | grep  -q "green"; do sleep 30; done;
+        echo "All done!";
+      '
 
 volumes:
   elk7_data01:

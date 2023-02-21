@@ -8,13 +8,16 @@ use App\CLI\Client\HttpClient\CacheManager;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use App\CLI\ExpressionLanguage\Functions;
+use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\DependencyInjection\ExpressionLanguage;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
 use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
@@ -63,6 +66,9 @@ class ConfigManager
      */
     private array $documentsToClean = [];
     private ?string $lastUpdated = null;
+
+    /** @var array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[] */
+    private array $htmlAsset2Document = [];
 
     public function serialize(string $format = JsonEncoder::FORMAT): string
     {
@@ -559,5 +565,115 @@ class ConfigManager
     public function setLastUpdated(?string $lastUpdated): void
     {
         $this->lastUpdated = $lastUpdated;
+    }
+
+    /**
+     * @return array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[]
+     */
+    public function getHtmlAsset2Document(): array
+    {
+        return $this->htmlAsset2Document;
+    }
+
+    /**
+     * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[] $htmlAsset2Document
+     */
+    public function setHtmlAsset2Document(array $htmlAsset2Document): void
+    {
+        $configResolver = new OptionsResolver();
+        $configResolver
+            ->setRequired(['content_type', 'regex'])
+            ->setDefault('file_field', 'media_file')
+            ->setDefault('folder_field', 'media_folder')
+            ->setDefault('path_field', 'media_path')
+            ->setAllowedTypes('regex', 'string')
+            ->setAllowedTypes('content_type', 'string')
+            ->setAllowedTypes('file_field', 'string')
+            ->setAllowedTypes('folder_field', 'string')
+            ->setAllowedTypes('path_field', 'string')
+        ;
+        $this->htmlAsset2Document = [];
+        foreach ($htmlAsset2Document as $config) {
+            /** @var array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $resolved */
+            $resolved = $configResolver->resolve($config);
+            $this->htmlAsset2Document[] = $resolved;
+        }
+    }
+
+    public function mediaFile(Url $url, Rapport $rapport, string $attribute): ?string
+    {
+        foreach ($this->htmlAsset2Document as $config) {
+            $matches = [];
+            if (!\preg_match($config['regex'], $url->getPath(), $matches)) {
+                continue;
+            }
+            $position = \strpos($url->getPath(), $matches[0]);
+            if (false === $position) {
+                throw new \RuntimeException('Unexpected false position');
+            }
+            $path = \substr($url->getPath(), $position + \strlen($matches[0]));
+            if (!\str_starts_with($path, '/')) {
+                $path = '/'.$path;
+            }
+
+            return $this->uploadMediaFile($config, $url, $rapport, $path, $attribute);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $config
+     */
+    private function uploadMediaFile(array $config, Url $url, Rapport $rapport, string $path, string $attribute): string
+    {
+        $exploded = \explode('/', $path);
+        $ouuid = null;
+        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($config['content_type']);
+        $contentTypeApi = $this->coreApi->data($config['content_type']);
+        while (\count($exploded) > 1) {
+            $path = \implode('/', $exploded);
+            \array_pop($exploded);
+            $folder = \implode('/', $exploded).'/';
+
+            $data = [
+                $config['path_field'] => $path,
+                $config['folder_field'] => $folder,
+            ];
+            if (null === $ouuid) {
+                $data[$config['file_field']] = $this->urlToAssetArray($url, $rapport);
+            }
+
+            $term = new Terms($config['path_field'], [$path]);
+            $search = new Search([$defaultAlias], $term->toArray());
+            $search->setContentTypes([$config['content_type']]);
+            $result = $this->coreApi->search()->search($search);
+            $document = null;
+            foreach ($result->getDocuments() as $item) {
+                $document = $item;
+                break;
+            }
+
+            if (null === $document) {
+                $draft = $contentTypeApi->create($data);
+            } elseif (\is_array($source = $data[$config['file_field']] ?? null) && \is_array($target = $document->getSource()[$config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null)) {
+                $ouuid ??= $document->getId();
+                continue;
+            } else {
+                $draft = $contentTypeApi->update($document->getId(), $data);
+            }
+
+            if (null === $ouuid) {
+                $ouuid = $contentTypeApi->finalize($draft->getRevisionId());
+            } else {
+                $contentTypeApi->finalize($draft->getRevisionId());
+            }
+        }
+
+        if ('href' === $attribute) {
+            return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
+        }
+
+        return \sprintf('ems://file:%s:%s', $config['content_type'], $ouuid);
     }
 }

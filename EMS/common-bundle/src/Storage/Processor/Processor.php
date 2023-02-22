@@ -9,6 +9,7 @@ use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\Html\Headers;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -45,10 +46,10 @@ class Processor
             throw new AccessDeniedHttpException();
         }
 
-        $authorization = \strval($request->headers->get('Authorization'));
+        $authorization = \strval($request->headers->get(Headers::AUTHORIZATION));
         if (!$config->isAuthorized($authorization)) {
             $response = new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
-            $response->headers->set('WWW-Authenticate', 'basic realm="Access to ressource"');
+            $response->headers->set( Headers::WWW_AUTHENTICATE, 'basic realm="Access to ressource"');
 
             return $response;
         }
@@ -66,9 +67,14 @@ class Processor
         $response = $this->getResponseFromStreamInterface($stream, $request);
 
         $response->headers->add([
-            'Content-Disposition' => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => $filename], ';'),
-            'Content-Type' => $config->getMimeType(),
+            Headers::CONTENT_DISPOSITION => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => $filename], ';'),
+            Headers::CONTENT_TYPE => $config->getMimeType(),
         ]);
+        if ($immutableRoute) {
+            $response->headers->add([
+                Headers::X_ROBOTS_TAG => Headers::X_ROBOTS_TAG_NOINDEX,
+            ]);
+        }
 
         $this->cacheHelper->makeResponseCacheable($response, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
 

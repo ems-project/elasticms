@@ -41,6 +41,14 @@ If you need (recommanded) to use a specific UID, please set the `DOCKER_USER` en
 export DOCKER_USER=$UID
 ```
 
+You may consider to add it permanently to your `.profile`:
+
+```terminal
+cat >> ~/.profile <<EOP
+export DOCKER_USER=$UID
+EOP
+```
+
 ## Install steps
 
 Open a terminal and run the following commands:

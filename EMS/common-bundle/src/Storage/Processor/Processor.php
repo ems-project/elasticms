@@ -49,7 +49,7 @@ class Processor
         $authorization = \strval($request->headers->get(Headers::AUTHORIZATION));
         if (!$config->isAuthorized($authorization)) {
             $response = new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
-            $response->headers->set( Headers::WWW_AUTHENTICATE, 'basic realm="Access to ressource"');
+            $response->headers->set(Headers::WWW_AUTHENTICATE, 'basic realm="Access to resource"');
 
             return $response;
         }

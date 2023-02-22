@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Form\Data;
 
 use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\CoreBundle\Service\EntityServiceInterface;
+use function Symfony\Component\String\u;
 
 final class EntityTable extends TableAbstract
 {
@@ -65,7 +66,7 @@ final class EntityTable extends TableAbstract
 
     public function getAttributeName(): string
     {
-        return $this->entityService->getEntityName();
+        return u($this->entityService->getEntityName())->camel()->toString();
     }
 
     public function totalCount(): int

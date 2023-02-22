@@ -54,12 +54,18 @@ final class RouterController
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         if (\is_string($data['config'] ?? false)) {
-            return $this->processor->getResponse($request, $data['hash'], $data['config'], $data['filename'], $data['immutable'] ?? false);
+            $response = $this->processor->getResponse($request, $data['hash'], $data['config'], $data['filename'], $data['immutable'] ?? false);
+        } else {
+            $config = $this->processor->configFactory($data['hash'], $data['config'] ?? []);
+            $response = $this->processor->getStreamedResponse($request, $config, $data['filename'], $data['immutable'] ?? false);
         }
 
-        $config = $this->processor->configFactory($data['hash'], $data['config'] ?? []);
+        $headers = $data['headers'] ?? null;
+        if (\is_array($headers)) {
+            $this->applyHeaders($response, $headers);
+        }
 
-        return $this->processor->getStreamedResponse($request, $config, $data['filename'], $data['immutable'] ?? false);
+        return $response;
     }
 
     public function makeResponse(Request $request): Response
@@ -78,21 +84,25 @@ final class RouterController
         }
 
         $response = new Response();
-
         $response->setContent($data['content']);
 
         $headers = $data['headers'] ?? ['Content-Type' => 'text/plain'];
-
         if (!\is_array($headers)) {
             throw new \RuntimeException('Unexpected non-array headers parameter');
         }
 
-        foreach ($headers as $key => $value) {
-            $response->headers->add([
-                $key => $value,
-            ]);
-        }
+        $this->applyHeaders($response, $headers);
 
         return $response;
+    }
+
+    /**
+     * @param array<string, string> $headers
+     */
+    private function applyHeaders(Response $response, array $headers): void
+    {
+        foreach ($headers as $key => $value) {
+            $response->headers->add([$key => $value]);
+        }
     }
 }

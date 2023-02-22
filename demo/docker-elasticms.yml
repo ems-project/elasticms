@@ -6,8 +6,6 @@ services:
       - postgres
     environment:
       - APP_ENV=prod
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Brussels
       - PHP_FPM_MAX_CHILDREN=4
       - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=256
@@ -49,8 +47,6 @@ services:
     image: elasticms/website-skeleton:${EMS_VERSION}
     environment:
       - APP_ENV=dev
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Brussels
       - PHP_FPM_MAX_CHILDREN=8
       - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=64

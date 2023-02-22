@@ -91,18 +91,17 @@ final class Search
 
     private function bindRequest(Request $request): void
     {
-        $this->queryString = $request->get('q', $this->queryString);
-        $requestF = $request->get('f', null);
+        $this->queryString = $request->query->get('q', $request->get('q', $this->queryString));
+        $requestFacets = $request->query->get('f', $request->get('f', null));
 
-        if (null !== $requestF && \is_array($requestF)) {
-            $this->queryFacets = $requestF;
+        if (null !== $requestFacets && \is_array($requestFacets)) {
+            $this->queryFacets = $requestFacets;
         }
 
-        $this->page = (int) $request->get('p', $this->page);
-
-        $this->setSize(\intval($request->get('l', $this->size)));
-        $this->setSortBy($request->get('s'));
-        $this->setSortOrder($request->get('o', $this->sortOrder));
+        $this->page = \intval($request->query->get('p', $request->get('p', $this->page)));
+        $this->setSize(\intval($request->query->get('l', $request->get('l', $this->size))));
+        $this->setSortBy($request->query->get('s', $request->get('s')));
+        $this->setSortOrder($request->query->get('o', $request->get('o', $this->sortOrder)));
 
         if (null !== $this->indexRegex) {
             $requestSearchIndex = RequestHelper::replace($request, $this->indexRegex);
@@ -415,6 +414,7 @@ final class Search
 
     private function setSize(int $l): void
     {
+        dump($l);
         if (null == $this->sizes) {
             @\trigger_error('Define allow sizes with the search option "sizes"', \E_USER_DEPRECATED);
             $this->size = \intval((int) $l > 0 ? $l : $this->size);
@@ -423,6 +423,7 @@ final class Search
         } else {
             $this->size = (int) \reset($this->sizes);
         }
+        dump($this->size);
     }
 
     /**

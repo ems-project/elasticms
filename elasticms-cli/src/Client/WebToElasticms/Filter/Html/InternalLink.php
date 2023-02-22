@@ -6,6 +6,7 @@ namespace App\CLI\Client\WebToElasticms\Filter\Html;
 
 use App\CLI\Client\WebToElasticms\Config\ConfigManager;
 use App\CLI\Client\WebToElasticms\Config\WebResource;
+use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use GuzzleHttp\Exception\ClientException;
@@ -37,7 +38,12 @@ class InternalLink implements HtmlInterface
             if (\str_starts_with($href, 'ems://')) {
                 continue;
             }
-            $url = new Url($href, $this->currentUrl);
+            try {
+                $url = new Url($href, $this->currentUrl);
+            } catch (NotParsableUrlException) {
+                $this->rapport->inAssetsError($href, $this->currentUrl);
+                continue;
+            }
 
             if (\in_array($url->getScheme(), ['mailto'])) {
                 continue;
@@ -49,6 +55,13 @@ class InternalLink implements HtmlInterface
             if ($this->isLinkToRemove($item, $path)) {
                 continue;
             }
+
+            $path = $this->config->mediaFile($url, $this->rapport, $attribute);
+            if (null !== $path) {
+                $item->setAttribute($attribute, $path);
+                continue;
+            }
+
             try {
                 $path = $this->config->findInternalLink($url, $this->rapport);
                 $item->setAttribute($attribute, $path);

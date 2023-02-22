@@ -1,5 +1,6 @@
 # elasticms-demo
-A default elasticms local setup using docker compose
+
+A demo elasticms local setup with docker compose.
 
 Resources
 ---------
@@ -9,9 +10,23 @@ Resources
   [send Pull Requests](https://github.com/ems-project/elasticms/pulls)
   in the [elasticMS mono repository](https://github.com/ems-project/elasticms)
 
+
+## TL;DR
+```bash
+sh npm.sh install
+sh npm.sh run prod
+docker compose pull
+docker compose up -d
+sh ems.sh create_users local
+sh ems.sh config_push local
+```
+
+Go [here](http://local.ems-demo-admin.localhost/login)
+
 ## Prerequisites
 
-You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows).
+You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows). 
+It should also work with Docker Desktop, tell us if you face issues with it.
 
 It's recommended to allow at least 6GB of memory to docker.
 
@@ -19,10 +34,6 @@ The following ports must be available:
  * 8888: Traefik UI
  * 80: Web HTTP
  * 443: Web HTTPS
-
-If your linux user id is different thant 1000, please define a UID variable with your user id:
-
-`export UID=1001`
 
 ## Install steps
 

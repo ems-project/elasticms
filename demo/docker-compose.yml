@@ -69,8 +69,6 @@ services:
     environment:
       - POSTGRES_PASSWORD=s3cr3t
       - TZ=Europe/Brussels
-      - PUID=1000
-      - PGID=1000
     volumes:
       - postgres:/var/lib/postgresql/data
 
@@ -137,7 +135,7 @@ services:
       - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
 
   admin-local:
-    user: $UID:0
+    user: ${DOCKER_USER:-1001}:0
     extends:
       file: docker-elasticms.yml
       service: admin
@@ -152,7 +150,7 @@ services:
       - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
 
   web-local:
-    user: $UID:0
+    user: ${DOCKER_USER:-1001}:0
     extends:
       file: docker-elasticms.yml
       service: web
@@ -168,7 +166,7 @@ services:
       - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
 
   setup_ems:
-    user: $UID:0
+    user: ${DOCKER_USER:-1001}:0
     extends:
       file: docker-elasticms.yml
       service: admin

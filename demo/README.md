@@ -10,9 +10,9 @@ Resources
   [send Pull Requests](https://github.com/ems-project/elasticms/pulls)
   in the [elasticMS mono repository](https://github.com/ems-project/elasticms)
 
-
 ## TL;DR
 ```bash
+export DOCKER_USER=$UID
 sh npm.sh install
 sh npm.sh run prod
 docker compose pull
@@ -21,7 +21,7 @@ sh ems.sh create_users local
 sh ems.sh config_push local
 ```
 
-Go [here](http://local.ems-demo-admin.localhost/login)
+Go [here](http://local.ems-demo-admin.localhost/login) and login with the `demo` username and the password you just defined.
 
 ## Prerequisites
 
@@ -35,9 +35,24 @@ The following ports must be available:
  * 80: Web HTTP
  * 443: Web HTTPS
 
+If you need (recommanded) to use a specific UID, please set the `DOCKER_USER` environment variable:
+
+```terminal
+export DOCKER_USER=$UID
+```
+
+You may consider to add it permanently to your `.profile`:
+
+```terminal
+cat >> ~/.profile <<EOP
+export DOCKER_USER=$UID
+EOP
+```
+
 ## Install steps
 
 Open a terminal and run the following commands:
+* `export DOCKER_USER=$UID`: Set the user id
 * `sh npm.sh install`: install NPM dependencies
 * `sh npm.sh run prod`: Build the frontend assets (js, css, ...)
 * `docker compose pull`: Ensure to get the last images

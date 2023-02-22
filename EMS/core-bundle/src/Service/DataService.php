@@ -249,6 +249,7 @@ class DataService
             '_id' => $ouuid,
             'migration' => $migration,
             'finalize' => $finalize,
+            'rootObject' => $objectArray,
         ]);
     }
 

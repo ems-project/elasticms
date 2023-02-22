@@ -161,7 +161,7 @@ final class PostProcessingService
             }
             $found = true;
         } elseif ($form->getConfig()->getType()->getInnerType() instanceof FormFieldType) {
-            foreach ($form->getIterator() as $child) {
+            foreach ($form->all() as $child) {
                 $found = $this->postProcessing($child, $contentType, $objectArray, $context, $parent, $path) || $found;
             }
         }

@@ -83,7 +83,7 @@ class EnvironmentService implements EntityServiceInterface
     /**
      * @see RegisterCompilerPass
      */
-    public function loadEmschEnvironment(string $environmentName): void
+    public function addEmschEnvironment(string $environmentName): void
     {
         if (false === $environment = $this->getByName($environmentName)) {
             return;

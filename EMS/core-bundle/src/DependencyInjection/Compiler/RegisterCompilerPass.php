@@ -38,6 +38,6 @@ final class RegisterCompilerPass implements CompilerPassInterface
         }
 
         $definition = $container->findDefinition('ems.service.environment');
-        $definition->addMethodCall('loadEmschEnvironment', [$environmentName]);
+        $definition->addMethodCall('addEmschEnvironment', [$environmentName]);
     }
 }

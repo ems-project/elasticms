@@ -160,9 +160,12 @@ final class Search
             return null;
         }
 
-        $stringQuerySearch = u(Json::encode($this->querySearch))->replace('%query%', $queryString)->toString();
+        $jsonQueryString = Json::encode($this->querySearch);
 
-        return Json::decode($stringQuerySearch);
+        $queryString = u($jsonQueryString)->replace('%query%', $queryString)->toString();
+        $queryString = RequestHelper::replace($this->request, $queryString);
+
+        return Json::decode($queryString);
     }
 
     public function getAnalyzer(): string

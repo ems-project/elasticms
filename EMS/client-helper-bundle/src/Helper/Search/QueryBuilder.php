@@ -83,10 +83,13 @@ final class QueryBuilder
             }
 
             $textMust = new BoolQuery();
-            $textMust->addMust(\array_values(\array_map(fn (TextValue $textValue) => $textValue->makeShould(), $textValues)));
+            foreach ($textValues as $textValue) {
+                $textMust->addMust($textValue->makeShould());
+            }
 
-            $queryFields->setMinimumShouldMatch(1)->addShould($textMust);
+            $query->setMinimumShouldMatch(1)->addShould($textMust);
         }
+
         if ($queryFields->count() > 0) {
             $query->addMust($queryFields);
         }

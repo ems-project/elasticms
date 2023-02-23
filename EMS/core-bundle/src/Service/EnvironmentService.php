@@ -6,11 +6,14 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ReadableCollection;
+use EMS\ClientHelperBundle\Contracts\Environment\EnvironmentHelperInterface;
+use EMS\ClientHelperBundle\Helper\Environment\Environment as EmschEnvironment;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Environment\EnvironmentsRevision;
+use EMS\CoreBundle\DependencyInjection\Compiler\RegisterCompilerPass;
 use EMS\CoreBundle\Entity\Analyzer;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Filter;
@@ -21,6 +24,7 @@ use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\FilterRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use function Symfony\Component\String\u;
 
 class EnvironmentService implements EntityServiceInterface
 {
@@ -39,6 +43,7 @@ class EnvironmentService implements EntityServiceInterface
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly LoggerInterface $logger,
         private readonly ElasticaService $elasticaService,
+        private readonly EnvironmentHelperInterface $emschEnvironmentHelper,
         private readonly string $instanceId
     ) {
         $environmentRepository = $doctrine->getRepository(Environment::class);
@@ -73,6 +78,22 @@ class EnvironmentService implements EntityServiceInterface
         ]);
 
         return $environment;
+    }
+
+    /**
+     * @see RegisterCompilerPass
+     */
+    public function loadEmschEnvironment(string $environmentName): void
+    {
+        if (false === $environment = $this->getByName($environmentName)) {
+            return;
+        }
+
+        $emschEnvironmentName = u($environment->getName())->prepend('ems_')->toString();
+        $this->emschEnvironmentHelper->addEnvironment($emschEnvironmentName, [
+            EmschEnvironment::ELASTICMS => true,
+            EmschEnvironment::ALIAS_CONFIG => $environment->getAlias(),
+        ]);
     }
 
     public function validateEnvironmentName(string $name): bool

@@ -72,6 +72,7 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_core.fallback_locale', $config['fallback_locale']);
         $container->setParameter('ems_core.url_user', $config['url_user']);
         $container->setParameter('ems_core.custom_user_options_form', $config['custom_user_options_form']);
+        $container->setParameter('ems_core.emsch_env', $config['emsch_env']);
 
         $container->setParameter('ems_core.security.firewall.core', $config['security']['firewall']['core']);
         $container->setParameter('ems_core.security.firewall.api', $config['security']['firewall']['api']);

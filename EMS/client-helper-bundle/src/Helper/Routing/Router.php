@@ -9,16 +9,20 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class Router extends BaseRouter
 {
-    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly RoutingBuilder $builder)
-    {
+    public function __construct(
+        private readonly EnvironmentHelper $environmentHelper,
+        private readonly RoutingBuilder $builder
+    ) {
     }
 
     public function getRouteCollection(): RouteCollection
     {
-        if (null === $environment = $this->environmentHelper->getCurrentEnvironment()) {
+        $currentEnvironment = $this->environmentHelper->getCurrentEnvironment();
+
+        if (null === $currentEnvironment || $currentEnvironment->isElasticms()) {
             return new RouteCollection();
         }
 
-        return $this->builder->buildRouteCollection($environment);
+        return $this->builder->buildRouteCollection($currentEnvironment);
     }
 }

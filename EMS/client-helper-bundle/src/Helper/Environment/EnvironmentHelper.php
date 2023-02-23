@@ -90,6 +90,12 @@ final class EnvironmentHelper implements EnvironmentHelperInterface
             return $this->environments[$this->emschEnv] ?? null;
         }
 
+        foreach ($this->environments as $environment) {
+            if ($environment->isElasticms()) {
+                return $environment;
+            }
+        }
+
         return null;
     }
 }

@@ -20,7 +20,11 @@ final class Environment
     public const REQUEST_CONFIG = 'request';
     public const ALIAS_CONFIG = 'alias';
     public const REMOTE_CLUSTER = 'remote_cluster';
+    public const DEFAULT = 'default';
+    public const ROUTER = 'router';
     private bool $active = false;
+    private bool $default;
+    private bool $routerEnabled;
     private readonly string $alias;
     private readonly ?string $regex;
     private readonly ?string $routePrefix;
@@ -45,6 +49,8 @@ final class Environment
         $this->backend = $config[self::BACKEND_CONFIG] ?? null;
         $this->request = $config[self::REQUEST_CONFIG] ?? [];
         $this->options = $config;
+        $this->default = \boolval($config[self::DEFAULT] ?? false);
+        $this->routerEnabled = \boolval($config[self::ROUTER] ?? true);
         $this->hash = Hash::array($config, $name);
     }
 
@@ -90,6 +96,16 @@ final class Environment
     public function isActive(): bool
     {
         return $this->active;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->default;
+    }
+
+    public function isRouterEnabled(): bool
+    {
+        return $this->routerEnabled;
     }
 
     public function makeActive(): void

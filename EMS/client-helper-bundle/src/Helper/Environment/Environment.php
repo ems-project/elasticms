@@ -20,9 +20,9 @@ final class Environment
     public const REQUEST_CONFIG = 'request';
     public const ALIAS_CONFIG = 'alias';
     public const REMOTE_CLUSTER = 'remote_cluster';
-    public const ELASTICMS = 'elasticms';
+    public const DEFAULT = 'default';
     private bool $active = false;
-    private bool $elasticms;
+    private bool $default;
     private readonly string $alias;
     private readonly ?string $regex;
     private readonly ?string $routePrefix;
@@ -47,7 +47,7 @@ final class Environment
         $this->backend = $config[self::BACKEND_CONFIG] ?? null;
         $this->request = $config[self::REQUEST_CONFIG] ?? [];
         $this->options = $config;
-        $this->elasticms = true === ($config[self::ELASTICMS] ?? false);
+        $this->default = \boolval($config[self::DEFAULT] ?? false);
         $this->hash = Hash::array($config, $name);
     }
 
@@ -95,9 +95,9 @@ final class Environment
         return $this->active;
     }
 
-    public function isElasticms(): bool
+    public function isDefault(): bool
     {
-        return $this->elasticms;
+        return $this->default;
     }
 
     public function makeActive(): void

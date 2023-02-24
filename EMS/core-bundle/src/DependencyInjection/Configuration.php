@@ -81,7 +81,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('clean_jobs_time_string')->defaultValue(self::CLEAN_JOBS_TIME_STRING)->end()
                 ->scalarNode('fallback_locale')->defaultValue(self::FALLBACK_LOCALE)->end()
                 ->scalarNode('custom_user_options_form')->defaultValue(null)->end()
-                ->scalarNode('emsch_env')->defaultValue(null)->end()
             ->end()
         ;
 

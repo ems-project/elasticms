@@ -291,7 +291,6 @@
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.service.elastica" />
-            <argument type="service" id="EMS\ClientHelperBundle\Contracts\Environment\EnvironmentHelperInterface" />
             <argument>%ems_core.instance_id%</argument>
             <tag name="emsco.entity.service" />
         </service>

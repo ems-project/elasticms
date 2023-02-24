@@ -13,7 +13,6 @@ final class RegisterCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $this->registerContentTransformers($container);
-        $this->registerEnvironmentEmsch($container);
     }
 
     private function registerContentTransformers(ContainerBuilder $container): void
@@ -29,15 +28,5 @@ final class RegisterCompilerPass implements CompilerPassInterface
         foreach ($transformerIds as $id) {
             $definition->addMethodCall('add', [new Reference($id)]);
         }
-    }
-
-    private function registerEnvironmentEmsch(ContainerBuilder $container): void
-    {
-        if (null === $environmentName = $container->getParameter('ems_core.emsch_env')) {
-            return;
-        }
-
-        $definition = $container->findDefinition('ems.service.environment');
-        $definition->addMethodCall('addEmschEnvironment', [$environmentName]);
     }
 }

@@ -17,12 +17,12 @@ final class Router extends BaseRouter
 
     public function getRouteCollection(): RouteCollection
     {
-        $currentEnvironment = $this->environmentHelper->getCurrentEnvironment();
+        $environment = $this->environmentHelper->getCurrentEnvironment();
 
-        if (null === $currentEnvironment || $currentEnvironment->isElasticms()) {
+        if (null === $environment || $environment->isDefault()) {
             return new RouteCollection();
         }
 
-        return $this->builder->buildRouteCollection($currentEnvironment);
+        return $this->builder->buildRouteCollection($environment);
     }
 }

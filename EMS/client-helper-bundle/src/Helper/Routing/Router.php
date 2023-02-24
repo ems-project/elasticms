@@ -19,7 +19,7 @@ final class Router extends BaseRouter
     {
         $environment = $this->environmentHelper->getCurrentEnvironment();
 
-        if (null === $environment || $environment->isDefault()) {
+        if (null === $environment || !$environment->isRouterEnabled()) {
             return new RouteCollection();
         }
 

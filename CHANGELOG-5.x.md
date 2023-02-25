@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.2.5 (2023-02-25)
+### Bug Fixes
+* fix(admin): doctrine migrations in dev mode by @Davidmattei in https://github.com/ems-project/elasticms/pull/332
+* fix(wysiwyg): paste-not-working by @Davidmattei in https://github.com/ems-project/elasticms/pull/326
+
 ## 5.2.4 (2023-02-13)
 ### Bug Fixes
 * fix(common): ems_webalize accii folding german by @Davidmattei in https://github.com/ems-project/elasticms/pull/322

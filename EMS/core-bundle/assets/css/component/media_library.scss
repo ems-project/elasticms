@@ -207,15 +207,7 @@ div.media-lib {
               text-decoration: underline;
             }
 
-            > div {
-              flex: 1;
-
-              &:last-child {
-                flex: none;
-                width: 120px;
-                text-align: right;
-              }
-            }
+            > div { flex: 1; }
           }
         }
       }

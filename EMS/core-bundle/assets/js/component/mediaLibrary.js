@@ -176,14 +176,17 @@ export default class MediaLibrary {
     }
 
     _getFiles(path) {
-        return new Promise((resolve) => {
-            this.#elements.listFiles.innerHTML = '';
-            this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
-            ajaxJsonGet(this._makeUrl('files'), (files) => {
-                this._appendFileItems(files, this.#elements.listFiles);
-                resolve();
-            });
-        })
+        this.#elements.listFiles.innerHTML = '';
+        this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
+
+        return fetch(this._makeUrl('files'), {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json'}
+        }).then((response) => {
+            return response.ok ? response.json().then((json) => {
+                json.forEach((listItem) => { this.#elements.listFiles.innerHTML += listItem; })
+            }) : Promise.reject(response);
+        });
     }
     _getFolders(openPath) {
         return new Promise((resolve) => {
@@ -211,40 +214,6 @@ export default class MediaLibrary {
             item.appendChild(this._makeFolderButton(folderName, currentPath));
 
             list.appendChild(item);
-        });
-    }
-    _appendFileItems(files, list) {
-        if (files.length > 0) {
-            let liHeading = document.createElement("li");
-            ['Name', 'Type', 'Size'].forEach(fileProperty => {
-                let divProperty = document.createElement("div");
-                divProperty.textContent = fileProperty;
-                liHeading.appendChild(divProperty);
-            });
-            list.appendChild(liHeading);
-        }
-
-        files.forEach((file) => {
-            let nameLink = document.createElement('a');
-            nameLink.download = file['file']['name'];
-            nameLink.href = this.#options.urlFileView
-                .replace(/__file_identifier__/g, file['file']['hash'])
-                .replace(/__file_name__/g, file['file']['name']);
-            nameLink.textContent = file['file']['name'];
-
-            let divName = document.createElement("div");
-            divName.appendChild(nameLink);
-
-            let divType = document.createElement("div");
-            divType.textContent = file['file']['type'];
-
-            let divSize = document.createElement("div");
-            divSize.textContent = file['file']['size'];
-
-            let liFile = document.createElement("li");
-            liFile.append(divName, divType, divSize);
-
-            list.appendChild(liFile);
         });
     }
     _appendFolderItems(folders, list) {

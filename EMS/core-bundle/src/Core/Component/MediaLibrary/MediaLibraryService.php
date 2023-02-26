@@ -41,7 +41,7 @@ class MediaLibraryService
 
         return $this->create($config, [
             $config->fieldPath => $path.$file['filename'],
-            $config->fieldLocation => $path,
+            $config->fieldFolder => $path,
             $config->fieldFile => \array_filter(\array_merge($file, [
                 'sha1' => $fileHash,
             ])),
@@ -52,7 +52,7 @@ class MediaLibraryService
     {
         return $this->create($config, [
             $config->fieldPath => $path.$folderName,
-            $config->fieldLocation => $path,
+            $config->fieldFolder => $path,
         ]);
     }
 
@@ -68,7 +68,7 @@ class MediaLibraryService
         $searchQuery->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
 
         if ($path) {
-            $searchQuery->addMust((new Term())->setTerm($config->fieldLocation, $path));
+            $searchQuery->addMust((new Term())->setTerm($config->fieldFolder, $path));
         }
 
         $docs = $this->search($config, $searchQuery)->getDocuments();

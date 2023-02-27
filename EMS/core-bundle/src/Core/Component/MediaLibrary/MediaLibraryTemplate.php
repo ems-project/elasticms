@@ -28,6 +28,7 @@ class MediaLibraryTemplate
      */
     public function block(string $blockName, array $context = []): string
     {
+        $context = \array_merge($context, $this->config->context);
         $context['config'] = $this->config;
 
         if ($this->configTemplate && $this->configTemplate->hasBlock($blockName)) {

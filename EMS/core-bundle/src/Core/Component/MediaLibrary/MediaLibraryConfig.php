@@ -15,6 +15,8 @@ class MediaLibraryConfig implements ConfigInterface
     /** @var array<mixed> */
     public array $searchQuery = [];
     public ?string $template = null;
+    /** @var array<string, mixed> */
+    public array $context = [];
 
     public function __construct(
         private readonly string $hash,

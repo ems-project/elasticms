@@ -25,9 +25,10 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
      *   fieldFolder: string,
      *   fieldFile: string,
      *   fieldPathOrder: ?string,
+     *   template: ?string,
+     *   context: array<string, mixed>,
      *   defaultValue: array<mixed>,
      *   searchQuery: array<mixed>,
-     *   template: ?string
      * } $options
      */
     public function create(string $hash, array $options): MediaLibraryConfig
@@ -47,6 +48,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
         $config->defaultValue = $options['defaultValue'];
         $config->searchQuery = $options['searchQuery'];
         $config->template = $options['template'];
+        $config->context = $options['context'];
 
         return $config;
     }
@@ -71,6 +73,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
                 'fieldFile' => 'media_file',
                 'defaultValue' => [],
                 'searchQuery' => [],
+                'context' => [],
                 'template' => null,
             ])
             ->setRequired([
@@ -81,7 +84,8 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
                 'fieldFile',
             ])
             ->setAllowedTypes('defaultValue', 'array')
-            ->setAllowedTypes('searchQuery', 'array');
+            ->setAllowedTypes('searchQuery', 'array')
+            ->setAllowedTypes('context', 'array');
 
         /** @var array{contentTypeName: string} $resolved */
         $resolved = $resolver->resolve($options);

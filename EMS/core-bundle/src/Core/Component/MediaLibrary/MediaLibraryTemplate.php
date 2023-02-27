@@ -26,14 +26,14 @@ class MediaLibraryTemplate
     /**
      * @param array<mixed> $context
      */
-    public function block(string $name, array $context = []): string
+    public function block(string $blockName, array $context = []): string
     {
         $context['config'] = $this->config;
 
-        if ($this->configTemplate && $this->configTemplate->hasBlock($name)) {
-            return $this->configTemplate->renderBlock($name, $context);
+        if ($this->configTemplate && $this->configTemplate->hasBlock($blockName)) {
+            return $this->configTemplate->renderBlock($blockName, $context);
         }
 
-        return $this->template->renderBlock($name, $context);
+        return $this->template->renderBlock($blockName, $context);
     }
 }

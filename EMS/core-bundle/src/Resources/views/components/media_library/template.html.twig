@@ -2,15 +2,19 @@
 
 {%- block mediaLibraryHeaderLeft -%}
     {% apply spaceless %}
-        {{ buttonHome|raw }}
+        <div class="media-lib-container">
+            {{ buttonHome|raw }}
+        </div>
     {% endapply %}
 {%- endblock mediaLibraryHeaderLeft -%}
 
 {%- block mediaLibraryHeader -%}
     {% apply spaceless %}
-        {{ buttonAddFolder|raw }}
-        {{ buttonUpload|raw }}
-        {{ breadcrumb|raw }}
+        <div class="media-lib-container">
+            {{ buttonAddFolder|raw }}
+            {{ buttonUpload|raw }}
+            {{ breadcrumb|raw }}
+        </div>
     {% endapply %}
 {%- endblock mediaLibraryHeader -%}
 
@@ -35,6 +39,6 @@
 {%- endblock mediaLibraryFileRow -%}
 
 {%- block mediaLibraryFooter -%}
-    <div class="media-lib-footer-content"></div>
+    <div class="media-lib-container"></div>
 {%- endblock mediaLibraryFooter -%}
 

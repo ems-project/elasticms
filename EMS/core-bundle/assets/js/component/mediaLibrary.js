@@ -24,7 +24,7 @@ export default class MediaLibrary {
             listUploads: el.querySelector('ul.media-lib-list-uploads'),
             listBreadcrumb: el.querySelector('ul.media-lib-list-breadcrumb')
         };
-        this.#elements.uploadLabel = el.querySelector(`label[for="${this.#elements.inputUpload.id}"]`);
+        if (this.#elements.inputUpload) this.#elements.uploadLabel = el.querySelector(`label[for="${this.#elements.inputUpload.id}"]`);
 
         this._init();
     }
@@ -39,17 +39,17 @@ export default class MediaLibrary {
 
     _disableButtons() {
         this.#el.querySelectorAll('button').forEach(button => button.disabled = true);
-        this.#elements.uploadLabel.setAttribute('disabled', 'disabled');
+        if (this.#elements.uploadLabel) this.#elements.uploadLabel.setAttribute('disabled', 'disabled');
     }
     _enableButtons() {
         this.#el.querySelectorAll('button').forEach(button => button.disabled = false);
-        this.#elements.uploadLabel.removeAttribute('disabled');
+        if (this.#elements.uploadLabel) this.#elements.uploadLabel.removeAttribute('disabled');
     }
 
     _addEventListeners() {
-        this.#elements.btnAddFolder.onclick = () => this._addFolder();
-        this.#elements.btnHome.onclick = () => this._loadFolder();
-        this.#elements.inputUpload.onchange = (event) => { this._addFiles(Array.from(event.target.files)); };
+        if (this.#elements.btnAddFolder) this.#elements.btnAddFolder.onclick = () => this._addFolder();
+        if (this.#elements.btnHome) this.#elements.btnHome.onclick = () => this._loadFolder();
+        if (this.#elements.inputUpload) this.#elements.inputUpload.onchange = (event) => { this._addFiles(Array.from(event.target.files)); };
         this.#el.onclick = (event) => {
             if (event.target.classList.contains('media-lib-link-folder')) {
                 this._loadFolder(event.target.dataset.path, event.target);
@@ -200,6 +200,8 @@ export default class MediaLibrary {
     }
 
     _appendBreadcrumbItems(path, list) {
+        if (null === list) return;
+
         list.style.display = 'flex';
         list.innerHTML = '';
         path = ''.concat('/home', path || '');

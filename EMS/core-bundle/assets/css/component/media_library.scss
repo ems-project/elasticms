@@ -71,8 +71,8 @@ div.media-lib {
       flex-direction: column;
       resize: horizontal;
       overflow: auto;
-      width: 20%;
-      min-width: 10%;
+      width: 25%;
+      min-width: 20%;
       max-width: 50%;
       flex-shrink: 0;
       background-color: #d2d6de;
@@ -214,11 +214,15 @@ div.media-lib {
     }
   }
 
-  div.media-lib-footer {
-    min-height: 30px;
+  div.media-lib-footer-container {
     flex-shrink: 0;
-    padding: 8px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #DCDCDC;
+
+    > div.media-lib-footer {
+      background-color: #f5f5f5;
+      border-top: 1px solid #DCDCDC;
+      padding: 8px;
+      height: 100%;
+      min-height: 30px;
+    }
   }
 }

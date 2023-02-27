@@ -1,3 +1,19 @@
+{% trans_default_domain 'emsco-component' %}
+
+{%- block mediaLibraryHeaderLeft -%}
+    {% apply spaceless %}
+        {{ buttonHome|raw }}
+    {% endapply %}
+{%- endblock mediaLibraryHeaderLeft -%}
+
+{%- block mediaLibraryHeader -%}
+    {% apply spaceless %}
+        {{ buttonAddFolder|raw }}
+        {{ buttonUpload|raw }}
+        {{ breadcrumb|raw }}
+    {% endapply %}
+{%- endblock mediaLibraryHeader -%}
+
 {%- block mediaLibraryFileRowHeader -%}
     {% apply spaceless %}
         <li>
@@ -6,7 +22,7 @@
             <div class="text-right">Size</div>
         </li>
     {% endapply %}
-{%- endblock -%}
+{%- endblock mediaLibraryFileRowHeader -%}
 
 {%- block mediaLibraryFileRow -%}
     {% apply spaceless %}
@@ -16,4 +32,9 @@
             <div class="text-right">{{ media.file.filesize|format_bytes }}</div>
         </li>
     {% endapply %}
-{%- endblock -%}
+{%- endblock mediaLibraryFileRow -%}
+
+{%- block mediaLibraryFooter -%}
+    <div class="media-lib-footer-content"></div>
+{%- endblock mediaLibraryFooter -%}
+

@@ -21,7 +21,7 @@ parameters:
     env(EMS_LOG_LEVEL): '250'
     env(EMS_BACKEND_URL): ~
     env(EMS_BACKEND_API_KEY): ~
-    env(EMS_BACKEND_API_VERIFY): false
+    env(EMS_BACKEND_API_VERIFY): true
 
     env(EMS_CACHE): 'file_system'
     env(EMS_CACHE_PREFIX): ~

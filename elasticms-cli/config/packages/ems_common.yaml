@@ -6,7 +6,7 @@ parameters:
   env(EMS_ELASTICSEARCH_HOSTS): '["http://localhost:9200"]'
   env(EMS_BACKEND_URL): ~
   env(EMS_BACKEND_API_KEY): ~
-  env(EMS_BACKEND_API_INSECURE): false
+  env(EMS_BACKEND_API_VERIFY): false
 
   env(EMS_CACHE): 'file_system'
   env(EMS_CACHE_PREFIX): 'emscli_'
@@ -21,7 +21,7 @@ ems_common:
   storages: '%env(json:EMS_STORAGES)%'
   backend_url: '%env(string:EMS_BACKEND_URL)%'
   backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
-  backend_api_insecure: '%env(string:EMS_BACKEND_API_INSECURE)%'
+  backend_api_verify: '%env(string:EMS_BACKEND_API_VERIFY)%'
   cache:
     type: '%env(EMS_CACHE)%'
     prefix: '%env(string:EMS_CACHE_PREFIX)%'

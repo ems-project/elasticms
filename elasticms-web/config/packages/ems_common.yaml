@@ -33,7 +33,7 @@ ems_common:
     storages: '%env(json:EMS_STORAGES)%'
     backend_url: '%env(string:EMS_BACKEND_URL)%'
     backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
-    backend_api_verify: '%env(string:EMS_BACKEND_API_VERIFY)%'
+    backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
     webalize:
         removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
         dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'

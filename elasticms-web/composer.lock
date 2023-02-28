@@ -7554,16 +7554,16 @@
         },
         {
             "name": "symfony/html-sanitizer",
-            "version": "v6.2.5",
+            "version": "v6.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/html-sanitizer.git",
-                "reference": "9f7eb169f929b6f75fee7218a128856a63694cc6"
+                "reference": "211e36bbb20a5e5db2b940399ab1d2b421a08068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/9f7eb169f929b6f75fee7218a128856a63694cc6",
-                "reference": "9f7eb169f929b6f75fee7218a128856a63694cc6",
+                "url": "https://api.github.com/repos/symfony/html-sanitizer/zipball/211e36bbb20a5e5db2b940399ab1d2b421a08068",
+                "reference": "211e36bbb20a5e5db2b940399ab1d2b421a08068",
                 "shasum": ""
             },
             "require": {
@@ -7603,7 +7603,7 @@
                 "sanitizer"
             ],
             "support": {
-                "source": "https://github.com/symfony/html-sanitizer/tree/v6.2.5"
+                "source": "https://github.com/symfony/html-sanitizer/tree/v6.2.7"
             },
             "funding": [
                 {
@@ -7619,7 +7619,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-01T08:37:24+00:00"
+            "time": "2023-02-14T08:44:56+00:00"
         },
         {
             "name": "symfony/http-client",

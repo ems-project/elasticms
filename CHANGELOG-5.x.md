@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.3.1 (2023-02-28)
+### Bug Fixes
+* fix(common/api): EMS_BACKEND_API_VERIFY by @Davidmattei in https://github.com/ems-project/elasticms/pull/351
+* fix: recompute theme and useroptiontype specific id by @theus77 in https://github.com/ems-project/elasticms/pull/352
+
 ## 5.3.0 (2023-02-27)
 ### Features
 * feat(admin): emsch local enabled in dev mode by @Davidmattei in https://github.com/ems-project/elasticms/pull/294

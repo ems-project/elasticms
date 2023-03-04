@@ -21,13 +21,13 @@ class Client
     private readonly HttpClientInterface $client;
     private LoggerInterface $logger;
 
-    public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $insecure)
+    public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $verify)
     {
         $this->client = new CurlHttpClient([
             'base_uri' => $baseUrl,
             'headers' => ['Content-Type' => 'application/json'],
-            'verify_host' => !$insecure,
-            'verify_peer' => !$insecure,
+            'verify_host' => $verify,
+            'verify_peer' => $verify,
             'timeout' => 30,
         ]);
 

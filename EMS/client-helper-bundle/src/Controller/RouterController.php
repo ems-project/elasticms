@@ -11,8 +11,9 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Twig\Environment;
+use Twig\Error\RuntimeError;
 
 final class RouterController
 {
@@ -24,7 +25,11 @@ final class RouterController
     {
         $result = $this->handler->handle($request);
 
-        $response = new Response($this->templating->render($result['template'], $result['context']));
+        try {
+            $response = new Response($this->templating->render($result['template'], $result['context']));
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
         $this->cacheHelper->makeResponseCacheable($request, $response);
 
         return $response;
@@ -33,14 +38,18 @@ final class RouterController
     public function redirect(Request $request): Response
     {
         $result = $this->handler->handle($request);
-        $json = $this->templating->render($result['template'], $result['context']);
+        try {
+            $json = $this->templating->render($result['template'], $result['context']);
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         if (isset($data['path'])) {
             return new BinaryFileResponse($data['path']);
         }
         if (!isset($data['url'])) {
-            throw new NotFoundHttpException($data['message'] ?? 'Page not found');
+            throw new HttpException($data['message'] ?? 'Page not found');
         }
 
         return new RedirectResponse($data['url'], $data['status'] ?? 302);
@@ -49,7 +58,11 @@ final class RouterController
     public function asset(Request $request): Response
     {
         $result = $this->handler->handle($request);
-        $json = $this->templating->render($result['template'], $result['context']);
+        try {
+            $json = $this->templating->render($result['template'], $result['context']);
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
@@ -71,7 +84,11 @@ final class RouterController
     public function makeResponse(Request $request): Response
     {
         $result = $this->handler->handle($request);
-        $json = $this->templating->render($result['template'], $result['context']);
+        try {
+            $json = $this->templating->render($result['template'], $result['context']);
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 

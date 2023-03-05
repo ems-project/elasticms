@@ -1,9 +1,8 @@
 {% trans_default_domain trans_default_domain %}
 {% set structure = source %}
-{% set paths = source.paths|default([])|array_key('path') %}
+{% set paths = source.paths|default([])|filter(p => p.locale == app.request.locale)|array_key('path') %}
 {% set pathsByUids = source.paths|default([])|array_key('uid') %}
 {% set pathInfo = attribute(paths, app.request.get('path')) %}
-{% dump(pathInfo) %}
 
 {% set target = emsch_search_one(['section', 'page'], {
     "query": {
@@ -13,7 +12,7 @@
     },
     "size": 1000,
 }) %}
-
+{% set switchUrls = source.paths|filter(p => p.locale != app.request.locale and p.uid == pathInfo.uid)|array_key('locale')|map(p => path('emsch_path', {path: p.path, _locale: p.locale})) %}
 
 {% set source = target.source|default(null) %}
 {% set currentStructure = attribute(structure, app.request.locale).structure|default("[]")|ems_json_menu_nested_decode %}

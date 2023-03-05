@@ -1,5 +1,6 @@
 aria:
     back-to-top: 'Back to top'
+    skip-to-content: 'Ga onmiddellijk naar de inhoud'
 blog:
     intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
     title: Blog
@@ -54,7 +55,7 @@ month:
 navbar:
     swith-to-locale: Nederlands
 site:
-    copy: Copyright
+    copy: 'Copyright %year%'
     lead: 'Een CMS op maat voor de openbare sector'
     name: elasticMS
     news_title: 'What''s new?'

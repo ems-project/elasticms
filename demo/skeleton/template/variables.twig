@@ -11,8 +11,9 @@
     {% if app.user %}
         {% set baseUrl = "/channel/#{trans_default_domain}" %}
     {% endif %}
-    {% set website_name =  'elasticMS Promo' %}
-    {% set website_shortname =  'eMS Promo' %}
+
+    {% set footer_menu = 'section:39d3ffdd-6ac3-4828-a1f6-970b1b884ce1' %}
+    {% set header_menu = 'section:1e617cf9-6b19-4c33-90ba-5a4c8feff062' %}
 
     {%- block request %}{% endblock request -%}
 

@@ -1,5 +1,5 @@
 {% trans_default_domain trans_default_domain %}
-{% extends '@EMSCH/template/page/'~(source.type|default('default'))~'.html.twig' %}
+{% extends '@EMSCH/template/page/'~(source.template|default('default'))~'.html.twig' %}
 
 {% block blocks %}
     {% with {

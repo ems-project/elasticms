@@ -2,15 +2,13 @@
     {% apply spaceless %}
         {% set childrenHaveBeenGenerated = false %}
         {% set currentBlockLevel = 1 %}
-        {% set headerBlockLevel = 2 %}
         {% for item in structure|default([]) %}
             {% with {
                 'item': item,
                 'currentBlockLevel': currentBlockLevel,
-                'headerBlockLevel': headerBlockLevel,
                 'trans_default_domain': trans_default_domain,
                 } %}
-                {{ block("row", "@EMSCH/template/page/blocks/"~item.type~".html.twig") }}
+                {{ block("row", "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
             {% endwith %}
         {%  endfor %}
     {% endapply %}
@@ -21,10 +19,7 @@
         {% if row_class|default('') %}
             <div class="{{ row_class|default('') }}" id="row-{{ item.id }}">
         {% endif %}
-        {% if headerBlockLevel < 7 %}
-            {{ block('title', "@EMSCH/template/page/blocks/"~item.type~".html.twig") }}
-        {%  endif %}
-        {{ block('body', "@EMSCH/template/page/blocks/"~item.type~".html.twig") }}
+        {{ block('body', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
         {% if row_class|default('') %}
             </div>
         {% endif %}
@@ -32,19 +27,11 @@
 {% endblock row %}
 
 {% block body %}
-    {{ block('widget', "@EMSCH/template/page/blocks/"~item.type~".html.twig") }}
+    {{ block('widget', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
     {% if item.children|default([])|length > 0 %}
-        {{ block('children', "@EMSCH/template/page/blocks/"~item.type~".html.twig") }}
+        {{ block('children', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
     {% endif %}
 {% endblock body %}
-
-{% block title %}
-    {% apply spaceless %}
-        {% if item.object.title is defined %}
-            <h{{ headerBlockLevel }} id="{{ item.id }}">{{ item.object.title|default('') }}</h{{ headerBlockLevel }}>
-        {% endif %}
-    {% endapply %}
-{% endblock title %}
 
 {% block widget %}
     <p>{{ ('Block `widget` must be overridden for `' ~ item.type ~ '`')|ems_markdown }}</p>
@@ -54,11 +41,10 @@
     {% apply spaceless %}
         {% if not childrenHaveBeenGenerated %}
             {% set currentBlockLevel = currentBlockLevel + 1 %}
-            {% set headerBlockLevel = headerBlockLevel + (item.object.title is defined ? 1 : 0) %}
             {% set parent = item %}
             {% for item in item.children|default([]) %}
                 {% set row_class = '' %}
-                {{ block("child", "@EMSCH/template/page/blocks/"~parent.type~".html.twig") }}
+                {{ block("child", "@EMSCH/template/page/blocks/"~(parent.object.layout|default(parent.type))~".html.twig") }}
             {% endfor %}
             {% set childrenHaveBeenGenerated = true %}
         {% endif %}
@@ -66,5 +52,5 @@
 {% endblock %}
 
 {% block child %}
-    {{ block("row", "@EMSCH/template/page/blocks/"~item.type~".html.twig") }}
+    {{ block("row", "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
 {% endblock child %}

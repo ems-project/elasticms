@@ -1,0 +1,29 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block widget %}
+    <div class="jumbotron px-0 rounded-0 mb-0" style="background-image: url({{ ems_asset_path(item.object.image, {
+        _config_type: 'image',
+        _width: 1176,
+        _height: 520,
+        _quality: 0,
+    }) }});">
+        <figure class="d-md-none mb-4">
+            <img src="{{ ems_asset_path(item.object.image, {
+                _config_type: 'image',
+                _width: 767,
+                _height: 286,
+                _quality: 0,
+            }) }}" class="img-fluid" alt="">
+        </figure>
+        <div class="container-fluid container-lg">
+            <div class="row">
+                <div class="col-12  col-md-6 col-xl-5 offset-xl-1">
+                    <h1>{{ attribute(source, locale).title }}</h1>
+                    {{ item.object.body|default('')|emsch_routing }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock widget %}
+
+

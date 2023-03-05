@@ -3,7 +3,7 @@
 
 {% block blocks %}
     {% with {
-        'structure': attribute(source, locale).structure|default('{}')|ems_json_decode,
+        'structure': attribute(source, locale).components|default('{}')|ems_json_decode,
         'trans_default_domain': trans_default_domain,
     } %}
         {{ block("render", "@EMSCH/template/page/blocks/abstract-block.html.twig") }}

@@ -60,7 +60,7 @@
                 <link rel="stylesheet" href="{{ asset('css/index.css', 'emsch') }}">
             {% endblock %}
         </head>
-        <body data-translations="{{ {
+        <body class="{% block body_class %}{% endblock %}" data-translations="{{ {
             file_selected: 'js.file_selected'|trans,
             form_error: 'js.form_error'|trans,
             form_saved: 'js.form_saved'|trans,

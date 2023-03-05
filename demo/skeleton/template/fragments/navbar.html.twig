@@ -19,7 +19,9 @@
 {% endblock %}
 
 {% block dropdownItem %}
-    <li><a class="dropdown-item" href="{{ attribute(urls, link.id) }}">{{ link.label }}</a></li>
+    {% if attribute(link.object, locale).title is defined %}
+        <li><a class="dropdown-item" href="{{ attribute(urls, link.id) }}">{{ attribute(link.object, locale).title }}</a></li>
+    {% endif %}
 {% endblock %}
 
 {% block dropdown %}

@@ -41,7 +41,6 @@
                     }
                 },
                 "orderKey": 0,
-                "parent": null,
                 "children": [
                     {
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -86,7 +85,6 @@
                                 }
                             },
                             "orderKey": 0,
-                            "parent": null,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -111,7 +109,6 @@
                                             }
                                         },
                                         "orderKey": 0,
-                                        "parent": null,
                                         "children": []
                                     },
                                     "replaced": []
@@ -148,7 +145,6 @@
                                 "raw_data": []
                             },
                             "orderKey": 1,
-                            "parent": null,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -179,7 +175,6 @@
                                             "raw_data": []
                                         },
                                         "orderKey": 0,
-                                        "parent": null,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -220,7 +215,6 @@
                                                         }
                                                     },
                                                     "orderKey": 0,
-                                                    "parent": null,
                                                     "children": [
                                                         {
                                                             "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -253,7 +247,6 @@
                                                                     "raw_data": []
                                                                 },
                                                                 "orderKey": 0,
-                                                                "parent": null,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -298,7 +291,6 @@
                                                                                 }
                                                                             },
                                                                             "orderKey": 0,
-                                                                            "parent": null,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -348,7 +340,6 @@
                                                                                 }
                                                                             },
                                                                             "orderKey": 1,
-                                                                            "parent": null,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -388,7 +379,6 @@
                                                                     "raw_data": []
                                                                 },
                                                                 "orderKey": 1,
-                                                                "parent": null,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -429,7 +419,6 @@
                                                                                 }
                                                                             },
                                                                             "orderKey": 1,
-                                                                            "parent": null,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -473,7 +462,6 @@
                                                                                 }
                                                                             },
                                                                             "orderKey": 2,
-                                                                            "parent": null,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -513,7 +501,6 @@
                                                                     "raw_data": []
                                                                 },
                                                                 "orderKey": 2,
-                                                                "parent": null,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -554,7 +541,6 @@
                                                                                 }
                                                                             },
                                                                             "orderKey": 0,
-                                                                            "parent": null,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -610,7 +596,6 @@
                                                         }
                                                     },
                                                     "orderKey": 1,
-                                                    "parent": null,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -648,7 +633,6 @@
                                             "raw_data": []
                                         },
                                         "orderKey": 1,
-                                        "parent": null,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -677,12 +661,11 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{% apply spaceless %}\r\n    {% if finalize %}\r\n        {% set paths = {} %}\r\n        {% set config = 'config'|i18n('en')|json_decode %}\r\n        {% for locale in config.locales %}\r\n            {% if attribute(_source, locale) is defined %}\r\n                {% set baseUrl = attribute(_source, locale).baseurl|default('') %}\r\n                {% set structure = attribute(_source, locale).structure|default('{}')|ems_json_menu_nested_decode %}\r\n\r\n                {% for item in structure|filter(item => item.type not in ['link', 'section']) %}\r\n                    {% set path = [] %}\r\n\r\n                    {% for p in item.path|filter(item => item.type not in ['link', 'section']) %}\r\n                        {%- set path = path|merge([p.object.label|default('no-label')]) -%}\r\n                    {% endfor %}\r\n\r\n                    {% set paths = paths|merge([{\r\n                        'uid': (item.id),\r\n                        'path' : baseUrl ~ (path|map(p => p|ems_webalize)|join('/')|default('/')),\r\n                        'locale' : locale,\r\n                        'target' : (item.object.link|default(null)),\r\n                    }]) %}\r\n\r\n                {% endfor %}\r\n            {% endif %}\r\n        {% endfor %}\r\n\r\n        {{ paths|default([])|json_encode|raw }}\r\n    {% endif %}\r\n{% endapply %}"
+                                                            "postProcessing": "{%- do emsch_add_environment('preview'|get_environment.alias) -%}\r\n{{- block(\"ems_post_processing\", \"@EMSCH/template_ems/content_type_compute_paths/sitemap.twig\") -}}"
                                                         },
                                                         "raw_data": []
                                                     },
                                                     "orderKey": 0,
-                                                    "parent": null,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -727,7 +710,6 @@
                                 "raw_data": []
                             },
                             "orderKey": 2,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -741,7 +723,7 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 4,
+        "orderKey": 5,
         "rootContentType": true,
         "editTwigWithWysiwyg": true,
         "webContent": false,

@@ -1,0 +1,5 @@
+{
+    "label": "Sous section",
+    "menu": "99070cf2-6d73-43cc-9e93-76191265242a",
+    "structure": "[{\"id\":\"6eaf0733-237e-4c09-8837-771498a668d4\",\"label\":\"Subsubsection\",\"type\":\"section\",\"object\":{\"label\":\"Subsubsection\",\"nl\":{\"title\":\"Onder-onderafdeling\"},\"fr\":{\"title\":\"Sous-sous-section\"}},\"children\":[]}]"
+}

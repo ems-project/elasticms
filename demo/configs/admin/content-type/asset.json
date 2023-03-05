@@ -41,7 +41,6 @@
                     }
                 },
                 "orderKey": 0,
-                "parent": null,
                 "children": [
                     {
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -82,7 +81,6 @@
                                 }
                             },
                             "orderKey": 1,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -116,7 +114,6 @@
                                 "raw_data": []
                             },
                             "orderKey": 2,
-                            "parent": null,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -161,7 +158,6 @@
                                             }
                                         },
                                         "orderKey": 0,
-                                        "parent": null,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -186,7 +182,6 @@
                                                         }
                                                     },
                                                     "orderKey": 0,
-                                                    "parent": null,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -239,7 +234,6 @@
                                             }
                                         },
                                         "orderKey": 1,
-                                        "parent": null,
                                         "children": []
                                     },
                                     "replaced": []
@@ -288,7 +282,6 @@
                                             }
                                         },
                                         "orderKey": 2,
-                                        "parent": null,
                                         "children": []
                                     },
                                     "replaced": []
@@ -329,7 +322,6 @@
                                 "raw_data": []
                             },
                             "orderKey": 3,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -343,7 +335,7 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 9,
+        "orderKey": 10,
         "rootContentType": false,
         "editTwigWithWysiwyg": false,
         "webContent": false,

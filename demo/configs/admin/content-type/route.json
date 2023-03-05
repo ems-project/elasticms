@@ -40,7 +40,6 @@
                     }
                 },
                 "orderKey": 0,
-                "parent": null,
                 "children": [
                     {
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -84,7 +83,6 @@
                                 }
                             },
                             "orderKey": 0,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -132,7 +130,6 @@
                                 }
                             },
                             "orderKey": 1,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -179,7 +176,6 @@
                                 }
                             },
                             "orderKey": 2,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -224,7 +220,6 @@
                                 }
                             },
                             "orderKey": 3,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -269,7 +264,6 @@
                                 }
                             },
                             "orderKey": 4,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -309,7 +303,6 @@
                                 }
                             },
                             "orderKey": 5,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -356,7 +349,6 @@
                                 }
                             },
                             "orderKey": 6,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -370,7 +362,7 @@
         },
         "refererFieldName": null,
         "sortOrder": "asc",
-        "orderKey": 8,
+        "orderKey": 9,
         "rootContentType": false,
         "editTwigWithWysiwyg": true,
         "webContent": false,

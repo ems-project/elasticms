@@ -1,0 +1,20 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\WysiwygStylesSet",
+    "arguments": [],
+    "properties": {
+        "name": "revealjs",
+        "config": "[{\r\n    \"name\": \"Dekstop only\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"desktop-only\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Mobile only\",\r\n    \"element\": \"div\",\r\n    \"attributes\": {\r\n      \"class\": \"mobile-only\"\r\n    }\r\n  },\r\n  {\r\n    \"name\": \"Demo\",\r\n    \"element\": \"span\",\r\n    \"attributes\": {\r\n      \"class\": \"demo\"\r\n    }\r\n  }\r\n]",
+        "orderKey": 1,
+        "formatTags": "h2;h3;h4",
+        "tableDefaultCss": "table table-bordered",
+        "contentCss": "css/app.css",
+        "contentJs": "js/app.js",
+        "assets": {
+            "sha1": "0b766e51296f1cc269ae50eca4d4f87d4ddcb8f6",
+            "mimetype": "application/x-zip-compressed",
+            "filename": "bundle.zip"
+        },
+        "saveDir": null
+    },
+    "replaced": []
+}

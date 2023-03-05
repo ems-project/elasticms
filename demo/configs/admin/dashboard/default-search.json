@@ -7,8 +7,7 @@
         "label": "Default search",
         "sidebarMenu": false,
         "notificationMenu": false,
-        "landingPage": false,
-        "quickSearch": true,
+        "definition": null,
         "type": "ems_core.dashboard.template",
         "role": "ROLE_USER",
         "color": "light-blue",
@@ -17,7 +16,7 @@
             "header": null,
             "footer": null
         },
-        "orderKey": 2
+        "orderKey": 3
     },
     "replaced": []
 }

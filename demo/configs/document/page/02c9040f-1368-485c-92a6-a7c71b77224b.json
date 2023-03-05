@@ -1,0 +1,12 @@
+{
+    "fr": {
+        "components": "[{\"id\":\"11773f53-ccac-4036-b736-537fa7492ed2\",\"label\":\"Banner\",\"type\":\"paragraph\",\"object\":{\"label\":\"Banner\",\"body\":\"<p class=\\\"lead\\\">Un CMS sur mesure au service du secteur public</p>\",\"layout\":\"main-banner\",\"image\":{\"sha1\":\"1d7ec7bcd9d73c57c9f54910f8c52157da913115\",\"mimetype\":\"image/jpeg\",\"filename\":\"banner-home.jpg\",\"filesize\":82816}},\"children\":[]}]",
+        "title": "elasticMS"
+    },
+    "label": "Home",
+    "menu": "6f75ba1c-30c6-4be8-ac8b-d8c44c833359",
+    "nl": {
+        "components": "[{\"id\":\"e85be343-c9c9-4121-a123-86e9adf90065\",\"label\":\"Banner\",\"type\":\"paragraph\",\"object\":{\"label\":\"Banner\",\"body\":\"<p class=\\\"lead\\\">Een CMS op maat voor de openbare sector</p>\",\"layout\":\"main-banner\",\"image\":{\"sha1\":\"1d7ec7bcd9d73c57c9f54910f8c52157da913115\",\"mimetype\":\"image/jpeg\",\"filename\":\"banner-home.jpg\",\"filesize\":82816}},\"children\":[]}]",
+        "title": "elasticMS"
+    }
+}

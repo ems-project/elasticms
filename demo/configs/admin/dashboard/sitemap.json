@@ -1,0 +1,21 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Dashboard",
+    "arguments": [],
+    "properties": {
+        "name": "sitemap",
+        "icon": "fa fa-sitemap",
+        "label": "Sitemap",
+        "sidebarMenu": true,
+        "notificationMenu": false,
+        "definition": null,
+        "type": "ems_core.dashboard.template",
+        "role": "ROLE_AUTHOR",
+        "color": null,
+        "options": {
+            "body": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}",
+            "footer": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_footer\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}"
+        },
+        "orderKey": 2
+    },
+    "replaced": []
+}

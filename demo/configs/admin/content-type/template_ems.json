@@ -2,10 +2,10 @@
     "class": "EMS\\CoreBundle\\Entity\\ContentType",
     "arguments": [],
     "properties": {
-        "name": "template",
-        "pluralName": "Templates",
-        "singularName": "Template",
-        "icon": "fa fa-html5",
+        "name": "template_ems",
+        "pluralName": "Templates EMS",
+        "singularName": "Template EMS",
+        "icon": "ems-icon-ball",
         "description": null,
         "indexTwig": null,
         "extra": null,
@@ -66,7 +66,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "keyword",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": true,
@@ -75,13 +75,14 @@
                                 },
                                 "extraOptions": {
                                     "extra": null,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "clear_on_copy": false
                                 },
                                 "migrationOptions": {
                                     "protected": false
                                 }
                             },
-                            "orderKey": 0,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -124,7 +125,43 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
+                            "name": "live_search",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Live Search",
+                                    "class": "hidden",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "valueTemplate": null,
+                                    "json": false,
+                                    "displayTemplate": null
+                                },
+                                "mappingOptions": {
+                                    "mappingOptions": "{\r\n        \"type\": \"search_as_you_type\",\r\n        \"analyzer\": \"standard\"\r\n}",
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": [],
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": []
+                            },
+                            "orderKey": 3,
                             "children": []
                         },
                         "replaced": []
@@ -138,9 +175,9 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 8,
+        "orderKey": 14,
         "rootContentType": false,
-        "editTwigWithWysiwyg": true,
+        "editTwigWithWysiwyg": false,
         "webContent": false,
         "autoPublish": true,
         "templates": [],
@@ -156,24 +193,53 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template/admin/view/overview.twig\") }}",
-                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template/admin/view/overview.twig\") }}",
-                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template/admin/view/overview.twig\") }}"
+                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/webknc_template_ems/view/overview_rtl.twig\") }}",
+                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/webknc_template_ems/view/overview_rtl.twig\") }}",
+                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/webknc_template_ems/view/overview_rtl.twig\") }}"
                     },
-                    "orderKey": 3,
+                    "orderKey": 2,
                     "public": false,
-                    "role": "not-defined"
+                    "role": "ROLE_ADMIN"
                 },
                 "replaced": []
             }
         ],
         "defaultValue": null,
-        "versionTags": [],
-        "versionOptions": [],
-        "versionFields": [],
-        "roles": [],
-        "fields": [],
-        "settings": null
+        "versionTags": null,
+        "versionOptions": {
+            "dates_read_only": true,
+            "dates_interval_one_day": false
+        },
+        "versionFields": {
+            "date_from": null,
+            "date_to": null,
+            "version_tag": null
+        },
+        "roles": {
+            "view": "ROLE_ADMIN",
+            "create": "ROLE_ADMIN",
+            "edit": "not-defined",
+            "publish": "ROLE_ADMIN",
+            "delete": "not-defined",
+            "trash": "not-defined",
+            "archive": "not-defined",
+            "show_link_create": "ROLE_ADMIN",
+            "show_link_search": "not-defined"
+        },
+        "fields": {
+            "label": "name",
+            "color": null,
+            "sort": null,
+            "tooltip": null,
+            "circles": null,
+            "business_id": null,
+            "category": null,
+            "asset": null
+        },
+        "settings": {
+            "tasks_enabled": false,
+            "hide_revision_sidebar": false
+        }
     },
     "replaced": []
 }

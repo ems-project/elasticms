@@ -60,6 +60,11 @@ emsch_missing_translation:
         requirements: { _locale: en|fr|nl|de }
     query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"%contentType%"}}},{"term":{"_id":{"value":"%ouuid%"}}}]}},"size":1}'
     template_static: template/base/missing_translation.html.twig
+site.webmanifest:
+  config:
+    path: site.webmanifest
+    defaults: { _format: json }
+  template_static: template/head/site.webmanifest.twig
 emsch_language_selection:
   config:
     path: /

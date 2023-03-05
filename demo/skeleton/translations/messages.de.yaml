@@ -1,6 +1,0 @@
-error:
-    target-not-found: 'Page not found'
-navbar:
-    swith-to-locale: Deutsch
-site:
-    name: Demo-Website

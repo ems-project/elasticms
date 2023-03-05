@@ -1,10 +1,65 @@
+aria:
+    back-to-top: 'Back to top'
+blog:
+    intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
+    title: 'Blog'
+breadcrumb:
+    back-to: 'Retour à la page'
+    homepage: 'd''accueil'
+cookie:
+    close: 'J''ai compris !'
+    closeAll: 'les cookies sociaux'
+    closeSite: 'les cookies fonctionnels'
+    link: 'En savoir plus'
+    text: 'Nous utilisons des cookies sur ce site pour améliorer votre expérience utilisateur.'
+ems_form:
+    loading: 'en cours de chargement...'
 error:
+    404:
+        description: 'erreur 404 description'
+        title: 'Page non trouvée'
     target-not-found: 'Page non trouvée'
+features:
+    discover: 'Découvrez toutes les fonctionnalités'
+footer:
+    join-us-github: 'Join-us on GitHub'
+js:
+    file_selected: '%count% files selected'
+    form_error: 'The form faced an issue : %message%'
+    form_error_try_later: 'The form faced an issue, please try again later'
+    form_processed: 'Your message was sent'
+    form_saved: 'Your message was sent'
+language:
+    selection: 'select language'
 missing:
     but-available-in: 'Version en français :'
     description: 'Voir ci-dessous pour des versions alternatives.'
     title: 'Ce contenu n''est pas disponible en français'
+month:
+    April: Avril
+    August: Août
+    December: Décembre
+    February: Février
+    January: Janvier
+    July: Juillet
+    June: Juin
+    March: Mars
+    May: Mai
+    November: Novembre
+    October: octobre
+    September: Septembre
 navbar:
     swith-to-locale: Français
 site:
-    name: 'Site web Démo'
+    copy: Copyright
+    lead: 'Un CMS sur mesure au service du secteur public'
+    name: 'site web elasticms'
+    news_title: 'What''s new?'
+    site_name: ems-promo
+usergroup:
+    facilitator: 'Présentateur du prochain User Group'
+    intro: 'Inscrivez-vous et participez à la prochaine activité online du User Group.'
+    next-event: 'Date et heure'
+    team-meeting: Durée
+    title: 'Prochaine session'
+    topic: Sujets

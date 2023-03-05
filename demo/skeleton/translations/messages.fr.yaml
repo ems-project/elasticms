@@ -2,7 +2,7 @@ aria:
     back-to-top: 'Back to top'
 blog:
     intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
-    title: 'Blog'
+    title: Blog
 breadcrumb:
     back-to: 'Retour à la page'
     homepage: 'd''accueil'
@@ -12,6 +12,8 @@ cookie:
     closeSite: 'les cookies fonctionnels'
     link: 'En savoir plus'
     text: 'Nous utilisons des cookies sur ce site pour améliorer votre expérience utilisateur.'
+ems:
+    back_to_ems: 'Retour à eMS'
 ems_form:
     loading: 'en cours de chargement...'
 error:
@@ -31,6 +33,7 @@ js:
     form_saved: 'Your message was sent'
 language:
     selection: 'select language'
+locale: Français
 missing:
     but-available-in: 'Version en français :'
     description: 'Voir ci-dessous pour des versions alternatives.'

@@ -1,15 +1,6 @@
 {% extends '@EMSCH/template/base/base.html.twig' %}
 {% trans_default_domain trans_default_domain %}
 
-{% block head -%}
-    <link rel="stylesheet" href="{{ asset('css/index.css', 'emsch') }}">
-{%- endblock %}
-
-{% block javascript -%}
-    <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
-    <script src="{{ asset('js/index.js', 'emsch') }}"></script>
-{%- endblock %}
-
 {% block body -%}
     <a class="skip-to-content" href="#content">{{ 'aria.skip-to-content'|trans }}</a>
     <header>

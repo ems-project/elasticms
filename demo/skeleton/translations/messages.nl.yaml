@@ -56,9 +56,9 @@ navbar:
 site:
     copy: Copyright
     lead: 'Een CMS op maat voor de openbare sector'
-    name: 'elasticms website'
+    name: elasticMS
     news_title: 'What''s new?'
-    site_name: ems-promo
+    site_name: elasticMS
 usergroup:
     facilitator: 'Facilitator voor de volgende user group'
     intro: 'Schrijf u in en neem deel aan de volgende online activiteit van de User Group.'

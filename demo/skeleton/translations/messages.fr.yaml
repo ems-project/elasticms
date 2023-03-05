@@ -58,7 +58,7 @@ site:
     lead: 'Un CMS sur mesure au service du secteur public'
     name: elasticMS
     news_title: 'What''s new?'
-    site_name: elasticMS
+    short_name: elasticMS
 usergroup:
     facilitator: 'Présentateur du prochain User Group'
     intro: 'Inscrivez-vous et participez à la prochaine activité online du User Group.'

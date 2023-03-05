@@ -4,8 +4,8 @@
 {% block request %}
     {% apply spaceless %}
         {% set response = {
-            "name": website_name,
-            "short_name": website_shortname,
+            "name": 'site.name'|trans,
+            "short_name": 'site.short_name'|trans,
             "icons": [{
                 "src": emsch_asset('img/head/icon.png', {
                     _config_type: 'image',

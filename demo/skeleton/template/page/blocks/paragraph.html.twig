@@ -2,5 +2,11 @@
 
 {% block widget %}
     {% trans_default_domain trans_default_domain %}
-    {{ item.object.body|default('')|emsch_routing }}
+    <div class="container-fluid container-lg ems-paragraph">
+        <div class="row">
+            <div class="col-12">
+                {{ item.object.body|default('')|emsch_routing }}
+            </div>
+        </div>
+    </div>
 {% endblock widget %}

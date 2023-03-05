@@ -9,10 +9,31 @@
     {% set baseUrl = "/channel/#{trans_default_domain}" %}
 {% endif %}
 
+{% set sections = emsch_search('section', {
+    query: {
+        terms: {
+            _contenttype: ['section'],
+        },
+    },
+    _source: ['label', 'menu', 'structure', 'paths'],
+    size: 100,
+}).hits.hits|default([])|filter(p => p._source.menu|default(false))|map(p => {
+    id: p._id,
+    contenttype: p._source._contenttype,
+    label: p._source.label,
+    menu: p._source.menu,
+    structure: p._source.structure,
+    paths: p._source.paths|default([]),
+})|array_key('menu') %}
+
 {% for item in structure %}
     {% set pathInfo = attribute(paths, item.id)|default(false) %}
     {% if pathInfo %}
         {% set urls = urls|merge({(item.id): path('emsch_path', {path: pathInfo.path})}) %}
+    {% endif %}
+    {% if item.type == 'section' and attribute(sections, item.id) %}
+        {% set paths = paths|merge(attribute(sections, item.id).paths|filter(p => p.locale == locale)|array_key('uid')) %}
+        {% do item.setChildren(attribute(sections, item.id).structure|default('{}')|ems_json_menu_nested_decode.children) %}
     {% endif %}
 {% endfor %}
 

@@ -15,11 +15,14 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-{#                    {{ include('@EMSCH/template/fragments/navbar.html.twig', { #}
-{#                        trans_default_domain: trans_default_domain,#}
-{#                        locale: locale,#}
-{#                        structure: 'structure:ZZpgI38B0UG6UUhkFHG3'#}
-{#                    }) }}#}
+                    {{ render_esi(controller('emsch.controller.embed::fragment', {
+                        template: '@EMSCH/template/fragments/navbar.html.twig',
+                        context: {
+                            trans_default_domain: trans_default_domain,
+                            locale: locale,
+                            section: header_menu,
+                        },
+                    })) }}
                 </div>
             </nav>
         </div>

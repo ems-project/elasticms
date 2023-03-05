@@ -30,7 +30,7 @@ form();
 multilevelNavbar();
 
 const navBar = new NavBar();
-navBar.activateBestItem();
+// navBar.activateBestItem();
 
 $(document).ready(function() {
     cookiesBanner(Cookies);

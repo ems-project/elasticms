@@ -32,6 +32,7 @@ services:
       - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
       - TRUSTED_HOSTS=localhost,*.localhost
     volumes:
+      - ./skeleton:/opt/src/local/${INSTANCE_ID}preview
       - ./configs/elasticms-admin:/opt/configs
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document

@@ -14,7 +14,7 @@
     <a class="skip-to-content" href="#content">{{ 'aria.skip-to-content'|trans }}</a>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" data-active-message="{{ 'aria.navbar.active-item'|trans }}">
-            <a class="navbar-brand" href="{{ path('emsch_homepage') }}">
+            <a class="navbar-brand" href="{{ path('emsch_path') }}">
                 <img src="{{ asset("img/logos/elasticms-ball-colour-rvb.svg", 'emsch') }}" width="30" height="30" alt="{{ 'site.name'|trans }}">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -49,7 +49,7 @@
     {% block breadcrumb -%}
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ path('emsch_homepage') }}"><i class="fa fa-home" aria-hidden="true"></i> <span class="sr-only">{{ 'breadcrumb.home'|trans }}</span></a></li>
+                <li class="breadcrumb-item"><a href="{{ path('emsch_path') }}"><i class="fa fa-home" aria-hidden="true"></i> <span class="sr-only">{{ 'breadcrumb.home'|trans }}</span></a></li>
                 {% block breadcrumb_items -%}
                     <li class="breadcrumb-item active" aria-current="page">{{ block('title') }}</li>
                 {%- endblock %}

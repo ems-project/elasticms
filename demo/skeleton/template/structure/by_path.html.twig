@@ -3,28 +3,38 @@
 {% set paths = source.paths|default([])|array_key('path') %}
 {% set pathsByUids = source.paths|default([])|array_key('uid') %}
 {% set pathInfo = attribute(paths, app.request.get('path')) %}
-{% set target = pathInfo.target|emsch_get %}
+{% dump(pathInfo) %}
+
+{% set target = emsch_search_one(['section', 'page'], {
+    "query": {
+        "terms": {
+            "menu": [pathInfo.uid],
+        }
+    },
+    "size": 1000,
+}) %}
+
+
 {% set source = target.source|default(null) %}
-{% set currentStructure = attribute(structure, app.request.locale).structure|default("[]")|ems_json_menu_nested_decode %}
+{#{% set currentStructure = attribute(structure, app.request.locale).structure|default("[]")|ems_json_menu_nested_decode %}#}
 
-{% set baseTemplate = '@EMSCH/template/structure/target-not-found.html.twig' %}
+{#{% set baseTemplate = '@EMSCH/template/structure/target-not-found.html.twig' %}#}
 
-{% if target.contentType|default(null) == 'slideshow' %}
-    {% set baseTemplate = '@EMSCH/template/slideshow/revealjs.html.twig' %}
-{% elseif target.contentType|default(null) == 'page' %}
-    {% set baseTemplate = '@EMSCH/template/page/by_type.html.twig' %}
-{% endif %}
+{#{% if target.contentType|default(null) == 'slideshow' %}#}
+{#    {% set baseTemplate = '@EMSCH/template/slideshow/revealjs.html.twig' %}#}
+{#{% elseif target.contentType|default(null) == 'page' %}#}
+{#    {% set baseTemplate = '@EMSCH/template/page/by_type.html.twig' %}#}
+{#{% endif %}#}
+{#{% extends baseTemplate %}#}
 
-{% extends baseTemplate %}
-
-{% block breadcrumb_items -%}
-    {% for breadcrumbItem in currentStructure.breadcrumb(pathInfo.uid) %}
-        <li class="breadcrumb-item">
-            {% if attribute(pathsByUids, breadcrumbItem.id) is defined and pathInfo.uid != breadcrumbItem.id %}
-                <a href="{{ attribute(pathsByUids, breadcrumbItem.id).path }}">{{ breadcrumbItem.label }}</a>
-            {% else %}
-                {{ breadcrumbItem.label }}
-            {% endif %}
-        </li>
-    {% endfor %}
-{%- endblock %}
+{#{% block breadcrumb_items -%}#}
+{#    {% for breadcrumbItem in currentStructure.breadcrumb(pathInfo.uid)|default([]) %}#}
+{#        <li class="breadcrumb-item">#}
+{#            {% if attribute(pathsByUids, breadcrumbItem.id) is defined and pathInfo.uid != breadcrumbItem.id %}#}
+{#                <a href="{{ attribute(pathsByUids, breadcrumbItem.id).path }}">{{ breadcrumbItem.label }}</a>#}
+{#            {% else %}#}
+{#                {{ breadcrumbItem.label }}#}
+{#            {% endif %}#}
+{#        </li>#}
+{#    {% endfor %}#}
+{#{%- endblock %}#}

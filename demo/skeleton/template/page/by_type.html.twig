@@ -1,11 +1,11 @@
 {% trans_default_domain trans_default_domain %}
-{% extends '@EMSCH/template/page/'~(source.type|default(''))~'.html.twig' %}
+{% extends '@EMSCH/template/page/'~(source.type|default('default'))~'.html.twig' %}
 
 {% block blocks %}
     {% with {
         'structure': attribute(source, locale).structure|default('{}')|ems_json_decode,
         'trans_default_domain': trans_default_domain,
-        } %}
+    } %}
         {{ block("render", "@EMSCH/template/page/blocks/abstract-block.html.twig") }}
     {% endwith %}
 {% endblock %}

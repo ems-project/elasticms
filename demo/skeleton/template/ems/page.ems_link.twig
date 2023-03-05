@@ -47,7 +47,7 @@
 
         {% if url is same as (null) %}
             {% if attribute(source, locale).slug == '/' %}
-                {% set url = path('emsch_homepage', {_locale: locale}) %}
+                {% set url = path('emsch_path', {_locale: locale}) %}
             {% else %}
                 {% set url = path('emsch_page', {slug: attribute(source, locale).slug, _locale: locale}) %}
             {% endif %}

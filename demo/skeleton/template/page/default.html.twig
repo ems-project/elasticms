@@ -5,6 +5,16 @@
 {% block metatitle %}{{ attribute(source, locale).metatitle|default(block('title')) }}{% endblock %}
 
 {% block main -%}
-    <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink)) }}>{{ block('title') }}</h1>
+    <div class="jumbotron px-0 rounded-0 mb-0 d-flex align-items-center text-white">
+        <div class="container-fluid container-lg">
+            <div class="row">
+                <div class="col-12  col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                    <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink)) }}>
+                        {{ block('title') }}
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
     {% block blocks %}{% endblock %}
 {%- endblock main %}

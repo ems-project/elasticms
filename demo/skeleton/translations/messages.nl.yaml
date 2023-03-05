@@ -1,3 +1,6 @@
+block:
+  grid:
+    see_also: 'Zie ook'
 aria:
     back-to-top: 'Back to top'
     navbar:

@@ -1,5 +1,6 @@
 {% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
 
 {% block widget %}
+    {% trans_default_domain trans_default_domain %}
     {{ item.object.body|default('')|emsch_routing }}
 {% endblock widget %}

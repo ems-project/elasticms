@@ -43,7 +43,7 @@
             {% set currentBlockLevel = currentBlockLevel + 1 %}
             {% set parent = item %}
             {% for item in item.children|default([]) %}
-                {% set row_class = '' %}
+                {% set row_class = child_row_class|default('') %}
                 {{ block("child", "@EMSCH/template/page/blocks/"~(parent.object.layout|default(parent.type))~".html.twig") }}
             {% endfor %}
             {% set childrenHaveBeenGenerated = true %}

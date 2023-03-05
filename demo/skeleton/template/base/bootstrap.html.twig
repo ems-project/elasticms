@@ -3,6 +3,28 @@
 
 {% block body -%}
     <a class="skip-to-content" href="#content">{{ 'aria.skip-to-content'|trans }}</a>
+
+    <header>
+        <div class="container-fluid container-lg">
+            <nav class="navbar navbar-expand-lg navbar-light" data-active-message="{{ 'aria.navbar.active-item'|trans }}">
+                <a class="navbar-brand" href="{{ path('emsch_path') }}" id="logo">
+                    <img src="{{ asset("img/logos/full-logo.svg", 'emsch') }}" width="181" height="46" alt="{{ 'site.name'|trans }}">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ 'aria.toggle-navbar'|trans }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+{#                    {{ include('@EMSCH/template/fragments/navbar.html.twig', { #}
+{#                        trans_default_domain: trans_default_domain,#}
+{#                        locale: locale,#}
+{#                        structure: 'structure:ZZpgI38B0UG6UUhkFHG3'#}
+{#                    }) }}#}
+                </div>
+            </nav>
+        </div>
+    </header>
+
 {#    <header>#}
 {#        <nav class="navbar navbar-expand-lg navbar-light bg-light" data-active-message="{{ 'aria.navbar.active-item'|trans }}">#}
 {#            <a class="navbar-brand" href="{{ path('emsch_path') }}">#}
@@ -37,16 +59,7 @@
 {#            </div>#}
 {#        </nav>#}
 {#    </header>#}
-{#    {% block breadcrumb -%}#}
-{#        <nav aria-label="breadcrumb">#}
-{#            <ol class="breadcrumb">#}
-{#                <li class="breadcrumb-item"><a href="{{ path('emsch_path') }}"><i class="fa fa-home" aria-hidden="true"></i> <span class="sr-only">{{ 'breadcrumb.home'|trans }}</span></a></li>#}
-{#                {% block breadcrumb_items -%}#}
-{#                    <li class="breadcrumb-item active" aria-current="page">{{ block('title') }}</li>#}
-{#                {%- endblock %}#}
-{#            </ol>#}
-{#        </nav>#}
-{#    {%- endblock breadcrumb %}#}
+    {% block breadcrumb %}{% endblock breadcrumb %}
     <main role="main" id="content">
         {% block main -%}{%- endblock main %}
     </main>

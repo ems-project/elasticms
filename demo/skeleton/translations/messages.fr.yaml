@@ -1,6 +1,9 @@
 aria:
     back-to-top: 'Back to top'
+    navbar:
+        active-item: actif
     skip-to-content: 'Passer directement au contenu'
+    toggle-navbar: 'Afficher la navigation'
 blog:
     intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
     title: Blog

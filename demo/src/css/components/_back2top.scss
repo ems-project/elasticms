@@ -1,14 +1,14 @@
 #back2top {
     color: $white;
     background: rgba($primary, .9);
-    width: 4.16em;
-    height: 4.16em;
+    width: 4.5em;
+    height: 4.5em;
     border-radius: 50%;
     overflow:hidden;
     position:fixed;
     right:5rem;
     bottom:2.5rem;
-    z-index:999;
+    z-index:$zindex-fixed;
     font-size: .75em;
     line-height:1.1;
     text-align:center;

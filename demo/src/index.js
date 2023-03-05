@@ -14,6 +14,9 @@ import externalLink from "./js/external-link";
 import form from "./js/form";
 import {NavBar} from "./js/navbar";
 import multilevelNavbar from "./js/multilevel-navbar";
+import Cookies from 'js-cookie';
+import cookiesBanner from "./js/cookiesBanner";
+import newsFilters from "./js/news-filters";
 
 
 const translations = JSON.parse(document.body.getAttribute('data-translations'));
@@ -28,5 +31,10 @@ multilevelNavbar();
 
 const navBar = new NavBar();
 navBar.activateBestItem();
+
+$(document).ready(function() {
+    cookiesBanner(Cookies);
+    newsFilters()
+});
 
 console.log('Demo website loaded!');

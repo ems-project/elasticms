@@ -31,6 +31,12 @@
             },
             _source: ['label', 'menu', 'structure'],
             size: 100,
+            sort: [{
+                "label.alpha_order": {
+                    "order": "desc",
+                    "missing": "_last"
+                }
+            }],
         }|search.hits.hits|default([])|array_key('_id') %}
 
         {% set pages = {

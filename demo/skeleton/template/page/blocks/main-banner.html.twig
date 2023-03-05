@@ -10,9 +10,11 @@
         <figure class="d-md-none mb-4">
             <img src="{{ ems_asset_path(item.object.image, {
                 _config_type: 'image',
+                _resize: 'fillArea',
                 _width: 767,
                 _height: 286,
                 _quality: 0,
+                _gravity: 'south',
             }) }}" class="img-fluid" alt="">
         </figure>
         <div class="container-fluid container-lg">

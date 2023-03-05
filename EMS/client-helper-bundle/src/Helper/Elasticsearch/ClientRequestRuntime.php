@@ -11,6 +11,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -40,8 +41,6 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     /**
      * @param string|string[]|null $type
      * @param array<mixed>         $body
-     *
-     * @return array<mixed>
      */
     public function searchOne(null|string|array $type, array $body, ?string $indexRegex = null): Document
     {
@@ -54,6 +53,14 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         }
 
         return $document;
+    }
+
+    /**
+     * @param mixed[] $headers
+     */
+    public function httpException(int $statusCode, ?string $message = '', array $headers = [], ?int $code = 0): never
+    {
+        throw new HttpException($statusCode, $message, null, $headers, $code);
     }
 
     public function searchConfig(): Search

@@ -52,7 +52,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": null,
-                                    "copy_to": "live_Search"
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": true,

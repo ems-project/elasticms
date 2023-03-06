@@ -1,0 +1,5 @@
+{
+    "config": "{\"path\":\"\\/form\\/{ouuid}\\/{_locale}\",\"controller\":\"emsf.controller.form::submitForm\",\"method\":[\"POST\"]}",
+    "name": "form_submit",
+    "order": 16
+}

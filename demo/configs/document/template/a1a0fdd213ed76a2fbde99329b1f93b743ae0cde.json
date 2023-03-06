@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/default.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block body_class %}with-banner{% endblock %}\n\n{% block main -%}\n    {{ block('blocks') }}\n{%- endblock main %}\n",
+    "name": "page/with_banner.html.twig"
+}

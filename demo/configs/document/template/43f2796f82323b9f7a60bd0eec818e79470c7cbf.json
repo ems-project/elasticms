@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/page.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block breadcrumb -%}{%- endblock breadcrumb %}\n\n{% block headtitle %}{{ block('metatitle') }}{% endblock %}\n",
+    "name": "page/homepage.html.twig"
+}

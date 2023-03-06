@@ -147,6 +147,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.admin-local.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin.localhost`)"
       - "traefik.http.routers.admin-local.entrypoints=web"
+      - "traefik.http.routers.admin-local-dev.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin-dev.localhost`)"
+      - "traefik.http.routers.admin-local-dev.entrypoints=web"
       - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
 
   web-local:

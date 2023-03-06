@@ -4,3 +4,4 @@
 # But not these files...
 !.gitignore
 !ems-demo.env
+!ems-demo-dev.env

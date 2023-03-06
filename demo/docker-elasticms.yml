@@ -5,7 +5,6 @@ services:
     depends_on:
       - postgres
     environment:
-      - APP_ENV=dev
       - TZ=Europe/Brussels
       - PHP_FPM_MAX_CHILDREN=4
       - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=256

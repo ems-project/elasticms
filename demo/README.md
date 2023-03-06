@@ -23,6 +23,8 @@ sh ems.sh config_push local
 
 Go [here](http://local.ems-demo-admin.localhost/login) and login with the `demo` username and the password you just defined.
 
+An [admin debug url](http://local.ems-demo-admin-dev.localhost/login) is also available.
+
 ## Prerequisites
 
 You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows). 
@@ -146,7 +148,8 @@ There also a separated npm.sh script:
  - [kibana](http://kibana.localhost) : A dev tools to query elasticsearch
  - [elasticsearch](http://es.localhost/_cluster/health) : The search engine, Verify that the status is `green`
  - [minio](http://minio.localhost) : A S3 like storage service 
- - [elasticms](http://local.ems-demo-admin.localhost/dashboard) : elasticms
+ - [elasticms admin](http://local.ems-demo-admin.localhost/dashboard) : elasticms
+   - [admin debug](http://local.ems-demo-admin-dev.localhost/login): Useful to develop admin's template
  - Test the website:
    - [preview](http://local.preview-ems-demo-web.localhost/) : skeleton with preview's contents 
    - [live](http://local.live-ems-demo-web.localhost/) : skeleton with live's contents

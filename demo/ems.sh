@@ -86,8 +86,8 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update schedule remove-expired-submissions
 
   echo "Create/Update WYSIWYG Style Sets"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update wysiwyg-style-set DemoStyleSet
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update wysiwyg-style-set RevealJS
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update wysiwyg-style-set bootstrap
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update wysiwyg-style-set revealjs
 
   echo "Create/Update WYSIWYG Profiles"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update wysiwyg-profile Full
@@ -109,25 +109,35 @@ sub_config_push(){
   echo "Create/Update Environments"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update environment preview
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update environment live
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update environment default
+
+  echo "Create/Update Form"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update form add_menu_item
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update form dashboard_default_search_options
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update form dashboard_sitemap_options
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update form label
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update form menu-locales
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update form search_fields
 
   echo "Create/Update ContentTypes"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type label
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type route
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type template
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type page
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type structure
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type publication
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type slideshow
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type category
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type form_instance
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type asset
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type label
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type page
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type route
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type section
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type slideshow
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type template
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update content-type template_ems
 
   echo "Create/Update QuerySearches"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update query-search pages
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update query-search documents
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update query-search forms
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update query-search categories
 
   echo "Create/Update Dashboards"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update dashboard welcome
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update dashboard sitemap
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:update dashboard default-search
 
   echo "Create/Update Channels"
@@ -139,6 +149,7 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment} ems-demo ems:environment:rebuild preview
   #docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:job rebuild-live
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment} ems-demo ems:environment:rebuild live
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment} ems-demo ems:environment:rebuild default
   #docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:job activate-all-content-type
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment} ems-demo ems:contenttype:activate --all
 
@@ -146,12 +157,11 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:local:push --force
 
   echo "Upload documents"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload page
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload structure
-#  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload publication
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload slideshow
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload form_instance
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload asset
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload category
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload page
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload section
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload slideshow
 
   echo "Align live"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment} ems-demo ems:environment:align preview live --force

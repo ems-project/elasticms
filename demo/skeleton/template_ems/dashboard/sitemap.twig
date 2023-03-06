@@ -148,6 +148,20 @@
         {% if page %}
             {% set info = "#{page.contenttype}:#{page.id}"|emsco_document_info %}
 
+            <div class="btn-group">
+                <button class="btn btn-default btn-sm">
+                    {% for environment in ['live'] %}
+                        {% if info.isAligned(environment) %}
+                            <i class="text-success fa fa-check" title="Last version published in {{ environment }}"></i>
+                        {% elseif info.isPublished(environment) %}
+                            <i class="text-warning fa fa-warning" title="A version is published in {{ environment }} but not the last"></i>
+                        {% else %}
+                            <i class="text-danger fa fa-times" title="Missing in {{ environment }}"></i>
+                        {% endif %}
+                    {% endfor %}
+                </button>
+            </div>
+
             {% for environment in ['live'] %}
                 {% if info.hasDraft() or info.isAligned(environment) %}
                     <a href="{{ path('emsco_data_new_draft', { type: page.contenttype, ouuid: page.id }) }}" class="btn btn-sm btn-default">
@@ -158,32 +172,26 @@
                         Publish {{ page.label }} in {{ environment }}
                     </a>
                 {% endif %}
-
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    {% if info.isAligned(environment) %}
-                        <i class="text-success fa fa-check" title="Last version published in {{ environment }}"></i>
-                    {% elseif info.isPublished(environment) %}
-                        <i class="text-warning fa fa-warning" title="A version is published in {{ environment }} but not the last"></i>
-                    {% else %}
-                        <i class="text-danger fa fa-times" title="Missing in {{ environment }}"></i>
-                    {% endif %}
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="{{ path('emsco_data_new_draft', { type: page.contenttype, ouuid: page.id }) }}">
-                            Edit
-                        </a>
-                        <a href="{{ path('data.revisions', {ouuid: page.id, type: page.contenttype} ) }}">
-                            Revision
-                        </a>
-                        {% if not info.isAligned(environment) and  not info.hasDraft() %}
-                            <a href="{{ path("revision.publish_to", {revisionId: info.getRevision('preview').id, envId: environment|get_environment.id, redirectToUrl: app.request.requesturi }) }}">
-                                Publish in {{ environment }}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{{ path('emsco_data_new_draft', { type: page.contenttype, ouuid: page.id }) }}">
+                                Edit
                             </a>
-                        {% endif %}
-                    </li>
-                </ul>
+                            <a href="{{ path('data.revisions', {ouuid: page.id, type: page.contenttype} ) }}">
+                                Revision
+                            </a>
+                            {% if not info.isAligned(environment) and  not info.hasDraft() %}
+                                <a href="{{ path("revision.publish_to", {revisionId: info.getRevision('preview').id, envId: environment|get_environment.id, redirectToUrl: app.request.requesturi }) }}">
+                                    Publish in {{ environment }}
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
             {% endfor %}
         {% else %}
             {% if attribute(templatesByType, item.type)|default([])|length == 1 %}
@@ -193,22 +201,46 @@
                     {{ template.label }}
                 </button>
             {% elseif attribute(templatesByType, item.type)|default([])|length > 1 %}
-                <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-plus"></i>
+                        Create {{ item.type }}
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle dropdown of available templates</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        {% for template in attribute(templatesByType, item.type)|default([]) %}
+                            <li>
+                                <a href="#" class="json-post-button" data-value="{{ template.value|json_encode|e('html_attr') }}" data-path="{{ path('emsco_interface_document_create', { interface: 'json', name: item.type })|e('html_attr') }}" data-redirect="{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('html_attr') }}">
+                                    {{ template.label }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if item.parent is defined %}
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-plus"></i>
-                    Create {{ item.type }}
+                    Add
                     <span class="caret"></span>
-                    <span class="sr-only">Toggle dropdown of available templates</span>
+                    <span class="sr-only">Toggle dropdown of adding entries</span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                    {% for template in attribute(templatesByType, item.type)|default([]) %}
-                        <li>
-                            <a href="#" class="json-post-button" data-value="{{ template.value|json_encode|e('html_attr') }}" data-path="{{ path('emsco_interface_document_create', { interface: 'json', name: item.type })|e('html_attr') }}" data-redirect="{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('html_attr') }}">
-                                {{ template.label }}
-                            </a>
-                        </li>
-                    {% endfor %}
+                    <li>
+                        <a href="#" class="">
+                            <i class="fa fa-angle-up"></i> Before
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="">
+                            <i class="fa fa-angle-down"></i> After
+                        </a>
+                    </li>
                 </ul>
-            {% endif %}
+            </div>
         {% endif %}
      {% endverbatim %}
 {%  endblock %}

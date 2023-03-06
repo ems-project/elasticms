@@ -8,10 +8,20 @@ sub_help(){
     echo "Commands:"
     echo "    admin:        call the admin CLI for the given environment (corresponding to the admin-{environment} docker compose service)"
     echo "    web:          call the web CLI for the given environment (corresponding to the web-{environment} docker compose service)"
+    echo "    al:           call the admin CLI for the local environment"
+    echo "    wl:           call the web CLI for the local environment"
     echo "    create_users: create demo users in the given environment (corresponding to the admin-{environment} docker compose service)"
     echo "    config_push:  upload admin's configuration in the given environment (corresponding to the web-{environment} docker compose service)"
     echo "    config_pull:  download admin's configuration from the given environment (corresponding to the web-{environment} docker compose service)"
     echo ""
+}
+
+sub_al(){
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-local ems-demo $@
+}
+
+sub_wl(){
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-local preview $@
 }
 
 sub_admin(){
@@ -153,10 +163,11 @@ sub_config_push(){
   #docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:admin:job activate-all-content-type
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment} ems-demo ems:contenttype:activate --all
 
-  echo "Push templates, routes and translations"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:local:push --force
-
   echo "Upload documents"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload label
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload route
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload template
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload template_ems
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload form_instance
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload category
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:document:upload page
@@ -165,6 +176,9 @@ sub_config_push(){
 
   echo "Align live"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment} ems-demo ems:environment:align preview live --force
+
+  echo "Push templates, routes and translations"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment} preview ems:local:push --force
 }
 
 sub_config_pull(){

@@ -1,0 +1,8 @@
+{% extends '@EMSCH/template/page/default.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block body_class %}with-banner{% endblock %}
+
+{% block main -%}
+    {{ block('blocks') }}
+{%- endblock main %}

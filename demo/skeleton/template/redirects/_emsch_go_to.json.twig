@@ -11,7 +11,7 @@
         'context': { '_emsch_go_to': true  }
     }) %}
 
-    {% set url = (routingUrl != emsLink) ? routingUrl : path('emsch_homepage') %}
+    {% set url = (routingUrl != emsLink) ? routingUrl : path('emsch_path') %}
     {#    {% endif %}#}
     {{ {'url': url}|json_encode|raw }}
 {% endapply %}

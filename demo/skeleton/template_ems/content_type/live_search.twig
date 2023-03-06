@@ -1,0 +1,31 @@
+{%  block ems_value %}
+    {%- if _source.live_search|default(false) -%}
+        {{- _source.live_search|json_encode|raw -}}
+    {%- endif -%}
+{% endblock %}
+
+{%  block ems_display %}
+    <ul>
+        {% for text in data|default([]) %}
+            <li>
+                {{ text }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+{%  block ems_post_processing %}
+    {% set config = 'config'|i18n('en')|json_decode %}
+    {% set locales = config.locales|default([]) %}
+    {% set textes = {} %}
+    {% if _source.label is defined %}
+        {% set textes = textes|merge([_source.label]) %}
+    {% endif %}
+    {% for locale in locales %}
+        {% if attribute(_source, locale).title is defined %}
+            {% set textes = textes|merge([attribute(_source, locale).title]) %}
+        {% endif %}
+    {% endfor %}
+    {{ textes|json_encode|raw }}
+{% endblock %}

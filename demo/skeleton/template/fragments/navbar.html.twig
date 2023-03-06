@@ -2,66 +2,64 @@
 {% trans_default_domain trans_default_domain %}
 
 {% block dropdownSubmenu %}
-    <li class="dropdown-submenu">
-        <a class="dropdown-item dropdown-toggle" href="{{ attribute(urls, link.id) is defined ? attribute(urls, link.id) : '#' }}">{{ link.label }}</a>
-        <ul class="dropdown-menu">
-            {% for link in link.children|filter(link => attribute(urls, link.id) is defined) %}
-                {% if link.children|length > 0 %}
-                    {{ block('dropdownSubmenu') }}
-                {% else %}
-                    {{ block('dropdownItem') }}
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </li>
+    {% if attribute(link.object, locale).title is defined %}
+        <li class="dropdown-submenu">
+            <a class="dropdown-item dropdown-toggle" href="{{ attribute(urls, link.id) is defined ? attribute(urls, link.id) : '#' }}">{{ attribute(link.object, locale).title }}</a>
+            <ul class="dropdown-menu">
+                {% for link in link.children|filter(link => attribute(urls, link.id) is defined) %}
+                    {% if link.children|length > 0 and link.object.dropdown|default(false) %}
+                        {{ block('dropdownSubmenu') }}
+                    {% else %}
+                        {{ block('dropdownItem') }}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block dropdownItem %}
-    <li><a class="dropdown-item" href="{{ attribute(urls, link.id) }}">{{ link.label }}</a></li>
+    {% if attribute(link.object, locale).title is defined %}
+        <li><a class="dropdown-item" href="{{ attribute(urls, link.id) }}">{{ attribute(link.object, locale).title }}</a></li>
+    {% endif %}
 {% endblock %}
 
 {% block dropdown %}
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="{{ section.id }}" role="button"
-           data-toggle="dropdown" aria-haspopup="true"aria-expanded="false">
-            {{ section.label }}
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="{{ section.id }}">
-            {% for link in section.children %}
-                {% if link.children|length > 0 %}
-                    {{ block('dropdownSubmenu') }}
-                {% elseif attribute(urls, link.id) is defined %}
-                    {{ block('dropdownItem') }}
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </li>
+    {% if attribute(section.object, locale).title is defined %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="{{ attribute(urls, section.id) is defined ? attribute(urls, section.id) : '#' }}" id="{{ section.id }}" role="button"
+               data-toggle="dropdown" aria-haspopup="true"aria-expanded="false">
+                {{ attribute(section.object, locale).title }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="{{ section.id }}">
+                {% for link in section.children %}
+                    {% if link.children|length > 0 and link.object.dropdown|default(false) %}
+                        {{ block('dropdownSubmenu') }}
+                    {% elseif attribute(urls, link.id) is defined %}
+                        {{ block('dropdownItem') }}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block item %}
-    {% if attribute(urls, section.id) is defined %}
+    {% if attribute(urls, section.id) is defined and attribute(section.object, locale).title is defined %}
         <li class="nav-item">
-            <a class="nav-link" href="{{ attribute(urls, section.id) }}">{{ section.label }}</a>
+            <a class="nav-link" href="{{ attribute(urls, section.id) }}">{{ attribute(section.object, locale).title }}</a>
         </li>
     {% endif %}
 {% endblock %}
 
 {% block request %}
-    <ul class="navbar-nav mr-auto" {{ emsch_admin_menu(structure) }}>
-        {% for section in blocks.children %}
-            {% if section.children|length > 0 %}
+    <ul class="navbar-nav ml-auto align-items-lg-center" {{ emsch_admin_menu(section) }}>
+        {% for section in structure.children %}
+            {% if section.children|length > 0 and section.object.dropdown|default(false) %}
                 {{ block('dropdown') }}
             {% else %}
                 {{ block('item') }}
             {% endif %}
         {% endfor %}
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-        <div class="input-group mr-sm-2">
-            <input type="search" class="form-control" placeholder="{{ 'navbar.search-input'|trans }}" aria-label="{{ 'navbar.search-input'|trans }}">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i> <span class="sr-only">{{ 'navbar.search'|trans }}</span></button>
-            </div>
-        </div>
-    </form>
 {% endblock %}

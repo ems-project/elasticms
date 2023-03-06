@@ -1,0 +1,86 @@
+{
+    "label": "Main menu",
+    "paths": [
+        {
+            "locale": "fr",
+            "path": "home",
+            "uid": "6f75ba1c-30c6-4be8-ac8b-d8c44c833359"
+        },
+        {
+            "locale": "nl",
+            "path": "home",
+            "uid": "6f75ba1c-30c6-4be8-ac8b-d8c44c833359"
+        },
+        {
+            "locale": "fr",
+            "path": "fonctionnalites",
+            "uid": "1b63a2da-8053-49c4-8b82-8a3376843cbc"
+        },
+        {
+            "locale": "nl",
+            "path": "features",
+            "uid": "1b63a2da-8053-49c4-8b82-8a3376843cbc"
+        },
+        {
+            "locale": "fr",
+            "path": "fonctionnalites/avantages-pour-votre-site-en-tant-que-client",
+            "uid": "99aa4aea-3702-46af-a1f8-6b983392e810"
+        },
+        {
+            "locale": "nl",
+            "path": "features/voordelen-voor-uw-website-als-klant",
+            "uid": "99aa4aea-3702-46af-a1f8-6b983392e810"
+        },
+        {
+            "locale": "fr",
+            "path": "fonctionnalites/facilites-pour-les-utilisateurs",
+            "uid": "ba9af400-be5e-42bd-a10f-d6795c72425a"
+        },
+        {
+            "locale": "nl",
+            "path": "features/gebruiksvriendelijkheid",
+            "uid": "ba9af400-be5e-42bd-a10f-d6795c72425a"
+        },
+        {
+            "locale": "fr",
+            "path": "fonctionnalites/specificites-techniques-pour-les-developpeurs",
+            "uid": "fe9ce862-be97-4a74-88eb-e6fd9376412c"
+        },
+        {
+            "locale": "nl",
+            "path": "features/technische-specificaties-voor-ontwikkelaars",
+            "uid": "fe9ce862-be97-4a74-88eb-e6fd9376412c"
+        },
+        {
+            "locale": "fr",
+            "path": "user-group",
+            "uid": "bed0c61e-52a3-49ef-9cb0-145b7bfd12b1"
+        },
+        {
+            "locale": "nl",
+            "path": "user-group",
+            "uid": "bed0c61e-52a3-49ef-9cb0-145b7bfd12b1"
+        },
+        {
+            "locale": "fr",
+            "path": "release",
+            "uid": "fb8a3539-344f-43c5-8af0-cc5de8e18380"
+        },
+        {
+            "locale": "nl",
+            "path": "release",
+            "uid": "fb8a3539-344f-43c5-8af0-cc5de8e18380"
+        },
+        {
+            "locale": "fr",
+            "path": "contact",
+            "uid": "799bec14-0655-4ca7-86f1-ba0491fe74c5"
+        },
+        {
+            "locale": "nl",
+            "path": "contact",
+            "uid": "799bec14-0655-4ca7-86f1-ba0491fe74c5"
+        }
+    ],
+    "structure": "[{\"id\":\"6f75ba1c-30c6-4be8-ac8b-d8c44c833359\",\"label\":\"Home\",\"type\":\"page\",\"object\":{\"label\":\"Home\",\"nl\":{\"title\":\"Home\"},\"fr\":{\"title\":\"Home\"}},\"children\":[]},{\"id\":\"1b63a2da-8053-49c4-8b82-8a3376843cbc\",\"label\":\"Features\",\"type\":\"page\",\"object\":{\"label\":\"Features\",\"nl\":{\"title\":\"Features\"},\"fr\":{\"title\":\"Fonctionnalit\u00e9s\"},\"dropdown\":true},\"children\":[{\"id\":\"99aa4aea-3702-46af-a1f8-6b983392e810\",\"label\":\"Advantages\",\"type\":\"page\",\"object\":{\"label\":\"Advantages\",\"nl\":{\"title\":\"Voordelen voor uw website als klant\"},\"fr\":{\"title\":\"Avantages pour votre site en tant que client\"}},\"children\":[]},{\"id\":\"ba9af400-be5e-42bd-a10f-d6795c72425a\",\"label\":\"User friendly\",\"type\":\"page\",\"object\":{\"label\":\"User friendly\",\"nl\":{\"title\":\"Gebruiksvriendelijkheid\"},\"fr\":{\"title\":\"Facilit\u00e9s pour les utilisateurs\"}},\"children\":[]},{\"id\":\"fe9ce862-be97-4a74-88eb-e6fd9376412c\",\"label\":\"Developers\",\"type\":\"page\",\"object\":{\"label\":\"Developers\",\"nl\":{\"title\":\"Technische specificaties voor ontwikkelaars\"},\"fr\":{\"title\":\"Sp\u00e9cificit\u00e9s techniques pour les d\u00e9veloppeurs\"}},\"children\":[]}]},{\"id\":\"bed0c61e-52a3-49ef-9cb0-145b7bfd12b1\",\"label\":\"User group\",\"type\":\"page\",\"object\":{\"label\":\"User group\",\"nl\":{\"title\":\"User group\"},\"fr\":{\"title\":\"User group\"}},\"children\":[]},{\"id\":\"fb8a3539-344f-43c5-8af0-cc5de8e18380\",\"label\":\"Release\",\"type\":\"page\",\"object\":{\"label\":\"Release\",\"nl\":{\"title\":\"Release\"},\"fr\":{\"title\":\"Release\"}},\"children\":[]},{\"id\":\"799bec14-0655-4ca7-86f1-ba0491fe74c5\",\"label\":\"Contact\",\"type\":\"page\",\"object\":{\"label\":\"Contact\",\"nl\":{\"title\":\"Contact\"},\"fr\":{\"title\":\"Contact\"}},\"children\":[]}]"
+}

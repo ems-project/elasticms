@@ -7,10 +7,14 @@ export class NavBar {
             return;
         }
 
-        const bestItems = document.querySelectorAll('header nav.navbar a[href^="' + window.location.pathname + window.location.search + '"]')
+        let bestItems = document.querySelectorAll('header nav.navbar a[href^="' + window.location.pathname + window.location.search + '"]')
         if (bestItems.length <= 0) {
-            return;
+            bestItems = document.querySelectorAll('footer .navbar-nav a[href^="' + window.location.pathname + window.location.search + '"]')
+            if (bestItems.length <= 0) {
+                return;
+            }
         }
+
         let activeMessage = '(active)'
         const navbar = document.querySelector('nav.navbar[data-active-message]');
         if (null !== navbar) {
@@ -26,11 +30,16 @@ export class NavBar {
         lastItem.appendChild(spaceNode);
         lastItem.appendChild(node);
 
-        for (let current = lastItem.parentNode; 'NAV' !== current.nodeName; current = current.parentNode) {
+        for (let current = lastItem.parentNode; 'NAV' !== current.nodeName ; current = current.parentNode) {
+            if ('FOOTER' === current.nodeName) {
+                break;
+            }
+
             if ('LI' !== current.nodeName) {
                 continue;
             }
             current.classList.add('active');
+
         }
     }
 }

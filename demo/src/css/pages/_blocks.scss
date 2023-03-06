@@ -1,0 +1,11 @@
+.ems-left-offset:not(:last-child), .ems-paragraph:not(:last-child) {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom-style: solid;
+  border-bottom-color: #e5e5e5;
+  border-bottom-width: thin;
+}
+
+.btn-outline-primary {
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,17 @@
+main {
+  ul {
+    padding-left: 1.5rem;
+    list-style-type: none;
+
+    li {
+      position: relative;
+      margin: .35rem 0;
+
+      &:before {
+        content: "—";
+        position: absolute;
+        left: -1.5rem;
+      }
+    }
+  }
+}

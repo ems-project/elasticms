@@ -41,7 +41,7 @@
                     {% endif %}
                 "
             } ] %}
-    {% elseif contentType.name == 'template' %}
+    {% elseif contentType.name in ['template', 'template_ems'] %}
         {% set columnName %}{% verbatim %}<a href="{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.name }}</a>{% endverbatim %}{% endset %}
         {% set columns = [ { "label": "Name", "template": columnName|format,  "orderField": "name"} ] %}
     {% else %}
@@ -72,12 +72,6 @@
         {% endfor %}
     </div>
 
-    {% set columnPreview %}{% verbatim %}
-    <i style="color: {{ docInfo.published('preview') and not docInfo.hasDraft ? infoEnv.published.color : infoEnv.warning.color }}"
-    class="{{ docInfo.published('preview') and not docInfo.hasDraft ? infoEnv.published.icon : infoEnv.warning.icon }}"
-    title="{{ docInfo.published('preview') and not docInfo.hasDraft ? infoEnv.published.label : infoEnv.warning.label }}"></i>
-{% endverbatim %}{% endset %}
-
     {% set columnLive %}{% verbatim %}
     <i style="color: {{ docInfo.published('live') and (docInfo.aligned('live') or docInfo.revision('preview').finalizedDate == docInfo.revision('live').finalizedDate) ? infoEnv.published.color : docInfo.published('live') ? infoEnv.warning.color : infoEnv.unpublished.color }}"
     class="{{ docInfo.published('live') and (docInfo.aligned('live') or docInfo.revision('preview').finalizedDate == docInfo.revision('live').finalizedDate) ? infoEnv.published.icon : docInfo.published('live') ? infoEnv.warning.icon : infoEnv.unpublished.icon }}"
@@ -94,7 +88,6 @@
         ',
             "orderField": "_finalization_datetime"
         },
-        { "label": "Preview", "template" : columnPreview|format },
         { "label": "Live", "template": columnLive|format },
         {
             "label": "Action",

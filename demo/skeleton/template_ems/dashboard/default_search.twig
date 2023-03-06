@@ -1,0 +1,42 @@
+{% block ems_body %}
+
+    {% set form = emsco_form('dashboard_default_search_options', { locale: app.user.localePreferred|default('nl') }, {
+        method: 'GET',
+    }) %}
+    {% set formView = form.createView %}
+
+    <div class="box with-border">
+        <div class="box-header with-border">
+            <h2 class="box-title">Options</h2>
+        </div>
+        <div class="box-body">
+            {{ form_start(formView) }}
+            {{ form_row(attribute(formView, 'dashboard_default_search_options'), {class: 'col-md-4'}) }}
+            <div class="clearfix"></div>
+            <div class="col-md-12">
+{#                <button type="submit" class="btn btn-primary"><i class="fa fa-eye"></i> Apply</button>#}
+            </div>
+            {{ form_end(formView) }}
+        </div>
+    </div>
+
+
+    <div class="box with-border">
+        <div class="box-header with-border">
+            <h2 class="box-title">Search</h2>
+        </div>
+        <div class="box-body">
+            {{ emsco_datatable(['preview'],['page', 'section', 'category', 'slideshow', 'form_instance'], {
+                "columns": [{
+                    "label": "Label",
+                    "template": "{{ data.source.label }}",
+                    "orderField": "label.alpha_order"
+                },{
+                    "label": "Type",
+                    "template": "{{ data.contentType }}",
+                    "orderField": "_contenttype"
+                }]
+            }) }}
+        </div>
+    </div>
+{% endblock %}

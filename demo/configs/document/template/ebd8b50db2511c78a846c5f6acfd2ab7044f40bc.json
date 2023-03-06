@@ -1,0 +1,4 @@
+{
+    "body": "{% apply spaceless %}\n    {% trans_default_domain trans_default_domain %}\n\n    {% set locale = app.request.locale %}\n    {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}\n    {% set wyiwygReplaces = {\n        'src=\"https://www.youtube.com/': 'allow=\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen src=\"https://www.youtube-nocookie.com/',\n    } %}\n    {% set assetPath = emsch_assets_version('a05e1c721a9596b167518b58daacefb9a165778e') %}\n    {% set baseUrl = '/' %}\n    {% if app.user %}\n        {% set baseUrl = \"/channel/#{trans_default_domain}\" %}\n    {% endif %}\n\n    {% set footer_menu = 'section:39d3ffdd-6ac3-4828-a1f6-970b1b884ce1' %}\n    {% set header_menu = 'section:1e617cf9-6b19-4c33-90ba-5a4c8feff062' %}\n\n    {%- block request %}{% endblock request -%}\n\n{% endapply %}\n",
+    "name": "variables.twig"
+}

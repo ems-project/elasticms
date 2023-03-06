@@ -131,8 +131,8 @@ export class skeletonForm
         const div = document.createElement('div');
         div.classList.add('p-3');
         div.classList.add('mb-2');
-        div.classList.add('bg-success');
-        div.classList.add('text-white');
+        div.classList.add('alert');
+        div.classList.add('alert-success');
         div.innerHTML = message;
         elementMessage.appendChild(div);
     }
@@ -141,8 +141,8 @@ export class skeletonForm
         const div = document.createElement('div');
         div.classList.add('p-3');
         div.classList.add('mb-2');
-        div.classList.add('bg-warning');
-        div.classList.add('text-white');
+        div.classList.add('alert');
+        div.classList.add('alert-warning');
         div.innerHTML = message;
         elementMessage.appendChild(div);
     }

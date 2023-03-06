@@ -9,7 +9,7 @@
         "options": {
             "searchConfig": "[]",
             "entryPath": "./",
-            "attributes": "{\r\n    \"_locale\": \"en\",\r\n    \"_backend\": \"http:\\/\\/demo-admin.localhost\",\r\n    \"EMSCH_ENV\": \"demo_pgsql_v1_preview\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"demo_pgsql_v1_preview\\\",\\\"request\\\":{},\\\"backend\\\":\\\"https:\\/\\/demo-admin.localhost\\\"}}\"\r\n}"
+            "attributes": "{\r\n    \"_backend\": \"\\/.\",\r\n    \"DEFAULT_LOCAL\": \"nl\",\r\n    \"EMSCH_ENV\": \"demo_pgsql_v1_preview\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"demo_pgsql_v1_preview\\\"}\"\r\n}"
         },
         "orderKey": 1
     },

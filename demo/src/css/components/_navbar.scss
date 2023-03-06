@@ -1,0 +1,95 @@
+.navbar {
+  @include media-breakpoint-up(lg) {
+    min-height: $header-height-lg;
+  }
+  .navbar-brand > img {
+    width: 148px;
+    height: 38px;
+    @include media-breakpoint-up(lg) {
+      width: 181px;
+      height: 46px;
+    }
+  }
+  .navbar-toggler {
+    border: 0;
+  }
+}
+.navbar-nav {
+  .nav-item {
+    padding: $nav-link-padding-y 0;
+    @include media-breakpoint-up(lg) {
+      margin-right: 2.125em;
+    }
+    .nav-link {
+      > span:first-child {
+        position: relative;
+        &:before {
+          position: absolute;
+          bottom: -#{$nav-link-padding-y};
+          right: 0;
+          left: 0;
+          height: 2px;
+        }
+      }
+      &:hover, &:focus {
+        > span:first-child {
+          &:before {
+            content: '';
+            background-color: $dark;
+          }
+        }
+      }
+    }
+    &.active {
+      .nav-link > span:first-child {
+        position: relative;
+        &:before {
+          content: '';
+          background-color: $dark;
+        }
+      }
+    }
+  }
+}
+
+header {
+  @include media-breakpoint-down(md) {
+    .navbar {
+      z-index: $zindex-fixed;
+      .navbar-collapse {
+        z-index: $zindex-popover;
+        position: absolute;
+        left: $grid-gutter-width/-2;
+        right: $grid-gutter-width/-2;
+        top: 64px;
+        background-color: $dark;
+        .active .nav-link,
+        .nav-link {
+          color: $white;
+          &:hover, &:focus {
+            color: rgba($white,.8);
+          }
+          & > span:first-child:before {
+            background-color: $white;
+          }
+        }
+        #nav-cta {
+          border-top: 1px solid rgba($white,.3);
+          padding: rem(30) 0;
+          .btn-outline-dark {
+            @include button-outline-variant($white, color-yiq($white), $white, $white);
+          }
+        }
+      }
+    }
+  }
+  .navbar-nav .nav-item {
+    text-align: center;
+    @include media-breakpoint-up(lg) {
+      text-align: left;
+    }
+    .nav-link {
+      text-transform: uppercase;
+    }
+  }
+}

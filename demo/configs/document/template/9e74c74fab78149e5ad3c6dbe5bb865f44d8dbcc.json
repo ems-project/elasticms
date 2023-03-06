@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/variables.twig' %}\n\n{%- block request %}\n    {% apply spaceless %}\n        {{ {\n            path: emsch_asset('img/head/icon.png', {\n                _config_type: 'image',\n                _width: 128,\n                _height: 128,\n                _quality: 0,\n                _get_file_path: true,\n            }),\n        }|json_encode|raw }}\n    {% endapply %}\n{% endblock request -%}\n\n",
+    "name": "redirects/apple-touch-icon.json.twig"
+}

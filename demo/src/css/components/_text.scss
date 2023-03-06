@@ -1,0 +1,41 @@
+main {
+  a:not(.btn) {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  h1, .h1 {
+    margin-bottom: 1rem;
+    font-weight: 300;
+    @include media-breakpoint-down(md) {
+      font-size: $font-size-base * 1.875;
+    }
+  }
+
+  h2, .h2 {
+    margin-bottom: 1rem;
+    font-weight: bold;
+
+    &:not(:first-child) {
+      margin-top: rem(22);
+    }
+
+    @include media-breakpoint-down(md) {
+      font-size: $font-size-base * 1.5;
+    }
+  }
+
+  h3, .h3 {
+    margin-bottom: rem(16);
+
+    &:not(:first-child) {
+      margin-top: rem(10);
+    }
+
+    @include media-breakpoint-down(md) {
+      font-size: $font-size-base * 1.25;
+    }
+  }
+
+}

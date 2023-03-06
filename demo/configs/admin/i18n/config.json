@@ -6,7 +6,7 @@
         "content": [
             {
                 "locale": "en",
-                "text": "{\r\n  \"locales\": [\r\n    \"en\",\r\n    \"fr\",\r\n    \"nl\",\r\n    \"de\"\r\n  ]\r\n}"
+                "text": "{\r\n  \"locales\": [\"fr\",\"nl\"]\r\n}"
             }
         ]
     },

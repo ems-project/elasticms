@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/base/revealjs.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}\n\n{% block meta_description %}{{ attribute(source, locale).meta_description|default('') }}{% endblock %}\n\n{% block blocks %}\n    {% with {\n        'structure': attribute(source, locale).blocks|default(\"{}\")|ems_json_decode,\n        'trans_default_domain': trans_default_domain,\n        } %}\n        {{ block(\"render\", \"@EMSCH/template/slideshow/blocks/abstract-block.html.twig\") }}\n    {% endwith %}\n{% endblock %}\n",
+    "name": "slideshow/revealjs.html.twig"
+}

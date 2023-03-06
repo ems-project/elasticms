@@ -1,0 +1,5 @@
+{
+    "key": "js.form_error",
+    "label_fr": "The form faced an issue : %message%",
+    "label_nl": "The form faced an issue : %message%"
+}

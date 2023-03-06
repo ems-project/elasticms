@@ -6,11 +6,14 @@
     {% set wyiwygReplaces = {
         'src="https://www.youtube.com/': 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/',
     } %}
-    {% set assetPath = emsch_assets_version('6b40ec3051618c15715224d6982d0168021b350a') %}
+    {% set assetPath = emsch_assets_version('a05e1c721a9596b167518b58daacefb9a165778e') %}
     {% set baseUrl = '/' %}
     {% if app.user %}
         {% set baseUrl = "/channel/#{trans_default_domain}" %}
     {% endif %}
+
+    {% set footer_menu = 'section:39d3ffdd-6ac3-4828-a1f6-970b1b884ce1' %}
+    {% set header_menu = 'section:1e617cf9-6b19-4c33-90ba-5a4c8feff062' %}
 
     {%- block request %}{% endblock request -%}
 

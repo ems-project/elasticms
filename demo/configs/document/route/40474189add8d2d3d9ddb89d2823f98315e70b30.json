@@ -1,0 +1,6 @@
+{
+    "config": "{\"path\":\"robots.txt\",\"defaults\":{\"_format\":\"txt\"}}",
+    "name": "robots.txt",
+    "order": 3,
+    "template_static": "template:03d21175fe86688cc2bf1fe6011daf0a4ddc1441"
+}

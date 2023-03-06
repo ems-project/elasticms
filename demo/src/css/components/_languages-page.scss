@@ -1,0 +1,16 @@
+#languages-page {
+  #wrapper {
+    .btn {
+      min-width: 180px;
+      height: auto;
+      @include media-breakpoint-down(md) {
+        font-size: 1.5rem;
+      }
+    }
+    &.vertical-center {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

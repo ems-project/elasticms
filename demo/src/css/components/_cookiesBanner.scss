@@ -1,0 +1,15 @@
+#cookiesBanner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $zindex-fixed;
+    background: $gray-800;
+    color: $white;
+    display: none;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.25);
+
+    &.active {
+        display: block;
+    }
+}

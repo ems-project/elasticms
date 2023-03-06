@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}\n\n{% block widget %}\n    {% trans_default_domain trans_default_domain %}\n    {% set form = item.object.link|emsch_get|default('') %}\n\n    <div id=\"ems-form-{{ item.id }}\" class=\"mb-5\">\n        <p>{{ 'ems_form.loading'|trans|raw }}</p>\n    </div>\n    <div id=\"ems-message-{{ item.id }}\"></div>\n    <iframe id=\"ems-form-iframe-{{ item.id }}\" src=\"{{ absolute_url(path('form_iframe', {\n        ouuid:form.ouuid,\n        _locale: locale\n    })) }}\" style=\"display:none;\" title=\"{{ 'ems_form.ignore_iframe'|trans }}\" data-form-id=\"ems-form-{{ item.id }}\" data-message-id=\"ems-message-{{ item.id }}\"></iframe>\n{% endblock widget %}\n",
+    "name": "page/blocks/form.html.twig"
+}

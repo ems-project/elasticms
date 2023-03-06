@@ -211,10 +211,10 @@
             "version_tag": null
         },
         "roles": {
-            "view": "ROLE_AUTHOR",
-            "create": "ROLE_AUTHOR",
-            "edit": "ROLE_AUTHOR",
-            "publish": "ROLE_PUBLISHER",
+            "view": "ROLE_WEBMASTER",
+            "create": "ROLE_WEBMASTER",
+            "edit": "ROLE_WEBMASTER",
+            "publish": "ROLE_WEBMASTER",
             "delete": "not-defined",
             "trash": "ROLE_ADMIN",
             "archive": "not-defined",

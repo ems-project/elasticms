@@ -463,15 +463,15 @@
             "version_tag": null
         },
         "roles": {
-            "view": "ROLE_AUTHOR",
-            "create": "ROLE_AUTHOR",
-            "edit": "ROLE_AUTHOR",
-            "publish": "ROLE_PUBLISHER",
+            "view": "ROLE_WEBMASTER",
+            "create": "ROLE_WEBMASTER",
+            "edit": "ROLE_WEBMASTER",
+            "publish": "ROLE_WEBMASTER",
             "delete": "not-defined",
             "trash": "not-defined",
             "archive": "not-defined",
-            "show_link_create": "ROLE_USER",
-            "show_link_search": "ROLE_USER"
+            "show_link_create": "ROLE_WEBMASTER",
+            "show_link_search": "ROLE_WEBMASTER"
         },
         "fields": {
             "label": "key",

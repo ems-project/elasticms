@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.2.6 (2023-03-06)
+### Bug Fixes
+* fix(emsco/revision): search revision deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/364
+
 ## 5.2.5 (2023-02-25)
 ### Bug Fixes
 * fix(admin): doctrine migrations in dev mode by @Davidmattei in https://github.com/ems-project/elasticms/pull/332

@@ -41,6 +41,10 @@
 * fix(notifications): outbox table not showing results by @Davidmattei in https://github.com/ems-project/elasticms/pull/346
 * fix(storage): header noindex for immutable responses by @theus77 in https://github.com/ems-project/elasticms/pull/339
 
+## 5.2.6 (2023-03-06)
+### Bug Fixes
+* fix(emsco/revision): search revision deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/364
+
 ## 5.2.5 (2023-02-25)
 ### Bug Fixes
 * fix(admin): doctrine migrations in dev mode by @Davidmattei in https://github.com/ems-project/elasticms/pull/332

@@ -46,32 +46,17 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                            "name": "label",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "label_field",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Label",
-                                    "class": "col-md-12",
-                                    "lastOfRow": false,
-                                    "helptext": "Used to identify the menu inside the CMS (not visibible on the website)",
-                                    "prefixIcon": null,
-                                    "prefixText": null,
-                                    "suffixIcon": null,
-                                    "suffixText": null,
-                                    "placeholder": null,
-                                    "icon": null
+                                    "form": "label"
                                 },
-                                "mappingOptions": {
-                                    "index": null,
-                                    "analyzer": null,
-                                    "copy_to": null
-                                },
+                                "mappingOptions": [],
                                 "restrictionOptions": {
-                                    "mandatory": true,
-                                    "mandatory_if": null,
                                     "minimum_role": null
                                 },
                                 "extraOptions": {
@@ -79,12 +64,9 @@
                                     "clear_on_copy": false,
                                     "postProcessing": null
                                 },
-                                "raw_data": [],
-                                "migrationOptions": {
-                                    "protected": false
-                                }
+                                "raw_data": []
                             },
-                            "orderKey": 0,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -131,7 +113,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
                             "children": []
                         },
                         "replaced": []
@@ -174,7 +156,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 2,
+                            "orderKey": 3,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -305,71 +287,6 @@
                                         ]
                                     },
                                     "replaced": []
-                                },
-                                {
-                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                    "arguments": [],
-                                    "properties": {
-                                        "type": "EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType",
-                                        "name": "link",
-                                        "contentType": null,
-                                        "deleted": false,
-                                        "description": null,
-                                        "options": {
-                                            "displayOptions": {
-                                                "label": "Link",
-                                                "class": "col-md-12",
-                                                "lastOfRow": false,
-                                                "helptext": null,
-                                                "icon": "fa fa-link"
-                                            },
-                                            "mappingOptions": [],
-                                            "restrictionOptions": {
-                                                "minimum_role": null,
-                                                "json_nested_deny": [],
-                                                "json_nested_is_leaf": false
-                                            },
-                                            "extraOptions": {
-                                                "extra": null,
-                                                "clear_on_copy": false,
-                                                "postProcessing": null
-                                            },
-                                            "raw_data": []
-                                        },
-                                        "orderKey": 2,
-                                        "children": [
-                                            {
-                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                                "arguments": [],
-                                                "properties": {
-                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
-                                                    "name": "menu_entries",
-                                                    "contentType": null,
-                                                    "deleted": false,
-                                                    "description": null,
-                                                    "options": {
-                                                        "displayOptions": {
-                                                            "form": "menu-locales"
-                                                        },
-                                                        "mappingOptions": [],
-                                                        "restrictionOptions": {
-                                                            "minimum_role": null
-                                                        },
-                                                        "extraOptions": {
-                                                            "extra": null,
-                                                            "clear_on_copy": false,
-                                                            "postProcessing": null
-                                                        },
-                                                        "raw_data": []
-                                                    },
-                                                    "orderKey": 0,
-                                                    "children": []
-                                                },
-                                                "replaced": []
-                                            }
-                                        ]
-                                    },
-                                    "replaced": []
                                 }
                             ]
                         },
@@ -406,7 +323,36 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 3,
+                            "orderKey": 4,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "search_fields",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "form": "search_fields"
+                                },
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": []
+                            },
+                            "orderKey": 5,
                             "children": []
                         },
                         "replaced": []
@@ -420,7 +366,7 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 1,
+        "orderKey": 2,
         "rootContentType": true,
         "editTwigWithWysiwyg": true,
         "webContent": true,
@@ -434,13 +380,13 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
-                    "icon": "fa fa-sitemap",
+                    "icon": "fa fa-eye",
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_template\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}",
-                        "header": null,
-                        "javascript": "<script>\r\n    $('.json-post-button').on('click', function(event) {\r\n        event.preventDefault();\r\n        var xhr = new XMLHttpRequest();\r\n        var url = $(this).data('path');\r\n        var redirect = $(this).data('redirect');\r\n        xhr.open(\"POST\", url, true);\r\n        xhr.setRequestHeader(\"Content-Type\", \"application/json\");\r\n        xhr.onreadystatechange = function () {\r\n            if (xhr.readyState === 4 && xhr.status === 200) {\r\n                var json = JSON.parse(xhr.responseText);\r\n                document.location = redirect.replace('__revisionId__', json.revision_id);\r\n            }\r\n        };\r\n        var data = JSON.stringify($(this).data('value'));\r\n        xhr.send(data);\r\n    });\r\n</script>"
+                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
                     },
                     "orderKey": 1,
                     "public": false,
@@ -468,7 +414,7 @@
             "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_ADMIN",
+            "show_link_create": "not-defined",
             "show_link_search": "not-defined"
         },
         "fields": {

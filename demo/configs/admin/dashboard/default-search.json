@@ -7,16 +7,14 @@
         "label": "Default search",
         "sidebarMenu": false,
         "notificationMenu": false,
-        "definition": null,
+        "definition": "quick_search",
         "type": "ems_core.dashboard.template",
         "role": "ROLE_USER",
         "color": "light-blue",
         "options": {
-            "body": "This the default search dashboards",
-            "header": null,
-            "footer": null
+            "body": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/default_search.twig\") }}"
         },
-        "orderKey": 3
+        "orderKey": 2
     },
     "replaced": []
 }

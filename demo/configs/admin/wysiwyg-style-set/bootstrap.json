@@ -3,7 +3,7 @@
     "arguments": [],
     "properties": {
         "name": "bootstrap",
-        "config": "[\r\n  {\r\n    \"name\": \"Lead\",\r\n    \"element\": \"p\",\r\n    \"attributes\": {\r\n      \"class\": \"lead\"\r\n    }\r\n  }\r\n]",
+        "config": "[\r\n  {\r\n    \"name\": \"Lead\",\r\n    \"element\": \"p\",\r\n    \"attributes\": {\r\n      \"class\": \"lead\"\r\n    }\r\n  },{\r\n    \"name\": \"Outline link\",\r\n    \"element\": \"a\",\r\n    \"attributes\": {\r\n      \"class\": \"btn btn-outline-primary text-uppercase\"\r\n    }\r\n  }\r\n]",
         "orderKey": 1,
         "formatTags": "h2;h3;h4",
         "tableDefaultCss": "table table-bordered",

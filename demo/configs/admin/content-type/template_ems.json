@@ -36,7 +36,8 @@
                     },
                     "extraOptions": {
                         "extra": null,
-                        "postProcessing": null
+                        "postProcessing": null,
+                        "clear_on_copy": false
                     }
                 },
                 "orderKey": 0,
@@ -82,7 +83,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 1,
+                            "orderKey": 0,
                             "children": []
                         },
                         "replaced": []
@@ -119,13 +120,14 @@
                                 },
                                 "extraOptions": {
                                     "extra": null,
-                                    "postProcessing": null
+                                    "postProcessing": null,
+                                    "clear_on_copy": false
                                 },
                                 "migrationOptions": {
                                     "protected": false
                                 }
                             },
-                            "orderKey": 2,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -134,26 +136,19 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
-                            "name": "live_search",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "search_fields",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Live Search",
-                                    "class": "hidden",
-                                    "lastOfRow": false,
-                                    "helptext": null,
-                                    "valueTemplate": null,
-                                    "json": false,
-                                    "displayTemplate": null
+                                    "form": "search_fields"
                                 },
-                                "mappingOptions": {
-                                    "mappingOptions": "{\r\n        \"type\": \"search_as_you_type\",\r\n        \"analyzer\": \"standard\"\r\n}",
-                                    "copy_to": null
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "minimum_role": null
                                 },
-                                "restrictionOptions": [],
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
@@ -175,7 +170,7 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 14,
+        "orderKey": 9,
         "rootContentType": false,
         "editTwigWithWysiwyg": false,
         "webContent": false,
@@ -193,9 +188,9 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/webknc_template_ems/view/overview_rtl.twig\") }}",
-                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/webknc_template_ems/view/overview_rtl.twig\") }}",
-                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/webknc_template_ems/view/overview_rtl.twig\") }}"
+                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
                     },
                     "orderKey": 2,
                     "public": false,
@@ -220,11 +215,11 @@
             "create": "ROLE_ADMIN",
             "edit": "not-defined",
             "publish": "ROLE_ADMIN",
-            "delete": "not-defined",
-            "trash": "not-defined",
+            "delete": "ROLE_ADMIN",
+            "trash": "ROLE_ADMIN",
             "archive": "not-defined",
             "show_link_create": "ROLE_ADMIN",
-            "show_link_search": "not-defined"
+            "show_link_search": "ROLE_ADMIN"
         },
         "fields": {
             "label": "name",

@@ -73,12 +73,12 @@
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,
-                                                "icon": null,
                                                 "prefixIcon": null,
                                                 "prefixText": null,
                                                 "suffixIcon": null,
                                                 "suffixText": null,
-                                                "placeholder": null
+                                                "placeholder": null,
+                                                "icon": null
                                             },
                                             "mappingOptions": {
                                                 "index": null,
@@ -106,6 +106,44 @@
                                     "replaced": []
                                 }
                             ]
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\CheckboxFieldType",
+                            "name": "dropdown",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Dropdown",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": "If selected the children will be visible in the menu in a dropdown menu",
+                                    "question_label": "Show children in a dropdown menu"
+                                },
+                                "mappingOptions": {
+                                    "index": null
+                                },
+                                "restrictionOptions": {
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 1,
+                            "children": []
                         },
                         "replaced": []
                     }

@@ -7,7 +7,7 @@
         "label": "Sitemap",
         "sidebarMenu": true,
         "notificationMenu": false,
-        "definition": null,
+        "definition": "landing_page",
         "type": "ems_core.dashboard.template",
         "role": "ROLE_AUTHOR",
         "color": null,
@@ -15,7 +15,7 @@
             "body": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}",
             "footer": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_footer\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}"
         },
-        "orderKey": 2
+        "orderKey": 1
     },
     "replaced": []
 }

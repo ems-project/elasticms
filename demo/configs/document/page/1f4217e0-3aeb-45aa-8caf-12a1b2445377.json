@@ -1,0 +1,17 @@
+{
+    "fr": {
+        "components": "[{\"id\":\"0a33606f-c25d-4177-8f53-dc44690d8857\",\"label\":\"Left offset\",\"type\":\"grid\",\"object\":{\"label\":\"Left offset\",\"template\":\"col-lg-10 offset-lg-1 col-xl-8 offset-xl-2 ems-left-offset\"},\"children\":[{\"id\":\"1b8d857a-0a9d-44d7-b46b-e963a4461316\",\"label\":\"Avantages pour votre site en tant que client\",\"type\":\"paragraph\",\"object\":{\"label\":\"Avantages pour votre site en tant que client\",\"body\":\"<h2>Avantages pour votre site en tant que client</h2>\\r\\n\\r\\n<p>Pens&eacute; et d&eacute;velopp&eacute; en Belgique, elasticMS est un CMS sur mesure, proposant de multiples templates, offrant des solutions personnalis&eacute;es et permettant une gestion de contenu multilingue. Pr&ecirc;t &agrave; l&rsquo;emploi, son impl&eacute;mentation est facile et rapide. Son int&eacute;gration y est &eacute;galement ais&eacute;e. Le contenu est strictement s&eacute;par&eacute; de la pr&eacute;sentation et le code d&eacute;fini est d&eacute;j&agrave; r&eacute;f&eacute;renc&eacute;, ce qui permet de bons r&eacute;sultats dans les moteurs de recherche.</p>\\r\\n\\r\\n<p><a class=\\\"btn btn-outline-primary text-uppercase\\\" href=\\\"ems://object:page:ceaedbcc-5407-49b4-81be-85ecea559872\\\">Voir les avantage</a></p>\"},\"children\":[]},{\"id\":\"94dc55ea-460b-4261-a8d8-595150a3bb9c\",\"label\":\"Facilit\u00e9s pour les utilisateurs\",\"type\":\"paragraph\",\"object\":{\"label\":\"Facilit\u00e9s pour les utilisateurs\",\"body\":\"<h2>Facilit&eacute;s pour les utilisateurs</h2>\\r\\n\\r\\n<p>Le plus gros atout d&rsquo;elasticMS est sa facilit&eacute; d&rsquo;utilisation. Simple mais efficace, il permet de g&eacute;rer le contenu d&rsquo;un site sans avoir besoin de connaissances en programmation. L&rsquo;interface de r&eacute;daction y est semblable &agrave; celle de Word. D&eacute;velopp&eacute; pour les institutions publiques, elasticMS propose un gestionnaire de t&acirc;ches ainsi qu&rsquo;un contr&ocirc;le de r&eacute;visions permettant de suivre les mises &agrave; jour de diff&eacute;rents utilisateurs. Orient&eacute; RGPD et WCAG, elasticMS r&eacute;pond aux exigences en mati&egrave;re de protection des donn&eacute;es et d&rsquo;accessibilit&eacute;.</p>\\r\\n\\r\\n<p>Voir les facilit&eacute;s</p>\"},\"children\":[]},{\"id\":\"17c8cf6e-74a9-4587-bd4c-4920837521b6\",\"label\":\"Sp\u00e9cificit\u00e9s techniques pour les d\u00e9veloppeurs\",\"type\":\"paragraph\",\"object\":{\"label\":\"Sp\u00e9cificit\u00e9s techniques pour les d\u00e9veloppeurs\",\"body\":\"<h2>Sp&eacute;cificit&eacute;s techniques pour les d&eacute;veloppeurs</h2>\\r\\n\\r\\n<p>elasticMS est un CMS Open Source hautement s&eacute;curis&eacute; et d&eacute;velopp&eacute; selon une architecture headless. La strat&eacute;gie multi-source et multi-site offre la possibilit&eacute; de travailler avec plusieurs CMS pour un seul site, de m&ecirc;me qu&rsquo;avec un seul CMS pour plusieurs sites. Le front-end d&eacute;coupl&eacute; du back-end permet un d&eacute;veloppement plus rapide. Gr&acirc;ce &agrave; elasticMS, pas de gestion d&rsquo;assets puisque la gestion de contenu se fait via le CMS.</p>\\r\\n\\r\\n<p>Voir les sp&eacute;cificit&eacute;s</p>\"},\"children\":[]}]}]",
+        "title": "Fonctionnalit\u00e9s"
+    },
+    "label": "Features",
+    "live_search": [
+        "Features",
+        "Fonctionnalit\u00e9s",
+        "Features"
+    ],
+    "menu": "1b63a2da-8053-49c4-8b82-8a3376843cbc",
+    "nl": {
+        "components": "[]",
+        "title": "Features"
+    }
+}

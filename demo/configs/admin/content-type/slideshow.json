@@ -46,32 +46,17 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                            "name": "label",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "label_field",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Label",
-                                    "class": "col-md-8",
-                                    "lastOfRow": true,
-                                    "helptext": "Use to identify this slideshow in elasticms",
-                                    "prefixIcon": null,
-                                    "prefixText": null,
-                                    "suffixIcon": null,
-                                    "suffixText": null,
-                                    "placeholder": null,
-                                    "icon": null
+                                    "form": "label"
                                 },
-                                "mappingOptions": {
-                                    "index": null,
-                                    "analyzer": null,
-                                    "copy_to": "live_search"
-                                },
+                                "mappingOptions": [],
                                 "restrictionOptions": {
-                                    "mandatory": true,
-                                    "mandatory_if": null,
                                     "minimum_role": null
                                 },
                                 "extraOptions": {
@@ -79,41 +64,10 @@
                                     "clear_on_copy": false,
                                     "postProcessing": null
                                 },
-                                "raw_data": [],
-                                "migrationOptions": {
-                                    "protected": false
-                                }
+                                "raw_data": []
                             },
-                            "orderKey": 0,
-                            "children": [
-                                {
-                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                    "arguments": [],
-                                    "properties": {
-                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
-                                        "name": "alpha_order",
-                                        "contentType": null,
-                                        "deleted": false,
-                                        "description": null,
-                                        "options": {
-                                            "displayOptions": [],
-                                            "mappingOptions": {
-                                                "index": "analyzed",
-                                                "analyzer": "alpha_order",
-                                                "fielddata": true
-                                            },
-                                            "extraOptions": {
-                                                "extra": null,
-                                                "clear_on_copy": false,
-                                                "postProcessing": null
-                                            }
-                                        },
-                                        "orderKey": 0,
-                                        "children": []
-                                    },
-                                    "replaced": []
-                                }
-                            ]
+                            "orderKey": 1,
+                            "children": []
                         },
                         "replaced": []
                     },
@@ -144,7 +98,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -240,7 +194,7 @@
                                                         "mappingOptions": {
                                                             "index": null,
                                                             "analyzer": null,
-                                                            "copy_to": null
+                                                            "copy_to": "live_search"
                                                         },
                                                         "restrictionOptions": {
                                                             "mandatory": true,
@@ -612,26 +566,19 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
-                            "name": "live_search",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "search_fields",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Live Search",
-                                    "class": "hidden",
-                                    "lastOfRow": false,
-                                    "helptext": null,
-                                    "valueTemplate": null,
-                                    "json": false,
-                                    "displayTemplate": null
+                                    "form": "search_fields"
                                 },
-                                "mappingOptions": {
-                                    "mappingOptions": "{\r\n        \"type\": \"search_as_you_type\",\r\n        \"analyzer\": \"standard\"\r\n}",
-                                    "copy_to": null
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "minimum_role": null
                                 },
-                                "restrictionOptions": [],
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
@@ -639,7 +586,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 2,
+                            "orderKey": 4,
                             "children": []
                         },
                         "replaced": []
@@ -684,11 +631,40 @@
         ],
         "defaultValue": null,
         "versionTags": [],
-        "versionOptions": [],
-        "versionFields": [],
-        "roles": [],
-        "fields": [],
-        "settings": null
+        "versionOptions": {
+            "dates_read_only": true,
+            "dates_interval_one_day": false
+        },
+        "versionFields": {
+            "date_from": null,
+            "date_to": null,
+            "version_tag": null
+        },
+        "roles": {
+            "view": "ROLE_AUTHOR",
+            "create": "ROLE_AUTHOR",
+            "edit": "ROLE_AUTHOR",
+            "publish": "ROLE_PUBLISHER",
+            "delete": "not-defined",
+            "trash": "ROLE_WEBMASTER",
+            "archive": "not-defined",
+            "show_link_create": "ROLE_AUTHOR",
+            "show_link_search": "not-defined"
+        },
+        "fields": {
+            "label": null,
+            "color": null,
+            "sort": null,
+            "tooltip": null,
+            "circles": null,
+            "business_id": null,
+            "category": null,
+            "asset": null
+        },
+        "settings": {
+            "tasks_enabled": false,
+            "hide_revision_sidebar": false
+        }
     },
     "replaced": []
 }

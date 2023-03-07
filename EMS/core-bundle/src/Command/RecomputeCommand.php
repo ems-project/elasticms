@@ -191,11 +191,6 @@ final class RecomputeCommand extends Command
                 $newRevision->setRawData($objectArray);
                 $this->dataService->finalizeDraft($newRevision, $revisionType, self::LOCK_BY);
 
-                $revision->close(new \DateTime('now'));
-                $this->dataService->sign($revision);
-                $this->em->persist($revision);
-                $this->em->flush();
-
                 if (!$input->getOption('no-align')) {
                     foreach ($revision->getEnvironments() as $environment) {
                         $this->logger->info('published to {env}', ['env' => $environment->getName()]);

@@ -66,7 +66,7 @@ class XliffService
             }
             $currentValue = $propertyAccessor->getValue($currentData, $propertyPath);
             $translation = $propertyAccessor->getValue($currentTranslationData, $propertyPath);
-            $isFinal = (null !== $targetEnvironment && $contentType->giveEnvironment()->getName() !== $targetEnvironment->getName() && $currentValue === $value && null !== $translation);
+            $isFinal = (null !== $targetEnvironment && $contentType->giveEnvironment()->getName() !== $targetEnvironment->getName() && $currentValue === $value && (null !== $translation || '' === $value));
 
             if (HtmlHelper::isHtml($value)) {
                 $extractor->addHtmlField($xliffDoc, $fieldPath, $value, $translation, $isFinal, $encodeHtml);

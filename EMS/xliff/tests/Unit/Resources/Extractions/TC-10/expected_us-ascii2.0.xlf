@@ -58,40 +58,6 @@
         <group id="/html/body/ul/li">
           <unit id="/html/body/ul/li/text()[1]">
             <segment id="/html/body/ul/li/text()[1]">
-              <source>erg laaggeschoolde jongere</source>
-              <target/>
-            </segment>
-          </unit>
-          <group id="/html/body/ul/li/ul">
-            <unit id="/html/body/ul/li/ul/li[1]">
-              <segment id="/html/body/ul/li/ul/li[1]">
-                <source>
-        &lt;strong&gt;G&lt;sub&gt;1&lt;/sub&gt;&lt;/strong&gt; voor het kwartaal van
-        indienstneming en de 15 daarop volgende kwartalen
-      </source>
-                <target/>
-              </segment>
-            </unit>
-            <unit id="/html/body/ul/li/ul/li[2]">
-              <segment id="/html/body/ul/li/ul/li[2]">
-                <source>
-        &lt;strong&gt;G&lt;sub&gt;2&lt;/sub&gt;&lt;/strong&gt; voor de daaropvolgende
-        kwartalen, en dit voor zolang hij in dienst is met een
-        startbaanovereenkomst (de vermindering eindigt dus in elk
-        geval in het kwartaal waarin de jongere 26 jaar wordt).
-      </source>
-                <target/>
-              </segment>
-            </unit>
-          </group>
-        </group>
-      </group>
-    </group>
-    <group id="[%locale%][body3]">
-      <group id="/html/body/ul">
-        <group id="/html/body/ul/li">
-          <unit id="/html/body/ul/li/text()[1]">
-            <segment id="/html/body/ul/li/text()[1]">
               <source>Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target/>
             </segment>

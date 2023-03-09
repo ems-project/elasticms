@@ -208,7 +208,7 @@ class Extractor
         $this->addTextSegment($unit, $this->escapeSpecialCharacters($source), null === $target ? null : $this->escapeSpecialCharacters($target), $isFinal);
     }
 
-    public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, ?string $targetHtml = null, bool $isFinal = false, bool $htmlEncodeInlines = false): void
+    public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, ?string $targetHtml = null, bool $isFinal = false): void
     {
         $sourceCrawler = new Crawler(HtmlHelper::prettyPrint($sourceHtml));
         $targetCrawler = new Crawler(HtmlHelper::prettyPrint($targetHtml));
@@ -217,15 +217,15 @@ class Extractor
         $document->appendChild($group);
         $group->setAttribute('id', $fieldPath);
         foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
-            $this->addNode($group, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
+            $this->addNode($group, $domNode, $targetCrawler, $isFinal);
             $added = true;
         }
         if (!$added) {
-            $this->addSegmentNode($group, null, null, true, $htmlEncodeInlines);
+            $this->addSegmentNode($group, null, null, true);
         }
     }
 
-    private function addNode(\DOMElement $xliffParent, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines = false): void
+    private function addNode(\DOMElement $xliffParent, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal): void
     {
         $currentSegment = null;
         foreach ($sourceNode->childNodes as $domNode) {
@@ -241,7 +241,7 @@ class Extractor
                 if (null === $currentSegment || !$appendable) {
                     $currentSegment = $this->initSegment($xliffParent, $domNode);
                 }
-                $this->appendSegment($currentSegment, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
+                $this->appendSegment($currentSegment, $domNode, $targetCrawler, $isFinal);
                 if (!$appendable) {
                     $currentSegment = null;
                 }
@@ -273,7 +273,7 @@ class Extractor
                     $group->setAttribute($attribute, $value);
                 }
                 $this->addId($group, $domNode);
-                $this->addNode($group, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
+                $this->addNode($group, $domNode, $targetCrawler, $isFinal);
             }
         }
     }
@@ -439,7 +439,7 @@ class Extractor
         return true;
     }
 
-    private function appendSegment(\DOMElement $segment, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines): void
+    private function appendSegment(\DOMElement $segment, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal): void
     {
         if (!$segment->hasAttribute('id')) {
             $this->addId($segment, $sourceNode);
@@ -448,27 +448,7 @@ class Extractor
         if (null === $source) {
             throw new \RuntimeException('Unexpected null source');
         }
-        if ($htmlEncodeInlines) {
-            if ($sourceNode->hasChildNodes()) {
-                if (!$sourceNode->childNodes instanceof \DOMNodeList) {
-                    throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $sourceNode->childNodes::class));
-                }
-                for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
-                    $childNode = $sourceNode->childNodes->item($i);
-                    if (null === $childNode || null === $childNode->ownerDocument) {
-                        throw new \RuntimeException('Unexpected null object');
-                    }
-                    $xml = $childNode->ownerDocument->saveXML($childNode);
-                    if (false === $xml) {
-                        throw new \RuntimeException('Unexpected false xml');
-                    }
-                    $textValue = \str_replace('&#13;', '', $xml);
-                    $source->appendChild(new \DOMText($textValue));
-                }
-            }
-        } else {
-            $this->fillInline($sourceNode, $source);
-        }
+        $this->fillInline($sourceNode, $source);
 
         $target = $segment->getElementsByTagName('target')->item(0);
         if (null === $target) {
@@ -494,27 +474,7 @@ class Extractor
             return;
         }
 
-        if ($htmlEncodeInlines) {
-            if (!$foundTargetNode->hasChildNodes()) {
-                return;
-            }
-            if (!$foundTargetNode->childNodes instanceof \DOMNodeList) {
-                throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $foundTargetNode->childNodes::class));
-            }
-            for ($i = 0; $i < $foundTargetNode->childNodes->length; ++$i) {
-                $childNode = $foundTargetNode->childNodes->item($i);
-                if (null === $childNode || null === $childNode->ownerDocument) {
-                    throw new \RuntimeException('Unexpected null object');
-                }
-                $xml = $childNode->ownerDocument->saveXML($childNode);
-                if (false === $xml) {
-                    throw new \RuntimeException('Unexpected false xml');
-                }
-                $target->appendChild(new \DOMText($xml));
-            }
-        } else {
-            $this->fillInline($foundTargetNode, $target);
-        }
+        $this->fillInline($foundTargetNode, $target);
     }
 
     private function addSegmentNode(\DOMElement $xliffElement, ?\DOMNode $sourceNode, ?Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines = false): void

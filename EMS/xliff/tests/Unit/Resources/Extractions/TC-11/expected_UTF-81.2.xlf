@@ -56,15 +56,7 @@
         <group restype="x-html-ul" id="/html/body/ul[2]">
           <group restype="listitem" id="/html/body/ul[2]/li[1]">
             <trans-unit id="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het </source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit restype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance" id="/html/body/ul[2]/li[1]/a">
-              <source xml:lang="en">koninklijk besluit van 10 juni 2014</source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[1]/text()[2]">
-              <source xml:lang="en">, meer bepaald </source>
+              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <g ctype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance">koninklijk besluit van 10 juni 2014</g>, meer bepaald </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[1]/ul">
@@ -197,15 +189,7 @@
         <group restype="x-html-ul" id="/html/body/ul[2]">
           <group restype="listitem" id="/html/body/ul[2]/li[1]">
             <trans-unit id="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het </source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit restype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance" id="/html/body/ul[2]/li[1]/a">
               <source xml:lang="en">koninklijk besluit van 10 juni 2014</source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[1]/text()[2]">
-              <source xml:lang="en">, meer bepaald </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[1]/ul">
@@ -224,8 +208,8 @@
           </group>
           <group restype="listitem" id="/html/body/ul[2]/li[2]">
             <trans-unit id="/html/body/ul[2]/li[2]/text()[1]">
-              <source xml:lang="en">de prestaties van dringende medische hulpverlening, verricht door de vrijwillige ambulanciers, de vrijwillige brandweerlieden of de vrijwilligers van de Civiele Bescherming; </source>
-              <target xml:lang="fr" state="new"/>
+              <source xml:lang="en"/>
+              <target xml:lang="fr" state="needs-translation"/>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[2]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[2]/ul/li">
@@ -368,15 +352,7 @@
         <group restype="x-html-ul" id="/html/body/ul[2]">
           <group restype="listitem" id="/html/body/ul[2]/li[1]">
             <trans-unit id="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het </source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit restype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance" id="/html/body/ul[2]/li[1]/a">
-              <source xml:lang="en">koninklijk besluit van 10 juni 2014</source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[1]/text()[2]">
-              <source xml:lang="en">, meer bepaald </source>
+              <source xml:lang="en">de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <g ctype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance">koninklijk besluit van 10 juni 2014</g>, meer bepaald </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[2]/li[1]/ul">

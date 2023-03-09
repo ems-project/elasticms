@@ -26,15 +26,7 @@
         <group restype="x-html-ul" id="/html/body/ul">
           <group restype="listitem" id="/html/body/ul/li">
             <trans-unit id="/html/body/ul/li/text()[1]">
-              <source xml:lang="en">Voor elke </source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul/li/strong">
-              <source xml:lang="en">erg laaggeschoolde jongere</source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit id="/html/body/ul/li/text()[2]">
-              <source xml:lang="en"> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source xml:lang="en">Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul/li/ul">
@@ -54,15 +46,7 @@
         <group restype="x-html-ul" id="/html/body/ul">
           <group restype="listitem" id="/html/body/ul/li">
             <trans-unit id="/html/body/ul/li/text()[1]">
-              <source xml:lang="en">Voor elke </source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul/li/strong">
               <source xml:lang="en">erg laaggeschoolde jongere</source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit id="/html/body/ul/li/text()[2]">
-              <source xml:lang="en"> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul/li/ul">
@@ -90,15 +74,7 @@
         <group restype="x-html-ul" id="/html/body/ul">
           <group restype="listitem" id="/html/body/ul/li">
             <trans-unit id="/html/body/ul/li/text()[1]">
-              <source xml:lang="en">Voor elke </source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul/li/strong">
-              <source xml:lang="en">erg laaggeschoolde jongere</source>
-              <target xml:lang="fr" state="new"/>
-            </trans-unit>
-            <trans-unit id="/html/body/ul/li/text()[2]">
-              <source xml:lang="en"> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source xml:lang="en">Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target xml:lang="fr" state="new"/>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul/li/ul">

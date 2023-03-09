@@ -76,19 +76,7 @@
         <group id="/html/body/ul[2]/li[1]">
           <unit id="/html/body/ul[2]/li[1]/text()[1]">
             <segment id="/html/body/ul[2]/li[1]/text()[1]">
-              <source>de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het </source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul[2]/li[1]/a">
-            <segment id="/html/body/ul[2]/li[1]/a">
-              <source>koninklijk besluit van 10 juni 2014</source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul[2]/li[1]/text()[2]">
-            <segment id="/html/body/ul[2]/li[1]/text()[2]">
-              <source>, meer bepaald </source>
+              <source>de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <g ctype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance">koninklijk besluit van 10 juni 2014</g>, meer bepaald </source>
               <target/>
             </segment>
           </unit>
@@ -267,19 +255,7 @@
         <group id="/html/body/ul[2]/li[1]">
           <unit id="/html/body/ul[2]/li[1]/text()[1]">
             <segment id="/html/body/ul[2]/li[1]/text()[1]">
-              <source>de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het </source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul[2]/li[1]/a">
-            <segment id="/html/body/ul[2]/li[1]/a">
               <source>koninklijk besluit van 10 juni 2014</source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul[2]/li[1]/text()[2]">
-            <segment id="/html/body/ul[2]/li[1]/text()[2]">
-              <source>, meer bepaald </source>
               <target/>
             </segment>
           </unit>
@@ -304,7 +280,7 @@
         <group id="/html/body/ul[2]/li[2]">
           <unit id="/html/body/ul[2]/li[2]/text()[1]">
             <segment id="/html/body/ul[2]/li[2]/text()[1]">
-              <source>de prestaties van dringende medische hulpverlening, verricht door de vrijwillige ambulanciers, de vrijwillige brandweerlieden of de vrijwilligers van de Civiele Bescherming; </source>
+              <source/>
               <target/>
             </segment>
           </unit>
@@ -488,19 +464,7 @@
         <group id="/html/body/ul[2]/li[1]">
           <unit id="/html/body/ul[2]/li[1]/text()[1]">
             <segment id="/html/body/ul[2]/li[1]/text()[1]">
-              <source>de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het </source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul[2]/li[1]/a">
-            <segment id="/html/body/ul[2]/li[1]/a">
-              <source>koninklijk besluit van 10 juni 2014</source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul[2]/li[1]/text()[2]">
-            <segment id="/html/body/ul[2]/li[1]/text()[2]">
-              <source>, meer bepaald </source>
+              <source>de opdrachten en taken van civiele veiligheid, uitgevoerd door de vrijwillige brandweerlieden en de vrijwilligers van de Civiele Bescherming en vermeld in de bijlage van het <g ctype="x-html-a" html:href="http://www.ejustice.just.fgov.be/cgi_loi/loi_a1.pl?language=nl&amp;la=N&amp;cn=2014061012&amp;table_name=wet&amp;&amp;caller=list&amp;N&amp;fromtab=wet&amp;tri=dd+AS+RANK&amp;rech=1&amp;numero=1&amp;sql=(text+contains+(%27%27))#LNK0007" html:title="ambulance">koninklijk besluit van 10 juni 2014</g>, meer bepaald </source>
               <target/>
             </segment>
           </unit>

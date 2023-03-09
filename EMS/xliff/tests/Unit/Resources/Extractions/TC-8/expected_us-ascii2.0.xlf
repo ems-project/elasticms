@@ -38,20 +38,8 @@
         <group id="/html/body/ol/li[1]">
           <unit id="/html/body/ol/li[1]/text()[1]">
             <segment id="/html/body/ol/li[1]/text()[1]">
-              <source>maximaal </source>
-              <target>h&#246;chstens </target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[1]/strong">
-            <segment id="/html/body/ol/li[1]/strong">
-              <source>twee maal</source>
-              <target>zwei Mal</target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[1]/text()[2]">
-            <segment id="/html/body/ol/li[1]/text()[2]">
-              <source> tijdens de loopbaan van de werknemer bij een werkgever: </source>
-              <target> w&#228;hrend der Laufbahn des Arbeitnehmers bei dem Arbeitgeber: </target>
+              <source>maximaal <g ctype="x-html-strong">twee maal</g> tijdens de loopbaan van de werknemer bij een werkgever: </source>
+              <target>h&#246;chstens <g ctype="x-html-strong">zwei Mal</g> w&#228;hrend der Laufbahn des Arbeitnehmers bei dem Arbeitgeber: </target>
             </segment>
           </unit>
           <group id="/html/body/ol/li[1]/ul">
@@ -72,20 +60,8 @@
         <group id="/html/body/ol/li[2]">
           <unit id="/html/body/ol/li[2]/text()[1]">
             <segment id="/html/body/ol/li[2]/text()[1]">
-              <source>voor zover het </source>
-              <target>wenn der </target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[2]/strong">
-            <segment id="/html/body/ol/li[2]/strong">
-              <source>maximale bedrag</source>
-              <target>H&#246;chstbetrag</target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[2]/text()[2]">
-            <segment id="/html/body/ol/li[2]/text()[2]">
-              <source> niet hoger is dan: </source>
-              <target> nicht h&#246;her ist als: </target>
+              <source>voor zover het <g ctype="x-html-strong">maximale bedrag</g> niet hoger is dan: </source>
+              <target>wenn der <g ctype="x-html-strong">H&#246;chstbetrag</g> nicht h&#246;her ist als: </target>
             </segment>
           </unit>
           <group id="/html/body/ol/li[2]/ul">
@@ -148,20 +124,8 @@
         <group id="/html/body/ol/li[1]">
           <unit id="/html/body/ol/li[1]/text()[1]">
             <segment id="/html/body/ol/li[1]/text()[1]">
-              <source>maximaal </source>
-              <target>h&#246;chstens </target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[1]/strong">
-            <segment id="/html/body/ol/li[1]/strong">
               <source>twee maal</source>
               <target>zwei Mal</target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[1]/text()[2]">
-            <segment id="/html/body/ol/li[1]/text()[2]">
-              <source> tijdens de loopbaan van de werknemer bij een werkgever: </source>
-              <target> w&#228;hrend der Laufbahn des Arbeitnehmers bei dem Arbeitgeber: </target>
             </segment>
           </unit>
           <group id="/html/body/ol/li[1]/ul">
@@ -191,20 +155,8 @@
         <group id="/html/body/ol/li[2]">
           <unit id="/html/body/ol/li[2]/text()[1]">
             <segment id="/html/body/ol/li[2]/text()[1]">
-              <source>voor zover het </source>
-              <target>wenn der </target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[2]/strong">
-            <segment id="/html/body/ol/li[2]/strong">
               <source>maximale bedrag</source>
               <target>H&#246;chstbetrag</target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[2]/text()[2]">
-            <segment id="/html/body/ol/li[2]/text()[2]">
-              <source> niet hoger is dan: </source>
-              <target> nicht h&#246;her ist als: </target>
             </segment>
           </unit>
           <group id="/html/body/ol/li[2]/ul">
@@ -312,20 +264,8 @@
         <group id="/html/body/ol/li[1]">
           <unit id="/html/body/ol/li[1]/text()[1]">
             <segment id="/html/body/ol/li[1]/text()[1]">
-              <source>maximaal </source>
-              <target>h&#246;chstens </target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[1]/strong">
-            <segment id="/html/body/ol/li[1]/strong">
-              <source>twee maal</source>
-              <target>zwei Mal</target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[1]/text()[2]">
-            <segment id="/html/body/ol/li[1]/text()[2]">
-              <source> tijdens de loopbaan van de werknemer bij een werkgever: </source>
-              <target> w&#228;hrend der Laufbahn des Arbeitnehmers bei dem Arbeitgeber: </target>
+              <source>maximaal <g ctype="x-html-strong">twee maal</g> tijdens de loopbaan van de werknemer bij een werkgever: </source>
+              <target>h&#246;chstens <g ctype="x-html-strong">zwei Mal</g> w&#228;hrend der Laufbahn des Arbeitnehmers bei dem Arbeitgeber: </target>
             </segment>
           </unit>
           <group id="/html/body/ol/li[1]/ul">
@@ -346,20 +286,8 @@
         <group id="/html/body/ol/li[2]">
           <unit id="/html/body/ol/li[2]/text()[1]">
             <segment id="/html/body/ol/li[2]/text()[1]">
-              <source>voor zover het </source>
-              <target>wenn der </target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[2]/strong">
-            <segment id="/html/body/ol/li[2]/strong">
-              <source>maximale bedrag</source>
-              <target>H&#246;chstbetrag</target>
-            </segment>
-          </unit>
-          <unit id="/html/body/ol/li[2]/text()[2]">
-            <segment id="/html/body/ol/li[2]/text()[2]">
-              <source> niet hoger is dan: </source>
-              <target> nicht h&#246;her ist als: </target>
+              <source>voor zover het <g ctype="x-html-strong">maximale bedrag</g> niet hoger is dan: </source>
+              <target>wenn der <g ctype="x-html-strong">H&#246;chstbetrag</g> nicht h&#246;her ist als: </target>
             </segment>
           </unit>
           <group id="/html/body/ol/li[2]/ul">

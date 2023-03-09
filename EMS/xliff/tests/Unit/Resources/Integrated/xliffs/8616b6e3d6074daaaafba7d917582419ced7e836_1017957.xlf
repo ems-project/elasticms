@@ -78,24 +78,8 @@
         <group restype="x-html-ul" id="/html/body/ul[2]">
           <group restype="listitem" id="/html/body/ul[2]/li[1]">
             <trans-unit id="/html/body/ul[2]/li[1]/text()[1]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[1]/strong[1]">
-              <source xml:lang="nl">zich ertoe verbinden</source>
-              <target xml:lang="de" state="final">sich dazu verpflichten</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[1]/text()[2]">
-              <source xml:lang="nl"> om alle in dienst zijnde werknemers ononderbroken tussen 1 april 2021 en 30 september 2021 in dienst te houden, behalve als de werknemer zelf ontslag neemt (dus </source>
-              <target xml:lang="de" state="final">, alle angestellten Arbeitnehmer zwischen dem 1. April 2021 und dem 30. September 2021 ununterbrochen weiter zu beschäftigen, es sei denn, der Arbeitnehmer kündigt (demnach </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[1]/strong[2]">
-              <source xml:lang="nl">niet</source>
-              <target xml:lang="de" state="final">nicht</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[1]/text()[3]">
-              <source xml:lang="nl"> als met wederzijds akkoord) of wegens dringende redenen wordt ontslagen. Deze voorwaarde geldt om van de vermindering te kunnen genieten voor alle kwartalen. </source>
-              <target xml:lang="de" state="final"> in gegenseitigem Einvernehmen) oder wird aus schwerwiegendem Grund entlassen. Diese Bedingung gilt, um die Ermäßigung für alle Quartale in Anspruch nehmen zu können. </target>
+              <source xml:lang="nl"> <g ctype="x-html-strong">zich ertoe verbinden</g> om alle in dienst zijnde werknemers ononderbroken tussen 1 april 2021 en 30 september 2021 in dienst te houden, behalve als de werknemer zelf ontslag neemt (dus <g ctype="x-html-strong">niet</g> als met wederzijds akkoord) of wegens dringende redenen wordt ontslagen. Deze voorwaarde geldt om van de vermindering te kunnen genieten voor alle kwartalen. </source>
+              <target xml:lang="de" state="final"> <g ctype="x-html-strong">sich dazu verpflichten</g>, alle angestellten Arbeitnehmer zwischen dem 1. April 2021 und dem 30. September 2021 ununterbrochen weiter zu beschäftigen, es sei denn, der Arbeitnehmer kündigt (demnach <g ctype="x-html-strong">nicht</g> in gegenseitigem Einvernehmen) oder wird aus schwerwiegendem Grund entlassen. Diese Bedingung gilt, um die Ermäßigung für alle Quartale in Anspruch nehmen zu können. </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[2]/li[1]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]/ul/li[1]">
@@ -160,24 +144,8 @@
         <group restype="x-html-ul" id="/html/body/ul[3]">
           <group restype="listitem" id="/html/body/ul[3]/li[1]">
             <trans-unit id="/html/body/ul[3]/li[1]/text()[1]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[3]/li[1]/strong[1]">
-              <source xml:lang="nl">Stap 1:</source>
-              <target xml:lang="de" state="final">Schritt 1:</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[3]/li[1]/text()[2]">
-              <source xml:lang="nl"> Berekening van het bedrag van de bijdragevermindering betreffende het </source>
-              <target xml:lang="de" state="final"> Berechnung der Höhe der Beitragsermäßigung betreffend das </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[3]/li[1]/strong[2]">
-              <source xml:lang="nl">2<g ctype="x-html-sup">de</g> en 4<g ctype="x-html-sup">de</g> kwartaal 2020</source>
-              <target xml:lang="de" state="final">2.<g ctype="x-html-sup"/> und 4.<g ctype="x-html-sup"/> Quartal 2020</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[3]/li[1]/text()[3]">
-              <source xml:lang="nl"> op basis van de DmfA van deze kwartalen. </source>
-              <target xml:lang="de" state="final"> auf Basis der DmfA dieser Quartale. </target>
+              <source xml:lang="nl"> <g ctype="x-html-strong">Stap 1:</g> Berekening van het bedrag van de bijdragevermindering betreffende het <g ctype="x-html-strong">2<g ctype="x-html-sup">de</g> en 4<g ctype="x-html-sup">de</g> kwartaal 2020</g> op basis van de DmfA van deze kwartalen. </source>
+              <target xml:lang="de" state="final"> <g ctype="x-html-strong">Schritt 1:</g> Berechnung der Höhe der Beitragsermäßigung betreffend das <g ctype="x-html-strong">2.<g ctype="x-html-sup"/> und 4.<g ctype="x-html-sup"/> Quartal 2020</g> auf Basis der DmfA dieser Quartale. </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[3]/li[1]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[3]/li[1]/ul/li[1]">
@@ -192,24 +160,8 @@
           </group>
           <group restype="listitem" id="/html/body/ul[3]/li[2]">
             <trans-unit id="/html/body/ul[3]/li[2]/text()[1]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[3]/li[2]/strong[1]">
-              <source xml:lang="nl">Stap 2:</source>
-              <target xml:lang="de" state="final">Schritt 2:</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[3]/li[2]/text()[2]">
-              <source xml:lang="nl"> Berekening van het bedrag van de bijdragevermindering over het </source>
-              <target xml:lang="de" state="final"> Berechnung des Betrags der Beitragsermäßigung für das </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[3]/li[2]/strong[2]">
-              <source xml:lang="nl">1<g ctype="x-html-sup">ste</g> kwartaal 2021</source>
-              <target xml:lang="de" state="final">1.<g ctype="x-html-sup"/> Quartal 2021</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[3]/li[2]/text()[3]">
-              <source xml:lang="nl"> op basis van de DmfA van dat kwartaal. </source>
-              <target xml:lang="de" state="final"> auf der Grundlage der DmfA für dieses Quartal. </target>
+              <source xml:lang="nl"> <g ctype="x-html-strong">Stap 2:</g> Berekening van het bedrag van de bijdragevermindering over het <g ctype="x-html-strong">1<g ctype="x-html-sup">ste</g> kwartaal 2021</g> op basis van de DmfA van dat kwartaal. </source>
+              <target xml:lang="de" state="final"> <g ctype="x-html-strong">Schritt 2:</g> Berechnung des Betrags der Beitragsermäßigung für das <g ctype="x-html-strong">1.<g ctype="x-html-sup"/> Quartal 2021</g> auf der Grundlage der DmfA für dieses Quartal. </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[3]/li[2]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul/li[1]">
@@ -306,16 +258,8 @@
           </trans-unit>
           <group restype="listitem" id="/html/body/ul[5]/li[2]">
             <trans-unit id="/html/body/ul[5]/li[2]/text()[1]">
-              <source xml:lang="nl">Als de werkgever voldoet aan de voorwaarde inzake de NACE-code maar hij niet opgenomen is in de officiële lijst inzake verzekerbaarheid van de FOD Economie, zal hij verzocht worden om zijn bewijs van verzekerbaarheid  in de toepassing te downloaden. De werkgever krijgt een ontvangstbewijs met een samenvatting van zijn aanvraag.</source>
-              <target xml:lang="de" state="final">Wenn der Arbeitgeber die Bedingung bezüglich des NACE-Codes erfüllt, aber nicht in der offiziellen Liste bezüglich der Versicherbarkeit des FÖD Wirtschaft aufgeführt ist, wird er aufgefordert, dem Antrag seinen Versicherungsnachweis beizufügen. Der Arbeitgeber erhält eine Empfangsbestätigung mit einer Zusammenfassung seines Antrags.</target>
-            </trans-unit>
-            <trans-unit restype="lb" id="/html/body/ul[5]/li[2]/br">
-              <source xml:lang="nl"/>
-              <target xml:lang="de" state="final"/>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[5]/li[2]/text()[2]">
-              <source xml:lang="nl"> De RSZ zal nadien het bewijs van verzekerbaarheid in een Europees land, dat de werkgever gedownload heeft, nakijken. </source>
-              <target xml:lang="de" state="final"> Das LSS prüft anschließend den Nachweis der Versicherungsfähigkeit in einem europäischen Land, den der Arbeitgeber beigefügt hat. </target>
+              <source xml:lang="nl">Als de werkgever voldoet aan de voorwaarde inzake de NACE-code maar hij niet opgenomen is in de officiële lijst inzake verzekerbaarheid van de FOD Economie, zal hij verzocht worden om zijn bewijs van verzekerbaarheid  in de toepassing te downloaden. De werkgever krijgt een ontvangstbewijs met een samenvatting van zijn aanvraag.<g ctype="lb"/> De RSZ zal nadien het bewijs van verzekerbaarheid in een Europees land, dat de werkgever gedownload heeft, nakijken. </source>
+              <target xml:lang="de" state="final">Wenn der Arbeitgeber die Bedingung bezüglich des NACE-Codes erfüllt, aber nicht in der offiziellen Liste bezüglich der Versicherbarkeit des FÖD Wirtschaft aufgeführt ist, wird er aufgefordert, dem Antrag seinen Versicherungsnachweis beizufügen. Der Arbeitgeber erhält eine Empfangsbestätigung mit einer Zusammenfassung seines Antrags. Das LSS prüft anschließend den Nachweis der Versicherungsfähigkeit in einem europäischen Land, den der Arbeitgeber beigefügt hat.  </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[5]/li[2]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[5]/li[2]/ul/li[1]">

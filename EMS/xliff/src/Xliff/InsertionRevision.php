@@ -234,7 +234,6 @@ class InsertionRevision
             $skip = [0, $group->childNodes->length - 1];
         }
 
-        $counter = 0;
         foreach ($group->childNodes as $child) {
             if ($child instanceof \DOMElement && 'group' === $child->nodeName) {
                 $tag = $this->restypeToTag(DomHelper::getStringAttr($child, 'restype'));
@@ -249,8 +248,7 @@ class InsertionRevision
                         continue;
                     }
                     if (null === $restype) {
-                        $tagDom = new \DOMText($grandChild->textContent);
-                        $parent->appendChild($tagDom);
+                        $this->rebuildInline($parent, $grandChild);
                         break;
                     }
                     $tag = $this->restypeToTag($restype);
@@ -258,10 +256,8 @@ class InsertionRevision
                     $parent->appendChild($tagDom);
                     $this->rebuildInline($tagDom, $grandChild);
                     $this->copyHtmlAttribute($child, $tagDom);
-                    break;
                 }
             }
-            ++$counter;
         }
     }
 

@@ -84,11 +84,11 @@ class Extractor
         'var',
         'wbr',
     ];
-    private const MAY_NOT_BE_TRANSLATED_TAGS = [
-        'sub',
-        'sup',
-        '#text',
-    ];
+//    private const MAY_NOT_BE_TRANSLATED_TAGS = [
+//        'sub',
+//        'sup',
+//        '#text',
+//    ];
     final public const XLIFF_1_2 = '1.2';
     final public const XLIFF_2_0 = '2.0';
     final public const XLIFF_VERSIONS = [self::XLIFF_1_2, self::XLIFF_2_0];
@@ -97,9 +97,6 @@ class Extractor
     private readonly string $xliffVersion;
     private readonly \DOMElement $xliff;
     private readonly \DOMDocument $dom;
-    private ?\DOMElement $previousSourceSegment;
-    private ?\DOMElement $previousTargetSegment;
-    private int $translatedSegmentCounter;
 
     public function __construct(private readonly string $sourceLocale, private readonly ?string $targetLocale = null, string $xliffVersion = self::XLIFF_1_2)
     {
@@ -216,63 +213,130 @@ class Extractor
         $sourceCrawler = new Crawler(HtmlHelper::prettyPrint($sourceHtml));
         $targetCrawler = new Crawler(HtmlHelper::prettyPrint($targetHtml));
         $added = false;
+        $group = new \DOMElement('group');
+        $document->appendChild($group);
+        $group->setAttribute('id', $fieldPath);
         foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
-            $this->resetPreviousSegment();
-            $this->addGroupNode($document, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines, $fieldPath);
+            $this->addNode($group, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
             $added = true;
         }
         if (!$added) {
-            $group = new \DOMElement('group');
-            $document->appendChild($group);
-            $group->setAttribute('id', $fieldPath);
             $this->addSegmentNode($group, null, null, true, $htmlEncodeInlines);
         }
     }
 
-    private function addGroupNode(\DOMElement $xliffElement, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines = false, ?string $id = null): void
+    private function addNode(\DOMElement $xliffParent, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines = false): void
     {
-        if ($this->isSegmentNode($sourceNode)) {
-            $this->addSegmentNode($xliffElement, $sourceNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
-
-            return;
-        }
-        $this->resetPreviousSegment();
-
-        if (\version_compare($this->xliffVersion, '2.0') < 0) {
-            $groupAttributes = [];
-            if (null === $id) {
-                $groupAttributes['restype'] = static::getRestype($sourceNode->nodeName);
+        $currentSegment = null;
+        foreach ($sourceNode->childNodes as $domNode) {
+            if (!$domNode instanceof \DOMNode) {
+                continue;
             }
-            if (null !== $sourceNode->attributes) {
-                foreach ($sourceNode->attributes as $value) {
-                    if (!$value instanceof \DOMAttr) {
-                        throw new \RuntimeException('Unexpected attribute object');
-                    }
-                    if (\in_array($value->nodeName, self::TRANSLATABLE_ATTRIBUTES, true)) {
-                        continue;
-                    }
-                    $groupAttributes['html:'.$value->nodeName] = $value->nodeValue;
+            if ($domNode instanceof \DOMText && $this->isEmpty($domNode)) {
+                continue;
+            }
+
+            if ($this->isSegmentNode($domNode)) {
+                $appendable = $this->isAppendableSegment($domNode);
+                if (null === $currentSegment || !$appendable) {
+                    $currentSegment = $this->initSegment($xliffParent, $domNode);
                 }
+                $this->appendSegment($currentSegment, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
+                if (!$appendable) {
+                    $currentSegment = null;
+                }
+            } else {
+                $currentSegment = null;
+                if (\version_compare($this->xliffVersion, '2.0') < 0) {
+                    $groupAttributes = [];
+                    $groupAttributes['restype'] = static::getRestype($domNode->nodeName);
+                    if (null !== $domNode->attributes) {
+                        foreach ($domNode->attributes as $value) {
+                            if (!$value instanceof \DOMAttr) {
+                                throw new \RuntimeException('Unexpected attribute object');
+                            }
+                            if (\in_array($value->nodeName, self::TRANSLATABLE_ATTRIBUTES, true)) {
+                                continue;
+                            }
+                            $groupAttributes['html:'.$value->nodeName] = $value->nodeValue;
+                        }
+                    }
+                } else {
+                    $groupAttributes = [];
+                }
+                $group = new \DOMElement('group');
+                $xliffParent->appendChild($group);
+                foreach ($groupAttributes as $attribute => $value) {
+                    if (null === $value) {
+                        throw new \RuntimeException('Unexpected null value');
+                    }
+                    $group->setAttribute($attribute, $value);
+                }
+                $this->addId($group, $domNode);
+                $this->addNode($group, $domNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
+            }
+        }
+    }
+
+    private function initSegment(\DOMElement $xliffElement, \DOMNode $sourceNode): \DOMElement
+    {
+        if (\version_compare($this->xliffVersion, '2.0') < 0) {
+            $qualifiedName = null;
+        } else {
+            $qualifiedName = 'unit';
+        }
+        if (null !== $qualifiedName) {
+            $tempElement = new \DOMElement($qualifiedName);
+            $xliffElement->appendChild($tempElement);
+            $this->addId($tempElement, $sourceNode);
+            $xliffElement = $tempElement;
+        }
+
+        $attributes = [];
+        if (\version_compare($this->xliffVersion, '2.0') < 0) {
+            $qualifiedName = 'trans-unit';
+            $sourceAttributes = [
+                'xml:lang' => $this->sourceLocale,
+            ];
+            if (null !== $sourceNode && $sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
+                $attributes = [
+                    'restype' => static::getRestype($sourceNode->nodeName),
+                ];
             }
         } else {
-            $groupAttributes = [];
+            $qualifiedName = 'segment';
+            $sourceAttributes = [];
         }
-        $group = new \DOMElement('group');
-        $xliffElement->appendChild($group);
-        foreach ($groupAttributes as $attribute => $value) {
+
+        if (null !== $sourceNode->attributes && \version_compare($this->xliffVersion, '2.0') < 0) {
+            foreach ($sourceNode->attributes as $value) {
+                if (!$value instanceof \DOMAttr) {
+                    throw new \RuntimeException('Unexpected attribute object');
+                }
+                $attributes['html:'.$value->nodeName] = $value->nodeValue;
+            }
+        }
+
+        $segment = new \DOMElement($qualifiedName);
+        $xliffElement->appendChild($segment);
+        foreach ($attributes as $attribute => $value) {
             if (null === $value) {
                 throw new \RuntimeException('Unexpected null value');
             }
-            $group->setAttribute($attribute, $value);
+            $segment->setAttribute($attribute, $value);
         }
-        if (null === $id) {
-            $this->addId($group, $sourceNode);
-        } else {
-            $group->setAttribute('id', $id);
+
+        $this->addId($segment, $sourceNode);
+        $source = new \DOMElement('source');
+        $segment->appendChild($source);
+        foreach ($sourceAttributes as $attribute => $value) {
+            $source->setAttribute($attribute, $value);
         }
-        foreach ($sourceNode->childNodes as $childNode) {
-            $this->addGroupNode($group, $childNode, $targetCrawler, $isFinal, $htmlEncodeInlines);
-        }
+
+        $target = new \DOMElement('target');
+        $segment->appendChild($target);
+
+        return $segment;
     }
 
     private function addId(\DOMElement $xliffElement, \DOMNode $domNode, string $attributeName = null): void
@@ -375,6 +439,84 @@ class Extractor
         return true;
     }
 
+    private function appendSegment(\DOMElement $segment, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines): void
+    {
+        if (!$segment->hasAttribute('id')) {
+            $this->addId($segment, $sourceNode);
+        }
+        $source = $segment->getElementsByTagName('source')->item(0);
+        if (null === $source) {
+            throw new \RuntimeException('Unexpected null source');
+        }
+        if ($htmlEncodeInlines) {
+            if ($sourceNode->hasChildNodes()) {
+                if (!$sourceNode->childNodes instanceof \DOMNodeList) {
+                    throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $sourceNode->childNodes::class));
+                }
+                for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
+                    $childNode = $sourceNode->childNodes->item($i);
+                    if (null === $childNode || null === $childNode->ownerDocument) {
+                        throw new \RuntimeException('Unexpected null object');
+                    }
+                    $xml = $childNode->ownerDocument->saveXML($childNode);
+                    if (false === $xml) {
+                        throw new \RuntimeException('Unexpected false xml');
+                    }
+                    $textValue = \str_replace('&#13;', '', $xml);
+                    $source->appendChild(new \DOMText($textValue));
+                }
+            }
+        } else {
+            $this->fillInline($sourceNode, $source);
+        }
+
+        $target = $segment->getElementsByTagName('target')->item(0);
+        if (null === $target) {
+            throw new \RuntimeException('Unexpected null $target');
+        }
+
+        $nodeXPath = $this->getXPath($sourceNode);
+        if (null === $nodeXPath) {
+            return;
+        }
+
+        $foundTarget = $targetCrawler->filterXPath($nodeXPath);
+        $foundTargetNode = $foundTarget->getNode(0);
+
+        $isTranslated = 1 === $foundTarget->count();
+        if (!$isTranslated && '' === $source->textContent) {
+            $isTranslated = true;
+        }
+
+        $this->setTargetAttributes($target, $isFinal, $isTranslated);
+
+        if (!$isTranslated || null === $foundTargetNode) {
+            return;
+        }
+
+        if ($htmlEncodeInlines) {
+            if (!$foundTargetNode->hasChildNodes()) {
+                return;
+            }
+            if (!$foundTargetNode->childNodes instanceof \DOMNodeList) {
+                throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $foundTargetNode->childNodes::class));
+            }
+            for ($i = 0; $i < $foundTargetNode->childNodes->length; ++$i) {
+                $childNode = $foundTargetNode->childNodes->item($i);
+                if (null === $childNode || null === $childNode->ownerDocument) {
+                    throw new \RuntimeException('Unexpected null object');
+                }
+                $xml = $childNode->ownerDocument->saveXML($childNode);
+                if (false === $xml) {
+                    throw new \RuntimeException('Unexpected false xml');
+                }
+                $target->appendChild(new \DOMText($xml));
+            }
+        } else {
+            $this->fillInline($foundTargetNode, $target);
+        }
+    }
+
     private function addSegmentNode(\DOMElement $xliffElement, ?\DOMNode $sourceNode, ?Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines = false): void
     {
         if (null !== $sourceNode && !$sourceNode instanceof \DOMElement && $this->isEmpty($sourceNode)) {
@@ -403,7 +545,7 @@ class Extractor
             $sourceAttributes = [
                 'xml:lang' => $this->sourceLocale,
             ];
-            if (null !== $sourceNode && $sourceNode instanceof \DOMElement) {
+            if (null !== $sourceNode && $sourceNode instanceof \DOMElement && !\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
                 $attributes = [
                     'restype' => static::getRestype($sourceNode->nodeName),
                 ];
@@ -422,33 +564,31 @@ class Extractor
             }
         }
 
-        if (null === $this->previousSourceSegment) {
-            $segment = new \DOMElement($qualifiedName);
-            $xliffElement->appendChild($segment);
-            foreach ($attributes as $attribute => $value) {
-                if (null === $value) {
-                    throw new \RuntimeException('Unexpected null value');
-                }
-                $segment->setAttribute($attribute, $value);
+        $segment = new \DOMElement($qualifiedName);
+        $xliffElement->appendChild($segment);
+        foreach ($attributes as $attribute => $value) {
+            if (null === $value) {
+                throw new \RuntimeException('Unexpected null value');
             }
-
-            if (null !== $sourceNode) {
-                $this->addId($segment, $sourceNode);
-            }
-
-            if ($sourceNode instanceof \DOMText) {
-                $source = new \DOMElement('source', $this->trimUselessWhiteSpaces($sourceNode->textContent));
-            } else {
-                $source = new \DOMElement('source');
-            }
-            $segment->appendChild($source);
-
-            $target = new \DOMElement('target');
-            $segment->appendChild($target);
-        } else {
-            $source = $this->previousSourceSegment;
-            $target = $this->previousTargetSegment;
+            $segment->setAttribute($attribute, $value);
         }
+
+        if (null !== $sourceNode) {
+            $this->addId($segment, $sourceNode);
+        }
+
+        if ($sourceNode instanceof \DOMText) {
+            $source = new \DOMElement('source', $this->trimUselessWhiteSpaces($sourceNode->textContent));
+        } else {
+            $source = new \DOMElement('source');
+        }
+        $segment->appendChild($source);
+        $target = new \DOMElement('target');
+        $segment = $source->parentNode;
+        if (null === $segment) {
+            throw new \RuntimeException('Unexpected null segment');
+        }
+        $segment->appendChild($target);
 
         foreach ($sourceAttributes as $attribute => $value) {
             $source->setAttribute($attribute, $value);
@@ -478,13 +618,7 @@ class Extractor
                 }
             }
         } else {
-            if (null === $this->previousSourceSegment) {
-                $this->fillInline($sourceNode, $source);
-                $this->previousSourceSegment = $source;
-            } else {
-                ++$this->translatedSegmentCounter;
-                $this->convertElement($sourceNode, $source);
-            }
+            $this->fillInline($sourceNode, $source);
         }
         $nodeXPath = $this->getXPath($sourceNode);
         if (null === $nodeXPath) {
@@ -498,11 +632,11 @@ class Extractor
         if (!$isTranslated && '' === $source->textContent) {
             $isTranslated = true;
         }
-        if ($isTranslated) {
-            ++$this->translatedSegmentCounter;
-        } elseif ($this->translatedSegmentCounter > 0 && (\in_array($sourceNode->nodeName, self::MAY_NOT_BE_TRANSLATED_TAGS) || '' === \trim($sourceNode->textContent))) {
-            $isTranslated = true;
-        }
+//        if ($isTranslated) {
+//            ++$this->translatedSegmentCounter;
+//        } elseif ($this->translatedSegmentCounter > 0 && (\in_array($sourceNode->nodeName, self::MAY_NOT_BE_TRANSLATED_TAGS) || '' === \trim($sourceNode->textContent))) {
+//            $isTranslated = true;
+//        }
 
         $this->setTargetAttributes($target, $isFinal, $isTranslated);
 
@@ -533,36 +667,22 @@ class Extractor
                 $target->appendChild(new \DOMText($xml));
             }
         } else {
-            if (null === $this->previousTargetSegment) {
-                $this->fillInline($foundTargetNode, $target);
-                $this->previousTargetSegment = $target;
-            } else {
-                $this->convertElement($foundTargetNode, $target);
-            }
+            $this->fillInline($foundTargetNode, $target);
         }
     }
 
     private function fillInline(\DOMNode $sourceNode, \DOMElement $source): void
     {
-        if (!$sourceNode->hasChildNodes()) {
+        if ('#text' === $sourceNode->nodeName) {
+            $source->appendChild(new \DOMText($this->trimUselessWhiteSpaces($sourceNode->textContent)));
+
             return;
         }
-        for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
-            $child = $sourceNode->childNodes->item($i);
-            if (null === $child) {
-                continue;
-            }
-            $this->convertElement($child, $source);
-        }
-    }
-
-    private function convertElement(\DOMNode $child, \DOMElement $source): void
-    {
-        if ($child instanceof \DOMElement) {
+        if (\in_array($sourceNode->nodeName, self::INTERNAL_TAGS)) {
             $subNode = new \DOMElement('g');
             $source->appendChild($subNode);
-            $subNode->setAttribute('ctype', static::getRestype($child->nodeName));
-            foreach ($child->attributes ?? [] as $value) {
+            $subNode->setAttribute('ctype', static::getRestype($sourceNode->nodeName));
+            foreach ($sourceNode->attributes ?? [] as $value) {
                 if (!$value instanceof \DOMAttr) {
                     throw new \RuntimeException('Unexpected attribute object');
                 }
@@ -572,12 +692,19 @@ class Extractor
                 }
                 $subNode->setAttribute('html:'.$value->nodeName, $nodeValue);
             }
-            $this->fillInline($child, $subNode);
-        } elseif ($child instanceof \DOMText) {
-            if ($this->isEmpty($child)) {
-                return;
+        } else {
+            $subNode = $source;
+        }
+
+        if (!$sourceNode->hasChildNodes()) {
+            return;
+        }
+        for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
+            $child = $sourceNode->childNodes->item($i);
+            if (null === $child) {
+                continue;
             }
-            $source->appendChild(new \DOMText($this->trimUselessWhiteSpaces($child->textContent)));
+            $this->fillInline($child, $subNode);
         }
     }
 
@@ -613,10 +740,8 @@ class Extractor
         return false;
     }
 
-    private function resetPreviousSegment(): void
+    private function isAppendableSegment(\DOMNode $domNode): bool
     {
-        $this->previousSourceSegment = null;
-        $this->previousTargetSegment = null;
-        $this->translatedSegmentCounter = 0;
+        return \in_array($domNode->nodeName, \array_merge(self::INTERNAL_TAGS, ['#text']));
     }
 }

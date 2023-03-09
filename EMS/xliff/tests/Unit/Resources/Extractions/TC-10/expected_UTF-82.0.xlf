@@ -32,19 +32,7 @@
         <group id="/html/body/ul/li">
           <unit id="/html/body/ul/li/text()[1]">
             <segment id="/html/body/ul/li/text()[1]">
-              <source>Voor elke </source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul/li/strong">
-            <segment id="/html/body/ul/li/strong">
-              <source>erg laaggeschoolde jongere</source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul/li/text()[2]">
-            <segment id="/html/body/ul/li/text()[2]">
-              <source> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source>Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target/>
             </segment>
           </unit>
@@ -70,19 +58,7 @@
         <group id="/html/body/ul/li">
           <unit id="/html/body/ul/li/text()[1]">
             <segment id="/html/body/ul/li/text()[1]">
-              <source>Voor elke </source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul/li/strong">
-            <segment id="/html/body/ul/li/strong">
               <source>erg laaggeschoolde jongere</source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul/li/text()[2]">
-            <segment id="/html/body/ul/li/text()[2]">
-              <source> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target/>
             </segment>
           </unit>
@@ -116,19 +92,7 @@
         <group id="/html/body/ul/li">
           <unit id="/html/body/ul/li/text()[1]">
             <segment id="/html/body/ul/li/text()[1]">
-              <source>Voor elke </source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul/li/strong">
-            <segment id="/html/body/ul/li/strong">
-              <source>erg laaggeschoolde jongere</source>
-              <target/>
-            </segment>
-          </unit>
-          <unit id="/html/body/ul/li/text()[2]">
-            <segment id="/html/body/ul/li/text()[2]">
-              <source> die hij in dienst neemt met een startbaanovereenkomst </source>
+              <source>Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
               <target/>
             </segment>
           </unit>

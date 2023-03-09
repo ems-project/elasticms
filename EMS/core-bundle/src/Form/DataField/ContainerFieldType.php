@@ -1,23 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
-use EMS\CoreBundle\Form\DataTransformer\DataFieldModelTransformer;
-use EMS\CoreBundle\Form\DataTransformer\DataFieldViewTransformer;
 use EMS\CoreBundle\Form\Field\IconPickerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Defined a Container content type.
- * It's used to logically groups subfields together. However a Container is invisible in Elastic search.
- *
- * @author Mathieu De Keyzer <ems@theus.be>
- */
 class ContainerFieldType extends DataFieldType
 {
     public function getLabel(): string
@@ -61,29 +55,13 @@ class ContainerFieldType extends DataFieldType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /* get the metadata associate */
-        /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
+        if (!$fieldType instanceof FieldType) {
+            throw new \RuntimeException('Unexpected non-FieldType entity');
+        }
 
         foreach ($fieldType->getChildren() as $child) {
-            if (!$child->getDeleted()) {
-                /* merge the default options with the ones specified by the user */
-                $options = \array_merge([
-                        'metadata' => $child,
-                        'label' => false,
-                        'migration' => $options['migration'],
-                        'with_warning' => $options['with_warning'],
-                        'raw_data' => $options['raw_data'],
-                        'disabled_fields' => $options['disabled_fields'],
-                        'referrer-ems-id' => $options['referrer-ems-id'],
-                ], $child->getDisplayOptions());
-
-                $builder->add($child->getName(), $child->getType(), $options);
-
-                $builder->get($child->getName())
-                    ->addViewTransformer(new DataFieldViewTransformer($child, $this->formRegistry))
-                    ->addModelTransformer(new DataFieldModelTransformer($child, $this->formRegistry));
-            }
+            $this->buildChildForm($child, $options, $builder);
         }
     }
 
@@ -93,16 +71,13 @@ class ContainerFieldType extends DataFieldType
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
-        /* give options for twig context */
         parent::buildView($view, $form, $options);
         $view->vars['icon'] = $options['icon'];
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        /* set the default option value for this kind of compound field */
         parent::configureOptions($resolver);
-        /* an optional icon can't be specified ritgh to the container label */
         $resolver->setDefault('icon', null);
     }
 
@@ -118,7 +93,6 @@ class ContainerFieldType extends DataFieldType
      */
     public static function isContainer(): bool
     {
-        /* this kind of compound field may contain children */
         return true;
     }
 
@@ -129,12 +103,10 @@ class ContainerFieldType extends DataFieldType
     {
         parent::buildOptionsForm($builder, $options);
         $optionsForm = $builder->get('options');
-        // container aren't mapped in elasticsearch
         $optionsForm->remove('mappingOptions');
         $optionsForm->remove('migrationOptions');
         $optionsForm->get('restrictionOptions')->remove('mandatory');
         $optionsForm->get('restrictionOptions')->remove('mandatory_if');
-        // an optional icon can't be specified ritgh to the container label
         $optionsForm->get('displayOptions')->add('icon', IconPickerType::class, [
                 'required' => false,
         ]);

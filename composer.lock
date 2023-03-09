@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c923275116f82a26a75ad34a0137e408",
+    "content-hash": "055b59e91644ca2ce562ae4bb43e9fae",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2208,40 +2208,41 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "3.9.7",
+            "version": "4.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "94563d7b3105288e6ac53a67ae720e3669fac1f6"
+                "reference": "027522766a7bb40e15686fd380b77e0aaa76b7d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/94563d7b3105288e6ac53a67ae720e3669fac1f6",
-                "reference": "94563d7b3105288e6ac53a67ae720e3669fac1f6",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/027522766a7bb40e15686fd380b77e0aaa76b7d4",
+                "reference": "027522766a7bb40e15686fd380b77e0aaa76b7d4",
                 "shasum": ""
             },
             "require": {
-                "bacon/bacon-qr-code": "^2.0",
-                "khanamiryan/qrcode-detector-decoder": "^1.0.5",
-                "myclabs/php-enum": "^1.5",
-                "php": "^7.3||^8.0",
-                "symfony/options-resolver": "^3.4||^4.4||^5.0",
-                "symfony/property-access": "^3.4||^4.4||^5.0"
+                "bacon/bacon-qr-code": "^2.0.5",
+                "php": "^8.0"
+            },
+            "conflict": {
+                "khanamiryan/qrcode-detector-decoder": "^1.0.6"
             },
             "require-dev": {
-                "endroid/quality": "^1.5.2",
-                "setasign/fpdf": "^1.8"
+                "endroid/quality": "dev-master",
+                "ext-gd": "*",
+                "khanamiryan/qrcode-detector-decoder": "^1.0.4||^2.0.2",
+                "setasign/fpdf": "^1.8.2"
             },
             "suggest": {
-                "ext-gd": "Required for generating PNG images",
-                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
-                "setasign/fpdf": "Required to use the FPDF writer.",
-                "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
+                "ext-gd": "Enables you to write PNG images",
+                "khanamiryan/qrcode-detector-decoder": "Enables you to use the image validator",
+                "roave/security-advisories": "Makes sure package versions with known security issues are not installed",
+                "setasign/fpdf": "Enables you to use the PDF writer"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "4.x-dev"
                 }
             },
             "autoload": {
@@ -2262,7 +2263,6 @@
             "description": "Endroid QR Code",
             "homepage": "https://github.com/endroid/qr-code",
             "keywords": [
-                "bundle",
                 "code",
                 "endroid",
                 "php",
@@ -2271,7 +2271,7 @@
             ],
             "support": {
                 "issues": "https://github.com/endroid/qr-code/issues",
-                "source": "https://github.com/endroid/qr-code/tree/3.9.7"
+                "source": "https://github.com/endroid/qr-code/tree/4.7.0"
             },
             "funding": [
                 {
@@ -2279,41 +2279,40 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-20T19:10:54+00:00"
+            "time": "2022-12-12T16:10:52+00:00"
         },
         {
             "name": "endroid/qr-code-bundle",
-            "version": "3.4.3",
+            "version": "4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code-bundle.git",
-                "reference": "36d7e61e02d84c92702138cc1c6dac5a0565a5ff"
+                "reference": "90ef0c414f4b5512a093a465c7a6d7401187e2f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/36d7e61e02d84c92702138cc1c6dac5a0565a5ff",
-                "reference": "36d7e61e02d84c92702138cc1c6dac5a0565a5ff",
+                "url": "https://api.github.com/repos/endroid/qr-code-bundle/zipball/90ef0c414f4b5512a093a465c7a6d7401187e2f0",
+                "reference": "90ef0c414f4b5512a093a465c7a6d7401187e2f0",
                 "shasum": ""
             },
             "require": {
                 "endroid/installer": "^1.2.2",
-                "endroid/qr-code": "^3.7.8",
-                "php": ">=7.2",
-                "symfony/framework-bundle": "^3.4||^4.4||^5.0",
-                "symfony/twig-bundle": "^3.4||^4.4||^5.0",
-                "symfony/yaml": "^3.4||^4.4||^5.0"
+                "endroid/qr-code": "^4.7",
+                "php": "^8.0",
+                "symfony/framework-bundle": "^5.4||^6.0",
+                "symfony/twig-bundle": "^5.4||^6.0",
+                "symfony/yaml": "^5.4||^6.0"
             },
             "require-dev": {
                 "endroid/quality": "dev-master"
             },
             "suggest": {
-                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities",
-                "symfony/security-checker": "Checks your composer.lock for vulnerabilities"
+                "roave/security-advisories": "Avoids installation of package versions with vulnerabilities"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "4.x-dev"
                 }
             },
             "autoload": {
@@ -2343,7 +2342,7 @@
             ],
             "support": {
                 "issues": "https://github.com/endroid/qr-code-bundle/issues",
-                "source": "https://github.com/endroid/qr-code-bundle/tree/3.4.3"
+                "source": "https://github.com/endroid/qr-code-bundle/tree/4.2.1"
             },
             "funding": [
                 {
@@ -2351,7 +2350,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-04-25T13:48:19+00:00"
+            "time": "2023-01-27T11:42:24+00:00"
         },
         {
             "name": "ezimuel/guzzlestreams",
@@ -3124,63 +3123,6 @@
                 "source": "https://github.com/Kevinrob/guzzle-cache-middleware/tree/v4.0.2"
             },
             "time": "2022-10-02T13:13:18+00:00"
-        },
-        {
-            "name": "khanamiryan/qrcode-detector-decoder",
-            "version": "1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/khanamiryan/php-qrcode-detector-decoder.git",
-                "reference": "45326fb83a2a375065dbb3a134b5b8a5872da569"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/khanamiryan/php-qrcode-detector-decoder/zipball/45326fb83a2a375065dbb3a134b5b8a5872da569",
-                "reference": "45326fb83a2a375065dbb3a134b5b8a5872da569",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7 | ^7.5 | ^8.0 | ^9.0",
-                "rector/rector": "^0.13.6",
-                "symplify/easy-coding-standard": "^11.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/Common/customFunctions.php"
-                ],
-                "psr-4": {
-                    "Zxing\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Ashot Khanamiryan",
-                    "email": "a.khanamiryan@gmail.com",
-                    "homepage": "https://github.com/khanamiryan",
-                    "role": "Developer"
-                }
-            ],
-            "description": "QR code decoder / reader",
-            "homepage": "https://github.com/khanamiryan/php-qrcode-detector-decoder/",
-            "keywords": [
-                "barcode",
-                "qr",
-                "zxing"
-            ],
-            "support": {
-                "issues": "https://github.com/khanamiryan/php-qrcode-detector-decoder/issues",
-                "source": "https://github.com/khanamiryan/php-qrcode-detector-decoder/tree/1.0.6"
-            },
-            "time": "2022-06-29T09:25:13+00:00"
         },
         {
             "name": "laminas/laminas-code",

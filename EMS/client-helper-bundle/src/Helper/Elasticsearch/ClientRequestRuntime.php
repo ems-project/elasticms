@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Elasticsearch;
 
+use EMS\ClientHelperBundle\Exception\SingleResultException;
 use EMS\ClientHelperBundle\Helper\Search\Search;
 use EMS\CommonBundle\Common\Document;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Extension\RuntimeExtensionInterface;
 
 final class ClientRequestRuntime implements RuntimeExtensionInterface
@@ -33,6 +36,31 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         $client = $this->manager->getDefault();
 
         return $client->search($type, $body, $from, $size, $sourceExclude, $regex, $index);
+    }
+
+    /**
+     * @param string|string[]|null $type
+     * @param array<mixed>         $body
+     */
+    public function searchOne(null|string|array $type, array $body, ?string $indexRegex = null): Document
+    {
+        $client = $this->manager->getDefault();
+        try {
+            $result = $client->searchOne($type, $body, $indexRegex);
+            $document = new Document($result['_source']['_contenttype'], $result['_id'], $result['_source']);
+        } catch (SingleResultException) {
+            throw new NotFoundHttpException('Page not found');
+        }
+
+        return $document;
+    }
+
+    /**
+     * @param mixed[] $headers
+     */
+    public function httpException(int $statusCode, ?string $message = '', array $headers = [], ?int $code = 0): never
+    {
+        throw new HttpException($statusCode, $message, null, $headers, $code);
     }
 
     public function searchConfig(): Search

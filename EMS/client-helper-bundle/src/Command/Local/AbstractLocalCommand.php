@@ -41,8 +41,11 @@ abstract class AbstractLocalCommand extends AbstractCommand
 
         $this->logger = new ConsoleLogger($output);
 
-        $environmentName = $this->getOptionString(self::OPTION_EMSCH_ENV, $this->environmentHelper->getEmschEnv());
-        $environment = $this->environmentHelper->getEnvironment($environmentName);
+        if (null !== $environmentName = $this->getOptionStringNull(self::OPTION_EMSCH_ENV)) {
+            $environment = $this->environmentHelper->giveEnvironment($environmentName);
+        } else {
+            $environment = $this->environmentHelper->getEnvironmentDefault();
+        }
 
         if (null === $environment) {
             throw new \RuntimeException(\sprintf('Environment with the name "%s" not found!', $environmentName));

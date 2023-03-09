@@ -84,5 +84,5 @@ security:
         - { path: ^/elasticsearch/delete-search, roles: ROLE_USER }
         - { path: ^/elasticsearch, roles: ROLE_ADMIN }
         - { path: ^/publisher/align, roles: ROLE_PUBLISHER }
-        - { path: ^/form/submissions, roles: ROLE_FORM_CRM }
+        - { path: ^/submissions, roles: ROLE_FORM_CRM }
         - { path: ^/, roles: ROLE_USER }

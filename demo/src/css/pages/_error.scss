@@ -1,0 +1,22 @@
+.error-page {
+  .jumbotron {
+    display: flex;
+    align-items: center;
+    padding: $jumbotron-padding * .5;
+    background-color: $jumbotron-bg-hp;
+    background-image: url('../img/banners/banner-home.jpg');
+    background-repeat: no-repeat;
+    background-position: right 40%;
+    background-size: 100%;
+    background-position: center bottom;
+    @include media-breakpoint-up(sm) {
+      padding: ($jumbotron-padding * 2) $jumbotron-padding;
+    }
+    @include media-breakpoint-up(md) {
+      background-position: center center;
+    }
+    @include media-breakpoint-up(lg) {
+      background-size: auto;
+    }
+  }
+}

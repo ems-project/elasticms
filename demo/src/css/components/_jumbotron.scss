@@ -1,0 +1,9 @@
+.jumbotron {
+  background-image: url('../img/banners/thin-elastic.svg');
+  background-repeat: no-repeat;
+  background-position: 0 .75rem;
+  background-size: 65%;
+  @include media-breakpoint-up(md) {
+    background-size: auto;
+  }
+}

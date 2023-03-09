@@ -12,6 +12,7 @@ use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Nested;
+use Elastica\Query\Simple;
 use Elastica\Query\Terms;
 use Elastica\Suggest;
 use Elastica\Suggest\Term;
@@ -20,8 +21,10 @@ use EMS\CommonBundle\Search\Search as CommonSearch;
 
 final class QueryBuilder
 {
-    public function __construct(private readonly ClientRequest $clientRequest, private readonly Search $search)
-    {
+    public function __construct(
+        private readonly ClientRequest $clientRequest,
+        private readonly Search $search
+    ) {
     }
 
     /**
@@ -48,49 +51,50 @@ final class QueryBuilder
 
     private function getQuery(): ?AbstractQuery
     {
-        if ($this->search->hasQueryString()) {
-            $queryString = $this->search->getQueryString();
-            if (null === $queryString) {
-                throw new \RuntimeException('Unexpected null query string');
-            }
+        $queryString = $this->search->getQueryString();
 
-            return $this->getQueryWithString($queryString);
-        }
-
-        return $this->getQueryFilters();
+        return $queryString ? $this->getQueryWithString($queryString) : $this->getQueryFilters();
     }
 
     private function getQueryWithString(string $queryString): ?AbstractQuery
     {
+        if (null === $querySearch = $this->search->getQuerySearch($queryString)) {
+            return $this->getQueryWithStringAnalyzed($queryString);
+        }
+
+        return new Simple($querySearch);
+    }
+
+    private function getQueryWithStringAnalyzed(string $queryString): ?AbstractQuery
+    {
         $query = new BoolQuery();
-        $filterMust = $this->getQueryFilters();
-        if (null === $filterMust) {
-            $filterMust = new BoolQuery();
+        if ($this->getQueryFilters()) {
+            $query->addMust($this->getQueryFilters());
         }
 
         $analyzer = new Analyzer($this->clientRequest);
         $tokens = $this->clientRequest->analyze($queryString, $this->search->getAnalyzer());
 
+        $queryFields = new BoolQuery();
         foreach ($this->search->getFields() as $field) {
             $textValues = $analyzer->getTextValues($field, $this->search->getAnalyzer(), $tokens, $this->search->getSynonyms());
             if (0 === \count($textValues)) {
                 continue;
             }
 
-            $textMust = clone $filterMust;
+            $textMust = new BoolQuery();
             foreach ($textValues as $textValue) {
                 $textMust->addMust($textValue->makeShould());
             }
-            $query
-                ->setMinimumShouldMatch(1)
-                ->addShould($textMust);
+
+            $query->setMinimumShouldMatch(1)->addShould($textMust);
         }
 
-        if (0 === $query->count()) {
-            return null;
+        if ($queryFields->count() > 0) {
+            $query->addMust($queryFields);
         }
 
-        return $query;
+        return $query->count() > 0 ? $query : null;
     }
 
     public function getQueryFilters(): ?BoolQuery

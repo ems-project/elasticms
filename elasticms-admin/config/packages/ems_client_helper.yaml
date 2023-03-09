@@ -20,6 +20,7 @@ parameters:
   env(EMSCH_BACKEND_API_KEY):         ~
   env(EMSCH_ASSET_LOCAL_FOLDER):      ~
   env(EMSCH_SEARCH_LIMIT):            '1000'
+  env(EMSCH_LOCAL_PATH):              ~
 
 ems_client_helper:
   api:
@@ -46,3 +47,8 @@ ems_client_helper:
     ems_link:  '%env(string:EMSCH_TEMPLATE_EMS_LINK)%'
   user_api:
     url: '%env(string:EMSCH_BACKEND_URL)%'
+
+when@dev:
+  ems_client_helper:
+    local:
+      path: '%env(string:EMSCH_LOCAL_PATH)%'

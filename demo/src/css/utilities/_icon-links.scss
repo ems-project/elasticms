@@ -1,0 +1,44 @@
+// Icons link
+$icon-link: (
+  pdf: \f1c1,
+  doc: \f1c2,
+  docx: \f1c2,
+  xls: \f1c3,
+  xlsx: \f1c3,
+  ppt: \f1c4,
+  pptx: \f1c4,
+  zip: \f1c6
+);
+
+$space-icon-link: 5px;
+
+// Mixin
+@mixin icon-link($doc, $icon) {
+  &[href*='.#{$doc}']:after {
+    @include faw-icon($icon,16,400);
+  }
+}
+
+// Links
+a {
+  // Hack for remove text-decoration on speudo class
+  // https://stackoverflow.com/questions/27018420/ie-remove-underline-on-pseudo-element
+  &:after, &:before{
+    text-decoration:underline;
+  }
+  &:after, &:before{
+    text-decoration:none;
+  }
+  &[target="_blank"]:not(.btn):not(.no-ico),
+  &[target="_new"]:not(.btn):not(.no-ico){
+    &:after{
+      margin-left:$space-icon-link;
+      @include faw-icon(\f35d);
+      font-size: 80%;
+      vertical-align: 1px;
+    }
+    @each $doc, $value in $icon-link {
+      @include icon-link($doc, $value);
+    }
+  }
+}

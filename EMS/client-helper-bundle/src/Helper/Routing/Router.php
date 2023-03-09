@@ -9,13 +9,17 @@ use Symfony\Component\Routing\RouteCollection;
 
 final class Router extends BaseRouter
 {
-    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly RoutingBuilder $builder)
-    {
+    public function __construct(
+        private readonly EnvironmentHelper $environmentHelper,
+        private readonly RoutingBuilder $builder
+    ) {
     }
 
     public function getRouteCollection(): RouteCollection
     {
-        if (null === $environment = $this->environmentHelper->getCurrentEnvironment()) {
+        $environment = $this->environmentHelper->getCurrentEnvironment();
+
+        if (null === $environment || !$environment->isRouterEnabled()) {
             return new RouteCollection();
         }
 

@@ -2,10 +2,9 @@ services:
 
   admin:
     image: elasticms/admin:${EMS_VERSION}
+    depends_on:
+      - postgres
     environment:
-      - APP_ENV=dev
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Brussels
       - PHP_FPM_MAX_CHILDREN=4
       - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=256
@@ -32,6 +31,7 @@ services:
       - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
       - TRUSTED_HOSTS=localhost,*.localhost
     volumes:
+      - ./skeleton:/opt/src/local/${INSTANCE_ID}preview
       - ./configs/elasticms-admin:/opt/configs
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document
@@ -47,8 +47,6 @@ services:
     image: elasticms/website-skeleton:${EMS_VERSION}
     environment:
       - APP_ENV=dev
-      - PUID=1000
-      - PGID=1000
       - TZ=Europe/Brussels
       - PHP_FPM_MAX_CHILDREN=8
       - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=64

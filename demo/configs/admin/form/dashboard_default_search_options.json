@@ -1,0 +1,38 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Form",
+    "arguments": [],
+    "properties": {
+        "name": "dashboard_default_search_options",
+        "label": "Default search options",
+        "orderKey": 3,
+        "fieldType": {
+            "class": "EMS\\CoreBundle\\Entity\\FieldType",
+            "arguments": [],
+            "properties": {
+                "type": "EMS\\CoreBundle\\Form\\DataField\\HolderFieldType",
+                "name": "source",
+                "contentType": null,
+                "deleted": false,
+                "description": null,
+                "options": {
+                    "displayOptions": [],
+                    "restrictionOptions": {
+                        "minimum_role": null
+                    },
+                    "extraOptions": {
+                        "extra": null,
+                        "clear_on_copy": false,
+                        "postProcessing": null
+                    }
+                },
+                "orderKey": 0,
+                "children": [],
+                "__initializer__": null,
+                "__cloner__": null,
+                "__isInitialized__": true
+            },
+            "replaced": []
+        }
+    },
+    "replaced": []
+}

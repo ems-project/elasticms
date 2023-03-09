@@ -1,5 +1,61 @@
 # Changelog 5.x
 
+## 5.3.2 (2023-03-07)
+### Features
+* feat(emsch/routing): search one and http exceptions by @theus77 in https://github.com/ems-project/elasticms/pull/362
+### Bug Fixes
+* fix(emsch/templating): handling error EMSCH_TEMPLATES by @theus77 in https://github.com/ems-project/elasticms/pull/360
+* fix(emsco/choice): multiple keyword index error by @Davidmattei in https://github.com/ems-project/elasticms/pull/365
+* fix(emsco/export): solve a circular ref in form JSON export by @theus77 in https://github.com/ems-project/elasticms/pull/361
+* fix(emsco/forms): default data in emco_form by @theus77 in https://github.com/ems-project/elasticms/pull/358
+* fix(emsco/json-menu-nested): link unique array_diff error by @Davidmattei in https://github.com/ems-project/elasticms/pull/367
+* fix(emsco/notifications): dateTimes not initialize by @theus77 in https://github.com/ems-project/elasticms/pull/359
+* fix(emsco/recompute): set finalization fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/366
+* fix(emsco/revision): search revision deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/364
+### Code Refactoring
+* refactor(demo): migrate promo website by @theus77 in https://github.com/ems-project/elasticms/pull/363
+
+## 5.3.1 (2023-02-28)
+### Bug Fixes
+* fix(common/api): EMS_BACKEND_API_VERIFY by @Davidmattei in https://github.com/ems-project/elasticms/pull/351
+* fix: recompute theme and useroptiontype specific id by @theus77 in https://github.com/ems-project/elasticms/pull/352
+
+## 5.3.0 (2023-02-27)
+### Features
+* feat(admin): emsch local enabled in dev mode by @Davidmattei in https://github.com/ems-project/elasticms/pull/294
+* feat(cli): asset2document migrate by @theus77 in https://github.com/ems-project/elasticms/pull/333
+* feat(common): EMS_ELASTICSEARCH_CONNECTION_POOL by @theus77 in https://github.com/ems-project/elasticms/pull/311
+* feat(common): ems:admin:command by @theus77 in https://github.com/ems-project/elasticms/pull/292
+* feat(contentType): new setting hide sidebar by @theus77 in https://github.com/ems-project/elasticms/pull/338
+* feat(contentType): post processing "rootObject" by @theus77 in https://github.com/ems-project/elasticms/pull/343
+* feat(core): emsch env by @Davidmattei in https://github.com/ems-project/elasticms/pull/349
+* feat(core): form entity and form field type by @theus77 in https://github.com/ems-project/elasticms/pull/323
+* feat(core): form entity, reusing fields by @theus77 in https://github.com/ems-project/elasticms/pull/300
+* feat(core/mediaLibrary): add templating by @Davidmattei in https://github.com/ems-project/elasticms/pull/348
+* feat(core/user): custom user options by @theus77 in https://github.com/ems-project/elasticms/pull/327
+* feat(dashboard): browsers by @Davidmattei in https://github.com/ems-project/elasticms/pull/310
+* feat(datatable): group table item actions by @Davidmattei in https://github.com/ems-project/elasticms/pull/309
+* feat(demo): update demo by @theus77 in https://github.com/ems-project/elasticms/pull/331
+* feat(emsch/routing): response headers for asset action by @Davidmattei in https://github.com/ems-project/elasticms/pull/340
+* feat(emsch/search): query_search option by @Davidmattei in https://github.com/ems-project/elasticms/pull/330
+* feat(web): environment var EMSCH_LOCAL_PATH by @Davidmattei in https://github.com/ems-project/elasticms/pull/318
+* feat(web): upgrade endroidQrCodeBundle from 3.x -> 4.x by @Davidmattei in https://github.com/ems-project/elasticms/pull/319
+* feat: forms in views by @theus77 in https://github.com/ems-project/elasticms/pull/350
+### Bug Fixes
+* fix(contentType): virtual field + propagate postprocessing+ isValid in FormType by @theus77 in https://github.com/ems-project/elasticms/pull/344
+* fix(core): field-type manager is not an entity service by @Davidmattei in https://github.com/ems-project/elasticms/pull/329
+* fix(core-api): default query search name by @theus77 in https://github.com/ems-project/elasticms/pull/304
+* fix(core/circles): circles field out of sync by @theus77 in https://github.com/ems-project/elasticms/pull/337
+* fix(core/jsonFieldType): validation and prettyPrint by @Davidmattei in https://github.com/ems-project/elasticms/pull/347
+* fix(core/querySearch): paramConverter broken by @Davidmattei in https://github.com/ems-project/elasticms/pull/341
+* fix(demo): UID is a shell read only variable, but UID is not defined as envronment variable by @theus77 in https://github.com/ems-project/elasticms/pull/336
+* fix(demo): update assets / configs by @Davidmattei in https://github.com/ems-project/elasticms/pull/320
+* fix(emsch/search): query_search replace request values by @Davidmattei in https://github.com/ems-project/elasticms/pull/345
+* fix(emsch_search): query values are prior against request by @theus77 in https://github.com/ems-project/elasticms/pull/335
+* fix(form): no entityService and missing migrations by @Davidmattei in https://github.com/ems-project/elasticms/pull/317
+* fix(notifications): outbox table not showing results by @Davidmattei in https://github.com/ems-project/elasticms/pull/346
+* fix(storage): header noindex for immutable responses by @theus77 in https://github.com/ems-project/elasticms/pull/339
+
 ## 5.2.6 (2023-03-06)
 ### Bug Fixes
 * fix(emsco/revision): search revision deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/364

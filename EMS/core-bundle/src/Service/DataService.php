@@ -33,6 +33,7 @@ use EMS\CoreBundle\Exception\PrivilegeException;
 use EMS\CoreBundle\Form\DataField\CollectionFieldType;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Form\DataField\DataLinkFieldType;
+use EMS\CoreBundle\Form\DataField\FormFieldType;
 use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
@@ -248,6 +249,7 @@ class DataService
             '_id' => $ouuid,
             'migration' => $migration,
             'finalize' => $finalize,
+            'rootObject' => $objectArray,
         ]);
     }
 
@@ -764,10 +766,12 @@ class DataService
         $objectArray = $revision->getRawData();
 
         $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
+        $this->setCircles($revision);
         try {
             if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
                 $revision->setRawData($objectArray);
             }
+            $this->setCircles($revision);
         } catch (CantBeFinalizedException $e) {
             $form->addError(new FormError($e->getMessage()));
         }
@@ -786,7 +790,7 @@ class DataService
                 if ($item) {
                     $this->lockRevision($item, null, false, $username);
                     $previousObjectArray = $item->getRawData();
-                    $item->removeEnvironment($revision->giveContentType()->giveEnvironment());
+                    $item->close(new \DateTime('now'));
                     $em->persist($item);
                     $this->unlockRevision($item, $username);
                 }
@@ -1445,7 +1449,7 @@ class DataService
     /**
      * @throws \Exception
      */
-    public function loadDataStructure(Revision $revision): void
+    public function loadDataStructure(Revision $revision, bool $ignoreNotConsumed = false): void
     {
         $data = new DataField();
         $data->setFieldType($revision->giveContentType()->getFieldType());
@@ -1462,6 +1466,10 @@ class DataService
         unset($object[Mapping::FINALIZATION_DATETIME_FIELD]);
         unset($object[Mapping::VERSION_TAG]);
         unset($object[Mapping::VERSION_UUID]);
+        if ($ignoreNotConsumed) {
+            return;
+        }
+
         if ((\is_countable($object) ? \count($object) : 0) > 0) {
             $html = DataService::arrayToHtml($object);
 
@@ -1623,6 +1631,12 @@ class DataService
             $dataFieldType->isValid($dataField, $parent, $masterRawData);
         }
         $isValid = true;
+
+        if ($dataFieldType instanceof FormFieldType) {
+            foreach ($form->all() as $child) {
+                $this->isValid($child, $dataField, $masterRawData);
+            }
+        }
         if (null !== $dataFieldType && $dataFieldType->isContainer()) {// If dataField is container or type is null => Container => Recursive
             $formChildren = $form->all();
             foreach ($formChildren as $child) {

@@ -49,7 +49,7 @@
                 {% if attribute(paths, "page:#{page._id}") is defined and attribute(attribute(paths, "page:#{page._id}"), locale) is defined %}
                     {%  set loc = url('emsch_path', {_locale: locale, path: attribute(attribute(paths, "page:#{page._id}"), locale).path}) %}
                 {% elseif attribute(page._source, locale).slug|default(false) and attribute(page._source, locale).slug == '/' %}
-                    {%  set loc = url('emsch_homepage', {_locale: locale}) %}
+                    {%  set loc = url('emsch_path', {_locale: locale}) %}
                 {% elseif attribute(page._source, locale).slug|default(false) %}
                     {%  set loc = url('emsch_page', {_locale: locale, slug: attribute(page._source, locale).slug}) %}
                 {% endif %}

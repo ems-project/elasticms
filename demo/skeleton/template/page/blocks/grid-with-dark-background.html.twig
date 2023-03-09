@@ -1,0 +1,24 @@
+{% extends '@EMSCH/template/page/blocks/grid.html.twig' %}
+
+{% block body %}
+    {% trans_default_domain trans_default_domain %}
+    <section class="bg-dark text-white py-9 ems-grid ems-dark-grid">
+        <div class="container-fluid container-lg">
+            <div class="row">
+                <div class="col-12 col-xl-10 offset-xl-1">
+                    {% if item.object.title|default(false) %}
+                        <h2>{{ item.object.title }}</h2>
+                    {% endif %}
+                    {{ block('children') }}
+                </div>
+            </div>
+            {% if item.object.target|default(false) %}
+                <div class="row pt-4">
+                    <div class="col-12">
+                        <a href="{{ item.object.target|emsch_routing }}">{{ item.object.target_label|default('block.grid.see_also'|trans) }}</a>
+                    </div>
+                </div>
+            {%  endif %}
+        </div>
+    </section>
+{% endblock %}

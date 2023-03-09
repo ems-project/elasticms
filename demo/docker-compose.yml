@@ -69,8 +69,6 @@ services:
     environment:
       - POSTGRES_PASSWORD=s3cr3t
       - TZ=Europe/Brussels
-      - PUID=1000
-      - PGID=1000
     volumes:
       - postgres:/var/lib/postgresql/data
 
@@ -137,6 +135,7 @@ services:
       - "traefik.http.services.mailhog.loadbalancer.server.port=8025"
 
   admin-local:
+    user: ${DOCKER_USER:-1001}:0
     extends:
       file: docker-elasticms.yml
       service: admin
@@ -148,9 +147,12 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.admin-local.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin.localhost`)"
       - "traefik.http.routers.admin-local.entrypoints=web"
+      - "traefik.http.routers.admin-local-dev.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin-dev.localhost`)"
+      - "traefik.http.routers.admin-local-dev.entrypoints=web"
       - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
 
   web-local:
+    user: ${DOCKER_USER:-1001}:0
     extends:
       file: docker-elasticms.yml
       service: web
@@ -164,6 +166,18 @@ services:
       - "traefik.http.routers.skeleton.entrypoints=web,websecure"
       - "traefik.http.routers.skeleton.service=skeleton"
       - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
+
+  setup_ems:
+    user: ${DOCKER_USER:-1001}:0
+    extends:
+      file: docker-elasticms.yml
+      service: admin
+    command: >
+      bash -c '
+        echo "Waiting for Elasticms Admin availability";
+        until curl -s -H "Host: local.ems-demo-admin.localhost" http://localhost:9000/status.json | grep  -q "green"; do sleep 30; done;
+        echo "All done!";
+      '
 
 volumes:
   elk7_data01:

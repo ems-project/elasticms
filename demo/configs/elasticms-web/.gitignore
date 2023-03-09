@@ -1,0 +1,7 @@
+# Ignore everything:
+*
+
+# Do not ignore these files:
+!.gitignore
+preview.env
+zz-live.env

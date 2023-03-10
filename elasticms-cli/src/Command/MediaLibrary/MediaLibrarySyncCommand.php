@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\CLI\Command\MediaLibrary;
 
+use App\CLI\Client\Document\Update\DocumentUpdateConfig;
+use App\CLI\Client\MediaLibrary\MediaLibraryConfig;
 use App\CLI\Client\MediaLibrary\MediaLibrarySync;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,18 +21,20 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private bool $dryRun;
     /** @var array{content_type: string, folder_field: string, path_field: string, file_field: string} */
     private array $config;
+    private ?string $configFile = null;
     private string $folder;
 
     protected static $defaultName = Commands::MEDIA_LIBRARY_SYNC;
 
     private const ARGUMENT_FOLDER = 'folder';
+    private const OPTION_CONFIG_FILE = 'config-file';
     private const OPTION_CONTENT_TYPE = 'content-type';
     private const OPTION_FOLDER_FIELD = 'folder-field';
     private const OPTION_PATH_FIELD = 'path-field';
     private const OPTION_FILE_FIELD = 'file-field';
     private const OPTION_DRY_RUN = 'dry-run';
 
-    public function __construct(private readonly AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
         parent::__construct();
     }
@@ -39,6 +44,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         $this
             ->setDescription('Synchronization files on media library for a given folder')
             ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Folder path')
+            ->addOption(self::OPTION_CONFIG_FILE, null, InputOption::VALUE_OPTIONAL, 'Config File (json)', false)
             ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Media Library content type (default: media_file)', 'media_file')
             ->addOption(self::OPTION_FOLDER_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library folder field (default: media_folder)', 'media_folder')
             ->addOption(self::OPTION_PATH_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library path field (default: media_path)', 'media_path')
@@ -51,6 +57,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->folder = $this->getArgumentString(self::ARGUMENT_FOLDER);
+        $this->configFile = $this->getOptionString(self::OPTION_CONFIG_FILE);
         $this->config['content_type'] = $this->getOptionString(self::OPTION_CONTENT_TYPE);
         $this->config['folder_field'] = $this->getOptionString(self::OPTION_FOLDER_FIELD);
         $this->config['path_field'] = $this->getOptionString(self::OPTION_PATH_FIELD);
@@ -69,7 +76,11 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi);
+        if ($this->configFile ?? false) {
+            $mediaLibraryConfig = MediaLibraryConfig::fromFile($this->configFile);
+        }
+
+        $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi, $mediaLibraryConfig ?? null, $this->fileReader);
         $mediaSync->execute();
 
         return self::EXECUTE_SUCCESS;

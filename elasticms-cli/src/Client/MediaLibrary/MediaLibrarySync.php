@@ -7,18 +7,23 @@ namespace App\CLI\Client\MediaLibrary;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 final class MediaLibrarySync
 {
+    /** @var <array, array> */
+    private array $dataArray;
+
     /**
      * @param array{content_type: string, folder_field: string, path_field: string, file_field: string} $config
      */
-    public function __construct(private readonly string $folder, private readonly array $config, private readonly SymfonyStyle $io, private readonly bool $dryRun, private readonly CoreApiInterface $coreApi)
+    public function __construct(private readonly string $folder, private readonly array $config, private readonly SymfonyStyle $io, private readonly bool $dryRun, private readonly CoreApiInterface $coreApi, private readonly ?MediaLibraryConfig $configFile, private readonly FileReaderInterface $fileReader)
     {
     }
 
@@ -34,6 +39,12 @@ final class MediaLibrarySync
         }
 
         $this->io->comment(\sprintf('%d files located', $finder->count()));
+
+        if (null != $this->configFile) {
+            $this->io->section('A Config File is found - Reading data');
+            $this->dataArray = $this->fileReader->getData($this->configFile->xlsPath, true);
+            $this->io->comment(\sprintf('Loaded data in memory: %d rows', \count($this->dataArray )));
+        }
 
         $progressBar = $this->io->createProgressBar($finder->count());
 
@@ -64,6 +75,8 @@ final class MediaLibrarySync
         $ouuid = null;
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->config['content_type']);
         $contentTypeApi = $this->coreApi->data($this->config['content_type']);
+        $folderColumn = $this->getColumnIndexByAccessor($this->configFile->mediaLibraryMapping, 'isFolder');
+        $filenameColumn = $this->getColumnIndexByAccessor($this->configFile->mediaLibraryMapping, 'isFilename');
         while (\count($exploded) > 1) {
             $path = \implode('/', $exploded);
             \array_pop($exploded);
@@ -79,6 +92,13 @@ final class MediaLibrarySync
 
             $term = new Terms($this->config['path_field'], [$path]);
             $search = new Search([$defaultAlias], $term->toArray());
+
+            if (null != $this->configFile) {
+                $rows = $this->dataSearch($this->dataArray, $filenameColumn, $file->getFilename());
+                // verifier lequel des rows est le bon folder pour trouver la bonne row
+                // faire nouvelle recherche bool must for folder and filename term = value of line data.
+            }
+
             $search->setContentTypes([$this->config['content_type']]);
             $result = $this->coreApi->search()->search($search);
             $document = null;
@@ -154,5 +174,34 @@ final class MediaLibrarySync
             EmsFields::CONTENT_MIME_TYPE_FIELD => $mimeType,
             EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ? $file->getSize() : null,
         ];
+    }
+
+    /**
+     * @param MediaLibraryMap[]
+     */
+    private function getColumnIndexByAccessor(array $mediaLibraryMap, string $accessor): ?int
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        foreach ($mediaLibraryMap as $mediaMap) {
+            if ($propertyAccessor->getValue($mediaMap, $accessor)){
+                return $mediaMap->indexDataColumn;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param <array, array> $data
+     * @return <array, array>
+     */
+    private function dataSearch(array $data, int $columnIndex, string $search): array
+    {
+        $rows = [];
+        foreach ($data as &$row) {
+            if (isset($row[$columnIndex]) && $search === (string) $row[$columnIndex]) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
     }
 }

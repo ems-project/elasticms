@@ -468,7 +468,9 @@ class Extractor
             $isTranslated = true;
         }
 
-        $this->setTargetAttributes($target, $isFinal, $isTranslated);
+        if ($isTranslated || null === $this->isAlreadyTranslated($target)) {
+            $this->setTargetAttributes($target, $isFinal, $isTranslated);
+        }
 
         if (!$isTranslated || null === $foundTargetNode) {
             return;
@@ -477,7 +479,7 @@ class Extractor
         $this->fillInline($foundTargetNode, $target);
     }
 
-    private function addSegmentNode(\DOMElement $xliffElement, ?\DOMNode $sourceNode, ?Crawler $targetCrawler, bool $isFinal, bool $htmlEncodeInlines = false): void
+    private function addSegmentNode(\DOMElement $xliffElement, ?\DOMNode $sourceNode, ?Crawler $targetCrawler, bool $isFinal): void
     {
         if (null !== $sourceNode && !$sourceNode instanceof \DOMElement && $this->isEmpty($sourceNode)) {
             return;
@@ -559,27 +561,7 @@ class Extractor
             return;
         }
 
-        if ($htmlEncodeInlines) {
-            if ($sourceNode->hasChildNodes()) {
-                if (!$sourceNode->childNodes instanceof \DOMNodeList) {
-                    throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $sourceNode->childNodes::class));
-                }
-                for ($i = 0; $i < $sourceNode->childNodes->length; ++$i) {
-                    $childNode = $sourceNode->childNodes->item($i);
-                    if (null === $childNode || null === $childNode->ownerDocument) {
-                        throw new \RuntimeException('Unexpected null object');
-                    }
-                    $xml = $childNode->ownerDocument->saveXML($childNode);
-                    if (false === $xml) {
-                        throw new \RuntimeException('Unexpected false xml');
-                    }
-                    $textValue = \str_replace('&#13;', '', $xml);
-                    $source->appendChild(new \DOMText($textValue));
-                }
-            }
-        } else {
-            $this->fillInline($sourceNode, $source);
-        }
+        $this->fillInline($sourceNode, $source);
         $nodeXPath = $this->getXPath($sourceNode);
         if (null === $nodeXPath) {
             return;
@@ -592,13 +574,10 @@ class Extractor
         if (!$isTranslated && '' === $source->textContent) {
             $isTranslated = true;
         }
-//        if ($isTranslated) {
-//            ++$this->translatedSegmentCounter;
-//        } elseif ($this->translatedSegmentCounter > 0 && (\in_array($sourceNode->nodeName, self::MAY_NOT_BE_TRANSLATED_TAGS) || '' === \trim($sourceNode->textContent))) {
-//            $isTranslated = true;
-//        }
 
-        $this->setTargetAttributes($target, $isFinal, $isTranslated);
+        if ($isTranslated || null === $this->isAlreadyTranslated($target)) {
+            $this->setTargetAttributes($target, $isFinal, $isTranslated);
+        }
 
         if (!$isTranslated || null === $foundTargetNode) {
             return;
@@ -608,27 +587,7 @@ class Extractor
             $text = new \DOMText($this->trimUselessWhiteSpaces($foundTargetNode->textContent));
             $target->appendChild($text);
         }
-        if ($htmlEncodeInlines) {
-            if (!$foundTargetNode->hasChildNodes()) {
-                return;
-            }
-            if (!$foundTargetNode->childNodes instanceof \DOMNodeList) {
-                throw new \RuntimeException(\sprintf('Unexpected %s object, expected \\DOMNodeList', $foundTargetNode->childNodes::class));
-            }
-            for ($i = 0; $i < $foundTargetNode->childNodes->length; ++$i) {
-                $childNode = $foundTargetNode->childNodes->item($i);
-                if (null === $childNode || null === $childNode->ownerDocument) {
-                    throw new \RuntimeException('Unexpected null object');
-                }
-                $xml = $childNode->ownerDocument->saveXML($childNode);
-                if (false === $xml) {
-                    throw new \RuntimeException('Unexpected false xml');
-                }
-                $target->appendChild(new \DOMText($xml));
-            }
-        } else {
-            $this->fillInline($foundTargetNode, $target);
-        }
+        $this->fillInline($foundTargetNode, $target);
     }
 
     private function fillInline(\DOMNode $sourceNode, \DOMElement $source): void
@@ -666,6 +625,15 @@ class Extractor
             }
             $this->fillInline($child, $subNode);
         }
+    }
+
+    private function isAlreadyTranslated(\DOMElement $targetChild): ?bool
+    {
+        if (\version_compare($this->xliffVersion, '2.0') < 0 && $targetChild->hasAttribute('state')) {
+            return \in_array($targetChild->getAttribute('state'), ['final', 'needs-translation']);
+        }
+
+        return null;
     }
 
     private function setTargetAttributes(\DOMElement $targetChild, bool $isFinal, bool $isTranslated): void

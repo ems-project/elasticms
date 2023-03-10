@@ -208,16 +208,17 @@ class Extractor
         $this->addTextSegment($unit, $this->escapeSpecialCharacters($source), null === $target ? null : $this->escapeSpecialCharacters($target), $isFinal);
     }
 
-    public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, ?string $targetHtml = null, bool $isFinal = false): void
+    public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, ?string $targetHtml = null, ?string $baselineHtml = null, bool $isFinal = false): void
     {
         $sourceCrawler = new Crawler(HtmlHelper::prettyPrint($sourceHtml));
         $targetCrawler = new Crawler(HtmlHelper::prettyPrint($targetHtml));
+        $baselineCrawler = new Crawler(HtmlHelper::prettyPrint($baselineHtml));
         $added = false;
         $group = new \DOMElement('group');
         $document->appendChild($group);
         $group->setAttribute('id', $fieldPath);
         foreach ($sourceCrawler->filterXPath('//body') as $domNode) {
-            $this->addNode($group, $domNode, $targetCrawler, $isFinal);
+            $this->addNode($group, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
             $added = true;
         }
         if (!$added) {
@@ -225,7 +226,7 @@ class Extractor
         }
     }
 
-    private function addNode(\DOMElement $xliffParent, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal): void
+    private function addNode(\DOMElement $xliffParent, \DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): void
     {
         $currentSegment = null;
         foreach ($sourceNode->childNodes as $domNode) {
@@ -241,7 +242,7 @@ class Extractor
                 if (null === $currentSegment || !$appendable) {
                     $currentSegment = $this->initSegment($xliffParent, $domNode);
                 }
-                $this->appendSegment($currentSegment, $domNode, $targetCrawler, $isFinal);
+                $this->appendSegment($currentSegment, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
                 if (!$appendable) {
                     $currentSegment = null;
                 }
@@ -273,7 +274,7 @@ class Extractor
                     $group->setAttribute($attribute, $value);
                 }
                 $this->addId($group, $domNode);
-                $this->addNode($group, $domNode, $targetCrawler, $isFinal);
+                $this->addNode($group, $domNode, $targetCrawler, $baselineCrawler, $isFinal);
             }
         }
     }
@@ -393,6 +394,11 @@ class Extractor
         return self::PRE_DEFINED_VALUES[$nodeName] ?? \sprintf('x-html-%s', $nodeName);
     }
 
+    public function getSourceLocale(): string
+    {
+        return $this->sourceLocale;
+    }
+
     private function getId(\DOMNode $domNode, ?string $attributeName = null): string
     {
         $id = $domNode->getNodePath();
@@ -439,7 +445,7 @@ class Extractor
         return true;
     }
 
-    private function appendSegment(\DOMElement $segment, \DOMNode $sourceNode, Crawler $targetCrawler, bool $isFinal): void
+    private function appendSegment(\DOMElement $segment, \DOMNode $sourceNode, Crawler $targetCrawler, Crawler $baselineCrawler, bool $isFinal): void
     {
         if (!$segment->hasAttribute('id')) {
             $this->addId($segment, $sourceNode);
@@ -466,6 +472,14 @@ class Extractor
         $isTranslated = 1 === $foundTarget->count();
         if (!$isTranslated && '' === $source->textContent) {
             $isTranslated = true;
+        }
+
+        if ($isTranslated && !$isFinal && \in_array($this->isAlreadyTranslated($target, ['final']), [null, true])) {
+            $foundBaseline = $baselineCrawler->filterXPath($nodeXPath);
+            $foundBaselineNode = $foundBaseline->getNode(0);
+            if (null !== $foundBaselineNode) {
+                $isFinal = ($sourceNode->textContent === $foundBaselineNode->textContent);
+            }
         }
 
         if ($isTranslated || null === $this->isAlreadyTranslated($target)) {
@@ -627,10 +641,13 @@ class Extractor
         }
     }
 
-    private function isAlreadyTranslated(\DOMElement $targetChild): ?bool
+    /**
+     * @param string[] $values
+     */
+    private function isAlreadyTranslated(\DOMElement $targetChild, array $values = ['final', 'needs-translation']): ?bool
     {
         if (\version_compare($this->xliffVersion, '2.0') < 0 && $targetChild->hasAttribute('state')) {
-            return \in_array($targetChild->getAttribute('state'), ['final', 'needs-translation']);
+            return \in_array($targetChild->getAttribute('state'), $values);
         }
 
         return null;

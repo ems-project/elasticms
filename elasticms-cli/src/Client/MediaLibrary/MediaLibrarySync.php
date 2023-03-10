@@ -39,26 +39,18 @@ final class MediaLibrarySync
 
         foreach ($finder as $file) {
             try {
-                $realPath = $file->getRealPath();
-                if (!\is_string($realPath)) {
-                    throw new \RuntimeException(\sprintf('File %s not found', $file->getFilename()));
-                }
-                if (!\str_starts_with($realPath, $this->folder)) {
+                if (!\str_starts_with($file->getRealPath(), $this->folder)) {
                     continue;
                 }
 
-                $position = \strpos($realPath, $this->folder);
-                if (false === $position) {
-                    $this->io->error(\sprintf('Unexpected false position %s', $file->getFilename()));
-                    break;
-                }
-                $path = \substr($realPath, $position + \strlen($this->folder));
+                $position = \strpos($file->getRealPath(), $this->folder);
+                $path = \substr($file->getRealPath(), $position + \strlen($this->folder));
                 if (!\str_starts_with($path, '/')) {
                     $path = '/'.$path;
                 }
                 $this->uploadMediaFile($file, $path);
             } catch (\Throwable $e) {
-                $this->io->error(\sprintf('Upload failed for "%s" (%s)', $realPath ?? $file->getFilename(), $e->getMessage()));
+                $this->io->error(\sprintf('Upload failed for "%s" (%s)', $file->getRealPath(), $e->getMessage()));
             }
 
             $progressBar->advance();
@@ -126,7 +118,7 @@ final class MediaLibrarySync
     public function urlToAssetArray(\SplFileInfo $file): array
     {
         $mimeType = \mime_content_type($file->getRealPath());
-        $mimeType = $mimeType ? $mimeType : 'application/bin';
+        $mimeType = $mimeType ?: 'application/bin';
         $hash = '';
 
         $filename = $file->getFilename();
@@ -148,13 +140,13 @@ final class MediaLibrarySync
         if (!$this->dryRun) {
             try {
                 $hash = $this->coreApi->file()->uploadStream($stream, $file->getFilename(), $mimeType);
-            } catch (CoreApiExceptionInterface) {
-                $this->io->error(\sprintf('Asset failed for "%s" (%s)', $file->getRealPath(), $file->getFilename()));
+            } catch (CoreApiExceptionInterface $e) {
+                $this->io->error(\sprintf('Asset failed for "%s" (%s)', $file->getRealPath(), $e->getMessage()));
 
                 return [];
             }
             if (0 === \strlen($hash)) {
-                $this->io->error(\sprintf('Unexpected empty hash for "%s" (%s)', $file->getRealPath(), $file->getFilename()));
+                $this->io->error(\sprintf('Unexpected empty hash for "%s"', $file->getRealPath()));
 
                 return [];
             }

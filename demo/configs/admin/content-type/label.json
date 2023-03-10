@@ -41,7 +41,6 @@
                     }
                 },
                 "orderKey": 0,
-                "parent": null,
                 "children": [
                     {
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -68,7 +67,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "keyword",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": true,
@@ -85,7 +84,6 @@
                                 }
                             },
                             "orderKey": 0,
-                            "parent": null,
                             "children": []
                         },
                         "replaced": []
@@ -115,7 +113,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "french",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": false,
@@ -132,8 +130,35 @@
                                 }
                             },
                             "orderKey": 1,
-                            "parent": null,
-                            "children": []
+                            "children": [
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                        "name": "alpha_order",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": [],
+                                            "mappingOptions": {
+                                                "index": null,
+                                                "analyzer": "alpha_order",
+                                                "fielddata": true
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            }
+                                        },
+                                        "orderKey": 0,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                }
+                            ]
                         },
                         "replaced": []
                     },
@@ -162,7 +187,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "dutch",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": false,
@@ -179,8 +204,35 @@
                                 }
                             },
                             "orderKey": 2,
-                            "parent": null,
-                            "children": []
+                            "children": [
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                        "name": "alpha_order",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": [],
+                                            "mappingOptions": {
+                                                "index": null,
+                                                "analyzer": "alpha_order",
+                                                "fielddata": true
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            }
+                                        },
+                                        "orderKey": 0,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                }
+                            ]
                         },
                         "replaced": []
                     },
@@ -209,7 +261,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "english",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": false,
@@ -226,8 +278,35 @@
                                 }
                             },
                             "orderKey": 3,
-                            "parent": null,
-                            "children": []
+                            "children": [
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                        "name": "alpha_order",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": [],
+                                            "mappingOptions": {
+                                                "index": null,
+                                                "analyzer": "alpha_order",
+                                                "fielddata": true
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            }
+                                        },
+                                        "orderKey": 0,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                }
+                            ]
                         },
                         "replaced": []
                     },
@@ -256,7 +335,7 @@
                                 "mappingOptions": {
                                     "index": null,
                                     "analyzer": "english",
-                                    "copy_to": null
+                                    "copy_to": "live_search"
                                 },
                                 "restrictionOptions": {
                                     "mandatory": false,
@@ -273,8 +352,35 @@
                                 }
                             },
                             "orderKey": 4,
-                            "parent": null,
-                            "children": []
+                            "children": [
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                        "name": "alpha_order",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": [],
+                                            "mappingOptions": {
+                                                "index": null,
+                                                "analyzer": "alpha_order",
+                                                "fielddata": true
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            }
+                                        },
+                                        "orderKey": 0,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                }
+                            ]
                         },
                         "replaced": []
                     },
@@ -282,27 +388,27 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\CopyToFieldType",
-                            "name": "live_fr",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "search_fields",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Live Fr",
-                                    "class": "col-md-12"
+                                    "form": "search_fields"
                                 },
-                                "mappingOptions": {
-                                    "index": null,
-                                    "analyzer": null,
-                                    "store": false
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "minimum_role": null
                                 },
-                                "restrictionOptions": [],
-                                "extraOptions": [],
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
                                 "raw_data": []
                             },
-                            "orderKey": 5,
-                            "parent": null,
+                            "orderKey": 6,
                             "children": []
                         },
                         "replaced": []
@@ -330,34 +436,13 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
-                    "icon": "fa fa-list-ul",
-                    "options": {
-                        "body": "{% spaceless %}\r\n    {% set must = [] %}\r\n    {% set body = {\r\n        \"sort\": [\r\n            {\r\n              \"_finalization_datetime\": {\r\n                \"order\": \"desc\"\r\n              }\r\n            }\r\n        ] \r\n    } %}\r\n    \r\n    {% if app.request.query.get('q', false) %}\r\n        {% set must = must|merge({ \r\n            \"query_string\": {\r\n                \"query\": app.request.query.get('q')|default('*'),\r\n                \"default_field\": app.request.query.get('fields')|default('_all')\r\n            } \r\n        }) %}\r\n    {% endif %}\r\n    \r\n    {% if must %}{% set body = body|merge({'query': { \"bool\": { \"must\": must } } } ) %}{% endif %}\r\n{% endspaceless %}\r\n{{- body|json_encode|raw -}}",
-                        "size": 3000,
-                        "template": "{% set tableLength = 200 %}\r\n{% set environments = ['template', 'preview', 'live'] %}\r\n{% set config = 'config'|i18n('en')|json_decode %}\r\n\r\n{% set published = [] %}\r\n{% for env in environments %}\r\n    {% set envHits = {\r\n        \"index\": 'preview'|get_environment.alias,\r\n        \"size\": 3000,\r\n        \"_source\": ['_sha1'],\r\n        \"body\": {\"query\": {\"term\": { \"_contenttype\": { \"value\": \"#{contentType.name}\" } } } }\r\n    }|search.hits.hits %}\r\n    {% set envIdSha1 = [] %}\r\n    {% for hit in envHits %}\r\n        {% set envIdSha1 = envIdSha1|merge({ (hit._id): (hit._source._sha1) }) %}\r\n    {% endfor %}\r\n    {% set published = published|merge({ (env): (envIdSha1) }) %}\r\n{% endfor %}\r\n\r\n<form method=\"GET\" class=\"form\">\r\n    <div class=\"well\" style=\"padding: 15px;\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-4\">\r\n                <select class=\"form-control input-sm\" name=\"fields\">\r\n                    <option value=\"_all\" {% if app.request.query.get('fields')|default(false) == \"_all\" %}selected{% endif %}>All fields</option>\r\n                    {% for label, locale in config.locales %}\r\n                        <option value=\"{{ \"all_#{locale}\" }}\" {% if app.request.query.get('fields')|default(false) == \"all_#{locale}\" %}selected{% endif %}>{{ \"Fields in #{label}\" }}</option>\r\n                    {% endfor %}\r\n                </select>\r\n            </div>\r\n            <div class=\"col-md-4\">\r\n                <input type=\"text\" class=\"form-control input-sm\" placeholder=\"Search text (abc*)\" name=\"q\" value=\"{{ app.request.query.get('q')|default('') }}\">\r\n            </div>\r\n            <div class=\"col-md-4\">\r\n                <div>\r\n                    <div class=\"btn-group\">\r\n                        <button type=\"submit\" class=\"btn btn-sm btn-primary\">Search</button>\r\n                        <a href=\"{{ path('data.customindexview', { viewId: view.id}) }}\" class=\"btn  btn-sm btn-primary\">Reset</a>\r\n                    </div>\r\n                    {% if is_granted(contentType.createRole) %}\r\n                        <a href=\"{{ path('data.add', {contentType: contentType.id}) }}\" class=\"btn btn-sm btn-success pull-right\"><i class=\"fa fa-plus\"></i>&nbsp;Add </a>        \r\n                    {% endif%}\r\n                </div>\r\n            </div>\r\n       </div>\r\n    </div>\r\n</form>\r\n\r\n<div class=\"table-responsive\">\r\n    <table id=\"overview\" class=\"table table-bordered table-striped\" data-page-length=\"{{ tableLength }}\" >\r\n        <thead>\r\n            <tr>\r\n                {% if is_granted(contentType.editRole) %}<th style=\"width: 20px;\" data-orderable=\"false\"></th>{% endif %}\r\n                <th>key</th>\r\n                <th class=\"text-center\">languages</th>\r\n                <th class=\"text-center\">published</th>\r\n                <th class=\"text-center\" style=\"width: 20px;\">info</th>\r\n                {% if is_granted('ROLE_COPY_PASTE') or is_granted('ROLE_ADMIN') %}<th data-orderable=\"false\" style=\"width: 60px;\"></th>{% endif %}\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            {% for hit in result.hits.hits %}\r\n                {% set info %}\r\n                   {{ hit._source._finalization_datetime|date('d-m-Y H:i') }}\r\n                   <br />\r\n                   {{ hit._source._finalized_by is defined ? hit._source._finalized_by : '' }}\r\n                {% endset %}\r\n                <tr>\r\n                    {% if is_granted(contentType.editRole) %}\r\n                        <td><a class=\"btn btn-xs btn-primary\" href=\"{{ path('revision.new-draft', {'type': contentType.name, 'ouuid': hit._id }) }}\"><i class=\"fa fa-pencil\" /></a></td>\r\n                    {% endif %}\r\n                    <td><a href=\"{{ path('ems_content_revisions_view', {'type': contentType.name, 'ouuid': hit._id }) }}\" >{{ hit._source.key }}</a></td>\r\n                    <td class=\"text-center\" \r\n                        data-order=\"{{ config.locales|filter(v => attribute(hit._source, \"label_#{v}\")|default(\"\") != \"\")|join(' ') }}\"\r\n                        data-search=\"{{ config.locales|map(v => attribute(hit._source, \"label_#{v}\")|default(\"\") )|join(' ') }}\">\r\n                        {% for lang, locale in config.locales %}\r\n                            {% set langClass = attribute(hit._source, \"label_#{locale}\")|default(\"\") != \"\" ? 'primary': 'default' %}\r\n                            <span class=\"label {{ \"label-#{langClass}\"|default(\"\") }}\" data-toggle=\"tooltip\" data-placement=\"top\" aria-hidden=\"true\" title=\"{{ attribute(hit._source, \"label_#{locale}\")|default(\"\") }}\">{{ locale|upper }}</span>\r\n                        {% endfor %}\r\n                    </td>\r\n                    <td class=\"text-center\" data-order=\"{{ environments|filter(v => hit._id in attribute(published, v)|keys)|join(' ') }}\">\r\n                        <div class=\"btn-group\">\r\n                            {% for env in environments %}\r\n                                {% set isPublished = (hit._id in attribute(published, env)|keys ? true : false) %}\r\n                                {% set isAligned = (hit._source._sha1 == attribute(attribute(published, env), hit._id)|default(false) ? true : false) %}\r\n                                {% set envClass = (isAligned ? 'primary' : (isPublished ? 'default' : 'danger') ) %}\r\n                                <button type=\"button\" class=\"btn btn-xs {{ \"btn-#{envClass}\" }}\">{{ env[0:4]|capitalize }}</button>\r\n                            {% endfor %}\r\n                        </div>\r\n                    </td>\r\n                    <td class=\"text-center\" data-order=\"{{ hit._source._finalization_datetime }}\">\r\n                        <i class=\"fa fa-info-circle text-primary\" data-toggle=\"tooltip\" data-placement=\"top\" data-html=\"true\"  aria-hidden=\"true\" title=\"{{ info }}\"></i>\r\n                    </td>\r\n                    {% if is_granted('ROLE_COPY_PASTE') or is_granted('ROLE_ADMIN') %}\r\n                        <td class=\"text-center\">\r\n                            <div class=\"btn-group\">\r\n                                {% if is_granted('ROLE_COPY_PASTE') %}\r\n                                    <a class=\"btn btn-xs btn-default\" href=\"{{ path('revision.copy', {'environment': contentType.environment.name, 'type': contentType.name, 'ouuid': hit._id } ) }}\">\r\n            \t\t\t\t\t\t\t<i class=\"fa fa-copy\"></i>\r\n            \t\t\t\t\t\t</a>\r\n        \t\t\t\t\t\t{% endif %}\r\n        \t\t\t\t\t\t{% if is_granted('ROLE_ADMIN') %}\r\n            \t\t\t\t\t\t<a class=\"btn btn-xs btn-default\" href=\"{{ path('data.view', {'environmentName': contentType.environment.name, 'type': contentType.name, 'ouuid':  hit._id} ) }}\">\r\n            \t\t\t\t\t\t\t<i class=\"fa fa-file-text\"></i>\r\n            \t\t\t\t\t\t</a>\r\n        \t\t\t\t\t\t{% endif %}\r\n    \t\t\t\t\t\t</div>\r\n                        </td>\r\n                    {% endif %}\r\n                </tr>\r\n            {% endfor %}\r\n        </tbody>\r\n    </table>\r\n</div>",
-                        "header": "<style type=\"text/css\">\r\n    table#overview .btn { padding: 2px 6px; }\r\n    table#overview td { vertical-align: middle; }\r\n</style>",
-                        "javascript": "<script>\r\n    window.onload = function(){\r\n        $('[data-toggle=\"tooltip\"]').tooltip()\r\n        $(\"#overview\").DataTable({\r\n           \"order\": []\r\n        });\r\n        \r\n        $('*[data-copy-clipboard]').on('click', function(){\r\n            var text = $(this).data('copy-clipboard');\r\n            var textArea = document.createElement(\"textarea\");\r\n            textArea.style.position = 'fixed';\r\n            textArea.style.top = 0;\r\n            textArea.style.left = 0;\r\n            textArea.style.width = '2em';\r\n            textArea.style.height = '2em';\r\n            textArea.style.padding = 0;\r\n            textArea.style.border = 'none';\r\n            textArea.style.outline = 'none';\r\n            textArea.style.boxShadow = 'none';\r\n            textArea.style.background = 'transparent';\r\n            textArea.value = text;\r\n            document.body.appendChild(textArea);\r\n            textArea.focus();\r\n            textArea.select();\r\n            \r\n            try {\r\n                var successful = document.execCommand('copy');\r\n                var msg = successful ? 'successful' : 'unsuccessful';\r\n                console.log('Copying text command was ' + msg);\r\n            } catch (err) {\r\n                console.log('Oops, unable to copy');\r\n            }\r\n            \r\n            document.body.removeChild(textArea);\r\n            return false;\r\n        });\r\n    };\r\n</script>"
-                    },
-                    "orderKey": 2,
-                    "public": false,
-                    "role": "ROLE_WEBMASTER"
-                },
-                "replaced": []
-            },
-            {
-                "class": "EMS\\CoreBundle\\Entity\\View",
-                "arguments": [],
-                "properties": {
-                    "name": "overview-v",
-                    "type": "ems.view.report",
-                    "label": "Overview v2",
                     "icon": "fa fa-list",
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template/admin/view/overview.twig\") }}",
-                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template/admin/view/overview.twig\") }}",
-                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template/admin/view/overview.twig\") }}"
+                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
                     },
                     "orderKey": 2,
                     "public": false,
@@ -368,11 +453,40 @@
         ],
         "defaultValue": null,
         "versionTags": [],
-        "versionOptions": [],
-        "versionFields": [],
-        "roles": [],
-        "fields": [],
-        "settings": null
+        "versionOptions": {
+            "dates_read_only": true,
+            "dates_interval_one_day": false
+        },
+        "versionFields": {
+            "date_from": null,
+            "date_to": null,
+            "version_tag": null
+        },
+        "roles": {
+            "view": "ROLE_WEBMASTER",
+            "create": "ROLE_WEBMASTER",
+            "edit": "ROLE_WEBMASTER",
+            "publish": "ROLE_WEBMASTER",
+            "delete": "not-defined",
+            "trash": "not-defined",
+            "archive": "not-defined",
+            "show_link_create": "ROLE_WEBMASTER",
+            "show_link_search": "ROLE_WEBMASTER"
+        },
+        "fields": {
+            "label": "key",
+            "color": null,
+            "sort": null,
+            "tooltip": null,
+            "circles": null,
+            "business_id": null,
+            "category": null,
+            "asset": null
+        },
+        "settings": {
+            "tasks_enabled": false,
+            "hide_revision_sidebar": false
+        }
     },
     "replaced": []
 }

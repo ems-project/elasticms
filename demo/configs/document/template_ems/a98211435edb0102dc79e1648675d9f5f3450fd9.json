@@ -1,0 +1,4 @@
+{
+    "body": "{%  block ems_value %}\n    {%- if _source.live_search|default(false) -%}\n        {{- _source.live_search|json_encode|raw -}}\n    {%- endif -%}\n{% endblock %}\n\n{%  block ems_display %}\n    <ul>\n        {% for text in data|default([]) %}\n            <li>\n                {{ text }}\n            </li>\n        {% endfor %}\n    </ul>\n{% endblock %}\n\n\n{%  block ems_post_processing %}\n    {% set config = 'config'|i18n('en')|json_decode %}\n    {% set locales = config.locales|default([]) %}\n    {% set textes = {} %}\n    {% if _source.label is defined %}\n        {% set textes = textes|merge([_source.label]) %}\n    {% endif %}\n    {% for locale in locales %}\n        {% if attribute(_source, locale).title is defined %}\n            {% set textes = textes|merge([attribute(_source, locale).title]) %}\n        {% endif %}\n    {% endfor %}\n    {{ textes|json_encode|raw }}\n{% endblock %}\n",
+    "name": "content_type/live_search.twig"
+}

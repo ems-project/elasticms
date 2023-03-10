@@ -1,0 +1,12 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block widget %}
+    {% trans_default_domain trans_default_domain %}
+    <div class="container-fluid container-lg ems-paragraph">
+        <div class="row">
+            <div class="col-12">
+                {{ item.object.body|default('')|emsch_routing }}
+            </div>
+        </div>
+    </div>
+{% endblock widget %}

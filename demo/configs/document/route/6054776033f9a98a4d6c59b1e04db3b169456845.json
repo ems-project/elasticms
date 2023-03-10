@@ -1,0 +1,5 @@
+{
+    "config": "{\"path\":\"\\/iframe\\/{ouuid}\\/{_locale}\",\"controller\":\"emsf.controller.form::iframe\"}",
+    "name": "form_iframe",
+    "order": 14
+}

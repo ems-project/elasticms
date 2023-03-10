@@ -1,0 +1,6 @@
+{
+    "config": "{\"path\":\"favicon.ico\",\"controller\":\"emsch.controller.router::redirect\"}",
+    "name": "favicon.ico",
+    "order": 4,
+    "template_static": "template:0defd42ee35fd58fba6df0b46d5ddb06846a1809"
+}

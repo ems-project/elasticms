@@ -1,5 +1,20 @@
 # Changelog 5.x
 
+## 5.3.2 (2023-03-07)
+### Features
+* feat(emsch/routing): search one and http exceptions by @theus77 in https://github.com/ems-project/elasticms/pull/362
+### Bug Fixes
+* fix(emsch/templating): handling error EMSCH_TEMPLATES by @theus77 in https://github.com/ems-project/elasticms/pull/360
+* fix(emsco/choice): multiple keyword index error by @Davidmattei in https://github.com/ems-project/elasticms/pull/365
+* fix(emsco/export): solve a circular ref in form JSON export by @theus77 in https://github.com/ems-project/elasticms/pull/361
+* fix(emsco/forms): default data in emco_form by @theus77 in https://github.com/ems-project/elasticms/pull/358
+* fix(emsco/json-menu-nested): link unique array_diff error by @Davidmattei in https://github.com/ems-project/elasticms/pull/367
+* fix(emsco/notifications): dateTimes not initialize by @theus77 in https://github.com/ems-project/elasticms/pull/359
+* fix(emsco/recompute): set finalization fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/366
+* fix(emsco/revision): search revision deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/364
+### Code Refactoring
+* refactor(demo): migrate promo website by @theus77 in https://github.com/ems-project/elasticms/pull/363
+
 ## 5.3.1 (2023-02-28)
 ### Bug Fixes
 * fix(common/api): EMS_BACKEND_API_VERIFY by @Davidmattei in https://github.com/ems-project/elasticms/pull/351
@@ -40,6 +55,10 @@
 * fix(form): no entityService and missing migrations by @Davidmattei in https://github.com/ems-project/elasticms/pull/317
 * fix(notifications): outbox table not showing results by @Davidmattei in https://github.com/ems-project/elasticms/pull/346
 * fix(storage): header noindex for immutable responses by @theus77 in https://github.com/ems-project/elasticms/pull/339
+
+## 5.2.6 (2023-03-06)
+### Bug Fixes
+* fix(emsco/revision): search revision deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/364
 
 ## 5.2.5 (2023-02-25)
 ### Bug Fixes

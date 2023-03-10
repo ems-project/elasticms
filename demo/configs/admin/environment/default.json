@@ -1,0 +1,19 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Environment",
+    "arguments": [],
+    "properties": {
+        "name": "default",
+        "label": null,
+        "color": "blue",
+        "baseUrl": null,
+        "managed": true,
+        "snapshot": false,
+        "circles": null,
+        "inDefaultSearch": null,
+        "orderKey": null,
+        "updateReferrers": false,
+        "templatePublication": null,
+        "rolePublish": null
+    },
+    "replaced": []
+}

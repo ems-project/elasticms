@@ -1,0 +1,6 @@
+{
+    "config": "{\"path\":\"sitemap.xml\",\"defaults\":{\"_format\":\"xml\"},\"requirements\":[]}",
+    "name": "sitemap.xml",
+    "order": 6,
+    "template_static": "template:d92b6dd5c90b4ee8ad11b547ed0e6cec3b77e6fa"
+}

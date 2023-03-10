@@ -1,0 +1,7 @@
+{
+    "config": "{\"path\":{\"en\":\"publications\\/{slug}\",\"fr\":\"fr\\/publications\\/{slug}\",\"nl\":\"nl\\/publicaties\\/{slug}\",\"de\":\"de\\/publikation\\/{slug}\"},\"controller\":\"emsch.controller.router:asset\",\"defaults\":{\"_target_group\":\"site\"},\"requirements\":[]}",
+    "name": "emsch_publication",
+    "order": 8,
+    "query": "{\"query\":{\"bool\":{\"must\":[{\"terms\":{\"_contenttype\":[\"publication\"]}},{\"term\":{\"target_group\":\"site\"}},{\"term\":{\"show_%_locale%\":true}},{\"term\":{\"slug_%_locale%\":\"%slug%\"}}]}},\"size\":1}",
+    "template_static": "template/asset/publication.json.twig"
+}

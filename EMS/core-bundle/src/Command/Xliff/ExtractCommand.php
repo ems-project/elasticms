@@ -154,7 +154,7 @@ final class ExtractCommand extends AbstractCommand
         if (null !== $this->baseUrl) {
             $this->xliffFilename = $this->baseUrl.$this->assetRuntime->assetPath(
                 [
-                    EmsFields::CONTENT_FILE_NAME_FIELD_ => 'extract.xlf',
+                    EmsFields::CONTENT_FILE_NAME_FIELD_ => \basename($this->xliffFilename),
                     EmsFields::CONTENT_FILE_HASH_FIELD_ => \sha1_file($this->xliffFilename),
                 ],
                 [

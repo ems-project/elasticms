@@ -39,10 +39,6 @@ final class MediaLibrarySync
 
         foreach ($finder as $file) {
             try {
-                if (!\str_starts_with($file->getRealPath(), $this->folder)) {
-                    continue;
-                }
-
                 $position = \strpos($file->getRealPath(), $this->folder);
                 $path = \substr($file->getRealPath(), $position + \strlen($this->folder));
                 if (!\str_starts_with($path, '/')) {

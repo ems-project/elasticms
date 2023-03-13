@@ -10,9 +10,10 @@ final class MediaLibraryMap
     public int $indexDataColumn;
     public bool $isFolder;
     public bool $isFilename;
+    public bool $isRequired;
 
     /**
-     * @param array{'field': string, 'indexDataColumn': int, 'isPathFile': bool } $config
+     * @param array{'field': string, 'indexDataColumn': int, 'isFolder': ?bool, 'isFilename': ?bool, 'isRequired': ?bool } $config
      */
     public function __construct(array $config)
     {
@@ -20,5 +21,6 @@ final class MediaLibraryMap
         $this->indexDataColumn = $config['indexDataColumn'];
         $this->isFolder = $config['isFolder'] ?? false;
         $this->isFilename = $config['isFilename'] ?? false;
+        $this->isRequired = $config['isRequired'] ?? true;
     }
 }

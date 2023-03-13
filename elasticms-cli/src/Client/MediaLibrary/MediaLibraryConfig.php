@@ -8,6 +8,7 @@ use App\CLI\Client\Data\Column\DataColumn;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 final class MediaLibraryConfig
 {
@@ -63,8 +64,7 @@ final class MediaLibraryConfig
                     ->setRequired(['xlsPath', 'mapping'])
                     ->setAllowedTypes('xlsPath', 'string')
                     ->setAllowedTypes('collectionField', ['null', 'string'])
-                    ->setNormalizer('mapping', fn (Options $options, array $value) => \array_map(fn ($map) => new MediaLibraryMap($map), $value))
-                ;
+                    ->setNormalizer('mapping', fn (Options $options, array $value) => \array_map(fn ($map) => new MediaLibraryMap($map), $value));
             });
 
         return $optionsResolver;
@@ -73,5 +73,27 @@ final class MediaLibraryConfig
     public function getCollectionField(): ?string
     {
         return $this->collectionField;
+    }
+
+    public function getFolderColumn(): ?MediaLibraryMap
+    {
+        return $this->getColumnByAccessor('isFolder');
+    }
+
+    public function getFilenameColumn(): ?MediaLibraryMap
+    {
+        return $this->getColumnByAccessor('isFilename');
+    }
+
+    private function getColumnByAccessor(string $accessor): ?MediaLibraryMap
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        foreach ($this->mediaLibraryMapping as $mediaMap) {
+            if ($propertyAccessor->getValue($mediaMap, $accessor)) {
+                return $mediaMap;
+            }
+        }
+
+        return null;
     }
 }

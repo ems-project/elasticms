@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\CLI\Command\MediaLibrary;
 
-use App\CLI\Client\Document\Update\DocumentUpdateConfig;
 use App\CLI\Client\MediaLibrary\MediaLibraryConfig;
 use App\CLI\Client\MediaLibrary\MediaLibrarySync;
 use App\CLI\Commands;

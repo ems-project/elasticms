@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CLI\Client\MediaLibrary;
 
+use Elastica\Query\BoolQuery;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
@@ -13,11 +14,10 @@ use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 final class MediaLibrarySync
 {
-    /** @var <array, array> */
+    /** @var array<string, string> */
     private array $dataArray;
 
     /**
@@ -43,7 +43,7 @@ final class MediaLibrarySync
         if (null != $this->configFile) {
             $this->io->section('A Config File is found - Reading data');
             $this->dataArray = $this->fileReader->getData($this->configFile->xlsPath, true);
-            $this->io->comment(\sprintf('Loaded data in memory: %d rows', \count($this->dataArray )));
+            $this->io->comment(\sprintf('Loaded data in memory: %d rows', \count($this->dataArray)));
         }
 
         $progressBar = $this->io->createProgressBar($finder->count());
@@ -75,8 +75,6 @@ final class MediaLibrarySync
         $ouuid = null;
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->config['content_type']);
         $contentTypeApi = $this->coreApi->data($this->config['content_type']);
-        $folderColumn = $this->getColumnIndexByAccessor($this->configFile->mediaLibraryMapping, 'isFolder');
-        $filenameColumn = $this->getColumnIndexByAccessor($this->configFile->mediaLibraryMapping, 'isFilename');
         while (\count($exploded) > 1) {
             $path = \implode('/', $exploded);
             \array_pop($exploded);
@@ -93,10 +91,31 @@ final class MediaLibrarySync
             $term = new Terms($this->config['path_field'], [$path]);
             $search = new Search([$defaultAlias], $term->toArray());
 
-            if (null != $this->configFile) {
-                $rows = $this->dataSearch($this->dataArray, $filenameColumn, $file->getFilename());
-                // verifier lequel des rows est le bon folder pour trouver la bonne row
-                // faire nouvelle recherche bool must for folder and filename term = value of line data.
+            if (null != $this->configFile && \str_ends_with($path, $file->getFilename())) {
+                if (null != $this->configFile->getFolderColumn() && null != $this->configFile->getFilenameColumn()) {
+                    $rows = $this->dataSearch($this->dataArray, $this->configFile->getFilenameColumn()->indexDataColumn, $file->getFilename());
+                    $folderPath = \implode('/', $exploded);
+                    if (\str_starts_with($folderPath, '/')) {
+                        $folderPath = \substr($folderPath, 1);
+                    }
+                    $row = $this->dataSearch($rows, $this->configFile->getFolderColumn()->indexDataColumn, $folderPath);
+                    if (1 == \count($row)) {
+                        $row = $row[0];
+                        $query = new BoolQuery();
+                        $query->addMust(new Terms($this->configFile->getFolderColumn()->field, [$row[$this->configFile->getFolderColumn()->indexDataColumn]]));
+                        $query->addMust(new Terms($this->configFile->getFilenameColumn()->field, [$row[$this->configFile->getFilenameColumn()->indexDataColumn]]));
+                        $search = new Search([$defaultAlias], $query->toArray());
+                        $data = \array_merge($data, $this->getRawDataFromRow($row));
+                    } else {
+                        $this->io->error(\sprintf('The config is not found "%s" (folder: %s)', $file->getRealPath(), $folderPath));
+
+                        return '';
+                    }
+                } else {
+                    $this->io->error(\sprintf('The config filename or folder is not found'));
+
+                    return '';
+                }
             }
 
             $search->setContentTypes([$this->config['content_type']]);
@@ -110,11 +129,22 @@ final class MediaLibrarySync
             if (!$this->dryRun) {
                 if (null === $document) {
                     $draft = $contentTypeApi->create($data);
-                } elseif (\is_array($source = $data[$this->config['file_field']] ?? null) && \is_array($target = $document->getSource()[$this->config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$this->config['folder_field']] === ($document->getSource()[$this->config['folder_field']] ?? null)) {
-                    $ouuid ??= $document->getId();
-                    continue;
                 } else {
-                    $draft = $contentTypeApi->update($document->getId(), $data);
+                    $dSource = [];
+                    $dTarget = [];
+                    foreach ($data as $key => $value) {
+                        if ($key !== $this->config['file_field']) {
+                            $dTarget[$key] = $document->getSource()[$key] ?? null;
+                            $dSource[$key] = $value;
+                        }
+                    }
+
+                    if (($dSource === $dTarget) && \is_array($source = $data[$this->config['file_field']] ?? null) && \is_array($target = $document->getSource()[$this->config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$this->config['folder_field']] === ($document->getSource()[$this->config['folder_field']] ?? null)) {
+                        $ouuid ??= $document->getId();
+                        break;
+                    } else {
+                        $draft = $contentTypeApi->update($document->getId(), $data);
+                    }
                 }
 
                 if (null === $ouuid) {
@@ -177,22 +207,8 @@ final class MediaLibrarySync
     }
 
     /**
-     * @param MediaLibraryMap[]
-     */
-    private function getColumnIndexByAccessor(array $mediaLibraryMap, string $accessor): ?int
-    {
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
-        foreach ($mediaLibraryMap as $mediaMap) {
-            if ($propertyAccessor->getValue($mediaMap, $accessor)){
-                return $mediaMap->indexDataColumn;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @param <array, array> $data
-     * @return <array, array>
+     * @param  array<mixed> $data
+     * @return array<mixed>
      */
     private function dataSearch(array $data, int $columnIndex, string $search): array
     {
@@ -202,6 +218,38 @@ final class MediaLibrarySync
                 $rows[] = $row;
             }
         }
+
         return $rows;
+    }
+
+    /**
+     * @param array<mixed> $row
+     *
+     * @return array<mixed>
+     */
+    private function getRawDataFromRow(array $row): array
+    {
+        $rawData = [];
+        if (null != $this->configFile) {
+            $mediaLibraryMapping = $this->configFile->mediaLibraryMapping;
+
+            foreach ($mediaLibraryMapping as $mediaLibraryMap) {
+                $value = $row[$mediaLibraryMap->indexDataColumn] ?? null;
+
+                if (null !== $value) {
+                    $rawData[$mediaLibraryMap->field] = $value;
+                }
+
+                if (null === $value && $mediaLibraryMap->isRequired) {
+                    throw new \RuntimeException('Row does not contain media library value in column [%d]', $mediaLibraryMap->indexDataColumn);
+                }
+            }
+
+            if (0 === \count($rawData)) {
+                throw new \RuntimeException('No media library found!');
+            }
+        }
+
+        return $rawData;
     }
 }

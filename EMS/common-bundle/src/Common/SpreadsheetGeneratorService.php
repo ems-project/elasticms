@@ -124,6 +124,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
             self::CONTENT_FILENAME => 'spreadsheet',
             self::CONTENT_DISPOSITION => 'attachment',
             self::WRITER => self::XLSX_WRITER,
+            self::CSV_SEPARATOR => ',',
             'active_sheet' => 0,
         ];
     }
@@ -131,7 +132,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     /**
      * @param array<mixed> $config
      *
-     * @return array{writer: string, filename: string, disposition: string, sheets: array<mixed>}
+     * @return array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string}
      */
     private function resolveOptions(array $config): array
     {
@@ -144,7 +145,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         $resolver->setAllowedValues(self::WRITER, [self::XLSX_WRITER, self::CSV_WRITER]);
         $resolver->setAllowedValues(self::CONTENT_DISPOSITION, ['attachment', 'inline']);
 
-        /** @var array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $resolved */
+        /** @var array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string} $resolved */
         $resolved = $resolver->resolve($config);
 
         return $resolved;
@@ -221,7 +222,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
     }
 
     /**
-     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
+     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string} $config
      */
     private function getCsvStreamedFile(array $config, string $filename): void
     {
@@ -235,13 +236,13 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         }
 
         foreach ($config[self::SHEETS][0]['rows'] ?? [] as $row) {
-            \fputcsv($handle, $row);
+            \fputcsv($handle, $row, $config[self::CSV_SEPARATOR]);
         }
         \fclose($handle);
     }
 
     /**
-     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>} $config
+     * @param array{writer: string, filename: string, disposition: string, sheets: array<mixed>, csv_separator: string} $config
      */
     private function getCsvStreamedResponse(array $config): StreamedResponse
     {
@@ -257,7 +258,7 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
                 }
 
                 foreach ($config[self::SHEETS][0]['rows'] ?? [] as $row) {
-                    \fputcsv($handle, $row);
+                    \fputcsv($handle, $row, $config[self::CSV_SEPARATOR]);
                 }
             }
         );

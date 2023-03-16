@@ -1,5 +1,13 @@
 # Changelog 5.x
 
+## 5.3.3 (2023-03-14)
+### Bug Fixes
+* fix(ems): spreadsheet csv separtor config by @Davidmattei in https://github.com/ems-project/elasticms/pull/378
+* fix(emsf): align configs web/admin by @theus77 in https://github.com/ems-project/elasticms/pull/377
+* fix(emsf): form configs by @theus77 in https://github.com/ems-project/elasticms/pull/375
+### Code Refactoring
+* refactor(emsco/recompute): migrate a notification to latest revision by @theus77 in https://github.com/ems-project/elasticms/pull/369
+
 ## 5.3.2 (2023-03-07)
 ### Features
 * feat(emsch/routing): search one and http exceptions by @theus77 in https://github.com/ems-project/elasticms/pull/362

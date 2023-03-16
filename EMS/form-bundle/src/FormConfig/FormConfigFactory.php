@@ -118,7 +118,15 @@ class FormConfigFactory
             $formConfig->setTemplate($source[$this->emsConfig[Configuration::FORM_TEMPLATE_FIELD]]);
         }
         if (isset($source[$this->emsConfig[Configuration::DOMAIN_FIELD]])) {
-            $this->addDomain($formConfig, $source[$this->emsConfig[Configuration::DOMAIN_FIELD]]);
+            if (\is_string($source[$this->emsConfig[Configuration::DOMAIN_FIELD]])) {
+                $this->addDomain($formConfig, $source[$this->emsConfig[Configuration::DOMAIN_FIELD]]);
+            } elseif (\is_array($source[$this->emsConfig[Configuration::DOMAIN_FIELD]])) {
+                foreach ($source[$this->emsConfig[Configuration::DOMAIN_FIELD]] as $domain) {
+                    $formConfig->addDomain($domain);
+                }
+            } else {
+                throw new \RuntimeException('Unexpected domain type');
+            }
         }
         if (isset($source[$this->emsConfig[Configuration::NAME_FIELD]])) {
             $formConfig->setName($source[$this->emsConfig[Configuration::NAME_FIELD]]);

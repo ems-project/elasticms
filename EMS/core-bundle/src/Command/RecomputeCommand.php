@@ -243,7 +243,7 @@ final class RecomputeCommand extends Command
             }
 
             if ($transactionActive) {
-                //  $this->em->commit();
+                $this->em->commit();
             }
             $this->em->clear();
 

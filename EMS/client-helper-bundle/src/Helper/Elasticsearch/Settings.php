@@ -91,10 +91,10 @@ final class Settings
      */
     public function getTemplateMapping(string $contentTypeName): array
     {
-        if (empty($this->templateContentTypes)) {
+        if (empty($this->templateMapping)) {
             throw new \RuntimeException('Missing config EMSCH_TEMPLATES');
         }
-        if (!isset($this->templateContentTypes[$contentTypeName])) {
+        if (!isset($this->templateMapping[$contentTypeName])) {
             throw new \RuntimeException(\sprintf('Content type %s not found in config EMSCH_TEMPLATES', $contentTypeName));
         }
 

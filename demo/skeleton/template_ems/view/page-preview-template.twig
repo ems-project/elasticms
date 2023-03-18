@@ -31,6 +31,23 @@
 {% block javascript %}
 <script type="text/javascript">
     window.addEventListener('message', function(event) {
+        if ("resize" === event.data) {
+            const iframes = document.querySelectorAll("iframe");
+            for (let i = 0; i < iframes.length; i++) {
+                const iframe = iframes[i];
+                if (event.source !== iframe.contentWindow) {
+                    continue;
+                }
+
+                const window = iframe.contentWindow || iframe.contentDocument.defaultView;
+                const border = window.getComputedStyle(iframe, null).getPropertyValue('border-top-width').replace('px','');
+                iframe.height = (parseInt(window.document.body.scrollHeight, 10) + 2*parseInt(border, 10)) + "px";
+                console.log(iframe.height);
+            }
+            return;
+        }
+
+
         const iframe = document.getElementById(event.data);
         const window = iframe.contentWindow || iframe.contentDocument.defaultView;
         window.postMessage(iframe.dataset.content, '*');

@@ -11,3 +11,17 @@
 {% endblock %}
 
 
+
+{% block javascript -%}
+    {{ parent() }}
+    <script type="application/javascript">
+        window.addEventListener("resize", () => {
+            window.parent.postMessage("resize", "*");
+        });
+        window.addEventListener("load", () => {
+            window.parent.postMessage("resize", "*");
+        });
+    </script>
+{% endblock %}
+
+

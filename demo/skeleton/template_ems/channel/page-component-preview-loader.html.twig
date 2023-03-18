@@ -1,0 +1,19 @@
+{% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block body -%}
+    <form method="post" name="form" id="form">
+        <input type="hidden" name="data" id="data">
+    </form>
+    Waiting data....
+{% endblock %}
+
+{% block javascript -%}
+    <script type="application/javascript">
+        window.addEventListener('message', function(event) {
+            document.form.data.value = event.data;
+            document.form.submit();
+        });
+        window.parent.postMessage("{{ app.request.get('iframeId') }}", "*");
+    </script>
+{% endblock %}

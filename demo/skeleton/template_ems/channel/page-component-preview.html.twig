@@ -16,10 +16,10 @@
     {{ parent() }}
     <script type="application/javascript">
         window.addEventListener("resize", () => {
-            window.parent.postMessage("resize", "*");
+            window.parent.postMessage("resize", "{{ app.request.getSchemeAndHttpHost() }}");
         });
         window.addEventListener("load", () => {
-            window.parent.postMessage("resize", "*");
+            window.parent.postMessage("resize", "{{ app.request.getSchemeAndHttpHost() }}");
         });
     </script>
 {% endblock %}

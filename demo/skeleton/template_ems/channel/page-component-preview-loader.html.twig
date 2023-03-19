@@ -10,10 +10,12 @@
 
 {% block javascript -%}
     <script type="application/javascript">
+        // Post form on post data from parent
         window.addEventListener('message', function(event) {
             document.form.data.value = event.data;
             document.form.submit();
         });
-        window.parent.postMessage("{{ app.request.get('iframeId') }}", "*");
+        // Tell parent that iframe is ready to treat data
+        window.parent.postMessage("post-data", "{{ app.request.getSchemeAndHttpHost() }}");
     </script>
 {% endblock %}

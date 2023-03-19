@@ -16,7 +16,7 @@
             <h2>{{ template.name }}</h2>
             <button data-content="{{ template.content }}" class="ems_copy_to_json"><i class="fa fa-copy"></i> Copy</button>
             <div class="template-preview-iframe">
-                <iframe id="preview-iframe-{{ loop.index0 }}" src="{{ asset('/') }}channel/preview/_emsch/templates/preview-iframe-{{ loop.index0 }}" width="100%" height="400" data-content="{{ template.content }}"></iframe>
+                <iframe id="preview-iframe-{{ loop.index0 }}" src="{{ asset('/') }}channel/preview/_emsch/templates/preview-iframe-{{ loop.index0 }}" width="100%" data-content="{{ template.content }}"></iframe>
             </div>
         </div>
     {% endfor %}
@@ -30,28 +30,39 @@
 
 {% block javascript %}
 <script type="text/javascript">
+    // Load and resize iframes
     window.addEventListener('message', function(event) {
-        if ("resize" === event.data) {
-            const iframes = document.querySelectorAll("iframe");
-            for (let i = 0; i < iframes.length; i++) {
-                const iframe = iframes[i];
-                if (event.source !== iframe.contentWindow) {
-                    continue;
-                }
-
-                const window = iframe.contentWindow || iframe.contentDocument.defaultView;
-                const border = window.getComputedStyle(iframe, null).getPropertyValue('border-top-width').replace('px','');
-                iframe.height = (parseInt(window.document.body.scrollHeight, 10) + 2*parseInt(border, 10)) + "px";
-                console.log(iframe.height);
+        let iframe = null;
+        const iframes = document.querySelectorAll("iframe");
+        for (let i = 0; i < iframes.length; i++) {
+            if (event.source === iframes[i].contentWindow) {
+                iframe = iframes[i];
+                break;
             }
+        }
+
+        if (null === iframe) {
+            console.log('Received message from a unknown iframe');
             return;
         }
 
-
-        const iframe = document.getElementById(event.data);
         const window = iframe.contentWindow || iframe.contentDocument.defaultView;
-        window.postMessage(iframe.dataset.content, '*');
+        switch (event.data) {
+            case "resize":
+                let height = parseInt(window.getComputedStyle(iframe, null).getPropertyValue('border-top-width').replace('px',''), 10);
+                height += parseInt(window.getComputedStyle(iframe, null).getPropertyValue('border-bottom-width').replace('px',''), 10);
+                height += parseInt(window.document.body.scrollHeight, 10);
+                iframe.height = height;
+                break;
+            case "post-data":
+                window.postMessage(iframe.dataset.content, "{{ app.request.getSchemeAndHttpHost() }}");
+                break;
+            default:
+                console.log('Unknown iframe event: ' + event.data);
+        }
     });
+
+    // register copy button
     const buttons = document.querySelectorAll(".ems_copy_to_json");
     for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];

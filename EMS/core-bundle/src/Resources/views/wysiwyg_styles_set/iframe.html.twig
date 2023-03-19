@@ -19,12 +19,18 @@
 {% endif %}
     <script type="application/javascript">
         let loaded = false;
-        const self = this;
         const resizeFct = function() {
             if (!loaded) {
                 return;
             }
             window.parent.postMessage("resize", "{{ app.request.getSchemeAndHttpHost() }}");
+        };
+        const startReady = function() {
+            if (loaded) {
+                return;
+            }
+            window.parent.postMessage("ready", "{{ app.request.getSchemeAndHttpHost() }}");
+            setTimeout(startReady, 1000);
         };
 
         window.addEventListener('message', function(event) {
@@ -32,13 +38,14 @@
                 console.log('Not a parent\'s message');
                 return;
             }
-            document.body.insertAdjacentHTML('afterbegin', event.data);
             loaded = true;
+            document.body.insertAdjacentHTML('afterbegin', event.data);
             resizeFct();
         });
         window.addEventListener("resize", resizeFct);
         window.addEventListener("redraw", resizeFct);
-        window.parent.postMessage("ready", "{{ app.request.getSchemeAndHttpHost() }}");
+        window.addEventListener("load", resizeFct);
+        startReady();
     </script>
 </body>
 </html>

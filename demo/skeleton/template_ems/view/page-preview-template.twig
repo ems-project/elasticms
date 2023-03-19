@@ -16,7 +16,7 @@
             <h2>{{ template.name }}</h2>
             <button data-content="{{ template.content }}" class="ems_copy_to_json"><i class="fa fa-copy"></i> Copy</button>
             <div class="template-preview-iframe">
-                <iframe id="preview-iframe-{{ loop.index0 }}" src="/channel/preview/_emsch/templates/preview-iframe-{{ loop.index0 }}" width="100%" height="400" data-content="{{ template.content }}"></iframe>
+                <iframe id="preview-iframe-{{ loop.index0 }}" src="{{ asset('/') }}channel/preview/_emsch/templates/preview-iframe-{{ loop.index0 }}" width="100%" height="400" data-content="{{ template.content }}"></iframe>
             </div>
         </div>
     {% endfor %}

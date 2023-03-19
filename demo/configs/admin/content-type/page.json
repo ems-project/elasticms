@@ -1285,9 +1285,9 @@
                 "class": "EMS\\CoreBundle\\Entity\\View",
                 "arguments": [],
                 "properties": {
-                    "name": "templates",
+                    "name": "recipes",
                     "type": "ems.view.report",
-                    "label": "Templates",
+                    "label": "Recipes",
                     "icon": "glyphicon glyphicon-modal-window",
                     "options": {
                         "body": "{}",

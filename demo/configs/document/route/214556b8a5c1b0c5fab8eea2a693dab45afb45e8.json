@@ -1,0 +1,6 @@
+{
+    "config": "{\"path\":\"\\/_emsch\\/templates\\/{iframeId}\",\"method\":[\"POST\"]}",
+    "name": "_emsch_template_preview",
+    "order": 3,
+    "template_static": "template_ems:1e60592226084be98eb5ccfc350475c17d9a88a1"
+}

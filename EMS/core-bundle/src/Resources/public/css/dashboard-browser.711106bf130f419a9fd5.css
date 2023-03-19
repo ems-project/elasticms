@@ -1,0 +1,17 @@
+/*!********************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./assets/css/modules/dashboard-browser.scss ***!
+  \********************************************************************************************************************************************************************************************/
+html, body {
+  padding: 0 !important;
+  margin: 0 !important;
+  min-height: 100% !important;
+  height: 100% !important;
+}
+
+body {
+  background-color: #ecf0f5;
+}
+
+div.media-lib {
+  height: 100%;
+}

@@ -17,5 +17,28 @@
 {% if null != styleSet.contentJs %}
     <script src="{{ asset(styleSet.contentJs, styleSet.saveDir == null ? 'emsch' : null) }}"></script>
 {% endif %}
+    <script type="application/javascript">
+        let loaded = false;
+        const self = this;
+        const resizeFct = function() {
+            if (!loaded) {
+                return;
+            }
+            window.parent.postMessage("resize", "{{ app.request.getSchemeAndHttpHost() }}");
+        };
+
+        window.addEventListener('message', function(event) {
+            if (event.source !== window.parent) {
+                console.log('Not a parent\'s message');
+                return;
+            }
+            document.body.insertAdjacentHTML('afterbegin', event.data);
+            loaded = true;
+            resizeFct();
+        });
+        window.addEventListener("resize", resizeFct);
+        window.addEventListener("redraw", resizeFct);
+        window.parent.postMessage("ready", "{{ app.request.getSchemeAndHttpHost() }}");
+    </script>
 </body>
 </html>

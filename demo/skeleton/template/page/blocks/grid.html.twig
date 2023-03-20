@@ -15,7 +15,7 @@
             {% if item.object.target|default(false) %}
                 <div class="row pt-4">
                     <div class="col-12">
-                        <a href="{{ item.object.target|emsch_routing }}">{{ item.object.target_label|default('block.grid.see_also'|trans) }}</a>
+                        <a href="{{ "ems://object:#{item.object.target}"|default('')|emsch_routing }}">{{ item.object.target_label|default('block.grid.see_also'|trans) }}</a>
                     </div>
                 </div>
             {%  endif %}

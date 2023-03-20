@@ -1,15 +1,15 @@
 {% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
 
 {% block widget %}
-{#    {% trans_default_domain trans_default_domain %}#}
-{#    {% set form = item.object.target|emsch_get|default('') %}#}
+    {% trans_default_domain trans_default_domain %}
+    {% set form = item.object.target|emsch_get|default('') %}
 
-{#    <div id="ems-form-{{ item.id }}" class="mb-5">#}
-{#        <p>{{ 'ems_form.loading'|trans|raw }}</p>#}
-{#    </div>#}
-{#    <div id="ems-message-{{ item.id }}"></div>#}
-{#    <iframe id="ems-form-iframe-{{ item.id }}" src="{{ absolute_url(path('form_iframe', {#}
-{#        ouuid:form.ouuid,#}
-{#        _locale: locale#}
-{#    })) }}" style="display:none;" title="{{ 'ems_form.ignore_iframe'|trans }}" data-form-id="ems-form-{{ item.id }}" data-message-id="ems-message-{{ item.id }}"></iframe>#}
+    <div id="ems-form-{{ item.id }}" class="mb-5">
+        <p>{{ 'ems_form.loading'|trans|raw }}</p>
+    </div>
+    <div id="ems-message-{{ item.id }}"></div>
+    <iframe id="ems-form-iframe-{{ item.id }}" src="{{ absolute_url(path('form_iframe', {
+        ouuid:form.ouuid,
+        _locale: locale
+    })) }}" style="display:none;" title="{{ 'ems_form.ignore_iframe'|trans }}" data-form-id="ems-form-{{ item.id }}" data-message-id="ems-message-{{ item.id }}"></iframe>
 {% endblock widget %}

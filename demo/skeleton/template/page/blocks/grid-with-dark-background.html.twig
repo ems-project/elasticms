@@ -1,8 +1,8 @@
-{% extends '@EMSCH/template/page/blocks/grid.html.twig' %}
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
 
 {% block body %}
     {% trans_default_domain trans_default_domain %}
-    <section class="bg-dark text-white py-9 ems-grid ems-dark-grid">
+    <section class="bg-dark text-white py-9 ems-dark-grid">
         <div class="container-fluid container-lg">
             <div class="row">
                 <div class="col-12 col-xl-10 offset-xl-1">
@@ -22,3 +22,14 @@
         </div>
     </section>
 {% endblock %}
+
+
+{% block child %}
+    <div class="row news">
+        {% if loop.index is divisible by(2) %}
+            {{ block("widget", "@EMSCH/template/page/blocks/image-right.html.twig") }}
+        {% else %}
+            {{ block("widget", "@EMSCH/template/page/blocks/image-left.html.twig") }}
+        {% endif %}
+    </div>
+{% endblock child %}

@@ -1,30 +1,40 @@
-{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+{% extends '@EMSCH/template/page/blocks/image.html.twig' %}
 
-{% block widget %}
+{% block widget_image %}
     {% trans_default_domain trans_default_domain %}
-    <div class="row news">
-        <div class="col-md-6">
-            <img class="news-image img-fluid rounded mx-auto"
-               data-src="{{ ems_asset_path(item.object.image, {
-                   _config_type: 'image',
-                   _width: 490,
-                   _height: 300,
-                   _quality: 90,
-               }) }}"
-               alt="490x300"
-               src="{{ ems_asset_path(item.object.image, {
-                   _config_type: 'image',
-                   _width: 490,
-                   _height: 300,
-                   _quality: 90,
-               }) }}"
-               data-holder-rendered="true">
-        </div>
-        <div class="col-md-6 col-xl-5 offset-xl-1">
-            <div class="tag">Orejime et cookies</div>
-            {{ item.object.body|default('')|emsch_routing }}
-        </div>
+
+    <div class="col-md-6">
+        <img class="news-image img-fluid rounded mx-auto" data-src="../file/ad17307cb17006fe0d8cf4f997fca3ebfdbd350a/89796f895ab84f4ca6227316fd5b43601bad31d7/ems%20orejime%20gba%20fr.png" alt="490x300" src="../file/ad17307cb17006fe0d8cf4f997fca3ebfdbd350a/89796f895ab84f4ca6227316fd5b43601bad31d7/ems%20orejime%20gba%20fr.png" data-holder-rendered="true">
     </div>
-{% endblock widget %}
+
+    <div class="col-md-6 col-xl-5 offset-xl-1">
+        {{ block('tags') }}
+        {{ block('body') }}
+    </div>
+
+    {#    <div class="row news">#}
+{#        <div class="col-md-6">#}
+{#            <img class="news-image img-fluid rounded mx-auto"#}
+{#               data-src="{{ ems_asset_path(item.object.image, {#}
+{#                   _config_type: 'image',#}
+{#                   _width: 490,#}
+{#                   _height: 300,#}
+{#                   _quality: 90,#}
+{#               }) }}"#}
+{#               alt="490x300"#}
+{#               src="{{ ems_asset_path(item.object.image, {#}
+{#                   _config_type: 'image',#}
+{#                   _width: 490,#}
+{#                   _height: 300,#}
+{#                   _quality: 90,#}
+{#               }) }}"#}
+{#               data-holder-rendered="true">#}
+{#        </div>#}
+{#        <div class="col-md-6 col-xl-5 offset-xl-1">#}
+{#            <div class="tag">Orejime et cookies</div>#}
+{#            {{ item.object.body|default('')|emsch_routing }}#}
+{#        </div>#}
+{#    </div>#}
+{% endblock widget_image %}
 
 

@@ -1,0 +1,26 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block tags %}
+    {% for tag in target.source.categories|default([]) %}
+        {% set category = tag|emsch_get|default(false) %}
+        {% if category and attribute(category.source, locale).title|default(false) %}
+            <div class="tag">{{ attribute(category.source, locale).title }}</div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+    {% if attribute(target.source, locale).title|default(false) %}
+        <h3 class="h2 news-heading">{{ attribute(target.source, locale).title }}</h3>
+    {% endif %}
+    {{ attribute(target.source, locale).body|default('')|emsch_routing }}
+{% endblock %}
+
+{% block widget %}
+    {% trans_default_domain trans_default_domain %}
+    {% set target = item.object.target|emsch_get|default(false) %}
+    {%  dump(target) %}
+    {% if target %}
+        {{ block('widget_image') }}
+    {%  endif %}
+{% endblock widget %}

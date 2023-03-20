@@ -1,0 +1,32 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block widget %}
+    {% trans_default_domain trans_default_domain %}
+    {% set target = item.object.target|emsch_get|default(false) %}
+    {%  dump(target) %}
+    {% if target %}
+        <div class="row news">
+            <div class="col-md-6">
+                <img class="news-image img-fluid rounded mx-auto"
+                     data-src="../file/ad17307cb17006fe0d8cf4f997fca3ebfdbd350a/89796f895ab84f4ca6227316fd5b43601bad31d7/ems%20orejime%20gba%20fr.png"
+                     alt="490x300"
+                     src="../file/ad17307cb17006fe0d8cf4f997fca3ebfdbd350a/89796f895ab84f4ca6227316fd5b43601bad31d7/ems%20orejime%20gba%20fr.png"
+                     data-holder-rendered="true">
+            </div>
+            <div class="col-md-6 col-xl-5 offset-xl-1">
+                {% for tag in target.source.categories|default([]) %}
+                    {% set category = tag|emsch_get|default(false) %}
+                    {% if category %}
+                        <div class="tag">{{ attribute(category.source, locale).title }}</div>
+                    {% endif %}
+                {% endfor %}
+                <h3 class="h2 news-heading">Un gestionnaire accessible</h3>
+                <p>Avec <strong>Orejime</strong>, vous gérez les cookies en toute simplicité et transparence. Orejime est un
+                    système que vous pouvez utiliser sur votre site Web afin de permettre aux utilisateurs de choisir les
+                    cookies optionnels qu’ils autorisent via un pop-up d’accueil.</p>
+                <p>Il a été spécialement conçu pour se conformer au <strong>RGPD</strong>. En un clic, l’utilisateur
+                    renseigne ses choix de cookies et ses préférences sont sauvegardées.</p>
+            </div>
+        </div>
+    {%  endif %}
+{% endblock widget %}

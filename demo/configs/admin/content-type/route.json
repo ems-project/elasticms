@@ -400,7 +400,7 @@
         },
         "refererFieldName": null,
         "sortOrder": "asc",
-        "orderKey": 7,
+        "orderKey": 10,
         "rootContentType": false,
         "editTwigWithWysiwyg": true,
         "webContent": false,

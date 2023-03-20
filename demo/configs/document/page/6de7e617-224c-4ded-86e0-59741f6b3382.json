@@ -1,0 +1,14 @@
+{
+    "fr": {
+        "body": "<h2>Un projet &agrave; concr&eacute;tiser ?</h2>\r\n\r\n<p>Vous voulez en savoir plus ? Vous avez des questions ?</p>\r\n\r\n<h2>Dites-nous tout !&nbsp;&nbsp;</h2>\r\n\r\n<p><strong>Mathieu De Keyzer</strong></p>\r\n\r\n<p>Responsable technique</p>\r\n\r\n<p><a href=\"mailto:webagency@smals.be\">Par e-mail</a></p>\r\n\r\n<p><a href=\"tel:+3227875909\">Par t&eacute;l&eacute;phone</a></p>\r\n\r\n<p><strong>David Meert</strong></p>\r\n\r\n<p>Gestion de projet</p>\r\n\r\n<p><a href=\"mailto:webagency@smals.be\">Par e-mail</a></p>\r\n\r\n<p><a href=\"tel:+3227874523\">Par t&eacute;l&eacute;phone</a></p>\r\n\r\n<p><strong>Tamara Beeckmans</strong></p>\r\n\r\n<p>Conception et r&eacute;alisation</p>\r\n\r\n<p><a href=\"mailto:webagency@smals.be\">Par e-mail</a></p>\r\n\r\n<p><a href=\"tel:+3227875841\">Par t&eacute;l&eacute;phone</a></p>",
+        "components": "[]",
+        "title": "Contactez-nous"
+    },
+    "label": "Contact form",
+    "menu": "799bec14-0655-4ca7-86f1-ba0491fe74c5",
+    "nl": {
+        "body": "<p>Bent u benieuwd? Hebt u vragen? We willen graag van u horen.</p>\r\n\r\n<h2>Spreek ons aan&hellip;</h2>\r\n\r\n<p><strong>Mathieu De Keyzer</strong></p>\r\n\r\n<p>Ontwikkeling</p>\r\n\r\n<p><a href=\"mailto:webagency@smals.be\">Per e-mail</a></p>\r\n\r\n<p><a href=\"tel:+3227875909\">Telefonisch</a></p>\r\n\r\n<p><strong>David Meert</strong></p>\r\n\r\n<p>Projectbeheer</p>\r\n\r\n<p><a href=\"mailto:webagency@smals.be\">Per e-mail</a></p>\r\n\r\n<p><a href=\"tel:+3227874523\">Telefonisch</a></p>\r\n\r\n<div class=\"col-sm\">\r\n<p><strong>Tamara Beeckmans</strong></p>\r\n\r\n<p>Concept - Uitvoering</p>\r\n\r\n<p><a href=\"mailto:webagency@smals.be\">Per e-mail</a></p>\r\n\r\n<p><a href=\"tel:+3227875841\">Telefonisch</a></p>\r\n</div>",
+        "components": "[]",
+        "title": "Contacteer ons"
+    }
+}

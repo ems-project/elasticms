@@ -1,0 +1,13 @@
+{
+    "fr": {
+        "components": "[]",
+        "title": "Politique d'utilisation des cookies"
+    },
+    "label": "Cookiebeleid",
+    "menu": "cc25f43d-2ea3-486d-832d-02e83619e081",
+    "nl": {
+        "body": "<p>page cookie</p>",
+        "components": "[{\"id\":\"765dfad5-7d8e-4e08-84ee-52d26339014d\",\"label\":\"\",\"type\":\"paragraph\",\"object\":{\"body\":\"<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus condimentum, leo vel vulputate dictum, sapien ipsum molestie justo, id aliquam dolor leo vel quam. Duis nec sapien interdum, rhoncus eros ac, finibus ex. Sed convallis placerat ligula quis ultricies. Vivamus eget nisl nec eros tristique scelerisque egestas sed mauris. Pellentesque semper nisi sit amet nulla mattis, tempor scelerisque ligula fringilla. Ut faucibus purus vitae dolor lacinia, id sodales nisl gravida. Proin commodo nec ipsum a ornare. In cursus quam ac quam molestie volutpat. Phasellus sagittis accumsan ultricies. Sed pellentesque blandit dolor varius semper. Praesent aliquet massa eget pharetra suscipit. Suspendisse potenti. Praesent dictum fermentum orci nec vehicula. Donec eget risus nulla. Curabitur rutrum vitae ex ut sagittis. Quisque at congue diam, id condimentum quam.</p>\\r\\n\\r\\n<p>Nam eleifend congue blandit. In euismod tellus eu risus molestie, in pulvinar urna laoreet. Mauris sollicitudin turpis a faucibus aliquam. Cras pretium euismod orci. Nulla mauris justo, egestas at luctus ut, pellentesque vel ante. Donec a sodales nisi. Aenean sagittis facilisis nunc eu lacinia. Morbi eu mauris volutpat, egestas augue nec, blandit ante. Nam dictum turpis ut urna iaculis, ut accumsan urna convallis.</p>\\r\\n\\r\\n<p>In eu enim in ante tempor rhoncus. Integer a tortor molestie tellus ultricies malesuada vitae ut augue. In non ex quis lorem placerat blandit. Nullam leo urna, tristique at accumsan quis, porttitor sit amet massa. Maecenas vitae felis vel erat gravida aliquet ac non quam. Nulla porta nisl in velit ullamcorper, ut pellentesque ante aliquet. Nam id diam ipsum. Duis malesuada urna id sem lacinia efficitur. Nam posuere, diam porttitor mollis commodo, risus turpis vestibulum nisi, quis accumsan lacus dui nec nisl. Quisque maximus massa sit amet massa congue, sed efficitur orci auctor. Nam tempus felis maximus pretium venenatis. Suspendisse vel nibh laoreet nibh tempor laoreet eu id eros. In et enim non risus porttitor blandit. Vestibulum metus ex, porttitor sit amet risus in, lacinia congue dolor. In faucibus feugiat tincidunt.</p>\",\"label\":\"\"},\"children\":[]}]",
+        "title": "Cookiebeleid"
+    }
+}

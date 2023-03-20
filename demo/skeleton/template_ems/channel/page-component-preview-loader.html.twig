@@ -1,0 +1,21 @@
+{% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block body -%}
+    <form method="post" name="form" id="form">
+        <input type="hidden" name="data" id="data">
+    </form>
+    Waiting data....
+{% endblock %}
+
+{% block javascript -%}
+    <script type="application/javascript">
+        // Post form on post data from parent
+        window.addEventListener('message', function(event) {
+            document.form.data.value = event.data;
+            document.form.submit();
+        });
+        // Tell parent that iframe is ready to treat data
+        window.parent.postMessage("post-data", "{{ app.request.getSchemeAndHttpHost() }}");
+    </script>
+{% endblock %}

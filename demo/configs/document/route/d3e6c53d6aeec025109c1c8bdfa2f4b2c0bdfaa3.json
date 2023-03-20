@@ -1,7 +1,7 @@
 {
     "config": "{\"path\":{\"en\":\"page\\/{slug}\",\"fr\":\"fr\\/page\\/{slug}\"}}",
     "name": "emsch_page",
-    "order": 10,
+    "order": 12,
     "query": "{\"query\":{\"bool\":{\"must\":[{\"term\":{\"%_locale%.show\":true}},{\"term\":{\"%_locale%.slug\":\"%slug%\"}},{\"terms\":{\"_contenttype\":[\"page\"]}}]}},\"size\":1}",
     "template_source": "[template]",
     "template_static": "template:4d2959e91498722514101dbe20e8345b558ee7d5"

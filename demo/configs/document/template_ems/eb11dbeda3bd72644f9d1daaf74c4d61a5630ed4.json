@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/base/base.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block body -%}\n    <form method=\"post\" name=\"form\" id=\"form\">\n        <input type=\"hidden\" name=\"data\" id=\"data\">\n    </form>\n    Waiting data....\n{% endblock %}\n\n{% block javascript -%}\n    <script type=\"application/javascript\">\n        window.addEventListener('message', function(event) {\n            document.form.data.value = event.data;\n            document.form.submit();\n        });\n        window.parent.postMessage(\"{{ app.request.get('iframeId') }}\", \"*\");\n    </script>\n{% endblock %}\n",
+    "name": "channel/page-component-preview-loader.html.twig"
+}

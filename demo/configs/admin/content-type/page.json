@@ -1280,6 +1280,27 @@
                     "role": "ROLE_USER"
                 },
                 "replaced": []
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\View",
+                "arguments": [],
+                "properties": {
+                    "name": "recipes",
+                    "type": "ems.view.report",
+                    "label": "Recipes",
+                    "icon": "glyphicon glyphicon-modal-window",
+                    "options": {
+                        "body": "{}",
+                        "size": 0,
+                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template_ems/view/page-preview-template.twig\") }}",
+                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template_ems/view/page-preview-template.twig\") }}",
+                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template_ems/view/page-preview-template.twig\") }}"
+                    },
+                    "orderKey": 2,
+                    "public": false,
+                    "role": "ROLE_AUTHOR"
+                },
+                "replaced": []
             }
         ],
         "defaultValue": null,

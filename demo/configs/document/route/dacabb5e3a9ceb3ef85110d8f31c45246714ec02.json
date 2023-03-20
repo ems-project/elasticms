@@ -1,6 +1,6 @@
 {
     "config": "{\"path\":\"apple-touch-icon.png\",\"controller\":\"emsch.controller.router::redirect\"}",
     "name": "apple-touch-icon.png",
-    "order": 5,
+    "order": 7,
     "template_static": "template:9e74c74fab78149e5ad3c6dbe5bb865f44d8dbcc"
 }

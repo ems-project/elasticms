@@ -5,6 +5,16 @@ _emsch_go_to:
         defaults: { _format: json }
         controller: 'emsch.controller.router::redirect'
     template_static: template/redirects/_emsch_go_to.json.twig
+_emsch_template_preview_loader:
+    config:
+        path: '/_emsch/templates/{iframeId}'
+        method: ['GET']
+    template_static: template_ems/channel/page-component-preview-loader.html.twig
+_emsch_template_preview:
+    config:
+        path: '/_emsch/templates/{iframeId}'
+        method: ['POST']
+    template_static: template_ems/channel/page-component-preview.html.twig
 _emsch_error:
     config:
         path: '/_emsch/error/{_locale}/{statusCode}.{_format}'

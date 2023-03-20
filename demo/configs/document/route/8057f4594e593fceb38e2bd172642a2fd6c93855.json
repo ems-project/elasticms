@@ -1,7 +1,7 @@
 {
     "config": "{\"path\":{\"fr\":\"\\/fr\\/{path}\",\"nl\":\"\\/nl\\/{path}\"},\"requirements\":{\"path\":\"^(?!(fr\\/|nl\\/|de\\/|_wdt\\/|_profiler\\/|metric|file\\/)(.*$)?).+\"},\"defaults\":{\"path\":\"home\"}}",
     "name": "emsch_path",
-    "order": 21,
+    "order": 22,
     "query": "{\"query\":{\"bool\":{\"must\":[{\"nested\":{\"path\":\"paths\",\"query\":{\"term\":{\"paths.path\":\"%path%\"}}}},{\"nested\":{\"path\":\"paths\",\"query\":{\"term\":{\"paths.locale\":\"%_locale%\"}}}},{\"terms\":{\"_contenttype\":[\"section\"]}}]}},\"size\":1}",
     "template_static": "template:d5e2611f25d6736aa5bad59ab850c91101f9a388"
 }

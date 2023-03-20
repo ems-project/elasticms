@@ -104,6 +104,13 @@ emsch_word_export:
         requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|file/)(.*$)?).+', _locale: en|fr|nl|de }
     query: '{"query":{"bool":{"should":[{"bool":{"must":[{"terms":{"_contenttype":["%contentType%"]}},{"term":{"_id":"%ouuid%"}}]}},{"bool":{"must":[{"nested":{"path":"paths","query":{"term":{"paths.target":{"value":"%contentType%:%ouuid%","boost":3}}}}},{"nested":{"path":"paths","query":{"term":{"paths.locale":{"value":"%_locale%"}}}}},{"terms":{"_contenttype":["structure"]}}]}}]}},"size":1}'
     template_static: template/page/word-export/document.html.twig
+emsch_media_file:
+    config:
+        path: '/media-files{path}'
+        requirements: { path: '.+' }
+        controller: 'emsch.controller.router::redirect'
+    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["media_file"]}},{"terms":{"media_path":["%path%"]}}]}},"size":1}'
+    template_static: template/redirects/media_files.json.twig
 emsch_path:
     config:
         path: { fr: '/fr/{path}', nl: '/nl/{path}' }

@@ -1,0 +1,9 @@
+{%- block request %}
+    {% apply spaceless %}
+        {{ {
+            path: ems_asset_path(source.media_file, {
+                _get_file_path: true,
+            }),
+        }|json_encode|raw }}
+    {% endapply %}
+{% endblock request -%}

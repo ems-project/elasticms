@@ -2,39 +2,13 @@
 
 {% block widget_image %}
     {% trans_default_domain trans_default_domain %}
-
     <div class="col-md-6 offset-xl-1 order-md-2">
-        <img class="news-image img-fluid rounded mx-auto" data-src="../file/ad17307cb17006fe0d8cf4f997fca3ebfdbd350a/0d5c21c50a081d18eeedc9b4c5bb9909cbb973cc/ems%20release.png" alt="490x300" src="../file/ad17307cb17006fe0d8cf4f997fca3ebfdbd350a/0d5c21c50a081d18eeedc9b4c5bb9909cbb973cc/ems%20release.png" data-holder-rendered="true">
+        {{ block('image') }}
     </div>
     <div class="col-md-6 col-xl-5 order-md-1">
         {{ block('tags') }}
-        <h3 class="h2 news-heading">Un outil de planification</h3>
-        <p>La fonction <strong>Release</strong> vous permet désormais de créer une planification de publication de vos contenus aux dates et heures définies. À l’échéance, la publication est déclenchée automatiquement.</p><p>Vous pouvez planifier plusieurs publications à la fois. Vous les retrouverez toutes dans le calendrier personnalisé de publications.</p>
+        {{ block('summary') }}
     </div>
-
-{#    <div class="row news">#}
-{#        <div class="col-md-6 offset-xl-1 order-md-2">#}
-{#            <img class="news-image img-fluid rounded mx-auto"#}
-{#              data-src="{{ ems_asset_path(item.object.image, {#}
-{#                  _config_type: 'image',#}
-{#                  _width: 490,#}
-{#                  _height: 300,#}
-{#                  _quality: 90,#}
-{#              }) }}"#}
-{#              alt="490x300"#}
-{#              src="{{ ems_asset_path(item.object.image, {#}
-{#                  _config_type: 'image',#}
-{#                  _width: 490,#}
-{#                  _height: 300,#}
-{#                  _quality: 90,#}
-{#              }) }}"#}
-{#              data-holder-rendered="true">#}
-{#        </div>#}
-{#        <div class="col-md-6 col-xl-5 order-md-1">#}
-{#            <div class="tag">Publication</div>#}
-{#            {{ item.object.body|default('')|emsch_routing }}#}
-{#        </div>#}
-{#    </div>#}
 {% endblock widget_image %}
 
 

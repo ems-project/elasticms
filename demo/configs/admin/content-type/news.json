@@ -183,13 +183,13 @@
                                                 "arguments": [],
                                                 "properties": {
                                                     "type": "EMS\\CoreBundle\\Form\\DataField\\WysiwygFieldType",
-                                                    "name": "teaser",
+                                                    "name": "summary",
                                                     "contentType": null,
                                                     "deleted": false,
                                                     "description": null,
                                                     "options": {
                                                         "displayOptions": {
-                                                            "label": "Teaser",
+                                                            "label": "Summary",
                                                             "class": "col-md-12",
                                                             "height": 200,
                                                             "format_tags": null,

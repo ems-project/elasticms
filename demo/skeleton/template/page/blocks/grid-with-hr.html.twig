@@ -1,0 +1,22 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block body %}
+    <section class="py-5 py-lg-8">
+        <div class="row">
+            <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                {{ block('children') }}
+            </div>
+        </div>
+    </section>
+{% endblock body %}
+
+{% block child %}
+    <div class="row">
+        <div class="col-md-12">
+            {{ parent() }}
+        </div>
+    </div>
+    {% if not loop.last %}
+        <hr>
+    {% endif %}
+{% endblock child %}

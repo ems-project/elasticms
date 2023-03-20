@@ -2,7 +2,17 @@
 {% trans_default_domain trans_default_domain %}
 
 {% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}
-{% block metatitle %}{{ attribute(source, locale).metatitle|default(block('title')) }}{% endblock %}
+
+{% block headtitle %}
+    {% apply spaceless %}
+        {% if attribute(source, locale).meta_title|default(false) %}
+            {{ attribute(source, locale).meta_title }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endapply %}
+{% endblock %}
+
 
 {% block main -%}
     <div class="jumbotron px-0 rounded-0 mb-0 d-flex align-items-center text-white mb-3">

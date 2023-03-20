@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}\n\n{% block body %}\n    <section class=\"py-5 py-lg-8\">\n        <div class=\"row\">\n            <div class=\"col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2\">\n                {{ block('children') }}\n            </div>\n        </div>\n    </section>\n{% endblock body %}\n\n{% block child %}\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            {{ parent() }}\n        </div>\n    </div>\n    {% if not loop.last %}\n        <hr>\n    {% endif %}\n{% endblock child %}\n",
+    "name": "page/blocks/grid-with-hr.html.twig"
+}

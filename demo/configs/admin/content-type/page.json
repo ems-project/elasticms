@@ -245,7 +245,7 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "language": null,
-                                                            "styles_set_preview": false
+                                                            "styles_set_preview": true
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
@@ -365,7 +365,7 @@
                                                                                     "lastOfRow": false,
                                                                                     "helptext": null,
                                                                                     "language": null,
-                                                                                    "styles_set_preview": false
+                                                                                    "styles_set_preview": true
                                                                                 },
                                                                                 "mappingOptions": [],
                                                                                 "restrictionOptions": {
@@ -957,7 +957,7 @@
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "language": null,
-                                                            "styles_set_preview": false
+                                                            "styles_set_preview": true
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,

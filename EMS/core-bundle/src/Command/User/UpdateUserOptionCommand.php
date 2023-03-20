@@ -61,7 +61,7 @@ EOT
     {
         $simplifiedUI = 'true' === $this->getArgumentString('value');
 
-        foreach ($this->getUsers() as $user) {
+        foreach ($this->updateUsers() as $user) {
             $userOptions = $user->getUserOptions();
             $userOptions[UserOptions::SIMPLIFIED_UI] = $simplifiedUI;
             $user->setUserOptions($userOptions);
@@ -72,7 +72,7 @@ EOT
     {
         $customOptions = Json::decode($this->getArgumentString('value'));
 
-        foreach ($this->getUsers() as $user) {
+        foreach ($this->updateUsers() as $user) {
             $userOptions = $user->getUserOptions();
             $userOptions[UserOptions::CUSTOM_OPTIONS] = \array_merge_recursive(
                 $userOptions[UserOptions::CUSTOM_OPTIONS],
@@ -85,7 +85,7 @@ EOT
     /**
      * @return \Generator<User>
      */
-    private function getUsers(): \Generator
+    private function updateUsers(): \Generator
     {
         $email = $this->getOptionStringNull('email');
         $countFindAll = $this->userManager->countFindAll($email);

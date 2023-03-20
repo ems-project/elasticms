@@ -15,6 +15,21 @@
     {% set footer_menu = 'section:39d3ffdd-6ac3-4828-a1f6-970b1b884ce1' %}
     {% set header_menu = 'section:1e617cf9-6b19-4c33-90ba-5a4c8feff062' %}
 
+    {% set monthsTrans = {
+        '%January%': 'month.January'|trans,
+        '%February%': 'month.February'|trans,
+        '%March%': 'month.March'|trans,
+        '%April%': 'month.April'|trans,
+        '%May%': 'month.May'|trans,
+        '%June%': 'month.June'|trans,
+        '%July%': 'month.July'|trans,
+        '%August%': 'month.August'|trans,
+        '%September%': 'month.September'|trans,
+        '%October%': 'month.October'|trans,
+        '%November%': 'month.November'|trans,
+        '%December%': 'month.December'|trans,
+    } %}
+
     {%- block request %}{% endblock request -%}
 
 {% endapply %}

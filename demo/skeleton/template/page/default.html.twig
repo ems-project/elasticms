@@ -13,15 +13,22 @@
                     <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink)) }}>
                         {{ block('title') }}
                     </h1>
+                    {{ attribute(source, locale).summary|default('')|emsch_routing }}
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid container-lg">
-        <div class="row">
-            <div class="col-12">
-                {% block blocks %}{% endblock %}
-            </div>
+    {% if attribute(source, locale).body|default(false) %}
+        <div class="container-fluid container-lg">
+            <section class="py-5 py-lg-8">
+                <div class="row">
+                    <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                        {{ attribute(source, locale).body|emsch_routing }}
+                    </div>
+                </div>
+            </section>
         </div>
-    </div>
+    {% endif %}
+
+    {% block blocks %}{% endblock %}
 {%- endblock main %}

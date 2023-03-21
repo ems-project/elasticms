@@ -818,8 +818,8 @@
                                                                                     "multiple": false,
                                                                                     "expanded": false,
                                                                                     "select2": false,
-                                                                                    "choices": null,
-                                                                                    "labels": null,
+                                                                                    "choices": "accessibility_report",
+                                                                                    "labels": "Accessibility report",
                                                                                     "linked_collection": null,
                                                                                     "collection_label_field": null
                                                                                 },

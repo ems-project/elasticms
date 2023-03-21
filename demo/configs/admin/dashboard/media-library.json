@@ -7,7 +7,7 @@
         "label": "Media library",
         "sidebarMenu": true,
         "notificationMenu": false,
-        "definition": null,
+        "definition": "browser_file",
         "type": "ems_core.dashboard.template",
         "role": "ROLE_AUTHOR",
         "color": null,

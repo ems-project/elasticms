@@ -8,12 +8,12 @@ _emsch_go_to:
 _emsch_template_preview_loader:
     config:
         path: '/_emsch/templates/{iframeId}'
-        method: ['GET']
+        method: [GET]
     template_static: template_ems/channel/page-component-preview-loader.html.twig
 _emsch_template_preview:
     config:
         path: '/_emsch/templates/{iframeId}'
-        method: ['POST']
+        method: [POST]
     template_static: template_ems/channel/page-component-preview.html.twig
 _emsch_error:
     config:
@@ -107,13 +107,13 @@ emsch_word_export:
 emsch_media_file:
     config:
         path: '/media-files{path}'
-        requirements: { path: '.+' }
+        requirements: { path: .+ }
         controller: 'emsch.controller.router::redirect'
     query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["media_file"]}},{"terms":{"media_path":["%path%"]}}]}},"size":1}'
     template_static: template/redirects/media_files.json.twig
 emsch_news:
     config:
-        path: { fr: '/fr/news', nl: '/nl/news' }
+        path: { fr: /fr/news, nl: /nl/news }
     template_static: template/view/news.html.twig
 emsch_news_details:
     config:

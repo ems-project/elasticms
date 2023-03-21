@@ -133,12 +133,15 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type category
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type form_instance
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type label
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type media_file
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type news
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type page
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type route
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type section
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type slideshow
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type template
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type template_ems
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type user_group
 
   echo "Create/Update QuerySearches"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update query-search pages
@@ -147,8 +150,9 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update query-search categories
 
   echo "Create/Update Dashboards"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update dashboard sitemap
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update dashboard default-search
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update dashboard media-library
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update dashboard sitemap
 
   echo "Create/Update Channels"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update channel preview
@@ -178,6 +182,9 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload page
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload section
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload slideshow
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload media_file
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload news
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload user_group
 
   echo "Align live"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:align preview live --force

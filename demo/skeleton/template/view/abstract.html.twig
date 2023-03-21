@@ -1,0 +1,39 @@
+{% extends '@EMSCH/template/base/bootstrap.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block request %}
+    {% set switchUrls = {} %}
+    {% for l in locales|filter(p => p != locale) %}
+        {% set switchUrls = {(l): path(app.request.get('_route')|split('.')|map(p => p == locale ? l : p)|join('.'), attribute(route_parameters, l)|default({}))} %}
+    {% endfor %}
+    {{ parent() }}
+{% endblock request %}
+
+{% block main -%}
+    <div class="jumbotron px-0 rounded-0 mb-0 d-flex align-items-center text-white mb-3">
+        <div class="container-fluid container-lg">
+            <div class="row">
+                <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2 mb-2">
+                    {% block breadcrumb %}
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb text-white">
+                                <li class="breadcrumb-item">
+                                    <i class="fas fa-chevron-left mr-1"></i>
+                                    {% block back_link %}
+                                        <a class="text-white" href="{{ path('emsch_path') }}">{{ 'breadcrumb.back-to'|trans({('%title%'): 'breadcrumb.homepage'|trans}) }}</a>
+                                    {% endblock back_link %}
+                                </li>
+                            </ol>
+                        </nav>
+                    {% endblock %}
+                    <h1>
+                        {{ block('title') }}
+                    </h1>
+                    {% block summary %}{% endblock summary %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block view_body %}
+    {% endblock view_body %}
+{%- endblock main %}

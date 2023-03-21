@@ -10,6 +10,7 @@ aria:
 blog:
     intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
     title: Blog
+    filter: Filtres
 breadcrumb:
     back-to: 'Retour à la page %title%'
     homepage: 'd''accueil'

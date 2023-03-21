@@ -11,6 +11,7 @@
             "mimetype": "image/png",
             "sha1": "6f5cc63ab7941196126e47ebedb01bfad6f5e0b9"
         },
+        "slug": "une-gestion-collaborative",
         "title": "Une gestion collaborative"
     },
     "label": "Une gestion collaborative/Taakbeheer",
@@ -23,6 +24,7 @@
             "mimetype": "image/png",
             "sha1": "6f5cc63ab7941196126e47ebedb01bfad6f5e0b9"
         },
+        "slug": "taakbeheer",
         "title": "Taakbeheer"
     },
     "publication_date": "2022/10/03"

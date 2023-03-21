@@ -111,6 +111,15 @@ emsch_media_file:
         controller: 'emsch.controller.router::redirect'
     query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["media_file"]}},{"terms":{"media_path":["%path%"]}}]}},"size":1}'
     template_static: template/redirects/media_files.json.twig
+emsch_news:
+    config:
+        path: { fr: '/fr/news', nl: '/nl/news' }
+    template_static: template/view/news.html.twig
+emsch_news_details:
+    config:
+        path: { fr: '/fr/news/{year}-{month}-{day}/{slug}', nl: '/nl/news/{year}-{month}-{day}/{slug}' }
+    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["news"]}},{"terms":{"%locale%.slug":["%slug%"]}}]}},"size":1}'
+    template_static: template/news/details.html.twig
 emsch_path:
     config:
         path: { fr: '/fr/{path}', nl: '/nl/{path}' }

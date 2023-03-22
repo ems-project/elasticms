@@ -73,6 +73,9 @@ final class UserType extends AbstractType
             ->add('enabled', CheckboxType::class, [
                 'required' => false,
             ])
+            ->add('enabled', CheckboxType::class, [
+                'required' => false,
+            ])
             ->add('wysiwygProfile', EntityType::class, [
                 'required' => false,
                 'label' => 'WYSIWYG profile',

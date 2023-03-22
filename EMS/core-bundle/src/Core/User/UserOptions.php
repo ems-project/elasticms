@@ -13,8 +13,9 @@ class UserOptions implements \ArrayAccess
     private array $options = [];
 
     final public const SIMPLIFIED_UI = 'simplified_ui';
+    final public const ALLOWED_CONFIGURE_WYSIWYG = 'allowed_configure_wysiwyg';
     final public const CUSTOM_OPTIONS = 'custom_options';
-    private const ALL_MEMBERS = [self::SIMPLIFIED_UI, self::CUSTOM_OPTIONS];
+    private const ALL_MEMBERS = [self::SIMPLIFIED_UI, self::ALLOWED_CONFIGURE_WYSIWYG, self::CUSTOM_OPTIONS];
 
     /**
      * @param array{simplified_ui?: bool, custom_options?: mixed} $data
@@ -27,7 +28,7 @@ class UserOptions implements \ArrayAccess
 
     public function isEnabled(string $option): bool
     {
-        if (!\in_array($option, [self::SIMPLIFIED_UI])) {
+        if (!\in_array($option, [self::SIMPLIFIED_UI, self::ALLOWED_CONFIGURE_WYSIWYG])) {
             throw new \RuntimeException(\sprintf('The field %s is not a boolean field', $option));
         }
 

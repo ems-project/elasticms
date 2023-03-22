@@ -23,7 +23,7 @@
                     <span class="tag">{{ news._source.categories|default([])|map(p => attribute(tags, p|split(':')|last)|default(''))|join(' ') }}</span>
                 </small>
                 <h2 class="news-heading mt-2">{{ attribute(news._source, locale).title|default('') }}</h2>
-                {{ attribute(news._source, locale).body|emsch_routing }}
+                {{ attribute(news._source, locale).description|emsch_routing }}
             </div>
         </a>
     </div>

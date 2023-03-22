@@ -30,7 +30,7 @@ class UserProfileType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if($options['data'] instanceof User) {
+        if ($options['data'] instanceof User) {
             $allowToChangeWysiwygProfile = $options['data']->getUserOptions()->isEnabled(UserOptions::ALLOWED_CONFIGURE_WYSIWYG);
         } else {
             $allowToChangeWysiwygProfile = false;

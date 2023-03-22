@@ -66,6 +66,7 @@ final class UserType extends AbstractType
                 'required' => false,
             ])
             ->add('displayName', null, [
+                'required' => true,
                 'label' => 'Display name',
             ])
 

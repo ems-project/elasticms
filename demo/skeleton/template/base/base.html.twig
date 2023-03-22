@@ -15,7 +15,12 @@
             <title>{% block headtitle %}{% block metatitle %}{{ block('title') }}{% endblock %} | {{ 'site.name'|trans }}{% endblock %}</title>
             <meta name="description" content="{% block meta_description %}{% endblock %}">
 {#            {% block canonical %}<link rel="canonical" href="{{ canonicalUrl }}" />{% endblock %}#}
-            <link rel="icon" type="image/png" sizes="64x64" href="{{ asset('img/head/icon.png', 'emsch') }}">
+            <link rel="icon" type="image/png" sizes="64x64" href="{{ emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 64,
+                _height: 64,
+                _quality: 0,
+            }) }}">
             <link rel="apple-touch-icon" sizes="180x180" href="{{ emsch_asset('img/head/icon.png', {
                 _config_type: 'image',
                 _width: 180,

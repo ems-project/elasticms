@@ -113,11 +113,6 @@ ems:
     back_to_ems: 'Terug naar eMS'
 ems_form:
     loading: 'bezig met laden...'
-error:
-    404:
-        description: 'erreur 404 description'
-        title: 'Pagina niet gevonden'
-    target-not-found: 'Page non trouvée'
 features:
     discover: 'Ontdek alle features'
 footer:

@@ -113,11 +113,6 @@ ems:
     back_to_ems: 'Retour à eMS'
 ems_form:
     loading: 'en cours de chargement...'
-error:
-    404:
-        description: 'erreur 404 description'
-        title: 'Page non trouvée'
-    target-not-found: 'Page non trouvée'
 features:
     discover: 'Découvrez toutes les fonctionnalités'
 footer:

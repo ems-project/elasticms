@@ -11,7 +11,7 @@
         "circles": [],
         "inDefaultSearch": true,
         "orderKey": 1,
-        "updateReferrers": false,
+        "updateReferrers": true,
         "templatePublication": null,
         "rolePublish": null
     },

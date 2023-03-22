@@ -9,7 +9,7 @@ namespace EMS\CoreBundle\Core\User;
  */
 class UserOptions implements \ArrayAccess
 {
-    /** @var array{simplified_ui?: bool, custom_options?: mixed} */
+    /** @var array{simplified_ui?: bool, allowed_configure_wysiwyg?: bool, custom_options?: mixed} */
     private array $options = [];
 
     final public const SIMPLIFIED_UI = 'simplified_ui';
@@ -18,7 +18,7 @@ class UserOptions implements \ArrayAccess
     private const ALL_MEMBERS = [self::SIMPLIFIED_UI, self::ALLOWED_CONFIGURE_WYSIWYG, self::CUSTOM_OPTIONS];
 
     /**
-     * @param array{simplified_ui?: bool, custom_options?: mixed} $data
+     * @param array{simplified_ui?: bool, allowed_configure_wysiwyg?: bool, custom_options?: mixed} $data
      */
     public function __construct(array $data)
     {

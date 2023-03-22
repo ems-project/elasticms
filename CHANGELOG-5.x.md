@@ -1,5 +1,24 @@
 # Changelog 5.x
 
+## 5.3.4 (2023-03-20)
+### Bug Fixes
+* fix(ems): login page (js error)  by @Davidmattei in https://github.com/ems-project/elasticms/pull/381
+* fix(emsch): local push empty contentType by @Davidmattei in https://github.com/ems-project/elasticms/pull/379
+* fix(emsco): ckconfig json menu nested by @Davidmattei in https://github.com/ems-project/elasticms/pull/382
+* fix(emsco): recompute deep (revert #366) by @Davidmattei in https://github.com/ems-project/elasticms/pull/383
+* fix(emsf): allow domains as string[] in json format by @theus77 in https://github.com/ems-project/elasticms/pull/380
+* fix(iframe preview): styleset preview height by @theus77 in https://github.com/ems-project/elasticms/pull/386
+### Chores
+* chore(deprecation): define third parameter for choiceList by @Davidmattei in https://github.com/ems-project/elasticms/pull/384
+
+## 5.3.3 (2023-03-14)
+### Bug Fixes
+* fix(ems): spreadsheet csv separtor config by @Davidmattei in https://github.com/ems-project/elasticms/pull/378
+* fix(emsf): align configs web/admin by @theus77 in https://github.com/ems-project/elasticms/pull/377
+* fix(emsf): form configs by @theus77 in https://github.com/ems-project/elasticms/pull/375
+### Code Refactoring
+* refactor(emsco/recompute): migrate a notification to latest revision by @theus77 in https://github.com/ems-project/elasticms/pull/369
+
 ## 5.3.2 (2023-03-07)
 ### Features
 * feat(emsch/routing): search one and http exceptions by @theus77 in https://github.com/ems-project/elasticms/pull/362

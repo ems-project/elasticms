@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\TemplateWrapper;
 
 final class TaskController extends AbstractController
@@ -61,7 +62,7 @@ final class TaskController extends AbstractController
         return $this->tableExporter->exportExcel($table);
     }
 
-    public function ajaxGetTasks(Request $request, int $revisionId): Response
+    public function ajaxGetTasks(Request $request, UserInterface $user, int $revisionId): Response
     {
         $tasks = $this->taskManager->getTasks($revisionId);
         $revision = $tasks->getRevision();
@@ -71,7 +72,7 @@ final class TaskController extends AbstractController
             $handle = $request->get('handle');
             $formHandle = $this->createForm(RevisionTaskHandleType::class, [], [
                 'task' => $revision->getTaskCurrent(),
-                'user' => $this->getUser(),
+                'user' => $user,
                 'handle' => $handle,
             ]);
             $formHandle->handleRequest($request);
@@ -201,9 +202,13 @@ final class TaskController extends AbstractController
             ->getResponse();
     }
 
-    public function ajaxDelete(Request $request, int $revisionId, string $taskId): JsonResponse
+    public function ajaxDelete(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
     {
         $task = $this->taskManager->getTask($taskId);
+        if (!$task->isRequester($user) && !$this->isGranted('ROLE_TASK_MANAGER')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $ajaxModal = $this->getAjaxModal()
             ->setTitle('task.delete.title', ['%title%' => $task->getTitle()])
             ->setBodyHtml('')

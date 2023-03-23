@@ -46,7 +46,7 @@ class IntegratedTest extends TestCase
             $xliffParser->addSimpleField($document, "[$field]", $source[$field] ?? null, $target[$field] ?? null, true);
         }
         foreach (['introduction', 'description'] as $field) {
-            $xliffParser->addHtmlField($document, "[$field]", $source[$field] ?? null, $target[$field] ?? null, true);
+            $xliffParser->addHtmlField($document, "[$field]", $source[$field] ?? null, $target[$field] ?? null, null, true);
         }
 
         return $xliffParser;

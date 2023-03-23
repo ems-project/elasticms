@@ -52,16 +52,8 @@
           </trans-unit>
           <group restype="listitem" id="/html/body/ul[1]/li[2]">
             <trans-unit id="/html/body/ul[1]/li[2]/text()[1]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[1]/li[2]/strong">
-              <source xml:lang="nl">of</source>
-              <target xml:lang="de" state="final">oder</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[1]/li[2]/text()[2]">
-              <source xml:lang="nl"> wiens hoofdactiviteit in de evenementensector bestaat uit: </source>
-              <target xml:lang="de" state="final"> deren Haupttätigkeit im Veranstaltungssektor aus Folgendem besteht: </target>
+              <source xml:lang="nl"> <g ctype="x-html-strong">of</g> wiens hoofdactiviteit in de evenementensector bestaat uit: </source>
+              <target xml:lang="de" state="final"> <g ctype="x-html-strong">oder</g> deren Haupttätigkeit im Veranstaltungssektor aus Folgendem besteht: </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[1]/li[2]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[1]/li[2]/ul/li[1]">
@@ -160,20 +152,8 @@
           </group>
           <group restype="listitem" id="/html/body/ul[2]/li[2]">
             <trans-unit id="/html/body/ul[2]/li[2]/text()[1]">
-              <source xml:lang="nl">in 2021 </source>
-              <target xml:lang="de" state="final">im Jahr 2021 </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[2]/strong[1]">
-              <source xml:lang="nl">al zijn werknemers</source>
-              <target xml:lang="de" state="final">allen Arbeitnehmerinnen und Arbeitnehmern</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[2]/text()[2]">
-              <source xml:lang="nl"> een concrete en individuele opleiding </source>
-              <target xml:lang="de" state="final"> eine konkrete und individuelle Schulung </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[2]/strong[2]">
-              <source xml:lang="nl">aanbieden gedurende ten minste 5 volledige dagen per voltijds equivalente werknemer in 2021</source>
-              <target xml:lang="de" state="final">für mindestens 5 volle Tage pro Vollzeitkraft anbieten.</target>
+              <source xml:lang="nl">in 2021 <g ctype="x-html-strong">al zijn werknemers</g> een concrete en individuele opleiding <g ctype="x-html-strong">aanbieden gedurende ten minste 5 volledige dagen per voltijds equivalente werknemer in 2021</g></source>
+              <target xml:lang="de" state="final">im Jahr 2021 <g ctype="x-html-strong">allen Arbeitnehmerinnen und Arbeitnehmern</g> eine konkrete und individuelle Schulung <g ctype="x-html-strong">für mindestens 5 volle Tage pro Vollzeitkraft anbieten.</g></target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[2]/li[2]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[2]/ul/li[1]">

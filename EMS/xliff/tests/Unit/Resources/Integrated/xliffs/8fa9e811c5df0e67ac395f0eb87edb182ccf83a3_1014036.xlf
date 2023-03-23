@@ -73,9 +73,13 @@
           <source xml:lang="nl"/>
           <target xml:lang="de" state="final"/>
         </trans-unit>
-        <trans-unit restype="lb" id="/html/body/br">
-          <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+        <trans-unit id="/html/body/br">
+          <source xml:lang="nl">
+            <g ctype="lb"/>
+          </source>
+          <target xml:lang="de" state="final">
+            <g ctype="lb"/>
+          </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[13]">
           <source xml:lang="nl"/>

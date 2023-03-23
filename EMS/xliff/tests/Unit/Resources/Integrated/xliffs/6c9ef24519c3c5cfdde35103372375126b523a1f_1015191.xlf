@@ -152,24 +152,8 @@
         <group restype="x-html-ul" id="/html/body/ul[7]">
           <group restype="listitem" id="/html/body/ul[7]/li[1]">
             <trans-unit id="/html/body/ul[7]/li[1]/text()[1]">
-              <source xml:lang="nl">Er is een overgangsmaatregel voorzien voor de werknemers die op </source>
-              <target xml:lang="de" state="final">Für die am </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[7]/li[1]/strong[1]">
-              <source xml:lang="nl">31 december 2018 in dienst</source>
-              <target xml:lang="de" state="final">31. Dezember 2018 beschäftigten</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[7]/li[1]/text()[2]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[7]/li[1]/strong[2]">
-              <source xml:lang="nl">én 54 jaar</source>
-              <target xml:lang="de" state="final">Arbeitnehmer im Alter von 54 Jahren</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[7]/li[1]/text()[3]">
-              <source xml:lang="nl"> zijn en het recht kunnen openen op de doelgroepvermindering ouderen. Werkgevers met nadien in dienst genomen werknemers die op het einde van het kwartaal de leeftijd van 55 jaar niet bereikt hebben, kunnen voor deze werknemers vanaf 1 januari 2019 geen gebruik meer maken van de doelgroepvermindering 'oudere werknemers'. </source>
-              <target xml:lang="de" state="final"> ist eine Übergangsmaßnahme geplant, die Anspruch auf die Zielgruppenermäßigung ältere Arbeitnehmer haben können. Arbeitgeber mit nach diesem Zeitpunkt beschäftigten Arbeitnehmern, die am Ende des Quartals noch nicht das Alter von 55 Jahren erreicht haben, können für diese Arbeitnehmer ab dem 01. Januar 2019 die Zielgruppenermäßigung ‚Ältere Arbeitnehmer‘ nicht mehr nutzen. </target>
+              <source xml:lang="nl">Er is een overgangsmaatregel voorzien voor de werknemers die op <g ctype="x-html-strong">31 december 2018 in dienst</g> <g ctype="x-html-strong">én 54 jaar</g> zijn en het recht kunnen openen op de doelgroepvermindering ouderen. Werkgevers met nadien in dienst genomen werknemers die op het einde van het kwartaal de leeftijd van 55 jaar niet bereikt hebben, kunnen voor deze werknemers vanaf 1 januari 2019 geen gebruik meer maken van de doelgroepvermindering 'oudere werknemers'. </source>
+              <target xml:lang="de" state="final">Für die am <g ctype="x-html-strong">31. Dezember 2018 beschäftigten</g> <g ctype="x-html-strong">Arbeitnehmer im Alter von 54 Jahren</g> ist eine Übergangsmaßnahme geplant, die Anspruch auf die Zielgruppenermäßigung ältere Arbeitnehmer haben können. Arbeitgeber mit nach diesem Zeitpunkt beschäftigten Arbeitnehmern, die am Ende des Quartals noch nicht das Alter von 55 Jahren erreicht haben, können für diese Arbeitnehmer ab dem 01. Januar 2019 die Zielgruppenermäßigung ‚Ältere Arbeitnehmer‘ nicht mehr nutzen. </target>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[7]/li[1]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[7]/li[1]/ul/li">
@@ -180,24 +164,8 @@
           </group>
           <group restype="listitem" id="/html/body/ul[7]/li[2]">
             <trans-unit id="/html/body/ul[7]/li[2]/text()[1]">
-              <source xml:lang="nl">Er is een overgangsmaatregel voorzien voor de werknemers die op </source>
-              <target xml:lang="de" state="final">Für die am </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[7]/li[2]/strong[1]">
-              <source xml:lang="nl">31 december 2018 in dienst</source>
-              <target xml:lang="de" state="final">31. Dezember 2018 beschäftigten</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[7]/li[2]/text()[2]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[7]/li[2]/strong[2]">
-              <source xml:lang="nl">én 58 jaar</source>
-              <target xml:lang="de" state="final">Arbeitnehmer im Alter von 58 Jahren</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[7]/li[2]/text()[3]">
-              <source xml:lang="nl"> zijn en het recht kunnen openen op de doelgroepvermindering ouderen. </source>
-              <target xml:lang="de" state="final"> ist eine Übergangsmaßnahme geplant, die Anspruch auf die Zielgruppenermäßigung ältere Arbeitnehmer haben können. </target>
+              <source xml:lang="nl">Er is een overgangsmaatregel voorzien voor de werknemers die op <g ctype="x-html-strong">31 december 2018 in dienst</g> <g ctype="x-html-strong">én 58 jaar</g> zijn en het recht kunnen openen op de doelgroepvermindering ouderen. </source>
+              <target xml:lang="de" state="final">Für die am <g ctype="x-html-strong">31. Dezember 2018 beschäftigten</g> <g ctype="x-html-strong">Arbeitnehmer im Alter von 58 Jahren</g> ist eine Übergangsmaßnahme geplant, die Anspruch auf die Zielgruppenermäßigung ältere Arbeitnehmer haben können. </target>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[7]/li[2]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[7]/li[2]/ul/li">

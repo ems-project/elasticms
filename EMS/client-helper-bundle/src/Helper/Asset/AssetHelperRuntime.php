@@ -74,7 +74,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
      */
     public function asset(string $path, array $assetConfig): string
     {
-        $filename = $this->getVersionSaveDir().DIRECTORY_SEPARATOR.$path;
+        $filename = $this->getAssetsDir().DIRECTORY_SEPARATOR.$path;
         $basename = \basename($filename);
 
         return $this->commonAssetRuntime->assetPath([
@@ -107,10 +107,16 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         if (null === $this->versionSaveDir) {
             throw new \RuntimeException('Asset version has not been set');
         }
+
+        return $this->versionSaveDir;
+    }
+
+    private function getAssetsDir(): string
+    {
         if (!empty($this->localFolder)) {
             return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
         }
 
-        return $this->versionSaveDir;
+        return \implode(\DIRECTORY_SEPARATOR, [$this->publicDir, $this->getVersionSaveDir(), $this->getVersionHash()]);
     }
 }

@@ -170,6 +170,16 @@ class Task implements EntityInterface
         return $this->assignee;
     }
 
+    public function isAssignee(User $user): bool
+    {
+        return $this->assignee === $user->getUserIdentifier();
+    }
+
+    public function isRequester(User $user): bool
+    {
+        return $this->createdBy === $user->getUserIdentifier();
+    }
+
     public function hasDescription(): bool
     {
         return null !== $this->description;

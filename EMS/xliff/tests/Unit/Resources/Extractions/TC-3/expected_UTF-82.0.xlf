@@ -43,13 +43,5 @@
         </segment>
       </unit>
     </group>
-    <group id="[%locale%][body3]">
-      <unit>
-        <segment>
-          <source/>
-          <target/>
-        </segment>
-      </unit>
-    </group>
   </file>
 </xliff>

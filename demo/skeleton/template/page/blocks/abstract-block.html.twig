@@ -16,13 +16,7 @@
 
 {% block row %}
     {% apply spaceless %}
-        {% if row_class|default('') %}
-            <div class="{{ row_class|default('') }}" id="row-{{ item.id }}">
-        {% endif %}
         {{ block('body', "@EMSCH/template/page/blocks/"~(item.object.layout|default(item.type))~".html.twig") }}
-        {% if row_class|default('') %}
-            </div>
-        {% endif %}
     {% endapply %}
 {% endblock row %}
 
@@ -43,7 +37,6 @@
             {% set currentBlockLevel = currentBlockLevel + 1 %}
             {% set parent = item %}
             {% for item in item.children|default([]) %}
-                {% set row_class = child_row_class|default('') %}
                 {{ block("child", "@EMSCH/template/page/blocks/"~(parent.object.layout|default(parent.type))~".html.twig") }}
             {% endfor %}
             {% set childrenHaveBeenGenerated = true %}

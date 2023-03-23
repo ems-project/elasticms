@@ -1,0 +1,45 @@
+{% block card %}
+    {{ block('description') }}
+    <div class="mt-5">
+        <a href="{{ path('emsch_path', {path: attribute(pathsByUids, target.source.menu).path|default('')}) }}" class="btn btn-outline-primary text-uppercase">
+            {{ attribute(target.source, locale).subtitle|default(attribute(target.source, locale).title) }}
+        </a>
+    </div>
+{% endblock card %}
+
+{% block tags %}
+    {% for tag in target.source.categories|default([]) %}
+        {% set category = tag|emsch_get|default(false) %}
+        {% if category and attribute(category.source, locale).title|default(false) %}
+            <div class="tag">{{ attribute(category.source, locale).title }}</div>
+        {% endif %}
+    {% endfor %}
+{% endblock tags %}
+
+{% block description %}
+    {% if attribute(target.source, locale).title|default(false) %}
+        <h3 class="h2 news-heading">{{ attribute(target.source, locale).title }}</h3>
+    {% endif %}
+    {{ attribute(target.source, locale).description|default('')|emsch_routing }}
+{% endblock description %}
+
+
+{% block image %}
+    {% if attribute(target.source, locale).image|default(false) %}
+        <img class="news-image img-fluid rounded mx-auto"
+             data-src="{{ ems_asset_path(attribute(target.source, locale).image, {
+                 _config_type: 'image',
+                 _width: 490,
+                 _height: 300,
+                 _quality: 90,
+             }) }}"
+             src="{{ ems_asset_path(attribute(target.source, locale).image, {
+                 _config_type: 'image',
+                 _width: 490,
+                 _height: 300,
+                 _quality: 90,
+             }) }}"
+             alt="490x300"
+             data-holder-rendered="true">
+    {% endif %}
+{% endblock image %}

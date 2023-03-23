@@ -1,0 +1,290 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\ContentType",
+    "arguments": [],
+    "properties": {
+        "name": "media_file",
+        "pluralName": "Media library",
+        "singularName": "Media",
+        "icon": "fa fa-file",
+        "description": null,
+        "indexTwig": null,
+        "extra": null,
+        "lockBy": null,
+        "lockUntil": null,
+        "deleted": false,
+        "askForOuuid": false,
+        "color": null,
+        "fieldType": {
+            "class": "EMS\\CoreBundle\\Entity\\FieldType",
+            "arguments": [],
+            "properties": {
+                "type": "EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType",
+                "name": "source",
+                "contentType": null,
+                "deleted": false,
+                "description": null,
+                "options": {
+                    "displayOptions": {
+                        "label": null,
+                        "class": null,
+                        "lastOfRow": false,
+                        "helptext": null,
+                        "icon": null
+                    },
+                    "restrictionOptions": {
+                        "minimum_role": null
+                    },
+                    "extraOptions": {
+                        "extra": null,
+                        "clear_on_copy": false,
+                        "postProcessing": null
+                    }
+                },
+                "orderKey": 0,
+                "children": [
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                            "name": "media_path",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Path",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "prefixIcon": null,
+                                    "prefixText": null,
+                                    "suffixIcon": null,
+                                    "suffixText": null,
+                                    "placeholder": null,
+                                    "icon": null
+                                },
+                                "mappingOptions": {
+                                    "index": "analyzed",
+                                    "analyzer": "keyword",
+                                    "copy_to": "live_search"
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 0,
+                            "children": [
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                        "name": "alpha_order",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": [],
+                                            "mappingOptions": {
+                                                "index": "analyzed",
+                                                "analyzer": "alpha_order",
+                                                "fielddata": true
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            }
+                                        },
+                                        "orderKey": 0,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                }
+                            ]
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                            "name": "media_folder",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Media Folder",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "prefixIcon": null,
+                                    "prefixText": null,
+                                    "suffixIcon": null,
+                                    "suffixText": null,
+                                    "placeholder": null,
+                                    "icon": null
+                                },
+                                "mappingOptions": {
+                                    "index": "analyzed",
+                                    "analyzer": "keyword",
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 1,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\AssetFieldType",
+                            "name": "media_file",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Media File",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "multiple": false,
+                                    "icon": null,
+                                    "imageAssetConfigIdentifier": null
+                                },
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 2,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "search_fields",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "form": "search_fields"
+                                },
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": []
+                            },
+                            "orderKey": 3,
+                            "children": []
+                        },
+                        "replaced": []
+                    }
+                ],
+                "__initializer__": null,
+                "__cloner__": null,
+                "__isInitialized__": true
+            },
+            "replaced": []
+        },
+        "refererFieldName": null,
+        "sortOrder": "asc",
+        "orderKey": 5,
+        "rootContentType": false,
+        "editTwigWithWysiwyg": false,
+        "webContent": true,
+        "autoPublish": false,
+        "templates": [],
+        "views": [],
+        "defaultValue": null,
+        "versionTags": [],
+        "versionOptions": {
+            "dates_read_only": true,
+            "dates_interval_one_day": false
+        },
+        "versionFields": {
+            "date_from": null,
+            "date_to": null,
+            "version_tag": null
+        },
+        "roles": {
+            "view": "ROLE_SUPER_ADMIN",
+            "create": "ROLE_SUPER_ADMIN",
+            "edit": "ROLE_SUPER_ADMIN",
+            "publish": "ROLE_SUPER_ADMIN",
+            "delete": "ROLE_SUPER_ADMIN",
+            "trash": "not-defined",
+            "archive": "not-defined",
+            "show_link_create": "ROLE_SUPER_ADMIN",
+            "show_link_search": "ROLE_SUPER_ADMIN"
+        },
+        "fields": {
+            "label": "media_path",
+            "color": null,
+            "sort": null,
+            "tooltip": null,
+            "circles": null,
+            "business_id": null,
+            "category": null,
+            "asset": null
+        },
+        "settings": {
+            "tasks_enabled": false,
+            "hide_revision_sidebar": false
+        }
+    },
+    "replaced": []
+}

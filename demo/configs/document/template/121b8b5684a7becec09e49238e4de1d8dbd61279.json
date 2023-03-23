@@ -1,4 +1,4 @@
 {
-    "body": "{% extends '@EMSCH/template/error/error.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block canonical %}{% endblock %}\n\n{% block title %}{{ 'error.404.title'|trans }}{% endblock %}\n{% block icon %}<i class=\"fa fa-times-circle\" aria-hidden=\"true\"></i> {% endblock %}\n{% block description %}{{ 'error.404.description'|trans }}{% endblock %}\n",
+    "body": "{% extends '@EMSCH/template/error/error.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block title %}Page not found{% endblock %}\n{% block icon %}<i class=\"fa fa-times-circle\" aria-hidden=\"true\"></i> {% endblock %}\n{% block description %}Page not found{% endblock %}\n",
     "name": "error/error404.html.twig"
 }

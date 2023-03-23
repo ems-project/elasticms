@@ -1,0 +1,39 @@
+{% extends '@EMSCH/template/view/abstract.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block back_link %}
+    <a class="text-white" href="{{ path('emsch_news') }}">{{ 'breadcrumb.back-to'|trans({('%title%'): 'blog.title'|trans}) }}</a>
+{% endblock back_link %}
+
+{% block request %}
+    {% set route_parameters = {} %}
+    {% for locale in locales|filter(p => attribute(source, p).slug is defined) %}
+        {% set route_parameters = route_parameters|merge({(locale): {
+            month: source.publication_date|date('m'),
+            day: source.publication_date|date('d'),
+            year: source.publication_date|date('Y'),
+            slug: attribute(source, locale).slug,
+        }}) %}
+    {% endfor %}
+    {{ parent() }}
+{% endblock request %}
+
+{% block title %}{{ attribute(source, locale).title }}{% endblock %}
+
+{% block view_body %}
+    <div class="container-fluid container-lg">
+        <section class="py-5 py-lg-8">
+            <div class="row">
+                <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                    {{ attribute(source, locale).body|emsch_routing }}
+                </div>
+                <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                    {%  set target = {
+                        source: source
+                    } %}
+                    {{ block('image', "@EMSCH/template/page/card/news.html.twig") }}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock view_body %}

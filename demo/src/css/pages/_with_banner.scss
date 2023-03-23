@@ -23,6 +23,7 @@
       align-items: center;
       padding-top: $jumbotron-padding / 2 + $header-height;
       background-color: $jumbotron-bg-hp;
+      background-image: url('../img/banners/banner-home.jpg');
       background-repeat: no-repeat;
       background-position: right 40%;
       min-height: 300px;
@@ -38,7 +39,7 @@
       }
     }
   }
-  .ems-grid .ems-3-columns {
+  .ems-grid {
     h2 {
       border-bottom: 2px solid $elasticms_pink;
       padding-bottom: rem(15);

@@ -38,7 +38,7 @@ class BaselineTest extends TestCase
 
         $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
         $document = $xliffParser->addDocument('contentType', 'ouuid_1', 'revisionId_1');
-        $xliffParser->addHtmlField($document, '[%locale%][body]', $source, $target, true);
+        $xliffParser->addHtmlField($document, '[%locale%][body]', $source, $target, null, true);
 
         $sources = $xliffParser->getDom()->getElementsByTagName('target');
         $this->assertEquals(36, $sources->count());

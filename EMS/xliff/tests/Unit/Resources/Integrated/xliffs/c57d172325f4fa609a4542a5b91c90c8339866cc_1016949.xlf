@@ -49,9 +49,13 @@
           <source xml:lang="nl"> Vanaf <g ctype="x-html-strong">1 januari 2017</g> worden de verminderingsforfaits en het aantal kwartalen waarvoor ze kunnen worden toegepast verhoogd. Dit geldt enkel voor de opening van het recht vanaf 1 januari 2017. Naargelang de periode waarin het recht geopend werd kan het verminderingsforfait dus verschillen evenals het aantal kwartalen dat de vermindering kan worden toegepast. </source>
           <target xml:lang="de" state="final"> Ab <g ctype="x-html-strong">01.01.2017</g> werden die Ermäßigungspauschalen und die Anzahl Quartale, auf die sie angewandt werden können, erhöht. Dies gilt nur für die Eröffnung des Rechts ab 01.01.2017. Die Ermäßigungspauschale und die Anzahl der Quartale, in denen die Ermäßigung angewendet werden kann, kann je nach dem Zeitraum, in dem das Recht eröffnet wurde, verschieden sein. </target>
         </trans-unit>
-        <trans-unit restype="lb" id="/html/body/br">
-          <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+        <trans-unit id="/html/body/br">
+          <source xml:lang="nl">
+            <g ctype="lb"/>
+          </source>
+          <target xml:lang="de" state="final">
+            <g ctype="lb"/>
+          </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[7]">
           <source xml:lang="nl"/>

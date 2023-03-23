@@ -218,16 +218,8 @@
         <group restype="x-html-ul" id="/html/body/ul[2]">
           <group restype="listitem" id="/html/body/ul[2]/li">
             <trans-unit id="/html/body/ul[2]/li/text()[1]">
-              <source xml:lang="nl">Voor elke </source>
-              <target xml:lang="de" state="final">Für alle </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li/strong">
-              <source xml:lang="nl">middengeschoolde jongere</source>
-              <target xml:lang="de" state="final">jungen Arbeitnehmer mit mittlerer Qualifikation</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li/text()[2]">
-              <source xml:lang="nl">: </source>
-              <target xml:lang="de" state="final">: </target>
+              <source xml:lang="nl">Voor elke <g ctype="x-html-strong">middengeschoolde jongere</g>: </source>
+              <target xml:lang="de" state="final">Für alle <g ctype="x-html-strong">jungen Arbeitnehmer mit mittlerer Qualifikation</g>: </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[2]/li/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li/ul/li[1]">
@@ -244,16 +236,8 @@
         <group restype="x-html-ul" id="/html/body/ul[3]">
           <group restype="listitem" id="/html/body/ul[3]/li">
             <trans-unit id="/html/body/ul[3]/li/text()[1]">
-              <source xml:lang="nl">Voor elke </source>
-              <target xml:lang="de" state="final">Für jeden </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[3]/li/strong">
-              <source xml:lang="nl">laaggeschoolde jongere</source>
-              <target xml:lang="de" state="final">jungen Arbeitnehmer mit geringer Qualifikation</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[3]/li/text()[2]">
-              <source xml:lang="nl">: </source>
-              <target xml:lang="de" state="final">: </target>
+              <source xml:lang="nl">Voor elke <g ctype="x-html-strong">laaggeschoolde jongere</g>: </source>
+              <target xml:lang="de" state="final">Für jeden <g ctype="x-html-strong">jungen Arbeitnehmer mit geringer Qualifikation</g>: </target>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[3]/li/ul">
               <trans-unit restype="listitem" id="/html/body/ul[3]/li/ul/li[1]">
@@ -270,16 +254,8 @@
         <group restype="x-html-ul" id="/html/body/ul[4]">
           <group restype="listitem" id="/html/body/ul[4]/li">
             <trans-unit id="/html/body/ul[4]/li/text()[1]">
-              <source xml:lang="nl">Voor elke </source>
-              <target xml:lang="de" state="final">Für jeden </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[4]/li/strong">
-              <source xml:lang="nl">erg laaggeschoolde jongere</source>
-              <target xml:lang="de" state="final">jungen Arbeitnehmer mit sehr geringer Qualifikation</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[4]/li/text()[2]">
-              <source xml:lang="nl">: </source>
-              <target xml:lang="de" state="final">: </target>
+              <source xml:lang="nl">Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g>: </source>
+              <target xml:lang="de" state="final">Für jeden <g ctype="x-html-strong">jungen Arbeitnehmer mit sehr geringer Qualifikation</g>: </target>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[4]/li/ul">
               <trans-unit restype="listitem" id="/html/body/ul[4]/li/ul/li[1]">
@@ -296,36 +272,8 @@
         <group restype="x-html-ul" id="/html/body/ul[5]">
           <group restype="listitem" id="/html/body/ul[5]/li">
             <trans-unit id="/html/body/ul[5]/li/text()[1]">
-              <source xml:lang="nl">Voor elke </source>
-              <target xml:lang="de" state="final">Für jeden </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[5]/li/strong[1]">
-              <source xml:lang="nl">
-                <g ctype="x-html-a" html:href="startingjobobligation-nl_1">gehandicapte</g>
-              </source>
-              <target xml:lang="de" state="final">
-                <g ctype="x-html-a" html:href="startingjobobligation-nl_1">behinderten</g>
-              </target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[5]/li/text()[2]">
-              <source xml:lang="nl"> of van </source>
-              <target xml:lang="de" state="final"> Arbeitnehmer oder </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[5]/li/strong[2]">
-              <source xml:lang="nl">
-                <g ctype="x-html-a" html:href="startingjobobligation-nl_1">buitenlandse afkomst</g>
-              </source>
-              <target xml:lang="de" state="final">
-                <g ctype="x-html-a" html:href="startingjobobligation-nl_1"> ausländischen</g>
-              </target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[5]/li/text()[3]">
-              <source xml:lang="nl"> zijnde, </source>
-              <target xml:lang="de" state="final"> Arbeitnehmer, </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[5]/li/strong[3]">
-              <source xml:lang="nl">laaggeschoolde jongere</source>
-              <target xml:lang="de" state="final">die junge Arbeitnehmer mit geringer Qualifikation sind</target>
+              <source xml:lang="nl">Voor elke <g ctype="x-html-strong"><g ctype="x-html-a" html:href="startingjobobligation-nl_1">gehandicapte</g></g> of van <g ctype="x-html-strong"><g ctype="x-html-a" html:href="startingjobobligation-nl_1">buitenlandse afkomst</g></g> zijnde, <g ctype="x-html-strong">laaggeschoolde jongere</g></source>
+              <target xml:lang="de" state="final">Für jeden <g ctype="x-html-strong"><g ctype="x-html-a" html:href="startingjobobligation-nl_1">behinderten</g></g> Arbeitnehmer oder <g ctype="x-html-strong"><g ctype="x-html-a" html:href="startingjobobligation-nl_1"> ausländischen</g></g> Arbeitnehmer, <g ctype="x-html-strong">die junge Arbeitnehmer mit geringer Qualifikation sind</g></target>
             </trans-unit>
             <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[5]/li/ul">
               <trans-unit restype="listitem" id="/html/body/ul[5]/li/ul/li[1]">
@@ -355,16 +303,8 @@
           <group restype="x-html-ul" id="/html/body/div[5]/ul[1]">
             <group restype="listitem" id="/html/body/div[5]/ul[1]/li">
               <trans-unit id="/html/body/div[5]/ul[1]/li/text()[1]">
-                <source xml:lang="nl">Voor elke </source>
-                <target xml:lang="de" state="final">Für jeden </target>
-              </trans-unit>
-              <trans-unit restype="x-html-strong" id="/html/body/div[5]/ul[1]/li/strong">
-                <source xml:lang="nl">laaggeschoolde jongere</source>
-                <target xml:lang="de" state="final">jungen Arbeitnehmer mit geringer Qualifikation</target>
-              </trans-unit>
-              <trans-unit id="/html/body/div[5]/ul[1]/li/text()[2]">
-                <source xml:lang="nl"> die hij in dienst neemt met een startbaanovereenkomst: </source>
-                <target xml:lang="de" state="final">, den er mit einem Erstbeschäftigungsvertrag einstellt: </target>
+                <source xml:lang="nl">Voor elke <g ctype="x-html-strong">laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst: </source>
+                <target xml:lang="de" state="final">Für jeden <g ctype="x-html-strong">jungen Arbeitnehmer mit geringer Qualifikation</g>, den er mit einem Erstbeschäftigungsvertrag einstellt: </target>
               </trans-unit>
               <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/div[5]/ul[1]/li/ul">
                 <trans-unit restype="listitem" id="/html/body/div[5]/ul[1]/li/ul/li[1]">
@@ -381,16 +321,8 @@
           <group restype="x-html-ul" id="/html/body/div[5]/ul[2]">
             <group restype="listitem" id="/html/body/div[5]/ul[2]/li">
               <trans-unit id="/html/body/div[5]/ul[2]/li/text()[1]">
-                <source xml:lang="nl">Voor elke </source>
-                <target xml:lang="de" state="final">Für </target>
-              </trans-unit>
-              <trans-unit restype="x-html-strong" id="/html/body/div[5]/ul[2]/li/strong">
-                <source xml:lang="nl">erg laaggeschoolde jongere</source>
-                <target xml:lang="de" state="final">jeden jungen Arbeitnehmer mit sehr geringer Qualifikation</target>
-              </trans-unit>
-              <trans-unit id="/html/body/div[5]/ul[2]/li/text()[2]">
-                <source xml:lang="nl"> die hij in dienst neemt met een startbaanovereenkomst </source>
-                <target xml:lang="de" state="final">, den er mit einem Erstbeschäftigungsvertrag einstellt </target>
+                <source xml:lang="nl">Voor elke <g ctype="x-html-strong">erg laaggeschoolde jongere</g> die hij in dienst neemt met een startbaanovereenkomst </source>
+                <target xml:lang="de" state="final">Für <g ctype="x-html-strong">jeden jungen Arbeitnehmer mit sehr geringer Qualifikation</g>, den er mit einem Erstbeschäftigungsvertrag einstellt </target>
               </trans-unit>
               <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/div[5]/ul[2]/li/ul">
                 <trans-unit restype="listitem" id="/html/body/div[5]/ul[2]/li/ul/li[1]">
@@ -407,28 +339,8 @@
           <group restype="x-html-ul" id="/html/body/div[5]/ul[3]">
             <group restype="listitem" id="/html/body/div[5]/ul[3]/li">
               <trans-unit id="/html/body/div[5]/ul[3]/li/text()[1]">
-                <source xml:lang="nl">Voor elke </source>
-                <target xml:lang="de" state="final">Für jeden </target>
-              </trans-unit>
-              <trans-unit restype="x-html-strong" id="/html/body/div[5]/ul[3]/li/strong[1]">
-                <source xml:lang="nl">gehandicapte</source>
-                <target xml:lang="de" state="final">behinderten</target>
-              </trans-unit>
-              <trans-unit id="/html/body/div[5]/ul[3]/li/text()[2]">
-                <source xml:lang="nl"> of van </source>
-                <target xml:lang="de" state="final"> Arbeitnehmer oder </target>
-              </trans-unit>
-              <trans-unit restype="x-html-strong" id="/html/body/div[5]/ul[3]/li/strong[2]">
-                <source xml:lang="nl">buitenlandse afkomst</source>
-                <target xml:lang="de" state="final">ausländischen</target>
-              </trans-unit>
-              <trans-unit id="/html/body/div[5]/ul[3]/li/text()[3]">
-                <source xml:lang="nl"> zijnde, </source>
-                <target xml:lang="de" state="final"> Arbeitnehmer, </target>
-              </trans-unit>
-              <trans-unit restype="x-html-strong" id="/html/body/div[5]/ul[3]/li/strong[3]">
-                <source xml:lang="nl">laaggeschoolde jongere</source>
-                <target xml:lang="de" state="final">die junge Arbeitnehmer mit geringer Qualifikation sind</target>
+                <source xml:lang="nl">Voor elke <g ctype="x-html-strong">gehandicapte</g> of van <g ctype="x-html-strong">buitenlandse afkomst</g> zijnde, <g ctype="x-html-strong">laaggeschoolde jongere</g></source>
+                <target xml:lang="de" state="final">Für jeden <g ctype="x-html-strong">behinderten</g> Arbeitnehmer oder <g ctype="x-html-strong">ausländischen</g> Arbeitnehmer, <g ctype="x-html-strong">die junge Arbeitnehmer mit geringer Qualifikation sind</g></target>
               </trans-unit>
               <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/div[5]/ul[3]/li/ul">
                 <trans-unit restype="listitem" id="/html/body/div[5]/ul[3]/li/ul/li[1]">

@@ -8,12 +8,12 @@ _emsch_go_to:
 _emsch_template_preview_loader:
     config:
         path: '/_emsch/templates/{iframeId}'
-        method: ['GET']
+        method: [GET]
     template_static: template_ems/channel/page-component-preview-loader.html.twig
 _emsch_template_preview:
     config:
         path: '/_emsch/templates/{iframeId}'
-        method: ['POST']
+        method: [POST]
     template_static: template_ems/channel/page-component-preview.html.twig
 _emsch_error:
     config:
@@ -82,21 +82,21 @@ emsch_language_selection:
 form_iframe:
     config:
         path: '/iframe/{ouuid}/{_locale}'
-        controller: 'emsf.controller.form::iframe'
+        controller: 'EMS\FormBundle\Controller\FormController::iframe'
 form_init:
     config:
         path: '/init-form/{ouuid}/{_locale}'
-        controller: 'emsf.controller.form::initForm'
+        controller: 'EMS\FormBundle\Controller\FormController::initForm'
         method: [POST]
 form_submit:
     config:
         path: '/form/{ouuid}/{_locale}'
-        controller: 'emsf.controller.form::submitForm'
+        controller: 'EMS\FormBundle\Controller\FormController::submitForm'
         method: [POST]
 form_dynamic_field:
     config:
         path: '/ajax/{ouuid}/{_locale}'
-        controller: 'emsf.controller.form::dynamicFieldAjax'
+        controller: 'EMS\FormBundle\Controller\FormController::dynamicFieldAjax'
         method: [POST]
 emsch_word_export:
     config:
@@ -104,6 +104,22 @@ emsch_word_export:
         requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|file/)(.*$)?).+', _locale: en|fr|nl|de }
     query: '{"query":{"bool":{"should":[{"bool":{"must":[{"terms":{"_contenttype":["%contentType%"]}},{"term":{"_id":"%ouuid%"}}]}},{"bool":{"must":[{"nested":{"path":"paths","query":{"term":{"paths.target":{"value":"%contentType%:%ouuid%","boost":3}}}}},{"nested":{"path":"paths","query":{"term":{"paths.locale":{"value":"%_locale%"}}}}},{"terms":{"_contenttype":["structure"]}}]}}]}},"size":1}'
     template_static: template/page/word-export/document.html.twig
+emsch_media_file:
+    config:
+        path: '/media-files{path}'
+        requirements: { path: .+ }
+        controller: 'emsch.controller.router::redirect'
+    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["media_file"]}},{"terms":{"media_path":["%path%"]}}]}},"size":1}'
+    template_static: template/redirects/media_files.json.twig
+emsch_news:
+    config:
+        path: { fr: /fr/news, nl: /nl/news }
+    template_static: template/view/news.html.twig
+emsch_news_details:
+    config:
+        path: { fr: '/fr/news/{year}-{month}-{day}/{slug}', nl: '/nl/news/{year}-{month}-{day}/{slug}' }
+    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["news"]}},{"terms":{"%locale%.slug":["%slug%"]}}]}},"size":1}'
+    template_static: template/news/details.html.twig
 emsch_path:
     config:
         path: { fr: '/fr/{path}', nl: '/nl/{path}' }

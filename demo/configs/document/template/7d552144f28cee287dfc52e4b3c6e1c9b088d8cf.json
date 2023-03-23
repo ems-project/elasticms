@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/card/page.html.twig' %}\n\n\n{% block description %}\n    {% if attribute(target.source, locale).title|default(false) %}\n        <h3 class=\"h2 news-heading\">{{ attribute(target.source, locale).title }}</h3>\n    {% endif %}\n    {{ attribute(target.source, locale).description|default('')|emsch_routing }}\n{% endblock description %}\n",
+    "name": "page/card/news.html.twig"
+}

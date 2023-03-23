@@ -28,6 +28,7 @@ services:
       - S3_DEFAULT_REGION=us-east-1
       - S3_ENDPOINT_URL=http://minio:9000
       - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - EMSF_AUTHKEY=${EMSF_AUTHKEY}
       - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
       - TRUSTED_HOSTS=localhost,*.localhost
     volumes:
@@ -54,6 +55,7 @@ services:
       - MAILER_URL=smtp://mailhog:1025
       - EMS_BACKEND_URL=${EMS_BACKEND_URL}
       - INSTANCE_ID=${INSTANCE_ID}
+      - EMSF_AUTHKEY=${EMSF_AUTHKEY}
       - 'EMS_ELASTICSEARCH_HOSTS=["http://es01:9200","http://es02:9200","http://es03:9200"]'
       - REDIS_HOST=redis
       - REDIS_PORT=6379

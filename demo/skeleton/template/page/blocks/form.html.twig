@@ -2,7 +2,7 @@
 
 {% block widget %}
     {% trans_default_domain trans_default_domain %}
-    {% set form = item.object.link|emsch_get|default('') %}
+    {% set form = item.object.target|emsch_get|default('') %}
 
     <div id="ems-form-{{ item.id }}" class="mb-5">
         <p>{{ 'ems_form.loading'|trans|raw }}</p>

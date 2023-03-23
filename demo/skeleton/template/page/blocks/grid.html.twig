@@ -2,22 +2,20 @@
 
 {% block body %}
     {% trans_default_domain trans_default_domain %}
-    <section class="{{ section_class|default('py-5 py-lg-7') }} ems-grid">
+    <section class="py-5 py-lg-7 ems-grid">
         <div class="container-fluid container-lg">
             <div class="row">
                 {% if item.object.title|default(false) %}
-                    <div class="{{ title_class|default('col-12') }}">
+                    <div>
                         <h2>{{ item.object.title }}</h2>
                     </div>
                 {% endif %}
-
-                {% set child_row_class = 'col-12 '~(item.object.template|default('')) %}
                 {{ block('children') }}
             </div>
             {% if item.object.target|default(false) %}
                 <div class="row pt-4">
                     <div class="col-12">
-                        <a href="{{ item.object.target|emsch_routing }}">{{ item.object.target_label|default('block.grid.see_also'|trans) }}</a>
+                        <a href="{{ "ems://object:#{item.object.target}"|default('')|emsch_routing }}">{{ item.object.target_label|default('block.grid.see_also'|trans) }}</a>
                     </div>
                 </div>
             {%  endif %}
@@ -25,3 +23,8 @@
     </section>
 {% endblock %}
 
+{% block child %}
+    <div class="col-12 col-md-4">
+        {{ parent() }}
+    </div>
+{% endblock child %}

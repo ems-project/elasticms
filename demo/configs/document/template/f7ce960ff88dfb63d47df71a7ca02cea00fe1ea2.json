@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}\n\n{% block image %}\n    {{ block('image', \"@EMSCH/template/page/card/#{target.contentType}.html.twig\") }}\n{% endblock image %}\n\n{% block tags %}\n    {{ block('tags', \"@EMSCH/template/page/card/#{target.contentType}.html.twig\") }}\n{% endblock tags %}\n\n{% block description %}\n    {{ block('description', \"@EMSCH/template/page/card/#{target.contentType}.html.twig\") }}\n{% endblock description %}\n\n{% block widget %}\n    {% trans_default_domain trans_default_domain %}\n    {% set target = item.object.target|emsch_get|default(false) %}\n    {% if target %}\n        {{ block('card', \"@EMSCH/template/page/card/#{target.contentType}.html.twig\") }}\n    {%  endif %}\n{% endblock widget %}\n",
+    "name": "page/blocks/card.html.twig"
+}

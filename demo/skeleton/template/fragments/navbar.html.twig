@@ -54,7 +54,7 @@
 
 {% block request %}
     <ul class="navbar-nav ml-auto align-items-lg-center" {{ emsch_admin_menu(section) }}>
-        {% for section in structure.children %}
+        {% for section in structure.children|filter(p => p.id in pages)  %}
             {% if section.children|length > 0 and section.object.dropdown|default(false) %}
                 {{ block('dropdown') }}
             {% else %}

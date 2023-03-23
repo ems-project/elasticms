@@ -1,0 +1,4 @@
+{
+    "body": "{% apply spaceless %}\n    {{ path(source.name) }}\n{%  endapply %}\n",
+    "name": "ems/route.ems_link.twig"
+}

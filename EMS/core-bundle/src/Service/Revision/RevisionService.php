@@ -159,7 +159,7 @@ class RevisionService implements RevisionServiceInterface
         }
 
         return match (true) {
-            ($object instanceof Revision) => $object->getOuuid(),
+            ($object instanceof Revision) => $object->giveOuuid(),
             ($object instanceof Document) => $object->getId()
         };
     }

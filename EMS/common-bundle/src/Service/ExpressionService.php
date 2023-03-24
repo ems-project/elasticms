@@ -21,22 +21,37 @@ final class ExpressionService implements ExpressionServiceInterface
      */
     public function evaluateToBool(string $expression, array $values = []): bool
     {
+        $evaluate = $this->evaluate($expression, $values);
+
+        return \is_bool($evaluate) ? $evaluate : false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function evaluateToString(string $expression, array $values = []): ?string
+    {
+        $evaluate = $this->evaluate($expression, $values);
+
+        return \is_string($evaluate) ? $evaluate : null;
+    }
+
+    /**
+     * @param array<mixed> $values
+     */
+    private function evaluate(string $expression, array $values = []): bool|string|null
+    {
         try {
-            $evaluation = $this->getExpressionLanguage()->evaluate($expression, $values);
-
-            if (!\is_bool($evaluation)) {
-                throw new \Exception('Expression did not evaluate to bool!');
-            }
-
-            return $evaluation;
-        } catch (\Exception $e) {
+            return $this->getExpressionLanguage()->evaluate($expression, $values);
+        } catch (\Throwable $e) {
             $this->logger->error('Expression failed: {message}', [
                 'message' => $e->getMessage(),
                 'values' => $values,
                 'expression' => $expression,
+                'noFlash' => true,
             ]);
 
-            return false;
+            return null;
         }
     }
 

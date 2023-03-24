@@ -29,7 +29,9 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_FILE_FIELD = 'file-field';
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_EXCEL_FILE = 'excel-file';
+    private const OPTION_LOCATE_ROW_EXPRESSION = 'locate-row-expression';
     private ?string $excelFile;
+    private string $locateRowExpression;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -47,6 +49,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library file field (default: media_file)', 'media_file')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
             ->addOption(self::OPTION_EXCEL_FILE, null, InputOption::VALUE_OPTIONAL, 'Path to an excel file containing meta data')
+            ->addOption(self::OPTION_LOCATE_ROW_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the file by its filename', '[filename]')
         ;
     }
 
@@ -59,6 +62,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         $this->config['path_field'] = $this->getOptionString(self::OPTION_PATH_FIELD);
         $this->config['file_field'] = $this->getOptionString(self::OPTION_FILE_FIELD);
         $this->excelFile = $this->getOptionStringNull(self::OPTION_EXCEL_FILE);
+        $this->locateRowExpression = $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
     }
 
@@ -75,7 +79,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
 
         $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi);
         if (null !== $this->excelFile) {
-            $mediaSync->setExcelFile($this->excelFile);
+            $mediaSync->setExcelFile($this->excelFile, $this->locateRowExpression);
         }
         $mediaSync->execute();
 

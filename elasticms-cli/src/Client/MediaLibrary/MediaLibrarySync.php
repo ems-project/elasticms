@@ -18,6 +18,7 @@ use Symfony\Component\Finder\Finder;
 final class MediaLibrarySync
 {
     private Spreadsheet $spreadsheet;
+    private $locateRowExpression;
 
     /**
      * @param array{content_type: string, folder_field: string, path_field: string, file_field: string} $config
@@ -160,9 +161,10 @@ final class MediaLibrarySync
         ];
     }
 
-    public function setExcelFile(string $excelFile): void
+    public function setExcelFile(string $excelFile, string $locateRowExpression): void
     {
         $reader = new Xlsx();
         $this->spreadsheet = $reader->load($excelFile);
+        $this->locateRowExpression = $this->locateRowExpression;
     }
 }

@@ -158,7 +158,10 @@ class RevisionService implements RevisionServiceInterface
             return $rawData[$contentType->giveLabelField()];
         }
 
-        return $object->getEmsId();
+        return match (true) {
+            ($object instanceof Revision) => $object->getOuuid(),
+            ($object instanceof Document) => $object->getId()
+        };
     }
 
     public function find(int $revisionId): ?Revision

@@ -55,6 +55,7 @@ parameters:
     env(EMSCO_DEFAULT_BULK_SIZE): 500
     env(EMSCO_URL_USER): ~
     env(EMSCO_CUSTOM_USER_OPTIONS_FORM): ~
+    env(EMSCO_FALLBACK_LOCALE): 'en'
 
     env(EMSCO_LDAP_ENABLED): true
     env(EMSCO_LDAP_DN_STRING): '%env(string:LDAP_DN_STRING)%'
@@ -94,6 +95,7 @@ ems_core:
     default_bulk_size: '%env(int:EMSCO_DEFAULT_BULK_SIZE)%'
     url_user: '%env(string:EMSCO_URL_USER)%'
     custom_user_options_form: '%env(string:EMSCO_CUSTOM_USER_OPTIONS_FORM)%'
+    fallback_locale: '%env(string:EMSCO_FALLBACK_LOCALE)%'
 
     ldap:
         enabled: '%env(bool:EMSCO_LDAP_ENABLED)%'

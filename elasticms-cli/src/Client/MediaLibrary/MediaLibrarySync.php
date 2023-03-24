@@ -11,14 +11,15 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 final class MediaLibrarySync
 {
-    private Spreadsheet $spreadsheet;
-    private $locateRowExpression;
+    /** @var mixed[] */
+    private array $metadatas = [];
 
     /**
      * @param array{content_type: string, folder_field: string, path_field: string, file_field: string} $config
@@ -49,6 +50,7 @@ final class MediaLibrarySync
                 if (!\str_starts_with($path, '/')) {
                     $path = '/'.$path;
                 }
+                $this->getMetadata($file);
                 $this->uploadMediaFile($file, $path);
             } catch (\Throwable $e) {
                 $this->io->error(\sprintf('Upload failed for "%s" (%s)', $file->getRealPath(), $e->getMessage()));
@@ -161,10 +163,42 @@ final class MediaLibrarySync
         ];
     }
 
-    public function setExcelFile(string $excelFile, string $locateRowExpression): void
+    public function loadMetadata(string $excelFile, string $locateRowExpression, ?string $sheetName = null): void
     {
         $reader = new Xlsx();
-        $this->spreadsheet = $reader->load($excelFile);
-        $this->locateRowExpression = $this->locateRowExpression;
+        $spreadsheet = $reader->load($excelFile);
+        $expressionLanguage = new ExpressionLanguage();
+        if (null === $sheetName) {
+            $sheet = $spreadsheet->getActiveSheet();
+        } else {
+            $sheet = $spreadsheet->getSheetByName($sheetName);
+        }
+        if (null === $sheet) {
+            throw new \RuntimeException(\sprintf('Sheet %s not found', $sheetName));
+        }
+        $rows = $sheet->toArray();
+        $header = $rows[0] ?? [];
+        $this->metadatas = [];
+        foreach ($rows as $key => $value) {
+            if (0 === $key) {
+                continue;
+            }
+            $row = [];
+            foreach ($value as $key => $cell) {
+                $row[$header[$key] ?? $key] = $cell;
+            }
+
+            $filename = $expressionLanguage->evaluate($locateRowExpression, [
+                'row' => $row,
+            ]);
+            if (\is_string($filename)) {
+                $this->metadatas[$filename] = $row;
+            }
+        }
+    }
+
+    private function getMetadata(SplFileInfo $file): mixed
+    {
+        return [];
     }
 }

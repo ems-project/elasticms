@@ -49,7 +49,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library file field (default: media_file)', 'media_file')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
             ->addOption(self::OPTION_EXCEL_FILE, null, InputOption::VALUE_OPTIONAL, 'Path to an excel file containing meta data')
-            ->addOption(self::OPTION_LOCATE_ROW_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the file by its filename', '[filename]')
+            ->addOption(self::OPTION_LOCATE_ROW_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the file by its filename', "row['filename']")
         ;
     }
 
@@ -79,7 +79,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
 
         $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi);
         if (null !== $this->excelFile) {
-            $mediaSync->setExcelFile($this->excelFile, $this->locateRowExpression);
+            $mediaSync->loadMetadata($this->excelFile, $this->locateRowExpression);
         }
         $mediaSync->execute();
 

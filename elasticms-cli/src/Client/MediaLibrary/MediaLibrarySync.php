@@ -10,11 +10,15 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 
 final class MediaLibrarySync
 {
+    private Spreadsheet $spreadsheet;
+
     /**
      * @param array{content_type: string, folder_field: string, path_field: string, file_field: string} $config
      */
@@ -154,5 +158,11 @@ final class MediaLibrarySync
             EmsFields::CONTENT_MIME_TYPE_FIELD => $mimeType,
             EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ? $file->getSize() : null,
         ];
+    }
+
+    public function setExcelFile(string $excelFile): void
+    {
+        $reader = new Xlsx();
+        $this->spreadsheet = $reader->load($excelFile);
     }
 }

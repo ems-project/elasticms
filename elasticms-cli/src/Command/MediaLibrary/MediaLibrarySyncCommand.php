@@ -28,6 +28,8 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_PATH_FIELD = 'path-field';
     private const OPTION_FILE_FIELD = 'file-field';
     private const OPTION_DRY_RUN = 'dry-run';
+    private const OPTION_EXCEL_FILE = 'excel-file';
+    private ?string $excelFile;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -44,6 +46,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_PATH_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library path field (default: media_path)', 'media_path')
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library file field (default: media_file)', 'media_file')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
+            ->addOption(self::OPTION_EXCEL_FILE, null, InputOption::VALUE_OPTIONAL, 'Path to an excel file containing meta data')
         ;
     }
 
@@ -55,6 +58,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         $this->config['folder_field'] = $this->getOptionString(self::OPTION_FOLDER_FIELD);
         $this->config['path_field'] = $this->getOptionString(self::OPTION_PATH_FIELD);
         $this->config['file_field'] = $this->getOptionString(self::OPTION_FILE_FIELD);
+        $this->excelFile = $this->getOptionStringNull(self::OPTION_EXCEL_FILE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
     }
 
@@ -70,6 +74,9 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         }
 
         $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi);
+        if (null !== $this->excelFile) {
+            $mediaSync->setExcelFile($this->excelFile);
+        }
         $mediaSync->execute();
 
         return self::EXECUTE_SUCCESS;

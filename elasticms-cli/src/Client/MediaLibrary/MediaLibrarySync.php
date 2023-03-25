@@ -7,6 +7,7 @@ namespace App\CLI\Client\MediaLibrary;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
@@ -23,7 +24,7 @@ final class MediaLibrarySync
     /**
      * @param array{content_type: string, folder_field: string, path_field: string, file_field: string} $config
      */
-    public function __construct(private readonly string $folder, private readonly array $config, private readonly SymfonyStyle $io, private readonly bool $dryRun, private readonly CoreApiInterface $coreApi)
+    public function __construct(private readonly string $folder, private readonly array $config, private readonly SymfonyStyle $io, private readonly bool $dryRun, private readonly CoreApiInterface $coreApi, private readonly FileReaderInterface $fileReader)
     {
     }
 

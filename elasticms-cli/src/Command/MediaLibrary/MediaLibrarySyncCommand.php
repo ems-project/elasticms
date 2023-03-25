@@ -8,6 +8,7 @@ use App\CLI\Client\MediaLibrary\MediaLibrarySync;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,7 +36,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private string $locateRowExpression;
     private ?string $excelSheetName;
 
-    public function __construct(private readonly AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
         parent::__construct();
     }
@@ -81,7 +82,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi);
+        $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi, $this->fileReader);
         if (null !== $this->excelFile) {
             $mediaSync->loadMetadata($this->excelFile, $this->locateRowExpression, $this->excelSheetName);
         }

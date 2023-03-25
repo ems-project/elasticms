@@ -46,8 +46,8 @@ final class MediaLibrarySync
             try {
                 $position = \strpos($file->getRealPath(), $this->folder);
                 $path = \substr($file->getRealPath(), $position + \strlen($this->folder));
-                if (!\str_starts_with($path, '/')) {
-                    $path = '/'.$path;
+                if (!\str_starts_with($path, DIRECTORY_SEPARATOR)) {
+                    $path = DIRECTORY_SEPARATOR.$path;
                 }
                 $this->uploadMediaFile($file, $path);
             } catch (\Throwable $e) {
@@ -65,15 +65,15 @@ final class MediaLibrarySync
 
     private function uploadMediaFile(\SplFileInfo $file, string $path): string
     {
-        $exploded = \explode('/', $path);
+        $exploded = \explode(DIRECTORY_SEPARATOR, $path);
         $metadata = $this->getMetadata($path);
         $ouuid = null;
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->config['content_type']);
         $contentTypeApi = $this->coreApi->data($this->config['content_type']);
         while (\count($exploded) > 1) {
-            $path = \implode('/', $exploded);
+            $path = \implode(DIRECTORY_SEPARATOR, $exploded);
             \array_pop($exploded);
-            $folder = \implode('/', $exploded).'/';
+            $folder = \implode(DIRECTORY_SEPARATOR, $exploded).DIRECTORY_SEPARATOR;
 
             $data = [
                 $this->config['path_field'] => $path,

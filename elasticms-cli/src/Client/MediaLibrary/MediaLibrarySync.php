@@ -11,7 +11,6 @@ use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Finder\Finder;
@@ -164,20 +163,10 @@ final class MediaLibrarySync
         ];
     }
 
-    public function loadMetadata(string $excelFile, string $locateRowExpression, ?string $sheetName = null): void
+    public function loadMetadata(string $metadataFile, string $locateRowExpression): void
     {
-        $reader = new Xlsx();
-        $spreadsheet = $reader->load($excelFile);
         $expressionLanguage = new ExpressionLanguage();
-        if (null === $sheetName) {
-            $sheet = $spreadsheet->getActiveSheet();
-        } else {
-            $sheet = $spreadsheet->getSheetByName($sheetName);
-        }
-        if (null === $sheet) {
-            throw new \RuntimeException(\sprintf('Sheet %s not found', $sheetName));
-        }
-        $rows = $sheet->toArray();
+        $rows = $this->fileReader->getData($metadataFile);
         $header = $rows[0] ?? [];
         $this->metadatas = [];
         foreach ($rows as $key => $value) {

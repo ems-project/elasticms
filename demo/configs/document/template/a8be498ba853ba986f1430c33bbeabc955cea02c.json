@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}\n{% block widget %}\n    {% trans_default_domain trans_default_domain %}\n\n    <div class=\"container-fluid container-lg\">\n        <div class=\"py-5 py-lg-8\">\n            {{ include('@EMSCH/template/accessibility/report.html.twig') }}\n        </div>\n    </div>\n{% endblock widget %}\n",
+    "name": "page/blocks/accessibility_report.html.twig"
+}

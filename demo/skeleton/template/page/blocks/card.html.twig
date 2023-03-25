@@ -1,0 +1,21 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block image %}
+    {{ block('image', "@EMSCH/template/page/card/#{target.contentType}.html.twig") }}
+{% endblock image %}
+
+{% block tags %}
+    {{ block('tags', "@EMSCH/template/page/card/#{target.contentType}.html.twig") }}
+{% endblock tags %}
+
+{% block description %}
+    {{ block('description', "@EMSCH/template/page/card/#{target.contentType}.html.twig") }}
+{% endblock description %}
+
+{% block widget %}
+    {% trans_default_domain trans_default_domain %}
+    {% set target = item.object.target|emsch_get|default(false) %}
+    {% if target %}
+        {{ block('card', "@EMSCH/template/page/card/#{target.contentType}.html.twig") }}
+    {%  endif %}
+{% endblock widget %}

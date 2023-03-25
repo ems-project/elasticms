@@ -1,0 +1,7 @@
+{
+    "config": "{\"path\":{\"fr\":\"\\/fr\\/news\\/{year}-{month}-{day}\\/{slug}\",\"nl\":\"\\/nl\\/news\\/{year}-{month}-{day}\\/{slug}\"}}",
+    "name": "emsch_news_details",
+    "order": 23,
+    "query": "{\"query\":{\"bool\":{\"must\":[{\"terms\":{\"_contenttype\":[\"news\"]}},{\"terms\":{\"%locale%.slug\":[\"%slug%\"]}}]}},\"size\":1}",
+    "template_static": "template:a72811fb9bfecb5a367b7378af75ea771bba24a5"
+}

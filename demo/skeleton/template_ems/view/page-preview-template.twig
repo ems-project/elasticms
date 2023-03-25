@@ -1,0 +1,79 @@
+{% block template %}
+
+    {% set whatsNew %}{% verbatim %}{"id":"1202aab0-6772-4da2-bca1-d37045a5bec2","label":"News","type":"grid","object":{"label":"News","title":"What's new ?","layout":"grid-with-dark-background","target":"route:654cf06227fcef24f2070118b7063c88b01fcb6e","target_label":"Toutes les news"},"children":[{"id":"967ed3f0-3eb6-4aaa-8314-980f48065e9e","label":"Un gestionnaire accessible","type":"card","object":{"label":"Un gestionnaire accessible","target":"news:a3349086-3e0e-478e-8cf2-b84f066772b8"},"children":[]},{"id":"263da64d-7988-4a2c-9ac7-11f29eb4aa3f","label":"Un outil de planification","type":"card","object":{"label":"Un outil de planification","target":"news:bf19cfbb-c666-4004-aa2d-11cb534c0a3b"},"children":[]},{"id":"df50d77a-0aa1-4b0f-a039-be425cb2b3ff","label":"Une gestion collaborative","type":"card","object":{"label":"Une gestion collaborative","target":"news:edc8c69f-6eda-4312-84f1-f6b025cc374d"},"children":[]}]}{% endverbatim %}{% endset %}
+    {% set functionalities %}{% verbatim %}{"id":"405e25ba-98ee-4228-b48e-b4b2eeaee3eb","label":"Lorem ipsum","type":"grid","object":{"label":"Lorem ipsum","target":"page:1f4217e0-3aeb-45aa-8caf-12a1b2445377","target_label":"Nullam pulvinar erat"},"children":[{"id":"121b65c1-f41a-4630-8771-79087721057f","label":"Aliquam ac","type":"paragraph","object":{"label":"Aliquam ac","body":"<h2>Aliquam ac</h2>\r\n\r\n<p>Lorem ipsum dolor sit amet, <strong>consectetur adipiscing</strong> elit. Phasellus mi ipsum, tincidunt ut mi at, consectetur mattis nulla. Donec at felis vel nunc fringilla rutrum.&nbsp;</p>"},"children":[]},{"id":"ff0eee43-f651-4117-8357-0ea2b3affd37","label":"Aenean laoreet","type":"paragraph","object":{"label":"Aenean laoreet","body":"<h2>Aenean laoreet</h2>\r\n\r\n<p>Curabitur vulputate nec leo id congue. In non faucibus quam. <strong>Aliquam ac metus</strong> nec lacus tempor fermentum sit amet <strong>sit amet</strong> eros.</p>"},"children":[]},{"id":"747d8348-377f-4b98-8f06-903b940c99d2","label":"Sed lectus libero","type":"paragraph","object":{"label":"Sed lectus libero","body":"<h2>Sed lectus libero</h2>\r\n\r\n<p>Phasellus quis ligula nec dui <strong>gravida consequat at vitae mauris</strong>. Donec sed sapien ante. Morbi sed consectetur mauris, sit amet semper risus.</p>"},"children":[]}]}{% endverbatim %}{% endset %}
+    {% set blue %}{% verbatim %}{"id":"56dbead5-6fa5-4727-abed-0c1502b7b498","label":"Blue","type":"grid","object":{"label":"Blue","layout":"grid-with-blue-background"},"children":[{"id":"2d462b5d-2412-4b94-9b99-69c2b1d11ab3","label":"Donec sed sapien ante","type":"paragraph","object":{"label":"Donec sed sapien ante","body":"<h2>Donec sed sapien ante</h2>\r\n\r\n<p>Ut ultrices enim id justo molestie, eget semper eros rutrum. In sit amet justo vitae nisl volutpat volutpat.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"ems://object:media_file:c42f14a2-2ec0-40a8-bd8f-d8161e00befb\" target=\"_blank\">Curabitur vulputate nec leo id congue</a></li>\r\n\t<li><a href=\"ems://object:media_file:5721fb7f-5222-493d-9f8b-dd6f11553cfe\" target=\"_blank\">In non faucibus quamer</a>2</li>\r\n</ul>"},"children":[]}]}{% endverbatim %}{% endset %}
+
+    {% set templates = [{
+        name: 'What\'s new ?',
+        content: whatsNew.__toString(),
+    },{
+        name: 'Functionalities',
+        content: functionalities.__toString(),
+    },{
+        name: 'Blue box',
+        content: blue.__toString(),
+    }] %}
+    <h1>Component's recipes</h1>
+
+    {% for template in templates %}
+        <div class="template-copy-row">
+            <h2>{{ template.name }}</h2>
+            <button data-content="{{ template.content }}" class="ems_copy_to_json"><i class="fa fa-copy"></i> Copy</button>
+            <div class="template-preview-iframe">
+                <iframe id="preview-iframe-{{ loop.index0 }}" src="{{ asset('/') }}channel/preview/_emsch/templates/preview-iframe-{{ loop.index0 }}" width="100%" data-content="{{ template.content }}" style="overflow-x: hidden;" scrolling="no"></iframe>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+
+
+{% block css %}
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+    // Load and resize iframes
+    window.addEventListener('message', function(event) {
+        let iframe = null;
+        const iframes = document.querySelectorAll("iframe");
+        for (let i = 0; i < iframes.length; i++) {
+            if (event.source === iframes[i].contentWindow) {
+                iframe = iframes[i];
+                break;
+            }
+        }
+
+        if (null === iframe) {
+            console.log('Received message from a unknown iframe');
+            return;
+        }
+
+        const window = iframe.contentWindow || iframe.contentDocument.defaultView;
+        switch (event.data) {
+            case "resize":
+                let height = parseInt(window.getComputedStyle(iframe, null).getPropertyValue('border-top-width').replace('px',''), 10);
+                height += parseInt(window.getComputedStyle(iframe, null).getPropertyValue('border-bottom-width').replace('px',''), 10);
+                height += parseInt(window.document.body.scrollHeight, 10);
+                iframe.height = height;
+                break;
+            case "post-data":
+                window.postMessage(iframe.dataset.content, "{{ app.request.getSchemeAndHttpHost() }}");
+                break;
+            default:
+                console.log('Unknown iframe event: ' + event.data);
+        }
+    });
+
+    // register copy button
+    const buttons = document.querySelectorAll(".ems_copy_to_json");
+    for (let i = 0; i < buttons.length; i++) {
+        const button = buttons[i];
+        button.addEventListener("click", function(){
+            localStorage.setItem('json_menu_nested_copy', button.dataset.content);
+        });
+    }
+</script>
+{% endblock %}

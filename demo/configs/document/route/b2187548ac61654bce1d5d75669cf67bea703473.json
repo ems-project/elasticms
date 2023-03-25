@@ -1,7 +1,7 @@
 {
     "config": "{\"path\":\"\\/_word_export\\/{contentType}\\/{ouuid}.docx\",\"requirements\":{\"path\":\"^(?!(fr\\/|nl\\/|de\\/|_wdt\\/|_profiler\\/|file\\/)(.*$)?).+\",\"_locale\":\"en|fr|nl|de\"}}",
     "name": "emsch_word_export",
-    "order": 18,
+    "order": 20,
     "query": "{\"query\":{\"bool\":{\"should\":[{\"bool\":{\"must\":[{\"terms\":{\"_contenttype\":[\"%contentType%\"]}},{\"term\":{\"_id\":\"%ouuid%\"}}]}},{\"bool\":{\"must\":[{\"nested\":{\"path\":\"paths\",\"query\":{\"term\":{\"paths.target\":{\"value\":\"%contentType%:%ouuid%\",\"boost\":3}}}}},{\"nested\":{\"path\":\"paths\",\"query\":{\"term\":{\"paths.locale\":{\"value\":\"%_locale%\"}}}}},{\"terms\":{\"_contenttype\":[\"structure\"]}}]}}]}},\"size\":1}",
     "template_static": "template:45ad432163256fe7e7396f95121dd811d6ff406e"
 }

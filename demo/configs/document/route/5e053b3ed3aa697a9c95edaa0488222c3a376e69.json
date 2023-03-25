@@ -1,6 +1,6 @@
 {
     "config": "{\"path\":\"site.webmanifest\",\"defaults\":{\"_format\":\"json\"}}",
     "name": "site.webmanifest",
-    "order": 12,
+    "order": 14,
     "template_static": "template:add9e97851bd6a5f5f7b5f89a91b33291e2d9388"
 }

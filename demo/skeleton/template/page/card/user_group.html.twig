@@ -1,0 +1,27 @@
+{% block card %}
+    {% trans_default_domain trans_default_domain %}
+    {% set usergroup = (item.object.target|default('')|emsch_get).source|default({}) %}
+    <div class="row">
+        <div class="col-12 col-lg-7">
+            <h2>{{ 'usergroup.title'|trans }}</h2>
+            <p>{{ 'usergroup.intro'|trans }}</p>
+            <hr>
+            <dl>
+                <dt>{{ 'usergroup.next-event'|trans }}</dt>
+                <dd>{{ usergroup.date|date('j %F% Y - H:i')|replace(monthsTrans|default({})) }}</dd>
+                <dt>{{ 'usergroup.team-meeting'|trans }}</dt>
+                <dd>{{ usergroup.duration }}</dd>
+                <dt>{{ 'usergroup.topic'|trans }}</dt>
+                <dd>{{ attribute(usergroup, locale).body|emsch_routing }}</dd>
+            </dl>
+            <hr>
+        </div>
+        <div class="col-12 col-lg-4 offset-lg-1">
+            <img class="news-image img-fluid rounded-circle mx-auto mb-4" data-src="{{ ems_asset_path(usergroup.picture) }}" alt="140x140" src="{{ ems_asset_path(usergroup.picture) }}" data-holder-rendered="true">
+            <dl>
+                <dt>{{ 'usergroup.facilitator'|trans }}</dt>
+                <dd>{{ usergroup.facilitator_name }}</dd>
+            </dl>
+        </div>
+    </div>
+{% endblock card %}

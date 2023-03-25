@@ -1,0 +1,18 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block body %}
+    <section class="py-5 py-lg-6 bg-primary text-white">
+        <div class="container-fluid container-lg">
+            <div class="row">
+                {{ block('children') }}
+            </div>
+        </div>
+    </section>
+{% endblock body %}
+
+
+{% block child %}
+    <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+        {{ parent() }}
+    </div>
+{% endblock child %}

@@ -70,11 +70,13 @@
 {% endblock -%}
 
 {% block repeated_row -%}
-    {% set row_attr = row_attr|merge({
-        'data-rules': ems_meta.rules|json_encode,
-        'data-show-hide': ems_meta.show_hide|default('show'),
-        'data-all-any': ems_meta.all_any|default('any'),
-    }) %}
+    {% if ems_meta.rules|default([])|length > 0 %}
+        {% set row_attr = row_attr|merge({
+            'data-rules': ems_meta.rules|json_encode,
+            'data-show-hide': ems_meta.show_hide|default('show'),
+            'data-all-any': ems_meta.all_any|default('any'),
+        }) %}
+    {% endif %}
     {{ form_row(form.first, { 'attr': {'class': ems_meta.class|default('')}, row_attr: row_attr  }) }}
     {{ form_row(form.second, { 'attr': {'class': ems_meta.class|default('')}, row_attr: row_attr  }) }}
 {% endblock -%}

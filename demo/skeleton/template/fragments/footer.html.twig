@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block request %}
-    {% for section in structure.children %}
+    {% for section in structure.children|filter(p => p.id in pages) %}
         {{ block('item') }}
     {% endfor %}
 {% endblock request %}

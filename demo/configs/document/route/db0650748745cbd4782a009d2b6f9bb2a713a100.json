@@ -1,5 +1,5 @@
 {
-    "config": "{\"path\":\"\\/ajax\\/{ouuid}\\/{_locale}\",\"controller\":\"emsf.controller.form::dynamicFieldAjax\",\"method\":[\"POST\"]}",
+    "config": "{\"path\":\"\\/ajax\\/{ouuid}\\/{_locale}\",\"controller\":\"EMS\\\\FormBundle\\\\Controller\\\\FormController::dynamicFieldAjax\",\"method\":[\"POST\"]}",
     "name": "form_dynamic_field",
-    "order": 17
+    "order": 19
 }

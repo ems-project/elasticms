@@ -9,9 +9,9 @@
         "managed": true,
         "snapshot": false,
         "circles": null,
-        "inDefaultSearch": null,
+        "inDefaultSearch": false,
         "orderKey": null,
-        "updateReferrers": false,
+        "updateReferrers": true,
         "templatePublication": null,
         "rolePublish": null
     },

@@ -1,0 +1,4 @@
+{
+    "body": "{% extends '@EMSCH/template/page/blocks/card.html.twig' %}\n\n{% block widget %}\n    {% trans_default_domain trans_default_domain %}\n    {% set target = item.object.target|emsch_get|default(false) %}\n    {% if target %}\n        {{ block('widget_image') }}\n    {%  endif %}\n{% endblock widget %}\n",
+    "name": "page/blocks/image.html.twig"
+}

@@ -7,12 +7,12 @@
         "orderKey": 1,
         "formatTags": "h2;h3;h4",
         "tableDefaultCss": "table table-bordered",
-        "contentCss": null,
-        "contentJs": null,
+        "contentCss": "css/admin.css",
+        "contentJs": "js/admin.js",
         "assets": {
-            "sha1": null,
-            "mimetype": null,
-            "filename": null
+            "sha1": "3dbdc38fb9eeb96c4eb190544503340507608a29",
+            "mimetype": "application/x-zip-compressed",
+            "filename": "bundle.zip"
         },
         "saveDir": null
     },

@@ -26,6 +26,19 @@
     paths: p._source.paths|default([]),
 })|array_key('menu') %}
 
+
+
+{% set pages = emsch_search('page', {
+    query: {
+        terms: {
+            _contenttype: ['page'],
+        },
+    },
+    _source: ['menu'],
+    size: 1000,
+}).hits.hits|default([])|map(p => p._source.menu) %}
+
+
 {% for item in structure %}
     {% set pathInfo = attribute(paths, item.id)|default(false) %}
     {% if pathInfo %}

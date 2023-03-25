@@ -14,7 +14,6 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
 final class MediaLibrarySync
 {
@@ -50,7 +49,6 @@ final class MediaLibrarySync
                 if (!\str_starts_with($path, '/')) {
                     $path = '/'.$path;
                 }
-                $this->getMetadata($file);
                 $this->uploadMediaFile($file, $path);
             } catch (\Throwable $e) {
                 $this->io->error(\sprintf('Upload failed for "%s" (%s)', $file->getRealPath(), $e->getMessage()));
@@ -68,6 +66,7 @@ final class MediaLibrarySync
     private function uploadMediaFile(\SplFileInfo $file, string $path): string
     {
         $exploded = \explode('/', $path);
+        $metadata = $this->getMetadata($path);
         $ouuid = null;
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->config['content_type']);
         $contentTypeApi = $this->coreApi->data($this->config['content_type']);
@@ -79,6 +78,7 @@ final class MediaLibrarySync
             $data = [
                 $this->config['path_field'] => $path,
                 $this->config['folder_field'] => $folder,
+                '_sync_metadata' => $metadata,
             ];
             if (null === $ouuid) {
                 $data[$this->config['file_field']] = $this->urlToAssetArray($file);
@@ -97,7 +97,7 @@ final class MediaLibrarySync
             if (!$this->dryRun) {
                 if (null === $document) {
                     $draft = $contentTypeApi->create($data);
-                } elseif (\is_array($source = $data[$this->config['file_field']] ?? null) && \is_array($target = $document->getSource()[$this->config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$this->config['folder_field']] === ($document->getSource()[$this->config['folder_field']] ?? null)) {
+                } elseif (empty($metadata) && \is_array($source = $data[$this->config['file_field']] ?? null) && \is_array($target = $document->getSource()[$this->config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$this->config['folder_field']] === ($document->getSource()[$this->config['folder_field']] ?? null)) {
                     $ouuid ??= $document->getId();
                     continue;
                 } else {
@@ -197,8 +197,15 @@ final class MediaLibrarySync
         }
     }
 
-    private function getMetadata(SplFileInfo $file): mixed
+    /**
+     * @return mixed[]
+     */
+    private function getMetadata(string $path): array
     {
+        if (isset($this->metadatas[$path])) {
+            return $this->metadatas[$path];
+        }
+
         return [];
     }
 }

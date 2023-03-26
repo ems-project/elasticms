@@ -7,18 +7,23 @@ namespace App\CLI\Client\MediaLibrary;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Finder\Finder;
 
 final class MediaLibrarySync
 {
+    /** @var mixed[] */
+    private array $metadatas = [];
+
     /**
      * @param array{content_type: string, folder_field: string, path_field: string, file_field: string} $config
      */
-    public function __construct(private readonly string $folder, private readonly array $config, private readonly SymfonyStyle $io, private readonly bool $dryRun, private readonly CoreApiInterface $coreApi)
+    public function __construct(private readonly string $folder, private readonly array $config, private readonly SymfonyStyle $io, private readonly bool $dryRun, private readonly CoreApiInterface $coreApi, private readonly FileReaderInterface $fileReader)
     {
     }
 
@@ -41,8 +46,8 @@ final class MediaLibrarySync
             try {
                 $position = \strpos($file->getRealPath(), $this->folder);
                 $path = \substr($file->getRealPath(), $position + \strlen($this->folder));
-                if (!\str_starts_with($path, '/')) {
-                    $path = '/'.$path;
+                if (!\str_starts_with($path, DIRECTORY_SEPARATOR)) {
+                    $path = DIRECTORY_SEPARATOR.$path;
                 }
                 $this->uploadMediaFile($file, $path);
             } catch (\Throwable $e) {
@@ -60,18 +65,20 @@ final class MediaLibrarySync
 
     private function uploadMediaFile(\SplFileInfo $file, string $path): string
     {
-        $exploded = \explode('/', $path);
+        $exploded = \explode(DIRECTORY_SEPARATOR, $path);
+        $metadata = $this->getMetadata($path);
         $ouuid = null;
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->config['content_type']);
         $contentTypeApi = $this->coreApi->data($this->config['content_type']);
         while (\count($exploded) > 1) {
-            $path = \implode('/', $exploded);
+            $path = \implode(DIRECTORY_SEPARATOR, $exploded);
             \array_pop($exploded);
-            $folder = \implode('/', $exploded).'/';
+            $folder = \implode(DIRECTORY_SEPARATOR, $exploded).DIRECTORY_SEPARATOR;
 
             $data = [
                 $this->config['path_field'] => $path,
                 $this->config['folder_field'] => $folder,
+                '_sync_metadata' => $metadata,
             ];
             if (null === $ouuid) {
                 $data[$this->config['file_field']] = $this->urlToAssetArray($file);
@@ -90,7 +97,7 @@ final class MediaLibrarySync
             if (!$this->dryRun) {
                 if (null === $document) {
                     $draft = $contentTypeApi->create($data);
-                } elseif (\is_array($source = $data[$this->config['file_field']] ?? null) && \is_array($target = $document->getSource()[$this->config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$this->config['folder_field']] === ($document->getSource()[$this->config['folder_field']] ?? null)) {
+                } elseif (empty($metadata) && \is_array($source = $data[$this->config['file_field']] ?? null) && \is_array($target = $document->getSource()[$this->config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$this->config['folder_field']] === ($document->getSource()[$this->config['folder_field']] ?? null)) {
                     $ouuid ??= $document->getId();
                     continue;
                 } else {
@@ -154,5 +161,41 @@ final class MediaLibrarySync
             EmsFields::CONTENT_MIME_TYPE_FIELD => $mimeType,
             EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ? $file->getSize() : null,
         ];
+    }
+
+    public function loadMetadata(string $metadataFile, string $locateRowExpression): void
+    {
+        $expressionLanguage = new ExpressionLanguage();
+        $rows = $this->fileReader->getData($metadataFile);
+        $header = $rows[0] ?? [];
+        $this->metadatas = [];
+        foreach ($rows as $key => $value) {
+            if (0 === $key) {
+                continue;
+            }
+            $row = [];
+            foreach ($value as $key => $cell) {
+                $row[$header[$key] ?? $key] = $cell;
+            }
+
+            $filename = $expressionLanguage->evaluate($locateRowExpression, [
+                'row' => $row,
+            ]);
+            if (\is_string($filename)) {
+                $this->metadatas[$filename] = $row;
+            }
+        }
+    }
+
+    /**
+     * @return mixed[]
+     */
+    private function getMetadata(string $path): array
+    {
+        if (isset($this->metadatas[$path])) {
+            return $this->metadatas[$path];
+        }
+
+        return [];
     }
 }

@@ -17,8 +17,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class MediaLibrarySyncCommand extends AbstractCommand
 {
     private bool $dryRun;
-    /** @var array{content_type: string, folder_field: string, path_field: string, file_field: string} */
-    private array $config;
     private string $folder;
 
     protected static $defaultName = Commands::MEDIA_LIBRARY_SYNC;
@@ -33,6 +31,10 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_LOCATE_ROW_EXPRESSION = 'locate-row-expression';
     private ?string $metadataFile;
     private string $locateRowExpression;
+    private string $contentType;
+    private string $folderField;
+    private string $pathField;
+    private string $fileField;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
@@ -58,10 +60,10 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->folder = $this->getArgumentString(self::ARGUMENT_FOLDER);
-        $this->config['content_type'] = $this->getOptionString(self::OPTION_CONTENT_TYPE);
-        $this->config['folder_field'] = $this->getOptionString(self::OPTION_FOLDER_FIELD);
-        $this->config['path_field'] = $this->getOptionString(self::OPTION_PATH_FIELD);
-        $this->config['file_field'] = $this->getOptionString(self::OPTION_FILE_FIELD);
+        $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
+        $this->folderField = $this->getOptionString(self::OPTION_FOLDER_FIELD);
+        $this->pathField = $this->getOptionString(self::OPTION_PATH_FIELD);
+        $this->fileField = $this->getOptionString(self::OPTION_FILE_FIELD);
         $this->metadataFile = $this->getOptionStringNull(self::OPTION_METADATA_FILE);
         $this->locateRowExpression = $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
@@ -78,7 +80,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $mediaSync = new MediaLibrarySync($this->folder, $this->config, $this->io, $this->dryRun, $coreApi, $this->fileReader);
+        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader);
         if (null !== $this->metadataFile) {
             $mediaSync->loadMetadata($this->metadataFile, $this->locateRowExpression);
         }

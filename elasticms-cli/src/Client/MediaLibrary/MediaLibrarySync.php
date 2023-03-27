@@ -7,6 +7,7 @@ namespace App\CLI\Client\MediaLibrary;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
@@ -19,12 +20,22 @@ final class MediaLibrarySync
 {
     /** @var mixed[] */
     private array $metadatas = [];
+    private DataInterface $contentTypeApi;
+    private string $defaultAlias;
 
-    /**
-     * @param array{content_type: string, folder_field: string, path_field: string, file_field: string} $config
-     */
-    public function __construct(private readonly string $folder, private readonly array $config, private readonly SymfonyStyle $io, private readonly bool $dryRun, private readonly CoreApiInterface $coreApi, private readonly FileReaderInterface $fileReader)
+    public function __construct(
+        private readonly string $folder,
+        private readonly string $contentType,
+        private readonly string $folderField,
+        private readonly string $pathField,
+        private readonly string $fileField,
+        private readonly SymfonyStyle $io,
+        private readonly bool $dryRun,
+        private readonly CoreApiInterface $coreApi,
+        private readonly FileReaderInterface $fileReader)
     {
+        $this->contentTypeApi = $this->coreApi->data($this->contentType);
+        $this->defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
     }
 
     public function execute(): self
@@ -63,25 +74,23 @@ final class MediaLibrarySync
         $exploded = \explode(DIRECTORY_SEPARATOR, $path);
         $metadata = $this->getMetadata($path);
         $ouuid = null;
-        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->config['content_type']);
-        $contentTypeApi = $this->coreApi->data($this->config['content_type']);
         while (\count($exploded) > 1) {
             $path = \implode(DIRECTORY_SEPARATOR, $exploded);
             \array_pop($exploded);
             $folder = \implode(DIRECTORY_SEPARATOR, $exploded).DIRECTORY_SEPARATOR;
 
             $data = [
-                $this->config['path_field'] => $path,
-                $this->config['folder_field'] => $folder,
+                $this->pathField => $path,
+                $this->folderField => $folder,
                 '_sync_metadata' => $metadata,
             ];
             if (null === $ouuid) {
-                $data[$this->config['file_field']] = $this->urlToAssetArray($file);
+                $data[$this->fileField] = $this->urlToAssetArray($file);
             }
 
-            $term = new Terms($this->config['path_field'], [$path]);
-            $search = new Search([$defaultAlias], $term->toArray());
-            $search->setContentTypes([$this->config['content_type']]);
+            $term = new Terms($this->pathField, [$path]);
+            $search = new Search([$this->defaultAlias], $term->toArray());
+            $search->setContentTypes([$this->contentType]);
             $result = $this->coreApi->search()->search($search);
             $document = null;
             foreach ($result->getDocuments() as $item) {
@@ -91,18 +100,18 @@ final class MediaLibrarySync
 
             if (!$this->dryRun) {
                 if (null === $document) {
-                    $draft = $contentTypeApi->create($data);
-                } elseif (empty($metadata) && \is_array($source = $data[$this->config['file_field']] ?? null) && \is_array($target = $document->getSource()[$this->config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$this->config['folder_field']] === ($document->getSource()[$this->config['folder_field']] ?? null)) {
+                    $draft = $this->contentTypeApi->create($data);
+                } elseif (empty($metadata) && \is_array($source = $data[$this->fileField] ?? null) && \is_array($target = $document->getSource()[$this->fileField] ?? null) && empty(\array_diff($source, $target)) && $data[$this->folderField] === ($document->getSource()[$folder] ?? null)) {
                     $ouuid ??= $document->getId();
                     continue;
                 } else {
-                    $draft = $contentTypeApi->update($document->getId(), $data);
+                    $draft = $this->contentTypeApi->update($document->getId(), $data);
                 }
 
                 if (null === $ouuid) {
-                    $ouuid = $contentTypeApi->finalize($draft->getRevisionId());
+                    $ouuid = $this->contentTypeApi->finalize($draft->getRevisionId());
                 } else {
-                    $contentTypeApi->finalize($draft->getRevisionId());
+                    $this->contentTypeApi->finalize($draft->getRevisionId());
                 }
             }
         }

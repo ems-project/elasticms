@@ -44,12 +44,7 @@ final class MediaLibrarySync
 
         foreach ($finder as $file) {
             try {
-                $position = \strpos($file->getRealPath(), $this->folder);
-                $path = \substr($file->getRealPath(), $position + \strlen($this->folder));
-                if (!\str_starts_with($path, DIRECTORY_SEPARATOR)) {
-                    $path = DIRECTORY_SEPARATOR.$path;
-                }
-                $this->uploadMediaFile($file, $path);
+                $this->uploadMediaFile($file, DIRECTORY_SEPARATOR.$file->getRelativePathname());
             } catch (\Throwable $e) {
                 $this->io->error(\sprintf('Upload failed for "%s" (%s)', $file->getRealPath(), $e->getMessage()));
             }

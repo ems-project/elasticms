@@ -15,11 +15,15 @@ use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 final class MediaLibrarySync
 {
+    public const SYNC_METADATA = '_sync_metadata';
     /** @var mixed[] */
     private array $metadatas = [];
+    /** @var string[] */
+    private array $knownFolders = [];
     private DataInterface $contentTypeApi;
     private string $defaultAlias;
 
@@ -55,7 +59,7 @@ final class MediaLibrarySync
 
         foreach ($finder as $file) {
             try {
-                $this->uploadMediaFile($file, DIRECTORY_SEPARATOR.$file->getRelativePathname());
+                $this->uploadMediaFile($file);
             } catch (\Throwable $e) {
                 $this->io->error(\sprintf('Upload failed for "%s" (%s)', $file->getRealPath(), $e->getMessage()));
             }
@@ -69,60 +73,68 @@ final class MediaLibrarySync
         return $this;
     }
 
-    private function uploadMediaFile(\SplFileInfo $file, string $path): void
+    private function uploadMediaFile(SplFileInfo $file): void
     {
-        $exploded = \explode(DIRECTORY_SEPARATOR, $path);
-        $metadata = $this->getMetadata($path);
-        $ouuid = null;
-        while (\count($exploded) > 1) {
-            $path = \implode(DIRECTORY_SEPARATOR, $exploded);
+        $this->uploadMedia(DIRECTORY_SEPARATOR.$file->getRelativePathname(), [
+            $this->fileField => $this->urlToAssetArray($file),
+            self::SYNC_METADATA => $this->getMetadata(DIRECTORY_SEPARATOR.$file->getRelativePathname()),
+        ]);
+
+        $exploded = \explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
+        while (\count($exploded) > 0) {
+            $folder = DIRECTORY_SEPARATOR.\implode(DIRECTORY_SEPARATOR, $exploded);
+            if (!\in_array($folder, $this->knownFolders)) {
+                $this->uploadMedia($folder, [
+                    self::SYNC_METADATA => $this->getMetadata(DIRECTORY_SEPARATOR.$folder),
+                ]);
+                $this->knownFolders[] = $folder;
+            }
             \array_pop($exploded);
-            $folder = \implode(DIRECTORY_SEPARATOR, $exploded).DIRECTORY_SEPARATOR;
-
-            $data = [
-                $this->pathField => $path,
-                $this->folderField => $folder,
-                '_sync_metadata' => $metadata,
-            ];
-            if (null === $ouuid) {
-                $data[$this->fileField] = $this->urlToAssetArray($file);
-            }
-
-            $term = new Terms($this->pathField, [$path]);
-            $search = new Search([$this->defaultAlias], $term->toArray());
-            $search->setContentTypes([$this->contentType]);
-            $result = $this->coreApi->search()->search($search);
-            $document = null;
-            foreach ($result->getDocuments() as $item) {
-                $document = $item;
-                break;
-            }
-
-            if ($this->dryRun) {
-                return;
-            }
-
-            if (null === $document) {
-                $draft = $this->contentTypeApi->create($data);
-            } elseif (empty($metadata) && \is_array($source = $data[$this->fileField] ?? null) && \is_array($target = $document->getSource()[$this->fileField] ?? null) && empty(\array_diff($source, $target)) && $data[$this->folderField] === ($document->getSource()[$folder] ?? null)) {
-                $ouuid ??= $document->getId();
-                continue;
-            } else {
-                $draft = $this->contentTypeApi->update($document->getId(), $data);
-            }
-
-            if (null === $ouuid) {
-                $ouuid = $this->contentTypeApi->finalize($draft->getRevisionId());
-            } else {
-                $this->contentTypeApi->finalize($draft->getRevisionId());
-            }
         }
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    private function uploadMedia(string $path, array $data = []): void
+    {
+        $pos = \strrpos($path, DIRECTORY_SEPARATOR);
+        if (false === $pos) {
+            throw new \RuntimeException('Unexpected path without /');
+        }
+        $folder = \substr($path, 0, $pos + 1);
+
+        $term = new Terms($this->pathField, [$path]);
+        $search = new Search([$this->defaultAlias], $term->toArray());
+        $search->setContentTypes([$this->contentType]);
+        $result = $this->coreApi->search()->search($search);
+        $document = null;
+        foreach ($result->getDocuments() as $item) {
+            $document = $item;
+            break;
+        }
+
+        if ($this->dryRun) {
+            return;
+        }
+        $data = \array_merge($data, [
+            $this->folderField => $folder,
+            $this->pathField => $path,
+        ]);
+
+        if (null === $document) {
+            $draft = $this->contentTypeApi->create($data);
+        } else {
+            $draft = $this->contentTypeApi->update($document->getId(), $data);
+        }
+
+        $this->contentTypeApi->finalize($draft->getRevisionId());
     }
 
     /**
      * @return array{sha1: string, filename: string, mimetype: string, filesize: int|null }|array{}
      */
-    public function urlToAssetArray(\SplFileInfo $file): array
+    public function urlToAssetArray(SplFileInfo $file): array
     {
         $mimeType = \mime_content_type($file->getRealPath());
         $mimeType = $mimeType ?: 'application/bin';

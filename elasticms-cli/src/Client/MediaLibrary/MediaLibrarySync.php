@@ -58,7 +58,7 @@ final class MediaLibrarySync
         return $this;
     }
 
-    private function uploadMediaFile(\SplFileInfo $file, string $path): string
+    private function uploadMediaFile(\SplFileInfo $file, string $path): void
     {
         $exploded = \explode(DIRECTORY_SEPARATOR, $path);
         $metadata = $this->getMetadata($path);
@@ -106,8 +106,6 @@ final class MediaLibrarySync
                 }
             }
         }
-
-        return \sprintf('ems://file:%s:%s', $this->config['content_type'], $ouuid);
     }
 
     /**

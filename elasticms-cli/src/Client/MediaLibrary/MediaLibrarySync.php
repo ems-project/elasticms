@@ -98,21 +98,23 @@ final class MediaLibrarySync
                 break;
             }
 
-            if (!$this->dryRun) {
-                if (null === $document) {
-                    $draft = $this->contentTypeApi->create($data);
-                } elseif (empty($metadata) && \is_array($source = $data[$this->fileField] ?? null) && \is_array($target = $document->getSource()[$this->fileField] ?? null) && empty(\array_diff($source, $target)) && $data[$this->folderField] === ($document->getSource()[$folder] ?? null)) {
-                    $ouuid ??= $document->getId();
-                    continue;
-                } else {
-                    $draft = $this->contentTypeApi->update($document->getId(), $data);
-                }
+            if ($this->dryRun) {
+                return;
+            }
 
-                if (null === $ouuid) {
-                    $ouuid = $this->contentTypeApi->finalize($draft->getRevisionId());
-                } else {
-                    $this->contentTypeApi->finalize($draft->getRevisionId());
-                }
+            if (null === $document) {
+                $draft = $this->contentTypeApi->create($data);
+            } elseif (empty($metadata) && \is_array($source = $data[$this->fileField] ?? null) && \is_array($target = $document->getSource()[$this->fileField] ?? null) && empty(\array_diff($source, $target)) && $data[$this->folderField] === ($document->getSource()[$folder] ?? null)) {
+                $ouuid ??= $document->getId();
+                continue;
+            } else {
+                $draft = $this->contentTypeApi->update($document->getId(), $data);
+            }
+
+            if (null === $ouuid) {
+                $ouuid = $this->contentTypeApi->finalize($draft->getRevisionId());
+            } else {
+                $this->contentTypeApi->finalize($draft->getRevisionId());
             }
         }
     }

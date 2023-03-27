@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Elasticsearch\Document;
 
 use Elastica\Result;
+use EMS\CommonBundle\Common\EMSLink;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Document implements DocumentInterface
@@ -62,6 +63,11 @@ class Document implements DocumentInterface
         return $this->id;
     }
 
+    public function getOuuid(): string
+    {
+        return $this->id;
+    }
+
     public function getContentType(): string
     {
         return $this->contentType;
@@ -72,6 +78,13 @@ class Document implements DocumentInterface
         $id = $this->getEMSSource()->get('_version_uuid', $this->id);
 
         return \sprintf('%s:%s', $this->contentType, $id);
+    }
+
+    public function getEmsLink(): EMSLink
+    {
+        $id = $this->getEMSSource()->get('_version_uuid', $this->id);
+
+        return EMSLink::fromContentTypeOuuid($this->contentType, $id);
     }
 
     /**

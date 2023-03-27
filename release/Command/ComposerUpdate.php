@@ -83,7 +83,7 @@ class ComposerUpdate extends Command
 
     private function runComposerUpdate(OutputInterface $output, string $directory): void
     {
-        $updateProcess = new Process(['composer', 'update', '--no-scripts', '--no-progress', '--quiet']);
+        $updateProcess = new Process(['composer', 'update', 'elasticms/*', '--no-scripts', '--no-progress', '--quiet']);
         $updateProcess->setWorkingDirectory($directory);
 
         $this->processHelper->run($output, $updateProcess);

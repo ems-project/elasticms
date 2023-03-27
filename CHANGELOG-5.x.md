@@ -1,5 +1,13 @@
 # Changelog 5.x
 
+## 5.3.5 (2023-03-27)
+### Bug Fixes
+* fix(emsch_asset): asset directory by @theus77 in https://github.com/ems-project/elasticms/pull/395
+* fix(emsco/submission): controller spreadsheet generator not injected by @theus77 in https://github.com/ems-project/elasticms/pull/392
+* fix(user profile): disallow user to edit wysiwyg profile by @theus77 in https://github.com/ems-project/elasticms/pull/394
+* fix(xliff): continuous segments by @theus77 in https://github.com/ems-project/elasticms/pull/372
+* fix: rawData type in postFinalizeTreatment by @theus77 in https://github.com/ems-project/elasticms/pull/393
+
 ## 5.3.4 (2023-03-20)
 ### Bug Fixes
 * fix(ems): login page (js error)  by @Davidmattei in https://github.com/ems-project/elasticms/pull/381

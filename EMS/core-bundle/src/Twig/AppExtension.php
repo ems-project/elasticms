@@ -27,7 +27,6 @@ use EMS\CoreBundle\Entity\Sequence;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Exception\CantBeFinalizedException;
 use EMS\CoreBundle\Exception\SkipNotificationException;
-use EMS\CoreBundle\Form\Data\Condition\InMyCircles;
 use EMS\CoreBundle\Form\DataField\DateFieldType;
 use EMS\CoreBundle\Form\DataField\DateRangeFieldType;
 use EMS\CoreBundle\Form\DataField\TimeFieldType;
@@ -841,9 +840,7 @@ class AppExtension extends AbstractExtension
      */
     public function inMyCircles(string|array $circles): bool
     {
-        $condition = new InMyCircles($this->userService, $this->authorizationChecker);
-
-        return $condition->inMyCircles($circles);
+        return $this->userService->inMyCircles($circles);
     }
 
     /**

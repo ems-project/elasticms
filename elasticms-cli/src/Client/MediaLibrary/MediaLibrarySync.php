@@ -36,7 +36,8 @@ final class MediaLibrarySync
         private readonly SymfonyStyle $io,
         private readonly bool $dryRun,
         private readonly CoreApiInterface $coreApi,
-        private readonly FileReaderInterface $fileReader)
+        private readonly FileReaderInterface $fileReader,
+        private readonly bool $onlyMissingFile)
     {
         $this->contentTypeApi = $this->coreApi->data($this->contentType);
         $this->defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
@@ -114,7 +115,7 @@ final class MediaLibrarySync
             break;
         }
 
-        if ($this->dryRun) {
+        if ($this->dryRun || ($this->onlyMissingFile && null !== $document)) {
             return;
         }
         $data = \array_merge($data, [

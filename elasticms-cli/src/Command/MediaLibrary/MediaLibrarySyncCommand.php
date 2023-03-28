@@ -29,12 +29,14 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_METADATA_FILE = 'metadata-file';
     private const OPTION_LOCATE_ROW_EXPRESSION = 'locate-row-expression';
+    private const OPTION_ONLY_MISSING = 'only-missing';
     private ?string $metadataFile;
     private string $locateRowExpression;
     private string $contentType;
     private string $folderField;
     private string $pathField;
     private string $fileField;
+    private bool $onlyMissingFile;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
@@ -53,6 +55,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
             ->addOption(self::OPTION_METADATA_FILE, null, InputOption::VALUE_OPTIONAL, 'Path to a file containing metadata (CSV or  Excel)')
             ->addOption(self::OPTION_LOCATE_ROW_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the file by its filename', "row['filename']")
+            ->addOption(self::OPTION_ONLY_MISSING, null, InputOption::VALUE_NONE, 'Skip known files (already uploaded)')
         ;
     }
 
@@ -67,6 +70,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         $this->metadataFile = $this->getOptionStringNull(self::OPTION_METADATA_FILE);
         $this->locateRowExpression = $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
+        $this->onlyMissingFile = $this->getOptionBool(self::OPTION_ONLY_MISSING);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -80,7 +84,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader);
+        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader, $this->onlyMissingFile);
         if (null !== $this->metadataFile) {
             $mediaSync->loadMetadata($this->metadataFile, $this->locateRowExpression);
         }

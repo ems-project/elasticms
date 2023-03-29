@@ -99,6 +99,20 @@ class Encoder
     }
 
     /**
+     * @param  0|256|512|768 $flags
+     * @return mixed[]
+     */
+    public static function pregMatch(string $subject, string $pattern, int $flags = 0, int $offset = 0): array
+    {
+        $matches = [];
+        if (false === \preg_match($pattern, $subject, $matches, $flags, $offset)) {
+            return [];
+        }
+
+        return $matches;
+    }
+
+    /**
      * Detect email information using the 'x@x.x' pattern
      * <a href="mailto:david.meert@smals.be">david.meert@smals.be</a>.
      */

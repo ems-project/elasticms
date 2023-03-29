@@ -76,7 +76,10 @@ class TextRuntime implements RuntimeExtensionInterface
         }
     }
 
-    public function domCrawler(string $node, string $uri = null, string $baseHref = null): Crawler
+    /**
+     * @param \DOMNode|\DOMNodeList<\DOMNode>|\DOMNode[]|string|null $node
+     */
+    public function domCrawler($node, string $uri = null, string $baseHref = null): Crawler
     {
         return new Crawler($node, $uri, $baseHref);
     }

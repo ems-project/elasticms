@@ -8,6 +8,7 @@ use App\CLI\Client\MediaLibrary\MediaLibrarySync;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,7 +39,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private string $fileField;
     private bool $onlyMissingFile;
 
-    public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
+    public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader, private readonly ExpressionServiceInterface $expressionService)
     {
         parent::__construct();
     }
@@ -84,7 +85,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader, $this->onlyMissingFile);
+        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader, $this->expressionService, $this->onlyMissingFile);
         if (null !== $this->metadataFile) {
             $mediaSync->loadMetadata($this->metadataFile, $this->locateRowExpression);
         }

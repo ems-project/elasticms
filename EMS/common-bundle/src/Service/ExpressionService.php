@@ -83,6 +83,17 @@ final class ExpressionService implements ExpressionServiceInterface
                 return $date->modify($modify);
             }
         );
+        $expressionLanguage->register(
+            'substr',
+            fn ($str, $offset, $length = null) => \sprintf('(is_string(%1$s) ? substr(%1$s, %2$d, %3$d) : %1$s)', $str, $offset, $length),
+            function ($arguments, $str, $offset, $length = null) {
+                if (!\is_string($str)) {
+                    return $str;
+                }
+
+                return \substr($str, $offset, $length);
+            }
+        );
 
         return $expressionLanguage;
     }

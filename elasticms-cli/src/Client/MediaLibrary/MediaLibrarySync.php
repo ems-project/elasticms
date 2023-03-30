@@ -183,6 +183,16 @@ final class MediaLibrarySync
     public function loadMetadata(string $metadataFile, string $locateRowExpression): void
     {
         $expressionLanguage = new ExpressionLanguage();
+        $expressionLanguage->register('substr', function ($str) {
+            return sprintf('(is_string(%1$s) ? substr(%1$s, %2$s) : %1$s)', $str);
+        }, function ($arguments, $str, $offset) {
+            if (!\is_string($str)) {
+                return $str;
+            }
+
+            return substr($str, $offset);
+        });
+
         $rows = $this->fileReader->getData($metadataFile);
         $header = $rows[0] ?? [];
         $this->metadatas = [];

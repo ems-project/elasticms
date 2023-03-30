@@ -198,7 +198,6 @@ final class MediaLibrarySync
             $filename = $this->expressionService->evaluateToString($locateRowExpression, [
                 'row' => $row,
             ]);
-            \dump($filename);
             if (\is_string($filename)) {
                 $this->metadatas[$filename] = $row;
             }

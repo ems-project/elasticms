@@ -8,12 +8,12 @@ use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
+use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -37,6 +37,7 @@ final class MediaLibrarySync
         private readonly bool $dryRun,
         private readonly CoreApiInterface $coreApi,
         private readonly FileReaderInterface $fileReader,
+        private readonly ExpressionServiceInterface $expressionService,
         private readonly bool $onlyMissingFile)
     {
         $this->contentTypeApi = $this->coreApi->data($this->contentType);
@@ -182,17 +183,6 @@ final class MediaLibrarySync
 
     public function loadMetadata(string $metadataFile, string $locateRowExpression): void
     {
-        $expressionLanguage = new ExpressionLanguage();
-        $expressionLanguage->register('substr', function ($str) {
-            return sprintf('(is_string(%1$s) ? substr(%1$s, %2$s) : %1$s)', $str);
-        }, function ($arguments, $str, $offset) {
-            if (!\is_string($str)) {
-                return $str;
-            }
-
-            return substr($str, $offset);
-        });
-
         $rows = $this->fileReader->getData($metadataFile);
         $header = $rows[0] ?? [];
         $this->metadatas = [];
@@ -205,9 +195,10 @@ final class MediaLibrarySync
                 $row[$header[$key] ?? $key] = $cell;
             }
 
-            $filename = $expressionLanguage->evaluate($locateRowExpression, [
+            $filename = $this->expressionService->evaluateToString($locateRowExpression, [
                 'row' => $row,
             ]);
+            \dump($filename);
             if (\is_string($filename)) {
                 $this->metadatas[$filename] = $row;
             }

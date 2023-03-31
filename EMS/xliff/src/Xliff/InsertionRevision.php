@@ -302,11 +302,7 @@ class InsertionRevision
 
     private function copyHtmlAttribute(\DOMElement $child, \DOMElement $tag): void
     {
-        if (null === $child->attributes) {
-            return;
-        }
-
-        foreach ($child->attributes as $attribute) {
+        foreach ($child->attributes ?? [] as $attribute) {
             if (!$attribute instanceof \DOMAttr) {
                 throw new \RuntimeException('Unexpected attribute object');
             }

@@ -121,7 +121,7 @@ class AuditResult
     {
         $output_array = [];
         \preg_match('/data:(?P<mimetype>[a-z\/\-\+]+\/[a-z\/\-\+]+);base64,(?P<base64>.+)/', $data, $output_array);
-        if (isset($output_array['mimetype']) && isset($output_array['base64']) && \is_string($output_array['mimetype']) && \is_string($output_array['base64'])) {
+        if (isset($output_array['mimetype']) && isset($output_array['base64'])) {
             $this->lighthouseScreenshotBase64 = $output_array['base64'];
             $this->lighthouseScreenshotMimetype = $output_array['mimetype'];
         }

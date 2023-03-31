@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.2.7 (2023-03-31)
+### Bug Fixes
+* fix(xliff): continuous segments (#372) by @Davidmattei in https://github.com/ems-project/elasticms/pull/418
+
 ## 5.2.6 (2023-03-06)
 ### Bug Fixes
 * fix(emsco/revision): search revision deleted by @Davidmattei in https://github.com/ems-project/elasticms/pull/364

@@ -17,8 +17,6 @@ document.addEventListener('DOMContentLoaded', function (e) {
         let text = event.target.innerText;
         let emsId = event.target.dataset.emsId;
 
-        console.debug(emsId);
-
         window.opener.CKEDITOR.tools.callFunction(params.get('CKEditorFuncNum'), url, function () {
             let dialog = this.getDialog();
 

@@ -1,82 +1,93 @@
 {
-    "type": "project",
-    "license" : "MIT",
-    "minimum-stability": "stable",
-    "prefer-stable": true,
-    "require": {
-        "php": "^8.1",
-        "ext-ctype": "*",
-        "ext-iconv": "*",
-        "ext-json": "*",
-        "ext-sqlite3": "*",
-        "doctrine/doctrine-migrations-bundle": "^3.2",
-        "elasticms/common-bundle": "~5.3.0",
-        "kevinrob/guzzle-cache-middleware": "^4.0",
-        "symfony/console": "^5.4",
-        "symfony/css-selector": "^5.4",
-        "symfony/dotenv": "^5.4",
-        "symfony/flex": "^1.6",
-        "symfony/framework-bundle": "^5.4",
-        "symfony/http-client": "^5.4",
-        "symfony/property-info": "^5.4",
-        "symfony/runtime": "^5.4",
-        "symfony/var-exporter": "^5.4",
-        "symfony/yaml": "^5.4"
-    },
-    "require-dev": {
-      "phpdocumentor/reflection-docblock": "^5.3",
-      "phpunit/phpunit": "^9.5"
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true,
-            "symfony/flex": true,
-            "symfony/runtime": true
-        },
-        "optimize-autoloader": true,
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\CLI\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "App\\CLI\\Tests\\": "tests/"
-        }
-    },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ],
-      "phpcs": "php-cs-fixer fix",
-      "phpstan": "phpstan analyse",
-      "phpunit": "phpunit",
-      "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "^5.4"
-        }
+  "name": "ems-project/elasticms-cli",
+  "description": "command client of the elasticms suite",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "EMS Community",
+      "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
     }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": "^8.1",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "ext-json": "*",
+    "ext-sqlite3": "*",
+    "doctrine/doctrine-migrations-bundle": "^3.2",
+    "elasticms/common-bundle": "~5.4.0",
+    "kevinrob/guzzle-cache-middleware": "^4.0",
+    "symfony/console": "^5.4",
+    "symfony/css-selector": "^5.4",
+    "symfony/dotenv": "^5.4",
+    "symfony/expression-language": "^6.2",
+    "symfony/flex": "^1.6",
+    "symfony/framework-bundle": "^5.4",
+    "symfony/http-client": "^5.4",
+    "symfony/property-info": "^5.4",
+    "symfony/runtime": "^5.4",
+    "symfony/var-exporter": "^5.4",
+    "symfony/yaml": "^5.4"
+  },
+  "require-dev": {
+    "phpdocumentor/reflection-docblock": "^5.3",
+    "phpunit/phpunit": "^9.5"
+  },
+  "config": {
+    "allow-plugins": {
+      "symfony/flex": true,
+      "symfony/runtime": true
+    },
+    "preferred-install": {
+      "*": "dist"
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\CLI\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\CLI\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php81": "*"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ],
+    "phpcs": "php-cs-fixer fix",
+    "phpstan": "phpstan analyse",
+    "phpunit": "phpunit",
+    "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": false,
+      "require": "^5.4"
+    }
+  }
 }

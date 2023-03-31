@@ -500,9 +500,6 @@
             "ref": "179470cb6492db92dffee208cfdb436f175c93b4"
         }
     },
-    "symfony/polyfill-ctype": {
-        "version": "v1.8.0"
-    },
     "symfony/polyfill-intl-icu": {
         "version": "v1.8.0"
     },
@@ -514,18 +511,6 @@
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.8.0"
-    },
-    "symfony/polyfill-php72": {
-        "version": "v1.8.0"
-    },
-    "symfony/polyfill-php73": {
-        "version": "v1.13.1"
-    },
-    "symfony/polyfill-php80": {
-        "version": "v1.17.0"
-    },
-    "symfony/polyfill-php81": {
-        "version": "v1.23.0"
     },
     "symfony/process": {
         "version": "v4.1.0"

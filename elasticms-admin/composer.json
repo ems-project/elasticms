@@ -1,19 +1,19 @@
 {
-  "name": "ems-project/elasticms",
+  "name": "ems-project/elasticms-admin",
   "description": "A preconfigured elasticms application",
-  "authors": [{
-    "name": "Mathieu De Keyzer",
-    "email": "mathieu@dekeyzer.net"
-  }
-  ],
-  "keywords": [
-    "elasticms"
-  ],
-  "license": "MIT",
   "type": "project",
-  "minimum-stability": "RC",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "EMS Community",
+      "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
+    }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true,
   "require": {
     "php": "^8.1",
+    "ext-ctype": "*",
     "ext-gd": "*",
     "ext-iconv": "*",
     "ext-json": "*",
@@ -23,13 +23,10 @@
     "doctrine/doctrine-bundle": "^2.8",
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.6",
-    "elasticms/core-bundle": "~5.3.0",
-    "elasticms/client-helper-bundle": "~5.3.0",
-    "elasticms/common-bundle": "~5.3.0",
-    "elasticms/form-bundle": "~5.3.0",
-    "elasticms/submission-bundle": "~5.3.0",
+    "elasticms/core-bundle": "~5.4.0",
     "symfony/console": "^5.4",
     "symfony/dotenv": "^5.4",
+    "symfony/expression-language": "^6.2",
     "symfony/flex": "^1.6",
     "symfony/form": "^5.4",
     "symfony/framework-bundle": "^5.4",
@@ -38,8 +35,8 @@
     "symfony/runtime": "^5.4",
     "symfony/security-bundle": "^5.4",
     "symfony/twig-bundle": "^5.4",
-    "symfony/web-link": "^5.4",
-    "symfony/var-exporter": "^5.4"
+    "symfony/var-exporter": "^5.4",
+    "symfony/web-link": "^5.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
@@ -50,14 +47,15 @@
     "symfony/web-profiler-bundle": "^5.4"
   },
   "config": {
-    "preferred-install": {
-      "*": "dist"
-    },
-    "sort-packages": true,
     "allow-plugins": {
       "symfony/flex": true,
       "symfony/runtime": true
-    }
+    },
+    "preferred-install": {
+      "*": "dist"
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true
   },
   "autoload": {
     "psr-4": {
@@ -70,10 +68,14 @@
     }
   },
   "replace": {
-    "symfony/polyfill-iconv": "*"
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php81": "*"
   },
   "scripts": {
-    "test": "simple-phpunit",
     "auto-scripts": {
       "cache:clear": "symfony-cmd",
       "assets:install %PUBLIC_DIR%": "symfony-cmd"
@@ -86,7 +88,8 @@
     ],
     "phpcs": "php-cs-fixer fix",
     "phpstan": "phpstan analyse",
-    "phpunit": "phpunit"
+    "phpunit": "phpunit",
+    "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
   },
   "conflict": {
     "symfony/symfony": "*"

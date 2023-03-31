@@ -1,5 +1,37 @@
 # Changelog 5.x
 
+## 5.4.0 (2023-03-31)
+### Features
+* feat(cli): file-reader importer command by @theus77 in https://github.com/ems-project/elasticms/pull/408
+* feat(cli/media-lib-sync): import only missing document (refactor) by @theus77 in https://github.com/ems-project/elasticms/pull/406
+* feat(cli/media-lib-sync): new command mediaFile Sync by @IsaMic in https://github.com/ems-project/elasticms/pull/373
+* feat(cli/media-lib-sync): substr media synch command with expression by @theus77 in https://github.com/ems-project/elasticms/pull/412
+* feat(cli/media-lib-sync): update media document with meta by @theus77 in https://github.com/ems-project/elasticms/pull/402
+* feat(common/twig): ems_preg_match filter by @theus77 in https://github.com/ems-project/elasticms/pull/409
+* feat(demo): component templates by @theus77 in https://github.com/ems-project/elasticms/pull/385
+* feat(demo): styleset preview configured by @theus77 in https://github.com/ems-project/elasticms/pull/387
+* feat(emsco): implementation emsco_display by @Davidmattei in https://github.com/ems-project/elasticms/pull/404
+* feat(emsco/revision): display label (userLocale) by @Davidmattei in https://github.com/ems-project/elasticms/pull/401
+* feat(emsco/user): command update option by @Davidmattei in https://github.com/ems-project/elasticms/pull/390
+* feat(emsco/user): user update command allowed_configure_wysiwyg by @Davidmattei in https://github.com/ems-project/elasticms/pull/396
+* feat(emsco/wysiwyg): ckeditor translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/415
+### Bug Fixes
+* fix(cli): require symfony/http-client by @theus77 in https://github.com/ems-project/elasticms/pull/414
+* fix(common/twig): dow crawler and preg match by @theus77 in https://github.com/ems-project/elasticms/pull/411
+* fix(emsco): modal tab index and select2 by @Davidmattei in https://github.com/ems-project/elasticms/pull/399
+* fix(emsco/emsLink): UI display emsLinks in modal or small screens by @Davidmattei in https://github.com/ems-project/elasticms/pull/405
+* fix(emsco/revision):  add translation 'add-to-release' by @theus77 in https://github.com/ems-project/elasticms/pull/413
+* fix(emsco/revision): finalization version broken by @Davidmattei in https://github.com/ems-project/elasticms/pull/410
+* fix(emsco/user): profile remove update simplified UI by @Davidmattei in https://github.com/ems-project/elasticms/pull/407
+* fix(emsco/wysiwyg): dashboard modal object/file select emsId by @Davidmattei in https://github.com/ems-project/elasticms/pull/416
+* fix(xliff): continuous segments (#372) by @Davidmattei in https://github.com/ems-project/elasticms/pull/418
+### Code Refactoring
+* refactor(common): remove \EMS\CommonBundle\Common\Document by @Davidmattei in https://github.com/ems-project/elasticms/pull/403
+* refactor(demo): promo website by @theus77 in https://github.com/ems-project/elasticms/pull/391
+* refactor(emsco/tasks): only use "tasks" tab by @Davidmattei in https://github.com/ems-project/elasticms/pull/397
+### Chores
+* chore(build): prepare 5.4 by @Davidmattei in https://github.com/ems-project/elasticms/pull/417
+
 ## 5.3.5 (2023-03-27)
 ### Bug Fixes
 * fix(emsch_asset): asset directory by @theus77 in https://github.com/ems-project/elasticms/pull/395

@@ -72,16 +72,8 @@
           </trans-unit>
           <group restype="listitem" id="/html/body/ul[2]/li[2]">
             <trans-unit id="/html/body/ul[2]/li[2]/text()[1]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[2]/strong">
-              <source xml:lang="nl">en</source>
-              <target xml:lang="de" state="final">und</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[2]/text()[2]">
-              <source xml:lang="nl"> wier hoofdactiviteit onder één van volgende NACE-codes valt: </source>
-              <target xml:lang="de" state="final"> deren Haupttätigkeit unter einen der folgenden NACE-Codes fällt: </target>
+              <source xml:lang="nl"> <g ctype="x-html-strong">en</g> wier hoofdactiviteit onder één van volgende NACE-codes valt: </source>
+              <target xml:lang="de" state="final"> <g ctype="x-html-strong">und</g> deren Haupttätigkeit unter einen der folgenden NACE-Codes fällt: </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[2]/li[2]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[2]/ul/li[1]">
@@ -120,32 +112,8 @@
           </group>
           <group restype="listitem" id="/html/body/ul[2]/li[3]">
             <trans-unit id="/html/body/ul[2]/li[3]/text()[1]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[3]/strong[1]">
-              <source xml:lang="nl">en</source>
-              <target xml:lang="de" state="final">und</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[3]/text()[2]">
-              <source xml:lang="nl"> die in het </source>
-              <target xml:lang="de" state="final"> die im </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[3]/strong[2]">
-              <source xml:lang="nl">2<g ctype="x-html-sup">de</g> kwartaal 2021</source>
-              <target xml:lang="de" state="final">2.<g ctype="x-html-sup"/> Quartal 2021</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[3]/text()[3]">
-              <source xml:lang="nl">, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het </source>
-              <target xml:lang="de" state="final"> einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[3]/strong[3]">
-              <source xml:lang="nl">2<g ctype="x-html-sup">de</g> kwartaal 2019</source>
-              <target xml:lang="de" state="final">2.<g ctype="x-html-sup"/> Quartal 2019</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[3]/text()[4]">
-              <source xml:lang="nl"> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
-              <target xml:lang="de" state="final">, erlitten haben, für die Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen, </target>
+              <source xml:lang="nl"> <g ctype="x-html-strong">en</g> die in het <g ctype="x-html-strong">2<g ctype="x-html-sup">de</g> kwartaal 2021</g>, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het <g ctype="x-html-strong">2<g ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
+              <target xml:lang="de" state="final"> <g ctype="x-html-strong">und</g> die im <g ctype="x-html-strong">2.<g ctype="x-html-sup"/> Quartal 2021</g> einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem <g ctype="x-html-strong">2.<g ctype="x-html-sup"/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen, </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[2]/li[3]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[3]/ul/li">
@@ -156,32 +124,8 @@
           </group>
           <group restype="listitem" id="/html/body/ul[2]/li[4]">
             <trans-unit id="/html/body/ul[2]/li[4]/text()[1]">
-              <source xml:lang="nl"> </source>
-              <target xml:lang="de" state="final"> </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[4]/strong[1]">
-              <source xml:lang="nl"><g ctype="x-html-span" html:style="display: none;"> </g>en</source>
-              <target xml:lang="de" state="final"><g ctype="x-html-span" html:style="display: none;"/>und</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[4]/text()[2]">
-              <source xml:lang="nl"> die in het </source>
-              <target xml:lang="de" state="final"> die im </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[4]/strong[2]">
-              <source xml:lang="nl">3<g ctype="x-html-sup">de</g> kwartaal 2021</source>
-              <target xml:lang="de" state="final">3.<g ctype="x-html-sup"/> Quartal 2021</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[4]/text()[3]">
-              <source xml:lang="nl">, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het </source>
-              <target xml:lang="de" state="final"> einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem </target>
-            </trans-unit>
-            <trans-unit restype="x-html-strong" id="/html/body/ul[2]/li[4]/strong[3]">
-              <source xml:lang="nl">3<g ctype="x-html-sup">de</g> kwartaal 2019</source>
-              <target xml:lang="de" state="final">3.<g ctype="x-html-sup"/> Quartal 2019</target>
-            </trans-unit>
-            <trans-unit id="/html/body/ul[2]/li[4]/text()[4]">
-              <source xml:lang="nl"> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
-              <target xml:lang="de" state="final">, erlitten haben, für die Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen, </target>
+              <source xml:lang="nl"> <g ctype="x-html-strong"><g ctype="x-html-span" html:style="display: none;"> </g>en</g> die in het <g ctype="x-html-strong">3<g ctype="x-html-sup">de</g> kwartaal 2021</g>, een effectieve  omzetdaling van minstens 60% hebben geleden ten opzichte van het <g ctype="x-html-strong">3<g ctype="x-html-sup">de</g> kwartaal 2019</g> voor de werkgevers die een periodieke BTW-aangifte indienen, </source>
+              <target xml:lang="de" state="final"> <g ctype="x-html-strong"><g ctype="x-html-span" html:style="display: none;"/>und</g> die im <g ctype="x-html-strong">3.<g ctype="x-html-sup"/> Quartal 2021</g> einen effektiven Umsatzrückgang von mindestens 60 % gegenüber dem <g ctype="x-html-strong">3.<g ctype="x-html-sup"/> Quartal 2019</g>, erlitten haben, für die Arbeitgeber, die eine periodische Mehrwertsteuererklärung einreichen, </target>
             </trans-unit>
             <group restype="x-html-ul" id="/html/body/ul[2]/li[4]/ul">
               <trans-unit restype="listitem" id="/html/body/ul[2]/li[4]/ul/li">

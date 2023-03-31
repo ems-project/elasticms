@@ -145,9 +145,13 @@
           <source xml:lang="nl"> Het OCMW heeft recht op een doelgroepvermindering <g ctype="x-html-strong">G<g ctype="x-html-sub">7</g></g> gedurende de volledige duur van de tewerkstelling. Gezien deze vermindering alle patronale basisbijdragen vrijstelt, mag ze ook worden toegepast wanneer er geen bezoldigde dagen zijn tijdens het kwartaal, maar b.v. alleen een eindejaarspremie wordt betaald. </source>
           <target xml:lang="de" state="final"> Das ÖSHZ hat Anspruch auf eine Zielgruppenermäßigung <g ctype="x-html-strong">G<g ctype="x-html-sub">7</g></g> während der gesamten Dauer der Beschäftigung. Da diese Ermäßigung von allen Arbeitgebergrundbeiträgen befreit, darf sie auch angewandt werden, wenn es im Quartal keine entlohnten Tage gibt, sondern z. B. nur eine Jahresendprämie bezahlt wird. </target>
         </trans-unit>
-        <trans-unit restype="lb" id="/html/body/br">
-          <source xml:lang="nl"/>
-          <target xml:lang="de" state="final"/>
+        <trans-unit id="/html/body/br">
+          <source xml:lang="nl">
+            <g ctype="lb"/>
+          </source>
+          <target xml:lang="de" state="final">
+            <g ctype="lb"/>
+          </target>
         </trans-unit>
         <trans-unit restype="x-html-p" id="/html/body/p[12]">
           <source xml:lang="nl"/>

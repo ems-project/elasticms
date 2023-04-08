@@ -16,7 +16,9 @@ class AdminHelper
     public function __construct(
         private readonly CoreApiFactoryInterface $coreApiFactory,
         private readonly CacheItemPoolInterface $cache,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private readonly ?string $defaultBaseUrl,
+        private readonly ?string $defaultApiToken,
     ) {
     }
 
@@ -75,11 +77,19 @@ class AdminHelper
         }
         $baseUrl = $this->apiCacheBaseUrl()->get();
         if (!\is_string($baseUrl)) {
+            $baseUrl = $this->defaultBaseUrl;
+        }
+        if (!\is_string($baseUrl)) {
             throw new \RuntimeException('Not authenticated, run ems:admin:login');
         }
         $this->coreApi = $this->coreApiFactory->create($baseUrl);
         $this->coreApi->setLogger($this->logger);
-        $this->coreApi->setToken($this->apiCacheToken($this->coreApi)->get());
+        $apiToken = $this->apiCacheToken($this->coreApi)->get();
+        if (\is_string($apiToken)) {
+            $this->coreApi->setToken($apiToken);
+        } elseif (null !== $this->defaultApiToken) {
+            $this->coreApi->setToken($this->defaultApiToken);
+        }
 
         return $this->coreApi;
     }

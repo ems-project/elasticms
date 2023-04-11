@@ -1,5 +1,18 @@
 # Changelog 5.x
 
+## 5.4.1 (2023-04-11)
+### Features
+* feat(core): use query label as placeholder in object picker/data link field type by @theus77 in https://github.com/ems-project/elasticms/pull/421
+### Bug Fixes
+* fix(common/api): default env admin url and token by @theus77 in https://github.com/ems-project/elasticms/pull/425
+* fix(core): textarea and input counter by @theus77 in https://github.com/ems-project/elasticms/pull/427
+* fix(core): use the query search label by @theus77 in https://github.com/ems-project/elasticms/pull/420
+* fix(emsco/emsLink): css width flex -> inline-flex by @Davidmattei in https://github.com/ems-project/elasticms/pull/419
+### Code Refactoring
+* refactor(cli): tika client use curl by @theus77 in https://github.com/ems-project/elasticms/pull/424
+* refactor(core): new labels by @theus77 in https://github.com/ems-project/elasticms/pull/423
+* refactor(twig): emsch_uuid -> ems_uuid by @theus77 in https://github.com/ems-project/elasticms/pull/426
+
 ## 5.4.0 (2023-03-31)
 ### Features
 * feat(cli): file-reader importer command by @theus77 in https://github.com/ems-project/elasticms/pull/408

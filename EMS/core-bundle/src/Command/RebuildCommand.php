@@ -105,11 +105,9 @@ class RebuildCommand extends EmsCommand
         }
 
         if (\is_string($name)) {
-            /** @var Environment|null $environment */
             $environment = $envRepo->findOneBy(['name' => $name, 'managed' => true]);
-
-            if (null === $environment) {
-                $output->writeln('WARNING: Environment named '.$name.' not found');
+            if (!$environment instanceof Environment) {
+                $output->writeln('WARNING: Managed environment named '.$name.' not found');
 
                 return -1;
             }
@@ -152,8 +150,10 @@ class RebuildCommand extends EmsCommand
             $output->writeln('Alias has been aligned to '.$environment->getAlias());
         }
 
-        /** @var ContentTypeRepository $contentTypeRepository */
         $contentTypeRepository = $this->em->getRepository(ContentType::class);
+        if (!$contentTypeRepository instanceof ContentTypeRepository) {
+            throw new \RuntimeException('Unexpected ContentTypeRepository object');
+        }
         $contentTypes = $contentTypeRepository->findAll();
 
         $body = $this->environmentService->getIndexAnalysisConfiguration();
@@ -167,22 +167,22 @@ class RebuildCommand extends EmsCommand
 
         $countContentType = 1;
 
-        /** @var ContentType $contentType */
         foreach ($contentTypes as $contentType) {
-            $contentTypeEnvironment = $contentType->getEnvironment();
-            if (null === $contentTypeEnvironment) {
-                throw new \RuntimeException('Unexpected null environment');
+            if (!$contentType instanceof ContentType) {
+                throw new \RuntimeException('Unexpected ContentType object');
             }
-            if (!$contentType->getDeleted() && $contentType->getEnvironment() && $contentTypeEnvironment->getManaged()) {
+            if (!$contentType->getDeleted() && $contentType->getEnvironment() && $contentType->giveEnvironment()->getManaged()) {
                 $this->contentTypeService->updateMapping($contentType, $newIndexName);
                 $output->writeln('A mapping has been defined for '.$contentType->getSingularName());
                 ++$countContentType;
             }
         }
 
-        /** @var ContentType $contentType */
         foreach ($contentTypes as $contentType) {
-            if (!$contentType->getDeleted() && null !== $contentType->getEnvironment() && $contentType->getEnvironment()->getManaged()) {
+            if (!$contentType instanceof ContentType) {
+                throw new \RuntimeException('Unexpected ContentType object');
+            }
+            if (!$contentType->getDeleted() && $contentType->giveEnvironment()->getManaged()) {
                 $this->reindexCommand->reindex($environment->getName(), $contentType, $newIndexName, $output, $this->signData, $this->bulkSize);
                 $output->writeln('');
                 $output->writeln($contentType->getPluralName().' have been re-indexed ');

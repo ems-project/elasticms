@@ -21,12 +21,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RebuildCommand extends EmsCommand
 {
+    public const ALL = 'all';
     protected static $defaultName = self::COMMAND;
     final public const COMMAND = 'ems:environment:rebuild';
     private bool $signData;
     private int $bulkSize;
     private ObjectManager $em;
     private bool $yellowOk;
+    private bool $all;
 
     public function __construct(private readonly Registry $doctrine, protected LoggerInterface $logger, private readonly ContentTypeService $contentTypeService, private readonly EnvironmentService $environmentService, private readonly ReindexCommand $reindexCommand, private readonly ElasticaService $elasticaService, private readonly Mapping $mapping, private readonly AliasService $aliasService, private readonly string $instanceId, private readonly string $defaultBulkSize)
     {
@@ -40,6 +42,12 @@ class RebuildCommand extends EmsCommand
                 'name',
                 InputArgument::REQUIRED,
                 'Environment name'
+            )
+            ->addOption(
+                self::ALL,
+                null,
+                InputOption::VALUE_NONE,
+                'Rebuild all managed indexes'
             )
             ->addOption(
                 'yellow-ok',
@@ -73,6 +81,7 @@ class RebuildCommand extends EmsCommand
     {
         $this->aliasService->build();
         $this->yellowOk = true === $input->getOption('yellow-ok');
+        $this->all = true === $input->getOption(self::ALL);
         $this->formatStyles($output);
         $this->waitFor($this->yellowOk, $output);
 

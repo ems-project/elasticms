@@ -2,83 +2,94 @@
 
 namespace App\CLI\Helper;
 
+use App\CLI\Client\HttpClient\HttpResult;
 use App\CLI\Client\WebToElasticms\Helper\Url;
-use Psr\Http\Message\StreamInterface;
-use Symfony\Component\HttpClient\HttplugClient;
+use Symfony\Component\HttpClient\CurlHttpClient;
 
 class TikaClient
 {
     final public const TIKA_BASE_URL = 'http://localhost:9998/';
     private readonly Url $serverUrl;
-    private ?HttplugClient $client = null;
+    private ?CurlHttpClient $client = null;
 
     public function __construct(string $serverBaseUrl = self::TIKA_BASE_URL)
     {
         $this->serverUrl = new Url($serverBaseUrl);
     }
 
-    public function meta(StreamInterface $asset, string $mimeType): TikaMetaResponse
+    public function meta(HttpResult $asset): TikaMetaResponse
     {
-        return new TikaMetaResponse($this->putAcceptJson('meta', $asset, $mimeType));
+        return new TikaMetaResponse($this->putAcceptJson('meta', $asset));
     }
 
-    public function text(StreamInterface $asset, string $mimeType): AsyncResponse
+    public function text(HttpResult $asset): AsyncResponse
     {
-        return $this->putAcceptText('tika', $asset, $mimeType);
+        return $this->putAcceptText('tika', $asset);
     }
 
-    public function html(StreamInterface $asset, string $mimeType): AsyncResponse
+    public function html(HttpResult $asset): AsyncResponse
     {
-        return $this->putAcceptHtml('tika', $asset, $mimeType);
+        return $this->putAcceptHtml('tika', $asset);
     }
 
-    private function getClient(): HttplugClient
+    private function getClient(): CurlHttpClient
     {
         if (null !== $this->client) {
             return $this->client;
         }
-        $this->client = new HttplugClient();
+        $this->client = new CurlHttpClient();
 
         return $this->client;
     }
 
-    private function putAcceptText(string $url, StreamInterface $asset, string $mimeType): AsyncResponse
+    private function putAcceptText(string $url, HttpResult $asset): AsyncResponse
     {
         $this->rewind($asset);
-        $request = $this->getClient()->createRequest('PUT', $this->serverUrl->getUrl($url), [
-            'Accept' => 'text/plain',
-            'Content-Type' => $mimeType,
-        ], $asset);
+        $request = $this->getClient()->request('PUT', $this->serverUrl->getUrl($url), [
+            'headers' => [
+                'Accept' => 'text/plain',
+                'Content-Type' => $asset->getMimetype(),
+            ],
+            'body' => $asset->getStream()->getContents(),
+        ]);
 
-        return new AsyncResponse($this->getClient()->sendAsyncRequest($request));
+        return new AsyncResponse($request);
     }
 
-    private function putAcceptJson(string $url, StreamInterface $asset, string $mimeType): AsyncResponse
+    private function putAcceptJson(string $url, HttpResult $asset): AsyncResponse
     {
         $this->rewind($asset);
-        $request = $this->getClient()->createRequest('PUT', $this->serverUrl->getUrl($url), [
-            'Accept' => 'application/json',
-            'Content-Type' => $mimeType,
-        ], $asset);
 
-        return new AsyncResponse($this->getClient()->sendAsyncRequest($request));
+        $request = $this->getClient()->request('PUT', $this->serverUrl->getUrl($url), [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Content-Type' => $asset->getMimetype(),
+            ],
+            'body' => $asset->getStream()->getContents(),
+        ]);
+
+        return new AsyncResponse($request);
     }
 
-    private function putAcceptHtml(string $url, StreamInterface $asset, string $mimeType): AsyncResponse
+    private function putAcceptHtml(string $url, HttpResult $asset): AsyncResponse
     {
         $this->rewind($asset);
-        $request = $this->getClient()->createRequest('PUT', $this->serverUrl->getUrl($url), [
-            'Accept' => 'text/html',
-            'Content-Type' => $mimeType,
-        ], $asset);
+        $request = $this->getClient()->request('PUT', $this->serverUrl->getUrl($url), [
+            'headers' => [
+                'Accept' => 'text/html',
+                'Content-Type' => $asset->getMimetype(),
+            ],
+            'body' => $asset->getStream()->getContents(),
+        ]);
 
-        return new AsyncResponse($this->getClient()->sendAsyncRequest($request));
+        return new AsyncResponse($request);
     }
 
-    private function rewind(StreamInterface $asset): void
+    private function rewind(HttpResult $asset): void
     {
-        if ($asset->isSeekable() && $asset->tell() > 0) {
-            $asset->rewind();
+        $stream = $asset->getStream();
+        if ($stream->isSeekable() && $stream->tell() > 0) {
+            $stream->rewind();
         }
     }
 }

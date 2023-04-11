@@ -40,7 +40,7 @@ class RebuildCommand extends EmsCommand
         $this->setDescription('Rebuild an environment in a brand new index')
             ->addArgument(
                 'name',
-                InputArgument::REQUIRED,
+                InputArgument::OPTIONAL,
                 'Environment name'
             )
             ->addOption(
@@ -99,25 +99,35 @@ class RebuildCommand extends EmsCommand
 
         $this->em = $this->doctrine->getManager();
         $name = $input->getArgument('name');
-        if (!\is_string($name)) {
-            throw new \RuntimeException('Unexpected content type name');
-        }
-
         $envRepo = $this->em->getRepository(Environment::class);
         if (!$envRepo instanceof EnvironmentRepository) {
             throw new \RuntimeException('Unexpected environment repository');
         }
 
-        /** @var Environment|null $environment */
-        $environment = $envRepo->findOneBy(['name' => $name, 'managed' => true]);
+        if (\is_string($name)) {
+            /** @var Environment|null $environment */
+            $environment = $envRepo->findOneBy(['name' => $name, 'managed' => true]);
 
-        if (null === $environment) {
-            $output->writeln('WARNING: Environment named '.$name.' not found');
+            if (null === $environment) {
+                $output->writeln('WARNING: Environment named '.$name.' not found');
 
-            return -1;
+                return -1;
+            }
+
+            $this->rebuildEnvironment($environment, $output);
+        } elseif ($this->all) {
+            foreach ($envRepo->findAll() as $environment) {
+                if (!$environment instanceof Environment) {
+                    throw new \RuntimeException('Unexpected environment object');
+                }
+                if (!$environment->getManaged()) {
+                    continue;
+                }
+                $this->rebuildEnvironment($environment, $output);
+            }
+        } else {
+            throw new \RuntimeException('A content type name argument or the flag --all must be defined');
         }
-
-        $this->rebuildEnvironment($environment, $output);
 
         return 0;
     }

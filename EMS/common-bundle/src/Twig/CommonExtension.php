@@ -6,6 +6,7 @@ use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\Text\Encoder;
+use Ramsey\Uuid\Uuid;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -22,6 +23,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
             new TwigFunction('ems_version', [InfoRuntime::class, 'version']),
+            new TwigFunction('ems_uuid', [Uuid::class, 'uuid4']),
         ];
     }
 

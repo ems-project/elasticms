@@ -30,7 +30,7 @@ class CacheManager
             new CacheMiddleware(
                 new PrivateCacheStrategy(
                     new Psr6CacheStorage(
-                        new FilesystemAdapter('WebToElasticms', 0, $cacheFolder.DIRECTORY_SEPARATOR.'cache')
+                        new FilesystemAdapter('WebToElasticms', 0, $cacheFolder)
                     )
                 )
             ),

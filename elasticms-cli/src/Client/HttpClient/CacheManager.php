@@ -14,6 +14,8 @@ use Kevinrob\GuzzleCache\CacheMiddleware;
 use Kevinrob\GuzzleCache\Storage\Psr6CacheStorage;
 use Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class CacheManager
 {
@@ -101,5 +103,20 @@ class CacheManager
     public function getCacheFolder(): string
     {
         return $this->cacheFolder;
+    }
+
+    public function clear(): void
+    {
+        $finder = new Finder();
+        $finder->in($this->cacheFolder);
+        if (!$finder->hasResults()) {
+            return;
+        }
+        $filesystem = new Filesystem();
+        foreach ($finder as $file) {
+            if ($file->isDir() || $file->isFile() || $file->isLink()) {
+                $filesystem->remove($file->getFilename());
+            }
+        }
     }
 }

@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.4.2 (2023-04-17)
+### Bug Fixes
+* fix(core): js console issue (counter) by @theus77 in https://github.com/ems-project/elasticms/pull/431
+* fix(web-audit): audit clear cache by @theus77 in https://github.com/ems-project/elasticms/pull/429
+* fix: ALTER TABLE revision CHANGE ouuid ouuid VARCHAR(255) DEFAULT NULL COLLATE `utf8_bin` by @theus77 in https://github.com/ems-project/elasticms/pull/430
+
 ## 5.4.1 (2023-04-11)
 ### Features
 * feat(core): use query label as placeholder in object picker/data link field type by @theus77 in https://github.com/ems-project/elasticms/pull/421

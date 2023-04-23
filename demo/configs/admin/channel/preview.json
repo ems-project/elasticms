@@ -3,13 +3,13 @@
     "arguments": [],
     "properties": {
         "name": "preview",
-        "alias": "demo_pgsql_v1_preview",
+        "alias": "ems_promo_v2_ma_preview",
         "public": false,
         "label": "Preview",
         "options": {
             "searchConfig": "[]",
             "entryPath": "./",
-            "attributes": "{\r\n    \"_backend\": \"\\/.\",\r\n    \"EMS_ADMIN_URL\": \"http://local.ems-demo-admin.localhost:9000\",\r\n    \"DEFAULT_LOCAL\": \"nl\",\r\n    \"EMSCH_ENV\": \"demo_pgsql_v1_preview\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"demo_pgsql_v1_preview\\\"}\"\r\n}"
+            "attributes": "{\r\n    \"_backend\": \"\\/.\",\r\n    \"EMS_ADMIN_URL\": \"http:\\/\\/local.ems-demo-admin.localhost:9000\",\r\n    \"DEFAULT_LOCAL\": \"nl\",\r\n    \"EMSCH_ENV\": \"ems_promo_v2_ma_preview\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"ems_promo_v2_ma_preview\\\"}\"\r\n}"
         },
         "orderKey": 1
     },

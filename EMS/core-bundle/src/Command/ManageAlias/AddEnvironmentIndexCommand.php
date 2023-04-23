@@ -11,16 +11,19 @@ use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\IndexService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class AddEnvironmentIndexCommand extends AbstractCommand
 {
     public const ARGUMENT_MANAGED_ALIAS_NAME = 'managed-alias-name';
     public const ARGUMENT_ENVIRONMENT_NAME = 'environment-name';
+    public const OPTION_CLEAR_ALIAS = 'clear-alias';
 
     protected static $defaultName = Commands::MANAGED_ALIAS_ADD_ENVIRONMENT;
     private string $managedAliasName;
     private string $environmentName;
+    private bool $clearAlias;
 
     public function __construct(
         private readonly ManagedAliasManager $managedAliasManager,
@@ -34,7 +37,8 @@ final class AddEnvironmentIndexCommand extends AbstractCommand
     {
         $this
             ->addArgument(self::ARGUMENT_MANAGED_ALIAS_NAME, InputArgument::REQUIRED, 'Managed alias name')
-            ->addArgument(self::ARGUMENT_ENVIRONMENT_NAME, InputArgument::REQUIRED, 'Environment name');
+            ->addArgument(self::ARGUMENT_ENVIRONMENT_NAME, InputArgument::REQUIRED, 'Environment name')
+            ->addOption(self::OPTION_CLEAR_ALIAS, null, InputOption::VALUE_NONE, 'All existing indexes in the alias will be removed');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -45,6 +49,7 @@ final class AddEnvironmentIndexCommand extends AbstractCommand
 
         $this->managedAliasName = $this->getArgumentString(self::ARGUMENT_MANAGED_ALIAS_NAME);
         $this->environmentName = $this->getArgumentString(self::ARGUMENT_ENVIRONMENT_NAME);
+        $this->clearAlias = $this->getOptionBool(self::OPTION_CLEAR_ALIAS);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -65,13 +70,17 @@ final class AddEnvironmentIndexCommand extends AbstractCommand
         $indexes = $this->indexService->getIndexesByAlias($environment->getAlias());
         $indexesInManagedAlias = $this->indexService->getIndexesByAlias($managedAlias->getAlias());
 
-        $indexes = \array_diff($indexes, $indexesInManagedAlias);
-        if (empty($indexes)) {
-            $this->io->warning('Nothing to add');
+        $indexesToAdd = \array_diff($indexes, $indexesInManagedAlias);
+        $indexesToRemove = [];
+        if ($this->clearAlias) {
+            $indexesToRemove = \array_diff($indexesInManagedAlias, $indexes);
+        }
+        if (empty($indexesToAdd) && empty($indexesToRemove)) {
+            $this->io->warning('Nothing to add nor to remove');
 
             return self::EXECUTE_SUCCESS;
         }
-        if (!$this->indexService->addIndexesToAlias($managedAlias->getAlias(), $indexes)) {
+        if (!$this->indexService->addIndexesToAlias($managedAlias->getAlias(), $indexesToAdd, $indexesToRemove)) {
             $this->io->error('Something went wrong');
         }
 

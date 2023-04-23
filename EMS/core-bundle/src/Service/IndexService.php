@@ -165,14 +165,23 @@ final class IndexService
 
     /**
      * @param string[] $indexes
+     * @param string[] $indexesToRemove
      */
-    public function addIndexesToAlias(string $alias, array $indexes): bool
+    public function addIndexesToAlias(string $alias, array $indexes, array $indexesToRemove = []): bool
     {
         $endpoint = new UpdateAliases();
         $actions = [];
         foreach ($indexes as $index) {
             $actions[] = [
                 'add' => [
+                    'index' => $index,
+                    'alias' => $alias,
+                ],
+            ];
+        }
+        foreach ($indexesToRemove as $index) {
+            $actions[] = [
+                'remove' => [
                     'index' => $index,
                     'alias' => $alias,
                 ],

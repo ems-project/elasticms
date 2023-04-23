@@ -3,6 +3,8 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\EntityInterface;
+use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Validator\Constraints as EMSAssert;
 use EMS\Helpers\Standard\DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -17,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\HasLifecycleCallbacks()
  */
 #[UniqueEntity(fields: ['name'], message: 'Name already exists!')]
-class ManagedAlias implements \Stringable
+class ManagedAlias implements \Stringable, EntityInterface
 {
     use CreatedModifiedTrait;
     /**
@@ -176,5 +178,26 @@ class ManagedAlias implements \Stringable
     public function setLabel(?string $label): void
     {
         $this->label = $label;
+    }
+
+    public function jsonSerialize(): JsonClass
+    {
+        $json = new JsonClass(\get_object_vars($this), self::class);
+        $json->removeProperty('id');
+        $json->removeProperty('created');
+        $json->removeProperty('modified');
+
+        return $json;
+    }
+
+    public static function fromJson(string $json, ?EntityInterface $managedAlias = null): ManagedAlias
+    {
+        $meta = JsonClass::fromJsonString($json);
+        $managedAlias = $meta->jsonDeserialize($managedAlias);
+        if (!$managedAlias instanceof ManagedAlias) {
+            throw new \Exception(\sprintf('Unexpected object class, got %s', $meta->getClass()));
+        }
+
+        return $managedAlias;
     }
 }

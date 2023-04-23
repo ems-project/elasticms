@@ -99,7 +99,7 @@ block:
 blog:
     filter: Filtres
     intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
-    title: Blog
+    title: 'What’s new ? - Le Blog'
 breadcrumb:
     back-to: 'Retour à la page %title%'
     homepage: 'd''accueil'
@@ -153,7 +153,7 @@ site:
     short_name: elasticMS
 usergroup:
     facilitator: 'Présentateur du prochain User Group'
-    intro: 'Inscrivez-vous et participez à la prochaine activité online du User Group.'
+    intro: 'Retrouvez prochainement les informations du user group suivant sur cette page.'
     next-event: 'Date et heure'
     team-meeting: Durée
     title: 'Prochaine session'

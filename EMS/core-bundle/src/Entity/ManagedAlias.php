@@ -56,12 +56,12 @@ class ManagedAlias implements \Stringable
     /**
      * @ORM\Column(name="color", type="string", length=50, nullable=true)
      */
-    private string $color;
+    private ?string $color = null;
 
     /**
      * @ORM\Column(name="extra", type="text", nullable=true)
      */
-    private string $extra;
+    private ?string $extra = null;
 
     public function __construct()
     {
@@ -135,7 +135,7 @@ class ManagedAlias implements \Stringable
         return $this;
     }
 
-    public function getColor(): string
+    public function getColor(): ?string
     {
         return $this->color;
     }
@@ -147,7 +147,7 @@ class ManagedAlias implements \Stringable
         return $this;
     }
 
-    public function getExtra(): string
+    public function getExtra(): ?string
     {
         return $this->extra;
     }

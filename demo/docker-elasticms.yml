@@ -31,6 +31,7 @@ services:
       - EMSF_AUTHKEY=${EMSF_AUTHKEY}
       - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
       - TRUSTED_HOSTS=localhost,*.localhost
+      - APP_SECRET=ThisIsSecret
     volumes:
       - ./skeleton:/opt/src/local/${INSTANCE_ID}preview
       - ./configs/elasticms-admin:/opt/configs

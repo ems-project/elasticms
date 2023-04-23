@@ -157,6 +157,8 @@ services:
     extends:
       file: docker-elasticms.yml
       service: web
+    environment:
+        - TRUSTED_HOSTS=localhost,.*\.localhost
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.varnish.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web.localhost`)"

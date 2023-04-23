@@ -133,7 +133,7 @@ There also a separated npm.sh script:
 ### FAQ
 
 - The labels are not translated in the skeleton: clear the cache for the corresponding skeleton i.e. `sh ems.sh web local c:c`
-- I do not see form submissions in the elasticms mini-CRM: Please update the auth-key in the form config 
+- I do not see form submissions in the elasticms mini-CRM: Generate a `.env.local` and this `EMSF_AUTHKEY=AUTH_KEY` with a authkey that you can generate in the [user datatable view](http://local.ems-demo-admin.localhost/user/) and restart docker: `docker compose up --force-recreate`  
 - In some cases, updates in the webpack/npm application (`/src`) are not taken into account with the `npm run watch` command: docker compose doesn't allow npm to be notified on file changes. You should, or use the `npm run dev` command eachtime that you need. Or use a local installation of npm.
 
 ### Useful commands

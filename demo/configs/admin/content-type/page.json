@@ -1294,7 +1294,74 @@
         "editTwigWithWysiwyg": true,
         "webContent": true,
         "autoPublish": false,
-        "templates": [],
+        "templates": [
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "show-fr",
+                    "label": "Show FR",
+                    "icon": "fa fa-eye",
+                    "body": "{% set locale = 'fr' %}\r\n\r\n{% set path = {\r\n    index: environment.alias,\r\n    body: {\r\n        query: {\r\n            bool: {\r\n                must: [{\r\n                    terms: {  _contenttype: ['section'] },\r\n                }, {\r\n                    nested: {\r\n                        path: 'paths',\r\n                        query: {\r\n                            bool: {\r\n                                must: [{\r\n                                    terms: { 'paths.uid': [source.menu] }\r\n                                },{\r\n                                    terms: { 'paths.locale': [locale] }\r\n                                },]\r\n                            }\r\n                        }\r\n                    },\r\n                }],\r\n            },\r\n        },\r\n    },\r\n    _source: ['paths.*'],\r\n    size: 1,\r\n}|search.hits.hits[0]._source.paths|default([])|filter(p => p.uid == source.menu and p.locale == locale) %}\r\n\r\n{% if path|length > 0 %}\r\n    /channel/{{ environment.name }}/{{ locale }}/{{ path|first.path }}\r\n{% else %}\r\n    null\r\n{% endif %}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "externalLink",
+                    "orderKey": 1,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": false,
+                    "role": "not-defined",
+                    "roleTo": "not-defined",
+                    "roleCc": "not-defined",
+                    "circlesTo": null,
+                    "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false
+                },
+                "replaced": []
+            },
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "show-nl",
+                    "label": "Show NL",
+                    "icon": "fa fa-eye",
+                    "body": "{% set locale = 'nl' %}\r\n\r\n{% set path = {\r\n    index: environment.alias,\r\n    body: {\r\n        query: {\r\n            bool: {\r\n                must: [{\r\n                    terms: {  _contenttype: ['section'] },\r\n                }, {\r\n                    nested: {\r\n                        path: 'paths',\r\n                        query: {\r\n                            bool: {\r\n                                must: [{\r\n                                    terms: { 'paths.uid': [source.menu] }\r\n                                },{\r\n                                    terms: { 'paths.locale': [locale] }\r\n                                },]\r\n                            }\r\n                        }\r\n                    },\r\n                }],\r\n            },\r\n        },\r\n    },\r\n    _source: ['paths.*'],\r\n    size: 1,\r\n}|search.hits.hits[0]._source.paths|default([])|filter(p => p.uid == source.menu and p.locale == locale) %}\r\n\r\n{% if path|length > 0 %}\r\n    /channel/{{ environment.name }}/{{ locale }}/{{ path|first.path }}\r\n{% else %}\r\n    null\r\n{% endif %}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "externalLink",
+                    "orderKey": 2,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": false,
+                    "role": "not-defined",
+                    "roleTo": "not-defined",
+                    "roleCc": "not-defined",
+                    "circlesTo": null,
+                    "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false
+                },
+                "replaced": []
+            }
+        ],
         "views": [
             {
                 "class": "EMS\\CoreBundle\\Entity\\View",
@@ -1362,6 +1429,7 @@
             "show_link_search": "not-defined"
         },
         "fields": {
+            "display": "(rawData[userLocale]['title'] ?? rawData['label'])",
             "label": "label",
             "color": null,
             "sort": null,

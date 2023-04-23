@@ -32,5 +32,6 @@ final class Commands
     public const XLIFF_EXTRACT = 'emsco:xliff:extract';
     public const XLIFF_UPDATE = 'emsco:xliff:update';
 
-    public const MANAGE_ALIAS_CREATE = 'ems:manage-alias:create';
+    public const MANAGED_ALIAS_CREATE = 'ems:managed-alias:create';
+    public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';
 }

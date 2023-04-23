@@ -17,7 +17,7 @@ final class CreateCommand extends AbstractCommand
     public const ARGUMENT_NAME = 'name';
     public const ARGUMENT_LABEL = 'label';
 
-    protected static $defaultName = Commands::MANAGE_ALIAS_CREATE;
+    protected static $defaultName = Commands::MANAGED_ALIAS_CREATE;
     private string $name;
     private string $label;
 

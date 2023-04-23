@@ -1,5 +1,0 @@
-{
-    "config": "{\"path\":\"\\/init-form\\/{ouuid}\\/{_locale}\",\"controller\":\"EMS\\\\FormBundle\\\\Controller\\\\FormController::initForm\",\"method\":[\"POST\"]}",
-    "name": "form_init",
-    "order": 17
-}

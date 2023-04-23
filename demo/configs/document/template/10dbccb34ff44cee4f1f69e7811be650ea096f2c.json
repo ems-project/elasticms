@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/variables.twig' %}\n\n{% block request -%}\n{% apply spaceless %}\n    {#    {% if app.user %}#}\n    {% set contentType = app.request.get('contentType') %}\n    {% set ouuid = app.request.get('ouuid') %}\n    {% set emsLink = \"ems://object:#{contentType}:#{ouuid}\" %}\n\n    {% set routingUrl = emsLink|emsch_routing_config({\n        'context': { '_emsch_go_to': true  }\n    }) %}\n\n    {% set url = (routingUrl != emsLink) ? routingUrl : path('emsch_path') %}\n    {#    {% endif %}#}\n    {{ {'url': url}|json_encode|raw }}\n{% endapply %}\n{% endblock -%}\n",
-    "name": "redirects/_emsch_go_to.json.twig"
-}

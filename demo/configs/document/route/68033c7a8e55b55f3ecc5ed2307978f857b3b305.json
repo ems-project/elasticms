@@ -1,6 +1,0 @@
-{
-    "config": "{\"path\":\"\\/_emsch\\/error\\/{_locale}\\/{statusCode}.{_format}\",\"defaults\":{\"_format\":\"html\"}}",
-    "name": "_emsch_error",
-    "order": 4,
-    "template_static": "template:9bdd6c33edf1422cc7a8b8f914423203cf190d50"
-}

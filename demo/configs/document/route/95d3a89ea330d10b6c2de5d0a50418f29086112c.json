@@ -1,6 +1,0 @@
-{
-    "config": "{\"path\":\"\\/_emsch\\/go-to\\/{_locale}\\/{contentType}\\/{ouuid}\",\"requirements\":{\"ouuid\":\"\\\\S+\"},\"defaults\":{\"_format\":\"json\"},\"controller\":\"emsch.controller.router::redirect\"}",
-    "name": "_emsch_go_to",
-    "order": 1,
-    "template_static": "template:10dbccb34ff44cee4f1f69e7811be650ea096f2c"
-}

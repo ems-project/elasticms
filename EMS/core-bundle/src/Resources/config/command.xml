@@ -320,5 +320,9 @@
             <argument>%ems_core.clean_jobs_time_string%</argument>
             <tag name="console.command"/>
         </service>
+        <service id="ems.manage_alias.create" class="EMS\CoreBundle\Command\ManageAlias\CreateCommand">
+            <argument type="service" id="ems.managed_alias.manager" />
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>

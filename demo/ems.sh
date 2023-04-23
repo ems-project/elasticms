@@ -168,11 +168,12 @@ sub_config_push(){
   #docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:job activate-all-content-type
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:contenttype:activate --all
 
-  echo "Upload emsch documents"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload template_ems
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload label
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload route
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload template
+  echo "Switch default environment"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo emsco:contenttype:switch-default-env audit default
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo emsco:contenttype:switch-default-env media_file default
+
+  echo "Push templates, routes and translations"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:local:push --force
 
   echo "Wait for emsch documents"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview emsch:health-check -g
@@ -190,8 +191,6 @@ sub_config_push(){
   echo "Align live"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:align preview live --force
 
-  echo "Push templates, routes and translations"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:local:push --force
 }
 
 sub_config_pull(){

@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
+use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Validator\Constraints as EMSAssert;
 use EMS\Helpers\Standard\DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -18,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\HasLifecycleCallbacks()
  */
 #[UniqueEntity(fields: ['name'], message: 'Name already exists!')]
-class ManagedAlias implements \Stringable, EntityInterface
+class ManagedAlias extends JsonDeserializer implements \JsonSerializable, \Stringable, EntityInterface
 {
     use CreatedModifiedTrait;
     /**
@@ -35,7 +36,7 @@ class ManagedAlias implements \Stringable, EntityInterface
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private string $name;
+    protected string $name;
 
     /**
      * @ORM\Column(name="label", type="string", length=255, nullable=true)
@@ -57,12 +58,12 @@ class ManagedAlias implements \Stringable, EntityInterface
     /**
      * @ORM\Column(name="color", type="string", length=50, nullable=true)
      */
-    private ?string $color = null;
+    protected ?string $color = null;
 
     /**
      * @ORM\Column(name="extra", type="text", nullable=true)
      */
-    private ?string $extra = null;
+    protected ?string $extra = null;
 
     public function __construct()
     {
@@ -190,6 +191,9 @@ class ManagedAlias implements \Stringable, EntityInterface
         $json->removeProperty('id');
         $json->removeProperty('created');
         $json->removeProperty('modified');
+        $json->removeProperty('indexes');
+        $json->removeProperty('total');
+        $json->removeProperty('alias');
 
         return $json;
     }

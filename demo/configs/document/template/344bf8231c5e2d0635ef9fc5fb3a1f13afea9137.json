@@ -1,4 +1,4 @@
 {
-    "body": "{%- block request %}\n    {% apply spaceless %}\n        {{ {\n            path: ems_asset_path(source.media_file, {\n                _get_file_path: true,\n            }),\n        }|json_encode|raw }}\n    {% endapply %}\n{% endblock request -%}\n",
+    "body": "{%- block request %}\r\n    {% apply spaceless %}\r\n        {{ {\r\n            path: ems_asset_path(source.media_file, {\r\n                _get_file_path: true,\r\n            }),\r\n        }|json_encode|raw }}\r\n    {% endapply %}\r\n{% endblock request -%}",
     "name": "redirects/media_files.json.twig"
 }

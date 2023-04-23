@@ -4,7 +4,7 @@
     "properties": {
         "name": "preview",
         "alias": "ems_promo_v2_ma_preview",
-        "public": false,
+        "public": true,
         "label": "Preview",
         "options": {
             "searchConfig": "[]",

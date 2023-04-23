@@ -102,6 +102,11 @@ class ManagedAlias implements \Stringable, EntityInterface
         return $this->alias;
     }
 
+    public function hasAlias(): bool
+    {
+        return null !== $this->alias;
+    }
+
     public function setAlias(string $instanceId): void
     {
         $this->alias = $instanceId.$this->getName();

@@ -157,3 +157,7 @@ volumes:
   s3:
   mariadb:
   postgres:
+
+networks:
+    default:
+        name: skeleton

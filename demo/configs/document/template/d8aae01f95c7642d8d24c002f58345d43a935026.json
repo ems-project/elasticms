@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}\n\n{% block body %}\n    <div class=\"container-fluid container-lg\">\n        <section class=\"py-5 py-lg-8\">\n            <div class=\"row\">\n                <div class=\"col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2\">\n                    {{ block('children') }}\n                </div>\n            </div>\n        </section>\n    </div>\n{% endblock body %}\n",
-    "name": "page/blocks/grid-narrow.html.twig"
-}

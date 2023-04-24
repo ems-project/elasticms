@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/base/base.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block head %}\n    <link rel=\"stylesheet\" href=\"{{ asset('css/slideshow.css', 'emsch') }}\">\n{% endblock %}\n\n\n{% block body %}\n    <div class=\"reveal\">\n        <div class=\"slides\">\n            {% block blocks %}{% endblock %}\n        </div>\n    </div>\n{% endblock %}\n\n{% block javascript %}\n<script src=\"{{ asset('js/slideshow.js', 'emsch') }}\"></script>\n{% endblock %}\n\n\n\n\n\n\n\n\n\n\n",
-    "name": "base/revealjs.html.twig"
-}

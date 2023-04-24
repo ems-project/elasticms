@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/page/blocks/image.html.twig' %}\n\n{% block widget_image %}\n    {% trans_default_domain trans_default_domain %}\n    <div class=\"col-md-6 offset-xl-1 order-md-2\">\n        {{ block('image') }}\n    </div>\n    <div class=\"col-md-6 col-xl-5 order-md-1\">\n        {{ block('tags') }}\n        {{ block('description') }}\n    </div>\n{% endblock widget_image %}\n\n\n",
-    "name": "page/blocks/image-right.html.twig"
-}

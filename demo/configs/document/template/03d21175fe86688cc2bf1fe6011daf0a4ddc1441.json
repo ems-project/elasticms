@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/variables.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block request %}\n{%- if 'live' in trans_default_domain and app.request.host in canonicals -%}\nUser-agent: *\nDisallow: /bundles/\nDisallow: /file/\nDisallow: /_\nDisallow: /metrics/\nDisallow: /iframe/\nDisallow: /init-form/\nDisallow: /form/\nDisallow: /ajax/\nAllow: /\n{% else %}\nUser-agent: *\nDisallow: /\n{% endif %}\nSitemap: {{ url('sitemap.xml') }}\n{% endblock %}\n",
-    "name": "seo/robots.txt.twig"
-}

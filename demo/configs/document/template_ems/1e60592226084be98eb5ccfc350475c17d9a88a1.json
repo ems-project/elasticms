@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/base/base.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n\n{% block body -%}\n    {% with {\n        'structure': [app.request.get('data')|ems_json_decode],\n        'trans_default_domain': trans_default_domain,\n    } %}\n        {{ block(\"render\", \"@EMSCH/template/page/blocks/abstract-block.html.twig\") }}\n    {% endwith %}\n{% endblock %}\n\n\n\n{% block javascript -%}\n    {{ parent() }}\n    <script type=\"application/javascript\">\n        window.addEventListener(\"resize\", () => {\n            window.parent.postMessage(\"resize\", \"{{ app.request.getSchemeAndHttpHost() }}\");\n        });\n        window.addEventListener(\"load\", () => {\n            window.parent.postMessage(\"resize\", \"{{ app.request.getSchemeAndHttpHost() }}\");\n        });\n    </script>\n{% endblock %}\n\n\n",
-    "name": "channel/page-component-preview.html.twig"
-}

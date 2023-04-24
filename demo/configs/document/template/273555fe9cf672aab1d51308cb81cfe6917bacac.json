@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/base/bootstrap.html.twig' %}\n{% trans_default_domain trans_default_domain %}\n",
-    "name": "base/homepage.html.twig"
-}

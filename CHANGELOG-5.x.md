@@ -1,5 +1,18 @@
 # Changelog 5.x
 
+## 5.4.3 (2023-04-24)
+### Bug Fixes
+* fix(core): choice field type's helptext & placeholder by @theus77 in https://github.com/ems-project/elasticms/pull/436
+* fix(core/revision): align revision title and edit title by @theus77 in https://github.com/ems-project/elasticms/pull/433
+* fix(docker): user in docker scripts by @theus77 in https://github.com/ems-project/elasticms/pull/437
+* fix(form): add not lcfirst label (for translation in de) by @theus77 in https://github.com/ems-project/elasticms/pull/441
+* fix(xliff): leading or ending spaces does not matter by @theus77 in https://github.com/ems-project/elasticms/pull/434
+### Code Refactoring
+* refactor: documentations -> documentation by @theus77 in https://github.com/ems-project/elasticms/pull/440
+### Chores
+* chore(demo): update from prod by @theus77 in https://github.com/ems-project/elasticms/pull/439
+# Changelog 5.x
+
 ## 5.4.2 (2023-04-17)
 ### Bug Fixes
 * fix(core): js console issue (counter) by @theus77 in https://github.com/ems-project/elasticms/pull/431

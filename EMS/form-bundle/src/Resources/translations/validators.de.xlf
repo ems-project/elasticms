@@ -16,7 +16,7 @@
             </trans-unit>
             <trans-unit id="confirm_label">
                 <source>Confirm %field%</source>
-                <target>%field% bestätigen</target>
+                <target>%label% bestätigen</target>
             </trans-unit>
             <trans-unit id="date_label">
                 <source>%label_date% (dd/mm/yyyy)</source>

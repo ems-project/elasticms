@@ -32,7 +32,7 @@ class EmailWithConfirmation extends AbstractField
         $options['second_options'] = [
             'label' => 'Confirm %field%',
             'label_attr' => $this->getLabelAttributes('_second'),
-            'label_translation_parameters' => ['%field%' => $confirmLabel],
+            'label_translation_parameters' => ['%field%' => $confirmLabel, '%label%' => $label],
             'translation_domain' => 'validators',
             'attr' => ['class' => \sprintf('%s, repeated', $options['attr']['class'])],
         ];

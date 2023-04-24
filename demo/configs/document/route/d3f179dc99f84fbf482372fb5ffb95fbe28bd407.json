@@ -1,7 +1,0 @@
-{
-    "config": "{\"path\":\"\\/{_locale}\\/missing\\/{contentType}\\/{ouuid}\",\"requirements\":{\"_locale\":\"en|fr|nl|de\"}}",
-    "name": "emsch_missing_translation",
-    "order": 13,
-    "query": "{\"query\":{\"bool\":{\"must\":[{\"term\":{\"_contenttype\":{\"value\":\"%contentType%\"}}},{\"term\":{\"_id\":{\"value\":\"%ouuid%\"}}}]}},\"size\":1}",
-    "template_static": "template:d258c1d347fd27cf0af6fce7a29aca11b93a0394"
-}

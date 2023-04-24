@@ -3,13 +3,13 @@
     "arguments": [],
     "properties": {
         "name": "live",
-        "alias": "demo_pgsql_v1_live",
-        "public": false,
+        "alias": "ems_promo_v2_ma_live",
+        "public": true,
         "label": "Live",
         "options": {
             "searchConfig": "[]",
             "entryPath": "./",
-            "attributes": "{\r\n    \"_backend\": \"\\/.\",\r\n    \"EMS_ADMIN_URL\": \"http://local.ems-demo-admin.localhost:9000\",\r\n    \"EMSCH_ENV\": \"demo_pgsql_v1_live\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"demo_pgsql_v1_live\\\"}}\"\r\n}"
+            "attributes": "{\r\n    \"_backend\": \"\\/.\",\r\n    \"EMS_ADMIN_URL\": \"http:\\/\\/local.ems-demo-admin.localhost:9000\",\r\n    \"EMSCH_ENV\": \"ems_promo_v2_ma_live\",\r\n    \"EMSCH_ENVS\": \"{\\\"preview\\\":{\\\"regex\\\":\\\"\\/.*\\/\\\",\\\"alias\\\":\\\"ems_promo_v2_ma_live\\\"}}\"\r\n}"
         },
         "orderKey": 2
     },

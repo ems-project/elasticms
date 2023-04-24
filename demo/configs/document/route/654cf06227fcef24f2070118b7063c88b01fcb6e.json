@@ -1,6 +1,0 @@
-{
-    "config": "{\"path\":{\"fr\":\"\\/fr\\/news\",\"nl\":\"\\/nl\\/news\"}}",
-    "name": "emsch_news",
-    "order": 22,
-    "template_static": "template:a886a21ef66e2ef66283447fe2af4c4ba6bf014e"
-}

@@ -1,6 +1,0 @@
-{
-    "config": "{\"path\":\"\\/_emsch\\/templates\\/{iframeId}\",\"method\":[\"GET\"]}",
-    "name": "_emsch_template_preview_loader",
-    "order": 2,
-    "template_static": "template_ems:eb11dbeda3bd72644f9d1daaf74c4d61a5630ed4"
-}

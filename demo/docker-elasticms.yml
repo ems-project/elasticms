@@ -31,8 +31,9 @@ services:
       - EMSF_AUTHKEY=${EMSF_AUTHKEY}
       - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
       - TRUSTED_HOSTS=localhost,*.localhost
+      - APP_SECRET=ThisIsSecret
     volumes:
-      - ./skeleton:/opt/src/local/${INSTANCE_ID}preview
+      - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_preview
       - ./configs/elasticms-admin:/opt/configs
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document
@@ -73,8 +74,8 @@ services:
       - ./dist:/opt/src/public/skeleton:ro
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document
-      - ./skeleton:/opt/src/local/${INSTANCE_ID}preview
-      - ./skeleton:/opt/src/local/${INSTANCE_ID}live
+      - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_preview
+      - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_live
 #      - ../EMS/client-helper-bundle:/opt/src/vendor/elasticms/client-helper-bundle
 #      - ../EMS/common-bundle:/opt/src/vendor/elasticms/common-bundle
 #      - ../EMS/form-bundle:/opt/src/vendor/elasticms/form-bundle

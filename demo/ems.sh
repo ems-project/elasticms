@@ -168,7 +168,6 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:contenttype:activate --all
 
   echo "Switch default environment"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo emsco:contenttype:switch-default-env audit default
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo emsco:contenttype:switch-default-env media_file default
 
   echo "Push templates, routes and translations"

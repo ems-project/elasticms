@@ -36,7 +36,7 @@ class PdfPrintOptions
         $this->isPhpEnabled = $options[self::PHP_ENABLED] ?? false;
         $this->orientation = $options[self::ORIENTATION] ?? 'portrait';
         $this->size = $options[self::SIZE] ?? 'a4';
-        $this->chroot = $options[self::CHROOT] ?? null;
+        $this->chroot = $options[self::CHROOT] ?? \sys_get_temp_dir();
     }
 
     public function getFilename(): string

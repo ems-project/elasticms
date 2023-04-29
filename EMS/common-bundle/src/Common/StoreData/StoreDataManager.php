@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\StoreData;
 
 use EMS\CommonBundle\Common\StoreData\Factory\StoreDataFactoryInterface;
+use EMS\CommonBundle\Common\StoreData\Service\StoreDataServiceInterface;
 use Psr\Log\LoggerInterface;
 
 class StoreDataManager
 {
     /** @var StoreDataFactoryInterface[] */
     private array $factories = [];
+    /** @var StoreDataServiceInterface[] */
+    private array $services;
 
     /**
      * @param iterable<StoreDataFactoryInterface> $factories
@@ -29,11 +32,38 @@ class StoreDataManager
 
     public function save(StoreDataHelper $data): void
     {
+        if (empty($this->services)) {
+            throw new \RuntimeException('No Store Data service is defined');
+        }
+
+        foreach ($this->services as $service) {
+            $service->save($data);
+        }
     }
 
     public function read(string $key): StoreDataHelper
     {
-        return new StoreDataHelper($key);
+        if (empty($this->services)) {
+            throw new \RuntimeException('No Store Data service is defined');
+        }
+
+        $notFoundServices = [];
+        $storeDataHelper = null;
+        foreach ($this->services as $service) {
+            $storeDataHelper = $service->read($key);
+            if (null !== $storeDataHelper) {
+                break;
+            }
+            $notFoundServices[] = $service;
+        }
+        if (null === $storeDataHelper) {
+            $storeDataHelper = new StoreDataHelper($key);
+        }
+        foreach ($notFoundServices as $service) {
+            $service->save($storeDataHelper);
+        }
+
+        return $storeDataHelper;
     }
 
     private function addStoreDataFactory(StoreDataFactoryInterface $factory): void
@@ -48,7 +78,7 @@ class StoreDataManager
                 $this->logger->warning(\sprintf('Store data factory %s not registered', $storeDataConfig['type']));
                 continue;
             }
-            \dump($storeDataConfig);
+            $this->services[] = $this->factories[$storeDataConfig['type']]->createService($storeDataConfig);
         }
     }
 }

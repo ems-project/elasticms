@@ -32,8 +32,9 @@
             <argument type="service" id="EMS\CommonBundle\Twig\AssetRuntime" />
             <tag name="twig.runtime" />
         </service>
-        <service id="EMS\CommonBundle\Twig\StoreRuntime">
-          <argument type="service" id="request_stack" />
+        <service id="EMS\CommonBundle\Twig\StoreDataRuntime">
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="ems_common.store_data.manager" />
             <tag name="twig.runtime" />
         </service>
 

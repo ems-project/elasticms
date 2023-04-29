@@ -33,6 +33,7 @@
             <tag name="twig.runtime" />
         </service>
         <service id="EMS\CommonBundle\Twig\StoreRuntime">
+          <argument type="service" id="request_stack" />
             <tag name="twig.runtime" />
         </service>
 

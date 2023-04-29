@@ -32,6 +32,9 @@
             <argument type="service" id="EMS\CommonBundle\Twig\AssetRuntime" />
             <tag name="twig.runtime" />
         </service>
+        <service id="EMS\CommonBundle\Twig\StoreRuntime">
+            <tag name="twig.runtime" />
+        </service>
 
 
     </services>

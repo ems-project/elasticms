@@ -22,6 +22,8 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
             new TwigFunction('ems_version', [InfoRuntime::class, 'version']),
+            new TwigFunction('ems_store_read', [StoreRuntime::class, 'read']),
+            new TwigFunction('ems_store_save', [StoreRuntime::class, 'save']),
         ];
     }
 

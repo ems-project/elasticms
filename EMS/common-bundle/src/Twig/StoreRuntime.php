@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Twig;
 
-use EMS\CommonBundle\Common\Store\StoreDataHelper;
+use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 

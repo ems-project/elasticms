@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Store;
+namespace EMS\CommonBundle\Common\StoreData;
 
 class StoreDataHelper
 {

@@ -5,10 +5,20 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
   <services>
       <defaults public="false" />
+
+      <service id="ems_common.repository.store_data" class="EMS\CommonBundle\Repository\StoreDataRepository" public="true">
+          <argument type="service" id="doctrine"/>
+      </service>
+
       <service id="ems_common.store_data.manager" class="EMS\CommonBundle\Common\StoreData\StoreDataManager">
           <argument type="service" id="logger" />
           <argument type="tagged" tag="ems_common.store_data.factory"/>
           <argument type="string">%ems_common.store_data_services%</argument>
+      </service>
+
+      <service id="ems_common.store_data.factory.db" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataEntityFactory">
+          <argument type="service" id="ems_common.repository.store_data"/>
+          <tag name="ems_common.store_data.factory" alias="db"/>
       </service>
   </services>
 </container>

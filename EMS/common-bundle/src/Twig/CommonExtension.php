@@ -24,8 +24,8 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
             new TwigFunction('ems_version', [InfoRuntime::class, 'version']),
             new TwigFunction('ems_uuid', [Uuid::class, 'uuid4']),
-            new TwigFunction('ems_store_read', [StoreRuntime::class, 'read']),
-            new TwigFunction('ems_store_save', [StoreRuntime::class, 'save']),
+            new TwigFunction('ems_store_read', [StoreDataRuntime::class, 'read']),
+            new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),
         ];
     }
 

@@ -8,7 +8,7 @@ use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 
-final class StoreRuntime implements RuntimeExtensionInterface
+final class StoreDataRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private readonly RequestStack $requestStack

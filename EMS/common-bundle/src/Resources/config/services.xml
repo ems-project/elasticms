@@ -119,8 +119,5 @@
             <argument>%kernel.project_dir%</argument>
             <call method="build"></call>
         </service>
-
-        <service id="ems_common.store_data.manager" class="EMS\CommonBundle\Common\StoreData\StoreDataManager">
-        </service>
     </services>
 </container>

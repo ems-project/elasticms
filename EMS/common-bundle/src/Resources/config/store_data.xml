@@ -20,5 +20,10 @@
           <argument type="service" id="ems_common.repository.store_data"/>
           <tag name="ems_common.store_data.factory" alias="db"/>
       </service>
+
+      <service id="ems_common.store_data.factory.cache" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataCacheFactory">
+          <argument type="service" id="ems.common.cache"/>
+          <tag name="ems_common.store_data.factory" alias="cache"/>
+      </service>
   </services>
 </container>

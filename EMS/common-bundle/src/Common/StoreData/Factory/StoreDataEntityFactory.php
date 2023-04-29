@@ -27,13 +27,9 @@ class StoreDataEntityFactory implements StoreDataFactoryInterface
         $resolver
             ->setRequired([self::CONFIG_TYPE])
             ->setAllowedTypes(self::CONFIG_TYPE, 'string')
+            ->setAllowedValues(self::CONFIG_TYPE, [self::TYPE_DB])
         ;
-        /** @var array{type: string} $config */
-        $config = $resolver->resolve($parameters);
-
-        if (self::TYPE_DB !== $config[self::CONFIG_TYPE]) {
-            throw new \RuntimeException(\sprintf('Type %s not supported by the Entity Factory', $config[self::CONFIG_TYPE]));
-        }
+        $resolver->resolve($parameters);
 
         return new StoreDataEntityService($this->repository);
     }

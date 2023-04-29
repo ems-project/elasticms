@@ -27,13 +27,9 @@ class StoreDataCacheFactory implements StoreDataFactoryInterface
         $resolver
             ->setRequired([self::CONFIG_TYPE])
             ->setAllowedTypes(self::CONFIG_TYPE, 'string')
+            ->setAllowedValues(self::CONFIG_TYPE, [self::TYPE_CACHE])
         ;
-        /** @var array{type: string} $config */
-        $config = $resolver->resolve($parameters);
-
-        if (self::TYPE_CACHE !== $config[self::CONFIG_TYPE]) {
-            throw new \RuntimeException(\sprintf('Type %s not supported by the Cache Factory', $config[self::CONFIG_TYPE]));
-        }
+        $resolver->resolve($parameters);
 
         return new StoreDataCacheService($this->cache);
     }

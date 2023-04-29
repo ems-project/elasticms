@@ -144,6 +144,7 @@ class AuditCommand extends AbstractCommand
             $this->auditCache->resume();
         } else {
             $this->auditCache->reset();
+            $this->cacheManager->clear();
         }
         $report = $this->auditCache->getReport();
 

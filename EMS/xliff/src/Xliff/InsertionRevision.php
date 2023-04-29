@@ -338,7 +338,7 @@ class InsertionRevision
         }
 
         $expectedSourceValue ??= '';
-        if ($expectedSourceValue !== $sourceValue) {
+        if (\trim($expectedSourceValue) !== \trim($sourceValue)) {
             $insertReport->addError($expectedSourceValue, $sourceValue, $sourcePropertyPath, $this->contentType, $this->ouuid, $this->revisionId);
         }
 

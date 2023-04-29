@@ -1,4 +1,0 @@
-{
-    "body": "{% extends '@EMSCH/template/slideshow/blocks/abstract-block.html.twig' %}\n\n{% block section %}\n  {{ item.object.body|default('')|replace(wyiwygReplaces)|emsch_routing }}\n{% endblock %}",
-    "name": "slideshow/blocks/section.html.twig"
-}

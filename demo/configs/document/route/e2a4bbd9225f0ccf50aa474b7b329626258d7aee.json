@@ -1,7 +1,0 @@
-{
-    "config": "{\"path\":\"\\/media-files{path}\",\"requirements\":{\"path\":\".+\"},\"controller\":\"emsch.controller.router::redirect\"}",
-    "name": "emsch_media_file",
-    "order": 21,
-    "query": "{\"query\":{\"bool\":{\"must\":[{\"terms\":{\"_contenttype\":[\"media_file\"]}},{\"terms\":{\"media_path\":[\"%path%\"]}}]}},\"size\":1}",
-    "template_static": "template:344bf8231c5e2d0635ef9fc5fb3a1f13afea9137"
-}

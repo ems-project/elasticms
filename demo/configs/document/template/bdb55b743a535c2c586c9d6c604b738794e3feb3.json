@@ -1,4 +1,0 @@
-{
-    "body": "{% set config = form.vars.form_config %}\n{% trans_default_domain config.translationDomain %}\n{% form_theme form with [\n    '@EMSForm/form_theme.html.twig',\n    '@EMSCH/template/form/theme/bootstrap_4_with_visibility.html.twig',\n] %}\n\n{{ form(form) }}\n",
-    "name": "form/bootstrap_4_with_visibility.html.twig"
-}

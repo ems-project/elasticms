@@ -232,6 +232,268 @@
                             "children": []
                         },
                         "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType",
+                            "name": "meta",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Settings",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "icon": "fa fa-gears"
+                                },
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": []
+                            },
+                            "orderKey": 4,
+                            "children": [
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\ChoiceFieldType",
+                                        "name": "disposition",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": {
+                                                "label": "Disposition",
+                                                "class": "col-md-12",
+                                                "lastOfRow": false,
+                                                "helptext": null,
+                                                "multiple": false,
+                                                "expanded": false,
+                                                "select2": true,
+                                                "choices": "attachment\r\ninline",
+                                                "labels": "Attachment\r\nInline",
+                                                "linked_collection": null,
+                                                "collection_label_field": null
+                                            },
+                                            "mappingOptions": {
+                                                "index": "not_analyzed",
+                                                "analyzer": "keyword",
+                                                "copy_to": null
+                                            },
+                                            "restrictionOptions": {
+                                                "mandatory": false,
+                                                "mandatory_if": null,
+                                                "minimum_role": null
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            },
+                                            "raw_data": [],
+                                            "migrationOptions": {
+                                                "protected": false
+                                            }
+                                        },
+                                        "orderKey": 0,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                },
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                        "name": "username",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": {
+                                                "label": "Username",
+                                                "class": "col-md-12",
+                                                "lastOfRow": false,
+                                                "helptext": null,
+                                                "prefixIcon": null,
+                                                "prefixText": null,
+                                                "suffixIcon": null,
+                                                "suffixText": null,
+                                                "placeholder": null,
+                                                "icon": null
+                                            },
+                                            "mappingOptions": {
+                                                "index": null,
+                                                "analyzer": null,
+                                                "copy_to": null
+                                            },
+                                            "restrictionOptions": {
+                                                "mandatory": false,
+                                                "mandatory_if": null,
+                                                "minimum_role": null
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            },
+                                            "raw_data": [],
+                                            "migrationOptions": {
+                                                "protected": false
+                                            }
+                                        },
+                                        "orderKey": 1,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                },
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                                        "name": "password",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": {
+                                                "label": "Password",
+                                                "class": "col-md-12",
+                                                "lastOfRow": false,
+                                                "helptext": null,
+                                                "prefixIcon": null,
+                                                "prefixText": null,
+                                                "suffixIcon": null,
+                                                "suffixText": null,
+                                                "placeholder": null,
+                                                "icon": null
+                                            },
+                                            "mappingOptions": {
+                                                "index": null,
+                                                "analyzer": null,
+                                                "copy_to": null
+                                            },
+                                            "restrictionOptions": {
+                                                "mandatory": false,
+                                                "mandatory_if": null,
+                                                "minimum_role": null
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            },
+                                            "raw_data": [],
+                                            "migrationOptions": {
+                                                "protected": false
+                                            }
+                                        },
+                                        "orderKey": 2,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                },
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\DateTimeFieldType",
+                                        "name": "after",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": {
+                                                "label": "Available from",
+                                                "class": "col-md-12",
+                                                "lastOfRow": false,
+                                                "helptext": null,
+                                                "displayFormat": null,
+                                                "parseFormat": null,
+                                                "daysOfWeekDisabled": null,
+                                                "hoursDisabled": null
+                                            },
+                                            "mappingOptions": {
+                                                "index": null
+                                            },
+                                            "restrictionOptions": {
+                                                "mandatory": false,
+                                                "mandatory_if": null,
+                                                "minimum_role": null
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            },
+                                            "raw_data": [],
+                                            "migrationOptions": {
+                                                "protected": false
+                                            }
+                                        },
+                                        "orderKey": 3,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                },
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\DateTimeFieldType",
+                                        "name": "before",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": {
+                                                "label": "Available until",
+                                                "class": "col-md-12",
+                                                "lastOfRow": false,
+                                                "helptext": null,
+                                                "displayFormat": null,
+                                                "parseFormat": null,
+                                                "daysOfWeekDisabled": null,
+                                                "hoursDisabled": null
+                                            },
+                                            "mappingOptions": {
+                                                "index": null
+                                            },
+                                            "restrictionOptions": {
+                                                "mandatory": false,
+                                                "mandatory_if": null,
+                                                "minimum_role": null
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            },
+                                            "raw_data": [],
+                                            "migrationOptions": {
+                                                "protected": false
+                                            }
+                                        },
+                                        "orderKey": 4,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                }
+                            ]
+                        },
+                        "replaced": []
                     }
                 ],
                 "__initializer__": null,

@@ -1,4 +1,0 @@
-{
-    "body": "{% trans_default_domain trans_default_domain %}\n{% extends '@EMSCH/template/base/bootstrap.html.twig' %}\n\n\n{% block main -%}<h1>{{ 'error.target-not-found'|trans({'%path%': app.request.get('path')}) }}</h1>{%- endblock main %}\n",
-    "name": "structure/target-not-found.html.twig"
-}

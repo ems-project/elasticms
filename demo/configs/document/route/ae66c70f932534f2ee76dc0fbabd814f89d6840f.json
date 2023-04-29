@@ -1,7 +1,0 @@
-{
-    "config": "{\"path\":{\"en\":\"slideshow\\/{slug}\",\"fr\":\"fr\\/presentation\\/{slug}\"}}",
-    "name": "emsch_slideshow",
-    "order": 11,
-    "query": "{\"query\":{\"bool\":{\"must\":[{\"term\":{\"%_locale%.show\":true}},{\"term\":{\"%_locale%.slug\":\"%slug%\"}},{\"terms\":{\"_contenttype\":[\"slideshow\"]}}]}},\"size\":1}",
-    "template_static": "template:7da64a77ca472de7f7d5b3f56a3477e5bcc2dcbe"
-}

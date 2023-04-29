@@ -32,4 +32,10 @@ final class StoreDataRepository extends ServiceEntityRepository
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush();
     }
+
+    public function delete(StoreData $entity): void
+    {
+        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->flush();
+    }
 }

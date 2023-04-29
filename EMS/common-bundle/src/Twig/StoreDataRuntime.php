@@ -27,6 +27,16 @@ final class StoreDataRuntime implements RuntimeExtensionInterface
         $this->storeDataManager->save($data);
     }
 
+    public function delete(string $key): void
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null !== $request && $request->isMethodSafe()) {
+            throw new \RuntimeException(\sprintf('The safe method %s is not allowed when saving data', $request->getMethod()));
+        }
+
+        $this->storeDataManager->delete($key);
+    }
+
     public function read(string $key): StoreDataHelper
     {
         return $this->storeDataManager->read($key);

@@ -81,4 +81,11 @@ class StoreDataManager
             $this->services[] = $this->factories[$storeDataConfig['type']]->createService($storeDataConfig);
         }
     }
+
+    public function delete(string $key): void
+    {
+        foreach ($this->services as $service) {
+            $service->delete($key);
+        }
+    }
 }

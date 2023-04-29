@@ -26,6 +26,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_uuid', [Uuid::class, 'uuid4']),
             new TwigFunction('ems_store_read', [StoreDataRuntime::class, 'read']),
             new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),
+            new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
         ];
     }
 

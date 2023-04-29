@@ -34,4 +34,13 @@ class StoreDataEntityService implements StoreDataServiceInterface
 
         return new StoreDataHelper($key, $entity->getData());
     }
+
+    public function delete(string $key): void
+    {
+        $entity = $this->repository->getByKey($key);
+        if (null === $entity) {
+            return;
+        }
+        $this->repository->delete($entity);
+    }
 }

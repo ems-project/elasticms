@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EMS\CoreBundle\Entity\CreatedModifiedTrait;
 use EMS\Helpers\Standard\DateTime;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\Uuid;

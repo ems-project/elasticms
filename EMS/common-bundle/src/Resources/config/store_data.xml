@@ -7,7 +7,7 @@
       <defaults public="false" />
       <service id="ems_common.store_data.manager" class="EMS\CommonBundle\Common\StoreData\StoreDataManager">
           <argument type="service" id="logger" />
-          <argument type="tagged" tag="ems_common.storage.factory"/>
+          <argument type="tagged" tag="ems_common.store_data.factory"/>
           <argument type="string">%ems_common.store_data_services%</argument>
       </service>
   </services>

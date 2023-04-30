@@ -26,8 +26,8 @@ class AuditManager
     private TikaWrapper $tikaTextAudit;
     private TikaWrapper $tikaLinksAudit;
     private TikaWrapper $tikaMetaAudit;
-    private TikaMetaResponse $metaRequest;
-    private AsyncResponse $htmlRequest;
+    private ?TikaMetaResponse $metaRequest;
+    private ?AsyncResponse $htmlRequest;
 
     public function __construct(private readonly CacheManager $cacheManager, private readonly LoggerInterface $logger, private readonly bool $all, private readonly bool $pa11y, private readonly bool $lighthouse, private readonly bool $tika, private readonly bool $tikaJar, private readonly string $tikaServerUrl, private readonly int $tikaMaxSize)
     {
@@ -284,8 +284,18 @@ class AuditManager
 
             return;
         }
-        $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result);
-        $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result);
+        try {
+            $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result);
+        } catch (\Throwable $e) {
+            $this->metaRequest = null;
+            $audit->addWarning(\sprintf('Tika meta extract error: %s', $e->getMessage()));
+        }
+        try {
+            $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result);
+        } catch (\Throwable $e) {
+            $this->htmlRequest = null;
+            $audit->addWarning(\sprintf('Tika content extract error: %s', $e->getMessage()));
+        }
     }
 
     private function addTikaAudits(AuditResult $audit, HttpResult $result, Report $report): void
@@ -298,16 +308,21 @@ class AuditManager
         }
         $this->logger->notice('Collect Tika audit');
         try {
-            $htmlHelper = new HtmlHelper($this->htmlRequest->getContent(), $audit->getUrl());
-            $audit->setLocale($this->metaRequest->getLocale());
-            $audit->setContent($htmlHelper->getText());
-            $audit->setTikaDatetime();
-            if ($result->isHtml()) {
-                return;
+            if (null !== $this->htmlRequest) {
+                $htmlHelper = new HtmlHelper($this->htmlRequest->getContent(), $audit->getUrl());
+                $audit->setContent($htmlHelper->getText());
+                if (!$result->isHtml()) {
+                    $audit->addLinks($htmlHelper, $report);
+                }
             }
-            $audit->addLinks($htmlHelper, $report);
-            $audit->setTitle($this->metaRequest->getTitle());
-            $audit->setAuthor($this->metaRequest->getCreator());
+            if (null !== $this->metaRequest) {
+                $audit->setLocale($this->metaRequest->getLocale());
+                $audit->setTikaDatetime();
+                if (!$result->isHtml()) {
+                    $audit->setTitle($this->metaRequest->getTitle());
+                    $audit->setAuthor($this->metaRequest->getCreator());
+                }
+            }
         } catch (\Throwable $e) {
             $this->logger->critical(\sprintf('Tika audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
         }

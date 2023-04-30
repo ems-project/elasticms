@@ -224,8 +224,12 @@ class AuditCommand extends AbstractCommand
                     $rawData['links'] = [];
                 }
                 $this->logger->debug(Json::encode($rawData, true));
-                $api->save($this->auditCache->getUrlHash($auditResult->getUrl()), $rawData);
-                $this->logger->notice('Document saved');
+                try {
+                    $api->save($this->auditCache->getUrlHash($auditResult->getUrl()), $rawData);
+                    $this->logger->notice('Document saved');
+                } catch (\Throwable $e) {
+                    $this->logger->error(\sprintf('Error while saving the report for %s: %s', $auditResult->getUrl()->getUrl(null, false, false), $e->getMessage()));
+                }
             } else {
                 $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
             }

@@ -48,8 +48,12 @@ class StoreDataFileSystemService implements StoreDataServiceInterface
 
     private function filename(string $key): string
     {
+        $invalidCharacterCounter = \preg_match('/[\^\*\?"<>|:]/', $key);
+        if (\is_int($invalidCharacterCounter) && $invalidCharacterCounter > 0) {
+            throw new \RuntimeException(\sprintf('The key %s contains %d invalid character(s): ^, *, ?, <, >, | ou :', $key, $invalidCharacterCounter));
+        }
         $realPath = Folder::getRealPath($this->rootPath);
 
-        return \sprintf('%s%s%s.json', $realPath, DIRECTORY_SEPARATOR, $key);
+        return Folder::createFileDirectories(\sprintf('%s%s%s.json', $realPath, DIRECTORY_SEPARATOR, $key));
     }
 }

@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\CommonBundle\Common\StoreData\Service;
+
+use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
+use EMS\Helpers\File\Folder;
+use EMS\Helpers\Standard\Json;
+
+class StoreDataFileSystemService implements StoreDataServiceInterface
+{
+    public function __construct(private readonly string $rootPath)
+    {
+    }
+
+    public function save(StoreDataHelper $data): void
+    {
+        $filename = $this->filename($data->getKey());
+        if (false === \file_put_contents($filename, Json::encode($data->getData(), true))) {
+            throw new \RuntimeException(\sprintf('Error while saving data at %s', $filename));
+        }
+    }
+
+    public function read(string $key): ?StoreDataHelper
+    {
+        $filename = $this->filename($key);
+        if (!\file_exists($filename)) {
+            return null;
+        }
+        if (false === $json = \file_get_contents($filename)) {
+            throw new \RuntimeException(\sprintf('Error while retrieving data from %s', $filename));
+        }
+
+        return new StoreDataHelper($key, Json::decode($json));
+    }
+
+    public function delete(string $key): void
+    {
+        $filename = $this->filename($key);
+        if (!\file_exists($filename)) {
+            return;
+        }
+        if (false === \unlink($filename)) {
+            throw new \RuntimeException(\sprintf('Error while deleting data from %s', $filename));
+        }
+    }
+
+    private function filename(string $key): string
+    {
+        $realPath = Folder::getRealPath($this->rootPath);
+
+        return \sprintf('%s%s%s.json', $realPath, DIRECTORY_SEPARATOR, $key);
+    }
+}

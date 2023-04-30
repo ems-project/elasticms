@@ -311,16 +311,17 @@ class AuditManager
             if (null !== $this->htmlRequest) {
                 $htmlHelper = new HtmlHelper($this->htmlRequest->getContent(), $audit->getUrl());
                 $audit->setContent($htmlHelper->getText());
-                $audit->addLinks($htmlHelper, $report);
+                if (!$result->isHtml()) {
+                    $audit->addLinks($htmlHelper, $report);
+                }
             }
             if (null !== $this->metaRequest) {
                 $audit->setLocale($this->metaRequest->getLocale());
                 $audit->setTikaDatetime();
-                if ($result->isHtml()) {
-                    return;
+                if (!$result->isHtml()) {
+                    $audit->setTitle($this->metaRequest->getTitle());
+                    $audit->setAuthor($this->metaRequest->getCreator());
                 }
-                $audit->setTitle($this->metaRequest->getTitle());
-                $audit->setAuthor($this->metaRequest->getCreator());
             }
         } catch (\Throwable $e) {
             $this->logger->critical(\sprintf('Tika audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));

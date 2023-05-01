@@ -25,5 +25,8 @@
           <argument type="service" id="ems.common.cache"/>
           <tag name="ems_common.store_data.factory" alias="cache"/>
       </service>
+      <service id="ems_common.store_data.factory.fs" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataFileSystemFactory">
+          <tag name="ems_common.store_data.factory" alias="fs"/>
+      </service>
   </services>
 </container>

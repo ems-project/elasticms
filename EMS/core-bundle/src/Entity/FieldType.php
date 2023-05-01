@@ -633,20 +633,20 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
 
     /**
      * @param array<mixed> $newStructure
-     * @param array<mixed> $ids
+     * @param array<string, FieldType> $fieldsByIds
      */
-    public function reorderFields(array $newStructure, ?array $ids = null): void
+    public function reorderFields(array $newStructure, ?array $fieldsByIds = null): void
     {
-        if (null === $ids) {
-            $ids = $this->listAllFields();
+        if (null === $fieldsByIds) {
+            $fieldsByIds = $this->listAllFields();
         }
         $this->getChildren()->clear();
         foreach ($newStructure as $key => $item) {
-            if (\array_key_exists('key_'.$item['id'], $ids)) {
-                $this->getChildren()->add($ids['key_'.$item['id']]);
-                $ids['key_'.$item['id']]->setParent($this);
-                $ids['key_'.$item['id']]->setOrderKey($key + 1);
-                $ids['key_'.$item['id']]->reorderFields($item['children'] ?? [], $ids);
+            if (\array_key_exists('key_'.$item['id'], $fieldsByIds)) {
+                $this->getChildren()->add($fieldsByIds['key_'.$item['id']]);
+                $fieldsByIds['key_'.$item['id']]->setParent($this);
+                $fieldsByIds['key_'.$item['id']]->setOrderKey($key + 1);
+                $fieldsByIds['key_'.$item['id']]->reorderFields($item['children'] ?? [], $fieldsByIds);
             } else {
                 throw new \RuntimeException(\sprintf('Field %d not found', $item['id']));
             }

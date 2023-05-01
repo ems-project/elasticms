@@ -633,7 +633,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     }
 
     /**
-     * @param array<mixed> $newStructure
+     * @param array<mixed>             $newStructure
      * @param array<string, FieldType> $fieldsByIds
      */
     public function reorderFields(array $newStructure, ?array $fieldsByIds = null): void

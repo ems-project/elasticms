@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Factory;
 
 use EMS\CommonBundle\Storage\Service\FileSystemStorage;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
+use EMS\Helpers\File\Folder;
 use Psr\Log\LoggerInterface;
 
 class FileSystemFactory extends AbstractFactory implements StorageFactoryInterface
@@ -38,15 +39,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
             $path = $this->projectDir.DIRECTORY_SEPARATOR.$path;
         }
 
-        $realPath = \realpath($path);
-        if (false === $realPath) {
-            \mkdir($path, 0777, true);
-        }
-
-        $realPath = \realpath($path);
-        if (false === $realPath) {
-            throw new \RuntimeException('The path parameter can\'t be converted into a real path');
-        }
+        $realPath = Folder::getRealPath($path);
 
         if (\in_array($realPath, $this->usedFolder)) {
             $this->logger->warning('The folder {realPath} is already used by another storage service', [$realPath]);

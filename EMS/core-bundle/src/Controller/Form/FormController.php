@@ -10,6 +10,7 @@ use EMS\CoreBundle\Entity\Form;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\FormType;
+use EMS\CoreBundle\Form\Form\ReorderType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\CoreBundle\Routes;
@@ -111,6 +112,20 @@ class FormController extends AbstractController
         }
 
         return $this->render($create ? '@EMSCore/admin-form/add.html.twig' : '@EMSCore/admin-form/edit.html.twig', [
+            'form' => $formType->createView(),
+            'entity' => $form,
+        ]);
+    }
+
+    public function reorder(Request $request, Form $form): Response
+    {
+        $data = [];
+        $formType = $this->createForm(ReorderType::class, $data, [
+        ]);
+
+        $formType->handleRequest($request);
+
+        return $this->render('@EMSCore/admin-form/reorder.html.twig', [
             'form' => $formType->createView(),
             'entity' => $form,
         ]);

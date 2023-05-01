@@ -112,4 +112,14 @@ final class Cache
 
         return $adapter;
     }
+
+    public function delete(string $key): bool
+    {
+        return $this->getAdapter()->deleteItem($key);
+    }
+
+    public function clear(): void
+    {
+        $this->getAdapter()->clear();
+    }
 }

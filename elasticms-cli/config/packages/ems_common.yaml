@@ -1,34 +1,46 @@
 parameters:
-  #Parameters
-  env(EMS_HASH_ALGO): 'sha1'
-  env(EMS_STORAGES): '[{"type":"fs","path":""}]'
-  env(EMS_ELASTICSEARCH_CONNECTION_POOL): ~
-  env(EMS_ELASTICSEARCH_HOSTS): '["http://localhost:9200"]'
-  env(EMS_BACKEND_URL): ~
-  env(EMS_BACKEND_API_KEY): ~
-  env(EMS_BACKEND_API_VERIFY): true
+    #Parameters
+    env(EMS_HASH_ALGO): 'sha1'
+    env(EMS_ELASTICSEARCH_CONNECTION_POOL): ~
+    env(EMS_STORAGES): '[{"type":"fs","path":""}]'
+    env(EMS_ELASTICSEARCH_HOSTS): '["http://localhost:9200"]'
+    env(EMS_STORE_DATA_SERVICES): '[]'
+    env(EMS_LOG_LEVEL): '250'
+    env(EMS_BACKEND_URL): ~
+    env(EMS_BACKEND_API_KEY): ~
+    env(EMS_BACKEND_API_VERIFY): true
 
-  env(EMS_CACHE): 'file_system'
-  env(EMS_CACHE_PREFIX): 'emscli_'
-  env(EMS_REDIS_HOST): 'localhost'
-  env(EMS_REDIS_PORT): '6379'
-
+    env(EMS_CACHE): 'file_system'
+    env(EMS_CACHE_PREFIX): 'emscli_'
+    env(EMS_REDIS_HOST): 'localhost'
+    env(EMS_REDIS_PORT): '6379'
+    env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
+    env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
 
 ems_common:
-  hash_algo: '%env(string:EMS_HASH_ALGO)%'
-  elasticsearch_connection_pool: '%env(string:EMS_ELASTICSEARCH_CONNECTION_POOL)%'
-  elasticsearch_hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
-  storages: '%env(json:EMS_STORAGES)%'
-  backend_url: '%env(string:EMS_BACKEND_URL)%'
-  backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
-  backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
-  cache:
-    type: '%env(EMS_CACHE)%'
-    prefix: '%env(string:EMS_CACHE_PREFIX)%'
-    redis:
-      host: '%env(EMS_REDIS_HOST)%'
-      port: '%env(int:EMS_REDIS_PORT)%'
-  metric:
-    enabled: 'false'
-    host: ''
-    port: ~
+    hash_algo: '%env(string:EMS_HASH_ALGO)%'
+    elasticsearch_connection_pool: '%env(string:EMS_ELASTICSEARCH_CONNECTION_POOL)%'
+    elasticsearch_hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
+    storages: '%env(json:EMS_STORAGES)%'
+    store_data_services: '%env(json:EMS_STORE_DATA_SERVICES)%'
+    log_level: '%env(int:EMS_LOG_LEVEL)%'
+    backend_url: '%env(string:EMS_BACKEND_URL)%'
+    backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
+    backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
+    webalize:
+        removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
+        dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'
+    cache:
+        type: '%env(EMS_CACHE)%'
+        prefix: '%env(string:EMS_CACHE_PREFIX)%'
+        redis:
+            host: '%env(EMS_REDIS_HOST)%'
+            port: '%env(int:EMS_REDIS_PORT)%'
+    metric:
+        enabled: 'false'
+        host: ''
+        port: ~
+
+when@dev:
+    ems_common:
+        profiler: true

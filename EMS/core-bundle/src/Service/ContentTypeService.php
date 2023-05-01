@@ -115,20 +115,6 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @return array<string, FieldType>
-     */
-    private function listAllFields(FieldType $fieldType): array
-    {
-        $out = [];
-        foreach ($fieldType->getChildren() as $child) {
-            $out = [...$out, ...$this->listAllFields($child)];
-        }
-        $out['key_'.$fieldType->getId()] = $fieldType;
-
-        return $out;
-    }
-
-    /**
      * @param array<mixed> $newStructure
      * @param array<mixed> $ids
      */
@@ -156,7 +142,7 @@ class ContentTypeService implements EntityServiceInterface
     {
         $em = $this->doctrine->getManager();
 
-        $ids = $this->listAllFields($contentType->getFieldType());
+        $ids = $contentType->getFieldType()->listAllFields();
         $this->reorderFieldsRecu($contentType->getFieldType(), $newStructure, $ids);
 
         $em->persist($contentType);

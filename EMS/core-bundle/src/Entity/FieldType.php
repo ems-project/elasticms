@@ -617,6 +617,20 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return $this->parent;
     }
 
+    /**
+     * @return array<string, FieldType>
+     */
+    public function listAllFields(): array
+    {
+        $out = [];
+        foreach ($this->getChildren() as $child) {
+            $out = [...$out, ...$child->listAllFields()];
+        }
+        $out['key_'.$this->getId()] = $this;
+
+        return $out;
+    }
+
     public function addChild(FieldType $child, bool $prepend = false): self
     {
         $child->setParent($this);

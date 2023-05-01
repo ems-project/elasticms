@@ -158,4 +158,12 @@ class FormManager implements EntityServiceInterface
     {
         return $this->formRepository->getAll();
     }
+
+    /**
+     * @param mixed[] $structure
+     */
+    public function reorderFields(Form $form, array $structure): void
+    {
+        $this->update($form);
+    }
 }

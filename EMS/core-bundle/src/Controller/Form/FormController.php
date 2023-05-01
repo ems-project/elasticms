@@ -14,6 +14,7 @@ use EMS\CoreBundle\Form\Form\ReorderType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\CoreBundle\Routes;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form as ComponentForm;
@@ -119,11 +120,16 @@ class FormController extends AbstractController
 
     public function reorder(Request $request, Form $form): Response
     {
-        $data = [];
-        $formType = $this->createForm(ReorderType::class, $data, [
-        ]);
+        $formType = $this->createForm(ReorderType::class, []);
 
         $formType->handleRequest($request);
+        if ($formType->isSubmitted()) {
+            $data = $formType->getData();
+            $structure = Json::decode((string) $data['items']);
+            $this->formManager->reorderFields($form, $structure);
+
+            return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
+        }
 
         return $this->render('@EMSCore/admin-form/reorder.html.twig', [
             'form' => $formType->createView(),

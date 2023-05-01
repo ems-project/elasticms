@@ -1,6 +1,6 @@
 <?php
 
-namespace EMS\CoreBundle\Entity;
+namespace EMS\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use EMS\Helpers\Standard\DateTime;

@@ -18,6 +18,7 @@ parameters:
     env(EMS_ELASTICSEARCH_CONNECTION_POOL): ~
     env(EMS_ELASTICSEARCH_HOSTS): '%env(ELASTICSEARCH_CLUSTER)%'
     env(EMS_STORAGES): '[{"type":"fs","path":"%env(STORAGE_FOLDER)%"},{"type":"s3","credentials":%env(S3_CREDENTIALS)%,"bucket":"%env(S3_BUCKET)%"},{"type":"db","activate":%env(EMS_SAVE_ASSETS_IN_DB)%},{"type":"http","base-url":"%env(EMS_EMS_REMOTE_SERVER)%","auth-key":"%env(EMS_EMS_REMOTE_AUTHKEY)%"},{"type":"sftp","host":"%env(EMS_SFTP_SERVEUR)%","path":"%env(EMS_SFTP_PATH)%","username":"%env(EMS_SFTP_USER)%","public-key-file":"%env(EMS_PUBLIC_KEY)%","private-key-file":"%env(EMS_PRIVATE_KEY)%"}]'
+    env(EMS_STORE_DATA_SERVICES): '[{"type":"db"}]'
     env(EMS_LOG_LEVEL): '250'
     env(EMS_BACKEND_URL): ~
     env(EMS_BACKEND_API_KEY): ~
@@ -38,6 +39,7 @@ ems_common:
     elasticsearch_connection_pool: '%env(string:EMS_ELASTICSEARCH_CONNECTION_POOL)%'
     elasticsearch_hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
     storages: '%env(json:EMS_STORAGES)%'
+    store_data_services: '%env(json:EMS_STORE_DATA_SERVICES)%'
     log_level: '%env(int:EMS_LOG_LEVEL)%'
     backend_url: '%env(string:EMS_BACKEND_URL)%'
     backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'

@@ -8,9 +8,11 @@ parameters:
 
     #Parameters
     env(EMS_HASH_ALGO): 'sha1'
-    env(EMS_STORAGES): '[{"type":"fs","path":"%env(string:STORAGE_PATH)%"},{"type":"s3","credentials":%env(string:S3_CREDENTIALS)%,"bucket":"%env(string:S3_BUCKET)%"},{"type":"http","base-url":"%env(string:EMSCH_BACKEND_URL)%"}]'
     env(EMS_ELASTICSEARCH_CONNECTION_POOL): ~
     env(EMS_ELASTICSEARCH_HOSTS): '%env(string:EMSCH_ELASTICSEARCH_CLUSTER)%'
+    env(EMS_STORAGES): '[{"type":"fs","path":"%env(string:STORAGE_PATH)%"},{"type":"s3","credentials":%env(string:S3_CREDENTIALS)%,"bucket":"%env(string:S3_BUCKET)%"},{"type":"http","base-url":"%env(string:EMSCH_BACKEND_URL)%"}]'
+    env(EMS_STORE_DATA_SERVICES): '[]'
+    env(EMS_LOG_LEVEL): '250'
     env(EMS_BACKEND_URL): ~
     env(EMS_BACKEND_API_KEY): ~
     env(EMS_BACKEND_API_VERIFY): true
@@ -25,12 +27,13 @@ parameters:
     env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
     env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
 
-
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
     elasticsearch_connection_pool: '%env(string:EMS_ELASTICSEARCH_CONNECTION_POOL)%'
     elasticsearch_hosts: '%env(json:EMS_ELASTICSEARCH_HOSTS)%'
     storages: '%env(json:EMS_STORAGES)%'
+    store_data_services: '%env(json:EMS_STORE_DATA_SERVICES)%'
+    log_level: '%env(int:EMS_LOG_LEVEL)%'
     backend_url: '%env(string:EMS_BACKEND_URL)%'
     backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
     backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'

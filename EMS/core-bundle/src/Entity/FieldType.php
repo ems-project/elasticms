@@ -631,6 +631,25 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return $out;
     }
 
+    /**
+     * @param array<mixed> $newStructure
+     * @param array<mixed> $ids
+     */
+    public function reorderFields(array $newStructure, array $ids): void
+    {
+        $this->getChildren()->clear();
+        foreach ($newStructure as $key => $item) {
+            if (\array_key_exists('key_'.$item['id'], $ids)) {
+                $this->getChildren()->add($ids['key_'.$item['id']]);
+                $ids['key_'.$item['id']]->setParent($this);
+                $ids['key_'.$item['id']]->setOrderKey($key + 1);
+                $ids['key_'.$item['id']]->reorderFields($item['children'] ?? [], $ids);
+            } else {
+                throw new \RuntimeException(\sprintf('Field %d not found', $item['id']));
+            }
+        }
+    }
+
     public function addChild(FieldType $child, bool $prepend = false): self
     {
         $child->setParent($this);

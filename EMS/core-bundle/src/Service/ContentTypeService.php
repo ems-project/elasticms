@@ -120,9 +120,7 @@ class ContentTypeService implements EntityServiceInterface
     public function reorderFields(ContentType $contentType, array $newStructure): void
     {
         $em = $this->doctrine->getManager();
-
-        $ids = $contentType->getFieldType()->listAllFields();
-        $contentType->getFieldType()->reorderFields($newStructure, $ids);
+        $contentType->getFieldType()->reorderFields($newStructure);
 
         $em->persist($contentType);
         $em->flush();

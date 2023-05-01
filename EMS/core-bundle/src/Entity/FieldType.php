@@ -620,7 +620,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     /**
      * @return array<string, FieldType>
      */
-    public function listAllFields(): array
+    private function listAllFields(): array
     {
         $out = [];
         foreach ($this->getChildren() as $child) {
@@ -635,8 +635,11 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
      * @param array<mixed> $newStructure
      * @param array<mixed> $ids
      */
-    public function reorderFields(array $newStructure, array $ids): void
+    public function reorderFields(array $newStructure, ?array $ids = null): void
     {
+        if (null === $ids) {
+            $ids = $this->listAllFields();
+        }
         $this->getChildren()->clear();
         foreach ($newStructure as $key => $item) {
             if (\array_key_exists('key_'.$item['id'], $ids)) {

@@ -1,5 +1,15 @@
 # Changelog 5.x
 
+## 5.4.4 (2023-05-02)
+### Bug Fixes
+* fix(audit): issue in API sometimes by @theus77 in https://github.com/ems-project/elasticms/pull/449
+* fix(core): render textare as non-html and replace nl by br (|nl2br) by @theus77 in https://github.com/ems-project/elasticms/pull/453
+* fix(demo): manage alias not ready by @theus77 in https://github.com/ems-project/elasticms/pull/443
+* fix(form): form children class by @theus77 in https://github.com/ems-project/elasticms/pull/447
+* fix(tika): in case of corrupted document sent to tika by @theus77 in https://github.com/ems-project/elasticms/pull/450
+* fix: asFilename by @theus77 in https://github.com/ems-project/elasticms/pull/445
+* fix: image not found by dompdf by @theus77 in https://github.com/ems-project/elasticms/pull/442
+
 ## 5.4.3 (2023-04-24)
 ### Bug Fixes
 * fix(core): choice field type's helptext & placeholder by @theus77 in https://github.com/ems-project/elasticms/pull/436
@@ -11,7 +21,6 @@
 * refactor: documentations -> documentation by @theus77 in https://github.com/ems-project/elasticms/pull/440
 ### Chores
 * chore(demo): update from prod by @theus77 in https://github.com/ems-project/elasticms/pull/439
-# Changelog 5.x
 
 ## 5.4.2 (2023-04-17)
 ### Bug Fixes

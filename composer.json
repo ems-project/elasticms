@@ -134,7 +134,7 @@
     "allow-plugins": {
       "phpstan/extension-installer": true,
       "symfony/flex": false,
-      "symfony/runtime": false,
+      "symfony/runtime": true,
       "endroid/installer": false,
       "php-http/discovery": true
     }

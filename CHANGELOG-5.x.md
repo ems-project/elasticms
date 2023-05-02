@@ -1,5 +1,14 @@
 # Changelog 5.x
 
+## 5.5.0 (2023-05-02)
+### Features
+* feat(common): storeData file system by @theus77 in https://github.com/ems-project/elasticms/pull/451
+* feat(core): managed alias api and commands by @theus77 in https://github.com/ems-project/elasticms/pull/438
+* feat(core/user): add the WYSIWYG profile in the datatable view by @theus77 in https://github.com/ems-project/elasticms/pull/435
+* feat(emsco/env): rebuild all flag by @theus77 in https://github.com/ems-project/elasticms/pull/428
+* feat(form): reorder form fields by @theus77 in https://github.com/ems-project/elasticms/pull/452
+* feat(store): emsch store by @theus77 in https://github.com/ems-project/elasticms/pull/448
+
 ## 5.4.4 (2023-05-02)
 ### Bug Fixes
 * fix(audit): issue in API sometimes by @theus77 in https://github.com/ems-project/elasticms/pull/449

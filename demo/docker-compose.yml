@@ -156,34 +156,23 @@ services:
       - "traefik.http.routers.admin-local-dev.entrypoints=web"
       - "traefik.http.services.admin-local.loadbalancer.server.port=9000"
 
-  web-prod:
+  web-local:
     user: ${DOCKER_USER:-1001}:0
     extends:
       file: docker-elasticms.yml
       service: web
     environment:
-      - APP_ENV=dev
-      - 'EMS_BACKEND_URL=https://ems-promo-admin.professional.socialsecurity.be'
-      - INSTANCE_ID=ems_promo_v2_ma_
-      - 'EMSF_AUTHKEY=SjFBkbltEe9uOp3pHleYYX9baOhM9U82GHKUbLcJ2QRbchhZhZQKoEJDeHLT1wqrv8E='
-      - 'EMS_ELASTICSEARCH_HOSTS=["https://proxy:lesoleilbrilleaveclestsda@elasticms.prd.ext.socialsecurity.be/cluster-es-7"]'
-      - 'S3_ACCESS_KEY_ID=BGZ2FZ5BYATRUOQBR7OX'
-      - 'S3_SECRET_ACCESS_KEY=d1xWGcs2gL99/7eY/2N08MgUDBQo70sZnbN3oqDE'
-      - S3_DEFAULT_REGION=us-east-1
-      - S3_ENDPOINT_URL=https://s3.gcloud.belgium.be
-      - S3_BUCKET_NAME=emspromo-ems-assets
-      - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
-      - TRUSTED_HOSTS=localhost,.*\.localhost,.*\.socialsecurity\.be,.*\.elasticms\.fgov\.be,elasticms\.fgov\.be
+        - TRUSTED_HOSTS=localhost,.*\.localhost
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.varnish-prd.rule=HostRegexp(`prd.{project:[a-z0-9\\-_\\.]+}-web.localhost`)"
-      - "traefik.http.routers.varnish-prd.entrypoints=web,websecure"
-      - "traefik.http.routers.varnish-prd.service=varnish-prd"
-      - "traefik.http.services.varnish-prd.loadbalancer.server.port=6081"
-      - "traefik.http.routers.skeleton-prd.rule=HostRegexp(`prd.{project:[a-z0-9\\-_\\.]+}-web-nocache.localhost`)"
-      - "traefik.http.routers.skeleton-prd.entrypoints=web,websecure"
-      - "traefik.http.routers.skeleton-prd.service=skeleton-prd"
-      - "traefik.http.services.skeleton-prd.loadbalancer.server.port=9000"
+      - "traefik.http.routers.varnish.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web.localhost`)"
+      - "traefik.http.routers.varnish.entrypoints=web,websecure"
+      - "traefik.http.routers.varnish.service=varnish"
+      - "traefik.http.services.varnish.loadbalancer.server.port=6081"
+      - "traefik.http.routers.skeleton.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-web-nocache.localhost`)"
+      - "traefik.http.routers.skeleton.entrypoints=web,websecure"
+      - "traefik.http.routers.skeleton.service=skeleton"
+      - "traefik.http.services.skeleton.loadbalancer.server.port=9000"
 
   setup_ems:
     user: ${DOCKER_USER:-1001}:0

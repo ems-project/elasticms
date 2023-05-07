@@ -46,9 +46,9 @@ class TikaHelper
     public function extract(StreamInterface $stream, ?string $mimeType): TikaPromiseInterface
     {
         if ($this->tikaBaseUrl) {
-            return new TikaServerPromiseInterface($this->tikaBaseUrl, $stream, $mimeType);
+            return new TikaServerPromise($this->tikaBaseUrl, $stream, $mimeType);
         }
 
-        return new TikaJarPromiseInterface($stream);
+        return new TikaJarPromise($stream);
     }
 }

@@ -18,9 +18,9 @@ class TikaClient
         $this->serverUrl = new Url($serverBaseUrl);
     }
 
-    public function meta(StreamInterface $stream, ?string $mimeType): TikaMetaResponse
+    public function meta(StreamInterface $stream, ?string $mimeType): AsyncResponse
     {
-        return new TikaMetaResponse($this->putAcceptJson('meta', $stream, $mimeType));
+        return $this->putAcceptJson('meta', $stream, $mimeType);
     }
 
     public function text(StreamInterface $stream, ?string $mimeType): AsyncResponse

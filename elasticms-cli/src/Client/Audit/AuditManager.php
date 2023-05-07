@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App\CLI\Client\Audit;
 
-use App\CLI\Client\HttpClient\CacheManager;
 use App\CLI\Client\HttpClient\HttpResult;
 use App\CLI\Client\WebToElasticms\Helper\Url;
-use App\CLI\Helper\AsyncResponse;
 use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\LighthouseWrapper;
 use App\CLI\Helper\Pa11yWrapper;
-use App\CLI\Helper\Tika\TikaClient;
-use App\CLI\Helper\Tika\TikaMetaResponse;
-use App\CLI\Helper\Tika\TikaWrapper;
+use App\CLI\Helper\Tika\TikaHelper;
+use App\CLI\Helper\Tika\TikaPromiseInterface;
 use EMS\CommonBundle\Common\Converter;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -22,15 +19,19 @@ class AuditManager
 {
     private Pa11yWrapper $pa11yAudit;
     private LighthouseWrapper $lighthouseAudit;
-    private TikaWrapper $tikaLocaleAudit;
-    private TikaWrapper $tikaTextAudit;
-    private TikaWrapper $tikaLinksAudit;
-    private TikaWrapper $tikaMetaAudit;
-    private ?TikaMetaResponse $metaRequest;
-    private ?AsyncResponse $htmlRequest;
+    private ?TikaHelper $tikaHelper = null;
+    private TikaPromiseInterface $tikaPromise;
 
-    public function __construct(private readonly CacheManager $cacheManager, private readonly LoggerInterface $logger, private readonly bool $all, private readonly bool $pa11y, private readonly bool $lighthouse, private readonly bool $tika, private readonly bool $tikaJar, private readonly string $tikaServerUrl, private readonly int $tikaMaxSize)
+    public function __construct(private readonly LoggerInterface $logger, private readonly bool $all, private readonly bool $pa11y, private readonly bool $lighthouse, bool $tika, private readonly ?string $tikaServerUrl, private readonly int $tikaMaxSize)
     {
+        if (!$tika && !$all) {
+            return;
+        }
+        if (null !== $this->tikaServerUrl) {
+            $this->tikaHelper = TikaHelper::initTikaServer($this->tikaServerUrl);
+        } else {
+            $this->tikaHelper = TikaHelper::initTikaJar();
+        }
     }
 
     public function analyze(Url $url, HttpResult $result, Report $report): AuditResult
@@ -48,15 +49,7 @@ class AuditManager
         if ($result->isHtml() && ($this->all || $this->lighthouse)) {
             $this->startLighthouseAudit($audit, $result);
         }
-        if ($this->tikaJar && $this->tika) {
-            throw new \RuntimeException('--tika and --tika-jar can not be activated at the same time');
-        }
-        if (($this->all && !$this->tikaJar) || $this->tika) {
-            $this->startTikaAudits($audit, $result);
-        }
-        if ($this->tikaJar) {
-            $this->startTikaJarAudits($audit, $result);
-        }
+        $this->startTikaAudits($audit, $result);
 
         if ($result->isHtml() && ($this->all || $this->pa11y)) {
             $this->addPa11yAudit($audit, $result);
@@ -64,12 +57,7 @@ class AuditManager
         if ($result->isHtml() && ($this->all || $this->lighthouse)) {
             $this->addLighthouseAudit($audit, $result);
         }
-        if ($this->all || $this->tika) {
-            $this->addTikaAudits($audit, $result, $report);
-        }
-        if ($this->tikaJar) {
-            $this->addTikaJarAudits($audit, $result, $report);
-        }
+        $this->addTikaAudits($audit, $result, $report);
 
         return $audit;
     }
@@ -204,43 +192,29 @@ class AuditManager
         $this->logger->notice('Lighthouse audit collected');
     }
 
-    private function startTikaJarAudits(AuditResult $audit, HttpResult $result): void
+    private function startTikaAudits(AuditResult $audit, HttpResult $result): void
     {
-        $this->logger->notice('Start Tika Jar audit');
-        try {
-            $stream = $result->getStream();
-            $this->tikaLocaleAudit = TikaWrapper::getLocale($stream, $this->cacheManager->getCacheFolder());
-            $this->tikaTextAudit = TikaWrapper::getText($stream, $this->cacheManager->getCacheFolder());
-            $this->tikaLinksAudit = TikaWrapper::getHtml($stream, $this->cacheManager->getCacheFolder());
-            $this->tikaMetaAudit = TikaWrapper::getJsonMetadata($stream, $this->cacheManager->getCacheFolder());
-            $this->tikaLocaleAudit->start();
-            $this->tikaTextAudit->start();
-            $this->tikaLinksAudit->start();
-            $this->tikaMetaAudit->start();
-        } catch (\Throwable $e) {
-            $this->logger->critical(\sprintf('Tika audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
+        if (null === $this->tikaHelper) {
+            return;
         }
-    }
+        $size = $audit->getSize();
+        if ($size <= 0 || $size > $this->tikaMaxSize) {
+            $audit->addWarning(\sprintf('File too big to be send to tika: %s', Converter::formatBytes($size)));
 
-    private function addTikaJarAudits(AuditResult $audit, HttpResult $result, Report $report): void
-    {
-        $this->logger->notice('Collect Tika Jar audit');
-        try {
-            $audit->setLocale($this->tikaLocaleAudit->getOutput());
-            $audit->setContent($this->tikaTextAudit->getOutput());
-            $audit->setTikaDatetime();
-            if ($result->isHtml()) {
-                return;
-            }
-            $htmlHelper = new HtmlHelper($this->tikaLinksAudit->getOutput(), $audit->getUrl());
-            $audit->addLinks($htmlHelper, $report);
-            $meta = $this->tikaMetaAudit->getJson();
-            $audit->setTitle(null === ($meta['dc:title'] ?? null) ? null : \trim((string) $meta['dc:title']));
-            $audit->setAuthor(null === ($meta['dc:author'] ?? null) ? null : \trim((string) $meta['dc:author']));
-        } catch (\Throwable $e) {
-            $this->logger->critical(\sprintf('Tika audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
+            return;
         }
-        $this->logger->notice('Tika audit collected');
+        $this->tikaPromise = $this->tikaHelper->extract($result->getStream(), $result->getMimetype());
+
+        try {
+            $this->tikaPromise->startMeta();
+        } catch (\Throwable $e) {
+            $audit->addWarning(\sprintf('Tika meta extract error: %s', $e->getMessage()));
+        }
+        try {
+            $this->tikaPromise->startHtml();
+        } catch (\Throwable $e) {
+            $audit->addWarning(\sprintf('Tika html extract error: %s', $e->getMessage()));
+        }
     }
 
     private function addHtmlAudit(AuditResult $audit, HttpResult $result, Report $report): void
@@ -276,53 +250,33 @@ class AuditManager
         $this->logger->notice('HTML parsed');
     }
 
-    private function startTikaAudits(AuditResult $audit, HttpResult $result): void
-    {
-        $size = $audit->getSize();
-        if ($size <= 0 || $size > $this->tikaMaxSize) {
-            $audit->addWarning(\sprintf('File too big to be send to tika: %s', Converter::formatBytes($size)));
-
-            return;
-        }
-        try {
-            $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result->getStream(), $result->getMimetype());
-        } catch (\Throwable $e) {
-            $this->metaRequest = null;
-            $audit->addWarning(\sprintf('Tika meta extract error: %s', $e->getMessage()));
-        }
-        try {
-            $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result->getStream(), $result->getMimetype());
-        } catch (\Throwable $e) {
-            $this->htmlRequest = null;
-            $audit->addWarning(\sprintf('Tika content extract error: %s', $e->getMessage()));
-        }
-    }
-
     private function addTikaAudits(AuditResult $audit, HttpResult $result, Report $report): void
     {
+        if (null === $this->tikaHelper) {
+            return;
+        }
         $size = $audit->getSize();
         if ($size <= 0 || $size > $this->tikaMaxSize) {
-            $audit->addWarning(\sprintf('File too big to be send to tika: %s', Converter::formatBytes($size)));
-
             return;
         }
         $this->logger->notice('Collect Tika audit');
         try {
-            if (null !== $this->htmlRequest) {
-                $htmlHelper = new HtmlHelper($this->htmlRequest->getContent(), $audit->getUrl());
-                $audit->setContent($htmlHelper->getText());
-                if (!$result->isHtml()) {
-                    $audit->addLinks($htmlHelper, $report);
-                }
+            $audit->setTikaDatetime();
+            $htmlHelper = new HtmlHelper($this->tikaPromise->getHtml(), $audit->getUrl());
+            $audit->setContent($htmlHelper->getText());
+            if (!$result->isHtml()) {
+                $audit->addLinks($htmlHelper, $report);
             }
-            if (null !== $this->metaRequest) {
-                $audit->setLocale($this->metaRequest->getLocale());
-                $audit->setTikaDatetime();
-                if (!$result->isHtml()) {
-                    $audit->setTitle($this->metaRequest->getTitle());
-                    $audit->setAuthor($this->metaRequest->getCreator());
-                }
+
+            $meta = $this->tikaPromise->getMeta();
+            if (!$audit->hasLocale()) {
+                $audit->setLocale($meta->getLocale());
             }
+            if ($result->isHtml()) {
+                return;
+            }
+            $audit->setTitle($meta->getTitle());
+            $audit->setAuthor($meta->getCreator());
         } catch (\Throwable $e) {
             $this->logger->critical(\sprintf('Tika audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
         }

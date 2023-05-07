@@ -2,14 +2,12 @@
 
 namespace App\CLI\Helper\Tika;
 
-use App\CLI\Helper\AsyncResponse;
-
-class TikaMetaResponse
+class TikaMeta
 {
-    /** @var string[]|null */
-    private ?array $meta = null;
-
-    public function __construct(private readonly AsyncResponse $response)
+    /**
+     * @param string[] $meta
+     */
+    public function __construct(private readonly array $meta)
     {
     }
 
@@ -18,37 +16,32 @@ class TikaMetaResponse
      */
     public function getMeta(): array
     {
-        if (null !== $this->meta) {
-            return $this->meta;
-        }
-        $this->meta = $this->response->getJson();
-
         return $this->meta;
     }
 
     public function getLocale(): ?string
     {
-        return $this->getMeta()['language'] ?? null;
+        return $this->meta['language'] ?? null;
     }
 
     public function getTitle(): ?string
     {
-        return $this->getMeta()['dc:title'] ?? null;
+        return $this->meta['dc:title'] ?? null;
     }
 
     public function getCreator(): ?string
     {
-        return $this->getMeta()['dc:creator'] ?? null;
+        return $this->meta['dc:creator'] ?? null;
     }
 
     public function getKeyword(): ?string
     {
-        return $this->getMeta()['meta:keyword'] ?? null;
+        return $this->meta['meta:keyword'] ?? null;
     }
 
     public function getPublisher(): ?string
     {
-        return $this->getMeta()['dc:publisher'] ?? null;
+        return $this->meta['dc:publisher'] ?? null;
     }
 
     public function getModified(): ?\DateTimeImmutable
@@ -63,7 +56,7 @@ class TikaMetaResponse
 
     private function toDateTimeImmutable(string $attr): ?\DateTimeImmutable
     {
-        $value = $this->getMeta()[$attr] ?? null;
+        $value = $this->meta[$attr] ?? null;
         if (null === $value) {
             return null;
         }

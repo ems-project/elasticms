@@ -13,7 +13,6 @@ use App\CLI\Client\HttpClient\UrlReport;
 use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Commands;
-use App\CLI\Helper\Tika\TikaClient;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Range;
 use Elastica\Query\Terms;
@@ -42,7 +41,6 @@ class AuditCommand extends AbstractCommand
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_PA11Y = 'pa11y';
     private const OPTION_TIKA = 'tika';
-    private const OPTION_TIKA_JAR = 'tika-jar';
     private const OPTION_ALL = 'all';
     private const OPTION_LIGHTHOUSE = 'lighthouse';
     private const OPTION_CONTENT_TYPE = 'content-type';
@@ -63,8 +61,7 @@ class AuditCommand extends AbstractCommand
     private bool $tika;
     private bool $all;
     private ?string $ignoreRegex = null;
-    private bool $tikaJar;
-    private string $tikaBaseUrl;
+    private ?string $tikaBaseUrl;
     private float $tikaMaxSize;
     private ?string $saveFolder;
 
@@ -92,7 +89,6 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_PA11Y, null, InputOption::VALUE_NONE, 'Add a pa11y accessibility audit')
             ->addOption(self::OPTION_LIGHTHOUSE, null, InputOption::VALUE_NONE, 'Add a Lighthouse audit')
             ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika audit')
-            ->addOption(self::OPTION_TIKA_JAR, null, InputOption::VALUE_NONE, 'Add a Tika audit (using Java). Not recommended.')
             ->addOption(self::OPTION_ALL, null, InputOption::VALUE_NONE, 'Add all audits (Tika, pa11y, lighthouse')
             ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
             ->addOption(self::OPTION_REPORTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where reports stored', \getcwd())
@@ -100,7 +96,7 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
-            ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url', TikaClient::TIKA_BASE_URL)
+            ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
             ->addOption(self::OPTION_TIKA_MAX_SIZE, null, InputOption::VALUE_OPTIONAL, 'File bigger than this limit are not send to Tika [in MB]', 5);
     }
 
@@ -116,14 +112,13 @@ class AuditCommand extends AbstractCommand
         $this->lighthouse = $this->getOptionBool(self::OPTION_LIGHTHOUSE);
         $this->pa11y = $this->getOptionBool(self::OPTION_PA11Y);
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);
-        $this->tikaJar = $this->getOptionBool(self::OPTION_TIKA_JAR);
         $this->all = $this->getOptionBool(self::OPTION_ALL);
         $this->reportsFolder = $this->getOptionString(self::OPTION_REPORTS_FOLDER);
         $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
         $this->maxUpdate = $this->getOptionInt(self::OPTION_MAX_UPDATES);
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
         $this->saveFolder = $this->getOptionStringNull(self::OPTION_SAVE_FOLDER);
-        $this->tikaBaseUrl = $this->getOptionString(self::OPTION_TIKA_BASE_URL);
+        $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
         $this->tikaMaxSize = $this->getOptionFloat(self::OPTION_TIKA_MAX_SIZE);
     }
 
@@ -148,7 +143,7 @@ class AuditCommand extends AbstractCommand
         }
         $report = $this->auditCache->getReport();
 
-        $auditManager = new AuditManager($this->cacheManager, $this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaJar, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024));
+        $auditManager = new AuditManager($this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024));
         $this->io->title(\sprintf('Starting auditing %s', $this->baseUrl->getUrl()));
         $counter = 0;
         $finish = true;

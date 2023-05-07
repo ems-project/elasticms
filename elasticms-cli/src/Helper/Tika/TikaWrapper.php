@@ -18,7 +18,7 @@ class TikaWrapper extends ProcessWrapper
         parent::__construct(['java', '-Djava.awt.headless=true', '-jar', $this->tikaJar, $option], $stream, $timeout);
     }
 
-    public static function getLocale(StreamInterface $stream, string $cacheFolder, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getLanguage(StreamInterface $stream, string $cacheFolder, bool $trimWhiteSpaces = true): TikaWrapper
     {
         return new self($stream, '--language', $cacheFolder, $trimWhiteSpaces);
     }

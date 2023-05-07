@@ -13,7 +13,7 @@ use App\CLI\Client\HttpClient\UrlReport;
 use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Commands;
-use App\CLI\Helper\TikaClient;
+use App\CLI\Helper\Tika\TikaClient;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Range;
 use Elastica\Query\Terms;

@@ -37,13 +37,13 @@ services:
       - ./configs/elasticms-admin:/opt/configs
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document
-#      - ../EMS/client-helper-bundle:/opt/src/vendor/elasticms/client-helper-bundle
-#      - ../EMS/common-bundle:/opt/src/vendor/elasticms/common-bundle
-#      - ../EMS/core-bundle:/opt/src/vendor/elasticms/core-bundle
-#      - ../EMS/form-bundle:/opt/src/vendor/elasticms/form-bundle
-#      - ../EMS/helpers:/opt/src/vendor/elasticms/helpers
-#      - ../EMS/submission-bundle:/opt/src/vendor/elasticms/submission-bundle
-#      - ../EMS/xliff:/opt/src/vendor/elasticms/xliff
+      - ../EMS/client-helper-bundle:/opt/src/vendor/elasticms/client-helper-bundle
+      - ../EMS/common-bundle:/opt/src/vendor/elasticms/common-bundle
+      - ../EMS/core-bundle:/opt/src/vendor/elasticms/core-bundle
+      - ../EMS/form-bundle:/opt/src/vendor/elasticms/form-bundle
+      - ../EMS/helpers:/opt/src/vendor/elasticms/helpers
+      - ../EMS/submission-bundle:/opt/src/vendor/elasticms/submission-bundle
+      - ../EMS/xliff:/opt/src/vendor/elasticms/xliff
 
   web:
     image: elasticms/website-skeleton:${EMS_VERSION}

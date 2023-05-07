@@ -285,13 +285,13 @@ class AuditManager
             return;
         }
         try {
-            $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result);
+            $this->metaRequest = (new TikaClient($this->tikaServerUrl))->meta($result->getStream(), $result->getMimetype());
         } catch (\Throwable $e) {
             $this->metaRequest = null;
             $audit->addWarning(\sprintf('Tika meta extract error: %s', $e->getMessage()));
         }
         try {
-            $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result);
+            $this->htmlRequest = (new TikaClient($this->tikaServerUrl))->html($result->getStream(), $result->getMimetype());
         } catch (\Throwable $e) {
             $this->htmlRequest = null;
             $audit->addWarning(\sprintf('Tika content extract error: %s', $e->getMessage()));

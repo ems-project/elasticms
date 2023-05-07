@@ -14,6 +14,11 @@ final class EmsFields
     public const CONTENT_FILE_SIZE_FIELD_ = '_file_size';
     public const CONTENT_FILE_NAME_FIELD_ = '_filename';
     public const CONTENT_FILE_NAMES = '_file_names';
+    public const CONTENT_FILE_CONTENT = '_content';
+    public const CONTENT_FILE_LANGUAGE = '_language';
+    public const CONTENT_FILE_DATE = '_date';
+    public const CONTENT_FILE_AUTHOR = '_author';
+    public const CONTENT_FILE_TITLE = '_title';
     public const CONTENT_HASH_ALGO_FIELD = '_hash_algo';
     public const CONTENT_PUBLISHED_DATETIME_FIELD = '_published_datetime';
     public const CONTENT_FILES = '_files';

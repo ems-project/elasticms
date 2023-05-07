@@ -32,6 +32,7 @@ class TikaJarPromise implements TikaPromiseInterface
     public function startMeta(): void
     {
         $this->metaWrapper->start();
+        $this->languageWrapper->start();
     }
 
     public function getMeta(): TikaMeta

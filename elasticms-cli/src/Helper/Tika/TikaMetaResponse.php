@@ -1,6 +1,8 @@
 <?php
 
-namespace App\CLI\Helper;
+namespace App\CLI\Helper\Tika;
+
+use App\CLI\Helper\AsyncResponse;
 
 class TikaMetaResponse
 {

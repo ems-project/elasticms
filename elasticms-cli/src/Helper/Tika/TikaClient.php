@@ -1,8 +1,9 @@
 <?php
 
-namespace App\CLI\Helper;
+namespace App\CLI\Helper\Tika;
 
 use App\CLI\Client\WebToElasticms\Helper\Url;
+use App\CLI\Helper\AsyncResponse;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpClient\CurlHttpClient;
 
@@ -17,17 +18,17 @@ class TikaClient
         $this->serverUrl = new Url($serverBaseUrl);
     }
 
-    public function meta(StreamInterface $stream, string $mimeType): TikaMetaResponse
+    public function meta(StreamInterface $stream, ?string $mimeType): TikaMetaResponse
     {
         return new TikaMetaResponse($this->putAcceptJson('meta', $stream, $mimeType));
     }
 
-    public function text(StreamInterface $stream, string $mimeType): AsyncResponse
+    public function text(StreamInterface $stream, ?string $mimeType): AsyncResponse
     {
         return $this->putAcceptText('tika', $stream, $mimeType);
     }
 
-    public function html(StreamInterface $stream, string $mimeType): AsyncResponse
+    public function html(StreamInterface $stream, ?string $mimeType): AsyncResponse
     {
         return $this->putAcceptHtml('tika', $stream, $mimeType);
     }
@@ -42,13 +43,13 @@ class TikaClient
         return $this->client;
     }
 
-    private function putAcceptText(string $url, StreamInterface $stream, string $mimeType): AsyncResponse
+    private function putAcceptText(string $url, StreamInterface $stream, ?string $mimeType): AsyncResponse
     {
         $this->rewind($stream);
         $request = $this->getClient()->request('PUT', $this->serverUrl->getUrl($url), [
             'headers' => [
                 'Accept' => 'text/plain',
-                'Content-Type' => $mimeType,
+                'Content-Type' => $mimeType ?? 'application/bin',
             ],
             'body' => $stream->getContents(),
         ]);
@@ -56,14 +57,14 @@ class TikaClient
         return new AsyncResponse($request);
     }
 
-    private function putAcceptJson(string $url, StreamInterface $stream, string $mimeType): AsyncResponse
+    private function putAcceptJson(string $url, StreamInterface $stream, ?string $mimeType): AsyncResponse
     {
         $this->rewind($stream);
 
         $request = $this->getClient()->request('PUT', $this->serverUrl->getUrl($url), [
             'headers' => [
                 'Accept' => 'application/json',
-                'Content-Type' => $mimeType,
+                'Content-Type' => $mimeType ?? 'application/bin',
             ],
             'body' => $stream->getContents(),
         ]);
@@ -71,13 +72,13 @@ class TikaClient
         return new AsyncResponse($request);
     }
 
-    private function putAcceptHtml(string $url, StreamInterface $stream, string $mimeType): AsyncResponse
+    private function putAcceptHtml(string $url, StreamInterface $stream, ?string $mimeType): AsyncResponse
     {
         $this->rewind($stream);
         $request = $this->getClient()->request('PUT', $this->serverUrl->getUrl($url), [
             'headers' => [
                 'Accept' => 'text/html',
-                'Content-Type' => $mimeType,
+                'Content-Type' => $mimeType ?? 'application/bin',
             ],
             'body' => $stream->getContents(),
         ]);

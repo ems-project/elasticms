@@ -66,6 +66,6 @@ class TikaWrapper extends ProcessWrapper
         if (\file_exists($this->tikaJar)) {
             return;
         }
-        \file_put_contents($this->tikaJar, \fopen('https://dlcdn.apache.org/tika/2.6.0/tika-app-2.6.0.jar', 'rb'));
+        \file_put_contents($this->tikaJar, \fopen('https://dlcdn.apache.org/tika/2.7.0/tika-app-2.7.0.jar', 'rb'));
     }
 }

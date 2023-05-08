@@ -10,47 +10,48 @@ use Psr\Http\Message\StreamInterface;
 
 class TikaWrapper extends ProcessWrapper
 {
+    private const EMSCLI_TIKA_PATH = 'EMSCLI_TIKA_PATH';
     private readonly string $tikaJar;
 
-    private function __construct(StreamInterface $stream, string $option, string $cacheFolder, private readonly bool $trimWhiteSpaces = false, float $timeout = 3 * 60.0)
+    private function __construct(StreamInterface $stream, string $option, private readonly bool $trimWhiteSpaces = false, float $timeout = 3 * 60.0)
     {
-        $this->tikaJar = \join(DIRECTORY_SEPARATOR, [$cacheFolder, 'tika.jar']);
+        $this->tikaJar = \getenv(self::EMSCLI_TIKA_PATH) ?: '/opt/bin/tika.jar';
         parent::__construct(['java', '-Djava.awt.headless=true', '-jar', $this->tikaJar, $option], $stream, $timeout);
     }
 
-    public static function getLanguage(StreamInterface $stream, string $cacheFolder, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getLanguage(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
     {
-        return new self($stream, '--language', $cacheFolder, $trimWhiteSpaces);
+        return new self($stream, '--language', $trimWhiteSpaces);
     }
 
-    public static function getHtml(StreamInterface $stream, string $cacheFolder): TikaWrapper
+    public static function getHtml(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--html', $cacheFolder);
+        return new self($stream, '--html');
     }
 
-    public static function getText(StreamInterface $stream, string $cacheFolder, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getText(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
     {
-        return new self($stream, '--text', $cacheFolder, $trimWhiteSpaces);
+        return new self($stream, '--text', $trimWhiteSpaces);
     }
 
-    public static function getTextMain(StreamInterface $stream, string $cacheFolder, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getTextMain(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
     {
-        return new self($stream, '--text-main', $cacheFolder, $trimWhiteSpaces);
+        return new self($stream, '--text-main', $trimWhiteSpaces);
     }
 
-    public static function getMetadata(StreamInterface $stream, string $cacheFolder, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getMetadata(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
     {
-        return new self($stream, '--metadata', $cacheFolder, $trimWhiteSpaces);
+        return new self($stream, '--metadata', $trimWhiteSpaces);
     }
 
-    public static function getJsonMetadata(StreamInterface $stream, string $cacheFolder): TikaWrapper
+    public static function getJsonMetadata(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--json', $cacheFolder);
+        return new self($stream, '--json');
     }
 
-    public static function getDocumentType(StreamInterface $stream, string $cacheFolder): TikaWrapper
+    public static function getDocumentType(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--detect', $cacheFolder, true);
+        return new self($stream, '--detect', true);
     }
 
     public function getOutput(): string
@@ -64,9 +65,8 @@ class TikaWrapper extends ProcessWrapper
 
     protected function initialize(): void
     {
-        if (\file_exists($this->tikaJar)) {
-            return;
+        if (!\file_exists($this->tikaJar)) {
+            throw new \RuntimeException(\sprintf('Tika JAR not found at %s, you can also use the environment variable %s in order localise the Tika JAR', $this->tikaJar, self::EMSCLI_TIKA_PATH));
         }
-        \file_put_contents($this->tikaJar, \fopen('https://dlcdn.apache.org/tika/2.7.0/tika-app-2.7.0.jar', 'rb'));
     }
 }

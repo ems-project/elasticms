@@ -13,10 +13,10 @@ class TikaJarPromise implements TikaPromiseInterface
 
     public function __construct(StreamInterface $stream)
     {
-        $this->textWrapper = TikaWrapper::getText($stream, \sys_get_temp_dir());
-        $this->htmlWrapper = TikaWrapper::getHtml($stream, \sys_get_temp_dir());
-        $this->metaWrapper = TikaWrapper::getJsonMetadata($stream, \sys_get_temp_dir());
-        $this->languageWrapper = TikaWrapper::getLanguage($stream, \sys_get_temp_dir());
+        $this->textWrapper = TikaWrapper::getText($stream);
+        $this->htmlWrapper = TikaWrapper::getHtml($stream);
+        $this->metaWrapper = TikaWrapper::getJsonMetadata($stream);
+        $this->languageWrapper = TikaWrapper::getLanguage($stream);
     }
 
     public function startText(): void

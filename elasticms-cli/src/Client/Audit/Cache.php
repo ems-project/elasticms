@@ -264,7 +264,6 @@ class Cache
         $parsedDate = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $date);
 
         if (false === $parsedDate) {
-            \dump(\DateTimeImmutable::getLastErrors());
             throw new \RuntimeException(\sprintf('Unexpected false date from %s', $date));
         }
         $this->startedDatetime = $parsedDate;

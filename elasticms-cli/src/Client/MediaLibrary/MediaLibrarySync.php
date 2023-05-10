@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CLI\Client\MediaLibrary;
 
+use App\CLI\Helper\Tika\TikaHelper;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
@@ -16,6 +17,7 @@ use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Mime\MimeTypes;
 
 final class MediaLibrarySync
 {
@@ -26,6 +28,7 @@ final class MediaLibrarySync
     private array $knownFolders = [];
     private DataInterface $contentTypeApi;
     private string $defaultAlias;
+    private MimeTypes $mimeTypes;
 
     public function __construct(
         private readonly string $folder,
@@ -38,10 +41,13 @@ final class MediaLibrarySync
         private readonly CoreApiInterface $coreApi,
         private readonly FileReaderInterface $fileReader,
         private readonly ExpressionServiceInterface $expressionService,
-        private readonly bool $onlyMissingFile)
+        private readonly bool $onlyMissingFile,
+        private readonly ?TikaHelper $tikaHelper,
+        private readonly int $maxContentSize = 5120)
     {
         $this->contentTypeApi = $this->coreApi->data($this->contentType);
         $this->defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+        $this->mimeTypes = new MimeTypes();
     }
 
     public function execute(): self
@@ -173,12 +179,31 @@ final class MediaLibrarySync
             }
         }
 
-        return [
+        $assetArray = [
             EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
             EmsFields::CONTENT_FILE_NAME_FIELD => $filename,
             EmsFields::CONTENT_MIME_TYPE_FIELD => $mimeType,
             EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ? $file->getSize() : null,
         ];
+        if (null === $this->tikaHelper) {
+            return $assetArray;
+        }
+
+        $mimeType = $this->mimeTypes->guessMimeType($file->getRealPath());
+        $promise = $this->tikaHelper->extract($stream, $mimeType);
+        $promise->startText();
+        $promise->startMeta();
+        try {
+            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \substr($promise->getText(), 0, $this->maxContentSize);
+            $meta = $promise->getMeta();
+            $assetArray[EmsFields::CONTENT_FILE_DATE] = $meta->getCreated();
+            $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
+            $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();
+            $assetArray[EmsFields::CONTENT_FILE_LANGUAGE] = $meta->getLocale();
+        } catch (\Throwable) {
+        }
+
+        return $assetArray;
     }
 
     public function loadMetadata(string $metadataFile, string $locateRowExpression): void

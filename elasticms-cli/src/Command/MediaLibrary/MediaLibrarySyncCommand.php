@@ -6,6 +6,7 @@ namespace App\CLI\Command\MediaLibrary;
 
 use App\CLI\Client\MediaLibrary\MediaLibrarySync;
 use App\CLI\Commands;
+use App\CLI\Helper\Tika\TikaHelper;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
@@ -31,6 +32,9 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_METADATA_FILE = 'metadata-file';
     private const OPTION_LOCATE_ROW_EXPRESSION = 'locate-row-expression';
     private const OPTION_ONLY_MISSING = 'only-missing';
+    private const OPTION_TIKA = 'tika';
+    private const OPTION_TIKA_BASE_URL = 'tika-base-url';
+    private const OPTION_MAX_CONTENT_SIZE = 'max-content-size';
     private ?string $metadataFile;
     private string $locateRowExpression;
     private string $contentType;
@@ -38,6 +42,9 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private string $pathField;
     private string $fileField;
     private bool $onlyMissingFile;
+    private bool $tika;
+    private ?string $tikaBaseUrl;
+    private int $maxContentSize;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader, private readonly ExpressionServiceInterface $expressionService)
     {
@@ -57,6 +64,9 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_METADATA_FILE, null, InputOption::VALUE_OPTIONAL, 'Path to a file containing metadata (CSV or  Excel)')
             ->addOption(self::OPTION_LOCATE_ROW_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the file by its filename', "row['filename']")
             ->addOption(self::OPTION_ONLY_MISSING, null, InputOption::VALUE_NONE, 'Skip known files (already uploaded)')
+            ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika extract for IndexedFile')
+            ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
+            ->addOption(self::OPTION_MAX_CONTENT_SIZE, null, InputOption::VALUE_OPTIONAL, 'Will keep the x first characters extracted by Tika to be indexed', 5120)
         ;
     }
 
@@ -72,6 +82,9 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         $this->locateRowExpression = $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->onlyMissingFile = $this->getOptionBool(self::OPTION_ONLY_MISSING);
+        $this->tika = $this->getOptionBool(self::OPTION_TIKA);
+        $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
+        $this->maxContentSize = $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -85,12 +98,24 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader, $this->expressionService, $this->onlyMissingFile);
+        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader, $this->expressionService, $this->onlyMissingFile, $this->getTikaHelper(), $this->maxContentSize);
         if (null !== $this->metadataFile) {
             $mediaSync->loadMetadata($this->metadataFile, $this->locateRowExpression);
         }
         $mediaSync->execute();
 
         return self::EXECUTE_SUCCESS;
+    }
+
+    private function getTikaHelper(): ?TikaHelper
+    {
+        if (!$this->tika) {
+            return null;
+        }
+        if (null !== $this->tikaBaseUrl) {
+            return TikaHelper::initTikaServer($this->tikaBaseUrl);
+        } else {
+            return TikaHelper::initTikaJar();
+        }
     }
 }

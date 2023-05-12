@@ -28,6 +28,9 @@ use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+/**
+ * @phpstan-type HtmlAsset2Document array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}
+ */
 class ConfigManager
 {
     /** @var Document[] */
@@ -67,7 +70,7 @@ class ConfigManager
     private array $documentsToClean = [];
     private ?string $lastUpdated = null;
 
-    /** @var array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[] */
+    /** @var mixed[] */
     private array $htmlAsset2Document = [];
 
     public function serialize(string $format = JsonEncoder::FORMAT): string
@@ -568,7 +571,7 @@ class ConfigManager
     }
 
     /**
-     * @return array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[]
+     * @return HtmlAsset2Document[]
      */
     public function getHtmlAsset2Document(): array
     {
@@ -576,7 +579,7 @@ class ConfigManager
     }
 
     /**
-     * @param array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string}[] $htmlAsset2Document
+     * @param mixed[] $htmlAsset2Document
      */
     public function setHtmlAsset2Document(array $htmlAsset2Document): void
     {
@@ -594,7 +597,7 @@ class ConfigManager
         ;
         $this->htmlAsset2Document = [];
         foreach ($htmlAsset2Document as $config) {
-            /** @var array{regex: string, content_type: string, file_field: string, folder_field: string, path_field: string} $resolved */
+            /** @var HtmlAsset2Document $resolved */
             $resolved = $configResolver->resolve($config);
             $this->htmlAsset2Document[] = $resolved;
         }

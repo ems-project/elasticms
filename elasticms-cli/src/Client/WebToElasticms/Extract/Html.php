@@ -11,12 +11,14 @@ use App\CLI\Client\WebToElasticms\Config\Document;
 use App\CLI\Client\WebToElasticms\Config\Extractor;
 use App\CLI\Client\WebToElasticms\Config\WebResource;
 use App\CLI\Client\WebToElasticms\Filter\Attr\DataLink;
+use App\CLI\Client\WebToElasticms\Filter\Attr\LinkMediaFile;
 use App\CLI\Client\WebToElasticms\Filter\Attr\Src;
 use App\CLI\Client\WebToElasticms\Filter\Html\ClassCleaner;
 use App\CLI\Client\WebToElasticms\Filter\Html\InternalLink;
 use App\CLI\Client\WebToElasticms\Filter\Html\Striptag;
 use App\CLI\Client\WebToElasticms\Filter\Html\StyleCleaner;
 use App\CLI\Client\WebToElasticms\Filter\Html\TagCleaner;
+use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use Symfony\Component\DomCrawler\Crawler;
@@ -166,6 +168,18 @@ class Html
                     }
                     $filter = new DataLink($this->config, $resource->getUrl(), $rapport);
                     $content = $filter->process($content, $type);
+                    break;
+                case LinkMediaFile::TYPE:
+                    if (!\is_string($content)) {
+                        throw new \RuntimeException(\sprintf('Unexpected non string content for filter %s', LinkMediaFile::TYPE));
+                    }
+                    try {
+                        $url = new Url($content, $resource->getUrl());
+                        $filter = new LinkMediaFile($this->config, $rapport);
+                        $content = $filter->process($url, $extractor->getAttribute() ?? 'href');
+                    } catch (NotParsableUrlException) {
+                        $this->rapport->inAssetsError($content, $resource->getUrl());
+                    }
                     break;
                 default:
                     throw new \RuntimeException(\sprintf('Unexpected %s filter', $filterType));

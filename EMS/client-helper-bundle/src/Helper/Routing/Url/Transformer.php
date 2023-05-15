@@ -80,8 +80,11 @@ final class Transformer
             $generation = $this->generate($cleanMatch, $config);
             $route = ($generation ?? $match[0]);
             $srcAttribute = $match['src'] ?? false;
-            $baseUrl = $config['baseUrl'] ?? '';
-
+            if ('asset' ===  $match['link_type'] ?? null && $config['asset_file_path'] ?? false) {
+                $baseUrl = '';
+            } else {
+                $baseUrl = $config['baseUrl'] ?? '';
+            }
             $transformed = $baseUrl.$route;
 
             return $srcAttribute ? 'src="'.$transformed : $transformed;

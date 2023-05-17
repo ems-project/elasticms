@@ -24,9 +24,6 @@ class LinkMediaFile
             return '';
         }
 
-        $explode = \explode(':', $path);
-        $path = \implode(':', \array_slice($explode, -2));
-
         return $path;
     }
 }

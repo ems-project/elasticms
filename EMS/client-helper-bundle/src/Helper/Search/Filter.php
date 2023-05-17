@@ -61,6 +61,7 @@ final class Filter
         self::TYPE_DATE_TIME_RANGE,
         self::TYPE_DATE_VERSION,
     ];
+    private string $clause;
 
     /**
      * @param array<mixed> $options
@@ -74,6 +75,7 @@ final class Filter
         $this->field = $options['field'] ?? $name;
         $this->secondaryField = $options['secondary_field'] ?? null;
         $this->nestedPath = $options['nested_path'] ?? null;
+        $this->clause = $options['clause'] ?? 'must';
 
         $this->public = (bool) ($options['public'] ?? true);
         $this->active = (bool) ($options['active'] ?? true);
@@ -251,6 +253,11 @@ final class Filter
     public function isReversedNested(): bool
     {
         return $this->reversedNested;
+    }
+
+    public function getClause(): string
+    {
+        return $this->clause;
     }
 
     private function setQuery(mixed $value): void

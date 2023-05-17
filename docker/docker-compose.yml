@@ -105,6 +105,12 @@ services:
     container_name: ems-mono-tika
     ports:
       - "9998:9998"
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.tika.rule=Host(`tika.localhost`)"
+        - "traefik.http.routers.tika.entrypoints=web"
+        - "traefik.http.routers.tika.service=tika"
+        - "traefik.http.services.tika.loadbalancer.server.port=9998"
 
   minio:
     extends:

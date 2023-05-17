@@ -100,6 +100,7 @@ final class QueryBuilder
     public function getQueryFilters(): ?BoolQuery
     {
         $query = new BoolQuery();
+        $query->setMinimumShouldMatch($this->search->getMinimumShouldMatch());
 
         foreach ($this->search->getQueryFacets() as $field => $terms) {
             $query->addMust(new Terms($field, $terms));
@@ -120,9 +121,9 @@ final class QueryBuilder
                 $nested->setPath($nestedPath);
                 $nested->setQuery($queryFilter);
                 $nested->setParam('ignore_unmapped', true);
-                $query->addMust($nested);
+                $this->addToBoolQuery($query, $nested, $filter);
             } else {
-                $query->addMust($queryFilter);
+                $this->addToBoolQuery($query, $queryFilter, $filter);
             }
         }
 
@@ -153,9 +154,9 @@ final class QueryBuilder
                 $nested->setQuery($query);
                 $nested->setParam('ignore_unmapped', true);
 
-                $postFilters->addMust($nested);
+                $this->addToBoolQuery($postFilters, $nested, $filter);
             } else {
-                $postFilters->addMust($query);
+                $this->addToBoolQuery($postFilters, $query, $filter);
             }
         }
 
@@ -294,5 +295,22 @@ final class QueryBuilder
         }
 
         return $sorts;
+    }
+
+    private function addToBoolQuery(BoolQuery $query, AbstractQuery $nested, Filter $filter): void
+    {
+        switch ($filter->getClause()) {
+            case 'must':
+                $query->addMust($nested);
+                break;
+            case 'should':
+                $query->addShould($nested);
+                break;
+            case 'must_not':
+                $query->addMustNot($nested);
+                break;
+            default:
+                throw new \RuntimeException(\sprintf('Clause %s not suported', $filter->getClause()));
+        }
     }
 }

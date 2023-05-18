@@ -48,4 +48,13 @@ class PathPropertyTest extends TestCase
         $pathProperty = new PathProperty('[foobar][0][fr][json:meta][description]');
         $this->assertEquals('json', $pathProperty->getElements()[3]->getOperators()[0]);
     }
+
+    public function testIterator(): void
+    {
+        $pathProperty = new PathProperty('[foobar][0][fr][json:meta][description]');
+        $expected = ['foobar', '0', 'fr', 'meta', 'description'];
+        foreach ($pathProperty as $index => $element) {
+            $this->assertEquals($expected[$index], $element->getName());
+        }
+    }
 }

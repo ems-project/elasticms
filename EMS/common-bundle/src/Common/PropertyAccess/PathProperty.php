@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
-class PathProperty
+/**
+ * @implements \Iterator<PathPropertyElement>
+ */
+class PathProperty implements \Iterator, \Countable
 {
     /** @var PathPropertyElement[] */
     private array $elements = [];
     private int $length;
+    private int $index;
 
     public function __construct(private readonly string $pathAsString)
     {
@@ -29,11 +33,6 @@ class PathProperty
         $this->length = \count($this->elements);
     }
 
-    public function getLength(): int
-    {
-        return $this->length;
-    }
-
     /**
      * @return PathPropertyElement[]
      */
@@ -45,5 +44,39 @@ class PathProperty
     public function getPathAsString(): string
     {
         return $this->pathAsString;
+    }
+
+    public function next(): void
+    {
+        ++$this->index;
+    }
+
+    public function current(): PathPropertyElement
+    {
+        if (!isset($this->elements[$this->index])) {
+            throw new \RuntimeException(\sprintf('Out of bound exception: try to get %d length %d', $this->index, $this->length));
+        }
+
+        return $this->elements[$this->index];
+    }
+
+    public function key(): int
+    {
+        return $this->index;
+    }
+
+    public function valid(): bool
+    {
+        return isset($this->elements[$this->index]);
+    }
+
+    public function rewind(): void
+    {
+        $this->index = 0;
+    }
+
+    public function count(): int
+    {
+        return $this->length;
     }
 }

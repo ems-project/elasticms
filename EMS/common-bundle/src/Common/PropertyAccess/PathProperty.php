@@ -12,7 +12,7 @@ class PathProperty implements \Iterator, \Countable
     /** @var PathPropertyElement[] */
     private array $elements = [];
     private int $length;
-    private int $index;
+    private int $index = 0;
 
     public function __construct(private readonly string $pathAsString)
     {
@@ -78,5 +78,10 @@ class PathProperty implements \Iterator, \Countable
     public function count(): int
     {
         return $this->length;
+    }
+
+    public function last(): bool
+    {
+        return $this->index + 1 === $this->length;
     }
 }

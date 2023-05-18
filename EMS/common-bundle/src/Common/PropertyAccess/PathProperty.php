@@ -54,7 +54,7 @@ class PathProperty implements \Iterator, \Countable
     public function current(): PathPropertyElement
     {
         if (!isset($this->elements[$this->index])) {
-            throw new \RuntimeException(\sprintf('Out of bound exception: try to get %d length %d', $this->index, $this->length));
+            throw new \RuntimeException(\sprintf('Out of bounds exception: try to access %d, not in range [0;%d]', $this->index, $this->length - 1));
         }
 
         return $this->elements[$this->index];

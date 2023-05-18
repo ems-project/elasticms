@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Service\Internationalization;
 
 use Doctrine\ORM\UnexpectedResultException;
+use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
-use EMS\CommonBundle\Elasticsearch\Document\PropertyAccessor;
 use EMS\CommonBundle\Elasticsearch\Exception\NotSingleResultException;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;

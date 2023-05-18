@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
+use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 
 class PropertyAccessor
@@ -101,7 +102,7 @@ class PropertyAccessor
                     if (!\is_string($value)) {
                         throw new \RuntimeException('Only a string can be base64 encoded, array found');
                     }
-                    $value = \base64_encode($value);
+                    $value = Base64::encode($value);
                     break;
                 default:
                     throw new \RuntimeException(\sprintf('Encoder %s not supported', $operator));
@@ -129,7 +130,7 @@ class PropertyAccessor
                     if (!\is_string($value)) {
                         throw new \RuntimeException('Only a string can be base64 decoded, array found');
                     }
-                    $value = \base64_decode($value);
+                    $value = Base64::decode($value);
                     break;
                 default:
                     throw new \RuntimeException(\sprintf('Encoder %s not supported', $operator));

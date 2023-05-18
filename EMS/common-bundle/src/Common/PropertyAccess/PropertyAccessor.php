@@ -9,7 +9,7 @@ use EMS\Helpers\Standard\Json;
 class PropertyAccessor
 {
     private static ?PropertyAccessor $instance = null;
-    /** @var PathProperty[] */
+    /** @var PropertyPath[] */
     private array $pathPropertiesCache = [];
 
     private function __construct()
@@ -28,7 +28,7 @@ class PropertyAccessor
     /**
      * @param mixed[] $array
      */
-    public function getValue(array $array, PathProperty|string $propertyPath): mixed
+    public function getValue(array $array, PropertyPath|string $propertyPath): mixed
     {
         $propertyPath = $this->getPropertyPath($propertyPath);
         $currentElement = $propertyPath->current();
@@ -50,7 +50,7 @@ class PropertyAccessor
     /**
      * @param mixed[] $array
      */
-    public function setValue(array &$array, PathProperty|string $propertyPath, mixed $value): void
+    public function setValue(array &$array, PropertyPath|string $propertyPath, mixed $value): void
     {
         $propertyPath = $this->getPropertyPath($propertyPath);
         $currentElement = $propertyPath->current();
@@ -69,9 +69,9 @@ class PropertyAccessor
         $array[$currentElement->getName()] = $this->encode($array[$currentElement->getName()], $currentElement);
     }
 
-    private function getPropertyPath(PathProperty|string $propertyPath): PathProperty
+    private function getPropertyPath(PropertyPath|string $propertyPath): PropertyPath
     {
-        if ($propertyPath instanceof PathProperty) {
+        if ($propertyPath instanceof PropertyPath) {
             return $propertyPath;
         }
 
@@ -81,16 +81,16 @@ class PropertyAccessor
             return $this->pathPropertiesCache[$propertyPath];
         }
 
-        $pathPropertyInstance = new PathProperty($propertyPath);
+        $propertyPathInstance = new PropertyPath($propertyPath);
 
-        return $this->pathPropertiesCache[$propertyPath] = $pathPropertyInstance;
+        return $this->pathPropertiesCache[$propertyPath] = $propertyPathInstance;
     }
 
     /**
      * @param  mixed[]|string $value
      * @return string|mixed[]
      */
-    private function encode(array|string $value, PathPropertyElement $element): string|array
+    private function encode(array|string $value, PropertyPathElement $element): string|array
     {
         foreach (\array_reverse($element->getOperators()) as $operator) {
             switch ($operator) {
@@ -115,7 +115,7 @@ class PropertyAccessor
      * @param  mixed[]|string $value
      * @return string|mixed[]
      */
-    private function decode(array|string $value, PathPropertyElement $element): string|array
+    private function decode(array|string $value, PropertyPathElement $element): string|array
     {
         foreach ($element->getOperators() as $operator) {
             switch ($operator) {

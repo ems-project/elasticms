@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
-class PathPropertyElement
+class PropertyPathElement
 {
     /**
      * @param string[] $operators

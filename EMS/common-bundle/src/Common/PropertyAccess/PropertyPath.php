@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
 /**
- * @implements \Iterator<PathPropertyElement>
+ * @implements \Iterator<PropertyPathElement>
  */
-class PathProperty implements \Iterator, \Countable
+class PropertyPath implements \Iterator, \Countable
 {
-    /** @var PathPropertyElement[] */
+    /** @var PropertyPathElement[] */
     private array $elements = [];
     private int $length;
     private int $index = 0;
@@ -21,20 +21,20 @@ class PathProperty implements \Iterator, \Countable
         $pattern = '/^(?P<match>\[(?P<element>((?P<operators>[^\]]+):)?(?P<slug>[^\]]+))\])(?P<remaining>.*)/';
 
         while (\preg_match($pattern, $remaining, $matches)) {
-            $this->elements[] = new PathPropertyElement($matches['slug'], '' === $matches['operators'] ? [] : \explode(':', $matches['operators']));
+            $this->elements[] = new PropertyPathElement($matches['slug'], '' === $matches['operators'] ? [] : \explode(':', $matches['operators']));
             $remaining = $matches['remaining'];
             $position += \strlen($matches['match']);
         }
 
         if ('' !== $remaining) {
-            throw new InvalidPathPropertyException(\sprintf('Could not parse property path "%s". Unexpected token "%s" at position %d.', $pathAsString, $remaining[0], $position));
+            throw new InvalidPropertyPathException(\sprintf('Could not parse property path "%s". Unexpected token "%s" at position %d.', $pathAsString, $remaining[0], $position));
         }
 
         $this->length = \count($this->elements);
     }
 
     /**
-     * @return PathPropertyElement[]
+     * @return PropertyPathElement[]
      */
     public function getElements(): array
     {
@@ -51,7 +51,7 @@ class PathProperty implements \Iterator, \Countable
         ++$this->index;
     }
 
-    public function current(): PathPropertyElement
+    public function current(): PropertyPathElement
     {
         if (!isset($this->elements[$this->index])) {
             throw new \RuntimeException(\sprintf('Out of bounds exception: try to access %d, not in range [0;%d]', $this->index, $this->length - 1));

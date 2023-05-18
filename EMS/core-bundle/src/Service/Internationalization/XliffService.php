@@ -65,19 +65,17 @@ class XliffService
         $xliffDoc = $extractor->addDocument($contentType->getName(), $source->getId(), \strval($sourceRevision->getId()));
         foreach ($fields as $fieldPath => $field) {
             $propertyPath = Document::fieldPathToPropertyPath($fieldPath);
-            $value = $propertyAccessor->getValue($sourceData, $propertyPath);
-            if (null === $value) {
-                continue;
-            }
-            $currentValue = $propertyAccessor->getValue($currentData, $propertyPath);
-            $translation = $propertyAccessor->getValue($currentTranslationData, $propertyPath);
-            $baseline = $propertyAccessor->getValue($baselineTranslationData, $propertyPath);
-            $isFinal = (null !== $targetEnvironment && $contentType->giveEnvironment()->getName() !== $targetEnvironment->getName() && $currentValue === $value && (null !== $translation || '' === $value));
+            foreach ($propertyAccessor->iterator($propertyPath, $sourceData) as $path => $value) {
+                $currentValue = $propertyAccessor->getValue($currentData, $path);
+                $translation = $propertyAccessor->getValue($currentTranslationData, $path);
+                $baseline = $propertyAccessor->getValue($baselineTranslationData, $path);
+                $isFinal = (null !== $targetEnvironment && $contentType->giveEnvironment()->getName() !== $targetEnvironment->getName() && $currentValue === $value && (null !== $translation || '' === $value));
 
-            if (HtmlHelper::isHtml($value)) {
-                $extractor->addHtmlField($xliffDoc, $fieldPath, $value, $translation, $baseline, $isFinal);
-            } else {
-                $extractor->addSimpleField($xliffDoc, $fieldPath, $value, $translation, $isFinal);
+                if (HtmlHelper::isHtml($value)) {
+                    $extractor->addHtmlField($xliffDoc, $fieldPath, $value, $translation, $baseline, $isFinal);
+                } else {
+                    $extractor->addSimpleField($xliffDoc, $fieldPath, $value, $translation, $isFinal);
+                }
             }
         }
     }

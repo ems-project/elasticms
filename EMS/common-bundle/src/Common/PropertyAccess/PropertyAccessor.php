@@ -94,19 +94,11 @@ class PropertyAccessor
     private function encode(array|string $value, PropertyPathElement $element): string|array
     {
         foreach (\array_reverse($element->getOperators()) as $operator) {
-            switch ($operator) {
-                case 'json':
-                    $value = Json::encode($value);
-                    break;
-                case 'base64':
-                    if (!\is_string($value)) {
-                        throw new \RuntimeException('Only a string can be base64 encoded, array found');
-                    }
-                    $value = Base64::encode($value);
-                    break;
-                default:
-                    throw new \RuntimeException(\sprintf('Encoder %s not supported', $operator));
-            }
+            $value = match ($operator) {
+                'json' => Json::encode($value),
+                'base64' => \is_string($value) ? Base64::encode($value) : throw new \RuntimeException('Only a string can be base64 encoded, array given'),
+                default => throw new \RuntimeException(\sprintf('Operator %s not supported', $operator))
+            };
         }
 
         return $value;
@@ -119,22 +111,11 @@ class PropertyAccessor
     private function decode(array|string $value, PropertyPathElement $element): string|array
     {
         foreach ($element->getOperators() as $operator) {
-            switch ($operator) {
-                case 'json':
-                    if (!\is_string($value)) {
-                        throw new \RuntimeException('Only a string can be json decoded, array found');
-                    }
-                    $value = Json::decode($value);
-                    break;
-                case 'base64':
-                    if (!\is_string($value)) {
-                        throw new \RuntimeException('Only a string can be base64 decoded, array found');
-                    }
-                    $value = Base64::decode($value);
-                    break;
-                default:
-                    throw new \RuntimeException(\sprintf('Encoder %s not supported', $operator));
-            }
+            $value = match ($operator) {
+                'json' => \is_string($value) ? Json::decode($value) : throw new \RuntimeException('Only a string can be json decoded, array given'),
+                'base64' => \is_string($value) ? Base64::decode($value) : throw new \RuntimeException('Only a string can be base64 decoded, array given'),
+                default => throw new \RuntimeException(\sprintf('Operator %s not supported', $operator))
+            };
         }
 
         return $value;

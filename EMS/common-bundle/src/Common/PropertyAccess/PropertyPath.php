@@ -51,6 +51,16 @@ class PropertyPath implements \Iterator, \Countable
         ++$this->index;
     }
 
+    public function setIndex(int $index): void
+    {
+        $this->index = $index;
+    }
+
+    public function getIndex(): int
+    {
+        return $this->index;
+    }
+
     public function current(): PropertyPathElement
     {
         if (!isset($this->elements[$this->index])) {

@@ -70,4 +70,73 @@ class PropertyAcessTest extends TestCase
         $this->assertEquals('title value nl', $accessor->getValue($array, '[nl][json:content][title]'));
         $this->assertEquals(null, $accessor->getValue($array, '[de][json:content][title]'));
     }
+
+    public function testWithSeparatorIterator(): void
+    {
+        $accessor = PropertyAccessor::createPropertyAccessor();
+        $array = [
+            'fr' => 'title fr',
+            'nl' => 'title nl',
+            'de' => 'title de',
+        ];
+
+        $counter = 0;
+        $expected = [
+            'nl',
+            'fr',
+            'de',
+        ];
+        foreach ($accessor->iterator('[nl|fr|de|en]', $array) as $path => $value) {
+            $this->assertEquals("[$expected[$counter]]", $path);
+            $this->assertEquals($array[$expected[$counter]], $value);
+            ++$counter;
+        }
+        $this->assertEquals(3, $counter);
+    }
+
+    public function testWithOneWildCharIterator(): void
+    {
+        $accessor = PropertyAccessor::createPropertyAccessor();
+        $array = [
+            'foobar' => ['barfoo' => 'value2'],
+            'fr' => [
+                'content' => Json::encode([
+                    ['label' => 'label 1'],
+                    ['label' => 'label 2'],
+                    ['label' => 'label 3'],
+                    ['label' => 'label 4'],
+                    ['label' => 'label 5'],
+                ]),
+            ],
+            'nl' => [
+                'content' => Json::encode([
+                    ['label' => 'label nl 1'],
+                    ['label' => 'label nl 2'],
+                    ['label' => 'label nl 3'],
+                    ['label' => 'label nl 4'],
+                    ['label' => 'label nl 5'],
+                ]),
+            ]];
+
+        $expected = [
+            '[fr][json:content][0][label]' => 'label 1',
+            '[fr][json:content][1][label]' => 'label 2',
+            '[fr][json:content][2][label]' => 'label 3',
+            '[fr][json:content][3][label]' => 'label 4',
+            '[fr][json:content][4][label]' => 'label 5',
+            '[nl][json:content][0][label]' => 'label nl 1',
+            '[nl][json:content][1][label]' => 'label nl 2',
+            '[nl][json:content][2][label]' => 'label nl 3',
+            '[nl][json:content][3][label]' => 'label nl 4',
+            '[nl][json:content][4][label]' => 'label nl 5',
+        ];
+        $counter = 0;
+
+        foreach ($accessor->iterator('[fr|nl][json:content][*][label]', $array) as $propertyPath => $value) {
+            $this->assertEquals($expected[$propertyPath], $value);
+            $this->assertEquals($value, $accessor->getValue($array, $propertyPath));
+            ++$counter;
+        }
+        $this->assertEquals(10, $counter);
+    }
 }

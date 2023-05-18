@@ -25,4 +25,13 @@ class PropertyPathElement
     {
         return $this->operators;
     }
+
+    public function getOperatorsAsString(): string
+    {
+        if (empty($this->operators)) {
+            return '';
+        }
+
+        return \sprintf('%s:', \implode(':', $this->operators));
+    }
 }

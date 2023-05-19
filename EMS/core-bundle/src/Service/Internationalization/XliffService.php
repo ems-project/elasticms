@@ -83,18 +83,22 @@ class XliffService
         }
     }
 
-    public function insert(InsertReport $insertReport, InsertionRevision $insertionRevision, string $localeField, string $translationField, ?Environment $publishAndArchive, string $username = null): Revision
+    public function insert(InsertReport $insertReport, InsertionRevision $insertionRevision, ?string $localeField, ?string $translationField, ?Environment $publishAndArchive, string $username = null): Revision
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $revision = $this->revisionService->getByRevisionId($insertionRevision->getRevisionId());
         $targetLocale = $insertionRevision->getTargetLocale();
-        $target = $this->getTargetDocument(
-            $publishAndArchive ?? $revision->giveContentType()->giveEnvironment(),
-            $revision,
-            $targetLocale,
-            $localeField,
-            $translationField
-        );
+        if (null !== $translationField && null !== $localeField) {
+            $target = $this->getTargetDocument(
+                $publishAndArchive ?? $revision->giveContentType()->giveEnvironment(),
+                $revision,
+                $targetLocale,
+                $localeField,
+                $translationField
+            );
+        } else {
+            $target = $this->elasticaService->getDocument($revision->giveContentType()->giveEnvironment()->getAlias(), $revision->giveContentType()->getName(), $revision->getOuuid());
+        }
 
         $data = $revision->getRawData();
         $propertyAccessor->setValue($data, Document::fieldPathToPropertyPath($localeField), $targetLocale);
@@ -112,20 +116,26 @@ class XliffService
         return $this->revisionService->updateRawData($currentRevision, $data, $username);
     }
 
-    public function testInsert(InsertReport $insertReport, InsertionRevision $insertionRevision, string $localeField): void
+    public function testInsert(InsertReport $insertReport, InsertionRevision $insertionRevision, ?string $localeField): void
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $revision = $this->revisionService->getByRevisionId($insertionRevision->getRevisionId());
         $targetLocale = $insertionRevision->getTargetLocale();
 
         $data = $revision->getRawData();
-        $propertyAccessor->setValue($data, Document::fieldPathToPropertyPath($localeField), $targetLocale);
+        if (null !== $localeField) {
+            $propertyAccessor->setValue($data, Document::fieldPathToPropertyPath($localeField), $targetLocale);
+        }
         $insertionRevision->extractTranslations($insertReport, $data, $data);
     }
 
-    private function getTargetDocument(Environment $environment, Revision $revision, string $targetLocale, string $localeField, string $translationField): ?Document
+    private function getTargetDocument(Environment $environment, Revision $revision, string $targetLocale,?string $localeField, ?string $translationField): ?Document
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
+        if (null === $localeField) {
+            return $this->elasticaService->getDocument($revision->giveContentType()->giveEnvironment()->getAlias(), $revision->giveContentType()->getName(), $revision->getOuuid());
+        }
+
         $translationId = $propertyAccessor->getValue($revision->getRawData(), Document::fieldPathToPropertyPath($translationField));
         if (!\is_string($translationId)) {
             throw new \RuntimeException('Translation ID not found');

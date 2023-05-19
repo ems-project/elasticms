@@ -135,7 +135,7 @@ class XliffService
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         if (null === $localeField || null === $translationField) {
-            return $this->elasticaService->getDocument($revision->giveContentType()->giveEnvironment()->getAlias(), $revision->giveContentType()->getName(), $revision->giveOuuid());
+            return $this->elasticaService->getDocument($environment->getAlias(), $revision->giveContentType()->getName(), $revision->giveOuuid());
         }
 
         $translationId = $propertyAccessor->getValue($revision->getRawData(), Document::fieldPathToPropertyPath($translationField));

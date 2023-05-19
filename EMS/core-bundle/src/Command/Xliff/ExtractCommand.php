@@ -12,9 +12,7 @@ use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CoreBundle\Commands;
-use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
-use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\Internationalization\XliffService;
@@ -59,10 +57,6 @@ final class ExtractCommand extends AbstractCommand
     private string $xliffFilename;
     private ?string $baseUrl = null;
     private string $xliffVersion;
-    /**
-     * @var array<int, FieldType[]>
-     */
-    private array $fieldTypesByContentType = [];
     private string $translationField;
     private string $localeField;
     private string $encoding;
@@ -141,8 +135,7 @@ final class ExtractCommand extends AbstractCommand
                 $source = Document::fromResult($result);
                 try {
                     $contentType = $this->contentTypeService->giveByName($source->getContentType());
-                    $fieldTypes = $this->getFieldTypes($contentType);
-                    $this->xliffService->extract($contentType, $source, $extractor, $fieldTypes, $this->sourceEnvironment, $this->targetEnvironment, $this->targetLocale, $this->localeField, $this->translationField, $this->withBaseline);
+                    $this->xliffService->extract($contentType, $source, $extractor, $this->fields, $this->sourceEnvironment, $this->targetEnvironment, $this->targetLocale, $this->localeField, $this->translationField, $this->withBaseline);
                 } catch (\Throwable $e) {
                     $this->io->warning($e->getMessage());
                 }
@@ -176,26 +169,5 @@ final class ExtractCommand extends AbstractCommand
         $output->writeln('XLIFF file: '.$this->xliffFilename);
 
         return self::EXECUTE_SUCCESS;
-    }
-
-    /**
-     * @return FieldType[]
-     */
-    private function getFieldTypes(ContentType $contentType): array
-    {
-        if (isset($this->fieldTypesByContentType[$contentType->getId()])) {
-            return $this->fieldTypesByContentType[$contentType->getId()];
-        }
-        $fieldTypes = [];
-        foreach ($this->fields as $field) {
-            $child = $this->contentTypeService->getChildByPath($contentType->getFieldType(), $field, true);
-            if (false === $child) {
-                throw new \RuntimeException(\sprintf('Field %s not found', $field));
-            }
-            $fieldTypes[$field] = $child;
-        }
-        $this->fieldTypesByContentType[$contentType->getId()] = $fieldTypes;
-
-        return $fieldTypes;
     }
 }

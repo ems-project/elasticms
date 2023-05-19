@@ -63,7 +63,7 @@ class XliffService
         }
 
         $xliffDoc = $extractor->addDocument($contentType->getName(), $source->getId(), \strval($sourceRevision->getId()));
-        foreach ($fields as $fieldPath => $field) {
+        foreach ($fields as $fieldPath) {
             $propertyPath = Document::fieldPathToPropertyPath($fieldPath);
             foreach ($propertyAccessor->iterator($propertyPath, $sourceData) as $path => $value) {
                 $currentValue = $propertyAccessor->getValue($currentData, $path);

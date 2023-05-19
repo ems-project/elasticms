@@ -71,9 +71,9 @@ class XliffService
                 $isFinal = (null !== $targetEnvironment && $contentType->giveEnvironment()->getName() !== $targetEnvironment->getName() && $currentValue === $value && (null !== $translation || '' === $value));
 
                 if (HtmlHelper::isHtml($value)) {
-                    $extractor->addHtmlField($xliffDoc, $fieldPath, $value, $translation, $baseline, $isFinal);
+                    $extractor->addHtmlField($xliffDoc, $path, $value, $translation, $baseline, $isFinal);
                 } else {
-                    $extractor->addSimpleField($xliffDoc, $fieldPath, $value, $translation, $isFinal);
+                    $extractor->addSimpleField($xliffDoc, $path, $value, $translation, $isFinal);
                 }
             }
         }

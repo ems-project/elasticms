@@ -55,12 +55,12 @@ class XliffService
         if (null !== $localeField && null !== $translationField && null !== $targetEnvironment && null !== $translationId) {
             $currentTranslationData = $this->getCurrentTranslationData($targetEnvironment, $translationField, $translationId, $localeField, $targetLocale);
         } else {
-            $currentTranslationData = (null === $localeField ? $sourceData : []);
+            $currentTranslationData = (null === $localeField ? $currentData : []);
         }
         if (null !== $localeField && null !== $translationField && $withBaseline && null !== $targetEnvironment && null !== $translationId) {
             $baselineTranslationData = $this->getCurrentTranslationData($targetEnvironment, $translationField, $translationId, $localeField, $extractor->getSourceLocale());
         } else {
-            $baselineTranslationData = (null === $localeField ? $sourceData : []);
+            $baselineTranslationData = (null === $localeField && $withBaseline ? $sourceData : []);
         }
 
         $xliffDoc = $extractor->addDocument($contentType->getName(), $source->getId(), \strval($sourceRevision->getId()));

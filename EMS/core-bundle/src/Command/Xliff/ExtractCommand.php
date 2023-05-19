@@ -115,7 +115,7 @@ final class ExtractCommand extends AbstractCommand
         $this->withBaseline = $this->getOptionBool(self::OPTION_WITH_BASELINE);
 
         if (null === $this->translationField && $this->translationField !== $this->localeField) {
-            throw new \RuntimeException(\sprintf('Both %s and %s options must be defined or not defined at all (fields with %%locale%%)', self::OPTION_TRANSLATION_FIELD, self::OPTION_LOCALE_FIELD));
+            throw new \RuntimeException(\sprintf('Both %s and %s options must be defined or not defined at all (fields defined with %locale% placeholder)', self::OPTION_TRANSLATION_FIELD, self::OPTION_LOCALE_FIELD));
         }
     }
 

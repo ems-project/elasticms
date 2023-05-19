@@ -139,4 +139,26 @@ class PropertyAcessTest extends TestCase
         }
         $this->assertEquals(10, $counter);
     }
+
+    public function testWithJsonNestedEncoded(): void
+    {
+        $accessor = PropertyAccessor::createPropertyAccessor();
+        $array = [
+            'codes' => '[{"id":"742a85b3-46f7-4e46-b2e8-444fc29a8ea1","label":"TEST MDK / TEST MDK (19/05/2023 - )","type":"code","object":{"validity_start":"2023-05-19T11:00:55+0200","title_nl":"TEST MDK","title_fr":"TEST MDK","meaning_nl":"TEST MDK","meaning_fr":"TEST MDK","remarks_nl":"TEST MDK","remarks_fr":"TEST MDK","label":"TEST MDK / TEST MDK (19/05/2023 - )"},"children":[]}]',
+        ];
+
+        $expected = [
+            '[json:codes][0][object][title_fr]' => 'TEST MDK',
+            '[json:codes][0][object][meaning_fr]' => 'TEST MDK',
+            '[json:codes][0][object][remarks_fr]' => 'TEST MDK',
+        ];
+        $counter = 0;
+
+        foreach ($accessor->iterator('[json:codes][*][object][title_fr|meaning_fr|remarks_fr]', $array) as $propertyPath => $value) {
+            $this->assertEquals($expected[$propertyPath], $value);
+            $this->assertEquals($value, $accessor->getValue($array, $propertyPath));
+            ++$counter;
+        }
+        $this->assertEquals(3, $counter);
+    }
 }

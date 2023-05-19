@@ -71,17 +71,18 @@ class PropertyAccessor
     }
 
     /**
-     * @param mixed[] $array
+     * @param mixed[]               $array
+     * @param array<string, string> $replacers
      *
      * @return \Generator<string, mixed>
      */
-    public function iterator(PropertyPath|string $propertyPath, array $array, string $basePath = ''): \Generator
+    public function iterator(PropertyPath|string $propertyPath, array $array, array $replacers = [], string $basePath = ''): \Generator
     {
         $propertyPath = $this->getPropertyPath($propertyPath);
         $currentElement = $propertyPath->current();
 
         if ('*' === $currentElement->getName()) {
-            foreach ($this->iterateOnAllChildren($propertyPath, $array, $basePath) as $key => $value) {
+            foreach ($this->iterateOnAllChildren($propertyPath, $array, $replacers, $basePath) as $key => $value) {
                 yield $key => $value;
             }
         }
@@ -94,18 +95,19 @@ class PropertyAccessor
         $index = $propertyPath->getIndex();
         foreach ($fields as $field) {
             $propertyPath->setIndex($index);
-            if (!isset($array[$field])) {
+            $realFieldName = empty($replacers) ? $field : \str_replace(\array_keys($replacers), \array_values($replacers), $field);
+            if (!isset($array[$realFieldName])) {
                 continue;
             }
             $path = \sprintf('%s[%s%s]', $basePath, $operators, $field);
-            $decoded = $this->decode($array[$field], $currentElement);
+            $decoded = $this->decode($array[$realFieldName], $currentElement);
             if ($last) {
                 yield $path => $decoded;
             } else {
                 if (!\is_array($decoded)) {
                     throw new \RuntimeException('Unexpected non decoded array');
                 }
-                foreach ($this->iterator($propertyPath, $decoded, $path) as $key => $value) {
+                foreach ($this->iterator($propertyPath, $decoded, $replacers, $path) as $key => $value) {
                     yield $key => $value;
                 }
             }
@@ -166,11 +168,12 @@ class PropertyAccessor
     }
 
     /**
-     * @param mixed[] $array
+     * @param mixed[]              $array
+     * @param array<string,string> $replacers
      *
      * @return \Generator<string, mixed>
      */
-    private function iterateOnAllChildren(PropertyPath $propertyPath, array $array, string $basePath): \Generator
+    private function iterateOnAllChildren(PropertyPath $propertyPath, array $array, array $replacers, string $basePath): \Generator
     {
         $currentElement = $propertyPath->current();
         $last = $propertyPath->last();
@@ -187,7 +190,7 @@ class PropertyAccessor
                 if (!\is_array($decoded)) {
                     throw new \RuntimeException('Unexpected non decoded array');
                 }
-                foreach ($this->iterator($propertyPath, $decoded, $path) as $path => $childValue) {
+                foreach ($this->iterator($propertyPath, $decoded, $replacers, $path) as $path => $childValue) {
                     yield $path => $childValue;
                 }
             }

@@ -192,4 +192,35 @@ class PropertyAcessTest extends TestCase
 
         $this->assertEquals('[{"id":"742a85b3-46f7-4e46-b2e8-444fc29a8ea1","label":"TEST MDK \/ TEST MDK (19\/05\/2023 - )","type":"code","object":{"validity_start":"2023-05-19T11:00:55+0200","title_nl":"TEST MDK","title_fr":"TEST MDK","meaning_nl":"TEST MDK","meaning_fr":"TEST MDK","remarks_nl":"TEST MDK","remarks_fr":"TEST MDK","label":"TEST MDK \/ TEST MDK (19\/05\/2023 - )"},"children":[]},{"id":"91d68620-558d-4cdd-8ced-79b622244fa6","label":"","type":"code","object":{"validity_start":"2023-05-17T12:23:42+0200","validity_end":"2023-05-17T12:23:42+0200","title_fr":"Title FR","meaning_fr":"Meaning FR","remarks_fr":"Remarks FR","label":"","title_nl":"Title NL","meaning_nl":"Meaning NL","remarks_nl":"Remarks NL"},"children":[]}]', $array['codes']);
     }
+
+    public function testIteratorWithReplacers(): void
+    {
+        $accessor = PropertyAccessor::createPropertyAccessor();
+        $array = [
+            'codes' => '[{"id":"742a85b3-46f7-4e46-b2e8-444fc29a8ea1","label":"TEST MDK / TEST MDK (19/05/2023 - )","type":"code","object":{"validity_start":"2023-05-19T11:00:55+0200","title_nl":"TEST MDK","title_fr":"TEST MDK","meaning_nl":"TEST MDK","meaning_fr":"TEST MDK","remarks_nl":"TEST MDK","remarks_fr":"TEST MDK","label":"TEST MDK / TEST MDK (19/05/2023 - )"},"children":[]},{"id":"91d68620-558d-4cdd-8ced-79b622244fa6","label":"","type":"code","object":{"validity_start":"2023-05-17T12:23:42+0200","validity_end":"2023-05-17T12:23:42+0200","title_fr":"Title FR","meaning_fr":"Meaning FR","remarks_fr":"Remarks FR","label":""},"children":[]}]',
+        ];
+
+        $expected = [
+            '[json:id_key:codes][742a85b3-46f7-4e46-b2e8-444fc29a8ea1][object][title_%locale%]' => 'TEST MDK',
+            '[json:id_key:codes][742a85b3-46f7-4e46-b2e8-444fc29a8ea1][object][meaning_%locale%]' => 'TEST MDK',
+            '[json:id_key:codes][742a85b3-46f7-4e46-b2e8-444fc29a8ea1][object][remarks_%locale%]' => 'TEST MDK',
+            '[json:id_key:codes][91d68620-558d-4cdd-8ced-79b622244fa6][object][title_%locale%]' => 'Title FR',
+            '[json:id_key:codes][91d68620-558d-4cdd-8ced-79b622244fa6][object][meaning_%locale%]' => 'Meaning FR',
+            '[json:id_key:codes][91d68620-558d-4cdd-8ced-79b622244fa6][object][remarks_%locale%]' => 'Remarks FR',
+        ];
+
+        $counter = 0;
+        foreach ($accessor->iterator('[json:id_key:codes][*][object][title_%locale%|meaning_%locale%|remarks_%locale%]', $array, ['%locale%' => 'fr']) as $propertyPath => $value) {
+            $this->assertEquals($expected[$propertyPath], $value);
+            $this->assertEquals($value, $accessor->getValue($array, \str_replace('%locale%', 'fr', $propertyPath)));
+            ++$counter;
+        }
+        $this->assertEquals(\count($expected), $counter);
+
+        $accessor->setValue($array, '[json:id_key:codes][91d68620-558d-4cdd-8ced-79b622244fa6][object][title_nl]', 'Title NL');
+        $accessor->setValue($array, '[json:id_key:codes][91d68620-558d-4cdd-8ced-79b622244fa6][object][meaning_nl]', 'Meaning NL');
+        $accessor->setValue($array, '[json:id_key:codes][91d68620-558d-4cdd-8ced-79b622244fa6][object][remarks_nl]', 'Remarks NL');
+
+        $this->assertEquals('[{"id":"742a85b3-46f7-4e46-b2e8-444fc29a8ea1","label":"TEST MDK \/ TEST MDK (19\/05\/2023 - )","type":"code","object":{"validity_start":"2023-05-19T11:00:55+0200","title_nl":"TEST MDK","title_fr":"TEST MDK","meaning_nl":"TEST MDK","meaning_fr":"TEST MDK","remarks_nl":"TEST MDK","remarks_fr":"TEST MDK","label":"TEST MDK \/ TEST MDK (19\/05\/2023 - )"},"children":[]},{"id":"91d68620-558d-4cdd-8ced-79b622244fa6","label":"","type":"code","object":{"validity_start":"2023-05-17T12:23:42+0200","validity_end":"2023-05-17T12:23:42+0200","title_fr":"Title FR","meaning_fr":"Meaning FR","remarks_fr":"Remarks FR","label":"","title_nl":"Title NL","meaning_nl":"Meaning NL","remarks_nl":"Remarks NL"},"children":[]}]', $array['codes']);
+    }
 }

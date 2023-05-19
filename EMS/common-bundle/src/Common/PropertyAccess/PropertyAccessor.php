@@ -139,6 +139,7 @@ class PropertyAccessor
             $value = match ($operator) {
                 'json' => Json::encode($value),
                 'base64' => \is_string($value) ? Base64::encode($value) : throw new \RuntimeException('Only a string can be base64 encoded, array given'),
+                'id_key' => \is_array($value) ? \array_values($value) : throw new \RuntimeException('Only an array can be use to retrieve the id property as array key'),
                 default => throw new \RuntimeException(\sprintf('Operator %s not supported', $operator))
             };
         }
@@ -156,6 +157,7 @@ class PropertyAccessor
             $value = match ($operator) {
                 'json' => \is_string($value) ? Json::decode($value) : throw new \RuntimeException('Only a string can be json decoded, array given'),
                 'base64' => \is_string($value) ? Base64::decode($value) : throw new \RuntimeException('Only a string can be base64 decoded, array given'),
+                'id_key' => \is_array($value) ? $this->idPropertyAsArrayKey($value) : throw new \RuntimeException('Only an array can be use to retrieve the id property as array key'),
                 default => throw new \RuntimeException(\sprintf('Operator %s not supported', $operator))
             };
         }
@@ -190,5 +192,22 @@ class PropertyAccessor
                 }
             }
         }
+    }
+
+    /**
+     * @param  mixed[] $array
+     * @return mixed[]
+     */
+    private function idPropertyAsArrayKey(array $array): array
+    {
+        $withIdAskey = [];
+        foreach ($array as $key => $value) {
+            if (!isset($value['id'])) {
+                throw new \RuntimeException(\sprintf('Property id is missing in item %d', $key));
+            }
+            $withIdAskey[\strval($value['id'])] = $value;
+        }
+
+        return $withIdAskey;
     }
 }

@@ -29,7 +29,7 @@ class XliffService
     /**
      * @param string[] $fields
      */
-    public function extract(ContentType $contentType, Document $source, Extractor $extractor, array $fields, Environment $sourceEnvironment, ?Environment $targetEnvironment, string $targetLocale, string $localeField, string $translationField, bool $withBaseline): void
+    public function extract(ContentType $contentType, Document $source, Extractor $extractor, array $fields, Environment $sourceEnvironment, ?Environment $targetEnvironment, string $targetLocale, ?string $localeField, ?string $translationField, bool $withBaseline): void
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
 
@@ -49,25 +49,29 @@ class XliffService
         }
         $sourceData = $sourceRevision->getRawData();
 
-        $translationId = $propertyAccessor->getValue($currentData, Document::fieldPathToPropertyPath($translationField));
-        if (null !== $targetEnvironment && null !== $translationId) {
+        if (null !== $translationField) {
+            $translationId = $propertyAccessor->getValue($currentData, Document::fieldPathToPropertyPath($translationField));
+        }
+        if (null !== $localeField && null !== $translationField && null !== $targetEnvironment && null !== $translationId) {
             $currentTranslationData = $this->getCurrentTranslationData($targetEnvironment, $translationField, $translationId, $localeField, $targetLocale);
         } else {
-            $currentTranslationData = [];
+            $currentTranslationData = (null === $localeField ? $sourceData : []);
         }
-        if ($withBaseline && null !== $targetEnvironment && null !== $translationId) {
+        if (null !== $localeField && null !== $translationField && $withBaseline && null !== $targetEnvironment && null !== $translationId) {
             $baselineTranslationData = $this->getCurrentTranslationData($targetEnvironment, $translationField, $translationId, $localeField, $extractor->getSourceLocale());
         } else {
-            $baselineTranslationData = [];
+            $baselineTranslationData = (null === $localeField ? $sourceData : []);
         }
 
         $xliffDoc = $extractor->addDocument($contentType->getName(), $source->getId(), \strval($sourceRevision->getId()));
         foreach ($fields as $fieldPath) {
             $propertyPath = Document::fieldPathToPropertyPath($fieldPath);
-            foreach ($propertyAccessor->iterator($propertyPath, $sourceData) as $path => $value) {
-                $currentValue = $propertyAccessor->getValue($currentData, $path);
-                $translation = $propertyAccessor->getValue($currentTranslationData, $path);
-                $baseline = $propertyAccessor->getValue($baselineTranslationData, $path);
+            foreach ($propertyAccessor->iterator($propertyPath, $sourceData, ['%locale%' => $extractor->getSourceLocale()]) as $path => $value) {
+                $sourcePath = \str_replace('%locale%', $extractor->getSourceLocale(), $path);
+                $targetPath = \str_replace('%locale%', $targetLocale, $path);
+                $currentValue = $propertyAccessor->getValue($currentData, $sourcePath);
+                $translation = $propertyAccessor->getValue($currentTranslationData, $targetPath);
+                $baseline = $propertyAccessor->getValue($baselineTranslationData, $targetPath);
                 $isFinal = (null !== $targetEnvironment && $contentType->giveEnvironment()->getName() !== $targetEnvironment->getName() && $currentValue === $value && (null !== $translation || '' === $value));
 
                 if (HtmlHelper::isHtml($value)) {

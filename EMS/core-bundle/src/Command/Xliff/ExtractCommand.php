@@ -57,8 +57,8 @@ final class ExtractCommand extends AbstractCommand
     private string $xliffFilename;
     private ?string $baseUrl = null;
     private string $xliffVersion;
-    private string $translationField;
-    private string $localeField;
+    private ?string $translationField;
+    private ?string $localeField;
     private string $encoding;
     private bool $withBaseline;
 
@@ -86,9 +86,9 @@ final class ExtractCommand extends AbstractCommand
             ->addOption(self::OPTION_XLIFF_VERSION, null, InputOption::VALUE_OPTIONAL, 'XLIFF format version: '.\implode(' ', Extractor::XLIFF_VERSIONS), Extractor::XLIFF_1_2)
             ->addOption(self::OPTION_FILENAME, null, InputOption::VALUE_OPTIONAL, 'Generate the XLIFF specified file')
             ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Base url, in order to generate a download link to the XLIFF file')
-            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale', 'locale')
+            ->addOption(self::OPTION_LOCALE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the locale', null)
             ->addOption(self::OPTION_ENCODING, null, InputOption::VALUE_OPTIONAL, 'Encoding used to generate the XLIFF file', 'UTF-8')
-            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field', 'translation_id')
+            ->addOption(self::OPTION_TRANSLATION_FIELD, null, InputOption::VALUE_OPTIONAL, 'Field containing the translation field', null)
             ->addOption(self::OPTION_WITH_BASELINE, null, InputOption::VALUE_NONE, 'The baseline has been checked and can be used to flag field as final');
     }
 
@@ -109,10 +109,14 @@ final class ExtractCommand extends AbstractCommand
         $this->xliffFilename = $xliffFilename ?? \tempnam(\sys_get_temp_dir(), 'ems-extract-').'.xlf';
         $this->baseUrl = $this->getOptionStringNull(self::OPTION_BASE_URL);
         $this->xliffVersion = $this->getOptionString(self::OPTION_XLIFF_VERSION);
-        $this->translationField = $this->getOptionString(self::OPTION_TRANSLATION_FIELD);
-        $this->localeField = $this->getOptionString(self::OPTION_LOCALE_FIELD);
+        $this->translationField = $this->getOptionStringNull(self::OPTION_TRANSLATION_FIELD);
+        $this->localeField = $this->getOptionStringNull(self::OPTION_LOCALE_FIELD);
         $this->encoding = $this->getOptionString(self::OPTION_ENCODING);
         $this->withBaseline = $this->getOptionBool(self::OPTION_WITH_BASELINE);
+
+        if (null === $this->translationField && $this->translationField !== $this->localeField) {
+            throw new \RuntimeException(\sprintf('Both %s and %s options must be defined or not defined at all (fields with %%locale%%)', self::OPTION_TRANSLATION_FIELD, self::OPTION_LOCALE_FIELD));
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

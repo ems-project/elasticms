@@ -132,4 +132,17 @@ class JobController extends AbstractController
             'job_id' => $job->getId(),
         ]);
     }
+
+    public function startNextJob(string $tag, Request $request): Response
+    {
+        $user = $this->getUser();
+        if (!$user instanceof UserInterface) {
+            throw new NotFoundHttpException('User not found');
+        }
+
+        return EmsCoreResponse::createJsonResponse($request, true, [
+            'message' => 'no next job',
+            'job_id' => null,
+        ]);
+    }
 }

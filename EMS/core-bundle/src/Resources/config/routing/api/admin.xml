@@ -7,6 +7,9 @@
     <route id="emsco_api_start_job" path="/start-job/{job}"
            controller="EMS\CoreBundle\Controller\ContentManagement\JobController::startJob"
            methods="POST"/>
+    <route id="emsco_api_start_job" path="/next-job/{tag}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\JobController::startNextJob"
+           methods="POST"/>
     <route id="emsco_api_content_type" path="/content-types"
            controller="EMS\CoreBundle\Controller\Api\Admin\MetaController::contentTypes"
            methods="GET"/>

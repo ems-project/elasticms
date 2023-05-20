@@ -103,7 +103,11 @@ final class Admin implements AdminInterface
 
     public function startNextJob(string $tag): ?Job
     {
-        // TODO: Implement startNextJob() method.
-        return null;
+        $result = $this->client->post(\implode('/', ['api', 'admin', 'next-job', $tag]));
+        if (null === ($result->getData()['job_id'] ?? null)) {
+            return null;
+        }
+
+        return new Job($result);
     }
 }

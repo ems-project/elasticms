@@ -10,15 +10,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Job
 {
     private string $jobId;
+    private ?string $output;
+    private string $command;
 
     public function __construct(private readonly Result $result)
     {
         $resolver = new OptionsResolver();
+        $resolver->setRequired(['acknowledged', 'success', 'message', 'job_id', 'output', 'command']);
         $resolver->setAllowedTypes('job_id', ['string']);
+        $resolver->setAllowedTypes('output', ['string', 'null']);
+        $resolver->setAllowedTypes('command', ['string']);
 
-        /** @var array{job_id: string} */
+        /** @var array{job_id: string, output: string, command: string} */
         $resolved = $resolver->resolve($result->getData());
         $this->jobId = $resolved['job_id'];
+        $this->output = $resolved['output'];
+        $this->command = $resolved['command'];
     }
 
     public function getJobId(): mixed
@@ -29,5 +36,15 @@ class Job
     public function getResult(): Result
     {
         return $this->result;
+    }
+
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
+
+    public function getOutput(): ?string
+    {
+        return $this->output;
     }
 }

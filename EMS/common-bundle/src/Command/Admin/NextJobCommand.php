@@ -45,6 +45,9 @@ class NextJobCommand extends AbstractCommand
             return self::EXECUTE_SUCCESS;
         }
 
+        $this->io->title(\sprintf('Starting job %s', $job->getJobId()));
+        $this->io->title(\sprintf('Command: %s', $job->getJobId()));
+
         return self::EXECUTE_SUCCESS;
     }
 }

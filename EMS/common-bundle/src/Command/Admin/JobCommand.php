@@ -37,7 +37,7 @@ class JobCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::JOB_ID, InputArgument::REQUIRED, 'Job\'s ID or path to a json file or to a dob admin\'s file name');
+        $this->addArgument(self::JOB_ID, InputArgument::REQUIRED, 'Job\'s ID or path to a json file or to a job admin\'s file name');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

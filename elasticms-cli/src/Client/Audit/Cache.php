@@ -18,6 +18,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Cache
 {
+    private const HASH_SEED = 'AuditHashSeed';
     /** @var array<string, Url> */
     private array $urls = [];
     /** @var string[] */
@@ -25,7 +26,7 @@ class Cache
     private ?string $lastUpdated = null;
     private ?string $current = null;
     private ?string $status = null;
-    private readonly \DateTimeImmutable $startedDatetime;
+    private \DateTimeImmutable $startedDatetime;
     private int $startedAt;
     private Report $report;
 
@@ -138,13 +139,19 @@ class Cache
 
     public function addUrl(Url $url): void
     {
-        if (isset($this->urls[$url->getId()])) {
+        $hash = $this->getUrlHash($url);
+        if (isset($this->urls[$hash])) {
             return;
         }
         if (!\in_array($url->getHost(), $this->hosts)) {
             $this->hosts[] = $url->getHost();
         }
-        $this->urls[$url->getId()] = $url;
+        $this->urls[$hash] = $url;
+    }
+
+    public function getUrlHash(Url $url): string
+    {
+        return \sha1(\join('$', [self::HASH_SEED, $url->getUrl(null, false, false)]));
     }
 
     public function progress(OutputInterface $output): void
@@ -189,12 +196,15 @@ class Cache
         if (null !== $this->lastUpdated) {
             $this->current = $this->lastUpdated;
             $this->startedAt = $this->currentPos();
+        } else {
+            $this->reset();
         }
     }
 
     public function reset(): void
     {
         $this->report = new Report();
+        $this->startedDatetime = new \DateTimeImmutable();
         $this->lastUpdated = null;
     }
 
@@ -242,5 +252,20 @@ class Cache
     public function getReport(): Report
     {
         return $this->report;
+    }
+
+    public function getStartedDate(): string
+    {
+        return $this->startedDatetime->format(\DateTimeImmutable::ATOM);
+    }
+
+    public function setStartedDate(string $date): void
+    {
+        $parsedDate = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $date);
+
+        if (false === $parsedDate) {
+            throw new \RuntimeException(\sprintf('Unexpected false date from %s', $date));
+        }
+        $this->startedDatetime = $parsedDate;
     }
 }

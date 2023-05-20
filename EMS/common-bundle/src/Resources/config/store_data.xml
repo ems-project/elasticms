@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+  <services>
+      <defaults public="false" />
+
+      <service id="ems_common.repository.store_data" class="EMS\CommonBundle\Repository\StoreDataRepository" public="true">
+          <argument type="service" id="doctrine"/>
+      </service>
+
+      <service id="ems_common.store_data.manager" class="EMS\CommonBundle\Common\StoreData\StoreDataManager">
+          <argument type="service" id="logger" />
+          <argument type="tagged" tag="ems_common.store_data.factory"/>
+          <argument type="string">%ems_common.store_data_services%</argument>
+      </service>
+
+      <service id="ems_common.store_data.factory.db" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataEntityFactory">
+          <argument type="service" id="ems_common.repository.store_data"/>
+          <tag name="ems_common.store_data.factory" alias="db"/>
+      </service>
+
+      <service id="ems_common.store_data.factory.cache" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataCacheFactory">
+          <argument type="service" id="ems.common.cache"/>
+          <tag name="ems_common.store_data.factory" alias="cache"/>
+      </service>
+      <service id="ems_common.store_data.factory.fs" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataFileSystemFactory">
+          <tag name="ems_common.store_data.factory" alias="fs"/>
+      </service>
+  </services>
+</container>

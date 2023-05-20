@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Elasticsearch;
 
+use EMS\ClientHelperBundle\Exception\SingleResultException;
 use EMS\ClientHelperBundle\Helper\Search\Search;
-use EMS\CommonBundle\Common\Document;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Extension\RuntimeExtensionInterface;
 
 final class ClientRequestRuntime implements RuntimeExtensionInterface
 {
-    /** @var Document[] */
+    /** @var DocumentInterface[] */
     private array $documents = [];
 
     public function __construct(private readonly ClientRequestManager $manager, private readonly RequestStack $requestStack, private readonly LoggerInterface $logger)
@@ -33,6 +37,27 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         $client = $this->manager->getDefault();
 
         return $client->search($type, $body, $from, $size, $sourceExclude, $regex, $index);
+    }
+
+    /**
+     * @param string|string[]|null $type
+     * @param array<mixed>         $body
+     */
+    public function searchOne(null|string|array $type, array $body, ?string $indexRegex = null): DocumentInterface
+    {
+        try {
+            return Document::fromArray($this->manager->getDefault()->searchOne($type, $body, $indexRegex));
+        } catch (SingleResultException) {
+            throw new NotFoundHttpException('Page not found');
+        }
+    }
+
+    /**
+     * @param mixed[] $headers
+     */
+    public function httpException(int $statusCode, ?string $message = '', array $headers = [], ?int $code = 0): never
+    {
+        throw new HttpException($statusCode, $message, null, $headers, $code);
     }
 
     public function searchConfig(): Search
@@ -79,7 +104,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         return ($response->getTotal() > 1) ? false : null;
     }
 
-    public function get(string $input): ?Document
+    public function get(string $input): ?DocumentInterface
     {
         $emsLink = EMSLink::fromText($input);
 
@@ -108,7 +133,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
             $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $total, $input));
         }
 
-        $document = new Document($emsLink->getContentType(), $emsLink->getOuuid(), $result['hits']['hits'][0]['_source']);
+        $document = Document::fromArray($result['hits']['hits'][0]);
         $this->documents[$emsLink->__toString()] = $document;
 
         return $document;

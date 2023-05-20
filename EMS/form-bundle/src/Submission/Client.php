@@ -8,6 +8,7 @@ use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestInterface;
 use EMS\ClientHelperBundle\Contracts\Elasticsearch\ClientRequestManagerInterface;
 use EMS\FormBundle\FormConfig\FormConfig;
 use EMS\FormBundle\FormConfig\SubmissionConfig;
+use EMS\SubmissionBundle\Exception\SkipSubmissionException;
 use Symfony\Component\Form\FormInterface;
 
 class Client
@@ -44,11 +45,14 @@ class Client
                 continue;
             }
 
-            $handleResponse = $handler->handle($handleRequest);
-            $handleRequest->addResponse($handleResponse);
+            try {
+                $handleResponse = $handler->handle($handleRequest);
+                $handleRequest->addResponse($handleResponse);
 
-            if ($handleResponse instanceof AbortHandleResponse) {
-                break;
+                if ($handleResponse instanceof AbortHandleResponse) {
+                    break;
+                }
+            } catch (SkipSubmissionException) {
             }
         }
 

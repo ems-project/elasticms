@@ -11,6 +11,7 @@ final class EnvironmentHelper implements EnvironmentHelperInterface
 {
     /** @var Environment[] */
     private array $environments = [];
+    private ?Environment $defaultEnvironment = null;
 
     /**
      * @param array<string, array<mixed>> $environments
@@ -22,7 +23,7 @@ final class EnvironmentHelper implements EnvironmentHelperInterface
         array $environments
     ) {
         foreach ($environments as $name => $config) {
-            $this->environments[$name] = $environmentFactory->create($name, $config);
+            $this->addEnvironment($name, $config);
         }
     }
 
@@ -31,12 +32,21 @@ final class EnvironmentHelper implements EnvironmentHelperInterface
      */
     public function addEnvironment(string $name, array $config): void
     {
-        $this->environments[$name] = $this->environmentFactory->create($name, $config);
+        if ($this->emschEnv && !isset($config[Environment::DEFAULT])) {
+            $config[Environment::DEFAULT] = ($name === $this->emschEnv);
+        }
+
+        $environment = $this->environmentFactory->create($name, $config);
+        $this->environments[$name] = $environment;
+
+        if ($environment->isDefault()) {
+            $this->defaultEnvironment = $environment;
+        }
     }
 
-    public function getEmschEnv(): string
+    public function getEnvironmentDefault(): ?Environment
     {
-        return $this->emschEnv;
+        return $this->defaultEnvironment;
     }
 
     public function getEnvironment(string $name): ?Environment
@@ -86,10 +96,6 @@ final class EnvironmentHelper implements EnvironmentHelperInterface
             }
         }
 
-        if ('cli' === PHP_SAPI) {
-            return $this->environments[$this->emschEnv] ?? null;
-        }
-
-        return null;
+        return $this->defaultEnvironment;
     }
 }

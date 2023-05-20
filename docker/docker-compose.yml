@@ -27,6 +27,8 @@ services:
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es01
+    ports:
+      - "9201:9200"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -37,6 +39,8 @@ services:
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es02
+    ports:
+      - "9202:9200"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -47,6 +51,8 @@ services:
     extends:
       file: ../demo/docker-${ELK_VERSION-elk7}.yml
       service: es03
+    ports:
+      - "9203:9200"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.es.rule=Host(`es.localhost`)"
@@ -134,8 +140,7 @@ services:
       service: mailhog
     container_name: ems-mono-mailhog
     ports:
-      - 1025:1025 # smtp server
-      #- 8025:8025 # web ui
+      - 1025:1025
 
 volumes:
   elk7_data01:
@@ -152,3 +157,7 @@ volumes:
   s3:
   mariadb:
   postgres:
+
+networks:
+    default:
+        name: skeleton

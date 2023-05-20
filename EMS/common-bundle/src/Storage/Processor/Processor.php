@@ -9,6 +9,7 @@ use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\Html\Headers;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -29,7 +30,11 @@ class Processor
 
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
-        $configJson = \json_decode($this->storageManager->getContents($configHash), true, 512, JSON_THROW_ON_ERROR);
+        try {
+            $configJson = \json_decode($this->storageManager->getContents($configHash), true, 512, JSON_THROW_ON_ERROR);
+        } catch (\Throwable $e) {
+            $configJson = [];
+        }
         $config = new Config($this->storageManager, $hash, $configHash, $configJson);
 
         return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
@@ -41,10 +46,10 @@ class Processor
             throw new AccessDeniedHttpException();
         }
 
-        $authorization = \strval($request->headers->get('Authorization'));
+        $authorization = \strval($request->headers->get(Headers::AUTHORIZATION));
         if (!$config->isAuthorized($authorization)) {
             $response = new Response('Unauthorized access', Response::HTTP_UNAUTHORIZED);
-            $response->headers->set('WWW-Authenticate', 'basic realm="Access to ressource"');
+            $response->headers->set(Headers::WWW_AUTHENTICATE, 'basic realm="Access to resource"');
 
             return $response;
         }
@@ -62,9 +67,14 @@ class Processor
         $response = $this->getResponseFromStreamInterface($stream, $request);
 
         $response->headers->add([
-            'Content-Disposition' => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => $filename], ';'),
-            'Content-Type' => $config->getMimeType(),
+            Headers::CONTENT_DISPOSITION => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => $filename], ';'),
+            Headers::CONTENT_TYPE => $config->getMimeType(),
         ]);
+        if ($immutableRoute) {
+            $response->headers->add([
+                Headers::X_ROBOTS_TAG => Headers::X_ROBOTS_TAG_NOINDEX,
+            ]);
+        }
 
         $this->cacheHelper->makeResponseCacheable($response, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
 
@@ -104,6 +114,11 @@ class Processor
 
         if ('zip' === $config->getConfigType()) {
             return $this->generateZip($config);
+        }
+
+        $filename = $config->getFilename();
+        if (null !== $filename) {
+            return $this->getStreamFomFilename($filename);
         }
 
         throw new \Exception(\sprintf('not able to generate file for the config %s', $config->getConfigHash()));

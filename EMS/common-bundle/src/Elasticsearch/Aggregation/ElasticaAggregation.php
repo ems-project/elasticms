@@ -22,6 +22,17 @@ class ElasticaAggregation extends AbstractAggregation
         $this->setParams($param);
     }
 
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+
+        if ('reverse_nested' === $this->basename) {
+            $array['reverse_nested'] = (object) $array['reverse_nested'];
+        }
+
+        return $array;
+    }
+
     // phpcs:disable
     protected function _getBaseName(): string
     {

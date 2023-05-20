@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\Release\Command;
 
-use EMS\Release\Config;
 use Github\AuthMethod;
 use Github\Client as ClientGithub;
 use Symfony\Component\Console\Command\Command;
@@ -31,6 +30,6 @@ abstract class AbstractGithubCommand extends Command
 
     protected static function orgUrl(string $name): string
     {
-        return sprintf('https://github.com/%s/%s', self::ORG, $name);
+        return \sprintf('https://github.com/%s/%s', self::ORG, $name);
     }
 }

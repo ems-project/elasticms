@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\Field\AnalyzerOptionsType;
@@ -12,7 +13,9 @@ use EMS\Helpers\Standard\DateTime;
  * Analyzer.
  *
  * @ORM\Table(name="analyzer")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Analyzer extends JsonDeserializer implements \JsonSerializable, EntityInterface
@@ -22,7 +25,9 @@ class Analyzer extends JsonDeserializer implements \JsonSerializable, EntityInte
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;

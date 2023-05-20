@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
@@ -12,7 +13,9 @@ use EMS\Helpers\Standard\DateTime;
  * DataField.
  *
  * @ORM\Table(name="job")
+ *
  * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\JobRepository")
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Job extends JsonDeserializer implements \JsonSerializable, EntityInterface
@@ -20,7 +23,9 @@ class Job extends JsonDeserializer implements \JsonSerializable, EntityInterface
     use CreatedModifiedTrait;
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;

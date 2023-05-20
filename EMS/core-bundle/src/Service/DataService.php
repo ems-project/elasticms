@@ -6,8 +6,9 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use EMS\CommonBundle\Common\Document;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\ArrayTool;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -33,6 +34,7 @@ use EMS\CoreBundle\Exception\PrivilegeException;
 use EMS\CoreBundle\Form\DataField\CollectionFieldType;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use EMS\CoreBundle\Form\DataField\DataLinkFieldType;
+use EMS\CoreBundle\Form\DataField\FormFieldType;
 use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
@@ -94,7 +96,6 @@ class DataService
         private readonly LoggerInterface $auditLogger,
         private readonly StorageManager $storageManager,
         protected TwigEnvironment $twig,
-        protected AppExtension $appTwig,
         protected UserService $userService,
         protected RevisionRepository $revRepository,
         private readonly EnvironmentService $environmentService,
@@ -143,11 +144,11 @@ class DataService
         if (!empty($publishEnv) && !$this->authorizationChecker->isGranted($revision->giveContentType()->role(ContentTypeRoles::PUBLISH))) {
             throw new PrivilegeException($revision, 'You don\'t have publisher role for this content');
         }
-        if (!empty($publishEnv) && \is_object($publishEnv) && !empty($publishEnv->getCircles()) && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !$this->appTwig->inMyCircles($publishEnv->getCircles())) {
+        if (!empty($publishEnv) && \is_object($publishEnv) && !empty($publishEnv->getCircles()) && !$this->authorizationChecker->isGranted('ROLE_USER_MANAGEMENT') && !$this->userService->inMyCircles($publishEnv->getCircles())) {
             throw new PrivilegeException($revision, 'You don\'t share any circle with this content');
         }
         if (null === $username && empty($publishEnv) && !empty($revision->giveContentType()->getCirclesField()) && !empty($revision->getRawData()[$revision->giveContentType()->getCirclesField()])) {
-            if (!$this->appTwig->inMyCircles($revision->getRawData()[$revision->giveContentType()->getCirclesField()] ?? [])) {
+            if (!$this->userService->inMyCircles($revision->getRawData()[$revision->giveContentType()->getCirclesField()] ?? [])) {
                 throw new PrivilegeException($revision);
             }
         }
@@ -248,6 +249,7 @@ class DataService
             '_id' => $ouuid,
             'migration' => $migration,
             'finalize' => $finalize,
+            'rootObject' => $objectArray,
         ]);
     }
 
@@ -325,7 +327,7 @@ class DataService
     /**
      * @param array<mixed> $hit
      */
-    public function hitToBusinessDocument(ContentType $contentType, array $hit): Document
+    public function hitToBusinessDocument(ContentType $contentType, array $hit): DocumentInterface
     {
         $revision = $this->getEmptyRevision($contentType);
         $revision->setRawData($hit['_source']);
@@ -352,16 +354,13 @@ class DataService
         });
         unset($revisionType);
 
-        return new Document($contentType->getName(), $hit['_id'], $result);
+        return Document::fromArray($result);
     }
 
     /**
      * @param FormInterface<FormInterface> $form
-     * @param array<mixed>                 $rawData
-     *
-     * @return mixed
      */
-    public function walkRecursive(FormInterface $form, array $rawData, callable $callback)
+    private function walkRecursive(FormInterface $form, mixed $rawData, callable $callback): mixed
     {
         /** @var DataFieldType $dataFieldType */
         $dataFieldType = $form->getConfig()->getType()->getInnerType();
@@ -767,10 +766,12 @@ class DataService
         $objectArray = $revision->getRawData();
 
         $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
+        $this->setCircles($revision);
         try {
             if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
                 $revision->setRawData($objectArray);
             }
+            $this->setCircles($revision);
         } catch (CantBeFinalizedException $e) {
             $form->addError(new FormError($e->getMessage()));
         }
@@ -881,9 +882,9 @@ class DataService
      * Parcours all fields and call DataFieldsType postFinalizeTreament function.
      *
      * @param FormInterface<FormInterface> $form
-     * @param ?array<string, mixed>        $previousObjectArray
+     * @param mixed                        $previousObjectArray
      */
-    public function postFinalizeTreatment(string $type, string $id, FormInterface $form, ?array $previousObjectArray = null): void
+    public function postFinalizeTreatment(string $type, string $id, FormInterface $form, mixed $previousObjectArray = null): void
     {
         foreach ($form->all() as $subForm) {
             if ($subForm->getNormData() instanceof DataField) {
@@ -1448,7 +1449,7 @@ class DataService
     /**
      * @throws \Exception
      */
-    public function loadDataStructure(Revision $revision): void
+    public function loadDataStructure(Revision $revision, bool $ignoreNotConsumed = false): void
     {
         $data = new DataField();
         $data->setFieldType($revision->giveContentType()->getFieldType());
@@ -1465,6 +1466,10 @@ class DataService
         unset($object[Mapping::FINALIZATION_DATETIME_FIELD]);
         unset($object[Mapping::VERSION_TAG]);
         unset($object[Mapping::VERSION_UUID]);
+        if ($ignoreNotConsumed) {
+            return;
+        }
+
         if ((\is_countable($object) ? \count($object) : 0) > 0) {
             $html = DataService::arrayToHtml($object);
 
@@ -1481,7 +1486,11 @@ class DataService
 
     public function reloadData(Revision $revision, bool $flush = true): int
     {
-        $revisionHash = $revision->getHash();
+        if ($revision->hasHash()) {
+            $revisionHash = $revision->getHash();
+        } else {
+            $revisionHash = null;
+        }
         $reloadRevision = clone $revision;
 
         $finalizedBy = false;
@@ -1626,6 +1635,12 @@ class DataService
             $dataFieldType->isValid($dataField, $parent, $masterRawData);
         }
         $isValid = true;
+
+        if ($dataFieldType instanceof FormFieldType) {
+            foreach ($form->all() as $child) {
+                $this->isValid($child, $dataField, $masterRawData);
+            }
+        }
         if (null !== $dataFieldType && $dataFieldType->isContainer()) {// If dataField is container or type is null => Container => Recursive
             $formChildren = $form->all();
             foreach ($formChildren as $child) {
@@ -1921,7 +1936,7 @@ class DataService
     /**
      * @param array<mixed> $rawData
      */
-    public function hitFromBusinessIdToDataLink(ContentType $contentType, string $ouuid, array $rawData): Document
+    public function hitFromBusinessIdToDataLink(ContentType $contentType, string $ouuid, array $rawData): DocumentInterface
     {
         $revision = $this->getEmptyRevision($contentType);
         $revision->setRawData($rawData);
@@ -1953,7 +1968,7 @@ class DataService
         });
         unset($revisionType);
 
-        return new Document($contentType->getName(), $ouuid, $result);
+        return Document::fromArray($result);
     }
 
     public function lockAllRevisions(\DateTime $until, string $by): int

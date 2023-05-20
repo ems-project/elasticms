@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ContentTypeSettings;
@@ -15,11 +16,14 @@ use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\ContainerFieldType;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\DateTime;
+use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 
 /**
  * @ORM\Table(name="content_type")
+ *
  * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\ContentTypeRepository")
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class ContentType extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
@@ -29,7 +33,9 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
      * @var int
      *
      * @ORM\Column(name="id", type="bigint")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -123,6 +129,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     /**
      * @ORM\OneToOne(targetEntity="FieldType", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="field_types_id", referencedColumnName="id")
      *
      * @var ?FieldType
@@ -181,12 +188,14 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
      * @var Environment|null
      *
      * @ORM\ManyToOne(targetEntity="Environment", inversedBy="contentTypesHavingThisAsDefault")
+     *
      * @ORM\JoinColumn(name="environment_id", referencedColumnName="id")
      */
     protected $environment;
 
     /**
      * @ORM\OneToMany(targetEntity="Template", mappedBy="contentType", cascade={"persist", "remove"})
+     *
      * @ORM\OrderBy({"orderKey" = "ASC"})
      *
      * @var Collection<int, Template>
@@ -195,6 +204,7 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     /**
      * @ORM\OneToMany(targetEntity="View", mappedBy="contentType", cascade={"persist", "remove"})
+     *
      * @ORM\OrderBy({"orderKey" = "ASC"})
      *
      * @var Collection<int, View>
@@ -815,16 +825,13 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         throw new \RuntimeException(\sprintf('Action id %d not found for content type %s', $actionId, $this->getSingularName()));
     }
 
-    /**
-     * Add template.
-     *
-     * @return ContentType
-     */
-    public function addTemplate(Template $template)
+    public function addTemplate(Template $template): void
     {
-        $this->templates[] = $template;
+        if ($this->templates->contains($template)) {
+            $this->templates->removeElement($template);
+        }
 
-        return $this;
+        $this->templates->add($template);
     }
 
     public function removeTemplate(Template $template): void
@@ -840,16 +847,13 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         return $this->templates;
     }
 
-    /**
-     * Add view.
-     *
-     * @return ContentType
-     */
-    public function addView(View $view)
+    public function addView(View $view): void
     {
-        $this->views[] = $view;
+        if ($this->views->contains($view)) {
+            $this->views->removeElement($view);
+        }
 
-        return $this;
+        $this->views->add($view);
     }
 
     public function removeView(View $view): void
@@ -863,6 +867,13 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function getViews(): Collection
     {
         return $this->views;
+    }
+
+    public function getViewByName(string $name): ?View
+    {
+        $view = $this->views->filter(fn (View $view) => $view->getName() === $name)->first();
+
+        return $view instanceof View ? $view : null;
     }
 
     public function getFirstViewByType(string $type): ?View
@@ -1060,15 +1071,29 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     {
         switch ($name) {
             case 'templates':
-                /** @var Template $template */
-                foreach ($this->deserializeArray($value) as $template) {
+                foreach ($value as $item) {
+                    $json = JsonClass::fromJsonString(Json::encode($item));
+
+                    $name = $json->getProperty('name');
+                    $currentAction = \is_string($name) ? $this->getActionByName($name) : null;
+
+                    /** @var Template $template */
+                    $template = $json->jsonDeserialize($currentAction);
+
                     $this->addTemplate($template);
                     $template->setContentType($this);
                 }
                 break;
             case 'views':
-                /** @var View $view */
-                foreach ($this->deserializeArray($value) as $view) {
+                foreach ($value as $item) {
+                    $json = JsonClass::fromJsonString(Json::encode($item));
+
+                    $name = $json->getProperty('name');
+                    $currentView = \is_string($name) ? $this->getViewByName($name) : null;
+
+                    /** @var View $view */
+                    $view = $json->jsonDeserialize($currentView);
+
                     $this->addView($view);
                     $view->setContentType($this);
                 }
@@ -1197,6 +1222,11 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function tasksEnabled(): bool
     {
         return $this->getSettings()[ContentTypeSettings::TASKS_ENABLED] ?? false;
+    }
+
+    public function hideRevisionSidebarEnabled(): bool
+    {
+        return $this->getSettings()[ContentTypeSettings::HIDE_REVISION_SIDEBAR] ?? false;
     }
 
     public function getSettings(): ContentTypeSettings

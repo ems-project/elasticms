@@ -1,8 +1,6 @@
 import {editRevisionEventListeners} from "../editRevisionEventListeners";
 import {tooltipDataLinks} from "./tooltip";
 
-import { ajaxJsonGet, ajaxJsonPost, ajaxJsonSubmit } from "./ajax";
-
 class AjaxModal {
     constructor(selector) {
         this.selector = selector;
@@ -11,13 +9,27 @@ class AjaxModal {
         this.modal = document.querySelector(this.selector);
         if (this.modal) {
             this.loadingElement = this.modal.querySelector('.modal-loading');
-            this.ajaxDataElements = this.modal.querySelectorAll('.ajax-data');
             $(document).on('hide.bs.modal', '.core-modal', (e) => {
                 if (e.target.id === this.modal.id) {
                     this.reset();
                 }
             });
         }
+
+        this.onKeyDown = (event) => {
+            if (event.key !== 'Enter' || event.shiftKey) return
+
+            let btnAjaxSubmit = this.modal.querySelector('#ajax-modal-submit');
+            let blockTargetElements = ['textarea', 'input', 'select', 'button', 'a'];
+
+            if (btnAjaxSubmit
+                && !Array.from(blockTargetElements).includes(event.target.nodeName.toLowerCase())
+                && !event.target.classList.contains('select2-selection')
+            ) {
+                event.preventDefault();
+                btnAjaxSubmit.click();
+            }
+        };
     }
 
     close() {
@@ -26,6 +38,7 @@ class AjaxModal {
 
     reset() {
         this.loadingElement.style.display = 'block';
+        document.removeEventListener('keydown', this.onKeyDown);
 
         this.$modal.find('.ckeditor_ems').each(function () {
             if (CKEDITOR.instances.hasOwnProperty($(this).attr('id'))) {
@@ -65,7 +78,7 @@ class AjaxModal {
 
     load(options, callback)
     {
-        var dialog = this.modal.querySelector('.modal-dialog');
+        let dialog = this.modal.querySelector('.modal-dialog');
         dialog.classList.remove('modal-xs', 'modal-sm', 'modal-md', 'modal-lg');
         if (options.hasOwnProperty('size')) {
             dialog.classList.add('modal-'+options.size);
@@ -79,25 +92,18 @@ class AjaxModal {
         }
         this.$modal.modal('show');
 
+        let fetchOptions = { method: 'GET', headers: { 'Content-Type': 'application/json'}} ;
         if (options.hasOwnProperty('data')) {
-            ajaxJsonPost(options.url, options.data, (json, request) => {
-                this.ajaxReady(json, request, callback);
-                this.stateReady();
-            });
-        } else {
-            ajaxJsonGet(options.url, (json, request) => {
-               this.ajaxReady(json, request, callback);
-                this.stateReady();
-            });
+            fetchOptions.method = 'POST';
+            fetchOptions.body = options.data;
         }
-    }
 
-    postRequest(url, data, callback) {
-        this.stateLoading();
-        ajaxJsonPost(url, data, (json, request) => {
-            this.ajaxReady(json, request, callback);
-            this.stateReady();
-        });
+        fetch(options.url, fetchOptions).then((response) => {
+            return response.ok ? response.json().then((json) => {
+                this.ajaxReady(json, response.url, callback);
+                this.stateReady();
+            }) : Promise.reject(response);
+        }).catch(() => { this.printMessage('error', 'Error loading ...'); });
     }
 
     submitForm(url, callback)
@@ -105,67 +111,67 @@ class AjaxModal {
         for (let i in CKEDITOR.instances) {
             if(CKEDITOR.instances.hasOwnProperty(i)) { CKEDITOR.instances[i].updateElement(); }
         }
-        var formData = this.$modal.find('form').serialize();
 
+        let formData = new FormData(this.modal.querySelector("form")); //before disabling form
         this.stateLoading();
-        ajaxJsonSubmit(url, formData, (json, request) => {
-            this.ajaxReady(json, request, callback);
-            this.stateReady();
-        });
+
+        fetch(url, { method: 'POST', body: formData}).then((response) => {
+            return response.ok ? response.json().then((json) => {
+                this.ajaxReady(json, response.url, callback);
+                this.stateReady();
+            }) : Promise.reject(response);
+        }).catch(() => { this.printMessage('error', 'Error loading ...'); });
     }
 
-    ajaxReady(json, request, callback) {
-        if (request.status === 200) {
-            if (json.hasOwnProperty('modalClose') && json.modalClose === true) {
-                if (typeof callback === 'function') { callback(json, request, this.modal); }
-                this.$modal.modal('hide');
-                return;
-            }
-
-            if (json.hasOwnProperty('modalTitle')) {
-                this.$modal.find('.modal-title').html(json.modalTitle);
-            }
-            if (json.hasOwnProperty('modalBody')) {
-                this.$modal.find('.ajax-modal-body').html(json.modalBody);
-                this.$modal.find(':input').each(function () {
-                    $(this).addClass('ignore-ems-update');
-                });
-            }
-            if (json.hasOwnProperty('modalFooter')) {
-                this.$modal.find('.ajax-modal-footer').html(json.modalFooter);
-            } else {
-                this.$modal.find('.ajax-modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>');
-            }
-
-            var messages = json.hasOwnProperty('modalMessages') ? json.modalMessages : [];
-            messages.forEach((m) => {
-                var messageType = Object.keys(m)[0];
-                var message = m[messageType];
-                this.printMessage(messageType, message);
-
-                if (messageType === 'error') {
-                    location.reload();
-                }
-            });
-
-            var modelForm = this.modal.querySelector('form');
-            if (modelForm) {
-                editRevisionEventListeners(this.$modal.find('form'));
-            }
-
-            var btnAjaxSubmit = this.modal.querySelector('#ajax-modal-submit');
-            if (btnAjaxSubmit) {
-                btnAjaxSubmit.addEventListener('click', () => {
-                    ajaxModal.submitForm( request.responseURL, callback);
-                });
-            }
-
-            tooltipDataLinks(this.modal);
-
-            if (typeof callback === 'function') { callback(json, request, this.modal); }
-        } else {
-            this.printMessage('error', 'Error loading ...');
+    ajaxReady(json, url, callback) {
+        if (json.hasOwnProperty('modalClose') && json.modalClose === true) {
+            if (typeof callback === 'function') { callback(json, this.modal); }
+            this.$modal.modal('hide');
+            return;
         }
+
+        if (json.hasOwnProperty('modalTitle')) {
+            this.$modal.find('.modal-title').html(json.modalTitle);
+        }
+        if (json.hasOwnProperty('modalBody')) {
+            this.$modal.find('.ajax-modal-body').html(json.modalBody);
+            this.$modal.find(':input').each(function () {
+                $(this).addClass('ignore-ems-update');
+            });
+        }
+        if (json.hasOwnProperty('modalFooter')) {
+            this.$modal.find('.ajax-modal-footer').html(json.modalFooter);
+        } else {
+            this.$modal.find('.ajax-modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>');
+        }
+
+        let messages = json.hasOwnProperty('modalMessages') ? json.modalMessages : [];
+        messages.forEach((m) => {
+            let messageType = Object.keys(m)[0];
+            let message = m[messageType];
+            this.printMessage(messageType, message);
+
+            if (messageType === 'error') {
+                location.reload();
+            }
+        });
+
+        let modelForm = this.modal.querySelector('form');
+        if (modelForm) {
+            editRevisionEventListeners(this.$modal.find('form'));
+        }
+
+        let btnAjaxSubmit = this.modal.querySelector('#ajax-modal-submit');
+        if (btnAjaxSubmit) {
+            btnAjaxSubmit.addEventListener('click', () => {
+                ajaxModal.submitForm(url, callback);
+            });
+            document.addEventListener('keydown', this.onKeyDown);
+        }
+
+        tooltipDataLinks(this.modal);
+
+        if (typeof callback === 'function') { callback(json, this.modal); }
     }
 
     printMessage(messageType, message) {
@@ -186,7 +192,10 @@ class AjaxModal {
 }
 
 const ajaxModal = new AjaxModal('#ajax-modal');
+const pickFileModal = new AjaxModal('#pick-file-server-modal');
+
 export default ajaxModal;
+export {pickFileModal};
 
 
 

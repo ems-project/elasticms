@@ -5,6 +5,14 @@
 {%- if 'live' in trans_default_domain and app.request.host in canonicals -%}
 User-agent: *
 Disallow: /bundles/
+Disallow: /file/
+Disallow: /_
+Disallow: /metrics/
+Disallow: /iframe/
+Disallow: /init-form/
+Disallow: /form/
+Disallow: /ajax/
+Allow: /
 {% else %}
 User-agent: *
 Disallow: /

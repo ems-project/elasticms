@@ -3,6 +3,9 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CoreBundle\Entity\Helper\JsonClass;
+use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Validator\Constraints as EMSAssert;
 use EMS\Helpers\Standard\DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -11,25 +14,30 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * Managed Alias.
  *
  * @ORM\Table(name="managed_alias")
+ *
  * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\ManagedAliasRepository")
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 #[UniqueEntity(fields: ['name'], message: 'Name already exists!')]
-class ManagedAlias implements \Stringable
+class ManagedAlias extends JsonDeserializer implements \JsonSerializable, \Stringable, EntityInterface
 {
     use CreatedModifiedTrait;
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
 
     /**
      * @EMSAssert\AliasName()
+     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
-    private string $name;
+    protected string $name;
 
     /**
      * @ORM\Column(name="label", type="string", length=255, nullable=true)
@@ -51,12 +59,12 @@ class ManagedAlias implements \Stringable
     /**
      * @ORM\Column(name="color", type="string", length=50, nullable=true)
      */
-    private string $color;
+    protected ?string $color = null;
 
     /**
      * @ORM\Column(name="extra", type="text", nullable=true)
      */
-    private string $extra;
+    protected ?string $extra = null;
 
     public function __construct()
     {
@@ -95,6 +103,11 @@ class ManagedAlias implements \Stringable
         return $this->alias;
     }
 
+    public function hasAlias(): bool
+    {
+        return null !== $this->alias;
+    }
+
     public function setAlias(string $instanceId): void
     {
         $this->alias = $instanceId.$this->getName();
@@ -130,7 +143,7 @@ class ManagedAlias implements \Stringable
         return $this;
     }
 
-    public function getColor(): string
+    public function getColor(): ?string
     {
         return $this->color;
     }
@@ -142,7 +155,7 @@ class ManagedAlias implements \Stringable
         return $this;
     }
 
-    public function getExtra(): string
+    public function getExtra(): ?string
     {
         return $this->extra;
     }
@@ -171,5 +184,29 @@ class ManagedAlias implements \Stringable
     public function setLabel(?string $label): void
     {
         $this->label = $label;
+    }
+
+    public function jsonSerialize(): JsonClass
+    {
+        $json = new JsonClass(\get_object_vars($this), self::class);
+        $json->removeProperty('id');
+        $json->removeProperty('created');
+        $json->removeProperty('modified');
+        $json->removeProperty('indexes');
+        $json->removeProperty('total');
+        $json->removeProperty('alias');
+
+        return $json;
+    }
+
+    public static function fromJson(string $json, ?EntityInterface $managedAlias = null): ManagedAlias
+    {
+        $meta = JsonClass::fromJsonString($json);
+        $managedAlias = $meta->jsonDeserialize($managedAlias);
+        if (!$managedAlias instanceof ManagedAlias) {
+            throw new \Exception(\sprintf('Unexpected object class, got %s', $meta->getClass()));
+        }
+
+        return $managedAlias;
     }
 }

@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
@@ -16,7 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * FieldType.
  *
  * @ORM\Table(name="field_type")
+ *
  * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\FieldTypeRepository")
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class FieldType extends JsonDeserializer implements \JsonSerializable
@@ -27,7 +30,9 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
@@ -48,6 +53,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
 
     /**
      * @ORM\OneToOne(targetEntity="ContentType")
+     *
      * @ORM\JoinColumn(name="content_type_id", referencedColumnName="id")
      */
     protected ?ContentType $contentType = null;
@@ -84,6 +90,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
      * @var ?FieldType
      *
      * @ORM\ManyToOne(targetEntity="FieldType", inversedBy="children", cascade={"persist"})
+     *
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
      */
     protected ?FieldType $parent = null;
@@ -92,6 +99,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
      * @var Collection<int, FieldType>
      *
      * @ORM\OneToMany(targetEntity="FieldType", mappedBy="parent", cascade={"persist", "remove"})
+     *
      * @ORM\OrderBy({"orderKey" = "ASC"})
      */
     protected Collection $children;
@@ -610,8 +618,45 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return $this->parent;
     }
 
+    /**
+     * @return array<string, FieldType>
+     */
+    private function listAllFields(): array
+    {
+        $out = [];
+        foreach ($this->getChildren() as $child) {
+            $out = [...$out, ...$child->listAllFields()];
+        }
+        $out['key_'.$this->getId()] = $this;
+
+        return $out;
+    }
+
+    /**
+     * @param array<mixed>             $newStructure
+     * @param array<string, FieldType> $fieldsByIds
+     */
+    public function reorderFields(array $newStructure, ?array $fieldsByIds = null): void
+    {
+        if (null === $fieldsByIds) {
+            $fieldsByIds = $this->listAllFields();
+        }
+        $this->getChildren()->clear();
+        foreach ($newStructure as $key => $item) {
+            if (\array_key_exists('key_'.$item['id'], $fieldsByIds)) {
+                $this->getChildren()->add($fieldsByIds['key_'.$item['id']]);
+                $fieldsByIds['key_'.$item['id']]->setParent($this);
+                $fieldsByIds['key_'.$item['id']]->setOrderKey($key + 1);
+                $fieldsByIds['key_'.$item['id']]->reorderFields($item['children'] ?? [], $fieldsByIds);
+            } else {
+                throw new \RuntimeException(\sprintf('Field %d not found', $item['id']));
+            }
+        }
+    }
+
     public function addChild(FieldType $child, bool $prepend = false): self
     {
+        $child->setParent($this);
         if ($prepend) {
             $children = $this->children->toArray();
             \array_unshift($children, $child);
@@ -732,6 +777,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         $json->removeProperty('id');
         $json->removeProperty('created');
         $json->removeProperty('modified');
+        $json->removeProperty('parent');
         $json->updateProperty('children', $this->getValidChildren());
 
         return $json;

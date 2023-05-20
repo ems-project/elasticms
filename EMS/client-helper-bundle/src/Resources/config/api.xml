@@ -14,7 +14,7 @@
             <argument type="tagged" tag="emsch.client_request.api" on-invalid="null" />
             <argument type="tagged" tag="emsch.api_client" on-invalid="null" />
         </service>
-        <service id="emsch.controller.api" class="EMS\ClientHelperBundle\Controller\ApiController" public="true">
+        <service id="EMS\ClientHelperBundle\Controller\ApiController" public="true">
             <argument type="service" id="emsch.api" />
             <argument type="service" id="emsch.helper_hashcash" />
         </service>

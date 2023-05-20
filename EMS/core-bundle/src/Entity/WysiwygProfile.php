@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -11,7 +12,9 @@ use EMS\Helpers\Standard\DateTime;
  * DataField.
  *
  * @ORM\Table(name="wysiwyg_profile")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, EntityInterface
@@ -19,7 +22,9 @@ class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, Enti
     use CreatedModifiedTrait;
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
@@ -30,11 +35,9 @@ class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, Enti
     protected string $name = '';
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="config", type="text", nullable=true)
      */
-    protected $config;
+    protected ?string $config = null;
 
     /**
      * @ORM\Column(name="orderKey", type="integer")
@@ -75,26 +78,12 @@ class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, Enti
         return $this->name;
     }
 
-    /**
-     * Set config.
-     *
-     * @param string $config
-     *
-     * @return WysiwygProfile
-     */
-    public function setConfig($config)
+    public function setConfig(?string $config): void
     {
         $this->config = $config;
-
-        return $this;
     }
 
-    /**
-     * Get config.
-     *
-     * @return string
-     */
-    public function getConfig()
+    public function getConfig(): ?string
     {
         return $this->config;
     }
@@ -142,5 +131,10 @@ class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, Enti
         }
 
         return $profile;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

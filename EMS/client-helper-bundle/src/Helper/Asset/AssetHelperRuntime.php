@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Asset;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use Symfony\Component\Filesystem\Filesystem;
@@ -17,7 +18,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     private ?string $versionHash = null;
     private ?string $versionSaveDir = null;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly ClientRequestManager $manager, string $projectDir)
+    public function __construct(private readonly StorageManager $storageManager, private readonly ClientRequestManager $manager, private readonly AssetRuntime $commonAssetRuntime, string $projectDir, private readonly ?string $localFolder)
     {
         $this->publicDir = $projectDir.'/public';
 
@@ -31,6 +32,9 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
         $this->versionHash = $hash;
         $this->versionSaveDir = $saveDir;
+        if (!empty($this->localFolder)) {
+            return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
+        }
 
         return $this->assets($hash, $saveDir, false);
     }
@@ -65,6 +69,30 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         return $directory;
     }
 
+    /**
+     * @param array<string, mixed> $assetConfig
+     */
+    public function asset(string $path, array $assetConfig): string
+    {
+        $filename = $this->getAssetsDir().DIRECTORY_SEPARATOR.$path;
+        $basename = \basename($filename);
+
+        return $this->commonAssetRuntime->assetPath([
+            EmsFields::CONTENT_FILE_NAME_FIELD => $basename,
+        ], \array_merge([
+            EmsFields::ASSET_CONFIG_FILE_NAMES => [$filename],
+        ], $assetConfig));
+    }
+
+    public function applyVersion(string $path): string
+    {
+        if (!empty($this->localFolder)) {
+            return \sprintf('%s/%s', $this->localFolder, $path);
+        }
+
+        return \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $this->getVersionHash(), $path);
+    }
+
     public function getVersionHash(): string
     {
         if (null === $this->versionHash) {
@@ -81,5 +109,14 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
 
         return $this->versionSaveDir;
+    }
+
+    private function getAssetsDir(): string
+    {
+        if (!empty($this->localFolder)) {
+            return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
+        }
+
+        return \implode(\DIRECTORY_SEPARATOR, [$this->publicDir, $this->getVersionSaveDir(), $this->getVersionHash()]);
     }
 }

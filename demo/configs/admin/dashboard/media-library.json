@@ -1,0 +1,20 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Dashboard",
+    "arguments": [],
+    "properties": {
+        "name": "media-library",
+        "icon": "fa fa-medium",
+        "label": "Media library",
+        "sidebarMenu": true,
+        "notificationMenu": false,
+        "definition": "browser_file",
+        "type": "ems_core.dashboard.template",
+        "role": "ROLE_AUTHOR",
+        "color": null,
+        "options": {
+            "body": "{{ component('media_library', {\r\n    'id': 'examaple-media-lib'\r\n}) }}"
+        },
+        "orderKey": 3
+    },
+    "replaced": []
+}

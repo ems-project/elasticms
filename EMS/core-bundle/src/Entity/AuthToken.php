@@ -3,13 +3,16 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\Helpers\Standard\DateTime;
 
 /**
  * @ORM\Table(name="auth_tokens",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="auth_tokens_value_unique", columns={"value"})}
  * )
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class AuthToken
@@ -18,7 +21,9 @@ class AuthToken
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\GeneratedValue
      */
     private int $id;
@@ -30,6 +35,7 @@ class AuthToken
 
     public function __construct(/**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="authTokens")
+     *
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private UserInterface $user)

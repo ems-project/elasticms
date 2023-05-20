@@ -6,6 +6,7 @@ use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\Text\Encoder;
+use Ramsey\Uuid\Uuid;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -18,10 +19,15 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_asset_path', [AssetRuntime::class, 'assetPath'], ['is_safe' => ['html']]),
             new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip']),
             new TwigFunction('ems_json_file', [AssetRuntime::class, 'jsonFromFile']),
+            new TwigFunction('ems_asset_get_content', [AssetRuntime::class, 'getContent']),
             new TwigFunction('ems_html', [TextRuntime::class, 'emsHtml'], ['is_safe' => ['all']]),
             new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
             new TwigFunction('ems_version', [InfoRuntime::class, 'version']),
+            new TwigFunction('ems_uuid', [Uuid::class, 'uuid4']),
+            new TwigFunction('ems_store_read', [StoreDataRuntime::class, 'read']),
+            new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),
+            new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
         ];
     }
 
@@ -40,8 +46,9 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_json_menu_decode', [TextRuntime::class, 'jsonMenuDecode']),
             new TwigFilter('ems_json_menu_nested_decode', [TextRuntime::class, 'jsonMenuNestedDecode']),
             new TwigFilter('ems_json_decode', [TextRuntime::class, 'jsonDecode']),
-            new TwigFilter('ems_webalize', (new Encoder())->webalizeForUsers(...)),
-            new TwigFilter('ems_markdown', Encoder::markdownToHtml(...), ['is_safe' => ['html']]),
+            new TwigFilter('ems_webalize', [Encoder::class, 'webalizeForUsers']),
+            new TwigFilter('ems_ascii_folding', [Encoder::class, 'asciiFolding']),
+            new TwigFilter('ems_markdown', [Encoder::class, 'markdownToHtml'], ['is_safe' => ['html']]),
             new TwigFilter('ems_stringify', Converter::stringify(...)),
             new TwigFilter('ems_temp_file', [AssetRuntime::class, 'temporaryFile']),
             new TwigFilter('ems_asset_average_color', [AssetRuntime::class, 'assetAverageColor'], ['is_safe' => ['html']]),
@@ -50,6 +57,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_base64_encode', Base64::encode(...)),
             new TwigFilter('ems_base64_decode', Base64::decode(...)),
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),
+            new TwigFilter('ems_preg_match', [Encoder::class, 'pregMatch']),
         ];
     }
 

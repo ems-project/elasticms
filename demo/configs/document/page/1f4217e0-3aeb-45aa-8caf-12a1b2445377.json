@@ -1,0 +1,12 @@
+{
+    "fr": {
+        "components": "[{\"id\":\"60be7eb2-3117-4e87-b9bc-0f945f1756d9\",\"label\":\"\",\"type\":\"grid\",\"object\":{\"layout\":\"grid-with-hr\",\"label\":\"\"},\"children\":[{\"id\":\"01d9c8e5-03f6-41cf-839f-c46b65a3b06d\",\"label\":\"Customer's benefits\",\"type\":\"card\",\"object\":{\"label\":\"Customer's benefits\",\"target\":\"page:ceaedbcc-5407-49b4-81be-85ecea559872\"},\"children\":[]},{\"id\":\"b426beee-5936-4301-ad4b-04a72bc0681f\",\"label\":\"User friendly\",\"type\":\"card\",\"object\":{\"label\":\"User friendly\",\"target\":\"page:66a4a815-69ba-4123-ad4b-f7b34066a7b6\"},\"children\":[]},{\"id\":\"1c1ed47a-21ba-4e01-9a95-ff6dbec262cf\",\"label\":\"Dev specificity\",\"type\":\"card\",\"object\":{\"label\":\"Dev specificity\",\"target\":\"page:b2d64bfd-f2d5-496c-8c87-7a5fbbd2119f\"},\"children\":[]}]}]",
+        "title": "Fonctionnalit\u00e9s"
+    },
+    "label": "Features",
+    "menu": "1b63a2da-8053-49c4-8b82-8a3376843cbc",
+    "nl": {
+        "components": "[{\"id\":\"32df43bf-c91e-4fcf-a581-732b61170385\",\"label\":\"\",\"type\":\"grid\",\"object\":{\"layout\":\"grid-with-hr\",\"label\":\"\"},\"children\":[{\"id\":\"efc3a667-b424-4230-bfe1-aabc6388c842\",\"label\":\"Customer's benefits\",\"type\":\"card\",\"object\":{\"label\":\"Customer's benefits\",\"target\":\"page:ceaedbcc-5407-49b4-81be-85ecea559872\"},\"children\":[]},{\"id\":\"18786495-e542-4aa0-8488-bb9acfa96e80\",\"label\":\"User friendly\",\"type\":\"card\",\"object\":{\"label\":\"User friendly\",\"target\":\"page:66a4a815-69ba-4123-ad4b-f7b34066a7b6\"},\"children\":[]},{\"id\":\"88406c1e-b6f0-4ff2-b23f-b9103d163d9e\",\"label\":\"Dev specificity\",\"type\":\"card\",\"object\":{\"label\":\"Dev specificity\",\"target\":\"page:b2d64bfd-f2d5-496c-8c87-7a5fbbd2119f\"},\"children\":[]}]}]",
+        "title": "Features"
+    }
+}

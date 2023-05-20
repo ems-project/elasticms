@@ -1,5 +1,6 @@
 # elasticms-demo
-A default elasticms local setup using docker compose
+
+A demo elasticms local setup with docker compose.
 
 Resources
 ---------
@@ -9,9 +10,25 @@ Resources
   [send Pull Requests](https://github.com/ems-project/elasticms/pulls)
   in the [elasticMS mono repository](https://github.com/ems-project/elasticms)
 
+## TL;DR
+```bash
+export DOCKER_USER=$UID
+sh npm.sh install
+sh npm.sh run prod
+docker compose pull
+docker compose up -d
+sh ems.sh create_users local
+sh ems.sh config_push local
+```
+
+Go [here](http://local.ems-demo-admin.localhost/login) and login with the `demo` username and the password you just defined.
+
+An [admin debug url](http://local.ems-demo-admin-dev.localhost/login) is also available.
+
 ## Prerequisites
 
-You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows).
+You need docker compose (or an alternative as Podman) on a running Linux system (or WSL if you are under Windows). 
+It should also work with Docker Desktop, tell us if you face issues with it.
 
 It's recommended to allow at least 6GB of memory to docker.
 
@@ -20,15 +37,27 @@ The following ports must be available:
  * 80: Web HTTP
  * 443: Web HTTPS
 
-If your linux user id is different thant 1000, please define a UID variable with your user id:
+If you need (recommanded) to use a specific UID, please set the `DOCKER_USER` environment variable:
 
-`export UID=1001`
+```terminal
+export DOCKER_USER=$UID
+```
+
+You may consider to add it permanently to your `.profile`:
+
+```terminal
+cat >> ~/.profile <<EOP
+export DOCKER_USER=$UID
+EOP
+```
 
 ## Install steps
 
 Open a terminal and run the following commands:
+* `export DOCKER_USER=$UID`: Set the user id
 * `sh npm.sh install`: install NPM dependencies
 * `sh npm.sh run prod`: Build the frontend assets (js, css, ...)
+* `docker compose pull`: Ensure to get the last images
 * `docker compose up -d`: Start the docker container (in daemon mode)
 
 
@@ -41,20 +70,22 @@ export ELK_VERSION=elk8
 
 Available stacks:
 
- * `elk7`: elasticsearch 7.11.2
+ * `elk7`: elasticsearch 7.17.7
  * `elk8`: elasticsearch 8.5.3
  * `os2`: OpenSearch 2.4.1
 
 
 
 
-Before continuing, check that all services have been correctly started by running `docker compose ps`. All services must be in `running` status or in `running (healthy)` status. 
+Before continuing, check that all services have been correctly started by running `docker compose ps`. All services must be in `running` status or in `running (healthy)` status.
+Except for the `setup_elk` and the `setup_minio` which should be in `exited (0)` status.
 
 Go to [minio](http://minio.localhost/login) and login with those credentials:
 
 * user: accesskey
 * password: secretkey
-  And create a `demo` bucket.
+
+Verify that a `demo` bucket has been created, otherwise create it.
 
 Go back to your console:
  * `sh ems.sh create_users local`
@@ -102,7 +133,7 @@ There also a separated npm.sh script:
 ### FAQ
 
 - The labels are not translated in the skeleton: clear the cache for the corresponding skeleton i.e. `sh ems.sh web local c:c`
-- I do not see form submissions in the elasticms mini-CRM: Please update the auth-key in the form config 
+- I do not see form submissions in the elasticms mini-CRM: Generate a `.env.local` and this `EMSF_AUTHKEY=AUTH_KEY` with a authkey that you can generate in the [user datatable view](http://local.ems-demo-admin.localhost/user/) and restart docker: `docker compose up --force-recreate`  
 - In some cases, updates in the webpack/npm application (`/src`) are not taken into account with the `npm run watch` command: docker compose doesn't allow npm to be notified on file changes. You should, or use the `npm run dev` command eachtime that you need. Or use a local installation of npm.
 
 ### Useful commands
@@ -117,7 +148,8 @@ There also a separated npm.sh script:
  - [kibana](http://kibana.localhost) : A dev tools to query elasticsearch
  - [elasticsearch](http://es.localhost/_cluster/health) : The search engine, Verify that the status is `green`
  - [minio](http://minio.localhost) : A S3 like storage service 
- - [elasticms](http://local.ems-demo-admin.localhost/dashboard) : elasticms
+ - [elasticms admin](http://local.ems-demo-admin.localhost/dashboard) : elasticms
+   - [admin debug](http://local.ems-demo-admin-dev.localhost/login): Useful to develop admin's template
  - Test the website:
    - [preview](http://local.preview-ems-demo-web.localhost/) : skeleton with preview's contents 
    - [live](http://local.live-ems-demo-web.localhost/) : skeleton with live's contents

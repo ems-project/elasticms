@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
@@ -180,8 +181,17 @@ final class RecomputeCommand extends Command
                 $revisionType->setData($newRevision); // bind new revision on form
 
                 if ($this->optionDeep) {
+                    $newRevision->setRawData([]);
                     $viewData = $this->dataService->getSubmitData($revisionType->get('data')); // get view data of new revision
                     $revisionType->submit(['data' => $viewData]); // submit new revision (reverse model transformers called
+                }
+                $notifications = [];
+                foreach ($revision->getNotifications() as $notification) {
+                    if (Notification::PENDING !== $notification->getStatus()) {
+                        continue;
+                    }
+                    $notification->setStatus(Notification::IN_TRANSIT);
+                    $notifications[] = $notification;
                 }
 
                 $objectArray = $newRevision->getRawData();
@@ -193,6 +203,8 @@ final class RecomputeCommand extends Command
 
                 $revision->close(new \DateTime('now'));
                 $newRevision->setDraft(false);
+                $newRevision->setFinalizedBy(self::LOCK_BY);
+                $newRevision->setRawDataFinalizedBy(self::LOCK_BY);
 
                 $this->dataService->sign($revision);
                 $this->dataService->sign($newRevision);
@@ -200,10 +212,18 @@ final class RecomputeCommand extends Command
                 $this->em->persist($revision);
                 $this->em->persist($newRevision);
                 $this->em->flush();
-                $this->em->detach($revision);
-                $this->em->detach($newRevision);
 
                 $this->indexService->indexRevision($newRevision);
+
+                foreach ($notifications as $notification) {
+                    if (Notification::IN_TRANSIT !== $notification->getStatus()) {
+                        continue;
+                    }
+                    $notification->setStatus(Notification::PENDING);
+                    $notification->setRevision($newRevision);
+                    $this->em->persist($notification);
+                    $this->em->flush($notification);
+                }
 
                 if (!$input->getOption('no-align')) {
                     foreach ($revision->getEnvironments() as $environment) {
@@ -225,6 +245,7 @@ final class RecomputeCommand extends Command
             if ($transactionActive) {
                 $this->em->commit();
             }
+            $this->em->clear();
 
             $paginator = $this->revisionRepository->findAllLockedRevisions($this->contentType, self::LOCK_BY, $page, $limit);
             $iterator = $paginator->getIterator();

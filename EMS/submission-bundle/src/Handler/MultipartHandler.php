@@ -44,7 +44,7 @@ final class MultipartHandler extends AbstractHandler
 
             $formData = new FormDataPart($formFields);
             $httpResponse = $this->client->request($options['method'], $options['url'], [
-                'headers' => $formData->getPreparedHeaders()->toArray(),
+                'headers' => \array_merge($formData->getPreparedHeaders()->toArray(), $options['headers']),
                 'body' => $formData->bodyToIterable(),
                 'timeout' => $options['timeout'],
             ]);
@@ -52,15 +52,15 @@ final class MultipartHandler extends AbstractHandler
             $handleResponse = new HttpHandleResponse($httpResponse, $httpResponseContent, 'Submission send by multipart over http.');
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
-        } catch (\Exception $exception) {
-            return new FailedHandleResponse(\sprintf('Submission failed, contact your admin. (%s)', $exception->getMessage()));
+        } catch (\Throwable $exception) {
+            return new FailedHandleResponse($exception);
         }
     }
 
     /**
      * @param array<mixed> $options
      *
-     * @return array{url: string, method: string, timeout: int}
+     * @return array{url: string, method: string, timeout: int, headers: array<string, string>}
      */
     protected function resolveEndpointOption(array $options): array
     {
@@ -70,8 +70,9 @@ final class MultipartHandler extends AbstractHandler
             ->setDefaults([
                 'method' => Request::METHOD_POST,
                 'timeout' => 10,
+                'headers' => [],
             ]);
-        /** @var array{url: string, method: string, timeout: int} $resolved */
+        /** @var array{url: string, method: string, timeout: int, headers: array<string, string>} $resolved */
         $resolved = $optionsResolver->resolve($options);
 
         return $resolved;

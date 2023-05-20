@@ -49,6 +49,7 @@ class IsVerificationCodeValidator extends ConstraintValidator
             return null;
         }
 
+        /** @var mixed $data */
         $data = $form->getData();
 
         if (!\is_array($data)) {

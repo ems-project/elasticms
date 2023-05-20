@@ -1,0 +1,44 @@
+{% extends '@EMSCH/template/base/bootstrap.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}
+
+{% block headtitle %}
+    {% apply spaceless %}
+        {% if attribute(source, locale).meta_title|default(false) %}
+            {{ attribute(source, locale).meta_title }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endapply %}
+{% endblock %}
+
+
+{% block main -%}
+    <div class="jumbotron px-0 rounded-0 mb-0 d-flex align-items-center text-white mb-3">
+        <div class="container-fluid container-lg">
+            <div class="row">
+                <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2 mb-2">
+                    {% block breadcrumb %}{% endblock %}
+                    <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink)) }}>
+                        {{ block('title') }}
+                    </h1>
+                    {{ attribute(source, locale).summary|default('')|emsch_routing }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if attribute(source, locale).body|default(false) %}
+        <div class="container-fluid container-lg">
+            <section class="py-5 py-lg-8">
+                <div class="row">
+                    <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                        {{ attribute(source, locale).body|emsch_routing }}
+                    </div>
+                </div>
+            </section>
+        </div>
+    {% endif %}
+
+    {% block blocks %}{% endblock %}
+{%- endblock main %}

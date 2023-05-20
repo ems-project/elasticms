@@ -115,49 +115,12 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @return array<string, FieldType>
-     */
-    private function listAllFields(FieldType $fieldType): array
-    {
-        $out = [];
-        foreach ($fieldType->getChildren() as $child) {
-            $out = [...$out, ...$this->listAllFields($child)];
-        }
-        $out['key_'.$fieldType->getId()] = $fieldType;
-
-        return $out;
-    }
-
-    /**
-     * @param array<mixed> $newStructure
-     * @param array<mixed> $ids
-     */
-    private function reorderFieldsRecu(FieldType $fieldType, array $newStructure, array $ids): void
-    {
-        $fieldType->getChildren()->clear();
-        foreach ($newStructure as $key => $item) {
-            if (\array_key_exists('key_'.$item['id'], $ids)) {
-                $fieldType->getChildren()->add($ids['key_'.$item['id']]);
-                $ids['key_'.$item['id']]->setParent($fieldType);
-                $ids['key_'.$item['id']]->setOrderKey($key + 1);
-                $this->reorderFieldsRecu($ids['key_'.$item['id']], $item['children'] ?? [], $ids);
-            } else {
-                $this->logger->warning('service.contenttype.field_not_found', [
-                    'field_id' => $item['id'],
-                ]);
-            }
-        }
-    }
-
-    /**
      * @param array<mixed> $newStructure
      */
     public function reorderFields(ContentType $contentType, array $newStructure): void
     {
         $em = $this->doctrine->getManager();
-
-        $ids = $this->listAllFields($contentType->getFieldType());
-        $this->reorderFieldsRecu($contentType->getFieldType(), $newStructure, $ids);
+        $contentType->getFieldType()->reorderFields($newStructure);
 
         $em->persist($contentType);
         $em->flush();
@@ -645,7 +608,7 @@ class ContentTypeService implements EntityServiceInterface
             throw new \RuntimeException('unexpected non ContentType entity');
         }
 
-        return $this->updateFromJson($entity, $json, true, true);
+        return $this->updateFromJson($entity, $json, false, false);
     }
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface

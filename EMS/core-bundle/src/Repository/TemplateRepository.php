@@ -22,19 +22,19 @@ class TemplateRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int[] $contentTypeIds
+     * @param ?ContentType[] $contentTypes
      *
      * @return Template[]
      */
-    public function findByRenderOptionAndContentType(string $option, ?array $contentTypeIds = null): array
+    public function findByRenderOptionAndContentType(string $option, ?array $contentTypes = null): array
     {
         $qb = $this->createQueryBuilder('t')
         ->select('t')
         ->where('t.renderOption = :option');
 
-        if (null != $contentTypeIds) {
+        if (null != $contentTypes) {
             $qb->andWhere('t.contentType IN (:cts)')
-            ->setParameters(['option' => $option, 'cts' => $contentTypeIds]);
+            ->setParameters(['option' => $option, 'cts' => $contentTypes]);
         } else {
             $qb->setParameter('option', $option);
         }
@@ -122,7 +122,7 @@ class TemplateRepository extends ServiceEntityRepository
         }
     }
 
-    public function getById(string $id): Template
+    public function getById(int $id): Template
     {
         $action = $this->find($id);
         if (!$action instanceof Template) {

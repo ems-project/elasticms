@@ -1,5 +1,5 @@
 import ajaxModal from "./../helper/ajaxModal";
-import {ajaxJsonPost, ajaxJsonSubmit} from "./../helper/ajax";
+import {ajaxJsonPost} from "./../helper/ajax";
 import collapse from "../helper/collapse";
 
 require('./../nestedSortable');
@@ -190,7 +190,7 @@ export default class JsonMenuNested {
 
             let json = JSON.parse(localStorage.getItem(this.copyName));
 
-            return loopJson(json, (key, value) => key === 'id' && value !== 'root' ? uuidv4() : value);
+            return loopJson(json, (key, value) => key === 'id' && value !== '_root' ? uuidv4() : value);
         }
 
         return false;
@@ -216,16 +216,9 @@ export default class JsonMenuNested {
                 let node = this.nodes[nodeId];
                 let addItemId = uuidv4();
 
-                let callback = (json, request) => {
-                    if (json.hasOwnProperty('success') && json.success === true) {
-                        this._appendHtml(itemId, json.html);
-                        this.selectItem(addItemId);
-                    }
-                };
-
                 const params = new URLSearchParams(window.location.search);
 
-                let addModal = ajaxModal.load({
+                ajaxModal.load({
                     url: node.urlAdd,
                     title: (node.icon ? `<i class="${node.icon}"></i> ` : '') + `Add: ${node.label}`,
                     data: JSON.stringify({ '_data': {
@@ -235,7 +228,12 @@ export default class JsonMenuNested {
                         'defaultData': params.get('defaultData')
                     } }),
                     size: 'lg'
-                }, callback);
+                }, (json) => {
+                    if (json.hasOwnProperty('success') && json.success === true) {
+                        this._appendHtml(itemId, json.html);
+                        this.selectItem(addItemId);
+                    }
+                });
             }
         });
     }
@@ -255,7 +253,7 @@ export default class JsonMenuNested {
 
                 let node = this.nodes[nodeId];
 
-                let callback = (json, request) => {
+                let callback = (json) => {
                     if (!json.hasOwnProperty('success') || json.success === false) {
                         return;
                     }
@@ -304,9 +302,9 @@ export default class JsonMenuNested {
         btnCopyAll.onclick = (e) => {
             e.preventDefault();
             this._setCopy({
-                id: 'root',
-                label: 'root',
-                type: 'root',
+                id: '_root',
+                label: '_root',
+                type: '_root',
                 children: JSON.parse(this.getStructureJson())
             });
         }
@@ -350,7 +348,8 @@ export default class JsonMenuNested {
             btnPaste.onclick = (e) => {
                 e.preventDefault();
 
-                let copied = this._getCopy(true);
+                let copied = this._getCopy();
+
                 if (false === copied) {
                     return;
                 }

@@ -8,6 +8,7 @@ import EmsListeners from "./EmsListeners";
 import MediaLibrary from "./component/mediaLibrary";
 import JsonMenu from "./module/jsonMenu";
 import JsonMenuNested from "./module/jsonMenuNested";
+import ajaxModal from "./helper/ajaxModal";
 
 (function(factory) {
     "use strict";
@@ -254,11 +255,70 @@ import JsonMenuNested from "./module/jsonMenuNested";
             new MediaLibrary(el, {
                 urlMediaLib: '/component/media-lib',
                 urlInitUpload: bodyData.initUpload,
-                urlFileView: bodyData.fileView,
                 hashAlgo: bodyData.hashAlgo,
             });
         });
     }
+
+    function intAjaxModalLinks() {
+        let ajaxModalLinks = document.querySelectorAll('a[data-ajax-modal-url]');
+        [].forEach.call(ajaxModalLinks, function (link) {
+            link.onclick = (event) => {
+                ajaxModal.load({
+                    url: event.target.dataset.ajaxModalUrl,
+                    size: event.target.dataset.ajaxModalSize
+                }, (json) => {
+                    if (json.hasOwnProperty('success') && json.success === true) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    }
+
+    function initPostButtons() {
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('core-post-button')) {
+                e.preventDefault();
+
+                let button = e.target;
+                let postSettings = JSON.parse(button.dataset.postSettings)
+                let url = button.href;
+
+                let f = postSettings.hasOwnProperty('form') ? document.getElementById(postSettings.form) :  document.createElement('form');
+
+                if (postSettings.hasOwnProperty('form')) {
+                    let my_tb=document.createElement('INPUT');
+                    my_tb.style.display='none';
+                    my_tb.type='TEXT';
+                    my_tb.name='source_url';
+                    my_tb.value= url;
+                    f.appendChild(my_tb);
+
+                    if (postSettings.action) {
+                        f.action=JSON.parse(postSettings.action);
+                    }
+                } else {
+                    f.style.display='none';
+                    f.method='post';
+                    f.action=url;
+                    button.parentNode.appendChild(f);
+                }
+
+                if (postSettings.hasOwnProperty('value') && postSettings.hasOwnProperty('name')) {
+                    let my_tb=document.createElement('INPUT');
+                    my_tb.style.display='none';
+                    my_tb.type='TEXT';
+                    my_tb.name=JSON.parse(postSettings.name);
+                    my_tb.value=JSON.parse(postSettings.value);
+                    f.appendChild(my_tb);
+                }
+
+                f.submit();
+            }
+        });
+    }
+
 
     $(document).ready(function() {
         activeMenu();
@@ -274,6 +334,8 @@ import JsonMenuNested from "./module/jsonMenuNested";
         initAjaxFormSave();
         initJsonMenu();
         initMediaLibrary();
+        intAjaxModalLinks();
+        initPostButtons();
 
         //cron to update the cluster status
         window.setInterval(function(){

@@ -46,7 +46,8 @@ final class EMSClientHelperExtension extends Extension
         $this->processElasticms($container, $loader, $config['elasticms']);
         $this->processApi($container, $config['api']);
 
-        if ($config['local']) {
+        if ($config['local']['enabled']) {
+            $container->setParameter('emsch.local.path', $config['local']['path']);
             $loader->load('local.xml');
         }
 

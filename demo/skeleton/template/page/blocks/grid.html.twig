@@ -1,0 +1,30 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block body %}
+    {% trans_default_domain trans_default_domain %}
+    <section class="py-5 py-lg-7 ems-grid">
+        <div class="container-fluid container-lg">
+            <div class="row">
+                {% if item.object.title|default(false) %}
+                    <div>
+                        <h2>{{ item.object.title }}</h2>
+                    </div>
+                {% endif %}
+                {{ block('children') }}
+            </div>
+            {% if item.object.target|default(false) %}
+                <div class="row pt-4">
+                    <div class="col-12">
+                        <a href="{{ "ems://object:#{item.object.target}"|default('')|emsch_routing }}">{{ item.object.target_label|default('block.grid.see_also'|trans) }}</a>
+                    </div>
+                </div>
+            {%  endif %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block child %}
+    <div class="col-12 col-md-4">
+        {{ parent() }}
+    </div>
+{% endblock child %}

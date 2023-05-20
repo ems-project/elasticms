@@ -7,6 +7,7 @@
     <services>
         <service id="emsch.helper.local_environment_factory" class="EMS\ClientHelperBundle\Helper\Local\LocalEnvironmentFactory">
             <argument>%kernel.project_dir%</argument>
+            <argument>%emsch.local.path%</argument>
         </service>
         <service id="emsch.helper.local" class="EMS\ClientHelperBundle\Helper\Local\LocalHelper">
             <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />

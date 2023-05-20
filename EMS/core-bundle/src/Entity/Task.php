@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Core\Revision\Task\TaskDTO;
 use EMS\CoreBundle\Core\Revision\Task\TaskLog;
 use EMS\Helpers\Standard\DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="task")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Task implements EntityInterface
@@ -22,6 +26,7 @@ class Task implements EntityInterface
 
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
      */
     private UuidInterface $id;
@@ -165,6 +170,16 @@ class Task implements EntityInterface
     public function getAssignee(): string
     {
         return $this->assignee;
+    }
+
+    public function isAssignee(UserInterface $user): bool
+    {
+        return $this->assignee === $user->getUserIdentifier();
+    }
+
+    public function isRequester(UserInterface $user): bool
+    {
+        return $this->createdBy === $user->getUserIdentifier();
     }
 
     public function hasDescription(): bool

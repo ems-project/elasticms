@@ -8,19 +8,16 @@
 		"xliff"
 	],
 	"license" : "MIT",
-	"authors" : [{
-			"name" : "David Mattei",
-			"email" : "david.mattei@smals.be"
-		},
+	"authors" : [
 		{
-			"name" : "Mathieu De Keyzer",
-			"email" : "mathieu@dekeyzer.net"
+			"name" : "EMS Community",
+			"homepage" : "https://github.com/ems-project/xliff/contributors"
 		}
 	],
 	"require" : {
 		"php": "^8.1",
         "ext-dom": "*",
-        "elasticms/helpers": "^5.0",
+        "elasticms/helpers": "~5.5.0",
         "symfony/dom-crawler": "^5.4",
         "symfony/property-access": "^5.4"
     },

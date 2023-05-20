@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\Field\FilterOptionsType;
@@ -12,7 +13,9 @@ use EMS\Helpers\Standard\DateTime;
  * Analyzer.
  *
  * @ORM\Table(name="filter")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Filter extends JsonDeserializer implements \JsonSerializable, EntityInterface
@@ -20,7 +23,9 @@ class Filter extends JsonDeserializer implements \JsonSerializable, EntityInterf
     use CreatedModifiedTrait;
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;

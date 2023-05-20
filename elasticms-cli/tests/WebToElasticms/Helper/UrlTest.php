@@ -27,6 +27,8 @@ class UrlTest extends TestCase
         $this->assertEquals('https://google2.com/aaa/toto.txt', (new Url('https://google2.com/aaa/toto.txt', 'https://user:password@google.com/aaa/#anchor?anchor=toto&foo=bar'))->getUrl());
         $this->assertEquals('https://google.com:4443/aaa/toto.txt', (new Url('https://google.com:4443/aaa/toto.txt', 'https://user:password@google.com/aaa/#anchor?anchor=toto&foo=bar'))->getUrl());
         $this->assertEquals('https://www.socialsecurity.be/site_nl/general/cookies.htm', (new Url('../../../general/cookies.htm', 'https://www.socialsecurity.be/site_nl/civilservant/Infos/general/index.htm'))->getUrl());
+        $this->assertEquals('https://www.travailassociatif.be/fr/conditions-de-reutilisation.html', (new Url('../../fr/conditions-de-reutilisation.html', 'https://www.travailassociatif.be/fr/conditions-de-reutilisation.html'))->getUrl());
+        $this->assertEquals('https://www.travailassociatif.be/fr/conditions-de-reutilisation.html', (new Url('../../../../fr/conditions-de-reutilisation.html', 'https://www.travailassociatif.be/fr/conditions-de-reutilisation.html'))->getUrl());
     }
 
     public function testFilename(): void

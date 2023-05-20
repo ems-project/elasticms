@@ -70,7 +70,6 @@ final class Transformer
     public function transform(string $content, array $config = []): string
     {
         $transform = \preg_replace_callback(EMSLink::PATTERN, function ($match) use ($config) {
-            // array filter to remove empty capture groups
             $cleanMatch = \array_filter($match);
 
             if (0 === \count($cleanMatch)) {
@@ -80,8 +79,11 @@ final class Transformer
             $generation = $this->generate($cleanMatch, $config);
             $route = ($generation ?? $match[0]);
             $srcAttribute = $match['src'] ?? false;
-            $baseUrl = $config['baseUrl'] ?? '';
-
+            if ('asset' === ($match['link_type'] ?? null) && ($config['asset_file_path'] ?? false) && isset($match['src'])) {
+                $baseUrl = '';
+            } else {
+                $baseUrl = $config['baseUrl'] ?? '';
+            }
             $transformed = $baseUrl.$route;
 
             return $srcAttribute ? 'src="'.$transformed : $transformed;

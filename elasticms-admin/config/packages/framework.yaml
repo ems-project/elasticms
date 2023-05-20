@@ -1,5 +1,6 @@
 parameters:
     env(DEFAULT_LOCAL): 'en'
+    env(ELASTICMS_PATH): '%kernel.project_dir%/vendor/elasticms'
 
 framework:
     secret: '%env(APP_SECRET)%'

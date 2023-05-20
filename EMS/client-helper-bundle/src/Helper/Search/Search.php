@@ -11,6 +11,8 @@ use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Request;
 
+use function Symfony\Component\String\u;
+
 final class Search
 {
     private ?string $indexRegex;
@@ -22,6 +24,8 @@ final class Search
     private array $synonyms = [];
     /** @var string[] */
     private array $fields = [];
+    /** @var ?array<mixed> */
+    private ?array $querySearch = null;
     /** @var string[] */
     private array $suggestFields = [];
     /** @var Filter[] */
@@ -45,6 +49,7 @@ final class Search
     private ?string $sortBy = null;
     private string $analyzer;
     private string $sortOrder = 'asc';
+    private string $minimumShouldMatch;
 
     public function __construct(private readonly Request $request, ClientRequest $clientRequest)
     {
@@ -54,10 +59,16 @@ final class Search
             @\trigger_error('Deprecated facets, please use filters setting', E_USER_DEPRECATED);
         }
 
+        if (isset($options['fields']) && isset($options['query_search'])) {
+            throw new \RuntimeException('Cannot combine "fields" and "query" search config');
+        }
+
         $this->indexRegex = $options['index_regex'] ?? null;
         $this->types = $options['types']; // required
+        $this->querySearch = $options['query_search'] ?? null;
         $this->facets = $options['facets'] ?? [];
         $this->sizes = $options['sizes'] ?? [];
+        $this->minimumShouldMatch = $options['minimum_should_match'] ?? '1';
         $this->defaultSorts = $this->parseSorts($options['default_sorts'] ?? []);
         $this->sorts = $this->parseSorts($options['sorts'] ?? []);
 
@@ -82,18 +93,17 @@ final class Search
 
     private function bindRequest(Request $request): void
     {
-        $this->queryString = $request->get('q', $this->queryString);
-        $requestF = $request->get('f', null);
+        $this->queryString = $request->query->get('q', $request->get('q', $this->queryString));
+        $requestFacets = $request->query->all()['f'] ?? $request->get('f', null);
 
-        if (null !== $requestF && \is_array($requestF)) {
-            $this->queryFacets = $requestF;
+        if (\is_array($requestFacets)) {
+            $this->queryFacets = $requestFacets;
         }
 
-        $this->page = (int) $request->get('p', $this->page);
-
-        $this->setSize(\intval($request->get('l', $this->size)));
-        $this->setSortBy($request->get('s'));
-        $this->setSortOrder($request->get('o', $this->sortOrder));
+        $this->page = \intval($request->query->get('p', $request->get('p', $this->page)));
+        $this->setSize(\intval($request->query->get('l', $request->get('l', $this->size))));
+        $this->setSortBy($request->query->get('s', $request->get('s')));
+        $this->setSortOrder($request->query->all()['o'] ?? $request->get('o', $this->sortOrder));
 
         if (null !== $this->indexRegex) {
             $requestSearchIndex = RequestHelper::replace($request, $this->indexRegex);
@@ -141,6 +151,23 @@ final class Search
     public function getFields(): array
     {
         return $this->fields;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getQuerySearch(string $queryString): ?array
+    {
+        if (null === $this->querySearch) {
+            return null;
+        }
+
+        $jsonQueryString = Json::encode($this->querySearch);
+
+        $queryString = u($jsonQueryString)->replace('%query%', $queryString)->toString();
+        $queryString = RequestHelper::replace($this->request, $queryString);
+
+        return Json::decode($queryString);
     }
 
     public function getAnalyzer(): string
@@ -271,6 +298,11 @@ final class Search
     public function getHighlight(): array
     {
         return $this->highlight;
+    }
+
+    public function getMinimumShouldMatch(): string
+    {
+        return $this->minimumShouldMatch;
     }
 
     /**

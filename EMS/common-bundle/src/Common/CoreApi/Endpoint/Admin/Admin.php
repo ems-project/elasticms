@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Admin;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
 final class Admin implements AdminInterface
@@ -41,6 +42,32 @@ final class Admin implements AdminInterface
         }
     }
 
+    public function writeJobOutput(string $jobId, OutputInterface $output): void
+    {
+        $currentLine = 0;
+        while (true) {
+            $status = $this->getJobStatus($jobId);
+            if (\strlen($status['output'] ?? '') > 0) {
+                $counter = 0;
+                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $status['output']);
+                if (false === $lines) {
+                    throw new \RuntimeException('Unexpected false split lines');
+                }
+                foreach ($lines as $line) {
+                    if ($counter++ < $currentLine) {
+                        continue;
+                    }
+                    $currentLine = $counter;
+                    $output->writeln(\sprintf("<fg=yellow>></>\t%s", $line));
+                }
+            }
+            if ($status['done']) {
+                break;
+            }
+            \sleep(1);
+        }
+    }
+
     public function getConfigTypes(): array
     {
         /** @var string[] $configTypes */
@@ -55,5 +82,21 @@ final class Admin implements AdminInterface
         $contentTypes = $this->client->get(\implode('/', ['api', 'admin', 'content-types']))->getData();
 
         return $contentTypes;
+    }
+
+    public function runCommand(string $command, ?OutputInterface $output = null): void
+    {
+        $job = [
+            'class' => 'EMS\\CoreBundle\\Entity\\Job',
+            'arguments' => [],
+            'properties' => [
+                'command' => $command,
+            ],
+        ];
+        $jobId = $this->getConfig('job')->create($job);
+        $this->startJob($jobId);
+        if (null !== $output) {
+            $this->writeJobOutput($jobId, $output);
+        }
     }
 }

@@ -1,0 +1,9 @@
+{% extends '@EMSCH/template/page/card/page.html.twig' %}
+
+
+{% block description %}
+    {% if attribute(target.source, locale).title|default(false) %}
+        <h3 class="h2 news-heading">{{ attribute(target.source, locale).title }}</h3>
+    {% endif %}
+    {{ attribute(target.source, locale).description|default('')|emsch_routing }}
+{% endblock description %}

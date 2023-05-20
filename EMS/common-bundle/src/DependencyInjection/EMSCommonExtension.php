@@ -31,6 +31,7 @@ class EMSCommonExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader->load('storage.xml');
+        $loader->load('store_data.xml');
 
         if ($config['profiler']) {
             $loader->load('profiler.xml');
@@ -39,9 +40,11 @@ class EMSCommonExtension extends Extension
         $container->setParameter('ems_common.hash_algo', $config['hash_algo']);
         $container->setParameter('ems_common.backend_url', $config['backend_url']);
         $container->setParameter('ems_common.backend_api_key', $config['backend_api_key']);
-        $container->setParameter('ems_common.backend_api_insecure', $config['backend_api_insecure']);
+        $container->setParameter('ems_common.backend_api_verify', $config['backend_api_verify']);
         $container->setParameter('ems_common.elasticsearch_hosts', $config['elasticsearch_hosts']);
+        $container->setParameter('ems_common.elasticsearch_connection_pool', $config['elasticsearch_connection_pool']);
         $container->setParameter('ems_common.storages', $config['storages']);
+        $container->setParameter('ems_common.store_data_services', $config['store_data_services']);
         $container->setParameter('ems_common.log_level', $config['log_level']);
 
         $container->setParameter('ems_common.cache_config', $config['cache']);

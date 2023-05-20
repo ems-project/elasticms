@@ -2,7 +2,6 @@
 
 {% import "@EMSCore/macros/data-field-type.html.twig" as macros %}
 
-{% set title = revision.ouuid %}
 {% set revisionColor = revision.contentType.color %}
 
 {% if revision.hasVersionTag %}
@@ -13,13 +12,11 @@
 	{%- if versionTo != 'now' -%}{%- set revisionColor = 'gray' -%}{%- endif -%}
 {% endif %}
 
-
-{% if revision.contentType.labelField and attribute(revision.rawData, revision.contentType.labelField) is defined %}
-	{% set title = attribute(revision.rawData, revision.contentType.labelField) %}
-{% endif %}
-
 {% block title %}
-	{{ 'views.data.revisions-data-html.title'|trans({'%content-type%': revision.contentType.singularName, '%title%': title}) }}
+	{{ 'views.data.revisions-data-html.title'|trans({
+		'%content-type%': revision.contentType.singularName,
+		'%title%': revision|emsco_display
+	}) }}
 {% endblock %}
 
 {% block pagetitle %}
@@ -48,13 +45,20 @@
 
 {% block body %}
 	<div class="row">
-		<div class="col-md-3">
-			{{ block('revisionSidebar') }}
-		</div>
-		<div class="col-md-9">
-			{{ block('revisionToolbar') }}
-			{{ block('revisionBody') }}
-		</div>
+        {% if revision.contentType.hideRevisionSidebarEnabled %}
+            <div class="col-md-12">
+                {{ block('revisionToolbar') }}
+                {{ block('revisionBody') }}
+            </div>
+        {% else %}
+            <div class="col-md-3">
+                {{ block('revisionSidebar') }}
+            </div>
+            <div class="col-md-9">
+                {{ block('revisionToolbar') }}
+                {{ block('revisionBody') }}
+            </div>
+        {% endif %}
 	</div>
 	<div class="row">
 		<div class="col-xs-12">
@@ -113,11 +117,7 @@
 {% block revisionSidebar %}
 	{% set tabs = [{name: 'tab_about_revision', label: 'views.data.revisions-data-html.revision'|trans}] %}
 	{% if revision.giveContentType.tasksEnabled %}
-		{% if revision.hasTaskCurrent and revision.taskCurrent.assignee == app.user.userIdentifier %}
-			{% set tabs = tabs|merge([{ name: 'tab_task', label: 'task.tab_task'|trans }]) %}
-		{% else %}
-			{% set tabs = tabs|merge([{ name: 'tab_tasks', label: 'task.tab_tasks'|trans }]) %}
-		{% endif %}
+		{% set tabs = tabs|merge([{ name: 'tab_tasks', label: 'task.tab_tasks'|trans }]) %}
 	{% endif %}
 	<div id="revision-tabs" class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
@@ -133,9 +133,7 @@
 					{% if tab.name == 'tab_about_revision' %}
 						{{ block('revisionTabAboutRevision') }}
 					{% elseif tab.name == 'tab_tasks' %}
-						{{ block('tasks', '@EMSCore/revision/task/tabs.html.twig') }}
-					{% elseif tab.name == 'tab_task' %}
-						{{ block('task', '@EMSCore/revision/task/tabs.html.twig') }}
+						{{ block('tasks', '@EMSCore/revision/task/tab.html.twig') }}
 					{% endif %}
 				</div>
 			{% endfor %}
@@ -208,7 +206,7 @@
 			<hr>
 			<strong><i class=" {% if circleContentType.icon %}{{ circleContentType.icon }}{% else %}fa fa-circle-o{% endif %} margin-r-5"></i> {{ circleContentType.pluralName }}</strong>
 			<p class="text-muted">
-				{% for circle in revision.circles %}{{ circle|data_link|raw }}{% endfor %}
+				{% for circle in revision.circles %}{{ circle|data_link|raw }} {% endfor %}
 			</p>
 		{% endif %}
 	{% endif %}

@@ -95,7 +95,7 @@ class TwigElementsController extends AbstractController
     private function getOtherMenu(): Menu
     {
         $menu = new Menu('views.elements.side-menu-html.other');
-        $menu->addChild('views.elements.side-menu-html.documentations', 'fa fa-book', 'documentation')->setTranslation([]);
+        $menu->addChild('views.elements.side-menu-html.documentation', 'fa fa-book', 'documentation')->setTranslation([]);
 
         return $menu;
     }
@@ -118,6 +118,7 @@ class TwigElementsController extends AbstractController
             return $menu;
         }
         $menu->addChild('views.elements.side-menu-html.content-types', 'fa fa-sitemap', 'contenttype.index')->setTranslation([]);
+        $menu->addChild('views.elements.side-menu-html.forms', 'fa fa-keyboard-o', Routes::FORM_ADMIN_INDEX)->setTranslation([]);
         $menu->addChild('views.elements.side-menu-html.environments', 'fa fa-database', 'environment.index')->setTranslation([]);
         $menu->addChild('view.elements.side-menu.chanel-admin.index-link', 'fa fa-eye', 'ems_core_channel_index')->setTranslation([]);
         $menu->addChild('view.elements.side-menu.dashboard-admin.index-link', 'fa fa-dashboard', Routes::DASHBOARD_ADMIN_INDEX)->setTranslation([]);

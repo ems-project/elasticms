@@ -8,7 +8,6 @@ use Doctrine\ORM\EntityRepository;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
-use EMS\CoreBundle\Form\Field\CodeEditorType;
 use EMS\CoreBundle\Form\Field\ObjectPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Service\UserService;
@@ -67,13 +66,14 @@ final class UserType extends AbstractType
                 'required' => false,
             ])
             ->add('displayName', null, [
+                'required' => true,
                 'label' => 'Display name',
             ])
 
             ->add('enabled', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('allowedToConfigureWysiwyg', CheckboxType::class, [
+            ->add('enabled', CheckboxType::class, [
                 'required' => false,
             ])
             ->add('wysiwygProfile', EntityType::class, [
@@ -86,12 +86,6 @@ final class UserType extends AbstractType
                     'data-live-search' => true,
                     'class' => 'wysiwyg-profile-picker',
                 ],
-            ])
-            ->add('wysiwygOptions', CodeEditorType::class, [
-                'label' => 'WYSIWYG Options',
-                'required' => false,
-                'language' => 'ace/mode/json',
-                'attr' => ['class' => 'wysiwyg-profile-options'],
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => $this->userService->getExistingRoles(),
@@ -114,7 +108,10 @@ final class UserType extends AbstractType
                 'choices' => \array_flip(Locales::getNames()),
                 'choice_translation_domain' => false,
             ])
-            ->add('userOptions', UserOptionsType::class, ['label' => 'user.option.title'])
+            ->add('userOptions', UserOptionsType::class, [
+                'label' => 'user.option.title',
+                'context' => UserOptionsType::CONTEXT_USER_MANAGEMENT,
+            ])
         ;
 
         if ($this->circleObject) {

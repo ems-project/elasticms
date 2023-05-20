@@ -1,0 +1,18 @@
+{
+    "date": "2023-04-04T09:30:00+02:00",
+    "duration": "150 min",
+    "facilitator_name": "Mathieu De Keyzer",
+    "fr": {
+        "body": "<p>Pr&eacute;sentation des am&eacute;liorations - Feedback sur les r&eacute;sultats du workshop du 22/11/2022</p>"
+    },
+    "label": "usergroup 2023-04-04",
+    "nl": {
+        "body": "<p>Presentatie van de verbeteringen - Feedback op de resultaten van de workshop van 22/11/2022</p>"
+    },
+    "picture": {
+        "filename": "avatar.jpg",
+        "filesize": 12758,
+        "mimetype": "image/jpeg",
+        "sha1": "9f608f6dd45f4958fc0c4273b4650eacbed98641"
+    }
+}

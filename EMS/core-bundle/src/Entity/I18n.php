@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -11,7 +12,9 @@ use EMS\Helpers\Standard\DateTime;
  * I18n.
  *
  * @ORM\Table(name="i18n")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class I18n extends JsonDeserializer implements \JsonSerializable, EntityInterface
@@ -19,7 +22,9 @@ class I18n extends JsonDeserializer implements \JsonSerializable, EntityInterfac
     use CreatedModifiedTrait;
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private int $id;
@@ -28,6 +33,7 @@ class I18n extends JsonDeserializer implements \JsonSerializable, EntityInterfac
      * @var string
      *
      * @ORM\Column(name="identifier", type="string", unique=true, length=200)
+     *
      * @ORM\OrderBy({"identifier" = "ASC"})
      */
     protected $identifier;

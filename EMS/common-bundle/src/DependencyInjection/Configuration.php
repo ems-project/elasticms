@@ -13,7 +13,7 @@ class Configuration implements ConfigurationInterface
 {
     private const ELASTICSEARCH_DEFAULT_HOSTS = ['http://localhost:9200'];
     private const LOG_LEVEL = Logger::NOTICE;
-    final public const WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z\_\|\ \-\.])|(\.$)/";
+    final public const WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/";
     final public const WEBALIZE_DASHABLE_REGEX = "/[\/\|\ ]+/";
 
     public function getConfigTreeBuilder(): TreeBuilder
@@ -25,11 +25,13 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->variableNode('storages')->defaultValue([])->end()
+                ->variableNode('store_data_services')->defaultValue([])->end()
                 ->booleanNode('profiler')->defaultFalse()->end()
                 ->scalarNode('hash_algo')->defaultValue('sha1')->end()
                 ->scalarNode('backend_url')->defaultValue(null)->end()
                 ->scalarNode('backend_api_key')->defaultValue(null)->end()
-                ->scalarNode('backend_api_insecure')->defaultValue(false)->end()
+                ->scalarNode('backend_api_verify')->defaultValue(true)->end()
+                ->scalarNode('elasticsearch_connection_pool')->defaultValue(null)->end()
                 ->variableNode('elasticsearch_hosts')->defaultValue(self::ELASTICSEARCH_DEFAULT_HOSTS)->end()
                 ->integerNode('log_level')->defaultValue(self::LOG_LEVEL)->end()
             ->end()

@@ -14,27 +14,66 @@
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <title>{% block headtitle %}{% block metatitle %}{{ block('title') }}{% endblock %} | {{ 'site.name'|trans }}{% endblock %}</title>
             <meta name="description" content="{% block meta_description %}{% endblock %}">
-            {% block canonical %}<link rel="canonical" href="{{ canonicalUrl }}" />{% endblock %}
-            <link rel="icon" type="image/png" sizes="64x64" href="{{ asset('img/head/icon64.png', 'emsch') }}">
-            <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/head/icon180.png', 'emsch') }}">
-            <meta name="msapplication-square70x70logo" content="{{ asset('img/head/icon70.png', 'emsch') }}">
-            <meta name="msapplication-square150x150logo" content="{{ asset('img/head/icon150.png', 'emsch') }}">
-            <meta name="msapplication-square310x310logo" content="{{ asset('img/head/icon310.png', 'emsch') }}">
+{#            {% block canonical %}<link rel="canonical" href="{{ canonicalUrl }}" />{% endblock %}#}
+            <link rel="icon" type="image/png" sizes="64x64" href="{{ emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 64,
+                _height: 64,
+                _quality: 0,
+            }) }}">
+            <link rel="apple-touch-icon" sizes="180x180" href="{{ emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 180,
+                _height: 180,
+                _quality: 0,
+            }) }}">
+            <meta name="msapplication-square70x70logo" content="{{ emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 70,
+                _height: 70,
+                _quality: 0,
+            }) }}">
+            <meta name="msapplication-square150x150logo" content="{{ emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 150,
+                _height: 150,
+                _quality: 0,
+            }) }}">
+            <meta name="msapplication-square310x310logo" content="{{ emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 310,
+                _height: 310,
+                _quality: 0,
+            }) }}">
             <meta name="theme-color" content="#2e2e2e"/>
-            <meta name="msapplication-wide310x150logo" content="{{ asset('static/head/icon-rect-310.png', 'emsch') }}">
+            <meta name="msapplication-wide310x150logo" content="{{ emsch_asset('img/head/icon.png', {
+                _config_type: 'image',
+                _width: 310,
+                _height: 150,
+                _quality: 0,
+                _resize: 'fill',
+                _gravity: 'west',
+                _background: '#f8f9fa',
+            }) }}">
             <meta name="msapplication-TileColor" content="#3B3F41">
-            {% block head %}{% endblock %}
+            {% block head %}
+                <link rel="stylesheet" href="{{ asset('css/index.css', 'emsch') }}">
+            {% endblock %}
         </head>
-        <body data-translations="{{ {
+        <body class="{% block body_class %}{% endblock %}" data-translations="{{ {
             file_selected: 'js.file_selected'|trans,
             form_error: 'js.form_error'|trans,
             form_saved: 'js.form_saved'|trans,
             form_processed: 'js.form_processed'|trans,
             form_error_try_later: 'js.form_error_try_later'|trans,
             back_to_ems: 'ems.back_to_ems'|trans,
-        }|json_encode }}">
+        }|json_encode }}" {% block body_attr %}{% endblock %}>
             {% block body %}{% endblock %}
-            {% block javascript %}{% endblock %}
+
+            {% block javascript -%}
+                <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
+                <script src="{{ asset('js/index.js', 'emsch') }}"></script>
+            {%- endblock %}
         </body>
         </html>
     {% endapply %}

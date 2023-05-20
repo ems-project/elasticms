@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <routes xmlns="http://symfony.com/schema/routing"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://symfony.com/schema/routing
-        http://symfony.com/schema/routing/routing-1.0.xsd">
+        xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="ems_common_file_view" path="/file/view/{sha1}" methods="GET">
-        <default key="_controller">ems_common.controller.file::view</default>
-    </route>
-    <route id="ems_common_file_download" path="/file/download/{sha1}" methods="GET">
-        <default key="_controller">ems_common.controller.file::download</default>
-    </route>
-    <route id="ems_asset" path="/file/{hash_config}/{hash}/{filename}" methods="GET">
-        <default key="_controller">ems_common.controller.file::asset</default>
-    </route>
+    <route id="ems_common_file_view" path="/file/view/{sha1}"
+           controller="EMS\CommonBundle\Controller\FileController::view"
+           methods="GET"/>
+    <route id="ems_common_file_download" path="/file/download/{sha1}"
+           controller="EMS\CommonBundle\Controller\FileController::download"
+           methods="GET"/>
+    <route id="ems_asset" path="/file/{hash_config}/{hash}/{filename}"
+           controller="EMS\CommonBundle\Controller\FileController::asset"
+           methods="GET"/>
 </routes>

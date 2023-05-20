@@ -1,18 +1,21 @@
 #!/usr/bin/env php
 <?php
+
 require __DIR__.'/../vendor/autoload.php';
 
-use Symfony\Component\Console\Application;
+use EMS\Release\Command;
+use EMS\Release\ReleaseApplication;
 
-$application = new Application('release', '1.0.0');
+$application = new ReleaseApplication();
 
-$application->add((new \EMS\Release\Command\ComposerUpdate()));
+$application->add((new Command\ComposerUpdate()));
 
-$application->add((new \EMS\Release\Command\GitHubBranchesCommand()));
-$application->add((new \EMS\Release\Command\GithubReleaseApplications()));
-$application->add((new \EMS\Release\Command\GithubReleaseDocker()));
-$application->add((new \EMS\Release\Command\GithubReleasePackages()));
+$application->add((new Command\GitHubBranchesCommand()));
+$application->add((new Command\GithubChangeLogCommand()));
+$application->add((new Command\GithubReleaseCommand('applications', 'Release applications admin/web/cli')));
+$application->add((new Command\GithubReleaseCommand('packages', 'Release packages')));
+$application->add((new Command\GithubReleaseCommand('docker', 'Release docker admin/web/cli')));
 
-$application->add((new \EMS\Release\Command\PackagistInfo()));
+$application->add((new Command\PackagistInfo()));
 
 $application->run();

@@ -1,30 +1,14 @@
 import EmsListeners from "./EmsListeners";
+import {CKEditorConfig} from "./CKEditorConfig";
 
-let CKEditorConfig = false;
-function initCKEditor() {
-    if (false === CKEditorConfig) {
-        const assetPath = document.querySelector("BODY").getAttribute('data-asset-path') ;
-        CKEDITOR.plugins.addExternal('adv_link', assetPath+'bundles/emscore/js/cke-plugins/adv_link/plugin.js', '' );
-        CKEDITOR.plugins.addExternal('div', assetPath+'bundles/emscore/js/cke-plugins/div/plugin.js', '' );
-        CKEDITOR.plugins.addExternal('imagebrowser', assetPath+'bundles/emscore/js/cke-plugins/imagebrowser/plugin.js', '' );
-
-        const wysiwygInfo = JSON.parse(document.querySelector('body').dataset.wysiwygInfo);
-
-        if (wysiwygInfo.hasOwnProperty('styles')) {
-            const stylesSets = wysiwygInfo.styles;
-            for(let i=0; i < stylesSets.length; ++i) {
-                CKEDITOR.stylesSet.add(stylesSets[i].name, stylesSets[i].config);
-            }
-        }
-        CKEditorConfig = wysiwygInfo.config;
-    }
-
-    return CKEditorConfig;
-}
+let ckconfig = false;
 
 function editRevisionEventListeners(target, onChangeCallback = null){
-    const ckconfig = initCKEditor();
     new EmsListeners(target.get(0), onChangeCallback);
+
+    if (false === ckconfig) {
+        ckconfig = new CKEditorConfig().getConfig()
+    }
 
     target.find('.remove-content-button').on('click', function(e) {
         // prevent the link from creating a "#" on the URL
@@ -78,6 +62,7 @@ function editRevisionEventListeners(target, onChangeCallback = null){
     target.find('.selectpicker').selectpicker();
 
     target.find(".ckeditor_ems").each(function(){
+
         let height = $( this ).attr('data-height');
         if(!height){
             height = 400;
@@ -120,6 +105,28 @@ function editRevisionEventListeners(target, onChangeCallback = null){
         ckconfig.extraAllowedContent = 'p(*)[*]{*};div(*)[*]{*};li(*)[*]{*};ul(*)[*]{*}';
         CKEDITOR.dtd.$removeEmpty.i = 0;
 
+        CKEDITOR.on('instanceReady', (event) => {
+            let editor = event.editor;
+            let emsTranslations = ckconfig?.ems?.translations;
+
+            if (typeof emsTranslations === 'undefined' || !emsTranslations.hasOwnProperty(editor.langCode)) return;
+            let emsTranslationsLang = emsTranslations[editor.langCode];
+            let ckeditorSections = [
+                ...Object.getOwnPropertyNames(editor.lang),
+                ...Object.getOwnPropertyNames(Object.getPrototypeOf(editor.lang))
+            ];
+
+            ckeditorSections.forEach((section) => {
+                Object.entries(emsTranslationsLang).forEach(([key, value]) => {
+                    const splitKey = key.split('.');
+                    if (section !== splitKey[0]) return;
+                    if (editor.lang[section].hasOwnProperty(splitKey[1])) {
+                        editor.lang[section][splitKey[1]] = value;
+                    }
+                });
+            });
+        });
+
         if (onChangeCallback && !CKEDITOR.instances[$( this ).attr('id')] && $(this).hasClass('ignore-ems-update') === false) {
             CKEDITOR.replace(this, ckconfig).on('key', onChangeCallback );
         }
@@ -159,7 +166,24 @@ function editRevisionEventListeners(target, onChangeCallback = null){
             }
         });
 
+        if (ckconfig.hasOwnProperty('emsAjaxPaste')) {
+            let editor = CKEDITOR.instances[$( this ).attr('id')];
+            editor.on('beforePaste', (event) => {
+                let pastedText = event.data.dataTransfer.getData('text/html');
+                if (!pastedText || pastedText === '') return
 
+                event.cancel();
+                fetch(ckconfig.emsAjaxPaste, {
+                    method: 'POST',
+                    body: JSON.stringify({ content: pastedText }),
+                    headers: { 'Content-Type': 'application/json' }
+                }).then((response) => {
+                    return response.ok ? response.json().then((json) => {
+                        editor.fire( 'paste', { type: 'auto', dataValue: json.content, method: 'paste' } );
+                    }): Promise.reject(response)
+                }).catch(() => { console.error('error pasting') })
+            });
+        }
     });
 
     target.find(".colorpicker-component").colorpicker();
@@ -237,6 +261,20 @@ function editRevisionEventListeners(target, onChangeCallback = null){
         } else {
             $(this).daterangepicker(options);
         }
+    });
+
+    target.find('textarea,input').each(function( ) {
+        const counterSpan = this.parentNode.querySelector('.text-counter');
+        if (null === counterSpan || !counterSpan.hasAttribute('data-counter-label') || counterSpan.parentNode !== this.parentNode) {
+            return;
+        }
+        const counterLabel = counterSpan.getAttribute('data-counter-label');
+        const updateCounter = function(textarea) {
+            const length = textarea.value.length;
+            counterSpan.textContent = counterLabel.replace('%count%', length);
+        };
+        this.addEventListener('keyup', function(event){ updateCounter(event.target); });
+        updateCounter(this);
     });
 }
 

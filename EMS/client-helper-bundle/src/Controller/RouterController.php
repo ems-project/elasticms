@@ -7,11 +7,13 @@ namespace EMS\ClientHelperBundle\Controller;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Storage\Processor\Processor;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Twig\Environment;
+use Twig\Error\RuntimeError;
 
 final class RouterController
 {
@@ -23,20 +25,31 @@ final class RouterController
     {
         $result = $this->handler->handle($request);
 
-        $response = new Response($this->templating->render($result['template'], $result['context']));
+        try {
+            $response = new Response($this->templating->render($result['template'], $result['context']));
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
         $this->cacheHelper->makeResponseCacheable($request, $response);
 
         return $response;
     }
 
-    public function redirect(Request $request): RedirectResponse
+    public function redirect(Request $request): Response
     {
         $result = $this->handler->handle($request);
-        $json = $this->templating->render($result['template'], $result['context']);
+        try {
+            $json = $this->templating->render($result['template'], $result['context']);
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        if (isset($data['path'])) {
+            return new BinaryFileResponse($data['path']);
+        }
         if (!isset($data['url'])) {
-            throw new NotFoundHttpException($data['message'] ?? 'Page not found');
+            throw new HttpException($data['message'] ?? 'Page not found');
         }
 
         return new RedirectResponse($data['url'], $data['status'] ?? 302);
@@ -45,23 +58,37 @@ final class RouterController
     public function asset(Request $request): Response
     {
         $result = $this->handler->handle($request);
-        $json = $this->templating->render($result['template'], $result['context']);
+        try {
+            $json = $this->templating->render($result['template'], $result['context']);
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         if (\is_string($data['config'] ?? false)) {
-            return $this->processor->getResponse($request, $data['hash'], $data['config'], $data['filename'], $data['immutable'] ?? false);
+            $response = $this->processor->getResponse($request, $data['hash'], $data['config'], $data['filename'], $data['immutable'] ?? false);
+        } else {
+            $config = $this->processor->configFactory($data['hash'], $data['config'] ?? []);
+            $response = $this->processor->getStreamedResponse($request, $config, $data['filename'], $data['immutable'] ?? false);
         }
 
-        $config = $this->processor->configFactory($data['hash'], $data['config'] ?? []);
+        $headers = $data['headers'] ?? null;
+        if (\is_array($headers)) {
+            $this->applyHeaders($response, $headers);
+        }
 
-        return $this->processor->getStreamedResponse($request, $config, $data['filename'], $data['immutable'] ?? false);
+        return $response;
     }
 
     public function makeResponse(Request $request): Response
     {
         $result = $this->handler->handle($request);
-        $json = $this->templating->render($result['template'], $result['context']);
+        try {
+            $json = $this->templating->render($result['template'], $result['context']);
+        } catch (RuntimeError $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
 
         $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
@@ -74,21 +101,25 @@ final class RouterController
         }
 
         $response = new Response();
-
         $response->setContent($data['content']);
 
         $headers = $data['headers'] ?? ['Content-Type' => 'text/plain'];
-
         if (!\is_array($headers)) {
             throw new \RuntimeException('Unexpected non-array headers parameter');
         }
 
-        foreach ($headers as $key => $value) {
-            $response->headers->add([
-                $key => $value,
-            ]);
-        }
+        $this->applyHeaders($response, $headers);
 
         return $response;
+    }
+
+    /**
+     * @param array<string, string> $headers
+     */
+    private function applyHeaders(Response $response, array $headers): void
+    {
+        foreach ($headers as $key => $value) {
+            $response->headers->add([$key => $value]);
+        }
     }
 }

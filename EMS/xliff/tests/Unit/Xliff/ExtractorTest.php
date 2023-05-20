@@ -48,7 +48,7 @@ class ExtractorTest extends TestCase
 
         $xliffParser = new Extractor('nl', 'de', Extractor::XLIFF_1_2);
         $document = $xliffParser->addDocument('contentType', 'ouuid_1', 'revisionId_1');
-        $xliffParser->addHtmlField($document, '[%locale%][body]', $rawData['nl']['body'], $existing['de']['body']);
+        $xliffParser->addHtmlField($document, '[%locale%][body]', $rawData['nl']['body'], $existing['de']['body'], null);
         $insertReport = new InsertReport();
 
         $inserter = new Inserter($xliffParser->getDom());
@@ -94,9 +94,8 @@ class ExtractorTest extends TestCase
                 $xliffParser->addSimpleField($document, '[title_%locale%]', 'Hello', 'Bonjour');
                 $xliffParser->addSimpleField($document, '[keywords_%locale%]', 'test xliff');
                 $xliffParser->addSimpleField($document, '[empty]', '', null, true);
-                $xliffParser->addHtmlField($document, '[%locale%][body]', $htmlSource, $htmlTarget ?: null);
-                $xliffParser->addHtmlField($document, '[%locale%][body2]', $htmlSource, $htmlTarget ?: null, false, true);
-                $xliffParser->addHtmlField($document, '[%locale%][body3]', $htmlSource, $htmlTarget ?: null, true);
+                $xliffParser->addHtmlField($document, '[%locale%][body]', $htmlSource, $htmlTarget ?: null, null);
+                $xliffParser->addHtmlField($document, '[%locale%][body2]', $htmlSource, $htmlTarget ?: null, null, true);
 
                 $this->saveAndCompare($absoluteFilePath, $version, $xliffParser, $fileNameWithExtension, 'UTF-8');
                 $this->saveAndCompare($absoluteFilePath, $version, $xliffParser, $fileNameWithExtension, 'us-ascii');

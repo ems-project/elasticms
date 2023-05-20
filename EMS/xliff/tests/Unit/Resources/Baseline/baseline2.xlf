@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+  <file source-language="nl" original="instruction:9055abe4a93f3f7e435cc96860116c274fd52f2c:1018373" datatype="database" target-language="de">
+    <body>
+      <trans-unit id="title">
+        <source xml:lang="nl">Startersloon</source>
+        <target xml:lang="de" state="final">Lohn für Arbeitsanfänger</target>
+      </trans-unit>
+      <trans-unit id="title_short">
+        <source xml:lang="nl">Startersloon</source>
+        <target xml:lang="de" state="final">Lohn für Arbeitsanfänger</target>
+      </trans-unit>
+      <group id="introduction">
+        <trans-unit restype="x-html-p" id="/html/body/p[1]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="final"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[2]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[3]">
+          <source xml:lang="nl">Werkgevers die vanaf 1 juli 2018 jongeren zonder werkervaring in dienst nemen, mogen onder bepaalde voorwaarden een verminderd loon toekennen met als compensatie van het nettoloonsverlies, een <g ctype="x-html-strong">compenserende toeslag</g> vrij van werkgevers- en werknemersbijdragen en fiscale inhoudingen. De werkgever kan deze toeslag fiscaal recupereren. </source>
+          <target xml:lang="de" state="new">Arbeitgeber, die ab dem 1. Juli 2018 junge Menschen ohne Berufserfahrung einstellen, können unter bestimmten Bedingungen einen reduzierten Lohn gewähren, wobei als Ausgleich für den Nettolohnverlust eine <g ctype="x-html-strong">Ausgleichszulage</g> gewährt wird, die frei von Arbeitgeber- und Arbeitnehmerbeiträgen und Steuerabzügen ist. Der Arbeitgeber kann diese Zulage von der Steuer absetzen. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[4]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="new"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[5]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="new"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[6]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="new"></target>
+        </trans-unit>
+      </group>
+      <group id="description">
+        <trans-unit restype="x-html-p" id="/html/body/p[1]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[1]">
+          <source xml:lang="nl">Werkgevers: </source>
+          <target xml:lang="de" state="final"> Arbeitgeber: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="/html/body/ul[1]">
+          <trans-unit restype="listitem" id="/html/body/ul[1]/li">
+            <source xml:lang="nl"> enkel werkgevers die vallen onder de wet op de cao's en de paritaire comités komen in aanmerking</source>
+            <target xml:lang="de" state="final">nur Arbeitgeber, die unter das Gesetz über die KAA und paritätischen Kommissionen fallen, kommen in Betracht </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[2]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="final"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[2]">
+          <source xml:lang="nl">Werknemers: </source>
+          <target xml:lang="de" state="final"> Arbeitnehmer: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="/html/body/ul[2]">
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[1]">
+            <source xml:lang="nl">jonger dan 21 jaar en minstens 18 op het einde van de maand <g ctype="lb" /></source>
+            <target xml:lang="de" state="final">jünger als 21 Jahre und wenigstens 18 Jahre am Ende des Monats <g ctype="lb" /> </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[2]">
+            <source xml:lang="nl">tewerkgesteld met een startbaanovereenkomst type I (minstens halftijdse overeenkomst)</source>
+            <target xml:lang="de" state="final">eingestellt mit einem Erstbeschäftigungsabkommen Typ I (wenigstens Halbzeitvertrag) </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[3]">
+            <source xml:lang="nl">onmiddellijk voorafgaand aan de tewerkstelling ingeschreven als werkzoekende</source>
+            <target xml:lang="de" state="final">unmittelbar vor der Einstellung als Arbeitssuchender registriert </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[4]">
+            <source xml:lang="nl">zonder 'werkervaring'</source>
+            <target xml:lang="de" state="final">ohne ‚Berufserfahrung‘ </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[5]">
+            <source xml:lang="nl">niet tewerkgesteld met een studentenovereenkomst</source>
+            <target xml:lang="de" state="final">nicht über einen Studentenvertrag beschäftigt </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[6]">
+            <source xml:lang="nl">niet tewerkgesteld in een flexi-job <g ctype="lb" /></source>
+            <target xml:lang="de" state="final">nicht in einem Flexi-Job beschäftigt <g ctype="lb" /> </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[7]">
+            <source xml:lang="nl">met een niet-verminderd loon dat niet hoger is dan het minimumloon in de sector, of desgevallend  gelijk is aan het GGMMI</source>
+            <target xml:lang="de" state="final">mit einem nichtreduzierten Lohn, der nicht über dem im Sektor üblichen Mindestlohn liegt, oder gegebenenfalls dem garantierten monatlichen Mindesteinkommen entspricht </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[2]/li[8]">
+            <source xml:lang="nl">niet behoren tot een sector die voor jongeren van 18 jaar tot 21 minimumlonen vaststelt die lager zijn dan de minimumlonen van 21 jaar en ouder. <g ctype="lb" /></source>
+            <target xml:lang="de" state="final">keinem Sektor angehören, der für Jugendliche zwischen 18 und 21 Jahren Mindestlöhne festlegt, die unter den Löhnen für 21-Jährige und älter liegen. <g ctype="lb" /> </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[3]">
+          <source xml:lang="nl">De vermindering van het loon mag niet tot gevolg hebben dat dit lager zou zijn dan het loon bepaald door de CAO nr. 43 met overeenkomstige anciënniteit <g ctype="lb" /> </source>
+          <target xml:lang="de" state="final">   Die Lohnermäßigung darf nicht dazu führen, dass der nach KAA Nr. 43 festgelegte Lohn bei entsprechendem Dienstalter unterschritten wird <g ctype="lb" /> </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[4]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[3]">
+          <source xml:lang="nl">Voorwaarden (T - 6) tot en met (T - 3) - 'werkervaring': </source>
+          <target xml:lang="de" state="final"> Bedingungen (T - 6) bis einschließlich (T - 3) - „Berufserfahrung“: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="/html/body/ul[3]">
+          <trans-unit restype="listitem" id="/html/body/ul[3]/li[1]">
+            <source xml:lang="nl">de jongeren mag gedurende de referentieperiode geen 2 of meerdere kwartalen een tewerkstelling hebben van meer dan 4/5<g ctype="x-html-sup">de</g> van een voltijdse job <g ctype="lb" /></source>
+            <target xml:lang="de" state="final">der Jugendliche darf während des Referenzzeitraums nicht 2 oder mehr Quartale einer Beschäftigung von mehr als 4/5 einer Vollzeitstelle nachgehen<g ctype="lb" /><g ctype="x-html-sup"></g> </target>
+          </trans-unit>
+          <group restype="listitem" id="/html/body/ul[3]/li[2]">
+            <trans-unit id="/html/body/ul[3]/li[2]/text()[1]">
+              <source xml:lang="nl">bij het bepalen van dat equivalent worden de prestaties uitgesloten als: </source>
+              <target xml:lang="de" state="final">bei der Bestimmung dieses Äquivalents werden Leistungen ausgeschlossen als: </target>
+            </trans-unit>
+            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[3]/li[2]/ul[1]">
+              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul[1]/li[1]">
+                <source xml:lang="nl">leerling</source>
+                <target xml:lang="de" state="final">Lehrling </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul[1]/li[2]">
+                <source xml:lang="nl">IBO-er bij een andere werkgever</source>
+                <target xml:lang="de" state="final">Person in der individuellen Berufsausbildung bei einem anderen Arbeitgeber </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul[1]/li[3]">
+                <source xml:lang="nl">student met solidariteitsbijdrage</source>
+                <target xml:lang="de" state="final">Student mit Solidaritätsbeitrag </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul[1]/li[4]">
+                <source xml:lang="nl">jongere tot en met 31 december van het jaar waarin hij 18 wordt</source>
+                <target xml:lang="de" state="final">Jugendlicher bis einschließlich 31.12. des Jahres, in dem er 18 wird </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul[1]/li[5]">
+                <source xml:lang="nl">gelegenheidswerknemer in de land- en tuinbouw</source>
+                <target xml:lang="de" state="final">Gelegenheitsarbeitnehmer in der Landwirtschaft und im Gartenbau </target>
+              </trans-unit>
+              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul[1]/li[6]">
+                <source xml:lang="nl">gelegenheidswerknemer in de horeca <g ctype="lb" /></source>
+                <target xml:lang="de" state="final">Gelegenheitsarbeitnehmer im Hotel- und Gaststättengewerbe (Horeca-Sektor) <g ctype="lb" /> </target>
+              </trans-unit>
+            </group>
+            <group restype="x-html-ul" html:style="padding-top: 0px; padding-bottom: 0px;" id="/html/body/ul[3]/li[2]/ul[2]">
+              <trans-unit restype="listitem" id="/html/body/ul[3]/li[2]/ul[2]/li">
+                <source xml:lang="nl">flex-job werknemer</source>
+                <target xml:lang="de" state="final">Flex-Job-Arbeitnehmer </target>
+              </trans-unit>
+            </group>
+          </group>
+          <trans-unit restype="listitem" id="/html/body/ul[3]/li[3]">
+            <source xml:lang="nl">er wordt enkel rekening gehouden met de <g ctype="x-html-strong">betaalde </g>periodes (prestatiecodes 1, 2, 3, 4, 5, 12 en 20)</source>
+            <target xml:lang="de" state="final">die <g ctype="x-html-strong">bezahlten</g> Zeiträume werden nicht berücksichtigt (Leistungscodes 1, 2, 3, 4, 5, 12 und 20) </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[5]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[4]">
+          <source xml:lang="nl">Maximaal verminderingspercentage: </source>
+          <target xml:lang="de" state="final"> Maximaler Reduzierungssatz: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="/html/body/ul[4]">
+          <trans-unit restype="listitem" id="/html/body/ul[4]/li[1]">
+            <source xml:lang="nl"> 6 % in de maanden dat de jongere op de laatste dag van de maand 20 jaar is</source>
+            <target xml:lang="de" state="final">6 % in den Monaten, in denen der Jugendliche am letzten Tag des Monats 20 Jahre alt ist </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[4]/li[2]">
+            <source xml:lang="nl">12 % in de maanden dat de jongere op de laatste dag van de maand 19 jaar is</source>
+            <target xml:lang="de" state="final">12 % in den Monaten, in denen der Jugendliche am letzten Tag des Monats 19 Jahre alt ist </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[4]/li[3]">
+            <source xml:lang="nl">18 % in de maanden dat de jongere op de laatste dag van de maand 18 jaar is</source>
+            <target xml:lang="de" state="final">18 % in den Monaten, in denen der Jugendliche am letzten Tag des Monats 18 Jahre alt ist </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[6]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[5]">
+          <source xml:lang="nl">Formele verplichtingen: </source>
+          <target xml:lang="de" state="final"> Formale Verpflichtungen: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="/html/body/ul[5]">
+          <trans-unit restype="listitem" id="/html/body/ul[5]/li[1]">
+            <source xml:lang="nl">de werkgever moet de Dimona-bevestiging 'jonge werknemer zonder ervaring' ontvangen hebben om het loon te mogen verminderen <g ctype="lb" /></source>
+            <target xml:lang="de" state="final">der Arbeitgeber muss die Dimona-Bestätigung ‚junger Arbeitnehmer ohne Erfahrung‘ erhalten haben, um eine Lohnreduzierung durchführen zu können <g ctype="lb" /> </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[5]/li[2]">
+            <source xml:lang="nl">de werkgever moet in de arbeidsovereenkomst opnemen dat hij het minimumloon vermindert en een toeslag betaalt</source>
+            <target xml:lang="de" state="final">der Arbeitgeber muss im Arbeitsvertrag festhalten, dass er den Mindestlohn reduziert und eine Zulage zahlt </target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[5]/li[3]">
+            <source xml:lang="nl">hij mag enkel het loon verminderen voor de maanden dat hij een compenserende toeslag betaalt <g ctype="lb" /></source>
+            <target xml:lang="de" state="final">er darf den Lohn nur für die Monate reduzieren, in denen er eine Ausgleichszulage zahlt <g ctype="lb" /> </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-ul" id="/html/body/ul[6]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="final"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[7]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="final">   </target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[6]">
+          <source xml:lang="nl">Dimona: </source>
+          <target xml:lang="de" state="final">  Dimona: </target>
+        </trans-unit>
+        <group restype="x-html-ul" id="/html/body/ul[7]">
+          <trans-unit restype="listitem" id="/html/body/ul[7]/li[1]">
+            <source xml:lang="nl">voor elke jongere die potentieel onder de maatregel valt (Dimona 'OTH', 'BCW', 'EXT' of 'A17) en jonger is dan 21 jaar, wordt gecontroleerd of aan de maximum tewerkstellingsvoorwaarde voorafgaand aan het kwartaal werd voldaan of niet; via Dimona (warning) wordt aan de werkgever of zijn mandataris een melding gestuurd indien het om een 'jonge werknemer zonder ervaring' gaat.</source>
+            <target xml:lang="de" state="new">für jeden potenziell von der Maßnahme (Dimona 'OTH', 'BCW', 'EXT' of 'A17) erfassten Jugendlichen, der unter 21 Jahre alt ist, wird geprüft, ob die Höchstbeschäftigungsbedingung vor dem Quartal erfüllt war; wenn es sich um einen „jungen Arbeitnehmer ohne Erfahrung“ handelt, wird über Dimona (Warnung) eine Mitteilung an den Arbeitgeber oder seinen Bevollmächtigten geschickt.</target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[7]/li[2]">
+            <source xml:lang="nl">er wordt geen melding verzonden indien de jongere <g ctype="x-html-strong">niet </g>in aanmerking komt</source>
+            <target xml:lang="de" state="new">keine Meldung erfolgt, wenn der Jugendliche <g ctype="x-html-strong">nicht</g> in Frage kommt</target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[7]/li[3]">
+            <source xml:lang="nl">de melding houdt enkel in dat voldaan is aan de voorwaarde 'geen werkervaring' <g ctype="lb" /></source>
+            <target xml:lang="de" state="new">die Meldung bedeutet nur, dass die Bedingung „keine Berufserfahrung“ erfüllt ist <g ctype="lb" /></target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[7]/li[4]">
+            <source xml:lang="nl">vanaf 1 maart 2019 worden de Dimona-bevestigingen verstuurd <g ctype="lb" /></source>
+            <target xml:lang="de" state="new">ab 1. März 2019 werden die Dimona-Bestätigungen verschickt <g ctype="lb" /></target>
+          </trans-unit>
+          <trans-unit restype="listitem" id="/html/body/ul[7]/li[5]">
+            <source xml:lang="nl">vanaf december 2019 houdt Dimona rekening met de voorafgaande situatie bij aansluitende tewerkstellingen (de voorwaarde moet niet opnieuw vervuld worden)</source>
+            <target xml:lang="de" state="new">ab Dezember 2019 berücksichtigt Dimona die vorherige Situation für aufeinanderfolgende Beschäftigungen (die Bedingung muss nicht erneut erfüllt werden)</target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[8]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="final"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[7]">
+          <source xml:lang="nl">Dmfa: </source>
+          <target xml:lang="de" state="final"> DmfA: </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[9]">
+          <source xml:lang="nl">De werkgever duidt in de '<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/occupationrecord/nssoinformation/careermeasures.html">DmfA-zone Loopbaanmaatregel</g>' aan dat het gaat om een werknemer tewerkgesteld met een 'startersloon' code '2'. </source>
+          <target xml:lang="de" state="final">   Der Arbeitgeber gibt in der „<g ctype="x-html-a" html:href="%{BASE_URL_CURRENT}%/instructions/fill_in_dmfa/occupationrecord/nssoinformation/careermeasures.html">DmfA-Zone Laufbahnmaßnahme</g>“ an, dass es sich um einen Arbeitnehmer handelt, der mit dem „Anfängerlohn“ Code „2“ beschäftigt ist. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[10]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="final"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[8]">
+          <source xml:lang="nl">Compenserende toeslag </source>
+          <target xml:lang="de" state="final"> Ausgleichszulage </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[11]">
+          <source xml:lang="nl">De werkgever die het loon van een starter vermindert, betaalt de jongere een compenserende toeslag gelijk aan het verschil tussen het nettoloon zoals berekend op basis van het niet-verminderde brutoloon en het nettoloon zoals berekend op basis van het verminderde brutoloon. De toeslag wordt verhoogd met een percentage op het verminderde brutoloon voor de werknemers betaald via de Rijksdienst voor Jaarlijkse Vakantie of een vakantiefonds zodat samen met de compenserende toeslag de jongere netto hetzelfde ontvangt. </source>
+          <target xml:lang="de" state="final"> Der Arbeitgeber, der den Lohn eines Berufsanfängers kürzt, zahlt dem jungen Menschen eine Ausgleichszulage in Höhe der Differenz zwischen dem Nettolohn, der auf der Grundlage des nicht gekürzten Bruttolohns berechnet wird, und dem Nettolohn, der auf der Grundlage des gekürzten Bruttolohns berechnet wird. Die Zulage wird um einen Prozentsatz des gekürzten Bruttolohns für Arbeitnehmer erhöht, die über das Landesamt für den Jahresurlaub oder eine Urlaubskasse bezahlt werden, so dass der Jugendliche zusammen mit der Ausgleichszulage das gleiche Netto erhält. </target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[12]">
+          <source xml:lang="nl"> De maatregel gaat in vanaf 1 maart 2019. </source>
+          <target xml:lang="de" state="new"> Die Maßnahme gilt ab dem 1. März 2019. </target>
+        </trans-unit>
+        <trans-unit id="/html/body/text()[27]">
+          <source xml:lang="nl">  </source>
+          <target xml:lang="de" state="new"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-h3" id="/html/body/h3[9]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="new"></target>
+        </trans-unit>
+        <group restype="x-html-div" html:class="message alert" id="/html/body/div">
+          <trans-unit restype="x-html-h3" id="/html/body/div/h3">
+            <source xml:lang="nl">Meer informatie </source>
+            <target xml:lang="de" state="final"> Weitere Informationen </target>
+          </trans-unit>
+          <trans-unit restype="x-html-p" id="/html/body/div/p">
+            <source xml:lang="nl"> Op de site van de FOD WASO kan u op de pagina van '<g ctype="x-html-a" html:target="_blank" html:href="http://www.werk.belgie.be/defaultTab.aspx?id=47808">starterslonen voor jongeren</g>' meer informatie terugvinden over deze maatregel en de toepasselijke loonelementen.  </source>
+            <target xml:lang="de" state="final"> Auf der Website des FÖD BASK finden Sie auf Niederländisch und Französisch auf der Seite ‚<g ctype="x-html-a" html:target="_blank" html:href="http://www.werk.belgie.be/defaultTab.aspx?id=47808">Starterslonen voor jongeren/Salaires de départ pour les jeunes</g>‘ weitere Informationen über diese Maßnahme und die anwendbaren Lohnelemente.  </target>
+          </trans-unit>
+        </group>
+        <trans-unit restype="x-html-p" id="/html/body/p[13]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="new"></target>
+        </trans-unit>
+        <trans-unit restype="x-html-p" id="/html/body/p[14]">
+          <source xml:lang="nl"> </source>
+          <target xml:lang="de" state="new"></target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

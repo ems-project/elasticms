@@ -121,7 +121,7 @@ class AuditResult
     {
         $output_array = [];
         \preg_match('/data:(?P<mimetype>[a-z\/\-\+]+\/[a-z\/\-\+]+);base64,(?P<base64>.+)/', $data, $output_array);
-        if (isset($output_array['mimetype']) && isset($output_array['base64']) && \is_string($output_array['mimetype']) && \is_string($output_array['base64'])) {
+        if (isset($output_array['mimetype']) && isset($output_array['base64'])) {
             $this->lighthouseScreenshotBase64 = $output_array['base64'];
             $this->lighthouseScreenshotMimetype = $output_array['mimetype'];
         }
@@ -191,6 +191,11 @@ class AuditResult
         $this->mimetype = $mimetype;
     }
 
+    public function hasLocale(): bool
+    {
+        return null !== $this->locale;
+    }
+
     public function setLocale(?string $locale): void
     {
         if (null === $locale || '' === \trim($locale)) {
@@ -230,7 +235,7 @@ class AuditResult
         }
 
         return \array_filter(\array_merge($init, [
-            'url' => $this->url->getUrl(),
+            'url' => $this->url->getUrl(null, false, false),
             'referer' => $this->url->getReferer(),
             'referer_label' => $this->url->getRefererLabel(),
             'pa11y' => $this->pa11y,

@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -13,7 +14,9 @@ use EMS\Helpers\Standard\DateTime;
  * Environment.
  *
  * @ORM\Table(name="environment")
+ *
  * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\EnvironmentRepository")
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Environment extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
@@ -23,7 +26,9 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;

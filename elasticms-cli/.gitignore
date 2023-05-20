@@ -22,5 +22,5 @@
 /node_modules/
 /admin/
 /document/
-Audit-Report-*
-~$Audit-Report-*
+Audit-*
+~$Audit-*

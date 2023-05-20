@@ -6,25 +6,62 @@ namespace EMS\Release;
 
 class Config
 {
-    public static array $applications = [
-        'elasticms-admin' => 'elasticms/elasticms-admin',
-        'elasticms-web' => 'elasticms/elasticms-web',
-        'elasticms-cli' => 'elasticms/elasticms-cli',
+    /** @var array<string, string[]> */
+    public const REPOSITORIES = [
+        'applications' => self::APPLICATIONS,
+        'docker' => self::DOCKER,
+        'packages' => self::PACKAGES,
     ];
 
-    public static array $docker = [
-        'elasticms-admin-docker' => 'elasticms/elasticms-admin-docker',
-        'elasticms-web-docker' => 'elasticms/elasticms-web-docker',
-        'elasticms-cli-docker' => 'elasticms/elasticms-cli-docker',
+    /** @var string[] */
+    public const APPLICATIONS = [
+        'elasticms-admin',
+        'elasticms-web',
+        'elasticms-cli',
+        'elasticms-demo',
     ];
 
-    public static array $packages = [
+    /** @var string[] */
+    public const DOCKER = [
+        'elasticms-admin-docker',
+        'elasticms-web-docker',
+        'elasticms-cli-docker',
+    ];
+
+    /** @var string[] */
+    public const PACKAGES = [
+        'EMSClientHelperBundle',
+        'EMSCommonBundle',
+        'EMSCoreBundle',
+        'EMSFormBundle',
+        'EMSSubmissionBundle',
+        'helpers',
+        'xliff',
+    ];
+
+    /** @var array<string, string> */
+    public const COMPOSER_PACKAGES = [
         'EMSClientHelperBundle' => 'elasticms/client-helper-bundle',
         'EMSCommonBundle' => 'elasticms/common-bundle',
         'EMSCoreBundle' => 'elasticms/core-bundle',
         'EMSFormBundle' => 'elasticms/form-bundle',
         'EMSSubmissionBundle' => 'elasticms/submission-bundle',
         'helpers' => 'elasticms/helpers',
-        'xliff' => 'elasticms/xliff'
+        'xliff' => 'elasticms/xliff',
+    ];
+
+    /** @var array<string, string> */
+    public const PULL_REQUESTS = [
+        'feat' => 'Features',
+        'fix' => 'Bug Fixes',
+        'docs' => 'Documentation',
+        'style' => 'Styles',
+        'refactor' => 'Code Refactoring',
+        'perf' => 'Performance Improvements',
+        'test' => 'Tests',
+        'build' => 'Builds',
+        'ci' => 'Continuous Integrations',
+        'chore' => 'Chores',
+        'revert' => 'Reverts',
     ];
 }

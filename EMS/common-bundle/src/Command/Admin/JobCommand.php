@@ -77,7 +77,7 @@ class JobCommand extends AbstractCommand
             $this->io->section(\sprintf('Job #%s has been started', $this->jobIdOrJsonFile));
         }
         $this->io->section('Job\'s output:');
-        $this->writeOutput($status);
+        $this->coreApi->admin()->writeJobOutput($this->jobIdOrJsonFile, $this->output);
 
         $this->io->section('Job\'s status:');
         $this->echoStatus($this->coreApi->admin()->getJobStatus($this->jobIdOrJsonFile));
@@ -99,34 +99,5 @@ class JobCommand extends AbstractCommand
             ['Started' => $status['started'] ? 'true' : 'false'],
             ['Done' => $status['done'] ? 'true' : 'false']
         );
-    }
-
-    /**
-     * @param array{id: string, created: string, modified: string, command: string, user: string, started: bool, done?: bool, output: ?string} $status
-     */
-    private function writeOutput(array $status): void
-    {
-        $currentLine = 0;
-        while (true) {
-            if (\strlen($status['output'] ?? '') > 0) {
-                $counter = 0;
-                $lines = \preg_split("/((\r?\n)|(\r\n?))/", $status['output']);
-                if (false === $lines) {
-                    throw new \RuntimeException('Unexpected false split lines');
-                }
-                foreach ($lines as $line) {
-                    if ($counter++ < $currentLine) {
-                        continue;
-                    }
-                    $currentLine = $counter;
-                    $this->io->writeln(\sprintf("<fg=yellow>></>\t%s", $line));
-                }
-            }
-            if ($status['done'] ?? false) {
-                break;
-            }
-            \sleep(1);
-            $status = $this->coreApi->admin()->getJobStatus($this->jobIdOrJsonFile);
-        }
     }
 }

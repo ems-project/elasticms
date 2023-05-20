@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Validator\Constraints as EMSAssert;
@@ -15,7 +16,9 @@ use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Table(name="schedule")
+ *
  * @ORM\Entity()
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Schedule extends JsonDeserializer implements \JsonSerializable, EntityInterface
@@ -23,8 +26,11 @@ class Schedule extends JsonDeserializer implements \JsonSerializable, EntityInte
     use CreatedModifiedTrait;
     /**
      * @ORM\Id
+     *
      * @ORM\Column(type="uuid", unique=true)
+     *
      * @ORM\GeneratedValue(strategy="CUSTOM")
+     *
      * @ORM\CustomIdGenerator(class=UuidGenerator::class)
      */
     private UuidInterface $id;
@@ -36,6 +42,7 @@ class Schedule extends JsonDeserializer implements \JsonSerializable, EntityInte
 
     /**
      * @EMSAssert\Cron()
+     *
      * @ORM\Column(name="cron", type="string", length=255)
      */
     protected string $cron = '';

@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller;
 
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\Dashboard\DashboardService;
+use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Routes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,9 +19,7 @@ final class DashboardController extends AbstractController
     {
     }
 
-    /**
-     * @deprecated
-     */
+    /** @deprecated */
     public function landing(): RedirectResponse
     {
         @\trigger_error(\sprintf('Route ems_core_dashboard is deprecated, use %s instead', Routes::DASHBOARD), E_USER_DEPRECATED);
@@ -44,7 +43,7 @@ final class DashboardController extends AbstractController
 
     private function landingDashboard(): RedirectResponse
     {
-        $dashboard = $this->dashboardManager->getLandingPage();
+        $dashboard = $this->dashboardManager->getDefinition(Dashboard::DEFINITION_LANDING_PAGE);
         if (null !== $dashboard) {
             return $this->redirectToRoute(Routes::DASHBOARD, ['name' => $dashboard->getName()]);
         }

@@ -42,13 +42,11 @@ final class Filter
 
     private ?AbstractQuery $query = null;
 
-    /** @var mixed|null */
-    private $value;
+    private mixed $value = null;
     /** @var array<mixed>|null */
     private ?array $choices = null;
 
-    /** @var bool|string */
-    private $dateFormat;
+    private bool|string $dateFormat;
 
     private const TYPE_TERM = 'term';
     private const TYPE_TERMS = 'terms';
@@ -63,6 +61,7 @@ final class Filter
         self::TYPE_DATE_TIME_RANGE,
         self::TYPE_DATE_VERSION,
     ];
+    private string $clause;
 
     /**
      * @param array<mixed> $options
@@ -76,10 +75,11 @@ final class Filter
         $this->field = $options['field'] ?? $name;
         $this->secondaryField = $options['secondary_field'] ?? null;
         $this->nestedPath = $options['nested_path'] ?? null;
+        $this->clause = $options['clause'] ?? 'must';
 
-        $this->public = isset($options['public']) ? (bool) $options['public'] : true;
-        $this->active = isset($options['active']) ? (bool) $options['active'] : true;
-        $this->optional = isset($options['optional']) ? (bool) $options['optional'] : false;
+        $this->public = (bool) ($options['public'] ?? true);
+        $this->active = (bool) ($options['active'] ?? true);
+        $this->optional = (bool) ($options['optional'] ?? false);
         $this->aggSize = isset($options['aggs_size']) ? (int) $options['aggs_size'] : null;
         $this->sortField = $options['sort_field'] ?? null;
         $this->sortOrder = $options['sort_order'] ?? 'asc';
@@ -117,10 +117,7 @@ final class Filter
         return $this->isNested() ? $this->nestedPath.'.'.$this->field : $this->field;
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }
@@ -166,9 +163,7 @@ final class Filter
 
     public function handleRequest(Request $request): void
     {
-        if (null !== $this->field) {
-            $this->field = RequestHelper::replace($request, $this->field);
-        }
+        $this->field = RequestHelper::replace($request, $this->field);
 
         if (null !== $this->value) {
             if (\is_array($this->value)) {
@@ -260,6 +255,11 @@ final class Filter
         return $this->reversedNested;
     }
 
+    public function getClause(): string
+    {
+        return $this->clause;
+    }
+
     private function setQuery(mixed $value): void
     {
         switch ($this->type) {
@@ -300,11 +300,11 @@ final class Filter
 
         if (!empty($value['start'])) {
             $startDatetime = $this->createDateTimeForQuery($value['start'], '00:00:00');
-            $start = $startDatetime ? $startDatetime->format($format) : null;
+            $start = $startDatetime?->format($format);
         }
         if (!empty($value['end'])) {
             $endDatetime = $this->createDateTimeForQuery($value['end'], '23:59:59');
-            $end = $endDatetime ? $endDatetime->format($format) : null;
+            $end = $endDatetime?->format($format);
         }
 
         if (null === $start && null === $end) {
@@ -321,7 +321,7 @@ final class Filter
 
     private function getQueryVersion(): ?AbstractQuery
     {
-        if (null === $this->value || !\is_string($this->value)) {
+        if (!\is_string($this->value)) {
             return null;
         }
 

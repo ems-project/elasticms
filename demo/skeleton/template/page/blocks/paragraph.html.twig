@@ -1,0 +1,7 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block widget %}
+    <div class="ems_paragraph">
+        {{ item.object.body|default('')|emsch_routing }}
+    </div>
+{% endblock widget %}

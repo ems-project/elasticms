@@ -8,15 +8,17 @@ use EMS\ClientHelperBundle\Helper\Environment\Environment;
 
 final class LocalEnvironmentFactory
 {
-    private readonly string $path;
-
-    public function __construct(string $projectDir)
-    {
-        $this->path = $projectDir.DIRECTORY_SEPARATOR.'local';
+    public function __construct(
+        private readonly string $projectDir,
+        private readonly ?string $localPath = null
+    ) {
     }
 
     public function create(Environment $environment): LocalEnvironment
     {
-        return new LocalEnvironment($environment, $this->path);
+        $path = $this->localPath ?: 'local'.\DIRECTORY_SEPARATOR.$environment->getAlias();
+        $directory = $this->projectDir.\DIRECTORY_SEPARATOR.$path;
+
+        return new LocalEnvironment($environment, $directory);
     }
 }

@@ -1,11 +1,13 @@
+$browser-context:  16;
+
 // This file is meant in order to override Bootstrap variables
 // Go to node_modules/bootstrap/scss/_variables.scss file to see which variables can be override
-$elasticms_pink: #F44997;
-$elasticms_yellow: #FFD201;
+$elasticms_pink: #EF79AC;
+$elasticms_yellow: #D5B90B;
 $elasticms_light_blue: #00A7E2;
-$elasticms_dark_blue: #0078A2;
+$elasticms_dark_blue: #117bbb;
 $elasticms_lagoon: #00BCB1;
-$elasticms_green: #8ECA2F;
+$elasticms_green: #A5D13C;
 
 $blue:    $elasticms_dark_blue;
 $green:   #518400;
@@ -14,8 +16,59 @@ $yellow:  #8d7400;
 $teal:    $elasticms_lagoon;
 $cyan:    #007fac;
 
-$breadcrumb-bg: #feffff;
+$gray-300: #dadada;
+$gray-600: #626262;
+$gray-900: #111;
 
-$navbar-dark-color:                 #d0d0d0;
-$navbar-dark-hover-color:           #ffffff;
-$navbar-dark-disabled-color:        #b0b0b0;
+$primary:  $blue;
+$dark: $gray-900;
+
+$link-color: $gray-900;
+
+$input-border-color: $gray-600;
+
+$header-height: 4rem;
+$header-height-lg: 6.5rem;
+
+$font-family-sans-serif: Mulish, Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-size-base:              1rem;
+
+$h1-font-size:                $font-size-base * 2.875;
+$h2-font-size:                $font-size-base * 1.75;
+$h3-font-size:                $font-size-base * 1.375;
+
+$hr-margin-y:                 2.5rem;
+
+$border-radius:               1.25rem;
+$border-radius-lg:            .3rem !default;
+$border-radius-sm:            1.25rem;
+
+$input-btn-padding-y:         .375rem !default;
+$input-btn-padding-x:         1rem;
+
+$input-btn-padding-y-sm:      .275rem;
+$input-btn-padding-x-sm:      1.25rem;
+$input-btn-font-size-sm:      1rem;
+
+$navbar-padding-x: 0;
+$navbar-light-color: $gray-900;
+
+$jumbotron-padding:                 1.75rem;
+$jumbotron-color:                   null !default;
+$jumbotron-bg:                      $primary;
+$jumbotron-bg-hp:                   #ebecf0;
+
+$breadcrumb-padding-y:              0;
+$breadcrumb-padding-x:              0;
+$breadcrumb-item-padding:           0;
+$breadcrumb-margin-bottom:          1rem !default;
+$breadcrumb-bg:                     transparent;
+$breadcrumb-border-radius:          0;
+
+$table-head-bg:               #DCEBF5;
+$table-th-font-weight:        normal;
+
+$dropdown-min-width:                8rem;
+$dropdown-padding-x:                0;
+$dropdown-padding-y:                0;
+$dropdown-border-radius: .55rem;

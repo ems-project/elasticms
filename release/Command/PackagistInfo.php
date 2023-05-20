@@ -15,7 +15,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class PackagistInfo extends Command
 {
     protected static $defaultName = 'packagist:info';
-    protected static $defaultDescription = '2) Check if packages are published';
+    protected static $defaultDescription = 'Check if packages are published';
 
     private SymfonyStyle $io;
     private ClientPackagist $packagistApi;
@@ -40,26 +40,27 @@ class PackagistInfo extends Command
     {
         $this->io->title('Packagist info');
 
-        $pg = $this->io->createProgressBar(\count(Config::$packages));
+        $pg = $this->io->createProgressBar(\count(Config::PACKAGES));
         $pg->start();
 
         $rows = [];
 
-        foreach (Config::$packages as $packageName) {
+        foreach (Config::PACKAGES as $repository) {
+            $packageName = Config::COMPOSER_PACKAGES[$repository];
             $package = $this->packagistApi->getComposerReleases($packageName)[$packageName];
             $versions = $package->getVersions();
 
             $version = $versions[$this->version] ?? null;
-            $dist = $version ? $version->getDist() : null;
+            $dist = $version?->getDist();
 
-            $rows[] = [ $packageName, $version ? $version->getVersion() : 'X', ($dist ? $dist->getReference() : 'X')];
+            $rows[] = [$packageName, $version ? $version->getVersion() : 'X', $dist ? $dist->getReference() : 'X'];
             $pg->advance();
         }
 
         $pg->finish();
         $this->io->newLine(2);
 
-        $this->io->table([ 'package', 'version', 'sha'], $rows);
+        $this->io->table(['package', 'version', 'sha'], $rows);
 
         return 0;
     }

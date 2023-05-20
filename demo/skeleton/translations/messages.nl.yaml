@@ -1,6 +1,71 @@
-error:
-    target-not-found: 'Page not found'
+aria:
+    back-to-top: 'Back to top'
+    navbar:
+        active-item: actief
+    skip-to-content: 'Ga onmiddellijk naar de inhoud'
+    toggle-navbar: 'Toon navigatie'
+block:
+    grid:
+        see_also: 'Zie ook'
+blog:
+    filter: Filters
+    intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
+    title: 'What’s new ? - De Blog'
+breadcrumb:
+    back-to: 'Terug naar  %title%'
+    homepage: homepagina
+cookie:
+    close: 'Ik begrijp het!'
+    closeAll: 'cookies voor sociale media'
+    closeSite: 'functionele cookies'
+    link: 'Meer weten'
+    text: 'Wij gebruiken cookies op deze site om de gebruikerservaring te verbeteren.'
+ems:
+    back_to_ems: 'Terug naar eMS'
+ems_form:
+    loading: 'bezig met laden...'
+features:
+    discover: 'Ontdek alle features'
+footer:
+    join-us-github: 'Join-us on GitHub'
+js:
+    file_selected: '%count% files selected'
+    form_error: 'The form faced an issue : %message%'
+    form_error_try_later: 'The form faced an issue, please try again later'
+    form_processed: 'Your message was sent'
+    form_saved: 'Your message was sent'
+language:
+    selection: 'select language'
+locale: Nederlands
+missing:
+    but-available-in: 'Version en nederlands :'
+    description: 'Voir ci-dessous pour des versions alternatives.'
+    title: 'Ce contenu n''est pas disponible en nederlands'
+month:
+    April: April
+    August: Augustus
+    December: December
+    February: Februari
+    January: Januari
+    July: Juli
+    June: Juni
+    March: Maart
+    May: Mei
+    November: November
+    October: oktober
+    September: September
 navbar:
     swith-to-locale: Nederlands
 site:
-    name: 'Demo website'
+    copy: 'Copyright %year%'
+    lead: 'Een CMS op maat voor de openbare sector'
+    name: elasticMS
+    news_title: 'What''s new?'
+    short_name: elasticMS
+usergroup:
+    facilitator: 'Facilitator voor de volgende user group'
+    intro: 'Binnenkort vindt u op deze pagina informatie over de volgende user group.'
+    next-event: 'Datum en uur'
+    team-meeting: Duur
+    title: 'Volgende sessie'
+    topic: Onderwerpen

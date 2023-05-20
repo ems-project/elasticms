@@ -170,8 +170,8 @@ class Functions
     }
 
     /**
-     * @param string|array<string>                  $values,
-     * @param array<string>|array<string, string[]> $keys,
+     * @param string|array<string>|array<string, string[]> $values,
+     * @param array<string>|array<string, string[]>        $keys,
      *
      * @return array<string, string[]>
      */

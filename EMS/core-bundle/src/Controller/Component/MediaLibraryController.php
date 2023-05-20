@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -26,8 +26,7 @@ class MediaLibraryController
         private readonly MediaLibraryService $mediaLibraryService,
         private readonly AjaxService $ajax,
         private readonly TranslatorInterface $translator,
-        private readonly FormFactory $formFactory,
-        private readonly FlashBagInterface $flashBag,
+        private readonly FormFactory $formFactory
     ) {
     }
 
@@ -55,7 +54,9 @@ class MediaLibraryController
                 $folderName = (string) $form->get('folder_name')->getData();
 
                 if ($this->mediaLibraryService->createFolder($config, $folderName, $path)) {
-                    $this->flashBag->clear();
+                    /** @var Session $session */
+                    $session = $request->getSession();
+                    $session->getFlashBag()->clear();
 
                     return $this->getAjaxModal()->getSuccessResponse(['path' => $path]);
                 }
@@ -77,11 +78,15 @@ class MediaLibraryController
         $requestJson = Json::decode($request->getContent());
         $file = $requestJson['file'];
 
-        if (!$this->mediaLibraryService->createFile($config, $fileHash, $file, $this->getPath($request))) {
-            return new JsonResponse(['messages' => $this->flashBag->all()], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        /** @var Session $session */
+        $session = $request->getSession();
 
-        $this->flashBag->clear();
+        if (!$this->mediaLibraryService->createFile($config, $fileHash, $file, $this->getPath($request))) {
+            return new JsonResponse([
+                'messages' => $session->getFlashBag()->all(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        $session->getFlashBag()->clear();
 
         return new JsonResponse([], Response::HTTP_CREATED);
     }
@@ -93,6 +98,6 @@ class MediaLibraryController
 
     private function getAjaxModal(): AjaxModal
     {
-        return $this->ajax->newAjaxModel('@EMSCore/components/media_library_modal.html.twig');
+        return $this->ajax->newAjaxModel('@EMSCore/components/media_library/modal.html.twig');
     }
 }

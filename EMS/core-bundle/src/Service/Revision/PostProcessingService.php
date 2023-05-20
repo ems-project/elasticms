@@ -14,6 +14,7 @@ use EMS\CoreBundle\Exception\CantBeFinalizedException;
 use EMS\CoreBundle\Form\DataField\CollectionFieldType;
 use EMS\CoreBundle\Form\DataField\ComputedFieldType;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
+use EMS\CoreBundle\Form\DataField\FormFieldType;
 use EMS\CoreBundle\Form\DataField\JsonMenuNestedEditorFieldType;
 use EMS\CoreBundle\Form\DataField\MultiplexedTabContainerFieldType;
 use EMS\CoreBundle\Form\Form\RevisionJsonMenuNestedType;
@@ -99,6 +100,7 @@ final class PostProcessingService
                         $found = true;
                     } else {
                         $this->logger->warning('service.data.json_parse_post_processing_error', [
+                            '_id' => $context['_id'] ?? null,
                             'field_name' => $dataField->giveFieldType()->getName(),
                             EmsFields::LOG_ERROR_MESSAGE_FIELD => $out,
                         ]);
@@ -109,6 +111,7 @@ final class PostProcessingService
                     if (!$migration) {
                         $form->addError(new FormError($e->getPrevious()->getMessage()));
                         $this->logger->warning('service.data.cant_finalize_field', [
+                            '_id' => $context['_id'] ?? null,
                             'field_name' => $dataField->giveFieldType()->getName(),
                             'field_display' => isset($fieldType->getDisplayOptions()['label']) && !empty($fieldType->getDisplayOptions()['label']) ? $fieldType->getDisplayOptions()['label'] : $fieldType->getName(),
                             EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getPrevious()->getMessage(),
@@ -116,6 +119,7 @@ final class PostProcessingService
                     }
                 } else {
                     $this->logger->warning('service.data.json_parse_post_processing_error', [
+                        '_id' => $context['_id'] ?? null,
                         'field_name' => $fieldType->getName(),
                         EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
                         EmsFields::LOG_EXCEPTION_FIELD => $e,
@@ -147,6 +151,7 @@ final class PostProcessingService
                     }
 
                     $this->logger->warning('service.data.template_parse_error', [
+                        '_id' => $context['_id'] ?? null,
                         EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
                         EmsFields::LOG_EXCEPTION_FIELD => $e,
                         'computed_field_name' => $fieldType->getName(),
@@ -159,6 +164,10 @@ final class PostProcessingService
                 unset($objectArray[$fieldType->getName()]);
             }
             $found = true;
+        } elseif ($form->getConfig()->getType()->getInnerType() instanceof FormFieldType) {
+            foreach ($form->all() as $child) {
+                $found = $this->postProcessing($child, $contentType, $objectArray, $context, $parent, $path) || $found;
+            }
         }
 
         if ($dataFieldType->isContainer() && $form instanceof \IteratorAggregate) {

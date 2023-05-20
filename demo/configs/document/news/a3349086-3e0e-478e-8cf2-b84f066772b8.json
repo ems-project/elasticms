@@ -1,0 +1,31 @@
+{
+    "categories": [
+        "category:520c5aff-c687-4911-822a-538f970b0342"
+    ],
+    "fr": {
+        "body": "<p>Avec&nbsp;<strong>Orejime</strong>, vous g&eacute;rez les cookies en toute simplicit&eacute; et transparence. Orejime est un syst&egrave;me que vous pouvez utiliser sur votre site Web afin de permettre aux utilisateurs de choisir les cookies optionnels qu&rsquo;ils autorisent via un pop-up d&rsquo;accueil.</p>\r\n\r\n<p>Il a &eacute;t&eacute; sp&eacute;cialement con&ccedil;u pour se conformer au&nbsp;<strong>RGPD</strong>. En un clic, l&rsquo;utilisateur renseigne ses choix de cookies et ses pr&eacute;f&eacute;rences sont sauvegard&eacute;es.</p>",
+        "description": "<p>Avec&nbsp;<strong>Orejime</strong>, vous g&eacute;rez les cookies en toute simplicit&eacute; et transparence. Orejime est un syst&egrave;me que vous pouvez utiliser sur votre site Web afin de permettre aux utilisateurs de choisir les cookies optionnels qu&rsquo;ils autorisent via un pop-up d&rsquo;accueil.</p>",
+        "image": {
+            "filename": "ems orejime gba fr.png",
+            "filesize": 52148,
+            "mimetype": "image/png",
+            "sha1": "89796f895ab84f4ca6227316fd5b43601bad31d7"
+        },
+        "slug": "un-gestionnaire-accessible",
+        "title": "Un gestionnaire accessible"
+    },
+    "label": "Un gestionnaire accessible / Een toegankelijk beheer",
+    "nl": {
+        "body": "<p>Met Orejime beheert u cookies op een eenvoudige en transparante manier. Het laat toe om webbezoekers via een pop-up te laten kiezen welke optionele cookies ze toestaan.</p>\r\n\r\n<p>Het is speciaal ontworpen om te voldoen aan de&nbsp;<strong>GDPR</strong>-richtlijnen. In &eacute;&eacute;n muisklik geven gebruikers hun cookievoorkeuren in.</p>",
+        "description": "<p>Met Orejime beheert u cookies op een eenvoudige en transparante manier. Het laat toe om webbezoekers via een pop-up te laten kiezen welke optionele cookies ze toestaan.</p>",
+        "image": {
+            "filename": "ems orejime gba nl.png",
+            "filesize": 50620,
+            "mimetype": "image/png",
+            "sha1": "a3267c9ca62c54ebcb0471e65de8a7fd17db1526"
+        },
+        "slug": "een-toegankelijk-beheer",
+        "title": "Een toegankelijk beheer"
+    },
+    "publication_date": "2022/12/14"
+}

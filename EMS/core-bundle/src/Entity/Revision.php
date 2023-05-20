@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use EMS\CommonBundle\Common\Standard\Type;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Exception\LockedException;
 use EMS\CoreBundle\Exception\NotLockedException;
@@ -19,7 +20,9 @@ use Ramsey\Uuid\UuidInterface;
  * Revision.
  *
  * @ORM\Table(name="revision", uniqueConstraints={@ORM\UniqueConstraint(name="tuple_index", columns={"end_time", "ouuid"})})
+ *
  * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\RevisionRepository")
+ *
  * @ORM\HasLifecycleCallbacks()
  */
 class Revision implements EntityInterface, \Stringable
@@ -28,7 +31,9 @@ class Revision implements EntityInterface, \Stringable
     use CreatedModifiedTrait;
     /**
      * @ORM\Column(name="id", type="integer")
+     *
      * @ORM\Id
+     *
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?int $id = null;
@@ -46,12 +51,14 @@ class Revision implements EntityInterface, \Stringable
     private bool $deleted = false;
     /**
      * @ORM\ManyToOne(targetEntity="ContentType")
+     *
      * @ORM\JoinColumn(name="content_type_id", referencedColumnName="id")
      */
     private ?ContentType $contentType = null;
     private ?DataField $dataField = null;
     /**
      * @ORM\Column(name="version", type="integer")
+     *
      * @ORM\Version
      */
     private int $version = 0;
@@ -104,7 +111,9 @@ class Revision implements EntityInterface, \Stringable
      * @var ArrayCollection<int, Environment>|Environment[]
      *
      * @ORM\ManyToMany(targetEntity="Environment", inversedBy="revisions", cascade={"persist"})
+     *
      * @ORM\JoinTable(name="environment_revision")
+     *
      * @ORM\OrderBy({"orderKey":"ASC"})
      */
     private Collection $environments;
@@ -112,6 +121,7 @@ class Revision implements EntityInterface, \Stringable
      * @var Collection<int, Notification>
      *
      * @ORM\OneToMany(targetEntity="Notification", mappedBy="revision", cascade={"persist", "remove"})
+     *
      * @ORM\OrderBy({"created" = "ASC"})
      */
     private Collection $notifications;
@@ -174,6 +184,7 @@ class Revision implements EntityInterface, \Stringable
 
     /**
      * @ORM\PrePersist
+     *
      * @ORM\PreUpdate
      */
     public function checkLock(): void
@@ -333,7 +344,9 @@ class Revision implements EntityInterface, \Stringable
      */
     public function close(\DateTime $endTime): void
     {
-        $this->setEndTime($endTime);
+        if (null === $this->endTime) {
+            $this->setEndTime($endTime);
+        }
         $this->setDraft(false);
         $this->setAutoSave(null);
         $this->removeEnvironment($this->giveContentType()->giveEnvironment());
@@ -670,6 +683,11 @@ class Revision implements EntityInterface, \Stringable
         return $hash;
     }
 
+    public function hasHash(): bool
+    {
+        return \is_string($this->rawData[Mapping::HASH_FIELD] ?? null);
+    }
+
     /**
      * @return array<int|string, mixed>
      */
@@ -734,43 +752,10 @@ class Revision implements EntityInterface, \Stringable
 
     public function getLabel(): string
     {
-        $label = $this->createLabel();
-
-        if (null !== $this->versionUuid) {
-            $from = $this->getVersionDate('from');
-            $toDate = $this->getVersionDate('to');
-
-            return \vsprintf('%s - %s (%s%s)', [
-                $this->versionTag,
-                $label,
-                $from ? $from->format('d/m/Y') : '',
-                $toDate ? ' - '.$toDate->format('d/m/Y') : '',
-            ]);
-        }
-
-        return $label;
-    }
-
-    private function createLabel(): string
-    {
-        if (null !== $rawDataLabel = $this->createLabelFromRawData()) {
-            return $rawDataLabel;
-        }
-
-        if (null !== $labelField = $this->getLabelField()) {
-            return $labelField;
-        }
-
-        return '';
-    }
-
-    private function createLabelFromRawData(): ?string
-    {
-        $contentType = $this->giveContentType();
-        $contentTypeLabelField = $contentType->getLabelField();
+        $contentTypeLabelField = $this->giveContentType()->getLabelField();
 
         if (null === $contentTypeLabelField) {
-            return null;
+            return $this->ouuid ?? '';
         }
 
         $label = $this->rawData[$contentTypeLabelField] ?? null;
@@ -783,7 +768,7 @@ class Revision implements EntityInterface, \Stringable
             return $label;
         }
 
-        return null;
+        return $this->ouuid ?? '';
     }
 
     public function setLabelField(?string $labelField): self
@@ -936,7 +921,7 @@ class Revision implements EntityInterface, \Stringable
     {
         $versionTags = $this->contentType ? $this->contentType->getVersionTags() : [];
 
-        if (!isset($versionTags[0]) || !\is_string($versionTags[0])) {
+        if (!isset($versionTags[0])) {
             throw new \RuntimeException(\sprintf('No version tags found for contentType %s (use hasVersionTags)', $this->getContentTypeName()));
         }
 

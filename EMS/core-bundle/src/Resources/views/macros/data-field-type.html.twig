@@ -51,7 +51,7 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<i class="{% if dataField.fieldType.displayOptions.icon is defined %}{{ dataField.fieldType.displayOptions.icon }}{% else %}fa fa-file-o{% endif %}"></i> 				
+			<i class="{% if dataField.fieldType.displayOptions.icon is defined %}{{ dataField.fieldType.displayOptions.icon }}{% else %}fa fa-file-o{% endif %}"></i>
 				{% if dataField.fieldType.displayOptions.label is defined %}
 					{{ dataField.fieldType.displayOptions.label }}
 				{% else %}
@@ -235,7 +235,7 @@
 {% block EMS_CoreBundle_Form_DataField_CollectionFieldType %}
 	{% set collapsible = dataField.fieldType.displayOptions.collapsible|default(false) %}
 	{% set compareCollectionRawData = (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null) %}
-	{% set diffCount = dataField.children|length - compareCollectionRawData|length %}
+	{% set diffCount = dataField.getChildren|length - compareCollectionRawData|length %}
 
 	<div class="panel panel-default {% if collapsible %}collapsible-collection{% endif %}">
 		<div class="panel-heading">
@@ -268,14 +268,14 @@
 		</div>
 		<div class="panel-body {% if collapsible %}collapse{% endif %}">
 			{% for idx, rawChild in dataField.rawData %}
-				{%  set child = dataField.children[loop.index0] %}
+				{%  set child = dataField.getChildren[loop.index0] %}
 				{%  set subpath = path|merge([loop.index0]) %}
 				<div class="{% if dataField.fieldType.displayOptions.itemBootstrapClass is defined and dataField.fieldType.displayOptions.itemBootstrapClass %}{{ dataField.fieldType.displayOptions.itemBootstrapClass }}{% else %}col-md-12{% endif %}">
                     <div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								{% if dataField.fieldType.displayOptions.icon is defined %}
-									<i class="{{ dataField.fieldType.displayOptions.icon }}"></i> 
+									<i class="{{ dataField.fieldType.displayOptions.icon }}"></i>
 								{% endif %}
 								{% if dataField.fieldType.displayOptions.singularLabel is defined %}
 									{{ dataField.fieldType.displayOptions.singularLabel }}
@@ -294,12 +294,12 @@
 						</div>
 						<div class="panel-body container-fluid {% if collapsible %}collapse{% endif %}">
 							<div class="row">
-								{% for grandchild in child.children %}
+								{% for grandchild in child.getChildren %}
 									<div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class  %}{{ grandchild.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
 										{{ _self.renderDataFieldBlock(grandchild, source, compare, (attribute(compareCollectionRawData, idx) is defined?attribute(compareCollectionRawData, idx):null), '', subpath) }}
 									</div>
 									{% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
-										</div><div class="row">
+										<div class="clearfix"></div>
 									{% endif %}
 								{% endfor %}
 							</div>
@@ -311,6 +311,18 @@
 	</div>
 	{{ _self.messages(dataField) }}
 {% endblock %}
+
+{% block EMS_CoreBundle_Form_DataField_HolderFieldType %}
+    {% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
+        <div class="{{ child.fieldType.displayOptions.class|default('col-md-12') }}">
+            {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path) }}
+        </div>
+        {% if child.fieldType.displayOptions.lastOfRow|default(false) %}
+            <div class="clearfix"></div>
+        {% endif %}
+    {% endfor %}
+{% endblock EMS_CoreBundle_Form_DataField_HolderFieldType %}
+
 
 {% block EMS_CoreBundle_Form_DataField_ContainerFieldType %}
 	{% set parent = dataField.fieldType.parent %}
@@ -336,13 +348,12 @@
 	{% endif %}
 
 	<div class="row">
-		{% for child in dataField.children|filter(c => false == c.fieldType.deleted) %}
-		
+		{% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
 			<div class="{% if child.fieldType.displayOptions.class is defined and child.fieldType.displayOptions.class  %}{{ child.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
 				{{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path) }}
 			</div>
 			{% if child.fieldType.displayOptions.lastOfRow is defined and child.fieldType.displayOptions.lastOfRow %}
-				</div><div class="row">
+                <div class="clearfix"></div>
 			{% endif %}
 		{% endfor %}
 	</div>
@@ -359,7 +370,7 @@
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					{% if dataField.fieldType.displayOptions.icon is defined %}
-						<i class="{{ dataField.fieldType.displayOptions.icon }}"></i> 
+						<i class="{{ dataField.fieldType.displayOptions.icon }}"></i>
 					{% endif %}
 					{% if dataField.fieldType.displayOptions.label is defined %}
 						{{ dataField.fieldType.displayOptions.label }}
@@ -376,12 +387,12 @@
 		{% set compareSubRawData = attribute(compareRawData, dataField.fieldType.name) %}
 	{% endif %}
 
-    {% for child in dataField.children|filter(child => not child.fieldType.deleted) %}
+    {% for child in dataField.getChildren|filter(child => not child.fieldType.deleted) %}
 	<div class="{% if child.fieldType.displayOptions.class is defined and child.fieldType.displayOptions.class  %}{{ child.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
 				{{ _self.renderDataFieldBlock(child, source, compare, compareSubRawData, '', path) }}
 			</div>
 			{% if child.fieldType.displayOptions.lastOfRow is defined and child.fieldType.displayOptions.lastOfRow %}
-				</div><div class="row">
+				<div class="clearfix"></div>
 			{% endif %}
 		{% endfor %}
 	</div>
@@ -420,7 +431,7 @@
 				<div class="tab-pane{% if loop.index == 1%} active{% endif %}" id="item_{{ path|join('_')~'_'~loop.index0 }}__tab">
 					{% set childData = source[value]|default([]) %}
 					{% set childCompareData = compareRawData[value]|default([]) %}
-					{% for grandchild in dataField.children.get(value).children|default([]) %}
+					{% for grandchild in dataField.getChildren.get(value).getChildren|default([]) %}
 						{{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0])) }}
 					{% endfor %}
 				</div>
@@ -445,7 +456,7 @@
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
 			{% set counter = 1 %}
-            {% for child in dataField.children|filter(child => not child.fieldType.deleted) %}
+            {% for child in dataField.getChildren|filter(child => not child.fieldType.deleted) %}
 				{% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
 					{% set labels = child.fieldType.displayOptions.labels|default('')|replace({"\r":''})|split('\n') %}
 					{% set values = child.fieldType.displayOptions.values|default('')|replace({"\r":''})|split('\n')%}
@@ -459,7 +470,7 @@
 
 					{% for value in values %}
 						{% with {
-							'child': child.children[value],
+							'child': child.getChildren[value],
 							'counter': counter,
 							'label': attribute(choices, value),
 							'path': path|merge([counter]),
@@ -485,9 +496,9 @@
 		</ul>
 		<div class="tab-content">
 			{% set counter = 1 %}
-			{% for child in dataField.children|filter(child => not child.fieldType.deleted) %}
+			{% for child in dataField.getChildren|filter(child => not child.fieldType.deleted) %}
 				{% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == child.fieldType.type|default(null) %}
-					{% for key, item in  child.children %}
+					{% for key, item in  child.getChildren %}
 						{% with {
 							'child': item,
 							'counter': counter,
@@ -496,7 +507,7 @@
 							<div class="tab-pane{% if counter == 1%} active{% endif %}" id="item_{{ path|join('_')~'_'~counter }}__tab">
 								{% set childData = source[key]|default([]) %}
 								{% set childCompareData = compareRawData[key]|default([]) %}
-								{% for grandchild in child.children|default([]) %}
+								{% for grandchild in child.getChildren|default([]) %}
 									{{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([counter])) }}
 								{% endfor %}
 							</div>
@@ -555,7 +566,7 @@
 			<ul>
             	{{ diff_choice(dataField.rawData, labels, choices, compare, dataField.fieldType.name, compareRawData) }}
 			</ul>
-		
+
 		</dd>
 	</dl>
 	{{ _self.messages(dataField) }}
@@ -633,7 +644,7 @@
 		<dd>
 			<div class="panel panel-default">
 				<div class="panel-body">
-                    {{ diff_text(dataField.rawData, compare, dataField.fieldType.name, compareRawData)|raw }}
+                    {{ diff(dataField.rawData, attribute(compareRawData, dataField.fieldType.name)|default(null), compare, true, false)|nl2br }}
 				</div>
 			</div>
 		</dd>
@@ -659,7 +670,13 @@
                         <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|internal_links }}</pre>
                         <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|json_encode|internal_links }}</pre>
                     {% else %}
-                        <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|json_encode|internal_links }}</pre>
+                        <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">
+							{%- if dataField.fieldType.displayOptions.prettyPrint|default(false) -%}
+								{{- dataField.rawData|json_encode(constant('JSON_PRETTY_PRINT'))|internal_links -}}
+							{%- else -%}
+								{{ dataField.rawData|json_encode|internal_links }}
+							{%- endif -%}
+						</pre>
                     {% endif %}
                 </div>
             </div>
@@ -682,7 +699,7 @@
 		<dd>
 			<div class="panel panel-default">
 				{% set panelBody = diff_html(dataField.rawData, compare, dataField.fieldType.name, compareRawData) %}
-				{% if dataField.fieldType.displayOptions.styles_set_preview|default(false) %}
+				{% if dataField.rawData and dataField.fieldType.displayOptions.styles_set_preview|default(false) %}
 					{% set displayOptions = dataField.fieldType.displayOptions %}
 					{% set iframeUrl = path('emsco_wysiwyg_styleset_iframe', {
 						'name': displayOptions.styles_set|default('default'),
@@ -1141,8 +1158,8 @@
 		{% if attribute(dataField.rawData, dataField.fieldType.mappingOptions.toDateMachineName) is defined %}
 			{% set dateTo = attribute(dataField.rawData, dataField.fieldType.mappingOptions.toDateMachineName) %}
 		{% endif %}
-		
-		
+
+
 		<dd>
 			<ul>
 				{% set child = compareRawData %}
@@ -1160,13 +1177,13 @@
 					<li>
 						<b>From </b>
                         {{ diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.format|convertJavascriptDateRangeFormat, false, constant('\\DateTime::ISO8601')) }}
-					</li>	
-				{% endif %}		
+					</li>
+				{% endif %}
 				{% if dateTo %}
 					<li>
 						<b>To </b>
                         {{ diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.format|convertJavascriptDateRangeFormat, false, constant('\\DateTime::ISO8601')) }}
-					</li>	
+					</li>
 				{% endif %}
 				{% if dateFrom and dateTo %}
 					<li>
@@ -1246,4 +1263,23 @@
 		</dd>
 	</dl>
 	{{ _self.messages(dataField) }}
+{% endblock %}
+
+{% block EMS_CoreBundle_Form_DataField_FormFieldType %}
+    {% if dataField.fieldType.displayOptions.form is defined %}
+        {% set form = emsco_get_form(dataField.fieldType.displayOptions.form, dataField.rawData) %}
+        {% set errorMessage = 'view.macros.data-field-type.form.not-found' %}
+    {% endif %}
+    {% if form is defined and form %}
+        {{ _self.renderDataFieldBlock(emsco_get_data_field(form), source, compare, compareRawData, '', path) }}
+    {% else %}
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                {{ dataField.fieldType.displayOptions.label|default(dataField.fieldType.name) }}{% if is_super() %} ({{ dataField.fieldType.name }}){% endif %}
+            </div>
+            <div class="panel-body">
+                {{ errorMessage|default('view.macros.data-field-type.form.not-defined')|trans }}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

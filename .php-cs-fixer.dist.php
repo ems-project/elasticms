@@ -9,6 +9,7 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/elasticms-*/tests')
     ->in(__DIR__.'/EMS/*/src')
     ->in(__DIR__.'/EMS/*/tests')
+    ->in(__DIR__.'/release')
     ->exclude('/EMS/helpers/tmp')
 ;
 
@@ -17,8 +18,7 @@ $config = new PhpCsFixer\Config();
 return $config
     ->setRules([
         '@Symfony' => true,
-        //'declare_strict_types' => true,
-        //'final_class' => true,
+        'phpdoc_separation' => ['skip_unlisted_annotations' => true],
         'native_function_invocation' => ['include' => ['@all']],
         'no_unused_imports' => true,
     ])

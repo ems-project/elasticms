@@ -5,7 +5,6 @@ namespace EMS\CoreBundle\Command;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Core\Job\ScheduleManager;
 use EMS\CoreBundle\Entity\Job;
-use EMS\CoreBundle\Entity\Schedule;
 use EMS\CoreBundle\Service\JobService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -57,7 +56,7 @@ class JobCommand extends AbstractCommand
         if (null === $job) {
             $this->io->comment('No pending job to treat. Looking for due scheduled job.');
             $schedule = $this->scheduleManager->findNext($this->tag);
-            $job = $this->jobFomSchedule($schedule);
+            $job = $this->jobService->jobFomSchedule($schedule, self::USER_JOB_COMMAND);
         }
 
         if (null === $job) {
@@ -107,19 +106,6 @@ class JobCommand extends AbstractCommand
         }
 
         return parent::EXECUTE_SUCCESS;
-    }
-
-    private function jobFomSchedule(?Schedule $schedule): ?Job
-    {
-        if (null === $schedule) {
-            return null;
-        }
-        $startDate = $schedule->getPreviousRun();
-        if (null === $startDate) {
-            throw new \RuntimeException('Unexpected null start date');
-        }
-
-        return $this->jobService->initJob(self::USER_JOB_COMMAND, $schedule->getCommand(), $startDate);
     }
 
     private function cleanJobs(): void

@@ -11,6 +11,7 @@ use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Command\JobOutput;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Job;
+use EMS\CoreBundle\Entity\Schedule;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Repository\JobRepository;
 use PHPUnit\TextUI\RuntimeException;
@@ -273,5 +274,18 @@ class JobService implements EntityServiceInterface
         $this->repository->delete($job);
 
         return \strval($id);
+    }
+
+    public function jobFomSchedule(?Schedule $schedule, string $username): ?Job
+    {
+        if (null === $schedule) {
+            return null;
+        }
+        $startDate = $schedule->getPreviousRun();
+        if (null === $startDate) {
+            throw new \RuntimeException('Unexpected null start date');
+        }
+
+        return $this->initJob($username, $schedule->getCommand(), $startDate);
     }
 }

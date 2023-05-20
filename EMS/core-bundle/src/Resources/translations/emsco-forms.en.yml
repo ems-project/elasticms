@@ -939,10 +939,13 @@ ems.view.hierarchical: 'Hierarchical view'
 ems.view.sorter: 'Sorter view'
 schedule.name: Name
 schedule.cron: Cron
+schedule.cron_help: '<Minute> <Hour> <Day_of_the_Month> <Month_of_the_Year> <Day_of_the_Week>. E.g. every 15 minutes: */15 * * * *'
 schedule.command: Command
 schedule.create: Create
 schedule.save: Save
 schedule.saveAndClose: 'Save and Close'
+schedule.tag: 'Tag'
+schedule.tag_help: 'Used to indentify workers (e.g. CLI) which would remotely execute the job'
 user.locale: 'Language UI'
 user.locale_preferred: 'Language preferred'
 user.display_name: 'Display name'

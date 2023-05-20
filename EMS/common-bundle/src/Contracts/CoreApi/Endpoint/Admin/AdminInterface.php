@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin;
 
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use Symfony\Component\Console\Output\OutputInterface;
 
 interface AdminInterface
@@ -30,4 +31,6 @@ interface AdminInterface
     public function writeJobOutput(string $jobId, OutputInterface $output): void;
 
     public function runCommand(string $command, OutputInterface $output): void;
+
+    public function startNextJob(string $tag): ?Job;
 }

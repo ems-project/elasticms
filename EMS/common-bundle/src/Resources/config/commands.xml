@@ -60,6 +60,10 @@
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command"/>
         </service>
+        <service id="ems.command.admin.command" class="EMS\CommonBundle\Command\Admin\NextJobCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command"/>
+        </service>
         <service id="ems.command.document.download" class="EMS\CommonBundle\Command\Document\DownloadCommand">
             <argument type="service" id="ems.helper.admin_api"/>
             <argument type="string">%kernel.project_dir%</argument>

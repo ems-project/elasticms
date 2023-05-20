@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Admin;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -98,5 +99,11 @@ final class Admin implements AdminInterface
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);
         }
+    }
+
+    public function startNextJob(string $tag): ?Job
+    {
+        // TODO: Implement startNextJob() method.
+        return null;
     }
 }

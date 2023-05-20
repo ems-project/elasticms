@@ -63,7 +63,6 @@ class Schedule extends JsonDeserializer implements \JsonSerializable, EntityInte
     protected int $orderKey = 0;
 
     /**
-     * @EMSAssert\Cron()
      * @ORM\Column(name="tag", type="string", length=255, nullable=true)
      */
     protected ?string $tag = null;

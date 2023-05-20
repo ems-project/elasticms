@@ -880,6 +880,7 @@ schedule.index.column.command: Command
 schedule.index.column.cron: Cron
 schedule.index.column.previous-run: 'Previous run'
 schedule.index.column.next-run: 'Next run'
+schedule.index.column.tag: 'Tag'
 log.controller.schedule.unknown_action: 'Unknown action'
 log.service.schedule.delete: 'Schedule %name% has been deleted'
 user.add.button: 'Add user'

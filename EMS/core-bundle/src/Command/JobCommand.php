@@ -14,8 +14,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class JobCommand extends AbstractCommand
 {
+    private const OPTION_DUMP = 'dump';
+    private const OPTION_TAG = 'tag';
     protected static $defaultName = 'ems:job:run';
     private const USER_JOB_COMMAND = 'User-Job-Command';
+    private bool $dump = false;
+    private ?string $tag = null;
 
     public function __construct(private readonly JobService $jobService, private readonly ScheduleManager $scheduleManager, private readonly string $dateFormat, private readonly string $cleanJobsTimeString)
     {
@@ -26,27 +30,34 @@ class JobCommand extends AbstractCommand
     {
         $this->setDescription('Execute the next pending job if exist. If not execute the oldest due scheduled job if exist.')
             ->addOption(
-                'dump',
+                self::OPTION_DUMP,
                 null,
                 InputOption::VALUE_NONE,
                 'Shows the job\'s output at the end of the execution'
+            )
+            ->addOption(
+                self::OPTION_TAG,
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Will treat the next scheduled job flagged with the provided tag (don\'t execute pending jobs)'
             );
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        parent::initialize($input, $output);
+        $this->dump = $this->getOptionBool(self::OPTION_DUMP);
+        $this->tag = $this->getOptionStringNull(self::OPTION_TAG);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('EMSCO - Job');
 
-        $job = $this->jobService->findNext();
-        $schedule = null;
+        $job = null === $this->tag ? $this->jobService->findNext() : null;
         if (null === $job) {
             $this->io->comment('No pending job to treat. Looking for due scheduled job.');
-            $schedule = $this->scheduleManager->findNext();
+            $schedule = $this->scheduleManager->findNext($this->tag);
             $job = $this->jobFomSchedule($schedule);
         }
 
@@ -83,8 +94,8 @@ class JobCommand extends AbstractCommand
 
         $this->io->success(\sprintf('Job completed with the return status "%s" in %s', $job->getStatus(), $interval->format('%a days, %h hours, %i minutes and %s seconds')));
 
-        if (true !== $input->getOption('dump')) {
-            return 0;
+        if (!$this->dump) {
+            return parent::EXECUTE_SUCCESS;
         }
 
         $jobLog = $job->getOutput();
@@ -96,7 +107,7 @@ class JobCommand extends AbstractCommand
             $this->io->section('End of job\'s output');
         }
 
-        return 0;
+        return parent::EXECUTE_SUCCESS;
     }
 
     private function jobFomSchedule(?Schedule $schedule): ?Job

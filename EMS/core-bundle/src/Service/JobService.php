@@ -145,7 +145,7 @@ class JobService implements EntityServiceInterface
         $job = $this->repository->findById($jobId);
         $job->setDone(true);
         $job->setProgress(100);
-        if (null === $errorMessage) {
+        if (null !== $errorMessage) {
             $job->setStatus('failed');
             $job->setOutput($job->getOutput().PHP_EOL.$errorMessage.PHP_EOL);
         }

@@ -9,6 +9,7 @@ use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Form\JobType;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
 use EMS\CoreBundle\Service\JobService;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
 use SensioLabs\AnsiConverter\Theme\Theme;
@@ -154,5 +155,50 @@ class JobController extends AbstractController
             'command' => $job->getCommand(),
             'output' => $job->getOutput(),
         ]);
+    }
+
+    public function jobCompleted(int $job, Request $request): Response
+    {
+        $user = $this->getUser();
+        if (!$user instanceof UserInterface) {
+            throw new NotFoundHttpException('User not found');
+        }
+        $this->jobService->finish($job);
+
+        return EmsCoreResponse::createJsonResponse($request, true);
+    }
+
+    public function jobFailed(int $job, Request $request): Response
+    {
+        $user = $this->getUser();
+        if (!$user instanceof UserInterface) {
+            throw new NotFoundHttpException('User not found');
+        }
+        $content = $request->getContent();
+        if (!\is_string($content)) {
+            throw new \RuntimeException('Unexpected non string content');
+        }
+        $data = Json::decode($content);
+        $this->jobService->finish($job, $data['message'] ?? 'job failed');
+
+        return EmsCoreResponse::createJsonResponse($request, true);
+    }
+
+    public function jobWrite(int $job, Request $request): Response
+    {
+        $user = $this->getUser();
+        if (!$user instanceof UserInterface) {
+            throw new NotFoundHttpException('User not found');
+        }
+        $content = $request->getContent();
+        if (!\is_string($content)) {
+            throw new \RuntimeException('Unexpected non string content');
+        }
+        $data = Json::decode($content);
+        $message = \strval($data['message'] ?? '');
+        $newLine = \boolval($data['new-line'] ?? false);
+        $this->jobService->write($job, $message, $newLine);
+
+        return EmsCoreResponse::createJsonResponse($request, true);
     }
 }

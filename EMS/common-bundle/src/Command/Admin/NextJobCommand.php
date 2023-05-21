@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Command\Admin;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\Job\JobManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -18,7 +19,7 @@ class NextJobCommand extends AbstractCommand
     protected static $defaultName = Commands::ADMIN_NEXT_JOB;
     private string $tag;
 
-    public function __construct(private readonly AdminHelper $adminHelper)
+    public function __construct(private readonly AdminHelper $adminHelper, private readonly JobManager $jobManager)
     {
         parent::__construct();
     }
@@ -47,6 +48,7 @@ class NextJobCommand extends AbstractCommand
 
         $this->io->title(\sprintf('Starting job %s', $job->getJobId()));
         $this->io->title(\sprintf('Command: %s', $job->getJobId()));
+        $this->jobManager->run($job);
 
         return self::EXECUTE_SUCCESS;
     }

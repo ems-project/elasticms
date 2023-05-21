@@ -119,5 +119,9 @@
             <argument>%kernel.project_dir%</argument>
             <call method="build"></call>
         </service>
+
+        <service id="ems_common.job.manager" class="EMS\CommonBundle\Common\Job\JobManager">
+            <argument type="service" id="kernel"/>
+        </service>
     </services>
 </container>

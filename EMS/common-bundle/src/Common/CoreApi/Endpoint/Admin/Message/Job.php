@@ -11,7 +11,7 @@ class Job
 {
     private string $jobId;
     private ?string $output;
-    private string $command;
+    private ?string $command;
 
     public function __construct(private readonly Result $result)
     {
@@ -40,7 +40,7 @@ class Job
 
     public function getCommand(): string
     {
-        return $this->command;
+        return $this->command ?? 'list';
     }
 
     public function getOutput(): ?string

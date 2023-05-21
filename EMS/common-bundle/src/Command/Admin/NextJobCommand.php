@@ -31,8 +31,8 @@ class NextJobCommand extends AbstractCommand
     {
         parent::configure();
         $this->setDescription('Contact the admin to check if a job is planned for the given tag and run it locally');
-        $this->addArgument(self::TAG_ARGUMENT, InputArgument::REQUIRED, 'Tag that identifies the command family');
-        $this->addOption(self::SILENT_OPTION, null, InputOption::VALUE_NONE, 'Dont echo outputs in the console');
+        $this->addArgument(self::TAG_ARGUMENT, InputArgument::REQUIRED, 'Tag that identifies the scheduled jobs');
+        $this->addOption(self::SILENT_OPTION, null, InputOption::VALUE_NONE, 'Dont echo outputs in the console (only in the admin job logs);
     }
 
     public function initialize(InputInterface $input, OutputInterface $output): void

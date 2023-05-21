@@ -110,4 +110,24 @@ final class Admin implements AdminInterface
 
         return new Job($result);
     }
+
+    public function jobCompleted(Job $job): void
+    {
+        $this->client->post(\implode('/', ['api', 'admin', 'job-completed', $job->getJobId()]));
+    }
+
+    public function jobFailed(Job $job, string $message): void
+    {
+        $this->client->post(\implode('/', ['api', 'admin', 'job-failed', $job->getJobId()]), [
+            'message' => $message,
+        ]);
+    }
+
+    public function jobDoWrite(Job $job, string $message, bool $newline): void
+    {
+        $this->client->post(\implode('/', ['api', 'admin', 'job-write', $job->getJobId()]), [
+            'message' => $message,
+            'new-line' => $newline,
+        ]);
+    }
 }

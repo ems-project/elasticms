@@ -32,5 +32,11 @@ interface AdminInterface
 
     public function runCommand(string $command, OutputInterface $output): void;
 
-    public function startNextJob(string $tag): ?Job;
+    public function getNextJob(string $tag): ?Job;
+
+    public function jobCompleted(Job $job): void;
+
+    public function jobFailed(Job $job, string $getMessage): void;
+
+    public function jobDoWrite(Job $job, string $message, bool $newline): void;
 }

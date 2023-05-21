@@ -30,6 +30,7 @@ class NextJobCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
+        $this->setDescription('Contacts the admin to check if a job is planned for the given tag and run it locally');
         $this->addArgument(self::TAG_ARGUMENT, InputArgument::REQUIRED, 'Tag that identifies the command family');
         $this->addOption(self::SILENT_OPTION, null, InputOption::VALUE_NONE, 'Dont echo outputs in the console');
     }

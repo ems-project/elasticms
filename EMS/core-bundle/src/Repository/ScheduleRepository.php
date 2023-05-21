@@ -116,7 +116,7 @@ class ScheduleRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('schedule');
         $qb->andWhere($qb->expr()->lte('schedule.nextRun', ':now'))
-        ->andWhere($qb->expr()->lte('schedule.tag', ':tag'))
+        ->andWhere($qb->expr()->eq('schedule.tag', ':tag'))
         ->setParameters([
             'now' => new \DateTimeImmutable(),
             'tag' => $tag,

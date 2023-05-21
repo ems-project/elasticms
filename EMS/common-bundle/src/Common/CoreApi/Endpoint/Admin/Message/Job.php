@@ -19,13 +19,13 @@ class Job
         $resolver->setRequired(['acknowledged', 'success', 'message', 'job_id', 'output', 'command']);
         $resolver->setAllowedTypes('job_id', ['string']);
         $resolver->setAllowedTypes('output', ['string', 'null']);
-        $resolver->setAllowedTypes('command', ['string']);
+        $resolver->setAllowedTypes('command', ['string', 'null']);
 
-        /** @var array{job_id: string, output: string, command: string} */
+        /** @var array{job_id: string, output: string|null, command: string|null} */
         $resolved = $resolver->resolve($result->getData());
         $this->jobId = $resolved['job_id'];
         $this->output = $resolved['output'];
-        $this->command = $resolved['command'];
+        $this->command = $resolved['command'] ?? 'list';
     }
 
     public function getJobId(): mixed

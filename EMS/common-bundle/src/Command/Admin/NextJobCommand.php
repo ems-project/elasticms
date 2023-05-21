@@ -39,7 +39,7 @@ class NextJobCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $job = $this->adminHelper->getCoreApi()->admin()->startNextJob($this->tag);
+        $job = $this->adminHelper->getCoreApi()->admin()->getNextJob($this->tag);
         if (null === $job) {
             $this->io->write('Nothing to execute locally');
 

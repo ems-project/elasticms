@@ -101,7 +101,7 @@ final class Admin implements AdminInterface
         }
     }
 
-    public function startNextJob(string $tag): ?Job
+    public function getNextJob(string $tag): ?Job
     {
         $result = $this->client->post(\implode('/', ['api', 'admin', 'next-job', $tag]));
         if (null === ($result->getData()['job_id'] ?? null)) {

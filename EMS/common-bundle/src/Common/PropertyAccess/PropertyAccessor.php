@@ -70,6 +70,50 @@ class PropertyAccessor
         $array[$currentElement->getName()] = $this->encode($array[$currentElement->getName()], $currentElement);
     }
 
+    /**
+     * @param mixed[]               $array
+     * @param array<string, string> $replacers
+     *
+     * @return \Generator<string, mixed>
+     */
+    public function iterator(PropertyPath|string $propertyPath, array $array, array $replacers = [], string $basePath = ''): \Generator
+    {
+        $propertyPath = $this->getPropertyPath($propertyPath);
+        $currentElement = $propertyPath->current();
+
+        if ('*' === $currentElement->getName()) {
+            foreach ($this->iterateOnAllChildren($propertyPath, $array, $replacers, $basePath) as $key => $value) {
+                yield $key => $value;
+            }
+        }
+
+        $last = $propertyPath->last();
+        $propertyPath->next();
+
+        $fields = \explode('|', $currentElement->getName());
+        $operators = $currentElement->getOperatorsAsString();
+        $index = $propertyPath->getIndex();
+        foreach ($fields as $field) {
+            $propertyPath->setIndex($index);
+            $realFieldName = empty($replacers) ? $field : \str_replace(\array_keys($replacers), \array_values($replacers), $field);
+            if (!isset($array[$realFieldName])) {
+                continue;
+            }
+            $path = \sprintf('%s[%s%s]', $basePath, $operators, $field);
+            $decoded = $this->decode($array[$realFieldName], $currentElement);
+            if ($last) {
+                yield $path => $decoded;
+            } else {
+                if (!\is_array($decoded)) {
+                    throw new \RuntimeException('Unexpected non decoded array');
+                }
+                foreach ($this->iterator($propertyPath, $decoded, $replacers, $path) as $key => $value) {
+                    yield $key => $value;
+                }
+            }
+        }
+    }
+
     private function getPropertyPath(PropertyPath|string $propertyPath): PropertyPath
     {
         if ($propertyPath instanceof PropertyPath) {
@@ -97,6 +141,7 @@ class PropertyAccessor
             $value = match ($operator) {
                 'json' => Json::encode($value),
                 'base64' => \is_string($value) ? Base64::encode($value) : throw new \RuntimeException('Only a string can be base64 encoded, array given'),
+                'id_key' => \is_array($value) ? \array_values($value) : throw new \RuntimeException('Only an array can be use to retrieve the id property as array key'),
                 default => throw new \RuntimeException(\sprintf('Operator %s not supported', $operator))
             };
         }
@@ -114,10 +159,58 @@ class PropertyAccessor
             $value = match ($operator) {
                 'json' => \is_string($value) ? Json::decode($value) : throw new \RuntimeException('Only a string can be json decoded, array given'),
                 'base64' => \is_string($value) ? Base64::decode($value) : throw new \RuntimeException('Only a string can be base64 decoded, array given'),
+                'id_key' => \is_array($value) ? $this->idPropertyAsArrayKey($value) : throw new \RuntimeException('Only an array can be use to retrieve the id property as array key'),
                 default => throw new \RuntimeException(\sprintf('Operator %s not supported', $operator))
             };
         }
 
         return $value;
+    }
+
+    /**
+     * @param mixed[]              $array
+     * @param array<string,string> $replacers
+     *
+     * @return \Generator<string, mixed>
+     */
+    private function iterateOnAllChildren(PropertyPath $propertyPath, array $array, array $replacers, string $basePath): \Generator
+    {
+        $currentElement = $propertyPath->current();
+        $last = $propertyPath->last();
+        $propertyPath->next();
+        $index = $propertyPath->getIndex();
+        $operators = $currentElement->getOperatorsAsString();
+        foreach ($array as $field => $value) {
+            $path = \sprintf('%s[%s%s]', $basePath, $operators, $field);
+            $decoded = $this->decode($value, $currentElement);
+            $propertyPath->setIndex($index);
+            if ($last) {
+                yield $path => $decoded;
+            } else {
+                if (!\is_array($decoded)) {
+                    throw new \RuntimeException('Unexpected non decoded array');
+                }
+                foreach ($this->iterator($propertyPath, $decoded, $replacers, $path) as $path => $childValue) {
+                    yield $path => $childValue;
+                }
+            }
+        }
+    }
+
+    /**
+     * @param  mixed[] $array
+     * @return mixed[]
+     */
+    private function idPropertyAsArrayKey(array $array): array
+    {
+        $withIdAskey = [];
+        foreach ($array as $key => $value) {
+            if (!isset($value['id'])) {
+                throw new \RuntimeException(\sprintf('Property id is missing in item %d', $key));
+            }
+            $withIdAskey[\strval($value['id'])] = $value;
+        }
+
+        return $withIdAskey;
     }
 }

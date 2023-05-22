@@ -1,0 +1,45 @@
+parameters:
+    env(SAML_SP_PUBLIC): 'MIIC2zCCAcMCBgGGPHWIuzANBgkqhkiG9w0BAQsFADAxMS8wLQYDVQQDDCZodHRwOi8vbG9jYWxob3N0Ojg4ODIvc2FtbC9sb2dpbl9jaGVjazAeFw0yMzAyMTAxNzUxMjFaFw0zMzAyMTAxNzUzMDFaMDExLzAtBgNVBAMMJmh0dHA6Ly9sb2NhbGhvc3Q6ODg4Mi9zYW1sL2xvZ2luX2NoZWNrMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0xU6ggTVggU3aG79Iz28R30IaRk47/LUxOEoBKbwr+Y+krFhlDfkJXnAxX8vIkeXBoYFVZ9BV+ZpzFv2kqdHbPWrqdti/q0DIRuczczO+stHGuJjrohkj6YznwGj5wNyIpeTid0G6uud2Ke72MAIo1whcm4zQ1Sw7Pl8MHp19nfFvOwri+COW/iJrrDn5PCn7/4QqquLgaUd/PXNt3jDOO7S0llY4Ra38KxCmLvFkQ63maTNO74HZTVBwZNB9W7YoNa82EL4jMafS+rB68jkfF8+8YUh8ZrcmDpyREzVNZ8n76AGWlhQBXLiWg8I/xEMKtBvW069IePwKqxbcXxbyQIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQDJccjFJTxgVRlR2DweY172gNLiMXEhhEfxHGjLU7dYvLpc4euiuR0MGfexm4eSDhfy0LsEr2LAr8fu5SqHjgGTIm6ttNFNL2WuWEZkMs0cUqc2uY4RiQyitvgpS6A65ggYFohxpdIZIvUcFtENiLnfLiGfUE3Z+ZYT5NuZbnzbP2WMdL1XmFE732UzTQlOii4aCS54IbWR1ZLdhkzaIb5eQJfGA97XYZT+OnDYKkFPZb3MQFwXNFOOOdpJ17cyUqJtzqz/GQaozacxdAy2GRZumoUWphvNzSuDMUQLdjnCt8jPkNz38NUjypRla/rotsAY7dzpbMMHqhyj8wXA3yeT'
+    env(SAML_SP_PRIVATE): 'MIIEowIBAAKCAQEA0xU6ggTVggU3aG79Iz28R30IaRk47/LUxOEoBKbwr+Y+krFhlDfkJXnAxX8vIkeXBoYFVZ9BV+ZpzFv2kqdHbPWrqdti/q0DIRuczczO+stHGuJjrohkj6YznwGj5wNyIpeTid0G6uud2Ke72MAIo1whcm4zQ1Sw7Pl8MHp19nfFvOwri+COW/iJrrDn5PCn7/4QqquLgaUd/PXNt3jDOO7S0llY4Ra38KxCmLvFkQ63maTNO74HZTVBwZNB9W7YoNa82EL4jMafS+rB68jkfF8+8YUh8ZrcmDpyREzVNZ8n76AGWlhQBXLiWg8I/xEMKtBvW069IePwKqxbcXxbyQIDAQABAoIBAAWIiu4Znlc4N8mfDze7SJI/LtdCeAGiRf2bQWdN0QVrbbx+teYiyPJKjMkgmmW1prnfDYi/EgFx4tgemQojJHYwwn1DaQbwFiLqDGRAuDRO2+BSivZqUOiLHNNQQbGun3FUs+NrTeEeqBaj3wLBlfhiU+YiCWn8cF7l82F59FmvoecdYhGo0Gs4tKMl58iiBfw1qelDrYnbXDLQ3gvOCH0EIA7+zv+rjT5oWvomMuPxq9rHRt01voyopd4Oykb7R7DERCrjXotoywYmU0TCWGAOPoWe0n0W8uE7aAqVl3RBiKeS3xVn4mDhetvnt3drLrvi+VoQ5NrFXhnSiGhnDAECgYEA8WbU2GvBCTbPk2XWqHtRoU6/43JNKRwc9DBlIxPcHTRXWZMkHV6TPFpLMwklhkU+FzLp87pdvkVeXY1lzMRgXS/kBxEp3QpFuJa8pycBN34tY6t7NZbd4APkROAUAHxzmFjlqKKXC9mm9o6TGToWxbIYMlHbXars8py64CmVZ4kCgYEA39kHWmuwWLwWzcaJWF26plWZDhZ0ncWoo6nV+hxMb+t3bNxvDKYxsFfavrjWKrYf7h4kZv4n/ttqCQ2ih7P0J/0GPYDVio45nA/gHBjhIvMTX1Epy5XUiOudNu32XdXuVLav1l/+GD98r6+usZyl6aCysIOaRsdluW2pn8xOAkECgYEAnbL8puk1sMxCrFrh8SymdgdY6b/Y0ltQOuGGoHSv3dA8pAKwnBMVgl7GM2/tOJrxZfxXw2XjKZJthBYEA9Hh1d6cS1WWEJVOWLj4QwYDEHp4Ml1q3uZQybAhJjFwP6UNat/gH9sfa5ljLjyTse41xC6FChJZiQZJRnDGz/u6Y2kCgYApCdHmSt3utrT7js15TN2+Ru0jfwxsLGOpdaaMDwoYbrPbWmJlkEaFzOWGl75z4CXkctQ7qZbNi45aEIzekihN+H5fYjJED6USLnroy8rirGu9ytR9xX9Mht2wx1mmhGUIVOHRzJF6ApGqZ+wAFfb46QQ5hjcPiNjmcOtrJ3qZwQKBgFguJ8dyjKWSooUhXZyOywjbP9uqsl/cJi9GgkaVQ7cVLwgB9D517PO+GvIuc1nmQ3kyaHpv79PxaRcY6+VX0e8giAS1yMH+Av6j47rshTmS3GP6MGEsrsOHZTLjG+MFfIyUOy0zWPE+VPj+vRhIWZo+EdfhAWXjLt+C22RvCTMd'
+    env(SAML_IDP_PUBLIC): 'MIICoTCCAYkCBgGGOshSgDANBgkqhkiG9w0BAQsFADAUMRIwEAYDVQQDDAllbGFzdGljbXMwHhcNMjMwMjEwMTAwMjMyWhcNMzMwMjEwMTAwNDEyWjAUMRIwEAYDVQQDDAllbGFzdGljbXMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDICcyDP4KwhPuIWLskBIt4cjqKtew+Npe3R+2tHG9BC+b6G0cR78kY8SgzfNCBL/Qe5G+IMA8aN8rKbzrPXBowRMKHhFXjG/+GN63ghpSUxSvdzLpG9PaUhLDe5WGmpLS2q7+uvB4Idkbc+IhCjWEG0BPI8BizdeRDabv6eUaaGW62OEpSKWAlPK6x+LtavR+LBixgnhoAk66FavcuLXKo2Gluv0zQPyzXLG7a3+rirf24WFwa0IGzlRwLfLzgEqXCGHV7h2uVdE45QsCfoJYk2lZdo8reHR1+uRvCc3zH8eGuF5yZHKOgyc/e4GasYtBuVnji1BbQhBPJ/8FXAMkRAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAHw9XfKLxBpvYlcGrEQSBVh6u64rtRgzMFJZ6UzKqPXmzkK5X9TUPEaQonpPsIetQrIkZ9es2V/wT9DxRbt2uTM15jK/flKrPhMgpvp+XpiMEN0KUtUpjJmF4qaRkcFin62/abpxmimi4Jm4vPa4VbtqV8ajwhiyOR29EpEguXpq/5CQenqhPGOWJZEImg+rDr9C4uPX1mtPJE6lfPCO0JFdFzpo9EuOtUnWmUQU3+PvsJvRZOWwJF1hDy5lu0JFxuuTCysWC+aCz941SW/Hk8kC69LX5u0pG/Ife4MWDmurtZpr4CmVssGPIwx/sFnh8SprMJgmKLMDvGjySvptN4I='
+
+hslavich_onelogin_saml:
+    idp:
+        entityId: 'http://localhost:8083/realms/elasticms'
+        singleSignOnService:
+            url: 'http://localhost:8083/realms/elasticms/protocol/saml'
+            binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+        singleLogoutService:
+            url: 'http://localhost:8083/realms/elasticms/protocol/saml'
+            binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+        x509cert: '%env(SAML_IDP_PUBLIC)%'
+    sp:
+        entityId: 'http://localhost:8882/saml/login_check'
+        assertionConsumerService:
+            url: 'http://localhost:8882/saml/acs'
+            binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+        singleLogoutService:
+            url: 'http://localhost:8882/saml/logout'
+            binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+        x509cert: '%env(SAML_SP_PUBLIC)%'
+        privateKey: '%env(SAML_SP_PRIVATE)%'
+    baseurl: 'http://localhost:8882/saml'
+    strict: true
+    debug: true
+    security:
+        nameIdEncrypted: false
+        authnRequestsSigned: false
+        logoutRequestSigned: false
+        logoutResponseSigned: false
+        wantMessagesSigned: false
+        wantAssertionsSigned: false
+        wantNameIdEncrypted: false
+        requestedAuthnContext: true
+        signMetadata: false
+        wantXMLValidation: true
+        relaxDestinationValidation: false
+        destinationStrictlyMatches: true
+        allowRepeatAttributeName: true
+        rejectUnsolicitedResponsesWithInResponseTo: false
+        signatureAlgorithm: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256'
+        digestAlgorithm: 'http://www.w3.org/2001/04/xmlenc#sha256'

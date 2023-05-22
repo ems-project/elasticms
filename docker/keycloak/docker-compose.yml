@@ -1,0 +1,43 @@
+  version: '3.5'
+
+  services:
+
+    keycloak:
+      image: quay.io/keycloak/keycloak:latest
+      container_name: keycloak
+      environment:
+        KC_DB: postgres
+        KC_DB_VENDOR: POSTGRES
+        KC_DB_DATABASE: keycloak
+        KC_DB_USERNAME: keycloak
+        KC_DB_PASSWORD: password
+        KC_DB_URL_HOST: keycloak_db
+        KC_DB_SCHEMA: public
+        KC_DB_PORT: 5433
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: changeme
+        KEYCLOAK_LOGLEVEL: ALL
+      volumes:
+        - ./backup:/backup
+      ports:
+        - "8083:8080"
+      command: [ 'start-dev' ]
+      depends_on:
+        - keycloak_db
+      restart: always
+    
+    keycloak_db:
+      image: postgres:13
+      container_name: keycloak_db
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+        POSTGRES_PORT: 5433
+      ports:
+        - "5433:5433"
+      volumes:
+        - keycloak_postgres:/var/lib/postgresql/data
+
+  volumes:
+    keycloak_postgres:

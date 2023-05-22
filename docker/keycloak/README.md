@@ -1,13 +1,29 @@
 # Keycloak
 
+Setup a keycloak
+
 ```bash
 docker compose up -d
-# check if http://localhost:8083 is running
-bash import.sh 
+```
+Check if available http://localhost:8083/admin/master/console
+Login: admin:changeme
+
+```bash
+docker compose exec keycloak sh /opt/keycloak/bin/kc.sh import --dir /data
 docker compose up -d --force-recreate
 ```
 
-[http://localhost:8083/admin/masterad/console)](http://localhost:8083/admin/master/console) [admin:changeme]
-[localhost:8083/realms/elasticms/account](localhost:8083/realms/elasticms/account) [user1@example.com:changeme]
-[localhost:8083/realms/elasticms/account](localhost:8083/realms/elasticms/account) [user2@example.com:changeme]
+Admin: http://localhost:8083/admin/master/console/#/elasticms/users
+> admin  changeme
 
+Users: http://localhost:8083/realms/elasticms/account
+> user1@example.com changeme
+> 
+> user2@example.com changeme
+
+## Export keycloak
+Update the backup
+
+```bash
+docker compose exec keycloak sh /opt/keycloak/bin/kc.sh export --dir /data --users same_file --realm elasticms
+```

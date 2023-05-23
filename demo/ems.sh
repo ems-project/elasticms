@@ -12,7 +12,6 @@ sub_help(){
     echo "    wl:           call the web CLI for the local environment"
     echo "    create_users: create demo users in the given environment (corresponding to the admin-{environment} docker compose service)"
     echo "    config_push:  upload admin's configuration in the given environment (corresponding to the web-{environment} docker compose service)"
-    echo "    config_pull:  download admin's configuration from the given environment (corresponding to the web-{environment} docker compose service)"
     echo ""
 }
 
@@ -159,12 +158,7 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update channel live
 
   echo "Rebuild environments and activate content types"
-  #docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:job rebuild-preview
-  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:rebuild preview
-  #docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:job rebuild-live
-  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:rebuild live
-  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:rebuild default
-  #docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:job activate-all-content-type
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:rebuild --all
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:contenttype:activate --all
 
   echo "Switch default environment"
@@ -188,55 +182,7 @@ sub_config_push(){
 
   echo "Align live"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:align preview live --force
-
 }
-
-sub_config_pull(){
-  environment=$1
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:login
-
-  echo "Update admin configs Filters"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get filter --export
-
-  echo "Update admin configs Analyzers"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get analyzer --export
-
-  echo "Update admin configs Schedules"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get schedule --export
-
-  echo "Update admin configs WYSIWYG Style Sets"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get wysiwyg-style-set --export
-
-  echo "Update admin configs WYSIWYG Profiles"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get wysiwyg-profile --export
-
-  echo "Update admin configs i18n"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get i18n --export
-
-  echo "Update admin configs Environments"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get environment --export
-
-  echo "Update admin configs ContentTypes"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get content-type --export
-
-  echo "Update admin configs QuerySearches"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get query-search --export
-
-  echo "Update admin configs Dashboards"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get dashboard --export
-
-  echo "Update admin configs Channels"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:get channel --export
-
-  echo "Download documents"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:download page
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:download publication
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:download slideshow
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:download structure
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:download form_instance
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:download asset
-}
-
 
 case $Command in
     "" | "-h" | "--help")

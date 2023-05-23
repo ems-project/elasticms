@@ -191,6 +191,11 @@ class AuditResult
         $this->mimetype = $mimetype;
     }
 
+    public function hasLocale(): bool
+    {
+        return null !== $this->locale;
+    }
+
     public function setLocale(?string $locale): void
     {
         if (null === $locale || '' === \trim($locale)) {

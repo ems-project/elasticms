@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Admin;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Message\Job;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -98,5 +99,35 @@ final class Admin implements AdminInterface
         if (null !== $output) {
             $this->writeJobOutput($jobId, $output);
         }
+    }
+
+    public function getNextJob(string $tag): ?Job
+    {
+        $result = $this->client->post(\implode('/', ['api', 'admin', 'next-job', $tag]));
+        if (null === ($result->getData()['job_id'] ?? null)) {
+            return null;
+        }
+
+        return new Job($result);
+    }
+
+    public function jobCompleted(Job $job): void
+    {
+        $this->client->post(\implode('/', ['api', 'admin', 'job-completed', $job->getJobId()]));
+    }
+
+    public function jobFailed(Job $job, string $message): void
+    {
+        $this->client->post(\implode('/', ['api', 'admin', 'job-failed', $job->getJobId()]), [
+            'message' => $message,
+        ]);
+    }
+
+    public function jobDoWrite(Job $job, string $message, bool $newline): void
+    {
+        $this->client->post(\implode('/', ['api', 'admin', 'job-write', $job->getJobId()]), [
+            'message' => $message,
+            'new-line' => $newline,
+        ]);
     }
 }

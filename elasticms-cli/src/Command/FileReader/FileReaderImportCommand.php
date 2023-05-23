@@ -35,7 +35,7 @@ final class FileReaderImportCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Synchronization files on media library for a given folder')
+            ->setDescription('Import an Excel file or a CSV file, one document per row')
             ->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'File path (xlsx or csv)')
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type target')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')

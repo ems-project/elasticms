@@ -198,6 +198,11 @@ class AssetRuntime
         return Json::decode($this->storageManager->getContents($hash));
     }
 
+    public function getContent(string $hash): string
+    {
+        return $this->storageManager->getContents($hash);
+    }
+
     /**
      * @return array<string, int|string>|null
      */

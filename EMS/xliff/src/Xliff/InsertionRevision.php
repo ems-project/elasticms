@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Xliff;
 
+use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Standard\Accessor;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\XML\DomHelper;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class InsertionRevision
 {
@@ -327,7 +327,7 @@ class InsertionRevision
         $sourcePropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $sourceLocale, $propertyPath);
         $targetPropertyPath = \str_replace(self::LOCALE_PLACE_HOLDER, $targetLocale, $propertyPath);
 
-        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $expectedSourceValue = $propertyAccessor->getValue($extractedRawData, $sourcePropertyPath);
 
         if ('html' === $format) {

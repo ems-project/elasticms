@@ -603,6 +603,20 @@ class ConfigManager
         }
     }
 
+    public function mediaFileLink(Url $url, Rapport $rapport, string $attribute): ?string
+    {
+        $emslink = $this->mediaFile($url, $rapport, $attribute);
+        if (null == $emslink) {
+            return null;
+        }
+
+        if ('href' === $attribute) {
+            return \sprintf('ems://object:%s', $emslink);
+        }
+
+        return \sprintf('ems://file:%s', $emslink);
+    }
+
     public function mediaFile(Url $url, Rapport $rapport, string $attribute): ?string
     {
         foreach ($this->htmlAsset2Document as $config) {
@@ -662,6 +676,9 @@ class ConfigManager
             } elseif (\is_array($source = $data[$config['file_field']] ?? null) && \is_array($target = $document->getSource()[$config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null)) {
                 $ouuid ??= $document->getId();
                 continue;
+            } elseif (empty($data[$config['file_field']] ?? null) && empty($document->getSource()[$config['file_field']] ?? null) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null) && $data[$config['path_field']] === ($document->getSource()[$config['path_field']] ?? null)) {
+                $ouuid ??= $document->getId();
+                continue;
             } else {
                 $draft = $contentTypeApi->update($document->getId(), $data);
             }
@@ -673,10 +690,6 @@ class ConfigManager
             }
         }
 
-        if ('href' === $attribute) {
-            return \sprintf('ems://object:%s:%s', $config['content_type'], $ouuid);
-        }
-
-        return \sprintf('ems://file:%s:%s', $config['content_type'], $ouuid);
+        return \sprintf('%s:%s', $config['content_type'], $ouuid);
     }
 }

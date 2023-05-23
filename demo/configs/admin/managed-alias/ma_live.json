@@ -1,0 +1,11 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\ManagedAlias",
+    "arguments": [],
+    "properties": {
+        "name": "ma_live",
+        "label": "MA Live",
+        "color": "green",
+        "extra": null
+    },
+    "replaced": []
+}

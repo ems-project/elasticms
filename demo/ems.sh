@@ -157,17 +157,15 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update channel preview
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update channel live
 
-  echo "Create/Update Managed Aliases"
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update managed-alias ma_live
-  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update managed-alias ma_preview
-
   echo "Rebuild environments and activate content types"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:rebuild --all
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:contenttype:activate --all
 
-  echo "Add environments to managed aliases"
+  echo "Create managed aliases"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:create ma_preview
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_preview preview
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_preview default
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:create ma_live
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_live live
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_live default
 

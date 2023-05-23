@@ -66,7 +66,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 0,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -98,7 +98,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -129,7 +129,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 0,
+                                        "orderKey": 1,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -173,7 +173,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 0,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -220,7 +220,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 2,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -268,7 +268,7 @@
                                                             "transformers": []
                                                         }
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 3,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -311,7 +311,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 3,
+                                                    "orderKey": 4,
                                                     "children": [
                                                         {
                                                             "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -343,7 +343,7 @@
                                                                     },
                                                                     "raw_data": []
                                                                 },
-                                                                "orderKey": 0,
+                                                                "orderKey": 1,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -384,7 +384,7 @@
                                                                                     "transformers": []
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -466,7 +466,7 @@
                                                                     },
                                                                     "raw_data": []
                                                                 },
-                                                                "orderKey": 1,
+                                                                "orderKey": 2,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -506,7 +506,7 @@
                                                                                     "protected": false
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -532,7 +532,8 @@
                                                                                     "choices": "grid-with-dark-background\r\ngrid-with-hr\r\ngrid-narrow\r\ngrid-with-blue-background",
                                                                                     "labels": "With dark background\r\nWith horizontal rule (HR)\r\nNarrow\r\nWith blue background",
                                                                                     "linked_collection": null,
-                                                                                    "collection_label_field": null
+                                                                                    "collection_label_field": null,
+                                                                                    "placeholder": null
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "index": "not_analyzed"
@@ -629,7 +630,7 @@
                                                                                                 "protected": false
                                                                                             }
                                                                                         },
-                                                                                        "orderKey": 0,
+                                                                                        "orderKey": 1,
                                                                                         "children": []
                                                                                     },
                                                                                     "replaced": []
@@ -672,7 +673,7 @@
                                                                                                 "protected": false
                                                                                             }
                                                                                         },
-                                                                                        "orderKey": 1,
+                                                                                        "orderKey": 2,
                                                                                         "children": []
                                                                                     },
                                                                                     "replaced": []
@@ -715,7 +716,7 @@
                                                                     },
                                                                     "raw_data": []
                                                                 },
-                                                                "orderKey": 2,
+                                                                "orderKey": 3,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -759,7 +760,7 @@
                                                                                     "protected": false
                                                                                 }
                                                                             },
-                                                                            "orderKey": 2,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -798,7 +799,7 @@
                                                                     },
                                                                     "raw_data": []
                                                                 },
-                                                                "orderKey": 3,
+                                                                "orderKey": 4,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -821,7 +822,8 @@
                                                                                     "choices": "accessibility_report",
                                                                                     "labels": "Accessibility report",
                                                                                     "linked_collection": null,
-                                                                                    "collection_label_field": null
+                                                                                    "collection_label_field": null,
+                                                                                    "placeholder": null
                                                                                 },
                                                                                 "mappingOptions": {
                                                                                     "index": "not_analyzed"
@@ -841,7 +843,7 @@
                                                                                     "protected": false
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -880,7 +882,7 @@
                                                                     },
                                                                     "raw_data": []
                                                                 },
-                                                                "orderKey": 4,
+                                                                "orderKey": 5,
                                                                 "children": [
                                                                     {
                                                                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -924,7 +926,7 @@
                                                                                     "protected": false
                                                                                 }
                                                                             },
-                                                                            "orderKey": 0,
+                                                                            "orderKey": 1,
                                                                             "children": []
                                                                         },
                                                                         "replaced": []
@@ -980,7 +982,7 @@
                                                             "transformers": []
                                                         }
                                                     },
-                                                    "orderKey": 4,
+                                                    "orderKey": 5,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -1013,7 +1015,7 @@
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 5,
+                                                    "orderKey": 6,
                                                     "children": [
                                                         {
                                                             "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -1057,7 +1059,7 @@
                                                                         "protected": false
                                                                     }
                                                                 },
-                                                                "orderKey": 0,
+                                                                "orderKey": 1,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -1105,7 +1107,45 @@
                                                                         "transformers": []
                                                                     }
                                                                 },
-                                                                "orderKey": 1,
+                                                                "orderKey": 2,
+                                                                "children": []
+                                                            },
+                                                            "replaced": []
+                                                        },
+                                                        {
+                                                            "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                            "arguments": [],
+                                                            "properties": {
+                                                                "type": "EMS\\CoreBundle\\Form\\DataField\\CheckboxFieldType",
+                                                                "name": "noindex",
+                                                                "contentType": null,
+                                                                "deleted": false,
+                                                                "description": null,
+                                                                "options": {
+                                                                    "displayOptions": {
+                                                                        "label": "No index",
+                                                                        "class": "col-md-12",
+                                                                        "lastOfRow": false,
+                                                                        "helptext": null,
+                                                                        "question_label": "To prevent search engines (e.g. Google) from indexing a page"
+                                                                    },
+                                                                    "mappingOptions": {
+                                                                        "index": null
+                                                                    },
+                                                                    "restrictionOptions": {
+                                                                        "minimum_role": null
+                                                                    },
+                                                                    "extraOptions": {
+                                                                        "extra": null,
+                                                                        "clear_on_copy": false,
+                                                                        "postProcessing": null
+                                                                    },
+                                                                    "raw_data": [],
+                                                                    "migrationOptions": {
+                                                                        "protected": false
+                                                                    }
+                                                                },
+                                                                "orderKey": 3,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -1146,7 +1186,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 1,
+                                        "orderKey": 2,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -1169,7 +1209,8 @@
                                                             "choices": "with_banner",
                                                             "labels": "With header banner (hero)",
                                                             "linked_collection": null,
-                                                            "collection_label_field": null
+                                                            "collection_label_field": null,
+                                                            "placeholder": null
                                                         },
                                                         "mappingOptions": {
                                                             "index": "not_analyzed",

@@ -161,6 +161,17 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:rebuild --all
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:contenttype:activate --all
 
+  echo "Create managed aliases"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:create ma_preview
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_preview preview
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_preview default
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:create ma_live
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_live live
+  docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:managed-alias:add-environment ma_live default
+
+  echo "Wait for environments"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview emsch:health-check -g
+
   echo "Switch default environment"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo emsco:contenttype:switch-default-env media_file default
 

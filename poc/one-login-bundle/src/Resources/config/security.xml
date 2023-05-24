@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="false" />
+
+        <service id="emsch.security.request_matcher"
+                 class="EMS\OneLoginBundle\Security\Firewall\SamlRequestMatcher">
+        </service>
+
+        <service id="emsch.security.provider.one_login"
+                 class="EMS\OneLoginBundle\Security\OneLoginUserProvider">
+        </service>
+
+        <service id="emsch.security.authenticator.one_login"
+                 class="EMS\OneLoginBundle\Security\OneLoginAuthenticator">
+            <argument type="service" id="OneLogin\Saml2\Auth"/>
+            <argument type="service" id="security.http_utils"/>
+        </service>
+
+        <service id="EMS\OneLoginBundle\Controller\SamlController">
+            <argument type="service" id="OneLogin\Saml2\Auth"/>
+            <call method="setContainer"/>
+            <tag name="controller.service_arguments"/>
+            <tag name="container.service_subscriber"/>
+        </service>
+
+    </services>
+</container>

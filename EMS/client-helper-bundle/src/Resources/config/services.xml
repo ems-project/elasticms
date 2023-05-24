@@ -73,6 +73,7 @@
             <argument type="service" id="emsch.helper.translator" />
             <argument type="service" id="emsch.helper_locale" />
             <argument type="service" id="emsch.helper_exception" />
+            <argument type="service" id="security.authorization_checker" />
             <argument type="string">%emsch.bind_locale%</argument>
             <tag name="kernel.event_subscriber" />
         </service>

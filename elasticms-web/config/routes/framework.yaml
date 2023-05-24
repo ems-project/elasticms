@@ -2,6 +2,3 @@ when@dev:
     _errors:
         resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
         prefix: /_error
-
-hslavich_saml_sp:
-    resource: "@HslavichOneloginSamlBundle/Resources/config/routing.yml"

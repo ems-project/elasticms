@@ -16,8 +16,8 @@
     },
     "label": "Une gestion collaborative/Taakbeheer",
     "nl": {
-        "body": "<p>Vaak werkt u met meerdere gebruikers in dezelfde eMS, die geavanceerde bewerkingsfuncties heeft.</p>\r\n\r\n<p>Met de nieuwe&nbsp;Task Manager delegeert u taken en volgt u het goedkeurings- en publicatieproces nauwgezet op.</p>",
-        "description": "<p>Vaak werkt u met meerdere gebruikers in dezelfde eMS, die geavanceerde bewerkingsfuncties heeft.</p>",
+        "body": "<p>Vaak werkt u met meerdere gebruikers in dezelfde eMS. Met de nieuwe functionaliteit voor taakbeheer kunt u taken delegeren en tegelijkertijd de processen voor het goedkeuren en publiceren van inhoud controleren.</p>\r\n\r\n<p>Met de nieuwe&nbsp;Task Manager delegeert u taken en volgt u het goedkeurings- en publicatieproces nauwgezet op.</p>",
+        "description": "<p>Vaak werkt u met meerdere gebruikers in dezelfde eMS. Met de nieuwe functionaliteit voor taakbeheer kunt u taken delegeren en tegelijkertijd de processen voor het goedkeuren en publiceren van inhoud controleren.</p>",
         "image": {
             "filename": "ems task.png",
             "filesize": 19974,

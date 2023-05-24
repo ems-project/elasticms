@@ -4,15 +4,24 @@
 {% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}
 
 {% block headtitle %}
-    {% apply spaceless %}
+    {%- apply spaceless %}
         {% if attribute(source, locale).meta_title|default(false) %}
             {{ attribute(source, locale).meta_title }}
         {% else %}
             {{ parent() }}
         {% endif %}
-    {% endapply %}
+    {% endapply -%}
 {% endblock %}
 
+{% block meta_description %}
+    {%- apply spaceless %}
+        {% if attribute(source, locale).description|default(false) %}
+            {{ attribute(source, locale).description|striptags|ems_html_decode|trim }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endapply -%}
+{% endblock %}
 
 {% block main -%}
     <div class="jumbotron px-0 rounded-0 mb-0 d-flex align-items-center text-white mb-3">

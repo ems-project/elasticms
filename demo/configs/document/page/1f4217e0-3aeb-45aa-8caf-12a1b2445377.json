@@ -7,6 +7,7 @@
     "menu": "1b63a2da-8053-49c4-8b82-8a3376843cbc",
     "nl": {
         "components": "[{\"id\":\"32df43bf-c91e-4fcf-a581-732b61170385\",\"label\":\"\",\"type\":\"grid\",\"object\":{\"layout\":\"grid-with-hr\",\"label\":\"\"},\"children\":[{\"id\":\"efc3a667-b424-4230-bfe1-aabc6388c842\",\"label\":\"Customer's benefits\",\"type\":\"card\",\"object\":{\"label\":\"Customer's benefits\",\"target\":\"page:ceaedbcc-5407-49b4-81be-85ecea559872\"},\"children\":[]},{\"id\":\"18786495-e542-4aa0-8488-bb9acfa96e80\",\"label\":\"User friendly\",\"type\":\"card\",\"object\":{\"label\":\"User friendly\",\"target\":\"page:66a4a815-69ba-4123-ad4b-f7b34066a7b6\"},\"children\":[]},{\"id\":\"88406c1e-b6f0-4ff2-b23f-b9103d163d9e\",\"label\":\"Dev specificity\",\"type\":\"card\",\"object\":{\"label\":\"Dev specificity\",\"target\":\"page:b2d64bfd-f2d5-496c-8c87-7a5fbbd2119f\"},\"children\":[]}]}]",
+        "description": "<p>Ontdek de nieuwsberichten, de laatste trends en onze tips &amp; tricks voor contentbeheer en websitecreatie met elasticMS.</p>",
         "title": "Features"
     }
 }

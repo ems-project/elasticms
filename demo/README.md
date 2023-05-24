@@ -17,6 +17,11 @@ sh npm.sh install
 sh npm.sh run prod
 docker compose pull
 docker compose up -d
+```
+
+Please wait a minute
+
+```bash
 sh ems.sh create_users local
 sh ems.sh config_push local
 ```

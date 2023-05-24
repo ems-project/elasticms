@@ -1,7 +1,0 @@
-{
-    "class": "EMS\\CoreBundle\\Entity\\Job",
-    "arguments": [],
-    "properties": {
-        "command": "ems:environment:align preview live --force"
-    }
-}

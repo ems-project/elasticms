@@ -56,6 +56,7 @@
                 _background: '#f8f9fa',
             }) }}">
             <meta name="msapplication-TileColor" content="#3B3F41">
+            {% if attribute(source, locale).noindex|default(false)  %}<meta name="robots" content="noindex">{% endif %}
             {% block head %}
                 <link rel="stylesheet" href="{{ asset('css/index.css', 'emsch') }}">
             {% endblock %}

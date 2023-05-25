@@ -12,11 +12,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Twig\Environment;
 
 class FormController extends AbstractFormController
 {
-    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Guard $guard, private readonly Environment $twig)
+    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Guard $guard, private readonly Environment $twig, private readonly CsrfTokenManager $csrfTokenManager)
     {
     }
 
@@ -37,6 +38,7 @@ class FormController extends AbstractFormController
 
         $form = $this->formFactory->create(Form::class, [], ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);
         $form->handleRequest($request);
+        $this->csrfTokenManager->removeToken('form');
 
         if ($form->isSubmitted() && $form->isValid()) {
             return new JsonResponse($this->client->submit($form, $ouuid));

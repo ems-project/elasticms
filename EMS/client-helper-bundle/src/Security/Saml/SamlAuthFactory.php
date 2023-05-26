@@ -51,7 +51,7 @@ class SamlAuthFactory
 
         return new Auth([
             'strict' => true,
-            'debug' => true,
+            'debug' => false,
             'baseurl' => $this->httpUtils->generateUri($request, SamlConfig::PATH_SAML),
             'sp' => [
                 'entityId' => $this->samlConfig->spEntityId(),

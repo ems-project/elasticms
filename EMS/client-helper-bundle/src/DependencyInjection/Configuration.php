@@ -42,6 +42,7 @@ final class Configuration implements ConfigurationInterface
         $this->addApiSection($rootNode);
         $this->addUserApiSection($rootNode);
         $this->addLocalSection($rootNode);
+        $this->addSecuritySection($rootNode);
 
         return $treeBuilder;
     }
@@ -160,6 +161,39 @@ final class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                         ->children()
                             ->scalarNode('path')->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    }
+
+    private function addSecuritySection(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('security')
+                    ->children()
+                        ->arrayNode('saml')
+                            ->canBeEnabled()
+                                ->children()
+                                    ->arrayNode('sp')
+                                        ->children()
+                                            ->scalarNode('entity_id')->end()
+                                            ->scalarNode('public_key')->end()
+                                            ->scalarNode('private_key')->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('idp')
+                                        ->children()
+                                            ->scalarNode('entity_id')->end()
+                                            ->scalarNode('public_key')->end()
+                                            ->scalarNode('sso')->end()
+                                        ->end()
+                                    ->end()
+                                    ->variableNode('security')->end()
+                                ->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()

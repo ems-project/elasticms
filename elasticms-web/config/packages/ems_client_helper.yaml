@@ -20,6 +20,15 @@ parameters:
     env(EMSCH_SEARCH_LIMIT):            '1000'
     env(EMSCH_LOCAL_PATH):              ~
 
+    env(EMSCH_SAML):                    false
+    env(EMSCH_SAML_SP_ENTITY_ID):       ~
+    env(EMSCH_SAML_SP_PUBLIC_KEY):      ~
+    env(EMSCH_SAML_SP_PRIVATE_KEY):     ~
+    env(EMSCH_SAML_IDP_ENTITY_ID):      ~
+    env(EMSCH_SAML_IDP_PUBLIC_KEY):     ~
+    env(EMSCH_SAML_IDP_SSO):            ~
+    env(EMSCH_SAML_SECURITY):           '{}'
+
 ems_client_helper:
     api:
         backend:
@@ -44,6 +53,18 @@ ems_client_helper:
         ems_link:  '%env(string:EMSCH_TEMPLATE_EMS_LINK)%'
     user_api:
         url: '%env(string:EMSCH_BACKEND_URL)%'
+    security:
+        saml:
+            enabled: '%env(bool:EMSCH_SAML)%'
+            sp:
+                entity_id: '%env(string:EMSCH_SAML_SP_ENTITY_ID)%'
+                public_key: '%env(string:EMSCH_SAML_SP_PUBLIC_KEY)%'
+                private_key: '%env(string:EMSCH_SAML_SP_PRIVATE_KEY)%'
+            idp:
+                entity_id: '%env(string:EMSCH_SAML_IDP_ENTITY_ID)%'
+                public_key: '%env(string:EMSCH_SAML_IDP_PUBLIC_KEY)%'
+                sso: '%env(string:EMSCH_SAML_IDP_SSO)%'
+            security: '%env(json:EMSCH_SAML_SECURITY)%'
 
 when@dev:
     ems_client_helper:

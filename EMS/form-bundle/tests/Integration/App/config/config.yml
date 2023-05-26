@@ -14,6 +14,11 @@ framework:
     utf8: true
     strict_requirements: ~
 
+security:
+  firewalls:
+    main:
+      security: false
+
 doctrine:
   dbal:
     url: 'sqlite:///%kernel.project_dir%/tmp/test.db'

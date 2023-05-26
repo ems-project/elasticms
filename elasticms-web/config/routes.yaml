@@ -15,3 +15,7 @@ asset:
 ems_common:
   resource: 'ems_common.route.loader::load'
   type: service
+
+emsch_routes:
+  resource: 'emsch.routing.route_loader'
+  type: service

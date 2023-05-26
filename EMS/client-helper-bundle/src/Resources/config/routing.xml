@@ -7,6 +7,11 @@
     <services>
         <defaults public="false" />
 
+        <service id="emsch.routing.route_loader" class="EMS\ClientHelperBundle\Helper\Routing\RouteLoader">
+            <argument type="service" id="emsch.security.saml.config" on-invalid="null" />
+            <tag name="routing.route_loader"/>
+        </service>
+
         <service id="emsch.routing.chain_router" class="Symfony\Cmf\Component\Routing\ChainRouter">
             <call method="add">
                 <argument type="service" id="router.default"/>

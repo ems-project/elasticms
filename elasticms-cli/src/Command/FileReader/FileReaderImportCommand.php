@@ -39,7 +39,7 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'File path (xlsx or csv)')
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type target')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
-            ->addOption(self::OPTION_OUUID_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the document by its ouuid', "row['ouuid']")
+            ->addOption(self::OPTION_OUUID_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the document by its ouuid. If equal to null new document will be created', "row['ouuid']")
         ;
     }
 
@@ -78,14 +78,19 @@ final class FileReaderImportCommand extends AbstractCommand
                 $row[$header[$key] ?? $key] = $cell;
             }
 
-            $ouuid = $expressionLanguage->evaluate($this->ouuidExpression, [
+            $ouuid = 'null' === $this->ouuidExpression ? null : $expressionLanguage->evaluate($this->ouuidExpression, [
                 'row' => $row,
             ]);
             if ($this->dryRun) {
                 $progressBar->advance();
                 continue;
             }
-            if ($contentTypeApi->head($ouuid)) {
+
+            if ('null' === $this->ouuidExpression) {
+                $draft = $contentTypeApi->create([
+                    '_sync_metadata' => $row,
+                ]);
+            } elseif ($contentTypeApi->head($ouuid)) {
                 $draft = $contentTypeApi->update($ouuid, [
                     '_sync_metadata' => $row,
                 ]);

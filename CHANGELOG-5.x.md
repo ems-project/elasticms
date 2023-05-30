@@ -1,5 +1,28 @@
 # Changelog 5.x
 
+## 5.6.0 (2023-05-30)
+### Features
+* feat(docker): tika.localhost route by @theus77 in https://github.com/ems-project/elasticms/pull/464
+* feat(ems-client): datalink to a media_file (webToElasticms) by @IsaMic in https://github.com/ems-project/elasticms/pull/456
+* feat(search): filter's clause config and search minimum_should_match config by @theus77 in https://github.com/ems-project/elasticms/pull/463
+* feat(skeleton): SAML authentication by @Davidmattei in https://github.com/ems-project/elasticms/pull/469
+* feat(twig): ems_asset_get_content by @theus77 in https://github.com/ems-project/elasticms/pull/458
+* feat(xliff): xliff in json by @theus77 in https://github.com/ems-project/elasticms/pull/465
+* feat: create new document on emscli:file-reader:import by @theus77 in https://github.com/ems-project/elasticms/pull/473
+* feat: iterate on wild char property path by @theus77 in https://github.com/ems-project/elasticms/pull/466
+* feat: remote schedule job by @theus77 in https://github.com/ems-project/elasticms/pull/467
+* feat: tika on media sync command by @theus77 in https://github.com/ems-project/elasticms/pull/454
+### Bug Fixes
+* fix(cli): loading issue (serializer) by @theus77 in https://github.com/ems-project/elasticms/pull/455
+* fix(wysiwyg): dashboard picker (double : ) by @Davidmattei in https://github.com/ems-project/elasticms/pull/472
+* fix: if getNodeByName not found by @theus77 in https://github.com/ems-project/elasticms/pull/460
+* fix: no base url on asset_file_path by @theus77 in https://github.com/ems-project/elasticms/pull/459
+* fix: old revision might not have hash by @theus77 in https://github.com/ems-project/elasticms/pull/457
+* fix: renew the csrf token on each submit by @theus77 in https://github.com/ems-project/elasticms/pull/471
+* fix: update demo by @theus77 in https://github.com/ems-project/elasticms/pull/461
+### Code Refactoring
+* refactor(elasticm-cli): mediaFile() return by @IsaMic in https://github.com/ems-project/elasticms/pull/462
+
 ## 5.5.0 (2023-05-02)
 ### Features
 * feat(common): storeData file system by @theus77 in https://github.com/ems-project/elasticms/pull/451

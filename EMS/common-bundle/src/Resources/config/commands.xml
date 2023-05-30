@@ -60,7 +60,7 @@
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command"/>
         </service>
-        <service id="ems.command.admin.command" class="EMS\CommonBundle\Command\Admin\NextJobCommand">
+        <service id="ems.command.admin.next_job" class="EMS\CommonBundle\Command\Admin\NextJobCommand">
             <argument type="service" id="ems.helper.admin_api"/>
             <argument type="service" id="ems_common.job.manager"/>
             <tag name="console.command"/>

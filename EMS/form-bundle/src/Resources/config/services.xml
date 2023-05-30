@@ -99,6 +99,7 @@
             <argument type="service" id="emsf.submission.client"/>
             <argument type="service" id="emsf.security.guard"/>
             <argument type="service" id="twig" />
+            <argument type="service" id="security.csrf.token_manager" />
         </service>
         <service id="EMS\FormBundle\Controller\ConfirmationController" public="true">
             <argument type="service" id="emsf.security.guard"/>

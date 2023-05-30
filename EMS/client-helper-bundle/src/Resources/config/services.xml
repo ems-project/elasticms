@@ -68,6 +68,11 @@
         </service>
 
         <!-- event listeners -->
+        <service id="emsch.event_listener.authenticated" class="EMS\ClientHelperBundle\EventListener\AuthenticatedListener">
+            <argument type="service" id="security.authorization_checker" />
+            <tag name="kernel.event_subscriber" />
+        </service>
+
         <service id="emsch.kernel_listener" class="EMS\ClientHelperBundle\EventListener\KernelListener">
             <argument type="service" id="emsch.helper_environment"/>
             <argument type="service" id="emsch.helper.translator" />

@@ -1,11 +1,19 @@
 security:
     enable_authenticator_manager: true
 
+    providers:
+        saml:
+            id: emsch.security.saml.user.provider
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            security: false
+            custom_authenticators:
+                - emsch.security.saml.authenticator
+            logout:
+                path: emsch_logout
 
     access_control:
+        - { path: ^/, roles: PUBLIC_ACCESS }

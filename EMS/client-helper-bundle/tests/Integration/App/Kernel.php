@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use EMS\ClientHelperBundle\EMSClientHelperBundle;
 use EMS\CommonBundle\EMSCommonBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\SecurityBundle\SecurityBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -28,6 +29,7 @@ final class Kernel extends BaseKernel
     {
         return [
             new FrameworkBundle(),
+            new SecurityBundle(),
             new TwigBundle(),
             new DoctrineBundle(),
             new EMSCommonBundle(),

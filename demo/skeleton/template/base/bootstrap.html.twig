@@ -14,6 +14,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto align-items-lg-center">
                     {{ render_esi(controller('emsch.controller.embed::fragment', {
                         template: '@EMSCH/template/fragments/navbar.html.twig',
                         context: {
@@ -22,6 +23,23 @@
                             section: header_menu,
                         },
                     })) }}
+                    {% if switchUrls|default([])|length > 0 %}
+                        <li class="nav-item divider-top">
+                            <div class="dropdown" id="dropdown-language">
+                                <a class="btn btn-sm btn-outline-dark dropdown-toggle"
+                                   href="#" id="dropdown-locales" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">{{ 'locale'|trans }}</a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-locales">
+                                    {% for l, url in switchUrls %}
+                                        <a lang="{{ l }}" class="dropdown-item" href="{{ url }}">
+                                            {{ 'locale'|trans({}, trans_default_domain , l) }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endif %}
+                    </ul>
                 </div>
             </nav>
         </div>
@@ -32,36 +50,16 @@
 
     <footer class="bd-footer py-5 border-top" {{ emsch_admin_menu(footer_menu) }}>
         <div class="container-fluid container-lg">
-            <div class="row">
-                <div class="col-12 col-md-8">
-                    <ul class="navbar-nav flex-lg-row">
-                        {{ render_esi(controller('emsch.controller.embed::fragment', {
-                            template: '@EMSCH/template/fragments/footer.html.twig',
-                            context: {
-                                trans_default_domain: trans_default_domain,
-                                locale: locale,
-                                section: footer_menu,
-                            },
-                        })) }}
-                    </ul>
-                </div>
-                <div class="col-12 col-md-4 d-md-flex align-items-center justify-content-end">
-                    {% if switchUrls|default([])|length > 0 %}
-                        <div class="dropdown mt-4 mt-lg-0">
-                            <a class="btn btn-sm btn-outline-dark dropdown-toggle"
-                               href="#" id="dropdown-locales" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">{{ 'locale'|trans }}</a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-locales">
-                                {% for l, url in switchUrls %}
-                                    <a lang="{{ l }}" class="dropdown-item" href="{{ url }}">
-                                        {{ 'locale'|trans({}, trans_default_domain , l) }}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
+            <ul class="navbar-nav flex-lg-row">
+                {{ render_esi(controller('emsch.controller.embed::fragment', {
+                    template: '@EMSCH/template/fragments/footer.html.twig',
+                    context: {
+                        trans_default_domain: trans_default_domain,
+                        locale: locale,
+                        section: footer_menu,
+                    },
+                })) }}
+            </ul>
 
             <div class="copyright mt-5">
                 {{ 'site.copy'|trans({ '%year%': 'now'|date('Y') }) }}

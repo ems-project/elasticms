@@ -15,7 +15,7 @@ class TikaWrapper extends ProcessWrapper
 
     private function __construct(StreamInterface $stream, string $option, private readonly bool $trimWhiteSpaces = false, float $timeout = 3 * 60.0)
     {
-        $this->tikaJar = \getenv(self::EMSCLI_TIKA_PATH) ?: '/opt/bin/tika.jar';
+        $this->tikaJar = \getenv(self::EMSCLI_TIKA_PATH) ?: '/opt/bin/tika-app.jar';
         parent::__construct(['java', '-Djava.awt.headless=true', '-jar', $this->tikaJar, $option], $stream, $timeout);
     }
 

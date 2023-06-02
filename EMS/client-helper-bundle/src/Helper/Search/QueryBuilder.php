@@ -100,7 +100,10 @@ final class QueryBuilder
     public function getQueryFilters(): ?BoolQuery
     {
         $query = new BoolQuery();
-        $query->setMinimumShouldMatch($this->search->getMinimumShouldMatch());
+        $minimumShouldMatch = $this->search->getMinimumShouldMatch();
+        if (null !== $minimumShouldMatch) {
+            $query->setMinimumShouldMatch($minimumShouldMatch);
+        }
 
         foreach ($this->search->getQueryFacets() as $field => $terms) {
             $query->addMust(new Terms($field, $terms));

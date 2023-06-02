@@ -49,7 +49,7 @@ final class Search
     private ?string $sortBy = null;
     private string $analyzer;
     private string $sortOrder = 'asc';
-    private string $minimumShouldMatch;
+    private ?string $minimumShouldMatch;
 
     public function __construct(private readonly Request $request, ClientRequest $clientRequest)
     {
@@ -68,7 +68,7 @@ final class Search
         $this->querySearch = $options['query_search'] ?? null;
         $this->facets = $options['facets'] ?? [];
         $this->sizes = $options['sizes'] ?? [];
-        $this->minimumShouldMatch = $options['minimum_should_match'] ?? '1';
+        $this->minimumShouldMatch = $options['minimum_should_match'] ?? null;
         $this->defaultSorts = $this->parseSorts($options['default_sorts'] ?? []);
         $this->sorts = $this->parseSorts($options['sorts'] ?? []);
 
@@ -300,7 +300,7 @@ final class Search
         return $this->highlight;
     }
 
-    public function getMinimumShouldMatch(): string
+    public function getMinimumShouldMatch(): ?string
     {
         return $this->minimumShouldMatch;
     }

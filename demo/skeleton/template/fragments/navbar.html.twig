@@ -28,7 +28,7 @@
     {% if attribute(section.object, locale).title is defined %}
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="{{ attribute(urls, section.id) is defined ? attribute(urls, section.id) : '#' }}" id="{{ section.id }}" role="button"
-               data-toggle="dropdown" aria-haspopup="true"aria-expanded="false">
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{ attribute(section.object, locale).title }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="{{ section.id }}">
@@ -53,13 +53,11 @@
 {% endblock %}
 
 {% block request %}
-    <ul class="navbar-nav ml-auto align-items-lg-center" {{ emsch_admin_menu(section) }}>
-        {% for section in structure.children|filter(p => p.id in pages)  %}
-            {% if section.children|length > 0 and section.object.dropdown|default(false) %}
-                {{ block('dropdown') }}
-            {% else %}
-                {{ block('item') }}
-            {% endif %}
-        {% endfor %}
-    </ul>
+    {% for section in structure.children|filter(p => p.id in pages)  %}
+        {% if section.children|length > 0 and section.object.dropdown|default(false) %}
+            {{ block('dropdown') }}
+        {% else %}
+            {{ block('item') }}
+        {% endif %}
+    {% endfor %}
 {% endblock %}

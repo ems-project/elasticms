@@ -18,7 +18,16 @@
   .nav-item {
     padding: $nav-link-padding-y 0;
     @include media-breakpoint-up(lg) {
+      margin-right: 1em;
+    }
+    @include media-breakpoint-up(xl) {
       margin-right: 2.125em;
+    }
+    &.divider-top {
+      border-top: 1px solid rgba($white,25%);
+      @include media-breakpoint-up(lg) {
+        border: 0;
+      }
     }
     .nav-link {
       > span:first-child {
@@ -90,6 +99,22 @@ header {
     }
     .nav-link {
       text-transform: uppercase;
+    }
+  }
+}
+#dropdown-language {
+  @include media-breakpoint-down(md) {
+    .btn {
+      color: $white;
+    }
+    .dropdown-menu {
+      background-color: transparent;
+      text-align: center;
+    }
+
+    .dropdown-menu a {
+      color: $white;
+      background-color: transparent;
     }
   }
 }

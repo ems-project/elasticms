@@ -1,5 +1,16 @@
 # Changelog 5.x
 
+## 5.6.1 (2023-06-05)
+### Bug Fixes
+* fix(emsch/search): add minimum_should_match only if defined  by @theus77 in https://github.com/ems-project/elasticms/pull/483
+* fix: 2 commands with the same id by @theus77 in https://github.com/ems-project/elasticms/pull/474
+* fix: job flag as started from created from schedule by @theus77 in https://github.com/ems-project/elasticms/pull/481
+* fix: tag is not mandatory in schedule entity by @theus77 in https://github.com/ems-project/elasticms/pull/475
+* fix: tika jar path by @theus77 in https://github.com/ems-project/elasticms/pull/485
+### Code Refactoring
+* refactor(demo): move language switch by @sylver4 in https://github.com/ems-project/elasticms/pull/470
+# Changelog 5.x
+
 ## 5.6.0 (2023-05-30)
 ### Features
 * feat(docker): tika.localhost route by @theus77 in https://github.com/ems-project/elasticms/pull/464

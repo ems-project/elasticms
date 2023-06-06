@@ -146,8 +146,8 @@ services:
     networks:
       default:
         aliases:
-          - local.ems-demo-admin.localhost
-          - local.ems-demo-admin-dev.localhost
+          - local.ems-demo-admin
+          - local.ems-demo-admin-dev
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.admin-local.rule=HostRegexp(`local.{project:[a-z0-9\\-_\\.]+}-admin.localhost`)"

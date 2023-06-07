@@ -8,6 +8,7 @@ use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
+use EMS\CommonBundle\Search\Search;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -76,6 +77,18 @@ final class FileReaderImportCommand extends AbstractCommand
         $rows = $this->fileReader->getData($this->file);
         $header = $rows[0] ?? [];
 
+        $ouuids = [];
+        if ($this->deleteMissingDocuments) {
+            $defaultAlias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+            $search = new Search([$defaultAlias]);
+            $search->setSources(['_id']);
+            $search->setContentTypes([$this->contentType]);
+
+            foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+                $ouuids[$hit->getOuuid()] = true;
+            }
+        }
+
         $progressBar = $this->io->createProgressBar(\count($rows) - 1);
         foreach ($rows as $key => $value) {
             if (0 === $key) {
@@ -92,6 +105,7 @@ final class FileReaderImportCommand extends AbstractCommand
             if ('null' !== $this->ouuidExpression && $this->hashOuuid) {
                 $ouuid = \sha1(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
             }
+            unset($ouuids[$ouuid]);
 
             if ($this->dryRun) {
                 $progressBar->advance();
@@ -115,6 +129,20 @@ final class FileReaderImportCommand extends AbstractCommand
             $progressBar->advance();
         }
         $progressBar->finish();
+
+        if ($this->dryRun && \count($ouuids) > 0) {
+            $this->io->write(PHP_EOL.PHP_EOL);
+            $this->io->warning(\sprintf('%d documents are missing in the source file and will be deleted without the %s option', \count($ouuids), self::OPTION_DRY_RUN));
+        } elseif (\count($ouuids) > 0) {
+            $this->io->write(PHP_EOL.PHP_EOL);
+            $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
+            $progressBar = $this->io->createProgressBar(\count($ouuids));
+            foreach ($ouuids as $ouuid => $data) {
+                $contentTypeApi->delete($ouuid);
+                $progressBar->advance();
+            }
+            $progressBar->finish();
+        }
 
         return self::EXECUTE_SUCCESS;
     }

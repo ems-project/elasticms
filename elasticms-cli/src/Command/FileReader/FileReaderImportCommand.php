@@ -22,6 +22,8 @@ final class FileReaderImportCommand extends AbstractCommand
     private const ARGUMENT_CONTENT_TYPE = 'content-type';
     private const OPTION_OUUID_EXPRESSION = 'ouuid-expression';
     private const OPTION_DRY_RUN = 'dry-run';
+    private const OPTION_GENERATE_HASH = 'generate-hash';
+    private const OPTION_DELETE_MISSING_DOCUMENTS = 'delete-missing-document';
     private string $ouuidExpression;
     private string $contentType;
     private string $file;
@@ -39,6 +41,8 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'File path (xlsx or csv)')
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type target')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
+            ->addOption(self::OPTION_GENERATE_HASH, null, InputOption::VALUE_NONE, 'Use the OUUID column and the content type name in order to generate a "better" ouuid')
+            ->addOption(self::OPTION_DELETE_MISSING_DOCUMENTS, null, InputOption::VALUE_NONE, 'The command will delete content type document that are missing in the import file')
             ->addOption(self::OPTION_OUUID_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the document by its ouuid. If equal to null new document will be created', "row['ouuid']")
         ;
     }

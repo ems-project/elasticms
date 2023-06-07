@@ -28,6 +28,8 @@ final class FileReaderImportCommand extends AbstractCommand
     private string $contentType;
     private string $file;
     private bool $dryRun;
+    private bool $hashOuuid;
+    private bool $deleteMissingDocuments;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
@@ -54,6 +56,8 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->contentType = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->ouuidExpression = $this->getOptionString(self::OPTION_OUUID_EXPRESSION);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
+        $this->hashOuuid = $this->getOptionBool(self::OPTION_GENERATE_HASH);
+        $this->deleteMissingDocuments = $this->getOptionBool(self::OPTION_DELETE_MISSING_DOCUMENTS);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -85,6 +89,10 @@ final class FileReaderImportCommand extends AbstractCommand
             $ouuid = 'null' === $this->ouuidExpression ? null : $expressionLanguage->evaluate($this->ouuidExpression, [
                 'row' => $row,
             ]);
+            if ('null' !== $this->ouuidExpression && $this->hashOuuid) {
+                $ouuid = \sha1(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
+            }
+
             if ($this->dryRun) {
                 $progressBar->advance();
                 continue;

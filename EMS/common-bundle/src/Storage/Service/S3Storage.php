@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\S3\S3Client;
+use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 
@@ -16,7 +17,7 @@ class S3Storage extends AbstractUrlStorage
     /**
      * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
      */
-    public function __construct(LoggerInterface $logger, private readonly array $credentials, private readonly string $bucket, int $usage, int $hotSynchronizeLimit = 0, private readonly ?string $uploadFolder = null)
+    public function __construct(LoggerInterface $logger, private readonly Cache $cache, private readonly array $credentials, private readonly string $bucket, int $usage, int $hotSynchronizeLimit = 0, private readonly ?string $uploadFolder = null, private readonly bool $multipartUpload = false)
     {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
     }
@@ -110,12 +111,14 @@ class S3Storage extends AbstractUrlStorage
 
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
+        $s3 = $this->getS3Client();
+
         if (null !== $this->uploadFolder) {
             return parent::initUpload($hash, $size, $name, $type);
         }
 
         $uploadKey = $this->uploadKey($hash);
-        $result = $this->getS3Client()->putObject([
+        $result = $s3->putObject([
             'Bucket' => $this->bucket,
             'Key' => $uploadKey,
             'Metadata' => [

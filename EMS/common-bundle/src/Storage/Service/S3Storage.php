@@ -52,17 +52,20 @@ class S3Storage extends AbstractUrlStorage
     {
         $s3 = $this->getS3Client();
 
+        $base64Hash = \base64_encode(\sha1($chunk, true));
         if ($this->multipartUpload) {
             $cache = $this->cache->getItem($this->uploadKey($hash));
             $args = $cache->get();
             $multipartUpload = $s3->uploadPart(\array_merge($args, [
                 'Content-Length' => \strlen($chunk),
                 'Body' => $chunk,
+                'ChecksumSHA1' => $base64Hash,
             ]));
             $eTag = $multipartUpload->get('ETag');
             $args['MultipartUpload']['Parts'][] = [
                 'PartNumber' => $args['PartNumber']++,
                 'ETag' => $eTag,
+                'ChecksumSHA1' => $base64Hash,
             ];
             $cache->set($args);
             $this->cache->save($cache);
@@ -134,17 +137,20 @@ class S3Storage extends AbstractUrlStorage
         $s3 = $this->getS3Client();
         if ($this->multipartUpload) {
             $uploadKey = $this->uploadKey($hash);
+            $key = $this->key($hash);
             $multipartUpload = $s3->createMultipartUpload([
                 'Bucket' => $this->bucket,
-                'Key' => $uploadKey,
+                'Key' => $key,
+                'ChecksumAlgorithm' => 'SHA1',
             ]);
             $uploadId = $multipartUpload->get('UploadId');
             $cache = $this->cache->getItem($uploadKey);
             $cache->set([
                 'Bucket' => $this->bucket,
-                'Key' => $uploadKey,
+                'Key' => $key,
                 'UploadId' => $uploadId,
                 'PartNumber' => 1,
+                'ChecksumAlgorithm' => 'SHA1',
             ]);
             $this->cache->save($cache);
 
@@ -169,6 +175,9 @@ class S3Storage extends AbstractUrlStorage
 
     public function finalizeUpload(string $hash): bool
     {
+        if ($this->multipartUpload) {
+            return true;
+        }
         $uploadKey = $this->uploadKey($hash);
         $key = $this->key($hash);
         $s3 = $this->getS3Client();
@@ -182,16 +191,26 @@ class S3Storage extends AbstractUrlStorage
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         if (!$confirmed && $this->multipartUpload) {
-            $uploadKey = $this->uploadKey($hash);
-            $cache = $this->cache->getItem($uploadKey);
-            if ($cache->isHit()) {
-                $args = $cache->get();
-                $this->getS3Client()->completeMultipartUpload($args);
-                $this->cache->delete($uploadKey);
-            }
+            $confirmed = true;
         }
 
         return parent::read($hash, $confirmed);
+    }
+
+    public function initFinalize(string $hash): void
+    {
+        if (!$this->multipartUpload) {
+            return;
+        }
+
+        $uploadKey = $this->uploadKey($hash);
+        $cache = $this->cache->getItem($uploadKey);
+        if (!$cache->isHit()) {
+            throw new \RuntimeException('Missing multipart upload');
+        }
+
+        $this->getS3Client()->completeMultipartUpload($cache->get());
+        $this->cache->delete($uploadKey);
     }
 
     private function getBucketHash(): string
@@ -213,7 +232,7 @@ class S3Storage extends AbstractUrlStorage
         }
         $this->getS3Client()->deleteObject([
             'Bucket' => $this->bucket,
-            'Key' => $this->uploadKey($hash),
+            'Key' => $this->multipartUpload ? $this->key($hash) : $this->uploadKey($hash),
         ]);
     }
 

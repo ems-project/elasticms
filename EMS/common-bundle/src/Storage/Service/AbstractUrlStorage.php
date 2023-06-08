@@ -207,6 +207,10 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         }
     }
 
+    public function initFinalize(string $hash): void
+    {
+    }
+
     /**
      * @return resource|null
      */

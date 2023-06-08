@@ -51,7 +51,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('cache')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('type')->defaultValue('filesystem')->end()
+                        ->scalarNode('type')->defaultValue('file_system')->end()
                         ->scalarNode('prefix')->defaultValue('ems_cache')->end()
                         ->arrayNode('redis')
                             ->addDefaultsIfNotSet()

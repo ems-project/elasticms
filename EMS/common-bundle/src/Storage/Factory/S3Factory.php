@@ -59,7 +59,7 @@ class S3Factory extends AbstractFactory implements StorageFactoryInterface
                 self::STORAGE_CONFIG_CREDENTIALS => null,
                 self::STORAGE_CONFIG_BUCKET => null,
                 self::STORAGE_CONFIG_UPLOAD_FOLDER => null,
-                self::STORAGE_CONFIG_MULTIPART_UPLOAD => false,
+                self::STORAGE_CONFIG_MULTIPART_UPLOAD => true,
             ])
             ->setAllowedTypes(self::STORAGE_CONFIG_CREDENTIALS, ['null', 'array'])
             ->setAllowedTypes(self::STORAGE_CONFIG_BUCKET, ['null', 'string'])

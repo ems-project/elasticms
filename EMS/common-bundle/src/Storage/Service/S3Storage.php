@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Storage\Service;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\Helpers\Standard\Json;
+use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
 class S3Storage extends AbstractUrlStorage
@@ -49,11 +50,30 @@ class S3Storage extends AbstractUrlStorage
 
     public function addChunk(string $hash, string $chunk): bool
     {
+        $s3 = $this->getS3Client();
+
+        if ($this->multipartUpload) {
+            $cache = $this->cache->getItem($this->uploadKey($hash));
+            $args = $cache->get();
+            $multipartUpload = $s3->uploadPart(\array_merge($args, [
+                'Content-Length' => \strlen($chunk),
+                'Body' => $chunk,
+            ]));
+            $eTag = $multipartUpload->get('ETag');
+            $args['MultipartUpload']['Parts'][] = [
+                'PartNumber' => $args['PartNumber']++,
+                'ETag' => $eTag,
+            ];
+            $cache->set($args);
+            $this->cache->save($cache);
+
+            return \is_string($eTag);
+        }
+
         if (null !== $this->uploadFolder) {
             return parent::addChunk($hash, $chunk);
         }
 
-        $s3 = $this->getS3Client();
         $uploadKey = $this->uploadKey($hash);
 
         $head = $s3->headObject([
@@ -112,6 +132,24 @@ class S3Storage extends AbstractUrlStorage
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $s3 = $this->getS3Client();
+        if ($this->multipartUpload) {
+            $uploadKey = $this->uploadKey($hash);
+            $multipartUpload = $s3->createMultipartUpload([
+                'Bucket' => $this->bucket,
+                'Key' => $uploadKey,
+            ]);
+            $uploadId = $multipartUpload->get('UploadId');
+            $cache = $this->cache->getItem($uploadKey);
+            $cache->set([
+                'Bucket' => $this->bucket,
+                'Key' => $uploadKey,
+                'UploadId' => $uploadId,
+                'PartNumber' => 1,
+            ]);
+            $this->cache->save($cache);
+
+            return \is_string($uploadId);
+        }
 
         if (null !== $this->uploadFolder) {
             return parent::initUpload($hash, $size, $name, $type);
@@ -139,6 +177,21 @@ class S3Storage extends AbstractUrlStorage
         $this->removeUpload($hash);
 
         return $result;
+    }
+
+    public function read(string $hash, bool $confirmed = true): StreamInterface
+    {
+        if (!$confirmed && $this->multipartUpload) {
+            $uploadKey = $this->uploadKey($hash);
+            $cache = $this->cache->getItem($uploadKey);
+            if ($cache->isHit()) {
+                $args = $cache->get();
+                $this->getS3Client()->completeMultipartUpload($args);
+                $this->cache->delete($uploadKey);
+            }
+        }
+
+        return parent::read($hash, $confirmed);
     }
 
     private function getBucketHash(): string

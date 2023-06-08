@@ -6,19 +6,17 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
-use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
 class S3Storage extends AbstractUrlStorage
 {
     private ?S3Client $s3Client = null;
-    private ?string $bucketHash = null;
 
     /**
      * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
      */
-    public function __construct(LoggerInterface $logger, private readonly Cache $cache, private readonly array $credentials, private readonly string $bucket, int $usage, int $hotSynchronizeLimit = 0, private readonly ?string $uploadFolder = null, private readonly bool $multipartUpload = false)
+    public function __construct(LoggerInterface $logger, private readonly Cache $cache, private readonly array $credentials, private readonly string $bucket, int $usage, int $hotSynchronizeLimit = 0, private readonly bool $multipartUpload = false)
     {
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
     }
@@ -33,19 +31,6 @@ class S3Storage extends AbstractUrlStorage
     public function __toString(): string
     {
         return S3Storage::class." ($this->bucket)";
-    }
-
-    protected function getUploadPath(string $hash, string $ds = '/'): string
-    {
-        if (null === $this->uploadFolder) {
-            return parent::getUploadPath($hash, $ds);
-        }
-
-        return \join($ds, [
-            $this->uploadFolder,
-            $this->getBucketHash(),
-            $hash,
-        ]);
     }
 
     public function addChunk(string $hash, string $chunk): bool
@@ -71,10 +56,6 @@ class S3Storage extends AbstractUrlStorage
             $this->cache->save($cache);
 
             return \is_string($eTag);
-        }
-
-        if (null !== $this->uploadFolder) {
-            return parent::addChunk($hash, $chunk);
         }
 
         $uploadKey = $this->uploadKey($hash);
@@ -135,8 +116,9 @@ class S3Storage extends AbstractUrlStorage
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $s3 = $this->getS3Client();
+        $uploadKey = $this->uploadKey($hash);
+
         if ($this->multipartUpload) {
-            $uploadKey = $this->uploadKey($hash);
             $key = $this->key($hash);
             $multipartUpload = $s3->createMultipartUpload([
                 'Bucket' => $this->bucket,
@@ -157,11 +139,6 @@ class S3Storage extends AbstractUrlStorage
             return \is_string($uploadId);
         }
 
-        if (null !== $this->uploadFolder) {
-            return parent::initUpload($hash, $size, $name, $type);
-        }
-
-        $uploadKey = $this->uploadKey($hash);
         $result = $s3->putObject([
             'Bucket' => $this->bucket,
             'Key' => $uploadKey,
@@ -213,23 +190,8 @@ class S3Storage extends AbstractUrlStorage
         $this->cache->delete($uploadKey);
     }
 
-    private function getBucketHash(): string
-    {
-        if (null !== $this->bucketHash) {
-            return $this->bucketHash;
-        }
-        $this->bucketHash = \sha1(\sprintf('s3_%s_%s', $this->bucket, Json::encode($this->credentials)));
-
-        return $this->bucketHash;
-    }
-
     public function removeUpload(string $hash): void
     {
-        if (null !== $this->uploadFolder) {
-            parent::removeUpload($hash);
-
-            return;
-        }
         $this->getS3Client()->deleteObject([
             'Bucket' => $this->bucket,
             'Key' => $this->multipartUpload ? $this->key($hash) : $this->uploadKey($hash),

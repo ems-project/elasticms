@@ -33,8 +33,11 @@ class S3Factory extends AbstractFactory implements StorageFactoryInterface
 
             return null;
         }
+        if (null !== $config[self::STORAGE_CONFIG_UPLOAD_FOLDER]) {
+            @\trigger_error('The upload-folder S3 config is deprecated', \E_USER_DEPRECATED);
+        }
 
-        return new S3Storage($this->logger, $this->cache, $credentials, $bucket, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $config[self::STORAGE_CONFIG_UPLOAD_FOLDER], $config[self::STORAGE_CONFIG_MULTIPART_UPLOAD]);
+        return new S3Storage($this->logger, $this->cache, $credentials, $bucket, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $config[self::STORAGE_CONFIG_MULTIPART_UPLOAD]);
     }
 
     public function getStorageType(): string

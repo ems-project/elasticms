@@ -23,10 +23,7 @@ class S3Storage extends AbstractUrlStorage
 
     protected function getBaseUrl(): string
     {
-        if (null === $this->s3Client) {
-            $this->s3Client = new S3Client($this->credentials);
-            $this->s3Client->registerStreamWrapper();
-        }
+        $this->getS3Client();
 
         return "s3://$this->bucket";
     }
@@ -49,17 +46,78 @@ class S3Storage extends AbstractUrlStorage
         ]);
     }
 
+    public function addChunk(string $hash, string $chunk): bool
+    {
+        if (null !== $this->uploadFolder) {
+            return parent::addChunk($hash, $chunk);
+        }
+
+        $s3 = $this->getS3Client();
+        $uploadKey = $this->uploadKey($hash);
+
+        $head = $s3->headObject([
+            'Bucket' => $this->bucket,
+            'Key' => $uploadKey,
+        ]);
+        if (0 === $head['ContentLength']) {
+            $upload = $s3->upload($this->bucket, $uploadKey, $chunk);
+
+            return \is_string($upload['ETag'] ?? null);
+        }
+
+        $multipartUpload = $s3->createMultipartUpload([
+            'Bucket' => $this->bucket,
+            'Key' => $uploadKey,
+        ]);
+
+        $uploadId = $multipartUpload['UploadId'];
+        $uploadPartCopy = $s3->uploadPartCopy([
+            'Bucket' => $this->bucket,
+            'Key' => $uploadKey,
+            'PartNumber' => 1,
+            'UploadId' => $uploadId,
+            'CopySource' => "$this->bucket/$uploadKey",
+        ]);
+        $parts[] = [
+            'PartNumber' => 1,
+            'ETag' => $uploadPartCopy['CopyPartResult']['ETag'],
+        ];
+
+        $uploadPart = $s3->uploadPart([
+            'Bucket' => $this->bucket,
+            'Key' => $uploadKey,
+            'PartNumber' => 2,
+            'UploadId' => $uploadId,
+            'Content-Length' => \strlen($chunk),
+            'Body' => $chunk,
+        ]);
+        $parts[] = [
+            'PartNumber' => 2,
+            'ETag' => $uploadPart['ETag'],
+        ];
+
+        $completeMultipartUpload = $s3->completeMultipartUpload([
+            'Bucket' => $this->bucket,
+            'Key' => $uploadKey,
+            'UploadId' => $uploadId,
+            'MultipartUpload' => [
+                'Parts' => $parts,
+            ],
+        ]);
+
+        return \is_string($completeMultipartUpload['ETag'] ?? null);
+    }
+
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         if (null !== $this->uploadFolder) {
             return parent::initUpload($hash, $size, $name, $type);
         }
 
-        $path = $this->getUploadPath($hash);
-        $this->initDirectory($path);
+        $uploadKey = $this->uploadKey($hash);
         $result = $this->getS3Client()->putObject([
             'Bucket' => $this->bucket,
-            'Key' => \substr($path, 1 + \strlen($this->getBaseUrl())),
+            'Key' => $uploadKey,
             'Metadata' => [
                 'Confirmed' => 'false',
             ],
@@ -70,9 +128,11 @@ class S3Storage extends AbstractUrlStorage
 
     public function finalizeUpload(string $hash): bool
     {
-        $source = $this->getUploadPath($hash);
-        $destination = $this->getPath($hash);
-        $result = \copy($source, $destination);
+        $uploadKey = $this->uploadKey($hash);
+        $key = $this->key($hash);
+        $s3 = $this->getS3Client();
+        $copy = $s3->copy($this->bucket, $uploadKey, $this->bucket, $key);
+        $result = \is_string($copy['CopyObjectResult']['ETag'] ?? null);
         $this->removeUpload($hash);
 
         return $result;
@@ -95,10 +155,9 @@ class S3Storage extends AbstractUrlStorage
 
             return;
         }
-        $source = $this->getUploadPath($hash);
         $this->getS3Client()->deleteObject([
             'Bucket' => $this->bucket,
-            'Key' => \substr($source, 1 + \strlen($this->getBaseUrl())),
+            'Key' => $this->uploadKey($hash),
         ]);
     }
 
@@ -115,9 +174,22 @@ class S3Storage extends AbstractUrlStorage
     private function getS3Client(): S3Client
     {
         if (null === $this->s3Client) {
-            throw new \RuntimeException('Unexpected null confirmed');
+            $this->s3Client = new S3Client($this->credentials);
+            $this->s3Client->registerStreamWrapper();
         }
 
         return $this->s3Client;
+    }
+
+    private function uploadKey(string $hash): string
+    {
+        return "uploads/$hash";
+    }
+
+    private function key(string $hash): string
+    {
+        $folder = \substr($hash, 0, 3);
+
+        return "$folder/$hash";
     }
 }

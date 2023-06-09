@@ -64,6 +64,8 @@ class AuditCommand extends AbstractCommand
     private ?string $tikaBaseUrl;
     private float $tikaMaxSize;
     private ?string $saveFolder;
+    /** @var string[] */
+    private array $audited = [];
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -186,8 +188,14 @@ class AuditCommand extends AbstractCommand
             if ($result->getResponse()->getStatusCode() >= 300) {
                 $report->addWarning($url, [\sprintf('Return code %d', $result->getResponse()->getStatusCode())]);
             }
-            $auditResult = $auditManager->analyze($url, $result, $report);
+            $urlHash = $this->auditCache->getUrlHash($url);
+            $auditResult = $auditManager->analyze($url, $result, $report, \in_array($urlHash, $this->audited, true));
             $this->logger->notice('Analyzed');
+            $this->treatLinks($auditResult, $report);
+            if (\in_array($urlHash, $this->audited)) {
+                continue;
+            }
+
             if (!$auditResult->isValid()) {
                 $report->addBrokenLink($auditResult->getUrlReport());
                 $this->logger->notice('Broken links added');
@@ -204,7 +212,6 @@ class AuditCommand extends AbstractCommand
                 $report->addWarning($url, $auditResult->getWarnings());
                 $this->logger->notice('Warnings added');
             }
-            $this->treatLinks($auditResult, $report);
             $this->logger->notice('Ready');
             if (!$this->dryRun) {
                 $assets = $auditResult->uploadAssets($this->adminHelper->getCoreApi()->file());
@@ -220,7 +227,7 @@ class AuditCommand extends AbstractCommand
                 }
                 $this->logger->debug(Json::encode($rawData, true));
                 try {
-                    $api->save($this->auditCache->getUrlHash($auditResult->getUrl()), $rawData);
+                    $api->save($urlHash, $rawData);
                     $this->logger->notice('Document saved');
                 } catch (\Throwable $e) {
                     $this->logger->error(\sprintf('Error while saving the report for %s: %s', $auditResult->getUrl()->getUrl(null, false, false), $e->getMessage()));
@@ -228,6 +235,8 @@ class AuditCommand extends AbstractCommand
             } else {
                 $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
             }
+
+            $this->audited[] = $urlHash;
             if (null != $this->saveFolder) {
                 \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData([]), true));
             }

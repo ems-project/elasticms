@@ -34,7 +34,7 @@ class AuditManager
         }
     }
 
-    public function analyze(Url $url, HttpResult $result, Report $report): AuditResult
+    public function analyze(Url $url, HttpResult $result, Report $report, bool $alreadyAudited): AuditResult
     {
         $this->logger->notice($url->getUrl());
         $audit = new AuditResult($url);
@@ -43,6 +43,10 @@ class AuditManager
             return $audit;
         }
         $this->addHtmlAudit($audit, $result, $report);
+        if ($alreadyAudited) {
+            return $audit;
+        }
+
         if ($result->isHtml() && ($this->all || $this->pa11y)) {
             $this->startPa11yAudit($audit, $result);
         }

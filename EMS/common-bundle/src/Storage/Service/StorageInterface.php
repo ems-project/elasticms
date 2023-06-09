@@ -63,4 +63,6 @@ interface StorageInterface
     public function getHotSynchronizeLimit(): int;
 
     public function removeUpload(string $hash): void;
+
+    public function initFinalize(string $hash): void;
 }

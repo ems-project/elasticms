@@ -281,6 +281,7 @@ class StorageManager
             }
 
             try {
+                $adapter->initFinalize($hash);
                 $handler = $adapter->read($hash, false);
             } catch (\Throwable) {
                 continue;

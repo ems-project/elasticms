@@ -8,6 +8,7 @@ use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
+use EMS\CommonBundle\Search\Search;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -22,10 +23,14 @@ final class FileReaderImportCommand extends AbstractCommand
     private const ARGUMENT_CONTENT_TYPE = 'content-type';
     private const OPTION_OUUID_EXPRESSION = 'ouuid-expression';
     private const OPTION_DRY_RUN = 'dry-run';
+    private const OPTION_GENERATE_HASH = 'generate-hash';
+    private const OPTION_DELETE_MISSING_DOCUMENTS = 'delete-missing-document';
     private string $ouuidExpression;
     private string $contentType;
     private string $file;
     private bool $dryRun;
+    private bool $hashOuuid;
+    private bool $deleteMissingDocuments;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
@@ -39,6 +44,8 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'File path (xlsx or csv)')
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type target')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
+            ->addOption(self::OPTION_GENERATE_HASH, null, InputOption::VALUE_NONE, 'Use the OUUID column and the content type name in order to generate a "better" ouuid')
+            ->addOption(self::OPTION_DELETE_MISSING_DOCUMENTS, null, InputOption::VALUE_NONE, 'The command will delete content type document that are missing in the import file')
             ->addOption(self::OPTION_OUUID_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the document by its ouuid. If equal to null new document will be created', "row['ouuid']")
         ;
     }
@@ -50,6 +57,8 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->contentType = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->ouuidExpression = $this->getOptionString(self::OPTION_OUUID_EXPRESSION);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
+        $this->hashOuuid = $this->getOptionBool(self::OPTION_GENERATE_HASH);
+        $this->deleteMissingDocuments = $this->getOptionBool(self::OPTION_DELETE_MISSING_DOCUMENTS);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -68,6 +77,18 @@ final class FileReaderImportCommand extends AbstractCommand
         $rows = $this->fileReader->getData($this->file);
         $header = $rows[0] ?? [];
 
+        $ouuids = [];
+        if ($this->deleteMissingDocuments) {
+            $defaultAlias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+            $search = new Search([$defaultAlias]);
+            $search->setSources(['_id']);
+            $search->setContentTypes([$this->contentType]);
+
+            foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+                $ouuids[$hit->getOuuid()] = true;
+            }
+        }
+
         $progressBar = $this->io->createProgressBar(\count($rows) - 1);
         foreach ($rows as $key => $value) {
             if (0 === $key) {
@@ -81,6 +102,11 @@ final class FileReaderImportCommand extends AbstractCommand
             $ouuid = 'null' === $this->ouuidExpression ? null : $expressionLanguage->evaluate($this->ouuidExpression, [
                 'row' => $row,
             ]);
+            if ('null' !== $this->ouuidExpression && $this->hashOuuid) {
+                $ouuid = \sha1(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
+            }
+            unset($ouuids[$ouuid]);
+
             if ($this->dryRun) {
                 $progressBar->advance();
                 continue;
@@ -103,6 +129,20 @@ final class FileReaderImportCommand extends AbstractCommand
             $progressBar->advance();
         }
         $progressBar->finish();
+
+        if ($this->dryRun && \count($ouuids) > 0) {
+            $this->io->newLine(2);
+            $this->io->warning(\sprintf('%d documents are missing in the source file and will be deleted without the %s option', \count($ouuids), self::OPTION_DRY_RUN));
+        } elseif (\count($ouuids) > 0) {
+            $this->io->newLine(2);
+            $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
+            $progressBar = $this->io->createProgressBar(\count($ouuids));
+            foreach ($ouuids as $ouuid => $data) {
+                $contentTypeApi->delete($ouuid);
+                $progressBar->advance();
+            }
+            $progressBar->finish();
+        }
 
         return self::EXECUTE_SUCCESS;
     }

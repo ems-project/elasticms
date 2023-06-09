@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\Helpers\Standard\Base64;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 
@@ -37,7 +38,7 @@ class S3Storage extends AbstractUrlStorage
     {
         $s3 = $this->getS3Client();
 
-        $base64Hash = \base64_encode(\sha1($chunk, true));
+        $base64Hash = Base64::encode(\sha1($chunk, true));
         if ($this->multipartUpload) {
             $cache = $this->cache->getItem($this->uploadKey($hash));
             $args = $cache->get();

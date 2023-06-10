@@ -44,13 +44,11 @@ class AuditCommand extends AbstractCommand
     private const OPTION_ALL = 'all';
     private const OPTION_LIGHTHOUSE = 'lighthouse';
     private const OPTION_CONTENT_TYPE = 'content-type';
-    private const OPTION_REPORTS_FOLDER = 'reports-folder';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
     private bool $continue;
     private bool $dryRun;
-    private string $reportsFolder;
     private int $maxUpdate;
     private Url $baseUrl;
     private Cache $auditCache;
@@ -64,6 +62,8 @@ class AuditCommand extends AbstractCommand
     private ?string $tikaBaseUrl;
     private float $tikaMaxSize;
     private ?string $saveFolder;
+    /** @var string[] */
+    private array $audited = [];
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -91,7 +91,6 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika audit')
             ->addOption(self::OPTION_ALL, null, InputOption::VALUE_NONE, 'Add all audits (Tika, pa11y, lighthouse')
             ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
-            ->addOption(self::OPTION_REPORTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where reports stored', \getcwd())
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']))
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
@@ -113,7 +112,6 @@ class AuditCommand extends AbstractCommand
         $this->pa11y = $this->getOptionBool(self::OPTION_PA11Y);
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);
         $this->all = $this->getOptionBool(self::OPTION_ALL);
-        $this->reportsFolder = $this->getOptionString(self::OPTION_REPORTS_FOLDER);
         $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
         $this->maxUpdate = $this->getOptionInt(self::OPTION_MAX_UPDATES);
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
@@ -186,8 +184,14 @@ class AuditCommand extends AbstractCommand
             if ($result->getResponse()->getStatusCode() >= 300) {
                 $report->addWarning($url, [\sprintf('Return code %d', $result->getResponse()->getStatusCode())]);
             }
-            $auditResult = $auditManager->analyze($url, $result, $report);
+            $urlHash = $this->auditCache->getUrlHash($url);
+            $auditResult = $auditManager->analyze($url, $result, $report, \in_array($urlHash, $this->audited, true));
             $this->logger->notice('Analyzed');
+            $this->treatLinks($auditResult, $report);
+            if (\in_array($urlHash, $this->audited)) {
+                continue;
+            }
+
             if (!$auditResult->isValid()) {
                 $report->addBrokenLink($auditResult->getUrlReport());
                 $this->logger->notice('Broken links added');
@@ -204,7 +208,6 @@ class AuditCommand extends AbstractCommand
                 $report->addWarning($url, $auditResult->getWarnings());
                 $this->logger->notice('Warnings added');
             }
-            $this->treatLinks($auditResult, $report);
             $this->logger->notice('Ready');
             if (!$this->dryRun) {
                 $assets = $auditResult->uploadAssets($this->adminHelper->getCoreApi()->file());
@@ -220,7 +223,7 @@ class AuditCommand extends AbstractCommand
                 }
                 $this->logger->debug(Json::encode($rawData, true));
                 try {
-                    $api->save($this->auditCache->getUrlHash($auditResult->getUrl()), $rawData);
+                    $api->save($urlHash, $rawData);
                     $this->logger->notice('Document saved');
                 } catch (\Throwable $e) {
                     $this->logger->error(\sprintf('Error while saving the report for %s: %s', $auditResult->getUrl()->getUrl(null, false, false), $e->getMessage()));
@@ -228,6 +231,8 @@ class AuditCommand extends AbstractCommand
             } else {
                 $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
             }
+
+            $this->audited[] = $urlHash;
             if (null != $this->saveFolder) {
                 \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData([]), true));
             }
@@ -253,7 +258,11 @@ class AuditCommand extends AbstractCommand
 
         $this->io->section('Save cache and report');
         $this->auditCache->save($this->jsonPath, $finish);
-        $report->save($this->reportsFolder, $this->baseUrl->getHost());
+        $filename = \sprintf('Audit-%s-%s.xlsx', $this->baseUrl->getHost(), \date('Ymd-His'));
+        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $filepath = $report->generateXslxReport();
+        $reportLogsHash = $this->adminHelper->getCoreApi()->file()->uploadFile($filepath, $mimetype, $filename);
+        $this->io->writeln(\sprintf('Audit logs: %s', $this->adminHelper->getCoreApi()->file()->downloadLink($reportLogsHash)));
 
         return self::EXECUTE_SUCCESS;
     }

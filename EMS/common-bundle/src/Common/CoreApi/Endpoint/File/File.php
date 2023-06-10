@@ -109,6 +109,11 @@ final class File implements FileInterface
         return $this->storageManager->computeFileHash($filename);
     }
 
+    public function downloadLink(string $hash): string
+    {
+        return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
+    }
+
     public function hashStream(StreamInterface $stream): string
     {
         return $this->storageManager->computeStreamHash($stream);

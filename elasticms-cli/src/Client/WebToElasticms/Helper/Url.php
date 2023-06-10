@@ -147,7 +147,7 @@ class Url
         return $this->cleanPath($path);
     }
 
-    public function getUrl(string $path = null, bool $withFragment = false, bool $withPassword = true): string
+    public function getUrl(string $path = null, bool $withFragment = false, bool $withPassword = true, bool $withQuery = true): string
     {
         if (null !== $path) {
             return (new Url($path, $this->getUrl()))->getUrl(null, $withFragment);
@@ -164,7 +164,7 @@ class Url
         } else {
             $url = \sprintf('%s%s', $url, $this->path);
         }
-        if (null !== $this->query) {
+        if ($withQuery && null !== $this->query) {
             $url = \sprintf('%s?%s', $url, $this->query);
         }
         if ($withFragment && null !== $this->fragment) {

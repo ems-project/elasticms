@@ -7,12 +7,16 @@
         <defaults public="false" />
 
         <!-- Types -->
-        <service id="emsco.datatable.channel" class="EMS\CoreBundle\DataTable\Type\ChannelDataTableType">
+        <service id="emsco.data_table.channel" class="EMS\CoreBundle\DataTable\Type\ChannelDataTableType">
             <argument type="service" id="ems.service.channel"/>
             <tag name="emsco.datatable" />
         </service>
-        <service id="emsco.datatable.form" class="EMS\CoreBundle\DataTable\Type\FormDataTableType">
+        <service id="emsco.data_table.form" class="EMS\CoreBundle\DataTable\Type\FormDataTableType">
             <argument type="service" id="ems.form.manager" />
+            <tag name="emsco.datatable" />
+        </service>
+        <service id="emsco.data_table.query_search" class="EMS\CoreBundle\DataTable\Type\QuerySearchDataTableType">
+            <argument type="service" id="ems.service.query_search" />
             <tag name="emsco.datatable" />
         </service>
     </services>

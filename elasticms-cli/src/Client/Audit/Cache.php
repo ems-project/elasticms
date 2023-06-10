@@ -139,7 +139,7 @@ class Cache
 
     public function addUrl(Url $url): void
     {
-        $hash = $this->getUrlHash($url);
+        $hash = $this->getUrlHash($url, true);
         if (isset($this->urls[$hash])) {
             return;
         }
@@ -149,9 +149,9 @@ class Cache
         $this->urls[$hash] = $url;
     }
 
-    public function getUrlHash(Url $url): string
+    public function getUrlHash(Url $url, bool $withQuery = false): string
     {
-        return \sha1(\join('$', [self::HASH_SEED, $url->getUrl(null, false, false)]));
+        return \sha1(\join('$', [self::HASH_SEED, $url->getUrl(null, false, false, $withQuery)]));
     }
 
     public function progress(OutputInterface $output): void

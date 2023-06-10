@@ -222,6 +222,7 @@
             <argument type="service" id="logger"/>
             <argument type="service" id="ems.form.manager" />
             <argument type="service" id="ems.form.field-type.manager" />
+            <argument type="service" id="emsco.data_table.factory" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>
@@ -395,6 +396,7 @@
         <service id="EMS\CoreBundle\Controller\ChannelController" public="true">
             <argument type="service" id="logger" />
             <argument type="service" id="ems.service.channel" />
+            <argument type="service" id="emsco.data_table.factory" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

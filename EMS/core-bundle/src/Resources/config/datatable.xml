@@ -7,6 +7,10 @@
         <defaults public="false" />
 
         <!-- Types -->
+        <service id="emsco.datatable.channel" class="EMS\CoreBundle\DataTable\Type\ChannelDataTableType">
+            <argument type="service" id="ems.service.channel"/>
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.datatable.form" class="EMS\CoreBundle\DataTable\Type\FormDataTableType">
             <argument type="service" id="ems.form.manager" />
             <tag name="emsco.datatable" />

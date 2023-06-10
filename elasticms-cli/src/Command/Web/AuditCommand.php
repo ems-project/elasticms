@@ -44,13 +44,11 @@ class AuditCommand extends AbstractCommand
     private const OPTION_ALL = 'all';
     private const OPTION_LIGHTHOUSE = 'lighthouse';
     private const OPTION_CONTENT_TYPE = 'content-type';
-    private const OPTION_REPORTS_FOLDER = 'reports-folder';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
     private bool $continue;
     private bool $dryRun;
-    private string $reportsFolder;
     private int $maxUpdate;
     private Url $baseUrl;
     private Cache $auditCache;
@@ -93,7 +91,6 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika audit')
             ->addOption(self::OPTION_ALL, null, InputOption::VALUE_NONE, 'Add all audits (Tika, pa11y, lighthouse')
             ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
-            ->addOption(self::OPTION_REPORTS_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where reports stored', \getcwd())
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']))
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
@@ -115,7 +112,6 @@ class AuditCommand extends AbstractCommand
         $this->pa11y = $this->getOptionBool(self::OPTION_PA11Y);
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);
         $this->all = $this->getOptionBool(self::OPTION_ALL);
-        $this->reportsFolder = $this->getOptionString(self::OPTION_REPORTS_FOLDER);
         $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
         $this->maxUpdate = $this->getOptionInt(self::OPTION_MAX_UPDATES);
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
@@ -262,7 +258,11 @@ class AuditCommand extends AbstractCommand
 
         $this->io->section('Save cache and report');
         $this->auditCache->save($this->jsonPath, $finish);
-        $report->save($this->reportsFolder, $this->baseUrl->getHost());
+        $filename = \sprintf('Audit-%s-%s.xlsx', $this->baseUrl->getHost(), \date('Ymd-His'));
+        $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+        $filepath = $report->generateXslxReport();
+        $reportLogsHash = $this->adminHelper->getCoreApi()->file()->uploadFile($filepath, $mimetype, $filename);
+        $this->io->writeln(\sprintf('Audit logs: %s', $this->adminHelper->getCoreApi()->file()->downloadLink($reportLogsHash)));
 
         return self::EXECUTE_SUCCESS;
     }

@@ -22,8 +22,14 @@
         <service id="emsco.data_table.job_schedule" class="EMS\CoreBundle\DataTable\Type\JobScheduleDataTableType">
             <argument type="service" id="ems.schedule.manager" />
             <tag name="emsco.datatable" />
-        </service>        <service id="emsco.data_table.query_search" class="EMS\CoreBundle\DataTable\Type\QuerySearchDataTableType">
+        </service>
+        <service id="emsco.data_table.query_search" class="EMS\CoreBundle\DataTable\Type\QuerySearchDataTableType">
             <argument type="service" id="ems.service.query_search" />
+            <tag name="emsco.datatable" />
+        </service>
+        <service id="emsco.data_table.uploaded_file_log" class="EMS\CoreBundle\DataTable\Type\UploadedFileLogDataTableType">
+            <argument type="service" id="ems.service.file" />
+            <argument type="service" id="security.helper" />
             <tag name="emsco.datatable" />
         </service>
     </services>

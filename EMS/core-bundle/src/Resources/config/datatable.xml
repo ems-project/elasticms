@@ -19,7 +19,10 @@
             <argument type="service" id="ems.form_submission" />
             <tag name="emsco.datatable" />
         </service>
-        <service id="emsco.data_table.query_search" class="EMS\CoreBundle\DataTable\Type\QuerySearchDataTableType">
+        <service id="emsco.data_table.job_schedule" class="EMS\CoreBundle\DataTable\Type\JobScheduleDataTableType">
+            <argument type="service" id="ems.schedule.manager" />
+            <tag name="emsco.datatable" />
+        </service>        <service id="emsco.data_table.query_search" class="EMS\CoreBundle\DataTable\Type\QuerySearchDataTableType">
             <argument type="service" id="ems.service.query_search" />
             <tag name="emsco.datatable" />
         </service>

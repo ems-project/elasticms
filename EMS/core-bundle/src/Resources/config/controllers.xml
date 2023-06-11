@@ -243,6 +243,7 @@
         <service id="EMS\CoreBundle\Controller\Job\ScheduleController" public="true">
             <argument type="service" id="ems.schedule.manager" />
             <argument type="service" id="logger"/>
+            <argument type="service" id="emsco.data_table.factory" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

@@ -58,7 +58,6 @@ class Routes
     final public const SCHEDULE_EDIT = 'emsco_schedule_edit';
     final public const SCHEDULE_DUPLICATE = 'emsco_schedule_duplicate';
     final public const SCHEDULE_DELETE = 'emsco_schedule_delete';
-    final public const USER_AJAX_DATA_TABLE = 'emsco_user_datatable';
     final public const USER_INDEX = 'emsco_user_index';
     final public const USER_ADD = 'emsco_user_add';
     final public const USER_EDIT = 'emsco_user_edit';

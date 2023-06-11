@@ -74,6 +74,7 @@ security:
         - { path: ^/bundles, role: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_API }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/i18n-type, roles: ROLE_ADMIN }
         - { path: ^/action, roles: ROLE_ADMIN }
         - { path: ^/wysiwyg-profile, roles: ROLE_ADMIN }

@@ -24,7 +24,6 @@ class Routes
     final public const DASHBOARD = 'emsco_dashboard';
     final public const DASHBOARD_HOME = 'emsco_dashboard_home';
     final public const FORM_ADMIN_INDEX = 'emsco_form_admin_index';
-    final public const FORM_ADMIN_INDEX_AJAX = 'emsco_form_admin_index_ajax';
     final public const FORM_ADMIN_ADD = 'emsco_form_admin_add';
     final public const FORM_ADMIN_EDIT = 'emsco_form_admin_edit';
     final public const FORM_ADMIN_REORDER = 'emsco_form_admin_reorder';

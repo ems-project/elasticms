@@ -11,6 +11,10 @@
             <argument type="service" id="ems.service.channel"/>
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.dashboard" class="EMS\CoreBundle\DataTable\Type\DashboardDataTableType">
+            <argument type="service" id="ems.dashboard.manager"/>
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.data_table.form" class="EMS\CoreBundle\DataTable\Type\FormDataTableType">
             <argument type="service" id="ems.form.manager" />
             <tag name="emsco.datatable" />

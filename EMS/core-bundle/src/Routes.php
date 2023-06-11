@@ -15,7 +15,6 @@ class Routes
     final public const DRAFT_IN_PROGRESS_AJAX = 'emsco_draft_in_progress_ajax';
     final public const DATA_TABLE_AJAX_TABLE = 'emsco_datatable_ajax_table';
     final public const DASHBOARD_ADMIN_INDEX = 'emsco_dashboard_admin_index';
-    final public const DASHBOARD_ADMIN_INDEX_AJAX = 'emsco_dashboard_admin_index_ajax';
     final public const DASHBOARD_ADMIN_ADD = 'emsco_dashboard_admin_add';
     final public const DASHBOARD_ADMIN_EDIT = 'emsco_dashboard_admin_edit';
     final public const DASHBOARD_ADMIN_DELETE = 'emsco_dashboard_admin_delete';

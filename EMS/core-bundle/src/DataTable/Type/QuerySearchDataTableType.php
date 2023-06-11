@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\DataTable\Type;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\QuerySearchService;
 
 class QuerySearchDataTableType extends AbstractEntityTableType
@@ -28,6 +29,6 @@ class QuerySearchDataTableType extends AbstractEntityTableType
 
     public function getRoles(): array
     {
-        return ['ROLE_ADMIN'];
+        return [Roles::ROLE_ADMIN];
     }
 }

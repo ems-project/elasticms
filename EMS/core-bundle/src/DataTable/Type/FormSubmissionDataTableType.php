@@ -9,6 +9,7 @@ use EMS\CoreBundle\Form\Data\DateTableColumn;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 
 class FormSubmissionDataTableType extends AbstractEntityTableType
@@ -39,6 +40,6 @@ class FormSubmissionDataTableType extends AbstractEntityTableType
 
     public function getRoles(): array
     {
-        return ['ROLE_FORM_CRM'];
+        return [Roles::ROLE_FORM_CRM];
     }
 }

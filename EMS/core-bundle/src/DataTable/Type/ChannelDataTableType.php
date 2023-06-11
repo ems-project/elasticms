@@ -9,6 +9,7 @@ use EMS\CoreBundle\Entity\Channel;
 use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\Channel\ChannelService;
 
 class ChannelDataTableType extends AbstractEntityTableType
@@ -34,6 +35,6 @@ class ChannelDataTableType extends AbstractEntityTableType
 
     public function getRoles(): array
     {
-        return ['ROLE_ADMIN'];
+        return [Roles::ROLE_ADMIN];
     }
 }

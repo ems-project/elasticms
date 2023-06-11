@@ -9,6 +9,7 @@ use EMS\CoreBundle\Core\Job\ScheduleManager;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 
 class JobScheduleDataTableType extends AbstractEntityTableType
@@ -37,6 +38,6 @@ class JobScheduleDataTableType extends AbstractEntityTableType
 
     public function getRoles(): array
     {
-        return ['ROLE_ADMIN'];
+        return [Roles::ROLE_ADMIN];
     }
 }

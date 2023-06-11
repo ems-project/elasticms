@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\Form\FormManager;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 
 class FormDataTableType extends AbstractEntityTableType
@@ -32,6 +33,6 @@ class FormDataTableType extends AbstractEntityTableType
 
     public function getRoles(): array
     {
-        return ['ROLE_ADMIN'];
+        return [Roles::ROLE_ADMIN];
     }
 }

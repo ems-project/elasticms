@@ -65,6 +65,7 @@
             <argument type="service" id="emsco.data_table.type.collection" />
             <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
             <argument type="service" id="router" />
+            <argument type="service" id="security.helper" />
         </service>
         <service id="ems.service.datatable" alias="EMS\CoreBundle\Service\DatatableService"/>
         <service id="EMS\CoreBundle\Service\DatatableService">

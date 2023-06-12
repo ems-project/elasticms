@@ -10,6 +10,8 @@ use EMS\CoreBundle\Core\DataTable\Type\DataTableTypeInterface;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Routes;
+use EMS\Helpers\Standard\Hash;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
@@ -19,22 +21,27 @@ class DataTableFactory
     public function __construct(
         private readonly DataTableTypeCollection $typeCollection,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security
+        private readonly CacheItemPoolInterface $cache,
+        private readonly Security $security,
     ) {
     }
 
-    public function create(string $class): TableAbstract
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function create(string $class, array $options = []): TableAbstract
     {
         $type = $this->typeCollection->getByClass($class);
 
-        return $this->build($type);
+        return $this->build($type, $options);
     }
 
-    public function createFromHash(string $hash): TableAbstract
+    public function createFromHash(string $hash, ?string $optionsCacheKey): TableAbstract
     {
         $type = $this->typeCollection->getByHash($hash);
+        $options = $optionsCacheKey ? $this->cache->getItem($optionsCacheKey)->get() : [];
 
-        return $this->build($type);
+        return $this->build($type, $options);
     }
 
     private function checkRoles(DataTableTypeInterface $type): void
@@ -47,10 +54,15 @@ class DataTableFactory
         }
     }
 
-    private function build(DataTableTypeInterface $type): TableAbstract
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function build(DataTableTypeInterface $type, array $options = []): TableAbstract
     {
         $this->checkRoles($type);
-        $ajaxUrl = $this->generateAjaxUrl($type);
+
+        $optionsCacheKey = $this->getOptionsCacheKey($options);
+        $ajaxUrl = $this->generateAjaxUrl($type, $optionsCacheKey);
 
         return match (true) {
             $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $ajaxUrl),
@@ -72,10 +84,27 @@ class DataTableFactory
         return $table;
     }
 
-    private function generateAjaxUrl(DataTableTypeInterface $type): string
+    private function generateAjaxUrl(DataTableTypeInterface $type, ?string $optionsCacheKey = null): string
     {
         return $this->urlGenerator->generate(Routes::DATA_TABLE_AJAX_TABLE, [
             'hash' => $type->getHash(),
+            'optionsCacheKey' => $optionsCacheKey,
         ]);
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function getOptionsCacheKey(array $options): ?string
+    {
+        if (0 === \count($options)) {
+            return null;
+        }
+
+        $key = Hash::array($options);
+        $item = $this->cache->getItem($key)->set($options);
+        $this->cache->save($item);
+
+        return $key;
     }
 }

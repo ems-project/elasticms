@@ -12,6 +12,7 @@ use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Routes;
 use EMS\Helpers\Standard\Hash;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
@@ -47,10 +48,11 @@ class DataTableFactory
     /**
      * @param array<string, mixed> $options
      */
-    private function build(DataTableTypeInterface $type, array $options = []): TableAbstract
+    private function build(DataTableTypeInterface $type, array $options): TableAbstract
     {
         $this->checkRoles($type);
 
+        $options = $this->resolveOptions($type, $options);
         $optionsCacheKey = $this->getOptionsCacheKey($options);
         $ajaxUrl = $this->generateAjaxUrl($type, $optionsCacheKey);
 
@@ -109,5 +111,18 @@ class DataTableFactory
         $this->cache->save($item);
 
         return $key;
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     *
+     * @return array<string, mixed>
+     */
+    private function resolveOptions(DataTableTypeInterface $type, array $options): array
+    {
+        $optionsResolver = new OptionsResolver();
+        $type->configureOptions($optionsResolver);
+
+        return $optionsResolver->resolve($options);
     }
 }

@@ -61,8 +61,6 @@ export default class MediaLibrary {
     }
 
     _addFiles(files) {
-        console.debug(files);
-
         this._disableButtons();
         let path = this.#activePath;
 

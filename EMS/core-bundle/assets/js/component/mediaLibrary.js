@@ -270,10 +270,7 @@ export default class MediaLibrary {
             dropArea.addEventListener(eventName, () => dropArea.classList.remove('media-lib-drop-area'), false);
         });
 
-        dropArea.addEventListener('drop', (e) => {
-            event.stopPropagation();
-            event.preventDefault();
-
+        dropArea.addEventListener('drop', () => {
             const files = event.target.files || event.dataTransfer.files;
             this._addFiles(Array.from(files));
         }, false);

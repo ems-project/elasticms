@@ -25,7 +25,10 @@ abstract class AbstractEntityTableType extends AbstractTableType
         return $this->entityService;
     }
 
-    public function getContext(): mixed
+    /**
+     * @param array<mixed> $options
+     */
+    public function getContext(array $options): mixed
     {
         return null;
     }

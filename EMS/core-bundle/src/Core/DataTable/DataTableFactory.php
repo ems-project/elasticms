@@ -65,17 +65,17 @@ class DataTableFactory
         $ajaxUrl = $this->generateAjaxUrl($type, $optionsCacheKey);
 
         return match (true) {
-            $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $ajaxUrl),
+            $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $ajaxUrl, $options),
             default => throw new \RuntimeException('Unknown dataTableType')
         };
     }
 
-    private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl): EntityTable
+    private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl, $options): EntityTable
     {
         $table = new EntityTable(
             $type->getEntityService(),
             $ajaxUrl,
-            $type->getContext(),
+            $type->getContext($options),
             $type->getLoadMaxRows()
         );
 

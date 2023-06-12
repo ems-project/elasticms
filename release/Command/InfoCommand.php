@@ -26,7 +26,7 @@ class InfoCommand extends Command
             ['<info>Step 4</info>', 'generate changelog', '<comment>github:changelog 5.2.0 5.2 5.0.1 --write</comment>'],
             ['<info>Step 5</info>', 'commit composer.lock and changelog', '<error>no command for now</error>'],
             ['<info>Step 6</info>', 'release admin/web/cli', '<comment>github:release:applications 5.2.0 5.2 5.0.1</comment>'],
-            ['<info>Step 7</info>', 'release docker admin/web/cli', '<comment>github:release:docker 5.2.0 5.x 5.0.1</comment>'],
+            ['<info>Step 7</info>', 'release docker admin/web/cli', '<comment>github:release:docker 5.2.0 5.2 5.0.1</comment>'],
         ]);
 
         $style->table(['Command', 'Description'], [

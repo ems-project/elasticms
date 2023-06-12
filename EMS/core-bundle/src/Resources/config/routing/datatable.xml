@@ -7,7 +7,7 @@
     <route id="emsco_datatable_ajax_table" path="/ajax/table/{hash}/{optionsCacheKey}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DatatableController::ajaxData"
            methods="GET">
-        <default key="optionsCacheKey">null</default>
+        <default key="optionsCacheKey" xsi:nil="true" />
     </route>
 
     <route id="ems_core_datatable_ajax_elastica" path="/ajax/{hashConfig}.json"

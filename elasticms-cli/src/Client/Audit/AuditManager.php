@@ -267,7 +267,11 @@ class AuditManager
         try {
             $audit->setTikaDatetime();
             $htmlHelper = new HtmlHelper($this->tikaPromise->getHtml(), $audit->getUrl());
-            $audit->setContent($htmlHelper->getText());
+            $content = $htmlHelper->getText();
+            if (\strlen($content) > 300000) {
+                $content = \substr($content, 0, 300000);
+            }
+            $audit->setContent($content);
             if (!$result->isHtml()) {
                 $audit->addLinks($htmlHelper, $report);
             }

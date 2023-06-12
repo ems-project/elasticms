@@ -33,7 +33,6 @@
         </service>
         <service id="emsco.data_table.uploaded_file_log" class="EMS\CoreBundle\DataTable\Type\UploadedFileLogDataTableType">
             <argument type="service" id="ems.service.file" />
-            <argument type="service" id="security.helper" />
             <tag name="emsco.datatable" />
         </service>
         <service id="emsco.data_table.user" class="EMS\CoreBundle\DataTable\Type\UserDataTableType">

@@ -15,14 +15,11 @@ use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Data\UserTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\FileService;
-use Symfony\Component\Security\Core\Security;
 
 class UploadedFileLogDataTableType extends AbstractEntityTableType
 {
-    public function __construct(
-        FileService $entityService,
-        private readonly Security $security
-    ) {
+    public function __construct(FileService $entityService)
+    {
         parent::__construct($entityService);
     }
 
@@ -51,16 +48,13 @@ class UploadedFileLogDataTableType extends AbstractEntityTableType
 
         $table->addTableAction(TableAbstract::DOWNLOAD_ACTION, 'fa fa-download', 'uploaded-file.uploaded-file.download_selected', 'uploaded-file.uploaded-file.download_selected_confirm');
 
-        if ($this->security->isGranted(Roles::ROLE_PUBLISHER)) {
-            $table->addDynamicItemPostAction('ems_core_uploaded_file_show_hide', 'uploaded-file.action.hide-show', 'eye', 'uploaded-file.hide-show-confirm', ['assetId' => 'id']);
-            $table->addTableAction(UploadedFileController::HIDE_ACTION, 'fa fa-eye', 'uploaded-file.uploaded-file.hide-show', 'uploaded-file.uploaded-file.hide-show_confirm');
-        }
-        if ($this->security->isGranted(Roles::ROLE_ADMIN)) {
-            $itemDeleteAction = $table->addDynamicItemPostAction('ems_file_soft_delete', 'uploaded-file.action.soft-delete', 'trash', 'uploaded-file.soft-delete-confirm', ['id' => 'id']);
-            $itemDeleteAction->setButtonType('outline-danger');
-            $deleteAction = $table->addTableAction(UploadedFileController::SOFT_DELETE_ACTION, 'fa fa-trash', 'uploaded-file.uploaded-file.soft_delete_selected', 'uploaded-file.uploaded-file.soft_delete_selected_confirm');
-            $deleteAction->setCssClass('btn btn-outline-danger');
-        }
+        $table->addDynamicItemPostAction('ems_core_uploaded_file_show_hide', 'uploaded-file.action.hide-show', 'eye', 'uploaded-file.hide-show-confirm', ['assetId' => 'id']);
+        $table->addTableAction(UploadedFileController::HIDE_ACTION, 'fa fa-eye', 'uploaded-file.uploaded-file.hide-show', 'uploaded-file.uploaded-file.hide-show_confirm');
+
+        $itemDeleteAction = $table->addDynamicItemPostAction('ems_file_soft_delete', 'uploaded-file.action.soft-delete', 'trash', 'uploaded-file.soft-delete-confirm', ['id' => 'id']);
+        $itemDeleteAction->setButtonType('outline-danger');
+        $deleteAction = $table->addTableAction(UploadedFileController::SOFT_DELETE_ACTION, 'fa fa-trash', 'uploaded-file.uploaded-file.soft_delete_selected', 'uploaded-file.uploaded-file.soft_delete_selected_confirm');
+        $deleteAction->setCssClass('btn btn-outline-danger');
 
         $table->setDefaultOrder('created', 'desc');
     }

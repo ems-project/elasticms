@@ -60,7 +60,10 @@ class DataTableFactory
         };
     }
 
-    private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl, $options): EntityTable
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl, array $options = []): EntityTable
     {
         $table = new EntityTable(
             $type->getEntityService(),

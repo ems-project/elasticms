@@ -14,6 +14,13 @@ final class EmschRequest extends Request
 
     public static function fromRequest(Request $request): self
     {
+        foreach ($request->files->all() as $key => $file) {
+            if (null !== $file) {
+                continue;
+            }
+            $request->files->remove($key);
+        }
+
         return new self(
             $request->query->all(),
             $request->request->all(),

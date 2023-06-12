@@ -1,5 +1,14 @@
 # Changelog 5.x
 
+## 5.6.2 (2023-06-12)
+### Bug Fixes
+* fix(admin): security /admin routes by @Davidmattei in https://github.com/ems-project/elasticms/pull/495
+* fix(cli): don't audit same urls with different parameters more than once by @theus77 in https://github.com/ems-project/elasticms/pull/491
+* fix(cli): web-audit too big data by @theus77 in https://github.com/ems-project/elasticms/pull/496
+* fix(demo): *.localhost no more internally available by @theus77 in https://github.com/ems-project/elasticms/pull/487
+* fix(emsch form): isTokenValid by @theus77 in https://github.com/ems-project/elasticms/pull/498
+* fix(emsch request): clean out empty file field by @theus77 in https://github.com/ems-project/elasticms/pull/497
+
 ## 5.6.1 (2023-06-05)
 ### Bug Fixes
 * fix(emsch/search): add minimum_should_match only if defined  by @theus77 in https://github.com/ems-project/elasticms/pull/483

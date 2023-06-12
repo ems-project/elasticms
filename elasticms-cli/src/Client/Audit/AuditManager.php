@@ -133,7 +133,12 @@ class AuditManager
 
         $this->logger->notice('Collect pa11y audit');
         try {
-            $audit->setPa11y($this->pa11yAudit->getJson());
+            $pa11y = $this->pa11yAudit->getJson();
+            if (\count($pa11y) > 50) {
+                $this->logger->warning(\sprintf('Pa11y audit for %s contains %d errors, only the first 50 will be kept in the audit', $audit->getUrl()->getUrl(), \count($pa11y)));
+                $pa11y = \array_slice($pa11y, 0, 50);
+            }
+            $audit->setPa11y($pa11y);
         } catch (\Throwable $e) {
             $this->logger->warning(\sprintf('Pa11y audit for %s failed: %s', $audit->getUrl()->getUrl(), $e->getMessage()));
         }

@@ -60,7 +60,13 @@ class DataTableFactory
 
     private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl): EntityTable
     {
-        $table = new EntityTable($type->getEntityService(), $ajaxUrl);
+        $table = new EntityTable(
+            $type->getEntityService(),
+            $ajaxUrl,
+            $type->getContext(),
+            $type->getLoadMaxRows()
+        );
+
         $type->build($table);
 
         return $table;

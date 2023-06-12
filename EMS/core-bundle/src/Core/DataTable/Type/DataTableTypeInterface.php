@@ -8,4 +8,6 @@ interface DataTableTypeInterface
      * @return string[]
      */
     public function getRoles(): array;
+
+    public function getHash(): string;
 }

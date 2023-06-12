@@ -10,8 +10,6 @@ use EMS\CoreBundle\Core\DataTable\Type\DataTableTypeInterface;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Routes;
-use EMS\Helpers\Standard\Base64;
-use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
@@ -20,7 +18,6 @@ class DataTableFactory
 {
     public function __construct(
         private readonly DataTableTypeCollection $typeCollection,
-        private readonly CacheItemPoolInterface $cache,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly Security $security
     ) {
@@ -30,15 +27,14 @@ class DataTableFactory
     {
         $type = $this->typeCollection->getByClass($class);
 
-        $this->checkRoles($type);
+        return $this->build($type);
+    }
 
-        $cacheKey = $this->cacheSave($class);
-        $ajaxUrl = $this->generateAjaxUrl($cacheKey);
+    public function createFromHash(string $hash): TableAbstract
+    {
+        $type = $this->typeCollection->getByHash($hash);
 
-        return match (true) {
-            $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $ajaxUrl),
-            default => throw new \RuntimeException('Unknown dataTableType')
-        };
+        return $this->build($type);
     }
 
     private function checkRoles(DataTableTypeInterface $type): void
@@ -51,16 +47,15 @@ class DataTableFactory
         }
     }
 
-    public function createFromCache(string $cacheKey): TableAbstract
+    private function build(DataTableTypeInterface $type): TableAbstract
     {
-        $item = $this->cache->getItem($cacheKey);
-        if (!$item->isHit()) {
-            throw new \RuntimeException('Invalid cache');
-        }
+        $this->checkRoles($type);
+        $ajaxUrl = $this->generateAjaxUrl($type);
 
-        $data = $item->get();
-
-        return $this->create($data['class']);
+        return match (true) {
+            $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $ajaxUrl),
+            default => throw new \RuntimeException('Unknown dataTableType')
+        };
     }
 
     private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl): EntityTable
@@ -71,20 +66,10 @@ class DataTableFactory
         return $table;
     }
 
-    private function generateAjaxUrl(string $cacheKey): string
+    private function generateAjaxUrl(DataTableTypeInterface $type): string
     {
         return $this->urlGenerator->generate(Routes::DATA_TABLE_AJAX_TABLE, [
-            'cacheKey' => $cacheKey,
+            'hash' => $type->getHash(),
         ]);
-    }
-
-    private function cacheSave(string $class): string
-    {
-        $key = Base64::encode($class);
-        $item = $this->cache->getItem($key)->set(['class' => $class]);
-
-        $this->cache->save($item);
-
-        return $key;
     }
 }

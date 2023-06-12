@@ -28,9 +28,9 @@ final class DatatableController extends AbstractController
     ) {
     }
 
-    public function ajaxData(Request $request, string $cacheKey): Response
+    public function ajaxData(Request $request, string $hash): Response
     {
-        $table = $this->dataTableFactory->createFromCache($cacheKey);
+        $table = $this->dataTableFactory->createFromHash($hash);
         $dataTableRequest = DataTableRequest::fromRequest($request);
         $table->resetIterator($dataTableRequest);
 

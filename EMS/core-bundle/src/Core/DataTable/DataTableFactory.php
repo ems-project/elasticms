@@ -44,16 +44,6 @@ class DataTableFactory
         return $this->build($type, $options);
     }
 
-    private function checkRoles(DataTableTypeInterface $type): void
-    {
-        $roles = $type->getRoles();
-        $grantedRoles = \array_filter($roles, fn (string $role) => $this->security->isGranted($role));
-
-        if (0 === \count($grantedRoles)) {
-            throw new AccessDeniedException();
-        }
-    }
-
     /**
      * @param array<string, mixed> $options
      */
@@ -82,6 +72,16 @@ class DataTableFactory
         $type->build($table);
 
         return $table;
+    }
+
+    private function checkRoles(DataTableTypeInterface $type): void
+    {
+        $roles = $type->getRoles();
+        $grantedRoles = \array_filter($roles, fn (string $role) => $this->security->isGranted($role));
+
+        if (0 === \count($grantedRoles)) {
+            throw new AccessDeniedException();
+        }
     }
 
     private function generateAjaxUrl(DataTableTypeInterface $type, ?string $optionsCacheKey = null): string

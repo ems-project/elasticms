@@ -76,6 +76,7 @@ services:
       - ./configs/document:/opt/src/document
       - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_preview
       - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_live
+      - ./skeleton:/opt/src/local/skeleton
 #      - ../EMS/client-helper-bundle:/opt/src/vendor/elasticms/client-helper-bundle
 #      - ../EMS/common-bundle:/opt/src/vendor/elasticms/common-bundle
 #      - ../EMS/form-bundle:/opt/src/vendor/elasticms/form-bundle

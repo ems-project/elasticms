@@ -175,6 +175,9 @@ sub_config_push(){
   echo "Switch default environment"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo emsco:contenttype:switch-default-env media_file default
 
+  echo "Push assets"
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:local:upload --filename=/opt/src/local/skeleton/template/asset_hash.twig
+
   echo "Push templates, routes and translations"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:local:push --force
 

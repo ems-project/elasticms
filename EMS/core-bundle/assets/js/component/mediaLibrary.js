@@ -6,7 +6,7 @@ import FileUploader from "@elasticms/file-uploader";
 export default class MediaLibrary {
     #el;
     #hash;
-    #activePath;
+    #activePath = '/';
     #options = {};
     #elements = {};
 
@@ -108,7 +108,7 @@ export default class MediaLibrary {
                     progressBar.progress(100);
                     progressBar.style('success');
 
-                    ajaxJsonPost(mediaLib._makeUrl('add-file/' + fileHash, path), JSON.stringify({
+                    ajaxJsonPost(mediaLib._makeUrl('add-file/' + fileHash, { 'path': path }), JSON.stringify({
                         'file': { 'filename': file.name, 'filesize': file.size, 'mimetype': file.type}
                     }), (json, request) => {
                         if (request.status === 201) {
@@ -182,7 +182,7 @@ export default class MediaLibrary {
         this.#elements.listFiles.innerHTML = '';
         this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
 
-        return fetch(this._makeUrl('files'), {
+        return fetch(this._makeUrl('files', { from: 0 }), {
             method: 'GET',
             headers: { 'Content-Type': 'application/json'}
         }).then((response) => {
@@ -246,13 +246,15 @@ export default class MediaLibrary {
 
         return button;
     }
-    _makeUrl(action, path) {
+    _makeUrl(action, params) {
         let url = [this.#options.urlMediaLib, this.#hash, action].join('/');
-        path = path || this.#activePath;
+        let searchParams = params || {};
 
-        if (path) {
-            url += '?' + new URLSearchParams({path: path}).toString();
+        if (!searchParams.hasOwnProperty('path') && this.#activePath) {
+            searchParams.path = this.#activePath;
         }
+
+        url += '?' + new URLSearchParams(searchParams).toString();
 
         return url;
     }

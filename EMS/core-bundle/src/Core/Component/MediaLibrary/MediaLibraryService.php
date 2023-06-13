@@ -142,7 +142,7 @@ class MediaLibraryService
         $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
         $search->setContentTypes([$config->contentType->getName()]);
         $search->setFrom($from);
-        $search->setSize(5000);
+        $search->setSize($config->searchSize);
 
         if ($config->fieldPathOrder) {
             $search->setSort([$config->fieldPathOrder => ['order' => 'asc']]);

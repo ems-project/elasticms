@@ -73,6 +73,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
                 'fieldFile' => 'media_file',
                 'defaultValue' => [],
                 'searchQuery' => [],
+                'searchSize' => MediaLibraryConfig::DEFAULT_SEARCH_SIZE,
                 'context' => [],
                 'template' => null,
             ])

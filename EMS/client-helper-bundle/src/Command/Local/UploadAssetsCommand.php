@@ -9,11 +9,14 @@ use EMS\ClientHelperBundle\Helper\Local\LocalHelper;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class UploadAssetsCommand extends AbstractLocalCommand
 {
     private const ARG_BASE_URL = 'base_url';
+    private const OPTION_FILENAME = 'filename';
+    private ?string $filename;
 
     public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper, private readonly ?string $assetLocalFolder)
     {
@@ -25,7 +28,14 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         parent::configure();
         $this
             ->addArgument(self::ARG_BASE_URL, InputArgument::OPTIONAL, 'Base url where the assets are located')
+            ->addOption(self::OPTION_FILENAME, null, InputOption::VALUE_OPTIONAL, 'Save the asset\'s hash within the given file')
         ;
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        parent::initialize($input, $output);
+        $this->filename = $this->getOptionStringNull(self::OPTION_FILENAME);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -66,6 +76,10 @@ final class UploadAssetsCommand extends AbstractLocalCommand
 
             $this->io->newLine();
             $this->io->success(\sprintf('Assets %s have been uploaded', $hash));
+
+            if (null !== $this->filename) {
+                \file_put_contents($this->filename, $hash);
+            }
 
             return self::EXECUTE_SUCCESS;
         } catch (\Throwable $e) {

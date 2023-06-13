@@ -57,7 +57,7 @@ class MediaLibraryService
     /**
      * @return string[]
      */
-    public function getFiles(MediaLibraryConfig $config, string $path): array
+    public function getFiles(MediaLibraryConfig $config, string $path, int $from): array
     {
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
@@ -67,7 +67,7 @@ class MediaLibraryService
         }
 
         $template = $this->templateFactory->create($config);
-        $documents = $this->search($config, $searchQuery)->getDocuments();
+        $documents = $this->search($config, $searchQuery, $from)->getDocuments();
 
         $files = [$template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER)];
 
@@ -133,7 +133,7 @@ class MediaLibraryService
         return $type ?: 'application/bin';
     }
 
-    private function search(MediaLibraryConfig $config, BoolQuery $query): Response
+    private function search(MediaLibraryConfig $config, BoolQuery $query, int $from = 0): Response
     {
         if ($config->searchQuery) {
             $query->addMust($config->searchQuery);
@@ -141,7 +141,7 @@ class MediaLibraryService
 
         $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
         $search->setContentTypes([$config->contentType->getName()]);
-        $search->setFrom(0);
+        $search->setFrom($from);
         $search->setSize(5000);
 
         if ($config->fieldPathOrder) {

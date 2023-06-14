@@ -55,7 +55,7 @@ class MediaLibraryService
     }
 
     /**
-     * @return string[]
+     * @return array{rowHeader?: string, rows?: string[]}
      */
     public function getFiles(MediaLibraryConfig $config, string $path, int $from): array
     {
@@ -69,11 +69,10 @@ class MediaLibraryService
         $template = $this->templateFactory->create($config);
         $documents = $this->search($config, $searchQuery, $from)->getDocuments();
 
-        $files = [$template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER)];
-
+        $rows = [];
         foreach ($documents as $document) {
             $mediaLibraryFile = new MediaLibraryFile($config, $document);
-            $files[] = $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW, [
+            $rows[] = $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW, [
                 'media' => $mediaLibraryFile,
                 'url' => $this->urlGenerator->generate('ems.file.view', [
                     'sha1' => $mediaLibraryFile->file['sha1'],
@@ -82,7 +81,10 @@ class MediaLibraryService
             ]);
         }
 
-        return $files;
+        return \array_filter([
+            'rowHeader' => 0 == $from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
+            'rows' => $rows,
+        ]);
     }
 
     /**

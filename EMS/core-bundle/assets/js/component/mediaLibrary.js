@@ -187,7 +187,11 @@ export default class MediaLibrary {
             headers: { 'Content-Type': 'application/json'}
         }).then((response) => {
             return response.ok ? response.json().then((json) => {
-                json.forEach((listItem) => { this.#elements.listFiles.innerHTML += listItem; })
+                if (json.hasOwnProperty('rowHeader')) {
+                    this.#elements.listFiles.innerHTML += json.rowHeader;
+                }
+
+                json.rows.forEach((row) => { this.#elements.listFiles.innerHTML += row; })
             }) : Promise.reject(response);
         });
     }

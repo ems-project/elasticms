@@ -28,6 +28,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
      *   template: ?string,
      *   context: array<string, mixed>,
      *   defaultValue: array<mixed>,
+     *   searchSize: int,
      *   searchQuery: array<mixed>,
      * } $options
      */
@@ -46,6 +47,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
 
         $config->fieldPathOrder = $options['fieldPathOrder'];
         $config->defaultValue = $options['defaultValue'];
+        $config->searchSize = $options['searchSize'];
         $config->searchQuery = $options['searchQuery'];
         $config->template = $options['template'];
         $config->context = $options['context'];
@@ -72,8 +74,8 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
                 'fieldFolder' => 'media_folder',
                 'fieldFile' => 'media_file',
                 'defaultValue' => [],
-                'searchQuery' => [],
                 'searchSize' => MediaLibraryConfig::DEFAULT_SEARCH_SIZE,
+                'searchQuery' => [],
                 'context' => [],
                 'template' => null,
             ])
@@ -86,6 +88,7 @@ class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigF
             ])
             ->setAllowedTypes('defaultValue', 'array')
             ->setAllowedTypes('searchQuery', 'array')
+            ->setAllowedTypes('searchSize', 'int')
             ->setAllowedTypes('context', 'array');
 
         /** @var array{contentTypeName: string} $resolved */

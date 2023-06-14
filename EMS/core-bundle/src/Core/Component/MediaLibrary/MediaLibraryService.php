@@ -55,7 +55,12 @@ class MediaLibraryService
     }
 
     /**
-     * @return array{rowHeader?: string, rows?: string[]}
+     * @return array{
+     *     totalRows?: int,
+     *     remaining?: bool,
+     *     rowHeader?: string,
+     *     rows?: string[]
+     * }
      */
     public function getFiles(MediaLibraryConfig $config, string $path, int $from): array
     {
@@ -67,10 +72,10 @@ class MediaLibraryService
         }
 
         $template = $this->templateFactory->create($config);
-        $documents = $this->search($config, $searchQuery, $from)->getDocuments();
+        $search = $this->search($config, $searchQuery, $from);
 
         $rows = [];
-        foreach ($documents as $document) {
+        foreach ($search->getDocuments() as $document) {
             $mediaLibraryFile = new MediaLibraryFile($config, $document);
             $rows[] = $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW, [
                 'media' => $mediaLibraryFile,
@@ -82,6 +87,8 @@ class MediaLibraryService
         }
 
         return \array_filter([
+            'totalRows' => $search->getTotalDocuments(),
+            'remaining' => ($from + $search->getTotalDocuments() < $search->getTotal()),
             'rowHeader' => 0 == $from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
             'rows' => $rows,
         ]);

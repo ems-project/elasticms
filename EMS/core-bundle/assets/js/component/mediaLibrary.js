@@ -9,6 +9,7 @@ export default class MediaLibrary {
     #activePath = '/';
     #options = {};
     #elements = {};
+    #loadedFiles = 0;
 
     constructor (el, options) {
         this.#options = options;
@@ -19,7 +20,8 @@ export default class MediaLibrary {
             btnHome: el.querySelector('button.btn-home'),
             btnAddFolder: el.querySelector('button.btn-add-folder'),
             inputUpload:  el.querySelector('input.file-uploader-input'),
-            divFiles: el.querySelector('div.media-lib-files'),
+            files: el.querySelector('div.media-lib-files'),
+            loadMoreFiles: el.querySelector('div.media-lib-files > div.media-lib-load-more'),
             listFiles: el.querySelector("ul.media-lib-list-files"),
             listFolders: el.querySelector("ul.media-lib-list-folders"),
             listUploads: el.querySelector('ul.media-lib-list-uploads'),
@@ -34,7 +36,7 @@ export default class MediaLibrary {
         this._addEventListeners();
         this._disableButtons();
         Promise
-            .allSettled([this._getFolders(), this._getFiles()])
+            .allSettled([this._getFolders(), this._getFiles(this.#activePath, 0)])
             .then(() => this._enableButtons());
     }
 
@@ -57,7 +59,8 @@ export default class MediaLibrary {
             }
         }
 
-        this._initDropArea(this.#elements.divFiles);
+        this._initDropArea(this.#elements.files);
+        this._initInfiniteScrollFiles(this.#elements.files, this.#elements.loadMoreFiles);
     }
 
     _addFiles(files) {
@@ -157,7 +160,7 @@ export default class MediaLibrary {
         }
 
         this.#activePath = path;
-        this._getFiles(path).then(() => this._enableButtons());
+        this._getFiles(path, 0).then(() => this._enableButtons());
     }
     _openPath(path) {
         let currentPath = '';
@@ -178,21 +181,18 @@ export default class MediaLibrary {
         }
     }
 
-    _getFiles(path) {
-        this.#elements.listFiles.innerHTML = '';
-        this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
+    _getFiles(path, from) {
+        if (0 === from) {
+            this.#loadedFiles = 0;
+            this.#elements.listFiles.innerHTML = '';
+            this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
+        }
 
-        return fetch(this._makeUrl('files', { from: 0 }), {
+        return fetch(this._makeUrl('files', { from: from }), {
             method: 'GET',
             headers: { 'Content-Type': 'application/json'}
         }).then((response) => {
-            return response.ok ? response.json().then((json) => {
-                if (json.hasOwnProperty('rowHeader')) {
-                    this.#elements.listFiles.innerHTML += json.rowHeader;
-                }
-
-                json.rows.forEach((row) => { this.#elements.listFiles.innerHTML += row; })
-            }) : Promise.reject(response);
+            return response.ok ? response.json().then((json) => this._appendFiles(json)) : Promise.reject(response);
         });
     }
     _getFolders(openPath) {
@@ -224,6 +224,25 @@ export default class MediaLibrary {
 
             list.appendChild(item);
         });
+    }
+    _appendFiles(json) {
+        if (json.hasOwnProperty('rowHeader')) {
+            this.#elements.listFiles.innerHTML += json.rowHeader;
+        }
+
+        if (json.hasOwnProperty('rows')) {
+            json.rows.forEach((row) => { this.#elements.listFiles.innerHTML += row; });
+        }
+
+        if (json.hasOwnProperty('totalRows')) {
+            this.#loadedFiles += json.totalRows;
+        }
+
+        if (json.hasOwnProperty('remaining') && json.remaining) {
+            this.#elements.loadMoreFiles.classList.add('show-load-more');
+        } else {
+            this.#elements.loadMoreFiles.classList.remove('show-load-more');
+        }
     }
     _appendFolderItems(folders, list) {
         folders.forEach((folder) => {
@@ -280,5 +299,24 @@ export default class MediaLibrary {
             const files = event.target.files || event.dataTransfer.files;
             this._addFiles(Array.from(files));
         }, false);
+    }
+
+    _initInfiniteScrollFiles(scrollArea, divLoadMore) {
+        const options = {
+            root: scrollArea,
+            rootMargin: "0px",
+            threshold: 0.5
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    this._disableButtons();
+                    this._getFiles(this.#activePath, this.#loadedFiles).then(() => this._enableButtons());
+                }
+            });
+        }, options);
+
+        observer.observe(divLoadMore);
     }
 }

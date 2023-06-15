@@ -36,7 +36,7 @@ export default class MediaLibrary {
         this._addEventListeners();
         this._disableButtons();
         Promise
-            .allSettled([this._getFolders(), this._getFiles(0)])
+            .allSettled([this._getFolders(), this._getFiles()])
             .then(() => this._enableButtons());
     }
 
@@ -168,7 +168,7 @@ export default class MediaLibrary {
         }
 
         this.#activePath = path;
-        this._getFiles(0).then(() => this._enableButtons());
+        this._getFiles().then(() => this._enableButtons());
     }
     _openPath(path) {
         let currentPath = '';
@@ -189,7 +189,7 @@ export default class MediaLibrary {
         }
     }
 
-    _getFiles(from) {
+    _getFiles(from = 0) {
         if (0 === from) {
             this.#loadedFiles = 0;
             this.#elements.loadMoreFiles.classList.remove('show-load-more');

@@ -169,7 +169,7 @@ export default class MediaLibrary {
         }
 
         this.#activePath = path;
-        this._getFiles(path, 0).then(() => this._enableButtons());
+        this._getFiles(0).then(() => this._enableButtons());
     }
     _openPath(path) {
         let currentPath = '';
@@ -190,12 +190,12 @@ export default class MediaLibrary {
         }
     }
 
-    _getFiles(path, from) {
+    _getFiles(from) {
         if (0 === from) {
             this.#loadedFiles = 0;
             this.#elements.loadMoreFiles.classList.remove('show-load-more');
             this.#elements.listFiles.innerHTML = '';
-            this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
+            this._appendBreadcrumbItems(this.#activePath, this.#elements.listBreadcrumb);
         }
 
         let query = '?' + new URLSearchParams({
@@ -316,7 +316,7 @@ export default class MediaLibrary {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     this._disableButtons();
-                    this._getFiles(this.#activePath, this.#loadedFiles).then(() => this._enableButtons());
+                    this._getFiles(this.#loadedFiles).then(() => this._enableButtons());
                 }
             });
         }, options);

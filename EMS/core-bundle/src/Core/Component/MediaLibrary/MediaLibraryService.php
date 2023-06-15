@@ -33,27 +33,25 @@ class MediaLibraryService
     ) {
     }
 
-    /**
-     * @param array{filename: string, filesize: string, mimetype: string} $file
-     */
-    public function createFile(MediaLibraryConfig $config, string $fileHash, array $file, string $path): bool
+    public function createFile(MediaLibraryConfig $config, MediaLibraryRequest $request, string $fileHash): bool
     {
+        $file = $request->getContentJson()['file'];
         $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($fileHash) : $file['mimetype']);
 
         return $this->create($config, [
-            $config->fieldPath => $path.$file['filename'],
-            $config->fieldFolder => $path,
+            $config->fieldPath => $request->path.$file['filename'],
+            $config->fieldFolder => $request->path,
             $config->fieldFile => \array_filter(\array_merge($file, [
                 'sha1' => $fileHash,
             ])),
         ]);
     }
 
-    public function createFolder(MediaLibraryConfig $config, string $folderName, string $path): bool
+    public function createFolder(MediaLibraryConfig $config, MediaLibraryRequest $request, string $folderName): bool
     {
         return $this->create($config, [
-            $config->fieldPath => $path.$folderName,
-            $config->fieldFolder => $path,
+            $config->fieldPath => $request->path.$folderName,
+            $config->fieldFolder => $request->path,
         ]);
     }
 

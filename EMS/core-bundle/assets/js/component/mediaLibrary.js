@@ -193,6 +193,7 @@ export default class MediaLibrary {
     _getFiles(path, from) {
         if (0 === from) {
             this.#loadedFiles = 0;
+            this.#elements.loadMoreFiles.classList.remove('show-load-more');
             this.#elements.listFiles.innerHTML = '';
             this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
         }

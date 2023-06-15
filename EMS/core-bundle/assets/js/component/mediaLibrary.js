@@ -5,7 +5,7 @@ import FileUploader from "@elasticms/file-uploader";
 
 export default class MediaLibrary {
     #el;
-    #hash;
+    #url;
     #activePath = '/';
     #options = {};
     #elements = {};
@@ -13,7 +13,7 @@ export default class MediaLibrary {
 
     constructor (el, options) {
         this.#options = options;
-        this.#hash = el.dataset.hash;
+        this.#url = [options.urlMediaLib, el.dataset.hash].join('/');
 
         this.#el = el;
         this.#elements = {
@@ -114,7 +114,7 @@ export default class MediaLibrary {
                     let query = '?' + new URLSearchParams({  path: path }).toString();
 
                     ajaxJsonPost(
-                        [mediaLib.#options.urlMediaLib, mediaLib.#hash, 'add-file', fileHash].join('/') + query,
+                        [mediaLib.#url, 'add-file', fileHash].join('/') + query,
                         JSON.stringify({
                             'file': { 'filename': file.name, 'filesize': file.size, 'mimetype': file.type}
                         }), (json, request) => {
@@ -142,7 +142,7 @@ export default class MediaLibrary {
         let query = '?' + new URLSearchParams({  path: this.#activePath }).toString();
 
         ajaxModal.load({
-            url: [this.#options.urlMediaLib, this.#hash, 'add-folder'].join('/') + query,
+            url: [this.#url, 'add-folder'].join('/') + query,
             size: 'sm'
         }, (json) => {
             if (json.hasOwnProperty('success') && json.success === true) {
@@ -203,7 +203,7 @@ export default class MediaLibrary {
             path: this.#activePath
         }).toString();
 
-        return fetch([this.#options.urlMediaLib, this.#hash, 'files'].join('/') + query, {
+        return fetch([this.#url, 'files'].join('/') + query, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json'}
         }).then((response) => {
@@ -213,7 +213,7 @@ export default class MediaLibrary {
     _getFolders(openPath) {
         return new Promise((resolve) => {
             this.#elements.listFolders.innerHTML = '';
-            ajaxJsonGet([this.#options.urlMediaLib, this.#hash, 'folders'].join('/'), (folders) => {
+            ajaxJsonGet([this.#url, 'folders'].join('/'), (folders) => {
                 this._appendFolderItems(folders, this.#elements.listFolders);
                 if (openPath) { this._openPath(openPath); }
                 resolve();

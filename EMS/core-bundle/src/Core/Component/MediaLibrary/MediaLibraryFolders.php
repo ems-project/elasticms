@@ -12,16 +12,16 @@ class MediaLibraryFolders
     /**
      * @param string[] $currentPath
      */
-    public function add(array $currentPath, string $folderName, string $folderPath): void
+    public function add(array $currentPath, string $folderId, string $folderName, string $folderPath): void
     {
         $childName = \array_shift($currentPath);
 
         if ($childName && !isset($this->folders[$childName])) {
-            $this->folders[$childName] = new MediaLibraryFolder($childName, $folderPath);
+            $this->folders[$childName] = new MediaLibraryFolder($folderId, $childName, $folderPath);
         }
 
         if (\count($currentPath) > 0) {
-            $this->folders[$childName]->folders->add($currentPath, $folderName, $folderPath);
+            $this->folders[$childName]->folders->add($currentPath, $folderId, $folderName, $folderPath);
         }
     }
 
@@ -34,6 +34,7 @@ class MediaLibraryFolders
 
         foreach ($this->folders as $folder) {
             $result[] = \array_filter([
+                'id' => $folder->id,
                 'name' => $folder->name,
                 'path' => $folder->path,
                 'children' => $folder->folders->toArray(),

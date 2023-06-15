@@ -112,7 +112,8 @@ class MediaLibraryService
             $folderPath = $document->getValue($config->fieldPath);
             $currentPath = \array_filter(\explode('/', $folderPath));
             $folderName = \basename($folderPath);
-            $folders->add($currentPath, $folderName, $folderPath);
+            $folderId = $document->getId();
+            $folders->add($currentPath, $folderId, $folderName, $folderPath);
         }
 
         return $folders->toArray();

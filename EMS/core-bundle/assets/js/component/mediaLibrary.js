@@ -111,19 +111,23 @@ export default class MediaLibrary {
                     progressBar.progress(100);
                     progressBar.style('success');
 
-                    ajaxJsonPost(mediaLib._makeUrl('add-file/' + fileHash, { 'path': path }), JSON.stringify({
-                        'file': { 'filename': file.name, 'filesize': file.size, 'mimetype': file.type}
-                    }), (json, request) => {
-                        if (request.status === 201) {
-                            resolve();
-                            mediaLib.#elements.listUploads.removeChild(liUpload);
-                        } else {
-                            reject();
-                            progressBar.status('Error: ' + message);
-                            progressBar.progress(100);
-                            progressBar.style('danger');
-                        }
-                    });
+                    let query = '?' + new URLSearchParams({  path: path }).toString();
+
+                    ajaxJsonPost(
+                        [mediaLib.#options.urlMediaLib, mediaLib.#hash, 'add-file', fileHash].join('/') + query,
+                        JSON.stringify({
+                            'file': { 'filename': file.name, 'filesize': file.size, 'mimetype': file.type}
+                        }), (json, request) => {
+                            if (request.status === 201) {
+                                resolve();
+                                mediaLib.#elements.listUploads.removeChild(liUpload);
+                            } else {
+                                reject();
+                                progressBar.status('Error: ' + message);
+                                progressBar.progress(100);
+                                progressBar.style('danger');
+                            }
+                        });
                 },
                 onError: function (message) {
                     progressBar.status('Error: ' + message);
@@ -135,7 +139,12 @@ export default class MediaLibrary {
         });
     }
     _addFolder() {
-        ajaxModal.load({ url: this._makeUrl('add-folder'), size: 'sm'}, (json) => {
+        let query = '?' + new URLSearchParams({  path: this.#activePath }).toString();
+
+        ajaxModal.load({
+            url: [this.#options.urlMediaLib, this.#hash, 'add-folder'].join('/') + query,
+            size: 'sm'
+        }, (json) => {
             if (json.hasOwnProperty('success') && json.success === true) {
                 this._disableButtons();
                 this._getFolders(json.path).then(() => this._enableButtons());
@@ -188,7 +197,12 @@ export default class MediaLibrary {
             this._appendBreadcrumbItems(path, this.#elements.listBreadcrumb);
         }
 
-        return fetch(this._makeUrl('files', { from: from }), {
+        let query = '?' + new URLSearchParams({
+            from: from,
+            path: this.#activePath
+        }).toString();
+
+        return fetch([this.#options.urlMediaLib, this.#hash, 'files'].join('/') + query, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json'}
         }).then((response) => {
@@ -269,18 +283,7 @@ export default class MediaLibrary {
 
         return button;
     }
-    _makeUrl(action, params) {
-        let url = [this.#options.urlMediaLib, this.#hash, action].join('/');
-        let searchParams = params || {};
 
-        if (!searchParams.hasOwnProperty('path') && this.#activePath) {
-            searchParams.path = this.#activePath;
-        }
-
-        url += '?' + new URLSearchParams(searchParams).toString();
-
-        return url;
-    }
     _initDropArea(dropArea)  {
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, (e) => {
@@ -305,7 +308,7 @@ export default class MediaLibrary {
         const options = {
             root: scrollArea,
             rootMargin: "0px",
-            threshold: 0.5
+            threshold: 1.0
         }
 
         const observer = new IntersectionObserver((entries) => {

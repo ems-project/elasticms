@@ -36,7 +36,7 @@ export default class MediaLibrary {
         this._addEventListeners();
         this._disableButtons();
         Promise
-            .allSettled([this._getFolders(), this._getFiles(this.#activePath, 0)])
+            .allSettled([this._getFolders(), this._getFiles(0)])
             .then(() => this._enableButtons());
     }
 
@@ -65,16 +65,15 @@ export default class MediaLibrary {
 
     _addFiles(files) {
         this._disableButtons();
-        let path = this.#activePath;
 
         Promise
-            .allSettled(files.map((file) => this._addFile(file, path)))
+            .allSettled(files.map((file) => this._addFile(file)))
             .then(() => {
                 this.#elements.inputUpload.value = "";
-                this._loadFolder(path);
+                this._loadFolder(this.#activePath);
             });
     }
-    _addFile(file, path) {
+    _addFile(file) {
         return new Promise((resolve, reject) => {
             let id = 'upload-' + Date.now();
             let progressBar = new ProgressBar('progress-' + id, {
@@ -111,7 +110,7 @@ export default class MediaLibrary {
                     progressBar.progress(100);
                     progressBar.style('success');
 
-                    let query = '?' + new URLSearchParams({  path: path }).toString();
+                    let query = '?' + new URLSearchParams({  path: mediaLib.#activePath }).toString();
 
                     ajaxJsonPost(
                         [mediaLib.#url, 'add-file', fileHash].join('/') + query,
@@ -195,7 +194,7 @@ export default class MediaLibrary {
             this.#loadedFiles = 0;
             this.#elements.loadMoreFiles.classList.remove('show-load-more');
             this.#elements.listFiles.innerHTML = '';
-            this._appendBreadcrumbItems(this.#activePath, this.#elements.listBreadcrumb);
+            this._appendBreadcrumbItems(this.#elements.listBreadcrumb);
         }
 
         let query = '?' + new URLSearchParams({
@@ -221,12 +220,12 @@ export default class MediaLibrary {
         });
     }
 
-    _appendBreadcrumbItems(path, list) {
+    _appendBreadcrumbItems(list) {
         if (null === list) return;
 
         list.style.display = 'flex';
         list.innerHTML = '';
-        path = ''.concat('/home', path || '');
+        let path = ''.concat('/home', this.#activePath);
         let currentPath = '';
 
         path.split('/').filter(f => f !== '').forEach((folderName) => {

@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\Component;
 
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -30,11 +31,9 @@ class MediaLibraryController
     ) {
     }
 
-    public function getFiles(MediaLibraryConfig $config, Request $request): JsonResponse
+    public function getFiles(MediaLibraryConfig $config, MediaLibraryRequest $request): JsonResponse
     {
-        $from = $request->query->getInt('from');
-
-        return new JsonResponse($this->mediaLibraryService->getFiles($config, $this->getPath($request), $from));
+        return new JsonResponse($this->mediaLibraryService->getFiles($config, $request));
     }
 
     public function getFolders(MediaLibraryConfig $config): JsonResponse

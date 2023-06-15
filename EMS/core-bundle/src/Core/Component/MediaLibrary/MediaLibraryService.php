@@ -11,6 +11,7 @@ use Elastica\Query\Term;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
@@ -64,17 +65,15 @@ class MediaLibraryService
      *     rows?: string[]
      * }
      */
-    public function getFiles(MediaLibraryConfig $config, string $path, int $from): array
+    public function getFiles(MediaLibraryConfig $config, MediaLibraryRequest $request): array
     {
         $searchQuery = $this->elasticaService->getBoolQuery();
-        $searchQuery->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
-
-        if ($path) {
-            $searchQuery->addMust((new Term())->setTerm($config->fieldFolder, $path));
-        }
+        $searchQuery
+            ->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)))
+            ->addMust((new Term())->setTerm($config->fieldFolder, $request->path));
 
         $template = $this->templateFactory->create($config);
-        $search = $this->search($config, $searchQuery, $config->searchSize, $from);
+        $search = $this->search($config, $searchQuery, $config->searchSize, $request->from);
 
         $rows = [];
         foreach ($search->getDocuments() as $document) {
@@ -90,8 +89,8 @@ class MediaLibraryService
 
         return \array_filter([
             'totalRows' => $search->getTotalDocuments(),
-            'remaining' => ($from + $search->getTotalDocuments() < $search->getTotal()),
-            'rowHeader' => 0 == $from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
+            'remaining' => ($request->from + $search->getTotalDocuments() < $search->getTotal()),
+            'rowHeader' => 0 === $request->from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
             'rows' => $rows,
         ]);
     }

@@ -30,13 +30,16 @@ class MediaLibraryTemplate
         $this->configTemplate = $this->config->template ? $this->twig->load($this->config->template) : null;
     }
 
+    /**
+     * @param array<mixed> $context
+     */
     public function renderHeader(array $context = []): string
     {
         $elements = ['buttonHome', 'buttonAddFolder', 'buttonUpload', 'breadcrumb'];
         $elementsContext = \array_merge([
             'id' => $this->config->getId(),
             'folder' => null,
-        ], $context,);
+        ], $context, );
 
         foreach ($elements as $element) {
             $context[$element] = $this->templateElements->renderBlock($element, $elementsContext);

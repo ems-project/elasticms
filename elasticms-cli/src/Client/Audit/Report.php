@@ -29,9 +29,8 @@ class Report
         $this->spreadsheetGeneratorService = new SpreadsheetGeneratorService();
     }
 
-    public function save(string $folder, string $host): void
+    public function generateXslxReport(): string
     {
-        $filename = $folder.DIRECTORY_SEPARATOR.\sprintf('Audit-%s-%s.xlsx', $host, \date('Ymd-His'));
         $config = [
             SpreadsheetGeneratorServiceInterface::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_ATTACHMENT,
             SpreadsheetGeneratorServiceInterface::WRITER => SpreadsheetGeneratorServiceInterface::XLSX_WRITER,
@@ -59,7 +58,13 @@ class Report
                 ],
             ],
         ];
-        $this->spreadsheetGeneratorService->generateSpreadsheetFile($config, $filename);
+        $tmpFilename = \tempnam(\sys_get_temp_dir(), 'WebReport');
+        if (!\is_string($tmpFilename)) {
+            throw new \RuntimeException('Not able to generate a temporary filename');
+        }
+        $this->spreadsheetGeneratorService->generateSpreadsheetFile($config, $tmpFilename);
+
+        return $tmpFilename;
     }
 
     public function addAccessibilityError(string $url, int $errorCount, ?float $score): void

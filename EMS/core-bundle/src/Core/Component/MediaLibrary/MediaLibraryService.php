@@ -20,6 +20,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MediaLibraryService
 {
+    private const MAX_FOLDERS = 5000;
+
     public function __construct(
         private readonly ElasticaService $elasticaService,
         private readonly RevisionService $revisionService,
@@ -55,9 +57,14 @@ class MediaLibraryService
     }
 
     /**
-     * @return string[]
+     * @return array{
+     *     totalRows?: int,
+     *     remaining?: bool,
+     *     rowHeader?: string,
+     *     rows?: string[]
+     * }
      */
-    public function getFiles(MediaLibraryConfig $config, string $path): array
+    public function getFiles(MediaLibraryConfig $config, string $path, int $from): array
     {
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
@@ -67,13 +74,12 @@ class MediaLibraryService
         }
 
         $template = $this->templateFactory->create($config);
-        $documents = $this->search($config, $searchQuery)->getDocuments();
+        $search = $this->search($config, $searchQuery, $config->searchSize, $from);
 
-        $files = [$template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER)];
-
-        foreach ($documents as $document) {
+        $rows = [];
+        foreach ($search->getDocuments() as $document) {
             $mediaLibraryFile = new MediaLibraryFile($config, $document);
-            $files[] = $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW, [
+            $rows[] = $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW, [
                 'media' => $mediaLibraryFile,
                 'url' => $this->urlGenerator->generate('ems.file.view', [
                     'sha1' => $mediaLibraryFile->file['sha1'],
@@ -82,7 +88,12 @@ class MediaLibraryService
             ]);
         }
 
-        return $files;
+        return \array_filter([
+            'totalRows' => $search->getTotalDocuments(),
+            'remaining' => ($from + $search->getTotalDocuments() < $search->getTotal()),
+            'rowHeader' => 0 == $from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
+            'rows' => $rows,
+        ]);
     }
 
     /**
@@ -93,7 +104,7 @@ class MediaLibraryService
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery->addMustNot((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
 
-        $docs = $this->search($config, $searchQuery)->getDocuments();
+        $docs = $this->search($config, $searchQuery, self::MAX_FOLDERS)->getDocuments();
 
         $folders = new MediaLibraryFolders();
 
@@ -133,7 +144,7 @@ class MediaLibraryService
         return $type ?: 'application/bin';
     }
 
-    private function search(MediaLibraryConfig $config, BoolQuery $query): Response
+    private function search(MediaLibraryConfig $config, BoolQuery $query, int $size, int $from = 0): Response
     {
         if ($config->searchQuery) {
             $query->addMust($config->searchQuery);
@@ -141,8 +152,8 @@ class MediaLibraryService
 
         $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
         $search->setContentTypes([$config->contentType->getName()]);
-        $search->setFrom(0);
-        $search->setSize(5000);
+        $search->setFrom($from);
+        $search->setSize($size);
 
         if ($config->fieldPathOrder) {
             $search->setSort([$config->fieldPathOrder => ['order' => 'asc']]);

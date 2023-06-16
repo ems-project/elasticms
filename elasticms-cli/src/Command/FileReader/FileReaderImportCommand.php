@@ -131,10 +131,10 @@ final class FileReaderImportCommand extends AbstractCommand
         $progressBar->finish();
 
         if ($this->dryRun && \count($ouuids) > 0) {
-            $this->io->write(PHP_EOL.PHP_EOL);
+            $this->io->newLine(2);
             $this->io->warning(\sprintf('%d documents are missing in the source file and will be deleted without the %s option', \count($ouuids), self::OPTION_DRY_RUN));
         } elseif (\count($ouuids) > 0) {
-            $this->io->write(PHP_EOL.PHP_EOL);
+            $this->io->newLine(2);
             $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
             $progressBar = $this->io->createProgressBar(\count($ouuids));
             foreach ($ouuids as $ouuid => $data) {

@@ -205,4 +205,8 @@ class EntityStorage implements StorageInterface, \Stringable
 
         return $usageRequested <= $this->usage;
     }
+
+    public function initFinalize(string $hash): void
+    {
+    }
 }

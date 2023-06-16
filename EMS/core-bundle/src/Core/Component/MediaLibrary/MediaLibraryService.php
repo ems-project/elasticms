@@ -11,6 +11,9 @@ use Elastica\Query\Term;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolderFactory;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolderStructure;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\FileService;
@@ -103,12 +106,7 @@ class MediaLibraryService
 
     public function getFolder(MediaLibraryConfig $config, string $ouuid): MediaLibraryFolder
     {
-        $index = $config->contentType->giveEnvironment()->getAlias();
-        $document = $this->elasticaService->getDocument($index, $config->contentType->getName(), $ouuid);
-        $folderPath = $document->getValue($config->fieldPath);
-        $folderName = \basename($folderPath);
-
-        return new MediaLibraryFolder($document->getId(), $folderName, $folderPath);
+        return (new MediaLibraryFolderFactory($this->elasticaService, $config))->create($ouuid);
     }
 
     /**

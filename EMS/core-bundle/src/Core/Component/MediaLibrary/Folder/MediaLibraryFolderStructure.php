@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Core\Component\MediaLibrary;
+namespace EMS\CoreBundle\Core\Component\MediaLibrary\Folder;
 
 use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Common\PropertyAccess\PropertyPath;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
+use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
 
 class MediaLibraryFolderStructure
 {

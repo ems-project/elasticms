@@ -35,10 +35,10 @@ class MediaLibraryService
 
     public function createFile(MediaLibraryConfig $config, MediaLibraryRequest $request): bool
     {
+        $path = $this->getFolderPath($config, $request);
+
         $file = $request->getContentJson()['file'];
         $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($file['sha1']) : $file['mimetype']);
-
-        $path = $request->folderId ? $this->getFolder($config, $request->folderId)->path.'/' : '/';
 
         $createdUuid = $this->create($config, [
             $config->fieldPath => $path.$file['filename'],
@@ -51,7 +51,7 @@ class MediaLibraryService
 
     public function createFolder(MediaLibraryConfig $config, MediaLibraryRequest $request, string $folderName): ?MediaLibraryFolder
     {
-        $path = $request->folderId ? $this->getFolder($config, $request->folderId)->path.'/' : '/';
+        $path = $this->getFolderPath($config, $request);
 
         $createdUuid = $this->create($config, [
             $config->fieldPath => $path.$folderName,
@@ -71,7 +71,7 @@ class MediaLibraryService
      */
     public function getFiles(MediaLibraryConfig $config, MediaLibraryRequest $request): array
     {
-        $path = $request->folderId ? $this->getFolder($config, $request->folderId)->path.'/' : '/';
+        $path = $this->getFolderPath($config, $request);
 
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery
@@ -149,6 +149,11 @@ class MediaLibraryService
         $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());
 
         return 0 === $form->getErrors(true)->count() ? $uuid->toString() : null;
+    }
+
+    private function getFolderPath(MediaLibraryConfig $config, MediaLibraryRequest $request): string
+    {
+        return $request->folderId ? $this->getFolder($config, $request->folderId)->path.'/' : '/';
     }
 
     private function getMimeType(string $fileHash): string

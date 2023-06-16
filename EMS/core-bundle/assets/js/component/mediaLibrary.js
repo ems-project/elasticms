@@ -243,7 +243,8 @@ export default class MediaLibrary {
         }
     }
     _appendFolderItems(folders, list) {
-        folders.forEach((folder) => {
+
+        Object.values(folders).forEach(folder => {
             let buttonFolder = document.createElement("button");
             buttonFolder.disabled = true;
             buttonFolder.textContent = folder.name;

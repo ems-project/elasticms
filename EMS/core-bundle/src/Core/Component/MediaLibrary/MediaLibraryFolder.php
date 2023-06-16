@@ -6,13 +6,10 @@ namespace EMS\CoreBundle\Core\Component\MediaLibrary;
 
 class MediaLibraryFolder
 {
-    public MediaLibraryFolders $folders;
-
     public function __construct(
         public string $id,
         public string $name,
         public string $path
     ) {
-        $this->folders = new MediaLibraryFolders();
     }
 }

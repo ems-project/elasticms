@@ -112,26 +112,16 @@ class MediaLibraryService
     }
 
     /**
-     * @return array<int, array{ name: string }>
+     * @return array<string, array{ id: string, name: string, path: string, children: array<string, mixed> }>
      */
     public function getFolders(MediaLibraryConfig $config): array
     {
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery->addMustNot((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
 
-        $docs = $this->search($config, $searchQuery, self::MAX_FOLDERS)->getDocuments();
+        $documents = $this->search($config, $searchQuery, self::MAX_FOLDERS)->getDocuments();
 
-        $folders = new MediaLibraryFolders();
-
-        foreach ($docs as $document) {
-            $folderPath = $document->getValue($config->fieldPath);
-            $currentPath = \array_filter(\explode('/', $folderPath));
-            $folderName = \basename($folderPath);
-            $folderId = $document->getId();
-            $folders->add($currentPath, $folderId, $folderName, $folderPath);
-        }
-
-        return $folders->toArray();
+        return MediaLibraryFolderStructure::create($config, $documents)->toArray();
     }
 
     /**

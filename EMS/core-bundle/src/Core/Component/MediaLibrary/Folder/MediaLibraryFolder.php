@@ -12,10 +12,10 @@ class MediaLibraryFolder
     private ?MediaLibraryFolder $parent = null;
 
     private function __construct(
-        public DocumentInterface $document,
-        public string $id,
-        public string $name,
-        public string $path,
+        public readonly DocumentInterface $document,
+        public readonly string $id,
+        public readonly string $name,
+        public readonly string $path,
     ) {
     }
 
@@ -25,6 +25,20 @@ class MediaLibraryFolder
         $name = \basename($path);
 
         return new self($document, $document->getId(), $name, $path);
+    }
+
+    /**
+     * @return MediaLibraryFolder[]
+     */
+    public function parents(): array
+    {
+        $parents = [$this];
+
+        if ($this->parent) {
+            $parents = \array_merge($this->parent->parents(), $parents);
+        }
+
+        return $parents;
     }
 
     public function getParentPath(): ?string

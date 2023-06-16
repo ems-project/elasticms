@@ -17,8 +17,7 @@ export default class MediaLibrary {
 
         this.#el = el;
         this.#elements = {
-            btnHome: el.querySelector('button.btn-home'),
-            btnAddFolder: el.querySelector('button.btn-add-folder'),
+            header:  el.querySelector('div.media-nav-bar'),
             inputUpload:  el.querySelector('input.file-uploader-input'),
             files: el.querySelector('div.media-lib-files'),
             loadMoreFiles: el.querySelector('div.media-lib-files > div.media-lib-load-more'),
@@ -27,13 +26,15 @@ export default class MediaLibrary {
             listUploads: el.querySelector('ul.media-lib-list-uploads'),
             listBreadcrumb: el.querySelector('ul.media-lib-list-breadcrumb')
         };
-        if (this.#elements.inputUpload) this.#elements.uploadLabel = el.querySelector(`label[for="${this.#elements.inputUpload.id}"]`);
 
         this._init();
     }
 
     _init() {
         this._addEventListeners();
+        this._initDropArea(this.#elements.files);
+        this._initInfiniteScrollFiles(this.#elements.files, this.#elements.loadMoreFiles);
+
         this._disableButtons();
         Promise
             .allSettled([this._getFolders(), this._getFiles()])
@@ -42,25 +43,45 @@ export default class MediaLibrary {
 
     _disableButtons() {
         this.#el.querySelectorAll('button').forEach(button => button.disabled = true);
-        if (this.#elements.uploadLabel) this.#elements.uploadLabel.setAttribute('disabled', 'disabled');
+        let uploadLabel = this.uploadLabel();
+        if (uploadLabel) uploadLabel.setAttribute('disabled', 'disabled');
     }
     _enableButtons() {
         this.#el.querySelectorAll('button').forEach(button => button.disabled = false);
-        if (this.#elements.uploadLabel) this.#elements.uploadLabel.removeAttribute('disabled');
+        let uploadLabel = this.uploadLabel();
+        if (uploadLabel) uploadLabel.removeAttribute('disabled');
+    }
+
+    uploadInput() {
+        return this.#elements.header.querySelector('input.file-uploader-input');
+    }
+    uploadLabel() {
+        let uploadInput = this.uploadInput();
+        if (!uploadInput) return null;
+
+        return this.#elements.header.querySelector(`label[for="${uploadInput.id}"]`);
     }
 
     _addEventListeners() {
-        if (this.#elements.btnAddFolder) this.#elements.btnAddFolder.onclick = () => this._addFolder();
-        if (this.#elements.btnHome) this.#elements.btnHome.onclick = () => this._clickButtonHome();
-        if (this.#elements.inputUpload) this.#elements.inputUpload.onchange = (event) => { this._addFiles(Array.from(event.target.files)); };
+        this._addEventListenersHeader();
         this.#el.onclick = (event) => {
-            if (event.target.classList.contains('media-lib-link-folder')) {
-                this._clickButtonFolder(event.target);
-            }
+            let classList = event.target.classList;
+            if (classList.contains('media-lib-link-folder')) this._clickButtonFolder(event.target);
         }
+    }
+    _addEventListenersHeader()
+    {
+        let elements = {
+            btnHome: this.#elements.header.querySelector('button.btn-home'),
+            btnAddFolder: this.#elements.header.querySelector('button.btn-add-folder'),
+            breadcrumb: this.#elements.header.querySelector('.media-lib-list-breadcrumb'),
+            inputUpload: this.uploadInput(),
+        };
 
-        this._initDropArea(this.#elements.files);
-        this._initInfiniteScrollFiles(this.#elements.files, this.#elements.loadMoreFiles);
+        if (elements.btnAddFolder) elements.btnAddFolder.onclick = () => this._addFolder();
+        if (elements.btnHome) elements.btnHome.onclick = () => this._clickButtonHome();
+        if (elements.breadcrumb) elements.breadcrumb.onclick = (event) => this._clickBreadcrumb(event.target);
+        if (elements.inputUpload) elements.inputUpload.onchange = (event) => this._addFiles(Array.from(event.target.files));
     }
 
     _clickButtonHome() {
@@ -84,6 +105,17 @@ export default class MediaLibrary {
 
         this.#activeFolder = button.dataset.id;
         this._getFiles().then(() => this._enableButtons());
+    }
+
+    _clickBreadcrumb(target) {
+        if (!target.classList.contains('breadcrumb-item')) return;
+        let id = target.dataset.id;
+        if (id) {
+            let folderButton = this.#elements.listFolders.querySelector(`button[data-id="${id}"]`);
+            this._clickButtonFolder(folderButton);
+        } else {
+            this._clickButtonHome();
+        }
     }
 
     _addFiles(files) {
@@ -224,6 +256,11 @@ export default class MediaLibrary {
     }
 
     _appendFiles(json) {
+        if (json.hasOwnProperty('header')) {
+            this.#elements.header.innerHTML = json.header;
+            this._addEventListenersHeader();
+        }
+
         if (json.hasOwnProperty('rowHeader')) {
             this.#elements.listFiles.innerHTML += json.rowHeader;
         }

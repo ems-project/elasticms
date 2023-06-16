@@ -50,6 +50,10 @@ class MediaLibraryFolderStructure
         foreach ($this->folders as $folder) {
             $folderPath = \array_filter(\explode('/', $folder['path']));
 
+            if (0 === \count($folderPath)) {
+                continue;
+            }
+
             $path = \sprintf('[%s]', \implode('][children][', $folderPath));
             $propertyPath = new PropertyPath($path);
 

@@ -74,6 +74,7 @@ class MediaLibraryService
      */
     public function getFiles(MediaLibraryConfig $config, MediaLibraryRequest $request): array
     {
+        $folder = $request->folderId ? $this->getFolder($config, $request->folderId) : null;
         $path = $this->getFolderPath($config, $request);
 
         $searchQuery = $this->elasticaService->getBoolQuery();
@@ -99,6 +100,7 @@ class MediaLibraryService
         return \array_filter([
             'totalRows' => $search->getTotalDocuments(),
             'remaining' => ($request->from + $search->getTotalDocuments() < $search->getTotal()),
+            'header' => 0 === $request->from ? $template->renderHeader(['folder' => $folder]) : null,
             'rowHeader' => 0 === $request->from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
             'rows' => $rows,
         ]);

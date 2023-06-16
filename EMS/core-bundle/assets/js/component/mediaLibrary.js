@@ -6,7 +6,7 @@ import FileUploader from "@elasticms/file-uploader";
 export default class MediaLibrary {
     #el;
     #url;
-    #activePath = '/';
+    #activeFolder = '';
     #options = {};
     #elements = {};
     #loadedFiles = 0;
@@ -51,16 +51,39 @@ export default class MediaLibrary {
 
     _addEventListeners() {
         if (this.#elements.btnAddFolder) this.#elements.btnAddFolder.onclick = () => this._addFolder();
-        if (this.#elements.btnHome) this.#elements.btnHome.onclick = () => this._loadFolder();
+        if (this.#elements.btnHome) this.#elements.btnHome.onclick = () => this._clickButtonHome();
         if (this.#elements.inputUpload) this.#elements.inputUpload.onchange = (event) => { this._addFiles(Array.from(event.target.files)); };
         this.#el.onclick = (event) => {
             if (event.target.classList.contains('media-lib-link-folder')) {
-                this._loadFolder(event.target.dataset.path, event.target);
+                this._clickButtonFolder(event.target);
             }
         }
 
         this._initDropArea(this.#elements.files);
         this._initInfiniteScrollFiles(this.#elements.files, this.#elements.loadMoreFiles);
+    }
+
+    _clickButtonHome() {
+        this._disableButtons();
+        this.#elements.listFolders.querySelectorAll('button')
+            .forEach((li) => li.classList.remove('active'));
+
+        this.#activeFolder = ''
+        this._getFiles().then(() => this._enableButtons());
+    }
+    _clickButtonFolder(button) {
+        this._disableButtons();
+        this.#elements.listFolders.querySelectorAll('button')
+            .forEach((li) => li.classList.remove('active'));
+
+        button.classList.add('active');
+        let parentLi = button.parentNode;
+        if (parentLi && parentLi.classList.contains('media-lib-folder-children')) {
+            parentLi.classList.toggle('open');
+        }
+
+        this.#activeFolder = button.dataset.id;
+        this._getFiles().then(() => this._enableButtons());
     }
 
     _addFiles(files) {
@@ -70,7 +93,7 @@ export default class MediaLibrary {
             .allSettled(files.map((file) => this._addFile(file)))
             .then(() => {
                 this.#elements.inputUpload.value = "";
-                this._loadFolder(this.#activePath);
+                this._getFiles().then(() => this._enableButtons());
             });
     }
     _addFile(file) {
@@ -110,13 +133,17 @@ export default class MediaLibrary {
                     progressBar.progress(100);
                     progressBar.style('success');
 
-                    let query = '?' + new URLSearchParams({  path: mediaLib.#activePath }).toString();
+                    let data =  {
+                        'filename': file.name,
+                        'filesize': file.size,
+                        'mimetype': file.type,
+                    };
+                    data[mediaLib.#options.hashAlgo] = fileHash;
 
                     ajaxJsonPost(
-                        [mediaLib.#url, 'add-file', fileHash].join('/') + query,
-                        JSON.stringify({
-                            'file': { 'filename': file.name, 'filesize': file.size, 'mimetype': file.type}
-                        }), (json, request) => {
+                        [mediaLib.#url, 'add-file'].join('/') + (mediaLib.#activeFolder ? '/'+ mediaLib.#activeFolder : ''),
+                        JSON.stringify({'file': data}),
+                        (json, request) => {
                             if (request.status === 201) {
                                 resolve();
                                 mediaLib.#elements.listUploads.removeChild(liUpload);
@@ -138,10 +165,8 @@ export default class MediaLibrary {
         });
     }
     _addFolder() {
-        let query = '?' + new URLSearchParams({  path: this.#activePath }).toString();
-
         ajaxModal.load({
-            url: [this.#url, 'add-folder'].join('/') + query,
+            url: [this.#url, 'add-folder'].join('/') + (this.#activeFolder ? '/'+ this.#activeFolder : ''),
             size: 'sm'
         }, (json) => {
             if (json.hasOwnProperty('success') && json.success === true) {
@@ -151,25 +176,6 @@ export default class MediaLibrary {
         });
     }
 
-    _loadFolder(path, clickedButton) {
-        this._disableButtons();
-
-        this.#elements.listFolders.querySelectorAll('button')
-            .forEach((li) => li.classList.remove('active'));
-
-        let button = document.querySelector(`button[data-path="${path}"]`);
-        if (button) { button.classList.add('active'); }
-
-        if (clickedButton) {
-            let parentLi = clickedButton.parentNode;
-            if (parentLi && parentLi.classList.contains('media-lib-folder-children')) {
-                parentLi.classList.toggle('open');
-            }
-        }
-
-        this.#activePath = path;
-        this._getFiles().then(() => this._enableButtons());
-    }
     _openPath(path) {
         let currentPath = '';
         path.split('/').filter(f => f !== '').forEach((folderName) => {
@@ -194,15 +200,12 @@ export default class MediaLibrary {
             this.#loadedFiles = 0;
             this.#elements.loadMoreFiles.classList.remove('show-load-more');
             this.#elements.listFiles.innerHTML = '';
-            this._appendBreadcrumbItems(this.#elements.listBreadcrumb);
+          //  this._appendBreadcrumbItems(this.#elements.listBreadcrumb);
         }
 
-        let query = '?' + new URLSearchParams({
-            from: from,
-            path: this.#activePath
-        }).toString();
+        let query = '?' + new URLSearchParams({ from: from.toString() }).toString();
 
-        return fetch([this.#url, 'files'].join('/') + query, {
+        return fetch([this.#url, 'files'].join('/') + (this.#activeFolder ? '/'+ this.#activeFolder : '') + query, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json'}
         }).then((response) => {
@@ -220,25 +223,6 @@ export default class MediaLibrary {
         });
     }
 
-    _appendBreadcrumbItems(list) {
-        if (null === list) return;
-
-        list.style.display = 'flex';
-        list.innerHTML = '';
-        let path = ''.concat('/home', this.#activePath);
-        let currentPath = '';
-
-        path.split('/').filter(f => f !== '').forEach((folderName) => {
-            if (folderName !== 'home') {
-                currentPath = currentPath.concat('/', folderName);
-            }
-
-            let item = document.createElement('li');
-            item.appendChild(this._makeFolderButton(folderName, currentPath));
-
-            list.appendChild(item);
-        });
-    }
     _appendFiles(json) {
         if (json.hasOwnProperty('rowHeader')) {
             this.#elements.listFiles.innerHTML += json.rowHeader;
@@ -260,8 +244,15 @@ export default class MediaLibrary {
     }
     _appendFolderItems(folders, list) {
         folders.forEach((folder) => {
+            let buttonFolder = document.createElement("button");
+            buttonFolder.disabled = true;
+            buttonFolder.textContent = folder.name;
+            buttonFolder.dataset.id = folder.id;
+            buttonFolder.dataset.path = folder.path;
+            buttonFolder.classList.add('media-lib-link-folder');
+
             let liFolder = document.createElement("li");
-            liFolder.appendChild(this._makeFolderButton(folder['name'], folder['path']));
+            liFolder.appendChild(buttonFolder);
 
             if (folder.hasOwnProperty('children')) {
                 let ulChildren = document.createElement('ul');
@@ -272,16 +263,6 @@ export default class MediaLibrary {
 
             list.appendChild(liFolder);
         });
-    }
-
-    _makeFolderButton(name, path) {
-        let button = document.createElement("button");
-        button.disabled = true;
-        button.textContent = name;
-        button.dataset.path = path;
-        button.classList.add('media-lib-link-folder');
-
-        return button;
     }
 
     _initDropArea(dropArea)  {

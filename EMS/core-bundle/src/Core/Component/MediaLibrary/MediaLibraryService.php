@@ -33,26 +33,32 @@ class MediaLibraryService
     ) {
     }
 
-    public function createFile(MediaLibraryConfig $config, MediaLibraryRequest $request, string $fileHash): bool
+    public function createFile(MediaLibraryConfig $config, MediaLibraryRequest $request): bool
     {
         $file = $request->getContentJson()['file'];
-        $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($fileHash) : $file['mimetype']);
+        $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($file['sha1']) : $file['mimetype']);
 
-        return $this->create($config, [
-            $config->fieldPath => $request->path.$file['filename'],
-            $config->fieldFolder => $request->path,
-            $config->fieldFile => \array_filter(\array_merge($file, [
-                'sha1' => $fileHash,
-            ])),
+        $path = $request->folderId ? $this->getFolder($config, $request->folderId)->path.'/' : '/';
+
+        $createdUuid = $this->create($config, [
+            $config->fieldPath => $path.$file['filename'],
+            $config->fieldFolder => $path,
+            $config->fieldFile => \array_filter($file),
         ]);
+
+        return null !== $createdUuid;
     }
 
-    public function createFolder(MediaLibraryConfig $config, MediaLibraryRequest $request, string $folderName): bool
+    public function createFolder(MediaLibraryConfig $config, MediaLibraryRequest $request, string $folderName): ?MediaLibraryFolder
     {
-        return $this->create($config, [
-            $config->fieldPath => $request->path.$folderName,
-            $config->fieldFolder => $request->path,
+        $path = $request->folderId ? $this->getFolder($config, $request->folderId)->path.'/' : '/';
+
+        $createdUuid = $this->create($config, [
+            $config->fieldPath => $path.$folderName,
+            $config->fieldFolder => $path,
         ]);
+
+        return $createdUuid ? $this->getFolder($config, $createdUuid) : null;
     }
 
     /**
@@ -65,10 +71,12 @@ class MediaLibraryService
      */
     public function getFiles(MediaLibraryConfig $config, MediaLibraryRequest $request): array
     {
+        $path = $request->folderId ? $this->getFolder($config, $request->folderId)->path.'/' : '/';
+
         $searchQuery = $this->elasticaService->getBoolQuery();
         $searchQuery
             ->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)))
-            ->addMust((new Term())->setTerm($config->fieldFolder, $request->path));
+            ->addMust((new Term())->setTerm($config->fieldFolder, $path));
 
         $template = $this->templateFactory->create($config);
         $search = $this->search($config, $searchQuery, $config->searchSize, $request->from);
@@ -91,6 +99,16 @@ class MediaLibraryService
             'rowHeader' => 0 === $request->from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
             'rows' => $rows,
         ]);
+    }
+
+    public function getFolder(MediaLibraryConfig $config, string $ouuid): MediaLibraryFolder
+    {
+        $index = $config->contentType->giveEnvironment()->getAlias();
+        $document = $this->elasticaService->getDocument($index, $config->contentType->getName(), $ouuid);
+        $folderPath = $document->getValue($config->fieldPath);
+        $folderName = \basename($folderPath);
+
+        return new MediaLibraryFolder($document->getId(), $folderName, $folderPath);
     }
 
     /**
@@ -119,17 +137,18 @@ class MediaLibraryService
     /**
      * @param array<mixed> $rawData
      */
-    private function create(MediaLibraryConfig $config, array $rawData): bool
+    private function create(MediaLibraryConfig $config, array $rawData): ?string
     {
+        $uuid = Uuid::uuid4();
         $rawData = \array_merge_recursive($config->defaultValue, $rawData);
-        $revision = $this->revisionService->create($config->contentType, Uuid::uuid4(), $rawData);
+        $revision = $this->revisionService->create($config->contentType, $uuid, $rawData);
 
         $form = $this->revisionService->createRevisionForm($revision);
         $this->dataService->finalizeDraft($revision, $form);
 
         $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());
 
-        return 0 === $form->getErrors(true)->count();
+        return 0 === $form->getErrors(true)->count() ? $uuid->toString() : null;
     }
 
     private function getMimeType(string $fileHash): string

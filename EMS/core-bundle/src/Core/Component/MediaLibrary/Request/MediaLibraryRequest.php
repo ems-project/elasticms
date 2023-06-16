@@ -13,11 +13,15 @@ class MediaLibraryRequest
     public readonly int $from;
     public readonly string $path;
 
+    public readonly ?string $folderId;
+
     public function __construct(
         private readonly Request $request
     ) {
         $this->from = $request->query->getInt('from');
         $this->path = $request->query->has('path') ? $request->query->get('path').'/' : '/';
+
+        $this->folderId = $this->request->get('folderId');
     }
 
     public function getRequest(): Request

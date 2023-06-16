@@ -49,11 +49,12 @@ class MediaLibraryController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $folderName = (string) $form->get('folder_name')->getData();
+                $folder = $this->mediaLibraryService->createFolder($config, $request, $folderName);
 
-                if ($this->mediaLibraryService->createFolder($config, $request, $folderName)) {
+                if ($folder) {
                     $request->clearFlashes();
 
-                    return $this->getAjaxModal()->getSuccessResponse(['path' => $request->path]);
+                    return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->path]);
                 }
             }
         }
@@ -66,9 +67,9 @@ class MediaLibraryController
             ->getResponse();
     }
 
-    public function addFile(MediaLibraryConfig $config, MediaLibraryRequest $request, string $fileHash): JsonResponse
+    public function addFile(MediaLibraryConfig $config, MediaLibraryRequest $request): JsonResponse
     {
-        if (!$this->mediaLibraryService->createFile($config, $request, $fileHash)) {
+        if (!$this->mediaLibraryService->createFile($config, $request)) {
             return new JsonResponse([
                 'messages' => $request->getFlashes(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);

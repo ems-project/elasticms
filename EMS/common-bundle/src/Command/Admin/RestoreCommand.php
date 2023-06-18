@@ -9,10 +9,14 @@ use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
+use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 class RestoreCommand extends AbstractCommand
 {
@@ -85,9 +89,9 @@ class RestoreCommand extends AbstractCommand
             $this->restoreConfigs();
         }
 
-//        if ($this->restoreDocumentsOnly || !$this->restoreConfigsOnly) {
-//            $this->exportDocuments();
-//        }
+        if ($this->restoreDocumentsOnly || !$this->restoreConfigsOnly) {
+            $this->restoreDocuments();
+        }
 
         return self::EXECUTE_SUCCESS;
     }
@@ -135,5 +139,114 @@ class RestoreCommand extends AbstractCommand
             \sprintf('<fg=blue>%d</>', \count($updateNames)),
             \sprintf('<fg=red>%d</>', \count($deleteNames)),
         ];
+    }
+
+    private function restoreDocuments(): void
+    {
+        $contentTypes = $this->coreApi->admin()->getContentTypes();
+        $rows = [];
+        $this->io->progressStart(\count($contentTypes));
+        foreach ($contentTypes as $contentType) {
+            $rows[] = $this->restoreDocument($contentType);
+            $this->io->progressAdvance();
+        }
+
+        $this->io->progressFinish();
+        $this->io->table(['Content Type', 'Added', 'Updated', 'Deleted'], $rows);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function restoreDocument(string $contentType): array
+    {
+        $added = [];
+        $knew = [];
+        $updated = [];
+        $deleted = [];
+
+        $directory = \implode(DIRECTORY_SEPARATOR, [$this->documentsFolder, $contentType]);
+        if (!\is_dir($directory)) {
+            \mkdir($directory, 0777, true);
+        }
+
+        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($contentType);
+        $search = new Search([$defaultAlias]);
+        $search->setContentTypes([$contentType]);
+
+        foreach ($this->coreApi->search()->scroll($search) as $hit) {
+            $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $hit->getId().'.json']);
+            if (!\file_exists($filename)) {
+                $deleted[] = $hit->getId();
+                continue;
+            }
+            $knew[] = $hit->getId();
+            $remote = $hit->getSource(true);
+            $content = \file_get_contents($filename);
+            if (false === $content) {
+                throw new \RuntimeException('Unexpected false content');
+            }
+            $local = Json::decode($content);
+            if ($remote === $local) {
+                continue;
+            }
+            $updated[] = $hit->getId();
+        }
+
+        $finder = new Finder();
+        $jsonFiles = $finder->in($directory)->files()->name('*.json');
+        foreach ($jsonFiles as $file) {
+            $name = \pathinfo($file->getFilename(), PATHINFO_FILENAME);
+            if (!\is_string($name)) {
+                throw new \RuntimeException('Unexpected name type');
+            }
+            if (\in_array($name, $knew)) {
+                continue;
+            }
+            $added[] = $name;
+        }
+
+        if ($this->force) {
+            $coreApi = $this->adminHelper->getCoreApi();
+            $dataApi = $coreApi->data($contentType);
+            $this->deleteDocuments($dataApi, $deleted);
+            $this->updateDocuments($dataApi, $directory, $updated);
+            $this->updateDocuments($dataApi, $directory, $added);
+        }
+
+        return [
+            $contentType,
+            \sprintf('<fg=green>%d</>', \count($added)),
+            \sprintf('<fg=blue>%d</>', \count($updated)),
+            \sprintf('<fg=red>%d</>', \count($deleted)),
+        ];
+    }
+
+    /**
+     * @param string[] $ouuids
+     */
+    private function deleteDocuments(DataInterface $dataApi, array $ouuids): void
+    {
+        foreach ($ouuids as $ouuid) {
+            if ($dataApi->delete($ouuid)) {
+                continue;
+            }
+            throw new \RuntimeException(\sprintf('Unexpected not deleted document %s', $ouuid));
+        }
+    }
+
+    /**
+     * @param string[] $ouuids
+     */
+    private function updateDocuments(DataInterface $dataApi, string $directory, array $ouuids): void
+    {
+        foreach ($ouuids as $ouuid) {
+            $content = \file_get_contents($directory.DIRECTORY_SEPARATOR.$ouuid.'.json');
+            if (false === $content) {
+                throw new \RuntimeException('Unexpected false content');
+            }
+
+            $dataApi->save($ouuid, JSON::decode($content), DataInterface::MODE_REPLACE);
+        }
     }
 }

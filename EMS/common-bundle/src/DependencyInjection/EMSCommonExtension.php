@@ -46,6 +46,7 @@ class EMSCommonExtension extends Extension
         $container->setParameter('ems_common.storages', $config['storages']);
         $container->setParameter('ems_common.store_data_services', $config['store_data_services']);
         $container->setParameter('ems_common.log_level', $config['log_level']);
+        $container->setParameter('ems_common.excluded_content_types', $config['excluded_content_types']);
 
         $container->setParameter('ems_common.cache_config', $config['cache']);
 

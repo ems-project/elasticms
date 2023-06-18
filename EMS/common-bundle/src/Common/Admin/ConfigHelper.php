@@ -25,9 +25,24 @@ final class ConfigHelper
     {
         $finder = new Finder();
         $jsonFiles = $finder->in($this->directory)->files()->name('*.json');
+        $names = [];
         foreach ($this->config->index() as $name) {
             $jsonFiles->notName($name.'.json');
             $this->save($name, $this->config->get($name));
+            $names[] = $name;
+        }
+
+        $finder = new Finder();
+        $jsonFiles = $finder->in($this->directory)->files()->name('*.json');
+        foreach ($jsonFiles as $file) {
+            $name = \pathinfo($file->getFilename(), PATHINFO_FILENAME);
+            if (!\is_string($name)) {
+                throw new \RuntimeException('Unexpected name type');
+            }
+            if (\in_array($name, $names)) {
+                continue;
+            }
+            \unlink($file->getPathname());
         }
     }
 

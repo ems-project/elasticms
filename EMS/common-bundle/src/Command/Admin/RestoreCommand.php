@@ -123,6 +123,12 @@ class RestoreCommand extends AbstractCommand
         $deleteNames = \array_diff($remoteNames, $localNames);
         $addNames = \array_diff($localNames, $remoteNames);
 
+        if ($this->force) {
+            $configHelper->deleteConfigs($deleteNames);
+            $configHelper->updateConfigs($updateNames);
+            $configHelper->updateConfigs($addNames);
+        }
+
         return [
             $configType,
             \sprintf('<fg=green>%d</>', \count($addNames)),

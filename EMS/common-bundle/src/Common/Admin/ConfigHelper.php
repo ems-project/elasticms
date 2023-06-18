@@ -83,14 +83,39 @@ final class ConfigHelper
             if (false === $content) {
                 throw new \RuntimeException('Unexpected false content');
             }
-            $localHash = Json::decode($content);
-            $remoteHash = $this->config->get($name);
-            if ($localHash === $remoteHash) {
+            $local = Json::decode($content);
+            $remote = $this->config->get($name);
+            if ($local === $remote) {
                 continue;
             }
             $filtered[] = $name;
         }
 
         return $filtered;
+    }
+
+    /**
+     * @param string[] $names
+     */
+    public function deleteConfigs(array $names): void
+    {
+        foreach ($names as $name) {
+            $this->config->delete($name);
+        }
+    }
+
+    /**
+     * @param string[] $names
+     */
+    public function updateConfigs(array $names): void
+    {
+        foreach ($names as $name) {
+            $content = \file_get_contents($this->getFilename($name));
+            if (false === $content) {
+                throw new \RuntimeException('Unexpected false content');
+            }
+            $local = Json::decode($content);
+            $this->config->update($name, $local);
+        }
     }
 }

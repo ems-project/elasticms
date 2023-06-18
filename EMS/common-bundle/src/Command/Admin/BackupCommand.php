@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 class BackupCommand extends AbstractCommand
 {
@@ -121,10 +122,25 @@ class BackupCommand extends AbstractCommand
         }
 
         $counter = 0;
+        $ouuids = [];
         foreach ($this->coreApi->search()->scroll($search) as $hit) {
             $json = Json::encode($hit->getSource(true), true);
             \file_put_contents(\implode(DIRECTORY_SEPARATOR, [$directory, $hit->getId().'.json']), $json);
+            $ouuids[] = $hit->getId();
             ++$counter;
+        }
+
+        $finder = new Finder();
+        $jsonFiles = $finder->in($directory)->files()->name('*.json');
+        foreach ($jsonFiles as $file) {
+            $ouuid = \pathinfo($file->getFilename(), PATHINFO_FILENAME);
+            if (!\is_string($ouuid)) {
+                throw new \RuntimeException('Unexpected name type');
+            }
+            if (\in_array($ouuid, $ouuids)) {
+                continue;
+            }
+            \unlink($file->getPathname());
         }
 
         return $counter;

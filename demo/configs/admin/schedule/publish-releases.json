@@ -5,7 +5,8 @@
         "name": "publish-releases",
         "cron": "* * * * *",
         "command": "emsco:release:pub",
-        "orderKey": 2
+        "orderKey": 2,
+        "tag": null
     },
     "replaced": []
 }

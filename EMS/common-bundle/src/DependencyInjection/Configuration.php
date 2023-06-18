@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('elasticsearch_connection_pool')->defaultValue(null)->end()
                 ->variableNode('elasticsearch_hosts')->defaultValue(self::ELASTICSEARCH_DEFAULT_HOSTS)->end()
                 ->integerNode('log_level')->defaultValue(self::LOG_LEVEL)->end()
+                ->variableNode('excluded_content_types')->defaultValue([])->end()
             ->end()
         ;
 

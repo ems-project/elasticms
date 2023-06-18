@@ -5,7 +5,8 @@
         "name": "remove-expired-submissions",
         "cron": "0 3 * * *",
         "command": "ems:submissions:remove-expired",
-        "orderKey": 4
+        "orderKey": 4,
+        "tag": null
     },
     "replaced": []
 }

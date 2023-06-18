@@ -5,7 +5,8 @@
         "name": "check-aliases",
         "cron": "*/5 * * * *",
         "command": "ems:check:aliases --repair",
-        "orderKey": 100
+        "orderKey": 100,
+        "tag": null
     },
     "replaced": []
 }

@@ -8,13 +8,14 @@ use EMS\CommonBundle\Command\Document\DownloadCommand;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 class BackupCommand extends AbstractCommand
 {
@@ -31,7 +32,10 @@ class BackupCommand extends AbstractCommand
     private bool $exportConfigsOnly;
     private bool $exportDocumentsOnly;
 
-    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
+    /**
+     * @param string[] $excludedContentTypes
+     */
+    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder, private readonly array $excludedContentTypes)
     {
         parent::__construct();
         $this->configsFolder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
@@ -118,10 +122,25 @@ class BackupCommand extends AbstractCommand
         }
 
         $counter = 0;
+        $ouuids = [];
         foreach ($this->coreApi->search()->scroll($search) as $hit) {
             $json = Json::encode($hit->getSource(true), true);
             \file_put_contents(\implode(DIRECTORY_SEPARATOR, [$directory, $hit->getId().'.json']), $json);
+            $ouuids[] = $hit->getId();
             ++$counter;
+        }
+
+        $finder = new Finder();
+        $jsonFiles = $finder->in($directory)->files()->name('*.json');
+        foreach ($jsonFiles as $file) {
+            $ouuid = \pathinfo($file->getFilename(), PATHINFO_FILENAME);
+            if (!\is_string($ouuid)) {
+                throw new \RuntimeException('Unexpected name type');
+            }
+            if (\in_array($ouuid, $ouuids)) {
+                continue;
+            }
+            \unlink($file->getPathname());
         }
 
         return $counter;
@@ -149,6 +168,10 @@ class BackupCommand extends AbstractCommand
         $rows = [];
         $this->io->progressStart(\count($contentTypes));
         foreach ($contentTypes as $contentType) {
+            if (\in_array($contentType, $this->excludedContentTypes)) {
+                $this->io->note(\sprintf('Content type "%s" has been ignored as excluded (see EMS_EXCLUDED_CONTENT_TYPES)', $contentType));
+                continue;
+            }
             $rows[] = [$contentType, $this->backupDocuments($contentType)];
             $this->io->progressAdvance();
         }

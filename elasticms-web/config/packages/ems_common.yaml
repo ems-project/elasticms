@@ -26,6 +26,7 @@ parameters:
     env(EMS_METRIC_PORT): ~
     env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
     env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
+    env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
 
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
@@ -37,6 +38,7 @@ ems_common:
     backend_url: '%env(string:EMS_BACKEND_URL)%'
     backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
     backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
+    excluded_content_types: '%env(json:EMS_EXCLUDED_CONTENT_TYPES)%'
     webalize:
         removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
         dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'

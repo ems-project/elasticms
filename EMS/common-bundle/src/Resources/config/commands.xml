@@ -35,6 +35,7 @@
         <service id="ems.command.admin.backup" class="EMS\CommonBundle\Command\Admin\BackupCommand">
             <argument type="service" id="ems.helper.admin_api"/>
             <argument type="string">%kernel.project_dir%</argument>
+            <argument type="string">%ems_common.excluded_content_types%</argument>
             <tag name="console.command" command="ems:admin:backup"/>
         </service>
         <service id="ems.command.admin.restore" class="EMS\CommonBundle\Command\Admin\RestoreCommand">

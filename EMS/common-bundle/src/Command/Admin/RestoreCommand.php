@@ -90,9 +90,12 @@ class RestoreCommand extends AbstractCommand
 
         if ($this->restoreConfigsOnly || !$this->restoreDocumentsOnly) {
             $this->restoreConfigs();
+            $this->coreApi->admin()->runCommand('ems:environment:rebuild --all', $this->output);
+            $this->coreApi->admin()->runCommand('ems:contenttype:activate --all', $this->output);
         }
 
         if ($this->restoreDocumentsOnly || !$this->restoreConfigsOnly) {
+            $this->coreApi->admin()->runCommand('ems:contenttype:clean --all', $this->output);
             $this->restoreDocuments();
         }
 

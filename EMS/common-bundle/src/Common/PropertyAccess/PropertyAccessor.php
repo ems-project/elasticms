@@ -131,11 +131,7 @@ class PropertyAccessor
         return $this->pathPropertiesCache[$propertyPath] = $propertyPathInstance;
     }
 
-    /**
-     * @param  mixed[]|string $value
-     * @return string|mixed[]
-     */
-    private function encode(array|string $value, PropertyPathElement $element): string|array
+    private function encode(mixed $value, PropertyPathElement $element): mixed
     {
         foreach (\array_reverse($element->getOperators()) as $operator) {
             $value = match ($operator) {
@@ -149,11 +145,7 @@ class PropertyAccessor
         return $value;
     }
 
-    /**
-     * @param  mixed[]|string $value
-     * @return string|mixed[]
-     */
-    private function decode(array|string $value, PropertyPathElement $element): string|array
+    private function decode(mixed $value, PropertyPathElement $element): mixed
     {
         foreach ($element->getOperators() as $operator) {
             $value = match ($operator) {

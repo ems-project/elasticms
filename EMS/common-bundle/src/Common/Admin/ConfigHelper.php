@@ -70,4 +70,27 @@ final class ConfigHelper
     {
         return $this->config->index();
     }
+
+    /**
+     * @param  string[] $names
+     * @return string[]
+     */
+    public function needUpdate(array $names): array
+    {
+        $filtered = [];
+        foreach ($names as $name) {
+            $content = \file_get_contents($this->getFilename($name));
+            if (false === $content) {
+                throw new \RuntimeException('Unexpected false content');
+            }
+            $localHash = Json::decode($content);
+            $remoteHash = $this->config->get($name);
+            if ($localHash === $remoteHash) {
+                continue;
+            }
+            $filtered[] = $name;
+        }
+
+        return $filtered;
+    }
 }

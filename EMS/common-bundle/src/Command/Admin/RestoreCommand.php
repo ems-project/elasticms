@@ -8,9 +8,7 @@ use EMS\CommonBundle\Command\Document\DownloadCommand;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\Standard\Json;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
-use EMS\CommonBundle\Search\Search;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -94,4 +92,41 @@ class RestoreCommand extends AbstractCommand
         return self::EXECUTE_SUCCESS;
     }
 
+    private function restoreConfigs(): void
+    {
+        $configTypes = $this->coreApi->admin()->getConfigTypes();
+        $rows = [];
+        $this->io->progressStart(\count($configTypes));
+        foreach ($configTypes as $configType) {
+            if (\in_array($configType, ['job'])) {
+                continue;
+            }
+            $rows[] = $this->restoreConfig($configType);
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+        $this->io->table(['Config Type', 'Added', 'Updated', 'Deleted'], $rows);
+    }
+
+    /**
+     * @return string[]
+     */
+    private function restoreConfig(string $configType): array
+    {
+        $configApi = $this->coreApi->admin()->getConfig($configType);
+        $configHelper = new ConfigHelper($configApi, $this->configsFolder);
+        $remoteNames = $configHelper->remote();
+        $localNames = $configHelper->local();
+
+        $updateNames = \array_intersect($remoteNames, $localNames);
+        $deleteNames = \array_diff($remoteNames, $localNames);
+        $addNames = \array_diff($localNames, $remoteNames);
+
+        return [
+            $configType,
+            \sprintf('<fg=green>%d</>', \count($addNames)),
+            \sprintf('<fg=blue>%d</>', \count($updateNames)),
+            \sprintf('<fg=red>%d</>', \count($deleteNames)),
+        ];
+    }
 }

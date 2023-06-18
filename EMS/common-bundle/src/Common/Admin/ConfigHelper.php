@@ -43,4 +43,31 @@ final class ConfigHelper
     {
         return $this->directory.DIRECTORY_SEPARATOR.$name.'.json';
     }
+
+    /**
+     * @return string[]
+     */
+    public function local(): array
+    {
+        $finder = new Finder();
+        $names = [];
+
+        foreach ($finder->files()->in($this->directory)->name('*.json') as $file) {
+            $name = \pathinfo($file->getFilename(), PATHINFO_FILENAME);
+            if (!\is_string($name)) {
+                throw new \RuntimeException('Unexpected name type');
+            }
+            $names[] = $name;
+        }
+
+        return $names;
+    }
+
+    /**
+     * @return string[];
+     */
+    public function remote(): array
+    {
+        return $this->config->index();
+    }
 }

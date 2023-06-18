@@ -8,7 +8,7 @@ use EMS\CommonBundle\Command\Document\DownloadCommand;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\Standard\Json;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Search\Search;
 use Symfony\Component\Console\Input\InputInterface;

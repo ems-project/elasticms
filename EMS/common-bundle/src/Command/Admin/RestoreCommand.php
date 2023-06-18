@@ -33,7 +33,10 @@ class RestoreCommand extends AbstractCommand
     private bool $restoreConfigsOnly;
     private bool $restoreDocumentsOnly;
 
-    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
+    /**
+     * @param string[] $excludedContentTypes
+     */
+    public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder, private readonly array $excludedContentTypes)
     {
         parent::__construct();
         $this->configsFolder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
@@ -147,6 +150,10 @@ class RestoreCommand extends AbstractCommand
         $rows = [];
         $this->io->progressStart(\count($contentTypes));
         foreach ($contentTypes as $contentType) {
+            if (\in_array($contentType, $this->excludedContentTypes)) {
+                $this->io->note(\sprintf('Content type "%s" has been ignored as excluded (see EMS_EXCLUDED_CONTENT_TYPES)', $contentType));
+                continue;
+            }
             $rows[] = $this->restoreDocument($contentType);
             $this->io->progressAdvance();
         }

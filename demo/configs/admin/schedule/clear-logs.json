@@ -5,7 +5,8 @@
         "name": "clear-logs",
         "cron": "0 2 * * 0",
         "command": "ems:logs:clear",
-        "orderKey": 200
+        "orderKey": 200,
+        "tag": null
     },
     "replaced": []
 }

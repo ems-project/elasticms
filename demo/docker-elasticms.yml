@@ -37,6 +37,7 @@ services:
       - ./configs/elasticms-admin:/opt/configs
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document
+#      - ../elasticms-admin/config:/opt/src/config
 #      - ../EMS/client-helper-bundle:/opt/src/vendor/elasticms/client-helper-bundle
 #      - ../EMS/common-bundle:/opt/src/vendor/elasticms/common-bundle
 #      - ../EMS/core-bundle:/opt/src/vendor/elasticms/core-bundle
@@ -77,6 +78,7 @@ services:
       - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_preview
       - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_live
       - ./skeleton:/opt/src/local/skeleton
+#      - ../elasticms-web/config:/opt/src/config
 #      - ../EMS/client-helper-bundle:/opt/src/vendor/elasticms/client-helper-bundle
 #      - ../EMS/common-bundle:/opt/src/vendor/elasticms/common-bundle
 #      - ../EMS/form-bundle:/opt/src/vendor/elasticms/form-bundle

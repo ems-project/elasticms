@@ -158,10 +158,10 @@ class RestoreCommand extends AbstractCommand
         $finder = new Finder();
         $finder->directories()->in($this->documentsFolder);
         foreach ($finder as $file) {
-            if (in_array($file->getFilename(), $contentTypes)) {
+            if (\in_array($file->getFilename(), $contentTypes)) {
                 continue;
             }
-            $this->io->warning(sprintf('Documents for the content type "%s" won\'t be updated, check the CMS to activate it.', $file->getFilename()));
+            $this->io->warning(\sprintf('Documents for the content type "%s" won\'t be updated, check the CMS to activate it.', $file->getFilename()));
         }
 
         $rows = [];

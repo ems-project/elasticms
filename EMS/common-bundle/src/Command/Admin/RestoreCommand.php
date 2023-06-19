@@ -96,6 +96,10 @@ class RestoreCommand extends AbstractCommand
             $this->restoreDocuments();
         }
 
+        if (!$this->force) {
+            $this->io->warning('Nothing has been updated, please use the --force option to really restore something');
+        }
+
         return self::EXECUTE_SUCCESS;
     }
 

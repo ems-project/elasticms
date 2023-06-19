@@ -80,12 +80,16 @@ class RestoreCommand extends AbstractCommand
     {
         $this->coreApi = $this->adminHelper->getCoreApi();
         $this->io->title('Admin - restore');
-        $this->io->section(\sprintf('Restore configurations from %s', $this->coreApi->getBaseUrl()));
+        $this->io->section(\sprintf('Restore configurations to %s', $this->coreApi->getBaseUrl()));
 
         if (!$this->coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->coreApi->getBaseUrl()));
 
             return self::EXECUTE_ERROR;
+        }
+
+        if (!$this->force) {
+            $this->io->warning('Nothing will be updated, please use the --force option to really restore something');
         }
 
         if ($this->restoreConfigsOnly || !$this->restoreDocumentsOnly) {
@@ -151,6 +155,15 @@ class RestoreCommand extends AbstractCommand
     private function restoreDocuments(): void
     {
         $contentTypes = $this->coreApi->admin()->getContentTypes();
+        $finder = new Finder();
+        $finder->directories()->in($this->documentsFolder);
+        foreach ($finder as $file) {
+            if (in_array($file->getFilename(), $contentTypes)) {
+                continue;
+            }
+            $this->io->warning(sprintf('Documents for the content type "%s" won\'t be updated, check the CMS to activate it.', $file->getFilename()));
+        }
+
         $rows = [];
         $this->io->progressStart(\count($contentTypes));
         foreach ($contentTypes as $contentType) {

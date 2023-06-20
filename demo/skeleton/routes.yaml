@@ -15,11 +15,6 @@ _emsch_template_preview:
         path: '/_emsch/templates/{iframeId}'
         method: [POST]
     template_static: template_ems/channel/page-component-preview.html.twig
-_emsch_error:
-    config:
-        path: '/_emsch/error/{_locale}/{statusCode}.{_format}'
-        defaults: { _format: html }
-    template_static: template/error/by_code.html.twig
 robots.txt:
     config:
         path: robots.txt

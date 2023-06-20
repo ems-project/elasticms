@@ -37,6 +37,10 @@
             <argument type="service" id="ems_common.store_data.manager" />
             <tag name="twig.runtime" />
         </service>
+        <service id="EMS\CommonBundle\Twig\TemplateRuntime">
+            <argument type="service" id="twig" />
+            <tag name="twig.runtime" />
+        </service>
 
 
     </services>

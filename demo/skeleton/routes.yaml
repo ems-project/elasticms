@@ -118,7 +118,12 @@ emsch_news_details:
 emsch_path:
     config:
         path: { fr: '/fr/{path}', nl: '/nl/{path}' }
-        requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|metric|file/)(.*$)?).+' }
+        requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|_error/|metric|file/)(.*$)?).+' }
         defaults: { path: home }
     query: '{"query":{"bool":{"must":[{"nested":{"path":"paths","query":{"term":{"paths.path":"%path%"}}}},{"nested":{"path":"paths","query":{"term":{"paths.locale":"%_locale%"}}}},{"terms":{"_contenttype":["section"]}}]}},"size":1}'
     template_static: template/structure/by_path.html.twig
+emsch_error:
+    config:
+      path: '/_error/{statusCode}'
+      controller: 'emsch.controller.router::errorPreview'
+      defaults: { statusCode: 500 }

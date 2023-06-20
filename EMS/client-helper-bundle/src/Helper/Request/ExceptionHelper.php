@@ -27,6 +27,11 @@ final class ExceptionHelper
             return false;
         }
 
+        return $this->generateResponse($exception);
+    }
+
+    public function generateResponse(FlattenException $exception): Response
+    {
         $code = $exception->getStatusCode();
         $template = $this->getTemplate($code);
 

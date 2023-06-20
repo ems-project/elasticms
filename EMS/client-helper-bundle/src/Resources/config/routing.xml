@@ -39,6 +39,7 @@
             <argument type="service" id="twig"/>
             <argument type="service" id="ems_common.storage.processor"/>
             <argument type="service" id="emsch.helper_cache"/>
+            <argument type="service" id="emsch.helper_exception" />
             <tag name="controller.service_arguments"/>
         </service>
 

@@ -72,7 +72,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     /**
      * @param array<string, mixed> $assetConfig
      */
-    public function asset(string $path, array $assetConfig): string
+    public function asset(string $path, array $assetConfig = []): string
     {
         $filename = $this->getAssetsDir().DIRECTORY_SEPARATOR.$path;
         $basename = \basename($filename);

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Controller;
 
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
+use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Storage\Processor\Processor;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +19,7 @@ use Twig\Error\RuntimeError;
 
 final class RouterController
 {
-    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly Processor $processor, private readonly CacheHelper $cacheHelper)
+    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly Processor $processor, private readonly CacheHelper $cacheHelper, private readonly ExceptionHelper $exceptionHelper)
     {
     }
 
@@ -121,5 +123,13 @@ final class RouterController
         foreach ($headers as $key => $value) {
             $response->headers->add([$key => $value]);
         }
+    }
+
+    public function errorPreview(int $statusCode): Response
+    {
+        $exception = new HttpException($statusCode, 'This is a sample exception.');
+        $flattenException = FlattenException::create($exception, $statusCode);
+
+        return $this->exceptionHelper->generateResponse($flattenException);
     }
 }

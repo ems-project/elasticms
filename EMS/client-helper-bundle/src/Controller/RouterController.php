@@ -8,6 +8,7 @@ use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Storage\Processor\Processor;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -46,15 +47,15 @@ final class RouterController
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
 
-        $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $data = Json::decode($json);
         if (isset($data['path'])) {
-            return new BinaryFileResponse($data['path']);
+            return new BinaryFileResponse($data['path'], $data['status'] ?? 200, $data['headers'] ?? []);
         }
         if (!isset($data['url'])) {
             throw new HttpException($data['message'] ?? 'Page not found');
         }
 
-        return new RedirectResponse($data['url'], $data['status'] ?? 302);
+        return new RedirectResponse($data['url'], $data['status'] ?? 302, $data['headers'] ?? []);
     }
 
     public function asset(Request $request): Response

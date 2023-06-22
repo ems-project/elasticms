@@ -1,6 +1,9 @@
 emsco:
     resource: '@EMSCoreBundle/Resources/config/routing/all.xml'
 
+probe:
+  resource: '@EMSCommonBundle/Resources/config/routing/probe.xml'
+
 ems_common:
     resource: 'ems_common.route.loader::load'
     type: service

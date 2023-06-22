@@ -1,5 +1,14 @@
 # Changelog 5.x
 
+## 5.6.3 (2023-06-22)
+### Bug Fixes
+* fix(clientHelper/asset): function emsch_asset assetConfig can be empty (return the file as is) by @theus77 in https://github.com/ems-project/elasticms/pull/521
+* fix(common/propertyAccessor): a property can be of any type (bool,  array, int, string, ...) e… by @theus77 in https://github.com/ems-project/elasticms/pull/510
+* fix(core/revision): file field mimeType not defined and image asset config for preview by @theus77 in https://github.com/ems-project/elasticms/pull/511
+* fix(demo): update bundle.zip by @theus77 in https://github.com/ems-project/elasticms/pull/502
+### Code Refactoring
+* refactor(demo): elasticms/base-php:8.1-fpm-dev by @theus77 in https://github.com/ems-project/elasticms/pull/503
+
 ## 5.6.2 (2023-06-12)
 ### Bug Fixes
 * fix(admin): security /admin routes by @Davidmattei in https://github.com/ems-project/elasticms/pull/495
@@ -18,7 +27,6 @@
 * fix: tika jar path by @theus77 in https://github.com/ems-project/elasticms/pull/485
 ### Code Refactoring
 * refactor(demo): move language switch by @sylver4 in https://github.com/ems-project/elasticms/pull/470
-# Changelog 5.x
 
 ## 5.6.0 (2023-05-30)
 ### Features

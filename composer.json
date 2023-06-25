@@ -149,6 +149,7 @@
       "App\\Admin\\": "elasticms-admin/src/",
       "App\\CLI\\": "elasticms-cli/src/",
       "App\\Web\\": "elasticms-web/src/",
+      "EMS\\AdminUIBootstrap5Bundle\\": "EMS/admin-ui-bootstrap-5-bundle/src/",
       "EMS\\ClientHelperBundle\\": "EMS/client-helper-bundle/src/",
       "EMS\\CommonBundle\\": "EMS/common-bundle/src/",
       "EMS\\CoreBundle\\": "EMS/core-bundle/src/",
@@ -174,6 +175,7 @@
     }
   },
   "replace": {
+    "elasticms/admin-ui-bootstrap-5-bundle": "self.version",
     "elasticms/client-helper-bundle": "self.version",
     "elasticms/common-bundle": "self.version",
     "elasticms/core-bundle": "self.version",

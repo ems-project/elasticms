@@ -10,6 +10,7 @@ return [
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Symfony\UX\TwigComponent\TwigComponentBundle::class => ['all' => true],
+    EMS\AdminUIBootstrap5Bundle\EMSAdminUIBootstrap5Bundle::class => ['all' => true],
     EMS\CoreBundle\EMSCoreBundle::class => ['all' => true],
     EMS\CommonBundle\EMSCommonBundle::class => ['all' => true],
     EMS\ClientHelperBundle\EMSClientHelperBundle::class => ['all' => true],

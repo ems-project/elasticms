@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace EMS\AdminUIBootstrap5Bundle;
+namespace EMS\AdminUIBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class EMSAdminUIBootstrap5Bundle extends Bundle
+class EMSAdminUIBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {

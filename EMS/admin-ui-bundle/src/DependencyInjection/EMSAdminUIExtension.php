@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace EMS\AdminUIBootstrap5Bundle\DependencyInjection;
+namespace EMS\AdminUIBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class EMSAdminUIBootstrap5Extension extends Extension implements PrependExtensionInterface
+class EMSAdminUIExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -21,7 +21,7 @@ class EMSAdminUIBootstrap5Extension extends Extension implements PrependExtensio
             $container->prependExtensionConfig('twig', [
                 'globals' => [],
                 'form_themes' => [
-                    '@EMSAdminUIBootstrap5/form/fields.html.twig',
+                    '@EMSAdminUI/bootstrap5/form/fields.html.twig',
                 ],
             ]);
         }

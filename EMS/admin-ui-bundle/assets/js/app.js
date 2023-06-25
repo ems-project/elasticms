@@ -1,4 +1,4 @@
-require('../css/app.scss')
+require('../css/admin.scss')
 
 
 console.log('Bootstrap 5 UI loaded')

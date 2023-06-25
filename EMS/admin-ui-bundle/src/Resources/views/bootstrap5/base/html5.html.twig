@@ -8,7 +8,7 @@
         <title>{% block title %}{% endblock title %}</title>
         <link rel="stylesheet" href="{{ asset('app.css', 'emsadminui') }}">
     </head>
-    <body>
+    <body{% with { attr: body_attr|default([]) } %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
         {% block body %}{% endblock body %}
         <script src="{{ asset('app.js', 'emsadminui') }}"></script>
     </body>

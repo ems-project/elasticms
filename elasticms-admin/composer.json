@@ -36,7 +36,8 @@
     "symfony/security-bundle": "^5.4",
     "symfony/twig-bundle": "^5.4",
     "symfony/var-exporter": "^5.4",
-    "symfony/web-link": "^5.4"
+    "symfony/web-link": "^5.4",
+    "symfony/webpack-encore-bundle": "^2.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",

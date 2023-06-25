@@ -19,7 +19,7 @@ module.exports = (env, argv) => {
             new webpack.ProvidePlugin({
                 process: 'process/browser',
             }),
-            new WebpackManifestPlugin({'publicPath': 'bundles/ems-bootstrap5/'}),
+            new WebpackManifestPlugin({'publicPath': 'bundles/emsadminui/'}),
             new CleanWebpackPlugin({
                 cleanOnceBeforeBuildPatterns: ['**/*', '!static/**'],
             }),

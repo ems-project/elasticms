@@ -6,7 +6,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock title %}</title>
+        <link rel="stylesheet" href="{{ asset('app.css', 'emsadminui') }}">
     </head>
-    <body>{% block body %}{% endblock body %}</body>
+    <body>
+        {% block body %}{% endblock body %}
+        <script src="{{ asset('app.js', 'emsadminui') }}"></script>
+    </body>
 </html>
 {% endapply %}

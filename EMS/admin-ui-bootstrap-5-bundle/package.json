@@ -1,0 +1,12 @@
+{
+  "name": "admin-ui-bootstrap-5-bundle",
+  "version": "5.7",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["elasticms","boostrap 5","AdminLTE],
+  "author": "https://github.com/ems-project",
+  "license": "MIT"
+}

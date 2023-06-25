@@ -23,6 +23,11 @@ module.exports = (env, argv) => {
             new CleanWebpackPlugin({
                 cleanOnceBeforeBuildPatterns: ['**/*', '!static/**'],
             }),
+            new CopyPlugin({
+                "patterns": [
+                    {from: './assets/images', to: 'images'},
+                ]
+            }),
             new MiniCssExtractPlugin({
                 filename: "css/[name].[contenthash].css",
                 chunkFilename: "[id].css"

@@ -20,9 +20,6 @@ class EMSAdminUIExtension extends Extension implements PrependExtensionInterface
         if (\is_array($bundles) && isset($bundles['TwigBundle'])) {
             $container->prependExtensionConfig('twig', [
                 'globals' => [],
-                'form_themes' => [
-                    '@EMSAdminUI/bootstrap5/form/fields.html.twig',
-                ],
             ]);
         }
     }

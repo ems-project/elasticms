@@ -1,0 +1,30 @@
+{
+	"name" : "elasticms/admin-ui-bundle",
+	"description" : "Admin ui bundle for elasticms",
+	"type" : "symfony-bundle",
+	"keywords" : [
+		"elasticms",
+		"admin",
+		"ui"
+	],
+	"license" : "MIT",
+	"authors" : [
+		{
+			"name" : "EMS Community",
+			"homepage" : "https://github.com/ems-project/EMSAdminUIBundle/contributors"
+		}
+	],
+	"require" : {
+		"php": "^8.1",
+		"elasticms/core-bundle": "~5.6.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"EMS\\AdminUIBundle\\" : "src/"
+		}
+	},
+	"config": {
+		"lock": false,
+		"sort-packages": true
+	}
+}

@@ -1,5 +1,33 @@
 # Changelog 5.x
 
+## 5.7.0 (2023-06-26)
+### Features
+* feat(cli): hash uid by @theus77 in https://github.com/ems-project/elasticms/pull/488
+* feat(client-helper): save assets hash in file by @theus77 in https://github.com/ems-project/elasticms/pull/504
+* feat(clientHelper): redirect controller add headers support by @theus77 in https://github.com/ems-project/elasticms/pull/523
+* feat(clientHelper/routing): error preview route by @theus77 in https://github.com/ems-project/elasticms/pull/519
+* feat(common): new ems:admin:restore command by @theus77 in https://github.com/ems-project/elasticms/pull/515
+* feat(common): s3 multipart upload by @theus77 in https://github.com/ems-project/elasticms/pull/490
+* feat(common/twig): new function ems_template_exists by @theus77 in https://github.com/ems-project/elasticms/pull/520
+* feat(core/mediaLib): ajax toolbar by @Davidmattei in https://github.com/ems-project/elasticms/pull/507
+* feat(core/mediaLib): draggable upload by @Davidmattei in https://github.com/ems-project/elasticms/pull/499
+* feat(core/mediaLib): infinity scrolling for files by @Davidmattei in https://github.com/ems-project/elasticms/pull/505
+* feat(demo/elasticms): define EMSCO_ASSET_CONFIG for overwrite example by @theus77 in https://github.com/ems-project/elasticms/pull/513
+* feat(elasticms): new AdminUIBundle by @Davidmattei in https://github.com/ems-project/elasticms/pull/526
+* feat(elasticms-web/admin): common probe routes (_readiness, _liveness) by @theus77 in https://github.com/ems-project/elasticms/pull/522
+* feat(emscli): add expression merge by @IsaMic in https://github.com/ems-project/elasticms/pull/509
+### Bug Fixes
+* fix(cli): tika jar path (#485) by @theus77 in https://github.com/ems-project/elasticms/pull/486
+* fix(common): storageManager initFinalize before finalize by @Davidmattei in https://github.com/ems-project/elasticms/pull/501
+* fix(common/command): restore command messages by @theus77 in https://github.com/ems-project/elasticms/pull/516
+* fix(core): dataTableFactory options by @Davidmattei in https://github.com/ems-project/elasticms/pull/500
+* fix(core/mediaLib): max folders 5000 by @Davidmattei in https://github.com/ems-project/elasticms/pull/506
+* fix(standards/json): the CLI's audit faces malformed utf8 string by @theus77 in https://github.com/ems-project/elasticms/pull/525
+### Code Refactoring
+* refactor(core): cant_be_finalized -> emsco_cant_be_finalized by @theus77 in https://github.com/ems-project/elasticms/pull/512
+* refactor(core/dataTable): create dataTable types by @Davidmattei in https://github.com/ems-project/elasticms/pull/492
+* refactor(core/dataTable): implement dataTable types by @Davidmattei in https://github.com/ems-project/elasticms/pull/493
+
 ## 5.6.3 (2023-06-22)
 ### Bug Fixes
 * fix(clientHelper/asset): function emsch_asset assetConfig can be empty (return the file as is) by @theus77 in https://github.com/ems-project/elasticms/pull/521

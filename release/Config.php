@@ -30,6 +30,7 @@ class Config
 
     /** @var string[] */
     public const PACKAGES = [
+        'EMSAdminUIBundle',
         'EMSClientHelperBundle',
         'EMSCommonBundle',
         'EMSCoreBundle',
@@ -41,6 +42,7 @@ class Config
 
     /** @var array<string, string> */
     public const COMPOSER_PACKAGES = [
+        'EMSAdminUIBundle' => 'elasticms/admin-ui-bundle',
         'EMSClientHelperBundle' => 'elasticms/client-helper-bundle',
         'EMSCommonBundle' => 'elasticms/common-bundle',
         'EMSCoreBundle' => 'elasticms/core-bundle',

@@ -2,16 +2,46 @@
 {%- trans_default_domain 'base' -%}
 
 {% set body_attr = {
-    class: 'layout-fixed sidebar-expand-lg bg-body-tertiary',
+    class: 'hold-transition sidebar-mini layout-fixed',
 } %}
 
 {% block body %}
     {% apply spaceless %}
-        <div class="app-wrapper">
+        <div class="wrapper">
+            <div class="preloader flex-column justify-content-center align-items-center">
+                <img class="animation__shake" src="{{ asset('images/icon-128.png', 'emsadminui') }}" alt="AdminLTELogo" height="128" width="128">
+            </div>
+
             {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
             {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
-            <main class="app-main">{% block app_main %}{% endblock app_main %}</main>
+
+            <div class="content-wrapper">
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0">Dashboard</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item active">Dashboard v1</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <section class="content">
+                    <div class="container-fluid">
+                        {% block content %}{% endblock content %}
+                    </div>
+                </section>
+            </div>
+
             {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
+            {{ include('@EMSAdminUI/bootstrap5/elements/control-sidebar.html.twig') }}
+
         </div>
     {% endapply %}
+
 {% endblock body %}

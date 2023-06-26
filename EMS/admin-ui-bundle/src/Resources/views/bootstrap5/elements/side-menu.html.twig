@@ -1,47 +1,44 @@
 {%- trans_default_domain 'elements' -%}
 
-<ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-    <li class="nav-header">
+<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="image">
+        {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
+            'class': 'img-circle elevation-2'
+        } %}
+    </div>
+    <div class="info">
         {% if app.user %}
-            <a href="{{ path(routes.USER_PROFILE) }}" class="">
-                {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
-                    'class': 'img-size-32 rounded-circle shadow'
-                } %}
-                {{ app.user.displayName }}
-            </a>
-            <span class="float-end">
-                <a href="{{ path('elasticsearch.status') }}" id="status-overview">
-                    <i class="fa fa-circle fa-2xs text-{{ 'green' == status ? 'success' : 'yellow' == status ? 'warning' : 'danger' }}" title="{{ "elements.status.#{status}"|trans }}"></i>
-                </a>
-            </span>
+            <a href="{{ path(routes.USER_PROFILE) }}" class="d-block">{{ app.user.displayName }}</a>
         {% else %}
             {{ 'elements.side_menu.anonymous-user'|trans }}
-            <span class="float-end">
-                <a href="{{ path('elasticsearch.status') }}" id="status-overview">
-                    <i class="fa fa-circle fa-2xs text-{{ 'green' == status ? 'success' : 'yellow' == status ? 'warning' : 'danger' }}" title="{{ "elements.status.#{status}"|trans }}"></i>
-                </a>
-            </span>
         {% endif %}
-    </li>
-    {% if app.user %}
-        <li class="nav-header">
-            <form action="{{ path('ems_quick_search') }}" method="get" class="s">
-                <div class="input-group">
-                    <label for="q" class="sr-only">{{ 'elements.side-menu-html.quick-search-label'|trans }}</label>
-                    <input id="q" type="text" name="q" class="form-control" placeholder="{{ 'elements.side-menu-html.quick-search-placeholder'|trans }}">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </form>
-        </li>
-    {% endif %}
+    </div>
+    <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="right">
+        <i class="fa fa-circle fa-2xs text-{{ 'green' == status ? 'success' : 'yellow' == status ? 'warning' : 'danger' }}" title="{{ "elements.status.#{status}"|trans }}"></i>
+    </a>
+</div>
 
-    {% for item in menu|default([])|filter( p => p.hasChildren) %}
-        <li class="nav-header">{{ item.title|trans(item.transParameters, 'emsco-twigs') }}</li>
-        {% for menu in item.children %}
-            {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
+{% if app.user %}
+    <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="{{ 'side-menu.quick-search.placeholder'|trans }}" aria-label="{{ 'side-menu.quick-search.label'|trans }}">
+            <div class="input-group-append">
+                <button class="btn btn-sidebar">
+                    <i class="fas fa-search fa-fw"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        {% for item in menu|default([])|filter( p => p.hasChildren) %}
+            <li class="nav-header">{{ item.title|trans(item.transParameters, 'emsco-twigs') }}</li>
+            {% for menu in item.children %}
+                {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
 
-</ul>
+    </ul>
+</nav>

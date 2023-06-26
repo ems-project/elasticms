@@ -98,6 +98,9 @@
     "egulias/email-validator": {
         "version": "2.1.4"
     },
+    "elasticms/admin-ui-bundle": {
+        "version": "5.7.0"
+    },
     "elasticms/client-helper-bundle": {
         "version": "0.1-dev"
     },

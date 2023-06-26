@@ -32,7 +32,7 @@
 {% endif %}
 
 <nav class="mt-2">
-    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <ul class="nav nav-pills nav-sidebar nav-child-indent flex-column" data-widget="treeview" role="menu" data-accordion="false">
         {% for item in menu|default([])|filter( p => p.hasChildren) %}
             <li class="nav-header">{{ item.title|trans(item.transParameters, 'emsco-twigs') }}</li>
             {% for menu in item.children %}

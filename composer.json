@@ -41,6 +41,7 @@
     "kevinrob/guzzle-cache-middleware": "^4.0",
     "league/flysystem-memory": "^2.0",
     "league/flysystem-sftp-v3": "^2.0",
+    "maennchen/zipstream-php": "^2.4",
     "ocramius/doctrine-batch-utils": "^2.5",
     "onelogin/php-saml": "^4.1",
     "phpoffice/phpspreadsheet": "^1.16",

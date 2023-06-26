@@ -3,6 +3,7 @@ parameters:
         - %currentWorkingDirectory%/elasticms-admin/src
         - %currentWorkingDirectory%/elasticms-cli/src
         - %currentWorkingDirectory%/elasticms-web/src
+        - %currentWorkingDirectory%/EMS/admin-ui-bundle/src
         - %currentWorkingDirectory%/EMS/client-helper-bundle/src
         - %currentWorkingDirectory%/EMS/common-bundle/src
         - %currentWorkingDirectory%/EMS/core-bundle/src
@@ -13,6 +14,7 @@ parameters:
         - %currentWorkingDirectory%/release
     excludePaths:
         - %currentWorkingDirectory%/vendor/*
+        - %currentWorkingDirectory%/EMS/admin-ui-bundle/src/Resources/*
         - %currentWorkingDirectory%/EMS/client-helper-bundle/src/Resources/*
         - %currentWorkingDirectory%/EMS/common-bundle/src/Resources/*
         - %currentWorkingDirectory%/EMS/core-bundle/src/Resources/*

@@ -1,0 +1,17 @@
+{% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
+{%- trans_default_domain 'base' -%}
+
+{% set body_attr = {
+    class: 'layout-fixed sidebar-expand-lg bg-body-tertiary',
+} %}
+
+{% block body %}
+    {% apply spaceless %}
+        <div class="app-wrapper">
+            {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
+            {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
+            <main class="app-main">{% block app_main %}{% endblock app_main %}</main>
+            {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
+        </div>
+    {% endapply %}
+{% endblock body %}

@@ -1,0 +1,18 @@
+{% trans_default_domain 'notification' %}
+
+{%  for dashboard in dashboardMenu.children %}
+    <li class="nav-item">
+        <a href="{{ path(dashboard.route, dashboard.routeParameters) }}" class="nav-link{% if dashboard.color %} text-{{ dashboard.color }}{% endif %}">
+            <i class="{{ dashboard.icon }}"></i>
+        </a>
+    </li>
+{% endfor %}
+
+<li class="nav-item">
+    <a href="{{ path('notifications.inbox') }}" class="nav-link" title="{{ 'notification.menu.link_title'|trans }}">
+        <i class="fa fa-envelope"></i>
+        {% if counter > 0 %}
+            <span class="navbar-badge badge text-bg-warning">{{ counter }}</span>
+        {% endif %}
+    </a>
+</li>

@@ -135,12 +135,14 @@ class GithubReleaseCommand extends AbstractGithubCommand
      */
     private function generateNotes(string $name): array
     {
-        $previousVersion = $this->getRelease($this->previousVersion);
+        if ($this->previousVersion) {
+            $previousRelease = $this->getRelease($this->previousVersion);
+        }
 
         return $this->githubApi->repo()->releases()->generateNotes(self::ORG, $name, \array_filter([
             'tag_name' => $this->version,
             'target_commitish' => $this->target,
-            'previous_tag_name' => $previousVersion ? $this->previousVersion : null,
+            'previous_tag_name' => isset($previousRelease) ? $this->previousVersion : null,
         ]));
     }
 }

@@ -9,10 +9,10 @@ final class Json
     public static function encode(mixed $value, bool $pretty = false): string
     {
         $options = $pretty ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : 0;
-        $encoded = \json_encode($value, $options);
+        $encoded = \json_encode($value, $options | JSON_INVALID_UTF8_IGNORE);
 
         if (false === $encoded) {
-            throw new \RuntimeException('failed encoding json');
+            throw new \RuntimeException(\sprintf('failed encoding json: %s', \json_last_error_msg()));
         }
 
         return $encoded;

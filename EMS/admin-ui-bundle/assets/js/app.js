@@ -1,4 +1,5 @@
-require('../css/adminlte.scss')
+require('../css/adminlte/adminlte.scss')
+require('../css/fontawsome.scss')
 
 import 'bootstrap';
 

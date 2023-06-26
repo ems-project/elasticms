@@ -17,9 +17,11 @@
 * feat(elasticms-web/admin): common probe routes (_readiness, _liveness) by @theus77 in https://github.com/ems-project/elasticms/pull/522
 * feat(emscli): add expression merge by @IsaMic in https://github.com/ems-project/elasticms/pull/509
 ### Bug Fixes
+* fix(build): maennchen/zipstream-php fix to 2.4 by @Davidmattei in https://github.com/ems-project/elasticms/pull/529
 * fix(cli): tika jar path (#485) by @theus77 in https://github.com/ems-project/elasticms/pull/486
 * fix(common): storageManager initFinalize before finalize by @Davidmattei in https://github.com/ems-project/elasticms/pull/501
 * fix(common/command): restore command messages by @theus77 in https://github.com/ems-project/elasticms/pull/516
+* fix(common/storage): s3 invalid cache key by @Davidmattei in https://github.com/ems-project/elasticms/pull/528
 * fix(core): dataTableFactory options by @Davidmattei in https://github.com/ems-project/elasticms/pull/500
 * fix(core/mediaLib): max folders 5000 by @Davidmattei in https://github.com/ems-project/elasticms/pull/506
 * fix(standards/json): the CLI's audit faces malformed utf8 string by @theus77 in https://github.com/ems-project/elasticms/pull/525

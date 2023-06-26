@@ -29,6 +29,7 @@
 		"dompdf/dompdf": "^v2.0",
 		"elasticms/helpers": "~5.7.0",
 		"guzzlehttp/guzzle": "^6.3",
+		"maennchen/zipstream-php": "^2.4",
 		"phpoffice/phpspreadsheet": "^1.16",
 		"promphp/prometheus_client_php": "^2.6",
 		"psr/simple-cache": "^2.0",

@@ -36,6 +36,11 @@
       "target": "git@github.com:ems-project/EMSCoreBundle.git"
     },
     {
+      "name": "admin-ui-bundle",
+      "directory": "EMS/admin-ui-bundle",
+      "target": "git@github.com:ems-project/EMSAdminUIBundle.git"
+    },
+    {
       "name": "form-bundle",
       "directory": "EMS/form-bundle",
       "target": "git@github.com:ems-project/EMSFormBundle.git"

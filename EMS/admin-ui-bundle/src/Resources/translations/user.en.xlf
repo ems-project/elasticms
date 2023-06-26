@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="Xcx6f8R" resname="user.login.title">
+        <source>user.login.title</source>
+        <target>Welcome</target>
+      </trans-unit>
+      <trans-unit id="oypjthn" resname="user.login.alt_logo">
+        <source>user.login.alt_logo</source>
+        <target>elasticMS's logo</target>
+      </trans-unit>
+      <trans-unit id="FuBdSqc" resname="user.login.message">
+        <source>user.login.message</source>
+        <target>Sign in to start your session</target>
+      </trans-unit>
+      <trans-unit id="hkwAg9o" resname="user.login.user_placeholder">
+        <source>user.login.user_placeholder</source>
+        <target>Email or Username</target>
+      </trans-unit>
+      <trans-unit id="RJsVc0L" resname="user.login.password_placeholder">
+        <source>user.login.password_placeholder</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="H8at73x" resname="user.login.remember_me">
+        <source>user.login.remember_me</source>
+        <target>Remember Me</target>
+      </trans-unit>
+      <trans-unit id="I4S0_D5" resname="user.login.submit">
+        <source>user.login.submit</source>
+        <target>Sign In</target>
+      </trans-unit>
+      <trans-unit id="f2auv9x" resname="user.login.forgot">
+        <source>user.login.forgot</source>
+        <target>I forgot my password</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

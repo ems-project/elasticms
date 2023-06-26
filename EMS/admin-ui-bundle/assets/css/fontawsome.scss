@@ -6,3 +6,14 @@ $fa-font-path: "../../node_modules/@fortawesome/fontawesome-free/webfonts/";
 @import "@fortawesome/fontawesome-free/scss/regular";
 @import "@fortawesome/fontawesome-free/scss/brands";
 
+// Hotfixes map old fa classes
+.fa-keyboard-o {
+  @extend .fa-keyboard;
+}
+.fa-file-text-o {
+  @extend .fa-file-text;
+}
+.fa-calendar-o {
+  @extend .fa-calendar;
+}
+

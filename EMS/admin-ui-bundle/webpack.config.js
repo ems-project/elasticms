@@ -25,7 +25,7 @@ module.exports = (env, argv) => {
             }),
             new CopyPlugin({
                 "patterns": [
-                    {from: './assets/images', to: 'images'},
+                    {from: './assets/images', to: 'images/[name].[hash].[ext]'},
                 ]
             }),
             new MiniCssExtractPlugin({
@@ -64,7 +64,7 @@ module.exports = (env, argv) => {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
                     type: 'asset/resource',
                     generator: {
-                        filename: 'media/[name][ext]'
+                        filename: 'media/[name][contenthash][ext]'
                     }
                 }
             ]

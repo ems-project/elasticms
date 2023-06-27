@@ -10,7 +10,7 @@
         {% if app.user %}
             <a href="{{ path(routes.USER_PROFILE) }}" class="d-block">{{ app.user.displayName }}</a>
         {% else %}
-            {{ 'elements.side_menu.anonymous-user'|trans }}
+            {{ 'side_menu.anonymous-user'|trans }}
         {% endif %}
     </div>
     <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="right">
@@ -39,6 +39,5 @@
                 {{ block('sidebarMenu', '@EMSAdminUI/bootstrap5/elements/menu.html.twig') }}
             {% endfor %}
         {% endfor %}
-
     </ul>
 </nav>

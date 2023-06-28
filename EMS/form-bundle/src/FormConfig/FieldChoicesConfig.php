@@ -44,7 +44,7 @@ class FieldChoicesConfig
     public function getLabel(string $value): string
     {
         $index = \array_search($value, $this->values);
-        if (!\is_string($index) || !isset($this->labels[$index]) || !\is_string($this->labels[$index])) {
+        if (!\is_string($this->labels[$index] ?? null)) {
             return $value;
         }
 

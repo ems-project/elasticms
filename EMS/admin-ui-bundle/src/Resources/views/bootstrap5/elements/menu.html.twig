@@ -1,0 +1,24 @@
+{% block sidebarMenu %}
+    {% trans_default_domain 'emsco-twigs' %}
+    <li class="nav-item">
+        <a href="{{ menu.hasChildren ? '#' : path(menu.route, menu.routeParameters) }}" class="nav-link{% if menu.color %}  text-{{ menu.color }}{% endif %}">
+            <i class="nav-icon {{ menu.icon }}"></i>&nbsp;
+            <p>
+                {{ menu.translation ? menu.label|trans(menu.parameters) : menu.label }}
+                {% if menu.hasChildren %}
+                    <i class="fas fa-angle-left right"></i>
+                {% endif %}
+                {% if menu.hasBadge %}
+                    <span class="badge {{ menu.badgeColor ? 'bg-'~menu.badgeColor : 'bg-info' }} right">{{ menu.badge }}</span>
+                {% endif %}
+            </p>
+        </a>
+        {% if menu.hasChildren %}
+            <ul class="nav nav-treeview">
+                {% for menu in menu.children %}
+                    {{ block('sidebarMenu') }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endblock sidebarMenu %}

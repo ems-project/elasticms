@@ -25,7 +25,7 @@ module.exports = (env, argv) => {
             }),
             new CopyPlugin({
                 "patterns": [
-                    {from: './assets/images', to: 'images'},
+                    {from: './assets/images', to: 'images/[name].[hash].[ext]'},
                 ]
             }),
             new MiniCssExtractPlugin({
@@ -46,13 +46,6 @@ module.exports = (env, argv) => {
             path: path.resolve(__dirname, 'src/Resources/public'),
             filename: 'js/[name].[contenthash].js',
         },
-        resolve: {
-            fallback: {
-                "tty": require.resolve("tty-browserify"),
-                "stream": require.resolve("stream-browserify"),
-                "buffer": require.resolve("buffer")
-            }
-        },
         module: {
             rules: [
                 {
@@ -71,14 +64,7 @@ module.exports = (env, argv) => {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
                     type: 'asset/resource',
                     generator: {
-                        filename: 'media/[name][ext]'
-                    }
-                },
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
+                        filename: 'media/[name][contenthash][ext]'
                     }
                 }
             ]

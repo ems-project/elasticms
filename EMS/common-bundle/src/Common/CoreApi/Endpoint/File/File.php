@@ -38,7 +38,7 @@ final class File implements FileInterface
 
         $uploaded = $fromByte;
         while (!$stream->eof()) {
-            $uploaded = $this->addChunk($hash, $stream->read(819200));
+            $uploaded = $this->addChunk($hash, $stream->read(FileHelper::DEFAULT_CHUNK_SIZE));
         }
 
         if ($uploaded !== $size) {

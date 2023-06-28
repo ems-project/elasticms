@@ -51,7 +51,7 @@
                 } %}
                 <span class="d-none d-md-inline">{{ app.user.displayName }}</span>
             </a>
-            <ul class="dropdown-menu dropdown-menu-right">
+            <ul class="dropdown-menu dropdown-menu-end">
                 <li class="user-header">
                     {% include '@EMSCore/elements/user-image.html.twig' with {
                         'class': 'rounded-circle shadow'
@@ -71,9 +71,9 @@
                 <li class="user-footer">
                     <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-default btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <a href="{{ path('emsco_user_index', {'_switch_user': '_exit'}) }}" class="btn btn-default btn-flat float-right">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
+                        <a href="{{ path('emsco_user_index', {'_switch_user': '_exit'}) }}" class="btn btn-default btn-flat float-end">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
                     {% else %}
-                        <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-default btn-fla float-right">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
+                        <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-default btn-fla float-end">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
                     {% endif %}
                 </li>
             </ul>

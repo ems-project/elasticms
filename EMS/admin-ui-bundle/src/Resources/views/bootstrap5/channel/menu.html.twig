@@ -5,7 +5,7 @@
         <a class="nav-link" data-bs-toggle="dropdown" href="#">
             <i class="fa fa-eye"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
             {% for channel in channels %}
                 <a href="{{ channel.entryPath }}" target="_blank" class="dropdown-item">
                     <i class="fa fa-{{ channel.public|default ? 'unlock-alt' : 'lock' }} me-2"></i>

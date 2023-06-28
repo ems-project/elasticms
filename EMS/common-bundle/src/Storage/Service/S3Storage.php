@@ -222,10 +222,10 @@ class S3Storage extends AbstractUrlStorage
     private function uploadKey(string $hash): string
     {
         if ($this->multipartUpload) {
-            return "upload_$hash";
+            return "uploads_$hash";
         }
 
-        return "upload/$hash";
+        return "uploads/$hash";
     }
 
     private function key(string $hash): string

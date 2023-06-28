@@ -47,7 +47,10 @@ class File
         while (!\feof($handle)) {
             $chunk = '';
             while (!\feof($handle) && \strlen($chunk) < $chunkSize) {
-                $chunk .= \fread($handle, $chunkSize - \strlen($chunk));
+                $length = $chunkSize - \strlen($chunk);
+                if ($length > 0) {
+                    $chunk .= \fread($handle, $length);
+                }
             }
 
             yield $chunk;

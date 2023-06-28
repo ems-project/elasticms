@@ -28,7 +28,7 @@ class File
     /**
      * @return iterable<string>
      */
-    public function readChunk(int $fromByte): iterable
+    public function chunk(int $fromByte): iterable
     {
         $realPath = $this->file->getRealPath();
 

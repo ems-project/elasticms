@@ -13,6 +13,8 @@ class File
     public string $mimeType;
     public int $size;
 
+    public const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024;
+
     private function __construct(private readonly \SplFileInfo $file)
     {
         $this->name = $this->file->getFilename();
@@ -28,7 +30,7 @@ class File
     /**
      * @return iterable<string>
      */
-    public function chunk(int $fromByte): iterable
+    public function chunk(int $fromByte, int $chunkSize = self::DEFAULT_CHUNK_SIZE): iterable
     {
         $realPath = $this->file->getRealPath();
 
@@ -44,9 +46,8 @@ class File
 
         while (!\feof($handle)) {
             $chunk = '';
-            $minSize = 5 * 1024 * 1024;
-            while (!\feof($handle) && \strlen($chunk) < $minSize) {
-                $chunk .= \fread($handle, $minSize - \strlen($chunk));
+            while (!\feof($handle) && \strlen($chunk) < $chunkSize) {
+                $chunk .= \fread($handle, $chunkSize - \strlen($chunk));
             }
 
             yield $chunk;

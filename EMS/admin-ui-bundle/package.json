@@ -5,13 +5,10 @@
     "watch": "webpack --mode=development --watch"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.0",
-    "bootstrap": "^5.3.0",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "file-loader": "^6.2.0",
-    "jquery": "^3.7.0",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-loader": "^7.3.3",
     "sass": "^1.63.6",
@@ -22,6 +19,9 @@
     "webpack-manifest-plugin": "^5.0.0"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.8"
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.0",
+    "jquery": "^3.7.0"
   }
 }

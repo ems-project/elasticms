@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="xqKPd7Z" resname="side_menu.anonymous-user">
+        <source>side_menu.anonymous-user</source>
+        <target>Anonymous User</target>
+      </trans-unit>
+      <trans-unit id="GmlMrFL" resname="side-menu.quick-search.placeholder">
+        <source>side-menu.quick-search.placeholder</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="t2TEeYb" resname="side-menu.quick-search.label">
+        <source>side-menu.quick-search.label</source>
+        <target>Search</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

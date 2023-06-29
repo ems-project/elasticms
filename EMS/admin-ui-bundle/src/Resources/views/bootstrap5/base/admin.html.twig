@@ -8,10 +8,10 @@
 {% block body %}
     {% apply spaceless %}
         <div class="wrapper">
-            <div class="preloader flex-column justify-content-center align-items-center">
-                <img class="animation__shake" src="{{ asset('images/icon-128.png', 'emsadminui') }}" alt="AdminLTELogo" height="128" width="128">
-            </div>
 
+            {% if preloader|default(false) %}
+                {{ include('@EMSAdminUI/bootstrap5/elements/preloader.html.twig') }}
+            {% endif %}
             {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
             {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
 

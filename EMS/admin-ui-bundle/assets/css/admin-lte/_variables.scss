@@ -48,7 +48,7 @@ $sidebar-custom-padding-y: .5rem !default;
 $boxed-layout-max-width: 1250px !default;
 
 // Body background (Affects main content background only)
-$main-bg: #f4f6f9 !default;
+$main-bg: #fefeff !default;
 
 $dark-main-bg: lighten($dark, 7.5%) !important;
 
@@ -109,7 +109,7 @@ $main-footer-bg: $white !default;
 // --------------------------------------------------------
 
 // Dark sidebar
-$sidebar-dark-bg: $dark !default;
+$sidebar-dark-bg: #33393f !default;
 $sidebar-dark-hover-bg: rgba(255, 255, 255, .1) !default;
 $sidebar-dark-color: #c2c7d0 !default;
 $sidebar-dark-hover-color: $white !default;

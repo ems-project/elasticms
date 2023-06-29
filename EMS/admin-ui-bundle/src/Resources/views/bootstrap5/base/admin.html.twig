@@ -4,6 +4,7 @@
 {% set body_attr = {
     class: 'hold-transition sidebar-mini layout-fixed',
 } %}
+{%  set theme_color_contrast = theme_color in ['yellow','lime','white'] ? 'light' : 'dark' %}
 
 {% block body %}
     {% apply spaceless %}

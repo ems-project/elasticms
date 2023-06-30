@@ -13,7 +13,7 @@
             {{ 'side_menu.anonymous-user'|trans }}
         {% endif %}
     </div>
-    <a href="#" id="status-overview" class="position-absolute top-0 end-0" title="{{ "elements.status.#{status}"|trans }}">
+    <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ "elements.status.#{status}"|trans }}">
         <i class="fa fa-circle fa-2xs text-{{ status }}"></i> <span class="visually-hidden">{{ "elements.status.#{status}"|trans }}</span>
     </a>
 </div>
@@ -25,6 +25,7 @@
             <div class="input-group-append">
                 <button class="btn btn-sidebar">
                     <i class="fas fa-search fa-fw"></i>
+                    <span class="visually-hidden">{{ 'side-menu.search.btn'|trans }}</span>
                 </button>
             </div>
         </div>

@@ -3,6 +3,18 @@
 DOCKER_USER 	?= -1001
 DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
 
+PWD			= $(shell pwd)
+
+DEMO_DIR	= ${PWD}/demo
+RUN_PSQL	= docker exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres psql
+RUN_ADMIN	= php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_WEB		= php ${PWD}/elasticms-web/bin/console --no-debug
+
+export DEMO_DIR
+export RUN_PSQL
+export RUN_ADMIN
+export RUN_WEB
+
 .DEFAULT_GOAL := help
 .PHONY: help docker-up docker-down docker-ps
 
@@ -14,7 +26,7 @@ help: # Show help for each of the Makefile recipes.
 	@echo "WEB:         http://localhost:8882"
 	@echo "KIBANA:      http://kibana.localhost"
 	@echo "MINIO:       http://minio.localhost"
-	@echo "MAIL:        http://mailhog.localhost/"
+	@echo "MAIL:        http://mailhog.localhost"
 	@echo "---------------------------"
 	@echo ""
 	@echo "Usage: make [target]"
@@ -28,6 +40,10 @@ mono-init: ## init mono repo (copy .env if missing)
 	@cp -u ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
 	@cp -u ./elasticms-web/.env.dist ./elasticms-web/.env
 	@cp -u ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
+
+## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
+demo-init: ## init demo (new database)
+	@$(MAKE) -C ./demo -s init
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-server-start: ## start symfony server (8881)

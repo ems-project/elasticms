@@ -1,5 +1,14 @@
 # Changelog 5.x
 
+## 5.7.1 (2023-06-30)
+### Features
+* feat(demo): makeFile configs by @Davidmattei in https://github.com/ems-project/elasticms/pull/536
+### Bug Fixes
+* fix(common/storage): s3 upload core api not working (chunkSize) by @Davidmattei in https://github.com/ems-project/elasticms/pull/532
+* fix(core/api): create managed alias set alias (instanceId) by @Davidmattei in https://github.com/ems-project/elasticms/pull/535
+* fix(core/entities): priority entity services by @Davidmattei in https://github.com/ems-project/elasticms/pull/534
+* fix(form): the index is always an integer by @theus77 in https://github.com/ems-project/elasticms/pull/530
+
 ## 5.7.0 (2023-06-26)
 ### Features
 * feat(cli): hash uid by @theus77 in https://github.com/ems-project/elasticms/pull/488

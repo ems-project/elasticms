@@ -34,12 +34,20 @@ help: # Show help for each of the Makefile recipes.
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 ## —— Mono —————————————————————————————————————————————————————————————————————————————————————————————————————————————
-mono-init: ## init mono repo (copy .env if missing)
+init: ## init mono repo (copy .env)
 	@cp -u ./docker/.env.dist ./docker/.env
-	@cp -u ./elasticms-admin/.env.dist ./elasticms-admin/.env
+	@cp ./elasticms-admin/.env.dist ./elasticms-admin/.env
 	@cp -u ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
-	@cp -u ./elasticms-web/.env.dist ./elasticms-web/.env
+	@cp ./elasticms-web/.env.dist ./elasticms-web/.env
 	@cp -u ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
+start: ## start docker, admin server, web server
+	@$(MAKE) -s docker-up
+	@$(MAKE) -s admin-server-start
+	@$(MAKE) -s web-server-start
+stop: ## stop docker, admin server, web server
+	@$(MAKE) -s admin-server-stop
+	@$(MAKE) -s web-server-stop
+	@$(MAKE) -s docker-down
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 demo-init: ## init demo (new database)

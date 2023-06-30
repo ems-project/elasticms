@@ -52,6 +52,8 @@ stop: ## stop docker, admin server, web server
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 demo-init: ## init demo (new database)
 	@$(MAKE) -C ./demo -s init
+	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
+	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-server-start: ## start symfony server (8881)

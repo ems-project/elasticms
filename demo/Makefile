@@ -12,9 +12,10 @@ DEMO_DIR	?= /opt/src
 RUN_ADMIN	?= docker compose exec -u ${DOCKER_USER}:0 admin-${ENVIRONMENT} ems-demo
 RUN_WEB		?= docker compose exec -u ${DOCKER_USER}:0 web-${ENVIRONMENT} preview
 RUN_PSQL	?= docker compose exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
+RUN_NPM		?= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
-.PHONY: help
+.PHONY: help npm
 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS DEMO"
@@ -36,6 +37,8 @@ help: # Show help for each of the Makefile recipes.
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 init: ## init
+	@$(MAKE) -s npm-install
+	@$(MAKE) -s npm-prod
 	@$(MAKE) -s db-setup
 	@$(MAKE) -s _init-create-users
 	@$(MAKE) -s web-login
@@ -52,6 +55,17 @@ init: ## init
 	@$(MAKE) -s web-health-check
 	@$(MAKE) -s web-restore-documents
 	@$(MAKE) -s admin-align
+
+npm/%:
+	@$(RUN_NPM) $*
+npm-install: ## npm install
+	@$(MAKE) npm/install
+npm-prod: ## npm run prod
+	@$(MAKE) npm/"run prod"
+npm-watch: ## npm run watch
+	@$(MAKE) npm/"run watch"
+npm-dev: ## npm run dev
+	@$(MAKE) npm/"run dev"
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-rebuild: ## rebuild all environments

@@ -54,6 +54,16 @@ demo-init: ## init demo (new database)
 	@$(MAKE) -C ./demo -s init
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo
+demo-local-status: ## local status
+	@$(MAKE) -C ./demo -s web-local-status
+demo-backup-configs: ## backup configs
+	@$(MAKE) -C ./demo -s web-backup-configs
+demo-backup-documents: ## backup documents
+	@$(MAKE) -C ./demo -s web-backup-documents
+demo-restore-configs: ## restore configs
+	@$(MAKE) -C ./demo -s web-restore-configs
+demo-restore-documents: ## restore documents
+	@$(MAKE) -C ./demo -s web-restore-documents
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-server-start: ## start symfony server (8881)

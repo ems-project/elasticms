@@ -95,13 +95,13 @@ web-backup-configs:
     ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) ems:admin:backup --configs --export
     else
-		@$(RUN_WEB) ems:admin:backup --configs-folder=${DEMO_DIR}/admin --configs --export
+		@$(RUN_WEB) ems:admin:backup --configs-folder=${DEMO_DIR}/configs/admin --configs --export
     endif
 web-backup-documents:
     ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) ems:admin:backup --configs --export
     else
-		@$(RUN_WEB) ems:admin:backup --configs-documents=${DEMO_DIR}/admin --documents --export
+		@$(RUN_WEB) ems:admin:backup --documents-folder=${DEMO_DIR}/configs/document --documents --export
     endif
 web-restore-configs:
     ifeq (${DEMO_DIR},/opt/src)

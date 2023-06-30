@@ -8,7 +8,7 @@ export $(grep -v '^#' .env.local | xargs)
 SYMFONY		= symfony
 
 .DEFAULT_GOAL := help
-.PHONY: help symfony-start symfony-stop symfony-log
+.PHONY: help
 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS ADMIN"

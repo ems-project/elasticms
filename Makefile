@@ -16,7 +16,7 @@ export RUN_ADMIN
 export RUN_WEB
 
 .DEFAULT_GOAL := help
-.PHONY: help docker-up docker-down docker-ps
+.PHONY: help
 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS Monorepo"

@@ -12,7 +12,7 @@ DEMO_DIR	?= /opt/src
 RUN_ADMIN	?= docker compose exec -u ${DOCKER_USER}:0 admin-${ENVIRONMENT} ems-demo
 RUN_WEB		?= docker compose exec -u ${DOCKER_USER}:0 web-${ENVIRONMENT} preview
 RUN_PSQL	?= docker compose exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
-RUN_NPM		?= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+RUN_NPM		?= docker run -u ${DOCKER_USER} --rm -it -v ${DEMO_DIR}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm

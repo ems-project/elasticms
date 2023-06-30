@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-DOCKER_USER 	?= -1001
+DOCKER_USER 	?= $UID
 DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
 
 PWD			= $(shell pwd)

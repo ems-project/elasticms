@@ -43,18 +43,23 @@ init: ## init
 	@$(MAKE) -s admin-activate
 	@$(MAKE) -s admin-rebuild
 	@$(MAKE) -s _init-create-managed-aliases
+	@$(MAKE) -s web-health-check
 	@$(MAKE) -s _init-switch_default-env
 	@$(MAKE) -s web-login
 	@$(MAKE) -s web-upload-folder-assets
 	@$(MAKE) -s web-local-upload
 	@$(MAKE) -s web-local-push
+	@$(MAKE) -s web-health-check
 	@$(MAKE) -s web-restore-documents
+	@$(MAKE) -s admin-align
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-rebuild: ## rebuild all environments
-	@$(RUN_ADMIN) ems:environment:rebuild --all
+	@$(RUN_ADMIN) ems:environment:rebuild --all --no-debug
 admin-activate: ## activate content types
-	@$(RUN_ADMIN) ems:contenttype:activate --all --force
+	@$(RUN_ADMIN) ems:contenttype:activate --all --force --no-debug
+admin-align: ## align preview with live
+	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug
 
 ## —— Web ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 web-login: ## web login (ems & emsch)
@@ -102,6 +107,8 @@ web-upload-folder-assets: ## web upload folder assets
     else
 		@$(RUN_WEB) emsch:local:folder-upload ${DEMO_DIR}/configs/admin/assets
     endif
+web-health-check:
+	@$(RUN_WEB) emsch:health-check -g --no-debug
 
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-setup: ## setup fresh demo (drops database)

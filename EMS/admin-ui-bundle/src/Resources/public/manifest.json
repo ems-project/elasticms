@@ -1,12 +1,12 @@
 {
-  "app.css": "bundles/emsadminui/css/app.98d6e53835c7b0d822cd.css",
-  "app.js": "bundles/emsadminui/js/app.3673385338057f0f267f.js",
+  "app.css": "bundles/emsadminui/css/app.d5054508f256e920ba35.css",
+  "app.js": "bundles/emsadminui/js/app.b55ea1169e3423a1b75e.js",
   "media/fa-solid-900.ttf": "bundles/emsadminui/media/fa-solid-9004a2cd718d7031b732e76.ttf",
   "media/fa-brands-400.ttf": "bundles/emsadminui/media/fa-brands-400150de8eaa454d669c405.ttf",
   "media/fa-solid-900.woff2": "bundles/emsadminui/media/fa-solid-900bb975c966c37455a1bc3.woff2",
   "media/fa-brands-400.woff2": "bundles/emsadminui/media/fa-brands-400e033a13ee751afc1860c.woff2",
   "media/fa-regular-400.ttf": "bundles/emsadminui/media/fa-regular-400d87474231f4192884802.ttf",
   "media/fa-regular-400.woff2": "bundles/emsadminui/media/fa-regular-4003223dc79c1adee56370b.woff2",
-  "images/icon-128.png": "bundles/emsadminui/images/icon-128.f3ec72e7c22547cc00c3..png",
-  "images/logo.svg": "bundles/emsadminui/images/logo.f3ec72e7c22547cc00c3..svg"
+  "images/icon-128.png": "bundles/emsadminui/images/icon-128.280d35e6036fec0cb4b3..png",
+  "images/logo.svg": "bundles/emsadminui/images/logo.280d35e6036fec0cb4b3..svg"
 }

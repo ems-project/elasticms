@@ -1,5 +1,6 @@
 require('../css/adminlte.scss')
 require('../css/fontawsome.scss')
+require('../css/plugins.scss')
 
 import 'bootstrap'
 import './admin-lte/AdminLTE'

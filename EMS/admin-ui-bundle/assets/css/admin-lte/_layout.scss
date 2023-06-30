@@ -600,7 +600,7 @@ body:not(.layout-fixed) {
 .main-footer {
   background-color: $main-footer-bg;
   border-top: $main-footer-border-top;
-  color: lighten($gray-700, 25%);
+  color: lighten($gray-700, 15%);
   padding: $main-footer-padding;
 
   .text-sm &,

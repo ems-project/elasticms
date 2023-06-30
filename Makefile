@@ -21,6 +21,14 @@ help: # Show help for each of the Makefile recipes.
 	@echo "Targets:"
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
+## —— Mono —————————————————————————————————————————————————————————————————————————————————————————————————————————————
+mono-init: ## init mono repo (copy .env if missing)
+	@cp -u ./docker/.env.dist ./docker/.env
+	@cp -u ./elasticms-admin/.env.dist ./elasticms-admin/.env
+	@cp -u ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
+	@cp -u ./elasticms-web/.env.dist ./elasticms-web/.env
+	@cp -u ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
+
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-server-start: ## start symfony server (8881)
 	@$(MAKE) -C ./elasticms-admin -s server-start

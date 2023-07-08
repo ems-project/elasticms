@@ -57,12 +57,13 @@
                             <b>{{ 'user.profile.show.wysiwyg'|trans }}</b> <i class="float-end">{% if user.wysiwygProfile %}{{ user.wysiwygProfile.name }}{% endif %}</i>
                         </li>
                     </ul>
+                </div>
+                <div class="card-footer">
                     <div class="btn-group">
                         <a href="{{ path(routes.USER_PROFILE_EDIT) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ 'user.profile.show.action.edit'|trans }}</a>
                         <a href="{{ path(routes.USER_CHANGE_PASSWORD) }}" class="btn btn-primary"><i class="fa fa-lock"></i> {{ 'user.change_password.title'|trans }}</a>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 {% endblock content %}

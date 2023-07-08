@@ -97,6 +97,14 @@
         <source>user.change_password.title</source>
         <target>Change password</target>
       </trans-unit>
+      <trans-unit id="3Vrpx08" resname="user.change_password.submit">
+        <source>user.change_password.submit</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="VLmPHXS" resname="user.change_password.cancel">
+        <source>user.change_password.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

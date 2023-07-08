@@ -51,7 +51,7 @@
       </trans-unit>
       <trans-unit id="6GCzHkA" resname="user.profile.show.alt.user_profile_picture">
         <source>user.profile.show.alt.user_profile_picture</source>
-        <target>Your profile's picture. Check Gravatar.con to chang it.</target>
+        <target>Your profile's picture. Check Gravatar.com to chang it.</target>
       </trans-unit>
       <trans-unit id="ccD4UqU" resname="user.profile.show.login">
         <source>user.profile.show.login</source>

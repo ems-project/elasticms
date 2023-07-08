@@ -45,6 +45,58 @@
         <source>user.login.password1_aria_label</source>
         <target>Password</target>
       </trans-unit>
+      <trans-unit id="HdsKVq_" resname="user.profile.title">
+        <source>user.profile.title</source>
+        <target>Your profile</target>
+      </trans-unit>
+      <trans-unit id="6GCzHkA" resname="user.profile.show.alt.user_profile_picture">
+        <source>user.profile.show.alt.user_profile_picture</source>
+        <target>Your profile's picture. Check Gravatar.con to chang it.</target>
+      </trans-unit>
+      <trans-unit id="ccD4UqU" resname="user.profile.show.login">
+        <source>user.profile.show.login</source>
+        <target>Login</target>
+      </trans-unit>
+      <trans-unit id="S0.jP35" resname="user.profile.show.display_name">
+        <source>user.profile.show.display_name</source>
+        <target>Display name</target>
+      </trans-unit>
+      <trans-unit id="oD5Thbh" resname="user.profile.show.email">
+        <source>user.profile.show.email</source>
+        <target>e-mail</target>
+      </trans-unit>
+      <trans-unit id="0oSlnRV" resname="user.profile.show.email_notification">
+        <source>user.profile.show.email_notification</source>
+        <target>e-mail notification</target>
+      </trans-unit>
+      <trans-unit id="T_3w8O5" resname="user.option.simplified_ui">
+        <source>user.option.simplified_ui</source>
+        <target>Simplified UI</target>
+      </trans-unit>
+      <trans-unit id="pB.DqAa" resname="user.profile.show.locale">
+        <source>user.profile.show.locale</source>
+        <target>Locale UI</target>
+      </trans-unit>
+      <trans-unit id="aMB4NhN" resname="user.profile.show.locale_preferred">
+        <source>user.profile.show.locale_preferred</source>
+        <target>Locale preferred</target>
+      </trans-unit>
+      <trans-unit id="4liGJeg" resname="user.profile.show.roles">
+        <source>user.profile.show.roles</source>
+        <target>Roles</target>
+      </trans-unit>
+      <trans-unit id="r60N1Qr" resname="user.profile.show.wysiwyg">
+        <source>user.profile.show.wysiwyg</source>
+        <target>WYSIWYG profile</target>
+      </trans-unit>
+      <trans-unit id="UqXqE.d" resname="user.profile.show.action.edit">
+        <source>user.profile.show.action.edit</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="2obisa." resname="user.change_password.title">
+        <source>user.change_password.title</source>
+        <target>Change password</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

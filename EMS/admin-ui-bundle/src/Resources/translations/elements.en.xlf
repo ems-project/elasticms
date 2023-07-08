@@ -17,6 +17,46 @@
         <source>side-menu.quick-search.label</source>
         <target>Search</target>
       </trans-unit>
+      <trans-unit id="hdKGv9Q" resname="side-menu.search.btn">
+        <source>side-menu.search.btn</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="Pg8GRAP" resname="topbar.search_form.show">
+        <source>topbar.search_form.show</source>
+        <target>Show search form</target>
+      </trans-unit>
+      <trans-unit id="HP2AROm" resname="topbar.search_form.submit">
+        <source>topbar.search_form.submit</source>
+        <target>Search</target>
+      </trans-unit>
+      <trans-unit id="U0fH.Ca" resname="topbar.search_form.close">
+        <source>topbar.search_form.close</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="Xry3p9y" resname="topbar.fullscreen.toggle">
+        <source>topbar.fullscreen.toggle</source>
+        <target>Toggle fullscreen</target>
+      </trans-unit>
+      <trans-unit id="fL.AXFq" resname="topbar.control_sidebar.toggle">
+        <source>topbar.control_sidebar.toggle</source>
+        <target>Toggle sidebar</target>
+      </trans-unit>
+      <trans-unit id="zaJht3l" resname="topbar.pushmenu.label">
+        <source>topbar.pushmenu.label</source>
+        <target>Push menu</target>
+      </trans-unit>
+      <trans-unit id="DhTAWbW" resname="elements.status.green">
+        <source>elements.status.green</source>
+        <target>Green, systems are working as expected</target>
+      </trans-unit>
+      <trans-unit id="kEabPyR" resname="elements.status.yellow">
+        <source>elements.status.yellow</source>
+        <target>Yellow, systems are indexing documents. This status can't stay like this forever.</target>
+      </trans-unit>
+      <trans-unit id="fXaszH." resname="elements.status.red">
+        <source>elements.status.red</source>
+        <target>Red, systems are facing issues. Please contact your system administrator.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

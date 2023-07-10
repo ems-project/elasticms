@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.7.2 (2023-07-10)
+### Bug Fixes
+* fix(core): customUserOptionsForm not null but empty string by @Davidmattei in https://github.com/ems-project/elasticms/pull/541
+* fix(core): migration command options not correct defined by @Davidmattei in https://github.com/ems-project/elasticms/pull/542
+* fix(demo): makeFile docker commands and pwd issue by @Davidmattei in https://github.com/ems-project/elasticms/pull/540
+
 ## 5.7.1 (2023-06-30)
 ### Features
 * feat(demo): makeFile configs by @Davidmattei in https://github.com/ems-project/elasticms/pull/536

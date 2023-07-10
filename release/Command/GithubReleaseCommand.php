@@ -139,9 +139,9 @@ class GithubReleaseCommand extends AbstractGithubCommand
             $previousRelease = $this->getRelease($this->previousVersion);
         }
 
-        $previousTagName =  isset($previousRelease) ? $this->previousVersion : null;
+        $previousTagName = isset($previousRelease) ? $this->previousVersion : null;
         if (null === $previousTagName) {
-            $this->io->warning(sprintf('No previous version for "%s"', $name));
+            $this->io->warning(\sprintf('No previous version for "%s"', $name));
         }
 
         return $this->githubApi->repo()->releases()->generateNotes(self::ORG, $name, \array_filter([

@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
+use Symfony\Component\Security\Http\EntryPoint\Exception\NotAnEntryPointException;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
@@ -31,6 +32,10 @@ class SamlAuthenticator extends AbstractAuthenticator implements AuthenticationE
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
+        if (!$this->samlConfig->isEnabled()) {
+            throw new NotAnEntryPointException();
+        }
+
         return new RedirectResponse($this->httpUtils->generateUri($request, SamlConfig::PATH_SAML_LOGIN));
     }
 

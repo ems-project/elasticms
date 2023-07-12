@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Saml;
 
+use EMS\ClientHelperBundle\Security\Saml\User\SamlUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,14 +37,14 @@ class SamlAuthenticator extends AbstractAuthenticator implements AuthenticationE
             throw new NotAnEntryPointException();
         }
 
-        return new RedirectResponse($this->httpUtils->generateUri($request, SamlConfig::PATH_SAML_LOGIN));
+        return new RedirectResponse($this->httpUtils->generateUri($request, SamlConfig::ROUTE_LOGIN));
     }
 
     public function supports(Request $request): ?bool
     {
         return $this->samlConfig->isEnabled()
             && $request->isMethod(Request::METHOD_POST)
-            && $this->httpUtils->checkRequestPath($request, SamlConfig::PATH_SAML_ACS);
+            && $this->httpUtils->checkRequestPath($request, SamlConfig::ROUTE_ACS);
     }
 
     public function authenticate(Request $request): Passport
@@ -55,13 +56,20 @@ class SamlAuthenticator extends AbstractAuthenticator implements AuthenticationE
             throw new AuthenticationException($lastError);
         }
 
-        return new SelfValidatingPassport(new UserBadge($auth->getNameId()));
+        return new SelfValidatingPassport(
+            new UserBadge(
+                $auth->getNameId(),
+                fn (string $userIdentifier) => new SamlUser($userIdentifier)
+            )
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $loginPath = $this->httpUtils->generateUri($request, SamlConfig::ROUTE_LOGIN);
+
         $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
-        $path = ($targetPath && SamlConfig::PATH_SAML_LOGIN !== $targetPath ? $targetPath : '/');
+        $path = ($targetPath && $loginPath !== $targetPath ? $targetPath : '/');
 
         return $this->httpUtils->createRedirectResponse($request, $path);
     }
@@ -70,6 +78,6 @@ class SamlAuthenticator extends AbstractAuthenticator implements AuthenticationE
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
 
-        return $this->httpUtils->createRedirectResponse($request, SamlConfig::PATH_SAML_LOGIN);
+        return $this->httpUtils->createRedirectResponse($request, SamlConfig::ROUTE_LOGIN);
     }
 }

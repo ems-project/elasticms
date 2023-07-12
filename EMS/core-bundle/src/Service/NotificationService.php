@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Core\Log\LogRevisionContext;
 use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\NotificationFilter;
@@ -413,13 +414,12 @@ class NotificationService
         }
 
         $this->logger->notice('service.notification.treated', [
-            'notification_name' => $notification->getTemplate()->getName(),
-            EmsFields::LOG_CONTENTTYPE_FIELD => $notification->getRevision()->getContentType(),
-            EmsFields::LOG_OUUID_FIELD => $notification->getRevision()->getOuuid(),
-            EmsFields::LOG_REVISION_ID_FIELD => $notification->getRevision()->getId(),
-            EmsFields::LOG_ENVIRONMENT_FIELD => $notification->getEnvironment()->getName(),
-            'status' => $notification->getStatus(),
-            'label' => $notification->getRevision()->getLabel(),
+            ...LogRevisionContext::read($notification->getRevision()),
+            ...[
+                'notification_name' => $notification->getTemplate()->getName(),
+                'status' => $notification->getStatus(),
+                'label' => $notification->getRevision()->getLabel(),
+            ],
         ]);
     }
 

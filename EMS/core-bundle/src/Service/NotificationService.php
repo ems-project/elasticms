@@ -83,10 +83,8 @@ class NotificationService
 
         foreach ($notifications as $notification) {
             $this->logger->warning('service.notification.notification_will_be_lost_finalize', [
-                'notification_name' => $notification->getTemplate()->getName(),
-                EmsFields::LOG_CONTENTTYPE_FIELD => $event->getRevision()->getContentType(),
-                EmsFields::LOG_OUUID_FIELD => $event->getRevision()->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $event->getRevision()->getId(),
+                ...LogRevisionContext::read($notification->getRevision()),
+                ...['notification_name' => $notification->getTemplate()->getName()]
             ]);
         }
     }
@@ -110,30 +108,20 @@ class NotificationService
         $em->persist($notification);
         $em->flush();
 
+        $context = [
+            ...LogRevisionContext::read($notification->getRevision()),
+            ...[
+                'notification_name' => $notification->getTemplate()->getName(),
+                'notification_status' => $status,
+            ]
+        ];
+
         if ('error' === $level) {
-            $this->logger->error('service.notification.update', [
-                'notification_name' => $notification->getTemplate()->getName(),
-                EmsFields::LOG_CONTENTTYPE_FIELD => $notification->getRevision()->getContentType(),
-                EmsFields::LOG_OUUID_FIELD => $notification->getRevision()->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $notification->getRevision()->getId(),
-                'notification_status' => $status,
-            ]);
+            $this->logger->error('service.notification.update', $context);
         } elseif ('warning' === $level) {
-            $this->logger->warning('service.notification.update', [
-                'notification_name' => $notification->getTemplate()->getName(),
-                EmsFields::LOG_CONTENTTYPE_FIELD => $notification->getRevision()->getContentType(),
-                EmsFields::LOG_OUUID_FIELD => $notification->getRevision()->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $notification->getRevision()->getId(),
-                'notification_status' => $status,
-            ]);
+            $this->logger->warning('service.notification.update', $context);
         } else {
-            $this->logger->notice('service.notification.update', [
-                'notification_name' => $notification->getTemplate()->getName(),
-                EmsFields::LOG_CONTENTTYPE_FIELD => $notification->getRevision()->getContentType(),
-                EmsFields::LOG_OUUID_FIELD => $notification->getRevision()->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $notification->getRevision()->getId(),
-                'notification_status' => $status,
-            ]);
+            $this->logger->notice('service.notification.update', $context);
         }
 
         return $this;
@@ -167,13 +155,11 @@ class NotificationService
                 /** @var Notification $alreadyPending */
                 $alreadyPending = $alreadyPending[0];
                 $this->logger->warning('service.notification.another_one_is_pending', [
-                    'label' => $alreadyPending->getRevision()->getLabel(),
-                    'notification_name' => $alreadyPending->getTemplate()->getName(),
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $alreadyPending->getRevision()->getContentType(),
-                    EmsFields::LOG_OUUID_FIELD => $alreadyPending->getRevision()->getOuuid(),
-                    EmsFields::LOG_REVISION_ID_FIELD => $alreadyPending->getRevision()->getId(),
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                    'notification_username' => $alreadyPending->getUsername(),
+                    ...LogRevisionContext::read($revision),
+                    ...[
+                        'notification_name' => $alreadyPending->getTemplate()->getName(),
+                        'notification_username' => $alreadyPending->getUsername(),
+                    ]
                 ]);
 
                 return null;
@@ -199,29 +185,29 @@ class NotificationService
             $em->flush();
 
             $this->logger->notice('service.notification.send', [
-                'label' => $notification->getRevision()->getLabel(),
-                'notification_name' => $notification->getTemplate()->getName(),
-                EmsFields::LOG_CONTENTTYPE_FIELD => $notification->getRevision()->getContentType(),
-                EmsFields::LOG_OUUID_FIELD => $notification->getRevision()->getOuuid(),
-                EmsFields::LOG_REVISION_ID_FIELD => $notification->getRevision()->getId(),
-                EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
+                ...LogRevisionContext::read($notification->getRevision()),
+                ...['notification_name' => $notification->getTemplate()->getName()]
             ]);
             $out = true;
         } catch (SkipNotificationException $e) {
             $this->logger->warning($e->getMessage(), [
-                'action_name' => $template->getName(),
-                'action_label' => $template->getLabel(),
-                'contenttype_name' => $revision->giveContentType(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                ...LogRevisionContext::read($revision),
+                ...[
+                    'action_name' => $template->getName(),
+                    'action_label' => $template->getLabel(),
+                    EmsFields::LOG_EXCEPTION_FIELD => $e,
+                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                ]
             ]);
         } catch (\Exception $e) {
             $this->logger->error('service.notification.send_error', [
-                'action_name' => $template->getName(),
-                'action_label' => $template->getLabel(),
-                'contenttype_name' => $revision->giveContentType(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                ...LogRevisionContext::read($revision),
+                ...[
+                    'action_name' => $template->getName(),
+                    'action_label' => $template->getLabel(),
+                    EmsFields::LOG_EXCEPTION_FIELD => $e,
+                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
+                ]
             ]);
         }
 

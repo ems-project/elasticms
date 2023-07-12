@@ -84,7 +84,7 @@ class NotificationService
         foreach ($notifications as $notification) {
             $this->logger->warning('service.notification.notification_will_be_lost_finalize', [
                 ...LogRevisionContext::read($notification->getRevision()),
-                ...['notification_name' => $notification->getTemplate()->getName()]
+                ...['notification_name' => $notification->getTemplate()->getName()],
             ]);
         }
     }
@@ -113,7 +113,7 @@ class NotificationService
             ...[
                 'notification_name' => $notification->getTemplate()->getName(),
                 'notification_status' => $status,
-            ]
+            ],
         ];
 
         if ('error' === $level) {
@@ -159,7 +159,7 @@ class NotificationService
                     ...[
                         'notification_name' => $alreadyPending->getTemplate()->getName(),
                         'notification_username' => $alreadyPending->getUsername(),
-                    ]
+                    ],
                 ]);
 
                 return null;
@@ -186,7 +186,7 @@ class NotificationService
 
             $this->logger->notice('service.notification.send', [
                 ...LogRevisionContext::read($notification->getRevision()),
-                ...['notification_name' => $notification->getTemplate()->getName()]
+                ...['notification_name' => $notification->getTemplate()->getName()],
             ]);
             $out = true;
         } catch (SkipNotificationException $e) {
@@ -197,7 +197,7 @@ class NotificationService
                     'action_label' => $template->getLabel(),
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                ]
+                ],
             ]);
         } catch (\Exception $e) {
             $this->logger->error('service.notification.send_error', [
@@ -207,7 +207,7 @@ class NotificationService
                     'action_label' => $template->getLabel(),
                     EmsFields::LOG_EXCEPTION_FIELD => $e,
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                ]
+                ],
             ]);
         }
 

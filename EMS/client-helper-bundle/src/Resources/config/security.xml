@@ -6,21 +6,25 @@
     <services>
         <defaults public="false" />
 
+        <service id="emsch.controller.security.login" class="EMS\ClientHelperBundle\Controller\Security\LoginController">
+            <argument type="service" id="emsch.routing.handler"/>
+            <argument type="service" id="twig"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <!-- SAML -->
         <service id="EMS\ClientHelperBundle\Controller\Security\SamlController">
             <argument type="service" id="emsch.security.saml.auth_factory"/>
             <tag name="controller.service_arguments"/>
         </service>
-
         <service id="emsch.security.saml.config" class="EMS\ClientHelperBundle\Security\Saml\SamlConfig">
             <argument>%emsch.security.saml%</argument>
         </service>
-
         <service id="emsch.security.saml.auth_factory" class="EMS\ClientHelperBundle\Security\Saml\SamlAuthFactory">
             <argument type="service" id="request_stack"/>
             <argument type="service" id="emsch.security.saml.config"/>
             <argument type="service" id="security.http_utils"/>
         </service>
-
         <service id="emsch.security.saml.user.provider" class="EMS\ClientHelperBundle\Security\Saml\User\SamlUserProvider" />
         <service id="emsch.security.saml.authenticator" class="EMS\ClientHelperBundle\Security\Saml\SamlAuthenticator">
             <argument type="service" id="security.http_utils"/>

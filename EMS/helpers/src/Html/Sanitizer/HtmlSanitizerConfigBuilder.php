@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\Html\Sanitizer;
 
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
+use Symfony\Component\HtmlSanitizer\Visitor\AttributeSanitizer\UrlAttributeSanitizer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HtmlSanitizerConfigBuilder
@@ -51,7 +52,17 @@ class HtmlSanitizerConfigBuilder
     public function build(): HtmlSanitizerConfig
     {
         $config = new HtmlSanitizerConfig();
-        $config = $config->withAttributeSanitizer(new HtmlSanitizerClass($this->classes));
+
+        $defaultSanitizers = $config->getAttributeSanitizers();
+        foreach ($defaultSanitizers as $sanitizer) {
+            if ($sanitizer instanceof UrlAttributeSanitizer) {
+                $config = $config->withoutAttributeSanitizer($sanitizer);
+            }
+        }
+
+        $config = $config
+            ->withAttributeSanitizer(new HtmlSanitizerClass($this->classes))
+            ->withAttributeSanitizer(new HtmlSanitizerLink());
 
         foreach ($this->configSettings as $setting => $value) {
             $config = match ($setting) {

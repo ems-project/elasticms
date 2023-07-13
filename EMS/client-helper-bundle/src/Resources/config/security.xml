@@ -11,6 +11,29 @@
             <argument type="service" id="twig"/>
             <tag name="controller.service_arguments"/>
         </service>
+        <service id="emsch.security.firewall.entry_point" class="EMS\ClientHelperBundle\Security\FirewallEntryPoint">
+            <argument type="service" id="security.http_utils"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="emsch.security.saml.config"/>
+            <argument type="string">%emsch.security.route_login%</argument>
+        </service>
+
+        <!-- Core API -->
+        <service id="emsch.security.core_api" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiFactory">
+            <argument type="service" id="emsch.manager.client_request"/>
+            <argument type="service" id="emsch.helper.environment.api"/>
+
+        </service>
+
+        <service id="emsch.security.core_api.user_provider" class="EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider">
+            <argument type="service" id="emsch.security.core_api"/>
+        </service>
+        <service id="emsch.security.core_api.authenticator" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiAuthenticator">
+            <argument type="service" id="security.http_utils"/>
+            <argument type="service" id="emsch.security.core_api"/>
+            <argument type="service" id="emsch.security.core_api.user_provider"/>
+            <argument type="string">%emsch.security.route_login%</argument>
+        </service>
 
         <!-- SAML -->
         <service id="EMS\ClientHelperBundle\Controller\Security\SamlController">
@@ -25,7 +48,7 @@
             <argument type="service" id="emsch.security.saml.config"/>
             <argument type="service" id="security.http_utils"/>
         </service>
-        <service id="emsch.security.saml.user.provider" class="EMS\ClientHelperBundle\Security\Saml\User\SamlUserProvider" />
+        <service id="emsch.security.saml.user_provider" class="EMS\ClientHelperBundle\Security\Saml\User\SamlUserProvider" />
         <service id="emsch.security.saml.authenticator" class="EMS\ClientHelperBundle\Security\Saml\SamlAuthenticator">
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="emsch.security.saml.config"/>

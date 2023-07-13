@@ -8,6 +8,7 @@ use EMS\ClientHelperBundle\Helper\Request\Handler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
 
@@ -19,12 +20,16 @@ class LoginController
     ) {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         $result = $this->handler->handle($request);
+        $context = [...$result['context'], ...[
+            'last_username' => $authenticationUtils->getLastUsername(),
+            'error' => $authenticationUtils->getLastAuthenticationError(),
+        ]];
 
         try {
-            $response = new Response($this->templating->render($result['template'], $result['context']));
+            $response = new Response($this->templating->render($result['template'], $context));
         } catch (RuntimeError $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }

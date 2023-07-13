@@ -9,6 +9,7 @@
         <service id="emsch.controller.security.login" class="EMS\ClientHelperBundle\Controller\Security\LoginController">
             <argument type="service" id="emsch.routing.handler"/>
             <argument type="service" id="twig"/>
+            <argument type="service" id="form.factory"/>
             <tag name="controller.service_arguments"/>
         </service>
         <service id="emsch.security.firewall.entry_point" class="EMS\ClientHelperBundle\Security\FirewallEntryPoint">
@@ -33,6 +34,7 @@
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="emsch.security.core_api"/>
             <argument type="service" id="emsch.security.core_api.user_provider"/>
+            <argument type="service" id="form.factory" />
             <argument type="service" id="logger"/>
             <argument type="string">%emsch.security.route_login%</argument>
         </service>

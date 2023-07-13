@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\CoreApi;
 
 use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider;
+use EMS\ClientHelperBundle\Security\Login\LoginCredentials;
+use EMS\ClientHelperBundle\Security\Login\LoginForm;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -28,6 +31,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
         private readonly HttpUtils $httpUtils,
         private readonly CoreApiFactory $coreApiFactory,
         private readonly CoreApiUserProvider $coreApiUserProvider,
+        private readonly FormFactory $formFactory,
         private readonly LoggerInterface $logger,
         private readonly string $routeLogin,
     ) {
@@ -40,14 +44,21 @@ class CoreApiAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $attributes = ['_username', '_password', '_csrf_token'];
+        $csrfToken = $request->request->get('token');
 
-        list($username, $password, $csrfToken) = \array_map(fn (string $a) => $request->get($a), $attributes);
-        $request->getSession()->set(Security::LAST_USERNAME, $username);
+        if (!\is_string($csrfToken)) {
+            throw new AuthenticationException('CSRF token missing');
+        }
+
+        $credentials = new LoginCredentials();
+        $form = $this->formFactory->create(LoginForm::class, $credentials);
+        $form->handleRequest($request);
+
+        $request->getSession()->set(Security::LAST_USERNAME, $credentials->giveUsername());
 
         try {
             $coreApi = $this->coreApiFactory->create();
-            $coreApi->authenticate($username, $password);
+            $coreApi->authenticate($credentials->giveUsername(), $credentials->givePassword());
         } catch (NotAuthenticatedExceptionInterface|\Throwable $e) {
             $key = $e instanceof NotAuthenticatedExceptionInterface ? 'emsch.security.login.invalid' : 'emsch.security.login.exception';
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString(), 'code' => $e->getCode()]);
@@ -59,7 +70,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
                 $coreApi->getToken(),
                 fn (string $token) => $this->coreApiUserProvider->loadUserByIdentifier($token)
             ),
-            [new CsrfTokenBadge('authenticate', $csrfToken)]
+            [new CsrfTokenBadge('login', $csrfToken)]
         );
     }
 

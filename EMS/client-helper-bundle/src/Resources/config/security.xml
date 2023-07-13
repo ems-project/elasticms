@@ -27,11 +27,13 @@
 
         <service id="emsch.security.core_api.user_provider" class="EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider">
             <argument type="service" id="emsch.security.core_api"/>
+            <argument type="service" id="logger"/>
         </service>
         <service id="emsch.security.core_api.authenticator" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiAuthenticator">
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="emsch.security.core_api"/>
             <argument type="service" id="emsch.security.core_api.user_provider"/>
+            <argument type="service" id="logger"/>
             <argument type="string">%emsch.security.route_login%</argument>
         </service>
 

@@ -6,6 +6,7 @@ namespace EMS\ClientHelperBundle\Security\CoreApi;
 
 use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -27,6 +28,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
         private readonly HttpUtils $httpUtils,
         private readonly CoreApiFactory $coreApiFactory,
         private readonly CoreApiUserProvider $coreApiUserProvider,
+        private readonly LoggerInterface $logger,
         private readonly string $routeLogin,
     ) {
     }
@@ -46,10 +48,10 @@ class CoreApiAuthenticator extends AbstractAuthenticator
         try {
             $coreApi = $this->coreApiFactory->create();
             $coreApi->authenticate($username, $password);
-        } catch (NotAuthenticatedExceptionInterface $e) {
-            throw new AuthenticationException('emsch.security.login.invalid', 0, $e);
-        } catch (\Throwable $e) {
-            throw new AuthenticationException('emsch.security.login.exception', 0, $e);
+        } catch (NotAuthenticatedExceptionInterface|\Throwable $e) {
+            $key = $e instanceof NotAuthenticatedExceptionInterface ? 'emsch.security.login.invalid' : 'emsch.security.login.exception';
+            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString(), 'code' => $e->getCode()]);
+            throw new AuthenticationException($key, 0, $e);
         }
 
         return new SelfValidatingPassport(

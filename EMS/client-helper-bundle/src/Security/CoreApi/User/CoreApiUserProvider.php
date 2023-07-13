@@ -5,14 +5,18 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\CoreApi\User;
 
 use EMS\ClientHelperBundle\Security\CoreApi\CoreApiFactory;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class CoreApiUserProvider implements UserProviderInterface
 {
-    public function __construct(private readonly CoreApiFactory $coreApiFactory)
-    {
+    public function __construct(
+        private readonly CoreApiFactory $coreApiFactory,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     public function refreshUser(UserInterface $user): UserInterface
@@ -38,8 +42,14 @@ class CoreApiUserProvider implements UserProviderInterface
     {
         $coreApi = $this->coreApiFactory->create();
         $coreApi->setToken($identifier);
-        $profile = $coreApi->user()->getProfileAuthenticated();
 
-        return new CoreApiUser($profile, $identifier);
+        try {
+            $profile = $coreApi->user()->getProfileAuthenticated();
+
+            return new CoreApiUser($profile, $identifier);
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString(), 'code' => $e->getCode()]);
+            throw new CustomUserMessageAuthenticationException('emsch.security.login.exception');
+        }
     }
 }

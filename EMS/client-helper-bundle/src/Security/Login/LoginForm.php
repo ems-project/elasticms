@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Login;
 
+use EMS\ClientHelperBundle\Security\CoreApi\CoreApiAuthenticator;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -34,7 +35,7 @@ class LoginForm extends AbstractType
             'data_class' => LoginCredentials::class,
             'csrf_protection' => true,
             'csrf_field_name' => 'token',
-            'csrf_token_id' => 'login',
+            'csrf_token_id' => CoreApiAuthenticator::CSRF_ID,
         ]);
     }
 }

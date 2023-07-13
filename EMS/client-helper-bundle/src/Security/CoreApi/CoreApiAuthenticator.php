@@ -27,6 +27,8 @@ class CoreApiAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
+    public const CSRF_ID = 'login';
+
     public function __construct(
         private readonly HttpUtils $httpUtils,
         private readonly CoreApiFactory $coreApiFactory,
@@ -70,7 +72,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
                 $coreApi->getToken(),
                 fn (string $token) => $this->coreApiUserProvider->loadUserByIdentifier($token)
             ),
-            [new CsrfTokenBadge('login', $csrfToken)]
+            [new CsrfTokenBadge(self::CSRF_ID, $csrfToken)]
         );
     }
 

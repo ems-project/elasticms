@@ -13,13 +13,14 @@
 | [elasticms-web](./elasticms-web)                       | [elasticms-web](https://github.com/ems-project/elasticms-web)                 | symfony application |
 | [elasticms-cli](./elasticms-cli)                       | [elasticms-cli](https://github.com/ems-project/elasticms-cli)                 | symfony application |
 | [demo](./demo)                                         | [elasticms-demo](https://github.com/ems-project/elasticms-demo)               | docker project      |
+| [EMS/admin-ui-bundle](./EMS/admin-ui-bundle)           | [EMSAdminUIBundle](https://github.com/ems-project/EMSAdminUIBundle)           | symfony bundle      |
 | [EMS/client-helper-bundle](./EMS/client-helper-bundle) | [EMSClientHelperBundle](https://github.com/ems-project/EMSClientHelperBundle) | symfony bundle      |
- | [EMS/common-bundle](./EMS/common-bundle)               | [EMSCommonBundle](https://github.com/ems-project/EMSCommonBundle)             | symfony bundle      |
- | [EMS/core-bundle](./EMS/core-bundle)                   | [EMSCoreBundle](https://github.com/ems-project/EMSCoreBundle)                 | symfony bundle      |
- | [EMS/form-bundle](./EMS/form-bundle)                   | [EMSFormBundle](https://github.com/ems-project/EMSFormBundle)                 | symfony bundle      |
- | [EMS/helpers](./EMS/helpers)                           | [helpers](https://github.com/ems-project/helpers)                             | symfony bundle      |
- | [EMS/submission-bundle](./EMS/submission-bundle)       | [EMSSubmissionBundle](https://github.com/ems-project/EMSSubmissionBundle)     | symfony bundle      |
- | [EMS/xliff](./EMS/xliff)                               | [xliff](https://github.com/ems-project/xliff)                                 | symfony bundle      |
+| [EMS/common-bundle](./EMS/common-bundle)               | [EMSCommonBundle](https://github.com/ems-project/EMSCommonBundle)             | symfony bundle      |
+| [EMS/core-bundle](./EMS/core-bundle)                   | [EMSCoreBundle](https://github.com/ems-project/EMSCoreBundle)                 | symfony bundle      |
+| [EMS/form-bundle](./EMS/form-bundle)                   | [EMSFormBundle](https://github.com/ems-project/EMSFormBundle)                 | symfony bundle      |
+| [EMS/helpers](./EMS/helpers)                           | [helpers](https://github.com/ems-project/helpers)                             | symfony bundle      |
+| [EMS/submission-bundle](./EMS/submission-bundle)       | [EMSSubmissionBundle](https://github.com/ems-project/EMSSubmissionBundle)     | symfony bundle      |
+| [EMS/xliff](./EMS/xliff)                               | [xliff](https://github.com/ems-project/xliff)                                 | symfony bundle      |
 
 
 

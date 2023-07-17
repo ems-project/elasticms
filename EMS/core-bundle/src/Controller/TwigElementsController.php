@@ -20,7 +20,14 @@ class TwigElementsController extends AbstractController
 {
     final public const ASSET_EXTRACTOR_STATUS_CACHE_ID = 'status.asset_extractor.result';
 
-    public function __construct(private readonly AssetExtractorService $assetExtractorService, private readonly ElasticaService $elasticaService, private readonly UserService $userService, private readonly JobService $jobService, private readonly DashboardManager $dashboardManager, private readonly ContentTypeService $contentTypeService)
+    public function __construct(
+        private readonly AssetExtractorService $assetExtractorService,
+        private readonly ElasticaService $elasticaService,
+        private readonly UserService $userService,
+        private readonly JobService $jobService,
+        private readonly DashboardManager $dashboardManager,
+        private readonly ContentTypeService $contentTypeService,
+        private readonly string $templateNamespace)
     {
     }
 
@@ -40,11 +47,11 @@ class TwigElementsController extends AbstractController
         $status = $this->elasticaService->getHealthStatus();
 
         if ('green' === $status) {
-            $status = $this->getAssetExtractorStatus($this->assetExtractorService);
+            $status = $this->getAssetExtractorStatus();
         }
 
         return $this->render(
-            '@EMSCore/elements/side-menu.html.twig',
+            "@$this->templateNamespace/elements/side-menu.html.twig",
             [
                 'draftCounterGroupedByContentType' => $draftCounterGroupedByContentType,
                 'status' => $status,
@@ -72,24 +79,23 @@ class TwigElementsController extends AbstractController
         );
     }
 
-    private function getAssetExtractorStatus(AssetExtractorService $assetExtractorService): string
+    private function getAssetExtractorStatus(): string
     {
-        try {
-            $cache = new FilesystemAdapter('', 60);
-            $cachedStatus = $cache->getItem(TwigElementsController::ASSET_EXTRACTOR_STATUS_CACHE_ID);
-            if (!$cachedStatus->isHit()) {
-                $cachedStatus->set($assetExtractorService->hello());
-                $cache->save($cachedStatus);
-            }
-            $result = $cachedStatus->get();
-
-            if (($result['code'] ?? 500) === 200) {
-                return 'green';
-            }
-        } catch (\Exception) {
+        $cache = new FilesystemAdapter('', 60);
+        $cachedStatus = $cache->getItem(self::ASSET_EXTRACTOR_STATUS_CACHE_ID);
+        if ($cachedStatus->isHit()) {
+            return $cachedStatus->get();
         }
 
-        return 'yellow';
+        try {
+            $status = 200 === $this->assetExtractorService->hello()['code'] ? 'green' : 'yellow';
+        } catch (\Throwable) {
+            $status = 'yellow';
+        }
+        $cachedStatus->set($status);
+        $cache->save($cachedStatus);
+
+        return $status;
     }
 
     private function getOtherMenu(): Menu

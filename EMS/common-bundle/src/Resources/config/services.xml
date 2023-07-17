@@ -124,5 +124,10 @@
             <argument type="service" id="kernel"/>
             <argument type="service" id="ems.helper.admin_api"/>
         </service>
+
+        <service id="ems_common.controller.probe" class="EMS\CommonBundle\Controller\ProbeController">
+            <argument type="service" id="ems_common.service.elastica"/>
+            <tag name="controller.service_arguments"/>
+        </service>
     </services>
 </container>

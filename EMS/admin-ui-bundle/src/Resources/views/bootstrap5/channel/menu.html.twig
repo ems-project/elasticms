@@ -1,0 +1,18 @@
+{% trans_default_domain 'channel' %}
+
+{% if channels|default([])|length > 0 %}
+    <li class="nav-item dropdown">
+        <a class="nav-link" data-bs-toggle="dropdown" href="#">
+            <i class="fa fa-eye"></i>
+            <span class="visually-hidden">{{ 'menu.channel.label'|trans }}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+            {% for channel in channels %}
+                <a href="{{ channel.entryPath }}" target="_blank" class="dropdown-item">
+                    <i class="fa fa-{{ channel.public|default ? 'unlock-alt' : 'lock' }} me-2"></i>
+                    {{ channel.label }}
+                </a>
+            {% endfor %}
+        </div>
+    </li>
+{% endif %}

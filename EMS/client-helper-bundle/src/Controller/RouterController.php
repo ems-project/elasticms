@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Controller;
 
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
+use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Storage\Processor\Processor;
+use EMS\Helpers\Standard\Json;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +20,7 @@ use Twig\Error\RuntimeError;
 
 final class RouterController
 {
-    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly Processor $processor, private readonly CacheHelper $cacheHelper)
+    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly Processor $processor, private readonly CacheHelper $cacheHelper, private readonly ExceptionHelper $exceptionHelper)
     {
     }
 
@@ -44,15 +47,15 @@ final class RouterController
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
 
-        $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $data = Json::decode($json);
         if (isset($data['path'])) {
-            return new BinaryFileResponse($data['path']);
+            return new BinaryFileResponse($data['path'], $data['status'] ?? 200, $data['headers'] ?? []);
         }
         if (!isset($data['url'])) {
             throw new HttpException($data['message'] ?? 'Page not found');
         }
 
-        return new RedirectResponse($data['url'], $data['status'] ?? 302);
+        return new RedirectResponse($data['url'], $data['status'] ?? 302, $data['headers'] ?? []);
     }
 
     public function asset(Request $request): Response
@@ -121,5 +124,13 @@ final class RouterController
         foreach ($headers as $key => $value) {
             $response->headers->add([$key => $value]);
         }
+    }
+
+    public function errorPreview(int $statusCode): Response
+    {
+        $exception = new HttpException($statusCode, 'This is a sample exception.');
+        $flattenException = FlattenException::create($exception, $statusCode);
+
+        return $this->exceptionHelper->generateResponse($flattenException);
     }
 }

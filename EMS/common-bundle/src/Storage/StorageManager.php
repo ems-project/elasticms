@@ -154,6 +154,8 @@ class StorageManager
                 continue;
             }
 
+            $adapter->initFinalize($hash);
+
             if ($adapter->finalizeUpload($hash)) {
                 ++$count;
             }
@@ -281,6 +283,7 @@ class StorageManager
             }
 
             try {
+                $adapter->initFinalize($hash);
                 $handler = $adapter->read($hash, false);
             } catch (\Throwable) {
                 continue;
@@ -433,6 +436,7 @@ class StorageManager
             }
 
             foreach ($filteredAdapters as $adapter) {
+                $adapter->initFinalize($hash);
                 $adapter->finalizeUpload($hash);
             }
         } catch (\Throwable $e) {

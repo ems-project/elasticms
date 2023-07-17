@@ -1,0 +1,19 @@
+{%- trans_default_domain 'elements' -%}
+
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="{{ path('homepage') }}" class="brand-link bg-{{ theme_color }}">
+        <img src="{{ asset('images/icon-128.png', 'emsadminui') }}" alt="{{ 'elements.sidenav.logo_alt' }}" class="brand-image img-circle elevation-3">
+        <span class="brand-text font-weight-light">{{ ems_name|raw }}</span>
+    </a>
+
+    <div class="sidebar">
+        {% if app.user %}
+            {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenuAction')) }}
+        {% else %}
+            {% include '@EMSAdminUI/bootstrap5/elements/side-menu.html.twig' with {
+                'contentTypes': get_content_types()
+            } %}
+        {% endif %}
+    </div>
+</aside>

@@ -6,6 +6,7 @@ namespace EMS\ClientHelperBundle\Helper\Hashcash;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 final class HashcashHelper
@@ -31,7 +32,8 @@ final class HashcashHelper
             throw new AccessDeniedHttpException('Insufficient security level');
         }
 
-        if ($this->csrfTokenManager->getToken($csrfId)->getValue() !== $token->getCsrf()) {
+        $csrfToken = new CsrfToken($csrfId, $token->getCsrf());
+        if (!$this->csrfTokenManager->isTokenValid($csrfToken)) {
             throw new AccessDeniedHttpException('Unrecognized key');
         }
     }

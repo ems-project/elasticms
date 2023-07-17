@@ -8,8 +8,8 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\File as FileHelper;
 use Psr\Http\Message\StreamInterface;
-use Symfony\Component\HttpFoundation\File\File as SymfonyFile;
 
 final class File implements FileInterface
 {
@@ -38,7 +38,7 @@ final class File implements FileInterface
 
         $uploaded = $fromByte;
         while (!$stream->eof()) {
-            $uploaded = $this->addChunk($hash, $stream->read(819200));
+            $uploaded = $this->addChunk($hash, $stream->read(FileHelper::DEFAULT_CHUNK_SIZE));
         }
 
         if ($uploaded !== $size) {
@@ -51,54 +51,34 @@ final class File implements FileInterface
     public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
     {
         $hash = $this->hashFile($realPath);
-        $filesize = \filesize($realPath);
-        if (!\is_int($filesize)) {
-            throw new \RuntimeException('Unexpected file size type');
-        }
 
-        $symfonyFile = new SymfonyFile($realPath, false);
-        $exploded = \explode(DIRECTORY_SEPARATOR, $realPath);
+        $file = FileHelper::fromFilename($realPath);
+        $mimeType ??= $file->mimeType;
+        $filename ??= $file->name;
 
-        $mimeType ??= $symfonyFile->guessExtension() ?? 'application/octet-stream';
-        $filename ??= \end($exploded);
+        $fromByte = $this->initUpload($hash, $file->size, $filename, $mimeType);
 
-        $fromByte = $this->initUpload($hash, $filesize, $filename, $mimeType);
         if ($fromByte < 0) {
             throw new \RuntimeException(\sprintf('Unexpected negative offset: %d', $fromByte));
         }
-        if ($fromByte > $filesize) {
-            throw new \RuntimeException(\sprintf('Unexpected bigger offset than the filesize: %d > %d', $fromByte, $filesize));
+        if ($fromByte > $file->size) {
+            throw new \RuntimeException(\sprintf('Unexpected bigger offset than the filesize: %d > %d', $fromByte, $file->size));
         }
-
-        $handle = \fopen($realPath, 'r');
-        if (false === $handle) {
-            throw new \RuntimeException(\sprintf('Unexpected error while open the archive %s', $realPath));
-        }
-        if ($fromByte > 0) {
-            if (0 !== \fseek($handle, $fromByte)) {
-                throw new \RuntimeException(\sprintf('Unexpected error while seeking the file pointer at position %s', $fromByte));
-            }
-        }
-
-        if ($fromByte === $filesize) {
+        if ($fromByte === $file->size) {
             return $hash;
         }
 
         $uploaded = $fromByte;
-        while (!\feof($handle)) {
-            $chunk = \fread($handle, 819200);
-            if (!\is_string($chunk)) {
-                throw new \RuntimeException('Unexpected chunk type');
-            }
-            $uploaded = $this->addChunk($hash, $chunk);
 
+        foreach ($file->chunk($fromByte) as $chunk) {
+            $uploaded = $this->addChunk($hash, $chunk);
             if (null !== $callback) {
                 $callback($chunk);
             }
         }
-        \fclose($handle);
-        if ($uploaded !== $filesize) {
-            throw new \RuntimeException(\sprintf('Sizes mismatched %d vs. %d for assets %s', $uploaded, $filesize, $hash));
+
+        if ($uploaded !== $file->size) {
+            throw new \RuntimeException(\sprintf('Sizes mismatched %d vs. %d for assets %s', $uploaded, $file->size, $hash));
         }
 
         return $hash;
@@ -107,6 +87,11 @@ final class File implements FileInterface
     public function hashFile(string $filename): string
     {
         return $this->storageManager->computeFileHash($filename);
+    }
+
+    public function downloadLink(string $hash): string
+    {
+        return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
     }
 
     public function hashStream(StreamInterface $stream): string

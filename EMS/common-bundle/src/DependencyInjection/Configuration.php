@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('elasticsearch_connection_pool')->defaultValue(null)->end()
                 ->variableNode('elasticsearch_hosts')->defaultValue(self::ELASTICSEARCH_DEFAULT_HOSTS)->end()
                 ->integerNode('log_level')->defaultValue(self::LOG_LEVEL)->end()
+                ->variableNode('excluded_content_types')->defaultValue([])->end()
             ->end()
         ;
 
@@ -51,7 +52,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('cache')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('type')->defaultValue('filesystem')->end()
+                        ->scalarNode('type')->defaultValue('file_system')->end()
                         ->scalarNode('prefix')->defaultValue('ems_cache')->end()
                         ->arrayNode('redis')
                             ->addDefaultsIfNotSet()

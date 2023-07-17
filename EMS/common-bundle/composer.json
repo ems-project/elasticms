@@ -27,8 +27,9 @@
 		"doctrine/doctrine-bundle": "^2.8",
 		"doctrine/orm": "^2.6",
 		"dompdf/dompdf": "^v2.0",
-		"elasticms/helpers": "~5.6.0",
+		"elasticms/helpers": "~5.7.0",
 		"guzzlehttp/guzzle": "^6.3",
+		"maennchen/zipstream-php": "^2.4",
 		"phpoffice/phpspreadsheet": "^1.16",
 		"promphp/prometheus_client_php": "^2.6",
 		"psr/simple-cache": "^2.0",
@@ -79,9 +80,6 @@
 		"sort-packages": true
 	},
 	"scripts": {
-		"phpcs": "php-cs-fixer fix",
-		"phpstan": "phpstan analyse --memory-limit 1G",
-		"phpunit":  "phpunit",
-		"phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
+		"phpunit": "phpunit"
 	}
 }

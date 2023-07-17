@@ -19,7 +19,8 @@
 		"ext-json": "*",
 		"ext-tidy": "*",
 		"symfony/html-sanitizer": "^6.2",
-		"symfony/options-resolver": "^5.4"
+		"symfony/options-resolver": "^5.4",
+		"symfony/mime": "^5.4"
 	},
 	"require-dev" : {
 		"mockery/mockery" : "^0.9",
@@ -51,9 +52,6 @@
 		}
 	},
 	"scripts": {
-		"phpcs": "php-cs-fixer fix",
-		"phpstan": "phpstan analyse",
-		"phpunit":  "phpunit",
-		"phpall": "php-cs-fixer fix && phpunit && phpstan"
+		"phpunit":  "phpunit"
 	}
 }

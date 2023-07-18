@@ -25,7 +25,7 @@ class CoreApiUserProvider implements UserProviderInterface
             throw new UnsupportedUserException();
         }
 
-        return $this->loadUserByIdentifier($user->getToken());
+        return $user;
     }
 
     public function supportsClass(string $class): bool

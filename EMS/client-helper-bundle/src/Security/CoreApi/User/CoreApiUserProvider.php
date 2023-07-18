@@ -49,7 +49,7 @@ class CoreApiUserProvider implements UserProviderInterface
             return new CoreApiUser($profile, $identifier);
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString(), 'code' => $e->getCode()]);
-            throw new CustomUserMessageAuthenticationException('emsch.security.login.exception');
+            throw new CustomUserMessageAuthenticationException('emsch.security.exception.error');
         }
     }
 }

@@ -19,6 +19,11 @@
             <argument type="string">%emsch.security.route_login%</argument>
         </service>
 
+        <service id="emsch.security.form.login" class="EMS\ClientHelperBundle\Security\Login\LoginForm">
+            <argument type="service" id="emsch.manager.client_request" />
+            <tag name="form.type"/>
+        </service>
+
         <!-- Core API -->
         <service id="emsch.security.core_api" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiFactory">
             <argument type="service" id="emsch.manager.client_request"/>

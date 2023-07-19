@@ -173,7 +173,9 @@ final class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('security')
+                    ->addDefaultsIfNotSet()
                     ->children()
+                        ->scalarNode('route_login')->defaultValue('emsch_login')->end()
                         ->arrayNode('saml')
                             ->canBeEnabled()
                                 ->children()

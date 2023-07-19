@@ -74,6 +74,7 @@ security:
         - { path: ^/data/asset, role: PUBLIC_ACCESS }
         - { path: ^/channel/, role: PUBLIC_ACCESS }
         - { path: ^/bundles, role: PUBLIC_ACCESS }
+        - { path: ^/api/user-profile, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api, roles: ROLE_API }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }

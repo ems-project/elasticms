@@ -52,6 +52,11 @@ HTML;
     private function getDataHtmlSanitize(): array
     {
         return [
+            'testMaxInputLength' => [
+                '<p>12345</p>',
+                '<p>Input length (<strong>12</strong>) exceeded max input length (<strong>5</strong>)</p>',
+                ['allow_safe_elements' => true, 'max_input_length' => 5],
+            ],
             'testEMSLinks' => [
                 '<a href="ems://object:page:876eb204-c3a3-43a6-94b6-9124a7206b1b">test</a>',
                 '<a href="ems://object:page:876eb204-c3a3-43a6-94b6-9124a7206b1b">test</a>',

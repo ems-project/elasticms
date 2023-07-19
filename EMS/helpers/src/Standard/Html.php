@@ -22,8 +22,15 @@ class Html implements \Stringable
     public function sanitize(array $settings = []): Html
     {
         $configBuilder = new HtmlSanitizerConfigBuilder($settings);
+        $config = $configBuilder->build();
 
-        $config = $configBuilder->build()->withMaxInputLength(\strlen($this->html));
+        if (\strlen($this->html) > $config->getMaxInputLength()) {
+            return new Html(\vsprintf(
+                '<p>Input length (<strong>%d</strong>) exceeded max input length (<strong>%d</strong>)</p>',
+                [\strlen($this->html), $config->getMaxInputLength()]
+            ));
+        }
+
         $sanitized = (new HtmlSanitizer($config))->sanitize($this->html);
 
         return new Html($sanitized);

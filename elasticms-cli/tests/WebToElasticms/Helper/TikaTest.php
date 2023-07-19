@@ -49,13 +49,13 @@ class TikaTest extends TestCase
         }
         $this->assertEquals(['https://www.google.com/'], $links);
         $metaPromise = TikaWrapper::getJsonMetadata($bonjourPdf);
-        $this->assertEquals("0", $metaPromise->getJson()['pdf:unmappedUnicodeCharsPerPage']);
+        $this->assertEquals('0', $metaPromise->getJson()['pdf:unmappedUnicodeCharsPerPage']);
     }
 
     public function testMalformedContent(): void
     {
         $malformed = new Stream(\fopen(\join(DIRECTORY_SEPARATOR, [__DIR__, 'resources', 'malformed.pdf']), 'r'));
         $metaPromise = TikaWrapper::getJsonMetadata($malformed);
-        $this->assertEquals("5035", $metaPromise->getJson()['pdf:unmappedUnicodeCharsPerPage']);
+        $this->assertEquals('5035', $metaPromise->getJson()['pdf:unmappedUnicodeCharsPerPage']);
     }
 }

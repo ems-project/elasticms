@@ -7,8 +7,6 @@ namespace App\CLI\Tests\WebToElasticms\Helper;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\Tika\TikaJarPromise;
-use App\CLI\Helper\Tika\TikaWrapper;
-use GuzzleHttp\Psr7\BufferStream;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
 

@@ -26,8 +26,6 @@ class TikaPromiseTest extends TestCase
             $links[] = $link;
         }
         $this->assertEquals(['https://www.google.com/'], $links);
-        $metaPromise = $promise->getMeta();
-        $this->assertEquals(false, $metaPromise->hasUnmappedUnicodeChars());
     }
 
     public function testPdfFile(): void
@@ -41,15 +39,5 @@ class TikaPromiseTest extends TestCase
             $links[] = $link;
         }
         $this->assertEquals(['https://www.google.com/'], $links);
-        $metaPromise = $promise->getMeta();
-        $this->assertEquals(false, $metaPromise->hasUnmappedUnicodeChars());
-    }
-
-    public function testMalformedContent(): void
-    {
-        $malformed = new Stream(\fopen(\join(DIRECTORY_SEPARATOR, [__DIR__, 'resources', 'malformed.pdf']), 'r'));
-        $promise = new TikaJarPromise($malformed);
-        $metaPromise = $promise->getMeta();
-        $this->assertEquals(true, $metaPromise->hasUnmappedUnicodeChars());
     }
 }

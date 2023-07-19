@@ -67,9 +67,4 @@ class TikaMeta
 
         return $date;
     }
-
-    public function hasUnmappedUnicodeChars(): bool
-    {
-        return '0' !== ($this->meta['pdf:unmappedUnicodeCharsPerPage'] ?? '0');
-    }
 }

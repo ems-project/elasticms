@@ -36,6 +36,8 @@ class HtmlSanitizerConfigBuilder
         'drop_elements',
     ];
 
+    private int $maxInputLength;
+
     /**
      * @param array<mixed> $settings
      */
@@ -43,6 +45,7 @@ class HtmlSanitizerConfigBuilder
     {
         $settings = $this->getOptionsResolver()->resolve($settings);
         $this->classes = $settings['classes'];
+        $this->maxInputLength = $settings['max_input_length'];
 
         foreach (self::CONFIG_ORDER as $setting) {
             $this->configSettings[$setting] = $settings[$setting];
@@ -61,6 +64,7 @@ class HtmlSanitizerConfigBuilder
         }
 
         $config = $config
+            ->withMaxInputLength($this->maxInputLength)
             ->withAttributeSanitizer(new HtmlSanitizerClass($this->classes))
             ->withAttributeSanitizer(new HtmlSanitizerLink());
 
@@ -107,6 +111,7 @@ class HtmlSanitizerConfigBuilder
 
         $optionsResolver
             ->setDefaults([
+                'max_input_length' => 500000,
                 'allow_safe_elements' => true,
                 'allow_attributes' => ['class' => '*'],
                 'allow_elements' => [],
@@ -122,6 +127,7 @@ class HtmlSanitizerConfigBuilder
                 },
             ])
             ->setAllowedTypes('allow_safe_elements', 'bool')
+            ->setAllowedTypes('max_input_length', 'int')
         ;
 
         return $optionsResolver;

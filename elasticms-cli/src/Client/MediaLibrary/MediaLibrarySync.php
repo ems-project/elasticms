@@ -194,10 +194,8 @@ final class MediaLibrarySync
         $promise->startText();
         $promise->startMeta();
         try {
+            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \mb_substr($promise->getText(), 0, $this->maxContentSize, 'UTF-8');
             $meta = $promise->getMeta();
-            if (!$meta->hasUnmappedUnicodeChars()) {
-                $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \substr($promise->getText(), 0, $this->maxContentSize);
-            }
             $assetArray[EmsFields::CONTENT_FILE_DATE] = $meta->getCreated();
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
             $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();

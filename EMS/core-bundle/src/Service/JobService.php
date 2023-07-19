@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Service;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use EMS\CommonBundle\Common\Standard\DateTime;
 use EMS\CommonBundle\Entity\EntityInterface;
@@ -14,7 +14,6 @@ use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Entity\Schedule;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Repository\JobRepository;
-use PHPUnit\TextUI\RuntimeException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\StringInput;
@@ -23,10 +22,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class JobService implements EntityServiceInterface
 {
-    private readonly ObjectManager $em;
+    private ObjectManager $em;
 
-    public function __construct(Registry $doctrine, private readonly KernelInterface $kernel, private readonly LoggerInterface $logger, private readonly JobRepository $repository, private readonly TokenStorageInterface $tokenStorage)
-    {
+    public function __construct(
+        ManagerRegistry $doctrine,
+        private readonly KernelInterface $kernel,
+        private readonly LoggerInterface $logger,
+        private readonly JobRepository $repository,
+        private readonly TokenStorageInterface $tokenStorage
+    ) {
         $this->em = $doctrine->getManager();
     }
 
@@ -177,7 +181,7 @@ class JobService implements EntityServiceInterface
         try {
             $olderDate = DateTime::create($stringTime);
         } catch (\Throwable $e) {
-            $this->logger->warning(\sprintf('Invalid string to time format: %s', $stringTime));
+            $this->logger->warning(\sprintf('Invalid string to time format: %s (%s)', $stringTime, $e->getMessage()));
 
             return 0;
         }
@@ -248,13 +252,13 @@ class JobService implements EntityServiceInterface
 
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
-        throw new RuntimeException('Job entities doesn\'t support JSON update');
+        throw new \RuntimeException('Job entities doesn\'t support JSON update');
     }
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         if (null !== $name) {
-            throw new RuntimeException('Job entities doesn\'t support JSON update');
+            throw new \RuntimeException('Job entities doesn\'t support JSON update');
         }
         $meta = JsonClass::fromJsonString($json);
         $job = $meta->jsonDeserialize();

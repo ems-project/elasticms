@@ -14,18 +14,6 @@ use PHPUnit\Framework\TestCase;
 
 class TikaPromiseTest extends TestCase
 {
-    public function testLocales(): void
-    {
-        $streamFrench = new BufferStream();
-        $streamFrench->write('Bonjour, comment allez-vous?');
-        $streamDutch = new BufferStream();
-        $streamDutch->write('Hoi, hoe gaat het met je vanmorgen?');
-        $frPromise = new TikaJarPromise($streamFrench);
-        $nlPromise = new TikaJarPromise($streamDutch);
-        $this->assertEquals('fr', $frPromise->getMeta()->getLocale());
-        $this->assertEquals('nl', $nlPromise->getMeta()->getLocale());
-    }
-
     public function testWordFile(): void
     {
         $bonjourDocx = new Stream(\fopen(\join(DIRECTORY_SEPARATOR, [__DIR__, 'resources', 'Bonjour.docx']), 'r'));

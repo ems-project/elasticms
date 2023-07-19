@@ -23,7 +23,10 @@ class Html implements \Stringable
     {
         $configBuilder = new HtmlSanitizerConfigBuilder($settings);
 
-        return new Html((new HtmlSanitizer($configBuilder->build()))->sanitize($this->html));
+        $config = $configBuilder->build()->withMaxInputLength(\strlen($this->html));
+        $sanitized = (new HtmlSanitizer($config))->sanitize($this->html);
+
+        return new Html($sanitized);
     }
 
     public function __toString(): string

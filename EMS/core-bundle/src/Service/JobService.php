@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use EMS\CommonBundle\Common\Standard\DateTime;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Command\JobOutput;
+use EMS\CoreBundle\Core\Job\ScheduleManager;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Entity\Schedule;
@@ -29,9 +30,28 @@ class JobService implements EntityServiceInterface
         private readonly KernelInterface $kernel,
         private readonly LoggerInterface $logger,
         private readonly JobRepository $repository,
+        private readonly ScheduleManager $scheduleManager,
         private readonly TokenStorageInterface $tokenStorage
     ) {
         $this->em = $doctrine->getManager();
+    }
+
+    public function nextJob(string $username, ?string $tag): ?Job
+    {
+        $job = $this->repository->findOneBy(
+            ['started' => false, 'done' => false],
+            ['created' => 'ASC']
+        );
+
+        if ($job) {
+            return $job;
+        }
+
+        $this->logger->info('No pending job to treat. Looking for due scheduled job.');
+
+        $schedule = $this->scheduleManager->findNext($tag);
+
+        return $this->jobFomSchedule($schedule, $username);
     }
 
     public function clean(): void
@@ -57,16 +77,6 @@ class JobService implements EntityServiceInterface
         ], 20);
 
         return $doneJobs;
-    }
-
-    public function findNext(): ?Job
-    {
-        return $this->repository->findOneBy([
-            'started' => false,
-            'done' => false,
-        ], [
-            'created' => 'ASC',
-        ]);
     }
 
     public function count(string $searchValue = '', $context = null): int

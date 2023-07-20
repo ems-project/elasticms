@@ -129,7 +129,10 @@ class JobController extends AbstractController
 
     public function startNextJob(Request $request, UserInterface $user, string $tag): Response
     {
-        $job = $this->jobService->nextJobTagged($tag, $user->getUsername());
+        $job = $this->jobService->nextJob($tag);
+        if (null === $job) {
+            $job = $this->jobService->nextJobScheduled($user->getUsername(), $tag);
+        }
 
         if (null === $job) {
             return EmsCoreResponse::createJsonResponse($request, true, ['message' => 'no next job']);

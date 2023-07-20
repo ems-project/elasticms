@@ -35,23 +35,23 @@ class JobService implements EntityServiceInterface
         $this->em = $doctrine->getManager();
     }
 
-    public function nextJob(): ?Job
+    public function nextJob(?string $tag = null): ?Job
     {
         return $this->repository->findOneBy(
-            ['started' => false, 'done' => false],
+            ['started' => false, 'done' => false, 'tag' => $tag],
             ['created' => 'ASC']
         );
     }
 
-    public function nextJobTagged(?string $tag, string $username): ?Job
+    public function nextJobScheduled(string $username, ?string $tag): ?Job
     {
-        $schedule = $this->scheduleManager->findNext($tag);
+        $nextScheduled = $this->scheduleManager->findNext($tag);
 
-        if (null === $schedule) {
+        if (null === $nextScheduled) {
             return null;
         }
 
-        return $this->initJob($username, $schedule->getCommand(), $schedule->givePreviousRun());
+        return $this->initJob($username, $nextScheduled->getCommand(), $nextScheduled->givePreviousRun());
     }
 
     public function clean(): void

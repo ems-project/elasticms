@@ -54,11 +54,11 @@ class JobCommand extends AbstractCommand
     {
         $this->io->title('EMSCO - Job');
 
-        $job = $this->jobService->nextJob();
+        $job = $this->jobService->nextJob($this->tag);
 
         if (null === $job) {
             $this->io->comment('No pending job to treat. Looking for due scheduled job.');
-            $job = $this->jobService->nextJobTagged($this->tag, self::USER_JOB_COMMAND);
+            $job = $this->jobService->nextJobScheduled(self::USER_JOB_COMMAND, $this->tag);
         }
 
         if (null === $job) {

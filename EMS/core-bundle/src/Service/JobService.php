@@ -51,12 +51,7 @@ class JobService implements EntityServiceInterface
             return null;
         }
 
-        $startDate = $schedule->getPreviousRun();
-        if (null === $startDate) {
-            throw new \RuntimeException('Unexpected null start date');
-        }
-
-        return $this->initJob($username, $schedule->getCommand(), $startDate);
+        return $this->initJob($username, $schedule->getCommand(), $schedule->givePreviousRun());
     }
 
     public function clean(): void

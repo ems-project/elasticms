@@ -93,16 +93,28 @@ class JobService implements EntityServiceInterface
         return $this->repository->countPendingJobs();
     }
 
-    public function createCommand(UserInterface $user, ?string $command): Job
+    public function newJob(UserInterface $user): Job
     {
-        $job = $this->create($user);
+        $job = new Job();
+        $job->setUser($user->getUserIdentifier());
         $job->setStatus('Job intialized');
-        $job->setCommand($command);
-
-        $this->em->persist($job);
-        $this->em->flush();
 
         return $job;
+    }
+
+    public function createCommand(UserInterface $user, ?string $command): Job
+    {
+        $job = $this->newJob($user);
+        $job->setCommand($command);
+        $this->save($job);
+
+        return $job;
+    }
+
+    public function save(Job $job): void
+    {
+        $this->em->persist($job);
+        $this->em->flush();
     }
 
     public function delete(Job $job): void
@@ -208,17 +220,6 @@ class JobService implements EntityServiceInterface
         }
 
         return $jobsCleaned;
-    }
-
-    private function create(UserInterface $user): Job
-    {
-        $job = new Job();
-        $job->setUser($user->getUsername());
-        $job->setDone(false);
-        $job->setStarted(false);
-        $job->setProgress(0);
-
-        return $job;
     }
 
     public function isSortable(): bool

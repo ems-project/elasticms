@@ -63,21 +63,17 @@ class JobController extends AbstractController
 
     public function create(Request $request, UserInterface $user): Response
     {
-        $form = $this->createForm(JobType::class, []);
+        $job = $this->jobService->newJob($user);
+        $form = $this->createForm(JobType::class, $job);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $command = $form->get('command')->getData();
-            $job = $this->jobService->createCommand($user, $command);
+            $this->jobService->save($job);
 
-            return $this->redirectToRoute('job.status', [
-                'job' => $job->getId(),
-            ]);
+            return $this->redirectToRoute('job.status', ['job' => $job->getId()]);
         }
 
-        return $this->render('@EMSCore/job/add.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('@EMSCore/job/add.html.twig', ['form' => $form->createView()]);
     }
 
     public function delete(Job $job): RedirectResponse

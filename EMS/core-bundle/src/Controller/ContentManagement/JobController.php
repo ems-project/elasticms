@@ -4,7 +4,6 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Entity\Job;
-use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Form\JobType;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
 use EMS\CoreBundle\Service\JobService;
@@ -18,7 +17,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class JobController extends AbstractController
 {
@@ -62,17 +61,12 @@ class JobController extends AbstractController
         ]);
     }
 
-    public function create(Request $request): Response
+    public function create(Request $request, UserInterface $user): Response
     {
         $form = $this->createForm(JobType::class, []);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
-            if (!$user instanceof UserInterface) {
-                throw new NotFoundHttpException('User not found');
-            }
-
             $command = $form->get('command')->getData();
             $job = $this->jobService->createCommand($user, $command);
 
@@ -100,13 +94,8 @@ class JobController extends AbstractController
         return $this->redirectToRoute('job.index');
     }
 
-    public function startJob(Job $job, Request $request): Response
+    public function startJob(Job $job, Request $request, UserInterface $user): Response
     {
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundHttpException('User not found');
-        }
-
         if ($job->getUser() != $user->getUsername()) {
             throw new AccessDeniedHttpException();
         }
@@ -138,13 +127,8 @@ class JobController extends AbstractController
         ]);
     }
 
-    public function startNextJob(string $tag, Request $request): Response
+    public function startNextJob(Request $request, UserInterface $user, string $tag): Response
     {
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundHttpException('User not found');
-        }
-
         $job = $this->jobService->nextJobTagged($tag, $user->getUsername());
 
         if (null === $job) {
@@ -159,23 +143,15 @@ class JobController extends AbstractController
         ]);
     }
 
-    public function jobCompleted(int $job, Request $request): Response
+    public function jobCompleted(Request $request, int $job): Response
     {
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundHttpException('User not found');
-        }
         $this->jobService->finish($job);
 
         return EmsCoreResponse::createJsonResponse($request, true);
     }
 
-    public function jobFailed(int $job, Request $request): Response
+    public function jobFailed(Request $request, int $job): Response
     {
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundHttpException('User not found');
-        }
         $content = $request->getContent();
         if (!\is_string($content)) {
             throw new \RuntimeException('Unexpected non string content');
@@ -186,12 +162,8 @@ class JobController extends AbstractController
         return EmsCoreResponse::createJsonResponse($request, true);
     }
 
-    public function jobWrite(int $job, Request $request): Response
+    public function jobWrite(Request $request, int $job): Response
     {
-        $user = $this->getUser();
-        if (!$user instanceof UserInterface) {
-            throw new NotFoundHttpException('User not found');
-        }
         $content = $request->getContent();
         if (!\is_string($content)) {
             throw new \RuntimeException('Unexpected non string content');

@@ -12,7 +12,6 @@ use EMS\CoreBundle\Command\JobOutput;
 use EMS\CoreBundle\Core\Job\ScheduleManager;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Job;
-use EMS\CoreBundle\Entity\Schedule;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Repository\JobRepository;
 use Psr\Log\LoggerInterface;
@@ -36,22 +35,28 @@ class JobService implements EntityServiceInterface
         $this->em = $doctrine->getManager();
     }
 
-    public function nextJob(string $username, ?string $tag): ?Job
+    public function nextJob(): ?Job
     {
-        $job = $this->repository->findOneBy(
+        return $this->repository->findOneBy(
             ['started' => false, 'done' => false],
             ['created' => 'ASC']
         );
+    }
 
-        if ($job) {
-            return $job;
-        }
-
-        $this->logger->info('No pending job to treat. Looking for due scheduled job.');
-
+    public function nextJobTagged(?string $tag, string $username): ?Job
+    {
         $schedule = $this->scheduleManager->findNext($tag);
 
-        return $this->jobFomSchedule($schedule, $username);
+        if (null === $schedule) {
+            return null;
+        }
+
+        $startDate = $schedule->getPreviousRun();
+        if (null === $startDate) {
+            throw new \RuntimeException('Unexpected null start date');
+        }
+
+        return $this->initJob($username, $schedule->getCommand(), $startDate);
     }
 
     public function clean(): void
@@ -292,19 +297,6 @@ class JobService implements EntityServiceInterface
         $this->repository->delete($job);
 
         return \strval($id);
-    }
-
-    public function jobFomSchedule(?Schedule $schedule, string $username): ?Job
-    {
-        if (null === $schedule) {
-            return null;
-        }
-        $startDate = $schedule->getPreviousRun();
-        if (null === $startDate) {
-            throw new \RuntimeException('Unexpected null start date');
-        }
-
-        return $this->initJob($username, $schedule->getCommand(), $startDate);
     }
 
     public function write(int $jobId, string $message, bool $newLine): void

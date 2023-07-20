@@ -3,7 +3,6 @@
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
-use EMS\CoreBundle\Core\Job\ScheduleManager;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Form\Form\JobType;
@@ -23,8 +22,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class JobController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly JobService $jobService, private readonly ScheduleManager $scheduleManager, private readonly int $pagingSize, private readonly bool $triggerJobFromWeb)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly JobService $jobService,
+        private readonly int $pagingSize,
+        private readonly bool $triggerJobFromWeb
+    ) {
     }
 
     public function index(Request $request): Response
@@ -141,12 +144,11 @@ class JobController extends AbstractController
         if (!$user instanceof UserInterface) {
             throw new NotFoundHttpException('User not found');
         }
-        $schedule = $this->scheduleManager->findNext($tag);
-        $job = $this->jobService->jobFomSchedule($schedule, $user->getUsername());
+
+        $job = $this->jobService->nextJobTagged($tag, $user->getUsername());
+
         if (null === $job) {
-            return EmsCoreResponse::createJsonResponse($request, true, [
-                'message' => 'no next job',
-            ]);
+            return EmsCoreResponse::createJsonResponse($request, true, ['message' => 'no next job']);
         }
 
         return EmsCoreResponse::createJsonResponse($request, true, [

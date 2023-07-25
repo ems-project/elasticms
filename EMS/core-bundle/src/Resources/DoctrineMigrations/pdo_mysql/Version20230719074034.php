@@ -23,6 +23,7 @@ final class Version20230719074034 extends AbstractMigration
         );
 
         $this->addSql('ALTER TABLE job ADD tag VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE template ADD tag VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -33,5 +34,6 @@ final class Version20230719074034 extends AbstractMigration
         );
 
         $this->addSql('ALTER TABLE job DROP tag');
+        $this->addSql('ALTER TABLE template DROP tag');
     }
 }

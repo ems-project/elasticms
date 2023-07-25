@@ -187,6 +187,11 @@ class Job extends JsonDeserializer implements \JsonSerializable, EntityInterface
         return $json;
     }
 
+    public function hasTag(): bool
+    {
+        return null !== $this->tag;
+    }
+
     public function getTag(): ?string
     {
         return $this->tag;

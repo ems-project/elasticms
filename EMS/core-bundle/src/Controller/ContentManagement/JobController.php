@@ -57,7 +57,7 @@ class JobController extends AbstractController
             'job' => $job,
             'status' => $encoder->encodeUrl($job->getStatus()),
             'output' => $encoder->encodeUrl($converter->convert($job->getOutput())),
-            'launchJob' => true === $this->triggerJobFromWeb && false === $job->getStarted(),
+            'launchJob' => true === $this->triggerJobFromWeb && false === $job->getStarted() && !$job->hasTag(),
         ]);
     }
 
@@ -100,7 +100,7 @@ class JobController extends AbstractController
             return new SymfonyJsonResponse('job already done');
         }
 
-        if (false === $this->triggerJobFromWeb) {
+        if (false === $this->triggerJobFromWeb || $job->hasTag()) {
             return EmsCoreResponse::createJsonResponse($request, true, [
                 'message' => 'job is scheduled',
                 'job_id' => $job->getId(),

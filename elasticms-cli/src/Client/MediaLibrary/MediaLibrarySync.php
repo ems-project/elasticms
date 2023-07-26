@@ -84,9 +84,8 @@ final class MediaLibrarySync
     private function uploadMediaFile(SplFileInfo $file): void
     {
         $this->uploadMedia(DIRECTORY_SEPARATOR.$file->getRelativePathname(), [
-            $this->fileField => $this->urlToAssetArray($file),
             self::SYNC_METADATA => $this->getMetadata(DIRECTORY_SEPARATOR.$file->getRelativePathname()),
-        ]);
+        ], $file);
 
         $exploded = \explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
         while (\count($exploded) > 0) {
@@ -104,7 +103,7 @@ final class MediaLibrarySync
     /**
      * @param mixed[] $data
      */
-    private function uploadMedia(string $path, array $data = []): void
+    private function uploadMedia(string $path, array $data = [], SplFileInfo $file = null): void
     {
         $pos = \strrpos($path, DIRECTORY_SEPARATOR);
         if (false === $pos) {
@@ -125,6 +124,14 @@ final class MediaLibrarySync
         if ($this->dryRun || ($this->onlyMissingFile && null !== $document)) {
             return;
         }
+
+        if (null !== $file) {
+            $mediaFile = $document ? $document->getSource()[$this->fileField] ?? null : null;
+            $data = \array_merge($data, [
+                $this->fileField => $this->urlToAssetArray($file, $mediaFile),
+            ]);
+        }
+
         $data = \array_merge($data, [
             $this->folderField => $folder,
             $this->pathField => $path,
@@ -140,9 +147,11 @@ final class MediaLibrarySync
     }
 
     /**
+     * @param mixed[] $mediaFile
+     *
      * @return array{sha1: string, filename: string, mimetype: string, filesize: int|null }|array{}
      */
-    public function urlToAssetArray(SplFileInfo $file): array
+    public function urlToAssetArray(SplFileInfo $file, ?array $mediaFile): array
     {
         $mimeType = \mime_content_type($file->getRealPath());
         $mimeType = $mimeType ?: 'application/bin';
@@ -177,6 +186,10 @@ final class MediaLibrarySync
 
                 return [];
             }
+        }
+
+        if (null !== $mediaFile && $mediaFile[EmsFields::CONTENT_FILE_HASH_FIELD] === $hash && !empty($mediaFile[EmsFields::CONTENT_FILE_CONTENT])) {
+            return $mediaFile;
         }
 
         $assetArray = [

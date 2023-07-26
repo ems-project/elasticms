@@ -222,8 +222,8 @@ final class MediaLibrarySync
         $rows = $this->fileReader->getData($metadataFile);
         $header = $rows[0] ?? [];
         $this->metadatas = [];
-        foreach ($rows as $key => $value) {
-            if (0 === $key) {
+        foreach ($rows as $rowIndex => $value) {
+            if (0 === $rowIndex) {
                 continue;
             }
             $row = [];

@@ -8,6 +8,10 @@ use Psr\Http\Message\StreamInterface;
 
 interface FileInterface
 {
+    public function downloadFile(string $hash): string;
+
+    public function downloadLink(string $hash): string;
+
     public function hashFile(string $filename): string;
 
     public function hashStream(StreamInterface $stream): string;

@@ -8,21 +8,34 @@ use Psr\Http\Message\StreamInterface;
 
 class TempFile
 {
-    public string $path;
+    private const PREFIX = 'EMS_temp_file_';
 
-    private function __construct(string $name)
+    private function __construct(public readonly string $path)
     {
-        $this->path = \implode(\DIRECTORY_SEPARATOR, [\sys_get_temp_dir(), 'EMS_temp_file_'.$name]);
     }
 
-    private function exists(): bool
+    private static function create(): self
+    {
+        if (!$path = \tempnam(\sys_get_temp_dir(), self::PREFIX)) {
+            throw new \RuntimeException(\sprintf('Could not create temp file in "%s"', \sys_get_temp_dir()));
+        }
+
+        return new self($path);
+    }
+
+    private static function createNamed(string $name): self
+    {
+        return new self(\implode(\DIRECTORY_SEPARATOR, [\sys_get_temp_dir(), self::PREFIX.$name]));
+    }
+
+    public function exists(): bool
     {
         return \file_exists($this->path);
     }
 
-    public static function fromStream(StreamInterface $stream, string $name): self
+    public static function fromStream(StreamInterface $stream, ?string $name = null): self
     {
-        $tempFile = new self($name);
+        $tempFile = $name ? self::createNamed($name) : self::create();
 
         if ($tempFile->exists()) {
             return $tempFile;

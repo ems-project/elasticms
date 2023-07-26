@@ -33,6 +33,8 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_TIKA = 'tika';
     private const OPTION_TIKA_BASE_URL = 'tika-base-url';
     private const OPTION_MAX_CONTENT_SIZE = 'max-content-size';
+    private const OPTION_HASH_FOLDER = 'hash-folder';
+
     private ?string $metadataFile;
     private string $locateRowExpression;
     private bool $tika;
@@ -40,8 +42,11 @@ final class MediaLibrarySyncCommand extends AbstractCommand
 
     private MediaLibrarySyncOptions $options;
 
-    public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader, private readonly ExpressionServiceInterface $expressionService)
-    {
+    public function __construct(
+        private readonly AdminHelper $adminHelper,
+        private readonly FileReaderInterface $fileReader,
+        private readonly ExpressionServiceInterface $expressionService
+    ) {
         parent::__construct();
     }
 
@@ -61,6 +66,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika extract for IndexedFile')
             ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
             ->addOption(self::OPTION_MAX_CONTENT_SIZE, null, InputOption::VALUE_OPTIONAL, 'Will keep the x first characters extracted by Tika to be indexed', 5120)
+            ->addOption(self::OPTION_HASH_FOLDER, null, InputOption::VALUE_NONE, 'Folder argument equals a hash of a zip file')
         ;
     }
 
@@ -76,6 +82,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $this->getOptionString(self::OPTION_FILE_FIELD),
             $this->getOptionBool(self::OPTION_DRY_RUN),
             $this->getOptionBool(self::OPTION_ONLY_MISSING),
+            $this->getOptionBool(self::OPTION_HASH_FOLDER),
             $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE),
         );
 
@@ -101,7 +108,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $this->io,
             $coreApi,
             $this->fileReader,
-            $this->expressionService,
+            $this->expressionService
         );
 
         if ($this->tika) {

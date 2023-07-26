@@ -53,7 +53,7 @@ final class MediaLibrarySync
         $this->io->title('MediaLibrary sync files located in a folder');
 
         $finder = new Finder();
-        $finder->files()->in($this->options->folder);
+        $finder->files()->in($this->getFolderPath());
 
         if (!$finder->hasResults()) {
             throw new \RuntimeException('No files found!');
@@ -250,5 +250,30 @@ final class MediaLibrarySync
         }
 
         return [];
+    }
+
+    private function getFolderPath(): string
+    {
+        if (!$this->options->hashFolder) {
+            return $this->options->folder;
+        }
+
+        $hashFolder = $this->options->folder;
+
+        if (!$this->coreApi->file()->headHash($hashFolder)) {
+            throw new \RuntimeException(\sprintf('Folder hash zip "%s" not found!', $hashFolder));
+        }
+
+        $folderZip = $this->coreApi->file()->downloadFile($hashFolder);
+        $zip = new \ZipArchive();
+
+        if (true !== $open = $zip->open($folderZip)) {
+            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $folderZip, $open));
+        }
+
+        $filesPath = $folderZip.'_unzipped';
+        $zip->extractTo($filesPath);
+
+        return $filesPath;
     }
 }

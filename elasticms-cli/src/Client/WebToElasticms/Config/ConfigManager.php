@@ -302,6 +302,7 @@ class ConfigManager
         $asset = $this->cacheManager->get($url->getUrl());
         if (!$asset->hasResponse() || 200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
             $this->logger->warning(\sprintf('Impossible to download the asset %s', $url->getUrl()));
+            $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Impossible to download the asset');
 
             return [];
         }
@@ -312,7 +313,7 @@ class ConfigManager
         try {
             $hash = $this->coreApi->file()->uploadStream($stream, $filename, $mimeType);
         } catch (CoreApiExceptionInterface) {
-            $rapport->inAssetsError($url->getUrl(), $url->getReferer());
+            $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Stream Error');
 
             return [];
         }
@@ -451,7 +452,7 @@ class ConfigManager
 
         $this->expressionLanguage->register('merge',
             fn ($arr1, $arr2) => \sprintf('((null === %1$s || null === %2$s) ? null : \\array_merge(%1$s, %2$s))', \strval($arr1), \strval($arr2)),
-            fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_unique(\array_merge($arr1, $arr2))
+            fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_values(\array_unique(\array_merge($arr1, $arr2)))
         );
 
         return $this->expressionLanguage;

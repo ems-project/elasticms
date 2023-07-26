@@ -102,8 +102,12 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $coreApi,
             $this->fileReader,
             $this->expressionService,
-            $this->getTikaHelper()
         );
+
+        if ($this->tika) {
+            $tikaHelper = $this->tikaBaseUrl ? TikaHelper::initTikaServer($this->tikaBaseUrl) : TikaHelper::initTikaJar();
+            $mediaSync->setTikaHelper($tikaHelper);
+        }
 
         if (null !== $this->metadataFile) {
             $mediaSync->loadMetadata($this->metadataFile, $this->locateRowExpression);
@@ -111,17 +115,5 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         $mediaSync->execute();
 
         return self::EXECUTE_SUCCESS;
-    }
-
-    private function getTikaHelper(): ?TikaHelper
-    {
-        if (!$this->tika) {
-            return null;
-        }
-        if (null !== $this->tikaBaseUrl) {
-            return TikaHelper::initTikaServer($this->tikaBaseUrl);
-        } else {
-            return TikaHelper::initTikaJar();
-        }
     }
 }

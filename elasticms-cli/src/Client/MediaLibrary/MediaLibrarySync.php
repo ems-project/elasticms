@@ -29,6 +29,7 @@ final class MediaLibrarySync
     private DataInterface $contentTypeApi;
     private string $defaultAlias;
     private MimeTypes $mimeTypes;
+    private ?TikaHelper $tikaHelper = null;
 
     public function __construct(
         private readonly MediaLibrarySyncOptions $options,
@@ -36,11 +37,15 @@ final class MediaLibrarySync
         private readonly CoreApiInterface $coreApi,
         private readonly FileReaderInterface $fileReader,
         private readonly ExpressionServiceInterface $expressionService,
-        private readonly ?TikaHelper $tikaHelper
     ) {
         $this->contentTypeApi = $this->coreApi->data($this->options->contentType);
         $this->defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->options->contentType);
         $this->mimeTypes = new MimeTypes();
+    }
+
+    public function setTikaHelper(?TikaHelper $tikaHelper): void
+    {
+        $this->tikaHelper = $tikaHelper;
     }
 
     public function execute(): self

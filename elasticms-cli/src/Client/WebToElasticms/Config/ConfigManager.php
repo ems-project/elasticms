@@ -302,6 +302,7 @@ class ConfigManager
         $asset = $this->cacheManager->get($url->getUrl());
         if (!$asset->hasResponse() || 200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
             $this->logger->warning(\sprintf('Impossible to download the asset %s', $url->getUrl()));
+            $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Impossible to download the asset');
 
             return [];
         }
@@ -312,7 +313,7 @@ class ConfigManager
         try {
             $hash = $this->coreApi->file()->uploadStream($stream, $filename, $mimeType);
         } catch (CoreApiExceptionInterface) {
-            $rapport->inAssetsError($url->getUrl(), $url->getReferer());
+            $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Stream Error');
 
             return [];
         }

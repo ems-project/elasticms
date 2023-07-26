@@ -41,7 +41,7 @@ class InternalLink implements HtmlInterface
             try {
                 $url = new Url($href, $this->currentUrl);
             } catch (NotParsableUrlException) {
-                $this->rapport->inAssetsError($href, $this->currentUrl, 'NotParsableUrlException');
+                $this->rapport->inAssetsError($href, $this->currentUrl);
                 continue;
             }
 

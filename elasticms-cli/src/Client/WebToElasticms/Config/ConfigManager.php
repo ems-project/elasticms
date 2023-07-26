@@ -300,6 +300,11 @@ class ConfigManager
     public function urlToAssetArray(Url $url, Rapport $rapport): array
     {
         $asset = $this->cacheManager->get($url->getUrl());
+        if (!$asset->hasResponse() || 200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
+            $this->logger->warning(\sprintf('Impossible to download the asset %s', $url->getUrl()));
+
+            return [];
+        }
         $mimeType = $asset->getMimetype();
         if (200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
             return [];

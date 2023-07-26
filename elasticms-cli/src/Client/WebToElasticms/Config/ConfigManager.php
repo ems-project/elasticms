@@ -306,9 +306,6 @@ class ConfigManager
             return [];
         }
         $mimeType = $asset->getMimetype();
-        if (200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
-            return [];
-        }
         $filename = $url->getFilename();
         $stream = $asset->getStream();
         $stream->seek(0);

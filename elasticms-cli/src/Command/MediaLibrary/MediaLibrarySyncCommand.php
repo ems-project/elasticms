@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\CLI\Command\MediaLibrary;
 
 use App\CLI\Client\MediaLibrary\MediaLibrarySync;
+use App\CLI\Client\MediaLibrary\MediaLibrarySyncOptions;
 use App\CLI\Commands;
 use App\CLI\Helper\Tika\TikaHelper;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
@@ -18,9 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MediaLibrarySyncCommand extends AbstractCommand
 {
-    private bool $dryRun;
-    private string $folder;
-
     protected static $defaultName = Commands::MEDIA_LIBRARY_SYNC;
 
     private const ARGUMENT_FOLDER = 'folder';
@@ -37,14 +35,10 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_MAX_CONTENT_SIZE = 'max-content-size';
     private ?string $metadataFile;
     private string $locateRowExpression;
-    private string $contentType;
-    private string $folderField;
-    private string $pathField;
-    private string $fileField;
-    private bool $onlyMissingFile;
     private bool $tika;
     private ?string $tikaBaseUrl;
-    private int $maxContentSize;
+
+    private MediaLibrarySyncOptions $options;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader, private readonly ExpressionServiceInterface $expressionService)
     {
@@ -73,18 +67,22 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
-        $this->folder = $this->getArgumentString(self::ARGUMENT_FOLDER);
-        $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
-        $this->folderField = $this->getOptionString(self::OPTION_FOLDER_FIELD);
-        $this->pathField = $this->getOptionString(self::OPTION_PATH_FIELD);
-        $this->fileField = $this->getOptionString(self::OPTION_FILE_FIELD);
+
+        $this->options = new MediaLibrarySyncOptions(
+            $this->getArgumentString(self::ARGUMENT_FOLDER),
+            $this->getOptionString(self::OPTION_CONTENT_TYPE),
+            $this->getOptionString(self::OPTION_FOLDER_FIELD),
+            $this->getOptionString(self::OPTION_PATH_FIELD),
+            $this->getOptionString(self::OPTION_FILE_FIELD),
+            $this->getOptionBool(self::OPTION_DRY_RUN),
+            $this->getOptionBool(self::OPTION_ONLY_MISSING),
+            $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE),
+        );
+
         $this->metadataFile = $this->getOptionStringNull(self::OPTION_METADATA_FILE);
         $this->locateRowExpression = $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION);
-        $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
-        $this->onlyMissingFile = $this->getOptionBool(self::OPTION_ONLY_MISSING);
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);
         $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
-        $this->maxContentSize = $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -98,7 +96,15 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $mediaSync = new MediaLibrarySync($this->folder, $this->contentType, $this->folderField, $this->pathField, $this->fileField, $this->io, $this->dryRun, $coreApi, $this->fileReader, $this->expressionService, $this->onlyMissingFile, $this->getTikaHelper(), $this->maxContentSize);
+        $mediaSync = new MediaLibrarySync(
+            $this->options,
+            $this->io,
+            $coreApi,
+            $this->fileReader,
+            $this->expressionService,
+            $this->getTikaHelper()
+        );
+
         if (null !== $this->metadataFile) {
             $mediaSync->loadMetadata($this->metadataFile, $this->locateRowExpression);
         }

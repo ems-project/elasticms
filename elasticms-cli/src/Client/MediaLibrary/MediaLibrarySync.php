@@ -31,22 +31,15 @@ final class MediaLibrarySync
     private MimeTypes $mimeTypes;
 
     public function __construct(
-        private readonly string $folder,
-        private readonly string $contentType,
-        private readonly string $folderField,
-        private readonly string $pathField,
-        private readonly string $fileField,
+        private readonly MediaLibrarySyncOptions $options,
         private readonly SymfonyStyle $io,
-        private readonly bool $dryRun,
         private readonly CoreApiInterface $coreApi,
         private readonly FileReaderInterface $fileReader,
         private readonly ExpressionServiceInterface $expressionService,
-        private readonly bool $onlyMissingFile,
-        private readonly ?TikaHelper $tikaHelper,
-        private readonly int $maxContentSize = 5120)
-    {
-        $this->contentTypeApi = $this->coreApi->data($this->contentType);
-        $this->defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+        private readonly ?TikaHelper $tikaHelper
+    ) {
+        $this->contentTypeApi = $this->coreApi->data($this->options->contentType);
+        $this->defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->options->contentType);
         $this->mimeTypes = new MimeTypes();
     }
 
@@ -55,7 +48,7 @@ final class MediaLibrarySync
         $this->io->title('MediaLibrary sync files located in a folder');
 
         $finder = new Finder();
-        $finder->files()->in($this->folder);
+        $finder->files()->in($this->options->folder);
 
         if (!$finder->hasResults()) {
             throw new \RuntimeException('No files found!');
@@ -111,9 +104,9 @@ final class MediaLibrarySync
         }
         $folder = \substr($path, 0, $pos + 1);
 
-        $term = new Terms($this->pathField, [$path]);
+        $term = new Terms($this->options->pathField, [$path]);
         $search = new Search([$this->defaultAlias], $term->toArray());
-        $search->setContentTypes([$this->contentType]);
+        $search->setContentTypes([$this->options->contentType]);
         $result = $this->coreApi->search()->search($search);
         $document = null;
         foreach ($result->getDocuments() as $item) {
@@ -121,20 +114,20 @@ final class MediaLibrarySync
             break;
         }
 
-        if ($this->dryRun || ($this->onlyMissingFile && null !== $document)) {
+        if ($this->options->dryRun || ($this->options->onlyMissingFile && null !== $document)) {
             return;
         }
 
         if (null !== $file) {
-            $mediaFile = $document ? $document->getSource()[$this->fileField] ?? null : null;
+            $mediaFile = $document ? $document->getSource()[$this->options->fileField] ?? null : null;
             $data = \array_merge($data, [
-                $this->fileField => $this->urlToAssetArray($file, $mediaFile),
+                $this->options->fileField => $this->urlToAssetArray($file, $mediaFile),
             ]);
         }
 
         $data = \array_merge($data, [
-            $this->folderField => $folder,
-            $this->pathField => $path,
+            $this->options->folderField => $folder,
+            $this->options->pathField => $path,
         ]);
 
         if (null === $document) {
@@ -173,7 +166,7 @@ final class MediaLibrarySync
 
         $stream = new Stream($resource);
         $stream->seek(0);
-        if (!$this->dryRun) {
+        if (!$this->options->dryRun) {
             try {
                 $hash = $this->coreApi->file()->uploadStream($stream, $file->getFilename(), $mimeType);
             } catch (CoreApiExceptionInterface $e) {
@@ -207,7 +200,7 @@ final class MediaLibrarySync
         $promise->startText();
         $promise->startMeta();
         try {
-            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \mb_substr($promise->getText(), 0, $this->maxContentSize, 'UTF-8');
+            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \mb_substr($promise->getText(), 0, $this->options->maxContentSize, 'UTF-8');
             $meta = $promise->getMeta();
             $assetArray[EmsFields::CONTENT_FILE_DATE] = $meta->getCreated();
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();

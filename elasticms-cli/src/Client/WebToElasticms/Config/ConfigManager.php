@@ -300,10 +300,12 @@ class ConfigManager
     public function urlToAssetArray(Url $url, Rapport $rapport): array
     {
         $asset = $this->cacheManager->get($url->getUrl());
-        $mimeType = $asset->getMimetype();
-        if (200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
+        if (!$asset->hasResponse() || 200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
+            $this->logger->warning(\sprintf('Impossible to download the asset %s', $url->getUrl()));
+
             return [];
         }
+        $mimeType = $asset->getMimetype();
         $filename = $url->getFilename();
         $stream = $asset->getStream();
         $stream->seek(0);
@@ -658,14 +660,6 @@ class ConfigManager
             \array_pop($exploded);
             $folder = \implode('/', $exploded).'/';
 
-            $data = [
-                $config['path_field'] => $path,
-                $config['folder_field'] => $folder,
-            ];
-            if (null === $ouuid) {
-                $data[$config['file_field']] = $this->urlToAssetArray($url, $rapport);
-            }
-
             $term = new Terms($config['path_field'], [$path]);
             $search = new Search([$defaultAlias], $term->toArray());
             $search->setContentTypes([$config['content_type']]);
@@ -677,21 +671,18 @@ class ConfigManager
             }
 
             if (null === $document) {
+                $data = [
+                    $config['path_field'] => $path,
+                    $config['folder_field'] => $folder,
+                ];
+                if (null === $ouuid) {
+                    $data[$config['file_field']] = $this->urlToAssetArray($url, $rapport);
+                }
                 $draft = $contentTypeApi->create($data);
-            } elseif (\is_array($source = $data[$config['file_field']] ?? null) && \is_array($target = $document->getSource()[$config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null)) {
-                $ouuid ??= $document->getId();
-                continue;
-            } elseif (empty($data[$config['file_field']] ?? null) && empty($document->getSource()[$config['file_field']] ?? null) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null) && $data[$config['path_field']] === ($document->getSource()[$config['path_field']] ?? null)) {
-                $ouuid ??= $document->getId();
-                continue;
+                $ouuid ??= $contentTypeApi->finalize($draft->getRevisionId());
             } else {
-                $draft = $contentTypeApi->update($document->getId(), $data);
-            }
-
-            if (null === $ouuid) {
-                $ouuid = $contentTypeApi->finalize($draft->getRevisionId());
-            } else {
-                $contentTypeApi->finalize($draft->getRevisionId());
+                $ouuid ??= $document->getId();
+                break;
             }
         }
 

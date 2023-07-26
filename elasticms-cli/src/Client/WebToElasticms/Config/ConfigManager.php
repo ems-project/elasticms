@@ -451,7 +451,7 @@ class ConfigManager
 
         $this->expressionLanguage->register('merge',
             fn ($arr1, $arr2) => \sprintf('((null === %1$s || null === %2$s) ? null : \\array_merge(%1$s, %2$s))', \strval($arr1), \strval($arr2)),
-            fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_unique(\array_merge($arr1, $arr2))
+            fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_values(\array_unique(\array_merge($arr1, $arr2)))
         );
 
         return $this->expressionLanguage;

@@ -69,11 +69,11 @@ class AssetRuntime
 
     public static function extract(StreamInterface $stream, string $destination): bool
     {
-        $path = TempFile::fromStream($stream)->path;
+        $tempFile = TempFile::fromStream($stream);
 
         $zip = new \ZipArchive();
-        if (true !== $open = $zip->open($path)) {
-            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $path, $open));
+        if (true !== $open = $zip->open($tempFile->path)) {
+            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $tempFile->path, $open));
         }
 
         if (!$zip->extractTo($destination)) {
@@ -81,6 +81,7 @@ class AssetRuntime
         }
 
         $zip->close();
+        $tempFile->clean();
 
         return true;
     }

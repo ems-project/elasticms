@@ -59,4 +59,15 @@ class TempFile
             throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
         }
     }
+
+    public function clean(): void
+    {
+        if (!$this->exists()) {
+            return;
+        }
+        try {
+            @\unlink($this->path);
+        } catch (\Throwable) {
+        }
+    }
 }

@@ -52,6 +52,10 @@ final class MediaLibrarySync
     {
         $this->io->title('MediaLibrary sync files located in a folder');
 
+        if (null !== $this->options->metaDataFile) {
+            $this->loadMetadata($this->options->metaDataFile);
+        }
+
         $finder = new Finder();
         $finder->files()->in($this->getFolderPath());
 
@@ -222,7 +226,7 @@ final class MediaLibrarySync
         return $assetArray;
     }
 
-    public function loadMetadata(string $metadataFile, string $locateRowExpression): void
+    public function loadMetadata(string $metadataFile): void
     {
         $metadataFilePath = $this->options->hashMetaDataFile ? $this->getFileByHash($metadataFile) : $metadataFile;
 
@@ -238,7 +242,7 @@ final class MediaLibrarySync
                 $row[$header[$key] ?? $key] = $cell;
             }
 
-            $filename = $this->expressionService->evaluateToString($locateRowExpression, [
+            $filename = $this->expressionService->evaluateToString($this->options->locateRowExpression, [
                 'row' => $row,
             ]);
             if (\is_string($filename)) {

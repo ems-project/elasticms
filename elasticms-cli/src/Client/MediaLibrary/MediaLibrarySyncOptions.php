@@ -12,6 +12,8 @@ final class MediaLibrarySyncOptions
         public readonly string $folderField,
         public readonly string $pathField,
         public readonly string $fileField,
+        public readonly ?string $metaDataFile,
+        public readonly string $locateRowExpression,
         public readonly bool $dryRun,
         public readonly bool $onlyMissingFile,
         public readonly bool $onlyMetadataFile,

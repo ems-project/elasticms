@@ -37,8 +37,6 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_HASH_FOLDER = 'hash-folder';
     private const OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
 
-    private ?string $metadataFile;
-    private string $locateRowExpression;
     private bool $tika;
     private ?string $tikaBaseUrl;
 
@@ -84,6 +82,8 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $this->getOptionString(self::OPTION_FOLDER_FIELD),
             $this->getOptionString(self::OPTION_PATH_FIELD),
             $this->getOptionString(self::OPTION_FILE_FIELD),
+            $this->getOptionStringNull(self::OPTION_METADATA_FILE),
+            $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION),
             $this->getOptionBool(self::OPTION_DRY_RUN),
             $this->getOptionBool(self::OPTION_ONLY_MISSING),
             $this->getOptionBool(self::OPTION_ONLY_METADATA_FILE),
@@ -92,8 +92,6 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE),
         );
 
-        $this->metadataFile = $this->getOptionStringNull(self::OPTION_METADATA_FILE);
-        $this->locateRowExpression = $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION);
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);
         $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
     }
@@ -122,9 +120,6 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $mediaSync->setTikaHelper($tikaHelper);
         }
 
-        if (null !== $this->metadataFile) {
-            $mediaSync->loadMetadata($this->metadataFile, $this->locateRowExpression);
-        }
         $mediaSync->execute();
 
         return self::EXECUTE_SUCCESS;

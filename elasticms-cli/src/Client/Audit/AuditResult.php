@@ -9,7 +9,7 @@ use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\StringStream;
-use EMS\CommonBundle\Common\CoreApi\Endpoint\File\File;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 
 class AuditResult
 {
@@ -130,7 +130,7 @@ class AuditResult
     /**
      * @return mixed[]
      */
-    public function uploadAssets(File $fileApi): array
+    public function uploadAssets(FileInterface $fileApi): array
     {
         if (null === $this->lighthouseScreenshotMimetype || null === $this->lighthouseScreenshotBase64) {
             return [];

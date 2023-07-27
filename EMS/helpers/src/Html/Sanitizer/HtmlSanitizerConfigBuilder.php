@@ -28,15 +28,16 @@ class HtmlSanitizerConfigBuilder
     private array $classes;
 
     private const CONFIG_ORDER = [
+        'max_input_length',
         'allow_safe_elements',
         'allow_attributes',
+        'allow_relative_links',
+        'allow_relative_media',
         'allow_elements',
         'block_elements',
         'drop_attributes',
         'drop_elements',
     ];
-
-    private int $maxInputLength;
 
     /**
      * @param array<mixed> $settings
@@ -45,7 +46,6 @@ class HtmlSanitizerConfigBuilder
     {
         $settings = $this->getOptionsResolver()->resolve($settings);
         $this->classes = $settings['classes'];
-        $this->maxInputLength = $settings['max_input_length'];
 
         foreach (self::CONFIG_ORDER as $setting) {
             $this->configSettings[$setting] = $settings[$setting];
@@ -64,12 +64,14 @@ class HtmlSanitizerConfigBuilder
         }
 
         $config = $config
-            ->withMaxInputLength($this->maxInputLength)
             ->withAttributeSanitizer(new HtmlSanitizerClass($this->classes))
             ->withAttributeSanitizer(new HtmlSanitizerLink());
 
         foreach ($this->configSettings as $setting => $value) {
             $config = match ($setting) {
+                'max_input_length' => $config->withMaxInputLength($value),
+                'allow_relative_links' => $config->allowRelativeLinks($value),
+                'allow_relative_media' => $config->allowRelativeMedias($value),
                 'allow_safe_elements' => true === $value ? $config->allowSafeElements() : $config,
                 'allow_attributes' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowAttribute($key, $item)
@@ -113,6 +115,8 @@ class HtmlSanitizerConfigBuilder
             ->setDefaults([
                 'max_input_length' => 500000,
                 'allow_safe_elements' => true,
+                'allow_relative_links' => true,
+                'allow_relative_media' => true,
                 'allow_attributes' => ['class' => '*'],
                 'allow_elements' => [],
                 'block_elements' => [],

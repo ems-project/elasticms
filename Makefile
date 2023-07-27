@@ -51,6 +51,8 @@ stop: ## stop docker, admin server, web server
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 demo-init: ## init demo (new database)
+	@$(RUN_ADMIN) c:cl
+	@$(RUN_WEB) c:cl
 	@$(MAKE) -C ./demo -s init
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo

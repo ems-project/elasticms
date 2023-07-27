@@ -14,7 +14,7 @@ class TempFile
     {
     }
 
-    private static function create(?string $cacheFolder = null): self
+    public static function create(?string $cacheFolder = null): self
     {
         if (!$path = \tempnam($cacheFolder ?? \sys_get_temp_dir(), self::PREFIX)) {
             throw new \RuntimeException(\sprintf('Could not create temp file in "%s"', \sys_get_temp_dir()));

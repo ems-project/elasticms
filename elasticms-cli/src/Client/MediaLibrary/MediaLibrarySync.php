@@ -219,7 +219,9 @@ final class MediaLibrarySync
 
     public function loadMetadata(string $metadataFile, string $locateRowExpression): void
     {
-        $rows = $this->fileReader->getData($metadataFile);
+        $metadataFilePath = $this->options->hashMetaDataFile ? $this->getFileByHash($metadataFile) : $metadataFile;
+
+        $rows = $this->fileReader->getData($metadataFilePath);
         $header = $rows[0] ?? [];
         $this->metadatas = [];
         foreach ($rows as $rowIndex => $value) {
@@ -258,13 +260,7 @@ final class MediaLibrarySync
             return $this->options->folder;
         }
 
-        $hashFolder = $this->options->folder;
-
-        if (!$this->coreApi->file()->headHash($hashFolder)) {
-            throw new \RuntimeException(\sprintf('Folder hash zip "%s" not found!', $hashFolder));
-        }
-
-        $folderZip = $this->coreApi->file()->downloadFile($hashFolder);
+        $folderZip = $this->getFileByHash($this->options->folder);
         $zip = new \ZipArchive();
 
         if (true !== $open = $zip->open($folderZip)) {
@@ -275,5 +271,14 @@ final class MediaLibrarySync
         $zip->extractTo($filesPath);
 
         return $filesPath;
+    }
+
+    private function getFileByHash(string $hash): string
+    {
+        if (!$this->coreApi->file()->headHash($hash)) {
+            throw new \RuntimeException(\sprintf('File with hash "%s" not found', $hash));
+        }
+
+        return $this->coreApi->file()->downloadFile($hash);
     }
 }

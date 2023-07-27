@@ -34,6 +34,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_TIKA_BASE_URL = 'tika-base-url';
     private const OPTION_MAX_CONTENT_SIZE = 'max-content-size';
     private const OPTION_HASH_FOLDER = 'hash-folder';
+    private const OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
 
     private ?string $metadataFile;
     private string $locateRowExpression;
@@ -60,13 +61,14 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_PATH_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library path field (default: media_path)', 'media_path')
             ->addOption(self::OPTION_FILE_FIELD, null, InputOption::VALUE_OPTIONAL, 'Media Library file field (default: media_file)', 'media_file')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
-            ->addOption(self::OPTION_METADATA_FILE, null, InputOption::VALUE_OPTIONAL, 'Path to a file containing metadata (CSV or  Excel)')
+            ->addOption(self::OPTION_METADATA_FILE, null, InputOption::VALUE_OPTIONAL, 'Path to a file containing metadata (CSV or Excel)')
             ->addOption(self::OPTION_LOCATE_ROW_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the file by its filename', "row['filename']")
             ->addOption(self::OPTION_ONLY_MISSING, null, InputOption::VALUE_NONE, 'Skip known files (already uploaded)')
             ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika extract for IndexedFile')
             ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
             ->addOption(self::OPTION_MAX_CONTENT_SIZE, null, InputOption::VALUE_OPTIONAL, 'Will keep the x first characters extracted by Tika to be indexed', 5120)
-            ->addOption(self::OPTION_HASH_FOLDER, null, InputOption::VALUE_NONE, 'Folder argument equals a hash of a zip file')
+            ->addOption(self::OPTION_HASH_FOLDER, null, InputOption::VALUE_NONE, 'Provide a hash for folder argument (zip file)')
+            ->addOption(self::OPTION_HASH_METADATA_FILE, null, InputOption::VALUE_NONE, 'Provide a hash for option metadata file (CSV or Excel)')
         ;
     }
 
@@ -83,6 +85,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $this->getOptionBool(self::OPTION_DRY_RUN),
             $this->getOptionBool(self::OPTION_ONLY_MISSING),
             $this->getOptionBool(self::OPTION_HASH_FOLDER),
+            $this->getOptionBool(self::OPTION_HASH_METADATA_FILE),
             $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE),
         );
 

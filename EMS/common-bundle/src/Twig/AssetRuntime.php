@@ -11,6 +11,7 @@ use EMS\CommonBundle\Storage\NotSavedException;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Psr7\MimeType;
 use Psr\Http\Message\StreamInterface;
@@ -63,36 +64,12 @@ class AssetRuntime
             return null;
         }
 
-        return self::streamToTempFile($this->storageManager->getStream($hash));
-    }
-
-    private static function streamToTempFile(StreamInterface $stream, ?string $path = null): string
-    {
-        $path ??= \tempnam(\sys_get_temp_dir(), 'emsch');
-        if (!$path) {
-            throw new \RuntimeException(\sprintf('Could not create temp file in %s', \sys_get_temp_dir()));
-        }
-
-        if ($stream->isSeekable() && $stream->tell() > 0) {
-            $stream->rewind();
-        }
-
-        $handle = \fopen($path, 'w');
-        if (false === $handle) {
-            throw new \RuntimeException(\sprintf('Could not open temp file %s', $path));
-        }
-        while (!$stream->eof()) {
-            \fwrite($handle, $stream->read(Processor::BUFFER_SIZE));
-        }
-        \fclose($handle);
-        $stream->close();
-
-        return $path;
+        return TempFile::fromStream($this->storageManager->getStream($hash), $hash, $this->cacheDir)->path;
     }
 
     public static function extract(StreamInterface $stream, string $destination): bool
     {
-        $path = self::streamToTempFile($stream);
+        $path = TempFile::fromStream($stream)->path;
 
         $zip = new \ZipArchive();
         if (true !== $open = $zip->open($path)) {
@@ -142,20 +119,14 @@ class AssetRuntime
         }
 
         $configObj = new Config($this->storageManager, $hash, $hashConfig, $config);
-        $filesystem = new Filesystem();
-        $filesystem->mkdir($this->cacheDir.DIRECTORY_SEPARATOR.'ems_asset_path'.DIRECTORY_SEPARATOR.$hashConfig);
-        $cacheFilename = $this->cacheDir.DIRECTORY_SEPARATOR.'ems_asset_path'.DIRECTORY_SEPARATOR.$hashConfig.DIRECTORY_SEPARATOR.$hash;
 
-        if (!$filesystem->exists($cacheFilename)) {
-            try {
-                $stream = $this->processor->getStream($configObj, $filename);
-                self::streamToTempFile($stream, $cacheFilename);
-            } catch (\Throwable $e) {
-                $this->logger->error('Generate the {cacheFilename} failed : {error}', ['hash' => $hash, 'cacheFilename' => $cacheFilename, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            }
+        $tempName = TempFile::createNamed(\implode('-', [$hashConfig, $hash]), $this->cacheDir);
+        if (!$tempName->exists()) {
+            $stream = $this->processor->getStream($configObj, $filename);
+            $tempName->loadFromStream($stream);
         }
 
-        return $cacheFilename;
+        return $tempName->path;
     }
 
     public function assetAverageColor(string $hash): string

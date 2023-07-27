@@ -30,6 +30,7 @@ final class MediaLibrarySync
     private DataInterface $contentTypeApi;
     private string $defaultAlias;
     private MimeTypes $mimeTypes;
+    private Filesystem $filesystem;
     private ?TikaHelper $tikaHelper = null;
     /** @var string[] */
     private array $cleanPaths = [];
@@ -44,6 +45,7 @@ final class MediaLibrarySync
         $this->contentTypeApi = $this->coreApi->data($this->options->contentType);
         $this->defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->options->contentType);
         $this->mimeTypes = new MimeTypes();
+        $this->filesystem = new Filesystem();
     }
 
     public function setTikaHelper(?TikaHelper $tikaHelper): void
@@ -83,15 +85,9 @@ final class MediaLibrarySync
         $progressBar->finish();
         $this->io->newLine();
 
-        $this->clean();
+        $this->filesystem->remove($this->cleanPaths);
 
         return $this;
-    }
-
-    private function clean(): void
-    {
-        $fs = new Filesystem();
-        $fs->remove($this->cleanPaths);
     }
 
     private function uploadMediaFile(SplFileInfo $file): void
@@ -287,11 +283,17 @@ final class MediaLibrarySync
             throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $folderZip, $open));
         }
 
-        $filesPath = $folderZip.'_unzipped';
-        $zip->extractTo($filesPath);
-        $this->cleanPaths[] = $filesPath;
+        if (!$tempZipDir = \tempnam(\sys_get_temp_dir(), 'ems_cli_')) {
+            throw new \RuntimeException(\sprintf('Failed creating temp file in "%s"', \sys_get_temp_dir()));
+        }
 
-        return $filesPath;
+        $this->filesystem->remove($tempZipDir);
+        $this->filesystem->mkdir($tempZipDir);
+
+        $zip->extractTo($tempZipDir);
+        $this->cleanPaths[] = $tempZipDir;
+
+        return $tempZipDir;
     }
 
     private function getFileByHash(string $hash): string

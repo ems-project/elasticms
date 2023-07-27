@@ -14,6 +14,7 @@ final class MediaLibrarySyncOptions
         public readonly string $fileField,
         public readonly bool $dryRun,
         public readonly bool $onlyMissingFile,
+        public readonly bool $onlyMetadataFile,
         public readonly bool $hashFolder,
         public readonly bool $hashMetaDataFile,
         public readonly int $maxContentSize = 5120

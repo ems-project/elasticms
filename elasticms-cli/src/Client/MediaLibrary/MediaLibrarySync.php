@@ -81,9 +81,14 @@ final class MediaLibrarySync
 
     private function uploadMediaFile(SplFileInfo $file): void
     {
-        $this->uploadMedia(DIRECTORY_SEPARATOR.$file->getRelativePathname(), [
-            self::SYNC_METADATA => $this->getMetadata(DIRECTORY_SEPARATOR.$file->getRelativePathname()),
-        ], $file);
+        $path = DIRECTORY_SEPARATOR.$file->getRelativePathname();
+        $metaData = $this->getMetadata($path);
+
+        if ($this->options->onlyMetadataFile && 0 === \count($metaData)) {
+            return;
+        }
+
+        $this->uploadMedia($path, [self::SYNC_METADATA => $metaData], $file);
 
         $exploded = \explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
         while (\count($exploded) > 0) {

@@ -14,18 +14,18 @@ class TempFile
     {
     }
 
-    private static function create(): self
+    private static function create(?string $cacheFolder = null): self
     {
-        if (!$path = \tempnam(\sys_get_temp_dir(), self::PREFIX)) {
+        if (!$path = \tempnam($cacheFolder ?? \sys_get_temp_dir(), self::PREFIX)) {
             throw new \RuntimeException(\sprintf('Could not create temp file in "%s"', \sys_get_temp_dir()));
         }
 
         return new self($path);
     }
 
-    public static function createNamed(string $name): self
+    public static function createNamed(string $name, ?string $cacheFolder = null): self
     {
-        return new self(\implode(\DIRECTORY_SEPARATOR, [\sys_get_temp_dir(), self::PREFIX.$name]));
+        return new self(\implode(\DIRECTORY_SEPARATOR, [$cacheFolder ?? \sys_get_temp_dir(), self::PREFIX.$name]));
     }
 
     public function exists(): bool
@@ -33,9 +33,9 @@ class TempFile
         return \file_exists($this->path);
     }
 
-    public static function fromStream(StreamInterface $stream, ?string $name = null): self
+    public static function fromStream(StreamInterface $stream, ?string $name = null, ?string $cacheFolder = null): self
     {
-        $tempFile = $name ? self::createNamed($name) : self::create();
+        $tempFile = $name ? self::createNamed($name) : self::create($cacheFolder);
         if (!$tempFile->exists()) {
             $tempFile->loadFromStream($stream);
         }

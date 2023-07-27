@@ -7,9 +7,12 @@ namespace EMS\CommonBundle\Common\CoreApi;
 use EMS\CommonBundle\Common\CoreApi\Exception\BaseUrlNotDefinedException;
 use EMS\CommonBundle\Common\CoreApi\Exception\NotAuthenticatedException;
 use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
+use GuzzleHttp\Psr7\Stream;
+use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Component\HttpClient\Response\CurlResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -67,6 +70,28 @@ class Client
             'headers' => $this->headers,
             'query' => $query,
         ]);
+    }
+
+    /**
+     * @param array<mixed> $query
+     */
+    public function download(string $resource, array $query = []): StreamInterface
+    {
+        if ('' === $this->baseUrl) {
+            throw new BaseUrlNotDefinedException();
+        }
+
+        /** @var CurlResponse $response */
+        $response = $this->client->request(Request::METHOD_GET, $resource, [
+            'headers' => $this->headers,
+            'query' => $query,
+        ]);
+
+        if (Response::HTTP_UNAUTHORIZED === $response->getStatusCode()) {
+            throw new NotAuthenticatedException($response);
+        }
+
+        return new Stream($response->toStream());
     }
 
     /**

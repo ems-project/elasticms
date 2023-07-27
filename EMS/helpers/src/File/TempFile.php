@@ -23,7 +23,7 @@ class TempFile
         return new self($path);
     }
 
-    private static function createNamed(string $name): self
+    public static function createNamed(string $name): self
     {
         return new self(\implode(\DIRECTORY_SEPARATOR, [\sys_get_temp_dir(), self::PREFIX.$name]));
     }
@@ -36,25 +36,27 @@ class TempFile
     public static function fromStream(StreamInterface $stream, ?string $name = null): self
     {
         $tempFile = $name ? self::createNamed($name) : self::create();
-
-        if ($tempFile->exists()) {
-            return $tempFile;
+        if (!$tempFile->exists()) {
+            $tempFile->loadFromStream($stream);
         }
 
-        if (!$handle = \fopen($tempFile->path, 'w')) {
-            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $tempFile->path));
+        return $tempFile;
+    }
+
+    public function loadFromStream(StreamInterface $stream): void
+    {
+        if (!$handle = \fopen($this->path, 'w')) {
+            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
         }
 
         while (!$stream->eof()) {
             if (false === \fwrite($handle, $stream->read(8192))) {
-                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $tempFile->path));
+                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
             }
         }
 
         if (false === \fclose($handle)) {
-            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $tempFile->path));
+            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
         }
-
-        return $tempFile;
     }
 }

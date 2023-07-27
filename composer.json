@@ -13,6 +13,7 @@
     "ext-ctype": "*",
     "ext-dom": "*",
     "ext-exif": "*",
+    "ext-fileinfo": "*",
     "ext-gd": "*",
     "ext-iconv": "*",
     "ext-intl": "*",

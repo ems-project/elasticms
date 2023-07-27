@@ -92,11 +92,11 @@ final class File implements FileInterface
 
     public function downloadFile(string $hash): string
     {
-        if (!$this->storageManager->head($hash)) {
+        if (!$this->headHash($hash)) {
             throw new \RuntimeException(\sprintf('Could not download file with hash %s', $hash));
         }
 
-        $stream = $this->storageManager->getStream($hash);
+        $stream = $this->client->download($this->downloadLink($hash));
 
         return TempFile::fromStream($stream, $hash)->path;
     }

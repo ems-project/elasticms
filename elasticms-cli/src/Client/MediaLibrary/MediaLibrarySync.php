@@ -15,6 +15,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Mime\MimeTypes;
@@ -30,6 +31,8 @@ final class MediaLibrarySync
     private string $defaultAlias;
     private MimeTypes $mimeTypes;
     private ?TikaHelper $tikaHelper = null;
+    /** @var string[] */
+    private array $cleanPaths = [];
 
     public function __construct(
         private readonly MediaLibrarySyncOptions $options,
@@ -80,7 +83,15 @@ final class MediaLibrarySync
         $progressBar->finish();
         $this->io->newLine();
 
+        $this->clean();
+
         return $this;
+    }
+
+    private function clean(): void
+    {
+        $fs = new Filesystem();
+        $fs->remove($this->cleanPaths);
     }
 
     private function uploadMediaFile(SplFileInfo $file): void
@@ -278,6 +289,7 @@ final class MediaLibrarySync
 
         $filesPath = $folderZip.'_unzipped';
         $zip->extractTo($filesPath);
+        $this->cleanPaths[] = $filesPath;
 
         return $filesPath;
     }
@@ -288,6 +300,9 @@ final class MediaLibrarySync
             throw new \RuntimeException(\sprintf('File with hash "%s" not found', $hash));
         }
 
-        return $this->coreApi->file()->downloadFile($hash);
+        $path = $this->coreApi->file()->downloadFile($hash);
+        $this->cleanPaths[] = $path;
+
+        return $path;
     }
 }

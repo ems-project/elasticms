@@ -56,7 +56,7 @@ class SamlAuthFactory
             'sp' => [
                 'entityId' => $this->samlConfig->spEntityId(),
                 'assertionConsumerService' => [
-                    'url' => $this->httpUtils->generateUri($request, SamlConfig::PATH_SAML_ACS),
+                    'url' => $this->httpUtils->generateUri($request, SamlConfig::ROUTE_ACS),
                     'binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
                 ],
                 'x509cert' => $this->samlConfig->spPublicKey(),

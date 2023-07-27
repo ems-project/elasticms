@@ -20,6 +20,7 @@ parameters:
     env(EMSCH_SEARCH_LIMIT):            '1000'
     env(EMSCH_LOCAL_PATH):              ~
 
+    env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
     env(EMSCH_SAML):                    false
     env(EMSCH_SAML_SP_ENTITY_ID):       ~
     env(EMSCH_SAML_SP_PUBLIC_KEY):      ~
@@ -54,6 +55,7 @@ ems_client_helper:
     user_api:
         url: '%env(string:EMSCH_BACKEND_URL)%'
     security:
+        route_login: '%env(string:EMSCH_SECURITY_ROUTE_LOGIN)%'
         saml:
             enabled: '%env(bool:EMSCH_SAML)%'
             sp:

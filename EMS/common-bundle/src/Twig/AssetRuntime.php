@@ -66,9 +66,9 @@ class AssetRuntime
         return self::streamToTempFile($this->storageManager->getStream($hash));
     }
 
-    private static function streamToTempFile(StreamInterface $stream): string
+    private static function streamToTempFile(StreamInterface $stream, ?string $path = null): string
     {
-        $path = \tempnam(\sys_get_temp_dir(), 'emsch');
+        $path ??= \tempnam(\sys_get_temp_dir(), 'emsch');
         if (!$path) {
             throw new \RuntimeException(\sprintf('Could not create temp file in %s', \sys_get_temp_dir()));
         }
@@ -149,7 +149,7 @@ class AssetRuntime
         if (!$filesystem->exists($cacheFilename)) {
             try {
                 $stream = $this->processor->getStream($configObj, $filename);
-                \file_put_contents($cacheFilename, $stream->getContents());
+                self::streamToTempFile($stream, $cacheFilename);
             } catch (\Throwable $e) {
                 $this->logger->error('Generate the {cacheFilename} failed : {error}', ['hash' => $hash, 'cacheFilename' => $cacheFilename, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
             }

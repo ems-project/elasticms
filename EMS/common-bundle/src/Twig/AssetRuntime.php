@@ -121,7 +121,7 @@ class AssetRuntime
 
         $configObj = new Config($this->storageManager, $hash, $hashConfig, $config);
 
-        $tempName = TempFile::createNamed(\implode('-', [$hashConfig, $hash]), $this->cacheDir);
+        $tempName = TempFile::createNamed(\implode(\DIRECTORY_SEPARATOR, [$hashConfig, $hash]), $this->cacheDir);
         if (!$tempName->exists()) {
             $stream = $this->processor->getStream($configObj, $filename);
             $tempName->loadFromStream($stream);

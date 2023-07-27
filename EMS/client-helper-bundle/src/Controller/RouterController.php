@@ -62,7 +62,7 @@ final class RouterController
             $path['_controller'] = $data['controller'];
             $subRequest = $request->duplicate($query, null, $path);
 
-            return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);;
+            return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
         }
 
         if (isset($data['path'])) {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Processor;
 
-use EMS\CommonBundle\Helper\ArrayTool;
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -83,11 +82,8 @@ class Processor
      */
     public function configFactory(string $hash, array $configArray): Config
     {
-        $normalizedArray = ArrayTool::normalizeAndSerializeArray($configArray);
-        if (false === $normalizedArray) {
-            throw new \RuntimeException('Could not normalize asset\'s processor config in JSON format.');
-        }
-        $configHash = $this->storageManager->computeStringHash($normalizedArray);
+        Json::normalize($configArray);
+        $configHash = $this->storageManager->computeStringHash(Json::encode($configArray));
 
         return new Config($this->storageManager, $hash, $configHash, $configArray);
     }

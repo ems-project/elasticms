@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="false" />
+
+        <service id="emsch.controller.security.login" class="EMS\ClientHelperBundle\Controller\Security\LoginController">
+            <argument type="service" id="emsch.routing.handler"/>
+            <argument type="service" id="twig"/>
+            <argument type="service" id="form.factory"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+        <service id="emsch.security.firewall.entry_point" class="EMS\ClientHelperBundle\Security\FirewallEntryPoint">
+            <argument type="service" id="security.http_utils"/>
+            <argument type="service" id="router"/>
+            <argument type="service" id="emsch.security.saml.config"/>
+            <argument type="string">%emsch.security.route_login%</argument>
+        </service>
+
+        <service id="emsch.security.form.login" class="EMS\ClientHelperBundle\Security\Login\LoginForm">
+            <argument type="service" id="emsch.manager.client_request" />
+            <tag name="form.type"/>
+        </service>
+
+        <!-- Core API -->
+        <service id="emsch.security.core_api" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiFactory">
+            <argument type="service" id="emsch.manager.client_request"/>
+            <argument type="service" id="emsch.helper.environment.api"/>
+
+        </service>
+
+        <service id="emsch.security.core_api.user_provider" class="EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider">
+            <argument type="service" id="emsch.security.core_api"/>
+            <argument type="service" id="logger"/>
+        </service>
+        <service id="emsch.security.core_api.authenticator" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiAuthenticator">
+            <argument type="service" id="security.http_utils"/>
+            <argument type="service" id="emsch.security.core_api"/>
+            <argument type="service" id="emsch.security.core_api.user_provider"/>
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="logger"/>
+            <argument type="string">%emsch.security.route_login%</argument>
+        </service>
+
+        <!-- SAML -->
+        <service id="EMS\ClientHelperBundle\Controller\Security\SamlController">
+            <argument type="service" id="emsch.security.saml.auth_factory"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+        <service id="emsch.security.saml.config" class="EMS\ClientHelperBundle\Security\Saml\SamlConfig">
+            <argument>%emsch.security.saml%</argument>
+        </service>
+        <service id="emsch.security.saml.auth_factory" class="EMS\ClientHelperBundle\Security\Saml\SamlAuthFactory">
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="emsch.security.saml.config"/>
+            <argument type="service" id="security.http_utils"/>
+        </service>
+        <service id="emsch.security.saml.user_provider" class="EMS\ClientHelperBundle\Security\Saml\User\SamlUserProvider" />
+        <service id="emsch.security.saml.authenticator" class="EMS\ClientHelperBundle\Security\Saml\SamlAuthenticator">
+            <argument type="service" id="security.http_utils"/>
+            <argument type="service" id="emsch.security.saml.config"/>
+            <argument type="service" id="emsch.security.saml.auth_factory"/>
+        </service>
+    </services>
+</container>

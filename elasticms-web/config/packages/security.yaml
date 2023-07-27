@@ -2,15 +2,23 @@ security:
     enable_authenticator_manager: true
 
     providers:
+        core_api:
+            id: emsch.security.core_api.user_provider
         saml:
-            id: emsch.security.saml.user.provider
+            id: emsch.security.saml.user_provider
+        chain_providers:
+            chain:
+                providers: [ 'core_api', 'saml' ]
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            entry_point: emsch.security.firewall.entry_point
+            provider: chain_providers
             custom_authenticators:
+                - emsch.security.core_api.authenticator
                 - emsch.security.saml.authenticator
             logout:
                 path: emsch_logout

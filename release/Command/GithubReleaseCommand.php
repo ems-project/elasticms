@@ -64,7 +64,7 @@ class GithubReleaseCommand extends AbstractGithubCommand
         $rows = [];
 
         foreach ($repositories as $repository) {
-            $release = $this->getRelease($repository);
+            $release = $this->getRelease($repository, $this->version);
 
             if ($release && !$this->force) {
                 $rows[] = [$repository, 'Already release', $this->getReleaseSha($repository), $release['html_url']];
@@ -114,10 +114,10 @@ class GithubReleaseCommand extends AbstractGithubCommand
     /**
      * @return ?array<mixed>
      */
-    private function getRelease(string $name): ?array
+    private function getRelease(string $name, string $version): ?array
     {
         try {
-            return $this->githubApi->repo()->releases()->tag(self::ORG, $name, $this->version);
+            return $this->githubApi->repo()->releases()->tag(self::ORG, $name, $version);
         } catch (\Throwable $e) {
             return null;
         }
@@ -136,12 +136,12 @@ class GithubReleaseCommand extends AbstractGithubCommand
     private function generateNotes(string $name): array
     {
         if ($this->previousVersion) {
-            $previousRelease = $this->getRelease($this->previousVersion);
+            $previousRelease = $this->getRelease($name, $this->previousVersion);
         }
 
-        $previousTagName =  isset($previousRelease) ? $this->previousVersion : null;
+        $previousTagName = isset($previousRelease) ? $this->previousVersion : null;
         if (null === $previousTagName) {
-            $this->io->warning(sprintf('No previous version for "%s"', $name));
+            $this->io->warning(\sprintf('No previous version for "%s"', $name));
         }
 
         return $this->githubApi->repo()->releases()->generateNotes(self::ORG, $name, \array_filter([

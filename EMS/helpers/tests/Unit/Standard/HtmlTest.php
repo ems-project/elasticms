@@ -52,6 +52,26 @@ HTML;
     private function getDataHtmlSanitize(): array
     {
         return [
+            'testMaxInputLength' => [
+                '<p>12345</p>',
+                '<p>Input length (<strong>12</strong>) exceeded max input length (<strong>5</strong>)</p>',
+                ['allow_safe_elements' => true, 'max_input_length' => 5],
+            ],
+            'testEMSLinks' => [
+                '<a href="ems://object:page:876eb204-c3a3-43a6-94b6-9124a7206b1b">test</a>',
+                '<a href="ems://object:page:876eb204-c3a3-43a6-94b6-9124a7206b1b">test</a>',
+                ['allow_safe_elements' => true],
+            ],
+            'testAllowLinks' => [
+                '<a href="http://www.example.com">http test</a><a href="https://www.example.com">http test</a><a href="mailto:support@example.com">mail test</a>',
+                '<a href="http://www.example.com">http test</a><a href="https://www.example.com">http test</a><a href="mailto:support&#64;example.com">mail test</a>',
+                ['allow_safe_elements' => true],
+            ],
+            'testInlineData' => [
+                '<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD" />',
+                '<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD" />',
+                ['allow_safe_elements' => true],
+            ],
             'testSafeElements' => [
                 '<div>div test</div><span>span test</span>',
                 '<div>div test</div><span>span test</span>',

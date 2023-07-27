@@ -300,17 +300,20 @@ class ConfigManager
     public function urlToAssetArray(Url $url, Rapport $rapport): array
     {
         $asset = $this->cacheManager->get($url->getUrl());
-        $mimeType = $asset->getMimetype();
-        if (200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
+        if (!$asset->hasResponse() || 200 != $asset->getResponse()->getStatusCode() || $asset->isHtml()) {
+            $this->logger->warning(\sprintf('Impossible to download the asset %s', $url->getUrl()));
+            $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Impossible to download the asset');
+
             return [];
         }
+        $mimeType = $asset->getMimetype();
         $filename = $url->getFilename();
         $stream = $asset->getStream();
         $stream->seek(0);
         try {
             $hash = $this->coreApi->file()->uploadStream($stream, $filename, $mimeType);
         } catch (CoreApiExceptionInterface) {
-            $rapport->inAssetsError($url->getUrl(), $url->getReferer());
+            $rapport->inAssetsError($url->getUrl(), $url->getReferer(), 'Stream Error');
 
             return [];
         }
@@ -449,7 +452,7 @@ class ConfigManager
 
         $this->expressionLanguage->register('merge',
             fn ($arr1, $arr2) => \sprintf('((null === %1$s || null === %2$s) ? null : \\array_merge(%1$s, %2$s))', \strval($arr1), \strval($arr2)),
-            fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_unique(\array_merge($arr1, $arr2))
+            fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_values(\array_unique(\array_merge($arr1, $arr2)))
         );
 
         return $this->expressionLanguage;
@@ -658,14 +661,6 @@ class ConfigManager
             \array_pop($exploded);
             $folder = \implode('/', $exploded).'/';
 
-            $data = [
-                $config['path_field'] => $path,
-                $config['folder_field'] => $folder,
-            ];
-            if (null === $ouuid) {
-                $data[$config['file_field']] = $this->urlToAssetArray($url, $rapport);
-            }
-
             $term = new Terms($config['path_field'], [$path]);
             $search = new Search([$defaultAlias], $term->toArray());
             $search->setContentTypes([$config['content_type']]);
@@ -677,21 +672,18 @@ class ConfigManager
             }
 
             if (null === $document) {
+                $data = [
+                    $config['path_field'] => $path,
+                    $config['folder_field'] => $folder,
+                ];
+                if (null === $ouuid) {
+                    $data[$config['file_field']] = $this->urlToAssetArray($url, $rapport);
+                }
                 $draft = $contentTypeApi->create($data);
-            } elseif (\is_array($source = $data[$config['file_field']] ?? null) && \is_array($target = $document->getSource()[$config['file_field']] ?? null) && empty(\array_diff($source, $target)) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null)) {
-                $ouuid ??= $document->getId();
-                continue;
-            } elseif (empty($data[$config['file_field']] ?? null) && empty($document->getSource()[$config['file_field']] ?? null) && $data[$config['folder_field']] === ($document->getSource()[$config['folder_field']] ?? null) && $data[$config['path_field']] === ($document->getSource()[$config['path_field']] ?? null)) {
-                $ouuid ??= $document->getId();
-                continue;
+                $ouuid ??= $contentTypeApi->finalize($draft->getRevisionId());
             } else {
-                $draft = $contentTypeApi->update($document->getId(), $data);
-            }
-
-            if (null === $ouuid) {
-                $ouuid = $contentTypeApi->finalize($draft->getRevisionId());
-            } else {
-                $contentTypeApi->finalize($draft->getRevisionId());
+                $ouuid ??= $document->getId();
+                break;
             }
         }
 

@@ -10,6 +10,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Html\Headers;
+use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -30,11 +31,7 @@ class Processor
 
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
-        try {
-            $configJson = \json_decode($this->storageManager->getContents($configHash), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\Throwable $e) {
-            $configJson = [];
-        }
+        $configJson = Json::decode($this->storageManager->getContents($configHash));
         $config = new Config($this->storageManager, $hash, $configHash, $configJson);
 
         return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);

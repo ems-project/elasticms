@@ -11,8 +11,6 @@ use Symfony\Component\Routing\RouteCollection;
 
 class RouteLoader
 {
-    private const PREFIX = 'emsch_';
-
     public function __construct(private readonly SamlConfig $samlConfig)
     {
     }
@@ -20,8 +18,8 @@ class RouteLoader
     public function __invoke(): RouteCollection
     {
         $routeCollection = new RouteCollection();
-        $routes = new CollectionConfigurator($routeCollection, self::PREFIX);
-        $routes->add('logout', '/logout')->methods(['GET']);
+        $routes = new CollectionConfigurator($routeCollection, '');
+        $routes->add('emsch_logout', '/logout')->methods(['GET']);
 
         if ($this->samlConfig->isEnabled()) {
             $this->addSamlRoutes($routes);
@@ -33,13 +31,13 @@ class RouteLoader
     private function addSamlRoutes(CollectionConfigurator $routes): void
     {
         $routes
-            ->add('saml_metadata', SamlConfig::PATH_SAML_METADATA)
+            ->add(SamlConfig::ROUTE_METADATA, '/saml/metadata')
                 ->controller([SamlController::class, 'metadata'])
                 ->methods(['GET'])
-            ->add('saml_login', SamlConfig::PATH_SAML_LOGIN)
+            ->add(SamlConfig::ROUTE_LOGIN, '/saml/login')
                 ->controller([SamlController::class, 'login'])
                 ->methods(['GET'])
-            ->add('saml_acs', SamlConfig::PATH_SAML_ACS)
+            ->add(SamlConfig::ROUTE_ACS, '/saml/acs')
                 ->controller([SamlController::class, 'acs'])
                 ->methods(['POST'])
         ;

@@ -6,13 +6,13 @@ export $(grep -v '^#' .env | xargs)
 ELK_VERSION ?= elk7
 ENVIRONMENT ?= local
 DOCKER_USER ?= $UID
-PWD			?= $(shell pwd)
+PWD			= $(shell pwd)
 
 DEMO_DIR	?= /opt/src
 RUN_ADMIN	?= docker compose exec -u ${DOCKER_USER}:0 admin-${ENVIRONMENT} ems-demo
 RUN_WEB		?= docker compose exec -u ${DOCKER_USER}:0 web-${ENVIRONMENT} preview
 RUN_PSQL	?= docker compose exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
-RUN_NPM		?= docker run -u ${DOCKER_USER} --rm -it -v ${DEMO_DIR}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+RUN_NPM		?= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm
@@ -36,6 +36,10 @@ help: # Show help for each of the Makefile recipes.
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
+start:
+	@$(MAKE) -s docker-start
+stop:
+	@$(MAKE) -s docker-start
 init: ## init
 	@$(MAKE) -s npm-install
 	@$(MAKE) -s npm-prod
@@ -55,17 +59,6 @@ init: ## init
 	@$(MAKE) -s web-health-check
 	@$(MAKE) -s web-restore-documents
 	@$(MAKE) -s admin-align
-
-npm/%:
-	@$(RUN_NPM) $*
-npm-install: ## npm install
-	@$(MAKE) npm/install
-npm-prod: ## npm run prod
-	@$(MAKE) npm/"run prod"
-npm-watch: ## npm run watch
-	@$(MAKE) npm/"run watch"
-npm-dev: ## npm run dev
-	@$(MAKE) npm/"run dev"
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-rebuild: ## rebuild all environments
@@ -124,6 +117,19 @@ web-upload-folder-assets: ## web upload folder assets
 web-health-check:
 	@$(RUN_WEB) emsch:health-check -g --no-debug
 
+## —— Docker ———————————————————————————————————————————————————————————————————————————————————————————————————————————
+docker-start: ## start docker
+	@docker compose up -d
+docker-restart: ## restart docker
+	@docker compose up -d --force-recreate
+docker-stop: ## stop docker
+	@docker compose down
+docker-status: ## status docker
+	@docker compose ps
+docker-update: ## update docker
+	@docker compose pull
+	@docker compose up -d
+
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-setup: ## setup fresh demo (drops database)
 	@$(MAKE) -s _db-drop
@@ -142,6 +148,18 @@ _db-create:
 	@$(RUN_PSQL) -d ${DB_NAME} -c "ALTER SCHEMA public RENAME TO ${DB_SCHEMA}"
 	@$(RUN_PSQL) -d ${DB_NAME} -c "ALTER USER ${DB_USER} SET search_path TO ${DB_SCHEMA};"
 	@$(RUN_PSQL) -d ${DB_NAME} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${DB_SCHEMA} TO ${DB_USER};"
+
+## —— Npm ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+npm/%:
+	@$(RUN_NPM) $*
+npm-install: ## npm install
+	@$(MAKE) npm/install
+npm-prod: ## npm run prod
+	@$(MAKE) npm/"run prod"
+npm-watch: ## npm run watch
+	@$(MAKE) npm/"run watch"
+npm-dev: ## npm run dev
+	@$(MAKE) npm/"run dev"
 
 _init-create-managed-aliases:
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview preview

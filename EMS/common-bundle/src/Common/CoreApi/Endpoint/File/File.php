@@ -9,6 +9,7 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File as FileHelper;
+use EMS\Helpers\File\TempFile;
 use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface
@@ -87,6 +88,17 @@ final class File implements FileInterface
     public function hashFile(string $filename): string
     {
         return $this->storageManager->computeFileHash($filename);
+    }
+
+    public function downloadFile(string $hash): string
+    {
+        if (!$this->headHash($hash)) {
+            throw new \RuntimeException(\sprintf('Could not download file with hash %s', $hash));
+        }
+
+        $stream = $this->client->download($this->downloadLink($hash));
+
+        return TempFile::fromStream($stream, $hash)->path;
     }
 
     public function downloadLink(string $hash): string

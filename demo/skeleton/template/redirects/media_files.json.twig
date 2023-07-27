@@ -1,13 +1,9 @@
 {%- block request %}
     {% apply spaceless %}
         {{ {
-            controller: 'EMS\\CommonBundle\\Controller\\FileController::view',
+            controller: 'EMS\\CommonBundle\\Controller\\FileController::resolveAsset',
             path: {
-               sha1: source.media_file.sha1,
-            },
-            query: {
-                name: source.media_file.filename|default(null),
-                type: source.media_file.mimetype|default(null),
+               fileField: source.media_file,
             },
         }|json_encode|raw }}
     {% endapply %}

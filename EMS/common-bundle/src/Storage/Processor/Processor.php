@@ -28,6 +28,23 @@ class Processor
     {
     }
 
+    /**
+     * @param mixed[] $fileField
+     * @param mixed[] $configArray
+     */
+    public function resolveAndGetResponse(Request $request, array $fileField, array $configArray = [], bool $immutableRoute = false): Response
+    {
+        $hash = Config::extractHash($fileField);
+        $filename = Config::extractFilename($fileField, $configArray);
+        $mimetype = Config::extractMimetype($fileField, $configArray, $filename);
+        $mimeType = $this->overwriteMimeType($mimetype, $configArray);
+        $filename = Config::fixFileExtension($filename, $mimeType);
+        $configArray[EmsFields::ASSET_CONFIG_MIME_TYPE] = $mimeType;
+        $config = $this->configFactory($hash, $configArray);
+
+        return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
+    }
+
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
         $configJson = Json::decode($this->storageManager->getContents($configHash));

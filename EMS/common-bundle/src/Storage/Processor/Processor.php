@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Processor;
 
-use EMS\CommonBundle\Helper\ArrayTool;
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
@@ -27,6 +26,23 @@ class Processor
 
     public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly Cache $cacheHelper, private readonly string $projectDir)
     {
+    }
+
+    /**
+     * @param mixed[] $fileField
+     * @param mixed[] $configArray
+     */
+    public function resolveAndGetResponse(Request $request, array $fileField, array $configArray = [], bool $immutableRoute = false): Response
+    {
+        $hash = Config::extractHash($fileField);
+        $filename = Config::extractFilename($fileField, $configArray);
+        $mimetype = Config::extractMimetype($fileField, $configArray, $filename);
+        $mimeType = $this->overwriteMimeType($mimetype, $configArray);
+        $filename = Config::fixFileExtension($filename, $mimeType);
+        $configArray[EmsFields::ASSET_CONFIG_MIME_TYPE] = $mimeType;
+        $config = $this->configFactory($hash, $configArray);
+
+        return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
     }
 
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
@@ -83,11 +99,8 @@ class Processor
      */
     public function configFactory(string $hash, array $configArray): Config
     {
-        $normalizedArray = ArrayTool::normalizeAndSerializeArray($configArray);
-        if (false === $normalizedArray) {
-            throw new \RuntimeException('Could not normalize asset\'s processor config in JSON format.');
-        }
-        $configHash = $this->storageManager->computeStringHash($normalizedArray);
+        Json::normalize($configArray);
+        $configHash = $this->storageManager->computeStringHash(Json::encode($configArray));
 
         return new Config($this->storageManager, $hash, $configHash, $configArray);
     }

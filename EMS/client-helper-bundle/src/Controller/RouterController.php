@@ -15,12 +15,20 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\HttpKernel;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
 
 final class RouterController
 {
-    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly Processor $processor, private readonly CacheHelper $cacheHelper, private readonly ExceptionHelper $exceptionHelper)
+    public function __construct(
+        private readonly Handler $handler,
+        private readonly Environment $templating,
+        private readonly Processor $processor,
+        private readonly CacheHelper $cacheHelper,
+        private readonly ExceptionHelper $exceptionHelper,
+        private readonly HttpKernel $httpKernel)
     {
     }
 
@@ -46,11 +54,21 @@ final class RouterController
         } catch (RuntimeError $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
-
         $data = Json::decode($json);
+
+        if (isset($data['controller'])) {
+            $path = $data['path'] ?? [];
+            $query = $data['query'] ?? [];
+            $path['_controller'] = $data['controller'];
+            $subRequest = $request->duplicate($query, null, $path);
+
+            return $this->httpKernel->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
+        }
+
         if (isset($data['path'])) {
             return new BinaryFileResponse($data['path'], $data['status'] ?? 200, $data['headers'] ?? []);
         }
+
         if (!isset($data['url'])) {
             throw new HttpException($data['message'] ?? 'Page not found');
         }

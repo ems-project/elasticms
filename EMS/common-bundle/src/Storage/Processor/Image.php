@@ -350,17 +350,17 @@ class Image
                     break;
                 case 5:
                     $angle = 270;
+                    $mirrored = true;
                     break;
                 case 6:
                     $angle = 270;
-                    $mirrored = true;
                     break;
                 case 7:
                     $angle = 90;
+                    $mirrored = true;
                     break;
                 case 8:
                     $angle = 90;
-                    $mirrored = true;
                     break;
             }
             $image = $this->rotate($image, $angle);

@@ -178,7 +178,7 @@ class Html
                         $filter = new LinkMediaFile($this->config, $rapport);
                         $content = $filter->process($url, $extractor->getAttribute() ?? 'href');
                     } catch (NotParsableUrlException) {
-                        $this->rapport->inAssetsError($content, $resource->getUrl());
+                        $this->rapport->inAssetsError($content, $resource->getUrl(), 'NotParsableUrlException');
                     }
                     break;
                 default:

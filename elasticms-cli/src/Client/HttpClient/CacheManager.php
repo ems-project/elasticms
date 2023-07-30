@@ -41,7 +41,7 @@ class CacheManager
             'handler' => $stack,
             RequestOptions::ALLOW_REDIRECTS => $allowRedirect,
             RequestOptions::CONNECT_TIMEOUT => 10,
-            RequestOptions::TIMEOUT => 10,
+            RequestOptions::TIMEOUT => 60,
             RequestOptions::READ_TIMEOUT => 10,
         ]);
     }

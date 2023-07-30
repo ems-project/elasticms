@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Processor;
 
-use EMS\CommonBundle\Helper\ArrayTool;
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Html\Headers;
+use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -28,13 +28,26 @@ class Processor
     {
     }
 
+    /**
+     * @param mixed[] $fileField
+     * @param mixed[] $configArray
+     */
+    public function resolveAndGetResponse(Request $request, array $fileField, array $configArray = [], bool $immutableRoute = false): Response
+    {
+        $hash = Config::extractHash($fileField);
+        $filename = Config::extractFilename($fileField, $configArray);
+        $mimetype = Config::extractMimetype($fileField, $configArray, $filename);
+        $mimeType = $this->overwriteMimeType($mimetype, $configArray);
+        $filename = Config::fixFileExtension($filename, $mimeType);
+        $configArray[EmsFields::ASSET_CONFIG_MIME_TYPE] = $mimeType;
+        $config = $this->configFactory($hash, $configArray);
+
+        return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
+    }
+
     public function getResponse(Request $request, string $hash, string $configHash, string $filename, bool $immutableRoute = false): Response
     {
-        try {
-            $configJson = \json_decode($this->storageManager->getContents($configHash), true, 512, JSON_THROW_ON_ERROR);
-        } catch (\Throwable $e) {
-            $configJson = [];
-        }
+        $configJson = Json::decode($this->storageManager->getContents($configHash));
         $config = new Config($this->storageManager, $hash, $configHash, $configJson);
 
         return $this->getStreamedResponse($request, $config, $filename, $immutableRoute);
@@ -86,11 +99,8 @@ class Processor
      */
     public function configFactory(string $hash, array $configArray): Config
     {
-        $normalizedArray = ArrayTool::normalizeAndSerializeArray($configArray);
-        if (false === $normalizedArray) {
-            throw new \RuntimeException('Could not normalize asset\'s processor config in JSON format.');
-        }
-        $configHash = $this->storageManager->computeStringHash($normalizedArray);
+        Json::normalize($configArray);
+        $configHash = $this->storageManager->computeStringHash(Json::encode($configArray));
 
         return new Config($this->storageManager, $hash, $configHash, $configArray);
     }

@@ -23,6 +23,17 @@ class FileController extends AbstractController
         return $this->processor->getResponse($request, $hash, $hash_config, $filename, true);
     }
 
+    /**
+     * @param mixed[] $fileField
+     * @param mixed[] $configArray
+     */
+    public function resolveAsset(Request $request, array $fileField, array $configArray = []): Response
+    {
+        $this->closeSession($request);
+
+        return $this->processor->resolveAndGetResponse($request, $fileField, $configArray);
+    }
+
     public function view(Request $request, string $sha1): Response
     {
         @\trigger_error('FileController::view is deprecated use the ems_asset twig filter to generate the route', E_USER_DEPRECATED);

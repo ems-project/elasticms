@@ -11,8 +11,8 @@ use EMS\CommonBundle\Storage\NotSavedException;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
-use GuzzleHttp\Psr7\MimeType;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -63,40 +63,16 @@ class AssetRuntime
             return null;
         }
 
-        return self::streamToTempFile($this->storageManager->getStream($hash));
-    }
-
-    private static function streamToTempFile(StreamInterface $stream): string
-    {
-        $path = \tempnam(\sys_get_temp_dir(), 'emsch');
-        if (!$path) {
-            throw new \RuntimeException(\sprintf('Could not create temp file in %s', \sys_get_temp_dir()));
-        }
-
-        if ($stream->isSeekable() && $stream->tell() > 0) {
-            $stream->rewind();
-        }
-
-        $handle = \fopen($path, 'w');
-        if (false === $handle) {
-            throw new \RuntimeException(\sprintf('Could not open temp file %s', $path));
-        }
-        while (!$stream->eof()) {
-            \fwrite($handle, $stream->read(Processor::BUFFER_SIZE));
-        }
-        \fclose($handle);
-        $stream->close();
-
-        return $path;
+        return TempFile::fromStream($this->storageManager->getStream($hash), $hash, $this->cacheDir)->path;
     }
 
     public static function extract(StreamInterface $stream, string $destination): bool
     {
-        $path = self::streamToTempFile($stream);
+        $tempFile = TempFile::fromStream($stream);
 
         $zip = new \ZipArchive();
-        if (true !== $open = $zip->open($path)) {
-            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $path, $open));
+        if (true !== $open = $zip->open($tempFile->path)) {
+            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $tempFile->path, $open));
         }
 
         if (!$zip->extractTo($destination)) {
@@ -104,6 +80,7 @@ class AssetRuntime
         }
 
         $zip->close();
+        $tempFile->clean();
 
         return true;
     }
@@ -116,13 +93,13 @@ class AssetRuntime
     {
         $config = $assetConfig;
 
-        $hash = $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $fileField[$fileHashField] ?? 'processor';
-        $filename = $fileField[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? $fileField[$filenameField] ?? 'asset.bin';
-        $mimeType = $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? 'application/octet-stream';
-        $referenceType = $assetConfig[EmsFields::ASSET_CONFIG_URL_TYPE] ?? $referenceType;
+        $hash = Config::extractHash($fileField, $fileHashField);
+        $filename = Config::extractFilename($fileField, $config, $filenameField, $mimeTypeField);
+        $mimeType = Config::extractMimetype($fileField, $config, $filename, $mimeTypeField);
+        $referenceType = Config::extractUrlType($fileField, $referenceType);
 
         $mimeType = $this->processor->overwriteMimeType($mimeType, $config);
-        $filename = $this->fixFileExtension($filename, $mimeType);
+        $filename = Config::fixFileExtension($filename, $mimeType);
         $config[EmsFields::ASSET_CONFIG_MIME_TYPE] = $mimeType;
 
         try {
@@ -137,25 +114,19 @@ class AssetRuntime
             return $this->urlGenerator->generate($route, [
                 'hash_config' => $hashConfig,
                 'filename' => $basename,
-                'hash' => $hash ?? $hashConfig,
+                'hash' => $hash,
             ], $referenceType);
         }
 
         $configObj = new Config($this->storageManager, $hash, $hashConfig, $config);
-        $filesystem = new Filesystem();
-        $filesystem->mkdir($this->cacheDir.DIRECTORY_SEPARATOR.'ems_asset_path'.DIRECTORY_SEPARATOR.$hashConfig);
-        $cacheFilename = $this->cacheDir.DIRECTORY_SEPARATOR.'ems_asset_path'.DIRECTORY_SEPARATOR.$hashConfig.DIRECTORY_SEPARATOR.$hash;
 
-        if (!$filesystem->exists($cacheFilename)) {
-            try {
-                $stream = $this->processor->getStream($configObj, $filename);
-                \file_put_contents($cacheFilename, $stream->getContents());
-            } catch (\Throwable $e) {
-                $this->logger->error('Generate the {cacheFilename} failed : {error}', ['hash' => $hash, 'cacheFilename' => $cacheFilename, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
-            }
+        $tempName = TempFile::createNamed(\implode('-', [$hashConfig, $hash]), $this->cacheDir);
+        if (!$tempName->exists()) {
+            $stream = $this->processor->getStream($configObj, $filename);
+            $tempName->loadFromStream($stream);
         }
 
-        return $cacheFilename;
+        return $tempName->path;
     }
 
     public function assetAverageColor(string $hash): string
@@ -242,101 +213,5 @@ class AssetRuntime
     public function hash(string $input, ?string $hashAlgo = null, bool $binary = false): string
     {
         return $this->storageManager->computeStringHash($input, $hashAlgo, $binary);
-    }
-
-    private function fixFileExtension(string $filename, string $mimeType): string
-    {
-        static $mimetypes = [
-            'video/3gpp' => '3gp',
-            'application/x-7z-compressed' => '7z',
-            'audio/x-aac' => 'aac',
-            'audio/x-aiff' => 'aif',
-            'video/x-ms-asf' => 'asf',
-            'application/atom+xml' => 'atom',
-            'video/x-msvideo' => 'avi',
-            'image/bmp' => 'bmp',
-            'application/x-bzip2' => 'bz2',
-            'application/pkix-cert' => 'cer',
-            'application/pkix-crl' => 'crl',
-            'application/x-x509-ca-cert' => 'crt',
-            'text/css' => 'css',
-            'text/csv' => 'csv',
-            'application/cu-seeme' => 'cu',
-            'application/x-debian-package' => 'deb',
-            'application/msword' => 'doc',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-            'application/x-dvi' => 'dvi',
-            'application/vnd.ms-fontobject' => 'eot',
-            'application/epub+zip' => 'epub',
-            'text/x-setext' => 'etx',
-            'audio/flac' => 'flac',
-            'video/x-flv' => 'flv',
-            'image/gif' => 'gif',
-            'application/gzip' => 'gz',
-            'text/html' => 'html',
-            'image/x-icon' => 'ico',
-            'text/calendar' => 'ics',
-            'application/x-iso9660-image' => 'iso',
-            'application/java-archive' => 'jar',
-            'image/jpeg' => 'jpeg',
-            'text/javascript' => 'js',
-            'application/json' => 'json',
-            'application/x-latex' => 'latex',
-            'audio/midi' => 'midi',
-            'video/quicktime' => 'mov',
-            'video/x-matroska' => 'mkv',
-            'audio/mpeg' => 'mp3',
-            'video/mp4' => 'mp4',
-            'audio/mp4' => 'mp4a',
-            'video/mpeg' => 'mpeg',
-            'audio/ogg' => 'ogg',
-            'video/ogg' => 'ogv',
-            'application/ogg' => 'ogx',
-            'image/x-portable-bitmap' => 'pbm',
-            'application/pdf' => 'pdf',
-            'image/x-portable-graymap' => 'pgm',
-            'image/png' => 'png',
-            'image/x-portable-anymap' => 'pnm',
-            'image/x-portable-pixmap' => 'ppm',
-            'application/vnd.ms-powerpoint' => 'ppt',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
-            'application/x-rar-compressed' => 'rar',
-            'image/x-cmu-raster' => 'ras',
-            'application/rss+xml' => 'rss',
-            'application/rtf' => 'rtf',
-            'text/sgml' => 'sgml',
-            'image/svg+xml' => 'svg',
-            'application/x-shockwave-flash' => 'swf',
-            'application/x-tar' => 'tar',
-            'image/tiff' => 'tiff',
-            'application/x-bittorrent' => 'torrent',
-            'application/x-font-ttf' => 'ttf',
-            'text/plain' => 'txt',
-            'audio/x-wav' => 'wav',
-            'video/webm' => 'webm',
-            'image/webp' => 'webp',
-            'audio/x-ms-wma' => 'wma',
-            'video/x-ms-wmv' => 'wmv',
-            'application/x-font-woff' => 'woff',
-            'application/wsdl+xml' => 'wsdl',
-            'image/x-xbitmap' => 'xbm',
-            'application/vnd.ms-excel' => 'xls',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
-            'application/xml' => 'xml',
-            'image/x-xpixmap' => 'xpm',
-            'image/x-xwindowdump' => 'xwd',
-            'text/yaml' => 'yml',
-            'application/zip' => 'zip',
-        ];
-
-        if (!isset($mimetypes[$mimeType])) {
-            return $filename;
-        }
-
-        if (MimeType::fromFilename($filename) === $mimeType) {
-            return $filename;
-        }
-
-        return \implode('.', [\pathinfo($filename, PATHINFO_FILENAME), $mimetypes[$mimeType]]);
     }
 }

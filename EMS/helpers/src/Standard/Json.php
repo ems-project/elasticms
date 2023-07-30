@@ -77,4 +77,22 @@ final class Json
             return $data;
         }
     }
+
+    /**
+     * @param array<mixed> $array
+     */
+    public static function normalize(array &$array, int $sort_flags = SORT_REGULAR): void
+    {
+        \ksort($array, $sort_flags);
+
+        foreach ($array as $index => &$arr) {
+            if (\is_array($arr)) {
+                self::normalize($arr, $sort_flags);
+            }
+
+            if (\is_array($arr) && empty($arr)) {
+                unset($array[$index]);
+            }
+        }
+    }
 }

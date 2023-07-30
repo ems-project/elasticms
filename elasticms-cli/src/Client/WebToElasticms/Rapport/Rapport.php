@@ -26,7 +26,7 @@ class Rapport
     /** @var string[][] */
     private array $dataLinksInError = [['Path', 'Referrers']];
     /** @var string[][] */
-    private array $assetsInError = [['Path', 'Referrers']];
+    private array $assetsInError = [['Path', 'Referrers', 'Message']];
     /** @var string[][] */
     private array $updatedDocuments = [['CRUD', 'Content Type', 'OUUID', 'Locale', 'URL']];
 
@@ -94,9 +94,9 @@ class Rapport
         $this->dataLinksInError[] = [$path, $currentUrl];
     }
 
-    public function inAssetsError(string $path, ?string $currentUrl): void
+    public function inAssetsError(string $path, ?string $currentUrl, ?string $message): void
     {
-        $this->assetsInError[] = [$path, $currentUrl ?? 'null'];
+        $this->assetsInError[] = [$path, $currentUrl ?? 'null', $message ?? ''];
     }
 
     public function addUrlNotFound(Url $url): void

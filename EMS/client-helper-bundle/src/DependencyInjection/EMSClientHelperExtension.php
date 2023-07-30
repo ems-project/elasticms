@@ -27,7 +27,7 @@ final class EMSClientHelperExtension extends Extension
         $loader->load('services.xml');
         $loader->load('routing.xml');
         $loader->load('search.xml');
-        $loader->load('security/saml.xml');
+        $loader->load('security.xml');
 
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -40,6 +40,7 @@ final class EMSClientHelperExtension extends Extension
         $container->setParameter('emsch.request_environments', $config['request_environments']);
         $container->setParameter('emsch.search_limit', $config['search_limit']);
         $container->setParameter('emsch.security.saml', $config['security']['saml'] ?? []);
+        $container->setParameter('emsch.security.route_login', $config['security']['route_login']);
 
         $templates = $config['templates'];
         $container->getDefinition('emsch.helper_exception')->replaceArgument(4, $templates['error']);

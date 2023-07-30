@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\Html\Sanitizer;
 
 use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
+use Symfony\Component\HtmlSanitizer\Visitor\AttributeSanitizer\UrlAttributeSanitizer;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class HtmlSanitizerConfigBuilder
@@ -27,8 +28,11 @@ class HtmlSanitizerConfigBuilder
     private array $classes;
 
     private const CONFIG_ORDER = [
+        'max_input_length',
         'allow_safe_elements',
         'allow_attributes',
+        'allow_relative_links',
+        'allow_relative_media',
         'allow_elements',
         'block_elements',
         'drop_attributes',
@@ -51,10 +55,23 @@ class HtmlSanitizerConfigBuilder
     public function build(): HtmlSanitizerConfig
     {
         $config = new HtmlSanitizerConfig();
-        $config = $config->withAttributeSanitizer(new HtmlSanitizerClass($this->classes));
+
+        $defaultSanitizers = $config->getAttributeSanitizers();
+        foreach ($defaultSanitizers as $sanitizer) {
+            if ($sanitizer instanceof UrlAttributeSanitizer) {
+                $config = $config->withoutAttributeSanitizer($sanitizer);
+            }
+        }
+
+        $config = $config
+            ->withAttributeSanitizer(new HtmlSanitizerClass($this->classes))
+            ->withAttributeSanitizer(new HtmlSanitizerLink());
 
         foreach ($this->configSettings as $setting => $value) {
             $config = match ($setting) {
+                'max_input_length' => $config->withMaxInputLength($value),
+                'allow_relative_links' => $config->allowRelativeLinks($value),
+                'allow_relative_media' => $config->allowRelativeMedias($value),
                 'allow_safe_elements' => true === $value ? $config->allowSafeElements() : $config,
                 'allow_attributes' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowAttribute($key, $item)
@@ -96,7 +113,10 @@ class HtmlSanitizerConfigBuilder
 
         $optionsResolver
             ->setDefaults([
+                'max_input_length' => 500000,
                 'allow_safe_elements' => true,
+                'allow_relative_links' => true,
+                'allow_relative_media' => true,
                 'allow_attributes' => ['class' => '*'],
                 'allow_elements' => [],
                 'block_elements' => [],
@@ -111,6 +131,7 @@ class HtmlSanitizerConfigBuilder
                 },
             ])
             ->setAllowedTypes('allow_safe_elements', 'bool')
+            ->setAllowedTypes('max_input_length', 'int')
         ;
 
         return $optionsResolver;

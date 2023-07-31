@@ -22,6 +22,7 @@ use EMS\CoreBundle\Core\Mail\MailerService;
 use EMS\CoreBundle\Core\Revision\Json\JsonMenuRenderer;
 use EMS\CoreBundle\Core\Revision\Wysiwyg\WysiwygRuntime;
 use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Sequence;
 use EMS\CoreBundle\Entity\UserInterface;
@@ -976,7 +977,7 @@ class AppExtension extends AbstractExtension
         return $this->get($key)?->getSource();
     }
 
-    public function get(?string $key): ?DocumentInterface
+    public function get(?string $key, ?Environment $environment = null): ?DocumentInterface
     {
         if (empty($key)) {
             return null;
@@ -995,7 +996,7 @@ class AppExtension extends AbstractExtension
         }
 
         try {
-            return $this->searchService->getDocument($contentType, $ouuid);
+            return $this->searchService->getDocument($contentType, $ouuid, $environment);
         } catch (NotFoundException) {
             return null;
         }

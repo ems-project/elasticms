@@ -98,7 +98,7 @@ final class File implements FileInterface
 
         $stream = $this->client->download($this->downloadLink($hash));
 
-        return TempFile::fromStream($stream, $hash)->path;
+        return TempFile::createNamed($hash)->loadFromStream($stream)->path;
     }
 
     public function downloadLink(string $hash): string

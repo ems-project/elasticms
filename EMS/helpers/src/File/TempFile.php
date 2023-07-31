@@ -33,17 +33,7 @@ class TempFile
         return \file_exists($this->path);
     }
 
-    public static function fromStream(StreamInterface $stream, ?string $name = null, ?string $cacheFolder = null): self
-    {
-        $tempFile = $name ? self::createNamed($name) : self::create($cacheFolder);
-        if (!$tempFile->exists()) {
-            $tempFile->loadFromStream($stream);
-        }
-
-        return $tempFile;
-    }
-
-    public function loadFromStream(StreamInterface $stream): void
+    public function loadFromStream(StreamInterface $stream): self
     {
         if (!$handle = \fopen($this->path, 'w')) {
             throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
@@ -58,6 +48,8 @@ class TempFile
         if (false === \fclose($handle)) {
             throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
         }
+
+        return $this;
     }
 
     public function clean(): void

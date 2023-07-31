@@ -45,7 +45,7 @@ class ObjectChoiceListItem implements \Stringable
 
         $this->label = \sprintf('<i class="%s" data-ouuid="%s"></i>&nbsp;&nbsp;%s', $icon, $this->value, $this->title);
 
-        $tooltipField = $contentType->field(ContentTypeFields::TOOLTIP);
+        $tooltipField = $contentType?->field(ContentTypeFields::TOOLTIP);
         $this->tooltip = $tooltipField ? $document->getValue($tooltipField) : null;
     }
 

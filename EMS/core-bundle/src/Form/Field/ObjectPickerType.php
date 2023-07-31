@@ -44,7 +44,7 @@ class ObjectPickerType extends Select2Type
                 if ($val instanceof ObjectChoiceListItem) {
                     return \array_filter([
                         'title' => $val->getTitle(),
-                        'data-tooltip' => $val->getTooltip()
+                        'data-tooltip' => $val->getTooltip(),
                     ]);
                 }
 

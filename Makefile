@@ -6,7 +6,7 @@ DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
 PWD			= $(shell pwd)
 
 DEMO_DIR	= ${PWD}/demo
-RUN_PSQL	= docker exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres psql
+RUN_PSQL	= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres psql
 RUN_ADMIN	= php ${PWD}/elasticms-admin/bin/console --no-debug
 RUN_WEB		= php ${PWD}/elasticms-web/bin/console --no-debug
 
@@ -31,7 +31,7 @@ help: # Show help for each of the Makefile recipes.
 	@echo ""
 	@echo "Usage: make [target]"
 	@echo "Targets:"
-	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
+	@grep -E '(^\S*:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 ## —— Mono —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 init: ## init mono repo (copy .env)
@@ -90,3 +90,21 @@ docker-down: ## docker down
 	@$(DOCKER_COMPOSE) down
 docker-ps: ## docker ps
 	@$(DOCKER_COMPOSE) ps
+
+## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
+db-migrate: ## run doctrine migrations
+	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
+db-drop/%: ## db-drop/"db_example"
+	@$(RUN_PSQL) -c "DROP DATABASE IF EXISTS ${*};"
+	@$(RUN_PSQL) -c "DROP USER IF EXISTS ${*};"
+db-create/%: ## db-create/"db_example" SCHEMA="schema_example_adm"
+	@$(RUN_PSQL) -c "CREATE USER ${*} WITH ENCRYPTED PASSWORD '${*}';"
+	@$(RUN_PSQL) -c "CREATE DATABASE ${*} WITH OWNER ${*};"
+	@$(RUN_PSQL) -c "GRANT ALL PRIVILEGES ON DATABASE ${*} TO ${*};"
+	@$(RUN_PSQL) -d ${*} -c "ALTER SCHEMA public OWNER TO ${*};"
+	@$(RUN_PSQL) -d ${*} -c "ALTER SCHEMA public RENAME TO ${SCHEMA}"
+	@$(RUN_PSQL) -d ${*} -c "ALTER USER ${*} SET search_path TO ${SCHEMA};"
+	@$(RUN_PSQL) -d ${*} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${SCHEMA} TO ${*};"
+	@echo 'DB_URL="pgsql://${*}:${*}@127.0.0.1:5432/${*}"'
+db-load/%: ## make db-load/"db_example" DUMP=../../dumps.sql
+	@$(RUN_PSQL) -U ${*} < ${DUMP}

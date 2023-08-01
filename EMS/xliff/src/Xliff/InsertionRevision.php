@@ -193,7 +193,12 @@ class InsertionRevision
             throw new \RuntimeException('Unexpected null owner document');
         }
         $domXpath = new \DOMXPath($mainDocument);
-        $domXpath->registerNamespace('ns', $this->document->lookupNamespaceURI(null));
+
+        if (null === $lookupNamespace = $this->document->lookupNamespaceURI(null)) {
+            throw new \RuntimeException('could not find namespace');
+        }
+
+        $domXpath->registerNamespace('ns', $lookupNamespace);
 
         $result = $domXpath->query('//ns:target');
         if (false === $result) {
@@ -269,7 +274,9 @@ class InsertionRevision
         }
         $namespaces = [];
         foreach (['xml'] as $ns) {
-            $namespaces[$ns] = $document->lookupNamespaceURI($ns);
+            if ($lookupNamespace = $document->lookupNamespaceURI($ns)) {
+                $namespaces[$ns] = $lookupNamespace;
+            }
         }
 
         $document = new \DOMDocument();

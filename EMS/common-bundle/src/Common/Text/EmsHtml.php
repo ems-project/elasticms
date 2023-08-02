@@ -10,6 +10,7 @@ final class EmsHtml extends Markup implements \Stringable
 {
     public function __construct(private string $html)
     {
+        parent::__construct($html, 'UTF-8');
     }
 
     public function __toString(): string
@@ -30,9 +31,11 @@ final class EmsHtml extends Markup implements \Stringable
 
     public function printUrls(string $format = ':content (:href)'): self
     {
-        $pattern = '/<a(.|\s)*?href=\s*?"(?<href>(.|\s)*?)"(.|\s)*?>(?<content>(.|\s)*?)<\/a>/';
-
-        $replaced = \preg_replace_callback($pattern, fn ($match) => \str_replace([':content', ':href'], [$match['content'], $match['href']], $format), $this->html);
+        $replaced = \preg_replace_callback(
+            '/<a(.|\s)*?>(?<content>(.|\s)*?)<\/a>/',
+            fn ($match) => $this->printUrl($match, $format),
+            $this->html
+        );
 
         $this->html = \is_string($replaced) ? $replaced : $this->html;
 
@@ -50,5 +53,23 @@ final class EmsHtml extends Markup implements \Stringable
         $this->html = \str_replace($search, $values, $this->html);
 
         return $this;
+    }
+
+    /**
+     * @param array<int|string, string> $match
+     */
+    private function printUrl(array $match, string $format): string
+    {
+        $link = $match[0];
+        \preg_match('/<a\s+(?:[^>]*?\s+)?href=(["\'])(?<href>.*?)\1/', $link, $matchHref);
+
+        $content = $match['content'];
+        $href = $matchHref['href'] ?? null;
+
+        if (null === $href || \str_starts_with($href, '#')) {
+            return $link;
+        }
+
+        return \str_replace([':content', ':href'], [$content, $href], $format);
     }
 }

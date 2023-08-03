@@ -760,6 +760,7 @@ task:
         deadline: Deadline
         description: Description
         title: Title
+        delay: 'Delay (in days)'
     finished:
         hide: 'Hide finished tasks (%number%)'
         show: 'Show finished tasks (%number%)'

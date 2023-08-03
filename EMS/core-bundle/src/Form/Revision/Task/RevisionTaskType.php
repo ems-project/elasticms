@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\Revision\Task\TaskDTO;
 use EMS\CoreBundle\Entity\Task;
 use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,21 +22,14 @@ final class RevisionTaskType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var TaskDTO $taskDto */
+        $taskDto = $options['data'];
+
         $builder
             ->add('title', TextType::class, [
                 'attr' => ['readonly' => Task::STATUS_COMPLETED == $options['task_status']],
                 'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
                 'label' => 'task.field.title',
-            ])
-            ->add('deadline', TextType::class, [
-                'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
-                'label' => 'task.field.deadline',
-                'attr' => [
-                    'readonly' => Task::STATUS_COMPLETED == $options['task_status'],
-                    'class' => 'datetime-picker',
-                    'data-date-format' => 'D/MM/YYYY',
-                    'data-date-disabled-hours' => '[true]',
-                ],
             ])
             ->add('assignee', SelectUserPropertyType::class, [
                 'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
@@ -51,6 +45,20 @@ final class RevisionTaskType extends AbstractType
                 'attr' => ['rows' => 5],
             ])
         ;
+
+        if (null === $taskDto->id || Task::STATUS_PLANNED === $options['task_status']) {
+            $builder->add('delay', IntegerType::class, [
+                'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
+                'label' => 'task.field.delay',
+                'attr' => ['min' => 0],
+            ]);
+        } else {
+            $builder->add('deadline', TextType::class, [
+                'disabled' => true,
+                'label' => 'task.field.deadline',
+                'attr' => ['readonly' => true],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

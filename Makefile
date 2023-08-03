@@ -48,14 +48,19 @@ stop: ## stop docker, admin server, web server
 	@$(MAKE) -s admin-server-stop
 	@$(MAKE) -s web-server-stop
 	@$(MAKE) -s docker-down
-
-## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
-demo-init: ## init demo (new database)
+clear-cache:
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
+
+## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
+demo-init: ## init demo (new database PostgreSQL)
+	@$(MAKE) clear-cache
 	@$(MAKE) -C ./demo -s init
-	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
-	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo
+	@$(MAKE) demo-symlink-assets
+demo-load: ## load demo data
+	@$(RUN_ADMIN) c:cl
+	@$(RUN_WEB) c:cl
+	@$(MAKE) -C ./demo -s load
 demo-local-status: ## local status
 	@$(MAKE) -C ./demo -s web-local-status
 demo-backup-configs: ## backup configs
@@ -66,6 +71,9 @@ demo-restore-configs: ## restore configs
 	@$(MAKE) -C ./demo -s web-restore-configs
 demo-restore-documents: ## restore documents
 	@$(MAKE) -C ./demo -s web-restore-documents
+demo-symlink-assets: ## symlink assets
+	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
+	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 admin-server-start: ## start symfony server (8881)
@@ -108,3 +116,7 @@ db-create/%: ## db-create/"db_example" SCHEMA="schema_example_adm"
 	@echo 'DB_URL="pgsql://${*}:${*}@127.0.0.1:5432/${*}"'
 db-load/%: ## make db-load/"db_example" DUMP=../../dumps.sql
 	@$(RUN_PSQL) -U ${*} < ${DUMP}
+db-create-mysql: ## create mysql database
+	@$(RUN_ADMIN) doctrine:database:drop --if-exists --force
+	@$(RUN_ADMIN) doctrine:database:create
+	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction

@@ -10,7 +10,7 @@
         "snapshot": false,
         "circles": null,
         "inDefaultSearch": false,
-        "orderKey": null,
+        "orderKey": 3,
         "updateReferrers": true,
         "templatePublication": null,
         "rolePublish": null

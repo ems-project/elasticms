@@ -30,7 +30,8 @@ final class TaskController extends AbstractController
         private readonly TaskManager $taskManager,
         private readonly AjaxService $ajax,
         private readonly FormFactoryInterface $formFactory,
-        private readonly TableExporter $tableExporter
+        private readonly TableExporter $tableExporter,
+        private readonly string $coreDateFormat
     ) {
     }
 
@@ -175,7 +176,7 @@ final class TaskController extends AbstractController
     public function ajaxModalUpdate(Request $request, int $revisionId, string $taskId): JsonResponse
     {
         $task = $this->taskManager->getTask($taskId);
-        $taskDTO = TaskDTO::fromEntity($task);
+        $taskDTO = TaskDTO::fromEntity($task, $this->coreDateFormat);
 
         $ajaxModal = $this->getAjaxModal();
         $ajaxModal->setFooter('modalUpdateFooter', ['task' => $task, 'revisionId' => $revisionId]);
@@ -215,7 +216,7 @@ final class TaskController extends AbstractController
             ->setFooter('modalFooterClose');
 
         try {
-            $taskDTO = TaskDTO::fromEntity($task);
+            $taskDTO = TaskDTO::fromEntity($task, $this->coreDateFormat);
             $form = $this->createForm(RevisionTaskType::class, $taskDTO, ['task_status' => $task->getStatus()]);
             $form->handleRequest($request);
 

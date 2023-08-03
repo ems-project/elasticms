@@ -21,7 +21,7 @@ final class TaskDTO
     #[Assert\Range(min: 0)]
     public ?int $delay = null;
 
-    public static function fromEntity(Task $task): TaskDTO
+    public static function fromEntity(Task $task, string $coreDateFormat): TaskDTO
     {
         $dto = new self();
         $dto->id = $task->getId();
@@ -30,7 +30,7 @@ final class TaskDTO
         $dto->assignee = $task->getAssignee();
 
         if ($task->hasDeadline()) {
-            $dto->deadline = $task->getDeadline()->format(\DateTimeInterface::ATOM);
+            $dto->deadline = $task->getDeadline()->format($coreDateFormat);
         }
         if ($task->hasDescription()) {
             $dto->description = $task->getDescription();

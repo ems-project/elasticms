@@ -317,6 +317,7 @@
             <argument type="service" id="ems_core.core_ui.ajax_service" />
             <argument type="service" id="form.factory" />
             <argument type="service" id="ems_core.core_data_table.table_exporter" />
+            <argument>%ems_core.date_format%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

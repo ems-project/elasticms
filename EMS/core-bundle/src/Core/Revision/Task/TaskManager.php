@@ -280,10 +280,13 @@ final class TaskManager
         return function (int $revisionId) use ($execute) {
             try {
                 $revision = $this->revisionRepository->findOneById($revisionId);
+
+                if (!$revision->tasksEnabled()) {
+                    throw new \RuntimeException(\sprintf('Tasks not enabled for revision %d', $revisionId));
+                }
+
                 $this->dataService->lockRevision($revision);
-
                 $result = $execute($revision);
-
                 $this->dataService->unlockRevision($revision);
 
                 return $result;

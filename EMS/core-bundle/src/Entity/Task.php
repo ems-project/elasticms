@@ -42,6 +42,11 @@ class Task implements EntityInterface
     private string $status = self::STATUS_PLANNED;
 
     /**
+     * @ORM\Column(name="delay", type="integer")
+     */
+    private int $delay;
+
+    /**
      * @ORM\Column(name="deadline", type="datetime_immutable", nullable=true)
      */
     private ?\DateTimeInterface $deadline = null;
@@ -151,6 +156,11 @@ class Task implements EntityInterface
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function getDelay(): int
+    {
+        return $this->delay;
     }
 
     public function hasDeadline(): bool

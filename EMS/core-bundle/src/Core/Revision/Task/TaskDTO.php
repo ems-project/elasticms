@@ -10,17 +10,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class TaskDTO
 {
+    public ?string $id = null;
     #[Assert\NotBlank]
     public ?string $title = null;
     #[Assert\NotBlank]
     public ?string $assignee = null;
     public ?string $deadline = null;
     public ?string $description = null;
+    #[Assert\NotBlank]
+    #[Assert\Range(min: 0)]
+    public ?int $delay = null;
 
     public static function fromEntity(Task $task): TaskDTO
     {
         $dto = new self();
+        $dto->id = $task->getId();
         $dto->title = $task->getTitle();
+        $dto->delay = $task->getDelay();
         $dto->assignee = $task->getAssignee();
 
         if ($task->hasDeadline()) {

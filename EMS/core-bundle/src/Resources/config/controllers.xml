@@ -197,6 +197,7 @@
         <service id="EMS\CoreBundle\Controller\ContentManagement\ViewController" public="true">
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems.view.manager" />
+            <argument type="service" id="emsco.data_table.factory" />
             <argument type="service" id="logger"/>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>

@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
-use EMS\CoreBundle\DataTable\Type\ContentType\ActionDataTableType;
+use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeActionDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Form\Data\EntityTable;
@@ -64,7 +64,7 @@ final class ActionController extends AbstractController
             throw new \RuntimeException('Unexpected deleted contentType');
         }
 
-        $table = $this->dataTableFactory->create(ActionDataTableType::class, [
+        $table = $this->dataTableFactory->create(ContentTypeActionDataTableType::class, [
             'content_type_name' => $contentType->getName(),
         ]);
 

@@ -4,7 +4,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\View\ViewManager;
-use EMS\CoreBundle\DataTable\Type\ContentType\ViewDataTableType;
+use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeViewDataTableType;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Form\TableType;
@@ -39,7 +39,7 @@ class ViewController extends AbstractController
     public function index(string $type, Request $request): Response
     {
         $contentType = $this->contentTypeService->giveByName($type);
-        $table = $this->dataTableFactory->create(ViewDataTableType::class, [
+        $table = $this->dataTableFactory->create(ContentTypeViewDataTableType::class, [
             'content_type_name' => $contentType->getName(),
         ]);
 

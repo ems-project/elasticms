@@ -15,7 +15,7 @@ use EMS\CoreBundle\Service\ActionService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ActionDataTableType extends AbstractEntityTableType
+class ContentTypeActionDataTableType extends AbstractEntityTableType
 {
     public function __construct(
         ActionService $entityService,

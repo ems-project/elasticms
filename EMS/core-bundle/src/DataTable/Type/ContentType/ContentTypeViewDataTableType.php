@@ -18,7 +18,7 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ViewDataTableType extends AbstractEntityTableType
+class ContentTypeViewDataTableType extends AbstractEntityTableType
 {
     public function __construct(
         ViewManager $entityService,

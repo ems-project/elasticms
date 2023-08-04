@@ -26,6 +26,11 @@
             <argument type="service" id="ems.service.revision"/>
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.release.revision" class="EMS\CoreBundle\DataTable\Type\Release\ReleaseRevisionDataTableType">
+            <argument type="service" id="ems.service.release_revision"/>
+            <argument type="service" id="ems.service.release"/>
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.data_table.channel" class="EMS\CoreBundle\DataTable\Type\ChannelDataTableType">
             <argument type="service" id="ems.service.channel"/>
             <tag name="emsco.datatable" />

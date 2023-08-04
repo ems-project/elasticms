@@ -48,13 +48,13 @@ stop: ## stop docker, admin server, web server
 	@$(MAKE) -s admin-server-stop
 	@$(MAKE) -s web-server-stop
 	@$(MAKE) -s docker-down
-clear-cache:
+cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 demo-init: ## init demo (new database PostgreSQL)
-	@$(MAKE) clear-cache
+	@$(MAKE) cache-clear
 	@$(MAKE) -C ./demo -s init
 	@$(MAKE) demo-symlink-assets
 demo-load: ## load demo data

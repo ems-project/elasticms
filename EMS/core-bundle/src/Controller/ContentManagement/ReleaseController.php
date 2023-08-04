@@ -6,10 +6,10 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\Release\ReleaseOverviewDataTableType;
+use EMS\CoreBundle\DataTable\Type\Release\ReleasePickDataTableType;
 use EMS\CoreBundle\Entity\Release;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Data\Condition\NotEmpty;
-use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\QueryTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
@@ -39,18 +39,6 @@ final class ReleaseController extends AbstractController
         private readonly ReleaseRevisionService $releaseRevisionService,
         private readonly DataTableFactory $dataTableFactory
     ) {
-    }
-
-    public function ajaxReleaseTable(Request $request, Revision $revision): Response
-    {
-        $table = $this->initAddToReleaseTable($revision);
-        $dataTableRequest = DataTableRequest::fromRequest($request);
-        $table->resetIterator($dataTableRequest);
-
-        return $this->render('@EMSCore/datatable/ajax.html.twig', [
-            'dataTableRequest' => $dataTableRequest,
-            'table' => $table,
-        ], new JsonResponse());
     }
 
     public function ajaxReleaseTableMemberRevisions(Request $request, Release $release): Response
@@ -254,22 +242,16 @@ final class ReleaseController extends AbstractController
 
     public function pickRelease(Revision $revision): Response
     {
-        $table = $this->initAddToReleaseTable($revision);
+        $table = $this->dataTableFactory->create(ReleasePickDataTableType::class, [
+            'revision_id' => $revision->getId(),
+        ]);
+
         $form = $this->createForm(TableType::class, $table);
 
         return $this->render('@EMSCore/release/add-to-release.html.twig', [
             'form' => $form->createView(),
             'revision' => $revision,
         ]);
-    }
-
-    private function initAddToReleaseTable(Revision $revision): EntityTable
-    {
-        $table = new EntityTable($this->releaseService, $this->generateUrl(Routes::DATA_PICK_A_RELEASE_AJAX_DATA_TABLE, ['revision' => $revision->getId()]), $revision);
-        $this->addBaseReleaseTableColumns($table);
-        $table->addItemPostAction(Routes::DATA_ADD_REVISION_TO_RELEASE, 'data.actions.add_to_release', 'plus', 'data.actions.add_to_release_confirm', ['revision' => $revision->getId()])->setButtonType('primary');
-
-        return $table;
     }
 
     private function getMemberRevisionsTable(Release $release): EntityTable
@@ -311,14 +293,5 @@ final class ReleaseController extends AbstractController
         $table->addDynamicItemPostAction(Routes::RELEASE_ADD_REVISION, 'release.revision.action.add', 'plus', 'release.revision.actions.add_confirm', ['release' => \sprintf('%d', $release->getId()), 'emsLinkToAdd' => 'emsLink']);
 
         return $table;
-    }
-
-    private function addBaseReleaseTableColumns(EntityTable $table): void
-    {
-        $table->setDefaultOrder('executionDate', 'desc');
-        $table->addColumn('release.index.column.name', 'name');
-        $table->addColumnDefinition(new DatetimeTableColumn('release.index.column.execution_date', 'executionDate'));
-        $table->addColumnDefinition(new TemplateBlockTableColumn('release.index.column.status', 'status', '@EMSCore/release/columns/revisions.html.twig'));
-        $table->addColumnDefinition(new TemplateBlockTableColumn('release.index.column.docs_count', 'docs_count', '@EMSCore/release/columns/revisions.html.twig'))->setCellClass('text-right');
     }
 }

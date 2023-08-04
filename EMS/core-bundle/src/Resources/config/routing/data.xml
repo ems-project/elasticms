@@ -125,9 +125,6 @@
            path="/json-menu-nested/silent-publish/{revision}/{fieldType}/{field}"
            controller="EMS\CoreBundle\Controller\Revision\JsonMenuNestedController::silentPublish"
            methods="POST"/>
-    <route id="emsco_data_pick_a_release_ajax_data_table" path="/pick-a-release/{revision}.json"
-           controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::ajaxReleaseTable"
-           methods="GET"/>
     <route id="emsco_pick_a_release" path="/pick-a-release/{revision}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ReleaseController::pickRelease"
            methods="GET|POST"/>

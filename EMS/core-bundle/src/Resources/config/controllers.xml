@@ -289,7 +289,7 @@
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
             <argument type="service" id="ems_common.service.elastica" />
             <argument type="service" id="ems.service.search" />
-            <argument type="service" id="ems.log.manager"/>
+            <argument type="service" id="emsco.data_table.factory"/>
             <argument type="service" id="logger" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>

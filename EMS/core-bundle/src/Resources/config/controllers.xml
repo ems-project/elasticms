@@ -255,6 +255,7 @@
         <!-- Log -->
         <service id="EMS\CoreBundle\Controller\Log\LogController" public="true">
             <argument type="service" id="ems.log.manager" />
+            <argument type="service" id="emsco.data_table.factory" />
             <argument type="service" id="logger" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>

@@ -51,6 +51,10 @@
             <argument type="service" id="ems.schedule.manager" />
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.log" class="EMS\CoreBundle\DataTable\Type\LogDataTableType">
+            <argument type="service" id="ems.log.manager" />
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.data_table.query_search" class="EMS\CoreBundle\DataTable\Type\QuerySearchDataTableType">
             <argument type="service" id="ems.service.query_search" />
             <tag name="emsco.datatable" />

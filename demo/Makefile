@@ -43,6 +43,7 @@ stop: ## stop
 init: ## init
 	@$(MAKE) -s npm-install
 	@$(MAKE) -s npm-prod
+	@$(MAKE) -s start
 	@$(MAKE) -s db-setup
 	@$(MAKE) -s load
 load: ## load

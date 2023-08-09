@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage;
 
-use EMS\CommonBundle\Helper\ArrayTool;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
+use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\FileLocatorInterface;
@@ -384,11 +384,8 @@ class StorageManager
             }
             $config[EmsFields::ASSET_SEED] = \hash_final($hashContext);
         }
-
-        $normalizedArray = ArrayTool::normalizeAndSerializeArray($config);
-        if (false === $normalizedArray) {
-            throw new \RuntimeException('Could not normalize config.');
-        }
+        Json::normalize($config);
+        $normalizedArray = Json::encode($config);
 
         return $this->saveContents($normalizedArray, 'assetConfig.json', 'application/json', StorageInterface::STORAGE_USAGE_CONFIG);
     }

@@ -1,5 +1,43 @@
 # Changelog 5.x
 
+## 5.8.0 (2023-08-01)
+### Features
+* feat(cli/media-sync): new options by @Davidmattei in https://github.com/ems-project/elasticms/pull/555
+* feat(common/api): file endpoint download method + TempFile helper by @Davidmattei in https://github.com/ems-project/elasticms/pull/559
+* feat(core/content-type): datalink tooltip in edit mode by @Davidmattei in https://github.com/ems-project/elasticms/pull/567
+* feat(core/job): tagged jobs by @Davidmattei in https://github.com/ems-project/elasticms/pull/550
+* feat(core/twig): new emsco_get filter (deprecated data filter) by @Davidmattei in https://github.com/ems-project/elasticms/pull/565
+* feat(web): security form login (coreApi) by @Davidmattei in https://github.com/ems-project/elasticms/pull/543
+* feat: redirect to controller by @theus77 in https://github.com/ems-project/elasticms/pull/562
+### Bug Fixes
+* fix(cli/webToElasticms): expression array_merge reorder keys by @IsaMic in https://github.com/ems-project/elasticms/pull/558
+* fix(common): avoid loading file in memory (use TempFile) by @theus77 in https://github.com/ems-project/elasticms/pull/560
+* fix(common): non recursive folder creation by @theus77 in https://github.com/ems-project/elasticms/pull/561
+* fix(helper): tempFile load from stream not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/564
+### Code Refactoring
+* refactor(adminUI): a11y and theme color and tika hello by @theus77 in https://github.com/ems-project/elasticms/pull/537
+* refactor(adminUI): add .gitattributes by @Davidmattei in https://github.com/ems-project/elasticms/pull/533
+* refactor(adminUI): bootstrap 5 by @theus77 in https://github.com/ems-project/elasticms/pull/531
+* refactor(cli/media-library): sync already uploaded by @IsaMic in https://github.com/ems-project/elasticms/pull/556
+* refactor(cli/webToElasticms): add reports assetInError by @IsaMic in https://github.com/ems-project/elasticms/pull/557
+### Chores
+* chore: add makeFile actions for database by @Davidmattei in https://github.com/ems-project/elasticms/pull/563
+* chore: cleanup bundles (composer scripts and .gitignore by @Davidmattei in https://github.com/ems-project/elasticms/pull/527
+
+## 5.7.3 (2023-08-01)
+### Bug Fixes
+* fix(cli): malformed utf8 char by @theus77 in https://github.com/ems-project/elasticms/pull/551
+* fix(cli): test if the tika extracted content has some malformed unicode chars by @theus77 in https://github.com/ems-project/elasticms/pull/548
+* fix(cli/webToElasticms): migrate media file optimisation by @theus77 in https://github.com/ems-project/elasticms/pull/554
+* fix(common/storage): image processor bad horizontal mirroring by @theus77 in https://github.com/ems-project/elasticms/pull/546
+* fix(common/storage): limit a range request size to 8MB if not specified by the client by @theus77 in https://github.com/ems-project/elasticms/pull/547
+* fix(core/job): schedule jobs not running by ems:job:run by @Davidmattei in https://github.com/ems-project/elasticms/pull/552
+* fix(core/notifications): treat all updating contentType root field by @Davidmattei in https://github.com/ems-project/elasticms/pull/544
+* fix(core/wysiwyg): correct height iframe by @Davidmattei in https://github.com/ems-project/elasticms/pull/566
+* fix(standard/html): copy/paste relative links by @Davidmattei in https://github.com/ems-project/elasticms/pull/553
+* fix(standard/html): sanitizer allow emsLinks by @Davidmattei in https://github.com/ems-project/elasticms/pull/545
+* fix(standard/html): sanitizer max input length (default 500.000) by @Davidmattei in https://github.com/ems-project/elasticms/pull/549
+
 ## 5.7.2 (2023-07-10)
 ### Bug Fixes
 * fix(core): customUserOptionsForm not null but empty string by @Davidmattei in https://github.com/ems-project/elasticms/pull/541

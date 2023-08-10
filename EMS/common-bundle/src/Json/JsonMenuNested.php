@@ -38,8 +38,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         foreach ($children as $child) {
             $childItem = new JsonMenuNested($child);
             $childItem->setParent($this);
-            $this->descendantIds = \array_merge($this->descendantIds, [$childItem->getId()], $childItem->getDescendantIds());
-
+            $this->descendantIds = [...$this->descendantIds, ...[$childItem->getId()], ...$childItem->getDescendantIds()];
             $this->children[] = $childItem;
         }
     }
@@ -69,7 +68,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         $data = [$this];
 
         foreach ($this->children as $child) {
-            $data = \array_merge($data, $child->toArray());
+            $data = [...$data, ...$child->toArray()];
         }
 
         return $data;

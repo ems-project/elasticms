@@ -28,9 +28,11 @@ class JsonMenuNestedComponent
 
     /**
      * @param array<mixed> $options
+     *
+     * @return array<mixed>
      */
     #[PreMount]
-    public function validate(array $options): void
+    public function validate(array $options): array
     {
         /** @var JsonMenuNestedConfig $config */
         $config = $this->jsonMenuNestedConfigFactory->createFromOptions($options);
@@ -38,5 +40,7 @@ class JsonMenuNestedComponent
         $this->hash = $config->getHash();
         $this->id = $config->getId();
         $this->template = $this->jsonMenuNestedTemplateFactory->create($config);
+
+        return [];
     }
 }

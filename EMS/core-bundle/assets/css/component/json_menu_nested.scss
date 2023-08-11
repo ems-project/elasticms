@@ -1,0 +1,93 @@
+div.json-menu-nested-component {
+    --border-color: #d7d7d7;
+    --gap: 10px;
+    --icon-size: 30px;
+    --icon-bg-color: #F0F0F0;
+    --collapse-icon-size: calc(var(--gap) + var(--icon-size));
+
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+
+    div.jmn-tree {
+        position: relative;
+        overflow: hidden;
+
+        div.jmn-row {
+            position: relative;
+            padding-left: calc(var(--gap) * 2)
+        }
+
+        & > div.jmn-row {
+            padding-left: 0;
+            &:not(.jmn-collapsible) { padding-left: var(--collapse-icon-size) };
+        }
+    }
+
+    div.jmn-item {
+        position: relative;
+        display: flex;
+        padding: var(--gap);
+        align-content: center;
+        justify-content: space-between;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -100%;
+            right: 0;
+            height: 2px;
+            background-color: var(--border-color);
+        }
+    }
+    div.jmn-children {
+        padding-left: var(--collapse-icon-size);
+        div.jmn-row {
+            &:before {
+                content: '';
+                width: var(--gap);
+                height: calc(var(--gap) * 1.5);
+                border-left: 1px solid;
+                border-bottom: 1px solid;
+                border-color: var(--border-color);
+                display: block;
+                position: absolute;
+                top: var(--gap);
+                left: 0;
+            }
+        }
+    }
+
+    .jmn-item-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: var(--icon-size);
+        width: var(--icon-size);
+        border-radius: 50%;
+        background-color: var(--icon-bg-color);
+    }
+
+    div.jmn-item-title {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: var(--gap);
+    }
+
+    button.jmn-btn-collapse {
+        padding: 0;
+        border: none;
+        &[aria-expanded="true"]::after {
+            font-family: FontAwesome, serif;
+            font-weight: 400;
+            content: "\f077";
+        }
+        &[aria-expanded="false"]::after {
+            font-family: FontAwesome, serif;
+            font-weight: 400;
+            content: "\f078";
+        }
+    }
+}
+

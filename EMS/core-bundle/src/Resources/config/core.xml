@@ -18,9 +18,16 @@
 
         <!-- Json Menu Nested -->
         <service id="emsco.core.json_menu_nested.config_factory"
-                 class="EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedConfigFactory"
+                 class="EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfigFactory"
                  parent="emsco.config.abstract_config_factory">
-            <tag name="emsco.config.factory" config="EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedConfig" />
+            <argument type="service" id="ems.service.revision" />
+            <tag name="emsco.config.factory" config="EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig" />
+        </service>
+        <service id="emsco.core.json_menu_nested.template_factory" class="EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplateFactory">
+            <argument type="service" id="twig" />
+        </service>
+        <service id="emsco.core.json_menu_nested" class="EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService">
+            <argument type="service" id="emsco.core.json_menu_nested.template_factory" />
         </service>
 
         <!-- Media Library -->

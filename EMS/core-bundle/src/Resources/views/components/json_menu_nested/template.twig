@@ -1,0 +1,32 @@
+{# @var config \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
+{# @var template \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
+
+{%- block itemRow -%}
+    {# @var item \EMS\CommonBundle\Json\JsonMenuNested #}
+    {%- apply spaceless -%}
+        <div class="{{ html_classes('jmn-row', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
+            <div class="jmn-item">
+                <div class="jmn-item-title">
+                    {% if item.hasChildren %}
+                        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="false"></button>
+                    {% endif %}
+                    {{ title|raw }}
+                </div>
+                <div class="jmn-item-columns">
+
+                </div>
+            </div>
+        </div>
+    {%- endapply -%}
+{%- endblock itemRow -%}
+
+{%- block itemTitle -%}
+    {# @var item \EMS\CommonBundle\Json\JsonMenuNested #}
+    {# @var node \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
+    {%- apply spaceless -%}
+        {% if node.icon %}
+            <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
+        {% endif %}
+        <span>{{ item.label }}</span>
+    {%- endapply -%}
+{%- endblock itemTitle -%}

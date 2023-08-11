@@ -4,6 +4,15 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
+    <!-- Json Menu Nested -->
+    <route id="emsco.json_menu_nested.structure" path="/json-menu-nested/{hash}/structure/{parentId}"
+           controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::getStructure"
+           methods="GET">
+        <requirement key="hash">.*</requirement>
+        <default key="parentId" xsi:nil="true"/>
+    </route>
+
+    <!-- Media library -->
     <route id="emsco.media_library.files" path="/media-lib/{hash}/files/{folderId}"
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::getFiles"
            methods="GET">
@@ -15,19 +24,16 @@
            methods="GET">
         <requirement key="hash">.*</requirement>
     </route>
-
     <route id="emsco.media_library.add_folder" path="/media-lib/{hash}/add-folder/{folderId}"
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::addFolder"
            methods="GET|POST">
         <requirement key="hash">.*</requirement>
         <default key="folderId" xsi:nil="true"/>
     </route>
-
     <route id="emsco.media_library.add_file" path="/media-lib/{hash}/add-file/{folderId}"
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::addFile"
            methods="POST">
         <requirement key="hash">.*</requirement>
         <default key="folderId" xsi:nil="true"/>
     </route>
-
 </routes>

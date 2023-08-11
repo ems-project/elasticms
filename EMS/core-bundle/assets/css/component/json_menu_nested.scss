@@ -1,4 +1,4 @@
-div.json-menu-nested-component {
+.json-menu-nested-component {
     --border-color: #d7d7d7;
     --gap: 10px;
     --icon-size: 30px;
@@ -8,22 +8,22 @@ div.json-menu-nested-component {
     border: 1px solid var(--border-color);
     border-radius: 5px;
 
-    div.jmn-tree {
+    .jmn-tree {
         position: relative;
         overflow: hidden;
 
-        div.jmn-row {
+        .jmn-row {
             position: relative;
             padding-left: calc(var(--gap) * 2)
         }
 
-        & > div.jmn-row {
+        & > .jmn-row {
             padding-left: 0;
             &:not(.jmn-collapsible) { padding-left: var(--collapse-icon-size) };
         }
     }
 
-    div.jmn-item {
+    .jmn-item {
         position: relative;
         display: flex;
         padding: var(--gap);
@@ -40,9 +40,9 @@ div.json-menu-nested-component {
             background-color: var(--border-color);
         }
     }
-    div.jmn-children {
+    .jmn-children {
         padding-left: var(--collapse-icon-size);
-        div.jmn-row {
+        .jmn-row {
             &:before {
                 content: '';
                 width: var(--gap);
@@ -68,14 +68,14 @@ div.json-menu-nested-component {
         background-color: var(--icon-bg-color);
     }
 
-    div.jmn-item-title {
+    .jmn-item-title {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         column-gap: var(--gap);
     }
 
-    button.jmn-btn-collapse {
+    .jmn-btn-collapse {
         padding: 0;
         border: none;
         &[aria-expanded="true"]::after {

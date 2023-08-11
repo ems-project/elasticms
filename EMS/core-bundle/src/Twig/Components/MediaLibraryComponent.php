@@ -28,15 +28,20 @@ final class MediaLibraryComponent
 
     /**
      * @param array<mixed> $options
+     *
+     * @return array<mixed>
      */
     #[PreMount]
-    public function validate(array $options): void
+    public function validate(array $options): array
     {
         /** @var MediaLibraryConfig $config */
         $config = $this->mediaLibraryConfigFactory->createFromOptions($options);
+        $template = $this->templateFactory->create($config);
 
         $this->hash = $config->getHash();
         $this->id = $config->getId();
-        $this->template = $this->templateFactory->create($config);
+        $this->template = $template;
+
+        return [];
     }
 }

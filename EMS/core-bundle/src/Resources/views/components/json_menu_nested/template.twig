@@ -1,7 +1,7 @@
 {# @var config \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
 {# @var template \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
 
-{%- block itemRow -%}
+{%- block _itemRow -%}
     {# @var item \EMS\CommonBundle\Json\JsonMenuNested #}
     {%- apply spaceless -%}
         <div class="{{ html_classes('jmn-row', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
@@ -18,7 +18,7 @@
             </div>
         </div>
     {%- endapply -%}
-{%- endblock itemRow -%}
+{%- endblock _itemRow -%}
 
 {%- block itemTitle -%}
     {# @var item \EMS\CommonBundle\Json\JsonMenuNested #}

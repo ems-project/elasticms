@@ -31,7 +31,7 @@ class JsonMenuNestedTemplate
             'node' => $this->config->nodes->get($item),
         ]);
 
-        return $this->block('itemRow', [
+        return $this->block('_itemRow', [
             'title' => $itemTitle,
             'item' => $item,
         ]);
@@ -43,8 +43,9 @@ class JsonMenuNestedTemplate
     public function block(string $blockName, array $context = []): string
     {
         $context = $this->getContext($context);
+        $isPrivate = \str_starts_with($blockName, '_');
 
-        if ($this->configTemplate && $this->configTemplate->hasBlock($blockName)) {
+        if (!$isPrivate && $this->configTemplate && $this->configTemplate->hasBlock($blockName)) {
             return $this->configTemplate->renderBlock($blockName, $context);
         }
 

@@ -57,6 +57,18 @@
         <source>elements.status.red</source>
         <target>Red, systems are facing issues. Please contact your system administrator.</target>
       </trans-unit>
+      <trans-unit id="l_C57Fy" resname="toats.level.error">
+        <source>toats.level.error</source>
+        <target>Error</target>
+      </trans-unit>
+      <trans-unit id="jZs_xCU" resname="toats.level.notice">
+        <source>toats.level.notice</source>
+        <target>Notice</target>
+      </trans-unit>
+      <trans-unit id="263Rpro" resname="toats.level.warning">
+        <source>toats.level.warning</source>
+        <target>Warning</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -69,6 +69,10 @@
         <source>toats.level.warning</source>
         <target>Warning</target>
       </trans-unit>
+      <trans-unit id="tVomn.Q" resname="elements.user-image.anonymous">
+        <source>elements.user-image.anonymous</source>
+        <target>Anonymous user</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

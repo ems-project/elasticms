@@ -105,6 +105,14 @@
         <source>user.change_password.cancel</source>
         <target>Cancel</target>
       </trans-unit>
+      <trans-unit id="5yLxmZH" resname="user.profile.edit.title">
+        <source>user.profile.edit.title</source>
+        <target>Your profile</target>
+      </trans-unit>
+      <trans-unit id="QxXqqK_" resname="user.profile.show.action.cancel">
+        <source>user.profile.show.action.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -3,6 +3,12 @@
 
 {% block title %}{{ 'user.profile.title'|trans }}{% endblock title %}
 
+{% block breadcrumb %}
+    {% set breadcrumb = {(path('emsco_user_profile')): 'user.profile.title'|trans}|merge(breadcrumb)  %}
+    {{ parent() }}
+{% endblock breadcrumb %}
+
+
 {% block content %}
     <div class="row">
         <div class="col-md-4 offset-md-4">

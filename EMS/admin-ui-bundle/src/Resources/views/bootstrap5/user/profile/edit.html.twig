@@ -1,8 +1,12 @@
-{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+{% extends '@EMSAdminUI/bootstrap5/user/profile/show.html.twig' %}
 {%- trans_default_domain 'user' -%}
 
 {% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock title %}
 
+{% block breadcrumb %}
+    {% set breadcrumb = {(path('emsco_user_profile_edit')): 'user.profile.edit.breadcrumb_title'|trans}|merge(breadcrumb)  %}
+    {{ parent() }}
+{% endblock breadcrumb %}
 
 {% block content %}
     {{ form_start(form, { 'action': path(routes.USER_PROFILE_EDIT) }) }}

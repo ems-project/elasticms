@@ -63,12 +63,14 @@ class AssetRuntime
             return null;
         }
 
-        return TempFile::fromStream($this->storageManager->getStream($hash), $hash, $this->cacheDir)->path;
+        return TempFile::createNamed($hash, $this->cacheDir)
+            ->loadFromStream($this->storageManager->getStream($hash))
+            ->path;
     }
 
     public static function extract(StreamInterface $stream, string $destination): bool
     {
-        $tempFile = TempFile::fromStream($stream);
+        $tempFile = TempFile::create()->loadFromStream($stream);
 
         $zip = new \ZipArchive();
         if (true !== $open = $zip->open($tempFile->path)) {

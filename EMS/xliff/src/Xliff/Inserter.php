@@ -19,7 +19,9 @@ class Inserter
         $this->version = DomHelper::getStringAttr($this->xliff, 'version');
 
         foreach (['xml'] as $ns) {
-            $this->nameSpaces[$ns] = $document->lookupNamespaceURI($ns);
+            if ($lookupNamespace = $document->lookupNamespaceURI($ns)) {
+                $this->nameSpaces[$ns] = $lookupNamespace;
+            }
         }
 
         if (!\in_array($this->version, Extractor::XLIFF_VERSIONS)) {

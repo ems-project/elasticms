@@ -4,7 +4,7 @@ namespace EMS\CommonBundle\Common;
 
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 
-class EMSLink implements \Stringable
+class EMSLink implements \Stringable, \JsonSerializable
 {
     final public const EMSLINK_ASSET_PREFIX = 'ems://asset:';
     private string $linkType = 'object';
@@ -27,6 +27,11 @@ class EMSLink implements \Stringable
 
     private function __construct()
     {
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->__toString();
     }
 
     public static function fromContentTypeOuuid(string $contentType, string $ouuid): EMSLink

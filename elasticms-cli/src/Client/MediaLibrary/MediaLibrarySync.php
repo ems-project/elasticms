@@ -96,7 +96,7 @@ final class MediaLibrarySync
         $metaData = $this->getMetadata($path);
 
         if ($this->options->onlyMetadataFile && 0 === \count($metaData)) {
-            $this->io->warning(\sprintf('Skipped "%s" with reason metadata was found', $path));
+            $this->io->warning(\sprintf('Skipped "%s" with reason metadata was not found', $path));
 
             return;
         }

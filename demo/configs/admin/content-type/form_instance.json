@@ -2323,7 +2323,7 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 8,
+        "orderKey": 10,
         "rootContentType": true,
         "editTwigWithWysiwyg": true,
         "webContent": false,

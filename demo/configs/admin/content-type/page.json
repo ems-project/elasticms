@@ -819,8 +819,8 @@
                                                                                     "multiple": false,
                                                                                     "expanded": false,
                                                                                     "select2": false,
-                                                                                    "choices": "accessibility_report",
-                                                                                    "labels": "Accessibility report",
+                                                                                    "choices": "accessibility_report\r\nreleases",
+                                                                                    "labels": "Accessibility report\r\nReleases",
                                                                                     "linked_collection": null,
                                                                                     "collection_label_field": null,
                                                                                     "placeholder": null
@@ -1205,7 +1205,7 @@
                                                             "helptext": null,
                                                             "multiple": false,
                                                             "expanded": false,
-                                                            "select2": false,
+                                                            "select2": true,
                                                             "choices": "with_banner",
                                                             "labels": "With header banner (hero)",
                                                             "linked_collection": null,
@@ -1365,7 +1365,8 @@
                     "orientation": null,
                     "size": null,
                     "public": false,
-                    "spreadsheet": false
+                    "spreadsheet": false,
+                    "tag": null
                 },
                 "replaced": []
             },
@@ -1398,7 +1399,8 @@
                     "orientation": null,
                     "size": null,
                     "public": false,
-                    "spreadsheet": false
+                    "spreadsheet": false,
+                    "tag": null
                 },
                 "replaced": []
             }

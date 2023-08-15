@@ -1,7 +1,7 @@
 {% extends '@EMSCH/template/view/abstract.html.twig' %}
 {% trans_default_domain trans_default_domain %}
 
-{% block title %}{{ 'blog.title'|trans }}{% endblock %}
+{% block title %}{{ 'blog.grid.title'|trans }}{% endblock %}
 
 {% block view_body %}
     {%  set query = emsch_search('news', {
@@ -15,13 +15,17 @@
         "size": 100,
         "aggs": {
             "categories": {
-                "terms": { "field": "categories" }
+                "terms": { "field": "categories", "size": 100 }
             }
         }
     }) %}
 
-    {%  set tags = emsch_search('category', {
+    {%  set categories = emsch_search('category', {
         "size": 1000,
+        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|emsch_ouuid) }},
+        "sort": [
+            {("title_#{locale}.alpha_order"): {"order": "asc"}}
+        ],
         "_source": ["#{app.request.locale}.title"]
     }).hits.hits|default([])|array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
 
@@ -29,10 +33,10 @@
         <div class="py-5 py-lg-8">
             <h2>{{ "blog.filter"|trans }}</h2>
             <div class="news-filters mb-5 d-sm-flex">
-                {% for categories in query.aggregations.categories.buckets|default([]) %}
+                {% for key, category in categories %}
                     <div class="custom-control custom-checkbox text-left btn btn-outline-primary pl-5 mr-3 mb-2">
-                        <input type="checkbox" class="custom-control-input" id="{{ categories.key }}" value="{{ categories.key }}">
-                        <label class="custom-control-label" for="{{ categories.key }}">{{ attribute(tags, categories.key|split(':')|last)}}</label>
+                        <input type="checkbox" class="custom-control-input" id="{{ key }}" value="{{ key }}">
+                        <label class="custom-control-label" for="{{ key }}">{{ category }}</label>
                     </div>
                 {% endfor %}
             </div>

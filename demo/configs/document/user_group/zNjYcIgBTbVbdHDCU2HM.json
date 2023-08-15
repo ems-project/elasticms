@@ -1,0 +1,18 @@
+{
+    "date": "2023-10-17T09:30:00+02:00",
+    "duration": "150 min",
+    "facilitator_name": "Mathieu De Keyzer",
+    "fr": {
+        "body": "<p>Introduction des participants &ndash; Am&eacute;liorations eMS via d&eacute;monstrations &ndash; User Test MediaLibrary (m&eacute;diath&egrave;que) &ndash; Pr&eacute;sentation du POC CKEditor 5 &ndash; Retour d&rsquo;exp&eacute;rience des participants &ndash; Nouveaut&eacute;s du site eMS &ndash; Statut planning des maintenances SaaS</p>"
+    },
+    "label": "usergroup 2023-10-17",
+    "nl": {
+        "body": "<p>Kennismaking deelnemers &ndash; demo van eMS-verbeteringen &ndash; Gebruikerstest van Media Library - Presentatie van POC CKEditor 5 - Feedback van deelnemers &ndash; Nieuwigheden op eMS-website - Status van SaaS-onderhoudsplanning</p>"
+    },
+    "picture": {
+        "filename": "avatar.jpg",
+        "filesize": 12758,
+        "mimetype": "image/jpeg",
+        "sha1": "9f608f6dd45f4958fc0c4273b4650eacbed98641"
+    }
+}

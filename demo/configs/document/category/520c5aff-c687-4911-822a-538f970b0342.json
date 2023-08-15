@@ -1,9 +1,11 @@
 {
     "fr": {
-        "title": "Orejime et cookies"
+        "title": "RGPD"
     },
-    "label": "orejime cookies",
+    "label": "GDPR",
     "nl": {
-        "title": "Orejime en cookies"
-    }
+        "title": "GDPR"
+    },
+    "title_fr": "RGPD",
+    "title_nl": "GDPR"
 }

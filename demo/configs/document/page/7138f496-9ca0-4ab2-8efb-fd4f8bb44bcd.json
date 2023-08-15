@@ -2,6 +2,9 @@
     "fr": {
         "body": "<p>Il existe trois types de releases&nbsp;:</p>\r\n\r\n<ol>\r\n\t<li><b>DEBUGS</b>&nbsp;: corrections urgentes des erreurs et des probl&egrave;mes qui r&eacute;duisent les performances</li>\r\n\t<li><b>RELEASES MINEURES</b>&nbsp;: am&eacute;liorations/ajouts de fonctionnalit&eacute;s ou remaniement technique en vue d&rsquo;une version majeure</li>\r\n\t<li><b>RELEASES MAJEURES</b>&nbsp;: mises &agrave; jour technologiques importantes repr&eacute;sentant plus de risques</li>\r\n</ol>\r\n\r\n<p>Les debugs se produiront <strong>une fois par semaine</strong> et les releases mineures <strong>une fois par mois</strong>. Le planning des releases majeures n&rsquo;est pas d&eacute;termin&eacute;. Il d&eacute;pend des releases des technologies utilis&eacute;es par elasticMS (elasticearch, DB, PHP, Symfony, Tika, Redis&hellip;).</p>\r\n\r\n<p>Afin d&rsquo;&eacute;viter les risques de r&eacute;gression, des <strong>tests sanitaires </strong>auront lieu lors des debugs et des <strong>tests de non-r&eacute;gression</strong> lors de releases mineures. Pour les releases majeures de version, des <strong>tests complets</strong> seront effectu&eacute;s et un d&eacute;veloppeur sera n&eacute;cessaire pour effectuer la mise &agrave; jour.</p>\r\n\r\n<p>Les releases mineures auront lieu tous les derniers lundis ouvrables du mois.</p>\r\n\r\n<p><a class=\"btn btn-outline-primary text-uppercase\" href=\"ems://object:page:6d9c61b0-84cf-42a8-a56c-75c9f101620c\">Voir le d&eacute;tail des releases</a></p>",
         "components": "[]",
+        "description": "<p>Une release est la distribution de la version finale ou de la version la plus r&eacute;cente d&rsquo;elasticMS. Comment sont-elles g&eacute;r&eacute;es ?</p>",
+        "meta_title": "Release | elasticMS",
+        "noindex": false,
         "summary": "<p>Une release est la distribution de la version finale ou de la <b>version la plus r&eacute;cente d&rsquo;un logiciel</b>. Une release signifie g&eacute;n&eacute;ralement le d&eacute;voilement d&rsquo;une <b>version nouvelle</b> ou <b>mise &agrave; jour</b> du logiciel. Pour &ecirc;tre r&eacute;ussie, la gestion des releases n&eacute;cessite une planification et une ex&eacute;cution minutieuses.</p>",
         "title": "Release"
     },
@@ -10,7 +13,12 @@
     "nl": {
         "body": "<p>Er zijn drie soorten releases:</p>\r\n\r\n<ol>\r\n\t<li><b>DEBUGS</b>: dringende correcties van fouten en problemen die de prestaties verminderen</li>\r\n\t<li><b>MINOR RELEASES</b>: verbeteringen/toevoegingen aan functionaliteiten of technische aanpassingen in functie van een grotere release</li>\r\n\t<li><b>MAJOR RELEASES</b>: belangrijke technologische updates die meer risico inhouden</li>\r\n</ol>\r\n\r\n<p>Debugs vinden <b>eenmaal per week </b>plaats, kleine releases <b>eenmaal per maand</b>. Voor grote releases staat de planning niet vast. Ze hangen af van de releases van de verschillende technologie&euml;n die elasticMS gebruikt (elasticsearch, DB, PHP, Symfony, Tika, Redis ...).</p>\r\n\r\n<p>Om het risico op regressie te vermijden, worden <b>sanity checks </b>uitgevoerd tijdens debugs en <b>niet-regressietests </b>bij<b> </b>kleine releases. Bij grote versiereleases worden <b>volledige tests </b>uitgevoerd en is er een ontwikkelaar nodig om de update uit te voeren.</p>\r\n\r\n<p>Kleine releases zullen elke laatste maandag (indien werkdag) van de maand plaatsvinden.</p>\r\n\r\n<p><a class=\"btn btn-outline-primary text-uppercase\" href=\"ems://object:page:6d9c61b0-84cf-42a8-a56c-75c9f101620c\">Details van de releases</a></p>",
         "components": "[]",
+        "description": "<p>Een release is het uitbrengen van de definitieve of meest recente versie van elasticMS. Maar hoe gebeurt dat?</p>",
+        "meta_title": "Release | elasticMS",
+        "noindex": false,
         "summary": "<p>Een release is het uitbrengen van de definitieve of <b>meest recente versie</b> <b>van software</b>. Dit betekent in de meeste gevallen dat er een <b>nieuwe </b>of <b>bijgewerkte versie van </b>de software beschikbaar is. Succesvol releasebeheer vereist een zorgvuldige planning en uitvoering.</p>",
         "title": "Release"
-    }
+    },
+    "title_fr": "Release",
+    "title_nl": "Release"
 }

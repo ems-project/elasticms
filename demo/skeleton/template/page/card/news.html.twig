@@ -5,5 +5,5 @@
     {% if attribute(target.source, locale).title|default(false) %}
         <h3 class="h2 news-heading">{{ attribute(target.source, locale).title }}</h3>
     {% endif %}
-    {{ attribute(target.source, locale).description|default('')|emsch_routing }}
+    {{ attribute(target.source, locale).summary|default('')|emsch_routing }}
 {% endblock description %}

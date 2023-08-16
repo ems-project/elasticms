@@ -5,12 +5,15 @@ aria:
     skip-to-content: 'Passer directement au contenu'
     toggle-navbar: 'Afficher la navigation'
 block:
-    grid:
+  release:
+    title: 'Release %version%'
+  grid:
         see_also: 'Voir également'
 blog:
     filter: Filtres
-    intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
-    title: 'What’s new ? - Le Blog'
+    title: 'What’s new?'
+    grid:
+        title: 'News'
 breadcrumb:
     back-to: 'Retour à la page %title%'
     homepage: 'd''accueil'
@@ -38,8 +41,7 @@ language:
     selection: 'select language'
 locale: Français
 missing:
-    but-available-in: 'Version en français :'
-    description: 'Voir ci-dessous pour des versions alternatives.'
+    description: 'Changer de langue pour voir les versions alternatives.'
     title: 'Ce contenu n''est pas disponible en français'
 month:
     April: Avril
@@ -64,8 +66,17 @@ site:
     short_name: elasticMS
 usergroup:
     facilitator: 'Présentateur du prochain User Group'
-    intro: 'Retrouvez prochainement les informations du user group suivant sur cette page.'
+    intro: 'Inscrivez-vous et participez à la prochaine activité online du User Group.'
     next-event: 'Date et heure'
     team-meeting: Durée
     title: 'Prochaine session'
     topic: Sujets
+release:
+    search:
+        filters_title: 'Filtre'
+        choose_category: 'Choisissez une catégorie'
+        remove_tag: 'Supprimer le filtre'
+        selected_categories: 'Tags sélectionnés'
+        placeholder: 'Mots-clés'
+        label: 'Mots-clés'
+        submit: 'Rechercher'

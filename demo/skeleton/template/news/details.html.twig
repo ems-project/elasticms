@@ -1,6 +1,30 @@
 {% extends '@EMSCH/template/view/abstract.html.twig' %}
 {% trans_default_domain trans_default_domain %}
 
+{% block title %}
+    {%- apply spaceless %}
+        {% if attribute(source, locale).meta_title|default(false) %}
+            {{ attribute(source, locale).meta_title }}
+        {% elseif attribute(source, locale).title|default(false) %}
+            {{ attribute(source, locale).title }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endapply -%}
+{% endblock %}
+
+{% block meta_description %}
+    {%- apply spaceless %}
+        {% if attribute(source, locale).description|default(false) %}
+            {{ attribute(source, locale).description|striptags|ems_html_decode|trim }}
+        {% elseif attribute(source, locale).summary|default(false) %}
+            {{ attribute(source, locale).summary|striptags|ems_html_decode|trim }}
+        {% else %}
+            {{ parent() }}
+        {% endif %}
+    {% endapply -%}
+{% endblock %}
+
 {% block back_link %}
     <a class="text-white" href="{{ path('emsch_news') }}">{{ 'breadcrumb.back-to'|trans({('%title%'): 'blog.title'|trans}) }}</a>
 {% endblock back_link %}
@@ -17,8 +41,6 @@
     {% endfor %}
     {{ parent() }}
 {% endblock request %}
-
-{% block title %}{{ attribute(source, locale).title }}{% endblock %}
 
 {% block view_body %}
     <div class="container-fluid container-lg">

@@ -1,0 +1,35 @@
+#filter-releases {
+  input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: $white;
+    opacity: 1; /* Firefox */
+  }
+  .btn-sm {
+    font-size: rem(14);
+    padding: em(4,14) em(10,14);
+    padding-right:.5em;
+    margin-left: em(10,14);
+    line-height: 1.2;
+    span {
+      font-size: rem(18);
+      line-height: .75em;
+      padding-left: .25em;
+    }
+  }
+}
+#filter-releases-active {
+  font-size: rem(14);
+}
+.release-item {
+  .badge {
+    margin-top: 3px;
+    margin-right: 1em;
+    font-weight: normal;
+    background-color: rgba($primary,.2);
+    padding: em(4,12);
+    width: 120px;
+    flex: 0 0 120px;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

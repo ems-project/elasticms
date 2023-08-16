@@ -1,0 +1,19 @@
+{% extends '@EMSCH/template/variables.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block request %}
+    {% set data ={
+        name: 'elasticms promo website',
+        short_name: 'elasticms',
+        icons: [{
+            src: path('icon.png', {name: 'android-chrome', width: 192, height: 192}),
+            size: '192x192',
+            type: 'image/png',
+        },{
+            src: path('icon.png', {name: 'android-chrome', width: 512, height: 512}),
+            size: '512x512',
+            type: 'image/png',
+        }]
+    } %}
+    {{ data|json_encode|raw }}
+{% endblock %}

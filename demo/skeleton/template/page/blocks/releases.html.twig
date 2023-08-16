@@ -1,0 +1,151 @@
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block widget %}
+    {% trans_default_domain trans_default_domain %}
+    {% set releases = emsch_search('release', {
+        "size": 1000,
+        "_source": ["version","release_date"],
+    }).hits.hits|default([])|map(p => p._source)|array_key('version') %}
+    {% set must = {} %}
+
+    {% if app.request.get('q', '')|length > 0 %}
+        {% set must = must|merge([{
+            query_string: {
+                query: app.request.get('q'),
+                default_field: "title_#{locale}",
+            }
+        }]) %}
+    {% endif %}
+
+
+    {% set selectedCategories = app.request.get('categories', []) %}
+    {% if selectedCategories|length > 0 %}
+        {% set must = must|merge([{
+            terms: {category: selectedCategories|map(p => "category:#{p}")}
+        }]) %}
+    {% endif %}
+
+
+
+    {% set query = {} %}
+    {% if must|length > 0 %}
+        {% set query = {
+            bool: {
+                must: must,
+            }
+        } %}
+    {% endif %}
+
+    {% set features = emsch_search('feature', {
+        "size": 1000,
+        "query": query,
+        "sort": [{
+            "version": { "order": "desc" },
+            "_score": { "order": "asc" },
+            "_finalization_datetime": { "order": "desc" },
+        }],
+        "_source": ["#{app.request.locale}.title","version","category"],
+    }) %}
+
+    {% set aggsCategories = emsch_search('feature', {
+        "size": 0,
+        "aggs": {
+            "categories": {
+                "terms": { "field": "category", "size": 100 },
+            },
+        }
+    }).aggregations.categories.buckets|map(p => p.key|emsch_ouuid) %}
+
+    {% set categories = emsch_search('category', {
+        "size": 1000,
+        "query": { "terms": { "_id": aggsCategories }},
+        "_source": ["#{app.request.locale}.title"],
+        "sort": [{
+            ("title_#{locale}.alpha_order"): { "order": "asc" },
+        }],
+    }).hits.hits|default([])|array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
+
+    <section class="bg-dark text-white py-4 mb-3 mt-n3" id="filter-releases">
+        <form method="GET">
+            <div class="container-fluid container-lg">
+                <div class="row">
+                    <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-auto mb-3 mb-md-0">
+                                <p class="mb-0 text-uppercase font-weight-bold">{{ 'release.search.filters_title'|trans }}</p>
+                            </div>
+                            <div class="col-12 col-sm-auto mb-3 mb-md-0">
+                                <div class="input-group">
+                                    <input type="text" name="q" class="form-control border-light bg-dark text-light border-right-0" placeholder="{{ 'release.search.placeholder'|trans }}" aria-label="{{ 'release.search.label'|trans }}" value="{{ app.request.get('q', '') }}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-light border-left-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i><span class="sr-only">{{ 'release.search.submit'|trans }}</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-auto mb-3 mb-md-0">
+                                <a class="btn btn-outline-light dropdown-toggle" href="#" id="tags_filter" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ 'release.search.choose_category'|trans }}</a>
+                                <div class="dropdown-menu" aria-labelledby="tags_filter" id="categories_filter">
+                                    {% for id, category in categories %}
+                                        <div class="dropdown-item checkbox px-3 py-2 d-flex justify-content-between align-items-center">
+                                            <div class="custom-control custom-checkbox mr-2">
+                                                {% set checked = id in selectedCategories %}
+                                                <input type="checkbox" id="{{ id }}" name="categories[]" value="{{ id }}" data-label="{{ id }}" class="custom-control-input" {{ checked ? 'checked' }}>
+                                                <label class="custom-control-label" for="{{ id }}">{{ category }}</label>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {% if selectedCategories|length > 0 %}
+                            <div class="d-flex align-items-center mt-3" id="filter-releases-active">
+                                <p class="mb-0 mr-2">{{ 'release.search.selected_categories'|trans }}</p>
+                                {% for category in selectedCategories %}
+                                    <a href="{{ path(app.request.attributes.get('_route'),
+                                        app.request.attributes.get('_route_params')|merge(app.request.query.all()|merge({
+                                            categories: selectedCategories|filter(p => p != category)
+                                        }))) }}" class="btn btn-sm rounded bg-light" data-category="{{category}}"><span class="sr-only">{{'release.search.remove_tag'|trans}}</span> {{ attribute(categories, category|emsch_ouuid) }} <span>&times;</span></a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+    <div class="container-fluid container-lg">
+        <section class="py-5 py-lg-8">
+            <div class="row">
+                <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
+                    {% for version in features.hits.hits|map(p => p._source.version)|reduce((carry, v) => v in carry ? carry : carry|merge([v]), []) %}
+                        <div class="release-item">
+                            <h2>
+                                {{ 'block.release.title'|trans({'%version%': version}) }}
+                                {% if attribute(releases, version) is defined and attribute(releases, version).release_date is defined %}
+                                    - {{ ('month.'~attribute(releases, version).release_date|date('F'))|trans }} {{ attribute(releases, version).release_date|date('Y') }}
+                                {% endif %}
+                            </h2>
+                            <ul class="list-unstyled mb-0">
+                                {% for feature in features.hits.hits|filter(p => p._source.version == version) %}
+                                    <li class="d-flex align-items-start mb-2">
+                                        <span class="badge">
+                                            {% if attribute(categories, feature._source.category|emsch_ouuid) is defined %}
+                                                {{ attribute(categories, feature._source.category|emsch_ouuid) }}
+                                            {% else %}
+                                                &nbsp;
+                                            {% endif %}
+                                        </span>
+                                        <p>{{ attribute(feature._source, locale).title|default('') }}</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% if not loop.last %}
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock widget %}

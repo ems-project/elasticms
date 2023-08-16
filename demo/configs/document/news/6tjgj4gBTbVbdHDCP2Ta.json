@@ -1,0 +1,35 @@
+{
+    "categories": [
+        "category:CNj7KYgBTbVbdHDCX1hQ"
+    ],
+    "fr": {
+        "body": "<p>Afficher des pixels noirs <b>consomme moins d&rsquo;&eacute;nergie</b> que d&rsquo;afficher des pixels blancs.</p>\r\n\r\n<p>C&rsquo;est pourquoi, nous vous invitons &agrave; toujours <b>favoriser un design noir</b> avec du texte blanc. Si cela n&rsquo;est pas possible, vous pouvez en tout cas essayer de tendre vers un design sombre plut&ocirc;t qu&rsquo;un design clair.</p>\r\n\r\n<p>Une autre option est de laisser le choix &agrave; l&rsquo;utilisateur. En effet, vous pouvez cr&eacute;er deux versions pour votre site, l&rsquo;une avec un mode sombre, et l&rsquo;autre avec un mode plus clair. Que ce soit via Chrome, Firefox, Safari, Microsoft Edge ou d&rsquo;autres encore, l&rsquo;utilisateur aura le choix d&rsquo;activer le mode sombre pour son navigateur web.</p>\r\n\r\n<p>Un mode sombre est &eacute;galement <b>avantageux pour les yeux</b> car il rend l&rsquo;&eacute;cran moins lumineux et donc, fatigue moins la r&eacute;tine. Il fait ressortir votre contenu tout en rel&eacute;guant en arri&egrave;re-plan les commandes et fen&ecirc;tres assombries.</p>\r\n\r\n<p>Enfin, le mode sombre est fortement appr&eacute;ci&eacute; des <strong>utilisateurs sur mobile</strong> car il permet d&rsquo;&eacute;conomiser la batterie.</p>\r\n\r\n<p>Image r&eacute;alis&eacute;e par : DenPhoto - stock.adobe.com</p>",
+        "description": "<p>Vous souhaitez une <strong>consommation num&eacute;rique plus responsable</strong> pour votre site&nbsp;? En cr&eacute;ant votre site en <strong>mode sombre</strong>, vous r&eacute;duirez la consommation &eacute;lectrique des &eacute;crans.</p>",
+        "image": {
+            "filename": "mobile-dark-mode2.jpg",
+            "filesize": 230275,
+            "mimetype": "image/jpeg",
+            "sha1": "1ca96ca2a7c883cf0c3435ce4d9884a3d98b2cac"
+        },
+        "slug": "favoriser-le-mode-sombre",
+        "summary": "<p>Vous souhaitez une <strong>consommation num&eacute;rique plus responsable</strong> pour votre site&nbsp;? En cr&eacute;ant votre site en <strong>mode sombre</strong>, vous r&eacute;duirez la consommation &eacute;lectrique des &eacute;crans.</p>",
+        "title": "Favorisez le mode sombre"
+    },
+    "label": "Favorisez le mode sombre / Kies voor dark mode",
+    "nl": {
+        "body": "<p><b>Zwarte schermpixels verbruiken minder energie</b> dan witte schermpixels.</p>\r\n\r\n<p>Daarom raden we aan om uw website te ontwerpen met een <strong>zwarte achtergrond</strong> en witte tekst. Kan dat niet, overweeg dan om twee versies van uw website te voorzien, een met een donkere en een met een lichtere achtergrond. Zo kunnen uw bezoekers kiezen wat hun voorkeur heeft, of ze uw website nu bezoeken via Chrome, Firefox, Microsoft Edge of een andere browser.</p>\r\n\r\n<p>Naast een lager energieverbruik heeft dark mode ook <b>voordelen voor de ogen van uw webbezoekers</b>. Een scherm in dark mode is minder belastend voor het netvlies van de bezoeker, omdat het een lagere helderheid heeft. In dark mode ligt de focus meer op de inhoud en verdwijnen bedieningselementen en vensters meer naar de achtergrond.</p>\r\n\r\n<p>Tot slot kunt u met een website in dark mode rekenen op de waardering van <b>mobiele gebruikers</b>, want hun batterij gaat dan langer mee!</p>\r\n\r\n<p>Afbeelding gemaakt door: DenPhoto - stock.adobe.com</p>",
+        "description": "<p>Wilt u een website die minder stroom verbruikt en dus <strong>duurzamer</strong> is? Zorg dan voor een <strong>webdesign in dark mode</strong>!</p>",
+        "image": {
+            "filename": "mobile-dark-mode2.jpg",
+            "filesize": 230275,
+            "mimetype": "image/jpeg",
+            "sha1": "1ca96ca2a7c883cf0c3435ce4d9884a3d98b2cac"
+        },
+        "slug": "kies-voor-dark-mode",
+        "summary": "<p>Wilt u een website die minder stroom verbruikt en dus <strong>duurzamer</strong> is? Zorg dan voor een <strong>webdesign in dark mode</strong>!</p>",
+        "title": "Kies voor dark mode"
+    },
+    "publication_date": "2023/05/17",
+    "title_fr": "Favorisez le mode sombre",
+    "title_nl": "Kies voor dark mode"
+}

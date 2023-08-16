@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:Vtg884kBTbVbdHDCAIik",
+        "release": "1.18",
+        "title_fr": "Possibilit\u00e9 de mettre en cache un fragment de page si, par exemple, un \u00e9l\u00e9ment de page, qui est lourd \u00e0 g\u00e9n\u00e9rer, charge rarement.",
+        "title_nl": "Een paginafragment cachen bijvoorbeeld wanneer een pagina-element, dat erg zwaar is, zelden laadt."
+    },
+    "category": "category:Vtg884kBTbVbdHDCAIik",
+    "fr": {
+        "title": "Possibilit\u00e9 de mettre en cache un fragment de page si, par exemple, un \u00e9l\u00e9ment de page, qui est lourd \u00e0 g\u00e9n\u00e9rer, charge rarement."
+    },
+    "nl": {
+        "title": "Een paginafragment cachen bijvoorbeeld wanneer een pagina-element, dat erg zwaar is, zelden laadt."
+    },
+    "title_fr": "Possibilit\u00e9 de mettre en cache un fragment de page si, par exemple, un \u00e9l\u00e9ment de page, qui est lourd \u00e0 g\u00e9n\u00e9rer, charge rarement.",
+    "title_nl": "Een paginafragment cachen bijvoorbeeld wanneer een pagina-element, dat erg zwaar is, zelden laadt.",
+    "version": "1.18"
+}

@@ -4,7 +4,7 @@
     "properties": {
         "name": "alpha_order",
         "dirty": true,
-        "label": "alpha_order",
+        "label": "Alpha order",
         "options": {
             "filter": [
                 "asciifolding",

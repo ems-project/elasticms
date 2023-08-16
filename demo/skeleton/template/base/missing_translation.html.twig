@@ -15,19 +15,5 @@
                 </div>
            </div>
         </div>
-{#         <div class="row py-2 d-flex justify-content-center">#}
-{#            {% for locale, url in canonicalUrls|filter((url, locale) => attribute(source, locale).show|default(false)) %}#}
-{#                <div class="col-md-3 text-center">#}
-{#                    <div class="card">#}
-{#                        <div lang="{{ locale }}" class="card-body">#}
-{#                            <p class="card-text">#}
-{#                                {{ 'missing.but-available-in'|trans({}, trans_default_domain, locale) }}#}
-{#                                <a lang="{{ locale }}" href="{{ url }}" class="">{{ attribute(source, locale).title }}</a>#}
-{#                            </p>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
     </main>
 {% endblock %}

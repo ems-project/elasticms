@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:NthJI4cBTbVbdHDCMiF-",
+        "release": "1.17",
+        "title_fr": "Acc\u00e8s s\u00e9curis\u00e9 au Preview (>< Live) sur base des droits des utilisateurs dans le CMS. Permet de rediriger l\u2019utilisateur vers le formulaire d\u2019identification en cas d\u2019acc\u00e8s \u00e0 l\u2019aper\u00e7u d\u2019un site web dans le CMS (channel).",
+        "title_nl": "Beveiligde toegang tot de preview (>< Live) op basis van gebruikersrechten in het CMS. Dit zorgt ervoor dat de gebruiker wordt omgeleid naar het inlogformulier wanneer hij de preview van een website in het CMS (kanaal) opent."
+    },
+    "category": "category:NthJI4cBTbVbdHDCMiF-",
+    "fr": {
+        "title": "Acc\u00e8s s\u00e9curis\u00e9 au Preview (>< Live) sur base des droits des utilisateurs dans le CMS. Permet de rediriger l\u2019utilisateur vers le formulaire d\u2019identification en cas d\u2019acc\u00e8s \u00e0 l\u2019aper\u00e7u d\u2019un site web dans le CMS (channel)."
+    },
+    "nl": {
+        "title": "Beveiligde toegang tot de preview (>< Live) op basis van gebruikersrechten in het CMS. Dit zorgt ervoor dat de gebruiker wordt omgeleid naar het inlogformulier wanneer hij de preview van een website in het CMS (kanaal) opent."
+    },
+    "title_fr": "Acc\u00e8s s\u00e9curis\u00e9 au Preview (>< Live) sur base des droits des utilisateurs dans le CMS. Permet de rediriger l\u2019utilisateur vers le formulaire d\u2019identification en cas d\u2019acc\u00e8s \u00e0 l\u2019aper\u00e7u d\u2019un site web dans le CMS (channel).",
+    "title_nl": "Beveiligde toegang tot de preview (>< Live) op basis van gebruikersrechten in het CMS. Dit zorgt ervoor dat de gebruiker wordt omgeleid naar het inlogformulier wanneer hij de preview van een website in het CMS (kanaal) opent.",
+    "version": "1.17"
+}

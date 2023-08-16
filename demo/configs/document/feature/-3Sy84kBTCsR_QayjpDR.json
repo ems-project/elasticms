@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:Vdg684kBTbVbdHDCD4gb",
+        "release": "1.19",
+        "title_fr": "Nouvelle fonctionnalit\u00e9 permettant le monitoring applicatif par une plateforme Prometheus. G\u00e9n\u00e8re des \u2018dashboards\u2019 pour la supervision et permet une am\u00e9lioration de la prise en charge des \u2018issues\u2019 par les \u00e9quipes de garde.",
+        "title_nl": "Nieuwe functionaliteit om applicatiemonitoring door een Prometheus-platform mogelijk te maken. Genereert dashboards voor monitoring en maakt een betere issue-afhandeling mogelijk door de teams van wacht."
+    },
+    "category": "category:Vdg684kBTbVbdHDCD4gb",
+    "fr": {
+        "title": "Nouvelle fonctionnalit\u00e9 permettant le monitoring applicatif par une plateforme Prometheus. G\u00e9n\u00e8re des \u2018dashboards\u2019 pour la supervision et permet une am\u00e9lioration de la prise en charge des \u2018issues\u2019 par les \u00e9quipes de garde."
+    },
+    "nl": {
+        "title": "Nieuwe functionaliteit om applicatiemonitoring door een Prometheus-platform mogelijk te maken. Genereert dashboards voor monitoring en maakt een betere issue-afhandeling mogelijk door de teams van wacht."
+    },
+    "title_fr": "Nouvelle fonctionnalit\u00e9 permettant le monitoring applicatif par une plateforme Prometheus. G\u00e9n\u00e8re des \u2018dashboards\u2019 pour la supervision et permet une am\u00e9lioration de la prise en charge des \u2018issues\u2019 par les \u00e9quipes de garde.",
+    "title_nl": "Nieuwe functionaliteit om applicatiemonitoring door een Prometheus-platform mogelijk te maken. Genereert dashboards voor monitoring en maakt een betere issue-afhandeling mogelijk door de teams van wacht.",
+    "version": "1.19"
+}

@@ -1,31 +1,35 @@
 {
     "categories": [
-        "category:4734779a-4932-411e-b688-d47f69adc007"
+        "category:NthJI4cBTbVbdHDCMiF-"
     ],
     "fr": {
         "body": "<p>La fonction&nbsp;<strong>Release</strong>&nbsp;vous permet d&eacute;sormais de cr&eacute;er une <strong>planification de publication</strong> de vos contenus aux dates et heures d&eacute;finies. &Agrave; l&rsquo;&eacute;ch&eacute;ance, la publication est d&eacute;clench&eacute;e automatiquement.</p>\r\n\r\n<p>Vous pouvez planifier plusieurs publications &agrave; la fois. Vous les retrouverez toutes dans le calendrier personnalis&eacute; de publications.</p>",
         "description": "<p>La fonction&nbsp;<strong>Release</strong>&nbsp;vous permet d&eacute;sormais de cr&eacute;er une <strong>planification de publication</strong> de vos contenus aux dates et heures d&eacute;finies. &Agrave; l&rsquo;&eacute;ch&eacute;ance, la publication est d&eacute;clench&eacute;e automatiquement.</p>",
         "image": {
-            "filename": "ems release.png",
-            "filesize": 27997,
-            "mimetype": "image/png",
-            "sha1": "0d5c21c50a081d18eeedc9b4c5bb9909cbb973cc"
+            "filename": "ems-release.jpg",
+            "filesize": 339252,
+            "mimetype": "image/jpeg",
+            "sha1": "babbc84fbbc473de212d7fafe92d7da4ef821010"
         },
         "slug": "un-outil-de-planification",
-        "title": "Un outil de planification"
+        "summary": "<p>La fonction&nbsp;<strong>Release</strong>&nbsp;vous permet d&eacute;sormais de cr&eacute;er une <strong>planification de publication</strong> de vos contenus aux dates et heures d&eacute;finies. &Agrave; l&rsquo;&eacute;ch&eacute;ance, la publication est d&eacute;clench&eacute;e automatiquement.</p>",
+        "title": "Planifiez vos publications"
     },
-    "label": "Un outil de planification/ Een planningstool",
+    "label": "Planifiez vos publications / Plan uw publicaties in",
     "nl": {
         "body": "<p>Met de&nbsp;<strong>Release-functie</strong>&nbsp;kunt u <strong>publicaties inplannen</strong> op vaste data en tijdstippen, zodat de inhoud op het geplande moment verschijnt.</p>\r\n\r\n<p>U kunt meerdere publicaties tegelijk inplannen en terugvinden in een gepersonaliseerde publicatiekalender.</p>",
         "description": "<p>Met de&nbsp;<strong>Release-functie</strong>&nbsp;kunt u <strong>publicaties inplannen</strong> op vaste data en tijdstippen, zodat de inhoud op het geplande moment verschijnt.</p>",
         "image": {
-            "filename": "ems release.png",
-            "filesize": 27997,
-            "mimetype": "image/png",
-            "sha1": "0d5c21c50a081d18eeedc9b4c5bb9909cbb973cc"
+            "filename": "ems-release.jpg",
+            "filesize": 339252,
+            "mimetype": "image/jpeg",
+            "sha1": "babbc84fbbc473de212d7fafe92d7da4ef821010"
         },
         "slug": "een-planningstool",
-        "title": "Een planningstool"
+        "summary": "<p>Met de&nbsp;<strong>Release-functie</strong>&nbsp;kunt u <strong>publicaties inplannen</strong> op vaste data en tijdstippen, zodat de inhoud op het geplande moment verschijnt.</p>",
+        "title": "Plan uw publicaties in"
     },
-    "publication_date": "2022/11/21"
+    "publication_date": "2022/11/21",
+    "title_fr": "Planifiez vos publications",
+    "title_nl": "Plan uw publicaties in"
 }

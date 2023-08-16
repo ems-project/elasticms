@@ -418,6 +418,7 @@
             "show_link_search": "not-defined"
         },
         "fields": {
+            "display": null,
             "label": "label",
             "color": null,
             "sort": null,

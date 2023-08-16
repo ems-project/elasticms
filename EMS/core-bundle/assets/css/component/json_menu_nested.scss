@@ -2,34 +2,85 @@
     --border-color: #d7d7d7;
     --gap: 10px;
     --icon-size: 30px;
-    --icon-bg-color: #F0F0F0;
+    --bg-color: #F0F0F0;
     --collapse-icon-size: calc(var(--gap) + var(--icon-size));
-
     border: 1px solid var(--border-color);
     border-radius: 5px;
+    overflow-x: auto;
+
+    .jmn-wrapper {
+        display: inline-table;
+        width: 100%;
+    }
 
     .jmn-tree {
-        position: relative;
         overflow: hidden;
 
-        .jmn-row {
-            position: relative;
-            padding-left: calc(var(--gap) * 2)
-        }
+        > .jmn-node.jmn-collapsible { padding-left: 0; }
+        > .jmn-node:not(.jmn-collapsible) { padding-left: var(--collapse-icon-size); }
 
-        & > .jmn-row {
-            padding-left: 0;
-            &:not(.jmn-collapsible) { padding-left: var(--collapse-icon-size) };
+        .jmn-children {
+            padding-left: var(--icon-size);
+
+            & > .jmn-node {
+                position: relative;
+                padding-left: calc(var(--gap) * 2);
+
+                &:before {
+                    content: '';
+                    width: var(--gap);
+                    height: calc(var(--gap) * 1.5);
+                    border-left: 1px solid;
+                    border-bottom: 1px solid;
+                    border-color: var(--border-color);
+                    display: block;
+                    position: absolute;
+                    top: var(--gap);
+                    left: 0;
+                }
+            }
         }
     }
 
-    .jmn-item {
-        position: relative;
+    .jmn-header {
+        background-color: var(--bg-color);
+    }
+    .jmn-header, .jmn-row {
         display: flex;
-        padding: var(--gap);
-        align-content: center;
-        justify-content: space-between;
+        justify-content: flex-end;
 
+        & > * { flex-shrink: 0 }
+        & > :first-child {
+            margin-right: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .jmn-column, .jmn-cell {
+        padding: var(--gap);
+    }
+    .jmn-column {
+        padding-top: calc(var(--gap) * 2);
+        padding-bottom: calc(var(--gap) * 2);
+        font-weight: bold;
+        text-align: center;
+        &:first-child { text-align: left; }
+    }
+    .jmn-cell {
+        text-align: center;
+        &:first-child { text-align: left; }
+    }
+
+    .jmn-node {
+        background-color: white;
+        &.jmn-move-drag { opacity: 0; }
+        &.jmn-move-ghost, &.jmn-move-chosen { background-color: var(--bg-color);}
+    }
+
+    .jmn-row {
+        position: relative;
         &:after {
             content: '';
             position: absolute;
@@ -40,23 +91,6 @@
             background-color: var(--border-color);
         }
     }
-    .jmn-children {
-        padding-left: var(--collapse-icon-size);
-        .jmn-row {
-            &:before {
-                content: '';
-                width: var(--gap);
-                height: calc(var(--gap) * 1.5);
-                border-left: 1px solid;
-                border-bottom: 1px solid;
-                border-color: var(--border-color);
-                display: block;
-                position: absolute;
-                top: var(--gap);
-                left: 0;
-            }
-        }
-    }
 
     .jmn-item-icon {
         display: flex;
@@ -65,16 +99,28 @@
         height: var(--icon-size);
         width: var(--icon-size);
         border-radius: 50%;
-        background-color: var(--icon-bg-color);
+        background-color: var(--bg-color);
     }
-
-    .jmn-item-title {
+    .jmn-column-title {
+        padding-left: var(--collapse-icon-size);
+    }
+    .jmn-cell-title {
         display: flex;
         justify-content: flex-start;
         align-items: center;
         column-gap: var(--gap);
+        padding-right: var(--gap);
     }
 
+    .jmn-btn-move {
+        cursor: move;
+        &::before {
+            font-family: FontAwesome, serif;
+            font-weight: 400;
+            content: "\f047";
+            padding-right: 5px;
+        }
+    }
     .jmn-btn-collapse {
         padding: 0;
         border: none;

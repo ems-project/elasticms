@@ -26,6 +26,7 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
      *     field_path: string,
      *     context: array<string, mixed>,
      *     template: string,
+     *     columns: JsonMenuNestedColumn[]
      * } $options
      */
     protected function create(string $hash, array $options): JsonMenuNestedConfig
@@ -52,6 +53,7 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
 
         $config->context = $options['context'];
         $config->template = $options['template'];
+        $config->columns = $options['columns'];
 
         return $config;
     }
@@ -65,11 +67,25 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
             ->setDefaults([
                 'context' => [],
                 'template' => null,
+                'columns' => [
+                    ['name' => 'action', 'width' => 200],
+                    ['name' => 'publication', 'width' => 200],
+                    ['name' => 'structure', 'width' => 200],
+                ],
             ])
             ->setNormalizer('ems_link', function (Options $options, EMSLink|string $value): EMSLink {
                 return \is_string($value) ? EMSLink::fromText($value) : $value;
             })
-            ->setAllowedTypes('context', 'array');
+            ->setNormalizer('columns', function (Options $options, array $columns): array {
+                $columns = \array_map(static fn (array $column): JsonMenuNestedColumn => new JsonMenuNestedColumn(
+                    $column['name'],
+                    $column['width']
+                ), $columns);
+
+                return [new JsonMenuNestedColumn('title'), ...$columns];
+            })
+            ->setAllowedTypes('context', 'array')
+            ->setAllowedTypes('columns', 'array');
 
         return $resolver->resolve($options);
     }

@@ -1,3 +1,5 @@
+import Sortable from "sortablejs";
+
 export default class JsonMenuNestedComponent {
     #hash;
     #element;
@@ -9,8 +11,10 @@ export default class JsonMenuNestedComponent {
         this.getStructure();
     }
 
+
+
     getStructure(row = null) {
-        let element = row ? row : this.#element;
+        let element = row ? row : this.#element.querySelector('.jmn-wrapper');
         let treeClass = row ? 'jmn-children' : 'jmn-tree';
 
         let tree = document.createElement('div');
@@ -28,6 +32,7 @@ export default class JsonMenuNestedComponent {
         });
 
         element.appendChild(tree);
+        this.initSortable(element.querySelector(`.${treeClass}`));
     }
 
     _fetch(path) {
@@ -39,6 +44,20 @@ export default class JsonMenuNestedComponent {
         });
     }
 
+    initSortable(element) {
+        Sortable.create(element, {
+            group: 'shared',
+            draggable: '.jmn-node',
+            handle: '.jmn-btn-move',
+            dragoverBubble: true,
+            ghostClass: "jmn-move-ghost",
+            chosenClass: "jmn-move-chosen",
+            dragClass: "jmn-move-drag",
+            animation: 150,
+            fallbackOnBody: true,
+            swapThreshold: 0.65
+        });
+    }
 
     addClickListeners() {
         window.addEventListener('click', (event) => {
@@ -51,19 +70,16 @@ export default class JsonMenuNestedComponent {
     }
 
     onClickButtonCollapse(element) {
-        let row = element.parentElement.closest('.jmn-row');
-        let id = row.dataset.id;
-
+        let node = element.parentElement.closest('.jmn-node');
         let expanded = element.getAttribute('aria-expanded');
 
         if ('true' === expanded) {
             element.setAttribute('aria-expanded', 'false');
-            let children = row.querySelector(`.jmn-children`);
-            if (children) { row.removeChild(children); }
+            let children = node.querySelector(`.jmn-children`);
+            if (children) { node.removeChild(children); }
         } else {
             element.setAttribute('aria-expanded', 'true');
-            this.getStructure(row);
+            this.getStructure(node);
         }
     }
-
 }

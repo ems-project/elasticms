@@ -2,4 +2,9 @@
 
 {# @var template \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
 
-<div class="json-menu-nested-component" id="{{ id }}" data-hash="{{ hash }}"></div>
+<div class="json-menu-nested-component" id="{{ id }}" data-hash="{{ hash }}">
+    <div class="jmn-wrapper">
+        {{ template.block('_header')|raw }}
+        {{ template.block('_tree')|raw }}
+    </div>
+</div>

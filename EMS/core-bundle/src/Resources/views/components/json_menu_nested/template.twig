@@ -1,32 +1,64 @@
-{# @var config \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
-{# @var template \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
+{# @var config      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
+{# @var column      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedColumn #}
+{# @var template    \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
+{# @var item        \EMS\CommonBundle\Json\JsonMenuNested #}
+{# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
+
+{%- block _header  -%}
+    <div class="jmn-header">
+        {% for column in config.columns %}
+            <div class="jmn-column {{ "jmn-column-#{column.name}" }}"
+                 style="{{ column.width ? "width:#{column.width}px;" }}" >
+                {{ template.block(column.blockName('head'), { 'column': column })|raw }}
+            </div>
+        {% endfor %}
+    </div>
+{%- endblock _header -%}
+
+{%- block _tree  -%}
+    <div class="jmn-tree"></div>
+{%- endblock _tree -%}
 
 {%- block _itemRow -%}
-    {# @var item \EMS\CommonBundle\Json\JsonMenuNested #}
     {%- apply spaceless -%}
-        <div class="{{ html_classes('jmn-row', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
-            <div class="jmn-item">
-                <div class="jmn-item-title">
-                    {% if item.hasChildren %}
-                        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="false"></button>
-                    {% endif %}
-                    {{ title|raw }}
-                </div>
-                <div class="jmn-item-columns">
-
-                </div>
+        <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
+            <div class="jmn-row">
+                {% for column in config.columns %}
+                    <div class="jmn-cell {{ "jmn-cell-#{column.name}" }}"
+                         style="{{ column.width ? "width:#{column.width}px;" }}" >
+                        {{ template.block(column.blockName('cell'), {
+                            'column': column,
+                            'item': item,
+                            'node': node
+                        })|raw }}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     {%- endapply -%}
 {%- endblock _itemRow -%}
 
-{%- block itemTitle -%}
-    {# @var item \EMS\CommonBundle\Json\JsonMenuNested #}
-    {# @var node \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
-    {%- apply spaceless -%}
-        {% if node.icon %}
-            <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
-        {% endif %}
-        <span>{{ item.label }}</span>
-    {%- endapply -%}
-{%- endblock itemTitle -%}
+{%- block headTitle -%}Title{%- endblock -%}
+{%- block headAction -%}Content{%- endblock -%}
+{%- block headPublication -%}Publication Status{%- endblock -%}
+{%- block headStructure -%}Structure{%- endblock -%}
+
+{%- block cellTitle -%}
+    {% if item.hasChildren %}
+        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="false"></button>
+    {% endif %}
+    {% if node.icon %}
+        <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
+    {% endif %}
+    <span>{{ item.label }}</span>
+{%- endblock -%}
+
+{%- block cellAction -%}...{%- endblock cellAction -%}
+{%- block cellPublication -%}...{%- endblock cellPublication -%}
+
+{%- block cellStructure-%}
+    <button class="btn btn-sm btn-default jmn-btn-move">move</button>
+{%- endblock cellStructure -%}
+
+
+

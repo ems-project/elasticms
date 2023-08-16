@@ -24,19 +24,6 @@ class JsonMenuNestedTemplate
         $this->configTemplate = $this->config->template ? $this->twig->load($this->config->template) : null;
     }
 
-    public function renderRow(JsonMenuNested $item): string
-    {
-        $itemTitle = $this->block('itemTitle', [
-            'item' => $item,
-            'node' => $this->config->nodes->get($item),
-        ]);
-
-        return $this->block('_itemRow', [
-            'title' => $itemTitle,
-            'item' => $item,
-        ]);
-    }
-
     /**
      * @param array<mixed> $context
      */
@@ -60,6 +47,7 @@ class JsonMenuNestedTemplate
     private function getContext(array $blockContext): array
     {
         $context = [...$blockContext, ...$this->config->context];
+        $context['template'] = $this;
         $context['config'] = $this->config;
 
         return $context;

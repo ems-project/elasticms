@@ -29,7 +29,10 @@ class JsonMenuNestedService
 
         $template = $this->getTemplate($config);
         $children = $parent->getChildren();
-        $rows = \array_map(static fn (JsonMenuNested $item) => $template->renderRow($item), $children);
+        $rows = \array_map(static fn (JsonMenuNested $item) => $template->block('_itemRow', [
+            'item' => $item,
+            'node' => $config->nodes->get($item),
+        ]), $children);
 
         return ['rows' => $rows];
     }

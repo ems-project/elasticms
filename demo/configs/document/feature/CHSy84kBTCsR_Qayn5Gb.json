@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:520c5aff-c687-4911-822a-538f970b0342",
+        "release": "1.17",
+        "title_fr": "Possibilit\u00e9 de transmettre la soumission d\u2019un formulaire \u00e0 un CRM externe au format MultiPart.",
+        "title_nl": "Het indienen van een formulier sturen naar een extern CRM in MultiPart-formaat."
+    },
+    "category": "category:520c5aff-c687-4911-822a-538f970b0342",
+    "fr": {
+        "title": "Possibilit\u00e9 de transmettre la soumission d\u2019un formulaire \u00e0 un CRM externe au format MultiPart."
+    },
+    "nl": {
+        "title": "Het indienen van een formulier sturen naar een extern CRM in MultiPart-formaat."
+    },
+    "title_fr": "Possibilit\u00e9 de transmettre la soumission d\u2019un formulaire \u00e0 un CRM externe au format MultiPart.",
+    "title_nl": "Het indienen van een formulier sturen naar een extern CRM in MultiPart-formaat.",
+    "version": "1.17"
+}

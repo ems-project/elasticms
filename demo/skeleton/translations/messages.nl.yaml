@@ -5,12 +5,15 @@ aria:
     skip-to-content: 'Ga onmiddellijk naar de inhoud'
     toggle-navbar: 'Toon navigatie'
 block:
-    grid:
+  release:
+    title: 'Release %version%'
+  grid:
         see_also: 'Zie ook'
 blog:
     filter: Filters
-    intro: 'Tous les 2 mois, l''équipe eMS met en évidence des nouveaux sujets liés à elasticMS et des astuces IT.'
-    title: 'What’s new ? - De Blog'
+    title: 'What’s new?'
+    grid:
+        title: 'News'
 breadcrumb:
     back-to: 'Terug naar  %title%'
     homepage: homepagina
@@ -38,9 +41,8 @@ language:
     selection: 'select language'
 locale: Nederlands
 missing:
-    but-available-in: 'Version en nederlands :'
-    description: 'Voir ci-dessous pour des versions alternatives.'
-    title: 'Ce contenu n''est pas disponible en nederlands'
+    description: 'Wijzig de taal om alternatieve versies te zien.'
+    title: 'Deze inhoud is niet beschikbaar in het Nederlands'
 month:
     April: April
     August: Augustus
@@ -63,9 +65,18 @@ site:
     news_title: 'What''s new?'
     short_name: elasticMS
 usergroup:
-    facilitator: 'Facilitator voor de volgende user group'
+    facilitator: 'Facilitator van de volgende User Group'
     intro: 'Binnenkort vindt u op deze pagina informatie over de volgende user group.'
     next-event: 'Datum en uur'
     team-meeting: Duur
     title: 'Volgende sessie'
     topic: Onderwerpen
+release:
+    search:
+        filters_title: 'Filter'
+        choose_category: 'Kies een categorie'
+        remove_tag: 'Verwijder het filter'
+        selected_categories: 'Geselecteerde categories'
+        placeholder: 'Trefwoorden'
+        label: 'Trefwoorden'
+        submit: 'Zoeken'

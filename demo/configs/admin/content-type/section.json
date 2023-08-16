@@ -366,7 +366,7 @@
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 4,
+        "orderKey": 6,
         "rootContentType": true,
         "editTwigWithWysiwyg": true,
         "webContent": true,
@@ -418,6 +418,7 @@
             "show_link_search": "not-defined"
         },
         "fields": {
+            "display": null,
             "label": "label",
             "color": null,
             "sort": null,

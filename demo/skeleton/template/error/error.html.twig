@@ -1,21 +1,23 @@
-{% extends '@EMSCH/template/view/language_select.html.twig' %}
+{% extends '@EMSCH/template/base/bootstrap.html.twig' %}
 {% trans_default_domain trans_default_domain %}
+
+{% block body_class %}error-page{% endblock %}
 
 {% set type = (status_code/1) < 500 ? 'warning' : 'danger' %}
 
 {% block title %}{{ status_text }}{% endblock %}
 
 {% block main %}
-    <main role="main" class="container mt-5 mb-5" id="main-content">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="alert alert-{{ type }}" role="alert">
-                    <h1>{% block icon %}<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {% endblock %}{{ block('title') }}</h1>
-                    <p>
-                        {% block description %}{% endblock %}
-                    </p>
+    <div class="jumbotron mb-0">
+        <div class="container-fluid container-lg">
+            <section class="py-5 py-lg-8">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-xl-5 offset-xl-1">
+                        <h1>{% block icon %}<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {% endblock %}{{ block('title') }}</h1>
+                        <p>{% block description %}{% endblock %}</p>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
-    </main>
+    </div>
 {% endblock %}

@@ -30,6 +30,22 @@ apple-touch-icon.png:
         path: apple-touch-icon.png
         controller: 'emsch.controller.router::redirect'
     template_static: template/redirects/apple-touch-icon.json.twig
+icon.png:
+    config:
+        path: '{name}-{width}x{height}.png'
+        controller: 'emsch.controller.router::redirect'
+        requirements: { name: 'android-chrome|favicon|mstile', width: '16|32|70|144|150|310|192|512', height: '16|32|70|144|150|310|192|512' }
+    template_static: template/redirects/icon.json.twig
+emsch_manifest:
+    config:
+        path: /site.webmanifest
+        defaults: { _format: txt }
+    template_static: template/favicon/site.webmanifest.twig
+emsch_browserconfig:
+    config:
+        path: /browserconfig.xml
+        defaults: { _format: xml }
+    template_static: template/favicon/browserconfig.xml.twig
 sitemap.xml:
     config:
         path: sitemap.xml
@@ -124,6 +140,6 @@ emsch_path:
     template_static: template/structure/by_path.html.twig
 emsch_error:
     config:
-      path: '/_error/{statusCode}'
-      controller: 'emsch.controller.router::errorPreview'
-      defaults: { statusCode: 500 }
+        path: '/_error/{statusCode}'
+        controller: 'emsch.controller.router::errorPreview'
+        defaults: { statusCode: 500 }

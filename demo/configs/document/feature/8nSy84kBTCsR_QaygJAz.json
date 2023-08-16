@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:u9hBHIkBTbVbdHDC93W8",
+        "release": "4.3",
+        "title_fr": "Int\u00e9gration de rector afin d'automatiser la refactorisation du code lors des mises \u00e0 jour des versions de PHP et de Symfony.",
+        "title_nl": "Rectorintegratie om code refactoring te automatiseren wanneer PHP- en Symfony-versies worden bijgewerkt."
+    },
+    "category": "category:u9hBHIkBTbVbdHDC93W8",
+    "fr": {
+        "title": "Int\u00e9gration de rector afin d'automatiser la refactorisation du code lors des mises \u00e0 jour des versions de PHP et de Symfony."
+    },
+    "nl": {
+        "title": "Rectorintegratie om code refactoring te automatiseren wanneer PHP- en Symfony-versies worden bijgewerkt."
+    },
+    "title_fr": "Int\u00e9gration de rector afin d'automatiser la refactorisation du code lors des mises \u00e0 jour des versions de PHP et de Symfony.",
+    "title_nl": "Rectorintegratie om code refactoring te automatiseren wanneer PHP- en Symfony-versies worden bijgewerkt.",
+    "version": "4.3"
+}

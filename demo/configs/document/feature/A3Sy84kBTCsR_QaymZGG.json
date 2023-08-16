@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:Vtg884kBTbVbdHDCAIik",
+        "release": "1.17",
+        "title_fr": "Ajout du support ESI (Edge side includes) afin de r\u00e9duire le temps de r\u00e9ponse du site web en mutualisant la g\u00e9n\u00e9ration de certains \u00e9l\u00e9ments transversaux au site web, comme le header ou le footer.",
+        "title_nl": "Toevoeging van ESI (Edge side includes) ondersteuning om de reactietijd van de website te verminderen door het genereren van bepaalde transversale elementen van de website te mutualiseren, zoals de header of de footer."
+    },
+    "category": "category:Vtg884kBTbVbdHDCAIik",
+    "fr": {
+        "title": "Ajout du support ESI (Edge side includes) afin de r\u00e9duire le temps de r\u00e9ponse du site web en mutualisant la g\u00e9n\u00e9ration de certains \u00e9l\u00e9ments transversaux au site web, comme le header ou le footer."
+    },
+    "nl": {
+        "title": "Toevoeging van ESI (Edge side includes) ondersteuning om de reactietijd van de website te verminderen door het genereren van bepaalde transversale elementen van de website te mutualiseren, zoals de header of de footer."
+    },
+    "title_fr": "Ajout du support ESI (Edge side includes) afin de r\u00e9duire le temps de r\u00e9ponse du site web en mutualisant la g\u00e9n\u00e9ration de certains \u00e9l\u00e9ments transversaux au site web, comme le header ou le footer.",
+    "title_nl": "Toevoeging van ESI (Edge side includes) ondersteuning om de reactietijd van de website te verminderen door het genereren van bepaalde transversale elementen van de website te mutualiseren, zoals de header of de footer.",
+    "version": "1.17"
+}

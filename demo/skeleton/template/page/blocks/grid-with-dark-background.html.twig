@@ -25,11 +25,17 @@
 
 
 {% block child %}
-    <div class="row news">
+    {% set target = item.object.target|emsch_get|default(false) %}
+    <a class="row news text-white text-decoration-none" href="{{ path('emsch_news_details', {
+                slug: attribute(target.source, locale).slug,
+                month: target.source.publication_date|date('m'),
+                year: target.source.publication_date|date('Y'),
+                day: target.source.publication_date|date('d'),
+            }) }}">
         {% if loop.index is divisible by(2) %}
             {{ block("widget", "@EMSCH/template/page/blocks/image-right.html.twig") }}
         {% else %}
             {{ block("widget", "@EMSCH/template/page/blocks/image-left.html.twig") }}
         {% endif %}
-    </div>
+    </a>
 {% endblock child %}

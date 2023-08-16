@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:NthJI4cBTbVbdHDCMiF-",
+        "release": "5.5",
+        "title_fr": "Possibilit\u00e9 d\u2019avoir des contenus directement modifiables par les utilisateurs. Permet de d\u00e9velopper des sondages (poll) et de personnaliser le site si l\u2019utilisateur est authentifi\u00e9. Attention, contenus non index\u00e9s dans elasticsearch et donc non trouvables via le moteur de recherche.",
+        "title_nl": "Mogelijkheid om inhoud rechtstreeks door gebruikers te laten wijzigen. Dit maakt het mogelijk om polls te maken en de site te personaliseren als de gebruiker geauthenticeerd is. Let op: inhoud wordt niet ge\u00efndexeerd in elasticsearch en is dus niet vindbaar via zoekmachines."
+    },
+    "category": "category:NthJI4cBTbVbdHDCMiF-",
+    "fr": {
+        "title": "Possibilit\u00e9 d\u2019avoir des contenus directement modifiables par les utilisateurs. Permet de d\u00e9velopper des sondages (poll) et de personnaliser le site si l\u2019utilisateur est authentifi\u00e9. Attention, contenus non index\u00e9s dans elasticsearch et donc non trouvables via le moteur de recherche."
+    },
+    "nl": {
+        "title": "Mogelijkheid om inhoud rechtstreeks door gebruikers te laten wijzigen. Dit maakt het mogelijk om polls te maken en de site te personaliseren als de gebruiker geauthenticeerd is. Let op: inhoud wordt niet ge\u00efndexeerd in elasticsearch en is dus niet vindbaar via zoekmachines."
+    },
+    "title_fr": "Possibilit\u00e9 d\u2019avoir des contenus directement modifiables par les utilisateurs. Permet de d\u00e9velopper des sondages (poll) et de personnaliser le site si l\u2019utilisateur est authentifi\u00e9. Attention, contenus non index\u00e9s dans elasticsearch et donc non trouvables via le moteur de recherche.",
+    "title_nl": "Mogelijkheid om inhoud rechtstreeks door gebruikers te laten wijzigen. Dit maakt het mogelijk om polls te maken en de site te personaliseren als de gebruiker geauthenticeerd is. Let op: inhoud wordt niet ge\u00efndexeerd in elasticsearch en is dus niet vindbaar via zoekmachines.",
+    "version": "5.5"
+}

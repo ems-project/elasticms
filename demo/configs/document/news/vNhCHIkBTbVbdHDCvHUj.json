@@ -1,0 +1,35 @@
+{
+    "categories": [
+        "category:u9hBHIkBTbVbdHDC93W8"
+    ],
+    "fr": {
+        "body": "<p>Lorsque notre &eacute;quipe d&eacute;veloppe une <strong>nouvelle <a href=\"https://elasticms.fgov.be/fr/fonctionnalites\">fonctionnalit&eacute;</a></strong> pour un eMS, elle travaille dans diff&eacute;rents <strong>types d&rsquo;environnement</strong>&nbsp;: Local, Test, Acceptation et Production.</p>\r\n\r\n<p>Chaque environnement correspond &agrave; une &eacute;tape de travail&nbsp;:</p>\r\n\r\n<ul>\r\n\t<li><strong>Local</strong> = environnement de d&eacute;veloppement, en local, sur l&rsquo;ordinateur des d&eacute;veloppeurs.</li>\r\n\t<li><strong>Test&nbsp;</strong>= environnement de test, d&rsquo;identification et de correction des erreurs pour les &eacute;quipes Smals.</li>\r\n\t<li><strong>Acceptation </strong>= environnement de validation des d&eacute;veloppements pour les &eacute;quipes Smals et pour les clients.</li>\r\n\t<li><strong>Production&nbsp;</strong>= environnement d&rsquo;h&eacute;bergement, environnement de travail pour les clients et les &eacute;quipes maintenance/support.</li>\r\n</ul>\r\n\r\n<p>Le d&eacute;ploiement des d&eacute;veloppements d&rsquo;une fonctionnalit&eacute; fait avancer le projet d&rsquo;un environnement &agrave; l&rsquo;autre.</p>\r\n\r\n<p>Afin d&rsquo;&eacute;viter d&rsquo;entra&icirc;ner des retards sur le mise en production d&rsquo;une <a href=\"https://elasticms.fgov.be/fr/release\">release</a>, la <strong>gestion des environnements</strong> est un &eacute;l&eacute;ment tr&egrave;s important dans la gestion des projets web.</p>",
+        "description": "<p>Si vous avez d&eacute;j&agrave; particip&eacute; &agrave; une r&eacute;union avec nos <strong>d&eacute;veloppeurs</strong>, vous avez certainement d&eacute;j&agrave; entendu parl&eacute; de <strong>Dev, Local, Test, Acc, Prod</strong>&hellip; Mais que signifient ces termes et pourquoi sont-ils si importants&nbsp;?&nbsp;</p>",
+        "image": {
+            "filename": "ecms_news07-23-w1.jpg",
+            "filesize": 315767,
+            "mimetype": "image/jpeg",
+            "sha1": "d6d032b401d900a7fd2cbbf8644954058409c17f"
+        },
+        "slug": "dev-acc-prod-ca-veut-dire-quoi-",
+        "summary": "<p>Si vous avez d&eacute;j&agrave; particip&eacute; &agrave; une r&eacute;union avec nos <strong>d&eacute;veloppeurs</strong>, vous avez certainement d&eacute;j&agrave; entendu parl&eacute; de <strong>Dev, Local, Test, Acc, Prod</strong>&hellip; Mais que signifient ces termes et pourquoi sont-ils si importants&nbsp;?&nbsp;</p>",
+        "title": "Dev, Acc, Prod\u2026 \u00e7a veut dire quoi ?"
+    },
+    "label": "Dev, Acc, Prod\u2026 \u00e7a veut dire quoi ? / Dev, Acc, Prod \u2026 wat betekent dat?",
+    "nl": {
+        "body": "<p>Wanneer ons team een <strong>nieuwe <a href=\"ems://object:page:1f4217e0-3aeb-45aa-8caf-12a1b2445377\">feature</a></strong> voor een eMS ontwikkelt, werkt het in verschillende <strong>soorten omgevingen</strong>: Lokaal, Test, Acceptatie en Productie.</p>\r\n\r\n<p>Elke omgeving komt overeen met een fase in de ontwikkeling:</p>\r\n\r\n<ul>\r\n\t<li><strong>Lokaal </strong>= lokale ontwikkelomgeving op de computer van de ontwikkelaar.</li>\r\n\t<li><strong>Test </strong>= omgeving waarin de Smals-teams testen, fouten opsporen en ze verbeteren.</li>\r\n\t<li><strong>Acceptatie </strong>= ontwikkel- en validatieomgeving voor de Smals-teams en de klanten.</li>\r\n\t<li><strong>Productie</strong> = hostingomgeving en werkomgeving voor de klanten en de onderhouds- en ondersteuningsteams.</li>\r\n</ul>\r\n\r\n<p>Bij de uitrol van de ontwikkelingen van een feature, gaat het project van de ene omgeving naar de andere.</p>\r\n\r\n<p>Een <strong>goed beheer van de verschillende omgevingen</strong> is belangrijk bij webprojecten om vertragingen bij <a href=\"ems://object:page:7138f496-9ca0-4ab2-8efb-fd4f8bb44bcd\">releases</a> te voorkomen.</p>",
+        "description": "<p>Tijdens vergaderingen met onze <b>ontwikkelaars</b> heeft u ongetwijfeld al gehoord over de verschillende omgevingen: <b>Dev</b>, <b>Local</b>, <b>Test</b>, <b>Acc</b>, <b>Prod</b> ... Maar wat betekenen deze termen en waarom zijn ze zo belangrijk?</p>",
+        "image": {
+            "filename": "ecms_news07-23-w1.jpg",
+            "filesize": 315767,
+            "mimetype": "image/jpeg",
+            "sha1": "d6d032b401d900a7fd2cbbf8644954058409c17f"
+        },
+        "slug": "dev-acc-prod-wat-betekent-dat",
+        "summary": "<p>Tijdens vergaderingen met onze <b>ontwikkelaars</b> heeft u ongetwijfeld al gehoord over de verschillende omgevingen: <b>Dev</b>, <b>Local</b>, <b>Test</b>, <b>Acc</b>, <b>Prod</b> ... Maar wat betekenen deze termen en waarom zijn ze zo belangrijk?</p>",
+        "title": "Dev, Acc, Prod \u2026 wat betekent dat?"
+    },
+    "publication_date": "2023/07/04",
+    "title_fr": "Dev, Acc, Prod\u2026 \u00e7a veut dire quoi ?",
+    "title_nl": "Dev, Acc, Prod \u2026 wat betekent dat?"
+}

@@ -446,12 +446,13 @@
             "edit": "ROLE_WEBMASTER",
             "publish": "ROLE_WEBMASTER",
             "delete": "not-defined",
-            "trash": "not-defined",
+            "trash": "ROLE_ADMIN",
             "archive": "not-defined",
             "show_link_create": "not-defined",
             "show_link_search": "not-defined"
         },
         "fields": {
+            "display": null,
             "label": "name",
             "color": null,
             "sort": null,

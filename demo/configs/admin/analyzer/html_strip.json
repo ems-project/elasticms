@@ -4,7 +4,7 @@
     "properties": {
         "name": "html_strip",
         "dirty": true,
-        "label": "html_strip",
+        "label": "HTML Strip",
         "options": {
             "filter": [
                 "standard"

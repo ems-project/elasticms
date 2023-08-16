@@ -207,7 +207,7 @@
                                                         },
                                                         "mappingOptions": {
                                                             "index": null,
-                                                            "analyzer": "version",
+                                                            "analyzer": "keyword",
                                                             "copy_to": "live_search"
                                                         },
                                                         "restrictionOptions": {

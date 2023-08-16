@@ -375,7 +375,7 @@ class StorageManager
                 while (!\feof($handle)) {
                     $data = \fread($handle, 8192);
                     if (false === $data) {
-                        throw new \RuntimeException('Unxected false data');
+                        throw new \RuntimeException('Unexpected false data');
                     }
                     \hash_update($hashContext, $data);
                 }

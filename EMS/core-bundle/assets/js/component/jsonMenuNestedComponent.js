@@ -2,37 +2,39 @@ import Sortable from "sortablejs";
 
 export default class JsonMenuNestedComponent {
     #hash;
+    #tree;
     #element;
+    #sortableLists = {};
 
     constructor (element) {
         this.#element = element;
+        this.#tree = element.querySelector('.jmn-tree');
         this.#hash = element.dataset.hash;
         this.addClickListeners();
         this.getStructure();
     }
 
+    getStructure(node = null) {
+        this.loading(true);
+        let element = node ? node.querySelector('.jmn-children') : this.#tree;
 
 
-    getStructure(row = null) {
-        let element = row ? row : this.#element.querySelector('.jmn-wrapper');
-        let treeClass = row ? 'jmn-children' : 'jmn-tree';
-
-        let tree = document.createElement('div');
-        tree.classList.add(treeClass);
-
-        let currentTree = element.querySelector(`.${treeClass}`);
-        if (currentTree) element.removeChild(currentTree);
-
-        let path = row ? `structure/${row.dataset.id}` : 'structure';
+        let nodeId = node ? node.dataset.id : null;
+        let path = nodeId ? `structure/${nodeId}` : 'structure';
 
         this._fetch(path).then((json) => {
             if (json.hasOwnProperty('rows')) {
-                json.rows.forEach((row) => tree.innerHTML += row);
+                json.rows.forEach((row) => element.innerHTML += row);
             }
-        });
 
-        element.appendChild(tree);
-        this.initSortable(element.querySelector(`.${treeClass}`));
+            this.sortableCreate(element);
+            this.loading(false);
+        });
+    }
+
+    loading(flag) {
+        const element = this.#element.querySelector('.jmn-node-loading');
+        element.style.display = flag ? 'flex' : 'none';
     }
 
     _fetch(path) {
@@ -41,21 +43,6 @@ export default class JsonMenuNestedComponent {
             headers: { 'Content-Type': 'application/json'}
         }).then((response) => {
             return response.ok ? response.json() : Promise.reject(response);
-        });
-    }
-
-    initSortable(element) {
-        Sortable.create(element, {
-            group: 'shared',
-            draggable: '.jmn-node',
-            handle: '.jmn-btn-move',
-            dragoverBubble: true,
-            ghostClass: "jmn-move-ghost",
-            chosenClass: "jmn-move-chosen",
-            dragClass: "jmn-move-drag",
-            animation: 150,
-            fallbackOnBody: true,
-            swapThreshold: 0.65
         });
     }
 
@@ -75,11 +62,49 @@ export default class JsonMenuNestedComponent {
 
         if ('true' === expanded) {
             element.setAttribute('aria-expanded', 'false');
-            let children = node.querySelector(`.jmn-children`);
-            if (children) { node.removeChild(children); }
+            this.sortableRemove(node);
+            node.querySelectorAll(`.jmn-node`).forEach(child => child.remove() );
         } else {
             element.setAttribute('aria-expanded', 'true');
             this.getStructure(node);
         }
+    }
+
+    sortableCreate(element) {
+        const options = {
+            group: 'shared',
+            draggable: '.jmn-node',
+            handle: '.jmn-btn-move',
+            dragoverBubble: true,
+            ghostClass: "jmn-move-ghost",
+            chosenClass: "jmn-move-chosen",
+            dragClass: "jmn-move-drag",
+            animation: 150,
+            fallbackOnBody: true,
+            swapThreshold: 0.65
+        }
+
+        const create = (element, id) => {
+            this.#sortableLists[id] = Sortable.create(element, options);
+        }
+
+        create(element, element.dataset.id ?? 'tree');
+        element.querySelectorAll('.jmn-children-empty').forEach((emptyChildren) => {
+            create(emptyChildren, emptyChildren.parentElement.dataset.id);
+        } );
+    }
+    sortableRemove(node)
+    {
+        let remove = (node) => {
+            let nodeId = node.dataset.id
+
+            if (this.#sortableLists.hasOwnProperty(nodeId)) {
+                const list = this.#sortableLists[nodeId];
+                list.destroy();
+                delete this.#sortableLists[nodeId];
+            }
+        }
+        remove(node);
+        node.querySelectorAll(`.jmn-node`).forEach(child => remove(child));
     }
 }

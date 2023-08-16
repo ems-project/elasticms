@@ -3,18 +3,35 @@
     --gap: 10px;
     --icon-size: 30px;
     --bg-color: #F0F0F0;
+    --color-light: #F8F8F8;
     --collapse-icon-size: calc(var(--gap) + var(--icon-size));
     border: 1px solid var(--border-color);
     border-radius: 5px;
     overflow-x: auto;
 
     .jmn-wrapper {
+        position: relative;
         display: inline-table;
         width: 100%;
+
+        .jmn-node-loading {
+            position: absolute;
+            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color:rgba(248, 248, 248, 0.3);
+            color: var(--border-color);
+            text-align: center;
+            font-size: 1em;
+        }
     }
 
     .jmn-tree {
         overflow: hidden;
+        min-height: calc(var(--gap) + var(--icon-size) + var(--gap));
 
         > .jmn-node.jmn-collapsible { padding-left: 0; }
         > .jmn-node:not(.jmn-collapsible) { padding-left: var(--collapse-icon-size); }
@@ -44,6 +61,7 @@
 
     .jmn-header {
         background-color: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
     }
     .jmn-header, .jmn-row {
         display: flex;

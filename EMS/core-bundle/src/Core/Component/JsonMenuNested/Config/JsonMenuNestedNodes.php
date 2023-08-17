@@ -9,11 +9,14 @@ use EMS\CoreBundle\Entity\FieldType;
 
 class JsonMenuNestedNodes
 {
+    public string $path;
     /** @var array<string, JsonMenuNestedNode> */
     private array $nodes = [];
 
     public function __construct(FieldType $fieldType)
     {
+        $this->path = $fieldType->getPath();
+
         if (!$fieldType->isJsonMenuNestedEditorField()) {
             throw new \RuntimeException('invalid field');
         }

@@ -15,7 +15,7 @@ export default class JsonMenuNestedComponent {
     }
 
     getStructureRoot() {
-        this._fetch('/structure').then((json) => {
+        this.get('/structure').then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             this.#tree.innerHTML = json.structure;
             this._initSortables();
@@ -26,7 +26,7 @@ export default class JsonMenuNestedComponent {
         const children = node.querySelector('.jmn-children');
         children.classList.add('jmn-sortable');
 
-        this._fetch(`/structure/${node.dataset.id}`).then((json) => {
+        this.get(`/structure/${node.dataset.id}`).then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             children.innerHTML = json.structure;
             this._initSortables();
@@ -39,34 +39,38 @@ export default class JsonMenuNestedComponent {
         element.style.display = flag ? 'flex' : 'none';
     }
 
-    _fetch(path) {
-        return fetch(['/component/json-menu-nested', this.#hash, path].join('/'), {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json'}
-        }).then((response) => {
-            return response.ok ? response.json() : Promise.reject(response);
-        });
-    }
-
     addClickListeners() {
         this.#element.addEventListener('click', (event) => {
             const element = event.target;
+            const node = element.parentElement.closest('.jmn-node');
             switch (true) {
+                case element.classList.contains('jmn-btn-delete'):
+                    this.onClickButtonDelete(node.dataset.id);
+                    break;
                 case element.classList.contains('jmn-btn-collapse'):
-                    this.onClickButtonCollapse(element);
+                    this.onClickButtonCollapse(element, node);
+                    break;
             }
         }, false);
     }
 
-    onClickButtonCollapse(element) {
-        let node = element.parentElement.closest('.jmn-node');
-        let expanded = element.getAttribute('aria-expanded');
+    onClickButtonDelete(nodeId)
+    {
+        this.loading(true);
+        this.post(`item/${nodeId}/delete`).then((data) => {
+            console.debug(data);
+            this.loading(false);
+        });
+    }
+
+    onClickButtonCollapse(button, node) {
+        let expanded = button.getAttribute('aria-expanded');
 
         if ('true' === expanded) {
-            element.setAttribute('aria-expanded', 'false');
+            button.setAttribute('aria-expanded', 'false');
             node.querySelectorAll(`.jmn-node`).forEach(child => child.remove() );
         } else {
-            element.setAttribute('aria-expanded', 'true');
+            button.setAttribute('aria-expanded', 'true');
             this.getStructureNode(node);
         }
     }
@@ -88,5 +92,25 @@ export default class JsonMenuNestedComponent {
         this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {
             this.#sortableLists[element.id] = Sortable.create(element, options);
         });
+    }
+
+    async get(path) {
+        this.loading(true);
+        const url = ['/component/json-menu-nested', this.#hash, path].join('/');
+        const response = await fetch(url, {
+            method: "GET",
+            headers: { 'Content-Type': 'application/json'},
+        });
+        return response.json();
+    }
+    async post(path, data = {}) {
+        this.loading(true);
+        const url = ['/component/json-menu-nested', this.#hash, path].join('/');
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+        return response.json();
     }
 }

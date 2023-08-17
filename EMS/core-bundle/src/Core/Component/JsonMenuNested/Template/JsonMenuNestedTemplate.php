@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Component\JsonMenuNested\Template;
 
-use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use Twig\Environment;
 use Twig\TemplateWrapper;

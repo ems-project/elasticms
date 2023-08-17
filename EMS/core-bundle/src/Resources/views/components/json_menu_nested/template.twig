@@ -63,7 +63,18 @@
 {%- block cellPublication -%}...{%- endblock cellPublication -%}
 
 {%- block cellStructure-%}
-    <button class="btn btn-sm btn-default jmn-btn-move">move</button>
+    <button class="btn btn-sm btn-default jmn-btn-move">Move</button>
+    <div class="btn-group btn-group-sm">
+        <button type="button" class="btn btn-sm btn-default jmn-btn-more dropdown-toggle"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fa fa-ellipsis-v"></span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+            <li>
+                <button type="button" class="jmn-btn-delete">Delete</button>
+            </li>
+        </ul>
+    </div>
 {%- endblock cellStructure -%}
 
 

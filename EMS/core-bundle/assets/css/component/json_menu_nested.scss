@@ -87,7 +87,8 @@
         &:first-child { text-align: left; }
     }
     .jmn-cell {
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
         &:first-child { text-align: left; }
     }
 
@@ -128,6 +129,9 @@
         align-items: center;
         column-gap: var(--gap);
         padding-right: var(--gap);
+    }
+    .jmn-btn-more {
+        background-color: white;
     }
 
     .jmn-btn-move {

@@ -257,6 +257,13 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return $this;
     }
 
+    public function removeChild(JsonMenuNested $removeChild): JsonMenuNested
+    {
+        $this->children = \array_filter($this->children, static fn (JsonMenuNested $child) => $child !== $removeChild);
+
+        return $this;
+    }
+
     /**
      * @param array{'id': string, 'label': ?string, 'type': string, 'children': array<mixed>} $child
      */

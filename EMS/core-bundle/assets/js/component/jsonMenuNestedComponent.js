@@ -11,23 +11,25 @@ export default class JsonMenuNestedComponent {
         this.#tree = element.querySelector('.jmn-tree');
         this.#hash = element.dataset.hash;
         this.addClickListeners();
-        this.getStructure();
+        this.getStructureRoot();
     }
 
-    getStructure(node = null) {
-        this.loading(true);
-        let element = node ? node.querySelector('.jmn-children') : this.#tree;
+    getStructureRoot() {
+        this._fetch('/structure').then((json) => {
+            if (!json.hasOwnProperty('structure')) return;
+            this.#tree.innerHTML = json.structure;
+            this._initSortables();
+            this.loading(false);
+        });
+    }
+    getStructureNode(node) {
+        const children = node.querySelector('.jmn-children');
+        children.classList.add('jmn-sortable');
 
-
-        let nodeId = node ? node.dataset.id : null;
-        let path = nodeId ? `structure/${nodeId}` : 'structure';
-
-        this._fetch(path).then((json) => {
-            if (json.hasOwnProperty('rows')) {
-                json.rows.forEach((row) => element.innerHTML += row);
-            }
-
-            this.sortableCreate(element);
+        this._fetch(`/structure/${node.dataset.id}`).then((json) => {
+            if (!json.hasOwnProperty('structure')) return;
+            children.innerHTML = json.structure;
+            this._initSortables();
             this.loading(false);
         });
     }
@@ -47,7 +49,7 @@ export default class JsonMenuNestedComponent {
     }
 
     addClickListeners() {
-        window.addEventListener('click', (event) => {
+        this.#element.addEventListener('click', (event) => {
             const element = event.target;
             switch (true) {
                 case element.classList.contains('jmn-btn-collapse'):
@@ -62,15 +64,14 @@ export default class JsonMenuNestedComponent {
 
         if ('true' === expanded) {
             element.setAttribute('aria-expanded', 'false');
-            this.sortableRemove(node);
             node.querySelectorAll(`.jmn-node`).forEach(child => child.remove() );
         } else {
             element.setAttribute('aria-expanded', 'true');
-            this.getStructure(node);
+            this.getStructureNode(node);
         }
     }
 
-    sortableCreate(element) {
+    _initSortables() {
         const options = {
             group: 'shared',
             draggable: '.jmn-node',
@@ -79,32 +80,13 @@ export default class JsonMenuNestedComponent {
             ghostClass: "jmn-move-ghost",
             chosenClass: "jmn-move-chosen",
             dragClass: "jmn-move-drag",
-            animation: 150,
+            animation: 10,
             fallbackOnBody: true,
-            swapThreshold: 0.65
+            swapThreshold: 0.50
         }
 
-        const create = (element, id) => {
-            this.#sortableLists[id] = Sortable.create(element, options);
-        }
-
-        create(element, element.dataset.id ?? 'tree');
-        element.querySelectorAll('.jmn-children-empty').forEach((emptyChildren) => {
-            create(emptyChildren, emptyChildren.parentElement.dataset.id);
-        } );
-    }
-    sortableRemove(node)
-    {
-        let remove = (node) => {
-            let nodeId = node.dataset.id
-
-            if (this.#sortableLists.hasOwnProperty(nodeId)) {
-                const list = this.#sortableLists[nodeId];
-                list.destroy();
-                delete this.#sortableLists[nodeId];
-            }
-        }
-        remove(node);
-        node.querySelectorAll(`.jmn-node`).forEach(child => remove(child));
+        this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {
+            this.#sortableLists[element.id] = Sortable.create(element, options);
+        });
     }
 }

@@ -21,20 +21,15 @@ class JsonMenuNestedService
      */
     public function getStructure(JsonMenuNestedConfig $config, ?string $parentId = null): array
     {
-        $parent = $parentId ? $config->jsonMenuNested->getItemById($parentId) : $config->jsonMenuNested;
+        $menu = $parentId ? $config->jsonMenuNested->getItemById($parentId) : $config->jsonMenuNested;
 
-        if (null === $parent) {
-            throw new \RuntimeException('Could not find parent');
+        if (null === $menu) {
+            throw new \RuntimeException('Could not find menu');
         }
 
-        $template = $this->getTemplate($config);
-        $children = $parent->getChildren();
-        $rows = \array_map(static fn (JsonMenuNested $item) => $template->block('_itemRow', [
-            'item' => $item,
-            'node' => $config->nodes->get($item),
-        ]), $children);
-
-        return ['rows' => $rows];
+        return ['structure' => $this->getTemplate($config)->block('_itemRows', [
+            'menu' => $menu
+        ])];
     }
 
     private function getTemplate(JsonMenuNestedConfig $config): JsonMenuNestedTemplate

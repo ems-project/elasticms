@@ -1,6 +1,7 @@
 {# @var config      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
 {# @var column      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedColumn #}
 {# @var template    \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
+{# @var menu        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var item        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
 
@@ -15,28 +16,30 @@
     </div>
 {%- endblock _header -%}
 
-{%- block _tree  -%}
-    <div class="jmn-tree"></div>
-{%- endblock _tree -%}
+{%- block _itemRows -%}
+    {%- for item in menu.children -%}
+        {%- set node = config.nodes.get(item) -%}
+        {{ block('_itemRow') }}
+    {%- endfor -%}
+{%- endblock -%}
 
 {%- block _itemRow -%}
     {%- apply spaceless -%}
         <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
             <div class="jmn-row">
-                {% for column in config.columns %}
-                    <div class="jmn-cell {{ "jmn-cell-#{column.name}" }}"
-                         style="{{ column.width ? "width:#{column.width}px;" }}" >
-                        {{ template.block(column.blockName('cell'), {
+                {%- for column in config.columns -%}
+                    <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" >
+                        {{- template.block(column.blockName('cell'), {
                             'column': column,
                             'item': item,
                             'node': node
-                        })|raw }}
+                        })|raw -}}
                     </div>
-                {% endfor %}
+                {%- endfor -%}
             </div>
-            {% if node.leaf == false %}
-                <div class="jmn-children {{ item.hasChildren == false ? 'jmn-children-empty' }}"></div>
-            {% endif %}
+            {%- if node.leaf == false -%}
+                <div id="{{ "children-#{item.id}" }}" class="{{- html_classes('jmn-children', {'jmn-sortable': item.hasChildren == false }) -}}"></div>
+            {%- endif -%}
         </div>
     {%- endapply -%}
 {%- endblock _itemRow -%}

@@ -5,6 +5,19 @@
 {# @var item        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
 
+{%- block _top -%}
+    <div class="pull-right">
+    {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' with { 'buttonClass': 'jmn-btn-add'} %}
+        {% block button %}<i class="fa fa-plus"></i> Add{% endblock button %}
+        {% block items %}
+            <li><button type="button">TEST</button></li>
+            <li><button type="button">TEST2</button></li>
+            <li><button type="button">TEST3</button></li>
+        {% endblock items %}
+    {% endembed %}
+    </div>
+{%- endblock _top -%}
+
 {%- block _header  -%}
     <div class="jmn-header">
         {% for column in config.columns %}
@@ -74,17 +87,12 @@
 
 {%- block cellStructure-%}
     <button class="btn btn-sm btn-default jmn-btn-move">Move</button>
-    <div class="btn-group btn-group-sm">
-        <button type="button" class="btn btn-sm btn-default jmn-btn-more dropdown-toggle"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="fa fa-ellipsis-v"></span>
-        </button>
-        <ul class="dropdown-menu pull-right">
-            <li>
-                <button type="button" class="jmn-btn-delete">Delete</button>
-            </li>
-        </ul>
-    </div>
+    {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' with {'buttonClass': 'jmn-btn-more'} %}
+        {% block button %}<i class="fa fa-ellipsis-v"></i>{% endblock button %}
+        {% block items %}
+            <li><button type="button" class="jmn-btn-delete">Delete</button></li>
+        {% endblock items %}
+    {% endembed %}
 {%- endblock cellStructure -%}
 
 

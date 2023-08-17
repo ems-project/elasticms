@@ -3,8 +3,9 @@
 {# @var template \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
 
 <div class="json-menu-nested-component" id="{{ id }}" data-hash="{{ hash }}">
+    <div class="jmn-node-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>
+    {{ template.block('_top')|raw }}
     <div class="jmn-wrapper">
-        <div class="jmn-node-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>
         {{ template.block('_header')|raw }}
         <div id="{{- "tree-#{id}" -}}" class="jmn-tree jmn-sortable"></div>
     </div>

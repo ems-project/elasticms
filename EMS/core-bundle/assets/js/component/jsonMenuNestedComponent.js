@@ -5,28 +5,30 @@ export default class JsonMenuNestedComponent {
     #tree;
     #element;
     #sortableLists = {};
+    #loadedNodes = [];
 
     constructor (element) {
         this.#element = element;
         this.#tree = element.querySelector('.jmn-tree');
         this.#hash = element.dataset.hash;
         this.addClickListeners();
-        this.getStructureRoot();
+        this.load();
     }
 
-    getStructureRoot() {
-        this.get('/structure').then((json) => {
+    load() {
+        this.post('/structure', { load: this.#loadedNodes}).then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             this.#tree.innerHTML = json.structure;
             this._initSortables();
             this.loading(false);
         });
     }
-    getStructureNode(node) {
+    loadNode(node) {
+        const nodeId = node.dataset.id;
         const children = node.querySelector('.jmn-children');
         children.classList.add('jmn-sortable');
 
-        this.get(`/structure/${node.dataset.id}`).then((json) => {
+        return this.get(`/structure/${nodeId}`).then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             children.innerHTML = json.structure;
             this._initSortables();
@@ -58,20 +60,25 @@ export default class JsonMenuNestedComponent {
     {
         this.loading(true);
         this.post(`item/${nodeId}/delete`).then((data) => {
-            console.debug(data);
-            this.loading(false);
+            this.load();
         });
     }
 
     onClickButtonCollapse(button, node) {
         let expanded = button.getAttribute('aria-expanded');
+        const nodeId = node.dataset.id;
 
         if ('true' === expanded) {
             button.setAttribute('aria-expanded', 'false');
-            node.querySelectorAll(`.jmn-node`).forEach(child => child.remove() );
+
+            const childNodes = node.querySelectorAll(`.jmn-node`);
+            const childIds = Array.from(childNodes).map((child) => child.dataset.id);
+            childNodes.forEach((child) => child.remove());
+
+            this.#loadedNodes = this.#loadedNodes.filter((id) => id !== nodeId && !childIds.includes(id));
         } else {
             button.setAttribute('aria-expanded', 'true');
-            this.getStructureNode(node);
+            this.loadNode(node).then(() => { this.#loadedNodes.push(nodeId);});
         }
     }
 

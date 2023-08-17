@@ -7,7 +7,7 @@
     <!-- Json Menu Nested -->
     <route id="emsco.json_menu_nested.structure" path="/json-menu-nested/{hash}/structure/{parentId}"
            controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::getStructure"
-           methods="GET">
+           methods="GET|POST">
         <requirement key="hash">.*</requirement>
         <default key="parentId" xsi:nil="true"/>
     </route>

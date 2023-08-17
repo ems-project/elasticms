@@ -16,32 +16,42 @@
     </div>
 {%- endblock _header -%}
 
-{%- block _itemRows -%}
+{%- block _itemNodes -%}
     {%- for item in menu.children -%}
         {%- set node = config.nodes.get(item) -%}
-        {{ block('_itemRow') }}
+        {{ block('_itemNode') }}
     {%- endfor -%}
-{%- endblock -%}
+{%- endblock _itemNodes -%}
 
-{%- block _itemRow -%}
+{%- block _itemNode -%}
     {%- apply spaceless -%}
+        {%- set collapsed = item.id in load -%}
         <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
-            <div class="jmn-row">
-                {%- for column in config.columns -%}
-                    <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" >
-                        {{- template.block(column.blockName('cell'), {
-                            'column': column,
-                            'item': item,
-                            'node': node
-                        })|raw -}}
-                    </div>
-                {%- endfor -%}
-            </div>
+            {{ block('_itemRow') }}
             {%- if node.leaf == false -%}
-                <div id="{{ "children-#{item.id}" }}" class="{{- html_classes('jmn-children', {'jmn-sortable': item.hasChildren == false }) -}}"></div>
+                <div id="{{ "children-#{item.id}" }}" class="{{- html_classes('jmn-children', {'jmn-sortable': item.hasChildren == false }) -}}">
+                    {% if collapsed %}
+                        {% with { 'menu': item } %}{{ block('_itemNodes') }}{% endwith %}
+                    {% endif %}
+                </div>
             {%- endif -%}
         </div>
     {%- endapply -%}
+{%- endblock _itemNode -%}
+
+{%- block _itemRow -%}
+    <div class="jmn-row">
+        {%- for column in config.columns -%}
+            <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" >
+                {{- template.block(column.blockName('cell'), {
+                    'column': column,
+                    'item': item,
+                    'node': node,
+                    'collapsed': collapsed
+                })|raw -}}
+            </div>
+        {%- endfor -%}
+    </div>
 {%- endblock _itemRow -%}
 
 {%- block headTitle -%}Title{%- endblock -%}
@@ -51,7 +61,7 @@
 
 {%- block cellTitle -%}
     {% if item.hasChildren %}
-        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="false"></button>
+        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- collapsed ? 'true' : 'false' -}}"></button>
     {% endif %}
     {% if node.icon %}
         <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>

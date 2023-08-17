@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\Component;
 
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -17,9 +18,16 @@ class JsonMenuNestedController
     ) {
     }
 
-    public function getStructure(JsonMenuNestedConfig $config, ?string $parentId = null): JsonResponse
+    public function getStructure(Request $request, JsonMenuNestedConfig $config, ?string $parentId = null): JsonResponse
     {
-        return new JsonResponse($this->jsonMenuNestedService->getStructure($config, $parentId));
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $data = Json::decode($request->getContent());
+        }
+
+        $load = $data['load'] ?? [];
+        $structure = $this->jsonMenuNestedService->getStructure($config, $parentId, $load);
+
+        return new JsonResponse(['structure' => $structure]);
     }
 
     public function itemDelete(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse

@@ -7,7 +7,6 @@
     --collapse-icon-size: calc(var(--gap) + var(--icon-size));
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    overflow-x: auto;
 
     .jmn-wrapper {
         position: relative;
@@ -30,7 +29,7 @@
     }
 
     .jmn-tree {
-        overflow: hidden;
+        overflow-x: clip;
         min-height: calc(var(--gap) + var(--icon-size) + var(--gap));
 
         > .jmn-node.jmn-collapsible { padding-left: 0; }

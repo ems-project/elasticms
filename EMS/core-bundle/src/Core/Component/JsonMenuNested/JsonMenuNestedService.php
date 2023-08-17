@@ -23,9 +23,9 @@ class JsonMenuNestedService
     }
 
     /**
-     * @return array{structure: string}
+     * @param string[] $load
      */
-    public function getStructure(JsonMenuNestedConfig $config, ?string $parentId = null): array
+    public function getStructure(JsonMenuNestedConfig $config, ?string $parentId = null, array $load = []): string
     {
         $menu = $parentId ? $config->jsonMenuNested->getItemById($parentId) : $config->jsonMenuNested;
 
@@ -33,9 +33,10 @@ class JsonMenuNestedService
             throw new \RuntimeException('Could not find menu');
         }
 
-        return ['structure' => $this->getTemplate($config)->block('_itemRows', [
+        return $this->getTemplate($config)->block('_itemNodes', [
             'menu' => $menu,
-        ])];
+            'load' => $load,
+        ]);
     }
 
     /**

@@ -1,5 +1,18 @@
 # Changelog 5.x
 
+## 5.8.1 (2023-08-18)
+### Bug Fixes
+* fix(cli/media-sync): typo in warning only metadata file by @theus77 in https://github.com/ems-project/elasticms/pull/572
+* fix(common): typo runtime exception by @theus77 in https://github.com/ems-project/elasticms/pull/578
+* fix(common/ems-html): print urls keep anchors and empty links by @Davidmattei in https://github.com/ems-project/elasticms/pull/568
+* fix(common/emsLink): support json encode by @Davidmattei in https://github.com/ems-project/elasticms/pull/576
+* fix(core/dataLink): js issue by @Davidmattei in https://github.com/ems-project/elasticms/pull/584
+* fix(demo): debug emsch_error route by @theus77 in https://github.com/ems-project/elasticms/pull/580
+* fix(demo/make): init setup should call start by @theus77 in https://github.com/ems-project/elasticms/pull/575
+* fix(docker): pg_rename_schema script by @theus77 in https://github.com/ems-project/elasticms/pull/574
+### Chores
+* chore(make): mysql support and demo load by @Davidmattei in https://github.com/ems-project/elasticms/pull/569
+
 ## 5.8.0 (2023-08-01)
 ### Features
 * feat(cli/media-sync): new options by @Davidmattei in https://github.com/ems-project/elasticms/pull/555

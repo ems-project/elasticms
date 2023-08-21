@@ -84,6 +84,7 @@
     {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' with {'buttonClass': 'jmn-btn-more'} %}
         {% block button %}<i class="fa fa-ellipsis-v"></i>{% endblock button %}
         {% block items %}
+            <li><button type="button" class="jmn-btn-edit">Edit</button></li>
             <li><button type="button" class="jmn-btn-delete">Delete</button></li>
         {% endblock items %}
     {% endembed %}
@@ -110,7 +111,7 @@
 
 {%- block modal_title -%}
     {% if node.icon %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
-    Add new {{ node.type|capitalize }}
+    {{ action|capitalize }} new {{ node.type|capitalize }}
 {%- endblock modal_title -%}
 
 {%- block modal_body -%}

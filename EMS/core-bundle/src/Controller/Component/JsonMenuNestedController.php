@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Component;
 
+use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Json\JsonMenuNestedException;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfigException;
+use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
@@ -17,6 +19,7 @@ use EMS\CoreBundle\Form\Form\RevisionJsonMenuNestedType;
 use EMS\CoreBundle\Service\DataService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -46,42 +49,59 @@ class JsonMenuNestedController
         try {
             $parent = $config->jsonMenuNested->giveItemById($parentId);
             $node = $config->nodes->getById($nodeId);
-            $fieldType = $node->getFieldType();
-            $contentType = $config->revision->giveContentType();
 
-            $object = [];
-            $data = RawDataTransformer::transform($node->getFieldType(), $object);
-
-            $form = $this->formFactory->create(RevisionJsonMenuNestedType::class, ['data' => $data], [
-                'field_type' => $fieldType,
-                'content_type' => $contentType,
-            ]);
-
+            $form = $this->createFormItem($config, $node);
             $form->handleRequest($request);
-            if ($form->isSubmitted()) {
-                $formDataField = $form->get('data');
-                $object = RawDataTransformer::reverseTransform($fieldType, $form->getData()['data']);
-                $isValid = $this->dataService->isValid($formDataField, null, $object);
 
-                if ($isValid || $form->isValid()) {
-                    $this->dataService->getPostProcessing()->jsonMenuNested($formDataField, $contentType, $object);
+            if ($form->isSubmitted() && null !== $object = $this->handleFormItem($form, $config, $node)) {
+                $item = $this->jsonMenuNestedService->itemAdd($config, $parent, $node, $object);
+                $this->clearFlashes($request);
 
-                    $item = $this->jsonMenuNestedService->itemAdd($config, $parent, $node, $object);
-                    $this->clearFlashes($request);
-
-                    return JsonResponse::fromJsonString(AjaxModalResponse::success([
-                        'load' => '_root' !== $parentId ? $parentId : null,
-                        'added' => $item->getId(),
-                    ]));
-                }
+                return JsonResponse::fromJsonString(AjaxModalResponse::success([
+                    'load' => '_root' !== $parentId ? $parentId : null,
+                    'added' => $item->getId(),
+                ]));
             }
 
             return new JsonResponse($this->ajaxService
                 ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
                 ->render([
+                    'action' => 'add',
                     'form' => $form->createView(),
                     'node' => $node,
-                    'item' => $parent,
+                    'parent' => $parent,
+                ])
+            );
+        } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
+            return JsonResponse::fromJsonString(AjaxModalResponse::error(
+                $this->translator->trans($e->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT)
+            ));
+        }
+    }
+
+    public function itemEdit(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
+    {
+        try {
+            $item = $config->jsonMenuNested->giveItemById($itemId);
+            $node = $config->nodes->get($item);
+
+            $form = $this->createFormItem($config, $node, $item);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && null !== $object = $this->handleFormItem($form, $config, $node)) {
+                $this->jsonMenuNestedService->itemEdit($config, $item, $object);
+                $this->clearFlashes($request);
+
+                return JsonResponse::fromJsonString(AjaxModalResponse::success());
+            }
+
+            return new JsonResponse($this->ajaxService
+                ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
+                ->render([
+                    'action' => 'edit',
+                    'form' => $form->createView(),
+                    'node' => $node,
+                    'item' => $item,
                 ])
             );
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
@@ -104,5 +124,32 @@ class JsonMenuNestedController
         /** @var Session $session */
         $session = $request->getSession();
         $session->getFlashBag()->clear();
+    }
+
+    private function createFormItem(JsonMenuNestedConfig $config, JsonMenuNestedNode $node, ?JsonMenuNested $item = null): FormInterface
+    {
+        $object = $item ? $item->getObject() : [];
+        $data = RawDataTransformer::transform($node->getFieldType(), $object);
+
+        return $this->formFactory->create(RevisionJsonMenuNestedType::class, ['data' => $data], [
+            'field_type' => $node->getFieldType(),
+            'content_type' => $config->revision->giveContentType(),
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function handleFormItem(FormInterface $form, JsonMenuNestedConfig $config, JsonMenuNestedNode $node): ?array
+    {
+        $formDataField = $form->get('data');
+
+        $contentType = $config->revision->giveContentType();
+        $object = RawDataTransformer::reverseTransform($node->getFieldType(), $form->getData()['data']);
+
+        $this->dataService->getPostProcessing()->jsonMenuNested($formDataField, $contentType, $object);
+        $isValid = $this->dataService->isValid($formDataField, null, $object);
+
+        return $isValid || $form->isValid() ? $object : null;
     }
 }

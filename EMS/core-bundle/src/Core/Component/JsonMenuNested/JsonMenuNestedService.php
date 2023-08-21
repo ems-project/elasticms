@@ -49,6 +49,19 @@ class JsonMenuNestedService
     }
 
     /**
+     * @param array<string, mixed> $object
+     */
+    public function itemEdit(JsonMenuNestedConfig $config, JsonMenuNested $item, array $object): void
+    {
+        if (isset($object['label'])) {
+            $item->setLabel($object['label']);
+        }
+
+        $item->setObject($object);
+        $this->saveStructure($config);
+    }
+
+    /**
      * @return array{hash: string}
      */
     public function itemDelete(JsonMenuNestedConfig $config, string $itemId): array

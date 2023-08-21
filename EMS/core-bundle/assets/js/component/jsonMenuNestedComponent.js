@@ -40,7 +40,10 @@ export default class JsonMenuNestedComponent {
 
             switch (true) {
                 case element.classList.contains('jmn-btn-add'):
-                    this.onClickButtonAdd(element.dataset.add, nodeId);
+                    this.onClickButtonAdd(nodeId, element.dataset.add);
+                    break;
+                case element.classList.contains('jmn-btn-edit'):
+                    this.onClickButtonEdit(nodeId);
                     break;
                 case element.classList.contains('jmn-btn-delete'):
                     this.onClickButtonDelete(nodeId);
@@ -52,9 +55,14 @@ export default class JsonMenuNestedComponent {
         }, false);
     }
 
-    onClickButtonAdd(addId, parentId)
+    onClickButtonAdd(parentId, addId)
     {
         const url = ['/component/json-menu-nested', this.#hash, `item/${parentId}/add/${addId}`].join('/');
+        this.ajaxModal(url);
+    }
+    onClickButtonEdit(itemId)
+    {
+        const url = ['/component/json-menu-nested', this.#hash, `item/${itemId}/edit`].join('/');
         this.ajaxModal(url);
     }
 

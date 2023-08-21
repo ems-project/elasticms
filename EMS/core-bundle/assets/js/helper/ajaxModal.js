@@ -13,6 +13,7 @@ class AjaxModal {
                 if (e.target.id === this.modal.id) {
                     this.reset();
                 }
+                e.target.dispatchEvent(new Event('ajax-modal-close'));
             });
         }
 
@@ -150,10 +151,6 @@ class AjaxModal {
             let messageType = Object.keys(m)[0];
             let message = m[messageType];
             this.printMessage(messageType, message);
-
-            if (messageType === 'error') {
-                location.reload();
-            }
         });
 
         let modelForm = this.modal.querySelector('form');

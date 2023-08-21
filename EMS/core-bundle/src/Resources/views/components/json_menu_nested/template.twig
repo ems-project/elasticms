@@ -31,7 +31,7 @@
 
 {%- block _itemNode -%}
     {%- apply spaceless -%}
-        {%- set collapsed = item.id in load -%}
+        {%- set collapsed = item.id in load_ids -%}
         <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
             {{ block('_itemRow') }}
             {%- if node.leaf == false -%}

@@ -33,14 +33,10 @@ class JsonMenuNestedController
     ) {
     }
 
-    public function getStructure(Request $request, JsonMenuNestedConfig $config, ?string $parentId = null): JsonResponse
+    public function structure(Request $request, JsonMenuNestedConfig $config): JsonResponse
     {
-        if ($request->isMethod(Request::METHOD_POST)) {
-            $data = Json::decode($request->getContent());
-        }
-
-        $load = $data['load'] ?? [];
-        $structure = $this->jsonMenuNestedService->getStructure($config, $parentId, $load);
+        $data = Json::decode($request->getContent());
+        $structure = $this->jsonMenuNestedService->getStructure($config, $data);
 
         return new JsonResponse(['structure' => $structure]);
     }

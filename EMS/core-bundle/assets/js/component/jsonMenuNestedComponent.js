@@ -6,7 +6,7 @@ export default class JsonMenuNestedComponent {
     #tree;
     #element;
     #sortableLists = {};
-    #loadedNodes = [];
+    #loadIds = [];
 
     constructor (element) {
         this.#element = element;
@@ -18,7 +18,7 @@ export default class JsonMenuNestedComponent {
 
     load() {
         this.post('/structure', {
-            load: this.#loadedNodes
+            load_ids: this.#loadIds
         }).then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             this.#tree.innerHTML = json.structure;
@@ -77,10 +77,10 @@ export default class JsonMenuNestedComponent {
             const childIds = Array.from(childNodes).map((child) => child.dataset.id);
             childNodes.forEach((child) => child.remove());
 
-            this.#loadedNodes = this.#loadedNodes.filter((id) => id !== nodeId && !childIds.includes(id));
+            this.#loadIds = this.#loadIds.filter((id) => id !== nodeId && !childIds.includes(id));
         } else {
             button.setAttribute('aria-expanded', 'true');
-            this.#loadedNodes.push(nodeId);
+            this.#loadIds.push(nodeId);
         }
 
         this.load();
@@ -115,7 +115,7 @@ export default class JsonMenuNestedComponent {
         ajaxModal.load({ 'url': url }, (json) => {
             if (!json.hasOwnProperty('success') || !json.success) return;
             if (json.hasOwnProperty('load')) {
-                this.#loadedNodes.push(json.load);
+                this.#loadIds.push(json.load);
             }
         });
         ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)

@@ -6,6 +6,8 @@
     --bg-color: #F0F0F0;
     --color-light: #F8F8F8;
     --collapse-icon-size: calc(var(--gap) + var(--icon-size));
+    overflow-x: auto;
+    margin-bottom: 50px;
 
     .jmn-node-loading {
         position: absolute;
@@ -38,7 +40,6 @@
     }
 
     .jmn-tree {
-        overflow-x: clip;
         border-bottom-right-radius: var(--border-radius);
         border-bottom-left-radius: var(--border-radius);
         min-height: calc(var(--gap) + var(--icon-size) + var(--gap));
@@ -94,7 +95,8 @@
     }
     .jmn-cell {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
+        gap: var(--gap);
         &:first-child { text-align: left; }
     }
 

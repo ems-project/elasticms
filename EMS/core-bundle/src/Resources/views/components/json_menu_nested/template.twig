@@ -35,7 +35,7 @@
         <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren }) }}" data-id="{{ item.id }}">
             {{ block('_itemRow') }}
             {%- if node.leaf == false -%}
-                <div id="{{ "children-#{item.id}" }}" class="{{- html_classes('jmn-children', {'jmn-sortable': item.hasChildren == false }) -}}">
+                <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable">
                     {% if collapsed %}
                         {% with { 'menu': item } %}{{ block('_itemNodes') }}{% endwith %}
                     {% endif %}

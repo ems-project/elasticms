@@ -17,21 +17,11 @@ export default class JsonMenuNestedComponent {
     }
 
     load() {
-        this.post('/structure', { load: this.#loadedNodes}).then((json) => {
+        this.post('/structure', {
+            load: this.#loadedNodes
+        }).then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             this.#tree.innerHTML = json.structure;
-            this._initSortables();
-            this.loading(false);
-        });
-    }
-    loadNode(node) {
-        const nodeId = node.dataset.id;
-        const children = node.querySelector('.jmn-children');
-        children.classList.add('jmn-sortable');
-
-        return this.get(`/structure/${nodeId}`).then((json) => {
-            if (!json.hasOwnProperty('structure')) return;
-            children.innerHTML = json.structure;
             this._initSortables();
             this.loading(false);
         });
@@ -90,8 +80,10 @@ export default class JsonMenuNestedComponent {
             this.#loadedNodes = this.#loadedNodes.filter((id) => id !== nodeId && !childIds.includes(id));
         } else {
             button.setAttribute('aria-expanded', 'true');
-            this.loadNode(node).then(() => { this.#loadedNodes.push(nodeId);});
+            this.#loadedNodes.push(nodeId);
         }
+
+        this.load();
     }
 
     _initSortables() {

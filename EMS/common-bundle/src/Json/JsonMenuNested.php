@@ -43,6 +43,19 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         }
     }
 
+    /**
+     * @param array<string, mixed> $object
+     */
+    public static function create(string $type, array $object): JsonMenuNested
+    {
+        return new self([
+            'id' => Uuid::uuid4()->toString(),
+            'type' => $type,
+            'label' => $object['label'] ?? '',
+            'object' => $object,
+        ]);
+    }
+
     public static function fromStructure(string $structure): JsonMenuNested
     {
         return new self([
@@ -187,6 +200,22 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         }
 
         return null;
+    }
+
+    /**
+     * @throws JsonMenuNestedException
+     */
+    public function giveItemById(string $id): JsonMenuNested
+    {
+        if ($this->id === $id) {
+            return $this;
+        }
+
+        if (null !== $item = $this->getItemById($id)) {
+            return $item;
+        }
+
+        throw JsonMenuNestedException::itemNotFound();
     }
 
     public function getId(): string

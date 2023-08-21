@@ -11,7 +11,9 @@ class JsonMenuNestedNode
     /**
      * @param string[] $deny
      */
-    public function __construct(
+    private function __construct(
+        private readonly FieldType $fieldType,
+        public readonly int $id,
         public readonly string $type,
         public readonly string $role,
         public readonly ?string $icon,
@@ -20,9 +22,16 @@ class JsonMenuNestedNode
     ) {
     }
 
+    public function getFieldType(): FieldType
+    {
+        return $this->fieldType;
+    }
+
     public static function fromFieldType(FieldType $fieldType): self
     {
         return new self(
+            $fieldType,
+            $fieldType->getId(),
             $fieldType->getName(),
             $fieldType->getMinimumRole(),
             $fieldType->getDisplayOption('icon', null),

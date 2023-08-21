@@ -10,6 +10,7 @@ use EMS\CoreBundle\Entity\FieldType;
 class JsonMenuNestedNodes
 {
     public string $path;
+    public JsonMenuNestedNode $root;
     /** @var array<string, JsonMenuNestedNode> */
     private array $nodes = [];
 
@@ -21,8 +22,7 @@ class JsonMenuNestedNodes
             throw new \RuntimeException('invalid field');
         }
 
-        $rootNode = JsonMenuNestedNode::fromFieldType($fieldType);
-        $this->nodes['root'] = $rootNode;
+        $this->root = JsonMenuNestedNode::fromFieldType($fieldType);
 
         $children = $fieldType->getChildren()
             ->filter(fn (FieldType $child) => !$child->isDeleted() && $child->isContainer());
@@ -33,8 +33,37 @@ class JsonMenuNestedNodes
         }
     }
 
+    /**
+     * @throws JsonMenuNestedConfigException
+     */
+    public function getById(int $nodeId): JsonMenuNestedNode
+    {
+        foreach ($this->nodes as $node) {
+            if ($node->id === $nodeId) {
+                return $node;
+            }
+        }
+
+        throw JsonMenuNestedConfigException::nodeNotFound();
+    }
+
     public function get(JsonMenuNested $item): JsonMenuNestedNode
     {
         return $this->nodes[$item->getType()];
+    }
+
+    /**
+     * @return JsonMenuNestedNode[]
+     */
+    public function getChildren(JsonMenuNestedNode $parentNode): array
+    {
+        if ($parentNode->leaf) {
+            return [];
+        }
+
+        return \array_filter(
+            $this->nodes,
+            static fn (JsonMenuNestedNode $node) => !\in_array($node->type, $parentNode->deny)
+        );
     }
 }

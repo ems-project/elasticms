@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Component\JsonMenuNested;
 
+use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
+use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplateFactory;
 use EMS\CoreBundle\Entity\Revision;
@@ -37,6 +39,19 @@ class JsonMenuNestedService
             'menu' => $menu,
             'load' => $load,
         ]);
+    }
+
+    /**
+     * @param array<string, mixed> $object
+     */
+    public function itemAdd(JsonMenuNestedConfig $config, JsonMenuNested $parent, JsonMenuNestedNode $node, array $object): JsonMenuNested
+    {
+        $item = JsonMenuNested::create($node->type, $object);
+
+        $parent->addChild($item);
+        $this->saveStructure($config);
+
+        return $item;
     }
 
     /**

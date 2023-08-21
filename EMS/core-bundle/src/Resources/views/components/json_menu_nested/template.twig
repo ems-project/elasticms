@@ -7,14 +7,7 @@
 
 {%- block _top -%}
     <div class="pull-right">
-    {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' with { 'buttonClass': 'jmn-btn-add'} %}
-        {% block button %}<i class="fa fa-plus"></i> Add{% endblock button %}
-        {% block items %}
-            <li><button type="button">TEST</button></li>
-            <li><button type="button">TEST2</button></li>
-            <li><button type="button">TEST3</button></li>
-        {% endblock items %}
-    {% endembed %}
+        {{ template.block('_buttonAdd', { 'parentNode': config.nodes.root })|raw }}
     </div>
 {%- endblock _top -%}
 
@@ -86,6 +79,7 @@
 {%- block cellPublication -%}...{%- endblock cellPublication -%}
 
 {%- block cellStructure-%}
+    {{ template.block('_buttonAdd', { 'parentNode': node })|raw }}
     <button class="btn btn-sm btn-default jmn-btn-move">Move</button>
     {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' with {'buttonClass': 'jmn-btn-more'} %}
         {% block button %}<i class="fa fa-ellipsis-v"></i>{% endblock button %}
@@ -94,6 +88,41 @@
         {% endblock items %}
     {% endembed %}
 {%- endblock cellStructure -%}
+
+{%- block _buttonAdd -%}
+    {% set childNodes = config.nodes.children(parentNode) %}
+    {% if childNodes|length > 0 %}
+        {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' %}
+            {% block button %}<i class="fa fa-plus"></i> Add{% endblock button %}
+            {% block items %}
+                {% for childNode in childNodes %}
+                    <li>
+                        <button type="button" class="jmn-btn-add" data-add="{{ childNode.id }}">
+                            {% if childNode.icon %}<i class="{{ childNode.icon }}"></i>{% endif %}
+                            New {{ childNode.type|capitalize }}
+                        </button>
+                    </li>
+                {% endfor %}
+            {% endblock items %}
+        {% endembed %}
+    {% endif %}
+{%- endblock _buttonAdd -%}
+
+{%- block modal_title -%}
+    {% if node.icon %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
+    Add new {{ node.type|capitalize }}
+{%- endblock modal_title -%}
+
+{%- block modal_body -%}
+    {{ form(form.data) }}
+{%- endblock modal_body -%}
+
+{%- block modal_footer -%}
+    <div class="pull-right">
+        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+{%- endblock modal_footer -%}
 
 
 

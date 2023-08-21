@@ -1,7 +1,7 @@
 {%- set size = size|default('sm') -%}
 {%- set btnClass = buttonClass|default('') -%}
 <div class="{{ "btn-group btn-group-#{size}" }}">
-    <button type="button" class="{{ "#{buttonClass} btn btn-sm btn-default dropdown-toggle" }}"
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {%- block button -%}{%- endblock -%}
     </button>

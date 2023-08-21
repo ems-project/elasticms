@@ -13,7 +13,7 @@ class JsonMenuNestedTemplate
     private TemplateWrapper $template;
     private ?TemplateWrapper $configTemplate;
 
-    private const TWIG_TEMPLATE = '@EMSCore/components/json_menu_nested/template.twig';
+    public const TWIG_TEMPLATE = '@EMSCore/components/json_menu_nested/template.twig';
 
     public function __construct(
         private readonly JsonMenuNestedConfig $config,

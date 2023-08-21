@@ -1,4 +1,5 @@
 import Sortable from "sortablejs";
+import ajaxModal from "../helper/ajaxModal";
 
 export default class JsonMenuNestedComponent {
     #hash;
@@ -45,15 +46,26 @@ export default class JsonMenuNestedComponent {
         this.#element.addEventListener('click', (event) => {
             const element = event.target;
             const node = element.parentElement.closest('.jmn-node');
+            const nodeId = node ? node.dataset.id : '_root';
+
             switch (true) {
+                case element.classList.contains('jmn-btn-add'):
+                    this.onClickButtonAdd(element.dataset.add, nodeId);
+                    break;
                 case element.classList.contains('jmn-btn-delete'):
-                    this.onClickButtonDelete(node.dataset.id);
+                    this.onClickButtonDelete(nodeId);
                     break;
                 case element.classList.contains('jmn-btn-collapse'):
                     this.onClickButtonCollapse(element, node);
                     break;
             }
         }, false);
+    }
+
+    onClickButtonAdd(addId, parentId)
+    {
+        const url = ['/component/json-menu-nested', this.#hash, `item/${parentId}/add/${addId}`].join('/');
+        this.ajaxModal(url);
     }
 
     onClickButtonDelete(nodeId)
@@ -99,6 +111,22 @@ export default class JsonMenuNestedComponent {
         this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {
             this.#sortableLists[element.id] = Sortable.create(element, options);
         });
+    }
+
+    ajaxModal(url)
+    {
+        let handlerClose = () => {
+            this.load();
+            ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
+        };
+
+        ajaxModal.load({ 'url': url }, (json) => {
+            if (!json.hasOwnProperty('success') || !json.success) return;
+            if (json.hasOwnProperty('load')) {
+                this.#loadedNodes.push(json.load);
+            }
+        });
+        ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
     }
 
     async get(path) {

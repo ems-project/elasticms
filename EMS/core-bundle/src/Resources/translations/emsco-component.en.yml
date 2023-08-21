@@ -9,3 +9,9 @@ media_library:
         load_more: 'Loading more files ...'
         add:
             title: Upload
+
+json_menu_nested:
+    error:
+        not_found:
+            item: 'Could not find item'
+            node: 'Could not find node'

@@ -156,6 +156,10 @@ class AjaxModal {
         let modelForm = this.modal.querySelector('form');
         if (modelForm) {
             editRevisionEventListeners(this.$modal.find('form'));
+            modelForm.addEventListener('submit', (event) => {
+                ajaxModal.submitForm(url, callback);
+                event.preventDefault();
+            });
         }
 
         let btnAjaxSubmit = this.modal.querySelector('#ajax-modal-submit');

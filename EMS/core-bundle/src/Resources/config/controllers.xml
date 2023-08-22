@@ -98,6 +98,7 @@
             <argument type="service" id="ems.service.user" />
             <argument type="service" id="ems.service.data" />
             <argument type="service" id="ems.service.contenttype" />
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
         </service>

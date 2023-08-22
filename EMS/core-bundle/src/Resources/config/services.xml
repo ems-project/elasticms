@@ -135,6 +135,7 @@
         </service>
         <service id="ems_core.core_revision_task.task_table_service" class="EMS\CoreBundle\Core\Revision\Task\Table\TaskTableService">
             <argument type="service" id="ems.repository.task" />
+            <argument>%ems_core.template_namespace%</argument>
         </service>
         <service id="ems_core.core_revision_task.task_subscriber" class="EMS\CoreBundle\Core\Revision\Task\TaskEventSubscriber">
             <argument type="service" id="ems.repository.task"/>

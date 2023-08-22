@@ -29,6 +29,7 @@
         <service id="emsco.data_table.release.revision" class="EMS\CoreBundle\DataTable\Type\Release\ReleaseRevisionDataTableType">
             <argument type="service" id="ems.service.release_revision"/>
             <argument type="service" id="ems.service.release"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="emsco.datatable" />
         </service>
         <service id="emsco.data_table.revision.audit" class="EMS\CoreBundle\DataTable\Type\Revision\RevisionAuditDataTableType">

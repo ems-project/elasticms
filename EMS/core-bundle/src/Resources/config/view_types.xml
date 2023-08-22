@@ -76,6 +76,7 @@
             <argument type="service" id="ems.service.data"/>
             <argument type="service" id="router"/>
             <argument type="service" id="ems.service.contenttype"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="hierarchical" />
             <tag name="form.type" />
         </service>

@@ -143,6 +143,7 @@
             <argument>%ems_core.paging_size%</argument>
             <argument>%ems_core.instance_id%</argument>
             <argument>%ems_core.circles_object%</argument>
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
         </service>

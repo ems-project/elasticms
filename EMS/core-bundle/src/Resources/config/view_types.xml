@@ -116,6 +116,7 @@
             <argument type="service" id="ems.service.job"/>
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="router"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="importer" />
             <tag name="form.type" />
         </service>

@@ -510,6 +510,7 @@
             <argument type="service" id="ems.service.aggregate_option" />
             <argument type="service" id="ems.service.search_field_option" />
             <argument type="service" id="translator" />
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

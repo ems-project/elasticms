@@ -15,6 +15,7 @@
         </service>
         <service id="ems_core.dashboard.template" class="EMS\CoreBundle\Core\Dashboard\Services\Template">
             <argument type="service" id="twig" />
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.dashboard" alias="template" />
         </service>
         <service id="ems_core.dashboard.export" class="EMS\CoreBundle\Core\Dashboard\Services\Export">

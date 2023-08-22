@@ -1,0 +1,14 @@
+{% extends '@EMSAdminUI/bootstrap5/log/abstract.html.twig' %}
+{% trans_default_domain 'emsco-twigs' %}
+
+{% block title %}{{ 'log.index.title'|trans }}{% endblock %}
+
+{% block body %}
+    {%  set toolbar %}
+    {%  endset %}
+
+    {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+    {{ form(form, {
+        toolbar: toolbar
+    }) }}
+{% endblock %}

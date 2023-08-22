@@ -1,0 +1,48 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block title %}Recursive view of the {{ object._source._contenttype }} : {{ object._id }}{% endblock %}
+{% block pagetitle %}
+    <i class="{% if contentType and contentType.icon %}{{ contentType.icon }} {% else %} fa fa-question {% endif %} "></i>
+    {{ object._source._contenttype|humanize }} :
+
+    {% set title = document|emsco_display %}
+    {% if title != object._id %}
+        {{ title }} <small>{{ object._id }}</small>
+    {% else %}
+        {{ object._id }}
+    {% endif %}
+    as indexed in
+    <span class="badge bg-{{ environment.color|raw }}">{{ environment.label }}</span>
+{% endblock %}
+
+{% block subtitle %}{% endblock %}
+
+{% block body %}
+    <div class="row raw-view">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Recursif view</h3>
+                </div>
+                <div class="box-body">
+                    <pre class="ems-code-editor" data-language="ace/mode/json"
+                         data-them="ace/theme/chrome" data-max-lines="500">{{ object|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    {% include '@EMSAdminUI/bootstrap5/elements/object-toolbar.html.twig' with {
+                        'object':  object,
+                        'contentType': contentType,
+                        'recursiveView': true
+                    } %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if contentType %}
+        {% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
+            'item':  'data-index-' ~ contentType.id
+        } %}
+    {% endif %}
+{% endblock %}

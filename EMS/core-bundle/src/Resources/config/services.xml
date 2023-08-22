@@ -212,6 +212,7 @@
             <argument type="service" id="ems.repository.user" />
             <argument type="service" id="security.user_password_hasher" />
             <argument>%ems_core.fallback_locale%</argument>
+            <argument>%ems_core.template_namespace%</argument>
         </service>
 
         <service id="ems.service.mapping" class="EMS\CoreBundle\Service\Mapping">

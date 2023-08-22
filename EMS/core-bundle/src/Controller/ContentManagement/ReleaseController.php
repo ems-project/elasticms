@@ -249,7 +249,7 @@ final class ReleaseController extends AbstractController
 
     private function getNonMemberRevisionsTable(Release $release): QueryTable
     {
-        $table = new QueryTable($this->releaseRevisionService, 'revisions-to-publish', $this->generateUrl(Routes::RELEASE_NON_MEMBER_REVISION_AJAX, ['release' => $release->getId()]), $release);
+        $table = new QueryTable($this->templateNamespace, $this->releaseRevisionService, 'revisions-to-publish', $this->generateUrl(Routes::RELEASE_NON_MEMBER_REVISION_AJAX, ['release' => $release->getId()]), $release);
         $table->setMassAction(true);
         $table->setLabelAttribute('item_labelField');
         $table->setIdField('emsLink');

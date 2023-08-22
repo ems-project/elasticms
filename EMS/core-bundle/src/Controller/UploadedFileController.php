@@ -153,7 +153,7 @@ class UploadedFileController extends AbstractController
 
     private function initFileTable(): QueryTable
     {
-        $table = new QueryTable($this->fileService, 'uploaded-files-grouped-by-hash', $this->generateUrl('ems_core_uploaded_file_ajax'));
+        $table = new QueryTable($this->templateNamespace, $this->fileService, 'uploaded-files-grouped-by-hash', $this->generateUrl('ems_core_uploaded_file_ajax'));
         $table->addColumn('uploaded-file.index.column.name', 'name')
             ->setRoute('ems_file_download', function (array $data) {
                 if (!\is_string($data['id'] ?? null) || !\is_string($data['type'] ?? null) || !\is_string($data['name'] ?? null)) {

@@ -23,6 +23,8 @@ class JsonMenuNestedComponent
     public string $hash;
     #[ExposeInTemplate('id')]
     public string $id;
+    #[ExposeInTemplate('config')]
+    public JsonMenuNestedConfig $config;
     #[ExposeInTemplate('template')]
     public JsonMenuNestedTemplate $template;
 
@@ -39,6 +41,7 @@ class JsonMenuNestedComponent
 
         $this->hash = $config->getHash();
         $this->id = $config->getId();
+        $this->config = $config;
         $this->template = $this->jsonMenuNestedTemplateFactory->create($config);
 
         return [];

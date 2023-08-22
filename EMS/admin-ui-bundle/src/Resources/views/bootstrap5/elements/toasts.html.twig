@@ -1,0 +1,28 @@
+{%- trans_default_domain 'elements' -%}
+
+<div aria-live="polite" aria-atomic="true" class="">
+    <div class="toast-container top-0 end-0 p-3 position-fixed">
+        {%- set types = {
+            'error' : { 'class': 'bg-danger', 'icon': 'fa-ban' },
+            'warning' : { 'class': 'bg-warning', 'icon': 'fa-warning' },
+            'notice' : { 'class': 'bg-info', 'icon': 'fa-info' },
+        } -%}
+
+        {%- for type, config in types -%}
+            {% set alerts = app.session.flashbag.get(type) %}
+            {% if alerts|length > 0 %}
+                <div class="toast {{ config.class }} show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <span class="me-auto"><i class="icon fa {{ config.icon }}"></i>&nbsp;{{ "toats.level.#{type}"|trans }}</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {% for alert in alerts %}
+                            <p>{{ alert|ems_markdown }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        {%- endfor -%}
+    </div>
+</div>

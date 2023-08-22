@@ -5,6 +5,21 @@
     class: 'hold-transition sidebar-mini layout-fixed',
 } %}
 {%  set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
+{% set breadcrumb = [] %}
+
+{% block breadcrumb %}
+    {% if breadcrumb|length > 1 %}
+        <ol class="breadcrumb float-sm-end">
+            {% for key, label in breadcrumb %}
+                {% if loop.last %}
+                    <li class="breadcrumb-item active">{{ label }}</li>
+                {% else %}
+                    <li class="breadcrumb-item"><a href="{{ key }}">{{ label }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ol>
+    {% endif %}
+{% endblock breadcrumb %}
 
 {% block body %}
     {% apply spaceless %}
@@ -15,19 +30,16 @@
             {% endif %}
             {{ include('@EMSAdminUI/bootstrap5/elements/topbar.html.twig') }}
             {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
-
             <div class="content-wrapper">
+                {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
                 <div class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0">Dashboard</h1>
+                                <h1 class="m-0">{{ block('title') }}</h1>
                             </div>
                             <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-end">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">Dashboard v1</li>
-                                </ol>
+                                {{ block('breadcrumb') }}
                             </div>
                         </div>
                     </div>

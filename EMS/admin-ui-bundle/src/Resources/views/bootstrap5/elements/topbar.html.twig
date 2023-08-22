@@ -5,7 +5,7 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button">
                 <i class="fas fa-bars"></i>
-                <span class="visually-hidden">{{ 'topbar.mushmenu.label'|trans }}</span>
+                <span class="visually-hidden">{{ 'topbar.pushmenu.label'|trans }}</span>
             </a>
         </li>
     </ul>
@@ -61,7 +61,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li class="user-header bg-{{ theme_color }}">
-                    {% include '@EMSCore/elements/user-image.html.twig' with {
+                    {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
                         'class': 'rounded-circle shadow'
                     } %}
 

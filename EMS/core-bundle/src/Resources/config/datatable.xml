@@ -25,6 +25,7 @@
         <service id="emsco.data_table.release.pick" class="EMS\CoreBundle\DataTable\Type\Release\ReleasePickDataTableType">
             <argument type="service" id="ems.service.release"/>
             <argument type="service" id="ems.service.revision"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="emsco.datatable" />
         </service>
         <service id="emsco.data_table.release.revision" class="EMS\CoreBundle\DataTable\Type\Release\ReleaseRevisionDataTableType">

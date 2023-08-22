@@ -308,7 +308,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
             throw new JsonMenuNestedException('Current parent does not have item');
         }
 
-        if ($toParent->hasChild($child, false)) {
+        if ($toParent !== $fromParent && $toParent->hasChild($child, false)) {
             throw new JsonMenuNestedException('New parent already has item');
         }
 

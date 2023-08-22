@@ -549,6 +549,7 @@
             <argument type="service" id="emsco.manager.user" />
             <argument type="service" id="EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface"/>
             <argument type="service" id="emsco.data_table.factory"/>
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

@@ -75,6 +75,7 @@
             <argument type="service" id="ems_common.service.elastica"/>
             <argument type="service" id="ems_common.storage.manager"/>
             <argument type="service" id="ems.service.environment"/>
+            <argument>%ems_core.template_namespace%</argument>
         </service>
         <service id="ems_core.core_document.data_links_factory" class="EMS\CoreBundle\Core\Document\DataLinksFactory">
             <argument type="service" id="ems.service.search"/>

@@ -42,7 +42,7 @@ class HierarchicalViewType extends ViewType
         protected ContentTypeService $contentTypeService,
         private readonly string $templateNamespace)
     {
-        parent::__construct($formFactory, $twig, $logger);
+        parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 
     public function getLabel(): string

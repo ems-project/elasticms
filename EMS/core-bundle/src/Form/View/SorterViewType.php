@@ -39,7 +39,7 @@ class SorterViewType extends ViewType
         protected RouterInterface $router,
         private readonly string $templateNamespace
     ) {
-        parent::__construct($formFactory, $twig, $logger);
+        parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 
     public function getLabel(): string

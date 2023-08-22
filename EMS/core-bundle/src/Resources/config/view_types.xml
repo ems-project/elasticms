@@ -21,6 +21,7 @@
             <argument type="service" id="form.factory"/>
             <argument type="service" id="twig"/>
             <argument type="service" id="logger"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="data_link" />
             <tag name="form.type" />
         </service>
@@ -30,6 +31,7 @@
             <argument type="service" id="twig"/>
             <argument type="service" id="ems_common.service.elastica"/>
             <argument type="service" id="logger"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="keywords" />
             <tag name="form.type" />
         </service>
@@ -39,6 +41,7 @@
             <argument type="service" id="twig"/>
             <argument type="service" id="logger"/>
             <argument type="service" id="router"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="criteria" />
             <tag name="form.type" />
         </service>
@@ -49,6 +52,7 @@
             <argument type="service" id="ems_common.service.elastica"/>
             <argument type="service" id="logger"/>
             <argument type="service" id="ems_common.pdf.printer.dom"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="export" />
             <tag name="form.type" />
         </service>
@@ -87,6 +91,7 @@
             <argument type="service" id="twig"/>
             <argument type="service" id="ems_common.service.elastica"/>
             <argument type="service" id="logger"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="report" />
             <tag name="form.type" />
         </service>
@@ -95,6 +100,7 @@
             <argument type="service" id="form.factory"/>
             <argument type="service" id="twig"/>
             <argument type="service" id="logger"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="calendar" />
             <tag name="form.type" />
         </service>
@@ -105,6 +111,7 @@
             <argument type="service" id="ems_common.service.elastica"/>
             <argument type="service" id="logger"/>
             <argument type="service" id="ems.service.search"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="gallery" />
             <tag name="form.type" />
         </service>

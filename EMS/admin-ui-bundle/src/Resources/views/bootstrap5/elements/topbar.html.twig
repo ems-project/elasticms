@@ -52,39 +52,41 @@
                 <span class="visually-hidden">{{ 'topbar.control_sidebar.toggle'|trans }}</span>
             </a>
         </li>
-        <li class="nav-item dropdown user-menu">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
-                    'class': 'user-image rounded-circle shadow'
-                } %}
-                <span class="d-none d-md-inline">{{ app.user.displayName }}</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li class="user-header bg-{{ theme_color }}">
+        {% if app.user %}
+            <li class="nav-item dropdown user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                     {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
-                        'class': 'rounded-circle shadow'
+                        'class': 'user-image rounded-circle shadow'
                     } %}
+                    <span class="d-none d-md-inline">{{ app.user.displayName }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li class="user-header bg-{{ theme_color }}">
+                        {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
+                            'class': 'rounded-circle shadow'
+                        } %}
 
-                    <p>
-                        {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-user') }}
-                        <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-user') }}</small>
+                        <p>
+                            {{ 'user.logged_in.title'|trans({'%username%': app.user.username}, 'emsco-user') }}
+                            <small>{{ 'user.logged_in.member_since'|trans({'%date%': app.user.created|date(date_time_format)}, 'emsco-user') }}</small>
 
-                        <small>
-                            {% for role in app.user.roles %}
-                                {{ role|trans({}, 'EMSCoreBundle') }}{% if not loop.last %},{% endif %}
-                            {% endfor %}
-                        </small>
-                    </p>
-                </li>
-                <li class="user-footer">
-                    <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-default btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
-                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                        <a href="{{ path('emsco_user_index', {'_switch_user': '_exit'}) }}" class="btn btn-default btn-flat float-end">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
-                    {% else %}
-                        <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-default btn-fla float-end">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </li>
+                            <small>
+                                {% for role in app.user.roles %}
+                                    {{ role|trans({}, 'EMSCoreBundle') }}{% if not loop.last %},{% endif %}
+                                {% endfor %}
+                            </small>
+                        </p>
+                    </li>
+                    <li class="user-footer">
+                        <a href="{{ path(routes.USER_PROFILE) }}" class="btn btn-default btn-flat">{{ 'user.profile.title'|trans({}, 'emsco-user') }}</a>
+                        {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                            <a href="{{ path('emsco_user_index', {'_switch_user': '_exit'}) }}" class="btn btn-default btn-flat float-end">{{ 'user.logout.exit'|trans({}, 'emsco-user') }}</a>
+                        {% else %}
+                            <a href="{{ path(routes.USER_LOGOUT) }}" class="btn btn-default btn-fla float-end">{{ 'user.logout.submit'|trans({}, 'emsco-user') }}</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
     </ul>
 </nav>

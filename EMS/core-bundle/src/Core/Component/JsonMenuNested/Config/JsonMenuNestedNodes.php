@@ -52,6 +52,31 @@ class JsonMenuNestedNodes
         return $this->nodes[$item->getType()];
     }
 
+    public function getByType(string $type): JsonMenuNestedNode
+    {
+        if ('_root' === $type) {
+            return $this->root;
+        }
+
+        foreach ($this->nodes as $node) {
+            if ($node->type === $type) {
+                return $node;
+            }
+        }
+
+        throw JsonMenuNestedConfigException::nodeNotFound();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTypes(string $parentType): array
+    {
+        $parentNode = $this->getByType($parentType);
+
+        return \array_keys($this->getChildren($parentNode));
+    }
+
     /**
      * @return JsonMenuNestedNode[]
      */

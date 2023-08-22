@@ -187,6 +187,7 @@
             <argument type="service" id="router"/>
             <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository"/>
             <argument type="service" id="ems.service.revision"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="twig.runtime"/>
         </service>
 

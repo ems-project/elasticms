@@ -66,6 +66,7 @@
             <argument type="service" id="router" />
             <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
             <argument type="service" id="security.helper" />
+            <argument>%ems_core.template_namespace%</argument>
         </service>
         <service id="ems.service.datatable" alias="EMS\CoreBundle\Service\DatatableService"/>
         <service id="EMS\CoreBundle\Service\DatatableService">
@@ -132,6 +133,7 @@
             <argument type="service" id="ems.service.user" />
             <argument type="service" id="event_dispatcher" />
             <argument type="service" id="logger" />
+            <argument>%ems_core.template_namespace%</argument>
         </service>
         <service id="ems_core.core_revision_task.task_table_service" class="EMS\CoreBundle\Core\Revision\Task\Table\TaskTableService">
             <argument type="service" id="ems.repository.task" />

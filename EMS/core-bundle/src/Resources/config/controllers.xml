@@ -113,6 +113,7 @@
             <argument type="service" id="ems.content_type.view_types" />
             <argument type="service" id="twig" />
             <argument type="service" id="ems.service.job" />
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

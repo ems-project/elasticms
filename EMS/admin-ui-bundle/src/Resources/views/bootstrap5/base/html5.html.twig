@@ -9,21 +9,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="{{ block('title') }}" />
         <meta name="author" content="https://github.com/ems-project" />
-        {% block frontend_application_css %}
-            <link rel="stylesheet" href="{{ asset('app.css', 'emsadminui') }}">
-        {% endblock frontend_application_css %}
+        <link rel="stylesheet" href="{{ asset('app.css', 'emsadminui') }}">
         {%- block stylesheets %}{% endblock %}
         <link rel="icon" sizes="128x128" type="image/png" href="{{ asset('images/icon-128.png', 'emsadminui') }}" />
         <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ asset('images/icon-128.png', 'emsadminui') }}">
         {%- block extraheader %}{% endblock %}
     </head>
     <body{% with { attr: body_attr|default([]) } %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
-        {% block wrapper %}{% endblock wrapper %}
+        {% block wrapper %}
+            <h1>{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
+            <section class="content">
+                {% block body %}{% endblock %}
+            </section>
+        {% endblock wrapper %}
         {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'ajax-modal'} %}{% endembed %}
         {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'pick-file-server-modal'} %}{% endembed %}
-        {% block frontend_application_js %}
-            <script src="{{ asset('app.js', 'emsadminui') }}"></script>
-        {% endblock %}
+        <script src="{{ asset('app.js', 'emsadminui') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

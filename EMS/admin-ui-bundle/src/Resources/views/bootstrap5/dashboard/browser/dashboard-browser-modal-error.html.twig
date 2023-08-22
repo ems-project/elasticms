@@ -1,8 +1,8 @@
-{% extends '@EMSAdminUI/bootstrap5/base-light.html.twig' %}
+{% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
 {% trans_default_domain 'emsco-core' %}
 
 {% block title %}{{ dashboard.label }}{% endblock %}
 
-{% block main %}
+{% block wrapper %}
     <pre>{{ exception.message }}</pre>
-{% endblock %}
+{% endblock wrapper %}

@@ -173,6 +173,7 @@
             <argument type="service" id="ems.service.job" />
             <argument>%ems_core.paging_size%</argument>
             <argument>%ems_core.trigger_job_from_web%</argument>
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

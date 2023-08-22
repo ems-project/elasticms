@@ -21,7 +21,7 @@
     {% endif %}
 {% endblock breadcrumb %}
 
-{% block body %}
+{% block wrapper %}
     {% apply spaceless %}
         <div class="wrapper">
 
@@ -46,7 +46,7 @@
                 </div>
                 <section class="content">
                     <div class="container-fluid">
-                        {% block content %}{% endblock content %}
+                        {% block body %}{% endblock body %}
                     </div>
                 </section>
             </div>
@@ -57,4 +57,4 @@
         </div>
     {% endapply %}
 
-{% endblock body %}
+{% endblock wrapper %}

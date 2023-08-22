@@ -14,7 +14,7 @@
         <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ asset('images/icon-128.png', 'emsadminui') }}">
     </head>
     <body{% with { attr: body_attr|default([]) } %}{{ block('attributes', '@EMSAdminUI/bootstrap5/base/helpers.html.twig') }}{% endwith %}>
-        {% block body %}{% endblock body %}
+        {% block wrapper %}{% endblock wrapper %}
         <script src="{{ asset('app.js', 'emsadminui') }}"></script>
     </body>
 </html>

@@ -36,11 +36,6 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
-
-    {% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
-        'item':  'data-view-'~ contentType.id ~ '-' ~ view.id
-    }%}
-
 {% endblock %}
 
 {% block frontend_application_css %}

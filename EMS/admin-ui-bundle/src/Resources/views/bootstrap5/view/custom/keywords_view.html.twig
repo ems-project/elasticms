@@ -12,8 +12,4 @@
 		{{ view.options.template|generate_from_template({keyword: keyword})|raw }}
 	{% endfor %}
 </div>
-
-{% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
-	'item':  'data-view-'~ contentType.id ~ '-' ~ view.id
-}%}
 {% endblock %}

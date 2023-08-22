@@ -39,10 +39,4 @@
             </div>
         </div>
     </div>
-
-    {% if contentType %}
-        {% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
-            'item':  'data-index-' ~ contentType.id
-        } %}
-    {% endif %}
 {% endblock %}

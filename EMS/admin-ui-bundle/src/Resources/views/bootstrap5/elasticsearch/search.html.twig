@@ -258,18 +258,4 @@
 	{% endif %}
 
 </div>
-{% if searchId  %}
-	{% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
-		'item':  'search-preset-'~searchId
-	}%}
-{% elseif form.contentTypes.vars.value|length == 1 %}
-	{% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
-		'item':  'data-index-' ~ attribute(types, form.contentTypes.vars.value.0).id
-	}%}
-{% elseif response.getAggregation('types').keys|length == 1 %}
-	{% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
-		'item':  'data-index-' ~ attribute(types, response.getAggregation('types').keys.0).id
-	}%}
-{% endif %}
-
 {% endblock %}

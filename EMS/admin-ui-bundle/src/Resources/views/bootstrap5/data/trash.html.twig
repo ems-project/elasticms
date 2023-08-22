@@ -84,7 +84,4 @@
 		<p>{{ 'The trash is empty'|trans }}</p>
     </div>
 {% endif %}
-{% include '@EMSAdminUI/bootstrap5/app/menu.html.twig' with {
-	'item':  'data-draft-' ~ contentType.id
-}%}
 {% endblock %}

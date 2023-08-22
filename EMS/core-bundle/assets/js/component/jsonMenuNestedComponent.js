@@ -2,6 +2,7 @@ import Sortable from "sortablejs";
 import ajaxModal from "../helper/ajaxModal";
 
 export default class JsonMenuNestedComponent {
+    id;
     #hash;
     #tree;
     #element;
@@ -9,6 +10,7 @@ export default class JsonMenuNestedComponent {
     #loadIds = [];
 
     constructor (element) {
+        this.id = element.id;
         this.#element = element;
         this.#tree = element.querySelector('.jmn-tree');
         this.#hash = element.dataset.hash;
@@ -106,6 +108,26 @@ export default class JsonMenuNestedComponent {
 
         return types.includes(dragged.dataset.type);
     }
+    onMoveEnd(event) {
+        const itemId = event.item.dataset.id;
+        const targetComponentId = event.to.closest('.json-menu-nested-component').id;
+        const fromComponentId = event.from.closest('.json-menu-nested-component').id;
+        const position = event.newIndex;
+
+        const toParentId = event.to.closest('.jmn-node').dataset.id;
+        const fromParentId = event.from.closest('.jmn-node').dataset.id;
+
+        if (targetComponentId === fromComponentId) {
+            this.post(`item/${itemId}/move`, {
+                fromParentId: fromParentId,
+                toParentId: toParentId,
+                position: position
+            }).then(() => {  this.load(); });
+        } else {
+            window.jsonMenuNestedComponents[targetComponentId].loading(true);
+            window.jsonMenuNestedComponents[fromComponentId].loading(true);
+        }
+    }
 
     _initSortables() {
         const options = {
@@ -119,7 +141,8 @@ export default class JsonMenuNestedComponent {
             animation: 10,
             fallbackOnBody: true,
             swapThreshold: 0.50,
-            onMove: (event) => { return this.onMove(event) }
+            onMove: (event) => { return this.onMove(event) },
+            onEnd: (event) => { return this.onMoveEnd(event) },
         }
 
         this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {

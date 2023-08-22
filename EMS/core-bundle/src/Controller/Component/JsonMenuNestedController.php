@@ -119,6 +119,19 @@ class JsonMenuNestedController
         return new JsonResponse($result);
     }
 
+    public function itemMove(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
+    {
+        try {
+            $data = Json::decode($request->getContent());
+            $this->jsonMenuNestedService->itemMove($config, $itemId, $data);
+            $this->clearFlashes($request);
+
+            return new JsonResponse(['result' => 'item moved']);
+        } catch (JsonMenuNestedException $e) {
+            return new JsonResponse(['warning' => $e->getMessage()]);
+        }
+    }
+
     private function clearFlashes(Request $request): void
     {
         /** @var Session $session */

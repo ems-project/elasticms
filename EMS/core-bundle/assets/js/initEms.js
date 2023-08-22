@@ -249,10 +249,12 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
     }
 
     function initJsonMenuNestedComponent() {
-        let elements = document.getElementsByClassName('json-menu-nested-component');
+        const elements = document.getElementsByClassName('json-menu-nested-component');
 
+        window.jsonMenuNestedComponents = [];
         [].forEach.call(elements, function (element) {
-            new JsonMenuNestedComponent(element)
+            const component = new JsonMenuNestedComponent(element);
+            window.jsonMenuNestedComponents[component.id] = component;
         });
     }
 

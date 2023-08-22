@@ -276,12 +276,21 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return $this->parent;
     }
 
-    public function addChild(JsonMenuNested $child): JsonMenuNested
+    public function addChild(JsonMenuNested $child, ?int $position = null): JsonMenuNested
     {
         $addChild = clone $child;
         $addChild->setParent($this);
 
-        $this->children[] = $addChild;
+        if (null === $position) {
+            $this->children[] = $addChild;
+        } else {
+            $children = $this->children;
+            $this->children = \array_merge(
+                \array_slice($children, 0, $position),
+                [$addChild],
+                \array_slice($children, $position)
+            );
+        }
 
         return $this;
     }
@@ -291,6 +300,20 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         $this->children = \array_filter($this->children, static fn (JsonMenuNested $child) => $child !== $removeChild);
 
         return $this;
+    }
+
+    public function moveChild(JsonMenuNested $child, JsonMenuNested $fromParent, JsonMenuNested $toParent, int $position): void
+    {
+        if (!$fromParent->hasChild($child, false)) {
+            throw new JsonMenuNestedException('Current parent does not have item');
+        }
+
+        if ($toParent->hasChild($child, false)) {
+            throw new JsonMenuNestedException('New parent already has item');
+        }
+
+        $fromParent->removeChild($child);
+        $toParent->addChild($child, $position);
     }
 
     /**
@@ -306,9 +329,12 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return \count($this->children) > 0;
     }
 
-    public function hasChild(JsonMenuNested $jsonMenuNested): bool
+    public function hasChild(JsonMenuNested $jsonMenuNested, bool $recursive = true): bool
     {
-        return 1 === \count($this->filterChildren(fn (JsonMenuNested $child) => $child->getId() === $jsonMenuNested->getId()));
+        $callback = fn (JsonMenuNested $child) => $child->getId() === $jsonMenuNested->getId();
+        $children = $recursive ? $this->filterChildren($callback) : \array_filter($this->children, $callback);
+
+        return 1 === \count($children);
     }
 
     public function isRoot(): bool

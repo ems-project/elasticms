@@ -6,6 +6,7 @@
     --bg-color: #F0F0F0;
     --color-light: #F8F8F8;
     --collapse-icon-size: calc(var(--gap) + var(--icon-size));
+    position: relative;
     overflow-x: auto;
     margin-bottom: 50px;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\JsonMenuNested;
 
 use EMS\CommonBundle\Json\JsonMenuNested;
+use EMS\CommonBundle\Json\JsonMenuNestedException;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate;
@@ -13,6 +14,7 @@ use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class JsonMenuNestedService
@@ -78,6 +80,32 @@ class JsonMenuNestedService
         return [
             'hash' => $this->saveStructure($config)->getHash(),
         ];
+    }
+
+    /**
+     * @param array{fromParentId: string, toParentId: string, position: int}|array<mixed> $data
+     *
+     * @throws JsonMenuNestedException
+     */
+    public function itemMove(JsonMenuNestedConfig $config, string $itemId, array $data): void
+    {
+        $optionsResolver = new OptionsResolver();
+        $optionsResolver
+            ->setRequired(['fromParentId', 'toParentId', 'position'])
+            ->setAllowedTypes('fromParentId', 'string')
+            ->setAllowedTypes('toParentId', 'string')
+            ->setAllowedTypes('position', 'int');
+
+        /** @var array{fromParentId: string, toParentId: string, position: int} $data */
+        $data = $optionsResolver->resolve($data);
+
+        $jsonMenuNested = $config->jsonMenuNested;
+        $item = $jsonMenuNested->giveItemById($itemId);
+        $fromParent = $jsonMenuNested->giveItemById($data['fromParentId']);
+        $toParent = $jsonMenuNested->giveItemById($data['toParentId']);
+
+        $jsonMenuNested->moveChild($item, $fromParent, $toParent, $data['position']);
+        $this->saveStructure($config);
     }
 
     private function getTemplate(JsonMenuNestedConfig $config): JsonMenuNestedTemplate

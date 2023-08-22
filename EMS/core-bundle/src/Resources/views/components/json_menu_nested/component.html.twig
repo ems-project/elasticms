@@ -1,12 +1,13 @@
 {% trans_default_domain 'emsco-component' %}
 
 {# @var template \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
+{# @var config   \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
 
 <div class="json-menu-nested-component" id="{{ id }}" data-hash="{{ hash }}">
     <div class="jmn-node-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>
     {{ template.block('_top')|raw }}
     <div class="jmn-wrapper">
         {{ template.block('_header')|raw }}
-        <div id="{{- "tree-#{id}" -}}" class="jmn-tree jmn-sortable"  data-types="{{ config.nodes.types('_root')|json_encode|e('html_attr') }}"></div>
+        <div id="{{- "tree-#{id}" -}}" class="jmn-tree jmn-node jmn-sortable" data-id="{{ config.jsonMenuNested.id }}"  data-types="{{ config.nodes.types('_root')|json_encode|e('html_attr') }}"></div>
     </div>
 </div>

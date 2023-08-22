@@ -94,6 +94,19 @@ export default class JsonMenuNestedComponent {
         this.load();
     }
 
+    onMove(event) {
+        const dragged = event.dragged;
+        const targetList = event.to;
+
+        if (!dragged.dataset.hasOwnProperty('type') || !targetList.dataset.hasOwnProperty('types')) {
+            return false;
+        }
+
+        const types = JSON.parse(targetList.dataset.types);
+
+        return types.includes(dragged.dataset.type);
+    }
+
     _initSortables() {
         const options = {
             group: 'shared',
@@ -105,7 +118,8 @@ export default class JsonMenuNestedComponent {
             dragClass: "jmn-move-drag",
             animation: 10,
             fallbackOnBody: true,
-            swapThreshold: 0.50
+            swapThreshold: 0.50,
+            onMove: (event) => { return this.onMove(event) }
         }
 
         this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {

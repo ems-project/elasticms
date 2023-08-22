@@ -233,6 +233,7 @@
         <service id="EMS\CoreBundle\Controller\Dashboard\DashboardBrowserController" public="true">
             <argument type="service" id="ems.dashboard.manager" />
             <argument type="service" id="twig"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="controller.service_arguments"/>
         </service>
 

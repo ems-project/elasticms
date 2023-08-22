@@ -302,6 +302,7 @@
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="twig" />
             <argument type="service" id="emsco.logger" />
+            <argument>%ems_core.template_namespace%</argument>
         </service>
 
         <service id="EMS\CoreBundle\Controller\Revision\DetailController" public="true">

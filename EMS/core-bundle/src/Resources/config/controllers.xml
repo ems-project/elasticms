@@ -538,6 +538,7 @@
         <service id="EMS\CoreBundle\Controller\UploadedFileWysiwygController" public="true">
             <argument type="service" id="ems_core.core_ui.ajax_service" />
             <argument type="service" id="emsco.data_table.factory"/>
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

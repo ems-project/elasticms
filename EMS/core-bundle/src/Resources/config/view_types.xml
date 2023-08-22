@@ -62,6 +62,7 @@
             <argument type="service" id="session"/>
             <argument type="service" id="ems.service.data"/>
             <argument type="service" id="router"/>
+            <argument>%ems_core.template_namespace%</argument>
             <tag name="ems.form.viewtype" alias="sorter" />
             <tag name="form.type" />
         </service>

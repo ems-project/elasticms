@@ -36,7 +36,8 @@ class SorterViewType extends ViewType
         LoggerInterface $logger,
         protected SessionInterface $session,
         protected DataService $dataService,
-        protected RouterInterface $router
+        protected RouterInterface $router,
+        private readonly string $templateNamespace
     ) {
         parent::__construct($formFactory, $twig, $logger);
     }
@@ -185,7 +186,7 @@ class SorterViewType extends ViewType
         }
 
         $response = new Response();
-        $response->setContent($this->twig->render('@EMSCore/view/custom/'.$this->getBlockPrefix().'.html.twig', [
+        $response->setContent($this->twig->render("@$this->templateNamespace/view/custom/".$this->getBlockPrefix().'.html.twig', [
                 'response' => $emsResponse,
                 'view' => $view,
                 'form' => $form->createView(),

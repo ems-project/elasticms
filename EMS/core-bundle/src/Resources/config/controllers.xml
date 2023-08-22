@@ -403,6 +403,7 @@
             <argument type="service" id="ems.form.factories.objectChoiceListFactory" />
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="form.registry" />
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

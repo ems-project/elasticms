@@ -88,6 +88,7 @@
             <argument type="service" id="ems.service.contenttype" />
             <argument type="service" id="ems.service.mapping" />
             <argument type="service" id="ems.form.field-type.manager" />
+            <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

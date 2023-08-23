@@ -31,12 +31,12 @@ class JsonMenuNestedService
     public function getStructure(JsonMenuNestedConfig $config, array $data): string
     {
         $menu = $config->jsonMenuNested;
-        $activeItem = isset($data['active_id']) ? $menu->getItemById($data['active_id']) : $menu;
+        $activeItem = isset($data['active_id']) ? $menu->getItemById($data['active_id']) : null;
 
         return $this->getTemplate($config)->block('_itemNodes', \array_filter([
             'menu' => $menu,
             'load_ids' => $data['load_ids'] ?? [],
-            'activeItem' => $activeItem,
+            'activeItem' => $activeItem ?? $menu,
         ]));
     }
 

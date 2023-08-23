@@ -83,7 +83,7 @@ class JsonMenuNestedController
 
                 return JsonResponse::fromJsonString(AjaxModalResponse::success([
                     'load' => $parent->isRoot() ? null : $itemId,
-                    'added' => $item->getId(),
+                    'item' => $item->getId(),
                 ]));
             }
 
@@ -116,7 +116,9 @@ class JsonMenuNestedController
                 $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
                 $this->clearFlashes($request);
 
-                return JsonResponse::fromJsonString(AjaxModalResponse::success());
+                return JsonResponse::fromJsonString(AjaxModalResponse::success([
+                    'item' => $item->getId(),
+                ]));
             }
 
             return new JsonResponse($this->ajaxService

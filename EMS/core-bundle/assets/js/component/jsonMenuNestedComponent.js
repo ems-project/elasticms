@@ -7,6 +7,7 @@ export default class JsonMenuNestedComponent {
     #element;
     #sortableLists = {};
     #loadIds = [];
+    #activeId;
     #pathPrefix;
 
     constructor (element) {
@@ -21,10 +22,11 @@ export default class JsonMenuNestedComponent {
     load(activeId = null) {
         this.post('/structure', {
             load_ids: this.#loadIds,
-            active_id: activeId
+            active_id: (activeId ? activeId : this.#activeId)
         }).then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             this.#tree.innerHTML = json.structure;
+            this.#activeId = null;
             this._initSortables();
             this.loading(false);
         });
@@ -120,7 +122,7 @@ export default class JsonMenuNestedComponent {
                 fromParentId: fromParentId,
                 toParentId: toParentId,
                 position: position
-            }).finally(() => targetComponent.load());
+            }).finally(() => targetComponent.load(itemId) );
         } else {
             fromComponent.itemGet(itemId)
                 .then((json) => {
@@ -133,7 +135,7 @@ export default class JsonMenuNestedComponent {
                 })
                 .catch(() => {})
                 .finally(() => {
-                    targetComponent.load();
+                    targetComponent.load(itemId);
                     fromComponent.load();
                 });
         }
@@ -168,9 +170,8 @@ export default class JsonMenuNestedComponent {
 
         ajaxModal.load({ 'url': `${this.#pathPrefix}${path}` }, (json) => {
             if (!json.hasOwnProperty('success') || !json.success) return;
-            if (json.hasOwnProperty('load')) {
-                this.#loadIds.push(json.load);
-            }
+            if (json.hasOwnProperty('load')) this.#loadIds.push(json.load);
+            if (json.hasOwnProperty('item')) this.#activeId = json.item;
         });
         ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
     }

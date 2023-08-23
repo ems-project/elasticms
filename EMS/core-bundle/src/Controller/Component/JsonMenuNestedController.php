@@ -51,7 +51,7 @@ class JsonMenuNestedController
         return new JsonResponse(['item' => $item->toArrayStructure(true)]);
     }
 
-    public function itemAdd(Request $request, JsonMenuNestedConfig $config, string $parentId, int $nodeId): JsonResponse
+    public function itemModalAdd(Request $request, JsonMenuNestedConfig $config, string $parentId, int $nodeId): JsonResponse
     {
         try {
             $parent = $config->jsonMenuNested->giveItemById($parentId);
@@ -86,7 +86,7 @@ class JsonMenuNestedController
         }
     }
 
-    public function itemEdit(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
+    public function itemModalEdit(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
     {
         try {
             $item = $config->jsonMenuNested->giveItemById($itemId);

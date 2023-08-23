@@ -11,14 +11,14 @@
         <requirement key="hash">.*</requirement>
     </route>
     <route id="emsco.json_menu_nested.item_add" path="/json-menu-nested/{hash}/item/{parentId}/add/{nodeId}"
-           controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::itemAdd"
+           controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::itemModalAdd"
            methods="GET|POST">
         <requirement key="hash">.*</requirement>
         <requirement key="parentId">.*</requirement>
         <requirement key="nodeId">.*</requirement>
     </route>
     <route id="emsco.json_menu_nested.item_edit" path="/json-menu-nested/{hash}/item/{itemId}/edit"
-           controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::itemEdit"
+           controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::itemModalEdit"
            methods="GET|POST">
         <requirement key="hash">.*</requirement>
         <requirement key="itemId">.*</requirement>

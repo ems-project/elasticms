@@ -20,7 +20,7 @@ export default class JsonMenuNestedComponent {
     }
 
     load({ activeItemId = null, loadChildrenId: loadChildrenId = null} = {}) {
-        this.post('/structure', {
+        this._post('/structure', {
             active_item_id: activeItemId,
             load_parent_ids: this.#loadParentIds,
             load_children_id: loadChildrenId
@@ -29,35 +29,53 @@ export default class JsonMenuNestedComponent {
 
             this.#loadParentIds = json.load_parent_ids;
             this.#tree.innerHTML = json.structure;
-            this._initSortables();
+            this._sortables();
             this.loading(false);
         });
     }
-    itemGet(itemId) {
-        return this.get(`/item/${itemId}`);
+    item_get(itemId) {
+        return this._get(`/item/${itemId}`);
     }
     itemAdd(itemId, add, position = 0) {
-        return this.post(`/item/${itemId}/add`, { 'position': position, 'add': add });
+        return this._post(`/item/${itemId}/add`, { 'position': position, 'add': add });
     }
     itemDelete(nodeId) {
-        return this.post(`/item/${nodeId}/delete`);
+        return this._post(`/item/${nodeId}/delete`);
     }
-
     loading(flag) {
         const element = this.#element.querySelector('.jmn-node-loading');
         element.style.display = flag ? 'flex' : 'none';
     }
 
-    onClickButtonAdd(itemId, addId) {
-        this.ajaxModal(`/item/${itemId}/modal-add/${addId}`);
+    _addClickListeners() {
+        this.#element.addEventListener('click', (event) => {
+            const element = event.target;
+            const node = element.parentElement.closest('.jmn-node');
+            const nodeId = node ? node.dataset.id : '_root';
+
+            switch (true) {
+                case element.classList.contains('jmn-btn-add'):
+                    this._onClickButtonAdd(nodeId, element.dataset.add);
+                    break;
+                case element.classList.contains('jmn-btn-edit'):
+                    this._onClickButtonEdit(nodeId);
+                    break;
+                case element.classList.contains('jmn-btn-delete'):
+                    this._onClickButtonDelete(nodeId);
+                    break;
+            }
+        }, true);
     }
-    onClickButtonEdit(itemId) {
-        this.ajaxModal(`/item/${itemId}/modal-edit`);
+    _onClickButtonAdd(itemId, addId) {
+        this._ajaxModal(`/item/${itemId}/modal-add/${addId}`);
     }
-    onClickButtonDelete(nodeId) {
+    _onClickButtonEdit(itemId) {
+        this._ajaxModal(`/item/${itemId}/modal-edit`);
+    }
+    _onClickButtonDelete(nodeId) {
         this.itemDelete(nodeId).then(() => { this.load(); });
     }
-    onClickButtonCollapse(button, longPressed = false) {
+    _onClickButtonCollapse(button, longPressed = false) {
         const expanded = button.getAttribute('aria-expanded');
         const node = event.target.parentElement.closest('.jmn-node');
         const nodeId = node.dataset.id;
@@ -77,8 +95,45 @@ export default class JsonMenuNestedComponent {
             this.load({ loadChildrenId: (longPressed ? nodeId : null) });
         }
     }
+    _addClickLongPressListeners() {
+        let delay;
+        let longPressed = false;
+        let longPressTime = 300;
 
-    onMove(event) {
+        this.#element.addEventListener('mousedown', (event) => {
+            if (event.target.classList.contains('jmn-btn-collapse')) {
+                delay = setTimeout(() => { longPressed = true}, longPressTime);
+            }
+        }, true);
+        this.#element.addEventListener('mouseup', (event) => {
+            if (event.target.classList.contains('jmn-btn-collapse')) {
+                this._onClickButtonCollapse(event.target, longPressed);
+                clearTimeout(delay);
+                longPressed = false;
+            }
+        });
+    }
+    _sortables() {
+        const options = {
+            group: 'shared',
+            draggable: '.jmn-node',
+            handle: '.jmn-btn-move',
+            dragoverBubble: true,
+            ghostClass: "jmn-move-ghost",
+            chosenClass: "jmn-move-chosen",
+            dragClass: "jmn-move-drag",
+            animation: 10,
+            fallbackOnBody: true,
+            swapThreshold: 0.50,
+            onMove: (event) => { return this._onMove(event) },
+            onEnd: (event) => { return this._onMoveEnd(event) },
+        }
+
+        this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {
+            this.#sortableLists[element.id] = Sortable.create(element, options);
+        });
+    }
+    _onMove(event) {
         const dragged = event.dragged;
         const targetList = event.to;
 
@@ -89,7 +144,7 @@ export default class JsonMenuNestedComponent {
 
         return types.includes(dragged.dataset.type);
     }
-    onMoveEnd(event) {
+    _onMoveEnd(event) {
         const itemId = event.item.dataset.id;
         const targetComponent =  window.jsonMenuNestedComponents[event.to.closest('.json-menu-nested-component').id];
         const fromComponent =  window.jsonMenuNestedComponents[event.from.closest('.json-menu-nested-component').id];
@@ -99,13 +154,13 @@ export default class JsonMenuNestedComponent {
         const fromParentId = event.from.closest('.jmn-node').dataset.id;
 
         if (targetComponent.id === fromComponent.id) {
-            this.post(`/item/${itemId}/move`, {
+            this._post(`/item/${itemId}/move`, {
                 fromParentId: fromParentId,
                 toParentId: toParentId,
                 position: position
             }).finally(() => targetComponent.load(itemId) );
         } else {
-            fromComponent.itemGet(itemId)
+            fromComponent.item_get(itemId)
                 .then((json) => {
                     if (!json.hasOwnProperty('item')) throw new Error(JSON.stringify(json));
                     return targetComponent.itemAdd(toParentId, json.item, position)
@@ -121,67 +176,7 @@ export default class JsonMenuNestedComponent {
                 });
         }
     }
-
-    _addClickListeners() {
-        this.#element.addEventListener('click', (event) => {
-            const element = event.target;
-            const node = element.parentElement.closest('.jmn-node');
-            const nodeId = node ? node.dataset.id : '_root';
-
-            switch (true) {
-                case element.classList.contains('jmn-btn-add'):
-                    this.onClickButtonAdd(nodeId, element.dataset.add);
-                    break;
-                case element.classList.contains('jmn-btn-edit'):
-                    this.onClickButtonEdit(nodeId);
-                    break;
-                case element.classList.contains('jmn-btn-delete'):
-                    this.onClickButtonDelete(nodeId);
-                    break;
-            }
-        }, true);
-    }
-    _addClickLongPressListeners() {
-        let delay;
-        let longPressed = false;
-        let longPressTime = 300;
-
-        this.#element.addEventListener('mousedown', (event) => {
-            if (event.target.classList.contains('jmn-btn-collapse')) {
-                delay = setTimeout(() => { longPressed = true}, longPressTime);
-            }
-        }, true);
-        this.#element.addEventListener('mouseup', (event) => {
-            if (event.target.classList.contains('jmn-btn-collapse')) {
-                this.onClickButtonCollapse(event.target, longPressed);
-                clearTimeout(delay);
-                longPressed = false;
-            }
-        });
-    }
-
-    _initSortables() {
-        const options = {
-            group: 'shared',
-            draggable: '.jmn-node',
-            handle: '.jmn-btn-move',
-            dragoverBubble: true,
-            ghostClass: "jmn-move-ghost",
-            chosenClass: "jmn-move-chosen",
-            dragClass: "jmn-move-drag",
-            animation: 10,
-            fallbackOnBody: true,
-            swapThreshold: 0.50,
-            onMove: (event) => { return this.onMove(event) },
-            onEnd: (event) => { return this.onMoveEnd(event) },
-        }
-
-        this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {
-            this.#sortableLists[element.id] = Sortable.create(element, options);
-        });
-    }
-
-    ajaxModal(path) {
+    _ajaxModal(path) {
         let activeItemId = null;
 
         let handlerClose = () => {
@@ -196,7 +191,7 @@ export default class JsonMenuNestedComponent {
         });
         ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
     }
-    async get(path) {
+    async _get(path) {
         this.loading(true);
         const response = await fetch(`${this.#pathPrefix}${path}`, {
             method: "GET",
@@ -204,7 +199,7 @@ export default class JsonMenuNestedComponent {
         });
         return response.json();
     }
-    async post(path, data = {}) {
+    async _post(path, data = {}) {
         this.loading(true);
         const response = await fetch(`${this.#pathPrefix}${path}`, {
             method: "POST",

@@ -44,6 +44,13 @@ class JsonMenuNestedController
         return new JsonResponse(['structure' => $structure]);
     }
 
+    public function item(JsonMenuNestedConfig $config, string $itemId): JsonResponse
+    {
+        $item = $config->jsonMenuNested->giveItemById($itemId);
+
+        return new JsonResponse(['item' => $item->toArrayStructure(true)]);
+    }
+
     public function itemAdd(Request $request, JsonMenuNestedConfig $config, string $parentId, int $nodeId): JsonResponse
     {
         try {

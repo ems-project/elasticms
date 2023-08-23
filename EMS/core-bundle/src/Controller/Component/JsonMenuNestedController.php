@@ -46,26 +46,43 @@ class JsonMenuNestedController
 
     public function item(JsonMenuNestedConfig $config, string $itemId): JsonResponse
     {
-        $item = $config->jsonMenuNested->giveItemById($itemId);
+        try {
+            $item = $config->jsonMenuNested->giveItemById($itemId);
 
-        return new JsonResponse(['item' => $item->toArrayStructure(true)]);
+            return new JsonResponse(['item' => $item->toArrayStructure(true)]);
+        } catch (JsonMenuNestedException $e) {
+            return $this->responseJsonMenuNestedException($e);
+        }
     }
 
-    public function itemModalAdd(Request $request, JsonMenuNestedConfig $config, string $parentId, int $nodeId): JsonResponse
+    public function itemAdd(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
     {
         try {
-            $parent = $config->jsonMenuNested->giveItemById($parentId);
+            $data = Json::decode($request->getContent());
+            $this->jsonMenuNestedService->itemAdd($config, $itemId, $data);
+            $this->clearFlashes($request);
+
+            return $this->responseSuccess();
+        } catch (JsonMenuNestedException $e) {
+            return $this->responseJsonMenuNestedException($e);
+        }
+    }
+
+    public function itemModalAdd(Request $request, JsonMenuNestedConfig $config, string $itemId, int $nodeId): JsonResponse
+    {
+        try {
+            $parent = $config->jsonMenuNested->giveItemById($itemId);
             $node = $config->nodes->getById($nodeId);
 
             $form = $this->createFormItem($config, $node);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && null !== $object = $this->handleFormItem($form, $config, $node)) {
-                $item = $this->jsonMenuNestedService->itemAdd($config, $parent, $node, $object);
+                $item = $this->jsonMenuNestedService->itemCreate($config, $parent, $node, $object);
                 $this->clearFlashes($request);
 
                 return JsonResponse::fromJsonString(AjaxModalResponse::success([
-                    'load' => '_root' !== $parentId ? $parentId : null,
+                    'load' => $parent->isRoot() ? null : $itemId,
                     'added' => $item->getId(),
                 ]));
             }
@@ -96,7 +113,7 @@ class JsonMenuNestedController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && null !== $object = $this->handleFormItem($form, $config, $node)) {
-                $this->jsonMenuNestedService->itemEdit($config, $item, $object);
+                $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
                 $this->clearFlashes($request);
 
                 return JsonResponse::fromJsonString(AjaxModalResponse::success());
@@ -120,10 +137,14 @@ class JsonMenuNestedController
 
     public function itemDelete(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
     {
-        $result = $this->jsonMenuNestedService->itemDelete($config, $itemId);
-        $this->clearFlashes($request);
+        try {
+            $this->jsonMenuNestedService->itemDelete($config, $itemId);
+            $this->clearFlashes($request);
 
-        return new JsonResponse($result);
+            return $this->responseSuccess();
+        } catch (JsonMenuNestedException $e) {
+            return $this->responseJsonMenuNestedException($e);
+        }
     }
 
     public function itemMove(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
@@ -133,9 +154,9 @@ class JsonMenuNestedController
             $this->jsonMenuNestedService->itemMove($config, $itemId, $data);
             $this->clearFlashes($request);
 
-            return new JsonResponse(['result' => 'item moved']);
+            return $this->responseSuccess();
         } catch (JsonMenuNestedException $e) {
-            return new JsonResponse(['warning' => $e->getMessage()]);
+            return $this->responseJsonMenuNestedException($e);
         }
     }
 
@@ -171,5 +192,17 @@ class JsonMenuNestedController
         $isValid = $this->dataService->isValid($formDataField, null, $object);
 
         return $isValid || $form->isValid() ? $object : null;
+    }
+
+    private function responseSuccess(): JsonResponse
+    {
+        return new JsonResponse(['success' => true]);
+    }
+
+    private function responseJsonMenuNestedException(JsonMenuNestedException $e): JsonResponse
+    {
+        return new JsonResponse([
+            'warning' => $this->translator->trans($e->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
     }
 }

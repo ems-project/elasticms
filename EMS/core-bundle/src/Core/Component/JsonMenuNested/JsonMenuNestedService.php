@@ -10,7 +10,6 @@ use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplateFactory;
-use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
@@ -40,7 +39,7 @@ class JsonMenuNestedService
     /**
      * @param array<string, mixed> $object
      */
-    public function itemAdd(JsonMenuNestedConfig $config, JsonMenuNested $parent, JsonMenuNestedNode $node, array $object): JsonMenuNested
+    public function itemCreate(JsonMenuNestedConfig $config, JsonMenuNested $parent, JsonMenuNestedNode $node, array $object): JsonMenuNested
     {
         $item = JsonMenuNested::create($node->type, $object);
 
@@ -51,9 +50,34 @@ class JsonMenuNestedService
     }
 
     /**
+     * @param array{add: array<mixed>, position?: int}|array<mixed> $data
+     */
+    public function itemAdd(JsonMenuNestedConfig $config, string $itemId, array $data): void
+    {
+        $optionsResolver = new OptionsResolver();
+        $optionsResolver
+            ->setRequired(['add'])
+            ->setDefault('position', null)
+            ->setAllowedTypes('add', 'array')
+            ->setAllowedTypes('position', 'int');
+
+        /** @var array{add: array<mixed>, position?: int} $data */
+        $data = $optionsResolver->resolve($data);
+
+        $jsonMenuNested = $config->jsonMenuNested;
+        $item = $jsonMenuNested->giveItemById($itemId);
+        $addChild = new JsonMenuNested($data['add']);
+
+        if (!$jsonMenuNested->hasChild($addChild)) {
+            $item->addChild($addChild, $data['position'] ?? null);
+            $this->saveStructure($config);
+        }
+    }
+
+    /**
      * @param array<string, mixed> $object
      */
-    public function itemEdit(JsonMenuNestedConfig $config, JsonMenuNested $item, array $object): void
+    public function itemUpdate(JsonMenuNestedConfig $config, JsonMenuNested $item, array $object): void
     {
         if (isset($object['label'])) {
             $item->setLabel($object['label']);
@@ -63,23 +87,12 @@ class JsonMenuNestedService
         $this->saveStructure($config);
     }
 
-    /**
-     * @return array{hash: string}
-     */
-    public function itemDelete(JsonMenuNestedConfig $config, string $itemId): array
+    public function itemDelete(JsonMenuNestedConfig $config, string $itemId): void
     {
-        $item = $config->jsonMenuNested->getItemById($itemId);
-        $parent = $item?->getParent();
+        $item = $config->jsonMenuNested->giveItemById($itemId);
+        $item->giveParent()->removeChild($item);
 
-        if (null === $item || null === $parent) {
-            throw new \RuntimeException('Could not item');
-        }
-
-        $parent->removeChild($item);
-
-        return [
-            'hash' => $this->saveStructure($config)->getHash(),
-        ];
+        $this->saveStructure($config);
     }
 
     /**
@@ -113,7 +126,7 @@ class JsonMenuNestedService
         return $this->jsonMenuNestedTemplateFactory->create($config);
     }
 
-    private function saveStructure(JsonMenuNestedConfig $config): Revision
+    private function saveStructure(JsonMenuNestedConfig $config): void
     {
         $path = $config->nodes->path;
         $structure = Json::encode($config->jsonMenuNested->toArrayStructure());
@@ -122,6 +135,6 @@ class JsonMenuNestedService
         $rawData = [];
         (new PropertyAccessor())->setValue($rawData, $path, $structure);
 
-        return $this->revisionService->updateRawData($config->revision, $rawData, $username);
+        $this->revisionService->updateRawData($config->revision, $rawData, $username);
     }
 }

@@ -3,17 +3,17 @@ import ajaxModal from "../helper/ajaxModal";
 
 export default class JsonMenuNestedComponent {
     id;
-    #hash;
     #tree;
     #element;
     #sortableLists = {};
     #loadIds = [];
+    #pathPrefix;
 
     constructor (element) {
         this.id = element.id;
         this.#element = element;
         this.#tree = element.querySelector('.jmn-tree');
-        this.#hash = element.dataset.hash;
+        this.#pathPrefix = `/component/json-menu-nested/${element.dataset.hash}`;
         this.addClickListeners();
         this.load();
     }
@@ -27,6 +27,15 @@ export default class JsonMenuNestedComponent {
             this._initSortables();
             this.loading(false);
         });
+    }
+    itemGet(itemId) {
+        return this.get(`/item/${itemId}`);
+    }
+    itemAdd(itemId, add, position = 0) {
+        return this.post(`/item/${itemId}/add`, { 'position': position, 'add': add });
+    }
+    itemDelete(nodeId) {
+        return this.post(`/item/${nodeId}/delete`);
     }
 
     loading(flag) {
@@ -56,26 +65,15 @@ export default class JsonMenuNestedComponent {
             }
         }, false);
     }
-
-    onClickButtonAdd(parentId, addId)
-    {
-        const url = ['/component/json-menu-nested', this.#hash, `item/${parentId}/add/${addId}`].join('/');
-        this.ajaxModal(url);
+    onClickButtonAdd(itemId, addId) {
+        this.ajaxModal(`/item/${itemId}/modal-add/${addId}`);
     }
-    onClickButtonEdit(itemId)
-    {
-        const url = ['/component/json-menu-nested', this.#hash, `item/${itemId}/edit`].join('/');
-        this.ajaxModal(url);
+    onClickButtonEdit(itemId) {
+        this.ajaxModal(`/item/${itemId}/modal-edit`);
     }
-
-    onClickButtonDelete(nodeId)
-    {
-        this.loading(true);
-        this.post(`item/${nodeId}/delete`).then((data) => {
-            this.load();
-        });
+    onClickButtonDelete(nodeId) {
+        this.itemDelete(nodeId).then(() => { this.load(); });
     }
-
     onClickButtonCollapse(button, node) {
         let expanded = button.getAttribute('aria-expanded');
         const nodeId = node.dataset.id;
@@ -100,9 +98,8 @@ export default class JsonMenuNestedComponent {
         const dragged = event.dragged;
         const targetList = event.to;
 
-        if (!dragged.dataset.hasOwnProperty('type') || !targetList.dataset.hasOwnProperty('types')) {
-            return false;
-        }
+        if (!dragged.dataset.hasOwnProperty('type')
+            || !targetList.dataset.hasOwnProperty('types')) return false;
 
         const types = JSON.parse(targetList.dataset.types);
 
@@ -110,22 +107,34 @@ export default class JsonMenuNestedComponent {
     }
     onMoveEnd(event) {
         const itemId = event.item.dataset.id;
-        const targetComponentId = event.to.closest('.json-menu-nested-component').id;
-        const fromComponentId = event.from.closest('.json-menu-nested-component').id;
-        const position = event.newIndex;
+        const targetComponent =  window.jsonMenuNestedComponents[event.to.closest('.json-menu-nested-component').id];
+        const fromComponent =  window.jsonMenuNestedComponents[event.from.closest('.json-menu-nested-component').id];
 
+        const position = event.newIndex;
         const toParentId = event.to.closest('.jmn-node').dataset.id;
         const fromParentId = event.from.closest('.jmn-node').dataset.id;
 
-        if (targetComponentId === fromComponentId) {
-            this.post(`item/${itemId}/move`, {
+        if (targetComponent.id === fromComponent.id) {
+            this.post(`/item/${itemId}/move`, {
                 fromParentId: fromParentId,
                 toParentId: toParentId,
                 position: position
-            }).then(() => {  this.load(); });
+            }).finally(() => targetComponent.load());
         } else {
-            window.jsonMenuNestedComponents[targetComponentId].loading(true);
-            window.jsonMenuNestedComponents[fromComponentId].loading(true);
+            fromComponent.itemGet(itemId)
+                .then((json) => {
+                    if (!json.hasOwnProperty('item')) throw new Error(JSON.stringify(json));
+                    return targetComponent.itemAdd(toParentId, json.item, position)
+                })
+                .then((response) => {
+                    if (!response.hasOwnProperty('success') || !response.success) throw new Error(JSON.stringify(response));
+                    return fromComponent.itemDelete(itemId);
+                })
+                .catch(() => {})
+                .finally(() => {
+                    targetComponent.load();
+                    fromComponent.load();
+                });
         }
     }
 
@@ -150,14 +159,13 @@ export default class JsonMenuNestedComponent {
         });
     }
 
-    ajaxModal(url)
-    {
+    ajaxModal(path) {
         let handlerClose = () => {
             this.load();
             ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
         };
 
-        ajaxModal.load({ 'url': url }, (json) => {
+        ajaxModal.load({ 'url': `${this.#pathPrefix}${path}` }, (json) => {
             if (!json.hasOwnProperty('success') || !json.success) return;
             if (json.hasOwnProperty('load')) {
                 this.#loadIds.push(json.load);
@@ -165,11 +173,9 @@ export default class JsonMenuNestedComponent {
         });
         ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
     }
-
     async get(path) {
         this.loading(true);
-        const url = ['/component/json-menu-nested', this.#hash, path].join('/');
-        const response = await fetch(url, {
+        const response = await fetch(`${this.#pathPrefix}${path}`, {
             method: "GET",
             headers: { 'Content-Type': 'application/json'},
         });
@@ -177,8 +183,7 @@ export default class JsonMenuNestedComponent {
     }
     async post(path, data = {}) {
         this.loading(true);
-        const url = ['/component/json-menu-nested', this.#hash, path].join('/');
-        const response = await fetch(url, {
+        const response = await fetch(`${this.#pathPrefix}${path}`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(data)

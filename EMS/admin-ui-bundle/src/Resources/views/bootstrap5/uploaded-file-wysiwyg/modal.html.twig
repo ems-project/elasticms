@@ -1,0 +1,6 @@
+{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block modalBody %}
+    {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+    {{ form(form) }}
+{% endblock modalBody %}

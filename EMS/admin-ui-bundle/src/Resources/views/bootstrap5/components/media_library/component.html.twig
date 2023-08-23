@@ -1,0 +1,26 @@
+{% trans_default_domain 'emsco-component' %}
+
+{% use '@EMSAdminUI/bootstrap5/components/media_library/elements.html.twig' %}
+
+<div class="media-lib" id="{{ id }}" data-hash="{{ hash }}">
+    <div class="media-nav-bar">
+        {{ template.renderHeader|raw }}
+    </div>
+    <div class="media-lib-content">
+        <div class="media-lib-left-column">
+            <div class="media-lib-folders">
+                <ul class="media-lib-list-folders"></ul>
+            </div>
+        </div>
+        <div class="media-lib-right-column">
+            <div class="media-lib-files">
+                <ul class="media-lib-list-uploads"></ul>
+                <ul class="media-lib-list-files"></ul>
+                {{ block('loadMore') }}
+            </div>
+        </div>
+    </div>
+    <div class="media-lib-footer">
+        {{ template.block('mediaLibraryFooter')|raw }}
+    </div>
+</div>

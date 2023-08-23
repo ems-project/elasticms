@@ -1,0 +1,8 @@
+{% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
+{% trans_default_domain 'emsco-core' %}
+
+{% block title %}{{ dashboard.label }}{% endblock %}
+
+{% block wrapper %}
+    <pre>{{ exception.message }}</pre>
+{% endblock wrapper %}

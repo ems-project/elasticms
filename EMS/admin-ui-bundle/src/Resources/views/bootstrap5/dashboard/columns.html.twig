@@ -1,0 +1,11 @@
+{% extends '@EMSAdminUI/bootstrap5/dashboard/form.html.twig' %}
+{% trans_default_domain 'emsco-twigs' %}
+
+{% block type %}
+    <i class="{{ [line.data.type, 'icon']|join('.')|trans }}"></i>&nbsp;&nbsp;{{ [line.data.type, 'label']|join('.')|trans }}
+{% endblock type %}
+
+{% block definition %}
+    {% trans_default_domain 'EMSCoreBundle' %}
+    {% if line.data.definition %}{{ "dashboard.definition.#{line.data.definition}"|trans }}{% endif %}
+{% endblock definition %}

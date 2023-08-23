@@ -178,6 +178,9 @@ class AjaxModal {
     printMessage(messageType, message) {
         let messageClass;
         switch(messageType) {
+            case 'warning':
+                messageClass = 'alert-warning';
+                break;
             case 'error':
                 messageClass = 'alert-danger';
                 break;

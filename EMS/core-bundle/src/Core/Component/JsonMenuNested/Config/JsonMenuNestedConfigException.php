@@ -8,6 +8,6 @@ class JsonMenuNestedConfigException extends \RuntimeException
 {
     public static function nodeNotFound(): self
     {
-        return new self('json_menu_nested.error.not_found.node');
+        return new self('json_menu_nested.error.node_not_found');
     }
 }

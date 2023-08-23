@@ -16,6 +16,7 @@ class AjaxModalTemplate
 
     /**
      * @param array<string, mixed> $context
+     * @param string[]             $warnings
      *
      * @return array{
      *      modalTitle?: string,
@@ -23,9 +24,10 @@ class AjaxModalTemplate
      *      modalFooter?: string,
      * }
      */
-    public function render(array $context): array
+    public function render(array $context, array $warnings = []): array
     {
         return \array_filter([
+            'modalMessages' => \array_map(static fn (string $warning) => ['warning' => $warning], $warnings),
             'modalTitle' => $this->renderBlock('title', $context),
             'modalBody' => $this->renderBlock('body', $context),
             'modalFooter' => $this->renderBlock('footer', $context),

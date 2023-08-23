@@ -34,13 +34,13 @@ class AjaxModalResponse
         return $response->getJson();
     }
 
-    public static function error(string $error): string
+    public static function warning(string $error): string
     {
         $response = new self();
         $response->modalTitle = 'Error';
         $response->success = false;
         $response->modalClose = false;
-        $response->addMessageError($error);
+        $response->addMessageWarning($error);
 
         return $response->getJson();
     }
@@ -58,9 +58,9 @@ class AjaxModalResponse
         ]));
     }
 
-    public function addMessageError(string $message): self
+    public function addMessageWarning(string $message): self
     {
-        $this->messages[] = ['error' => $message];
+        $this->messages[] = ['warning' => $message];
 
         return $this;
     }

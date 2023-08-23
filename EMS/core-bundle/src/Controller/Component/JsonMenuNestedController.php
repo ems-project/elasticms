@@ -50,7 +50,7 @@ class JsonMenuNestedController
 
             return new JsonResponse(['item' => $item->toArrayStructure(true)]);
         } catch (JsonMenuNestedException $e) {
-            return $this->responseJsonMenuNestedException($e);
+            return $this->responseWarning($e->getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ class JsonMenuNestedController
 
             return $this->responseSuccess();
         } catch (JsonMenuNestedException $e) {
-            return $this->responseJsonMenuNestedException($e);
+            return $this->responseWarning($e->getMessage());
         }
     }
 
@@ -96,9 +96,7 @@ class JsonMenuNestedController
                 ])
             );
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
-            return JsonResponse::fromJsonString(AjaxModalResponse::error(
-                $this->translator->trans($e->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT)
-            ));
+            return $this->responseWarningModal($e->getMessage());
         }
     }
 
@@ -110,14 +108,17 @@ class JsonMenuNestedController
 
             $form = $this->createFormItem($config, $node, $item);
             $form->handleRequest($request);
+            $warnings = [];
 
-            if ($form->isSubmitted() && null !== $object = $this->handleFormItem($form, $config, $node)) {
-                $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
-                $this->clearFlashes($request);
+            if ($form->isSubmitted()) {
+                if ($form->get('_item_hash')->getData() !== $item->getObjectHash()) {
+                    $warnings[] = $this->translator->trans('json_menu_nested.error.item_edit_outdated', [], EMSCoreBundle::TRANS_COMPONENT);
+                } elseif (null !== $object = $this->handleFormItem($form, $config, $node)) {
+                    $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
+                    $this->clearFlashes($request);
 
-                return JsonResponse::fromJsonString(AjaxModalResponse::success([
-                    'item' => $item->getId(),
-                ]));
+                    return JsonResponse::fromJsonString(AjaxModalResponse::success(['item' => $item->getId()]));
+                }
             }
 
             return new JsonResponse($this->ajaxService
@@ -127,12 +128,10 @@ class JsonMenuNestedController
                     'form' => $form->createView(),
                     'node' => $node,
                     'item' => $item,
-                ])
+                ], $warnings)
             );
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
-            return JsonResponse::fromJsonString(AjaxModalResponse::error(
-                $this->translator->trans($e->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT)
-            ));
+            return $this->responseWarningModal($e->getMessage());
         }
     }
 
@@ -144,7 +143,7 @@ class JsonMenuNestedController
 
             return $this->responseSuccess();
         } catch (JsonMenuNestedException $e) {
-            return $this->responseJsonMenuNestedException($e);
+            return $this->responseWarning($e->getMessage());
         }
     }
 
@@ -157,7 +156,7 @@ class JsonMenuNestedController
 
             return $this->responseSuccess();
         } catch (JsonMenuNestedException $e) {
-            return $this->responseJsonMenuNestedException($e);
+            return $this->responseWarning($e->getMessage());
         }
     }
 
@@ -176,6 +175,7 @@ class JsonMenuNestedController
         return $this->formFactory->create(RevisionJsonMenuNestedType::class, ['data' => $data], [
             'field_type' => $node->getFieldType(),
             'content_type' => $config->revision->giveContentType(),
+            'item' => $item,
         ]);
     }
 
@@ -200,10 +200,17 @@ class JsonMenuNestedController
         return new JsonResponse(['success' => true]);
     }
 
-    private function responseJsonMenuNestedException(JsonMenuNestedException $e): JsonResponse
+    private function responseWarning(string $warning): JsonResponse
     {
         return new JsonResponse([
-            'warning' => $this->translator->trans($e->getMessage(), [], EMSCoreBundle::TRANS_COMPONENT),
+            'warning' => $this->translator->trans($warning, [], EMSCoreBundle::TRANS_COMPONENT),
         ]);
+    }
+
+    private function responseWarningModal(string $warning): JsonResponse
+    {
+        return JsonResponse::fromJsonString(AjaxModalResponse::warning(
+            $this->translator->trans($warning, [], EMSCoreBundle::TRANS_COMPONENT)
+        ));
     }
 }

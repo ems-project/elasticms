@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Json;
 
+use EMS\Helpers\Standard\Base64;
+use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -241,6 +243,14 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return $this->object;
     }
 
+    public function getObjectHash(): string
+    {
+        return Base64::encode(Json::encode([
+            'object' => $this->object,
+            'label' => $this->label,
+        ]));
+    }
+
     /**
      * @param JsonMenuNested[] $children
      */
@@ -279,7 +289,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     public function giveParent(): JsonMenuNested
     {
         if (null === $this->parent) {
-            throw new JsonMenuNestedException('No parent for item');
+            throw JsonMenuNestedException::itemParentNotFound();
         }
 
         return $this->parent;
@@ -314,11 +324,11 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     public function moveChild(JsonMenuNested $child, JsonMenuNested $fromParent, JsonMenuNested $toParent, int $position): void
     {
         if (!$fromParent->hasChild($child, false)) {
-            throw new JsonMenuNestedException('Current parent does not have item');
+            throw JsonMenuNestedException::moveChildMissing();
         }
 
         if ($toParent !== $fromParent && $toParent->hasChild($child, false)) {
-            throw new JsonMenuNestedException('New parent already has item');
+            throw JsonMenuNestedException::moveChildExists();
         }
 
         $fromParent->removeChild($child);

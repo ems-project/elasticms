@@ -18,9 +18,10 @@ export default class JsonMenuNestedComponent {
         this.load();
     }
 
-    load() {
+    load(activeId = null) {
         this.post('/structure', {
-            load_ids: this.#loadIds
+            load_ids: this.#loadIds,
+            active_id: activeId
         }).then((json) => {
             if (!json.hasOwnProperty('structure')) return;
             this.#tree.innerHTML = json.structure;

@@ -26,14 +26,18 @@ class JsonMenuNestedService
     }
 
     /**
-     * @param array{ load_ids?: string[] } $data
+     * @param array{ load_ids?: string[], active_id?: string } $data
      */
     public function getStructure(JsonMenuNestedConfig $config, array $data): string
     {
-        return $this->getTemplate($config)->block('_itemNodes', [
-            'menu' => $config->jsonMenuNested,
+        $menu = $config->jsonMenuNested;
+        $activeItem = isset($data['active_id']) ? $menu->getItemById($data['active_id']) : $menu;
+
+        return $this->getTemplate($config)->block('_itemNodes', \array_filter([
+            'menu' => $menu,
             'load_ids' => $data['load_ids'] ?? [],
-        ]);
+            'activeItem' => $activeItem,
+        ]));
     }
 
     /**

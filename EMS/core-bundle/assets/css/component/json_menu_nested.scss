@@ -1,10 +1,11 @@
 .json-menu-nested-component {
-    --border-color: #d7d7d7;
+    --color-bg: #F0F0F0;
+    --color-border: #d7d7d7;
+    --color-bg-active: #F0F8FF;
+    --color-light: #F8F8F8;
     --border-radius: 5px;
     --gap: 10px;
     --icon-size: 30px;
-    --bg-color: #F0F0F0;
-    --color-light: #F8F8F8;
     --collapse-icon-size: calc(var(--gap) + var(--icon-size));
     position: relative;
     overflow-x: auto;
@@ -19,7 +20,7 @@
         justify-content: center;
         align-items: center;
         background-color:rgba(248, 248, 248, 0.3);
-        color: var(--border-color);
+        color: var(--color-border);
         text-align: center;
         font-size: 1em;
     }
@@ -28,7 +29,7 @@
         position: relative;
         display: inline-table;
         width: 100%;
-        border: 1px solid var(--border-color);
+        border: 1px solid var(--color-border);
         border-radius: var(--border-radius);
         overflow-x: scroll;
     }
@@ -36,8 +37,8 @@
     .jmn-header {
         border-top-right-radius: var(--border-radius);
         border-top-left-radius: var(--border-radius);
-        background-color: var(--bg-color);
-        border-bottom: 1px solid var(--border-color);
+        background-color: var(--color-bg);
+        border-bottom: 1px solid var(--color-border);
     }
 
     .jmn-tree {
@@ -61,7 +62,7 @@
                     height: calc(var(--gap) * 1.5);
                     border-left: 1px solid;
                     border-bottom: 1px solid;
-                    border-color: var(--border-color);
+                    border-color: var(--color-border);
                     display: block;
                     position: absolute;
                     top: var(--gap);
@@ -104,7 +105,8 @@
     .jmn-node {
         background-color: white;
         &.jmn-move-drag { opacity: 0; }
-        &.jmn-move-ghost, &.jmn-move-chosen { background-color: var(--bg-color);}
+        &.jmn-move-ghost, &.jmn-move-chosen { background-color: var(--color-bg);}
+        &.jmn-node-active { background-color: var(--color-bg-active) }
     }
 
     .jmn-row {
@@ -116,7 +118,7 @@
             left: -100%;
             right: 0;
             height: 2px;
-            background-color: var(--border-color);
+            background-color: var(--color-border);
         }
     }
 
@@ -127,7 +129,7 @@
         height: var(--icon-size);
         width: var(--icon-size);
         border-radius: 50%;
-        background-color: var(--bg-color);
+        background-color: var(--color-bg);
     }
     .jmn-column-title {
         padding-left: var(--collapse-icon-size);

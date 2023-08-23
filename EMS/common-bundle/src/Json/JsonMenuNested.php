@@ -276,6 +276,15 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return $this->parent;
     }
 
+    public function giveParent(): JsonMenuNested
+    {
+        if (null === $this->parent) {
+            throw new JsonMenuNestedException('No parent for item');
+        }
+
+        return $this->parent;
+    }
+
     public function addChild(JsonMenuNested $child, ?int $position = null): JsonMenuNested
     {
         $addChild = clone $child;

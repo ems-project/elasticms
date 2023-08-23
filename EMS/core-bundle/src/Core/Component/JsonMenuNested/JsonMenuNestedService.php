@@ -26,18 +26,42 @@ class JsonMenuNestedService
     }
 
     /**
-     * @param array{ load_ids?: string[], active_id?: string } $data
+     * @param array{
+     *     active_item_id?: string,
+     *     load_parent_ids?: string[],
+     *     load_children_id?: string
+     * } $data
+     *
+     * @return array{ load_parent_ids: string[], structure: string }
      */
-    public function getStructure(JsonMenuNestedConfig $config, array $data): string
+    public function getStructure(JsonMenuNestedConfig $config, array $data): array
     {
         $menu = $config->jsonMenuNested;
-        $activeItem = isset($data['active_id']) ? $menu->getItemById($data['active_id']) : null;
+        $activeItem = isset($data['active_item_id']) ? $menu->getItemById($data['active_item_id']) : null;
+        $loadChildren = isset($data['load_children_id']) ? $menu->getItemById($data['load_children_id']) : null;
 
-        return $this->getTemplate($config)->block('_itemNodes', \array_filter([
-            'menu' => $menu,
-            'load_ids' => $data['load_ids'] ?? [],
-            'activeItem' => $activeItem ?? $menu,
-        ]));
+        $loadParentIds = \array_unique($data['load_parent_ids'] ?? []);
+        $loadParents = \array_filter(\array_map(static fn (string $id) => $menu->getItemById($id), $loadParentIds));
+
+        if ($loadChildren) {
+            $loadParents[] = $loadChildren;
+            foreach ($loadChildren as $loadParentChild) {
+                if ($loadParentChild->hasChildren()) {
+                    $loadParents[] = $loadParentChild;
+                }
+            }
+        }
+
+        $loadParents = \array_values(\array_unique($loadParents));
+
+        return [
+            'load_parent_ids' => \array_map(static fn (JsonMenuNested $item) => $item->getId(), $loadParents),
+            'structure' => $this->getTemplate($config)->block('_itemNodes', [
+                'menu' => $menu,
+                'activeItem' => $activeItem ?? $menu,
+                'loadParents' => $loadParents,
+            ]),
+        ];
     }
 
     /**

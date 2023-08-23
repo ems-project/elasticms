@@ -31,12 +31,11 @@
 
 {%- block _itemNode -%}
     {%- apply spaceless -%}
-        {%- set collapsed = item.id in load_ids|default([]) or item.hasChild(activeItem) -%}
         <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
             {{ block('_itemRow') }}
             {%- if node.leaf == false -%}
                 <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
-                    {% if collapsed %}
+                    {% if item in loadParents %}
                         {% with { 'menu': item } %}{{ block('_itemNodes') }}{% endwith %}
                     {% endif %}
                 </div>
@@ -53,7 +52,7 @@
                     'column': column,
                     'item': item,
                     'node': node,
-                    'collapsed': collapsed
+                    'loadParents': loadParents
                 })|raw -}}
             </div>
         {%- endfor -%}
@@ -67,7 +66,7 @@
 
 {%- block cellTitle -%}
     {% if item.hasChildren %}
-        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- collapsed ? 'true' : 'false' -}}"></button>
+        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in loadParents ? 'true' : 'false' -}}"></button>
     {% endif %}
     {% if node.icon %}
         <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>

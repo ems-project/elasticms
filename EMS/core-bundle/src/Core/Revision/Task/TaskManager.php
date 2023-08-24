@@ -216,12 +216,19 @@ final class TaskManager
         $transaction($revision->getId());
     }
 
-    public function taskValidateRequest(Task $task, int $revisionId, string $comment): void
+    public function taskValidateRequest(Task $task, int $revisionId, ?string $comment = null): void
     {
         $transaction = $this->revisionTransaction(function (Revision $revision) use ($task, $comment) {
             $event = $this->createTaskEvent($task, $revision);
             $event->comment = $comment;
-            $this->dispatchEvent($event, TaskEvent::COMPLETED);
+
+            if ($task->isRequester($this->userService->getCurrentUser())) {
+                $this->dispatchEvent($event, TaskEvent::APPROVED);
+                $revision->addTask($task);
+                $this->setNextPlanned($revision);
+            } else {
+                $this->dispatchEvent($event, TaskEvent::COMPLETED);
+            }
         });
         $transaction($revisionId);
     }

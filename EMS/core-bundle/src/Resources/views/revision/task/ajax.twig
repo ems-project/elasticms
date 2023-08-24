@@ -93,12 +93,12 @@
             <div id="tasks-item-handle">
                 {{ form_start(formHandle) }}
                 {% set logCompleted = taskCurrent.getLatestCompleted %}
-                {% if formHandle.approve is defined and logCompleted %}
+                {% if formHandle.approve is defined and logCompleted and logCompleted.comment != null %}
                     <p class="task-comment bg-gray-light">{{ logCompleted.comment }}</p>
                 {% endif %}
 
                 {% set logRejection = taskCurrent.getLatestRejection %}
-                {% if formHandle.send is defined and logRejection %}
+                {% if formHandle.send is defined and logRejection and logRejection.comment != null %}
                     <p class="task-comment bg-danger">{{ logRejection.comment }}</p>
                 {% endif %}
 

@@ -26,11 +26,11 @@ class RevisionTaskHandleType extends AbstractType
         /** @var UserInterface $user */
         $user = $options['user'];
 
-        if ($task->isOpen() && $task->isAssignee($user)) {
+        if ($task->isAssignee($user) && $task->isStatus(Task::STATUS_PROGRESS, Task::STATUS_REJECTED)) {
             $builder
                 ->add('comment', TextareaType::class, [
                     'attr' => ['rows' => 4],
-                    'constraints' => 'approve' !== $options['handle'] ? [new NotBlank()] : [],
+                    'constraints' => $task->isRequester($user) ? [] : [new NotBlank()],
                 ])
                 ->add('send', ButtonType::class);
         }

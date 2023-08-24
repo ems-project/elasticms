@@ -127,6 +127,11 @@ class Task implements EntityInterface
         return $this->status;
     }
 
+    public function isStatus(string ...$status): bool
+    {
+        return \in_array($this->status, $status);
+    }
+
     public function setStatus(string $status): void
     {
         if (self::STATUS_PROGRESS === $status) {

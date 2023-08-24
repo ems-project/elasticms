@@ -140,7 +140,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
 
         if (null === $receiver
             || !$receiver->getEmailNotification()
-            || (Task::STATUS_COMPLETED !== $type && $event->isAssigneeIsRequester())) {
+            || $receiver->getUsername() === $event->username) {
             return;
         }
 

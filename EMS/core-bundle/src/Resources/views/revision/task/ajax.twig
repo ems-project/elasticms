@@ -66,7 +66,7 @@
 {% endblock %}
 
 {% block taskActive %}
-    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': taskCurrent.id }) %}
+    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': taskCurrent.id, 'fromRevision': true }) %}
     <div id="task-item-active">
         <div class="tasks-item-block">
             <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ taskCurrent.title }}">
@@ -124,7 +124,7 @@
 {% endblock %}
 
 {% block taskItem %}
-    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id }) %}
+    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id, 'fromRevision': true  }) %}
     <li class="list-group-item tasks-item" data-id="{{ task.id }}">
         <div class="tasks-item-block">
             <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
@@ -150,7 +150,7 @@
 {% endblock %}
 
 {% block taskItemApproved %}
-    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id }) %}
+    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id, 'fromRevision': true  }) %}
     <li class="list-group-item tasks-item-approved">
         <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
             <div class="tasks-item-block">
@@ -176,16 +176,18 @@
     <div class="pull-left">
         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
-    <div class="pull-right">
-        <div class="btn-group">
-            <a class="btn btn-sm btn-default" href="{{ path('data.revisions', { 'type': contentType.name, 'ouuid': ouuid }) }}">
-                <i class="fa fa-file" aria-hidden="true"></i> {{ 'task.dashboard.action.go_revision'|trans }}
-            </a>
-            <a class="btn btn-sm btn-default" href="{{ path('revision.new-draft', { 'type': contentType.name, 'ouuid': ouuid }) }}">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ 'task.dashboard.action.edit_revision'|trans }}
-            </a>
+    {% if fromRevision == false %}
+        <div class="pull-right">
+            <div class="btn-group">
+                <a class="btn btn-sm btn-default" href="{{ path('data.revisions', { 'type': contentType.name, 'ouuid': ouuid }) }}">
+                    <i class="fa fa-file" aria-hidden="true"></i> {{ 'task.dashboard.action.go_revision'|trans }}
+                </a>
+                <a class="btn btn-sm btn-default" href="{{ path('revision.new-draft', { 'type': contentType.name, 'ouuid': ouuid }) }}">
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ 'task.dashboard.action.edit_revision'|trans }}
+                </a>
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}
 
 {% block modalCreateBody %}

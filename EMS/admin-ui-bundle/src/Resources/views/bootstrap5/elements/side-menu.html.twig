@@ -13,9 +13,11 @@
             {{ 'side_menu.anonymous-user'|trans }}
         {% endif %}
     </div>
-    <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ "elements.status.#{status}"|trans }}">
-        <i class="fa fa-circle fa-2xs text-{{ status }}"></i> <span class="visually-hidden">{{ "elements.status.#{status}"|trans }}</span>
-    </a>
+    {% if app.user %}
+        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ "elements.status.#{status}"|trans }}">
+            <i class="fa fa-circle fa-2xs text-{{ status }}"></i> <span class="visually-hidden">{{ "elements.status.#{status}"|trans }}</span>
+        </a>
+    {% endif %}
 </div>
 
 {% if app.user %}

@@ -55,7 +55,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 6,
+                            "orderKey": 0,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -92,7 +92,7 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": "{% if finalize and rootObject['fr']['title'] %}\r\n    {{ rootObject['fr']['title']|json_encode|raw }}\r\n{% elseif finalize and rootObject._sync_metadata[\"title_fr\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"title_fr\"]|json_encode|raw }}\r\n{% endif %}"
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {
@@ -100,7 +100,35 @@
                                             }
                                         },
                                         "orderKey": 0,
-                                        "children": []
+                                        "children": [
+                                            {
+                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                "arguments": [],
+                                                "properties": {
+                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                                    "name": "alpha_order",
+                                                    "contentType": null,
+                                                    "deleted": false,
+                                                    "description": null,
+                                                    "options": {
+                                                        "displayOptions": [],
+                                                        "mappingOptions": {
+                                                            "index": null,
+                                                            "analyzer": "alpha_order",
+                                                            "fielddata": true
+                                                        },
+                                                        "extraOptions": {
+                                                            "extra": null,
+                                                            "clear_on_copy": false,
+                                                            "postProcessing": null
+                                                        }
+                                                    },
+                                                    "orderKey": 0,
+                                                    "children": []
+                                                },
+                                                "replaced": []
+                                            }
+                                        ]
                                     },
                                     "replaced": []
                                 },
@@ -139,7 +167,7 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": null
+                                                "postProcessing": "{% if finalize and rootObject['nl']['title'] %}\r\n    {{ rootObject['nl']['title']|json_encode|raw }}\r\n{% elseif finalize and rootObject._sync_metadata[\"title_nl\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"title_nl\"]|json_encode|raw }}\r\n{% endif %}"
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {
@@ -147,7 +175,35 @@
                                             }
                                         },
                                         "orderKey": 1,
-                                        "children": []
+                                        "children": [
+                                            {
+                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                                "arguments": [],
+                                                "properties": {
+                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                                    "name": "alpha_order",
+                                                    "contentType": null,
+                                                    "deleted": false,
+                                                    "description": null,
+                                                    "options": {
+                                                        "displayOptions": [],
+                                                        "mappingOptions": {
+                                                            "index": null,
+                                                            "analyzer": "alpha_order",
+                                                            "fielddata": true
+                                                        },
+                                                        "extraOptions": {
+                                                            "extra": null,
+                                                            "clear_on_copy": false,
+                                                            "postProcessing": null
+                                                        }
+                                                    },
+                                                    "orderKey": 0,
+                                                    "children": []
+                                                },
+                                                "replaced": []
+                                            }
+                                        ]
                                     },
                                     "replaced": []
                                 },

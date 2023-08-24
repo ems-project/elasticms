@@ -1,12 +1,16 @@
 {
     "fr": {
         "components": "[{\"id\":\"b50bbdf5-45d4-4a69-97da-2794b6b003bf\",\"label\":\"Rapport\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Rapport\",\"layout\":\"accessibility_report\"},\"children\":[]}]",
+        "noindex": true,
         "title": "Rapport d'audit d'accessibilit\u00e9"
     },
     "label": "Auditrapport over de toegankelijkheid",
     "menu": "b8cf5edf-1f09-4932-b638-93f6737e759e",
     "nl": {
         "components": "[{\"id\":\"7096a5aa-965f-4712-968b-f078d3be718b\",\"label\":\"Rapport\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Rapport\",\"layout\":\"accessibility_report\"},\"children\":[]}]",
+        "noindex": true,
         "title": "Auditrapport over de toegankelijkheid"
-    }
+    },
+    "title_fr": "Rapport d'audit d'accessibilit\u00e9",
+    "title_nl": "Auditrapport over de toegankelijkheid"
 }

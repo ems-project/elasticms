@@ -2,7 +2,7 @@
 
 {% block card %}
     {% trans_default_domain trans_default_domain %}
-    <div class="col-12 col-md-6 col-lg-4" data-tag="{{ news._source.categories|default([])|join(' ') }}">
+    <div class="col-12 col-md-6 col-lg-4" data-tag="{{ news._source.categories|default([])|map(p => p|emsch_ouuid)|join(' ') }}">
         <a href="{{ path('emsch_news_details', {
                 slug: attribute(news._source, locale).slug,
                 month: news._source.publication_date|date('m'),
@@ -10,7 +10,7 @@
                 day: news._source.publication_date|date('d'),
             }) }}" class="card border-0 rounded-0 text-decoration-none">
             {% if attribute(news._source, locale).image is defined %}
-                <img class="news-image img-fluid border" alt="" src="{{ ems_asset_path(attribute(news._source, locale).image, {
+                <img class="news-image img-fluid rounded border" alt="" src="{{ ems_asset_path(attribute(news._source, locale).image, {
                     _config_type: 'image',
                     _width: 490,
                     _height: 300,
@@ -19,11 +19,11 @@
             {% endif %}
             <div class="card-body px-0">
                 <small class="news-meta text-uppercase">
-                    <span class="news-date mr-2">{{ news._source.publication_date }}</span>
+                    <span class="news-date mr-2">{{ news._source.publication_date|date('d/m/Y') }}</span>
                     <span class="tag">{{ news._source.categories|default([])|map(p => attribute(tags, p|split(':')|last)|default(''))|join(' ') }}</span>
                 </small>
                 <h2 class="news-heading mt-2">{{ attribute(news._source, locale).title|default('') }}</h2>
-                {{ attribute(news._source, locale).description|emsch_routing }}
+                {{ attribute(news._source, locale).summary|default|emsch_routing }}
             </div>
         </a>
     </div>

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Revision;
 
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
 use EMS\CoreBundle\Core\Revision\DraftInProgress;
+use EMS\CoreBundle\DataTable\Type\Revision\RevisionDraftsDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
@@ -15,7 +17,6 @@ use EMS\CoreBundle\Exception\ElasticmsException;
 use EMS\CoreBundle\Form\Form\RevisionJsonType;
 use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Form\Form\TableType;
-use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\DataService;
@@ -27,7 +28,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -36,8 +36,15 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EditController extends AbstractController
 {
-    public function __construct(private readonly DataService $dataService, private readonly DraftInProgress $draftInProgress, private readonly LoggerInterface $logger, private readonly PublishService $publishService, private readonly RevisionService $revisionService, private readonly TranslatorInterface $translator)
-    {
+    public function __construct(
+        private readonly DataService $dataService,
+        private readonly LoggerInterface $logger,
+        private readonly PublishService $publishService,
+        private readonly RevisionService $revisionService,
+        private readonly TranslatorInterface $translator,
+        private readonly DataTableFactory $dataTableFactory,
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function editJsonRevision(Revision $revision, Request $request): Response
@@ -73,7 +80,7 @@ class EditController extends AbstractController
             ]);
         }
 
-        return $this->render('@EMSCore/data/edit-json-revision.html.twig', [
+        return $this->render("@$this->templateNamespace/data/edit-json-revision.html.twig", [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);
@@ -235,27 +242,17 @@ class EditController extends AbstractController
             ]);
         }
 
-        return $this->render('@EMSCore/data/edit-revision.html.twig', [
+        return $this->render("@$this->templateNamespace/data/edit-revision.html.twig", [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);
     }
 
-    public function ajaxDraftInProgress(Request $request, ContentType $contentType): Response
-    {
-        $table = $this->draftInProgress->getDataTable($this->generateUrl(Routes::DRAFT_IN_PROGRESS_AJAX, ['contentType' => $contentType->getId()]), $contentType);
-        $dataTableRequest = DataTableRequest::fromRequest($request);
-        $table->resetIterator($dataTableRequest);
-
-        return $this->render('@EMSCore/datatable/ajax.html.twig', [
-            'dataTableRequest' => $dataTableRequest,
-            'table' => $table,
-        ], new JsonResponse());
-    }
-
     public function draftInProgress(Request $request, ContentType $contentTypeId): Response
     {
-        $table = $this->draftInProgress->getDataTable($this->generateUrl(Routes::DRAFT_IN_PROGRESS_AJAX, ['contentType' => $contentTypeId->getId()]), $contentTypeId);
+        $table = $this->dataTableFactory->create(RevisionDraftsDataTableType::class, [
+            'content_type_name' => $contentTypeId->getName(),
+        ]);
 
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
@@ -287,7 +284,7 @@ class EditController extends AbstractController
             return $this->redirectToRoute(Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentTypeId->getId()]);
         }
 
-        return $this->render('@EMSCore/data/draft-in-progress.html.twig', [
+        return $this->render("@$this->templateNamespace/data/draft-in-progress.html.twig", [
             'form' => $form->createView(),
             'contentType' => $contentTypeId,
         ]);

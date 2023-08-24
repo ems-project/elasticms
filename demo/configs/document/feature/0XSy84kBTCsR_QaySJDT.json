@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:NthJI4cBTbVbdHDCMiF-",
+        "release": "5.6",
+        "title_fr": "Exports/imports XLIF (pour services et bureaux de traduction) pour des champs qui sont dans des blocks, des menus, des collections ou des champs encod\u00e9s (JSON ou Base64).",
+        "title_nl": "XLIF export/import (voor vertaaldiensten en -bureaus) voor velden in blokken, menu's, collecties of gecodeerde velden (JSON of Base64)."
+    },
+    "category": "category:NthJI4cBTbVbdHDCMiF-",
+    "fr": {
+        "title": "Exports/imports XLIF (pour services et bureaux de traduction) pour des champs qui sont dans des blocks, des menus, des collections ou des champs encod\u00e9s (JSON ou Base64)."
+    },
+    "nl": {
+        "title": "XLIF export/import (voor vertaaldiensten en -bureaus) voor velden in blokken, menu's, collecties of gecodeerde velden (JSON of Base64)."
+    },
+    "title_fr": "Exports/imports XLIF (pour services et bureaux de traduction) pour des champs qui sont dans des blocks, des menus, des collections ou des champs encod\u00e9s (JSON ou Base64).",
+    "title_nl": "XLIF export/import (voor vertaaldiensten en -bureaus) voor velden in blokken, menu's, collecties of gecodeerde velden (JSON of Base64).",
+    "version": "5.6"
+}

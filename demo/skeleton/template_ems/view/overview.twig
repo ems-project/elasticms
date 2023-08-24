@@ -54,17 +54,7 @@
         ]) %}
     {% endif %}
 
-    {% if contentType.name in ['news', 'publication', 'taxonomy'] %}
-        {% set columns = columns|merge([
-            {
-                "label": "Type",
-                "template": "{{ data.source.type }}",
-                "orderField": "type"
-            }
-        ]) %}
-    {% endif %}
     {% set infoEnv = 'overview.legend'|i18n('en') %}
-
     <div class="mb-3">
         <h4>Legend for Live</h4>
         {% for info in infoEnv|ems_json_decode %}

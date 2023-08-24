@@ -16,7 +16,7 @@ export DOCKER_USER=$UID
 sh npm.sh install
 sh npm.sh run prod
 docker compose pull
-docker compose up -d
+docker compose up -d --force-recreate --remove-orphans
 ```
 
 Please wait a minute

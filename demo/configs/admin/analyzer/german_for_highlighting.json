@@ -4,7 +4,7 @@
     "properties": {
         "name": "german_for_highlighting",
         "dirty": true,
-        "label": "german_for_highlighting",
+        "label": "German for highlighting",
         "options": {
             "filter": [
                 "standard",

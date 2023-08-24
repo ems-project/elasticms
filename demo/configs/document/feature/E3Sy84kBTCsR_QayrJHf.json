@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:Vdg684kBTbVbdHDCD4gb",
+        "release": "1.16",
+        "title_fr": "Ajout d\u2019un nouveau script qui permet de sauvegarder les assets du CMS sur plusieurs services en stockage (redondance pour \u00e9viter l\u2019indisponibilit\u00e9 du contenu et les pertes).",
+        "title_nl": "Toevoeging van een nieuw script waarmee CMS assets op meerdere stockagediensten kunnen worden opgeslagen (overlapping om onbeschikbaarheid en verlies van content te voorkomen)."
+    },
+    "category": "category:Vdg684kBTbVbdHDCD4gb",
+    "fr": {
+        "title": "Ajout d\u2019un nouveau script qui permet de sauvegarder les assets du CMS sur plusieurs services en stockage (redondance pour \u00e9viter l\u2019indisponibilit\u00e9 du contenu et les pertes)."
+    },
+    "nl": {
+        "title": "Toevoeging van een nieuw script waarmee CMS assets op meerdere stockagediensten kunnen worden opgeslagen (overlapping om onbeschikbaarheid en verlies van content te voorkomen)."
+    },
+    "title_fr": "Ajout d\u2019un nouveau script qui permet de sauvegarder les assets du CMS sur plusieurs services en stockage (redondance pour \u00e9viter l\u2019indisponibilit\u00e9 du contenu et les pertes).",
+    "title_nl": "Toevoeging van een nieuw script waarmee CMS assets op meerdere stockagediensten kunnen worden opgeslagen (overlapping om onbeschikbaarheid en verlies van content te voorkomen).",
+    "version": "1.16"
+}

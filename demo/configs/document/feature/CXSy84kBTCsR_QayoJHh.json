@@ -1,0 +1,18 @@
+{
+    "_sync_metadata": {
+        "category": "category:Vtg884kBTbVbdHDCAIik",
+        "release": "1.17",
+        "title_fr": "Nouvelle gestion des assets du site web (CSS, JS, images) qui g\u00e9n\u00e8re maintenant des URL immutales pour de meilleures performances globales et une r\u00e9duction du nombre de t\u00e9l\u00e9chargements.",
+        "title_nl": "Nieuw beheer van website assets (CSS, JS, afbeeldingen) dat nu onveranderlijke URL's genereert voor een betere algemene prestaties en minder downloads."
+    },
+    "category": "category:Vtg884kBTbVbdHDCAIik",
+    "fr": {
+        "title": "Nouvelle gestion des assets du site web (CSS, JS, images) qui g\u00e9n\u00e8re maintenant des URL immutales pour de meilleures performances globales et une r\u00e9duction du nombre de t\u00e9l\u00e9chargements."
+    },
+    "nl": {
+        "title": "Nieuw beheer van website assets (CSS, JS, afbeeldingen) dat nu onveranderlijke URL's genereert voor een betere algemene prestaties en minder downloads."
+    },
+    "title_fr": "Nouvelle gestion des assets du site web (CSS, JS, images) qui g\u00e9n\u00e8re maintenant des URL immutales pour de meilleures performances globales et une r\u00e9duction du nombre de t\u00e9l\u00e9chargements.",
+    "title_nl": "Nieuw beheer van website assets (CSS, JS, afbeeldingen) dat nu onveranderlijke URL's genereert voor een betere algemene prestaties en minder downloads.",
+    "version": "1.17"
+}

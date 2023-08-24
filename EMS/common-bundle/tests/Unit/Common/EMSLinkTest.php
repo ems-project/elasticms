@@ -3,6 +3,7 @@
 namespace EMS\CommonBundle\Tests\Unit\Common;
 
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\Helpers\Standard\Json;
 use PHPUnit\Framework\TestCase;
 
 class EMSLinkTest extends TestCase
@@ -31,5 +32,14 @@ class EMSLinkTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         EMSLink::fromMatch([]);
+    }
+
+    public function testJsonSerialize()
+    {
+        $link = EMSLink::fromText('page:AWTLzKLc8K-kdP4iJ3rt');
+
+        $encoded = Json::encode(['link' => $link]);
+        $this->assertEquals('{"link":"ems:\/\/object:page:AWTLzKLc8K-kdP4iJ3rt"}', $encoded);
+        $this->assertEquals(['link' => 'ems://object:page:AWTLzKLc8K-kdP4iJ3rt'], Json::decode($encoded));
     }
 }

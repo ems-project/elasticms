@@ -768,8 +768,10 @@ task:
     close: Close
     history: History
     in_progress: 'This task is '
+    planned:
+        title: 'Planned tasks'
     info:
-        change_order: 'Change task order'
+        change_order: 'Change order'
         empty: 'No tasks for this document'
         locked: 'Revision locked by %user% until %time%'
     mail:

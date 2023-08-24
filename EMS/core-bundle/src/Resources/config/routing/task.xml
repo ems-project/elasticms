@@ -26,10 +26,6 @@
     <route id="ems_core_task_ajax_tasks" path="/data/revisions/{revisionId}/tasks"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxGetTasks"
            methods="GET|POST"/>
-    <route id="ems_core_task_ajax_tasks_approved" path="/data/revisions/{revisionId}/tasks-approved"
-           controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxGetTasksApproved"
-           methods="GET"/>
-
     <route id="ems_core_task_ajax_modal_task" path="/data/revisions/{revisionId}/task-modal/{taskId}"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxModalTask"
            methods="GET"/>

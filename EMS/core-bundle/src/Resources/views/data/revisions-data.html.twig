@@ -134,7 +134,7 @@
 					{% if tab.name == 'tab_about_revision' %}
 						{{ block('revisionTabAboutRevision') }}
 					{% elseif tab.name == 'tab_tasks' %}
-						{{ block('tasks', '@EMSCore/revision/task/tab.html.twig') }}
+						{{ block('revisionTabTasks') }}
 					{% endif %}
 				</div>
 			{% endfor %}
@@ -211,6 +211,15 @@
 			</p>
 		{% endif %}
 	{% endif %}
+{% endblock %}
+
+{% block revisionTabTasks %}
+	<div id="revision-tasks"
+		 data-load="{{ revision.hasTasks ? "true" : "false" }}"
+		 data-url="{{ path('ems_core_task_ajax_tasks', {'revisionId': revision.id }) }}">
+		<div id="revision-tasks-loading" class="task-loading"><i class="fa fa-cog fa-spin fa-3x fa-fw"></i></div>
+		<div id="revision-tasks-content">{# ajax loaded#}</div>
+	</div>
 {% endblock %}
 
 {% block revisionBody %}

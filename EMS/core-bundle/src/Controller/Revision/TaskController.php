@@ -66,8 +66,7 @@ final class TaskController extends AbstractController
 
     public function ajaxGetTasks(Request $request, UserInterface $user, int $revisionId): Response
     {
-        $tasks = $this->taskManager->getTasks($revisionId);
-        $revision = $tasks->getRevision();
+        $revision = $this->taskManager->getRevision($revisionId);
         $ajaxTemplate = $this->getAjaxTemplate();
 
         if ($revision->hasTaskCurrent()) {
@@ -86,49 +85,23 @@ final class TaskController extends AbstractController
                         'send' => $this->taskManager->taskValidateRequest($revision->getTaskCurrent(), $revisionId, $comment),
                         'approve' => $this->taskManager->taskValidate($revision, true, $comment),
                         'reject' => $this->taskManager->taskValidate($revision, false, $comment),
-                        default => throw new \Exception('invalid request')
                     };
 
-                    return $this->redirectToRoute('ems_core_task_ajax_tasks', ['revisionId' => $revisionId]);
+                    return new JsonResponse(['success' => true]);
                 } catch (\Throwable $e) {
                     return new JsonResponse(['error' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
                 }
             }
         }
 
-        $tasksList = [];
-        foreach ($tasks as $task) {
-            $taskItemContext = ['task' => $task, 'revision' => $revision, 'isCurrent' => $revision->isTaskCurrent($task)];
-            if ($revision->isTaskCurrent($task) && isset($formHandle)) {
-                $taskItemContext['formHandle'] = $formHandle->createView();
-            }
-            $tasksList[] = ['html' => $ajaxTemplate->renderBlock('taskItem', $taskItemContext)];
-        }
-
         return new JsonResponse([
-            'revision' => $revision,
-            'tasks' => $tasksList,
-            'tasks_approved_link' => $ajaxTemplate->renderBlock('tasksApprovedLink', [
-                'count' => $this->taskManager->countApprovedTasks($revision),
-            ]),
+            'tab' => $ajaxTemplate->renderBlock('tasksTab', \array_filter([
+                'formHandle' => isset($formHandle) ? $formHandle->createView() : null,
+                'revision' => $revision,
+                'tasksPlanned' => $this->taskManager->getTasksPlanned($revisionId),
+                'tasksApproved' => $this->taskManager->getTasksApproved($revisionId),
+            ])),
         ]);
-    }
-
-    public function ajaxGetTasksApproved(int $revisionId): JsonResponse
-    {
-        $tasks = $this->taskManager->getTasksApproved($revisionId);
-        $revision = $tasks->getRevision();
-        $ajaxTemplate = $this->getAjaxTemplate();
-
-        $tasksList = [];
-        foreach ($tasks as $task) {
-            $tasksList[] = ['html' => $ajaxTemplate->renderBlock(
-                'taskItemApproved',
-                ['task' => $task, 'revision' => $revision]
-            )];
-        }
-
-        return new JsonResponse(['tasks' => $tasksList]);
     }
 
     public function ajaxModalTask(int $revisionId, string $taskId): JsonResponse
@@ -232,10 +205,10 @@ final class TaskController extends AbstractController
 
     public function ajaxReorder(Request $request, int $revisionId): JsonResponse
     {
-        $data = Json::decode($request->getContent());
-        $taskIds = $data['taskIds'] ?? [];
-
         try {
+            $data = Json::decode($request->getContent());
+            $taskIds = $data['taskIds'] ?? [];
+
             $this->taskManager->tasksReorder($revisionId, $taskIds);
 
             return new JsonResponse([], Response::HTTP_ACCEPTED);

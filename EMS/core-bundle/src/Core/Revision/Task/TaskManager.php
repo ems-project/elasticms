@@ -84,14 +84,11 @@ final class TaskManager
         return $task;
     }
 
-    public function getTasks(int $revisionId): TaskCollection
+    public function getTasksPlanned(int $revisionId): TaskCollection
     {
         $revision = $this->revisionRepository->findOneById($revisionId);
         $tasks = new TaskCollection($revision);
 
-        if ($revision->hasTaskCurrent()) {
-            $tasks->addTask($this->taskRepository->findTaskById($revision->getTaskCurrent()->getId()));
-        }
         if ($revision->hasTaskPlannedIds()) {
             $tasks->addTasks($this->taskRepository->findTasksByIds($revision->getTaskPlannedIds()));
         }
@@ -239,19 +236,7 @@ final class TaskManager
         }
 
         $transaction = $this->revisionTransaction(function (Revision $revision) use ($orderedTaskIds) {
-            $user = $this->userService->getCurrentUser();
-
-            $orderCurrentTaskId = \array_shift($orderedTaskIds);
-            $oldCurrentTask = $revision->getTaskCurrent();
-            $orderTaskCurrent = $this->getTask($orderCurrentTaskId);
-
-            if ($revision->taskCurrentReplace($orderTaskCurrent)) {
-                $this->dispatchEvent($this->createTaskEvent($oldCurrentTask, $revision), TaskEvent::PLANNED);
-                $this->dispatchEvent($this->createTaskEvent($orderTaskCurrent, $revision), TaskEvent::PROGRESS);
-            }
-
             $revision->setTaskPlanned($this->taskRepository->findTasksByIds($orderedTaskIds));
-
             $this->revisionRepository->save($revision);
         });
         $transaction($revisionId);

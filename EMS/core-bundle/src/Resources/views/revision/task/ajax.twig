@@ -1,18 +1,133 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 
+{% block tasksTab %}
+    <div id="revision-tasks-content">
+        {% if revision.isLockedFor(app.user.userIdentifier) %}
+            <div class="revision-tasks-info">{{- 'task.info.locked'|trans({
+                '%user%': revision.lockBy|displayname,
+                '%time%': revision.lockUntil.format(date_time_format)
+            }) -}}</div>
+        {% elseif revision.hasTasks == false %}
+            <div id="revision-tasks-empty" class="revision-tasks-info">{{ 'task.info.empty'|trans }}</div>
+            {{ block('buttonCreate') }}
+        {% else %}
+            <div id="revision-task-active">
+                {% if revision.hasTaskCurrent %}
+                    {% set taskCurrent = revision.taskCurrent %}
+                    <div id="revision-task-active-content">
+                        {{ block('taskActive') }}
+                    </div>
+                {% endif %}
+            </div>
+            {% if tasksPlanned|length > 0 %}
+                <div id="revision-tasks-planned">
+                    <div id="revision-tasks-planned-header">
+                            <div class="revision-tasks-title">{{ 'task.planned.title'|trans }}</div>
+                            <div id="revision-tasks-reorder">
+                                {% if tasksPlanned|length > 1 %}<a id="btn-tasks-reorder" href="#">{{ 'task.info.change_order'|trans }}</a>{% endif %}
+                                <button id="btn-tasks-reorder-save" class="btn btn-xs btn-primary" style="display: none;"
+                                        data-url="{{ path('ems_core_task_ajax_reorder', {'revisionId': revision.id }) }}">save</button>
+                                <button id="btn-tasks-reorder-cancel" class="btn btn-xs btn-default" style="display: none;">cancel</button>
+                            </div>
+                    </div>
+                    <ul id="revision-tasks-planned-list" class="list-group revision-tasks">
+                        {% for taskPlanned in tasksPlanned %}
+                            {% with { 'task': taskPlanned } %}{{ block('taskItem') }}{% endwith %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {{ block('buttonCreate') }}
+            {% if tasksApproved|length > 0 %}
+                <div id="revision-tasks-approved">
+                    <div id="revision-tasks-approved-link">
+                        <a href="#" id="btn-tasks-approved"
+                           data-toggle="true"
+                           data-toggle-text="{{ 'task.finished.hide'|trans({ '%number%': tasksApproved|length }) }}">
+                            {{- 'task.finished.show'|trans({ '%number%': tasksApproved|length }) -}}
+                        </a>
+                    </div>
+                    <ul id="revision-tasks-approved" class="list-group revision-tasks"  style="display: none;">
+                        {% for taskApproved in tasksApproved %}
+                            {% with { 'task': taskApproved } %}{{ block('taskItemApproved') }}{% endwith %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block buttonCreate %}
+    <button id="btn-task-create-modal"
+            data-url="{{ path('ems_core_task_ajax_modal_create', {'revisionId': revision.id}) }}"
+            data-title="{{ 'task.create.title'|trans }}"
+            class="btn btn-sm btn-primary btn-task-modal">{{ 'task.create.button'|trans }}</button>
+{% endblock %}
+
+{% block taskActive %}
+    <div id="task-item-active">
+        <div class="tasks-item-block">
+            <div class="tasks-item-info">
+                <i class="task-icon {{ taskCurrent.statusIcon }}"></i>
+                <div>
+                    <div class="tasks-item-title">{{ taskCurrent.title }}</div>
+                    <div id="task-info">
+                        <span id="task-deadline {{ taskCurrent.deadline.timestamp < 'now'|date('U') ? 'task-deadline-red' }}">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ taskCurrent.deadline.format(date_format) }}
+                        </span>
+                        <span>{{ 'task.assigned_to'|trans }}<strong>{{ taskCurrent.assignee|displayname }}</strong></span>
+                    </div>
+                    <div><span class="task-current-status label label-{{ taskCurrent.statusLabel }}">{{ "task.status.#{taskCurrent.status}"|trans }}</span></div>
+                </div>
+            </div>
+            <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
+                    data-title="{{ 'task.update.title'|trans({ '%title%': taskCurrent.title }) }}"
+                    data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: taskCurrent.id }) }}">
+            </button>
+        </div>
+        {% if formHandle is defined %}
+            <div id="tasks-item-handle">
+                {{ form_start(formHandle) }}
+                {% set logCompleted = taskCurrent.getLatestCompleted %}
+                {% if formHandle.approve is defined and logCompleted %}
+                    <p class="task-comment bg-gray-light">{{ logCompleted.comment }}</p>
+                {% endif %}
+
+                {% set logRejection = taskCurrent.getLatestRejection %}
+                {% if formHandle.send is defined and logRejection %}
+                    <p class="task-comment bg-danger">{{ logRejection.comment }}</p>
+                {% endif %}
+
+                {% if formHandle.comment is defined %}{{ form_row(formHandle.comment) }}{% endif %}
+
+                {% for handleType in ['send', 'approve', 'reject'] %}
+                    {% if attribute(formHandle, handleType) is defined %}
+                        {{ form_widget(attribute(formHandle, handleType), {
+                            'id': "btn-task-handle-#{handleType}",
+                            'label': "task.validation.#{handleType}"|trans,
+                            'label_html': true,
+                            'attr': {
+                                'class': 'btn btn-sm btn-task-handle btn-primary',
+                                'data-type': handleType
+                            }
+                        }) }}
+                    {% endif %}
+                {% endfor %}
+                {{ form_end(formHandle) }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block taskItem %}
-    <li class="list-group-item tasks-item {{ isCurrent|default(false) ? 'tasks-item-current' }}" data-id="{{ task.id }}">
+    <li class="list-group-item tasks-item" data-id="{{ task.id }}">
         <div class="tasks-item-block">
             <div class="tasks-item-info">
                 <i class="task-icon {{ task.statusIcon }}"></i>
                 <div>
                     <div class="tasks-item-title">{{ task.title }}</div>
                     <div id="task-info">
-                        {%- if task.hasDeadline -%}
-                            <span id="task-deadline {{ task.deadline.timestamp < 'now'|date('U') ? 'task-deadline-red' }}">
-                                <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ task.deadline.format(date_format) }}
-                            </span>
-                        {%- endif -%}
                         <span>{{ 'task.assigned_to'|trans }}<strong>{{ task.assignee|displayname }}</strong></span>
                     </div>
                     {% if isCurrent|default(false) %}
@@ -20,61 +135,16 @@
                     {% endif %}
                 </div>
             </div>
-            <button class="btn-task-update-modal btn btn-sm pull-right"
+            <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
                     data-title="{{ 'task.update.title'|trans({ '%title%': task.title }) }}"
                     data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: task.id }) }}">
-                <i class="fa fa-pencil-square-o"></i>
             </button>
         </div>
-        {% if formHandle is defined %}
-            <div id="tasks-item-handle">
-                {{ form_start(formHandle) }}
-                {% set logCompleted = task.getLatestCompleted %}
-                {% if formHandle.approve is defined and logCompleted %}
-                    <p class="task-comment bg-gray-light">{{ logCompleted.comment }}</p>
-                {% endif %}
-
-                {% set logRejection = task.getLatestRejection %}
-                {% if formHandle.send is defined and logRejection %}
-                    <p class="task-comment bg-danger">{{ logRejection.comment }}</p>
-                {% endif %}
-
-                {% if formHandle.comment is defined %}
-                    {{ form_row(formHandle.comment) }}
-                {% endif %}
-
-                {% if formHandle.send is defined %}
-                    {{ form_widget(formHandle.send, {
-                        'id': 'btn-handle-send',
-                        'label': '<i class="fa fa-paper-plane"></i> ' ~ 'task.validation.send'|trans,
-                        'label_html': true,
-                        'attr': {'class': 'btn btn-sm btn-primary'}
-                    }) }}
-                {% endif %}
-                {% if formHandle.approve is defined %}
-                    {{ form_widget(formHandle.approve, {
-                        'id': 'btn-handle-approve',
-                        'label': '<i class="fa fa-check"></i> ' ~ 'task.validation.approve'|trans,
-                        'label_html': true,
-                        'attr': {'class': 'btn btn-sm btn-primary'}
-                    }) }}
-                {% endif %}
-                {% if formHandle.reject is defined %}
-                    {{ form_widget(formHandle.reject, {
-                        'id': 'btn-handle-reject',
-                        'label': '<i class="fa fa-close"></i> ' ~ 'task.validation.reject'|trans,
-                        'label_html': true,
-                        'attr': {'class': 'btn btn-sm btn-default pull-right'}
-                    }) }}
-                {% endif %}
-                {{ form_end(formHandle) }}
-            </div>
-        {% endif %}
     </li>
 {% endblock %}
 
 {% block taskItemApproved %}
-    <li class="list-group-item tasks-item"
+    <li class="list-group-item tasks-item tasks-item-approved"
         data-url="{{ path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id }) }}"
         data-title="Task: {{ task.title }}">
         <div class="tasks-item-block">
@@ -87,16 +157,6 @@
             </div>
         </div>
     </li>
-{% endblock %}
-
-{% block tasksApprovedLink %}
-    {%- if count > 0 -%}
-        <a href="#" id="btn-tasks-approved"
-           data-toggle="false"
-           data-toggle-text="{{ 'task.finished.hide'|trans({ '%number%': count }) }}">
-            {{- 'task.finished.show'|trans({ '%number%': count }) -}}
-        </a>
-    {%- endif -%}
 {% endblock %}
 
 {% block modalFooterClose %}
@@ -198,7 +258,7 @@
         <div class="pull-right">
             <button type="button" id="btn-task-delete"
                     data-url="{{ path('ems_core_task_ajax_delete', {'revisionId': revisionId, 'taskId': task.id}) }}"
-                    class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> {{ 'task.delete.submit'|trans }}</button>
+                    class="btn btn-sm btn-danger">{{ 'task.delete.submit'|trans }}</button>
         </div>
     {% endif %}
 {% endblock %}

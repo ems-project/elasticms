@@ -1,0 +1,77 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+{%- trans_default_domain 'user' -%}
+
+{% block title %}{{ 'user.profile.title'|trans }}{% endblock title %}
+
+{% block breadcrumb %}
+    {% set breadcrumb = {(path('emsco_user_profile')): 'user.profile.title'|trans}|merge(breadcrumb)  %}
+    {{ parent() }}
+{% endblock breadcrumb %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card card-{{ theme_color }} card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+                        {% include '@EMSAdminUI/bootstrap5/elements/user-image.html.twig' with {
+                            'class': 'profile-user-img img-responsive img-circle'
+                        } %}
+                    </div>
+                    <h3 class="profile-username text-center">{{ user.displayName }}</h3>
+                    <p class="text-muted text-center">{{ user.username }}</p>
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.username'|trans }}</b> <i class="float-end">{{ user.username }}</i>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.display_name'|trans }}</b> <i class="float-end">{{ user.displayName }}</i>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.email'|trans }}</b> <i class="float-end">{{ user.email }}</i>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.email_notification'|trans }}</b> <i class="float-end fa-regular fa-2x fa-{% if user.emailNotification %}check-{% endif %}square"></i>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{ 'user.option.simplified_ui'|trans }}</b> <i class="float-end fa-regular fa-2x fa-{% if attribute(user.userOptions, 'simplified_ui') %}check-{% endif %}square"></i>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.locale'|trans }}</b> <i class="float-end">{{ user.locale|language_name  }}</i>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.locale_preferred'|trans }}</b> <i class="float-end">{{ user.localePreferred|locale_name }}</i>
+                        </li>
+                        {% if circles_object and circles_object|get_content_type %}
+                            <li class="list-group-item">
+                                <b>{{ circles_object|get_content_type.pluralName }} : </b>
+                                <i class="float-end">
+                                    {% for circle in user.circles  -%}
+                                        <span class="badge bg-primary text-nowrap">{{- circle|data_label|raw -}}</span>&nbsp;
+                                    {%- endfor %}
+                                </i>
+                            </li>
+                        {% endif %}
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.roles'|trans }}</b>
+                            <i class="float-end">
+                                {% for role in user.roles  -%}
+                                    <span class="badge bg-primary text-nowrap">{{- role|trans({}, 'EMSCoreBundle') -}}</span>&nbsp;
+                                {%- endfor %}
+                            </i>
+                        </li>
+                        <li class="list-group-item">
+                            <b>{{ 'user.profile.show.wysiwyg'|trans }}</b> <i class="float-end">{% if user.wysiwygProfile %}{{ user.wysiwygProfile.name }}{% endif %}</i>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group">
+                        <a href="{{ path(routes.USER_PROFILE_EDIT) }}" class="btn btn-primary"><i class="fa fa-pencil"></i> {{ 'user.profile.show.action.edit'|trans }}</a>
+                        <a href="{{ path(routes.USER_CHANGE_PASSWORD) }}" class="btn btn-primary"><i class="fa fa-lock"></i> {{ 'user.profile.change_password.title'|trans }}</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+{% endblock body %}

@@ -1,0 +1,12 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+{% trans_default_domain 'emsco-twigs' %}
+
+{% block title %}
+    {% if revision.ouuid %}
+        {{ 'views.data.edit-revision-html.title'|trans({'%content-type%': revision.contentType.singularName, '%revision%': revision|emsco_display }) }}
+    {% else %}
+        {{ 'views.data.edit-revision-html.new-draft-title'|trans({'%content-type%': revision.contentType.singularName }) }}
+    {% endif %}
+{% endblock %}
+
+{% block pagetitle %}{{ block('title') }}{% endblock %}

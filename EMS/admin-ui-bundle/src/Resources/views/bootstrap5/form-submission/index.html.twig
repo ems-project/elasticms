@@ -1,0 +1,15 @@
+{% extends '@EMSAdminUI/bootstrap5/form-submission/form-submission.html.twig' %}
+{% trans_default_domain 'EMSCoreBundle' %}
+
+
+{% block body %}
+    {%  set toolbar %}{%  endset %}
+
+    {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+    {{ form(form, {
+        reorder_label: 'form-submission.index.reorder',
+        toolbar: toolbar
+    }) }}
+
+    {{ parent() }}
+{% endblock %}

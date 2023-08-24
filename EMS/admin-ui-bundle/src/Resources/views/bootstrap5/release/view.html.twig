@@ -1,0 +1,29 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block title %}{{ 'release.revision.view.title'|trans }}{% endblock %}
+{% block pagetitle %}{{ block('title') }}{% endblock %}
+
+{% block breadcrumb %}
+	<ol class="breadcrumb">
+		<li><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
+		<li>{{ block('title') }}</li>
+   	</ol>
+{% endblock %}
+
+{% block body %}
+    {%  set toolbar %}
+        {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
+            'url':  path('emsco_release_index'),
+            'label': 'release.all_releases.label',
+            'icon': 'cube'
+        }%}
+    {%  endset %}
+
+    {% if form is not null %}
+        {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+        {{ form(form, {
+            toolbar: toolbar
+        }) }}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block folderTitle %}{{ 'view.form-submission.index.title'|trans }}{% endblock %}
+{% block title %}{{ block('folderTitle') }}{% endblock %}
+{% block pagetitle %}{{ block('title') }}{% endblock %}
+{% block subtitle %}{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="active">{{ block('title') }}</li>
+    </ol>
+{% endblock %}
+
+{% block body %}
+{% endblock %}

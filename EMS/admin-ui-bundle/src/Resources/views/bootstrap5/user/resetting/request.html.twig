@@ -1,0 +1,25 @@
+{%- trans_default_domain 'emsco-user' -%}
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+
+{% block title %}{{ 'user.resetting.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-{{ theme_color }}">
+                {{ form_start(form) }}
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ form_row(form.username_email) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    {{ form_row(form.submit, {'attr': { 'class': 'btn btn-primary'} }) }}
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

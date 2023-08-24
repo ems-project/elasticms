@@ -26,13 +26,8 @@ final class RevisionTaskType extends AbstractType
         $taskDto = $options['data'];
 
         $builder
-            ->add('title', TextType::class, [
-                'attr' => ['readonly' => Task::STATUS_COMPLETED == $options['task_status']],
-                'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
-                'label' => 'task.field.title',
-            ])
+            ->add('title', TextType::class, ['label' => 'task.field.title'])
             ->add('assignee', SelectUserPropertyType::class, [
-                'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
                 'placeholder' => '',
                 'label' => 'task.field.assignee',
                 'allow_add' => false,
@@ -40,7 +35,6 @@ final class RevisionTaskType extends AbstractType
                 'label_property' => 'displayName',
             ])
             ->add('description', TextareaType::class, [
-                'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
                 'label' => 'task.field.description',
                 'attr' => ['rows' => 5],
             ])
@@ -48,7 +42,6 @@ final class RevisionTaskType extends AbstractType
 
         if (null === $taskDto->id || Task::STATUS_PLANNED === $options['task_status']) {
             $builder->add('delay', IntegerType::class, [
-                'disabled' => Task::STATUS_COMPLETED == $options['task_status'],
                 'label' => 'task.field.delay',
                 'attr' => ['min' => 0],
             ]);

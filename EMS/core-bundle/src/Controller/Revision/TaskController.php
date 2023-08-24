@@ -148,9 +148,13 @@ final class TaskController extends AbstractController
             ->getResponse();
     }
 
-    public function ajaxModalUpdate(Request $request, int $revisionId, string $taskId): JsonResponse
+    public function ajaxModalUpdate(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
     {
         $task = $this->taskManager->getTask($taskId);
+        if (!$task->isRequester($user) && !$this->isGranted('ROLE_TASK_MANAGER')) {
+            throw $this->createAccessDeniedException();
+        }
+
         $taskDTO = TaskDTO::fromEntity($task, $this->coreDateFormat);
 
         $ajaxModal = $this->getAjaxModal();

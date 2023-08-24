@@ -84,10 +84,12 @@
                     </div>
                 </div>
             </a>
-            <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
-                    data-title="{{ 'task.update.title'|trans({ '%title%': taskCurrent.title }) }}"
-                    data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: taskCurrent.id }) }}">
-            </button>
+            {% if taskCurrent.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
+                <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
+                        data-title="{{ 'task.update.title'|trans({ '%title%': taskCurrent.title }) }}"
+                        data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: taskCurrent.id }) }}">
+                </button>
+            {% endif %}
         </div>
         {% if formHandle is defined %}
             <div id="tasks-item-handle">
@@ -141,10 +143,12 @@
                     </div>
                 </div>
             </a>
-            <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
-                    data-title="{{ 'task.update.title'|trans({ '%title%': task.title }) }}"
-                    data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: task.id }) }}">
-            </button>
+            {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
+                <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
+                        data-title="{{ 'task.update.title'|trans({ '%title%': task.title }) }}"
+                        data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: task.id }) }}">
+                </button>
+            {% endif %}
         </div>
     </li>
 {% endblock %}
@@ -261,7 +265,7 @@
         {%- if task.status != 'completed' -%}
             <button id="ajax-modal-submit" class="btn btn-sm btn-primary">{{ 'task.update.submit'|trans }}</button>
         {%- endif -%}
-        {% if task.createdBy == app.user.userIdentifier or is_granted('ROLE_TASK_MANAGER') %}
+        {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
             <button type="button" id="btn-task-delete"
                     data-url="{{ path('ems_core_task_ajax_delete', {'revisionId': revisionId, 'taskId': task.id}) }}"
                     class="btn btn-sm btn-danger">{{ 'task.delete.submit'|trans }}</button>

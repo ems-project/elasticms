@@ -40,13 +40,15 @@ export default class RevisionTask {
         })
             .then((response) => { return response.json(); })
             .then((json) => {
-                if (json.hasOwnProperty('tab')) {
-                    this.revisionTasksContent.outerHTML = json.tab;
-                    this.revisionTasksContent = this.revisionTasks.querySelector('div#revision-tasks-content');
-                    this.revisionTaskLoading.style.display = 'none';
-                    this.revisionTasksContent.style.display = 'block';
-                }
+                if (json.hasOwnProperty('tab')) this._updateTab(json.tab)
             });
+    }
+
+    _updateTab(tab) {
+        this.revisionTasksContent.outerHTML = tab;
+        this.revisionTasksContent = this.revisionTasks.querySelector('div#revision-tasks-content');
+        this.revisionTaskLoading.style.display = 'none';
+        this.revisionTasksContent.style.display = 'block';
     }
     _addClickListeners() {
         this.tasksTab.addEventListener('click', (event) => {
@@ -87,6 +89,7 @@ export default class RevisionTask {
             .then((response) => response.json())
             .then((json) => {
                 if (json.hasOwnProperty('success') && json.success) this.loadTasks();
+                if (json.hasOwnProperty('tab')) this._updateTab(json.tab);
             });
     }
     _onClickButtonTaskReorder(button) {

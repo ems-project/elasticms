@@ -60,6 +60,8 @@ div#revision-tabs {
 
   div#tab_tasks {
     padding: 0 0 15px;
+    a.tasks-item { color: #666;}
+
     div.revision-tasks-title { font-weight: bold; font-size: 14px; }
     div#revision-task-active {
         background-color: lighten($brand-info, 35%);

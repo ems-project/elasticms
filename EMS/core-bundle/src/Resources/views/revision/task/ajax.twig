@@ -66,21 +66,24 @@
 {% endblock %}
 
 {% block taskActive %}
+    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': taskCurrent.id }) %}
     <div id="task-item-active">
         <div class="tasks-item-block">
-            <div class="tasks-item-info">
-                <i class="task-icon {{ taskCurrent.statusIcon }}"></i>
-                <div>
-                    <div class="tasks-item-title">{{ taskCurrent.title }}</div>
-                    <div id="task-info">
-                        <span id="task-deadline {{ taskCurrent.deadline.timestamp < 'now'|date('U') ? 'task-deadline-red' }}">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ taskCurrent.deadline.format(date_format) }}
-                        </span>
-                        <span>{{ 'task.assigned_to'|trans }}<strong>{{ taskCurrent.assignee|displayname }}</strong></span>
+            <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ taskCurrent.title }}">
+                <div class="tasks-item-info">
+                    <i class="task-icon {{ taskCurrent.statusIcon }}"></i>
+                    <div>
+                        <div class="tasks-item-title">{{ taskCurrent.title }}</div>
+                        <div id="task-info">
+                            <span id="task-deadline {{ taskCurrent.deadline.timestamp < 'now'|date('U') ? 'task-deadline-red' }}">
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{ taskCurrent.deadline.format(date_format) }}
+                            </span>
+                            <span>{{ 'task.assigned_to'|trans }}<strong>{{ taskCurrent.assignee|displayname }}</strong></span>
+                        </div>
+                        <div><span class="task-current-status label label-{{ taskCurrent.statusLabel }}">{{ "task.status.#{taskCurrent.status}"|trans }}</span></div>
                     </div>
-                    <div><span class="task-current-status label label-{{ taskCurrent.statusLabel }}">{{ "task.status.#{taskCurrent.status}"|trans }}</span></div>
                 </div>
-            </div>
+            </a>
             <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
                     data-title="{{ 'task.update.title'|trans({ '%title%': taskCurrent.title }) }}"
                     data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: taskCurrent.id }) }}">
@@ -121,20 +124,23 @@
 {% endblock %}
 
 {% block taskItem %}
+    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id }) %}
     <li class="list-group-item tasks-item" data-id="{{ task.id }}">
         <div class="tasks-item-block">
-            <div class="tasks-item-info">
-                <i class="task-icon {{ task.statusIcon }}"></i>
-                <div>
-                    <div class="tasks-item-title">{{ task.title }}</div>
-                    <div id="task-info">
-                        <span>{{ 'task.assigned_to'|trans }}<strong>{{ task.assignee|displayname }}</strong></span>
+            <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
+                <div class="tasks-item-info">
+                    <i class="task-icon {{ task.statusIcon }}"></i>
+                    <div>
+                        <div class="tasks-item-title">{{ task.title }}</div>
+                        <div id="task-info">
+                            <span>{{ 'task.assigned_to'|trans }}<strong>{{ task.assignee|displayname }}</strong></span>
+                        </div>
+                        {% if isCurrent|default(false) %}
+                            <div><span class="task-current-status label label-{{ task.statusLabel }}">{{ "task.status.#{task.status}"|trans }}</span></div>
+                        {% endif %}
                     </div>
-                    {% if isCurrent|default(false) %}
-                        <div><span class="task-current-status label label-{{ task.statusLabel }}">{{ "task.status.#{task.status}"|trans }}</span></div>
-                    {% endif %}
                 </div>
-            </div>
+            </a>
             <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
                     data-title="{{ 'task.update.title'|trans({ '%title%': task.title }) }}"
                     data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: task.id }) }}">
@@ -144,18 +150,19 @@
 {% endblock %}
 
 {% block taskItemApproved %}
-    <li class="list-group-item tasks-item tasks-item-approved"
-        data-url="{{ path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id }) }}"
-        data-title="Task: {{ task.title }}">
-        <div class="tasks-item-block">
-            <div class="tasks-item-info">
-                <i class="task-icon {{ task.statusIcon }}"></i>
-                <div>
-                    <div class="tasks-item-title">{{ task.title }}</div>
-                    <div>{{ 'task.assigned_to'|trans }} <strong>{{ task.assignee|displayname }}</strong></div>
+    {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id }) %}
+    <li class="list-group-item tasks-item-approved">
+        <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
+            <div class="tasks-item-block">
+                <div class="tasks-item-info">
+                    <i class="task-icon {{ task.statusIcon }}"></i>
+                    <div>
+                        <div class="tasks-item-title">{{ task.title }}</div>
+                        <div>{{ 'task.assigned_to'|trans }} <strong>{{ task.assignee|displayname }}</strong></div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </a>
     </li>
 {% endblock %}
 

@@ -51,16 +51,17 @@ export default class RevisionTask {
     _addClickListeners() {
         this.tasksTab.addEventListener('click', (event) => {
             const target = event.target;
-            const closestLi = target.closest('li');
 
             if (target.classList.contains('btn-task-modal')) this._onClickButtonTaskCreateOrUpdate(target);
             if (target.classList.contains('btn-task-handle')) this._onClickButtonHandle(target);
-            if (target.classList.contains('tasks-item-approved') || (closestLi && closestLi.classList.contains('tasks-item-approved'))) {
-                this._onClickTaskApproved(closestLi);
-            }
             if (target.id === 'btn-tasks-reorder') this._onClickButtonTaskReorder(target);
-            if (target.id === 'btn-tasks-approved') this._onClickButtonTasksApproved(target);
-        });
+            if (target.id === 'btn-tasks-approved') this._onClickButtonTasksApproved(event, target);
+
+            const closestTasksItem = target.closest('.tasks-item');
+            if (closestTasksItem || target.classList.contains('tasks-item')) {
+                this._onClickTaskItem(event, closestTasksItem ?? target);
+            }
+        }, true);
         document.addEventListener('click', (event) => {
             const target = event.target;
             if (target.id === 'btn-task-delete') this._onClickButtonTaskDelete(target);
@@ -126,7 +127,8 @@ export default class RevisionTask {
             }).finally(() => finishReorder());
         }
     }
-    _onClickButtonTasksApproved(button) {
+    _onClickButtonTasksApproved(event, button) {
+        event.preventDefault();
         const btnText = button.textContent;
         const toggleText = button.dataset.toggleText;
         const list = this.tasksTab.querySelector('ul#revision-tasks-approved');
@@ -141,7 +143,8 @@ export default class RevisionTask {
             button.dataset.toggle = 'true';
         }
     }
-    _onClickTaskApproved(item) {
-        ajaxModal.load({ url: item.dataset.url, title: item.dataset.title});
+    _onClickTaskItem(event, link) {
+        event.preventDefault();
+        ajaxModal.load({ url: link.dataset.url, title: link.dataset.title});
     }
 }

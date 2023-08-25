@@ -8,7 +8,6 @@
     --icon-size: 30px;
     --collapse-icon-size: calc(var(--gap) + var(--icon-size));
     position: relative;
-    overflow-x: auto;
     margin-bottom: 50px;
 
     .jmn-node-loading {
@@ -31,7 +30,6 @@
         width: 100%;
         border: 1px solid var(--color-border);
         border-radius: var(--border-radius);
-        overflow-x: scroll;
     }
 
     .jmn-header {
@@ -66,7 +64,7 @@
                     display: block;
                     position: absolute;
                     top: var(--gap);
-                    left: 0;
+                    left: var(--gap);
                 }
             }
         }
@@ -104,22 +102,10 @@
 
     .jmn-node {
         background-color: white;
+        border-top: 1px solid var(--color-border);
         &.jmn-move-drag { opacity: 0; }
         &.jmn-move-ghost, &.jmn-move-chosen { background-color: var(--color-bg);}
         &.jmn-node-active { background-color: var(--color-bg-active) }
-    }
-
-    .jmn-row {
-        position: relative;
-        &:after {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -100%;
-            right: 0;
-            height: 2px;
-            background-color: var(--color-border);
-        }
     }
 
     .jmn-item-icon {

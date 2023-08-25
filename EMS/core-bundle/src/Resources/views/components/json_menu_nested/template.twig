@@ -78,7 +78,7 @@
 {%- endblock jmn_cell_structure -%}
 
 {%- block jmn_button_item_edit -%}
-    <button class="jmn-btn-edit">Edit</button>
+    <button class="jmn-btn-edit" data-modal-size="md">Edit</button>
 {%- endblock jmn_button_item_edit -%}
 
 {%- block jmn_button_item_delete -%}
@@ -90,11 +90,11 @@
 {%- endblock jmn_button_item_move -%}
 
 {%- block jmn_button_item_view -%}
-    <button class="jmn-btn-view">View</button>
+    <button class="jmn-btn-view" data-modal-size="md">View</button>
 {%- endblock jmn_button_item_view -%}
 
 {%- block jmn_button_item_add -%}
-    <button class="jmn-btn-add" data-add="{{ addNode.id }}">
+    <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="md">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
         New {{ addNode.type|capitalize }}
     </button>

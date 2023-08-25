@@ -7,7 +7,9 @@
 {# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
 
 {%- block jmn_layout_top -%}
-    <div class="pull-right">{{ template.block('jmn_button_menu_add', _context)|raw }}</div>
+    <div class="jmn-top">
+        <div class="text-right">{{ template.block('jmn_button_menu_add', _context)|raw }}</div>
+    </div>
 {%- endblock jmn_layout_top -%}
 
 {%- block jmn_layout_footer -%}{% endblock jmn_layout_footer %}

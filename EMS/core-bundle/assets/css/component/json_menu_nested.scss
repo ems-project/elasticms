@@ -73,24 +73,18 @@
     .jmn-header, .jmn-row {
         display: flex;
         justify-content: flex-end;
-
-        & > * { flex-shrink: 0 }
-        & > :first-child {
-            margin-right: auto;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        & > :first-child { margin-right: auto; }
     }
 
     .jmn-column, .jmn-cell {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
         padding: var(--gap);
-        &:first-child { justify-content: flex-start; }
+        column-gap: var(--gap);
+        flex-shrink: 0;
+        &:first-child { justify-content: flex-start; flex-shrink: 1; }
     }
     .jmn-column {
+        align-items: center;
         justify-content: center;
         padding-top: var(--gap);
         padding-bottom: var(--gap);
@@ -98,8 +92,9 @@
         text-align: center;
     }
     .jmn-cell {
+        justify-content: flex-end;
+        align-items: flex-start;
         gap: var(--gap);
-        &:first-child { text-align: left; }
     }
 
     .jmn-node {
@@ -111,6 +106,7 @@
     }
 
     .jmn-item-icon {
+        flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -123,11 +119,7 @@
         padding-left: var(--collapse-icon-size);
     }
     .jmn-cell-title {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        column-gap: var(--gap);
-        padding-right: var(--gap);
+        align-items: baseline;
     }
     .jmn-btn-more {
         background-color: white;

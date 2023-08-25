@@ -62,7 +62,7 @@
     <button id="btn-task-create-modal"
             data-url="{{ path('ems_core_task_ajax_modal_create', {'revisionId': revision.id}) }}"
             data-title="{{ 'task.create.title'|trans }}"
-            class="btn btn-sm btn-primary btn-task-modal">{{ 'task.create.button'|trans }}</button>
+            class="btn btn-sm btn-primary btn-task-modal task-icon-create">{{ 'task.create.button'|trans }}</button>
 {% endblock %}
 
 {% block taskActive %}
@@ -113,7 +113,7 @@
                             'label': "task.validation.#{handleType}"|trans,
                             'label_html': true,
                             'attr': {
-                                'class': 'btn btn-sm btn-task-handle btn-primary',
+                                'class': "btn btn-sm btn-task-handle btn-primary task-icon-#{handleType}",
                                 'data-type': handleType
                             }
                         }) }}
@@ -172,13 +172,13 @@
 
 {% block modalFooterClose %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-close" data-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
 {% endblock %}
 
 {% block modalFooterActions %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-close" data-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
     {% if fromRevision == false %}
         <div class="pull-right">
@@ -200,8 +200,8 @@
 
 {% block modalCreateFooter %}
     <div class="pull-left">
-        <button id="ajax-modal-submit" class="btn btn-sm btn-primary">{{ 'task.create.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+        <button id="ajax-modal-submit" class="btn btn-sm btn-primary task-icon-create">{{ 'task.create.submit'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-cancel" data-dismiss="modal">Cancel</button>
     </div>
 {% endblock %}
 
@@ -263,14 +263,14 @@
 {% block modalUpdateFooter %}
     <div class="pull-left">
         {%- if task.status != 'completed' -%}
-            <button id="ajax-modal-submit" class="btn btn-sm btn-primary btn-task-update">{{ 'task.update.submit'|trans }}</button>
+            <button id="ajax-modal-submit" class="btn btn-sm btn-primary task-icon-update">{{ 'task.update.submit'|trans }}</button>
         {%- endif -%}
         {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
             <button type="button" id="btn-task-delete"
                     data-url="{{ path('ems_core_task_ajax_delete', {'revisionId': revisionId, 'taskId': task.id}) }}"
-                    class="btn btn-sm btn-danger btn-task-delete">{{ 'task.delete.submit'|trans }}</button>
+                    class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>
         {% endif %}
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-close" data-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
 {% endblock %}
 
@@ -280,8 +280,8 @@
 
 {% block modalDeleteFooter %}
     <div class="pull-left">
-        <button id="ajax-modal-submit" class="btn btn-sm btn-danger btn-task-delete">{{ 'task.delete.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button id="ajax-modal-submit" class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-cancel" data-dismiss="modal">Cancel</button>
     </div>
 {% endblock %}
 

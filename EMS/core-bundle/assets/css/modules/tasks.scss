@@ -36,21 +36,21 @@ div#task-dashboard {
 
 dl.task-info { margin-bottom: 0; dt { text-align: left; } }
 
-button.btn-task-update { @include iconBefore("\f044"); }
-button.btn-task-delete { @include iconBefore("\f1f8"); }
-button#btn-task-create-modal {
-  @include iconBefore("\f067");
-  margin: 15px;
-}
+.task-icon-update { @include iconBefore("\f044"); }
+.task-icon-delete { @include iconBefore("\f1f8"); }
+.task-icon-create { @include iconBefore("\f067"); }
+.task-icon-send { @include iconBefore("\f1d8"); }
+.task-icon-reject { @include iconBefore("\f00d"); }
+.task-icon-approve { @include iconBefore("\f00c"); }
+.task-icon-cancel { @include iconBefore("\f00d"); }
+.task-icon-close { @include iconBefore("\f00d"); }
+
+button#btn-task-create-modal { margin: 15px; }
 button.btn-task-update-modal {
   @include iconBefore("\f044", 0);
   background-color: transparent;
   outline: 0;
 }
-button#btn-task-handle-send { @include iconBefore("\f1d8"); }
-button#btn-task-handle-send { @include iconBefore("\f1d8"); }
-button#btn-task-handle-reject { @include iconBefore("\f00d "); }
-button#btn-task-handle-approve { @include iconBefore("\f00c "); }
 
 div#revision-tabs {
   div.tab-content { padding: 0; }

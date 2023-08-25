@@ -25,7 +25,8 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
      *     ems_link: EMSLink,
      *     field_path: string,
      *     context: array<string, mixed>,
-     *     template: string,
+     *     context_block: ?string,
+     *     template: ?string,
      *     columns: JsonMenuNestedColumn[]
      * } $options
      */
@@ -52,6 +53,7 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
         );
 
         $config->context = $options['context'];
+        $config->contextBlock = $options['context_block'];
         $config->template = $options['template'];
         $config->columns = $options['columns'];
 
@@ -65,9 +67,10 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
         $resolver
             ->setRequired(['id', 'ems_link', 'field_path'])
             ->setDefaults([
-                'context' => [],
-                'template' => null,
                 'columns' => [['name' => 'structure', 'width' => 200]],
+                'context' => [],
+                'context_block' => null,
+                'template' => null,
             ])
             ->setNormalizer('ems_link', function (Options $options, EMSLink|string $value): EMSLink {
                 return \is_string($value) ? EMSLink::fromText($value) : $value;
@@ -75,13 +78,15 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
             ->setNormalizer('columns', function (Options $options, array $columns): array {
                 $columns = \array_map(static fn (array $column): JsonMenuNestedColumn => new JsonMenuNestedColumn(
                     $column['name'],
-                    $column['width']
+                    $column['width'] ?? 200
                 ), $columns);
 
                 return [new JsonMenuNestedColumn('title'), ...$columns];
             })
+            ->setAllowedTypes('columns', 'array')
             ->setAllowedTypes('context', 'array')
-            ->setAllowedTypes('columns', 'array');
+            ->setAllowedTypes('context_block', ['null', 'string'])
+            ->setAllowedTypes('template', ['null', 'string']);
 
         return $resolver->resolve($options);
     }

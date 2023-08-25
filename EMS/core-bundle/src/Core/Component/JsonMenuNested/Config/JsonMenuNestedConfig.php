@@ -13,6 +13,7 @@ class JsonMenuNestedConfig implements ConfigInterface
     public ?string $template;
     /** @var array<string, mixed> */
     public array $context = [];
+    public ?string $contextBlock;
     /** @var JsonMenuNestedColumn[] */
     public array $columns = [];
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\JsonMenuNested\Template;
 
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
+use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfigException;
+use EMS\Helpers\Standard\Json;
 use Twig\Environment;
 use Twig\TemplateWrapper;
 
@@ -12,6 +14,8 @@ class JsonMenuNestedTemplate
 {
     private TemplateWrapper $template;
     private ?TemplateWrapper $configTemplate;
+    /** @var array<string, mixed> */
+    private array $contextBlock = [];
 
     public const TWIG_TEMPLATE = '@EMSCore/components/json_menu_nested/template.twig';
 
@@ -21,6 +25,7 @@ class JsonMenuNestedTemplate
     ) {
         $this->template = $this->twig->load(self::TWIG_TEMPLATE);
         $this->configTemplate = $this->config->template ? $this->twig->load($this->config->template) : null;
+        $this->setContextBlock($config->contextBlock);
     }
 
     /**
@@ -50,10 +55,28 @@ class JsonMenuNestedTemplate
      */
     private function getContext(array $blockContext): array
     {
-        $context = [...$blockContext, ...$this->config->context];
+        $context = [...$blockContext, ...$this->contextBlock, ...$this->config->context];
         $context['template'] = $this;
         $context['config'] = $this->config;
 
         return $context;
+    }
+
+    private function setContextBlock(?string $contextBlock): void
+    {
+        if (null === $contextBlock || null === $this->configTemplate) {
+            return;
+        }
+
+        if (!$this->configTemplate->hasBlock($contextBlock)) {
+            throw new JsonMenuNestedConfigException(\sprintf('Context block "%s" not defined', $contextBlock));
+        }
+
+        $blockResult = $this->block($contextBlock);
+        if (!Json::isJson($blockResult)) {
+            throw new JsonMenuNestedConfigException(\sprintf('Context block "%s" not returning json', $contextBlock));
+        }
+
+        $this->contextBlock = Json::decode($blockResult);
     }
 }

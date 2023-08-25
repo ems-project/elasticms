@@ -36,8 +36,8 @@
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxModalUpdate"
            methods="GET|POST"/>
     <route id="ems_core_task_ajax_delete" path="/data/revisions/{revisionId}/delete/{taskId}"
-           controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxDelete"
-           methods="POST"/>
+           controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxModalDelete"
+           methods="GET|POST"/>
     <route id="ems_core_task_ajax_reorder" path="/data/revisions/{revisionId}/reorder"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxReorder"
            methods="POST"/>

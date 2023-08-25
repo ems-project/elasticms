@@ -155,6 +155,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
                 'receiver' => $receiver,
                 'task' => $task,
                 'revision' => $revision,
+                'comment' => $event->comment,
                 'changeSet' => $event->changeSet,
                 'backendUrl' => $this->urlUser,
             ])

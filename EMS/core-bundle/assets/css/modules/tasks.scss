@@ -1,6 +1,6 @@
 @import "~font-awesome/scss/_mixins.scss";
 
-@mixin iconBefore($unicode, $marginRight : 10px) {
+@mixin iconBefore($unicode, $marginRight : 5px) {
   &::before {
     font-family: FontAwesome, serif;
     font-weight: 400;
@@ -36,7 +36,8 @@ div#task-dashboard {
 
 dl.task-info { margin-bottom: 0; dt { text-align: left; } }
 
-button#btn-task-delete { @include iconBefore("\f1f8"); }
+button.btn-task-update { @include iconBefore("\f044"); }
+button.btn-task-delete { @include iconBefore("\f1f8"); }
 button#btn-task-create-modal {
   @include iconBefore("\f067");
   margin: 15px;

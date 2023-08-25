@@ -17,11 +17,14 @@ use EMS\CoreBundle\Form\Revision\Task\RevisionTaskType;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Twig\TemplateWrapper;
 
 final class TaskController extends AbstractController
@@ -182,30 +185,40 @@ final class TaskController extends AbstractController
             ->getResponse();
     }
 
-    public function ajaxDelete(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
+    public function ajaxModalDelete(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
     {
         $task = $this->taskManager->getTask($taskId);
         if (!$task->isRequester($user) && !$this->isGranted('ROLE_TASK_MANAGER')) {
             throw $this->createAccessDeniedException();
         }
 
-        $ajaxModal = $this->getAjaxModal()
-            ->setTitle('task.delete.title', ['%title%' => $task->getTitle()])
-            ->setBodyHtml('')
-            ->setFooter('modalFooterClose');
+        $ajaxModal = $this->getAjaxModal()->setTitle('task.delete.title', ['%title%' => $task->getTitle()]);
 
-        try {
-            $taskDTO = TaskDTO::fromEntity($task, $this->coreDateFormat);
-            $form = $this->createForm(RevisionTaskType::class, $taskDTO, ['task_status' => $task->getStatus()]);
-            $form->handleRequest($request);
+        $form = $this->formFactory->create(FormType::class);
+        $form->add('comment', TextareaType::class, [
+            'attr' => ['rows' => 4],
+            'constraints' => new NotBlank(),
+        ]);
+        $form->handleRequest($request);
 
-            $this->taskManager->taskDelete($task, $revisionId, $taskDTO->description);
-            $ajaxModal->addMessageSuccess('task.delete.success', ['%title%' => $task->getTitle()]);
-        } catch (\Throwable) {
-            $ajaxModal->addMessageError('task.error.ajax');
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->taskManager->taskDelete($task, $revisionId, $form->getData()['comment']);
+
+                return $ajaxModal
+                    ->addMessageSuccess('task.delete.success', ['%title%' => $task->getTitle()])
+                    ->setBodyHtml('')
+                    ->setFooter('modalFooterClose')
+                    ->getResponse();
+            } catch (\Throwable) {
+                $ajaxModal->addMessageError('task.error.ajax');
+            }
         }
 
-        return $ajaxModal->getResponse();
+        return $ajaxModal
+            ->setBody('modalDeleteBody', ['form' => $form->createView(), 'task' => $task])
+            ->setFooter('modalDeleteFooter')
+            ->getResponse();
     }
 
     public function ajaxReorder(Request $request, int $revisionId): JsonResponse

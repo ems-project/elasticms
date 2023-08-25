@@ -12,8 +12,9 @@
 
 {% block mail_deleted %}
      {{ block('_printHello') }}
-    <p>The task "{{ task.title }}" has been deleted.</p>
-    {% if task.createdBy != app.user.userIdentifier %}<p>By {{ app.user.displayName }}</p>{% endif %}
+    <p>The task "{{ task.title }}" has been deleted, by {{ app.user.userIdentifier|displayname }}</p>
+    <p><strong>Comment:</strong><br/><p>{{ comment|nl2br }}</p></p>
+    <hr />
     {{ block('_printInfo') }}
 {% endblock %}
 

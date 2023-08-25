@@ -160,15 +160,9 @@ final class TaskManager
         return $task;
     }
 
-    public function taskDelete(Task $task, int $revisionId, ?string $description = null): void
+    public function taskDelete(Task $task, int $revisionId, ?string $comment = null): void
     {
-        $transaction = $this->revisionTransaction(function (Revision $revision) use ($task, $description) {
-            $currentDescription = $task->hasDescription() ? $task->getDescription() : null;
-            if ($description !== $currentDescription) {
-                $task->setDescription($description);
-                $this->taskRepository->save($task);
-            }
-
+        $transaction = $this->revisionTransaction(function (Revision $revision) use ($task, $comment) {
             if ($revision->isTaskCurrent($task)) {
                 $this->setNextPlanned($revision);
             } elseif ($revision->isTaskPlanned($task)) {
@@ -179,7 +173,10 @@ final class TaskManager
 
             $this->revisionRepository->save($revision);
             $this->taskRepository->delete($task);
-            $this->dispatchEvent($this->createTaskEvent($task, $revision), TaskEvent::DELETE);
+
+            $event = $this->createTaskEvent($task, $revision);
+            $event->comment = $comment;
+            $this->dispatchEvent($event, TaskEvent::DELETE);
         });
         $transaction($revisionId);
     }

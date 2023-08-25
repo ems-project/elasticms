@@ -77,8 +77,10 @@ export default class RevisionTask {
         });
     }
     _onClickButtonTaskDelete(button) {
-        ajaxModal.submitForm(button.dataset.url, (json) => {
-            if (json.hasOwnProperty('modalSuccess') && json.modalSuccess) this.loadTasks();
+        ajaxModal.load({ url: button.dataset.url, title: button.dataset.title}, (json) => {
+            if (json.hasOwnProperty('modalSuccess') && json.modalSuccess) {
+                this.loadTasks();
+            }
         });
     }
     _onClickButtonHandle(button) {

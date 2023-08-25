@@ -14,7 +14,7 @@
 
 {%- block jmn_layout_footer -%}{% endblock jmn_layout_footer %}
 
-{%- block jmn_header_row  -%}
+{%- block _jmn_columns  -%}
     <div class="jmn-header">
         {% for column in config.columns %}
             <div class="jmn-column {{ "jmn-column-#{column.name}" }}" style="{{ column.width ? "width:#{column.width}px;" }}" >
@@ -24,7 +24,7 @@
             </div>
         {% endfor %}
     </div>
-{%- endblock jmn_header_row -%}
+{%- endblock _jmn_columns -%}
 
 {% block _jmn_items %}
     {%- for item in menu.children -%}

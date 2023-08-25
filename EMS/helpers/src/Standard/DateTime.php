@@ -6,7 +6,7 @@ namespace EMS\Helpers\Standard;
 
 final class DateTime
 {
-    public static function create(string $time): \DateTimeInterface
+    public static function create(string $time): \DateTimeImmutable
     {
         if (false === $timestamp = \strtotime($time)) {
             throw new \RuntimeException(\sprintf('Failed creating time for "%s"', $time));
@@ -21,7 +21,7 @@ final class DateTime
         return $dateTime;
     }
 
-    public static function createFromFormat(string $time, string $format = \DateTimeInterface::ATOM): \DateTimeInterface
+    public static function createFromFormat(string $time, string $format = \DateTimeInterface::ATOM): \DateTimeImmutable
     {
         $dateTime = \DateTimeImmutable::createFromFormat($format, $time);
 

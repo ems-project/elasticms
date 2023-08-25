@@ -84,18 +84,20 @@
     }
 
     .jmn-column, .jmn-cell {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: var(--gap);
+        &:first-child { justify-content: flex-start; }
     }
     .jmn-column {
-        padding-top: calc(var(--gap) * 2);
-        padding-bottom: calc(var(--gap) * 2);
+        justify-content: center;
+        padding-top: var(--gap);
+        padding-bottom: var(--gap);
         font-weight: bold;
         text-align: center;
-        &:first-child { text-align: left; }
     }
     .jmn-cell {
-        display: flex;
-        justify-content: flex-end;
         gap: var(--gap);
         &:first-child { text-align: left; }
     }

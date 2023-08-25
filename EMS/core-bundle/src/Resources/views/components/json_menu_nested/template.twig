@@ -16,7 +16,9 @@
     <div class="jmn-header">
         {% for column in config.columns %}
             <div class="jmn-column {{ "jmn-column-#{column.name}" }}" style="{{ column.width ? "width:#{column.width}px;" }}" >
-                {{ template.block("jmn_header_#{column.name}", _context)|raw }}
+                {%- if template.hasBlock("jmn_header_#{column.name}") -%}
+                    {{ template.block("jmn_header_#{column.name}", _context)|raw }}
+                {%- endif -%}
             </div>
         {% endfor %}
     </div>
@@ -48,7 +50,9 @@
     <div class="jmn-row">
         {%- for column in config.columns -%}
             <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" >
-                {{- template.block("jmn_cell_#{column.name}", _context)|raw -}}
+                {%- if template.hasBlock("jmn_cell_#{column.name}") -%}
+                    {{- template.block("jmn_cell_#{column.name}", _context)|raw -}}
+                {%- endif -%}
             </div>
         {%- endfor -%}
     </div>

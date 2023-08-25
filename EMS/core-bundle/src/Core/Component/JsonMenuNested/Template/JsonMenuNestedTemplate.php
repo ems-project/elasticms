@@ -38,6 +38,11 @@ class JsonMenuNestedTemplate
         return $this->template->renderBlock($blockName, $context);
     }
 
+    public function hasBlock(string $blockName): bool
+    {
+        return $this->configTemplate?->hasBlock($blockName) || $this->template->hasBlock($blockName);
+    }
+
     /**
      * @param array<mixed> $blockContext
      *

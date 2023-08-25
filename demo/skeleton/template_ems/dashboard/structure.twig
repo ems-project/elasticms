@@ -1,0 +1,122 @@
+
+{% block test_context %}
+{% apply spaceless %}
+    {% set document = 'structure:ZBgj1IkBt_Q7j_c9Rj2a'|emsco_get %}
+
+    {% set data = {
+        'cool': document.emsLink
+    } %}
+{% endapply %}
+{{ data|json_encode|raw }}
+{% endblock %}
+
+
+
+{% block jmn_cell_test %}
+    <div class="text-center"><span class="label label-success">Preview</span></div>
+    <div class="text-center"><span class="label label-success">Live</span></div>
+{% endblock %}
+
+{#{% block jmn_layout_top %}#}
+{#    {{ dump() }}#}
+{#{% endblock jmn_layout_top %}#}
+
+{% block jmn_column_example %}{{ column_label }}{% endblock %}
+
+{% block jmn_cell_example %}{{ page_label }}{% endblock %}
+
+
+{% block example_context %}
+{% apply spaceless %}
+    {% set pageDisplay = 'page:c04ee9be-2d25-4baf-a810-3ef4096e7d75'|emsco_display %}
+    {% set context = { 'page_label': pageDisplay } %}
+{% endapply %}
+{{ context|json_encode|raw }}
+{% endblock %}
+
+
+{% block body %}
+
+    {% set columns = [{ 'name': 'test', 'width': 300 }] %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {% set columns = columns|merge([{ 'name': 'structure', 'width': 300 }]) %}
+    {% endif %}
+
+    <div class="box with-border">
+        <div class="box-header with-border">
+            <h2 class="box-title">New Structure (component)</h2>
+        </div>
+        <div class="box-body">
+            {% set document = 'structure:ZBgj1IkBt_Q7j_c9Rj2a'|emsco_get %}
+            {{ component('json_menu_nested', {
+                'id': 'custom-structure',
+                'ems_link': document.emsLink,
+                'field_path': '[structure]',
+                'template': _self,
+                'context': { 'column_label': 'EXAMPLE' },
+                'context_block': 'example_context',
+                'columns': [
+                    { 'name': 'example', 'width': 200 },
+                    { 'name': 'structure' },
+                ]
+            }) }}
+
+{#            {% set document2 = 'structure:ZRhT2okBt_Q7j_c9RD1S'|emsco_get %}#}
+{#            {{ component('json_menu_nested', {#}
+{#                'id': 'custom-structure2',#}
+{#                'ems_link': document2.emsLink,#}
+{#                'field_path': '[structure]',#}
+{#                'template': _self#}
+{#            }) }}#}
+        </div>
+    </div>
+
+    <div class="box with-border">
+        <div class="box-header with-border">
+            <h2 class="box-title">Old Structure</h2>
+        </div>
+        <div class="box-body">
+            {% set document = 'structure:ZBgj1IkBt_Q7j_c9Rj2a'|emsco_get %}
+            {{ emsco_json_menu_nested({
+                id: document.id,
+                document: document.raw,
+                field: 'structure',
+                structure: (document.getValue('structure', '{}')),
+            }) }}
+        </div>
+    </div>
+
+{% endblock body %}
+
+{% block jmn_render %}
+    {{ block('_jmn_menu') }}
+{% endblock jmn_render %}
+
+
+
+{% block header %}
+    <style type="text/css">
+        .jmn-column-test { flex-wrap: wrap; }
+        .jmn-column-test > div.group { width: 100% }
+        .jmn-column-test > div.env { flex: 1; }
+        .jmn-cell-test > div {  flex: 1 }
+    </style>
+{% endblock header %}
+
+{% block footer %}
+    <script>
+        window.addEventListener('emsReady', function () {
+            const jsonMenuNested = window.jsonMenuNestedComponents['custom-structure'];
+
+        //    jsonMenuNested.activeItemId = '4f7dc5b6-54ff-4861-998a-bfc691ba2d12';
+
+            jsonMenuNested.load({ activeItemId: '84f4260f-6224-4c1e-983d-d1e81753bf47'});
+         //   jsonMenuNested.modalSize = 'lg';
+
+            jsonMenuNested.itemGet('4f7dc5b6-54ff-4861-998a-bfc691ba2d12').then((json) => {console.debug(json); });
+        }, false);
+
+
+    </script>
+{% endblock footer %}

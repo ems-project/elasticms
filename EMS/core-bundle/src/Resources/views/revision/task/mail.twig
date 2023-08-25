@@ -80,8 +80,8 @@
 {% block _printTask %}
     <p>
         <strong>title:&nbsp;</strong>{{ task.title }}<br/>
-        {% if task.assignee != receiver.username %}<strong>assignee:&nbsp;</strong>{{ task.assignee|displayname }}<br/>{% endif %}
-        {% if task.createdBy != receiver.username %}<strong>requester:&nbsp;</strong>{{ task.createdBy|displayname }}<br/>{% endif %}
+        <strong>assignee:&nbsp;</strong>{{ task.assignee|displayname }}<br/>
+        <strong>requester:&nbsp;</strong>{{ task.createdBy|displayname }}<br/>
         {% if task.hasDeadline %}<strong>deadline:&nbsp;</strong>{{ task.deadline.format(date_format) }}<br/>{% endif %}
         {% if task.hasDescription %}
             <strong>description:&nbsp;</strong><br/>

@@ -8,6 +8,7 @@ export default class JsonMenuNestedComponent {
     #pathPrefix;
     #loadParentIds = [];
     #sortableLists = {};
+    modalSize = 'md';
 
     constructor (element) {
         this.id = element.id;
@@ -180,7 +181,7 @@ export default class JsonMenuNestedComponent {
             ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
         };
 
-        ajaxModal.load({ 'url': `${this.#pathPrefix}${path}`, 'size': 'lg' }, (json) => {
+        ajaxModal.load({ 'url': `${this.#pathPrefix}${path}`, 'size': this.modalSize }, (json) => {
             if (!json.hasOwnProperty('success') || !json.success) return;
             if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
             if (json.hasOwnProperty('item')) activeItemId = json.item;

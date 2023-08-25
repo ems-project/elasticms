@@ -49,6 +49,10 @@ class JsonMenuNestedNodes
 
     public function get(JsonMenuNested $item): JsonMenuNestedNode
     {
+        if (!isset($this->nodes[$item->getType()])) {
+            throw JsonMenuNestedConfigException::nodeNotFound();
+        }
+
         return $this->nodes[$item->getType()];
     }
 

@@ -8,10 +8,12 @@ use Twig\TemplateWrapper;
 
 class AjaxModalTemplate
 {
-    public function __construct(
-        private readonly TemplateWrapper $template,
-        private readonly string $blockPrefix,
-    ) {
+    private string $blockTitle = 'modal_title';
+    private string $blockBody = 'modal_body';
+    private string $blockFooter = 'modal_footer';
+
+    public function __construct(private readonly TemplateWrapper $template)
+    {
     }
 
     /**
@@ -28,10 +30,31 @@ class AjaxModalTemplate
     {
         return \array_filter([
             'modalMessages' => \array_map(static fn (string $warning) => ['warning' => $warning], $warnings),
-            'modalTitle' => $this->renderBlock('title', $context),
-            'modalBody' => $this->renderBlock('body', $context),
-            'modalFooter' => $this->renderBlock('footer', $context),
+            'modalTitle' => $this->renderBlock($this->blockTitle, $context),
+            'modalBody' => $this->renderBlock($this->blockBody, $context),
+            'modalFooter' => $this->renderBlock($this->blockFooter, $context),
         ], static fn ($value) => null !== $value);
+    }
+
+    public function setBlockTitle(string $blockTitle): self
+    {
+        $this->blockTitle = $blockTitle;
+
+        return $this;
+    }
+
+    public function setBlockBody(string $blockBody): self
+    {
+        $this->blockBody = $blockBody;
+
+        return $this;
+    }
+
+    public function setBlockFooter(string $blockFooter): self
+    {
+        $this->blockFooter = $blockFooter;
+
+        return $this;
     }
 
     /**
@@ -39,12 +62,10 @@ class AjaxModalTemplate
      */
     private function renderBlock(string $block, array $context): ?string
     {
-        $blockName = $this->blockPrefix.$block;
-
-        if (!$this->template->hasBlock($blockName)) {
+        if (!$this->template->hasBlock($block)) {
             return null;
         }
 
-        return $this->template->renderBlock($blockName, $context);
+        return $this->template->renderBlock($block, $context);
     }
 }

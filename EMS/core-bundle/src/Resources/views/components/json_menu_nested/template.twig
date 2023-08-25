@@ -1,3 +1,4 @@
+{% trans_default_domain 'EMSCoreBundle' %}
 {# @var config      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
 {# @var column      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedColumn #}
 {# @var template    \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
@@ -84,6 +85,10 @@
     <button class="btn btn-sm btn-default jmn-btn-move">Move</button>
 {%- endblock jmn_button_item_move -%}
 
+{%- block jmn_button_item_view -%}
+    <button class="jmn-btn-view">View</button>
+{%- endblock jmn_button_item_view -%}
+
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add" data-add="{{ addNode.id }}">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
@@ -131,6 +136,7 @@
 
 {%- block jmn_menu_more -%}
     <ul class="dropdown-menu pull-right">
+        <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
         <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
         <li>{{ template.block('jmn_button_item_delete', _context)|raw }}</li>
     </ul>
@@ -138,19 +144,42 @@
 
 {%- block jmn_modal_title -%}
     {% if node.icon %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
-    {{ action|capitalize }} new {{ node.type|capitalize }}
+    {{ action|capitalize }} {{ node.type|capitalize }}
 {%- endblock jmn_modal_title -%}
 
-{%- block jmn_modal_body -%}
+{%- block jmn_modal_form -%}
     {{ form_start(form) }}
     {{ form_widget(form.data) }}
     {% if form._item_hash is defined %}{{ form_widget(form._item_hash) }}{% endif %}
     {{ form_end(form) }}
-{%- endblock jmn_modal_body -%}
+{%- endblock jmn_modal_form -%}
 
-{%- block jmn_modal_footer -%}
+{%- block jmn_modal_footer_form -%}
     <div class="pull-right">
         <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
     </div>
-{%- endblock jmn_modal_footer -%}
+{%- endblock jmn_modal_footer_form -%}
+
+{%- block jmn_modal_preview -%}
+    {{ block('_jmn_preview') }}
+{%- endblock jmn_modal_preview -%}
+
+{%- block jmn_modal_footer_close -%}
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+    </div>
+{%- endblock jmn_modal_footer_close -%}
+
+{%- block _jmn_preview -%}
+    {%- if dataFields -%}
+        {%- import "@EMSCore/macros/data-field-type.html.twig" as macros -%}
+        {{ macros.renderDataField(dataFields, rawData, false, []) }}
+    {%- else -%}
+        <p class="text-red">{{ 'view.data.json-menu-nested-json-preview.field-type-not-found'|trans }}</p>
+        <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">
+        {{- rawData|json_encode(constant('JSON_PRETTY_PRINT')) -}}
+    </pre>
+    {%- endif -%}
+{%- endblock _jmn_preview -%}
+

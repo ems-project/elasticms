@@ -25,10 +25,10 @@ final class AjaxService
         return new AjaxModal($template, $this->translator);
     }
 
-    public function ajaxModalTemplate(string $templateName, string $blockPrefix = 'modal_'): AjaxModalTemplate
+    public function ajaxModalTemplate(string $templateName): AjaxModalTemplate
     {
         $template = $this->templating->load($templateName);
 
-        return new AjaxModalTemplate($template, $blockPrefix);
+        return new AjaxModalTemplate($template);
     }
 }

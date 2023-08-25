@@ -15,7 +15,10 @@ use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Core\UI\AjaxModalResponse;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Entity\ContentType;
+use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Form\RevisionJsonMenuNestedType;
+use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Service\DataService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\FormFactory;
@@ -88,6 +91,9 @@ class JsonMenuNestedController
 
             return new JsonResponse($this->ajaxService
                 ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
+                ->setBlockTitle('jmn_modal_title')
+                ->setBlockBody('jmn_modal_form')
+                ->setBlockFooter('jmn_modal_footer_form')
                 ->render([
                     'action' => 'add',
                     'form' => $form->createView(),
@@ -123,6 +129,10 @@ class JsonMenuNestedController
 
             return new JsonResponse($this->ajaxService
                 ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
+                ->setBlockTitle('jmn_modal_title')
+                ->setBlockBody('jmn_modal_form')
+                ->setBlockFooter('jmn_modal_footer_form')
+
                 ->render([
                     'action' => 'edit',
                     'form' => $form->createView(),
@@ -131,6 +141,46 @@ class JsonMenuNestedController
                 ], $warnings)
             );
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
+            return $this->responseWarningModal($e->getMessage());
+        }
+    }
+
+    public function itemModalView(JsonMenuNestedConfig $config, string $itemId): JsonResponse
+    {
+        try {
+            $item = $config->jsonMenuNested->giveItemById($itemId);
+            $rawData = $item->getObject();
+
+            try {
+                $node = $config->nodes->get($item);
+            } catch (JsonMenuNestedConfigException) {
+                $node = false;
+            }
+
+            if ($node) {
+                $contentType = new ContentType();
+                $contentType->setFieldType($node->getFieldType());
+                $revision = new Revision();
+                $revision->setRawData($rawData);
+                $revision->setContentType($contentType);
+                $form = $this->formFactory->create(RevisionType::class, $revision, ['raw_data' => $rawData]);
+                $dataFields = $this->dataService->getDataFieldsStructure($form->get('data'));
+            }
+
+            return new JsonResponse($this->ajaxService
+                ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
+                ->setBlockTitle('jmn_modal_title')
+                ->setBlockBody('jmn_modal_preview')
+                ->setBlockFooter('jmn_modal_footer_close')
+                ->render([
+                    'action' => 'view',
+                    'node' => $node,
+                    'item' => $item,
+                    'rawData' => $rawData,
+                    'dataFields' => $dataFields ?? null,
+                ])
+            );
+        } catch (JsonMenuNestedException $e) {
             return $this->responseWarningModal($e->getMessage());
         }
     }

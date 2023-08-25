@@ -229,11 +229,15 @@
                             <div class="mb-1"><strong>{{ 'task.field.title'|trans }}</strong></div>
                             <div>{{ task.title }}</div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <div class="mb-1"><strong>{{ 'task.field.assignee'|trans }}</strong></div>
                             <div>{{ task.assignee|displayname }}</div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
+                            <div class="mb-1"><strong>{{ 'task.field.requester'|trans }}</strong></div>
+                            <div>{{ task.createdBy|displayname }}</div>
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <div class="mb-1"><strong>{{ 'task.field.deadline'|trans }}</strong></div>
                             {%- if task.hasDeadline -%}
                                 <div>

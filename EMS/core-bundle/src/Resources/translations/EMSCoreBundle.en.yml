@@ -760,6 +760,7 @@ task:
         assignee: Assignee
         deadline: Deadline
         description: Description
+        requester: Requester
         title: Title
         delay: 'Delay (in days)'
     finished:

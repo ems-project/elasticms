@@ -5,66 +5,58 @@
 {# @var item        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
 
-{%- block _top -%}
-    <div class="pull-right">
-        {{ template.block('_buttonAdd', { 'parentNode': config.nodes.root })|raw }}
-    </div>
-{%- endblock _top -%}
+{%- block jmn_layout_top -%}
+    <div class="pull-right">{{ template.block('jmn_button_menu_add', _context)|raw }}</div>
+{%- endblock jmn_layout_top -%}
 
-{%- block _header  -%}
+{%- block jmn_layout_footer -%}{% endblock jmn_layout_footer %}
+
+{%- block jmn_header_row  -%}
     <div class="jmn-header">
         {% for column in config.columns %}
-            <div class="jmn-column {{ "jmn-column-#{column.name}" }}"
-                 style="{{ column.width ? "width:#{column.width}px;" }}" >
-                {{ template.block(column.blockName('head'), { 'column': column })|raw }}
+            <div class="jmn-column {{ "jmn-column-#{column.name}" }}" style="{{ column.width ? "width:#{column.width}px;" }}" >
+                {{ template.block("jmn_header_#{column.name}", _context)|raw }}
             </div>
         {% endfor %}
     </div>
-{%- endblock _header -%}
+{%- endblock jmn_header_row -%}
 
-{%- block _itemNodes -%}
+{% block _jmn_items %}
     {%- for item in menu.children -%}
         {%- set node = config.nodes.get(item) -%}
-        {{ block('_itemNode') }}
+        {{ block('_jmn_item') }}
     {%- endfor -%}
-{%- endblock _itemNodes -%}
+{% endblock _jmn_items %}
 
-{%- block _itemNode -%}
+{%- block _jmn_item -%}
     {%- apply spaceless -%}
         <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
-            {{ block('_itemRow') }}
+            {{ block('_jmn_item_row') }}
             {%- if node.leaf == false -%}
                 <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
                     {% if item in loadParents %}
-                        {% with { 'menu': item } %}{{ block('_itemNodes') }}{% endwith %}
+                        {% with { 'menu': item } %}{{ block('_jmn_items') }}{% endwith %}
                     {% endif %}
                 </div>
             {%- endif -%}
         </div>
     {%- endapply -%}
-{%- endblock _itemNode -%}
+{%- endblock _jmn_item -%}
 
-{%- block _itemRow -%}
+{%- block _jmn_item_row -%}
     <div class="jmn-row">
         {%- for column in config.columns -%}
             <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" >
-                {{- template.block(column.blockName('cell'), {
-                    'column': column,
-                    'item': item,
-                    'node': node,
-                    'loadParents': loadParents
-                })|raw -}}
+                {{- template.block("jmn_cell_#{column.name}", _context)|raw -}}
             </div>
         {%- endfor -%}
     </div>
-{%- endblock _itemRow -%}
+{%- endblock _jmn_item_row -%}
 
-{%- block headTitle -%}Title{%- endblock -%}
-{%- block headAction -%}Content{%- endblock -%}
-{%- block headPublication -%}Publication Status{%- endblock -%}
-{%- block headStructure -%}Structure{%- endblock -%}
+{%- block jmn_header_title -%}Title{%- endblock jmn_header_title -%}
+{%- block jmn_header_structure -%}Structure{%- endblock jmn_header_structure -%}
 
-{%- block cellTitle -%}
+{%- block jmn_cell_title -%}
     {% if item.hasChildren %}
         <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in loadParents ? 'true' : 'false' -}}"></button>
     {% endif %}
@@ -72,60 +64,93 @@
         <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
     {% endif %}
     <span>{{ item.label }}</span>
-{%- endblock -%}
+{%- endblock jmn_cell_title -%}
 
-{%- block cellAction -%}...{%- endblock cellAction -%}
-{%- block cellPublication -%}...{%- endblock cellPublication -%}
+{%- block jmn_cell_structure -%}
+    {{ template.block('jmn_button_menu_add', _context)|raw }}
+    {{ template.block('jmn_button_item_move', _context)|raw }}
+    {{ template.block('jmn_button_menu_more', _context)|raw }}
+{%- endblock jmn_cell_structure -%}
 
-{%- block cellStructure-%}
-    {{ template.block('_buttonAdd', { 'parentNode': node })|raw }}
+{%- block jmn_button_item_edit -%}
+    <button class="jmn-btn-edit">Edit</button>
+{%- endblock jmn_button_item_edit -%}
+
+{%- block jmn_button_item_delete -%}
+    <button class="jmn-btn-delete">Delete</button>
+{%- endblock jmn_button_item_delete -%}
+
+{%- block jmn_button_item_move -%}
     <button class="btn btn-sm btn-default jmn-btn-move">Move</button>
-    {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' with {'buttonClass': 'jmn-btn-more'} %}
-        {% block button %}<i class="fa fa-ellipsis-v"></i>{% endblock button %}
-        {% block items %}
-            <li><button type="button" class="jmn-btn-edit">Edit</button></li>
-            <li><button type="button" class="jmn-btn-delete">Delete</button></li>
-        {% endblock items %}
-    {% endembed %}
-{%- endblock cellStructure -%}
+{%- endblock jmn_button_item_move -%}
 
-{%- block _buttonAdd -%}
-    {% set childNodes = config.nodes.children(parentNode) %}
-    {% if childNodes|length > 0 %}
-        {% embed '@EMSCore/components/json_menu_nested/button-dropdown.twig' %}
-            {% block button %}<i class="fa fa-plus"></i> Add{% endblock button %}
-            {% block items %}
-                {% for childNode in childNodes %}
-                    <li>
-                        <button type="button" class="jmn-btn-add" data-add="{{ childNode.id }}">
-                            {% if childNode.icon %}<i class="{{ childNode.icon }}"></i>{% endif %}
-                            New {{ childNode.type|capitalize }}
-                        </button>
-                    </li>
-                {% endfor %}
-            {% endblock items %}
-        {% endembed %}
+{%- block jmn_button_item_add -%}
+    <button class="jmn-btn-add" data-add="{{ addNode.id }}">
+        {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
+        New {{ addNode.type|capitalize }}
+    </button>
+{%- endblock jmn_button_item_add -%}
+
+{%- block jmn_menu_add -%}
+    <ul class="dropdown-menu pull-right">
+        {% for addNode in addNodes %}
+            <li>{{ template.block('jmn_button_item_add', _context)|raw }}</li>
+        {% endfor %}
+    </ul>
+{%- endblock jmn_menu_add -%}
+
+{%- block jmn_button_add -%}
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-plus"></i> Add
+    </button>
+{%- endblock jmn_button_add -%}
+
+{%- block jmn_button_menu_add -%}
+    {% set node = node|default(config.nodes.root) %}
+    {% set addNodes = config.nodes.children(node) %}
+    {% if addNodes|length > 0 %}
+        <div class="btn-group btn-group-sm">
+            {{ template.block('jmn_button_add', _context)|raw }}
+            {{ template.block('jmn_menu_add', _context)|raw }}
+        </div>
     {% endif %}
-{%- endblock _buttonAdd -%}
+{%- endblock jmn_button_menu_add -%}
 
-{%- block modal_title -%}
+{%- block jmn_button_menu_more -%}
+    <div class="btn-group btn-group-sm">
+        {{ template.block('jmn_button_more', _context)|raw }}
+        {{ template.block('jmn_menu_more', _context)|raw }}
+    </div>
+{%- endblock jmn_button_menu_more -%}
+
+{%- block jmn_button_more -%}
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-btn-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-ellipsis-v"></i>
+    </button>
+{%- endblock jmn_button_more -%}
+
+{%- block jmn_menu_more -%}
+    <ul class="dropdown-menu pull-right">
+        <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
+        <li>{{ template.block('jmn_button_item_delete', _context)|raw }}</li>
+    </ul>
+{%- endblock jmn_menu_more -%}
+
+{%- block jmn_modal_title -%}
     {% if node.icon %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
     {{ action|capitalize }} new {{ node.type|capitalize }}
-{%- endblock modal_title -%}
+{%- endblock jmn_modal_title -%}
 
-{%- block modal_body -%}
+{%- block jmn_modal_body -%}
     {{ form_start(form) }}
     {{ form_widget(form.data) }}
     {% if form._item_hash is defined %}{{ form_widget(form._item_hash) }}{% endif %}
     {{ form_end(form) }}
-{%- endblock modal_body -%}
+{%- endblock jmn_modal_body -%}
 
-{%- block modal_footer -%}
+{%- block jmn_modal_footer -%}
     <div class="pull-right">
         <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
     </div>
-{%- endblock modal_footer -%}
-
-
-
+{%- endblock jmn_modal_footer -%}

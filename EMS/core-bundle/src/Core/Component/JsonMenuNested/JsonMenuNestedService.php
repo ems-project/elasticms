@@ -32,9 +32,9 @@ class JsonMenuNestedService
      *     load_children_id?: string
      * } $data
      *
-     * @return array{ load_parent_ids: string[], structure: string }
+     * @return array{ load_parent_ids: string[], tree: string }
      */
-    public function getStructure(JsonMenuNestedConfig $config, array $data): array
+    public function render(JsonMenuNestedConfig $config, array $data): array
     {
         $menu = $config->jsonMenuNested;
         $activeItem = isset($data['active_item_id']) ? $menu->getItemById($data['active_item_id']) : null;
@@ -56,7 +56,7 @@ class JsonMenuNestedService
 
         return [
             'load_parent_ids' => \array_map(static fn (JsonMenuNested $item) => $item->getId(), $loadParents),
-            'structure' => $this->getTemplate($config)->block('_itemNodes', [
+            'tree' => $this->getTemplate($config)->block('_jmn_items', [
                 'menu' => $menu,
                 'activeItem' => $activeItem ?? $menu,
                 'loadParents' => $loadParents,

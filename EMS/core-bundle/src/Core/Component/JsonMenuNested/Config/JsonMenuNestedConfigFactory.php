@@ -67,11 +67,7 @@ class JsonMenuNestedConfigFactory extends AbstractConfigFactory
             ->setDefaults([
                 'context' => [],
                 'template' => null,
-                'columns' => [
-                    ['name' => 'action', 'width' => 200],
-                    ['name' => 'publication', 'width' => 200],
-                    ['name' => 'structure', 'width' => 200],
-                ],
+                'columns' => [['name' => 'structure', 'width' => 200]],
             ])
             ->setNormalizer('ems_link', function (Options $options, EMSLink|string $value): EMSLink {
                 return \is_string($value) ? EMSLink::fromText($value) : $value;

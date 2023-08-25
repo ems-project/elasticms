@@ -36,11 +36,11 @@ class JsonMenuNestedController
     ) {
     }
 
-    public function structure(Request $request, JsonMenuNestedConfig $config): JsonResponse
+    public function render(Request $request, JsonMenuNestedConfig $config): JsonResponse
     {
         $data = Json::decode($request->getContent());
 
-        return new JsonResponse($this->jsonMenuNestedService->getStructure($config, $data));
+        return new JsonResponse($this->jsonMenuNestedService->render($config, $data));
     }
 
     public function item(JsonMenuNestedConfig $config, string $itemId): JsonResponse

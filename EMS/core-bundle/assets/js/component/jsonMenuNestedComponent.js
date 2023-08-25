@@ -20,20 +20,20 @@ export default class JsonMenuNestedComponent {
     }
 
     load({ activeItemId = null, loadChildrenId: loadChildrenId = null} = {}) {
-        this._post('/structure', {
+        this._post('/render', {
             active_item_id: activeItemId,
             load_parent_ids: this.#loadParentIds,
             load_children_id: loadChildrenId
         }).then((json) => {
-            if (!json.hasOwnProperty('structure') || !json.hasOwnProperty('load_parent_ids')) return;
+            if (!json.hasOwnProperty('tree') || !json.hasOwnProperty('load_parent_ids')) return;
 
             this.#loadParentIds = json.load_parent_ids;
-            this.#tree.innerHTML = json.structure;
+            this.#tree.innerHTML = json.tree;
             this._sortables();
             this.loading(false);
         });
     }
-    item_get(itemId) {
+    itemGet(itemId) {
         return this._get(`/item/${itemId}`);
     }
     itemAdd(itemId, add, position = 0) {
@@ -160,7 +160,7 @@ export default class JsonMenuNestedComponent {
                 position: position
             }).finally(() => targetComponent.load(itemId) );
         } else {
-            fromComponent.item_get(itemId)
+            fromComponent.itemGet(itemId)
                 .then((json) => {
                     if (!json.hasOwnProperty('item')) throw new Error(JSON.stringify(json));
                     return targetComponent.itemAdd(toParentId, json.item, position)

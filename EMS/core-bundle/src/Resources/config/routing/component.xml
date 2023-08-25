@@ -5,8 +5,8 @@
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
     <!-- Json Menu Nested -->
-    <route id="emsco.json_menu_nested.structure" path="/json-menu-nested/{hash}/structure"
-           controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::structure"
+    <route id="emsco.json_menu_nested.render" path="/json-menu-nested/{hash}/render"
+           controller="EMS\CoreBundle\Controller\Component\JsonMenuNestedController::render"
            methods="POST">
         <requirement key="hash">.*</requirement>
     </route>

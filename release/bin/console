@@ -1,0 +1,88 @@
+#!/usr/bin/env php
+<?php
+
+use EMS\Release\Kernel;
+use Symfony\Component\Config\ConfigCache;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\Argument\TaggedIteratorArgument;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Dotenv\Dotenv;
+
+require __DIR__.'/../../vendor/autoload.php';
+
+if (!function_exists('tagged_iterator')) {
+    function tagged_iterator(
+        string $tag,
+        string $indexAttribute = null,
+        string $defaultIndexMethod = null,
+        string $defaultPriorityMethod = null): TaggedIteratorArgument
+    {
+        return new TaggedIteratorArgument(
+            $tag,
+            $indexAttribute,
+            $defaultIndexMethod,
+            false,
+            $defaultPriorityMethod
+        );
+    }
+}
+
+$dotEnv = new Dotenv();
+$dotEnv->bootEnv(dirname(__DIR__) . '/.env');
+
+try {
+    $containerCacheClassName = 'AppContainerCache';
+    $containerCacheFile = dirname(__DIR__) . '/var/cache/'.
+        $_ENV['APP_ENV'] . '/' . $containerCacheClassName . '.php';
+    $containerConfigCache = new ConfigCache($containerCacheFile, $_ENV['APP_DEBUG']);
+    if (!$containerConfigCache->isFresh()) {
+        $containerBuilder = new ContainerBuilder();
+        $loader = new YamlFileLoader($containerBuilder, new FileLocator(dirname(__DIR__).'/config'));
+        try {
+            $loader->load('services.yaml');
+            $loader->load('parameters.yaml');
+        } catch (Throwable $e) {
+            echo $e->getMessage() . "\n";
+            exit(Command::FAILURE);
+        }
+
+        $containerBuilder->registerForAutoconfiguration(Command::class)
+            ->addTag('console.command');
+
+        $containerBuilder->register('kernel', Kernel::class)
+            ->setPublic(true)
+            ->setArguments(
+                [
+                    tagged_iterator('console.command'),
+                    $containerBuilder->getParameter('app.name'),
+                    $containerBuilder->getParameter('app.version'),
+                    $_ENV['APP_ENV'],
+                    $_ENV['APP_DEBUG'],
+                ]
+            );
+
+        $containerBuilder->register(ParameterBagInterface::class, ParameterBag::class)
+            ->setPublic(false)
+            ->setArguments([$containerBuilder->getParameterBag()->all()])
+        ;
+
+        $containerBuilder->compile(true);
+
+        $dumper = new PhpDumper($containerBuilder);
+        $containerConfigCache->write(
+            $dumper->dump(['class' => $containerCacheClassName]),
+            $containerBuilder->getResources()
+        );
+    }
+    require_once $containerCacheFile;
+    $container = new $containerCacheClassName();
+    exit($container->get('kernel')->run());
+} catch (Throwable $error) {
+    echo $error->getMessage() . "\n";
+    exit(Command::FAILURE);
+}

@@ -2,9 +2,9 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-#        bind:
-#            $appName: '%app.name%'
-#            $appVersion: '%app.version%'
+        bind:
+            $githubToken: '%github_token%'
+            $githubRepos: '%github_repos%'
 
     EMS\Release\:
         resource: '../src/'

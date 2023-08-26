@@ -11,7 +11,7 @@ parameters:
         - %currentWorkingDirectory%/EMS/helpers/src
         - %currentWorkingDirectory%/EMS/submission-bundle/src
         - %currentWorkingDirectory%/EMS/xliff/src
-        - %currentWorkingDirectory%/release
+        - %currentWorkingDirectory%/release/src
     excludePaths:
         - %currentWorkingDirectory%/vendor/*
         - %currentWorkingDirectory%/EMS/admin-ui-bundle/src/Resources/*

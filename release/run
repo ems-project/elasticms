@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
-require __DIR__.'/../../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 if (!function_exists('tagged_iterator')) {
     function tagged_iterator(
@@ -33,16 +33,16 @@ if (!function_exists('tagged_iterator')) {
 }
 
 $dotEnv = new Dotenv();
-$dotEnv->bootEnv(dirname(__DIR__) . '/.env');
+$dotEnv->bootEnv(__DIR__ . '/.env');
 
 try {
     $containerCacheClassName = 'AppContainerCache';
-    $containerCacheFile = dirname(__DIR__) . '/var/cache/'.
+    $containerCacheFile = __DIR__ . '/var/cache/'.
         $_ENV['APP_ENV'] . '/' . $containerCacheClassName . '.php';
     $containerConfigCache = new ConfigCache($containerCacheFile, $_ENV['APP_DEBUG']);
     if (!$containerConfigCache->isFresh()) {
         $containerBuilder = new ContainerBuilder();
-        $loader = new YamlFileLoader($containerBuilder, new FileLocator(dirname(__DIR__).'/config'));
+        $loader = new YamlFileLoader($containerBuilder, new FileLocator(__DIR__.'/config'));
         try {
             $loader->load('services.yaml');
             $loader->load('parameters.yaml');

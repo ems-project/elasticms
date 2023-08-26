@@ -1,3 +1,5 @@
 parameters:
     app.name: '%env(resolve:APP_NAME)%'
     app.version: '%env(APP_VERSION)%'
+    github_token: '%env(resolve:GITHUB_TOKEN)%'
+    github_repos: '%env(json:GITHUB_REPOS)%'

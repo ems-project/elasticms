@@ -44,6 +44,7 @@ class AuditCommand extends AbstractCommand
     private const OPTION_ALL = 'all';
     private const OPTION_LIGHTHOUSE = 'lighthouse';
     private const OPTION_CONTENT_TYPE = 'content-type';
+    private const OPTION_BASE_URL = 'base-url';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
@@ -64,6 +65,7 @@ class AuditCommand extends AbstractCommand
     private ?string $saveFolder;
     /** @var string[] */
     private array $audited = [];
+    private string $baseUrl;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -95,6 +97,7 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
+            ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Only scans urls starting with this base url', '/')
             ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
             ->addOption(self::OPTION_TIKA_MAX_SIZE, null, InputOption::VALUE_OPTIONAL, 'File bigger than this limit are not send to Tika [in MB]', 5);
     }
@@ -118,6 +121,7 @@ class AuditCommand extends AbstractCommand
         $this->saveFolder = $this->getOptionStringNull(self::OPTION_SAVE_FOLDER);
         $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
         $this->tikaMaxSize = $this->getOptionFloat(self::OPTION_TIKA_MAX_SIZE);
+        $this->baseUrl = $this->getOptionString(self::OPTION_BASE_URL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -147,6 +151,11 @@ class AuditCommand extends AbstractCommand
         $finish = true;
         while ($this->auditCache->hasNext()) {
             $url = $this->auditCache->next();
+            if (!\str_starts_with($url->getPath(), $this->baseUrl)) {
+                $this->logger->notice('Ignored as not in the base URL');
+                $report->addIgnoredUrl($url, 'Ignored as not in the base URL');
+                continue;
+            }
             if (null !== $this->ignoreRegex && \preg_match(\sprintf('/%s/', $this->ignoreRegex), $url->getPath())) {
                 $this->logger->notice('Ignored by regex');
                 $report->addIgnoredUrl($url, 'Ignored by regex');

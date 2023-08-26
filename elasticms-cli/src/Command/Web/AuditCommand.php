@@ -14,6 +14,7 @@ use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Commands;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\Exists;
 use Elastica\Query\Range;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
@@ -44,13 +45,14 @@ class AuditCommand extends AbstractCommand
     private const OPTION_ALL = 'all';
     private const OPTION_LIGHTHOUSE = 'lighthouse';
     private const OPTION_CONTENT_TYPE = 'content-type';
+    private const OPTION_BASE_URL = 'base-url';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
     private bool $continue;
     private bool $dryRun;
     private int $maxUpdate;
-    private Url $baseUrl;
+    private Url $startingUrl;
     private Cache $auditCache;
     private string $contentType;
     private CacheManager $cacheManager;
@@ -64,6 +66,7 @@ class AuditCommand extends AbstractCommand
     private ?string $saveFolder;
     /** @var string[] */
     private array $audited = [];
+    private string $baseUrl;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -95,6 +98,7 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
+            ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Only scans urls starting with this base url', '/')
             ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
             ->addOption(self::OPTION_TIKA_MAX_SIZE, null, InputOption::VALUE_OPTIONAL, 'File bigger than this limit are not send to Tika [in MB]', 5);
     }
@@ -103,9 +107,9 @@ class AuditCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->logger = new ConsoleLogger($output);
-        $this->baseUrl = new Url($this->getArgumentString(self::ARG_URL));
+        $this->startingUrl = new Url($this->getArgumentString(self::ARG_URL));
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
-        $this->jsonPath = \sprintf('%s/%s.json', $this->cacheFolder, $this->baseUrl->getHost());
+        $this->jsonPath = \sprintf('%s/%s.json', $this->cacheFolder, $this->startingUrl->getHost());
         $this->continue = $this->getOptionBool(self::OPTION_CONTINUE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->lighthouse = $this->getOptionBool(self::OPTION_LIGHTHOUSE);
@@ -118,6 +122,7 @@ class AuditCommand extends AbstractCommand
         $this->saveFolder = $this->getOptionStringNull(self::OPTION_SAVE_FOLDER);
         $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
         $this->tikaMaxSize = $this->getOptionFloat(self::OPTION_TIKA_MAX_SIZE);
+        $this->baseUrl = $this->getOptionString(self::OPTION_BASE_URL);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -141,12 +146,17 @@ class AuditCommand extends AbstractCommand
         }
         $report = $this->auditCache->getReport();
 
-        $auditManager = new AuditManager($this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024));
-        $this->io->title(\sprintf('Starting auditing %s', $this->baseUrl->getUrl()));
+        $auditManager = new AuditManager($this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024), $this->baseUrl);
+        $this->io->title(\sprintf('Starting auditing %s', $this->startingUrl->getUrl()));
         $counter = 0;
         $finish = true;
         while ($this->auditCache->hasNext()) {
             $url = $this->auditCache->next();
+            if (!\str_starts_with($url->getPath(), $this->baseUrl)) {
+                $this->logger->notice('Ignored as not in the base URL');
+                $report->addIgnoredUrl($url, 'Ignored as not in the base URL');
+                continue;
+            }
             if (null !== $this->ignoreRegex && \preg_match(\sprintf('/%s/', $this->ignoreRegex), $url->getPath())) {
                 $this->logger->notice('Ignored by regex');
                 $report->addIgnoredUrl($url, 'Ignored by regex');
@@ -258,7 +268,7 @@ class AuditCommand extends AbstractCommand
 
         $this->io->section('Save cache and report');
         $this->auditCache->save($this->jsonPath, $finish);
-        $filename = \sprintf('Audit-%s-%s.xlsx', $this->baseUrl->getHost(), \date('Ymd-His'));
+        $filename = \sprintf('Audit-%s-%s.xlsx', $this->startingUrl->getHost(), \date('Ymd-His'));
         $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         $filepath = $report->generateXslxReport();
         $reportLogsHash = $this->adminHelper->getCoreApi()->file()->uploadFile($filepath, $mimetype, $filename);
@@ -270,14 +280,14 @@ class AuditCommand extends AbstractCommand
     protected function loadAuditCache(): Cache
     {
         if (!\file_exists($this->jsonPath)) {
-            return new Cache($this->baseUrl);
+            return new Cache($this->startingUrl);
         }
         $contents = \file_get_contents($this->jsonPath);
         if (false === $contents) {
             throw new \RuntimeException('Unexpected false config file');
         }
         $cache = Cache::deserialize($contents);
-        $cache->addUrl($this->baseUrl);
+        $cache->addUrl($this->startingUrl);
 
         return $cache;
     }
@@ -312,11 +322,26 @@ class AuditCommand extends AbstractCommand
     {
         $alias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust(new Terms('host', [$this->baseUrl->getHost()]));
+        $boolQuery->addMust(new Terms('host', [$this->startingUrl->getHost()]));
         $boolQuery->addMust(new Terms(EMSSource::FIELD_CONTENT_TYPE, [$this->contentType]));
         $boolQuery->addMust(new Range('timestamp', [
             'lt' => $this->auditCache->getStartedDate(),
         ]));
+        if ('/' === $this->baseUrl) {
+            $boolQuery->setMinimumShouldMatch(1);
+            $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
+            $boolMustNotBase = new BoolQuery();
+            $boolMustNotBase->addMustNot(new Exists('base_url'));
+            $boolQuery->addShould($boolMustNotBase);
+        } else {
+            $boolQuery->addMust(new Terms('base_url', [$this->baseUrl]));
+        }
+
+        $boolQuery->setMinimumShouldMatch(1);
+        $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
+        $boolMustNotBase = new BoolQuery();
+        $boolMustNotBase->addMustNot(new Exists('base_url'));
+        $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
 
         $body = Json::encode([
             'index' => [$alias],

@@ -50,7 +50,7 @@ class AuditCommand extends AbstractCommand
     private bool $continue;
     private bool $dryRun;
     private int $maxUpdate;
-    private Url $baseUrl;
+    private Url $startingUrl;
     private Cache $auditCache;
     private string $contentType;
     private CacheManager $cacheManager;
@@ -103,9 +103,9 @@ class AuditCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->logger = new ConsoleLogger($output);
-        $this->baseUrl = new Url($this->getArgumentString(self::ARG_URL));
+        $this->startingUrl = new Url($this->getArgumentString(self::ARG_URL));
         $this->cacheFolder = $this->getOptionString(self::OPTION_CACHE_FOLDER);
-        $this->jsonPath = \sprintf('%s/%s.json', $this->cacheFolder, $this->baseUrl->getHost());
+        $this->jsonPath = \sprintf('%s/%s.json', $this->cacheFolder, $this->startingUrl->getHost());
         $this->continue = $this->getOptionBool(self::OPTION_CONTINUE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->lighthouse = $this->getOptionBool(self::OPTION_LIGHTHOUSE);
@@ -142,7 +142,7 @@ class AuditCommand extends AbstractCommand
         $report = $this->auditCache->getReport();
 
         $auditManager = new AuditManager($this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024));
-        $this->io->title(\sprintf('Starting auditing %s', $this->baseUrl->getUrl()));
+        $this->io->title(\sprintf('Starting auditing %s', $this->startingUrl->getUrl()));
         $counter = 0;
         $finish = true;
         while ($this->auditCache->hasNext()) {
@@ -258,7 +258,7 @@ class AuditCommand extends AbstractCommand
 
         $this->io->section('Save cache and report');
         $this->auditCache->save($this->jsonPath, $finish);
-        $filename = \sprintf('Audit-%s-%s.xlsx', $this->baseUrl->getHost(), \date('Ymd-His'));
+        $filename = \sprintf('Audit-%s-%s.xlsx', $this->startingUrl->getHost(), \date('Ymd-His'));
         $mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         $filepath = $report->generateXslxReport();
         $reportLogsHash = $this->adminHelper->getCoreApi()->file()->uploadFile($filepath, $mimetype, $filename);
@@ -270,14 +270,14 @@ class AuditCommand extends AbstractCommand
     protected function loadAuditCache(): Cache
     {
         if (!\file_exists($this->jsonPath)) {
-            return new Cache($this->baseUrl);
+            return new Cache($this->startingUrl);
         }
         $contents = \file_get_contents($this->jsonPath);
         if (false === $contents) {
             throw new \RuntimeException('Unexpected false config file');
         }
         $cache = Cache::deserialize($contents);
-        $cache->addUrl($this->baseUrl);
+        $cache->addUrl($this->startingUrl);
 
         return $cache;
     }
@@ -312,7 +312,7 @@ class AuditCommand extends AbstractCommand
     {
         $alias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
         $boolQuery = new BoolQuery();
-        $boolQuery->addMust(new Terms('host', [$this->baseUrl->getHost()]));
+        $boolQuery->addMust(new Terms('host', [$this->startingUrl->getHost()]));
         $boolQuery->addMust(new Terms(EMSSource::FIELD_CONTENT_TYPE, [$this->contentType]));
         $boolQuery->addMust(new Range('timestamp', [
             'lt' => $this->auditCache->getStartedDate(),

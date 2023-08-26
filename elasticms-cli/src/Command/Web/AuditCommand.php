@@ -14,6 +14,7 @@ use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
 use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Commands;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\Exists;
 use Elastica\Query\Range;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
@@ -326,6 +327,21 @@ class AuditCommand extends AbstractCommand
         $boolQuery->addMust(new Range('timestamp', [
             'lt' => $this->auditCache->getStartedDate(),
         ]));
+        if ("/" === $this->baseUrl) {
+            $boolQuery->setMinimumShouldMatch(1);
+            $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
+            $boolMustNotBase = new BoolQuery();
+            $boolMustNotBase->addMustNot(new Exists('base_url'));
+            $boolQuery->addShould($boolMustNotBase);
+        } else {
+            $boolQuery->addMust(new Terms('base_url', [$this->baseUrl]));
+        }
+
+        $boolQuery->setMinimumShouldMatch(1);
+        $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
+        $boolMustNotBase = new BoolQuery();
+        $boolMustNotBase->addMustNot(new Exists('base_url'));
+        $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
 
         $body = Json::encode([
             'index' => [$alias],

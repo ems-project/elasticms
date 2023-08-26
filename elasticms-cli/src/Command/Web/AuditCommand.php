@@ -327,7 +327,7 @@ class AuditCommand extends AbstractCommand
         $boolQuery->addMust(new Range('timestamp', [
             'lt' => $this->auditCache->getStartedDate(),
         ]));
-        if ("/" === $this->baseUrl) {
+        if ('/' === $this->baseUrl) {
             $boolQuery->setMinimumShouldMatch(1);
             $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
             $boolMustNotBase = new BoolQuery();

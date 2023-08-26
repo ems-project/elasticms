@@ -50,7 +50,7 @@ class AuditResult
     private int $size = 0;
     private ?string $description = null;
 
-    public function __construct(private readonly Url $url)
+    public function __construct(private readonly Url $url, private readonly string $baseUrl)
     {
         $this->datetime = new \DateTimeImmutable();
     }
@@ -236,6 +236,7 @@ class AuditResult
 
         return \array_filter(\array_merge($init, [
             'url' => $this->url->getUrl(null, false, false),
+            'base_url' => $this->baseUrl,
             'referer' => $this->url->getReferer(),
             'referer_label' => $this->url->getRefererLabel(),
             'pa11y' => $this->pa11y,

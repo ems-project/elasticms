@@ -145,7 +145,7 @@ class AuditCommand extends AbstractCommand
         }
         $report = $this->auditCache->getReport();
 
-        $auditManager = new AuditManager($this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024));
+        $auditManager = new AuditManager($this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024), $this->baseUrl);
         $this->io->title(\sprintf('Starting auditing %s', $this->startingUrl->getUrl()));
         $counter = 0;
         $finish = true;

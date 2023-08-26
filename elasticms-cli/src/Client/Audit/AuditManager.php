@@ -22,8 +22,16 @@ class AuditManager
     private ?TikaHelper $tikaHelper = null;
     private TikaPromiseInterface $tikaPromise;
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly bool $all, private readonly bool $pa11y, private readonly bool $lighthouse, bool $tika, private readonly ?string $tikaServerUrl, private readonly int $tikaMaxSize)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly bool $all,
+        private readonly bool $pa11y,
+        private readonly bool $lighthouse,
+        bool $tika,
+        private readonly ?string $tikaServerUrl,
+        private readonly int $tikaMaxSize,
+        private readonly string $baseUrl,
+    ) {
         if (!$tika && !$all) {
             return;
         }
@@ -37,7 +45,7 @@ class AuditManager
     public function analyze(Url $url, HttpResult $result, Report $report, bool $alreadyAudited): AuditResult
     {
         $this->logger->notice($url->getUrl());
-        $audit = new AuditResult($url);
+        $audit = new AuditResult($url, $this->baseUrl);
         $this->addRequestAudit($audit, $result);
         if (!$result->isValid()) {
             return $audit;

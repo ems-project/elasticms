@@ -10,7 +10,7 @@ class Release
         public readonly Repository $repository,
         public readonly string $tag,
         public readonly string $createdAt,
-        public readonly bool $draft,
+        public readonly string $draft,
         public readonly ?string $sha,
     ) {
     }

@@ -12,7 +12,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 class RepositoryInfoCommand extends Command
@@ -54,9 +53,9 @@ class RepositoryInfoCommand extends Command
         $style->section('Releases');
         $style->table(
             [['Tag', 'Draft', 'Created At', 'Sha']],
-            \array_map(fn (Release $release) => [
+            \array_map(static fn (Release $release) => [
                 $release->url(),
-                $release->draft ? 'true' : 'false',
+                $release->draft,
                 $release->createdAt,
                 $release->sha,
             ], $repository->getReleases())

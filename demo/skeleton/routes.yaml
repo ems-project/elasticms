@@ -34,7 +34,7 @@ icon.png:
     config:
         path: '{name}-{width}x{height}.png'
         controller: 'emsch.controller.router::redirect'
-        requirements: { name: 'android-chrome|favicon|mstile', width: '16|32|70|144|150|310|192|512', height: '16|32|70|144|150|310|192|512' }
+        requirements: { name: android-chrome|favicon|mstile, width: 16|32|70|144|150|310|192|512, height: 16|32|70|144|150|310|192|512 }
     template_static: template/redirects/icon.json.twig
 emsch_manifest:
     config:

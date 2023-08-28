@@ -58,6 +58,15 @@ month:
     September: Septembre
 navbar:
     swith-to-locale: Français
+release:
+    search:
+        choose_category: 'Choisissez une catégorie'
+        filters_title: Filtre
+        label: Mots-clés
+        placeholder: Mots-clés
+        remove_tag: 'Supprimer le filtre'
+        selected_categories: 'Tags sélectionnés'
+        submit: Rechercher
 site:
     copy: 'Copyright %year%'
     lead: 'Un CMS sur mesure au service du secteur public'
@@ -71,12 +80,3 @@ usergroup:
     team-meeting: Durée
     title: 'Prochaine session'
     topic: Sujets
-release:
-    search:
-        filters_title: 'Filtre'
-        choose_category: 'Choisissez une catégorie'
-        remove_tag: 'Supprimer le filtre'
-        selected_categories: 'Tags sélectionnés'
-        placeholder: 'Mots-clés'
-        label: 'Mots-clés'
-        submit: 'Rechercher'

@@ -33,7 +33,7 @@ services:
       - TRUSTED_HOSTS=localhost,*.localhost
       - APP_SECRET=ThisIsSecret
     volumes:
-      - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_preview
+      - ./skeleton:/opt/src/local/${INSTANCE_ID}preview
       - ./configs/elasticms-admin:/opt/configs
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document

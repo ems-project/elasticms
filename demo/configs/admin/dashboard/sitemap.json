@@ -12,8 +12,8 @@
         "role": "ROLE_AUTHOR",
         "color": null,
         "options": {
-            "body": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}",
-            "footer": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_footer\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}"
+            "body": "{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}",
+            "footer": "{{ block(\"ems_footer\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}"
         },
         "orderKey": 1
     },

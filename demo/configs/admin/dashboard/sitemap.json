@@ -4,7 +4,7 @@
     "properties": {
         "name": "sitemap",
         "icon": "fa fa-sitemap",
-        "label": "Sitemap",
+        "label": "Site structure",
         "sidebarMenu": true,
         "notificationMenu": false,
         "definition": "landing_page",

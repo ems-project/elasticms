@@ -5,15 +5,15 @@ aria:
     skip-to-content: 'Passer directement au contenu'
     toggle-navbar: 'Afficher la navigation'
 block:
-  release:
-    title: 'Release %version%'
-  grid:
+    grid:
         see_also: 'Voir également'
+    release:
+        title: 'Release %version%'
 blog:
     filter: Filtres
-    title: 'What’s new?'
     grid:
-        title: 'News'
+        title: News
+    title: 'What’s new?'
 breadcrumb:
     back-to: 'Retour à la page %title%'
     homepage: 'd''accueil'

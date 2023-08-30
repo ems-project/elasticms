@@ -14,12 +14,16 @@ final class MediaLibrarySyncOptions
         public readonly string $fileField,
         public readonly ?string $metaDataFile,
         public readonly string $locateRowExpression,
+        public readonly string $targetFolder,
         public readonly bool $dryRun,
         public readonly bool $onlyMissingFile,
         public readonly bool $onlyMetadataFile,
         public readonly bool $hashFolder,
         public readonly bool $hashMetaDataFile,
-        public readonly int $maxContentSize = 5120
+        public readonly int $maxContentSize = 5120,
     ) {
+        if (!\str_starts_with($targetFolder, '/')) {
+            throw new \RuntimeException('The target-folder options must start with a /');
+        }
     }
 }

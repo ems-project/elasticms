@@ -103,12 +103,12 @@ final class MediaLibrarySync
 
         $this->uploadMedia($path, [self::SYNC_METADATA => $metaData], $file);
 
-        $exploded = \explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
+        $exploded = \explode('/', $file->getRelativePath());
         while (\count($exploded) > 0) {
-            $folder = DIRECTORY_SEPARATOR.\implode(DIRECTORY_SEPARATOR, $exploded);
+            $folder = '/'.\implode('/', $exploded);
             if (!\in_array($folder, $this->knownFolders)) {
                 $this->uploadMedia($folder, [
-                    self::SYNC_METADATA => $this->getMetadata(DIRECTORY_SEPARATOR.$folder),
+                    self::SYNC_METADATA => $this->getMetadata('/'.$folder),
                 ]);
                 $this->knownFolders[] = $folder;
             }
@@ -121,7 +121,7 @@ final class MediaLibrarySync
      */
     private function uploadMedia(string $path, array $data = [], SplFileInfo $file = null): void
     {
-        $pos = \strrpos($path, DIRECTORY_SEPARATOR);
+        $pos = \strrpos($path, '/');
         if (false === $pos) {
             throw new \RuntimeException('Unexpected path without /');
         }

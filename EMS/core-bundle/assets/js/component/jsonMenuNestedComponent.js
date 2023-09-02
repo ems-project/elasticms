@@ -30,7 +30,7 @@ export default class JsonMenuNestedComponent {
 
             this.#loadParentIds = json.load_parent_ids;
             this.#tree.innerHTML = json.tree;
-            this.#element.dispatchEvent(new CustomEvent("jmn-load", {detail: {
+            this.#element.dispatchEvent(new CustomEvent('jmn-load', {detail: {
                 jnm: this,
                 data: json,
                 elements: this._sortables(),
@@ -65,13 +65,13 @@ export default class JsonMenuNestedComponent {
         }, true);
     }
     _onClickButtonAdd(element, itemId) {
-        this._ajaxModal(element, `/item/${itemId}/modal-add/${element.dataset.add}`);
+        this._ajaxModal(element, `/item/${itemId}/modal-add/${element.dataset.add}`, 'jmn-add');
     }
     _onClickButtonEdit(element, itemId) {
-        this._ajaxModal(element, `/item/${itemId}/modal-edit`);
+        this._ajaxModal(element, `/item/${itemId}/modal-edit`, 'jmn-edit');
     }
     _onClickButtonView(element, itemId) {
-        this._ajaxModal(element, `/item/${itemId}/modal-view`);
+        this._ajaxModal(element, `/item/${itemId}/modal-view`, 'jmn-view');
     }
     _onClickButtonDelete(nodeId) {
         this.itemDelete(nodeId).then(() => { this.load(); });
@@ -179,7 +179,7 @@ export default class JsonMenuNestedComponent {
                 });
         }
     }
-    _ajaxModal(element, path) {
+    _ajaxModal(element, path, eventType) {
         let activeItemId = null;
         const modalSize = element.dataset.modalSize ?? this.modalSize;
 
@@ -192,6 +192,12 @@ export default class JsonMenuNestedComponent {
             if (!json.hasOwnProperty('success') || !json.success) return;
             if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
             if (json.hasOwnProperty('item')) activeItemId = json.item;
+
+            this.#element.dispatchEvent(new CustomEvent(eventType, {detail: {
+                jnm: this,
+                data: json,
+                activeItemId: activeItemId,
+            }}));
         });
         ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
     }

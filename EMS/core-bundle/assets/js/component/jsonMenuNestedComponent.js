@@ -30,7 +30,11 @@ export default class JsonMenuNestedComponent {
 
             this.#loadParentIds = json.load_parent_ids;
             this.#tree.innerHTML = json.tree;
-            this._sortables();
+            this.#element.dispatchEvent(new CustomEvent("jmn-load", {detail: {
+                jnm: this,
+                data: json,
+                elements: this._sortables(),
+            }}));
             this.loading(false);
         });
     }
@@ -126,9 +130,11 @@ export default class JsonMenuNestedComponent {
             onEnd: (event) => { return this._onMoveEnd(event) },
         }
 
-        this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {
+        const sortables =  this.#element.querySelectorAll('.jmn-sortable');
+        sortables.forEach((element) => {
             this.#sortableLists[element.id] = Sortable.create(element, options);
         });
+        return sortables;
     }
     _onMove(event) {
         const dragged = event.dragged;

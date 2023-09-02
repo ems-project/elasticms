@@ -12,8 +12,8 @@
             "order": {
                 "order": "asc",
                 "missing": "_last",
-                "unmapped_type": "long"
-            }
+                "unmapped_type": "long",
+            },
         },
         "size": 100,
         "_source": ['label', 'structure']
@@ -50,6 +50,7 @@
 
         {% for section in sections %}
             <h2 class="h3">{{ section._source.label }}</h2>
+            {% set environments = ['preview','live'] %}
             {{ component('json_menu_nested', {
                 'id': "section-#{section._id}",
                 'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
@@ -59,10 +60,12 @@
                     'locale': locale,
                     'current_path': path(app.request.attributes.get('_route'),
                         app.request.attributes.get('_route_params')|merge({action: 'create'})),
+                    'environments': environments,
+                    'contentTypes': ['page']
                 },
                 'columns': [
                     { 'name': 'content', 'width': 250 },
-                    { 'name': 'status', 'width': 250 },
+                    { 'name': 'status', 'width': 20 + (80 * environments|length) },
                     { 'name': 'structure' },
                 ],
             }) }}
@@ -130,23 +133,23 @@
 {% block jmn_column_content %}Content{% endblock %}
 
 {% block jmn_cell_content %}
-        {% set pages = emsch_search('page', {
+        {% set content = emsch_search(config.context.contentTypes, {
             "query": {
                 "terms": {"menu": [item.id]}
             },
             "size": 2,
         }).hits.hits %}
-        {% if pages|length == 0 %}
+        {% if content|length == 0 %}
             <div class="col-xs-12 text-center">
                 <a href="{{ current_path }}&item_id={{ item.id }}" class="json-post-button btn btn-sm btn-warning">
                     <i class="fa fa-plus"></i>
                     Create {{ item.type }}
                 </a>
             </div>
-        {% elseif pages|length == 1 %}
-            {% set info = "#{pages.0._source._contenttype}:#{pages.0._id}"|emsco_document_info %}
-            {% set contentType = pages.0._source._contenttype|get_content_type %}
-            {% set ouuid = pages.0._id %}
+        {% elseif content|length == 1 %}
+            {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
+            {% set contentType = content.0._source._contenttype|get_content_type %}
+            {% set ouuid = content.0._id %}
             {% set environment = 'preview'|get_environment %}
             <div class="btn-toolbar" role="toolbar" style="margin: 0;">
                 <div class="btn-group">
@@ -155,7 +158,7 @@
                         contentType: contentType,
                         environment: environment,
                         recursiveView: false,
-                        object: pages.0,
+                        object: content.0,
                     }%}
                     {% if info and  is_granted(contentType.roles.edit) %}
                             {% if not  contentType.circlesField or attribute(source, contentType.circlesField) is not defined or attribute(source, contentType.circlesField)|in_my_circles %}
@@ -175,40 +178,44 @@
 {% endblock %}
 
 {% block jmn_column_status %}
-    <div class="container">
+    <div>
         <div class="col-xs-12">Publication status</div>
-        <div class="col-xs-6">Preview</div>
-        <div class="col-xs-6">Live</div>
+        {% for env in config.context.environments %}
+            <div style="width: 80px;float: left">{{ env|get_environment.label }}</div>
+        {% endfor %}
     </div>
 {% endblock %}
 
 {% block jmn_cell_status %}
-    {% set pages = emsch_search('page', {
+    {% set content = emsch_search(config.context.contentTypes, {
         "query": {
             "terms": {"menu": [item.id]}
         },
         "size": 2,
         "_source": ['label']
     }).hits.hits %}
-    {% if pages|length == 1 %}
-        {% set info = "#{pages.0._source._contenttype}:#{pages.0._id}"|emsco_document_info %}
-        <div class="container">
-            <div class="col-xs-6">
-                {% if info.hasDraft %}
-                    <span class="label label-warning col-sm-12">Draft</span>
-                {% else %}
-                    <span class="label label-success col-sm-12">Published</span>
-                {% endif %}
-            </div>
-            <div class="col-xs-6">
-                {% if info.aligned('live') %}
-                    <span class="label label-success col-sm-12">Published</span>
-                {% elseif info.published('live') %}
-                    <span class="label label-warning col-sm-12">Outdated</span>
-                {% else %}
-                    <span class="label label-default col-sm-12">Unavailable</span>
-                {% endif %}
-            </div>
+    {% if content|length == 1 %}
+        {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
+        <div class="">
+            {%  for env in config.context.environments %}
+                <div style="width: 80px;float: left; padding-left: 4px; padding-right: 4px">
+                    {% if info.defaultEnvironment.name == env %}
+                        {% if info.hasDraft %}
+                            <span class="label label-warning col-sm-12">Draft</span>
+                        {% else %}
+                            <span class="label label-success col-sm-12">Published</span>
+                        {% endif %}
+                    {% else %}
+                        {% if info.aligned(env) %}
+                            <span class="label label-success col-sm-12">Published</span>
+                        {% elseif info.published(env) %}
+                            <span class="label label-warning col-sm-12">Outdated</span>
+                        {% else %}
+                            <span class="label label-default col-sm-12">Unavailable</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div>
     {% endif %}
 {% endblock %}

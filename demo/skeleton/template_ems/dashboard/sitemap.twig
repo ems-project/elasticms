@@ -1,7 +1,7 @@
 {%  block ems_body %}
 
     {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
-    {% if app.user.localePreferred|default(null) %}
+    {% if app.user.localePreferred|default(null) and app.user.localePreferred in locales %}
         {% set locales = [app.user.localePreferred]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
     {% endif %}
 

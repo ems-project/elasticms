@@ -19,64 +19,45 @@
         "_source": ['label', 'structure']
     }).hits.hits %}
 
-    {%  set itemId = app.request.query.get('item_id', null) %}
-    {%  if itemId %}
-        {% for section in sections %}
-            {%  for item in section._source.structure|default('{}')|ems_json_menu_nested_decode %}
-                {% if itemId == item.id %}
-                    <div>
-                        Creating {{ item.type }}
-                        {% if attribute(item.object, locale)|default(false) and attribute(item.object, locale).title|default(false) %}
-                            <span>{{ attribute(item.object, locale).title }}</span>
-                        {% else %}
-                            <span class="text-gray">{{ item.label }}</span>
-                        {% endif %}
-                        ...
-                    </div>
-                {% endif %}
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            {% for l in locales %}
+                <li class="{% if l == locale %}active{% endif %}">
+                    <a href="{{ path(app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')|merge({locale: l})) }}">{{ "locale.#{l}"|i18n }}</a>
+                </li>
             {% endfor %}
-        {% endfor %}
-    {% else %}
-        <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                {% for l in locales %}
-                    <li class="{% if l == locale %}active{% endif %}">
-                        <a href="{{ path(app.request.attributes.get('_route'),
-                            app.request.attributes.get('_route_params')|merge({locale: l})) }}">{{ "locale.#{l}"|i18n }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+        </ul>
+    </div>
 
-        {% for section in sections %}
-            <h2 class="h3">{{ section._source.label }}</h2>
-            {% set environments = ['preview','live'] %}
-            {{ component('json_menu_nested', {
-                'id': "section-#{section._id}",
-                'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
-                'field_path': '[structure]',
-                'template': _self,
-                'context': {
-                    'locale': locale,
-                    'current_path': path(app.request.attributes.get('_route'),
-                        app.request.attributes.get('_route_params')|merge({action: 'create'})),
-                    'environments': environments,
-                    'contentTypes': ['page']
-                },
-                'columns': [
-                    { 'name': 'content', 'width': 250 },
-                    { 'name': 'status', 'width': 20 + (80 * environments|length) },
-                    { 'name': 'structure' },
-                ],
-            }) }}
-        {% endfor %}
-    {% endif %}
+    {% for section in sections %}
+        <h2 class="h3">{{ section._source.label }}</h2>
+        {% set environments = ['preview','live'] %}
+        {{ component('json_menu_nested', {
+            'id': "section-#{section._id}",
+            'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
+            'field_path': '[structure]',
+            'template': _self,
+            'context': {
+                'locale': locale,
+                'current_path': path(app.request.attributes.get('_route'),
+                    app.request.attributes.get('_route_params')|merge({action: 'create'})),
+                'environments': environments,
+                'contentTypes': ['page']
+            },
+            'columns': [
+                { 'name': 'content', 'width': 250 },
+                { 'name': 'status', 'width': 20 + (80 * environments|length) },
+                { 'name': 'structure' },
+            ],
+        }) }}
+    {% endfor %}
 {%  endblock ems_body %}
 
 {%- block jmn_menu_add -%}
     <ul class="dropdown-menu pull-right">
         <li>
-            <button class="ems-demo-add" data-modal-size="md">
+            <button class="ems-add-existing-page" data-modal-size="md">
                 <i class="fa fa-sign-in"></i>
                 Existing content
             </button>

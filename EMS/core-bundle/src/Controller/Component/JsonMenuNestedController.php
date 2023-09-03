@@ -86,7 +86,9 @@ class JsonMenuNestedController
                 return JsonResponse::fromJsonString(AjaxModalResponse::success([
                     'load' => $parent->isRoot() ? null : $itemId,
                     'item' => $item->getId(),
-                    'object' => $object,
+                    'type' => $item->getType(),
+                    'label' => $item->getLabel(),
+                    'object' => $item->getObject(),
                 ]));
             }
 

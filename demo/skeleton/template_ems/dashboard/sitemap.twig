@@ -87,48 +87,6 @@
     </ul>
 {%- endblock jmn_menu_add -%}
 
-{%  block ems_footer %}
-    {% set sections = emsch_search('section', {
-        "sort": {
-            "order": {
-                "order": "asc",
-                "missing": "_last",
-                "unmapped_type": "long"
-            }
-        },
-        "size": 100,
-        "_source": ['label', 'structure']
-    }).hits.hits %}
-
-    {%  set itemId = app.request.query.get('item_id', null) %}
-    {%  if itemId %}
-        {% for section in sections %}
-            {%  for item in section._source.structure|default('{}')|ems_json_menu_nested_decode %}
-                {% if itemId == item.id %}
-                    <script>
-                        var xhr = new XMLHttpRequest();
-                        var url = '{{ path('emsco_interface_document_create', { interface: 'json', name: item.type })|e('js') }}';
-                        var redirect = '{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('js') }}';
-                        xhr.open("POST", url, true);
-                        xhr.setRequestHeader("Content-Type", "application/json");
-                        xhr.onreadystatechange = function () {
-                            if (xhr.readyState === 4 && xhr.status === 200) {
-                                var json = JSON.parse(xhr.responseText);
-                                document.location = redirect.replace('__revisionId__', json.revision_id);
-                            }
-                        };
-                        var data = "{{ {
-                            label: item.label,
-                            menu : item.id,
-                        }|merge(item.object)|json_encode|e('js') }}";
-                        xhr.send(data);
-                    </script>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
-    {% endif %}
-{%  endblock ems_footer %}
-
 {%- block jmn_cell_title -%}
     {% if item.hasChildren %}
         <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in loadParents ? 'true' : 'false' -}}"></button>
@@ -155,10 +113,10 @@
         }).hits.hits %}
         {% if content|length == 0 %}
             <div class="btn-group">
-                <a href="{{ current_path }}&item_id={{ item.id }}" class="json-post-button btn btn-sm btn-warning">
+                <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-warning new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
                     <i class="fa fa-plus"></i>
                     New {{ item.type }}
-                </a>
+                </button>
                 <button class="btn btn-sm btn-warning attach-content" data-item-id="{{ item.id }}" data-item-type="{{ item.type }}">
                     <i class="fa fa-sign-in"></i>
                     Existing content
@@ -237,3 +195,65 @@
         </div>
     {% endif %}
 {% endblock %}
+
+{%  block ems_footer %}
+    <script>
+        var keepLoading = false;
+        function newPage(contentType, menu, object)
+        {
+            var xhr = new XMLHttpRequest();
+            var url = '{{ path('emsco_interface_document_create', { interface: 'json', name: '__contentType__' })|e('js') }}'.replace('__contentType__', contentType);
+            var redirect = '{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('js') }}';
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var json = JSON.parse(xhr.responseText);
+                    document.location = redirect.replace('__revisionId__', json.revision_id);
+                }
+            };
+            // var data = object;
+            var data = Object.assign({}, object);
+            data.menu = menu;
+            xhr.send(JSON.stringify(data));
+        }
+
+        function newBtnClick()
+        {
+            newPage(this.dataset.type, this.dataset.id, JSON.parse(this.dataset.object));
+        }
+
+        function jmnAdd(event)
+        {
+            keepLoading = true;
+            setTimeout(function () {
+                newPage(event.detail.data.type, event.detail.data.item, event.detail.data.object);
+            }, 3000);
+        }
+
+        function jmnLoad(event)
+        {
+            if (keepLoading) {
+                event.detail.jnm.loading(true);
+            }
+            for(var i = 0; i < event.detail.elements.length; i++) {
+                (function(index) {
+                    var newButton = event.detail.elements[index].getElementsByClassName('new-button');
+                    for(var i = 0; i < newButton.length; i++) {
+                        (function(index) {
+                            newButton[index].addEventListener("click", newBtnClick)
+                        })(i);
+                    }
+                })(i);
+            }
+        }
+
+        var jvmTrees = document.getElementsByClassName('json-menu-nested-component');
+        for(var i = 0; i < jvmTrees.length; i++) {
+            (function(index) {
+                jvmTrees[index].addEventListener("jmn-load", jmnLoad)
+                jvmTrees[index].addEventListener("jmn-add", jmnAdd)
+            })(i);
+        }
+    </script>
+{%  endblock ems_footer %}

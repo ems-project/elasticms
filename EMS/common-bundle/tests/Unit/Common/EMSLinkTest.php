@@ -36,12 +36,6 @@ class EMSLinkTest extends TestCase
         $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
     }
 
-    public function testFromMatchWithoutOuuidShouldInvalidArgumentException()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        EMSLink::fromMatch([]);
-    }
-
     public function testFromDocument(): void
     {
         $document = [
@@ -69,5 +63,29 @@ class EMSLinkTest extends TestCase
     {
         $link = EMSLink::fromText('ems://object:page:AWTLzKLc8K-kdP4iJ3rt');
         $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', $link->jsonSerialize());
+    }
+
+    public function testFromMatchException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ouuid is required!');
+
+        $match = [
+            'link_type' => 'object',
+            'content_type' => 'contentType',
+        ];
+        EMSLink::fromMatch($match);
+    }
+
+    public function testFromDocumentExceptionMissingContentType(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Unable to determine the content type for document');
+
+        $document = [
+            '_id' => 'ouuid123',
+            '_source' => [],
+        ];
+        EMSLink::fromDocument($document);
     }
 }

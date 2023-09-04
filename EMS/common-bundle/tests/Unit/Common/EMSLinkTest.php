@@ -3,7 +3,6 @@
 namespace EMS\CommonBundle\Tests\Unit\Common;
 
 use EMS\CommonBundle\Common\EMSLink;
-use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use PHPUnit\Framework\TestCase;
 
 class EMSLinkTest extends TestCase
@@ -48,7 +47,7 @@ class EMSLinkTest extends TestCase
         $document = [
             '_id' => 'AWTLzKLc8K-kdP4iJ3rt',
             '_source' => [
-                EMSSource::FIELD_CONTENT_TYPE => 'page',
+                '_contenttype' => 'page',
             ],
         ];
         $link = EMSLink::fromDocument($document);

@@ -31,7 +31,7 @@ class EMSLinkTest extends TestCase
         $match = [
             'ouuid' => 'AWTLzKLc8K-kdP4iJ3rt',
             'link_type' => 'object',
-            'content_type' => 'page'
+            'content_type' => 'page',
         ];
         $link = EMSLink::fromMatch($match);
         $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
@@ -48,7 +48,7 @@ class EMSLinkTest extends TestCase
         $document = [
             '_id' => 'AWTLzKLc8K-kdP4iJ3rt',
             '_source' => [
-                EMSSource::FIELD_CONTENT_TYPE => 'page'
+                EMSSource::FIELD_CONTENT_TYPE => 'page',
             ]
         ];
         $link = EMSLink::fromDocument($document);

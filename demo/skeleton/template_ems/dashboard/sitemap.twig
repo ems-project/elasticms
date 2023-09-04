@@ -1,61 +1,54 @@
 {%  block ems_body %}
-
     {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
     {% if app.user.localePreferred|default(null) and app.user.localePreferred in locales %}
         {% set locales = [app.user.localePreferred]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
     {% endif %}
-
     {%  set locale = app.request.query.get('locale', locales|first) %}
 
-    {% if app.request.query.get('open-modal', false)  %}
-        //TODO
-    {%  else %}
-        {% set sections = emsch_search('section', {
-            "sort": {
-                "order": {
-                    "order": "asc",
-                    "missing": "_last",
-                    "unmapped_type": "long",
-                },
-            },
-            "size": 100,
-            "_source": ['label', 'structure']
-        }).hits.hits %}
+    {% set sections = emsch_search('section', {
+        "_source": ['label', 'structure'],
+        "size": 100,
+        "sort": { "order": { "order": "asc", "missing": "_last", "unmapped_type": "long" } }
+    }).hits.hits %}
 
-        <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                {% for l in locales %}
-                    <li class="{% if l == locale %}active{% endif %}">
-                        <a href="{{ path(app.request.attributes.get('_route'),
-                            app.request.attributes.get('_route_params')|merge({locale: l})) }}">{{ "locale.#{l}"|i18n }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            {% for l in locales %}
+                <li class="{{ html_classes({ 'active': l == locale }) }}">
+                    <a href="{{ path(app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')|merge({locale: l})) }}">{{ "locale.#{l}"|i18n }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+       <div class="tab-content">
+            {% for l in locales %}
+                <div class="{{ html_classes('tab-pane', { 'active': l == locale }) }}" id="tab-{{ l}}">
+                    {% for section in sections %}
+                        <h2 class="h3">{{ section._source.label }}</h2>
+                        {% set environments = ['preview','live'] %}
+                        {{ component('json_menu_nested', {
+                            'id': "section-#{section._id}",
+                            'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
+                            'field_path': '[structure]',
+                            'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
+                            'context': {
+                                'locale': locale,
+                                'current_path': path(app.request.attributes.get('_route'),
+                                    app.request.attributes.get('_route_params')|merge({action: 'create'})),
+                                'environments': environments,
+                                'contentTypes': ['page']
+                            },
+                            'columns': [
+                                { 'name': 'content', 'width': 250 },
+                                { 'name': 'status', 'width': 20 + (80 * environments|length) },
+                                { 'name': 'structure' },
+                            ],
+                        }) }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
-
-        {% for section in sections %}
-            <h2 class="h3">{{ section._source.label }}</h2>
-            {% set environments = ['preview','live'] %}
-            {{ component('json_menu_nested', {
-                'id': "section-#{section._id}",
-                'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
-                'field_path': '[structure]',
-                'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
-                'context': {
-                    'locale': locale,
-                    'current_path': path(app.request.attributes.get('_route'),
-                        app.request.attributes.get('_route_params')|merge({action: 'create'})),
-                    'environments': environments,
-                    'contentTypes': ['page']
-                },
-                'columns': [
-                    { 'name': 'content', 'width': 250 },
-                    { 'name': 'status', 'width': 20 + (80 * environments|length) },
-                    { 'name': 'structure' },
-                ],
-            }) }}
-        {% endfor %}
-    {% endif %}
+    </div>
 {%  endblock ems_body %}
 
 {%  block ems_footer %}

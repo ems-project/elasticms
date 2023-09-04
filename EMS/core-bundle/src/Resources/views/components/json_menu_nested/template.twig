@@ -8,11 +8,18 @@
 
 {%- block jmn_layout_top -%}
     <div class="jmn-top">
-        <div class="text-right">{{ template.block('jmn_button_menu_add', _context)|raw }}</div>
+        {{ template.block('jmn_title', _context)|raw }}
+        {{ template.block('jmn_actions', _context)|raw }}
     </div>
 {%- endblock jmn_layout_top -%}
 
 {%- block jmn_layout_footer -%}{% endblock jmn_layout_footer %}
+
+{%- block jmn_title -%}{%- endblock jmn_title -%}
+
+{%- block jmn_actions -%}
+    {{ template.block('jmn_button_menu_add', _context)|raw }}
+{%- endblock jmn_actions -%}
 
 {%- block _jmn_columns  -%}
     <div class="jmn-header">

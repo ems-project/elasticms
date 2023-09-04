@@ -24,6 +24,12 @@
         font-size: 1em;
     }
 
+    .jmn-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
     .jmn-wrapper {
         position: relative;
         display: inline-table;

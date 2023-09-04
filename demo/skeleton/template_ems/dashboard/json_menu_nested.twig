@@ -1,5 +1,9 @@
 {% extends '@EMSCore/components/json_menu_nested/template.twig' %}
 
+{%- block jmn_title -%}
+    <h2 class="h4">{{ sectionLabel }}</h2>
+{%- endblock -%}
+
 {%- block jmn_menu_add -%}
     <ul class="dropdown-menu pull-right">
         <li>

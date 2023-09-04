@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.9.1 (2023-09-04)
+### Bug Fixes
+* fix: edit dashboard by @theus77 in https://github.com/ems-project/elasticms/pull/591
+### Chores
+* chore(demo): implement json_menu_nested component (dashboard) by @theus77 in https://github.com/ems-project/elasticms/pull/592
+
 ## 5.9.0 (2023-08-27)
 ### Features
 * feat(admin/ui): bootstrap 5 user profile and forms by @theus77 in https://github.com/ems-project/elasticms/pull/539

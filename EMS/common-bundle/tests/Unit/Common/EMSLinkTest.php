@@ -3,29 +3,38 @@
 namespace EMS\CommonBundle\Tests\Unit\Common;
 
 use EMS\CommonBundle\Common\EMSLink;
-use EMS\Helpers\Standard\Json;
+use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use PHPUnit\Framework\TestCase;
 
 class EMSLinkTest extends TestCase
 {
-    public function testFromTextWithEmsObjectTypeAndOuuid()
+    public function testFromContentTypeOuuid(): void
     {
-        $link = EMSLink::fromText('ems://object:page:AWTLzKLc8K-kdP4iJ3rt');
-
-        static::assertSame('AWTLzKLc8K-kdP4iJ3rt', $link->getOuuid());
-        static::assertSame('page', $link->getContentType());
-        static::assertSame('object', $link->getLinkType());
-        static::assertSame('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
+        $link = EMSLink::fromContentTypeOuuid('page', 'AWTLzKLc8K-kdP4iJ3rt');
+        $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
     }
 
-    public function testFromTextWithoutEMSObjectTypeAndWithOuuid()
+    public function testIsValid(): void
     {
-        $link = EMSLink::fromText('AWTLzKLc8K-kdP4iJ3rt');
+        $link = EMSLink::fromContentTypeOuuid('page', 'AWTLzKLc8K-kdP4iJ3rt');
+        $this->assertTrue($link->isValid());
+    }
 
-        static::assertSame('AWTLzKLc8K-kdP4iJ3rt', $link->getOuuid());
-        static::assertSame('object', $link->getLinkType());
-        static::assertFalse($link->hasContentType());
-        static::assertSame('ems://object:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
+    public function testFromText(): void
+    {
+        $link = EMSLink::fromText('ems://object:page:AWTLzKLc8K-kdP4iJ3rt');
+        $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
+    }
+
+    public function testFromMatch(): void
+    {
+        $match = [
+            'ouuid' => 'AWTLzKLc8K-kdP4iJ3rt',
+            'link_type' => 'object',
+            'content_type' => 'page'
+        ];
+        $link = EMSLink::fromMatch($match);
+        $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
     }
 
     public function testFromMatchWithoutOuuidShouldInvalidArgumentException()
@@ -34,12 +43,32 @@ class EMSLinkTest extends TestCase
         EMSLink::fromMatch([]);
     }
 
-    public function testJsonSerialize()
+    public function testFromDocument(): void
     {
-        $link = EMSLink::fromText('page:AWTLzKLc8K-kdP4iJ3rt');
+        $document = [
+            '_id' => 'AWTLzKLc8K-kdP4iJ3rt',
+            '_source' => [
+                EMSSource::FIELD_CONTENT_TYPE => 'page'
+            ]
+        ];
+        $link = EMSLink::fromDocument($document);
+        $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);
+    }
 
-        $encoded = Json::encode(['link' => $link]);
-        $this->assertEquals('{"link":"ems:\/\/object:page:AWTLzKLc8K-kdP4iJ3rt"}', $encoded);
-        $this->assertEquals(['link' => 'ems://object:page:AWTLzKLc8K-kdP4iJ3rt'], Json::decode($encoded));
+    public function testGetters(): void
+    {
+        $link = EMSLink::fromText('ems://object:page:AWTLzKLc8K-kdP4iJ3rt');
+        $this->assertEquals('object', $link->getLinkType());
+        $this->assertEquals('page', $link->getContentType());
+        $this->assertEquals('AWTLzKLc8K-kdP4iJ3rt', $link->getOuuid());
+        $this->assertEquals([], $link->getQuery());
+        $this->assertTrue($link->hasContentType());
+        $this->assertEquals('page:AWTLzKLc8K-kdP4iJ3rt', $link->getEmsId());
+    }
+
+    public function testJsonSerialize(): void
+    {
+        $link = EMSLink::fromText('ems://object:page:AWTLzKLc8K-kdP4iJ3rt');
+        $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', $link->jsonSerialize());
     }
 }

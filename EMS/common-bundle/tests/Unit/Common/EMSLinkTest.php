@@ -49,7 +49,7 @@ class EMSLinkTest extends TestCase
             '_id' => 'AWTLzKLc8K-kdP4iJ3rt',
             '_source' => [
                 EMSSource::FIELD_CONTENT_TYPE => 'page',
-            ]
+            ],
         ];
         $link = EMSLink::fromDocument($document);
         $this->assertEquals('ems://object:page:AWTLzKLc8K-kdP4iJ3rt', (string) $link);

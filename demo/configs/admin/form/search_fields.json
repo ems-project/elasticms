@@ -92,7 +92,7 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": "{% if finalize and rootObject['fr']['title'] %}\r\n    {{ rootObject['fr']['title']|json_encode|raw }}\r\n{% elseif finalize and rootObject._sync_metadata[\"title_fr\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"title_fr\"]|json_encode|raw }}\r\n{% endif %}"
+                                                "postProcessing": "{% if finalize and rootObject['fr']['title'] is defined  %}\r\n    {{ rootObject['fr']['title']|json_encode|raw }}\r\n{% elseif finalize and rootObject._sync_metadata[\"title_fr\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"title_fr\"]|json_encode|raw }}\r\n{% endif %}"
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {
@@ -167,7 +167,7 @@
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
-                                                "postProcessing": "{% if finalize and rootObject['nl']['title'] %}\r\n    {{ rootObject['nl']['title']|json_encode|raw }}\r\n{% elseif finalize and rootObject._sync_metadata[\"title_nl\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"title_nl\"]|json_encode|raw }}\r\n{% endif %}"
+                                                "postProcessing": "{% if finalize and rootObject['nl']['title'] is defined  %}\r\n    {{ rootObject['nl']['title']|json_encode|raw }}\r\n{% elseif finalize and rootObject._sync_metadata[\"title_nl\"] is defined %}\r\n    {{ rootObject._sync_metadata[\"title_nl\"]|json_encode|raw }}\r\n{% endif %}"
                                             },
                                             "raw_data": [],
                                             "migrationOptions": {

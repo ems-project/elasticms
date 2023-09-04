@@ -5,15 +5,15 @@ aria:
     skip-to-content: 'Ga onmiddellijk naar de inhoud'
     toggle-navbar: 'Toon navigatie'
 block:
-  release:
-    title: 'Release %version%'
-  grid:
+    grid:
         see_also: 'Zie ook'
+    release:
+        title: 'Release %version%'
 blog:
     filter: Filters
-    title: 'What’s new?'
     grid:
-        title: 'News'
+        title: News
+    title: 'What’s new?'
 breadcrumb:
     back-to: 'Terug naar  %title%'
     homepage: homepagina
@@ -58,6 +58,15 @@ month:
     September: September
 navbar:
     swith-to-locale: Nederlands
+release:
+    search:
+        choose_category: 'Kies een categorie'
+        filters_title: Filter
+        label: Trefwoorden
+        placeholder: Trefwoorden
+        remove_tag: 'Verwijder het filter'
+        selected_categories: 'Geselecteerde categories'
+        submit: Zoeken
 site:
     copy: 'Copyright %year%'
     lead: 'Een CMS op maat voor de openbare sector'
@@ -71,12 +80,3 @@ usergroup:
     team-meeting: Duur
     title: 'Volgende sessie'
     topic: Onderwerpen
-release:
-    search:
-        filters_title: 'Filter'
-        choose_category: 'Kies een categorie'
-        remove_tag: 'Verwijder het filter'
-        selected_categories: 'Geselecteerde categories'
-        placeholder: 'Trefwoorden'
-        label: 'Trefwoorden'
-        submit: 'Zoeken'

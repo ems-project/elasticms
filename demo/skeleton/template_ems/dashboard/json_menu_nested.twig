@@ -6,15 +6,15 @@
 
 {%- block jmn_menu_add -%}
     <ul class="dropdown-menu pull-right">
+        {% for addNode in addNodes %}
+            <li>{{ template.block('jmn_button_item_add', _context)|raw }}</li>
+        {% endfor %}
         <li>
             <button class="ems-add-existing-page" data-modal-size="md">
                 <i class="fa fa-sign-in"></i>
                 Existing content
             </button>
         </li>
-        {% for addNode in addNodes %}
-            <li>{{ template.block('jmn_button_item_add', _context)|raw }}</li>
-        {% endfor %}
     </ul>
 {%- endblock jmn_menu_add -%}
 
@@ -95,34 +95,28 @@
 
 {% block jmn_cell_status %}
     {% set content = emsch_search(config.context.contentTypes, {
-        "query": {
-            "terms": {"menu": [item.id]}
-        },
+        "query": { "terms": {"menu": [item.id]} },
         "size": 2,
         "_source": ['label']
     }).hits.hits %}
     {% if content|length == 1 %}
         {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
-        <div class="">
-            {%  for env in config.context.environments %}
-                <div style="width: 80px;float: left; padding-left: 4px; padding-right: 4px">
-                    {% if info.defaultEnvironment.name == env %}
-                        {% if info.hasDraft %}
-                            <span class="label label-warning col-sm-12">Draft</span>
-                        {% else %}
-                            <span class="label label-success col-sm-12">Published</span>
-                        {% endif %}
-                    {% else %}
-                        {% if info.aligned(env) %}
-                            <span class="label label-success col-sm-12">Published</span>
-                        {% elseif info.published(env) %}
-                            <span class="label label-warning col-sm-12">Outdated</span>
-                        {% else %}
-                            <span class="label label-default col-sm-12">Unavailable</span>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
+        {% for env in config.context.environments %}
+            {% if info.defaultEnvironment.name == env %}
+                {% if info.hasDraft %}
+                    <span class="jmn-badge label label-warning col-sm-12">Draft</span>
+                {% else %}
+                    <span class="jmn-badge label label-success col-sm-12">Published</span>
+                {% endif %}
+            {% else %}
+                {% if info.aligned(env) %}
+                    <span class="jmn-badge label label-success col-sm-12">Published</span>
+                {% elseif info.published(env) %}
+                    <span class="jmn-badge label label-warning col-sm-12">Outdated</span>
+                {% else %}
+                    <span class="jmn-badge label label-default col-sm-12">Unavailable</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
     {% endif %}
 {% endblock %}

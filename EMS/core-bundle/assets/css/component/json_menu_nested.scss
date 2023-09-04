@@ -101,7 +101,7 @@
     }
     .jmn-cell {
         justify-content: flex-end;
-        align-items: flex-start;
+        align-items: center;
         gap: var(--jmn-gap);
     }
 
@@ -146,6 +146,11 @@
         border: none;
         &[aria-expanded="true"]::after { @include icon("\f077"); }
         &[aria-expanded="false"]::after { @include icon("\f078"); }
+    }
+    .jmn-badge {
+        padding: 5px 10px;
+        border-radius: 10px;
+        line-height: normal;
     }
 }
 

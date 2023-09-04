@@ -7,51 +7,55 @@
 
     {%  set locale = app.request.query.get('locale', locales|first) %}
 
-    {% set sections = emsch_search('section', {
-        "sort": {
-            "order": {
-                "order": "asc",
-                "missing": "_last",
-                "unmapped_type": "long",
+    {% if app.request.query.get('open-modal', false)  %}
+        //TODO
+    {%  else %}
+        {% set sections = emsch_search('section', {
+            "sort": {
+                "order": {
+                    "order": "asc",
+                    "missing": "_last",
+                    "unmapped_type": "long",
+                },
             },
-        },
-        "size": 100,
-        "_source": ['label', 'structure']
-    }).hits.hits %}
+            "size": 100,
+            "_source": ['label', 'structure']
+        }).hits.hits %}
 
-    <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
-            {% for l in locales %}
-                <li class="{% if l == locale %}active{% endif %}">
-                    <a href="{{ path(app.request.attributes.get('_route'),
-                        app.request.attributes.get('_route_params')|merge({locale: l})) }}">{{ "locale.#{l}"|i18n }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                {% for l in locales %}
+                    <li class="{% if l == locale %}active{% endif %}">
+                        <a href="{{ path(app.request.attributes.get('_route'),
+                            app.request.attributes.get('_route_params')|merge({locale: l})) }}">{{ "locale.#{l}"|i18n }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    {% for section in sections %}
-        <h2 class="h3">{{ section._source.label }}</h2>
-        {% set environments = ['preview','live'] %}
-        {{ component('json_menu_nested', {
-            'id': "section-#{section._id}",
-            'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
-            'field_path': '[structure]',
-            'template': _self,
-            'context': {
-                'locale': locale,
-                'current_path': path(app.request.attributes.get('_route'),
-                    app.request.attributes.get('_route_params')|merge({action: 'create'})),
-                'environments': environments,
-                'contentTypes': ['page']
-            },
-            'columns': [
-                { 'name': 'content', 'width': 250 },
-                { 'name': 'status', 'width': 20 + (80 * environments|length) },
-                { 'name': 'structure' },
-            ],
-        }) }}
-    {% endfor %}
+        {% for section in sections %}
+            <h2 class="h3">{{ section._source.label }}</h2>
+            {% set environments = ['preview','live'] %}
+            {{ component('json_menu_nested', {
+                'id': "section-#{section._id}",
+                'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
+                'field_path': '[structure]',
+                'template': _self,
+                'context': {
+                    'locale': locale,
+                    'current_path': path(app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')|merge({action: 'create'})),
+                    'environments': environments,
+                    'contentTypes': ['page']
+                },
+                'columns': [
+                    { 'name': 'content', 'width': 250 },
+                    { 'name': 'status', 'width': 20 + (80 * environments|length) },
+                    { 'name': 'structure' },
+                ],
+            }) }}
+        {% endfor %}
+    {% endif %}
 {%  endblock ems_body %}
 
 {%- block jmn_menu_add -%}
@@ -129,7 +133,7 @@
             </div>
         {% else %}
             <div class="col-xs-12 text-center">
-                Error: multiple page are attached to this item
+                Error: multiple pages are attached to this item
             </div>
         {% endif %}
 {% endblock %}
@@ -193,7 +197,6 @@
                     document.location = redirect.replace('__revisionId__', json.revision_id);
                 }
             };
-            // var data = object;
             var data = Object.assign({}, object);
             data.menu = menu;
             xhr.send(JSON.stringify(data));

@@ -46,6 +46,7 @@ module.exports = (env, argv) => {
             path: path.resolve(__dirname, 'src/Resources/public'),
             filename: 'js/[name].[contenthash].js',
         },
+        devtool: 'source-map',
         module: {
             rules: [
                 {

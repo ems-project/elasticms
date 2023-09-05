@@ -623,6 +623,13 @@ body:not(.layout-fixed) {
     .text-sm & {
       font-size: 1.5rem;
     }
+
+    small {
+      color: lighten($body-color, 25);
+      font-weight: normal;
+      margin-left: .5em;
+      font-size: 1.1rem;
+    }
   }
 
   .breadcrumb {

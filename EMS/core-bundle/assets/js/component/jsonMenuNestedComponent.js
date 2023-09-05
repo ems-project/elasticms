@@ -45,15 +45,12 @@ export default class JsonMenuNestedComponent {
         return this._post(`/item/${itemId}/add`, { 'position': position, 'add': add });
     }
     itemDelete(nodeId) {
-        const promise = this._post(`/item/${nodeId}/delete`);
-        const self = this;
-        promise.then(() => {
-            self.#element.dispatchEvent(new CustomEvent('jmn-delete', {detail: {
-                jnm: self,
+        return this._post(`/item/${nodeId}/delete`).then(() => {
+            this.#element.dispatchEvent(new CustomEvent('jmn-delete', {detail: {
+                jnm: this,
                 nodeId: nodeId,
             }}));
-        })
-        return promise;
+        });
     }
     loading(flag) {
         const element = this.#element.querySelector('.jmn-node-loading');

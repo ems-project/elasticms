@@ -77,8 +77,12 @@
     {% if node.icon %}
         <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
     {% endif %}
-    <span>{{ item.label }}</span>
+    {{ template.block('jmn_item_title', _context)|raw }}
 {%- endblock jmn_cell_title -%}
+
+{%- block jmn_item_title -%}
+    <span>{{ item.label }}</span>
+{%- endblock jmn_item_title -%}
 
 {%- block jmn_cell_structure -%}
     {{ template.block('jmn_button_menu_add', _context)|raw }}
@@ -87,25 +91,30 @@
 {%- endblock jmn_cell_structure -%}
 
 {%- block jmn_button_item_edit -%}
-    <button class="jmn-btn-edit" data-modal-size="md">Edit</button>
+    {% set buttonLabel = buttonLabel|default('Edit') %}
+    <button class="jmn-btn-edit" data-modal-size="md">{{ buttonLabel }}</button>
 {%- endblock jmn_button_item_edit -%}
 
 {%- block jmn_button_item_delete -%}
-    <button class="jmn-btn-delete">Delete</button>
+    {% set buttonLabel = buttonLabel|default('Delete') %}
+    <button class="jmn-btn-delete">{{ buttonLabel }}</button>
 {%- endblock jmn_button_item_delete -%}
 
 {%- block jmn_button_item_move -%}
-    <button class="btn btn-sm btn-default jmn-btn-move">Move</button>
+    {% set buttonLabel = buttonLabel|default('Move') %}
+    <button class="btn btn-sm btn-default jmn-btn-move">{{ buttonLabel }}</button>
 {%- endblock jmn_button_item_move -%}
 
 {%- block jmn_button_item_view -%}
+    {% set buttonLabel = buttonLabel|default('View') %}
     <button class="jmn-btn-view" data-modal-size="md">View</button>
 {%- endblock jmn_button_item_view -%}
 
 {%- block jmn_button_item_add -%}
+    {% set buttonLabel = buttonLabel|default("New #{addNode.type}") %}
     <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="md">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
-        New {{ addNode.type|capitalize }}
+        {{ buttonLabel }}
     </button>
 {%- endblock jmn_button_item_add -%}
 
@@ -118,7 +127,10 @@
 {%- endblock jmn_menu_add -%}
 
 {%- block jmn_button_add -%}
-    <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown jmn-dropdown-add" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add</button>
+    {% set buttonLabel = buttonLabel|default('Add') %}
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown jmn-dropdown-add" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ buttonLabel }}
+    </button>
 {%- endblock jmn_button_add -%}
 
 {%- block jmn_button_menu_add -%}

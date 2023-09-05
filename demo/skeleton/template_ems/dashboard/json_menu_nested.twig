@@ -18,20 +18,23 @@
     </ul>
 {%- endblock jmn_menu_add -%}
 
-{%- block jmn_cell_title -%}
-    {% if item.hasChildren %}
-        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in loadParents ? 'true' : 'false' -}}"></button>
-    {% endif %}
-    {% if node.icon %}
-        <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
-    {% endif %}
+{%- block jmn_button_item_delete -%}
+    {% set buttonLabel = 'Detach' %}
+    {{ parent() }}
+{%- endblock -%}
 
+{%- block jmn_button_item_add -%}
+    {% set buttonLabel = buttonLabel|default("Create #{addNode.type}") %}
+    {{ parent() }}
+{%- endblock -%}
+
+{%- block jmn_item_title -%}
     {% if attribute(item.object, locale)|default(false) and attribute(item.object, locale).title|default(false) %}
         <span>{{ attribute(item.object, locale).title }}</span>
     {% else %}
         <span class="text-gray">{{ item.label }}</span>
     {% endif %}
-{%- endblock jmn_cell_title -%}
+{%- endblock jmn_item_title -%}
 
 {% block jmn_column_content %}Content{% endblock %}
 

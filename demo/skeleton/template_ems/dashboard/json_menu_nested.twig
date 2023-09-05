@@ -45,10 +45,6 @@
             <i class="fa fa-plus"></i>
             New {{ item.type }}
         </button>
-        <button class="btn btn-sm btn-warning attach-content" data-item-id="{{ item.id }}" data-item-type="{{ item.type }}">
-            <i class="fa fa-sign-in"></i>
-            Existing content
-        </button>
     {% elseif content|length == 1 %}
         {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
         {% set contentType = content.0._source._contenttype|get_content_type %}

@@ -37,46 +37,38 @@
 
 {% block jmn_cell_content %}
     {% set content = emsch_search(config.context.contentTypes, {
-        "query": {
-            "terms": {"menu": [item.id]}
-        },
+        "query": { "terms": {"menu": [item.id]} },
         "size": 2,
     }).hits.hits %}
     {% if content|length == 0 %}
-        <div class="btn-group">
-            <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-warning new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
-                <i class="fa fa-plus"></i>
-                New {{ item.type }}
-            </button>
-            <button class="btn btn-sm btn-warning attach-content" data-item-id="{{ item.id }}" data-item-type="{{ item.type }}">
-                <i class="fa fa-sign-in"></i>
-                Existing content
-            </button>
-        </div>
+        <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-warning new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
+            <i class="fa fa-plus"></i>
+            New {{ item.type }}
+        </button>
+        <button class="btn btn-sm btn-warning attach-content" data-item-id="{{ item.id }}" data-item-type="{{ item.type }}">
+            <i class="fa fa-sign-in"></i>
+            Existing content
+        </button>
     {% elseif content|length == 1 %}
         {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
         {% set contentType = content.0._source._contenttype|get_content_type %}
         {% set ouuid = content.0._id %}
         {% set environment = 'preview'|get_environment %}
-        <div class="btn-toolbar" role="toolbar" style="margin: 0;">
-            <div class="btn-group">
-                {% include '@EMSCore/elements/object-views-button.html.twig' with {
-                    ouuid:  ouuid,
-                    contentType: contentType,
-                    environment: environment,
-                    recursiveView: false,
-                    object: content.0,
-                }%}
-                {% if info and  is_granted(contentType.roles.edit) %}
-                    {% if not  contentType.circlesField or attribute(source, contentType.circlesField) is not defined or attribute(source, contentType.circlesField)|in_my_circles %}
-                        {% include '@EMSCore/elements/post-button.html.twig' with {
-                            'url': path('revision.new-draft', {'ouuid': ouuid, 'type': contentType.name}),
-                            'label': 'Edit',
-                            'icon': 'pencil' }%}
-                    {% endif %}
-                {% endif %}
-            </div>
-        </div>
+        {% include '@EMSCore/elements/object-views-button.html.twig' with {
+            ouuid:  ouuid,
+            contentType: contentType,
+            environment: environment,
+            recursiveView: false,
+            object: content.0,
+        }%}
+        {% if info and  is_granted(contentType.roles.edit) %}
+            {% if not  contentType.circlesField or attribute(source, contentType.circlesField) is not defined or attribute(source, contentType.circlesField)|in_my_circles %}
+                {% include '@EMSCore/elements/post-button.html.twig' with {
+                    'url': path('revision.new-draft', {'ouuid': ouuid, 'type': contentType.name}),
+                    'label': 'Edit',
+                    'icon': 'pencil' }%}
+            {% endif %}
+        {% endif %}
     {% else %}
         <div class="col-xs-12 text-center">
             Error: multiple pages are attached to this item

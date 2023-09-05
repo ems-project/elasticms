@@ -34,8 +34,6 @@
                         'context': {
                             'sectionLabel': section._source.label,
                             'locale': locale,
-                            'current_path': path(app.request.attributes.get('_route'),
-                                app.request.attributes.get('_route_params')|merge({action: 'create'})),
                             'environments': environments,
                             'contentTypes': ['page']
                         },

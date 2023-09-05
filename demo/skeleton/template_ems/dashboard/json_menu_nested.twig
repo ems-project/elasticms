@@ -4,19 +4,14 @@
     <h2 class="h4">{{ sectionLabel }}</h2>
 {%- endblock -%}
 
-{%- block jmn_menu_add -%}
-    <ul class="dropdown-menu pull-right">
-        {% for addNode in addNodes %}
-            <li>{{ template.block('jmn_button_item_add', _context)|raw }}</li>
-        {% endfor %}
-        <li>
-            <button class="ems-add-existing-page" data-modal-size="md">
-                <i class="fa fa-sign-in"></i>
-                Existing content
-            </button>
-        </li>
-    </ul>
-{%- endblock jmn_menu_add -%}
+{%- block jmn_button_add_menu -%}
+    {{ parent() }}
+    <li>
+        <button class="ems-add-existing-page" data-modal-size="md">
+            <i class="fa fa-sign-in"></i>Existing content
+        </button>
+    </li>
+{%- endblock jmn_button_add_menu -%}
 
 {%- block jmn_button_item_delete -%}
     {% set buttonLabel = 'Detach' %}
@@ -39,12 +34,12 @@
 {% block jmn_column_content %}Content{% endblock %}
 
 {% block jmn_cell_content %}
-    {% set content = emsch_search(config.context.contentTypes, {
+    {% set content = emsch_search(contentTypes, {
         "query": { "terms": {"menu": [item.id]} },
         "size": 2,
     }).hits.hits %}
     {% if content|length == 0 %}
-        <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-warning new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
+        <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-default new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
             <i class="fa fa-plus"></i>
             New {{ item.type }}
         </button>
@@ -78,21 +73,21 @@
 {% block jmn_column_status %}
     <div>
         <div class="col-xs-12">Publication status</div>
-        {% for env in config.context.environments %}
+        {% for env in environments %}
             <div style="width: 80px;float: left">{{ env|get_environment.label }}</div>
         {% endfor %}
     </div>
 {% endblock %}
 
 {% block jmn_cell_status %}
-    {% set content = emsch_search(config.context.contentTypes, {
+    {% set content = emsch_search(contentTypes, {
         "query": { "terms": {"menu": [item.id]} },
         "size": 2,
         "_source": ['label']
     }).hits.hits %}
     {% if content|length == 1 %}
         {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
-        {% for env in config.context.environments %}
+        {% for env in environments %}
             {% if info.defaultEnvironment.name == env %}
                 {% if info.hasDraft %}
                     <span class="jmn-badge label label-warning col-sm-12">Draft</span>

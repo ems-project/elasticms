@@ -169,7 +169,7 @@ export default class JsonMenuNestedComponent {
                 fromParentId: fromParentId,
                 toParentId: toParentId,
                 position: position
-            }).finally(() => targetComponent.load(itemId) );
+            }).finally(() => targetComponent.load({ activeItemId: itemId }));
         } else {
             fromComponent.itemGet(itemId)
                 .then((json) => {
@@ -182,7 +182,7 @@ export default class JsonMenuNestedComponent {
                 })
                 .catch(() => {})
                 .finally(() => {
-                    targetComponent.load(itemId);
+                    targetComponent.load({ activeItemId: itemId });
                     fromComponent.load();
                 });
         }

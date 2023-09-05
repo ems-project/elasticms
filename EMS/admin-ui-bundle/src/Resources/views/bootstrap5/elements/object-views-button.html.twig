@@ -100,7 +100,7 @@
 	</div>
 {% else %}
 
-		<a class="btn btn-sm btn-default " href="{{ path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': object.ouuid} ) }}">
+		<a class="btn btn-sm btn-outline-primary" href="{{ path('data.view', {'environmentName': environment.name, 'type': contentType.name, 'ouuid': object.ouuid} ) }}">
 			<i class="{{ 'views.elements.object-views-button.raw-view-icon-class'|trans }}"></i>
 			{{ 'views.elements.object-views-button.raw-view'|trans }}
 		</a>

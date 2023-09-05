@@ -7,34 +7,33 @@
 
 {% block breadcrumb %}
 	<ol class="breadcrumb">
-		<li><a href="{{ path('ems_analyzer_index') }}"><i class="fa fa-signal"></i> {{ 'Analyzers'|trans }}</a></li>
-		<li>{{ 'List analyzers'|trans }}</li>
-   	</ol>
+		<li class="breadcrumb-item"><a href="{{ path('ems_analyzer_index') }}"><i class="fa fa-signal"></i> {{ 'Analyzers'|trans }}</a></li>
+		<li class="breadcrumb-item">{{ 'List analyzers'|trans }}</li>
+	</ol>
 {% endblock %}
 
 
 {% block body %}
 
 <div class="row">
-	<div class="col-md-12">
-		<div class="box ">
-			<div class="box-header with-border">
-				<i class="fa fa-users"></i>
-				<h3 class="box-title">{{ 'Analyzers'|trans }}</h3>
-				<a class="btn btn-xs btn-primary pull-right" href="{{ path('ems_analyzer_add') }}">
+	<div class="col-12">
+		<div class="card card-{{ theme_color }} card-outline">
+			<div class="card-header">
+				<h3 class="card-title"><i class="fa fa-users"></i> {{ 'Analyzers'|trans }}</h3>
+				<a class="btn btn-xs btn-primary float-end" href="{{ path('ems_analyzer_add') }}">
 					<i class="fa fa-plus"></i> {{ 'Add analyzer'|trans }}
 				</a>
 			</div>
 			<!-- /.box-header -->
-			<div class="box-body">
+			<div class="card-body">
     			{% if paging.lastPage > 1 %}
     				<div class="box-header">
-                        {% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
+							{% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
         					'paging': paging,
         					'currentFilters': app.request.query,
         					'paginationPath': paginationPath,
         					'showAlwaysFirstAndLast': false
-        				} %}
+							} %}
     				</div>
     			{% endif %}
 
@@ -43,27 +42,27 @@
 						<thead>
 							<tr role="row">
 								<th class="nowrap text-center" style="width: 10px">{{ '#'|trans }}</th>
-                                {% include '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' with {
-                                 'title': 'Name'|trans,
-                                 'field': 'name',
-                                 'orderField': paging.orderField,
-                                 'orderDirection': paging.orderDirection,
-                                 'paginationPath': paging.paginationPath,
-                                } %}
-                                {% include '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' with {
-                                 'title': 'Label'|trans,
-                                 'field': 'label',
-                                 'orderField': paging.orderField,
-                                 'orderDirection': paging.orderDirection,
-                                 'paginationPath': paging.paginationPath,
-                                } %}
-                                {# 								{% include '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' with {#}
-{#                                  'title': 'Dirty'|trans,#}
-{#                                  'field': 'dirty',#}
-{#                                  'orderField': paging.orderField,#}
-{#                                  'orderDirection': paging.orderDirection,#}
-{#                                  'paginationPath': paging.paginationPath,#}
-{#                                 } %}#}
+									{% include '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' with {
+									 'title': 'Name'|trans,
+									 'field': 'name',
+									 'orderField': paging.orderField,
+									 'orderDirection': paging.orderDirection,
+									 'paginationPath': paging.paginationPath,
+									} %}
+									{% include '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' with {
+									 'title': 'Label'|trans,
+									 'field': 'label',
+									 'orderField': paging.orderField,
+									 'orderDirection': paging.orderDirection,
+									 'paginationPath': paging.paginationPath,
+									} %}
+{# 								{% include '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' with {#}
+{#									 'title': 'Dirty'|trans,#}
+{#									 'field': 'dirty',#}
+{#									 'orderField': paging.orderField,#}
+{#									 'orderDirection': paging.orderDirection,#}
+{#									 'paginationPath': paging.paginationPath,#}
+{#                 } %}#}
 								<th class="nowrap">{{ 'Action'|trans }}</th>
 							</tr>
 						</thead>
@@ -76,7 +75,7 @@
 {# 								<td><i class="fa fa-{% if analyzer.dirty %}check-{% endif %}square-o"></i></td>#}
 								<td class="">
 									<div class="btn-group">
-                                        {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
+										{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
 											'url':  path('ems_analyzer_edit', {'analyzer': analyzer.id}),
 											'label': 'Edit',
 											'icon': 'pencil'
@@ -86,7 +85,7 @@
 											'label': 'Export',
 											'icon': 'sign-out'
 										}%}
-                                        {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+										{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 											'url': path('ems_analyzer_delete', {'analyzer': analyzer.id}),
 											'message': 'Delete the analyzer ' ~ analyzer.name ~ ' ?',
 											'label': 'Delete',

@@ -3,7 +3,7 @@
 
 {% block breadcrumb %}
     <ol class="breadcrumb">
-        <li><a href="{{ path('emsco_dashboard', {name: dashboard.name}) }}"><i class="{{ dashboard.icon }}"></i> {{ dashboard.label }}</a></li>
+        <li class="breadcrumb-item"><a href="{{ path('emsco_dashboard', {name: dashboard.name}) }}"><i class="{{ dashboard.icon }}"></i> {{ dashboard.label }}</a></li>
     </ol>
 {% endblock %}
 
@@ -13,8 +13,8 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-12">
-            <div class="box box-body">
+        <div class="col-12">
+            <div class="card card-{{ theme_color }} card-outline card-body">
                 <pre>{{ exception.message }}</pre>
             </div>
         </div>

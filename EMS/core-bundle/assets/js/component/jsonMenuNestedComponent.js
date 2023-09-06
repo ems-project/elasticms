@@ -83,6 +83,10 @@ export default class JsonMenuNestedComponent {
     _onClickButtonDelete(itemId) {
         this.itemDelete(itemId).then(() => { this.load(); });
     }
+    _onClickModalCustom(element, itemId) {
+        const modalCustomName = element.dataset.jmnModalCustom;
+        this._ajaxModal(element, `/item/${itemId}/modal-custom/${modalCustomName}`, 'jmn-modal-custom');
+    }
     _onClickButtonCollapse(button, longPressed = false) {
         const expanded = button.getAttribute('aria-expanded');
         const node = event.target.parentElement.closest('.jmn-node');

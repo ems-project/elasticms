@@ -61,12 +61,14 @@ export default class JsonMenuNestedComponent {
         this.#element.addEventListener('click', (event) => {
             const element = event.target;
             const node = element.parentElement.closest('.jmn-node');
-            const nodeId = node ? node.dataset.id : '_root';
+            const itemId = node ? node.dataset.id : '_root';
 
-            if (element.classList.contains('jmn-btn-add')) this._onClickButtonAdd(element, nodeId);
-            if (element.classList.contains('jmn-btn-edit')) this._onClickButtonEdit(element, nodeId);
-            if (element.classList.contains('jmn-btn-view')) this._onClickButtonView(element, nodeId);
-            if (element.classList.contains('jmn-btn-delete')) this._onClickButtonDelete(nodeId);
+            if (element.classList.contains('jmn-btn-add')) this._onClickButtonAdd(element, itemId);
+            if (element.classList.contains('jmn-btn-edit')) this._onClickButtonEdit(element, itemId);
+            if (element.classList.contains('jmn-btn-view')) this._onClickButtonView(element, itemId);
+            if (element.classList.contains('jmn-btn-delete')) this._onClickButtonDelete(itemId);
+
+            if (element.dataset.hasOwnProperty('jmnModalCustom')) this._onClickModalCustom(element, itemId);
         }, true);
     }
     _onClickButtonAdd(element, itemId) {
@@ -78,8 +80,8 @@ export default class JsonMenuNestedComponent {
     _onClickButtonView(element, itemId) {
         this._ajaxModal(element, `/item/${itemId}/modal-view`, 'jmn-view');
     }
-    _onClickButtonDelete(nodeId) {
-        this.itemDelete(nodeId).then(() => { this.load(); });
+    _onClickButtonDelete(itemId) {
+        this.itemDelete(itemId).then(() => { this.load(); });
     }
     _onClickButtonCollapse(button, longPressed = false) {
         const expanded = button.getAttribute('aria-expanded');

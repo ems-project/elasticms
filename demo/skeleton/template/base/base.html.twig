@@ -45,6 +45,9 @@
                 <script type="application/javascript" src="{{ asset('form.js', 'emsform') }}"></script>
                 <script src="{{ asset('js/index.js', 'emsch') }}"></script>
             {%- endblock %}
+            {% if isProdLive %}
+                <script defer data-domain="elasticms.fgov.be" src="https://analytics.onss.be/js/script.js"></script>
+            {% endif %}
         </body>
         </html>
     {% endapply %}

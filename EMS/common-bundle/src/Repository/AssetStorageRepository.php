@@ -66,7 +66,7 @@ class AssetStorageRepository extends EntityRepository
         try {
             $qb = $this->getQuery($hash, $confirmed)->select('a.size');
 
-            return $qb->getQuery()->getSingleScalarResult();
+            return (int) $qb->getQuery()->getSingleScalarResult();
         } catch (NonUniqueResultException) {
             return null;
         }

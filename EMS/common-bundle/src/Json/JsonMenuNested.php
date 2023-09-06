@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Json;
 
+use EMS\Helpers\Standard\Base64;
+use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
@@ -38,10 +40,22 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         foreach ($children as $child) {
             $childItem = new JsonMenuNested($child);
             $childItem->setParent($this);
-            $this->descendantIds = \array_merge($this->descendantIds, [$childItem->getId()], $childItem->getDescendantIds());
-
+            $this->descendantIds = [...$this->descendantIds, ...[$childItem->getId()], ...$childItem->getDescendantIds()];
             $this->children[] = $childItem;
         }
+    }
+
+    /**
+     * @param array<string, mixed> $object
+     */
+    public static function create(string $type, array $object): JsonMenuNested
+    {
+        return new self([
+            'id' => Uuid::uuid4()->toString(),
+            'type' => $type,
+            'label' => $object['label'] ?? '',
+            'object' => $object,
+        ]);
     }
 
     public static function fromStructure(string $structure): JsonMenuNested
@@ -69,7 +83,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         $data = [$this];
 
         foreach ($this->children as $child) {
-            $data = \array_merge($data, $child->toArray());
+            $data = [...$data, ...$child->toArray()];
         }
 
         return $data;
@@ -190,6 +204,22 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return null;
     }
 
+    /**
+     * @throws JsonMenuNestedException
+     */
+    public function giveItemById(string $id): JsonMenuNested
+    {
+        if ($this->id === $id) {
+            return $this;
+        }
+
+        if (null !== $item = $this->getItemById($id)) {
+            return $item;
+        }
+
+        throw JsonMenuNestedException::itemNotFound();
+    }
+
     public function getId(): string
     {
         return $this->id;
@@ -211,6 +241,14 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     public function getObject(): array
     {
         return $this->object;
+    }
+
+    public function getObjectHash(): string
+    {
+        return Base64::encode(Json::encode([
+            'object' => $this->object,
+            'label' => $this->label,
+        ]));
     }
 
     /**
@@ -248,14 +286,53 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return $this->parent;
     }
 
-    public function addChild(JsonMenuNested $child): JsonMenuNested
+    public function giveParent(): JsonMenuNested
+    {
+        if (null === $this->parent) {
+            throw JsonMenuNestedException::itemParentNotFound();
+        }
+
+        return $this->parent;
+    }
+
+    public function addChild(JsonMenuNested $child, ?int $position = null): JsonMenuNested
     {
         $addChild = clone $child;
         $addChild->setParent($this);
 
-        $this->children[] = $addChild;
+        if (null === $position) {
+            $this->children[] = $addChild;
+        } else {
+            $children = $this->children;
+            $this->children = \array_merge(
+                \array_slice($children, 0, $position),
+                [$addChild],
+                \array_slice($children, $position)
+            );
+        }
 
         return $this;
+    }
+
+    public function removeChild(JsonMenuNested $removeChild): JsonMenuNested
+    {
+        $this->children = \array_filter($this->children, static fn (JsonMenuNested $child) => $child !== $removeChild);
+
+        return $this;
+    }
+
+    public function moveChild(JsonMenuNested $child, JsonMenuNested $fromParent, JsonMenuNested $toParent, int $position): void
+    {
+        if (!$fromParent->hasChild($child, false)) {
+            throw JsonMenuNestedException::moveChildMissing();
+        }
+
+        if ($toParent !== $fromParent && $toParent->hasChild($child, false)) {
+            throw JsonMenuNestedException::moveChildExists();
+        }
+
+        $fromParent->removeChild($child);
+        $toParent->addChild($child, $position);
     }
 
     /**
@@ -271,9 +348,12 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return \count($this->children) > 0;
     }
 
-    public function hasChild(JsonMenuNested $jsonMenuNested): bool
+    public function hasChild(JsonMenuNested $jsonMenuNested, bool $recursive = true): bool
     {
-        return 1 === \count($this->filterChildren(fn (JsonMenuNested $child) => $child->getId() === $jsonMenuNested->getId()));
+        $callback = fn (JsonMenuNested $child) => $child->getId() === $jsonMenuNested->getId();
+        $children = $recursive ? $this->filterChildren($callback) : \array_filter($this->children, $callback);
+
+        return 1 === \count($children);
     }
 
     public function isRoot(): bool

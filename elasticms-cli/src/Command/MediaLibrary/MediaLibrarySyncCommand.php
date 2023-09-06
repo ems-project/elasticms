@@ -36,6 +36,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_MAX_CONTENT_SIZE = 'max-content-size';
     private const OPTION_HASH_FOLDER = 'hash-folder';
     private const OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
+    private const OPTION_TARGET_FOLDER = 'target-folder';
 
     private bool $tika;
     private ?string $tikaBaseUrl;
@@ -69,6 +70,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_MAX_CONTENT_SIZE, null, InputOption::VALUE_OPTIONAL, 'Will keep the x first characters extracted by Tika to be indexed', 5120)
             ->addOption(self::OPTION_HASH_FOLDER, null, InputOption::VALUE_NONE, 'Provide a hash for folder argument (zip file)')
             ->addOption(self::OPTION_HASH_METADATA_FILE, null, InputOption::VALUE_NONE, 'Provide a hash for option metadata file (CSV or Excel)')
+            ->addOption(self::OPTION_TARGET_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Base path to sync in the media library. Must start by a / and should ends also with a /', '/')
         ;
     }
 
@@ -84,6 +86,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             $this->getOptionString(self::OPTION_FILE_FIELD),
             $this->getOptionStringNull(self::OPTION_METADATA_FILE),
             $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION),
+            $this->getOptionString(self::OPTION_TARGET_FOLDER),
             $this->getOptionBool(self::OPTION_DRY_RUN),
             $this->getOptionBool(self::OPTION_ONLY_MISSING),
             $this->getOptionBool(self::OPTION_ONLY_METADATA_FILE),

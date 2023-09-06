@@ -1,5 +1,24 @@
 # Changelog 5.x
 
+## 5.9.1 (2023-09-04)
+### Bug Fixes
+* fix: edit dashboard by @theus77 in https://github.com/ems-project/elasticms/pull/591
+### Chores
+* chore(demo): implement json_menu_nested component (dashboard) by @theus77 in https://github.com/ems-project/elasticms/pull/592
+
+## 5.9.0 (2023-08-27)
+### Features
+* feat(admin/ui): bootstrap 5 user profile and forms by @theus77 in https://github.com/ems-project/elasticms/pull/539
+* feat(cli/audit): add base url by @theus77 in https://github.com/ems-project/elasticms/pull/589
+* feat(core): json menu nested component by @Davidmattei in https://github.com/ems-project/elasticms/pull/577
+* feat(core): version mapping and translate analyzer languages by @theus77 in https://github.com/ems-project/elasticms/pull/583
+* feat(core/tasks): rework task flow in revision by @Davidmattei in https://github.com/ems-project/elasticms/pull/570
+* feat(demo): update configs and skeleton by @theus77 in https://github.com/ems-project/elasticms/pull/579
+### Code Refactoring
+* refactor(core/admin-ui): copy twigs by @theus77 in https://github.com/ems-project/elasticms/pull/586
+* refactor(core/dataTable): all tables should be types by @Davidmattei in https://github.com/ems-project/elasticms/pull/571
+* refactor(core/template): controllers use the template_namespace variable (adminUI) by @theus77 in https://github.com/ems-project/elasticms/pull/585
+
 ## 5.8.1 (2023-08-18)
 ### Bug Fixes
 * fix(cli/media-sync): typo in warning only metadata file by @theus77 in https://github.com/ems-project/elasticms/pull/572

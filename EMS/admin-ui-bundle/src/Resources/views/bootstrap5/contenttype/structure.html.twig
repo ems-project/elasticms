@@ -2,7 +2,7 @@
 
 {% block title %}Edit "{{ contentType.singularName }}"  structure{% endblock %}
 {% block pagetitle %}Edit "{{ contentType.singularName }}" structure{% endblock %}
-{# syv: blind fix / to check #}
+
 {% block breadcrumb %}
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a href="{{ path("contenttype.index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
@@ -25,8 +25,8 @@
 						{{ form_row(form.fieldType) }}
 				</div>
 				<!-- /.box-body -->
-				<div class="card-footer">
-					<div class="btn-group float-end">
+				<div class="card-footer text-end">
+					<div class="btn-group">
 						{{ form_widget(form.save) }}
 						{{ form_widget(form.saveAndClose) }}
 						{{ form_widget(form.saveAndReorder) }}

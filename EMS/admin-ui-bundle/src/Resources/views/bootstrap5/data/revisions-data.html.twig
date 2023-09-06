@@ -46,7 +46,7 @@
 {% block body %}
 	<div class="row">
         {% if revision.contentType.hideRevisionSidebarEnabled %}
-            <div class="col-md-12">
+            <div class="col-12">
                 {{ block('revisionToolbar') }}
                 {{ block('revisionBody') }}
             </div>
@@ -61,15 +61,15 @@
         {% endif %}
 	</div>
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			{{ block('revisionFooterTabs') }}
 		</div>
 	</div>
 {% endblock %}
 
 {% block revisionToolbar %}
-	<div class="box box-primary">
-		<div class="box-footer">
+	<div class="card card-{{ theme_color }} card-outline">
+		<div class="card-footer">
 			{% include '@EMSAdminUI/bootstrap5/elements/revision-toolbar.html.twig' with {
 				'revisionId' : revision.id,
 				'environmentsRevision': emsco_get_environments_revision(revision),
@@ -80,7 +80,7 @@
 				'withView': false,
 				'vertical': false,
 			}%}
-			<div class="btn-group pull-right">
+			<div class="btn-group float-end">
 				{% set ctRoles = revision.contentType.roles %}
 
 				{% if not revision.archived and is_granted(ctRoles.archive) and not revision.hasEndTime %}
@@ -118,7 +118,7 @@
 		<ul class="nav nav-tabs">
 			{% for tab in tabs|reverse %}
 				<li {{ loop.first ? 'class="active"' }}>
-					<a href="#{{ tab.name }}" data-toggle="tab" aria-expanded="{{ loop.first ? 'true' : 'false' }}">{{ tab.label }}</a>
+					<a href="#{{ tab.name }}" data-bs-toggle="tab" aria-expanded="{{ loop.first ? 'true' : 'false' }}">{{ tab.label }}</a>
 				</li>
 			{% endfor %}
 		</ul>

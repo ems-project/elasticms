@@ -10,11 +10,11 @@
    		<li class="active">{{ 'Reorder'|trans }}</li>
    	</ol>
 {% endblock %}
-{# syv: blind fix / to check #}
+
 {% block body %}
 <div class="row">
 	<div class="col-12">
-		<div class="card card-{{ theme_color }} card-outline border-0">
+		<div class="card card-light">
 			<div class="card-header">
 				<h2 class="card-title">
 					<i class="{% if contentType.icon %}{{ contentType.icon }} {% else %} fa fa-question {% endif %} "></i>

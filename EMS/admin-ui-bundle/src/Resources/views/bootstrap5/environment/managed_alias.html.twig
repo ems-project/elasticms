@@ -13,29 +13,27 @@
     <div class="row">
         {{ form_start(form) }}
         <div class="col-md-6">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">{{ title }}</h3>
+            <div class="card card-{{ theme_color }} card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">{{ title }}</h3>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                     {{ form_row(form.name) }}
                     {{ form_row(form.label) }}
                     {{ form_row(form.color) }}
                     {{ form_row(form.extra) }}
                 </div>
-                <div class="box-footer">
-                    <div class="pull-right">
-                        {{ form_widget(form.save) }}
-                    </div>
+                <div class="card-footer text-end">
+                    {{ form_widget(form.save) }}
                 </div>
             </div>
         </div>
             <div class="col-md-6">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Indexes</h3>
+            <div class="card card-{{ theme_color }} card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Indexes</h3>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                     {{ form_row(form.align_indexes) }}
 
                     <table class="table table-condensed table-striped">
@@ -53,10 +51,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="box-footer">
-                    <div class="pull-right">
-                    </div>
-                </div>
+{#                <div class="card-footer text-end">#}
+{#                </div>#}
             </div>
         </div>
         {{ form_end(form) }}

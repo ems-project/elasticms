@@ -11,7 +11,7 @@
 		<li class="breadcrumb-item active">Field</li>
 	</ol>
 {% endblock %}
-{# syv: blind fix / to check #}
+
 {% block body %}
 	{{ form_start(form) }}
 	<div class="row">
@@ -25,8 +25,8 @@
 					{{ form_row(form.fieldType) }}
 				</div>
 				<!-- /.box-body -->
-				<div class="card-footer">
-					<div class="btn-group float-end">
+				<div class="card-footer text-end">
+					<div class="btn-group">
 						<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-target="#edit_field_type_fieldType_modal_add">
 								<i class="fa fa-plus"></i> Subfield
 						</button>

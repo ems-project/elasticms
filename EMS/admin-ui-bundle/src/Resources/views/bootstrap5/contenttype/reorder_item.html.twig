@@ -1,6 +1,5 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 {% for child in parent.children|filter(child => not child.deleted) %}
-	{# syv: blind fix / to check #}
 	<li id="{{ child.id }}" class="{% if not (child.type~'::isContainer')|call_user_func %}mjs-nestedSortable-no-nesting{% endif %}">
 		<div class="card-header">
 			<strong>{{ child.name }}</strong> {{ child.type }}

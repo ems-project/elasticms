@@ -234,7 +234,7 @@ abstract class TableAbstract implements TableInterface
             }
         }
         $options = [
-            'scrollX' => true
+            'scrollX' => true,
         ];
 
         if (null !== $columnIndex) {

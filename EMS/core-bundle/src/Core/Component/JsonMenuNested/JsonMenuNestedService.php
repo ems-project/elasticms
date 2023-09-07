@@ -8,7 +8,6 @@ use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Json\JsonMenuNestedException;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
-use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplateFactory;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
@@ -53,14 +52,15 @@ class JsonMenuNestedService
         }
 
         $loadParents = \array_values(\array_unique($loadParents));
+        $template = $this->jsonMenuNestedTemplateFactory->create($config, [
+            'menu' => $menu,
+            'activeItem' => $activeItem ?? $menu,
+            'loadParents' => $loadParents,
+        ]);
 
         return [
             'load_parent_ids' => \array_map(static fn (JsonMenuNested $item) => $item->getId(), $loadParents),
-            'tree' => $this->getTemplate($config)->block('_jmn_items', [
-                'menu' => $menu,
-                'activeItem' => $activeItem ?? $menu,
-                'loadParents' => $loadParents,
-            ]),
+            'tree' => $template->block('_jmn_items'),
         ];
     }
 
@@ -147,11 +147,6 @@ class JsonMenuNestedService
 
         $jsonMenuNested->moveChild($item, $fromParent, $toParent, $data['position']);
         $this->saveStructure($config);
-    }
-
-    private function getTemplate(JsonMenuNestedConfig $config): JsonMenuNestedTemplate
-    {
-        return $this->jsonMenuNestedTemplateFactory->create($config);
     }
 
     private function saveStructure(JsonMenuNestedConfig $config): void

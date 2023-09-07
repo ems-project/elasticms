@@ -14,26 +14,29 @@ class JsonMenuNestedTemplate
 {
     private TemplateWrapper $template;
     private ?TemplateWrapper $configTemplate;
-    /** @var array<string, mixed> */
-    private array $contextBlock = [];
 
     public const TWIG_TEMPLATE = '@EMSCore/components/json_menu_nested/template.twig';
 
+    /**
+     * @param array<string, mixed> $context
+     */
     public function __construct(
         private readonly JsonMenuNestedConfig $config,
-        private readonly Environment $twig
+        private readonly Environment $twig,
+        private array $context = []
     ) {
         $this->template = $this->twig->load(self::TWIG_TEMPLATE);
         $this->configTemplate = $this->config->template ? $this->twig->load($this->config->template) : null;
-        $this->setContextBlock($config->contextBlock);
+
+        $this->context = [...$this->context, ...$this->buildContextBlock($config->contextBlock)];
     }
 
     /**
-     * @param array<mixed> $context
+     * @param array<mixed> $blockContext
      */
-    public function block(string $blockName, array $context = []): string
+    public function block(string $blockName, array $blockContext = []): string
     {
-        $context = $this->getContext($context);
+        $context = $this->buildContext($blockContext);
         $isPrivate = \str_starts_with($blockName, '_');
 
         if (!$isPrivate && $this->configTemplate && $this->configTemplate->hasBlock($blockName)) {
@@ -49,23 +52,26 @@ class JsonMenuNestedTemplate
     }
 
     /**
-     * @param array<mixed> $blockContext
+     * @param array<string, mixed> $blockContext
      *
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
-    private function getContext(array $blockContext): array
+    private function buildContext(array $blockContext): array
     {
-        $context = [...$blockContext, ...$this->contextBlock, ...$this->config->context];
+        $context = [...$blockContext, ...$this->context, ...$this->config->context];
         $context['template'] = $this;
         $context['config'] = $this->config;
 
         return $context;
     }
 
-    private function setContextBlock(?string $contextBlock): void
+    /**
+     * @return array<string, mixed>
+     */
+    private function buildContextBlock(?string $contextBlock): array
     {
         if (null === $contextBlock || null === $this->configTemplate) {
-            return;
+            return [];
         }
 
         if (!$this->configTemplate->hasBlock($contextBlock)) {
@@ -77,6 +83,6 @@ class JsonMenuNestedTemplate
             throw new JsonMenuNestedConfigException(\sprintf('Context block "%s" not returning json', $contextBlock));
         }
 
-        $this->contextBlock = Json::decode($blockResult);
+        return Json::decode($blockResult);
     }
 }

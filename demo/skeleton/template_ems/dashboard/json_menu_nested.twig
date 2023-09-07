@@ -7,7 +7,7 @@
 {%- block jmn_button_add_menu -%}
     {{ parent() }}
     <li>
-        <button class="ems-add-existing-page" data-modal-size="md">
+        <button class="ems-add-existing-page" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page">
             <i class="fa fa-sign-in"></i>Existing content
         </button>
     </li>
@@ -106,3 +106,40 @@
         {% endfor %}
     {% endif %}
 {% endblock %}
+
+{% block modal_existing_page_title %}<i class="fa fa-sign-in"></i>&nbsp;Existing content{% endblock modal_existing_page_title %}
+
+{% block modal_existing_page_body %}
+    {% set columns = [
+        { "label": "label", "template": "{{ data.source.label }}", "orderField": "label.alpha_order" },
+        { "label": "Live", "template": (block('datatable_column_live')) },
+        { "label": "Last Update", "template": (block('datatable_column_last_update')), "orderField": "_finalization_datetime" },
+    ] %}
+
+    {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}" %}
+    {{ emsco_datatable(['preview'],['page'], {
+        "frontendOptions": { "order": [[2, 'desc']] },
+        'row_context': rowContext,
+        "columns": columns
+    }) }}
+{% endblock modal_existing_page_body %}
+
+{% block modal_existing_page_footer %}
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+{% endblock modal_existing_page_footer %}
+
+{% block datatable_column_live %}
+    {%- verbatim -%}
+    <i style="color: {{ docInfo.published('live') and docInfo.aligned('live') ? 'green' : 'red' }}" class="{{ docInfo.published('live') and docInfo.aligned('live') ? 'fa fa-check' : 'fa fa-eye-slash' }}"></i>
+{%- endverbatim -%}
+{% endblock datatable_column_live %}
+
+{% block datatable_column_last_update %}
+    {%- verbatim -%}
+    <div style="width: 130px;" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="By {{ data.source._finalized_by|default }}" >
+        {{ data.source._finalization_datetime|default ? data.source._finalization_datetime|date("d/m/Y (H:i)") : "N.A." }}
+    </div>
+{%- endverbatim -%}
+{% endblock datatable_column_last_update %}

@@ -35,31 +35,19 @@ class JsonMenuNestedService
      */
     public function render(JsonMenuNestedConfig $config, array $data): array
     {
+        $activeItemId = $data['active_item_id'] ?? null;
+        $loadChildrenId = $data['load_children_id'] ?? null;
+        $loadParentIds = $data['load_parent_ids'] ?? [];
+
         $menu = $config->jsonMenuNested;
-        $activeItem = isset($data['active_item_id']) ? $menu->getItemById($data['active_item_id']) : null;
-        $loadChildren = isset($data['load_children_id']) ? $menu->getItemById($data['load_children_id']) : null;
-
-        $loadParentIds = \array_unique($data['load_parent_ids'] ?? []);
-        $loadParents = \array_filter(\array_map(static fn (string $id) => $menu->getItemById($id), $loadParentIds));
-
-        if ($loadChildren) {
-            $loadParents[] = $loadChildren;
-            foreach ($loadChildren as $loadParentChild) {
-                if ($loadParentChild->hasChildren()) {
-                    $loadParents[] = $loadParentChild;
-                }
-            }
-        }
-
-        $loadParents = \array_values(\array_unique($loadParents));
+        $renderContext = new JsonMenuNestedRenderContext($menu, $activeItemId, $loadChildrenId, $loadParentIds);
         $template = $this->jsonMenuNestedTemplateFactory->create($config, [
             'menu' => $menu,
-            'activeItem' => $activeItem ?? $menu,
-            'loadParents' => $loadParents,
+            'render' => $renderContext,
         ]);
 
         return [
-            'load_parent_ids' => \array_map(static fn (JsonMenuNested $item) => $item->getId(), $loadParents),
+            'load_parent_ids' => $renderContext->getParentIds(),
             'tree' => $template->block('_jmn_items'),
         ];
     }

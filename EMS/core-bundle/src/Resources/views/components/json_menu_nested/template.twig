@@ -2,6 +2,7 @@
 {# @var config      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
 {# @var column      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedColumn #}
 {# @var template    \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
+{# @var render      \EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedRenderContext #}
 {# @var menu        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var item        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
@@ -42,11 +43,11 @@
 
 {%- block _jmn_item -%}
     {%- apply spaceless -%}
-        <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
+        <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
             {{ block('_jmn_item_row') }}
             {%- if node.leaf == false -%}
                 <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
-                    {% if item in loadParents %}
+                    {% if item in render.loadParents %}
                         {% with { 'menu': item } %}{{ block('_jmn_items') }}{% endwith %}
                     {% endif %}
                 </div>
@@ -72,7 +73,7 @@
 
 {%- block jmn_cell_title -%}
     {% if item.hasChildren %}
-        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in loadParents ? 'true' : 'false' -}}"></button>
+        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in render.loadParents ? 'true' : 'false' -}}"></button>
     {% endif %}
     {% if node.icon %}
         <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>

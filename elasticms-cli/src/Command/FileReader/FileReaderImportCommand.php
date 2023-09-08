@@ -26,6 +26,7 @@ final class FileReaderImportCommand extends AbstractCommand
     private const OPTION_GENERATE_HASH = 'generate-hash';
     private const OPTION_DELETE_MISSING_DOCUMENTS = 'delete-missing-document';
     private const OPTION_HASH_FILE = 'hash-file';
+    private const OPTION_ENCODING = 'encoding';
     private string $ouuidExpression;
     private string $contentType;
     private string $file;
@@ -33,6 +34,7 @@ final class FileReaderImportCommand extends AbstractCommand
     private bool $hashOuuid;
     private bool $deleteMissingDocuments;
     private bool $hashFile;
+    private ?string $encoding;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
@@ -50,6 +52,7 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addOption(self::OPTION_DELETE_MISSING_DOCUMENTS, null, InputOption::VALUE_NONE, 'The command will delete content type document that are missing in the import file')
             ->addOption(self::OPTION_OUUID_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the document by its ouuid. If equal to null new document will be created', "row['ouuid']")
             ->addOption(self::OPTION_HASH_FILE, null, InputOption::VALUE_NONE, 'Specify that the file argument is a file hash not a file path.')
+            ->addOption(self::OPTION_ENCODING, null, InputOption::VALUE_OPTIONAL, 'Specify the file\'s encoding for csv, html and Slk file')
         ;
     }
 
@@ -63,6 +66,7 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->hashOuuid = $this->getOptionBool(self::OPTION_GENERATE_HASH);
         $this->deleteMissingDocuments = $this->getOptionBool(self::OPTION_DELETE_MISSING_DOCUMENTS);
         $this->hashFile = $this->getOptionBool(self::OPTION_HASH_FILE);
+        $this->encoding = $this->getOptionStringNull(self::OPTION_ENCODING);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -79,7 +83,7 @@ final class FileReaderImportCommand extends AbstractCommand
         $file = $this->hashFile ? $this->getFileByHash($this->file) : $this->file;
 
         $expressionLanguage = new ExpressionLanguage();
-        $rows = $this->fileReader->getData($file);
+        $rows = $this->fileReader->getData($file, false, $this->encoding);
         $header = $rows[0] ?? [];
 
         $ouuids = [];

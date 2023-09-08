@@ -94,6 +94,7 @@ final class FileReaderImportCommand extends AbstractCommand
             }
         }
 
+        $counter = 0;
         $progressBar = $this->io->createProgressBar(\count($rows) - 1);
         foreach ($rows as $key => $value) {
             if (0 === $key) {
@@ -138,8 +139,11 @@ final class FileReaderImportCommand extends AbstractCommand
             }
             $contentTypeApi->finalize($draft->getRevisionId());
             $progressBar->advance();
+            ++$counter;
         }
         $progressBar->finish();
+        $this->io->newLine(2);
+        $this->io->text(sprintf('%d lines have been imported', $counter));
 
         if ($this->dryRun && \count($ouuids) > 0) {
             $this->io->newLine(2);

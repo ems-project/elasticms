@@ -31,7 +31,7 @@ class JsonMenuNestedTemplate
         $this->context = new JsonMenuNestedTemplateContext([
             ...['template' => $this, 'config' => $this->config],
             ...$this->config->context,
-            ...$context
+            ...$context,
         ]);
 
         if (null !== $this->configTemplate && null !== $this->config->contextBlock) {

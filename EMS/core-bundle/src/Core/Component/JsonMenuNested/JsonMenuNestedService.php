@@ -35,7 +35,7 @@ class JsonMenuNestedService
 
         $template = $this->jsonMenuNestedTemplateFactory->create($config, [
             'menu' => $menu,
-            'render' => $renderContext
+            'render' => $renderContext,
         ]);
 
         return [

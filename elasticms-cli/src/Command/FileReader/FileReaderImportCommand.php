@@ -100,8 +100,14 @@ final class FileReaderImportCommand extends AbstractCommand
                 continue;
             }
             $row = [];
+            $empty = true;
             foreach ($value as $key => $cell) {
                 $row[$header[$key] ?? $key] = $cell;
+                $empty = $empty && (null === $cell);
+            }
+            if($empty) {
+                $progressBar->advance();
+                continue;
             }
 
             $ouuid = 'null' === $this->ouuidExpression ? null : $expressionLanguage->evaluate($this->ouuidExpression, [

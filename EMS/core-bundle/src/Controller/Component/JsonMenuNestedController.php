@@ -43,7 +43,12 @@ class JsonMenuNestedController
     {
         $data = Json::decode($request->getContent());
 
-        return new JsonResponse($this->jsonMenuNestedService->render($config, $data));
+        return new JsonResponse($this->jsonMenuNestedService->render(
+            $config,
+            $data['active_item_id'] ?? null,
+            $data['load_children_id'] ?? null,
+            ...$data['load_parent_ids'] ?? []
+        ));
     }
 
     public function item(JsonMenuNestedConfig $config, string $itemId): JsonResponse

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Core\Component\JsonMenuNested;
+namespace EMS\CoreBundle\Core\Component\JsonMenuNested\Template\Context;
 
 use EMS\CommonBundle\Json\JsonMenuNested;
 
@@ -14,14 +14,11 @@ class JsonMenuNestedRenderContext
     /** @var array<string, JsonMenuNested> */
     public array $loadItems = [];
 
-    /**
-     * @param string[] $loadParentIds
-     */
     public function __construct(
         private readonly JsonMenuNested $menu,
         ?string $activeItemId,
         ?string $loadChildrenId,
-        array $loadParentIds
+        string ...$loadParentIds
     ) {
         $this->addActiveItem($menu);
         $this->activeItem = $activeItemId ? $menu->getItemById($activeItemId) : $menu;

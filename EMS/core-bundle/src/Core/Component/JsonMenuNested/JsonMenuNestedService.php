@@ -8,6 +8,7 @@ use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Json\JsonMenuNestedException;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
+use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\Context\JsonMenuNestedRenderContext;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplateFactory;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
@@ -25,30 +26,21 @@ class JsonMenuNestedService
     }
 
     /**
-     * @param array{
-     *     active_item_id?: string,
-     *     load_parent_ids?: string[],
-     *     load_children_id?: string
-     * } $data
-     *
      * @return array{ load_parent_ids: string[], tree: string }
      */
-    public function render(JsonMenuNestedConfig $config, array $data): array
+    public function render(JsonMenuNestedConfig $config, ?string $activeItemId, ?string $loadChildrenId, string ...$loadParentIds): array
     {
-        $activeItemId = $data['active_item_id'] ?? null;
-        $loadChildrenId = $data['load_children_id'] ?? null;
-        $loadParentIds = $data['load_parent_ids'] ?? [];
-
         $menu = $config->jsonMenuNested;
-        $renderContext = new JsonMenuNestedRenderContext($menu, $activeItemId, $loadChildrenId, $loadParentIds);
+        $renderContext = new JsonMenuNestedRenderContext($menu, $activeItemId, $loadChildrenId, ...$loadParentIds);
+
         $template = $this->jsonMenuNestedTemplateFactory->create($config, [
             'menu' => $menu,
-            'render' => $renderContext,
+            'render' => $renderContext
         ]);
 
         return [
             'load_parent_ids' => $renderContext->getParentIds(),
-            'tree' => $template->block('_jmn_items'),
+            'tree' => $template->block('jmn_render'),
         ];
     }
 

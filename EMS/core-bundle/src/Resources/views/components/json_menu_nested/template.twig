@@ -34,29 +34,33 @@
     </div>
 {%- endblock _jmn_columns -%}
 
-{% block _jmn_items %}
+{% block jmn_render %}
+    {% with { 'menu': menu } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
+{% endblock jmn_render %}
+
+{% block jmn_items %}
     {%- for item in menu.children -%}
         {%- set node = config.nodes.get(item) -%}
-        {{ block('_jmn_item') }}
+        {{ template.block('jmn_item', _context)|raw }}
     {%- endfor -%}
-{% endblock _jmn_items %}
+{% endblock jmn_items %}
 
-{%- block _jmn_item -%}
+{%- block jmn_item -%}
     {%- apply spaceless -%}
         <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
-            {{ block('_jmn_item_row') }}
+            {{ template.block('jmn_item_row', _context)|raw }}
             {%- if node.leaf == false -%}
                 <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
                     {% if item in render.loadParents %}
-                        {% with { 'menu': item } %}{{ block('_jmn_items') }}{% endwith %}
+                        {% with { 'menu': item } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
                     {% endif %}
                 </div>
             {%- endif -%}
         </div>
     {%- endapply -%}
-{%- endblock _jmn_item -%}
+{%- endblock jmn_item -%}
 
-{%- block _jmn_item_row -%}
+{%- block jmn_item_row -%}
     <div class="jmn-row">
         {%- for column in config.columns -%}
             <div class="{{- "jmn-cell jmn-cell-#{column.name}" -}}" style="{{- column.width ? "width:#{column.width}px;" -}}" >
@@ -66,7 +70,7 @@
             </div>
         {%- endfor -%}
     </div>
-{%- endblock _jmn_item_row -%}
+{%- endblock jmn_item_row -%}
 
 {%- block jmn_column_title -%}<span>Title</span>{%- endblock jmn_column_title -%}
 {%- block jmn_column_structure -%}<span>Structure</span>{%- endblock jmn_column_structure -%}
@@ -175,7 +179,7 @@
 {%- endblock jmn_modal_footer_form -%}
 
 {%- block jmn_modal_preview -%}
-    {{ block('_jmn_preview') }}
+    {{ template.block('jmn_preview', _context)|raw }}
 {%- endblock jmn_modal_preview -%}
 
 {%- block jmn_modal_footer_close -%}
@@ -184,7 +188,7 @@
     </div>
 {%- endblock jmn_modal_footer_close -%}
 
-{%- block _jmn_preview -%}
+{%- block jmn_preview -%}
     {%- if dataFields -%}
         {%- import "@EMSCore/macros/data-field-type.html.twig" as macros -%}
         {{ macros.renderDataField(dataFields, rawData, false, []) }}
@@ -194,5 +198,5 @@
         {{- rawData|json_encode(constant('JSON_PRETTY_PRINT')) -}}
     </pre>
     {%- endif -%}
-{%- endblock _jmn_preview -%}
+{%- endblock jmn_preview -%}
 

@@ -106,7 +106,7 @@ final class FileReaderImportCommand extends AbstractCommand
                 $row[$header[$key] ?? $key] = $cell;
                 $empty = $empty && (null === $cell);
             }
-            if($empty) {
+            if ($empty) {
                 $progressBar->advance();
                 continue;
             }
@@ -143,7 +143,7 @@ final class FileReaderImportCommand extends AbstractCommand
         }
         $progressBar->finish();
         $this->io->newLine(2);
-        $this->io->text(sprintf('%d lines have been imported', $counter));
+        $this->io->text(\sprintf('%d lines have been imported', $counter));
 
         if ($this->dryRun && \count($ouuids) > 0) {
             $this->io->newLine(2);

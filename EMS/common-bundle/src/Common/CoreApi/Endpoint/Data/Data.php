@@ -114,6 +114,16 @@ final class Data implements DataInterface
         return $draft->getRevisionId();
     }
 
+    /**
+     * @param array<string, mixed> $rawData
+     */
+    public function index(?string $ouuid, array $rawData, bool $update = false): Index
+    {
+        $resource = $this->makeResource($update ? 'update' : 'index', $ouuid);
+
+        return new Index($this->client->post($resource, $rawData));
+    }
+
     private function makeResource(?string ...$path): string
     {
         return \implode('/', \array_merge($this->endPoint, \array_filter($path)));

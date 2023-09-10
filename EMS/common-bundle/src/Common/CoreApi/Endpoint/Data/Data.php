@@ -15,7 +15,7 @@ final class Data implements DataInterface
     /** @var string[] */
     private readonly array $endPoint;
 
-    public function __construct(private readonly Client $client, string $contentType)
+    public function __construct(private readonly Client $client, string $contentType, private readonly string $version)
     {
         $this->endPoint = ['api', 'data', $contentType];
     }
@@ -92,6 +92,10 @@ final class Data implements DataInterface
      */
     public function save(string $ouuid, array $rawData, int $mode = self::MODE_UPDATE, bool $discardDraft = true): int
     {
+        if (\version_compare($this->version, '5.10') > 0) {
+            return $this->index($ouuid, $rawData, self::MODE_UPDATE === $mode)->getRevisionId();
+        }
+
         if (!$this->head($ouuid)) {
             $draft = $this->create($rawData, $ouuid);
         } elseif (self::MODE_UPDATE === $mode) {

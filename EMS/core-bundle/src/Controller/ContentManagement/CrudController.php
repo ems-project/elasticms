@@ -340,6 +340,33 @@ class CrudController extends AbstractController
         return $this->json($users);
     }
 
+    public function index(Request $request, string $type, ?string $ouuid = null, string $replaceOrMerge = 'replace'): Response
+    {
+        $revision = null;
+        if (null !== $ouuid) {
+            try {
+                $revision = $this->dataService->getNewestRevision($type, $ouuid);
+            } catch (NotFoundHttpException) {
+            }
+        }
+
+        if (null === $revision) {
+            $contentType = $this->contentTypeService->giveByName($type);
+            $revision = $this->dataService->getEmptyRevision($contentType);
+        }
+
+        $rawData = Json::decode(Type::string($request->getContent()));
+        $draft = $this->dataService->replaceData($revision, $rawData, $replaceOrMerge);
+        $newRevision = $this->dataService->finalizeDraft($draft);
+
+        return new JsonResponse([
+            'success' => !$newRevision->getDraft(),
+            'ouuid' => $newRevision->giveOuuid(),
+            'type' => $newRevision->giveContentType()->getName(),
+            'revision_id' => $newRevision->getId(),
+        ]);
+    }
+
     private function giveContentType(string $contentTypeName): ContentType
     {
         $contentType = $this->contentTypeService->getByName($contentTypeName);

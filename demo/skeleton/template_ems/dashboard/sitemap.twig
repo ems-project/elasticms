@@ -8,13 +8,15 @@
     {% endif %}
     {%  set locale = app.request.query.get('locale', locales|first) %}
 
-    {% set environments = ['preview','live'] %}
-    {% set sections = emsch_search('section', {
-        "_source": ['label', 'structure'],
-        "size": 100,
-        "sort": { "order": { "order": "asc", "missing": "_last", "unmapped_type": "long" } }
-    }).hits.hits %}
-
+    {% set sections = {
+        "index": 'preview'|emsco_get_environment.alias,
+        "size": 10,
+        "body": {
+            "_source": ['label', 'structure'],
+            "query": {"term": { "_contenttype": {"value":"section"} } },
+            "sort": { "order": { "order": "asc", "missing": "_last", "unmapped_type": "long" } }
+        }
+    }|search.hits.hits %}
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             {% for l in locales %}
@@ -31,15 +33,14 @@
                         'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
                         'field_path': '[structure]',
                         'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
+                        'context_block': 'build_context',
                         'context': {
                             'sectionLabel': section._source.label,
-                            'locale': locale,
-                            'environments': environments,
-                            'contentTypes': ['page']
+                            'locale': locale
                         },
                         'columns': [
-                            { 'name': 'content', 'width': 250 },
-                            { 'name': 'status', 'width': 20 + (80 * environments|length) },
+                            { 'name': 'content', 'width': 150 },
+                            { 'name': 'status', 'width': 200 },
                             { 'name': 'structure' },
                         ],
                     }) }}
@@ -48,6 +49,14 @@
         </div>
     </div>
 {%  endblock ems_body %}
+
+{% block ems_header %}
+    <style>
+        .jmn-column-status { flex-wrap: wrap; }
+        .jmn-column-status > div:first-child { width: 100%; padding-bottom: 10px; }
+        .jmn-column-status > div:not(:first-child) { flex: 1; }
+    </style>
+{% endblock ems_header %}
 
 {%  block ems_footer %}
     <script>

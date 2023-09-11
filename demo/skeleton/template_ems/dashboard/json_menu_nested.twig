@@ -1,5 +1,49 @@
 {% extends '@EMSCore/components/json_menu_nested/template.twig' %}
 
+{% block build_context %}
+    {% set environments = ['preview', 'live']|map(e => e|emsco_get_environment) %}
+    {% do template.context.append({
+        'environments': environments,
+        'pageContentType': 'page'|emsco_get_content_type
+    }) %}
+    {%- if render is defined and render.loadItems|length > 0 -%}
+        {% set menuIds = render.loadItems|filter((item) => item.type == 'page')|map((item) => item.id)|keys %}
+        {% set pages = [] %}
+
+        {% for env in environments %}
+            {% set envSearchResult = {
+                "index": env.alias,
+                "size": 5000,
+                "body": {
+                    "_source": ['menu', 'label', ("#{locale}.title")],
+                    "query":  { "bool": { "must": [
+                        { "term": { "_contenttype": "page" } },
+                        { "terms": { "menu": (menuIds) } }
+                    ] } }
+                }
+            }|search.hits.hits|map(h => h._source|merge({
+                'id': h._id,
+                'emsId': ("#{h._source._contenttype}:#{h._id}")
+            }))|array_key('id') %}
+
+            {% set pages = pages|merge({ (env.name): (envSearchResult) }) %}
+        {% endfor %}
+        {% do template.context.append({
+            'pages': pages,
+            'pageInfos': pages.preview|map((doc) => doc.emsId)|emsco_documents_info,
+        }) %}
+    {%- endif -%}
+{% endblock build_context %}
+
+{% block jmn_item_row %}
+    {% if item.type == 'page' %}
+        {% set itemPages = pages.preview|filter(p => p.menu == item.id) %}
+        {% set page = itemPages|first %}
+        {% set pageInfo = page ? attribute(pageInfos, page.emsId)|default(false) : false %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
 {%- block jmn_title -%}
     <h2 class="h4">{{ sectionLabel }}</h2>
 {%- endblock -%}
@@ -24,80 +68,80 @@
 {%- endblock -%}
 
 {%- block jmn_item_title -%}
-    {% if attribute(item.object, locale)|default(false) and attribute(item.object, locale).title|default(false) %}
-        <span>{{ attribute(item.object, locale).title }}</span>
+    {% if item.type == 'page' %}
+        {% if page and pageInfo %}
+            {%- set path = path('emsco_view_revisions', {
+                'type': 'page',
+                'ouuid': page.id,
+            }) -%}
+            <a href="{{ path }}">{{ attribute(page, locale).title|default(page.label) }}</a>
+        {% else %}
+            <span class="text-gray">{{ item.label }}</span>
+        {% endif %}
     {% else %}
-        <span class="text-gray">{{ item.label }}</span>
+        {{ parent() }}
     {% endif %}
 {%- endblock jmn_item_title -%}
 
 {% block jmn_column_content %}Content{% endblock %}
 
 {% block jmn_cell_content %}
-    {% set content = emsch_search(contentTypes, {
-        "query": { "terms": {"menu": [item.id]} },
-        "size": 2,
-    }).hits.hits %}
-    {% if content|length == 0 %}
-        <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-default new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
-            <i class="fa fa-plus"></i>
-            New {{ item.type }}
-        </button>
-    {% elseif content|length == 1 %}
-        {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
-        {% set contentType = content.0._source._contenttype|get_content_type %}
-        {% set ouuid = content.0._id %}
-        {% set environment = 'preview'|get_environment %}
-        {% include '@EMSCore/elements/object-views-button.html.twig' with {
-            ouuid:  ouuid,
-            contentType: contentType,
-            environment: environment,
-            recursiveView: false,
-            object: content.0,
-        }%}
-        {% if info and  is_granted(contentType.roles.edit) %}
-            {% if not  contentType.circlesField or attribute(source, contentType.circlesField) is not defined or attribute(source, contentType.circlesField)|in_my_circles %}
-                {% include '@EMSCore/elements/post-button.html.twig' with {
-                    'url': path('revision.new-draft', {'ouuid': ouuid, 'type': contentType.name}),
-                    'label': 'Edit',
-                    'icon': 'pencil' }%}
+    {% if item.type == 'page' %}
+        {% if itemPages|length == 0 %}
+            <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-default new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
+                <i class="fa fa-plus"></i>
+                New {{ item.type }}
+            </button>
+        {% elseif itemPages|length == 1 %}
+            {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) %}
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-sm btn-default jmn-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-eye"></i>&nbsp;View
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        {% set path = item.path|map(p => attribute(p.object, locale).title|ems_webalize) %}
+                        {% for env in environments|filter(e => pageInfo.published(e.name)) %}
+                            <li>
+                                <a href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Show {{ env.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
+            {% if is_granted(pageContentType.roles.edit) %}
+                {% set editPath = path('revision.new-draft', {'ouuid': page.id, 'type': pageContentType.name}) %}
+                <a class="btn btn-sm btn-primary" href="{{ editPath }}">
+                    <i class="fa fa-pencil-square-o"></i>&nbsp;Edit
+                </a>
+            {% endif %}
+        {% else %}
+            <div class="col-xs-12 text-center">
+                Error: multiple pages are attached to this item
+            </div>
         {% endif %}
-    {% else %}
-        <div class="col-xs-12 text-center">
-            Error: multiple pages are attached to this item
-        </div>
     {% endif %}
 {% endblock %}
 
 {% block jmn_column_status %}
-    <div>
-        <div class="col-xs-12">Publication status</div>
-        {% for env in environments %}
-            <div style="width: 80px;float: left">{{ env|get_environment.label }}</div>
-        {% endfor %}
-    </div>
+    <div>Publication status</div>
+    {% for env in environments %}<div>{{ env.label }}</div>{% endfor %}
 {% endblock %}
 
 {% block jmn_cell_status %}
-    {% set content = emsch_search(contentTypes, {
-        "query": { "terms": {"menu": [item.id]} },
-        "size": 2,
-        "_source": ['label']
-    }).hits.hits %}
-    {% if content|length == 1 %}
-        {% set info = "#{content.0._source._contenttype}:#{content.0._id}"|emsco_document_info %}
+    {% if pageInfo is defined and pageInfo %}
         {% for env in environments %}
-            {% if info.defaultEnvironment.name == env %}
-                {% if info.hasDraft %}
+            {% if pageInfo.defaultEnvironment.name == env %}
+                {% if pageInfo.hasDraft %}
                     <span class="jmn-badge label label-warning col-sm-12">Draft</span>
                 {% else %}
                     <span class="jmn-badge label label-success col-sm-12">Published</span>
                 {% endif %}
             {% else %}
-                {% if info.aligned(env) %}
+                {% if pageInfo.aligned(env) %}
                     <span class="jmn-badge label label-success col-sm-12">Published</span>
-                {% elseif info.published(env) %}
+                {% elseif pageInfo.published(env) %}
                     <span class="jmn-badge label label-warning col-sm-12">Outdated</span>
                 {% else %}
                     <span class="jmn-badge label label-default col-sm-12">Unavailable</span>

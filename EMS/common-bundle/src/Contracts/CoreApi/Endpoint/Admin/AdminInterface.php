@@ -39,4 +39,9 @@ interface AdminInterface
     public function jobFailed(Job $job, string $getMessage): void;
 
     public function jobDoWrite(Job $job, string $message, bool $newline): void;
+
+    /**
+     * @return string[]
+     */
+    public function getVersions(): array;
 }

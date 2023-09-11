@@ -52,7 +52,9 @@ final class CoreApi implements CoreApiInterface
 
     public function data(string $contentType): DataInterface
     {
-        return new Data($this->client, $contentType);
+        $versions = $this->admin()->getVersions();
+
+        return new Data($this->client, $contentType, $versions['core'] ?? '1.0.0');
     }
 
     public function file(): File

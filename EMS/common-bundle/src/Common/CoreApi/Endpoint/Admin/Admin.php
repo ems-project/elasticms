@@ -130,4 +130,9 @@ final class Admin implements AdminInterface
             'new-line' => $newline,
         ]);
     }
+
+    public function getVersions(): array
+    {
+        return $this->client->get(\implode('/', ['api', 'admin', 'versions']))->getData();
+    }
 }

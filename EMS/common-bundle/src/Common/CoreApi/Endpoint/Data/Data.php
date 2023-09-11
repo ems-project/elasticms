@@ -92,7 +92,7 @@ final class Data implements DataInterface
      */
     public function save(string $ouuid, array $rawData, int $mode = self::MODE_UPDATE, bool $discardDraft = true): int
     {
-        if (\version_compare($this->version, '5.10') > 0) {
+        if (\version_compare($this->version, '5.9.2') >= 0) {
             return $this->index($ouuid, $rawData, self::MODE_UPDATE === $mode)->getRevisionId();
         }
 

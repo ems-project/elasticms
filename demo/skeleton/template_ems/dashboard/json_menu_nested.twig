@@ -1,0 +1,189 @@
+{% extends '@EMSCore/components/json_menu_nested/template.twig' %}
+
+{% block build_context %}
+    {% set environments = ['preview', 'live']|map(e => e|emsco_get_environment) %}
+    {% do template.context.append({
+        'environments': environments,
+        'pageContentType': 'page'|emsco_get_content_type
+    }) %}
+    {%- if render is defined and render.loadItems|length > 0 -%}
+        {% set menuIds = render.loadItems|filter((item) => item.type == 'page')|map((item) => item.id)|keys %}
+        {% set pages = [] %}
+
+        {% for env in environments %}
+            {% set envSearchResult = {
+                "index": env.alias,
+                "size": 5000,
+                "body": {
+                    "_source": ['menu', 'label', ("#{locale}.title")],
+                    "query":  { "bool": { "must": [
+                        { "term": { "_contenttype": "page" } },
+                        { "terms": { "menu": (menuIds) } }
+                    ] } }
+                }
+            }|search.hits.hits|map(h => h._source|merge({
+                'id': h._id,
+                'emsId': ("#{h._source._contenttype}:#{h._id}")
+            }))|array_key('id') %}
+
+            {% set pages = pages|merge({ (env.name): (envSearchResult) }) %}
+        {% endfor %}
+        {% do template.context.append({
+            'pages': pages,
+            'pageInfos': pages.preview|map((doc) => doc.emsId)|emsco_documents_info,
+        }) %}
+    {%- endif -%}
+{% endblock build_context %}
+
+{% block jmn_item_row %}
+    {% if item.type == 'page' %}
+        {% set itemPages = pages.preview|filter(p => p.menu == item.id) %}
+        {% set page = itemPages|first %}
+        {% set pageInfo = page ? attribute(pageInfos, page.emsId)|default(false) : false %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{%- block jmn_title -%}
+    <h2 class="h4">{{ sectionLabel }}</h2>
+{%- endblock -%}
+
+{%- block jmn_button_add_menu -%}
+    {{ parent() }}
+    <li>
+        <button class="ems-add-existing-page" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page">
+            <i class="fa fa-sign-in"></i>Existing content
+        </button>
+    </li>
+{%- endblock jmn_button_add_menu -%}
+
+{%- block jmn_button_item_delete -%}
+    {% set buttonLabel = 'Detach' %}
+    {{ parent() }}
+{%- endblock -%}
+
+{%- block jmn_button_item_add -%}
+    {% set buttonLabel = buttonLabel|default("Create #{addNode.type}") %}
+    {{ parent() }}
+{%- endblock -%}
+
+{%- block jmn_item_title -%}
+    {% if item.type == 'page' %}
+        {% if page and pageInfo %}
+            {%- set path = path('emsco_view_revisions', {
+                'type': 'page',
+                'ouuid': page.id,
+            }) -%}
+            <a href="{{ path }}">{{ attribute(page, locale).title|default(page.label) }}</a>
+        {% else %}
+            <span class="text-gray">{{ item.label }}</span>
+        {% endif %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{%- endblock jmn_item_title -%}
+
+{% block jmn_column_content %}Content{% endblock %}
+
+{% block jmn_cell_content %}
+    {% if item.type == 'page' %}
+        {% if itemPages|length == 0 %}
+            <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-default new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
+                <i class="fa fa-plus"></i>
+                New {{ item.type }}
+            </button>
+        {% elseif itemPages|length == 1 %}
+            {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) %}
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-sm btn-default jmn-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-eye"></i>&nbsp;View
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                        {% set path = item.path|map(p => attribute(p.object, locale).title|ems_webalize) %}
+                        {% for env in environments|filter(e => pageInfo.published(e.name)) %}
+                            <li>
+                                <a href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Show {{ env.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {% if is_granted(pageContentType.roles.edit) %}
+                {% set editPath = path('revision.new-draft', {'ouuid': page.id, 'type': pageContentType.name}) %}
+                <a class="btn btn-sm btn-primary" href="{{ editPath }}">
+                    <i class="fa fa-pencil-square-o"></i>&nbsp;Edit
+                </a>
+            {% endif %}
+        {% else %}
+            <div class="col-xs-12 text-center">
+                Error: multiple pages are attached to this item
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block jmn_column_status %}
+    <div>Publication status</div>
+    {% for env in environments %}<div>{{ env.label }}</div>{% endfor %}
+{% endblock %}
+
+{% block jmn_cell_status %}
+    {% if pageInfo is defined and pageInfo %}
+        {% for env in environments %}
+            {% if pageInfo.defaultEnvironment.name == env %}
+                {% if pageInfo.hasDraft %}
+                    <span class="jmn-badge label label-warning col-sm-12">Draft</span>
+                {% else %}
+                    <span class="jmn-badge label label-success col-sm-12">Published</span>
+                {% endif %}
+            {% else %}
+                {% if pageInfo.aligned(env) %}
+                    <span class="jmn-badge label label-success col-sm-12">Published</span>
+                {% elseif pageInfo.published(env) %}
+                    <span class="jmn-badge label label-warning col-sm-12">Outdated</span>
+                {% else %}
+                    <span class="jmn-badge label label-default col-sm-12">Unavailable</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block modal_existing_page_title %}<i class="fa fa-sign-in"></i>&nbsp;Existing content{% endblock modal_existing_page_title %}
+
+{% block modal_existing_page_body %}
+    {% set columns = [
+        { "label": "label", "template": "{{ data.source.label }}", "orderField": "label.alpha_order" },
+        { "label": "Live", "template": (block('datatable_column_live')) },
+        { "label": "Last Update", "template": (block('datatable_column_last_update')), "orderField": "_finalization_datetime" },
+    ] %}
+
+    {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}" %}
+    {{ emsco_datatable(['preview'],['page'], {
+        "frontendOptions": { "order": [[2, 'desc']] },
+        'row_context': rowContext,
+        "columns": columns
+    }) }}
+{% endblock modal_existing_page_body %}
+
+{% block modal_existing_page_footer %}
+    <div class="pull-right">
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+    </div>
+{% endblock modal_existing_page_footer %}
+
+{% block datatable_column_live %}
+    {%- verbatim -%}
+    <i style="color: {{ docInfo.published('live') and docInfo.aligned('live') ? 'green' : 'red' }}" class="{{ docInfo.published('live') and docInfo.aligned('live') ? 'fa fa-check' : 'fa fa-eye-slash' }}"></i>
+{%- endverbatim -%}
+{% endblock datatable_column_live %}
+
+{% block datatable_column_last_update %}
+    {%- verbatim -%}
+    <div style="width: 130px;" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="By {{ data.source._finalized_by|default }}" >
+        {{ data.source._finalization_datetime|default ? data.source._finalization_datetime|date("d/m/Y (H:i)") : "N.A." }}
+    </div>
+{%- endverbatim -%}
+{% endblock datatable_column_last_update %}

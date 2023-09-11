@@ -13,7 +13,8 @@
         "color": null,
         "options": {
             "body": "{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}",
-            "footer": "{{ block(\"ems_footer\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}"
+            "footer": "{{ block(\"ems_footer\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}",
+            "header": "{{ block(\"ems_header\", \"@EMSCH/template_ems/dashboard/sitemap.twig\") }}"
         },
         "orderKey": 1
     },

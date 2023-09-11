@@ -225,7 +225,8 @@ final class MediaLibrarySync
         try {
             $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \mb_substr($promise->getText(), 0, $this->options->maxContentSize, 'UTF-8');
             $meta = $promise->getMeta();
-            $assetArray[EmsFields::CONTENT_FILE_DATE] = $meta->getCreated();
+            $createdDate = $meta->getCreated();
+            $assetArray[EmsFields::CONTENT_FILE_DATE] = null !== $createdDate ? $createdDate->format(\DATE_ATOM) : null;
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
             $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();
             $assetArray[EmsFields::CONTENT_FILE_LANGUAGE] = $meta->getLocale();

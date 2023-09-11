@@ -1,5 +1,17 @@
 # Changelog 5.x
 
+## 5.9.2 (2023-09-11)
+### Features
+* feat(cli): retry on error by @theus77 in https://github.com/ems-project/elasticms/pull/604
+* feat(common/fileReader): hash file support and implementation in cli import by @theus77 in https://github.com/ems-project/elasticms/pull/601
+* feat(core/api):  new index endpoint in order to init/update or merge/finalize by @theus77 in https://github.com/ems-project/elasticms/pull/602
+* feat(core/component): improve json menu nested by @Davidmattei in https://github.com/ems-project/elasticms/pull/595
+### Bug Fixes
+* fix(core): typo synfony -> symfony by @theus77 in https://github.com/ems-project/elasticms/pull/600
+* fix(core/cli): indexed file mapping by @theus77 in https://github.com/ems-project/elasticms/pull/603
+* fix(core/dataTable): correct horizontal scroll bar by @Davidmattei in https://github.com/ems-project/elasticms/pull/599
+* fix(demo): add template news.ems_link.twig by @theus77 in https://github.com/ems-project/elasticms/pull/598
+
 ## 5.9.1 (2023-09-04)
 ### Bug Fixes
 * fix: edit dashboard by @theus77 in https://github.com/ems-project/elasticms/pull/591

@@ -31,7 +31,7 @@ class SelectFieldType extends DataFieldType
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
 
-        $choices = [];
+        $choices = ['' => null];
         $values = \explode("\n", \str_replace("\r", '', (string) $options['choices']));
         $labels = \explode("\n", \str_replace("\r", '', (string) $options['labels']));
 

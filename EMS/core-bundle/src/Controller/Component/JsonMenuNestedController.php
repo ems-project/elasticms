@@ -118,8 +118,9 @@ class JsonMenuNestedController
 
             if ($form->isSubmitted()) {
                 if ($form->get('_item_hash')->getData() !== $item->getObjectHash()) {
-                    $warning = $this->translator->trans('json_menu_nested.error.item_edit_outdated', [], EMSCoreBundle::TRANS_COMPONENT);
-                } elseif (null !== $object = $this->handleFormItem($form, $config, $node)) {
+                    return $this->responseWarningModal($this->translator->trans('json_menu_nested.error.item_edit_outdated', [], EMSCoreBundle::TRANS_COMPONENT));
+                }
+                if (null !== $object = $this->handleFormItem($form, $config, $node)) {
                     $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
                     $this->clearFlashes($request);
 
@@ -127,16 +128,10 @@ class JsonMenuNestedController
                 }
             }
 
-            $modal = $this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
                 'action' => 'edit',
                 'form' => $form->createView(),
-            ]);
-
-            if (isset($warning)) {
-                $modal->addMessage(ModalMessageType::Warning, $warning);
-            }
-
-            return new JsonResponse($modal);
+            ]));
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
             return $this->responseWarningModal($e->getMessage());
         }

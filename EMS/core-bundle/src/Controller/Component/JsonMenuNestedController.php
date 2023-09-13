@@ -154,25 +154,7 @@ class JsonMenuNestedController
 
     public function itemModalCustom(JsonMenuNestedConfig $config, string $itemId, string $modalName): JsonResponse
     {
-        if (null === $template = $config->template) {
-            throw new \RuntimeException('No template defined');
-        }
-
-        $item = $config->jsonMenuNested->giveItemById($itemId);
-        $node = $config->nodes->getByType($item->getType());
-
-        return new JsonResponse($this->ajaxService
-            ->ajaxModalTemplate($template)
-            ->setBlockTitle($modalName.'_title')
-            ->setBlockBody($modalName.'_body')
-            ->setBlockFooter($modalName.'_footer')
-            ->render([
-                'config' => $config,
-                'menu' => $config->jsonMenuNested,
-                'node' => $node,
-                'item' => $item,
-            ])
-        );
+        return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $itemId, $modalName));
     }
 
     public function itemModalView(JsonMenuNestedConfig $config, string $itemId): JsonResponse

@@ -10,6 +10,7 @@ use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\Context\JsonMenuNestedRenderContext;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplateFactory;
+use EMS\CoreBundle\Core\UI\Modal;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
@@ -98,6 +99,23 @@ class JsonMenuNestedService
         $item->giveParent()->removeChild($item);
 
         $this->saveStructure($config);
+    }
+
+    public function itemModal(JsonMenuNestedConfig $config, string $itemId, string $modalName): Modal
+    {
+        $item = $config->jsonMenuNested->giveItemById($itemId);
+        $node = $config->nodes->getByType($item->getType());
+
+        $template = $this->jsonMenuNestedTemplateFactory->create($config, [
+            'item' => $item,
+            'node' => $node,
+        ]);
+
+        return new Modal(
+            title: $template->block($modalName.'_title'),
+            body: $template->block($modalName.'_body'),
+            footer: $template->block($modalName.'_footer'),
+        );
     }
 
     /**

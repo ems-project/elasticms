@@ -350,14 +350,17 @@ class CrudController extends AbstractController
             }
         }
 
+        $contentType = $this->contentTypeService->giveByName($name);
         $rawData = Json::decode(Type::string($request->getContent()));
+
         if (null === $revision) {
-            $contentType = $this->contentTypeService->giveByName($name);
             $draft = $this->dataService->createData($ouuid, $rawData, $contentType);
         } else {
             $draft = $this->dataService->replaceData($revision, $rawData, $replaceOrMerge);
         }
+
         $newRevision = $this->dataService->finalizeDraft($draft);
+        $this->dataService->refresh($contentType->giveEnvironment());
 
         return new JsonResponse([
             'success' => !$newRevision->getDraft(),

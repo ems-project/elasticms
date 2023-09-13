@@ -33,10 +33,7 @@ class JsonMenuNestedService
         $menu = $config->jsonMenuNested;
         $renderContext = new JsonMenuNestedRenderContext($menu, $activeItemId, $loadChildrenId, ...$loadParentIds);
 
-        $template = $this->jsonMenuNestedTemplateFactory->create($config, [
-            'menu' => $menu,
-            'render' => $renderContext,
-        ]);
+        $template = $this->jsonMenuNestedTemplateFactory->create($config, ['render' => $renderContext]);
 
         return [
             'load_parent_ids' => $renderContext->getParentIds(),

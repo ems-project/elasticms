@@ -29,7 +29,7 @@ class JsonMenuNestedTemplate
         $this->configTemplate = $this->config->template ? $this->twig->load($this->config->template) : null;
 
         $this->context = new JsonMenuNestedTemplateContext([
-            ...['template' => $this, 'config' => $this->config],
+            ...['template' => $this, 'config' => $this->config, 'menu' => $this->config->jsonMenuNested],
             ...$this->config->context,
             ...$context,
         ]);

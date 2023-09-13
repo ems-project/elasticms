@@ -29,11 +29,9 @@ final class FlashMessageLogger extends AbstractProcessingHandler
             return;
         }
 
-        if ('json' === $currentRequest->getContentType()) {
-            return;
-        }
-
-        if (true === ($record['context']['noFlash'] ?? false)) {
+        $headerFlashMessages = $currentRequest->headers->get('x-flash-messages', 'true');
+        if (true === ($record['context']['noFlash'] ?? false)
+            || !\filter_var($headerFlashMessages, FILTER_VALIDATE_BOOL)) {
             return;
         }
 

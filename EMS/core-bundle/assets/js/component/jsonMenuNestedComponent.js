@@ -4,7 +4,7 @@ import ajaxModal from "../helper/ajaxModal";
 export default class JsonMenuNestedComponent {
     id;
     #tree;
-    #element;
+    element;
     #pathPrefix;
     #loadParentIds = [];
     #sortableLists = {};
@@ -12,7 +12,7 @@ export default class JsonMenuNestedComponent {
 
     constructor (element) {
         this.id = element.id;
-        this.#element = element;
+        this.element = element;
         this.#tree = element.querySelector('.jmn-tree');
         this.#pathPrefix = `/component/json-menu-nested/${element.dataset.hash}`;
         this._addClickListeners();
@@ -30,7 +30,7 @@ export default class JsonMenuNestedComponent {
 
             this.#loadParentIds = json.load_parent_ids;
             this.#tree.innerHTML = json.tree;
-            this.#element.dispatchEvent(new CustomEvent('jmn-load', {detail: {
+            this.element.dispatchEvent(new CustomEvent('jmn-load', {detail: {
                 jnm: this,
                 data: json,
                 elements: this._sortables(),
@@ -46,19 +46,19 @@ export default class JsonMenuNestedComponent {
     }
     itemDelete(nodeId) {
         return this._post(`/item/${nodeId}/delete`).then(() => {
-            this.#element.dispatchEvent(new CustomEvent('jmn-delete', {detail: {
+            this.element.dispatchEvent(new CustomEvent('jmn-delete', {detail: {
                 jnm: this,
                 nodeId: nodeId,
             }}));
         });
     }
     loading(flag) {
-        const element = this.#element.querySelector('.jmn-node-loading');
+        const element = this.element.querySelector('.jmn-node-loading');
         element.style.display = flag ? 'flex' : 'none';
     }
 
     _addClickListeners() {
-        this.#element.addEventListener('click', (event) => {
+        this.element.addEventListener('click', (event) => {
             const element = event.target;
             const node = element.parentElement.closest('.jmn-node');
             const itemId = node ? node.dataset.id : '_root';
@@ -112,12 +112,12 @@ export default class JsonMenuNestedComponent {
         let longPressed = false;
         let longPressTime = 300;
 
-        this.#element.addEventListener('mousedown', (event) => {
+        this.element.addEventListener('mousedown', (event) => {
             if (event.target.classList.contains('jmn-btn-collapse')) {
                 delay = setTimeout(() => { longPressed = true}, longPressTime);
             }
         }, true);
-        this.#element.addEventListener('mouseup', (event) => {
+        this.element.addEventListener('mouseup', (event) => {
             if (event.target.classList.contains('jmn-btn-collapse')) {
                 this._onClickButtonCollapse(event.target, longPressed);
                 clearTimeout(delay);
@@ -141,7 +141,7 @@ export default class JsonMenuNestedComponent {
             onEnd: (event) => { return this._onMoveEnd(event) },
         }
 
-        const sortables =  this.#element.querySelectorAll('.jmn-sortable');
+        const sortables =  this.element.querySelectorAll('.jmn-sortable');
         sortables.forEach((element) => {
             this.#sortableLists[element.id] = Sortable.create(element, options);
         });
@@ -204,7 +204,7 @@ export default class JsonMenuNestedComponent {
             if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
             if (json.hasOwnProperty('item')) activeItemId = json.item;
 
-            this.#element.dispatchEvent(new CustomEvent(eventType, {detail: {
+            this.element.dispatchEvent(new CustomEvent(eventType, {detail: {
                 jnm: this,
                 data: json,
                 activeItemId: activeItemId,

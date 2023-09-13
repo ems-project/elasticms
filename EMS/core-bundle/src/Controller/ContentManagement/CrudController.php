@@ -360,7 +360,10 @@ class CrudController extends AbstractController
         }
 
         $newRevision = $this->dataService->finalizeDraft($draft);
-        $this->dataService->refresh($contentType->giveEnvironment());
+
+        if ($request->query->getBoolean('refresh')) {
+            $this->dataService->refresh($contentType->giveEnvironment());
+        }
 
         return new JsonResponse([
             'success' => !$newRevision->getDraft(),

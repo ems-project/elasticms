@@ -30,12 +30,9 @@ export default class JsonMenuNestedComponent {
 
             this.#loadParentIds = json.load_parent_ids;
             this.#tree.innerHTML = json.tree;
-            this.element.dispatchEvent(new CustomEvent('jmn-load', {detail: {
-                jnm: this,
-                data: json,
-                elements: this._sortables(),
-            }}));
-            this.loading(false);
+
+            let eventCanceled = this._dispatchEvent('jmn-load', { data: json, elements: this._sortables() });
+            if (!eventCanceled) this.loading(false);
         });
     }
     itemGet(itemId) {
@@ -45,11 +42,9 @@ export default class JsonMenuNestedComponent {
         return this._post(`/item/${itemId}/add`, { 'position': position, 'add': add });
     }
     itemDelete(nodeId) {
-        return this._post(`/item/${nodeId}/delete`).then(() => {
-            this.element.dispatchEvent(new CustomEvent('jmn-delete', {detail: {
-                jnm: this,
-                nodeId: nodeId,
-            }}));
+        this._post(`/item/${nodeId}/delete`).then((json) => {
+            let eventCanceled = this._dispatchEvent('jmn-delete', { data: json, nodeId: nodeId  });
+            if (!eventCanceled) this.load();
         });
     }
     loading(flag) {
@@ -81,7 +76,7 @@ export default class JsonMenuNestedComponent {
         this._ajaxModal(element, `/item/${itemId}/modal-view`, 'jmn-view');
     }
     _onClickButtonDelete(itemId) {
-        this.itemDelete(itemId).then(() => { this.load(); });
+        this.itemDelete(itemId);
     }
     _onClickModalCustom(element, itemId) {
         const modalCustomName = element.dataset.jmnModalCustom;
@@ -199,18 +194,25 @@ export default class JsonMenuNestedComponent {
             ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
         };
 
+        ajaxModal.modal.addEventListener('ajax-modal-close', (event) => handlerClose(event));
         ajaxModal.load({ 'url': `${this.#pathPrefix}${path}`, 'size': modalSize }, (json) => {
             if (!json.hasOwnProperty('success') || !json.success) return;
             if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
-            if (json.hasOwnProperty('item')) activeItemId = json.item;
+            if (json.hasOwnProperty('item') && json.item.hasOwnProperty('id')) activeItemId = json.item.id
 
-            this.element.dispatchEvent(new CustomEvent(eventType, {detail: {
-                jnm: this,
-                data: json,
-                activeItemId: activeItemId,
-            }}));
+            let eventCanceled = this._dispatchEvent(eventType, { data: json, activeItemId: activeItemId, modal: ajaxModal });
+            if (eventCanceled)  ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
+            
+            ajaxModal.close();
         });
-        ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
+    }
+    _dispatchEvent(eventType, detail) {
+        detail.jmn = this;
+        return !this.element.dispatchEvent(new CustomEvent(eventType, {
+            bubbles: true,
+            cancelable: true,
+            detail: detail,
+        }));
     }
     async _get(path) {
         this.loading(true);

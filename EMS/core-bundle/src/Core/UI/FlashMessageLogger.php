@@ -29,6 +29,10 @@ final class FlashMessageLogger extends AbstractProcessingHandler
             return;
         }
 
+        if ('json' === $currentRequest->getContentType()) {
+            return;
+        }
+
         if (true === ($record['context']['noFlash'] ?? false)) {
             return;
         }

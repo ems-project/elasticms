@@ -10,10 +10,10 @@ use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfigException;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService;
-use EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Core\UI\AjaxModalResponse;
-use EMS\CoreBundle\Core\UI\AjaxService;
+use EMS\CoreBundle\Core\UI\Modal\Modal;
+use EMS\CoreBundle\Core\UI\Modal\ModalMessageType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
@@ -32,7 +32,6 @@ class JsonMenuNestedController
 {
     public function __construct(
         private readonly JsonMenuNestedService $jsonMenuNestedService,
-        private readonly AjaxService $ajaxService,
         private readonly DataService $dataService,
         private readonly FormFactory $formFactory,
         private readonly TranslatorInterface $translator
@@ -97,18 +96,12 @@ class JsonMenuNestedController
                 ]));
             }
 
-            return new JsonResponse($this->ajaxService
-                ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
-                ->setBlockTitle('jmn_modal_title')
-                ->setBlockBody('jmn_modal_form')
-                ->setBlockFooter('jmn_modal_footer_form')
-                ->render([
-                    'action' => 'add',
-                    'form' => $form->createView(),
-                    'node' => $node,
-                    'parent' => $parent,
-                ])
-            );
+            $modal = $this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
+                'action' => 'add',
+                'form' => $form->createView(),
+            ]);
+
+            return new JsonResponse($modal);
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
             return $this->responseWarningModal($e->getMessage());
         }
@@ -122,11 +115,10 @@ class JsonMenuNestedController
 
             $form = $this->createFormItem($config, $node, $item);
             $form->handleRequest($request);
-            $warnings = [];
 
             if ($form->isSubmitted()) {
                 if ($form->get('_item_hash')->getData() !== $item->getObjectHash()) {
-                    $warnings[] = $this->translator->trans('json_menu_nested.error.item_edit_outdated', [], EMSCoreBundle::TRANS_COMPONENT);
+                    $warning = $this->translator->trans('json_menu_nested.error.item_edit_outdated', [], EMSCoreBundle::TRANS_COMPONENT);
                 } elseif (null !== $object = $this->handleFormItem($form, $config, $node)) {
                     $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
                     $this->clearFlashes($request);
@@ -135,18 +127,16 @@ class JsonMenuNestedController
                 }
             }
 
-            return new JsonResponse($this->ajaxService
-                ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
-                ->setBlockTitle('jmn_modal_title')
-                ->setBlockBody('jmn_modal_form')
-                ->setBlockFooter('jmn_modal_footer_form')
-                ->render([
-                    'action' => 'edit',
-                    'form' => $form->createView(),
-                    'node' => $node,
-                    'item' => $item,
-                ], $warnings)
-            );
+            $modal = $this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
+                'action' => 'edit',
+                'form' => $form->createView(),
+            ]);
+
+            if (isset($warning)) {
+                $modal->addMessage(ModalMessageType::Warning, $warning);
+            }
+
+            return new JsonResponse($modal);
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
             return $this->responseWarningModal($e->getMessage());
         }
@@ -179,19 +169,11 @@ class JsonMenuNestedController
                 $dataFields = $this->dataService->getDataFieldsStructure($form->get('data'));
             }
 
-            return new JsonResponse($this->ajaxService
-                ->ajaxModalTemplate(JsonMenuNestedTemplate::TWIG_TEMPLATE)
-                ->setBlockTitle('jmn_modal_title')
-                ->setBlockBody('jmn_modal_preview')
-                ->setBlockFooter('jmn_modal_footer_close')
-                ->render([
-                    'action' => 'view',
-                    'node' => $node,
-                    'item' => $item,
-                    'rawData' => $rawData,
-                    'dataFields' => $dataFields ?? null,
-                ])
-            );
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
+                'action' => 'view',
+                'rawData' => $rawData,
+                'dataFields' => $dataFields ?? null,
+            ]));
         } catch (JsonMenuNestedException $e) {
             return $this->responseWarningModal($e->getMessage());
         }
@@ -271,8 +253,10 @@ class JsonMenuNestedController
 
     private function responseWarningModal(string $warning): JsonResponse
     {
-        return JsonResponse::fromJsonString(AjaxModalResponse::warning(
-            $this->translator->trans($warning, [], EMSCoreBundle::TRANS_COMPONENT)
+        return new JsonResponse(Modal::forMessage(
+            ModalMessageType::Warning,
+            $this->translator->trans($warning, [], EMSCoreBundle::TRANS_COMPONENT),
+            'Warning'
         ));
     }
 }

@@ -34,17 +34,6 @@ class AjaxModalResponse
         return $response->getJson();
     }
 
-    public static function warning(string $error): string
-    {
-        $response = new self();
-        $response->modalTitle = 'Error';
-        $response->success = false;
-        $response->modalClose = false;
-        $response->addMessageWarning($error);
-
-        return $response->getJson();
-    }
-
     private function getJson(): string
     {
         return Json::encode(\array_filter([
@@ -56,12 +45,5 @@ class AjaxModalResponse
                 'modalMessages' => $this->messages,
             ],
         ]));
-    }
-
-    public function addMessageWarning(string $message): self
-    {
-        $this->messages[] = ['warning' => $message];
-
-        return $this;
     }
 }

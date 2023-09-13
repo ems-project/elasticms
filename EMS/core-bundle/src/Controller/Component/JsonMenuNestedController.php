@@ -11,7 +11,6 @@ use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfigExce
 use EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode;
 use EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
-use EMS\CoreBundle\Core\UI\AjaxModalResponse;
 use EMS\CoreBundle\Core\UI\Modal\Modal;
 use EMS\CoreBundle\Core\UI\Modal\ModalMessageType;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -87,13 +86,10 @@ class JsonMenuNestedController
                 $item = $this->jsonMenuNestedService->itemCreate($config, $parent, $node, $object);
                 $this->clearFlashes($request);
 
-                return JsonResponse::fromJsonString(AjaxModalResponse::success([
+                return $this->responseSuccess([
                     'load' => $parent->isRoot() ? null : $itemId,
-                    'item' => $item->getId(),
-                    'type' => $item->getType(),
-                    'label' => $item->getLabel(),
-                    'object' => $item->getObject(),
-                ]));
+                    'item' => $item->getData(),
+                ]);
             }
 
             $modal = $this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
@@ -124,7 +120,7 @@ class JsonMenuNestedController
                     $this->jsonMenuNestedService->itemUpdate($config, $item, $object);
                     $this->clearFlashes($request);
 
-                    return JsonResponse::fromJsonString(AjaxModalResponse::success(['item' => $item->getId()]));
+                    return $this->responseSuccess(['item' => $item->getData()]);
                 }
             }
 
@@ -234,9 +230,12 @@ class JsonMenuNestedController
         return $isValid || $form->isValid() ? $object : null;
     }
 
-    private function responseSuccess(): JsonResponse
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function responseSuccess(array $data = []): JsonResponse
     {
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse([...\array_filter($data), ...['success' => true]]);
     }
 
     private function responseWarning(string $warning): JsonResponse

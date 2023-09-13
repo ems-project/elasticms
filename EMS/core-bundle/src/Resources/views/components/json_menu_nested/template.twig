@@ -177,11 +177,12 @@
 
 {%- block jmn_modal_footer -%}
     <div class="pull-right">
-        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
+        {% if form is defined  %}
+            <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
+        {% endif %}
         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
     </div>
 {%- endblock jmn_modal_footer -%}
-
 
 {%- block jmn_modal_view -%}
     {%- if dataFields -%}

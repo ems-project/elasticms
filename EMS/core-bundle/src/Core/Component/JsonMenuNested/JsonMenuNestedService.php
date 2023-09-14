@@ -121,7 +121,10 @@ class JsonMenuNestedService
             }
         }
 
-        return new Modal(...$blocks);
+        $modal = new Modal(...$blocks);
+        $modal->data['modalName'] = $modalName;
+
+        return $modal;
     }
 
     /**

@@ -8,6 +8,8 @@ class Modal implements \JsonSerializable
 {
     /** @var array<int, array<string, string>> */
     private array $messages = [];
+    /** @var array<string, mixed> */
+    public array $data = [];
 
     public function __construct(
         public ?string $title = null,
@@ -31,10 +33,13 @@ class Modal implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return \array_filter([
-            'modalTitle' => $this->title,
-            'modalBody' => $this->body,
-            'modalFooter' => $this->footer,
-            'modalMessages' => $this->messages,
+            ...$this->data,
+            ...[
+                'modalTitle' => $this->title,
+                'modalBody' => $this->body,
+                'modalFooter' => $this->footer,
+                'modalMessages' => $this->messages,
+            ],
         ]);
     }
 

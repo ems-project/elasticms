@@ -194,16 +194,18 @@ export default class JsonMenuNestedComponent {
             ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
         };
 
-        ajaxModal.modal.addEventListener('ajax-modal-close', (event) => handlerClose(event));
+        ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose);
         ajaxModal.load({ 'url': `${this.#pathPrefix}${path}`, 'size': modalSize }, (json) => {
-            if (!json.hasOwnProperty('success') || !json.success) return;
-            if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
-            if (json.hasOwnProperty('item') && json.item.hasOwnProperty('id')) activeItemId = json.item.id
+            let eventCanceled = this._dispatchEvent(eventType, { data: json, ajaxModal: ajaxModal });
+            if (eventCanceled) ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
 
-            let eventCanceled = this._dispatchEvent(eventType, { data: json, activeItemId: activeItemId, modal: ajaxModal });
-            if (eventCanceled)  ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
-            
-            ajaxModal.close();
+            if (eventType === 'jmn-add' || eventType === 'jmn-edit') {
+                if (!json.hasOwnProperty('success') || !json.success) return;
+                if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
+                if (json.hasOwnProperty('item') && json.item.hasOwnProperty('id')) activeItemId = json.item.id;
+
+                ajaxModal.close();
+            }
         });
     }
     _dispatchEvent(eventType, detail) {

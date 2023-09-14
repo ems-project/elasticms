@@ -88,7 +88,7 @@
 {%- block jmn_cell_structure -%}
     {{ template.block('jmn_button_add', _context)|raw }}
     {{ template.block('jmn_button_item_move', _context)|raw }}
-    {{ template.block('jmn_button_more', _context)|raw }}
+    {{ template.block('jmn_button_item_more', _context)|raw }}
 {%- endblock jmn_cell_structure -%}
 
 {%- block jmn_item_title -%}
@@ -118,6 +118,24 @@
     </button>
 {%- endblock jmn_button_item_add -%}
 
+{%- block jmn_button_item_more -%}
+    {% set menuMore = template.block('jmn_button_item_more_menu', _context)|raw  %}
+    {% if menuMore|length > 0 %}
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <ul class="dropdown-menu pull-right">
+                {{ menuMore|raw }}
+            </ul>
+        </div>
+    {% endif %}
+{%- endblock jmn_button_item_more -%}
+
+{%- block jmn_button_item_more_menu -%}
+    <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
+    <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
+    <li>{{ template.block('jmn_button_item_delete', _context)|raw }}</li>
+{%- endblock jmn_button_item_more_menu -%}
+
 {%- block jmn_button_add -%}
     {% set node = node|default(config.nodes.root) %}
     {% set addNodes = config.nodes.children(node) %}
@@ -140,24 +158,6 @@
         <li>{{ template.block('jmn_button_item_add', _context)|raw }}</li>
     {% endfor %}
 {%- endblock jmn_button_add_menu -%}
-
-{%- block jmn_button_more -%}
-    {% set menuMore = template.block('jmn_button_more_menu', _context)|raw  %}
-    {% if menuMore|length > 0 %}
-    <div class="btn-group btn-group-sm">
-        <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-        <ul class="dropdown-menu pull-right">
-            {{ menuMore|raw }}
-        </ul>
-    </div>
-    {% endif %}
-{%- endblock jmn_button_more -%}
-
-{%- block jmn_button_more_menu -%}
-    <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
-    <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
-    <li>{{ template.block('jmn_button_item_delete', _context)|raw }}</li>
-{%- endblock jmn_button_more_menu -%}
 
 {%- block jmn_modal_title -%}
     {% if node.icon %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}

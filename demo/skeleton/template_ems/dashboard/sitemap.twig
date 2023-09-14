@@ -60,61 +60,61 @@
 
 {%  block ems_footer %}
     <script>
-        var keepLoading = false;
-        function newPage(contentType, menu, object)
-        {
-            var xhr = new XMLHttpRequest();
-            var url = '{{ path('emsco_interface_document_create', { interface: 'json', name: '__contentType__' })|e('js') }}'.replace('__contentType__', contentType);
-            var redirect = '{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('js') }}';
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var json = JSON.parse(xhr.responseText);
-                    document.location = redirect.replace('__revisionId__', json.revision_id);
-                }
-            };
-            var data = Object.assign({}, object);
-            data.menu = menu;
-            xhr.send(JSON.stringify(data));
+        window.addEventListener('emsReady', function () {
+            Object.values(window.jsonMenuNestedComponents).forEach((jmn) => {
+                jmn.element.addEventListener('jmn-add', (event) => onJmnAdd(jmn, event));
+                jmn.element.addEventListener('jmn-load', (event) => onJmnLoad(jmn, event));
+            });
+        });
+
+        function onJmnLoad(jmn, event) {
+            event.preventDefault();
+            jmn.element.querySelectorAll('.btn-new-page').forEach((button) => {
+                button.addEventListener('click', () => onClickNewPage(jmn, button));
+            });
+            jmn.element.querySelectorAll('.btn-detach-page').forEach((button) => {
+                button.addEventListener('click', () => onClickDetachPage(jmn, button));
+            });
+            jmn.loading(false);
         }
 
-        function newBtnClick()
-        {
-            newPage(this.dataset.type, this.dataset.id, JSON.parse(this.dataset.object));
+        function onJmnAdd(jmn, event) {
+            event.preventDefault();
+            jmn.loading(true);
+            let item = event.detail.data.item;
+            createPage(item).then(() => jmn.load({ activeItemId: item.id }));
+        }
+        function onClickNewPage(jmn, button) {
+            let item = JSON.parse(button.dataset.item);
+            createPage(item).then(() => jmn.load({ activeItemId: item.id }));
+        }
+        function onClickDetachPage(jmn, button) {
+            let itemId = button.dataset.itemId;
+            let pageId = button.dataset.pageId;
+
+            jmn.loading(true);
+            post(`/json/data/page/update/${pageId}?` + new URLSearchParams({ refresh: 1}), {
+                menu: null
+            }).then((json) => {
+                if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: itemId });
+            });
         }
 
-        function jmnAdd(event)
-        {
-            keepLoading = true;
-            setTimeout(function () {
-                newPage(event.detail.data.type, event.detail.data.item, event.detail.data.object);
-            }, 3000);
+        async function createPage(item) {
+            return post('/json/data/page/index?' + new URLSearchParams({ refresh: 1}), {
+                label: item.label,
+                menu: item.id,
+                nl: {title: item.object.nl.title},
+                fr: {title: item.object.fr.title},
+            });
         }
-
-        function jmnLoad(event)
-        {
-            if (keepLoading) {
-                event.detail.jnm.loading(true);
-            }
-            for(var i = 0; i < event.detail.elements.length; i++) {
-                (function(index) {
-                    var newButton = event.detail.elements[index].getElementsByClassName('new-button');
-                    for(var i = 0; i < newButton.length; i++) {
-                        (function(index) {
-                            newButton[index].addEventListener("click", newBtnClick)
-                        })(i);
-                    }
-                })(i);
-            }
-        }
-
-        var jvmTrees = document.getElementsByClassName('json-menu-nested-component');
-        for(var i = 0; i < jvmTrees.length; i++) {
-            (function(index) {
-                jvmTrees[index].addEventListener("jmn-load", jmnLoad)
-                jvmTrees[index].addEventListener("jmn-add", jmnAdd)
-            })(i);
+        async function post(url, data) {
+            let response = await fetch(url, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'X-Flash-Messages': 'false'},
+                body: JSON.stringify(data)
+            });
+            return response.json();
         }
     </script>
 {%  endblock ems_footer %}

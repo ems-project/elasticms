@@ -57,8 +57,17 @@
     </li>
 {%- endblock jmn_button_add_menu -%}
 
+{%- block jmn_button_item_more_menu -%}
+    <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
+    <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
+    {% if item.type == 'page' and page and pageInfo %}
+        <li><button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ page.id }}">Detach page</button></li>
+    {% elseif item.children|length == 0 %}
+        <li>{{ template.block('jmn_button_item_delete', _context)|raw }}</li>
+    {% endif %}
+{%- endblock jmn_button_item_more_menu -%}
+
 {%- block jmn_button_item_delete -%}
-    {% set buttonLabel = 'Detach' %}
     {{ parent() }}
 {%- endblock -%}
 
@@ -70,11 +79,7 @@
 {%- block jmn_item_title -%}
     {% if item.type == 'page' %}
         {% if page and pageInfo %}
-            {%- set path = path('emsco_view_revisions', {
-                'type': 'page',
-                'ouuid': page.id,
-            }) -%}
-            <a href="{{ path }}">{{ attribute(page, locale).title|default(page.label) }}</a>
+            <a href="{{ path('emsco_view_revisions', { 'type': 'page', 'ouuid': page.id })  }}">{{ item.label }}</a>
         {% else %}
             <span class="text-gray">{{ item.label }}</span>
         {% endif %}
@@ -88,9 +93,9 @@
 {% block jmn_cell_content %}
     {% if item.type == 'page' %}
         {% if itemPages|length == 0 %}
-            <button data-id="{{ item.id }}" class="json-post-button btn btn-sm btn-default new-button" data-object="{{ item.object|json_encode|e('html_attr') }}" data-type="{{ item.type|e('html_attr') }}" data-label="{{ item.label|e('html_attr') }}" id="new-btn-{{ item.id|e('html_attr') }}">
+            <button class="json-post-button btn btn-sm btn-default btn-new-page" data-item="{{ item.data|json_encode|e('html_attr') }}">
                 <i class="fa fa-plus"></i>
-                New {{ item.type }}
+                Create {{ item.type }}
             </button>
         {% elseif itemPages|length == 1 %}
             {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) %}
@@ -155,16 +160,27 @@
 
 {% block modal_existing_page_body %}
     {% set columns = [
-        { "label": "label", "template": "{{ data.source.label }}", "orderField": "label.alpha_order" },
-        { "label": "Live", "template": (block('datatable_column_live')) },
-        { "label": "Last Update", "template": (block('datatable_column_last_update')), "orderField": "_finalization_datetime" },
+        { "label": "Page", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
+        { "label": "Live", "template": (block('table_existing_column_live')) },
+        { "label": "Last Update", "template": (block('table_existing_column_last_update')), "orderField": "_finalization_datetime" },
     ] %}
+
+    {% set must = { "bool": { "must_not": [ { "exists": { "field": "menu" } } ] } } %}
 
     {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}" %}
     {{ emsco_datatable(['preview'],['page'], {
         "frontendOptions": { "order": [[2, 'desc']] },
         'row_context': rowContext,
-        "columns": columns
+        "columns": columns,
+        "empty_query": must,
+        "query": { "bool": {
+            "must": must|merge([{ "multi_match": {
+                "fields": [ "live_search", "live_search._2gram","live_search._3gram"],
+                "query": "%query%",
+                "operator": "and",
+                "type": "bool_prefix"
+            } } ])
+        } },
     }) }}
 {% endblock modal_existing_page_body %}
 
@@ -174,16 +190,22 @@
     </div>
 {% endblock modal_existing_page_footer %}
 
-{% block datatable_column_live %}
-    {%- verbatim -%}
+{% block table_existing_column_label %}
+{%- verbatim -%}
+    <a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.label }}</a>
+{%- endverbatim -%}
+{% endblock table_existing_column_label %}
+
+{% block table_existing_column_live %}
+{%- verbatim -%}
     <i style="color: {{ docInfo.published('live') and docInfo.aligned('live') ? 'green' : 'red' }}" class="{{ docInfo.published('live') and docInfo.aligned('live') ? 'fa fa-check' : 'fa fa-eye-slash' }}"></i>
 {%- endverbatim -%}
-{% endblock datatable_column_live %}
+{% endblock table_existing_column_live %}
 
-{% block datatable_column_last_update %}
-    {%- verbatim -%}
+{% block table_existing_column_last_update %}
+{%- verbatim -%}
     <div style="width: 130px;" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="By {{ data.source._finalized_by|default }}" >
         {{ data.source._finalization_datetime|default ? data.source._finalization_datetime|date("d/m/Y (H:i)") : "N.A." }}
     </div>
 {%- endverbatim -%}
-{% endblock datatable_column_last_update %}
+{% endblock table_existing_column_last_update %}

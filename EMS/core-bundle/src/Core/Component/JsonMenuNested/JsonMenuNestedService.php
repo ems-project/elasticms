@@ -104,15 +104,9 @@ class JsonMenuNestedService
     /**
      * @param array<string, mixed> $context
      */
-    public function itemModal(JsonMenuNestedConfig $config, string $itemId, string $modalName, array $context = []): Modal
+    public function itemModal(JsonMenuNestedConfig $config, string $modalName, array $context = []): Modal
     {
-        $item = $config->jsonMenuNested->giveItemById($itemId);
-        $node = $config->nodes->getByType($item->getType());
-
-        $template = $this->jsonMenuNestedTemplateFactory->create($config, [
-            ...['item' => $item, 'node' => $node],
-            ...$context,
-        ]);
+        $template = $this->jsonMenuNestedTemplateFactory->create($config, $context);
 
         $blocks = [];
         foreach (['title', 'body', 'footer'] as $block) {

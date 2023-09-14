@@ -92,9 +92,11 @@ class JsonMenuNestedController
                 ]);
             }
 
-            $modal = $this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
+            $modal = $this->jsonMenuNestedService->itemModal($config, 'jmn_modal', [
                 'action' => 'add',
                 'form' => $form->createView(),
+                'item' => $parent,
+                'node' => $node,
             ]);
 
             return new JsonResponse($modal);
@@ -124,9 +126,11 @@ class JsonMenuNestedController
                 }
             }
 
-            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, 'jmn_modal', [
                 'action' => 'edit',
                 'form' => $form->createView(),
+                'item' => $item,
+                'node' => $node,
             ]));
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
             return $this->responseWarningModal($e->getMessage());
@@ -135,7 +139,17 @@ class JsonMenuNestedController
 
     public function itemModalCustom(JsonMenuNestedConfig $config, string $itemId, string $modalName): JsonResponse
     {
-        return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $itemId, $modalName));
+        try {
+            $item = $config->jsonMenuNested->giveItemById($itemId);
+            $node = $config->nodes->getByType($item->getType());
+
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $modalName, [
+                'item' => $item,
+                'node' => $node,
+            ]));
+        } catch (JsonMenuNestedException $e) {
+            return $this->responseWarningModal($e->getMessage());
+        }
     }
 
     public function itemModalView(JsonMenuNestedConfig $config, string $itemId): JsonResponse
@@ -160,10 +174,12 @@ class JsonMenuNestedController
                 $dataFields = $this->dataService->getDataFieldsStructure($form->get('data'));
             }
 
-            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $itemId, 'jmn_modal', [
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, 'jmn_modal', [
                 'action' => 'view',
                 'rawData' => $rawData,
                 'dataFields' => $dataFields ?? null,
+                'item' => $item,
+                'node' => $node,
             ]));
         } catch (JsonMenuNestedException $e) {
             return $this->responseWarningModal($e->getMessage());

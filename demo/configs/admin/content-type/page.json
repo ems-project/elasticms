@@ -75,6 +75,53 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\JsonMenuNestedLinkFieldType",
+                            "name": "menu",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Menu",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "expanded": false,
+                                    "multiple": false,
+                                    "json_menu_nested_types": "page",
+                                    "json_menu_nested_field": "structure",
+                                    "json_menu_nested_unique": true,
+                                    "query": null
+                                },
+                                "mappingOptions": {
+                                    "index": "not_analyzed",
+                                    "analyzer": null,
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": "{% if finalize and not _id|default(false) and _source.menu|default(false) %}\r\n    {% set foundOne = {\r\n        index: 'preview'|get_environment.alias,\r\n        body: {\r\n            query: {\r\n                terms: {\r\n                    menu: [_source.menu],\r\n                },\r\n            },\r\n        },\r\n    }|search.hits.hits|default([]) %}\r\n    {% if foundOne|length > 0 %}\r\n        {{ cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}\r\n    {% endif %}\r\n{% endif %}"
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 2,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
                             "type": "EMS\\CoreBundle\\Form\\DataField\\TabsFieldType",
                             "name": "tabs",
                             "contentType": null,
@@ -98,7 +145,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 2,
+                            "orderKey": 3,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -1232,7 +1279,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 0,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -1260,53 +1307,6 @@
                                                             "postProcessing": null
                                                         },
                                                         "raw_data": []
-                                                    },
-                                                    "orderKey": 1,
-                                                    "children": []
-                                                },
-                                                "replaced": []
-                                            },
-                                            {
-                                                "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                                                "arguments": [],
-                                                "properties": {
-                                                    "type": "EMS\\CoreBundle\\Form\\DataField\\JsonMenuNestedLinkFieldType",
-                                                    "name": "menu",
-                                                    "contentType": null,
-                                                    "deleted": false,
-                                                    "description": null,
-                                                    "options": {
-                                                        "displayOptions": {
-                                                            "label": "Menu",
-                                                            "class": "col-md-12 hidden",
-                                                            "lastOfRow": false,
-                                                            "helptext": null,
-                                                            "expanded": false,
-                                                            "multiple": false,
-                                                            "json_menu_nested_types": "page",
-                                                            "json_menu_nested_field": "structure",
-                                                            "json_menu_nested_unique": false,
-                                                            "query": null
-                                                        },
-                                                        "mappingOptions": {
-                                                            "index": "not_analyzed",
-                                                            "analyzer": null,
-                                                            "copy_to": null
-                                                        },
-                                                        "restrictionOptions": {
-                                                            "mandatory": false,
-                                                            "mandatory_if": null,
-                                                            "minimum_role": null
-                                                        },
-                                                        "extraOptions": {
-                                                            "extra": null,
-                                                            "clear_on_copy": false,
-                                                            "postProcessing": "{% if finalize and not _id|default(false) and _source.menu|default(false) %}\r\n    {% set foundOne = {\r\n        index: 'preview'|get_environment.alias,\r\n        body: {\r\n            query: {\r\n                terms: {\r\n                    menu: [_source.menu],\r\n                },\r\n            },\r\n        },\r\n    }|search.hits.hits|default([]) %}\r\n    {% if foundOne|length > 0 %}\r\n        {{ cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}\r\n    {% endif %}\r\n{% endif %}"
-                                                        },
-                                                        "raw_data": [],
-                                                        "migrationOptions": {
-                                                            "protected": false
-                                                        }
                                                     },
                                                     "orderKey": 2,
                                                     "children": []

@@ -160,8 +160,9 @@
 {%- endblock jmn_button_add_menu -%}
 
 {%- block jmn_modal_title -%}
-    {% if node.icon %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
-    {{ action|capitalize }} {{ node ? node.type|capitalize }}
+    {% set modalTitle = modalTitle|default("#{action|capitalize} #{node.type|default('')|capitalize}") %}
+    {% if node.icon|default(false) %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
+    {{ modalTitle }}
 {%- endblock jmn_modal_title -%}
 
 {%- block jmn_modal_body -%}

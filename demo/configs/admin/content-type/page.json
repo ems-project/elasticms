@@ -91,7 +91,7 @@
                                     "json_menu_nested_types": "page",
                                     "json_menu_nested_field": "structure",
                                     "json_menu_nested_unique": true,
-                                    "query": null
+                                    "query": "{\r\n  \"_source\": [\"structure\"], \r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"term\": {\r\n            \"_contenttype\": {\r\n              \"value\": \"section\"\r\n            }\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}"
                                 },
                                 "mappingOptions": {
                                     "index": "not_analyzed",
@@ -106,7 +106,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{% if finalize and _source.menu|default(false) %}\r\n    {% set found = {\r\n        'index': 'preview'|get_environment.alias,\r\n        'body': {\r\n            'query': {\r\n                'bool': {\r\n                    'must': [ { 'terms': { 'menu': [_source.menu]} } ],\r\n                    'must_not': [ { 'term': { '_id': (_id) } } ]\r\n                }\r\n            }\r\n        },\r\n    }|search.hits.hits|default([]) %}\r\n    {% if found|length > 0 %}\r\n        {{ cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}\r\n    {% endif %}\r\n{% endif %}"
+                                    "postProcessing": "{% if finalize and _source.menu|default(false) %}\r\n    {% set found = {\r\n        \"index\": 'preview'|get_environment.alias,\r\n        \"body\": {\r\n            \"query\": {\r\n                \"bool\": {\r\n                    \"must\": [ { \"terms\": { \"menu\": [_source.menu]} } ],\r\n                    \"must_not\": [ { \"term\": { \"_id\": (_id) } } ]\r\n                }\r\n            }\r\n        },\r\n    }|search.hits.hits|default([]) %}\r\n    {% if found|length > 0 %}\r\n        {{ cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}\r\n    {% endif %}\r\n{% endif %}"
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {

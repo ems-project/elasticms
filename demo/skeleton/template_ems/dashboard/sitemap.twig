@@ -3,8 +3,9 @@
     {% set routeParams = app.request.attributes.get('_route_params') %}
 
     {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
-    {% if app.user.localePreferred|default(null) and app.user.localePreferred in locales %}
-        {% set locales = [app.user.localePreferred]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
+
+    {% if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales %}
+        {% set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
     {% endif %}
     {%  set locale = app.request.query.get('locale', locales|first) %}
 

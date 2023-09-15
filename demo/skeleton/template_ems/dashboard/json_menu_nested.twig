@@ -67,21 +67,29 @@
     {% endif %}
 {%- endblock jmn_button_item_more_menu -%}
 
-{%- block jmn_button_item_delete -%}
+{%- block jmn_button_item_add -%}
+    {% set buttonLabel = "Create #{addNode.type}" %}
     {{ parent() }}
 {%- endblock -%}
 
-{%- block jmn_button_item_add -%}
-    {% set buttonLabel = buttonLabel|default("Create #{addNode.type}") %}
+{%- block jmn_button_item_edit -%}
+    {% if node.type|default('') == 'page' %}{% set buttonLabel = 'Edit item' %}{% endif %}
+    {{ parent() }}
+{%- endblock -%}
+
+{%- block jmn_button_item_view -%}
+    {% if node.type|default('') == 'page' %}{% set buttonLabel = 'View item' %}{% endif %}
     {{ parent() }}
 {%- endblock -%}
 
 {%- block jmn_item_title -%}
     {% if item.type == 'page' %}
         {% if page and pageInfo %}
-            <a href="{{ path('emsco_view_revisions', { 'type': 'page', 'ouuid': page.id })  }}">{{ item.label }}</a>
+            <a href="{{ path('emsco_view_revisions', { 'type': 'page', 'ouuid': page.id })  }}">
+                {{ attribute(item.object, locale).title }}
+            </a>
         {% else %}
-            <span class="text-gray">{{ item.label }}</span>
+            <span class="text-gray">{{ attribute(item.object, locale).title|default('???') }}</span>
         {% endif %}
     {% else %}
         {{ parent() }}
@@ -94,7 +102,7 @@
     {% if item.type == 'page' %}
         {% if itemPages|length == 0 %}
             <button class="json-post-button btn btn-sm btn-default btn-new-page" data-item="{{ item.data|json_encode|e('html_attr') }}">
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-plus"></i>&nbsp;
                 Create {{ item.type }}
             </button>
         {% elseif itemPages|length == 1 %}
@@ -156,32 +164,41 @@
     {% endif %}
 {% endblock %}
 
+{% block jmn_modal_title %}
+    {% if node.type|default == 'page' and action == 'add' %}{% set modalTitle = 'Create page' %}{% endif %}
+    {% if node.type|default == 'page' and action == 'edit' %}{% set modalTitle = 'Edit entry' %}{% endif %}
+    {{ parent() }}
+{% endblock jmn_modal_title %}
+
 {% block modal_existing_page_title %}<i class="fa fa-sign-in"></i>&nbsp;Existing content{% endblock modal_existing_page_title %}
 
 {% block modal_existing_page_body %}
     {% set columns = [
+        { "label": "Choose", "template": (block('table_existing_column_select')) },
         { "label": "Page", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
         { "label": "Live", "template": (block('table_existing_column_live')) },
         { "label": "Last Update", "template": (block('table_existing_column_last_update')), "orderField": "_finalization_datetime" },
     ] %}
-
-    {% set must = { "bool": { "must_not": [ { "exists": { "field": "menu" } } ] } } %}
-
     {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}" %}
-    {{ emsco_datatable(['preview'],['page'], {
-        "frontendOptions": { "order": [[2, 'desc']] },
-        'row_context': rowContext,
-        "columns": columns,
-        "empty_query": must,
-        "query": { "bool": {
-            "must": must|merge([{ "multi_match": {
-                "fields": [ "live_search", "live_search._2gram","live_search._3gram"],
-                "query": "%query%",
-                "operator": "and",
-                "type": "bool_prefix"
-            } } ])
-        } },
-    }) }}
+    <div id="jmn-existing-page-table">
+        {{ emsco_datatable(['preview'],['page'], {
+            "frontendOptions": { "order": [[3, 'desc']] },
+            'row_context': rowContext,
+            "columns": columns,
+            "empty_query": { "bool": { "must_not": [ { "exists": { "field": "menu" } } ] } },
+            "query": { "bool": {
+                "must_not": [ { "exists": { "field": "menu" } } ],
+                "must": [{
+                    "multi_match": {
+                        "fields": [ "live_search", "live_search._2gram","live_search._3gram"],
+                        "query": "%query%",
+                        "operator": "and",
+                        "type": "bool_prefix"
+                    }
+                }]
+            } },
+        }) }}
+    </div>
 {% endblock modal_existing_page_body %}
 
 {% block modal_existing_page_footer %}
@@ -189,6 +206,12 @@
         <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
     </div>
 {% endblock modal_existing_page_footer %}
+
+{% block table_existing_column_select %}
+{%- verbatim -%}
+    <button class="btn btn-sm btn-default btn-add-existing-page" data-page-id="{{ data.id }}">Choose</button>
+{%- endverbatim -%}
+{% endblock table_existing_column_select %}
 
 {% block table_existing_column_label %}
 {%- verbatim -%}

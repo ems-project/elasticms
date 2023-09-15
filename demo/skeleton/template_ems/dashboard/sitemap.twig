@@ -62,8 +62,9 @@
     <script>
         window.addEventListener('emsReady', function () {
             Object.values(window.jsonMenuNestedComponents).forEach((jmn) => {
-                jmn.element.addEventListener('jmn-add', (event) => onJmnAdd(jmn, event));
                 jmn.element.addEventListener('jmn-load', (event) => onJmnLoad(jmn, event));
+                jmn.element.addEventListener('jmn-add', (event) => onJmnAdd(jmn, event));
+                jmn.element.addEventListener('jmn-modal-custom', (event) => onJmnModalCustom(jmn, event));
             });
         });
 
@@ -77,41 +78,85 @@
             });
             jmn.loading(false);
         }
-
         function onJmnAdd(jmn, event) {
+            if (!event.detail.data.hasOwnProperty('success') || !event.detail.data.success) return;
             event.preventDefault();
             jmn.loading(true);
-            let item = event.detail.data.item;
-            createPage(item).then(() => jmn.load({ activeItemId: item.id }));
+            createPageForItem(event.detail.data.item);
+        }
+        function onJmnModalCustom(jmn, event) {
+            let data = event.detail.data;
+            if (data.hasOwnProperty('modalName') && data.modalName === 'modal_existing_page') {
+                event.preventDefault();
+                onModalExistingPage(jmn, event.detail.ajaxModal, data.item.id);
+            }
         }
         function onClickNewPage(jmn, button) {
-            let item = JSON.parse(button.dataset.item);
-            createPage(item).then(() => jmn.load({ activeItemId: item.id }));
+            jmn.loading(true);
+            createPageForItem(JSON.parse(button.dataset.item));
         }
         function onClickDetachPage(jmn, button) {
-            let itemId = button.dataset.itemId;
-            let pageId = button.dataset.pageId;
-
             jmn.loading(true);
-            post(`/json/data/page/update/${pageId}?` + new URLSearchParams({ refresh: 1}), {
-                menu: null
-            }).then((json) => {
-                if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: itemId });
+            updatePage(button.dataset.pageId, { menu: null }).then((json) => {
+                if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: button.dataset.itemId });
             });
         }
+        function onModalExistingPage(jmn, ajaxModal, itemParentId) {
+            document.getElementById('jmn-existing-page-table').addEventListener('click', (event) => {
+                if (event.target.classList.contains('btn-add-existing-page')) onChooseExistingPage(jmn, event.target);
+            });
 
-        async function createPage(item) {
-            return post('/json/data/page/index?' + new URLSearchParams({ refresh: 1}), {
+            async function onChooseExistingPage(jmn, button) {
+                jmn.loading(true);
+                ajaxModal.close();
+                let pageId = button.dataset.pageId;
+
+                getPage(pageId)
+                    .then((page) => ({
+                        type: 'page',
+                        object: {
+                            label: page.revision.label,
+                            nl: { title: page.revision['title_nl'] },
+                            fr: { title: page.revision['title_fr'] },
+                        }
+                    }))
+                    .then((item) => jmn.itemAdd(itemParentId, item))
+                    .then((responseAdd) => {
+                        let addedItemId = responseAdd.item.id;
+                        updatePage(pageId, { menu: addedItemId }).then((json) => {
+                            if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: addedItemId });
+                        });
+                    });
+            }
+        }
+
+        function createPageForItem(item) {
+            post('/json/data/page/create?' + new URLSearchParams({ refresh: 1 }), {
                 label: item.label,
                 menu: item.id,
                 nl: {title: item.object.nl.title},
                 fr: {title: item.object.fr.title},
+            }).then((json) => {
+                if (json.hasOwnProperty('revision_id')) window.location = `/data/draft/edit/${json.revision_id}`;
             });
+        }
+        function getPage(pageId) {
+            return get(`/json/data/page/${pageId}`);
+        }
+        function updatePage(pageId, data) {
+            return post(`/json/data/page/update/${pageId}?` + new URLSearchParams({ refresh: 1}), data);
+        }
+        async function get(url) {
+            let response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json', 'X-Log-Level': '300'}
+            });
+            return response.json();
         }
         async function post(url, data) {
             let response = await fetch(url, {
                 method: "POST",
-                headers: { 'Content-Type': 'application/json', 'X-Flash-Messages': 'false'},
+                headers: { 'Content-Type': 'application/json', 'X-Log-Level': '300'},
                 body: JSON.stringify(data)
             });
             return response.json();

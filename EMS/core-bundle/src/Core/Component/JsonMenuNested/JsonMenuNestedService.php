@@ -99,19 +99,18 @@ class JsonMenuNestedService
         $this->saveStructure($config);
     }
 
-    public function itemDelete(JsonMenuNestedConfig $config, string $itemId): void
+    public function itemDelete(JsonMenuNestedConfig $config, JsonMenuNested $item): void
     {
-        $item = $config->jsonMenuNested->giveItemById($itemId);
         $item->giveParent()->removeChild($item);
-
         $this->saveStructure($config);
     }
 
     /**
      * @param array<string, mixed> $context
      */
-    public function itemModal(JsonMenuNestedConfig $config, string $modalName, array $context = []): Modal
+    public function itemModal(JsonMenuNestedConfig $config, JsonMenuNested $item, string $modalName, array $context = []): Modal
     {
+        $context['item'] = $item;
         $template = $this->jsonMenuNestedTemplateFactory->create($config, $context);
 
         $blocks = [];
@@ -123,6 +122,7 @@ class JsonMenuNestedService
 
         $modal = new Modal(...$blocks);
         $modal->data['modalName'] = $modalName;
+        $modal->data['item'] = $item->getData();
 
         return $modal;
     }

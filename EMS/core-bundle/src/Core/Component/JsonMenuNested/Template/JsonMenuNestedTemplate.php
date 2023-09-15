@@ -24,7 +24,7 @@ class JsonMenuNestedTemplate
         private readonly string $templateNamespace,
         array $context = []
     ) {
-        $this->template = $this->twig->load("@$this->templateNamespace/components/json_menu_nested/template.html.twig");
+        $this->template = $this->twig->load("@$this->templateNamespace/components/json_menu_nested/template.twig");
         $this->configTemplate = $this->config->template ? $this->twig->load($this->config->template) : null;
 
         $this->context = new JsonMenuNestedTemplateContext([

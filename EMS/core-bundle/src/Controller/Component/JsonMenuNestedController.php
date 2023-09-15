@@ -92,14 +92,11 @@ class JsonMenuNestedController
                 ]);
             }
 
-            $modal = $this->jsonMenuNestedService->itemModal($config, 'jmn_modal', [
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $parent, 'jmn_modal', [
                 'action' => 'add',
                 'form' => $form->createView(),
-                'item' => $parent,
                 'node' => $node,
-            ]);
-
-            return new JsonResponse($modal);
+            ]));
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
             return $this->responseWarningModal($e->getMessage());
         }
@@ -126,10 +123,9 @@ class JsonMenuNestedController
                 }
             }
 
-            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, 'jmn_modal', [
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $item, 'jmn_modal', [
                 'action' => 'edit',
                 'form' => $form->createView(),
-                'item' => $item,
                 'node' => $node,
             ]));
         } catch (JsonMenuNestedException|JsonMenuNestedConfigException $e) {
@@ -143,14 +139,9 @@ class JsonMenuNestedController
             $item = $config->jsonMenuNested->giveItemById($itemId);
             $node = $config->nodes->getByType($item->getType());
 
-            $modal = $this->jsonMenuNestedService->itemModal($config, $modalName, [
-                'item' => $item,
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $item, $modalName, [
                 'node' => $node,
-            ]);
-
-            $modal->data['item'] = $item->getData();
-
-            return new JsonResponse($modal);
+            ]));
         } catch (JsonMenuNestedException $e) {
             return $this->responseWarningModal($e->getMessage());
         }
@@ -178,11 +169,10 @@ class JsonMenuNestedController
                 $dataFields = $this->dataService->getDataFieldsStructure($form->get('data'));
             }
 
-            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, 'jmn_modal', [
+            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $item, 'jmn_modal', [
                 'action' => 'view',
                 'rawData' => $rawData,
                 'dataFields' => $dataFields ?? null,
-                'item' => $item,
                 'node' => $node,
             ]));
         } catch (JsonMenuNestedException $e) {
@@ -193,10 +183,11 @@ class JsonMenuNestedController
     public function itemDelete(Request $request, JsonMenuNestedConfig $config, string $itemId): JsonResponse
     {
         try {
-            $this->jsonMenuNestedService->itemDelete($config, $itemId);
+            $deleteItem = $config->jsonMenuNested->giveItemById($itemId);
+            $this->jsonMenuNestedService->itemDelete($config, $deleteItem);
             $this->clearFlashes($request);
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(['item' => $deleteItem->getData()]);
         } catch (JsonMenuNestedException $e) {
             return $this->responseWarning($e->getMessage());
         }

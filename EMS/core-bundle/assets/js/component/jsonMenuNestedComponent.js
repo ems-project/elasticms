@@ -38,7 +38,7 @@ export default class JsonMenuNestedComponent {
     itemGet(itemId) {
         return this._get(`/item/${itemId}`);
     }
-    itemAdd(itemId, add, position = 0) {
+    itemAdd(itemId, add, position = null) {
         return this._post(`/item/${itemId}/add`, { 'position': position, 'add': add });
     }
     itemDelete(nodeId) {

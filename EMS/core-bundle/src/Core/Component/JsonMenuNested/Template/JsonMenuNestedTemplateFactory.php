@@ -12,8 +12,7 @@ class JsonMenuNestedTemplateFactory
     public function __construct(
         private readonly Environment $twig,
         private readonly string $templateNamespace
-    )
-    {
+    ) {
     }
 
     /**

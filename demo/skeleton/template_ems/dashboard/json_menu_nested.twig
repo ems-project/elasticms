@@ -166,7 +166,7 @@
 
 {% block jmn_modal_title %}
     {% if node.type|default == 'page' and action == 'add' %}{% set modalTitle = 'Create page' %}{% endif %}
-    {% if node.type|default == 'page' and action == 'edit' %}{% set modalTitle = 'Edit entry' %}{% endif %}
+    {% if node.type|default == 'page' and action == 'edit' %}{% set modalTitle = 'Edit item' %}{% endif %}
     {{ parent() }}
 {% endblock jmn_modal_title %}
 
@@ -174,7 +174,7 @@
 
 {% block modal_existing_page_body %}
     {% set columns = [
-        { "label": "Choose", "template": (block('table_existing_column_select')) },
+        { "label": "Select", "template": (block('table_existing_column_select')) },
         { "label": "Page", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
         { "label": "Live", "template": (block('table_existing_column_live')) },
         { "label": "Last Update", "template": (block('table_existing_column_last_update')), "orderField": "_finalization_datetime" },
@@ -209,7 +209,13 @@
 
 {% block table_existing_column_select %}
 {%- verbatim -%}
-    <button class="btn btn-sm btn-default btn-add-existing-page" data-page-id="{{ data.id }}">Choose</button>
+    <div style="width: 120px;">
+        {% if docInfo.hasDraft %}
+            <span class="label label-default">In draft</span>
+        {% else %}
+            <button class="btn btn-sm btn-default btn-add-existing-page" data-page-id="{{ data.id }}">Select</button>
+        {% endif %}
+    </div>
 {%- endverbatim -%}
 {% endblock table_existing_column_select %}
 

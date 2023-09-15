@@ -143,10 +143,14 @@ class JsonMenuNestedController
             $item = $config->jsonMenuNested->giveItemById($itemId);
             $node = $config->nodes->getByType($item->getType());
 
-            return new JsonResponse($this->jsonMenuNestedService->itemModal($config, $modalName, [
+            $modal = $this->jsonMenuNestedService->itemModal($config, $modalName, [
                 'item' => $item,
                 'node' => $node,
-            ]));
+            ]);
+
+            $modal->data['item'] = $item->getData();
+
+            return new JsonResponse($modal);
         } catch (JsonMenuNestedException $e) {
             return $this->responseWarningModal($e->getMessage());
         }

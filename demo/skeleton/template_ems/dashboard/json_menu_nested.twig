@@ -171,6 +171,7 @@
 {% block jmn_modal_title %}
     {% if node.type|default == 'page' and action == 'add' %}{% set modalTitle = 'Create page' %}{% endif %}
     {% if node.type|default == 'page' and action == 'edit' %}{% set modalTitle = 'Edit item' %}{% endif %}
+    {% if node.type|default == 'page' and action == 'view' %}{% set modalTitle = 'View item' %}{% endif %}
     {{ parent() }}
 {% endblock jmn_modal_title %}
 

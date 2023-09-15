@@ -64,10 +64,10 @@ class JsonMenuNestedController
     {
         try {
             $data = Json::decode($request->getContent());
-            $this->jsonMenuNestedService->itemAdd($config, $itemId, $data);
+            $addedItem = $this->jsonMenuNestedService->itemAdd($config, $itemId, $data);
             $this->clearFlashes($request);
 
-            return $this->responseSuccess();
+            return $this->responseSuccess(['item' => $addedItem?->getData()]);
         } catch (JsonMenuNestedException $e) {
             return $this->responseWarning($e->getMessage());
         }

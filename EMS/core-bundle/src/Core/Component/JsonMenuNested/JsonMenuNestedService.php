@@ -58,7 +58,7 @@ class JsonMenuNestedService
     /**
      * @param array{add: array<mixed>, position?: int}|array<mixed> $data
      */
-    public function itemAdd(JsonMenuNestedConfig $config, string $itemId, array $data): void
+    public function itemAdd(JsonMenuNestedConfig $config, string $itemId, array $data): ?JsonMenuNested
     {
         $optionsResolver = new OptionsResolver();
         $optionsResolver
@@ -72,12 +72,18 @@ class JsonMenuNestedService
 
         $jsonMenuNested = $config->jsonMenuNested;
         $item = $jsonMenuNested->giveItemById($itemId);
-        $addChild = new JsonMenuNested($data['add']);
+        $addData = $data['add'];
 
-        if (!$jsonMenuNested->hasChild($addChild)) {
-            $item->addChild($addChild, $data['position'] ?? null);
-            $this->saveStructure($config);
+        $addChild = isset($addData['id']) ? new JsonMenuNested($addData) : JsonMenuNested::create($addData['type'], $addData['object']);
+
+        if ($jsonMenuNested->hasChild($addChild)) {
+            return null;
         }
+
+        $item->addChild($addChild, $data['position'] ?? null);
+        $this->saveStructure($config);
+
+        return $addChild;
     }
 
     /**

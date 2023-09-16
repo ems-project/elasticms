@@ -275,7 +275,15 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $response = Response::fromArray($this->elasticaService->search($search)->getResponse()->getData());
         foreach ($response->getDocuments() as $document) {
             $source = $document->getSource();
-            $structures[] = [...$structures, ...Json::decode($source[$jmnField] ?? '{}')];
+            $object = \array_filter($source, static fn ($key) => $key !== $jmnField, ARRAY_FILTER_USE_KEY);
+
+            $structures[] = [
+                'id' => $document->getId(),
+                'type' => $document->getContentType(),
+                'label' => $document->getContentType(),
+                'object' => $object,
+                'children' => Json::decode($source[$jmnField] ?? '{}'),
+            ];
         }
 
         return JsonMenuNested::fromStructure($structures);

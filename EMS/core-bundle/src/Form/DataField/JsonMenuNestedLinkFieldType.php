@@ -220,17 +220,8 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $choices = [];
         $allowTypes = $options['json_menu_nested_types'];
 
-        if (null !== $contentType = $fieldType->getContentType()) {
-            $env = $contentType->getEnvironment();
-            $index = $env ? $env->getAlias() : null;
-        }
-
-        if (!isset($index)) {
-            return [];
-        }
-
         $search = $this->elasticaService->convertElasticsearchSearch([
-            'index' => $index,
+            'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
             'body' => $options['query'],
         ]);
 

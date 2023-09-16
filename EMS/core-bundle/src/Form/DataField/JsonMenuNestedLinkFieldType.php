@@ -219,31 +219,32 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     private function buildChoices(FieldType $fieldType, array $options): array
     {
         $choices = [];
-        $field = $options['json_menu_nested_field'];
-
-        $allowTypes = $options['json_menu_nested_types'];
+        $query = $options['query'];
+        $jmnField = $options['json_menu_nested_field'];
+        $jmnTypes = $options['json_menu_nested_types'] ?? [];
+        $jmnUnique = $options['json_menu_nested_unique'];
+        $isMigration = $options['migration'] ?? false;
+        $rawData = $options['raw_data'] ?? [];
 
         $search = $this->elasticaService->convertElasticsearchSearch([
             'size' => 5000,
             'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
-            'body' => $options['query'],
+            'body' => $query,
         ]);
 
-        $isMigration = $options['migration'] ?? false;
-        $alreadyAssignedUuids = !$isMigration && $options['json_menu_nested_unique'] ?
-            $this->searchAssignedUuids($fieldType, $options['raw_data'] ?? []) : [];
+        $assignedUuids = !$isMigration && $jmnUnique ? $this->searchAssignedUuids($fieldType, $rawData) : [];
 
         $response = Response::fromArray($this->elasticaService->search($search)->getResponse()->getData());
         foreach ($response->getDocuments() as $document) {
             $source = $document->getSource();
-            $menu = $this->decoder->jsonMenuNestedDecode($source[$field] ?? '{}');
+            $menu = $this->decoder->jsonMenuNestedDecode($source[$jmnField] ?? '{}');
 
             foreach ($menu as $item) {
-                if (\in_array($item->getId(), $alreadyAssignedUuids, true)) {
+                if (\in_array($item->getId(), $assignedUuids, true)) {
                     continue;
                 }
 
-                if ((\is_countable($allowTypes) ? \count($allowTypes) : 0) > 0 && !\in_array($item->getType(), $allowTypes, true)) {
+                if ((\is_countable($jmnTypes) ? \count($jmnTypes) : 0) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
                     continue;
                 }
 

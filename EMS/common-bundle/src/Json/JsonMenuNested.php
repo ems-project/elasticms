@@ -74,6 +74,19 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     }
 
     /**
+     * @return array{id: string, label: string, type: string, object: array<string, mixed>}
+     */
+    public function getData(): array
+    {
+        return [
+            'id' => $this->id,
+            'label' => $this->label,
+            'type' => $this->type,
+            'object' => $this->object,
+        ];
+    }
+
+    /**
      * Return a flat array.
      *
      * @return array<JsonMenuNested>

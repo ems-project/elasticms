@@ -3,7 +3,6 @@
 namespace EMS\CoreBundle\Form\DataField;
 
 use EMS\CommonBundle\Elasticsearch\Response\Response;
-use EMS\CommonBundle\Json\Decoder;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Entity\DataField;
@@ -11,6 +10,7 @@ use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
 use EMS\CoreBundle\Service\ElasticsearchService;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -28,8 +28,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
-        private readonly ElasticaService $elasticaService,
-        private readonly Decoder $decoder
+        private readonly ElasticaService $elasticaService
     ) {
         parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
     }
@@ -238,38 +237,48 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $choices = [];
 
         if (null === $jmnQuery || null === $jmnField) {
-            return [];
+            return $choices;
         }
 
+        $assignedUuids = !$migration && $jmnUnique ? $this->searchAssignedUuids($fieldType, $rawData) : [];
+
+        $index = $fieldType->giveContentType()->giveEnvironment()->getAlias();
+        $jmnMenu = $this->createJsonMenuNested($index, $jmnQuery, $jmnField);
+
+        foreach ($jmnMenu as $item) {
+            if (\in_array($item->getId(), $assignedUuids, true)) {
+                continue;
+            }
+
+            if (\count($jmnTypes) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
+                continue;
+            }
+
+            $label = \implode(' > ', \array_map(static fn (JsonMenuNested $p) => $p->getLabel(), $item->getPath()));
+
+            $choices[$label] = $item->getId();
+        }
+
+        return $choices;
+    }
+
+    private function createJsonMenuNested(string $index, string $jmnQuery, string $jmnField): JsonMenuNested
+    {
         $search = $this->elasticaService->convertElasticsearchSearch([
             'size' => 5000,
-            'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
+            'index' => $index,
             'body' => $jmnQuery,
         ]);
 
-        $assignedUuids = !$migration && $jmnUnique ? $this->searchAssignedUuids($fieldType, $rawData) : [];
+        $structures = [];
 
         $response = Response::fromArray($this->elasticaService->search($search)->getResponse()->getData());
         foreach ($response->getDocuments() as $document) {
             $source = $document->getSource();
-            $menu = $this->decoder->jsonMenuNestedDecode($source[$jmnField] ?? '{}');
-
-            foreach ($menu as $item) {
-                if (\in_array($item->getId(), $assignedUuids, true)) {
-                    continue;
-                }
-
-                if (\count($jmnTypes) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
-                    continue;
-                }
-
-                $label = \implode(' > ', \array_map(static fn (JsonMenuNested $p) => $p->getLabel(), $item->getPath()));
-
-                $choices[$label] = $item->getId();
-            }
+            $structures[] = [...$structures, ...Json::decode($source[$jmnField] ?? '{}')];
         }
 
-        return $choices;
+        return JsonMenuNested::fromStructure($structures);
     }
 
     /**
@@ -283,7 +292,6 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
             'size' => 500,
             'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
             '_source' => $fieldType->getName(),
-            'type' => $fieldType->giveContentType()->getName(),
             'body' => ['query' => ['exists' => ['field' => $fieldType->getName()]]],
         ]);
 

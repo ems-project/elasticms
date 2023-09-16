@@ -268,17 +268,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
             'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
             '_source' => $fieldType->getName(),
             'type' => $fieldType->giveContentType()->getName(),
-            'body' => [
-                'query' => [
-                    'bool' => [
-                        'must' => [
-                            [
-                                'exists' => ['field' => $fieldType->getName()],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
+            'body' => ['query' => [ 'exists' => ['field' => $fieldType->getName()] ]],
         ]);
 
         $uuids = [];
@@ -286,10 +276,9 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         foreach ($scroll as $resultSet) {
             foreach ($resultSet as $result) {
                 $sourceValue = $result->getSource()[$fieldType->getName()] ?? null;
-
                 if ($sourceValue) {
                     $mergeValue = \is_array($sourceValue) ? $sourceValue : [$sourceValue];
-                    $uuids = \array_merge($uuids, $mergeValue);
+                    $uuids =  [...$uuids, ...$mergeValue];
                 }
             }
         }

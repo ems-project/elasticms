@@ -227,7 +227,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
 
         $isMigration = $options['migration'] ?? false;
         $alreadyAssignedUuids = !$isMigration && $options['json_menu_nested_unique'] ?
-            $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []) : [];
+            $this->searchAssignedUuids($fieldType, $options['raw_data'] ?? []) : [];
 
         $scroll = $this->elasticaService->scroll($search);
         foreach ($scroll as $resultSet) {
@@ -264,7 +264,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
      *
      * @return array<mixed>
      */
-    private function collectAlreadyAssignedJsonUuids(FieldType $fieldType, array $rawData): array
+    private function searchAssignedUuids(FieldType $fieldType, array $rawData): array
     {
         $search = $this->elasticaService->convertElasticsearchSearch([
             'size' => 500,

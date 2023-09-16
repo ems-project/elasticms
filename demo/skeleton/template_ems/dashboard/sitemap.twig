@@ -121,7 +121,7 @@
                             fr: { title: page.revision['title_fr'] },
                         }
                     }))
-                    .then((item) => jmn.itemAdd(itemParentId, item))
+                    .then((item) => jmn.itemAdd(itemParentId, item, null))
                     .then((responseAdd) => {
                         let addedItemId = responseAdd.item.id;
                         updatePage(pageId, { menu: addedItemId }).then((json) => {

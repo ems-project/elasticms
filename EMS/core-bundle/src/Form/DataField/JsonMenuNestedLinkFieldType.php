@@ -67,53 +67,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     {
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
-        $choices = [];
-        $allowTypes = $options['json_menu_nested_types'];
-
-        if (null !== $contentType = $fieldType->getContentType()) {
-            $env = $contentType->getEnvironment();
-            $index = $env ? $env->getAlias() : null;
-        }
-
-        if (!isset($index)) {
-            return;
-        }
-
-        $search = $this->elasticaService->convertElasticsearchSearch([
-            'index' => $index,
-            'body' => $options['query'],
-        ]);
-
-        $isMigration = $options['migration'] ?? false;
-        $alreadyAssignedUuids = !$isMigration && $options['json_menu_nested_unique'] ?
-            $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []) : [];
-
-        $scroll = $this->elasticaService->scroll($search);
-        foreach ($scroll as $resultSet) {
-            foreach ($resultSet as $result) {
-                $json = $result->getSource()[$options['json_menu_nested_field']] ?? false;
-
-                if (!$json) {
-                    continue;
-                }
-
-                $menu = $this->decoder->jsonMenuNestedDecode($json);
-
-                foreach ($menu as $item) {
-                    if (\in_array($item->getId(), $alreadyAssignedUuids)) {
-                        continue;
-                    }
-
-                    if ((\is_countable($allowTypes) ? \count($allowTypes) : 0) > 0 && !\in_array($item->getType(), $allowTypes)) {
-                        continue;
-                    }
-
-                    $label = \implode(' > ', \array_map(fn (JsonMenuNested $p) => $p->getLabel(), $item->getPath()));
-
-                    $choices[$label] = $item->getId();
-                }
-            }
-        }
+        $choices = $this->buildChoices($fieldType, $options);
 
         $builder->add('value', ChoiceType::class, [
             'label' => ($options['label'] ?? $fieldType->getName()),
@@ -257,6 +211,64 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     }
 
     /**
+     * @param array<string, mixed> $options
+     *
+     * @return array<string, string>
+     */
+    private function buildChoices(FieldType $fieldType, array $options): array
+    {
+        $choices = [];
+        $allowTypes = $options['json_menu_nested_types'];
+
+        if (null !== $contentType = $fieldType->getContentType()) {
+            $env = $contentType->getEnvironment();
+            $index = $env ? $env->getAlias() : null;
+        }
+
+        if (!isset($index)) {
+            return [];
+        }
+
+        $search = $this->elasticaService->convertElasticsearchSearch([
+            'index' => $index,
+            'body' => $options['query'],
+        ]);
+
+        $isMigration = $options['migration'] ?? false;
+        $alreadyAssignedUuids = !$isMigration && $options['json_menu_nested_unique'] ?
+            $this->collectAlreadyAssignedJsonUuids($fieldType, $options['raw_data'] ?? []) : [];
+
+        $scroll = $this->elasticaService->scroll($search);
+        foreach ($scroll as $resultSet) {
+            foreach ($resultSet as $result) {
+                $json = $result->getSource()[$options['json_menu_nested_field']] ?? false;
+
+                if (!$json) {
+                    continue;
+                }
+
+                $menu = $this->decoder->jsonMenuNestedDecode($json);
+
+                foreach ($menu as $item) {
+                    if (\in_array($item->getId(), $alreadyAssignedUuids)) {
+                        continue;
+                    }
+
+                    if ((\is_countable($allowTypes) ? \count($allowTypes) : 0) > 0 && !\in_array($item->getType(), $allowTypes)) {
+                        continue;
+                    }
+
+                    $label = \implode(' > ', \array_map(fn (JsonMenuNested $p) => $p->getLabel(), $item->getPath()));
+
+                    $choices[$label] = $item->getId();
+                }
+            }
+        }
+
+        return $choices;
+    }
+
+    /**
      * @param array<mixed> $rawData
      *
      * @return array<mixed>
@@ -268,7 +280,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
             'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
             '_source' => $fieldType->getName(),
             'type' => $fieldType->giveContentType()->getName(),
-            'body' => ['query' => [ 'exists' => ['field' => $fieldType->getName()] ]],
+            'body' => ['query' => ['exists' => ['field' => $fieldType->getName()]]],
         ]);
 
         $uuids = [];
@@ -278,7 +290,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                 $sourceValue = $result->getSource()[$fieldType->getName()] ?? null;
                 if ($sourceValue) {
                     $mergeValue = \is_array($sourceValue) ? $sourceValue : [$sourceValue];
-                    $uuids =  [...$uuids, ...$mergeValue];
+                    $uuids = [...$uuids, ...$mergeValue];
                 }
             }
         }

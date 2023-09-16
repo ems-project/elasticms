@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Json\Decoder;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Service\ElasticaService;
@@ -218,9 +219,12 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     private function buildChoices(FieldType $fieldType, array $options): array
     {
         $choices = [];
+        $field = $options['json_menu_nested_field'];
+
         $allowTypes = $options['json_menu_nested_types'];
 
         $search = $this->elasticaService->convertElasticsearchSearch([
+            'size' => 5000,
             'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
             'body' => $options['query'],
         ]);
@@ -229,30 +233,23 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $alreadyAssignedUuids = !$isMigration && $options['json_menu_nested_unique'] ?
             $this->searchAssignedUuids($fieldType, $options['raw_data'] ?? []) : [];
 
-        $scroll = $this->elasticaService->scroll($search);
-        foreach ($scroll as $resultSet) {
-            foreach ($resultSet as $result) {
-                $json = $result->getSource()[$options['json_menu_nested_field']] ?? false;
+        $response = Response::fromArray($this->elasticaService->search($search)->getResponse()->getData());
+        foreach ($response->getDocuments() as $document) {
+            $source = $document->getSource();
+            $menu = $this->decoder->jsonMenuNestedDecode($source[$field] ?? '{}');
 
-                if (!$json) {
+            foreach ($menu as $item) {
+                if (\in_array($item->getId(), $alreadyAssignedUuids, true)) {
                     continue;
                 }
 
-                $menu = $this->decoder->jsonMenuNestedDecode($json);
-
-                foreach ($menu as $item) {
-                    if (\in_array($item->getId(), $alreadyAssignedUuids)) {
-                        continue;
-                    }
-
-                    if ((\is_countable($allowTypes) ? \count($allowTypes) : 0) > 0 && !\in_array($item->getType(), $allowTypes)) {
-                        continue;
-                    }
-
-                    $label = \implode(' > ', \array_map(fn (JsonMenuNested $p) => $p->getLabel(), $item->getPath()));
-
-                    $choices[$label] = $item->getId();
+                if ((\is_countable($allowTypes) ? \count($allowTypes) : 0) > 0 && !\in_array($item->getType(), $allowTypes, true)) {
+                    continue;
                 }
+
+                $label = \implode(' > ', \array_map(static fn (JsonMenuNested $p) => $p->getLabel(), $item->getPath()));
+
+                $choices[$label] = $item->getId();
             }
         }
 

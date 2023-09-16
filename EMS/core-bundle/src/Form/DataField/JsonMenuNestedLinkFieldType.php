@@ -68,7 +68,16 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     {
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
-        $choices = $this->buildChoices($fieldType, $options);
+
+        $choices = $this->buildChoices(
+            $fieldType,
+            jmnQuery: $options['query'],
+            jmnField: $options['json_menu_nested_field'],
+            jmnTypes: $options['json_menu_nested_types'] ?? [],
+            jmnUnique: $options['json_menu_nested_unique'],
+            rawData: $options['raw_data'] ?? [],
+            migration: $options['migration'] ?? false
+        );
 
         $builder->add('value', ChoiceType::class, [
             'label' => ($options['label'] ?? $fieldType->getName()),
@@ -212,27 +221,29 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     }
 
     /**
-     * @param array<string, mixed> $options
+     * @param string[]             $jmnTypes
+     * @param array<string, mixed> $rawData
      *
      * @return array<string, string>
      */
-    private function buildChoices(FieldType $fieldType, array $options): array
-    {
+    private function buildChoices(
+        FieldType $fieldType,
+        ?string $jmnQuery = null,
+        ?string $jmnField = null,
+        array $jmnTypes = [],
+        bool $jmnUnique = false,
+        array $rawData = [],
+        bool $migration = false
+    ): array {
         $choices = [];
-        $query = $options['query'];
-        $jmnField = $options['json_menu_nested_field'];
-        $jmnTypes = $options['json_menu_nested_types'] ?? [];
-        $jmnUnique = $options['json_menu_nested_unique'];
-        $isMigration = $options['migration'] ?? false;
-        $rawData = $options['raw_data'] ?? [];
 
         $search = $this->elasticaService->convertElasticsearchSearch([
             'size' => 5000,
             'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),
-            'body' => $query,
+            'body' => $jmnQuery,
         ]);
 
-        $assignedUuids = !$isMigration && $jmnUnique ? $this->searchAssignedUuids($fieldType, $rawData) : [];
+        $assignedUuids = !$migration && $jmnUnique ? $this->searchAssignedUuids($fieldType, $rawData) : [];
 
         $response = Response::fromArray($this->elasticaService->search($search)->getResponse()->getData());
         foreach ($response->getDocuments() as $document) {
@@ -244,7 +255,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                     continue;
                 }
 
-                if ((\is_countable($jmnTypes) ? \count($jmnTypes) : 0) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
+                if (\count($jmnTypes) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
                     continue;
                 }
 

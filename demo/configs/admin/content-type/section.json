@@ -202,15 +202,15 @@
                                                     "options": {
                                                         "displayOptions": {
                                                             "label": "Label",
-                                                            "class": "col-md-12",
+                                                            "class": "col-md-12 hidden",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "icon": null,
                                                             "prefixIcon": null,
                                                             "prefixText": null,
                                                             "suffixIcon": null,
                                                             "suffixText": null,
-                                                            "placeholder": null
+                                                            "placeholder": null,
+                                                            "icon": null
                                                         },
                                                         "restrictionOptions": {
                                                             "mandatory": false,
@@ -223,7 +223,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": null
+                                                            "postProcessing": "{%- set titleFR = attribute(_source, 'fr').title|default('') -%}\r\n{%- set titleNL = attribute(_source, 'nl').title|default('') -%}\r\n{{- \"#{titleFR} / #{titleNL}\"|json_encode|raw -}}"
                                                         }
                                                     },
                                                     "orderKey": 1,

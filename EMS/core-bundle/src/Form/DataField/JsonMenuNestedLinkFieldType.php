@@ -237,6 +237,10 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
     ): array {
         $choices = [];
 
+        if (null === $jmnQuery || null === $jmnField) {
+            return [];
+        }
+
         $search = $this->elasticaService->convertElasticsearchSearch([
             'size' => 5000,
             'index' => $fieldType->giveContentType()->giveEnvironment()->getAlias(),

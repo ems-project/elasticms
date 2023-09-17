@@ -46,17 +46,32 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
-                            "name": "label_field",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
+                            "name": "label",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "form": "label"
+                                    "label": "Label",
+                                    "class": "col-md-6",
+                                    "lastOfRow": false,
+                                    "helptext": "Used to identify the item inside the CMS (not visibible on the website)",
+                                    "icon": null,
+                                    "prefixIcon": null,
+                                    "prefixText": null,
+                                    "suffixIcon": null,
+                                    "suffixText": null,
+                                    "placeholder": null
                                 },
-                                "mappingOptions": [],
+                                "mappingOptions": {
+                                    "index": null,
+                                    "analyzer": null,
+                                    "copy_to": "live_search"
+                                },
                                 "restrictionOptions": {
+                                    "mandatory": true,
+                                    "mandatory_if": null,
                                     "minimum_role": null
                                 },
                                 "extraOptions": {
@@ -64,7 +79,10 @@
                                     "clear_on_copy": false,
                                     "postProcessing": null
                                 },
-                                "raw_data": []
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
                             },
                             "orderKey": 1,
                             "children": []
@@ -83,7 +101,7 @@
                             "options": {
                                 "displayOptions": {
                                     "label": "Menu",
-                                    "class": "col-md-12",
+                                    "class": "col-md-6",
                                     "lastOfRow": false,
                                     "helptext": null,
                                     "expanded": false,
@@ -91,7 +109,9 @@
                                     "json_menu_nested_types": "page",
                                     "json_menu_nested_field": "structure",
                                     "json_menu_nested_unique": true,
-                                    "query": "{\r\n  \"_source\": [\"structure\"], \r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"term\": {\r\n            \"_contenttype\": {\r\n              \"value\": \"section\"\r\n            }\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  }\r\n}"
+                                    "query": "{\r\n  \"_source\": [\"structure\", \"label\"], \r\n  \"query\": {\r\n    \"bool\": {\r\n      \"must\": [\r\n        {\r\n          \"term\": {\r\n            \"_contenttype\": {\r\n              \"value\": \"section\"\r\n            }\r\n          }\r\n        }\r\n      ]\r\n    }\r\n  },\r\n  \"sort\": [ { \"order\": { \"order\": \"asc\" } }]\r\n}",
+                                    "display_template": "{% for label, id in data %}\r\n    <a href=\"{{ path('emsco_dashboard', {'name': 'sitemap', 'activeItemId': id }) }}\">{{ label }}</a>\r\n{% endfor %}",
+                                    "choices_template": "{% apply spaceless %}\r\n    {% set choices = [] %}\r\n    {% for item in items %}\r\n        {% set path = [] %}\r\n        \r\n        {% for i in item.path %} \r\n            {% if i.type == 'section' %}\r\n                {% set path = path|merge([i.object.label]) %} \r\n            {% else %}\r\n                {% set path = path|merge([i]) %}\r\n            {% endif %}\r\n        {% endfor %}\r\n        \r\n        {% set label = path|join(' > ') %}\r\n        {% set choices = choices|merge({ (label) : (item.id) }) %}\r\n    {% endfor %}\r\n{% endapply %}\r\n{{ choices|json_encode|raw }}"
                                 },
                                 "mappingOptions": {
                                     "index": "not_analyzed",

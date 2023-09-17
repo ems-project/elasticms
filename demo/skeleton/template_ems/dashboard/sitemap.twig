@@ -62,7 +62,12 @@
 {%  block ems_footer %}
     <script>
         window.addEventListener('emsReady', function () {
+            let url = new URL(window.location.href)
+            let activeItemId = url.searchParams.get('activeItemId');
+
             Object.values(window.jsonMenuNestedComponents).forEach((jmn) => {
+                if (activeItemId) jmn.load({ activeItemId: activeItemId });
+
                 jmn.element.addEventListener('jmn-load', (event) => onJmnLoad(jmn, event));
                 jmn.element.addEventListener('jmn-add', (event) => onJmnAdd(jmn, event));
                 jmn.element.addEventListener('jmn-modal-custom', (event) => onJmnModalCustom(jmn, event));

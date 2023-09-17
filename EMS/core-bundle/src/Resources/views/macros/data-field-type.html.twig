@@ -1067,9 +1067,12 @@
 			{%- endif -%}
 		</dt>
 		<dd>
-			<ul>
-				{{ diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) }}
-			</ul>
+			{%- set diffChoice = diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) -%}
+			{%- if displayOptions.multiple|default(false) -%}
+				<ul>{{ diffChoice|raw }}</ul>
+			{%- else -%}
+				{{ diffChoice|raw }}
+			{%- endif -%}
 		</dd>
 	</dl>
 	{{ _self.messages(dataField) }}

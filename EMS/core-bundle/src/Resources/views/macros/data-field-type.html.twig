@@ -1023,29 +1023,48 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedLinkFieldType %}
-	{%- set fieldOptions = dataField.fieldType.options.displayOptions -%}
+	{%- set displayOptions = dataField.fieldType.options.displayOptions -%}
+	{%- set jmnField = displayOptions.json_menu_nested_field|default(false) -%}
+	{%- set jmnQuery = displayOptions.query|default(false) -%}
+
+	{%- if jmnField and jmnQuery and dataField.rawData is not null -%}
+		{%- set hits = { index:  dataField.fieldType.contentType.environment.alias, body: jmnQuery}|search.hits.hits -%}
+		{%- set structures = [] -%}
+		{%- for h in hits -%}
+			{% set structures = structures|merge([{
+				'id': h._id,
+				'type': 'structure',
+				'label': h._source._contenttype,
+				'object': h._source|filter((v, k) => k != jmnField),
+				'children': attribute(h._source, jmnField)|default('{}')|json_decode
+			}]) %}
+		{%- endfor -%}
+		{%- set jmnMenu = structures|json_encode|ems_json_menu_nested_decode -%}
+		{%- set items = [] -%}
+		{%- for structure in jmnMenu.children -%}
+			{%- for item in structure -%}{%- set items = items|merge([item]) -%}{%- endfor -%}
+		{%- endfor -%}
+
+		{%- set choices = [] -%}
+		{%- for item in items -%}
+			{%- set label = item.path|map(p => p.label)|join(' > ') -%}
+			{%- set choices = choices|merge({ (label): item.id }) -%}
+		{%- endfor -%}
+
+		{%- set choiceLabels = choices|keys -%}
+		{%- set choiceValues = choices|reduce( (carry, c) => carry|default([])|merge([c])) -%}
+	{%- endif -%}
 	<dl>
 		<dt>
-			{%- if dataField.fieldType.displayOptions.label is defined -%}
-				{{- dataField.fieldType.displayOptions.label -}}{%- if is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
+			{%- if displayOptions.label is defined -%}
+				{{- displayOptions.label -}}{%- if is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
 			{%- else -%}
 				{{- dataField.fieldType.name-}}
 			{%- endif -%}
 		</dt>
 		<dd>
 			<ul>
-				{%- set choices = {} -%}
-				{%- set labels = {} -%}
-				{%- set hits = {
-					index: dataField.fieldType.contentType.environment.alias,
-					body: dataField.fieldType.displayOptions.query|default('{}')
-				}|search.hits.hits -%}
-				{%- for h in hits -%}
-					{% set menu = attribute(h._source, fieldOptions.json_menu_nested_field|default())|default('{}')|ems_json_menu_nested_decode %}
-					{% set choices = menu.toArray()|map(i => i.id) %}
-					{% set labels = menu.toArray()|map(i => i.path|map(i => i.label)|join(' > ')) %}
-				{%- endfor -%}
-				{{ diff_choice(dataField.rawData, labels, choices, compare, dataField.fieldType.name, compareRawData) }}
+				{{ diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) }}
 			</ul>
 		</dd>
 	</dl>

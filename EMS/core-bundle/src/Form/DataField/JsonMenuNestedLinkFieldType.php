@@ -115,6 +115,8 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                 'json_menu_nested_field' => null,
                 'json_menu_nested_unique' => false,
                 'query' => null,
+                'choices_template' => null,
+                'display_template' => null,
             ])
             ->setNormalizer('json_menu_nested_types', fn (Options $options, $value) => \explode(',', (string) $value))
         ;
@@ -135,6 +137,8 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
             ->add('json_menu_nested_field', TextType::class, ['required' => true])
             ->add('json_menu_nested_unique', CheckboxType::class, ['required' => false])
             ->add('query', CodeEditorType::class, ['required' => false, 'language' => 'ace/mode/json'])
+            ->add('choices_template', CodeEditorType::class, ['required' => false, 'min-lines' => 10, 'language' => 'ace/mode/twig'])
+            ->add('display_template', CodeEditorType::class, ['required' => false, 'min-lines' => 10, 'language' => 'ace/mode/twig'])
         ;
 
         if ($optionsForm->has('mappingOptions')) {

@@ -1,5 +1,16 @@
 # Changelog 5.x
 
+## 5.9.3 (2023-09-17)
+### Bug Fixes
+* fix(core/api): data not consumed error by @Davidmattei in https://github.com/ems-project/elasticms/pull/608
+* fix(core/api): data not consumed multipex fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/612
+* fix(core/api): default versions (must always work) by @theus77 in https://github.com/ems-project/elasticms/pull/605
+* fix(core/api): index/update refresh wait by @Davidmattei in https://github.com/ems-project/elasticms/pull/610
+* fix(core/api): no flash messages by @Davidmattei in https://github.com/ems-project/elasticms/pull/611
+* fix(core/field): jsonMenuNestedLink fieldType by @Davidmattei in https://github.com/ems-project/elasticms/pull/613
+* fix(core/field): placeholder empty string when not defined by @theus77 in https://github.com/ems-project/elasticms/pull/607
+* fix(core/jmn): jmn component improvements and bugfixes by @Davidmattei in https://github.com/ems-project/elasticms/pull/609
+
 ## 5.9.2 (2023-09-11)
 ### Features
 * feat(cli): retry on error by @theus77 in https://github.com/ems-project/elasticms/pull/604

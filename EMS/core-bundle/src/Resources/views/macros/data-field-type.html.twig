@@ -1033,7 +1033,7 @@
 		{%- for h in hits -%}
 			{% set structures = structures|merge([{
 				'id': h._id,
-				'type': 'structure',
+				'type': h._source._contenttype,
 				'label': h._source._contenttype,
 				'object': h._source|filter((v, k) => k != jmnField),
 				'children': attribute(h._source, jmnField)|default('{}')|json_decode
@@ -1045,14 +1045,18 @@
 			{%- for item in structure -%}{%- set items = items|merge([item]) -%}{%- endfor -%}
 		{%- endfor -%}
 
-		{%- set choices = [] -%}
-		{%- for item in items -%}
-			{%- set label = item.path|map(p => p.label)|join(' > ') -%}
-			{%- set choices = choices|merge({ (label): item.id }) -%}
-		{%- endfor -%}
+		{% if displayOptions.choices_template|default(false) %}
+			{% set choices = displayOptions.choices_template|generate_from_template({ 'items': items })|json_decode %}
+		{% else %}
+			{%- set choices = [] -%}
+			{%- for item in items -%}
+				{%- set label = item.path|map(p => p.label)|join(' > ') -%}
+				{%- set choices = choices|merge({ (label): item.id }) -%}
+			{%- endfor -%}
+		{% endif %}
 
-		{%- set choiceLabels = choices|keys -%}
-		{%- set choiceValues = choices|reduce( (carry, c) => carry|default([])|merge([c])) -%}
+		{%- set choiceLabels = choices|default([])|keys -%}
+		{%- set choiceValues = choices|default([])|reduce( (carry, c) => carry|default([])|merge([c])) -%}
 	{%- endif -%}
 	<dl>
 		<dt>

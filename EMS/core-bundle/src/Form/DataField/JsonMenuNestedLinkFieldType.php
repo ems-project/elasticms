@@ -11,6 +11,7 @@ use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\Helpers\Standard\Json;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,6 +22,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Twig\Environment;
 
 class JsonMenuNestedLinkFieldType extends DataFieldType
 {
@@ -28,7 +30,9 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         ElasticsearchService $elasticsearchService,
-        private readonly ElasticaService $elasticaService
+        private readonly ElasticaService $elasticaService,
+        private readonly Environment $twig,
+        private readonly LoggerInterface $logger
     ) {
         parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
     }
@@ -72,6 +76,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
             $fieldType,
             jmnQuery: $options['query'],
             jmnField: $options['json_menu_nested_field'],
+            jmnChoicesTemplate: $options['choices_template'],
             jmnTypes: $options['json_menu_nested_types'] ?? [],
             jmnUnique: $options['json_menu_nested_unique'],
             rawData: $options['raw_data'] ?? [],
@@ -233,6 +238,7 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         FieldType $fieldType,
         ?string $jmnQuery = null,
         ?string $jmnField = null,
+        ?string $jmnChoicesTemplate = null,
         array $jmnTypes = [],
         bool $jmnUnique = false,
         array $rawData = [],
@@ -257,6 +263,18 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
                     continue;
                 }
                 $items[] = $item;
+            }
+        }
+
+        if ($jmnChoicesTemplate) {
+            try {
+                $twigChoicesTemplate = $this->twig->createTemplate($jmnChoicesTemplate, $fieldType->getPath());
+
+                return Json::decode($twigChoicesTemplate->render(['items' => $items]));
+            } catch (\Throwable $error) {
+                $this->logger->error(\sprintf('Render choices template failed: "%s"', $error->getMessage()), [
+                    'trace' => $error->getTraceAsString(),
+                ]);
             }
         }
 

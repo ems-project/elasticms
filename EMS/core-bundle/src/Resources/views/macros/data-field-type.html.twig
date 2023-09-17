@@ -1023,6 +1023,8 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedLinkFieldType %}
+	{%- set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode  )  -%}
+	{%- set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' -%}
 	{%- set displayOptions = dataField.fieldType.options.displayOptions -%}
 	{%- set jmnField = displayOptions.json_menu_nested_field|default(false) -%}
 	{%- set jmnQuery = displayOptions.query|default(false) -%}
@@ -1067,11 +1069,33 @@
 			{%- endif -%}
 		</dt>
 		<dd>
-			{%- set diffChoice = diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) -%}
-			{%- if displayOptions.multiple|default(false) -%}
-				<ul>{{ diffChoice|raw }}</ul>
+			{%- if displayOptions.display_template|default(false) -%}
+				{%- set rawData = dataField.rawData -%}
+				{%- set data = choices|default([])|filter( (id, label) => rawData is iterable ? id in rawData : id == rawData) -%}
+
+				{%- if doCompare -%}
+					{%- set compareRawData = attribute(compareRawData, dataField.fieldType.name)|default(false) -%}
+					<div class="panel-body {{ color }}">
+						<div class="col-md-6 bg-gray-light">
+							{%- if compareRawData -%}
+								{%- set compareData = choices|default([])|filter( (id, label) => compareRawData is iterable ? id in compareRawData : id == compareRawData) -%}
+								{{- displayOptions.display_template|generate_from_template({ data: compareData, dataField: dataField, choices: choices })|raw -}}
+							{%- endif -%}
+						</div>
+						<div class="col-md-6 bg-gray-light">
+							{{- displayOptions.display_template|generate_from_template({ data: data, dataField: dataField, choices: choices })|raw -}}
+						</div>
+					</div>
+				{%- else -%}
+					{{- displayOptions.display_template|generate_from_template({ data: data, dataField: dataField, choices: choices|default([]) })|raw -}}
+				{%- endif -%}
 			{%- else -%}
-				{{ diffChoice|raw }}
+				{%- set diffChoice = diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) -%}
+				{%- if displayOptions.multiple|default(false) -%}
+					<ul>{{ diffChoice|raw }}</ul>
+				{%- else -%}
+					{{ diffChoice|raw }}
+				{%- endif -%}
 			{%- endif -%}
 		</dd>
 	</dl>

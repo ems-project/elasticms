@@ -234,10 +234,8 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         array $rawData = [],
         bool $migration = false
     ): array {
-        $choices = [];
-
         if (null === $jmnQuery || null === $jmnField) {
-            return $choices;
+            return [];
         }
 
         $assignedUuids = !$migration && $jmnUnique ? $this->searchAssignedUuids($fieldType, $rawData) : [];
@@ -245,17 +243,22 @@ class JsonMenuNestedLinkFieldType extends DataFieldType
         $index = $fieldType->giveContentType()->giveEnvironment()->getAlias();
         $jmnMenu = $this->createJsonMenuNested($index, $jmnQuery, $jmnField);
 
-        foreach ($jmnMenu as $item) {
-            if (\in_array($item->getId(), $assignedUuids, true)) {
-                continue;
+        $items = [];
+        foreach ($jmnMenu->getChildren() as $structure) {
+            foreach ($structure as $item) {
+                if (\in_array($item->getId(), $assignedUuids, true)) {
+                    continue;
+                }
+                if (\count($jmnTypes) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
+                    continue;
+                }
+                $items[] = $item;
             }
+        }
 
-            if (\count($jmnTypes) > 0 && !\in_array($item->getType(), $jmnTypes, true)) {
-                continue;
-            }
-
+        $choices = [];
+        foreach ($items as $item) {
             $label = \implode(' > ', \array_map(static fn (JsonMenuNested $p) => $p->getLabel(), $item->getPath()));
-
             $choices[$label] = $item->getId();
         }
 

@@ -58,13 +58,16 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         ]);
     }
 
-    public static function fromStructure(string $structure): JsonMenuNested
+    /**
+     * @param string|array<int, array<string, mixed>> $structure
+     */
+    public static function fromStructure(string|array $structure): JsonMenuNested
     {
         return new self([
            'id' => '_root',
            'type' => '_root',
            'label' => '_root',
-           'children' => \json_decode($structure, true, 512, JSON_THROW_ON_ERROR),
+           'children' => \is_string($structure) ? Json::decode($structure) : $structure,
         ]);
     }
 

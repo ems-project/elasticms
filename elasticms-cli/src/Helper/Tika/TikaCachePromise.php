@@ -9,6 +9,9 @@ use Psr\Http\Message\StreamInterface;
 
 class TikaCachePromise implements TikaPromiseInterface
 {
+    private const TYPE_TEXT = 'text';
+    private const TYPE_META = 'meta';
+    private const TYPE_HTML = 'html';
     private string $hash;
 
     public function __construct(StreamInterface $stream, private readonly string $cacheFolder, private readonly TikaPromiseInterface $promise)
@@ -26,54 +29,54 @@ class TikaCachePromise implements TikaPromiseInterface
 
     public function startText(): void
     {
-        if (!$this->isCached('text')) {
+        if (!$this->isCached(self::TYPE_TEXT)) {
             $this->promise->startText();
         }
     }
 
     public function getText(): string
     {
-        if ($this->isCached('text')) {
-            return $this->getCache('text');
+        if ($this->isCached(self::TYPE_TEXT)) {
+            return $this->getCache(self::TYPE_TEXT);
         }
         $text = $this->promise->getText();
-        $this->putCache('text', $text);
+        $this->putCache(self::TYPE_TEXT, $text);
 
         return $text;
     }
 
     public function startMeta(): void
     {
-        if (!$this->isCached('meta')) {
+        if (!$this->isCached(self::TYPE_META)) {
             $this->promise->startMeta();
         }
     }
 
     public function getMeta(): TikaMeta
     {
-        if ($this->isCached('meta')) {
-            return new TikaMeta(Json::decode($this->getCache('meta')));
+        if ($this->isCached(self::TYPE_META)) {
+            return new TikaMeta(Json::decode($this->getCache(self::TYPE_META)));
         }
         $meta = $this->promise->getMeta();
-        $this->putCache('meta', Json::encode($meta->getMeta()));
+        $this->putCache(self::TYPE_META, Json::encode($meta->getMeta()));
 
         return $meta;
     }
 
     public function startHtml(): void
     {
-        if (!$this->isCached('html')) {
+        if (!$this->isCached(self::TYPE_HTML)) {
             $this->promise->startHtml();
         }
     }
 
     public function getHtml(): string
     {
-        if ($this->isCached('html')) {
-            return $this->getCache('html');
+        if ($this->isCached(self::TYPE_HTML)) {
+            return $this->getCache(self::TYPE_HTML);
         }
         $html = $this->promise->getHtml();
-        $this->putCache('html', $html);
+        $this->putCache(self::TYPE_HTML, $html);
 
         return $html;
     }

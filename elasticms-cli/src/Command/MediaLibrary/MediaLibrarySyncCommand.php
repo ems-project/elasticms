@@ -33,6 +33,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_ONLY_METADATA_FILE = 'only-metadata-file';
     private const OPTION_TIKA = 'tika';
     private const OPTION_TIKA_BASE_URL = 'tika-base-url';
+    private const OPTION_TIKA_CACHE_FOLDER = 'tika-cache-folder';
     private const OPTION_MAX_CONTENT_SIZE = 'max-content-size';
     private const OPTION_HASH_FOLDER = 'hash-folder';
     private const OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
@@ -40,6 +41,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
 
     private bool $tika;
     private ?string $tikaBaseUrl;
+    private ?string $tikaCacheFolder;
 
     private MediaLibrarySyncOptions $options;
 
@@ -67,6 +69,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_ONLY_METADATA_FILE, null, InputOption::VALUE_NONE, 'Skip files that are not referenced in the metadata file')
             ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika extract for IndexedFile')
             ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
+            ->addOption(self::OPTION_TIKA_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Folder where tika extraction can be cached')
             ->addOption(self::OPTION_MAX_CONTENT_SIZE, null, InputOption::VALUE_OPTIONAL, 'Will keep the x first characters extracted by Tika to be indexed', 5120)
             ->addOption(self::OPTION_HASH_FOLDER, null, InputOption::VALUE_NONE, 'Provide a hash for folder argument (zip file)')
             ->addOption(self::OPTION_HASH_METADATA_FILE, null, InputOption::VALUE_NONE, 'Provide a hash for option metadata file (CSV or Excel)')
@@ -97,6 +100,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
 
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);
         $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
+        $this->tikaCacheFolder = $this->getOptionStringNull(self::OPTION_TIKA_CACHE_FOLDER);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -119,7 +123,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         );
 
         if ($this->tika) {
-            $tikaHelper = $this->tikaBaseUrl ? TikaHelper::initTikaServer($this->tikaBaseUrl) : TikaHelper::initTikaJar();
+            $tikaHelper = $this->tikaBaseUrl ? TikaHelper::initTikaServer($this->tikaBaseUrl, $this->tikaCacheFolder) : TikaHelper::initTikaJar($this->tikaCacheFolder);
             $mediaSync->setTikaHelper($tikaHelper);
         }
 

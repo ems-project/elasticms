@@ -13,19 +13,19 @@ class TikaHelper
 {
     private MimeTypesInterface $mimeTypes;
 
-    private function __construct(private readonly ?string $tikaBaseUrl)
+    private function __construct(private readonly ?string $tikaBaseUrl, private readonly ?string $tikaCacheFolder)
     {
         $this->mimeTypes = new MimeTypes();
     }
 
-    public static function initTikaJar(): TikaHelper
+    public static function initTikaJar(?string $tikaCacheFolder = null): TikaHelper
     {
-        return new self(null);
+        return new self(null, $tikaCacheFolder);
     }
 
-    public static function initTikaServer(string $tikaBaseUrl): TikaHelper
+    public static function initTikaServer(string $tikaBaseUrl, ?string $tikaCacheFolder = null): TikaHelper
     {
-        return new self($tikaBaseUrl);
+        return new self($tikaBaseUrl, $tikaCacheFolder);
     }
 
     public function extractFromFile(string $filename): TikaPromiseInterface
@@ -46,9 +46,15 @@ class TikaHelper
     public function extract(StreamInterface $stream, ?string $mimeType): TikaPromiseInterface
     {
         if ($this->tikaBaseUrl) {
-            return new TikaServerPromise($this->tikaBaseUrl, $stream, $mimeType);
+            $promise = new TikaServerPromise($this->tikaBaseUrl, $stream, $mimeType);
+        } else {
+            $promise = new TikaJarPromise($stream);
         }
 
-        return new TikaJarPromise($stream);
+        if (null !== $this->tikaCacheFolder) {
+            $promise = new TikaCachePromise($stream, $this->tikaCacheFolder, $promise);
+        }
+
+        return $promise;
     }
 }

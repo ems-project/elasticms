@@ -21,11 +21,6 @@ final class LoadTikaCache extends AbstractCommand
     private string $folder;
     private string $tikaCacheFolder;
 
-    public function __construct(
-    ) {
-        parent::__construct();
-    }
-
     protected function configure(): void
     {
         $this

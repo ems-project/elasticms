@@ -286,51 +286,6 @@ class RevisionRepository extends EntityRepository
     }
 
     /**
-     * @param string[] $circles
-     *
-     * @return Revision[]
-     */
-    public function findInProgresByContentType(ContentType $contentType, array $circles, bool $isAdmin): array
-    {
-        $parameters = [
-            'contentType' => $contentType,
-            'false' => false,
-            'true' => true,
-        ];
-
-        $qb = $this->createQueryBuilder('r');
-
-        $draftConditions = $qb->expr()->andX();
-        $draftConditions->add($qb->expr()->eq('r.draft', ':true'));
-        $draftConditions->add($qb->expr()->isNull('r.endTime'));
-
-        $draftOrAutoSave = $qb->expr()->orX();
-        $draftOrAutoSave->add($draftConditions);
-        $draftOrAutoSave->add($qb->expr()->isNotNull('r.autoSave'));
-
-        $and = $qb->expr()->andX();
-        $and->add($qb->expr()->eq('r.deleted', ':false'));
-        $and->add($draftOrAutoSave);
-
-        if (!$isAdmin) {
-            $inCircles = $qb->expr()->orX();
-            $inCircles->add($qb->expr()->isNull('r.circles'));
-            foreach ($circles as $counter => $circle) {
-                $inCircles->add($qb->expr()->like('r.circles', ':circle'.$counter));
-                $parameters['circle'.$counter] = '%'.$circle.'%';
-            }
-            $and->add($inCircles);
-        }
-
-        $qb->where($and)
-            ->andWhere($qb->expr()->eq('r.contentType', ':contentType'));
-
-        $qb->setParameters($parameters);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    /**
      * @return iterable|Revision[]
      */
     public function findAllDraftsByContentTypeName(string $contentTypeName): iterable

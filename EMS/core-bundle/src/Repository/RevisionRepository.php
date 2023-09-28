@@ -1019,12 +1019,9 @@ class RevisionRepository extends EntityRepository
         $qb
             ->join('r.contentType', 'c')
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
-            ->andWhere($qb->expr()->orX(
-                $qb->expr()->andX(
-                    $qb->expr()->eq('r.draft', $qb->expr()->literal(true)),
-                    $qb->expr()->isNull('r.endTime')
-                ),
-                $qb->expr()->isNotNull('r.autoSave')
+            ->andWhere($qb->expr()->andX(
+                $qb->expr()->eq('r.draft', $qb->expr()->literal(true)),
+                $qb->expr()->isNull('r.endTime')
             ));
 
         if (!$isAdmin) {

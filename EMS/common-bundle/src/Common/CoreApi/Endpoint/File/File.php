@@ -49,6 +49,19 @@ final class File implements FileInterface
         return $hash;
     }
 
+    public function uploadContents(string $contents, string $filename, string $mimeType): string
+    {
+        $hash = $this->storageManager->computeStringHash($contents);
+        $size = \strlen($contents);
+        $fromByte = $this->initUpload($hash, $size, $filename, $mimeType);
+        $uploaded = $this->addChunk($hash, $fromByte > 0 ? \substr($contents, $fromByte) : $contents);
+        if ($uploaded !== $size) {
+            throw new \RuntimeException(\sprintf('Sizes mismatched %d vs. %d for assets %s', $uploaded, $size, $hash));
+        }
+
+        return $hash;
+    }
+
     public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
     {
         $hash = $this->hashFile($realPath);

@@ -7,7 +7,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Data;
 use EMS\CommonBundle\Common\CoreApi\Result;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DraftInterface;
 
-final class Draft implements DraftInterface
+class Draft implements DraftInterface
 {
     private readonly int $id;
     private readonly ?string $ouuid;

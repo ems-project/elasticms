@@ -19,6 +19,7 @@ use Elastica\Query\Range;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
@@ -232,11 +233,12 @@ class AuditCommand extends AbstractCommand
                     $rawData['links'] = [];
                 }
                 $this->logger->debug(Json::encode($rawData, true));
-                try {
-                    $api->save($urlHash, $rawData);
-                    $this->logger->notice('Document saved');
-                } catch (\Throwable $e) {
-                    $this->logger->error(\sprintf('Error while saving the report for %s: %s', $auditResult->getUrl()->getUrl(null, false, false), $e->getMessage()));
+                $retry = 0;
+                while (!$this->saveAudit($api, $urlHash, $rawData, $auditResult->getUrl()->getUrl(null, false, false))) {
+                    if ($retry++ < 10) {
+                        continue;
+                    }
+                    $this->logger->error(\sprintf('Has try to upload the audit result for %s 10 times', $auditResult->getUrl()->getUrl(null, false, false)));
                 }
             } else {
                 $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
@@ -351,5 +353,23 @@ class AuditCommand extends AbstractCommand
 
         $command = \sprintf('emsco:revision:delete  --mode=by-query --query=\'%s\'', $body);
         $this->adminHelper->getCoreApi()->admin()->runCommand($command, $this->output);
+    }
+
+    /**
+     * @param array<string, mixed> $rawData
+     */
+    private function saveAudit(DataInterface $api, string $urlHash, array $rawData, string $url): bool
+    {
+        try {
+            $api->save($urlHash, $rawData);
+            $this->logger->notice('Document saved');
+
+            return true;
+        } catch (\Throwable $e) {
+            $this->logger->error(\sprintf('Error while saving the report for %s, go sleep for 60s: %s', $url, $e->getMessage()));
+            \sleep(60);
+
+            return false;
+        }
     }
 }

@@ -1,5 +1,34 @@
 # Changelog 5.x
 
+## 5.9.3 (2023-09-17)
+### Bug Fixes
+* fix(core/api): data not consumed error by @Davidmattei in https://github.com/ems-project/elasticms/pull/608
+* fix(core/api): data not consumed multipex fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/612
+* fix(core/api): default versions (must always work) by @theus77 in https://github.com/ems-project/elasticms/pull/605
+* fix(core/api): index/update refresh wait by @Davidmattei in https://github.com/ems-project/elasticms/pull/610
+* fix(core/api): no flash messages by @Davidmattei in https://github.com/ems-project/elasticms/pull/611
+* fix(core/field): jsonMenuNestedLink fieldType by @Davidmattei in https://github.com/ems-project/elasticms/pull/613
+* fix(core/field): placeholder empty string when not defined by @theus77 in https://github.com/ems-project/elasticms/pull/607
+* fix(core/jmn): jmn component improvements and bugfixes by @Davidmattei in https://github.com/ems-project/elasticms/pull/609
+
+## 5.9.2 (2023-09-11)
+### Features
+* feat(cli): retry on error by @theus77 in https://github.com/ems-project/elasticms/pull/604
+* feat(common/fileReader): hash file support and implementation in cli import by @theus77 in https://github.com/ems-project/elasticms/pull/601
+* feat(core/api):  new index endpoint in order to init/update or merge/finalize by @theus77 in https://github.com/ems-project/elasticms/pull/602
+* feat(core/component): improve json menu nested by @Davidmattei in https://github.com/ems-project/elasticms/pull/595
+### Bug Fixes
+* fix(core): typo synfony -> symfony by @theus77 in https://github.com/ems-project/elasticms/pull/600
+* fix(core/cli): indexed file mapping by @theus77 in https://github.com/ems-project/elasticms/pull/603
+* fix(core/dataTable): correct horizontal scroll bar by @Davidmattei in https://github.com/ems-project/elasticms/pull/599
+* fix(demo): add template news.ems_link.twig by @theus77 in https://github.com/ems-project/elasticms/pull/598
+
+## 5.9.1 (2023-09-04)
+### Bug Fixes
+* fix: edit dashboard by @theus77 in https://github.com/ems-project/elasticms/pull/591
+### Chores
+* chore(demo): implement json_menu_nested component (dashboard) by @theus77 in https://github.com/ems-project/elasticms/pull/592
+
 ## 5.9.0 (2023-08-27)
 ### Features
 * feat(admin/ui): bootstrap 5 user profile and forms by @theus77 in https://github.com/ems-project/elasticms/pull/539

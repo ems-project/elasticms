@@ -29,11 +29,7 @@
 
 
 {% set pages = emsch_search('page', {
-    query: {
-        terms: {
-            _contenttype: ['page'],
-        },
-    },
+    query: { "exists": { "field": "menu" } },
     _source: ['menu'],
     size: 1000,
 }).hits.hits|default([])|map(p => p._source.menu) %}

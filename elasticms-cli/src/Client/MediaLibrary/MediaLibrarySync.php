@@ -92,7 +92,7 @@ final class MediaLibrarySync
 
     private function uploadMediaFile(SplFileInfo $file): void
     {
-        $path = DIRECTORY_SEPARATOR.$file->getRelativePathname();
+        $path = $this->options->targetFolder.$file->getRelativePathname();
         $metaData = $this->getMetadata($path);
 
         if ($this->options->onlyMetadataFile && 0 === \count($metaData)) {
@@ -103,12 +103,12 @@ final class MediaLibrarySync
 
         $this->uploadMedia($path, [self::SYNC_METADATA => $metaData], $file);
 
-        $exploded = \explode(DIRECTORY_SEPARATOR, $file->getRelativePath());
+        $exploded = \explode('/', $file->getRelativePath());
         while (\count($exploded) > 0) {
-            $folder = DIRECTORY_SEPARATOR.\implode(DIRECTORY_SEPARATOR, $exploded);
+            $folder = '/'.\implode('/', $exploded);
             if (!\in_array($folder, $this->knownFolders)) {
                 $this->uploadMedia($folder, [
-                    self::SYNC_METADATA => $this->getMetadata(DIRECTORY_SEPARATOR.$folder),
+                    self::SYNC_METADATA => $this->getMetadata('/'.$folder),
                 ]);
                 $this->knownFolders[] = $folder;
             }
@@ -121,7 +121,7 @@ final class MediaLibrarySync
      */
     private function uploadMedia(string $path, array $data = [], SplFileInfo $file = null): void
     {
-        $pos = \strrpos($path, DIRECTORY_SEPARATOR);
+        $pos = \strrpos($path, '/');
         if (false === $pos) {
             throw new \RuntimeException('Unexpected path without /');
         }
@@ -225,7 +225,8 @@ final class MediaLibrarySync
         try {
             $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \mb_substr($promise->getText(), 0, $this->options->maxContentSize, 'UTF-8');
             $meta = $promise->getMeta();
-            $assetArray[EmsFields::CONTENT_FILE_DATE] = $meta->getCreated();
+            $createdDate = $meta->getCreated();
+            $assetArray[EmsFields::CONTENT_FILE_DATE] = null !== $createdDate ? $createdDate->format(\DATE_ATOM) : null;
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
             $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();
             $assetArray[EmsFields::CONTENT_FILE_LANGUAGE] = $meta->getLocale();

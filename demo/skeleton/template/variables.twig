@@ -29,6 +29,7 @@
         '%November%': 'month.November'|trans,
         '%December%': 'month.December'|trans,
     } %}
+    {% set isProdLive = app.request.server.all['IS_PROD']|default(false)|lower in ['true', '1', 'yes', 'y', 'live'] %}
 
     {%- block request %}{% endblock request -%}
 

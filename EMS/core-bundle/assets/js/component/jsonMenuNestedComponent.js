@@ -4,7 +4,7 @@ import ajaxModal from "../helper/ajaxModal";
 export default class JsonMenuNestedComponent {
     id;
     #tree;
-    #element;
+    element;
     #pathPrefix;
     #loadParentIds = [];
     #sortableLists = {};
@@ -12,7 +12,7 @@ export default class JsonMenuNestedComponent {
 
     constructor (element) {
         this.id = element.id;
-        this.#element = element;
+        this.element = element;
         this.#tree = element.querySelector('.jmn-tree');
         this.#pathPrefix = `/component/json-menu-nested/${element.dataset.hash}`;
         this._addClickListeners();
@@ -30,47 +30,57 @@ export default class JsonMenuNestedComponent {
 
             this.#loadParentIds = json.load_parent_ids;
             this.#tree.innerHTML = json.tree;
-            this._sortables();
-            this.loading(false);
+
+            let eventCanceled = this._dispatchEvent('jmn-load', { data: json, elements: this._sortables() });
+            if (!eventCanceled) this.loading(false);
         });
     }
     itemGet(itemId) {
         return this._get(`/item/${itemId}`);
     }
-    itemAdd(itemId, add, position = 0) {
+    itemAdd(itemId, add, position = null) {
         return this._post(`/item/${itemId}/add`, { 'position': position, 'add': add });
     }
     itemDelete(nodeId) {
-        return this._post(`/item/${nodeId}/delete`);
+        this._post(`/item/${nodeId}/delete`).then((json) => {
+            let eventCanceled = this._dispatchEvent('jmn-delete', { data: json, nodeId: nodeId  });
+            if (!eventCanceled) this.load();
+        });
     }
     loading(flag) {
-        const element = this.#element.querySelector('.jmn-node-loading');
+        const element = this.element.querySelector('.jmn-node-loading');
         element.style.display = flag ? 'flex' : 'none';
     }
 
     _addClickListeners() {
-        this.#element.addEventListener('click', (event) => {
+        this.element.addEventListener('click', (event) => {
             const element = event.target;
             const node = element.parentElement.closest('.jmn-node');
-            const nodeId = node ? node.dataset.id : '_root';
+            const itemId = node ? node.dataset.id : '_root';
 
-            if (element.classList.contains('jmn-btn-add')) this._onClickButtonAdd(element, nodeId);
-            if (element.classList.contains('jmn-btn-edit')) this._onClickButtonEdit(element, nodeId);
-            if (element.classList.contains('jmn-btn-view')) this._onClickButtonView(element, nodeId);
-            if (element.classList.contains('jmn-btn-delete')) this._onClickButtonDelete(nodeId);
+            if (element.classList.contains('jmn-btn-add')) this._onClickButtonAdd(element, itemId);
+            if (element.classList.contains('jmn-btn-edit')) this._onClickButtonEdit(element, itemId);
+            if (element.classList.contains('jmn-btn-view')) this._onClickButtonView(element, itemId);
+            if (element.classList.contains('jmn-btn-delete')) this._onClickButtonDelete(itemId);
+
+            if (element.dataset.hasOwnProperty('jmnModalCustom')) this._onClickModalCustom(element, itemId);
         }, true);
     }
     _onClickButtonAdd(element, itemId) {
-        this._ajaxModal(element, `/item/${itemId}/modal-add/${element.dataset.add}`);
+        this._ajaxModal(element, `/item/${itemId}/modal-add/${element.dataset.add}`, 'jmn-add');
     }
     _onClickButtonEdit(element, itemId) {
-        this._ajaxModal(element, `/item/${itemId}/modal-edit`);
+        this._ajaxModal(element, `/item/${itemId}/modal-edit`, 'jmn-edit');
     }
     _onClickButtonView(element, itemId) {
-        this._ajaxModal(element, `/item/${itemId}/modal-view`);
+        this._ajaxModal(element, `/item/${itemId}/modal-view`, 'jmn-view');
     }
-    _onClickButtonDelete(nodeId) {
-        this.itemDelete(nodeId).then(() => { this.load(); });
+    _onClickButtonDelete(itemId) {
+        this.itemDelete(itemId);
+    }
+    _onClickModalCustom(element, itemId) {
+        const modalCustomName = element.dataset.jmnModalCustom;
+        this._ajaxModal(element, `/item/${itemId}/modal-custom/${modalCustomName}`, 'jmn-modal-custom');
     }
     _onClickButtonCollapse(button, longPressed = false) {
         const expanded = button.getAttribute('aria-expanded');
@@ -97,12 +107,12 @@ export default class JsonMenuNestedComponent {
         let longPressed = false;
         let longPressTime = 300;
 
-        this.#element.addEventListener('mousedown', (event) => {
+        this.element.addEventListener('mousedown', (event) => {
             if (event.target.classList.contains('jmn-btn-collapse')) {
                 delay = setTimeout(() => { longPressed = true}, longPressTime);
             }
         }, true);
-        this.#element.addEventListener('mouseup', (event) => {
+        this.element.addEventListener('mouseup', (event) => {
             if (event.target.classList.contains('jmn-btn-collapse')) {
                 this._onClickButtonCollapse(event.target, longPressed);
                 clearTimeout(delay);
@@ -126,9 +136,11 @@ export default class JsonMenuNestedComponent {
             onEnd: (event) => { return this._onMoveEnd(event) },
         }
 
-        this.#element.querySelectorAll('.jmn-sortable').forEach((element) => {
+        const sortables =  this.element.querySelectorAll('.jmn-sortable');
+        sortables.forEach((element) => {
             this.#sortableLists[element.id] = Sortable.create(element, options);
         });
+        return sortables;
     }
     _onMove(event) {
         const dragged = event.dragged;
@@ -155,7 +167,7 @@ export default class JsonMenuNestedComponent {
                 fromParentId: fromParentId,
                 toParentId: toParentId,
                 position: position
-            }).finally(() => targetComponent.load(itemId) );
+            }).finally(() => targetComponent.load({ activeItemId: itemId }));
         } else {
             fromComponent.itemGet(itemId)
                 .then((json) => {
@@ -168,12 +180,12 @@ export default class JsonMenuNestedComponent {
                 })
                 .catch(() => {})
                 .finally(() => {
-                    targetComponent.load(itemId);
+                    targetComponent.load({ activeItemId: itemId });
                     fromComponent.load();
                 });
         }
     }
-    _ajaxModal(element, path) {
+    _ajaxModal(element, path, eventType) {
         let activeItemId = null;
         const modalSize = element.dataset.modalSize ?? this.modalSize;
 
@@ -182,12 +194,27 @@ export default class JsonMenuNestedComponent {
             ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
         };
 
+        ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose);
         ajaxModal.load({ 'url': `${this.#pathPrefix}${path}`, 'size': modalSize }, (json) => {
-            if (!json.hasOwnProperty('success') || !json.success) return;
-            if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
-            if (json.hasOwnProperty('item')) activeItemId = json.item;
+            let eventCanceled = this._dispatchEvent(eventType, { data: json, ajaxModal: ajaxModal });
+            if (eventCanceled) ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose);
+
+            if (eventType === 'jmn-add' || eventType === 'jmn-edit') {
+                if (!json.hasOwnProperty('success') || !json.success) return;
+                if (json.hasOwnProperty('load')) this.#loadParentIds.push(json.load);
+                if (json.hasOwnProperty('item') && json.item.hasOwnProperty('id')) activeItemId = json.item.id;
+
+                ajaxModal.close();
+            }
         });
-        ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
+    }
+    _dispatchEvent(eventType, detail) {
+        detail.jmn = this;
+        return !this.element.dispatchEvent(new CustomEvent(eventType, {
+            bubbles: true,
+            cancelable: true,
+            detail: detail,
+        }));
     }
     async _get(path) {
         this.loading(true);

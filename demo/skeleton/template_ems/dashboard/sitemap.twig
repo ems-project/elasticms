@@ -1,267 +1,171 @@
 {%  block ems_body %}
-    {% set form = emsco_form('dashboard_sitemap_options', { locale: app.user.localePreferred|default('nl') }, {
-        method: 'GET',
-    }) %}
-    {% set formView = form.createView %}
+    {% set route = app.request.attributes.get('_route') %}
+    {% set routeParams = app.request.attributes.get('_route_params') %}
 
-    <div class="box with-border">
-        <div class="box-header with-border">
-            <h2 class="box-title">Options</h2>
-        </div>
-        <div class="box-body">
-            {{ form_start(formView) }}
-            {{ form_row(attribute(formView, 'dashboard_sitemap_options'), {class: 'col-md-4'}) }}
-            <div class="clearfix"></div>
-            <div class="col-md-12">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-eye"></i> Apply</button>
+    {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
+
+    {% if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales %}
+        {% set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
+    {% endif %}
+    {%  set locale = app.request.query.get('locale', locales|first) %}
+
+    {% set sections = {
+        "index": 'preview'|emsco_get_environment.alias,
+        "size": 10,
+        "body": {
+            "_source": ['label', 'structure'],
+            "query": {"term": { "_contenttype": {"value":"section"} } },
+            "sort": { "order": { "order": "asc", "missing": "_last", "unmapped_type": "long" } }
+        }
+    }|search.hits.hits %}
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            {% for l in locales %}
+                <li class="{{ html_classes({ 'active': l == locale }) }}">
+                    <a href="{{ path(route, routeParams|merge({ 'locale': l }) ) }}">{{ "locale.#{l}"|i18n }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+       <div class="tab-content">
+            <div class="tab-pane p-2 active" id="tab-{{ locale }}">
+                {% for section in sections %}
+                    {{ component('json_menu_nested', {
+                        'id': "section-#{section._id}",
+                        'ems_link': "ems://object:#{section._source._contenttype}:#{section._id}",
+                        'field_path': '[structure]',
+                        'template': '@EMSCH/template_ems/dashboard/json_menu_nested.twig',
+                        'context_block': 'build_context',
+                        'context': {
+                            'sectionLabel': section._source.label,
+                            'locale': locale
+                        },
+                        'columns': [
+                            { 'name': 'content', 'width': 150 },
+                            { 'name': 'status', 'width': 200 },
+                            { 'name': 'structure' },
+                        ],
+                    }) }}
+                {% endfor %}
             </div>
-            {{ form_end(formView) }}
         </div>
     </div>
-
-    {% if not form.submitted or form.valid %}
-        {% set sections = {
-            index: 'preview'|get_environment.alias,
-            body: {
-                query: {
-                    terms: {
-                        _contenttype: ['section'],
-                    },
-                },
-            },
-            _source: ['label', 'menu', 'structure'],
-            size: 100,
-            sort: [{
-                "label.alpha_order": {
-                    "order": "desc",
-                    "missing": "_last"
-                }
-            }],
-        }|search.hits.hits|default([])|array_key('_id') %}
-
-        {% set pages = {
-            index: 'preview'|get_environment.alias,
-            body: {
-                query: {
-                    terms: {
-                        _contenttype: ['page','section'],
-                    },
-                },
-            },
-            _source: ['label', 'menu'],
-            size: 10000,
-        }|search.hits.hits|default([])|filter(p => p._source.menu|default(false))|map(p => {
-            id: p._id,
-            contenttype: p._source._contenttype,
-            label: p._source.label,
-            menu: p._source.menu,
-        })|array_key('menu') %}
-
-        {% set locale = form.data.dashboard_sitemap_options.locale %}
-
-        {% for section in sections|filter(p => p._source.menu is not defined) %}
-            {% set structure = section._source.structure|default('[]')|ems_json_menu_nested_decode %}
-            {% for item in structure|filter(p => p.type == 'section') %}
-                {% if sections|filter(p => p._source.menu|default(null) == item.id)|default([])|length > 0 %}
-                    {% do item.setChildren(sections|filter(p => p._source.menu|default(null) == item.id)|first._source.structure|ems_json_menu_nested_decode.children) %}
-                {% endif %}
-            {% endfor %}
-
-            {% for item in structure %}
-                {% do item.setLabel(attribute(item.object, locale).title|default('')) %}
-            {% endfor %}
-
-            <div class="box with-border">
-                <div class="box-header with-border">
-                    <h2 class="box-title">{{ section._source.label }}</h2>
-                    <div class="btn-group pull-right">
-                        {% with {item: {
-                            id: section._id,
-                            object: section._source,
-                            label: section._source.label,
-                            type: section._source._contenttype,
-                            page: {
-                                contenttype: section._source._contenttype,
-                                id: section._id,
-                                label: section._source.label,
-                            }
-                        } } %}
-                            {{ include(template_from_string(block('actions'))) }}
-                        {% endwith %}
-                    </div>
-                </div>
-                <div class="box-body">
-                    {{ emsco_json_menu_nested({
-                        id: section._id,
-                        document: section,
-                        context: {
-                            pages: pages,
-                            sections: sections,
-                        },
-                        field: 'structure',
-                        structure: (structure.toArrayStructure(true)|json_encode),
-                        actions: {
-                            add: { deny: ['all'] },
-                            edit: { deny: ['all'] },
-                            delete: { deny: ['all'] },
-                            move: { deny: ['all'] },
-                            copy: { deny: ['all'] },
-                            paste: { deny: ['all'] },
-                            preview: { deny: ['all'] },
-                        },
-                        blocks: [{
-                            type: 'item_action',
-                            item_type: 'page',
-                            html: (block('actions')),
-                        },{
-                            type: 'item_action',
-                            item_type: 'section',
-                            html: (block('actions')),
-                        }]
-                    }) }}
-                </div>
-            </div>
-        {% endfor %}
-    {% endif %}
 {%  endblock ems_body %}
 
-{%  block actions %}
-     {% verbatim %}
-
-        {% set templatesByType = {
-            page: [{
-                label: "Create page",
-                value: item.object|merge({
-                    label: item.label,
-                    menu : item.id,
-                }),
-            }],
-            section: [{
-                label: "Create section",
-                value: item.object|merge({
-                    label: item.label,
-                    menu : item.id,
-                }),
-            }]
-        } %}
-        {% set page = item.page|default(attribute(pages, item.id)|default(false)) %}
-        {% if page %}
-            {% set info = "#{page.contenttype}:#{page.id}"|emsco_document_info %}
-
-            <div class="btn-group">
-                <button class="btn btn-default btn-sm">
-                    {% for environment in ['live'] %}
-                        {% if info.isAligned(environment) %}
-                            <i class="text-success fa fa-check" title="Last version published in {{ environment }}"></i>
-                        {% elseif info.isPublished(environment) %}
-                            <i class="text-warning fa fa-warning" title="A version is published in {{ environment }} but not the last"></i>
-                        {% else %}
-                            <i class="text-danger fa fa-times" title="Missing in {{ environment }}"></i>
-                        {% endif %}
-                    {% endfor %}
-                </button>
-            </div>
-
-            {% for environment in ['live'] %}
-                {% if info.hasDraft() or info.isAligned(environment) %}
-                    <a href="{{ path('emsco_data_new_draft', { type: page.contenttype, ouuid: page.id }) }}" class="btn btn-sm btn-default">
-                        Edit {{ page.label }}
-                    </a>
-                {% else %}
-                    <a href="{{ path("revision.publish_to", {revisionId: info.getRevision('preview').id, envId: environment|get_environment.id, redirectToUrl: app.request.requesturi }) }}" class="btn btn-sm btn-default">
-                        Publish {{ page.label }} in {{ environment }}
-                    </a>
-                {% endif %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="{{ path('emsco_data_new_draft', { type: page.contenttype, ouuid: page.id }) }}">
-                                Edit
-                            </a>
-                            <a href="{{ path('data.revisions', {ouuid: page.id, type: page.contenttype} ) }}">
-                                Revision
-                            </a>
-                            {% if not info.isAligned(environment) and  not info.hasDraft() %}
-                                <a href="{{ path("revision.publish_to", {revisionId: info.getRevision('preview').id, envId: environment|get_environment.id, redirectToUrl: app.request.requesturi }) }}">
-                                    Publish in {{ environment }}
-                                </a>
-                            {% endif %}
-                        </li>
-                    </ul>
-                </div>
-            {% endfor %}
-        {% else %}
-            {% if attribute(templatesByType, item.type)|default([])|length == 1 %}
-                {% set template = attribute(templatesByType, item.type)|first %}
-                <button class="json-post-button btn btn-sm btn-warning" data-value="{{ template.value|json_encode|e('html_attr') }}" data-path="{{ path('emsco_interface_document_create', { interface: 'json', name: item.type })|e('html_attr') }}" data-redirect="{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('html_attr') }}">
-                    <i class="fa fa-plus"></i>
-                    {{ template.label }}
-                </button>
-            {% elseif attribute(templatesByType, item.type)|default([])|length > 1 %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-plus"></i>
-                        Create {{ item.type }}
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle dropdown of available templates</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        {% for template in attribute(templatesByType, item.type)|default([]) %}
-                            <li>
-                                <a href="#" class="json-post-button" data-value="{{ template.value|json_encode|e('html_attr') }}" data-path="{{ path('emsco_interface_document_create', { interface: 'json', name: item.type })|e('html_attr') }}" data-redirect="{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('html_attr') }}">
-                                    {{ template.label }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-        {% endif %}
-        {% if item.parent is defined %}
-            <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-plus"></i>
-                    Add
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle dropdown of adding entries</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li>
-                        <a href="#" class="">
-                            <i class="fa fa-angle-up"></i> Before
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="">
-                            <i class="fa fa-angle-down"></i> After
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        {% endif %}
-     {% endverbatim %}
-{%  endblock %}
+{% block ems_header %}
+    <style>
+        .jmn-column-status { flex-wrap: wrap; }
+        .jmn-column-status > div:first-child { width: 100%; padding-bottom: 10px; }
+        .jmn-column-status > div:not(:first-child) { flex: 1; }
+    </style>
+{% endblock ems_header %}
 
 {%  block ems_footer %}
     <script>
-        $('.json-post-button').on('click', function(event) {
-            event.preventDefault();
-            var xhr = new XMLHttpRequest();
-            var url = $(this).data('path');
-            var redirect = $(this).data('redirect');
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var json = JSON.parse(xhr.responseText);
-                    document.location = redirect.replace('__revisionId__', json.revision_id);
-                }
-            };
-            var data = JSON.stringify($(this).data('value'));
-            xhr.send(data);
+        window.addEventListener('emsReady', function () {
+            let url = new URL(window.location.href)
+            let activeItemId = url.searchParams.get('activeItemId');
+
+            Object.values(window.jsonMenuNestedComponents).forEach((jmn) => {
+                if (activeItemId) jmn.load({ activeItemId: activeItemId });
+
+                jmn.element.addEventListener('jmn-load', (event) => onJmnLoad(jmn, event));
+                jmn.element.addEventListener('jmn-add', (event) => onJmnAdd(jmn, event));
+                jmn.element.addEventListener('jmn-modal-custom', (event) => onJmnModalCustom(jmn, event));
+            });
         });
+
+        function onJmnLoad(jmn, event) {
+            event.preventDefault();
+            jmn.element.querySelectorAll('.btn-new-page').forEach((button) => {
+                button.addEventListener('click', () => onClickNewPage(jmn, button));
+            });
+            jmn.element.querySelectorAll('.btn-detach-page').forEach((button) => {
+                button.addEventListener('click', () => onClickDetachPage(jmn, button));
+            });
+            jmn.loading(false);
+        }
+        function onJmnAdd(jmn, event) {
+            if (!event.detail.data.hasOwnProperty('success') || !event.detail.data.success) return;
+            event.preventDefault();
+            jmn.loading(true);
+            createPageForItem(event.detail.data.item);
+        }
+        function onJmnModalCustom(jmn, event) {
+            let data = event.detail.data;
+            if (data.hasOwnProperty('modalName') && data.modalName === 'modal_existing_page') {
+                event.preventDefault();
+                onModalExistingPage(jmn, event.detail.ajaxModal, data.item.id);
+            }
+        }
+        function onClickNewPage(jmn, button) {
+            jmn.loading(true);
+            createPageForItem(JSON.parse(button.dataset.item));
+        }
+        function onClickDetachPage(jmn, button) {
+            jmn.loading(true);
+            updatePage(button.dataset.pageId, { menu: null }).then((json) => {
+                if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: button.dataset.itemId });
+            });
+        }
+        function onModalExistingPage(jmn, ajaxModal, itemParentId) {
+            document.getElementById('jmn-existing-page-table').addEventListener('click', (event) => {
+                if (event.target.classList.contains('btn-add-existing-page')) onChooseExistingPage(jmn, event.target);
+            });
+
+            async function onChooseExistingPage(jmn, button) {
+                jmn.loading(true);
+                ajaxModal.close();
+                let pageId = button.dataset.pageId;
+
+                getPage(pageId)
+                    .then((page) => ({
+                        type: 'page',
+                        object: {
+                            label: page.revision.label,
+                            nl: { title: page.revision['title_nl'] },
+                            fr: { title: page.revision['title_fr'] },
+                        }
+                    }))
+                    .then((item) => jmn.itemAdd(itemParentId, item, null))
+                    .then((responseAdd) => {
+                        let addedItemId = responseAdd.item.id;
+                        updatePage(pageId, { menu: addedItemId }).then((json) => {
+                            if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: addedItemId });
+                        });
+                    });
+            }
+        }
+
+        function createPageForItem(item) {
+            post('/json/data/page/create?' + new URLSearchParams({ refresh: 1 }), {
+                label: item.label,
+                menu: item.id,
+                nl: {title: item.object.nl.title},
+                fr: {title: item.object.fr.title},
+            }).then((json) => {
+                if (json.hasOwnProperty('revision_id')) window.location = `/data/draft/edit/${json.revision_id}`;
+            });
+        }
+        function getPage(pageId) {
+            return get(`/json/data/page/${pageId}`);
+        }
+        function updatePage(pageId, data) {
+            return post(`/json/data/page/update/${pageId}?` + new URLSearchParams({ refresh: 1}), data);
+        }
+        async function get(url) {
+            let response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json', 'X-Log-Level': '300'}
+            });
+            return response.json();
+        }
+        async function post(url, data) {
+            let response = await fetch(url, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'X-Log-Level': '300'},
+                body: JSON.stringify(data)
+            });
+            return response.json();
+        }
     </script>
-{%  endblock %}
+{%  endblock ems_footer %}

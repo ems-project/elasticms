@@ -170,7 +170,7 @@ class Cache
         $estimateSeconds = \round($rate * ($total - $treated));
         $estimateDatetime = new \DateTimeImmutable(\sprintf('+%s seconds', $estimateSeconds));
         $dateIntervalFormat = $estimateSeconds > (24 * 60 * 60) ? '%a days %h:%I:%S' : '%h:%I:%S';
-        $output->write(\sprintf('%d urls audited, %d urls pending, %d urls found, rate %01.2f url/min, EAC in %s', $treated, $total - $treated, $total, 60.0 / $rate, $estimateDatetime->diff(new \DateTimeImmutable())->format($dateIntervalFormat)));
+        $output->write(\sprintf('%d urls audited, %d urls pending, %d urls found, rate %01.2f url/min, EAC in %s   ', $treated, $total - $treated, $total, 60.0 / $rate, $estimateDatetime->diff(new \DateTimeImmutable())->format($dateIntervalFormat)));
     }
 
     public function progressFinish(OutputInterface $output, int $counter): void

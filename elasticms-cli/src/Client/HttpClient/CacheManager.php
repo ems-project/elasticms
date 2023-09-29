@@ -109,7 +109,7 @@ class CacheManager
     public function clear(): void
     {
         $finder = new Finder();
-        $finder->in(implode(DIRECTORY_SEPARATOR, [$this->cacheFolder, self::WEB_TO_ELASTICMS]));
+        $finder->in(\implode(DIRECTORY_SEPARATOR, [$this->cacheFolder, self::WEB_TO_ELASTICMS]));
         if (!$finder->hasResults()) {
             return;
         }

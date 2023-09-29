@@ -176,7 +176,7 @@ class Cache
     public function progressFinish(OutputInterface $output, int $counter): void
     {
         $this->rewindOutput($output);
-        $output->writeln(\sprintf('%d/%d urls have been audited', $counter, \count($this->urls)));
+        $output->writeln(\sprintf('%d/%d urls have been audited                                                            ', $counter, \count($this->urls)));
     }
 
     protected function rewindOutput(OutputInterface $output): void

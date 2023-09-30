@@ -4,38 +4,18 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use EMS\Helpers\Standard\DateTime;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Table(name="store_data")
- *
- * @ORM\Entity()
- *
- * @ORM\HasLifecycleCallbacks()
- */
 class StoreData
 {
     use CreatedModifiedTrait;
 
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="uuid", unique=true)
-     *
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     *
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
     private UuidInterface $id;
-
-    /**
-     * @ORM\Column(name="key", type="string", length=2048, unique=true)
-     */
     private string $key;
+    /** @var array<mixed> */
+    protected array $data = [];
 
     public function __construct()
     {
@@ -43,13 +23,6 @@ class StoreData
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
     }
-
-    /**
-     * @var mixed[]
-     *
-     * @ORM\Column(name="data", type="json", nullable=true)
-     */
-    protected array $data = [];
 
     public function getId(): UuidInterface
     {
@@ -67,7 +40,7 @@ class StoreData
     }
 
     /**
-     * @return mixed[]
+     * @return array<mixed>
      */
     public function getData(): array
     {
@@ -75,7 +48,7 @@ class StoreData
     }
 
     /**
-     * @param mixed[] $data
+     * @param array<mixed> $data
      */
     public function setData(array $data): void
     {

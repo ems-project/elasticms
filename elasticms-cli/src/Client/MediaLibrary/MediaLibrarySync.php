@@ -13,6 +13,7 @@ use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\File\File;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
@@ -169,7 +170,7 @@ final class MediaLibrarySync
      */
     public function urlToAssetArray(SplFileInfo $file, ?array $mediaFile): array
     {
-        $mimeType = \mime_content_type($file->getRealPath());
+        $mimeType = (new File($file))->mimeType;
         $mimeType = $mimeType ?: 'application/bin';
         $hash = '';
 

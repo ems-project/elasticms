@@ -7,80 +7,21 @@ use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\DateTime;
 
-/**
- * DataField.
- *
- * @ORM\Table(name="uploaded_asset")
- *
- * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\UploadedAssetRepository")
- *
- * @ORM\HasLifecycleCallbacks()
- */
 class UploadedAsset implements EntityInterface
 {
     use CreatedModifiedTrait;
-    /**
-     * @ORM\Column(name="id", type="integer")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+
     private int $id;
-
-    /**
-     * @ORM\Column(name="status", type="string", length=64, nullable=true)
-     */
     private ?string $status = null;
-
-    /**
-     * @ORM\Column(name="sha1", type="string", length=128)
-     */
     private string $sha1;
-
-    /**
-     * @ORM\Column(name="name", type="string", length=1024)
-     */
     private string $name = '';
-
-    /**
-     * @ORM\Column(name="type", type="string", length=1024)
-     */
     private string $type;
-
-    /**
-     * @ORM\Column(name="username", type="string", length=255)
-     */
     private string $user;
-
-    /**
-     * @ORM\Column(name="available", type="boolean")
-     */
     private bool $available;
-
-    /**
-     * @ORM\Column(name="size", type="bigint")
-     */
     private int|string|null $size = null;
-
-    /**
-     * @ORM\Column(name="uploaded", type="bigint")
-     */
     private int|string|null $uploaded = null;
-
-    /**
-     * @ORM\Column(name="hash_algo", type="string", length=32, options={"default" : "sha1"})
-     */
     private ?string $hashAlgo = null;
-
-    /**
-     * @ORM\Column(name="hidden", type="boolean", options={"default" : 0})
-     */
     private bool $hidden = false;
-
-    /**
-     * @ORM\Column(name="head_last", type="datetime", nullable=true)
-     */
     private ?\DateTime $headLast = null;
 
     /**

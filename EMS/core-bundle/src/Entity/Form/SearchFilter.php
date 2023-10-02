@@ -2,55 +2,16 @@
 
 namespace EMS\CoreBundle\Entity\Form;
 
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * @ORM\Table(name="search_filter")
- *
- * @ORM\Entity(repositoryClass="EMS\CoreBundle\Repository\SearchFilterRepository")
- */
 class SearchFilter implements \JsonSerializable
 {
-    /**
-     * @ORM\Column(name="id", type="bigint")
-     *
-     * @ORM\Id
-     *
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private int $id;
+    private string $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Search", inversedBy="filters")
-     *
-     * @ORM\JoinColumn(name="search_id", referencedColumnName="id")
-     */
     private ?Search $search = null;
-
-    /**
-     * @ORM\Column(name="pattern", type="string", length=200, nullable=true)
-     */
     public ?string $pattern = null;
-
-    /**
-     * @ORM\Column(name="field", type="string", length=100, nullable=true)
-     */
     public ?string $field = null;
-
-    /**
-     * @ORM\Column(name="boolean_clause", type="string", length=20, nullable=true)
-     */
     public ?string $booleanClause = 'must';
-
-    /**
-     * @ORM\Column(name="operator", type="string", length=50)
-     */
     public string $operator = 'query_and';
-
-    /**
-     * @ORM\Column(name="boost", type="decimal", scale=2, nullable=true)
-     */
-    public ?float $boost = null;
+    public ?string $boost = null;
 
     public function __construct()
     {

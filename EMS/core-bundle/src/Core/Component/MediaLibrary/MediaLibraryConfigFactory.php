@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\MediaLibrary;
 
 use EMS\CoreBundle\Core\Config\AbstractConfigFactory;
-use EMS\CoreBundle\Core\Config\ConfigFactoryInterface;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MediaLibraryConfigFactory extends AbstractConfigFactory implements ConfigFactoryInterface
+class MediaLibraryConfigFactory extends AbstractConfigFactory
 {
     public function __construct(private readonly ContentTypeService $contentTypeService)
     {

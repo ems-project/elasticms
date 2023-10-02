@@ -23,6 +23,8 @@ final class MediaLibraryComponent
     public string $hash;
     #[ExposeInTemplate('id')]
     public string $id;
+    #[ExposeInTemplate('config')]
+    public MediaLibraryConfig $config;
     #[ExposeInTemplate('template')]
     public MediaLibraryTemplate $template;
 
@@ -36,11 +38,11 @@ final class MediaLibraryComponent
     {
         /** @var MediaLibraryConfig $config */
         $config = $this->mediaLibraryConfigFactory->createFromOptions($options);
-        $template = $this->templateFactory->create($config);
 
         $this->hash = $config->getHash();
         $this->id = $config->getId();
-        $this->template = $template;
+        $this->config = $config;
+        $this->template = $this->templateFactory->create($config);
 
         return [];
     }

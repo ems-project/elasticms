@@ -47,16 +47,14 @@ class MediaLibraryController
 
         $form->handleRequest($request->getRequest());
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $folderName = (string) $form->get('folder_name')->getData();
-                $folder = $this->mediaLibraryService->createFolder($config, $request, $folderName);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $folderName = (string) $form->get('folder_name')->getData();
+            $folder = $this->mediaLibraryService->createFolder($config, $request, $folderName);
 
-                if ($folder) {
-                    $request->clearFlashes();
+            if ($folder) {
+                $request->clearFlashes();
 
-                    return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->path]);
-                }
+                return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->path]);
             }
         }
 

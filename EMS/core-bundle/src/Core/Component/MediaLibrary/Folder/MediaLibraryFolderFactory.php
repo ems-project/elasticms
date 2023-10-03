@@ -8,7 +8,7 @@ use Elastica\Query\Term;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 
 class MediaLibraryFolderFactory
 {

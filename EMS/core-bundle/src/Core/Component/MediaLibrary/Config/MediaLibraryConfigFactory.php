@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Core\Component\MediaLibrary;
+namespace EMS\CoreBundle\Core\Component\MediaLibrary\Config;
 
 use EMS\CoreBundle\Core\Config\AbstractConfigFactory;
 use EMS\CoreBundle\Entity\ContentType;

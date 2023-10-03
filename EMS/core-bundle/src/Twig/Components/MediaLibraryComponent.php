@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Twig\Components;
 
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfigFactory;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplate;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplateFactory;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;

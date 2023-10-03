@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\MediaLibrary\Template;
 
 use EMS\CoreBundle\Core\Component\AbstractComponentTemplate;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use Twig\Environment;
 
 class MediaLibraryTemplate extends AbstractComponentTemplate

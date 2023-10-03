@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\MediaLibrary\Folder;
 
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 
 class MediaLibraryFolder
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Core\Component\JsonMenuNested\Template\Context;
+namespace EMS\CoreBundle\Core\Component;
 
-class JsonMenuNestedTemplateContext
+class ComponentTemplateContext
 {
     /**
      * @param array<string, mixed> $raw

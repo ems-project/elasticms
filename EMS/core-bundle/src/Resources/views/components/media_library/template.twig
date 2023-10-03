@@ -1,0 +1,69 @@
+{% trans_default_domain 'emsco-component' %}
+{# @var template \EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplate #}
+{# @var config \EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig #}
+
+{%- block media_lib_header -%}
+    {% apply spaceless %}
+        <div class="media-lib-container">
+            {{ template.block('media_lib_button_home', _context)|raw }}
+            {{ template.block('media_lib_button_folder_add', _context)|raw }}
+            {{ template.block('media_lib_button_upload', _context)|raw }}
+            {{ template.block('media_lib_breadcrumb', _context)|raw }}
+        </div>
+    {% endapply %}
+{%- endblock media_lib_header -%}
+
+{%- block media_lib_file_row_header -%}
+    {% apply spaceless %}
+        <li>
+            <div>Name</div>
+            <div>Type</div>
+            <div class="text-right">Size</div>
+        </li>
+    {% endapply %}
+{%- endblock media_lib_file_row_header -%}
+
+{%- block media_lib_file_row -%}
+    {% apply spaceless %}
+        <li>
+            <div><a href="{{ url }}" download="{{ media.file.filename }}" data-ems-id="{{ media.emsId }}">{{ media.file.filename }}</a></div>
+            <div>{{ media.file.mimetype|trans({}, 'emsco-mimetypes') }}</div>
+            <div class="text-right">{{ media.file.filesize|format_bytes }}</div>
+        </li>
+    {% endapply %}
+{%- endblock media_lib_file_row -%}
+
+{%- block media_lib_footer -%}
+    <div class="media-lib-container"></div>
+{%- endblock media_lib_footer -%}
+
+{%- block media_lib_button_home -%}
+    <button class="btn btn-sm btn-default btn-home">
+        <i class="fa fa-home" aria-hidden="true"></i> {{- buttonLabel|default('media_library.home'|trans) -}}
+    </button>
+{%- endblock media_lib_button_home -%}
+
+{%- block media_lib_button_folder_add -%}
+    <button class="btn btn-sm btn-default btn-add-folder">
+        <i class="fa fa-folder" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.add.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_folder_add -%}
+
+{%- block media_lib_button_upload -%}
+    <input type="file" id="media-lib-upload-{{ id }}" class="file-uploader-input" multiple="multiple">
+    <label class="btn btn-sm btn-default" for="media-lib-upload-{{ id }}">
+        <i class="fa fa-upload"></i> {{- buttonLabel|default('media_library.file.add.title'|trans) -}}
+    </label>
+{%- endblock media_lib_button_upload -%}
+
+{% block media_lib_breadcrumb %}
+    {%- if folder -%}
+        <ul class="media-lib-list-breadcrumb">
+            <li><button class="breadcrumb-item">Home</button></li>
+            {%- for parent in folder.parents -%}
+                <li><button class="breadcrumb-item" data-id="{{ parent.id }}">{{ parent.name }}</button></li>
+            {%- endfor -%}
+        </ul>
+    {%- endif -%}
+{% endblock media_lib_breadcrumb %}
+

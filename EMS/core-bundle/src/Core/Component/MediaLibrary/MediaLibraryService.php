@@ -15,6 +15,7 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolderFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolderStructure;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplateFactory;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
@@ -82,13 +83,13 @@ class MediaLibraryService
             ->addMust((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)))
             ->addMust((new Term())->setTerm($config->fieldFolder, $path));
 
-        $template = $this->templateFactory->create($config);
+        $template = $this->templateFactory->create($config, ['folder' => $folder]);
         $search = $this->search($config, $searchQuery, $config->searchSize, $request->from);
 
         $rows = [];
         foreach ($search->getDocuments() as $document) {
             $mediaLibraryFile = new MediaLibraryFile($config, $document);
-            $rows[] = $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW, [
+            $rows[] = $template->block('media_lib_file_row', [
                 'media' => $mediaLibraryFile,
                 'url' => $this->urlGenerator->generate('ems.file.view', [
                     'sha1' => $mediaLibraryFile->file['sha1'],
@@ -100,8 +101,8 @@ class MediaLibraryService
         return \array_filter([
             'totalRows' => $search->getTotalDocuments(),
             'remaining' => ($request->from + $search->getTotalDocuments() < $search->getTotal()),
-            'header' => 0 === $request->from ? $template->renderHeader(['folder' => $folder]) : null,
-            'rowHeader' => 0 === $request->from ? $template->block(MediaLibraryTemplate::BLOCK_FILE_ROW_HEADER) : null,
+            'header' => 0 === $request->from ? $template->block('media_lib_header') : null,
+            'rowHeader' => 0 === $request->from ? $template->block('media_lib_file_row_header') : null,
             'rows' => $rows,
         ]);
     }

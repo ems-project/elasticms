@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Core\Component\JsonMenuNested\Template\Context;
+namespace EMS\CoreBundle\Core\Component\JsonMenuNested\Template;
 
 use EMS\CommonBundle\Json\JsonMenuNested;
 

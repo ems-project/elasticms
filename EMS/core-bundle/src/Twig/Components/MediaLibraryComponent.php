@@ -6,8 +6,8 @@ namespace EMS\CoreBundle\Twig\Components;
 
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryConfigFactory;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryTemplate;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryTemplateFactory;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplate;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplateFactory;
 use Symfony\UX\TwigComponent\Attribute\ExposeInTemplate;
 use Symfony\UX\TwigComponent\Attribute\PreMount;
 

@@ -27,6 +27,11 @@ class MediaLibraryFolder
         return new self($document, $document->getId(), $name, $path);
     }
 
+    public function getPath(): string
+    {
+        return $this->path.'/';
+    }
+
     /**
      * @return MediaLibraryFolder[]
      */

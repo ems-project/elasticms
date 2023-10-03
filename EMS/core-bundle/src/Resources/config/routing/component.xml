@@ -62,6 +62,18 @@
     </route>
 
     <!-- Media library -->
+    <route id="emsco.media_library.header" path="/media-lib/{hash}/header/{folderId}"
+         controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::getHeader"
+         methods="GET">
+      <requirement key="hash">.*</requirement>
+      <default key="folderId" xsi:nil="true"/>
+    </route>
+  <route id="emsco.media_library.files_delete" path="/media-lib/{hash}/files/delete/{folderId}"
+         controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::deleteFiles"
+         methods="POST">
+    <requirement key="hash">.*</requirement>
+    <default key="folderId" xsi:nil="true"/>
+  </route>
     <route id="emsco.media_library.files" path="/media-lib/{hash}/files/{folderId}"
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::getFiles"
            methods="GET">

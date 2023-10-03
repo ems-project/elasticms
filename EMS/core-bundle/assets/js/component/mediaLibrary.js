@@ -59,7 +59,9 @@ export default class MediaLibrary {
         this.element.onclick = (event) => {
             let classList = event.target.classList;
 
-            if (classList.contains('media-lib-link-folder')) this._onClickFolder(event.target);
+            if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
+            if (classList.contains('media-lib-item')) this._onClickFile(event.target);
+            if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete();
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('btn-add-folder')) this._onClickButtonAddFolder();
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
@@ -70,6 +72,31 @@ export default class MediaLibrary {
                 this._uploadFiles(Array.from(event.target.files));
             }
         }
+    }
+
+    _onClickFile(item) {
+        this.loading(true);
+
+        const activeItem = this.#elements.listFiles.querySelectorAll('.active');
+        activeItem.forEach((li) => li.classList.remove('active'))
+        item.classList.add('active');
+
+        const query = new URLSearchParams([['items[]', item.dataset.id]]).toString();
+        this._get(`/header${this.#activeFolder}?${query}`).then((json) => {
+             if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
+             this.loading(false);
+        });
+    }
+    _onClickButtonFileDelete() {
+        const activeItems = this.#elements.listFiles.querySelectorAll('.active');
+        const activeIds =  [];
+        activeItems.forEach((element) => activeIds.push(element.dataset.id));
+
+        this._post(`/files/delete${this.#activeFolder}`, { 'items': activeIds }).then((json) => {
+            if (json.hasOwnProperty('success'))  activeItems.forEach((element) => element.remove());
+            if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
+            this.loading(false);
+        });
     }
 
     _onClickFolder(button) {
@@ -83,7 +110,7 @@ export default class MediaLibrary {
             parentLi.classList.toggle('open');
         }
 
-        this.#activeFolder = button.dataset.id;
+        this.#activeFolder = `/${button.dataset.id}`;
         this._getFiles().then(() => this.loading(false));
     }
     _onClickButtonHome() {
@@ -96,7 +123,7 @@ export default class MediaLibrary {
     }
     _onClickButtonAddFolder() {
         ajaxModal.load({
-            url: [this.#pathPrefix, 'add-folder'].join('/') + (this.#activeFolder ? '/'+ this.#activeFolder : ''),
+            url: `${this.#pathPrefix}/add-folder${this.#activeFolder}`,
             size: 'sm'
         }, (json) => {
             if (json.hasOwnProperty('success') && json.success === true) {
@@ -122,9 +149,8 @@ export default class MediaLibrary {
             this.#elements.listFiles.innerHTML = '';
         }
 
-        const query = '?' + new URLSearchParams({ from: from.toString() }).toString();
-        const path = '/files' + (this.#activeFolder ? '/'+ this.#activeFolder : '') + query;
-        return this._get(path).then((files) => { this._appendFiles(files) });
+        const query = new URLSearchParams({ from: from.toString() }).toString();
+        return this._get(`/files${this.#activeFolder}?${query}`).then((files) => { this._appendFiles(files) });
     }
     _getFolders(openPath) {
         this.#elements.listFolders.innerHTML = '';
@@ -156,10 +182,7 @@ export default class MediaLibrary {
         if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
         if (json.hasOwnProperty('rowHeader'))  this.#elements.listFiles.innerHTML += json.rowHeader;
         if (json.hasOwnProperty('totalRows'))  this.#loadedFiles += json.totalRows;
-
-        if (json.hasOwnProperty('rows')) {
-            json.rows.forEach((row) => { this.#elements.listFiles.innerHTML += row; });
-        }
+        if (json.hasOwnProperty('rows'))  this.#elements.listFiles.innerHTML += json.rows;
 
         if (json.hasOwnProperty('remaining') && json.remaining) {
             this.#elements.loadMoreFiles.classList.add('show-load-more');
@@ -173,7 +196,7 @@ export default class MediaLibrary {
             buttonFolder.textContent = folder.name;
             buttonFolder.dataset.id = folder.id;
             buttonFolder.dataset.path = folder.path;
-            buttonFolder.classList.add('media-lib-link-folder');
+            buttonFolder.classList.add('media-lib-folder');
 
             let liFolder = document.createElement("li");
             liFolder.appendChild(buttonFolder);
@@ -195,7 +218,6 @@ export default class MediaLibrary {
         Promise
             .allSettled(files.map((file) => this._uploadFile(file)))
             .then(() => {
-                this.#elements.inputUpload.value = "";
                 this._getFiles().then(() => this.loading(false));
             });
     }
@@ -244,7 +266,7 @@ export default class MediaLibrary {
                     data[mediaLib.#options.hashAlgo] = fileHash;
 
                     mediaLib._post(
-                        '/add-file' + (mediaLib.#activeFolder ? '/'+ mediaLib.#activeFolder : ''),
+                        `/add-file${mediaLib.#activeFolder}`,
                         { file: data }
                     ).then(() => {
                         mediaLib.#elements.listUploads.removeChild(liUpload);

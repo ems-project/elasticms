@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Core\Component\MediaLibrary;
+namespace EMS\CoreBundle\Core\Component\MediaLibrary\File;
 
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
@@ -14,13 +14,14 @@ class MediaLibraryFile
 
     public string $path;
     public string $folder;
-
-    public DocumentInterface $document;
     public string $emsId;
 
-    public function __construct(MediaLibraryConfig $config, DocumentInterface $document)
-    {
-        $this->document = $document;
+    public string $urlView;
+
+    public function __construct(
+        MediaLibraryConfig $config,
+        public DocumentInterface $document
+    ) {
         $this->emsId = (string) $document->getEmsLink();
 
         $this->file = $document->getValue($config->fieldFile);

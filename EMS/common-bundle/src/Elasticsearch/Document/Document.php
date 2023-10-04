@@ -109,12 +109,14 @@ class Document implements DocumentInterface
     {
         if ($cleaned) {
             $source = $this->source;
-            unset($source[EMSSource::FIELD_CONTENT_TYPE]);
-            unset($source[EMSSource::FIELD_FINALIZATION_DATETIME]);
-            unset($source[EMSSource::FIELD_FINALIZED_BY]);
-            unset($source[EMSSource::FIELD_HASH]);
-            unset($source[EMSSource::FIELD_PUBLICATION_DATETIME]);
-            unset($source[EMSSource::FIELD_SIGNATURE]);
+            unset(
+                $source[EMSSource::FIELD_CONTENT_TYPE],
+                $source[EMSSource::FIELD_FINALIZATION_DATETIME],
+                $source[EMSSource::FIELD_FINALIZED_BY],
+                $source[EMSSource::FIELD_HASH],
+                $source[EMSSource::FIELD_PUBLICATION_DATETIME],
+                $source[EMSSource::FIELD_SIGNATURE]
+            );
 
             return $source;
         }
@@ -145,16 +147,19 @@ class Document implements DocumentInterface
         return $this->highlight;
     }
 
-    /**
-     * @param mixed $defaultValue
-     *
-     * @return mixed
-     */
-    public function getValue(string $fieldPath, $defaultValue = null)
+    public function getValue(string $fieldPath, mixed $defaultValue = null): mixed
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
         return $propertyAccessor->getValue($this->source, self::fieldPathToPropertyPath($fieldPath)) ?? $defaultValue;
+    }
+
+    public function setValue(string $fieldPath, mixed $value): self
+    {
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
+        $propertyAccessor->setValue($this->source, self::fieldPathToPropertyPath($fieldPath), $value);
+
+        return $this;
     }
 
     public static function fieldPathToPropertyPath(string $fieldPath): string

@@ -11,6 +11,8 @@ media_library:
             title: Upload
         delete:
             title: 'Delete file'
+        rename:
+            title: 'Rename file'
 
 json_menu_nested:
     error:

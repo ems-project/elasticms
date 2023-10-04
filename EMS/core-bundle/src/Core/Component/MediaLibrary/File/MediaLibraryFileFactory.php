@@ -18,12 +18,6 @@ class MediaLibraryFileFactory
 
     public function createFromDocument(DocumentInterface $document): MediaLibraryFile
     {
-        $mediaLibraryFile = new MediaLibraryFile($this->config, $document);
-        $mediaLibraryFile->urlView = $this->urlGenerator->generate('ems.file.view', [
-            'sha1' => $mediaLibraryFile->file['sha1'],
-            'filename' => $mediaLibraryFile->file['filename'],
-        ]);
-
-        return $mediaLibraryFile;
+        return new MediaLibraryFile($this->config, $this->urlGenerator, $document);
     }
 }

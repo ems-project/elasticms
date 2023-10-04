@@ -14,6 +14,7 @@ use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\Component\ComponentModal;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile;
 use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFileFactory;
@@ -71,7 +72,7 @@ class MediaLibraryService
         return $createdUuid ? $this->getFolder($config, $createdUuid) : null;
     }
 
-    public function getHeader(MediaLibraryConfig $config, ?string $folderId, EMSLink ...$emsLinks): string
+    public function renderHeader(MediaLibraryConfig $config, ?string $folderId, EMSLink ...$emsLinks): string
     {
         $folder = $folderId ? $this->getFolder($config, $folderId) : null;
         $mediaFiles = $this->findFilesByEmsLinks($config, $folder, ...$emsLinks);
@@ -83,6 +84,22 @@ class MediaLibraryService
         ]));
 
         return $template->block('media_lib_header');
+    }
+
+    public function renderFileRow(MediaLibraryConfig $config, MediaLibraryFile $mediaLibraryFile): string
+    {
+        return $this->templateFactory
+            ->create($config, ['mediaFile' => $mediaLibraryFile])
+            ->block('media_lib_file_row');
+    }
+
+    public function getFileByOuuid(MediaLibraryConfig $config, string $fileId, ?string $folderId = null): MediaLibraryFile
+    {
+        $folder = $folderId ? $this->getFolder($config, $folderId) : null;
+        $emsLink = EMSLink::fromContentTypeOuuid($config->contentType->getName(), $fileId);
+        $resultFind = $this->findFilesByEmsLinks($config, $folder, $emsLink);
+
+        return $resultFind[0];
     }
 
     /**
@@ -145,6 +162,17 @@ class MediaLibraryService
     }
 
     /**
+     * @param array<string, mixed> $context
+     */
+    public function modal(MediaLibraryConfig $config, array $context): ComponentModal
+    {
+        $componentModal = new ComponentModal($this->templateFactory->create($config), 'media_lib_modal');
+        $componentModal->template->context->append($context);
+
+        return $componentModal;
+    }
+
+    /**
      * @param array<mixed> $rawData
      */
     private function create(MediaLibraryConfig $config, array $rawData): ?string
@@ -159,6 +187,15 @@ class MediaLibraryService
         $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());
 
         return 0 === $form->getErrors(true)->count() ? $uuid->toString() : null;
+    }
+
+    public function updateFile(MediaLibraryConfig $config, MediaLibraryFile $file): bool
+    {
+        $document = $file->document;
+        $this->revisionService->updateRawDataByEmsLink($document->getEmsLink(), $document->getSource(true));
+        $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());
+
+        return true;
     }
 
     private function getFolderPath(MediaLibraryConfig $config, MediaLibraryRequest $request): string

@@ -62,6 +62,7 @@ export default class MediaLibrary {
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
             if (classList.contains('media-lib-item')) this._onClickFile(event.target);
             if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete();
+            if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('btn-add-folder')) this._onClickButtonAddFolder();
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
@@ -85,6 +86,19 @@ export default class MediaLibrary {
         this._get(`/header${this.#activeFolder}?${query}`).then((json) => {
              if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
              this.loading(false);
+        });
+    }
+    _onClickButtonFileRename(button) {
+        const folderId = this._getSelectedFolderId();
+        const fileId = button.dataset.id;
+
+        const query = folderId ? '?' + new URLSearchParams({ folderId: folderId}).toString() : '';
+        const fileRow = this.#elements.listFiles.querySelector(`[data-id='${fileId}']`);
+
+        ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/rename${query}`, size: 'sm'}, (json) => {
+            if (!json.hasOwnProperty('success') || json.success === false) return;
+            if (json.hasOwnProperty('fileRow')) fileRow.outerHTML = json.fileRow;
+            ajaxModal.close();
         });
     }
     _onClickButtonFileDelete() {
@@ -158,6 +172,10 @@ export default class MediaLibrary {
             this._appendFolderItems(folders, this.#elements.listFolders);
             if (openPath) { this._openPath(openPath); }
         });
+    }
+    _getSelectedFolderId() {
+        const folderButton = this.#elements.listFolders.querySelector('.media-lib-folder.active');
+        return folderButton ? folderButton.dataset.id : null;
     }
     _openPath(path) {
         let currentPath = '';

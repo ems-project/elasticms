@@ -36,10 +36,10 @@ class MediaLibraryController
     public function getHeader(MediaLibraryConfig $config, Request $request, ?string $folderId = null): JsonResponse
     {
         return new JsonResponse([
-            'header' => $this->mediaLibraryService->getHeader(
+            'header' => $this->mediaLibraryService->renderHeader(
                 $config,
                 $folderId,
-                ...$this->getEmsLinksFromRequest($request)
+                ...$this->getEmsLinksFromRequest($config, $request)
             ),
         ]);
     }
@@ -93,14 +93,43 @@ class MediaLibraryController
         return new JsonResponse([], Response::HTTP_CREATED);
     }
 
+    public function renameFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
+    {
+        $folderId = $request->query->get('folderId');
+        $mediaFile = $this->mediaLibraryService->getFileByOuuid($config, $fileId, $folderId);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $mediaFile)
+            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->mediaLibraryService->updateFile($config, $mediaFile);
+            $this->clearFlashes($request);
+
+            return new JsonResponse([
+                'success' => true,
+                'fileRow' => $this->mediaLibraryService->renderFileRow($config, $mediaFile),
+            ]);
+        }
+
+        $modal = $this->mediaLibraryService->modal($config, [
+            'type' => 'rename',
+            'title' => $this->translator->trans('media_library.file.rename.title', [], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+        ]);
+
+        return new JsonResponse($modal->render());
+    }
+
     public function deleteFiles(MediaLibraryConfig $config, Request $request, ?string $folderId = null): JsonResponse
     {
-        $success = $this->mediaLibraryService->deleteFiles($config, $folderId, ...$this->getEmsLinksFromRequest($request));
+        $success = $this->mediaLibraryService->deleteFiles($config, $folderId, ...$this->getEmsLinksFromRequest($config, $request));
         $this->clearFlashes($request);
 
         return new JsonResponse([
             'success' => $success,
-            'header' => $this->mediaLibraryService->getHeader($config, $folderId),
+            'header' => $this->mediaLibraryService->renderHeader($config, $folderId),
         ]);
     }
 
@@ -112,7 +141,7 @@ class MediaLibraryController
     /**
      * @return EMSLink[]
      */
-    private function getEmsLinksFromRequest(Request $request): array
+    private function getEmsLinksFromRequest(MediaLibraryConfig $config, Request $request): array
     {
         /** @var ?string[] $items */
         $items = match ($request->getMethod()) {
@@ -120,8 +149,9 @@ class MediaLibraryController
             Request::METHOD_POST => Json::decode($request->getContent())['items'],
             default => throw new \RuntimeException('could not get items from request')
         };
+        $contentType = $config->contentType->getName();
 
-        return \array_map(static fn (string $select) => EMSLink::fromText($select), $items ?? []);
+        return \array_map(static fn (string $id) => EMSLink::fromContentTypeOuuid($contentType, $id), $items ?? []);
     }
 
     private function clearFlashes(Request $request): void

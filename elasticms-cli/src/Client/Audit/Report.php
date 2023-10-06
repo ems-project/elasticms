@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace App\CLI\Client\Audit;
 
 use App\CLI\Client\HttpClient\UrlReport;
+use App\CLI\Client\Report\AbstractReport;
 use App\CLI\Client\WebToElasticms\Helper\Url;
-use EMS\CommonBundle\Common\SpreadsheetGeneratorService;
-use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
-use Symfony\Component\HttpFoundation\HeaderUtils;
 
-class Report
+class Report extends AbstractReport
 {
     /** @var string[][] */
     private array $accessibilityErrors = [['URL', 'WCAG2AA', 'Accessibility\'s score']];
@@ -22,50 +20,6 @@ class Report
     private array $ignoredLinks = [['URL', 'Error message', 'Referrers']];
     /** @var string[][] */
     private array $warnings = [['URL', 'Warning message', 'Referrer']];
-    private readonly SpreadsheetGeneratorService $spreadsheetGeneratorService;
-
-    public function __construct()
-    {
-        $this->spreadsheetGeneratorService = new SpreadsheetGeneratorService();
-    }
-
-    public function generateXslxReport(): string
-    {
-        $config = [
-            SpreadsheetGeneratorServiceInterface::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_ATTACHMENT,
-            SpreadsheetGeneratorServiceInterface::WRITER => SpreadsheetGeneratorServiceInterface::XLSX_WRITER,
-            SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => 'Audit-Report.xlsx',
-            SpreadsheetGeneratorServiceInterface::SHEETS => [
-                [
-                    'name' => 'Broken links',
-                    'rows' => \array_values($this->brokenLinks),
-                ],
-                [
-                    'name' => 'Ignored links',
-                    'rows' => \array_values($this->ignoredLinks),
-                ],
-                [
-                    'name' => 'Warnings',
-                    'rows' => \array_values($this->warnings),
-                ],
-                [
-                    'name' => 'Accessibility',
-                    'rows' => \array_values($this->accessibilityErrors),
-                ],
-                [
-                    'name' => 'Security',
-                    'rows' => \array_values($this->securityErrors),
-                ],
-            ],
-        ];
-        $tmpFilename = \tempnam(\sys_get_temp_dir(), 'WebReport');
-        if (!\is_string($tmpFilename)) {
-            throw new \RuntimeException('Not able to generate a temporary filename');
-        }
-        $this->spreadsheetGeneratorService->generateSpreadsheetFile($config, $tmpFilename);
-
-        return $tmpFilename;
-    }
 
     public function addAccessibilityError(string $url, int $errorCount, ?float $score): void
     {
@@ -210,5 +164,34 @@ class Report
     public function setIgnoredLinks(array $ignoredLinks): void
     {
         $this->ignoredLinks = $ignoredLinks;
+    }
+
+    /**
+     * @return array{array{name: string, rows: string[][]}}
+     */
+    protected function getSheets(): array
+    {
+        return [
+            [
+                'name' => 'Broken links',
+                'rows' => \array_values($this->brokenLinks),
+            ],
+            [
+                'name' => 'Ignored links',
+                'rows' => \array_values($this->ignoredLinks),
+            ],
+            [
+                'name' => 'Warnings',
+                'rows' => \array_values($this->warnings),
+            ],
+            [
+                'name' => 'Accessibility',
+                'rows' => \array_values($this->accessibilityErrors),
+            ],
+            [
+                'name' => 'Security',
+                'rows' => \array_values($this->securityErrors),
+            ],
+        ];
     }
 }

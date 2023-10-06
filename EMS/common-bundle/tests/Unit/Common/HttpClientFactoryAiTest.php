@@ -1,6 +1,6 @@
 <?php
 
-namespace EMS\Tests\CommonBundle\Common;
+namespace EMS\Tests\CommonBundle\Unit\Common;
 
 use EMS\CommonBundle\Common\HttpClientFactory;
 use GuzzleHttp\Client;

@@ -25,7 +25,7 @@ abstract class AbstractReport
             SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => 'Audit-Report.xlsx',
             SpreadsheetGeneratorServiceInterface::SHEETS => $this->getSheets(),
         ];
-        $tmpFilename = \tempnam(\sys_get_temp_dir(), 'WebReport');
+        $tmpFilename = \tempnam(\sys_get_temp_dir(), 'Audit-Report-').'.xlsx';
         if (!\is_string($tmpFilename)) {
             throw new \RuntimeException('Not able to generate a temporary filename');
         }

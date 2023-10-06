@@ -100,7 +100,7 @@ final class HttpHandlerTest extends AbstractHandlerTest
         $message = \file_get_contents(__DIR__.'/../fixtures/twig/message_http.twig');
 
         $this->assertEquals(
-            '{"status":"error","data":"Submission failed, contact your admin. (Invalid endpoint configuration: The option \"test\" does not exist. Defined options are: \"auth_basic\", \"auth_bearer\", \"headers\", \"ignore_body_value\", \"method\", \"query\", \"timeout\", \"url\".)"}',
+            '{"status":"error","data":"Submission failed, contact your admin. (Invalid endpoint configuration: The option \"test\" does not exist. Defined options are: \"auth_basic\", \"auth_bearer\", \"headers\", \"ignore_body_value\", \"max_redirects\", \"method\", \"query\", \"timeout\", \"url\".)"}',
             $this->handle($this->createForm(), $endpoint, $message)->getResponse()
         );
     }

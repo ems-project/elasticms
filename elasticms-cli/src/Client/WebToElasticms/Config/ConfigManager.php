@@ -48,6 +48,8 @@ class ConfigManager
     /** @var string[] */
     private array $validClasses = [];
     /** @var string[] */
+    private array $styleValidTags = [];
+    /** @var string[] */
     private array $locales = [];
     /** @var string[] */
     private array $linkToClean = [];
@@ -264,6 +266,22 @@ class ConfigManager
         $this->validClasses = $validClasses;
     }
 
+    /**
+     * @return string[]
+     */
+    public function getStyleValidTags(): array
+    {
+        return $this->styleValidTags;
+    }
+
+    /**
+     * @param string[] $styleValidTags
+     */
+    public function setStyleValidTags(array $styleValidTags): void
+    {
+        $this->styleValidTags = $styleValidTags;
+    }
+
     public function findInDocuments(Url $url): ?string
     {
         foreach ($this->documents as $document) {
@@ -435,6 +453,11 @@ class ConfigManager
             fn ($arguments, $pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => (null === $pattern || null === $str) ? null : \preg_split($pattern, (string) $str, $limit, $flags)
         );
 
+        $this->expressionLanguage->register('match',
+            fn ($pattern, $str, $flags = 0) => \sprintf('((null === %1$s || null === %2$s) ? null : \\preg_match(%1$s, %2$s, %3$d))', $pattern, $str, $flags),
+            fn ($arguments, $pattern, $str, $flags = 0) => (null === $pattern || null === $str) ? null : $this->matches($pattern, (string) $str, $flags)
+        );
+
         $this->expressionLanguage->register('datalinks',
             fn ($value, $type) => \sprintf('((null === %1$s || null === %2$s) ? null : (is_array($value) ? \\$this->findDataLinksArray(%1$s, %2$s): $this->findDataLinkString(%1$s, %2$s)))', \strval($value), $type),
             fn ($arguments, $value, $type) => (null === $value || null === $type) ? null : (\is_array($value) ? $this->findDataLinksArray($value, $type) : $this->findDataLinkString($value, $type))
@@ -456,6 +479,16 @@ class ConfigManager
         );
 
         return $this->expressionLanguage;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function matches(string $pattern, string $str, int $flags): array
+    {
+        \preg_match_all($pattern, $str, $matches, $flags);
+
+        return $matches['matches'] ?? $matches[0];
     }
 
     public function getHashResourcesField(): string

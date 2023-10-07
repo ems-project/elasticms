@@ -13,6 +13,7 @@ use EMS\SubmissionBundle\Response\HttpHandleResponse;
 use EMS\SubmissionBundle\Response\NoHttpRequest;
 use EMS\SubmissionBundle\Response\ResponseTransformer;
 use EMS\SubmissionBundle\Twig\TwigRenderer;
+use Symfony\Component\HttpClient\Exception\RedirectionException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class HttpHandler extends AbstractHandler
@@ -31,8 +32,13 @@ final class HttpHandler extends AbstractHandler
             if (null !== $httpRequest->getIgnoreBodyValue() && $body === $httpRequest->getIgnoreBodyValue()) {
                 $handleResponse = new NoHttpRequest();
             } else {
-                $httpResponse = $this->client->request($httpRequest->getMethod(), $httpRequest->getUrl(), $httpRequest->getHttpOptions());
-                $httpResponseContent = $httpResponse->getContent(true);
+                try {
+                    $httpResponse = $this->client->request($httpRequest->getMethod(), $httpRequest->getUrl(), $httpRequest->getHttpOptions());
+                    $httpResponseContent = $httpResponse->getContent(true);
+                } catch (RedirectionException $exception) {
+                    $httpResponse = $exception->getResponse();
+                    $httpResponseContent = '';
+                }
                 $handleResponse = new HttpHandleResponse($httpResponse, $httpResponseContent);
             }
 

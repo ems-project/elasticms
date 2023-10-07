@@ -2,23 +2,16 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\EventListener;
+namespace EMS\CommonBundle\EventListener;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
-use Doctrine\ORM\Tools\ToolEvents;
 
-class MigrationEventSubscriber implements EventSubscriberInterface
+class DoctrineMigrationListener
 {
-    public function getSubscribedEvents(): array
-    {
-        return [ToolEvents::postGenerateSchema => 'postGenerateSchema'];
-    }
-
     public function postGenerateSchema(GenerateSchemaEventArgs $args): void
     {
-        $schemaManager = $args->getEntityManager()->getConnection()->getSchemaManager();
+        $schemaManager = $args->getEntityManager()->getConnection()->createSchemaManager();
 
         if (!$schemaManager instanceof PostgreSqlSchemaManager) {
             return;

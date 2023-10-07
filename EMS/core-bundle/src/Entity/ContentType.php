@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ContentTypeSettings;
@@ -21,8 +22,8 @@ use EMS\Helpers\Standard\Type;
 class ContentType extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    protected $id;
     protected string $name = '';
 
     /** @var string */
@@ -102,16 +103,6 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

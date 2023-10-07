@@ -5,17 +5,17 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\User\UserOptions;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\DateTime;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private ?int $id = null;
     /** @var ?string[] */
     private ?array $circles = [];
     private ?string $displayName = null;
@@ -43,7 +43,6 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private array $roles = [];
     /** @var ?array<string, mixed> */
     protected ?array $userOptions = [];
-
     private const DEFAULT_LOCALE = 'en';
 
     public function __construct()
@@ -282,11 +281,6 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
-    }
-
-    public function getId(): int
-    {
-        return Type::integer($this->id);
     }
 
     public function getUserIdentifier(): string

@@ -3,13 +3,14 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\Helpers\Standard\DateTime;
 
 class AuthToken
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     private string $value;
 
     public function __construct(private UserInterface $user)
@@ -18,14 +19,6 @@ class AuthToken
 
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setValue(string $value): self

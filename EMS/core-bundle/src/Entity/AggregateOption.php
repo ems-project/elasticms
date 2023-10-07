@@ -3,14 +3,15 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Service\Mapping;
 use EMS\Helpers\Standard\DateTime;
 
 class AggregateOption
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     private string $name;
     private string $config;
     private string $template;
@@ -66,16 +67,6 @@ class AggregateOption
 		</a>
 	{% endif %}
 {% endif %}';
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

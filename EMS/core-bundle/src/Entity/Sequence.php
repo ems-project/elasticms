@@ -3,13 +3,14 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\Helpers\Standard\DateTime;
 
 class Sequence
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     private int $value = 1;
     private int $version = 0;
 
@@ -22,16 +23,6 @@ class Sequence
     public function updateVersion(): void
     {
         ++$this->version;
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

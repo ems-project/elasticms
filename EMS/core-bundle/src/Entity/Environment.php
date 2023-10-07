@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -12,8 +13,8 @@ use EMS\Helpers\Standard\DateTime;
 class Environment extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    protected $id;
     protected string $name = '';
     protected ?string $label = null;
     protected string $alias = '';
@@ -58,16 +59,6 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

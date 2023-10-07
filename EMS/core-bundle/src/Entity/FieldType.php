@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
@@ -15,9 +16,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FieldType extends JsonDeserializer implements \JsonSerializable
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
+
     final public const DISPLAY_OPTIONS = 'displayOptions';
 
-    protected int $id;
     /** @var class-string<DataFieldType> */
     protected string $type;
     /** @var string */
@@ -55,16 +57,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         foreach ($this->children as $child) {
             $child->updateAncestorReferences(null, $this);
         }
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function updateOrderKeys(): void

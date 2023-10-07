@@ -4,10 +4,12 @@ namespace EMS\CoreBundle\Entity\Form;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\ContentType;
 
 class Search implements \JsonSerializable
 {
+    use IdentifierIntegerTrait;
     private string $id;
 
     /** @var Collection<int, SearchFilter> */
@@ -49,16 +51,6 @@ class Search implements \JsonSerializable
         }
 
         return $out;
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

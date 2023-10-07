@@ -6,12 +6,15 @@ namespace EMS\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class Release implements EntityInterface
 {
+    use IdentifierIntegerTrait;
+
     final public const WIP_STATUS = 'wip';
     final public const READY_STATUS = 'ready';
     final public const APPLIED_STATUS = 'applied';
@@ -19,7 +22,6 @@ class Release implements EntityInterface
     final public const SCHEDULED_STATUS = 'scheduled';
     final public const ROLLBACKED_STATUS = 'rollbacked';
 
-    private int $id;
     private ?\DateTime $executionDate = null;
     private string $status = Release::WIP_STATUS;
     private string $name;
@@ -31,11 +33,6 @@ class Release implements EntityInterface
     public function __construct()
     {
         $this->revisions = new ArrayCollection();
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getName(): string

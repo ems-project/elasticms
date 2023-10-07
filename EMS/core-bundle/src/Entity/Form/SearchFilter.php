@@ -2,10 +2,13 @@
 
 namespace EMS\CoreBundle\Entity\Form;
 
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
+
 class SearchFilter implements \JsonSerializable
 {
-    private string $id;
+    use IdentifierIntegerTrait;
 
+    private string $id;
     private ?Search $search = null;
     public ?string $pattern = null;
     public ?string $field = null;
@@ -208,11 +211,6 @@ class SearchFilter implements \JsonSerializable
         $this->boost = $boost;
 
         return $this;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function setSearch(?Search $search = null): self

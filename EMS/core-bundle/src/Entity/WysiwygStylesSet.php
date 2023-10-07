@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -10,10 +11,10 @@ use EMS\Helpers\Standard\DateTime;
 class WysiwygStylesSet extends JsonDeserializer implements \JsonSerializable, EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     protected string $name = '';
-    protected ?string $config = null;
+    protected string $config = '{}';
     protected int $orderKey = 0;
     protected ?string $formatTags = 'p;h1;h2;h3;h4;h5;h6;pre;address;div';
     protected string $tableDefaultCss = 'table table-border';
@@ -29,16 +30,6 @@ class WysiwygStylesSet extends JsonDeserializer implements \JsonSerializable, En
         $this->modified = DateTime::create('now');
     }
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
     public function setName(string $name): WysiwygStylesSet
     {
         $this->name = $name;
@@ -51,26 +42,14 @@ class WysiwygStylesSet extends JsonDeserializer implements \JsonSerializable, En
         return $this->name;
     }
 
-    /**
-     * Set config.
-     *
-     * @param string $config
-     *
-     * @return WysiwygStylesSet
-     */
-    public function setConfig($config)
+    public function setConfig(string $config): self
     {
         $this->config = $config;
 
         return $this;
     }
 
-    /**
-     * Get config.
-     *
-     * @return string
-     */
-    public function getConfig()
+    public function getConfig(): string
     {
         return $this->config;
     }

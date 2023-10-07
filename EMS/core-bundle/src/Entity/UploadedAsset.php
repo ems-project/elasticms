@@ -2,16 +2,16 @@
 
 namespace EMS\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\DateTime;
 
 class UploadedAsset implements EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     private ?string $status = null;
     private string $sha1;
     private string $name = '';
@@ -23,12 +23,7 @@ class UploadedAsset implements EntityInterface
     private ?string $hashAlgo = null;
     private bool $hidden = false;
     private ?\DateTime $headLast = null;
-
-    /**
-     * @var string[]|null
-     *
-     * @ORM\Column(name="head_in", type="array", nullable=true)
-     */
+    /** @var ?string[] */
     private ?array $headIn;
 
     public function __construct()
@@ -52,16 +47,6 @@ class UploadedAsset implements EntityInterface
             'uploaded' => $this->getUploaded(),
             'user' => $this->getUser(),
         ];
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setStatus(?string $status): self

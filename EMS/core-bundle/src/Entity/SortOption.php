@@ -3,13 +3,14 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\Helpers\Standard\DateTime;
 
 class SortOption
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     private string $name;
     private string $field;
     private int $orderKey = 0;
@@ -20,16 +21,6 @@ class SortOption
     {
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

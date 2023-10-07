@@ -3,13 +3,14 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\Helpers\Standard\DateTime;
 
 class CacheAssetExtractor
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     private string $hash;
 
     /** @var mixed[]|null */
@@ -19,18 +20,6 @@ class CacheAssetExtractor
     {
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     public function getHash(): string

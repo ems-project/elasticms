@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\EntityInterface;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -11,8 +12,8 @@ use EMS\Helpers\Standard\DateTime;
 class Job extends JsonDeserializer implements \JsonSerializable, EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     private string $status = '';
     private ?string $output = null;
     private bool $done = false;
@@ -27,11 +28,6 @@ class Job extends JsonDeserializer implements \JsonSerializable, EntityInterface
     {
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getStarted(): bool

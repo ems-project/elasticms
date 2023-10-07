@@ -3,15 +3,17 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\Helpers\Standard\DateTime;
 
 class Notification implements \Stringable
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
+
     final public const PENDING = 'pending';
     final public const IN_TRANSIT = 'in-transit';
 
-    private int $id;
     private ?Template $template = null;
     private string $username;
     private string $status;
@@ -35,16 +37,6 @@ class Notification implements \Stringable
     public function __toString(): string
     {
         return $this->getTemplate()->getName().'#'.$this->id;
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

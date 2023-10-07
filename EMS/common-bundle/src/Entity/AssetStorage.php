@@ -7,8 +7,8 @@ use EMS\Helpers\Standard\DateTime;
 class AssetStorage implements EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private ?int $id = null;
     private ?string $hash = null;
     /** @var string|resource */
     private $contents;
@@ -19,11 +19,6 @@ class AssetStorage implements EntityInterface
     {
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
-    }
-
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     public function getHash(): string
@@ -55,11 +50,6 @@ class AssetStorage implements EntityInterface
         $this->contents = $contents;
 
         return $this;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getSize(): int

@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Entity;
 
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
+
 class ReleaseRevision implements EntityInterface
 {
-    private int $id;
+    use IdentifierIntegerTrait;
+
     private Release $release;
     private ?Revision $revision = null;
     private ?Revision $revisionBeforePublish = null;
     private string $revisionOuuid;
     private ContentType $contentType;
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     public function getRevisionOuuid(): string
     {

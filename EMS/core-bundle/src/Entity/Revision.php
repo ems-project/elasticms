@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Exception\LockedException;
 use EMS\CoreBundle\Exception\NotLockedException;
@@ -19,8 +20,8 @@ class Revision implements EntityInterface, \Stringable
 {
     use RevisionTaskTrait;
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private ?int $id = null;
     private ?\DateTime $autoSaveAt = null;
     private bool $archived = false;
     private bool $deleted = false;
@@ -244,11 +245,6 @@ class Revision implements EntityInterface, \Stringable
         $this->allFieldsAreThere = $allFieldsAreThere;
 
         return $this;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function isCurrent(): bool

@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Form\Field\AnalyzerOptionsType;
@@ -11,8 +12,8 @@ use EMS\Helpers\Standard\DateTime;
 class Analyzer extends JsonDeserializer implements \JsonSerializable, EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    protected $id;
     protected string $name = '';
     /** @var bool */
     protected $dirty = true;
@@ -27,16 +28,6 @@ class Analyzer extends JsonDeserializer implements \JsonSerializable, EntityInte
     {
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setName(string $name): Analyzer

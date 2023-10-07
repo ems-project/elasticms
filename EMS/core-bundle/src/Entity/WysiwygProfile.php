@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -10,8 +11,8 @@ use EMS\Helpers\Standard\DateTime;
 class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     protected string $name = '';
     protected ?string $config = null;
     protected int $orderKey = 0;
@@ -20,16 +21,6 @@ class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, Enti
     {
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
-    }
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     public function setName(string $name): WysiwygProfile

@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\CoreBundle\Validator\Constraints as EMSAssert;
@@ -13,8 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class ManagedAlias extends JsonDeserializer implements \JsonSerializable, \Stringable, EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    private int $id;
     /** @EMSAssert\AliasName() */
     protected string $name;
     protected ?string $label = null;
@@ -34,11 +35,6 @@ class ManagedAlias extends JsonDeserializer implements \JsonSerializable, \Strin
     public function __toString(): string
     {
         return $this->name;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getName(): string

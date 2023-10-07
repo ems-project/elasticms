@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
@@ -12,8 +13,8 @@ use EMS\Helpers\Standard\DateTime;
 class View extends JsonDeserializer implements \JsonSerializable, EntityInterface
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    protected int $id;
     protected string $name;
     protected string $type;
     protected string $label = '';
@@ -38,11 +39,6 @@ class View extends JsonDeserializer implements \JsonSerializable, EntityInterfac
             $this->modified = DateTime::create('now');
             $this->orderKey = 0;
         }
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function setName(string $name): View

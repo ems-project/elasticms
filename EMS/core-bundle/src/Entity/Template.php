@@ -5,16 +5,16 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
+use EMS\CommonBundle\Entity\IdentifierIntegerTrait;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
-use EMS\Helpers\Standard\Type;
 
 class Template extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
     use CreatedModifiedTrait;
+    use IdentifierIntegerTrait;
 
-    protected ?int $id = null;
     protected string $name = '';
     protected string $label = '';
     protected ?string $icon = null;
@@ -61,11 +61,6 @@ class Template extends JsonDeserializer implements \JsonSerializable, EntityInte
         if (!isset($this->orderKey)) {
             $this->orderKey = 0;
         }
-    }
-
-    public function getId(): int
-    {
-        return Type::integer($this->id);
     }
 
     public function setName(?string $name): self

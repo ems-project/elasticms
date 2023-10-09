@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi;
+
+use EMS\CommonBundle\Common\CoreApi\Client;
+use EMS\CommonBundle\Common\CoreApi\CoreApi;
+use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
+use EMS\CommonBundle\Storage\StorageManager;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
+
+final class CoreApiFactoryAiTest extends TestCase
+{
+    private MockObject $logger;
+    private MockObject $storageManager;
+    private CoreApiFactory $factory;
+
+    protected function setUp(): void
+    {
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->storageManager = $this->createMock(StorageManager::class);
+        $this->factory = new CoreApiFactory($this->logger, $this->storageManager);
+    }
+
+    public function testCreate(): void
+    {
+        $baseUrl = 'http://example.com';
+        $coreApi = $this->factory->create($baseUrl);
+
+        $this->assertInstanceOf(CoreApi::class, $coreApi);
+
+        $reflection = new \ReflectionClass($coreApi);
+        $clientProperty = $reflection->getProperty('client');
+        $client = $clientProperty->getValue($coreApi);
+
+        $this->assertInstanceOf(Client::class, $client);
+        $this->assertEquals($baseUrl, $client->getBaseUrl());
+    }
+}

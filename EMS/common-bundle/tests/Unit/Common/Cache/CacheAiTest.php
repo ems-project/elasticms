@@ -12,13 +12,13 @@ class CacheAiTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->cacheDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('cache_test_', true);
-        mkdir($this->cacheDir);
+        $this->cacheDir = \sys_get_temp_dir().DIRECTORY_SEPARATOR.\uniqid('cache_test_', true);
+        \mkdir($this->cacheDir);
     }
 
     protected function removeDirectory($path): void
     {
-        $files = \glob($path . '/*');
+        $files = \glob($path.'/*');
         foreach ($files as $file) {
             \is_dir($file) ? $this->removeDirectory($file) : \unlink($file);
         }

@@ -24,7 +24,7 @@ final class ResultAiTest extends TestCase
     public function testGetData(): void
     {
         $data = ['someKey' => 'someValue'];
-        $this->response->method('getContent')->willReturn(json_encode($data));
+        $this->response->method('getContent')->willReturn(\json_encode($data));
 
         $result = new Result($this->response, $this->logger);
         $this->assertEquals($data, $result->getData());
@@ -33,7 +33,7 @@ final class ResultAiTest extends TestCase
     public function testIsSuccess(): void
     {
         $data = ['success' => true];
-        $this->response->method('getContent')->willReturn(json_encode($data));
+        $this->response->method('getContent')->willReturn(\json_encode($data));
 
         $result = new Result($this->response, $this->logger);
         $this->assertTrue($result->isSuccess());
@@ -42,10 +42,9 @@ final class ResultAiTest extends TestCase
     public function testIsAcknowledged(): void
     {
         $data = ['acknowledged' => true];
-        $this->response->method('getContent')->willReturn(json_encode($data));
+        $this->response->method('getContent')->willReturn(\json_encode($data));
 
         $result = new Result($this->response, $this->logger);
         $this->assertTrue($result->isAcknowledged());
     }
 }
-

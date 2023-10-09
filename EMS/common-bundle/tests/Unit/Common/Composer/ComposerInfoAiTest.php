@@ -13,7 +13,7 @@ final class ComposerInfoAiTest extends TestCase
 
     protected function setUp(): void
     {
-        $projectDir = __DIR__ . '/fixtures';
+        $projectDir = __DIR__.'/fixtures';
         $this->composerInfo = new ComposerInfo($projectDir);
     }
 

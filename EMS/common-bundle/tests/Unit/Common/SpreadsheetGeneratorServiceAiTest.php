@@ -26,7 +26,7 @@ class SpreadsheetGeneratorServiceAiTest extends TestCase
             'writer' => 'invalid_writer',
             'filename' => 'test',
             'sheets' => [],
-            'disposition' => 'attachment'
+            'disposition' => 'attachment',
         ];
 
         $this->service->generateSpreadsheet($config);
@@ -38,7 +38,7 @@ class SpreadsheetGeneratorServiceAiTest extends TestCase
             'writer' => SpreadsheetGeneratorService::XLSX_WRITER,
             'filename' => 'test',
             'sheets' => [['name' => 'Sheet1', 'rows' => [['A1', 'B1']]]],
-            'disposition' => 'attachment'
+            'disposition' => 'attachment',
         ];
 
         $response = $this->service->generateSpreadsheet($config);
@@ -53,7 +53,7 @@ class SpreadsheetGeneratorServiceAiTest extends TestCase
             'writer' => SpreadsheetGeneratorService::CSV_WRITER,
             'filename' => 'test',
             'sheets' => [['name' => 'Sheet1', 'rows' => [['A1', 'B1']]]],
-            'disposition' => 'attachment'
+            'disposition' => 'attachment',
         ];
 
         $response = $this->service->generateSpreadsheet($config);
@@ -68,7 +68,7 @@ class SpreadsheetGeneratorServiceAiTest extends TestCase
             'writer' => SpreadsheetGeneratorService::XLSX_WRITER,
             'filename' => 'test',
             'sheets' => [['name' => 'Sheet1', 'rows' => [['A1', 'B1']]]],
-            'disposition' => 'attachment'
+            'disposition' => 'attachment',
         ];
 
         $response = $this->service->generateSpreadsheetCacheableResponse($config);
@@ -83,7 +83,7 @@ class SpreadsheetGeneratorServiceAiTest extends TestCase
             'writer' => SpreadsheetGeneratorService::CSV_WRITER,
             'filename' => 'test',
             'sheets' => [['name' => 'Sheet1', 'rows' => [['A1', 'B1']]]],
-            'disposition' => 'attachment'
+            'disposition' => 'attachment',
         ];
 
         $response = $this->service->generateSpreadsheetCacheableResponse($config);

@@ -15,8 +15,8 @@ class ConfigAiTest extends TestCase
             'prefix' => 'test_prefix_',
             'redis' => [
                 'host' => 'localhost',
-                'port' => 6379
-            ]
+                'port' => 6379,
+            ],
         ]);
 
         $this->assertEquals(Cache::TYPE_REDIS, $config->type);
@@ -29,7 +29,7 @@ class ConfigAiTest extends TestCase
     {
         $config = new Config([
             'type' => Cache::TYPE_REDIS,
-            'prefix' => 'test_prefix_'
+            'prefix' => 'test_prefix_',
         ]);
 
         $this->assertEquals('localhost', $config->redis['host']);
@@ -41,7 +41,7 @@ class ConfigAiTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         new Config([
             'type' => 'invalid_type',
-            'prefix' => 'test_prefix_'
+            'prefix' => 'test_prefix_',
         ]);
     }
 
@@ -49,7 +49,7 @@ class ConfigAiTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         new Config([
-            'type' => Cache::TYPE_REDIS
+            'type' => Cache::TYPE_REDIS,
         ]);
     }
 
@@ -61,8 +61,8 @@ class ConfigAiTest extends TestCase
             'prefix' => 'test_prefix_',
             'redis' => [
                 'host' => 'localhost',
-                'port' => 'invalid_port'
-            ]
+                'port' => 'invalid_port',
+            ],
         ]);
     }
 }

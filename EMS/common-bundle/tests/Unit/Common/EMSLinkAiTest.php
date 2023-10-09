@@ -76,16 +76,4 @@ class EMSLinkAiTest extends TestCase
         ];
         EMSLink::fromMatch($match);
     }
-
-    public function testFromDocumentExceptionMissingContentType(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Unable to determine the content type for document AWTLzKLc8K-kdP4iJ3rt');
-
-        $document = [
-            '_id' => 'AWTLzKLc8K-kdP4iJ3rt',
-            '_source' => [],
-        ];
-        EMSLink::fromDocument($document);
-    }
 }

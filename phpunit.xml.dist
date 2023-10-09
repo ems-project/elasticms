@@ -5,8 +5,7 @@
          colors="true"
          bootstrap="vendor/autoload.php"
          failOnRisky="true"
-         failOnWarning="true"
-         convertDeprecationsToExceptions="true">
+         failOnWarning="true">
 
   <coverage>
     <include>

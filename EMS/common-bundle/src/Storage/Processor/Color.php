@@ -260,4 +260,24 @@ class Color
 
         return ($y1 + 0.05) / ($y2 + 0.05);
     }
+
+    public function getComplementary(): Color
+    {
+        $complementary = clone $this;
+        $complementary->setRed(255 - $this->red);
+        $complementary->setGreen(255 - $this->green);
+        $complementary->setBlue(255 - $this->blue);
+
+        return $complementary;
+    }
+
+    public function getRGB(): string
+    {
+        return \sprintf('#%\'.02X%\'.02X%\'.02X', $this->red, $this->green, $this->blue);
+    }
+
+    public function getRGBA(): string
+    {
+        return \sprintf('#%\'.02X%\'.02X%\'.02XX%\'.02X', $this->red, $this->green, $this->blue, $this->alpha);
+    }
 }

@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\FileCollection;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\MimeType;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -76,6 +77,20 @@ final class Config
     public function hasDefaultMimeType(): bool
     {
         return \in_array($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? '', ['application/octet-stream', 'application/bin', '']);
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    public static function forFile(StorageManager $storageManager, string $path, array $config): Config
+    {
+        $hash = $storageManager->computeFileHash($path);
+        $config[EmsFields::ASSET_CONFIG_FILE_NAMES] = [$path];
+        $config[EmsFields::ASSET_CONFIG_TYPE] = EmsFields::ASSET_CONFIG_TYPE_IMAGE;
+        Json::normalize($config);
+        $configHash = $storageManager->computeStringHash(Json::encode($config));
+
+        return new self($storageManager, $hash, $configHash, $config);
     }
 
     public function getAssetHash(): string

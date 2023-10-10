@@ -13,10 +13,12 @@ use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -24,8 +26,13 @@ class Processor
 {
     final public const BUFFER_SIZE = 8192;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly Cache $cacheHelper, private readonly string $projectDir)
-    {
+    public function __construct(
+        private readonly StorageManager $storageManager,
+        private readonly LoggerInterface $logger,
+        private readonly Cache $cacheHelper,
+        private readonly string $projectDir,
+        private readonly FileLocator $fileLocator,
+    ) {
     }
 
     /**
@@ -305,5 +312,20 @@ class Processor
         }
 
         return $mimeType;
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    public function buildAssetImage(string $file, array $config): Response
+    {
+        $path = $this->fileLocator->locate($file);
+        if (!\is_string($path)) {
+            throw new \RuntimeException(\sprintf('Unexpected multiple location to the file %s', $file));
+        }
+        $generated = $this->generateImage(Config::forFile($this->storageManager, $path, $config), $path);
+        $response = new BinaryFileResponse($generated);
+
+        return $response;
     }
 }

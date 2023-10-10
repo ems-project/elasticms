@@ -52,6 +52,14 @@ class FileController extends AbstractController
         return $this->getFile($request, $sha1, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
     }
 
+    /**
+     * @param mixed[] $config
+     */
+    public function buildAssetImage(string $filename, array $config = []): Response
+    {
+        return $this->processor->buildAssetImage($filename, $config);
+    }
+
     private function getFile(Request $request, string $hash, string $disposition): Response
     {
         @\trigger_error('FileController::download is deprecated use the ems_asset twig filter to generate the route', E_USER_DEPRECATED);

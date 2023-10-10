@@ -316,7 +316,7 @@ class Processor
     /**
      * @param mixed[] $config
      */
-    public function generateLocalImage(string $filename, array $config, bool $noCache = true): string
+    public function generateLocalImage(string $filename, array $config, bool $noCache = false): string
     {
         $path = $this->fileLocator->locate($filename);
         if (!\is_string($path)) {

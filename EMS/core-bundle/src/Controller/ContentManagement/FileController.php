@@ -178,14 +178,22 @@ class FileController extends AbstractController
             throw new NotFoundHttpException('File not found');
         }
         $this->closeSession($request);
-        $color = new Color($this->themeColor);
-        $image = $this->fileService->generateImage('@EMSCoreBundle/Resources/public/images/big-logo.png', [
-            '_width' => $width,
-            '_height' => $height,
-            '_quality' => 0,
-            '_background' => $this->themeColor,
-            '_color' => $color->contrastRatio(new Color('black')) > $color->contrastRatio(new Color('white')) ? 'black' : 'white',
-        ]);
+
+        if ($width > 128) {
+            $image = $this->fileService->generateImage('@EMSCommonBundle/Resources/public/images/ems-logo.png', [
+                EmsFields::ASSET_CONFIG_WIDTH => $width,
+                EmsFields::ASSET_CONFIG_HEIGHT => $height,
+                EmsFields::ASSET_CONFIG_QUALITY => 0,
+                EmsFields::ASSET_CONFIG_BACKGROUND => $this->themeColor,
+            ]);
+        } else {
+            $image = $this->fileService->generateImage('@EMSCommonBundle/Resources/public/images/ems-logo.png', [
+                EmsFields::ASSET_CONFIG_WIDTH => $width,
+                EmsFields::ASSET_CONFIG_HEIGHT => $height,
+                EmsFields::ASSET_CONFIG_QUALITY => 0,
+                EmsFields::ASSET_CONFIG_COLOR => $this->themeColor,
+            ]);
+        }
 
         $response = new BinaryFileResponse($image);
         $response->setCache([

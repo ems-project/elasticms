@@ -22,4 +22,10 @@
     <default key="width">180</default>
     <default key="height">180</default>
   </route>
+  <route id="core-android-chrome-icon" path="android-chrome-{width}x{height}.png"
+         controller="EMS\CoreBundle\Controller\ContentManagement\FileController::icon"
+         methods="GET|HEAD">
+    <requirement key="width">192|256|512</requirement>
+    <requirement key="height">192|256|512</requirement>
+  </route>
 </routes>

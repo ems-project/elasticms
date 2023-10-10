@@ -58,10 +58,7 @@ class Image
             $image = $this->applyBackground($image, $width, $height);
         }
 
-        if ($this->config->getRadius() > 0) {
-            $image = $this->applyCorner($image, $width, $height);
-        }
-
+        $this->applyCorner($image, $width, $height);
         $image = $this->applyWatermark($image, $width, $height);
 
         if (null !== $cacheFilename) {
@@ -195,64 +192,52 @@ class Image
         return $temp;
     }
 
-    private function applyCorner(\GdImage $image, int $width, int $height): \GdImage
+    private function applyCorner(\GdImage &$image, int $width, int $height): void
     {
         $radius = $this->config->getRadius();
+        if ($radius <= 0) {
+            return;
+        }
         $color = $this->config->getBorderColor() ?? $this->config->getBackground();
-
-        $cornerImage = $this->imageCreate($radius, $radius);
-        $clearColor = \imagecolorallocate($cornerImage, 0, 0, 0);
-        if (false === $clearColor) {
-            throw new \RuntimeException('Unexpected false imagecolorallocate');
-        }
         $parsedColor = new Color($color);
-        $solidColor = \imagecolorallocate($cornerImage, $parsedColor->getRed(), $parsedColor->getGreen(), $parsedColor->getBlue());
-        if (false === $solidColor) {
-            throw new \RuntimeException('Unexpected false imagecolorallocate');
-        }
-
-        \imagecolortransparent($cornerImage, $clearColor);
-        \imagefill($cornerImage, 0, 0, $solidColor);
-        \imagefilledellipse($cornerImage, $radius, $radius, $radius * 2, $radius * 2, $clearColor);
-
+        \imagealphablending($image, false);
+        \imagesavealpha($image, true);
         $radiusGeometry = $this->config->getRadiusGeometry();
-
-        // render the top-left, bottom-left, bottom-right, top-right corners by rotating and copying the mask
-        if (false !== \in_array('topleft', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, 0, 0, 0, 0, $radius, $radius, 100);
+        $topLeft = \in_array('topleft', $radiusGeometry);
+        $bottomLeft = \in_array('bottomleft', $radiusGeometry);
+        $bottomRight = \in_array('bottomright', $radiusGeometry);
+        $topRight = \in_array('topright', $radiusGeometry);
+        $colorId = $parsedColor->getColorId($image);
+        for ($x = 0; $x < $width; ++$x) {
+            for ($y = 0; $y < $height; ++$y) {
+                if ($x > $radius && $x < ($width - $radius)) {
+                    continue;
+                }
+                if ($y > $radius && $y < ($height - $radius)) {
+                    continue;
+                }
+                $centerX = $radius - 1;
+                $centerY = $radius - 1;
+                if ($topLeft && $x < $centerX && $y < $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+                $centerX = $radius - 1;
+                $centerY = $height - $radius;
+                if ($bottomLeft && $x < $centerX && $y > $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+                $centerX = $width - $radius;
+                $centerY = $height - $radius;
+                if ($bottomRight && $x > $centerX && $y > $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+                $centerX = $width - $radius;
+                $centerY = $radius - 1;
+                if ($topRight && $x > $centerX && $y < $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+            }
         }
-        $cornerImage = \imagerotate($cornerImage, 90, 0);
-        if (false === $cornerImage) {
-            throw new \RuntimeException('Unexpected false image');
-        }
-
-        if (false !== \in_array('bottomleft', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, 0, $height - $radius, 0, 0, $radius, $radius, 100);
-        }
-        $cornerImage = \imagerotate($cornerImage, 90, 0);
-        if (false === $cornerImage) {
-            throw new \RuntimeException('Unexpected false image');
-        }
-
-        if (false !== \in_array('bottomright', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, $width - $radius, $height - $radius, 0, 0, $radius, $radius, 100);
-        }
-        $cornerImage = \imagerotate($cornerImage, 90, 0);
-        if (false === $cornerImage) {
-            throw new \RuntimeException('Unexpected false image');
-        }
-
-        if (false !== \in_array('topright', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, $width - $radius, 0, 0, 0, $radius, $radius, 100);
-        }
-        $parsedColor = new Color($color);
-        $transparentColor = \imagecolorallocate($image, $parsedColor->getRed(), $parsedColor->getGreen(), $parsedColor->getBlue());
-        if (false === $transparentColor) {
-            throw new \RuntimeException('Unexpected false imagecolorallocate');
-        }
-        \imagecolortransparent($image, $transparentColor);
-
-        return $image;
     }
 
     private function applyWatermark(\GdImage $image, int $width, int $height): \GdImage

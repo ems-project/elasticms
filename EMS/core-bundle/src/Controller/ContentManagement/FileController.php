@@ -58,13 +58,7 @@ class FileController extends AbstractController
 
     public function extractFileContent(Request $request, string $sha1, bool $forced = false): Response
     {
-        if ($request->hasSession()) {
-            $session = $request->getSession();
-
-            if ($session->isStarted()) {
-                $session->save();
-            }
-        }
+        $this->closeSession($request);
 
         try {
             $data = $this->assetExtractorService->extractData($sha1, null, $forced);
@@ -178,15 +172,25 @@ class FileController extends AbstractController
         ]);
     }
 
-    public function icon(int $size): Response
+    public function icon(Request $request, int $size): Response
     {
+        $this->closeSession($request);
         $color = new Color($this->themeColor);
         $image = $this->fileService->generateImage('@EMSCoreBundle/Resources/public/images/big-logo.png', [
             '_width' => $size,
             '_height' => $size,
             '_quality' => 0,
             '_background' => $this->themeColor,
-            '_color' => $color->contrastRatio(new Color('black')) > $color->contrastRatio(new Color('white')) ?  'black' : 'white',
+            '_color' => $color->contrastRatio(new Color('black')) > $color->contrastRatio(new Color('white')) ? 'black' : 'white',
+        ]);
+
+        $response = new BinaryFileResponse($image);
+        $response->setCache([
+            'etag' => \hash_file('sha1', $image),
+            'max_age' => 3600,
+            's_maxage' => 36000,
+            'public' => true,
+            'private' => false,
         ]);
 
         return new BinaryFileResponse($image);
@@ -250,5 +254,17 @@ class FileController extends AbstractController
         }
 
         return $userObject->getUsername();
+    }
+
+    private function closeSession(Request $request): void
+    {
+        if (!$request->hasSession()) {
+            return;
+        }
+
+        $session = $request->getSession();
+        if ($session->isStarted()) {
+            $session->save();
+        }
     }
 }

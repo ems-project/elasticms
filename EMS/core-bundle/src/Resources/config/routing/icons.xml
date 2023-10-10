@@ -33,4 +33,9 @@
          methods="GET|HEAD">
     <default key="_format">xml</default>
   </route>
+  <route id="core-site-webmanifest" path="site.webmanifest"
+         controller="EMS\CoreBundle\Controller\ContentManagement\FileController::webManifest"
+         methods="GET|HEAD">
+    <default key="_format">webmanifest</default>
+  </route>
 </routes>

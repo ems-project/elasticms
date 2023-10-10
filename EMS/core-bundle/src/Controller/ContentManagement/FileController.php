@@ -7,6 +7,7 @@ use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\FileService;
+use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -267,6 +268,22 @@ class FileController extends AbstractController
             'public' => true,
             'private' => false,
         ]);
+
+        return $response;
+    }
+
+    public function webManifest(): Response
+    {
+        $response = $this->render('@EMSCore/ems-core/site.webmanifest.twig', [
+            'themeColor' => $this->themeColor,
+        ]);
+        $response->setCache([
+            'max_age' => 3600,
+            's_maxage' => 36000,
+            'public' => true,
+            'private' => false,
+        ]);
+        $response->headers->set(Headers::CONTENT_TYPE, 'application/manifest+json');
 
         return $response;
     }

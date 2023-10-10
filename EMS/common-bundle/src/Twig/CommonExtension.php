@@ -6,6 +6,7 @@ use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\Text\Encoder;
+use EMS\CommonBundle\Storage\Processor\Color;
 use Ramsey\Uuid\Uuid;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -59,6 +60,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_base64_decode', Base64::decode(...)),
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),
             new TwigFilter('ems_preg_match', [Encoder::class, 'pregMatch']),
+            new TwigFilter('ems_color', fn ($color) => new Color($color)),
         ];
     }
 

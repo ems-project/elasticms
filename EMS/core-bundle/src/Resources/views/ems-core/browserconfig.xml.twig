@@ -3,7 +3,7 @@
   <msapplication>
     <tile>
       <square150x150logo src="{{ asset('mstile-150x150.png') }}"/>
-      <TileColor>{{ themeColor|ems_color.rgb }}</TileColor>
+      <TileColor>{{ "ems-#{themeColor}"|ems_color.rgb }}</TileColor>
     </tile>
   </msapplication>
 </browserconfig>

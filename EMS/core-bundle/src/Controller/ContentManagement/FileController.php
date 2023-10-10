@@ -184,14 +184,16 @@ class FileController extends AbstractController
                 EmsFields::ASSET_CONFIG_WIDTH => $width,
                 EmsFields::ASSET_CONFIG_HEIGHT => $height,
                 EmsFields::ASSET_CONFIG_QUALITY => 0,
-                EmsFields::ASSET_CONFIG_BACKGROUND => $this->themeColor,
+                EmsFields::ASSET_CONFIG_BACKGROUND => "ems-$this->themeColor",
+                EmsFields::ASSET_CONFIG_RADIUS => $width / 6,
+                EmsFields::ASSET_CONFIG_BORDER_COLOR => '#000000FF',
             ]);
         } else {
             $image = $this->fileService->generateImage('@EMSCommonBundle/Resources/public/images/ems-logo.png', [
                 EmsFields::ASSET_CONFIG_WIDTH => $width,
                 EmsFields::ASSET_CONFIG_HEIGHT => $height,
                 EmsFields::ASSET_CONFIG_QUALITY => 0,
-                EmsFields::ASSET_CONFIG_COLOR => $this->themeColor,
+                EmsFields::ASSET_CONFIG_COLOR => "ems-$this->themeColor",
             ]);
         }
 

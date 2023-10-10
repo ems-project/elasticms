@@ -5,6 +5,7 @@ namespace EMS\CommonBundle\Controller;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\RequestRuntime;
+use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,12 +53,11 @@ class FileController extends AbstractController
         return $this->getFile($request, $sha1, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
     }
 
-    /**
-     * @param mixed[] $config
-     */
-    public function buildAssetImage(string $filename, array $config = []): Response
+    public function buildAssetImage(string $filename, string $config = '[]'): Response
     {
-        return $this->processor->buildAssetImage($filename, $config);
+        $options = Json::decode($config);
+
+        return $this->processor->buildAssetImage($filename, $options);
     }
 
     private function getFile(Request $request, string $hash, string $disposition): Response

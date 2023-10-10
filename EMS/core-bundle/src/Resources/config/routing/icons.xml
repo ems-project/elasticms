@@ -8,5 +8,6 @@
          controller="EMS\CommonBundle\Controller\FileController::buildAssetImage"
          methods="GET|HEAD">
     <default key="filename">@EMSCoreBundle/Resources/public/images/big-logo.png</default>
+    <default key="config">{"_width": 128, "_height": 128, "_quality": 0}</default>
   </route>
 </routes>

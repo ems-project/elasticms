@@ -50,6 +50,7 @@ class Image
         $rotatedHeight = Type::integer(\imagesy($image));
 
         [$width, $height] = $this->getWidthHeight($rotatedWidth, $rotatedHeight);
+        $this->applyColor($image);
 
         if (null !== $this->config->getResize()) {
             $image = $this->applyResizeAndBackground($image, $width, $height, $rotatedWidth, $rotatedHeight);
@@ -396,6 +397,35 @@ class Image
 
         if (false === \call_user_func($resizeFunction, $dstImage, $srcImage, $dstX, $dstY, $srcX, $srcY, $dstWidth, $dstHeight, $srcWidth, $srcHeight)) {
             throw new \RuntimeException('Unexpected error while resizing image');
+        }
+    }
+
+    private function applyColor(\GdImage $image): void
+    {
+        $colorString = $this->config->getColor();
+        if (null === $colorString) {
+            return;
+        }
+        $width = \imagesx($image);
+        $height = \imagesy($image);
+        $color = new Color($colorString);
+        $colors = [];
+        for ($i = 0; $i < 128; ++$i) {
+            $color->setAlpha($i);
+            $colors[$i] = $color->getColorId($image);
+        }
+        for ($x = 0; $x < $width; ++$x) {
+            for ($y = 0; $y < $height; ++$y) {
+                $index = \imagecolorat($image, $x, $y);
+                if (false === $index) {
+                    continue;
+                }
+                $alpha = \imagecolorsforindex($image, $index)['alpha'];
+                if (!isset($colors[$alpha])) {
+                    continue;
+                }
+                \imagesetpixel($image, $x, $y, $colors[$alpha]);
+            }
         }
     }
 }

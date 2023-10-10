@@ -225,6 +225,13 @@ final class Config
         return null !== $borderColor ? (string) $borderColor : null;
     }
 
+    public function getColor(): ?string
+    {
+        $color = $this->options[EmsFields::ASSET_CONFIG_COLOR] ?? null;
+
+        return null !== $color ? (string) $color : null;
+    }
+
     public function getDisposition(): string
     {
         return (string) $this->options[EmsFields::ASSET_CONFIG_DISPOSITION];
@@ -406,6 +413,7 @@ final class Config
             EmsFields::ASSET_CONFIG_RADIUS => null,
             EmsFields::ASSET_CONFIG_RADIUS_GEOMETRY => ['topleft', 'topright', 'bottomright', 'bottomleft'],
             EmsFields::ASSET_CONFIG_BORDER_COLOR => null,
+            EmsFields::ASSET_CONFIG_COLOR => null,
             EmsFields::ASSET_CONFIG_WATERMARK_HASH => null,
             EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD => '2018-02-05T16:08:56+01:00',
             EmsFields::ASSET_CONFIG_MIME_TYPE => 'application/octet-stream',

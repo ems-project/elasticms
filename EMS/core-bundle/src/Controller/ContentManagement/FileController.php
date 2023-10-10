@@ -257,6 +257,21 @@ class FileController extends AbstractController
         ]);
     }
 
+    public function browserConfig(): Response
+    {
+        $response = $this->render("@EMSCore/core/browserconfig.xml", [
+            'themeColor' => $this->themeColor,
+        ]);
+        $response->setCache([
+            'max_age' => 3600,
+            's_maxage' => 36000,
+            'public' => true,
+            'private' => false,
+        ]);
+
+        return $response;
+    }
+
     private function getUsername(): string
     {
         $userObject = $this->getUser();

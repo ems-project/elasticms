@@ -28,4 +28,9 @@
     <requirement key="width">192|256|512</requirement>
     <requirement key="height">192|256|512</requirement>
   </route>
+  <route id="core-browserconfig" path="browserconfig.xml"
+         controller="EMS\CoreBundle\Controller\ContentManagement\FileController::browserConfig"
+         methods="GET|HEAD">
+    <default key="_format">xml</default>
+  </route>
 </routes>

@@ -258,7 +258,7 @@ class FileController extends AbstractController
 
     public function browserConfig(): Response
     {
-        $response = $this->render('@EMSCore/core/browserconfig.xml', [
+        $response = $this->render('@EMSCore/ems-core/browserconfig.xml.twig', [
             'themeColor' => $this->themeColor,
         ]);
         $response->setCache([

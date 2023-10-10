@@ -20,7 +20,7 @@ final class ProfileAiTest extends TestCase
             'displayName' => 'Test User',
             'roles' => ['ROLE_USER', 'ROLE_ADMIN'],
             'circles' => ['circle1', 'circle2'],
-            'lastLogin' => '2023-10-06T15:00:00+00:00'
+            'lastLogin' => '2023-10-06T15:00:00+00:00',
         ];
         $this->profile = new Profile($data);
     }

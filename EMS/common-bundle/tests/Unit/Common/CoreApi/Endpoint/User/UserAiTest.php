@@ -26,7 +26,7 @@ final class UserAiTest extends TestCase
         $result = $this->createMock(Result::class);
         $result->method('getData')->willReturn([
             ['id' => 1, 'username' => 'user1', 'email' => 'user1@example.com'],
-            ['id' => 2, 'username' => 'user2', 'email' => 'user2@example.com']
+            ['id' => 2, 'username' => 'user2', 'email' => 'user2@example.com'],
         ]);
 
         $this->client->method('get')->with('/api/user-profiles')->willReturn($result);

@@ -28,7 +28,7 @@
             <argument type="service" id="ems_common.helper.cache" />
             <argument type="string">%kernel.project_dir%</argument>
             <argument type="service" id="file_locator" />
-          <tag name="monolog.logger" channel="ems_common"/>
+            <tag name="monolog.logger" channel="ems_common"/>
         </service>
 
         <service id="ems_common.storage.factory.fs" class="EMS\CommonBundle\Storage\Factory\FileSystemFactory">

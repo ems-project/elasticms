@@ -6,6 +6,21 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 class Color
 {
+    public const EMS_COLORS = [
+        'ems-black' => '000000',
+        'ems-black-light' => '000000',
+        'ems-blue' => '3C8DBC',
+        'ems-blue-light' => '3C8DBC',
+        'ems-green' => '008D4C',
+        'ems-green-light' => '008D4C',
+        'ems-purple' => '555299',
+        'ems-purple-light' => '555299',
+        'ems-red' => 'D73925',
+        'ems-red-light' => 'D73925',
+        'ems-yellow' => 'E08E0B',
+        'ems-yellow-light' => 'E08E0B',
+        'ems-white' => 'FFFFFF',
+    ];
     public const STANDARD_HTML_COLORS = [
         'aliceblue' => 'F0F8FF',
         'antiquewhite' => 'FAEBD7',
@@ -164,6 +179,8 @@ class Color
     {
         if (isset(self::STANDARD_HTML_COLORS[$color])) {
             $color = self::STANDARD_HTML_COLORS[$color];
+        } elseif (isset(self::EMS_COLORS[$color])) {
+            $color = self::EMS_COLORS[$color];
         } else {
             $color = \trim($color, '#');
             if (3 == \strlen($color)) {

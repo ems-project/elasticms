@@ -60,8 +60,13 @@ class FileController extends AbstractController
         $options = Json::decode($config);
         $generatedFile = $this->processor->generateLocalImage($filename, $options, $request->isNoCache());
         $response = new BinaryFileResponse($generatedFile);
-        $response->setPublic();
-        $response->setMaxAge(3600);
+        $response->setCache([
+            'etag' => \hash_file('sha1', $generatedFile),
+            'max_age' => 3600,
+            's_maxage' => 36000,
+            'public' => true,
+            'private' => false,
+        ]);
 
         return $response;
     }

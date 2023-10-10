@@ -13,7 +13,6 @@ use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -317,15 +316,18 @@ class Processor
     /**
      * @param mixed[] $config
      */
-    public function buildAssetImage(string $file, array $config): Response
+    public function generateLocalImage(string $filename, array $config, bool $cache = true): string
     {
-        $path = $this->fileLocator->locate($file);
+        $path = $this->fileLocator->locate($filename);
         if (!\is_string($path)) {
-            throw new \RuntimeException(\sprintf('Unexpected multiple location to the file %s', $file));
+            throw new \RuntimeException(\sprintf('Unexpected multiple location to the file %s', $filename));
         }
-        $generated = $this->generateImage(Config::forFile($this->storageManager, $path, $config), $path);
-        $response = new BinaryFileResponse($generated);
+        $config = Config::forFile($this->storageManager, $path, $config);
+        $cacheFilename = $this->getCacheFilename($config, $filename);
+        if ($cache && \file_exists($cacheFilename)) {
+            return $cacheFilename;
+        }
 
-        return $response;
+        return $this->generateImage($config, $path, $cacheFilename);
     }
 }

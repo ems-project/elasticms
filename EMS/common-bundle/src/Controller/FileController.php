@@ -7,6 +7,7 @@ use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\RequestRuntime;
 use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -53,11 +54,14 @@ class FileController extends AbstractController
         return $this->getFile($request, $sha1, ResponseHeaderBag::DISPOSITION_ATTACHMENT);
     }
 
-    public function buildAssetImage(string $filename, string $config = '[]'): Response
+    public function generateLocalImage(Request $request, string $filename, string $config = '[]'): Response
     {
+        $this->closeSession($request);
         $options = Json::decode($config);
+        $generatedFile = $this->processor->generateLocalImage($filename, $options);
+        $response = new BinaryFileResponse($generatedFile);
 
-        return $this->processor->buildAssetImage($filename, $options);
+        return $response;
     }
 
     private function getFile(Request $request, string $hash, string $disposition): Response

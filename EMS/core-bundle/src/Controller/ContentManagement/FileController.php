@@ -174,6 +174,9 @@ class FileController extends AbstractController
 
     public function icon(Request $request, int $width, int $height): Response
     {
+        if ($width !== $height) {
+            throw new NotFoundHttpException('File not found');
+        }
         $this->closeSession($request);
         $color = new Color($this->themeColor);
         $image = $this->fileService->generateImage('@EMSCoreBundle/Resources/public/images/big-logo.png', [

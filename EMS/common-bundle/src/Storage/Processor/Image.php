@@ -205,7 +205,8 @@ class Image
         if (false === $clearColor) {
             throw new \RuntimeException('Unexpected false imagecolorallocate');
         }
-        $solidColor = \imagecolorallocate($cornerImage, (int) \hexdec(\substr($color, 1, 2)), (int) \hexdec(\substr($color, 3, 2)), (int) \hexdec(\substr($color, 5, 2)));
+        $parsedColor = new Color($color);
+        $solidColor = \imagecolorallocate($cornerImage, $parsedColor->getRed(), $parsedColor->getGreen(), $parsedColor->getBlue());
         if (false === $solidColor) {
             throw new \RuntimeException('Unexpected false imagecolorallocate');
         }
@@ -244,8 +245,8 @@ class Image
         if (false !== \in_array('topright', $radiusGeometry)) {
             \imagecopymerge($image, $cornerImage, $width - $radius, 0, 0, 0, $radius, $radius, 100);
         }
-
-        $transparentColor = \imagecolorallocate($image, (int) \hexdec(\substr($color, 1, 2)), (int) \hexdec(\substr($color, 3, 2)), (int) \hexdec(\substr($color, 5, 2)));
+        $parsedColor = new Color($color);
+        $transparentColor = \imagecolorallocate($image, $parsedColor->getRed(), $parsedColor->getGreen(), $parsedColor->getBlue());
         if (false === $transparentColor) {
             throw new \RuntimeException('Unexpected false imagecolorallocate');
         }
@@ -299,12 +300,13 @@ class Image
     private function getBackgroundColor(\GdImage $temp): int
     {
         $background = $this->config->getBackground();
+        $parsedColor = new Color($background);
         $solidColour = \imagecolorallocatealpha(
             $temp,
-            (int) \hexdec(\substr($background, 1, 2)),
-            (int) \hexdec(\substr($background, 3, 2)),
-            (int) \hexdec(\substr($background, 5, 2)),
-            \intval(\hexdec(\substr($background, 7, 2)) / 2)
+            $parsedColor->getRed(),
+            $parsedColor->getGreen(),
+            $parsedColor->getBlue(),
+            $parsedColor->getAlpha(),
         );
         if (false === $solidColour) {
             throw new \RuntimeException('Unexpected false imagecolorallocatealpha');

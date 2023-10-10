@@ -172,7 +172,7 @@ class FileController extends AbstractController
         ]);
     }
 
-    public function icon(Request $request, int $width, int $height): Response
+    public function icon(Request $request, int $width, int $height, string $background = null): Response
     {
         if ($width !== $height) {
             throw new NotFoundHttpException('File not found');
@@ -184,7 +184,7 @@ class FileController extends AbstractController
                 EmsFields::ASSET_CONFIG_WIDTH => $width,
                 EmsFields::ASSET_CONFIG_HEIGHT => $height,
                 EmsFields::ASSET_CONFIG_QUALITY => 0,
-                EmsFields::ASSET_CONFIG_BACKGROUND => "ems-$this->themeColor",
+                EmsFields::ASSET_CONFIG_BACKGROUND => $background ?? "ems-$this->themeColor",
                 EmsFields::ASSET_CONFIG_RADIUS => $width / 6,
                 EmsFields::ASSET_CONFIG_BORDER_COLOR => '#000000FF',
             ]);

@@ -61,6 +61,7 @@ security:
         - { path: ^/favicon.ico$, role: PUBLIC_ACCESS }
         - { path: ^/apple\-touch\-icon\.png$, role: PUBLIC_ACCESS }
         - { path: ^/favicon\-(16|32|48|64|128|256)x(16|32|48|64|128|256)\.png$, role: PUBLIC_ACCESS }
+        - { path: ^/mstile\-(150)x(150)\.png$, role: PUBLIC_ACCESS }
         - { path: ^/android\-chrome\-(192|256|512)x(192|256|512).png$, role: PUBLIC_ACCESS }
         - { path: ^/browserconfig\.xml$, role: PUBLIC_ACCESS }
         - { path: ^/site\.webmanifest, role: PUBLIC_ACCESS }

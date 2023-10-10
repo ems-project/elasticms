@@ -28,6 +28,13 @@
     <requirement key="width">192|256|512</requirement>
     <requirement key="height">192|256|512</requirement>
   </route>
+  <route id="core-mstile" path="mstile-{width}x{height}.png"
+         controller="EMS\CoreBundle\Controller\ContentManagement\FileController::icon"
+         methods="GET|HEAD">
+    <requirement key="width">150</requirement>
+    <requirement key="height">150</requirement>
+    <default key="background">000000FF</default>
+  </route>
   <route id="core-browserconfig" path="browserconfig.xml"
          controller="EMS\CoreBundle\Controller\ContentManagement\FileController::browserConfig"
          methods="GET|HEAD">

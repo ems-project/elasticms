@@ -11,7 +11,7 @@
     <title>{{ ems_shortname|striptags }}: {% block title %}elasticMS{% endblock %}</title>
 
 
-	<link rel="icon" sizes="128x128" type="image/png" href="{{ asset('images/fav-icon.png', 'emscore') }}" />
+	<link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
     <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ asset('images/fav-icon.png', 'emscore') }}">
 
     {%- block extraheader %}{% endblock %}

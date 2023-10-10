@@ -10,6 +10,7 @@ use EMS\CoreBundle\Service\FileService;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +21,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileController extends AbstractController
 {
-    public function __construct(private readonly FileService $fileService, private readonly AssetExtractorService $assetExtractorService, private readonly LoggerInterface $logger, private readonly string $templateNamespace)
-    {
+    public function __construct(
+        private readonly FileService $fileService,
+        private readonly AssetExtractorService $assetExtractorService,
+        private readonly LoggerInterface $logger,
+        private readonly string $templateNamespace,
+        private readonly string $themeColor,
+    ) {
     }
 
     public function viewFileAction(string $sha1, Request $request): Response
@@ -169,6 +175,19 @@ class FileController extends AbstractController
         return $this->render("@$this->templateNamespace/ajax/images.json.twig", [
             'images' => $images,
         ]);
+    }
+
+    public function icon(int $size): Response
+    {
+        $image = $this->fileService->generateImage('@EMSCoreBundle/Resources/public/images/big-logo.png', [
+            '_width' => $size,
+            '_height' => $size,
+            '_quality' => 0,
+            '_background' => $this->themeColor,
+            '_color' => '#FFFFFF',
+        ]);
+
+        return new BinaryFileResponse($image);
     }
 
     public function uploadFileAction(Request $request): Response

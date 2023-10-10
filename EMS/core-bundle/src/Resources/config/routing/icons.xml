@@ -4,10 +4,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-  <route id="favicon" path="favicon.ico"
-         controller="EMS\CommonBundle\Controller\FileController::buildAssetImage"
+  <route id="core-favicon" path="favicon.ico"
+         controller="EMS\CoreBundle\Controller\ContentManagement\FileController::icon"
          methods="GET|HEAD">
-    <default key="filename">@EMSCoreBundle/Resources/public/images/big-logo.png</default>
-    <default key="config">{"_width": 128, "_height": 128, "_quality": 0}</default>
+    <default key="size">128</default>
   </route>
 </routes>

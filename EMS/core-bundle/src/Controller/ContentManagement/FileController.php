@@ -4,7 +4,6 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
-use EMS\CommonBundle\Storage\Processor\Color;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\FileService;
@@ -259,7 +258,7 @@ class FileController extends AbstractController
 
     public function browserConfig(): Response
     {
-        $response = $this->render("@EMSCore/core/browserconfig.xml", [
+        $response = $this->render('@EMSCore/core/browserconfig.xml', [
             'themeColor' => $this->themeColor,
         ]);
         $response->setCache([

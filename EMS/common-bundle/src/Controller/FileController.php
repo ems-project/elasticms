@@ -58,8 +58,10 @@ class FileController extends AbstractController
     {
         $this->closeSession($request);
         $options = Json::decode($config);
-        $generatedFile = $this->processor->generateLocalImage($filename, $options);
+        $generatedFile = $this->processor->generateLocalImage($filename, $options, $request->isNoCache());
         $response = new BinaryFileResponse($generatedFile);
+        $response->setPublic();
+        $response->setMaxAge(3600);
 
         return $response;
     }

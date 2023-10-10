@@ -316,7 +316,7 @@ class Processor
     /**
      * @param mixed[] $config
      */
-    public function generateLocalImage(string $filename, array $config, bool $cache = true): string
+    public function generateLocalImage(string $filename, array $config, bool $noCache = true): string
     {
         $path = $this->fileLocator->locate($filename);
         if (!\is_string($path)) {
@@ -324,7 +324,7 @@ class Processor
         }
         $config = Config::forFile($this->storageManager, $path, $config);
         $cacheFilename = $this->getCacheFilename($config, $filename);
-        if ($cache && \file_exists($cacheFilename)) {
+        if (!$noCache && \file_exists($cacheFilename)) {
             return $cacheFilename;
         }
 

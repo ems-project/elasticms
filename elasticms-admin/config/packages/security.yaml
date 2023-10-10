@@ -59,6 +59,8 @@ security:
         - { path: ^/$, role: PUBLIC_ACCESS }
         - { path: ^/metrics$, role: PUBLIC_ACCESS }
         - { path: ^/favicon.ico$, role: PUBLIC_ACCESS }
+        - { path: ^/apple\-touch\-icon\.png$, role: PUBLIC_ACCESS }
+        - { path: ^/favicon\-.*\.png$, role: PUBLIC_ACCESS }
         - { path: ^/_readiness$, role: PUBLIC_ACCESS }
         - { path: ^/_liveness$, role: PUBLIC_ACCESS }
         - { path: ^/public/, role: PUBLIC_ACCESS }

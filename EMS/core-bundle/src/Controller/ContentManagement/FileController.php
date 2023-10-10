@@ -172,13 +172,13 @@ class FileController extends AbstractController
         ]);
     }
 
-    public function icon(Request $request, int $size): Response
+    public function icon(Request $request, int $width, int $height): Response
     {
         $this->closeSession($request);
         $color = new Color($this->themeColor);
         $image = $this->fileService->generateImage('@EMSCoreBundle/Resources/public/images/big-logo.png', [
-            '_width' => $size,
-            '_height' => $size,
+            '_width' => $width,
+            '_height' => $height,
             '_quality' => 0,
             '_background' => $this->themeColor,
             '_color' => $color->contrastRatio(new Color('black')) > $color->contrastRatio(new Color('white')) ? 'black' : 'white',

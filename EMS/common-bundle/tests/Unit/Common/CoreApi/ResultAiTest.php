@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi;
 
 use EMS\CommonBundle\Common\CoreApi\Result;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class ResultAiTest extends TestCase
 {
-    private MockObject $response;
-    private MockObject $logger;
+    private ResponseInterface $response;
+    private LoggerInterface $logger;
 
     protected function setUp(): void
     {

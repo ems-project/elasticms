@@ -34,7 +34,7 @@ final class ResponseAiTest extends TestCase
         $response = Response::fromArray($data);
 
         $this->assertTrue($response->hasDocuments());
-        $this->assertEquals(2, iterator_count($response->getDocuments()));
+        $this->assertEquals(2, \iterator_count($response->getDocuments()));
         $this->assertInstanceOf(Document::class, $response->getDocument(0));
         $this->assertInstanceOf(Aggregation::class, $response->getAggregation('test_agg'));
         $this->assertEquals('scroll123', $response->getScrollId());
@@ -60,7 +60,7 @@ final class ResponseAiTest extends TestCase
         $response = Response::fromResultSet($resultSet);
 
         $this->assertTrue($response->hasDocuments());
-        $this->assertEquals(1, iterator_count($response->getDocuments()));
+        $this->assertEquals(1, \iterator_count($response->getDocuments()));
         $this->assertInstanceOf(Document::class, $response->getDocument(0));
         $this->assertEquals(5, $response->getTotal());
     }

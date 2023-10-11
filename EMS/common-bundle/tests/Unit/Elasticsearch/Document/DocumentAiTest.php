@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Elasticsearch\Document;
 
+use Elastica\Result;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
-use Elastica\Result;
 use PHPUnit\Framework\TestCase;
 
 final class DocumentAiTest extends TestCase

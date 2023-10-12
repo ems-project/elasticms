@@ -30,7 +30,7 @@ class DataExtractAiTest extends TestCase
 
         $this->client->expects($this->once())
             ->method('get')
-            ->with('/api/extract-data/get/' . $hash)
+            ->with('/api/extract-data/get/'.$hash)
             ->willReturn($result);
 
         $data = $this->dataExtract->get($hash);

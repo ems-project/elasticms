@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Form;
+namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\Form;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Form\Form;

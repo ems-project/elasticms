@@ -111,6 +111,7 @@
     "twig/twig": "^3.0"
   },
   "require-dev": {
+    "dg/bypass-finals": "^1.5",
     "friendsofphp/php-cs-fixer": "^3.0",
     "http-interop/http-factory-guzzle": "^1.0",
     "knplabs/github-api": "^3.0",

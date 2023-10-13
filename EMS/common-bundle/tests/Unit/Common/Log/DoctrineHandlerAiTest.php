@@ -42,7 +42,7 @@ class DoctrineHandlerAiTest extends TestCase
         $this->logRepository->expects($this->once())
             ->method('insertRecord')
             ->with($this->callback(function ($subject) use ($record, $secretValue) {
-                return $subject['context']['api_key'] === ($secretValue)->getValue() && $subject['message'] === $record['message'];
+                return $subject['context']['api_key'] === $secretValue->getValue() && $subject['message'] === $record['message'];
             }));
 
         $method = new \ReflectionMethod(DoctrineHandler::class, 'write');
@@ -54,13 +54,13 @@ class DoctrineHandlerAiTest extends TestCase
     {
         $context = [
             'api_key' => '123456',
-            'other_key' => 'value'
+            'other_key' => 'value',
         ];
 
         $secretValue = new \ReflectionClassConstant(DoctrineHandler::class, 'SECRET_VALUE');
         $expected = [
-            'api_key' => ($secretValue)->getValue(),
-            'other_key' => 'value'
+            'api_key' => $secretValue->getValue(),
+            'other_key' => 'value',
         ];
 
         $method = new \ReflectionMethod(DoctrineHandler::class, 'secretContext');

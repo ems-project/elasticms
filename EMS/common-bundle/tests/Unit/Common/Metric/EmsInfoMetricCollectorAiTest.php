@@ -29,7 +29,7 @@ class EmsInfoMetricCollectorAiTest extends TestCase
     public function testValidUntil(): void
     {
         $timestamp = $this->emsInfoMetricCollector->validUntil();
-        $this->assertGreaterThan(time(), $timestamp);
+        $this->assertGreaterThan(\time(), $timestamp);
     }
 
     public function testCollect(): void

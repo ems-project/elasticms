@@ -23,7 +23,7 @@ class HashAiTest extends TestCase
         $prefix = 'prefix_';
         $hashedValue = Hash::string($value, $prefix);
 
-        $this->assertEquals($prefix . \sha1($value), $hashedValue);
+        $this->assertEquals($prefix.\sha1($value), $hashedValue);
     }
 
     public function testArrayHash(): void
@@ -40,6 +40,6 @@ class HashAiTest extends TestCase
         $prefix = 'prefix_';
         $hashedValue = Hash::array($value, $prefix);
 
-        $this->assertEquals($prefix . \sha1(\json_encode($value)), $hashedValue);
+        $this->assertEquals($prefix.\sha1(\json_encode($value)), $hashedValue);
     }
 }

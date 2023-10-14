@@ -7,6 +7,7 @@ use Elastica\Aggregation\Terms;
 use Elastica\Query\AbstractQuery;
 use Elastica\Search as ElasticaSearch;
 use Elastica\Suggest;
+use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -45,7 +46,7 @@ class Search
 
     public function serialize(string $format = 'json'): string
     {
-        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query']]);
+        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations']]);
     }
 
     public static function deserialize(string $data, string $format = 'json'): Search
@@ -238,6 +239,27 @@ class Search
     public function getAggregations(): array
     {
         return $this->aggregations;
+    }
+
+    /**
+     * @param array<mixed> $aggs
+     */
+    public function setAggs(array $aggs): void
+    {
+        $this->aggregations = self::parseAggs($aggs);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getAggs(): array
+    {
+        $aggs = [];
+        foreach ($this->aggregations as $aggregation) {
+            $aggs[$aggregation->getName()] = $aggregation->toArray();
+        }
+
+        return $aggs;
     }
 
     public function addTermsAggregation(string $name, string $field, int $size = 20): void

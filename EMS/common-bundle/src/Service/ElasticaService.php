@@ -247,6 +247,10 @@ class ElasticaService
     public function filterByContentTypes($query, array $contentTypes)
     {
         if (0 === \count($contentTypes)) {
+            if (\is_array($query) && !isset($query['query'])) {
+                return ['query' => $query];
+            }
+
             return $query;
         }
 

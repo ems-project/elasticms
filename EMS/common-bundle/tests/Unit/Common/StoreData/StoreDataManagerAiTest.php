@@ -6,8 +6,8 @@ namespace EMS\CommonBundle\Tests\Unit\Common\StoreData;
 
 use EMS\CommonBundle\Common\StoreData\Factory\StoreDataFactoryInterface;
 use EMS\CommonBundle\Common\StoreData\Service\StoreDataServiceInterface;
-use EMS\CommonBundle\Common\StoreData\StoreDataManager;
 use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
+use EMS\CommonBundle\Common\StoreData\StoreDataManager;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 

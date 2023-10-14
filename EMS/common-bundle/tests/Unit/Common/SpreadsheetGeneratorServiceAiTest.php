@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\Tests\CommonBundle\Unit\Common;
 
 use EMS\CommonBundle\Common\SpreadsheetGeneratorService;

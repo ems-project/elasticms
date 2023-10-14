@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\Tests\CommonBundle\Unit\Common\Cache;
 
 use EMS\CommonBundle\Common\Cache\Cache;

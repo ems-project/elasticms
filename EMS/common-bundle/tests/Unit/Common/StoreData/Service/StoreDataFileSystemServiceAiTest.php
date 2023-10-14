@@ -15,15 +15,15 @@ class StoreDataFileSystemServiceAiTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->rootPath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'store_data_test';
-        @mkdir($this->rootPath);
+        $this->rootPath = \sys_get_temp_dir().DIRECTORY_SEPARATOR.'store_data_test';
+        @\mkdir($this->rootPath);
         $this->service = new StoreDataFileSystemService($this->rootPath);
     }
 
     protected function tearDown(): void
     {
-        array_map('unlink', glob($this->rootPath . DIRECTORY_SEPARATOR . '*'));
-        rmdir($this->rootPath);
+        \array_map('unlink', \glob($this->rootPath.DIRECTORY_SEPARATOR.'*'));
+        \rmdir($this->rootPath);
     }
 
     public function testSaveAndRead(): void

@@ -21,6 +21,7 @@ use Elasticsearch\Endpoints\Indices\GetFieldMapping;
 use Elasticsearch\Endpoints\Indices\Refresh;
 use Elasticsearch\Endpoints\Info;
 use Elasticsearch\Endpoints\Scroll as ScrollEndpoints;
+use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -38,13 +39,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ElasticaService
 {
     private const MAX_INDICES_BY_ALIAS = 100;
+    private ?string $version;
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly Client $client)
+    public function __construct(private readonly LoggerInterface $logger, private readonly Client $client, private readonly AdminHelper $adminHelper, private readonly bool $useAdminProxy)
     {
     }
 
     public function getUrl(): string
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->getBaseUrl();
+        }
         $url = $this->client->getConnection()->getConfig('url');
 
         return \is_array($url) ? \implode(' | ', $url) : Type::string($url);
@@ -221,7 +226,16 @@ class ElasticaService
 
     public function getVersion(): string
     {
-        return $this->client->getVersion();
+        if (null !== $this->version) {
+            return $this->version;
+        }
+        if ($this->useAdminProxy) {
+            $this->version = $this->adminHelper->getCoreApi()->search()->version();
+        } else {
+            $this->version = $this->client->getVersion();
+        }
+
+        return $this->version;
     }
 
     /**

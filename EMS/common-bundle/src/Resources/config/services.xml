@@ -67,6 +67,8 @@
         <service id="ems_common.service.elastica" class="EMS\CommonBundle\Service\ElasticaService">
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.elastica.client" />
+            <argument type="service" id="ems.helper.admin_api" />
+            <argument type="string">%ems_common.search_via_backend%</argument>
         </service>
         <service id="ems.helper.admin_api" class="EMS\CommonBundle\Common\Admin\AdminHelper">
             <argument type="service" id="ems_common.core_api.factory" />

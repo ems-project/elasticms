@@ -131,11 +131,11 @@ final class Response implements ResponseInterface
         return $this->accurate;
     }
 
-    public function buildResultSet(Query $query, string $version): ResultSet
+    public function buildResultSet(Query $query, string $version, float $executionDuration): ResultSet
     {
         $response = new \Elastica\Response([
             'timed_out' => false,
-            'took' => 1,
+            'took' => $executionDuration,
             '_shards' => [
                 'total' => 1,
                 'successful' => 1,

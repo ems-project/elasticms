@@ -7,8 +7,8 @@ use PHPUnit\Framework\TestCase;
 
 class CacheAiTest extends TestCase
 {
-    private $cacheDir;
-    private $cache;
+    private string $cacheDir;
+    private Cache $cache;
 
     protected function setUp(): void
     {

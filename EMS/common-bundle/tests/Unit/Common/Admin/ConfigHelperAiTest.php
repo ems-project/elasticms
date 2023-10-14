@@ -8,9 +8,9 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigHelperAiTest extends TestCase
 {
-    private $config;
-    private $configHelper;
-    private $tempDir;
+    private ConfigInterface $config;
+    private ConfigHelper $configHelper;
+    private string $tempDir;
 
     protected function setUp(): void
     {

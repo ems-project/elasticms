@@ -14,8 +14,8 @@ use Psr\Log\LoggerInterface;
 
 final class CoreApiFactoryAiTest extends TestCase
 {
-    private MockObject $logger;
-    private MockObject $storageManager;
+    private LoggerInterface $logger;
+    private StorageManager $storageManager;
     private CoreApiFactory $factory;
 
     protected function setUp(): void

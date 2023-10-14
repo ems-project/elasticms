@@ -3,8 +3,9 @@
     {% set routeParams = app.request.attributes.get('_route_params') %}
 
     {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
-    {% if app.user.localePreferred|default(null) and app.user.localePreferred in locales %}
-        {% set locales = [app.user.localePreferred]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
+
+    {% if app.user.localePreferred|default(null) and app.user.localePreferred[0:2] in locales %}
+        {% set locales = [app.user.localePreferred[0:2]]|merge(locales)|reduce((carry,p) => p in carry ? carry : carry|merge([p]), []) %}
     {% endif %}
     {%  set locale = app.request.query.get('locale', locales|first) %}
 
@@ -60,61 +61,111 @@
 
 {%  block ems_footer %}
     <script>
-        var keepLoading = false;
-        function newPage(contentType, menu, object)
-        {
-            var xhr = new XMLHttpRequest();
-            var url = '{{ path('emsco_interface_document_create', { interface: 'json', name: '__contentType__' })|e('js') }}'.replace('__contentType__', contentType);
-            var redirect = '{{ path('emsco_edit_revision', {revisionId: '__revisionId__' })|e('js') }}';
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var json = JSON.parse(xhr.responseText);
-                    document.location = redirect.replace('__revisionId__', json.revision_id);
-                }
-            };
-            var data = Object.assign({}, object);
-            data.menu = menu;
-            xhr.send(JSON.stringify(data));
-        }
+        window.addEventListener('emsReady', function () {
+            let url = new URL(window.location.href)
+            let activeItemId = url.searchParams.get('activeItemId');
 
-        function newBtnClick()
-        {
-            newPage(this.dataset.type, this.dataset.id, JSON.parse(this.dataset.object));
-        }
+            Object.values(window.jsonMenuNestedComponents).forEach((jmn) => {
+                if (activeItemId) jmn.load({ activeItemId: activeItemId });
 
-        function jmnAdd(event)
-        {
-            keepLoading = true;
-            setTimeout(function () {
-                newPage(event.detail.data.type, event.detail.data.item, event.detail.data.object);
-            }, 3000);
-        }
+                jmn.element.addEventListener('jmn-load', (event) => onJmnLoad(jmn, event));
+                jmn.element.addEventListener('jmn-add', (event) => onJmnAdd(jmn, event));
+                jmn.element.addEventListener('jmn-modal-custom', (event) => onJmnModalCustom(jmn, event));
+            });
+        });
 
-        function jmnLoad(event)
-        {
-            if (keepLoading) {
-                event.detail.jnm.loading(true);
-            }
-            for(var i = 0; i < event.detail.elements.length; i++) {
-                (function(index) {
-                    var newButton = event.detail.elements[index].getElementsByClassName('new-button');
-                    for(var i = 0; i < newButton.length; i++) {
-                        (function(index) {
-                            newButton[index].addEventListener("click", newBtnClick)
-                        })(i);
-                    }
-                })(i);
+        function onJmnLoad(jmn, event) {
+            event.preventDefault();
+            jmn.element.querySelectorAll('.btn-new-page').forEach((button) => {
+                button.addEventListener('click', () => onClickNewPage(jmn, button));
+            });
+            jmn.element.querySelectorAll('.btn-detach-page').forEach((button) => {
+                button.addEventListener('click', () => onClickDetachPage(jmn, button));
+            });
+            jmn.loading(false);
+        }
+        function onJmnAdd(jmn, event) {
+            if (!event.detail.data.hasOwnProperty('success') || !event.detail.data.success) return;
+            event.preventDefault();
+            jmn.loading(true);
+            createPageForItem(event.detail.data.item);
+        }
+        function onJmnModalCustom(jmn, event) {
+            let data = event.detail.data;
+            if (data.hasOwnProperty('modalName') && data.modalName === 'modal_existing_page') {
+                event.preventDefault();
+                onModalExistingPage(jmn, event.detail.ajaxModal, data.item.id);
             }
         }
+        function onClickNewPage(jmn, button) {
+            jmn.loading(true);
+            createPageForItem(JSON.parse(button.dataset.item));
+        }
+        function onClickDetachPage(jmn, button) {
+            jmn.loading(true);
+            updatePage(button.dataset.pageId, { menu: null }).then((json) => {
+                if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: button.dataset.itemId });
+            });
+        }
+        function onModalExistingPage(jmn, ajaxModal, itemParentId) {
+            document.getElementById('jmn-existing-page-table').addEventListener('click', (event) => {
+                if (event.target.classList.contains('btn-add-existing-page')) onChooseExistingPage(jmn, event.target);
+            });
 
-        var jvmTrees = document.getElementsByClassName('json-menu-nested-component');
-        for(var i = 0; i < jvmTrees.length; i++) {
-            (function(index) {
-                jvmTrees[index].addEventListener("jmn-load", jmnLoad)
-                jvmTrees[index].addEventListener("jmn-add", jmnAdd)
-            })(i);
+            async function onChooseExistingPage(jmn, button) {
+                jmn.loading(true);
+                ajaxModal.close();
+                let pageId = button.dataset.pageId;
+
+                getPage(pageId)
+                    .then((page) => ({
+                        type: 'page',
+                        object: {
+                            label: page.revision.label,
+                            nl: { title: page.revision['title_nl'] },
+                            fr: { title: page.revision['title_fr'] },
+                        }
+                    }))
+                    .then((item) => jmn.itemAdd(itemParentId, item, null))
+                    .then((responseAdd) => {
+                        let addedItemId = responseAdd.item.id;
+                        updatePage(pageId, { menu: addedItemId }).then((json) => {
+                            if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: addedItemId });
+                        });
+                    });
+            }
+        }
+
+        function createPageForItem(item) {
+            post('/json/data/page/create?' + new URLSearchParams({ refresh: 1 }), {
+                label: item.label,
+                menu: item.id,
+                nl: {title: item.object.nl.title},
+                fr: {title: item.object.fr.title},
+            }).then((json) => {
+                if (json.hasOwnProperty('revision_id')) window.location = `/data/draft/edit/${json.revision_id}`;
+            });
+        }
+        function getPage(pageId) {
+            return get(`/json/data/page/${pageId}`);
+        }
+        function updatePage(pageId, data) {
+            return post(`/json/data/page/update/${pageId}?` + new URLSearchParams({ refresh: 1}), data);
+        }
+        async function get(url) {
+            let response = await fetch(url, {
+                method: "GET",
+                headers: { 'Content-Type': 'application/json', 'X-Log-Level': '300'}
+            });
+            return response.json();
+        }
+        async function post(url, data) {
+            let response = await fetch(url, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'X-Log-Level': '300'},
+                body: JSON.stringify(data)
+            });
+            return response.json();
         }
     </script>
 {%  endblock ems_footer %}

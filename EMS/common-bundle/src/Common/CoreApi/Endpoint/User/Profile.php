@@ -16,6 +16,8 @@ final class Profile implements ProfileInterface
     private readonly array $roles;
     /** @var string[] */
     private readonly array $circles;
+    /** @var array<string, mixed> */
+    private readonly array $userOptions;
     private ?\DateTimeImmutable $lastLogin = null;
 
     /**
@@ -29,6 +31,7 @@ final class Profile implements ProfileInterface
         $this->displayName = $data['displayName'] ?? null;
         $this->roles = $data['roles'] ?? [];
         $this->circles = $data['circles'] ?? [];
+        $this->userOptions = $data['userOptions'] ?? [];
 
         if (isset($data['lastLogin'])) {
             $lastLogin = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $data['lastLogin']);
@@ -75,5 +78,13 @@ final class Profile implements ProfileInterface
     public function getLastLogin(): ?\DateTimeImmutable
     {
         return $this->lastLogin;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getUserOptions(): array
+    {
+        return $this->userOptions;
     }
 }

@@ -57,6 +57,8 @@ demo-init: ## init demo (new database PostgreSQL)
 	@$(MAKE) cache-clear
 	@$(MAKE) -C ./demo -s init
 	@$(MAKE) demo-symlink-assets
+demo-db: ## setup demo db (clear)
+	@$(MAKE) -C ./demo -s db-setup
 demo-load: ## load demo data
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl

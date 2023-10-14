@@ -10,14 +10,16 @@ use Symfony\Component\Mime\MimeTypes;
 class File
 {
     public string $name;
+    public string $extension;
     public string $mimeType;
     public int $size;
 
     public const DEFAULT_CHUNK_SIZE = 8 * 1024 * 1024;
 
-    private function __construct(private readonly \SplFileInfo $file)
+    public function __construct(private readonly \SplFileInfo $file)
     {
         $this->name = $this->file->getFilename();
+        $this->extension = $this->file->getExtension();
         $this->size = Type::integer($this->file->getSize());
         $this->mimeType = MimeTypes::getDefault()->guessMimeType($file->getPathname()) ?? 'application/octet-stream';
     }

@@ -57,6 +57,9 @@ class ElasticaService
 
     public function refresh(?string $index): bool
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->refresh($index);
+        }
         $endpoint = new Refresh();
         if (null !== $index) {
             $endpoint->setIndex($index);

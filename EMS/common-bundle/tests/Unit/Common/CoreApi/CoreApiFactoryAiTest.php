@@ -8,7 +8,6 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\CoreApi;
 use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\Storage\StorageManager;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 

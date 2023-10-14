@@ -22,7 +22,6 @@ use Elasticsearch\Endpoints\Indices\Refresh;
 use Elasticsearch\Endpoints\Info;
 use Elasticsearch\Endpoints\Scroll as ScrollEndpoints;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
-use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -178,7 +177,14 @@ class ElasticaService
 
     public function search(Search $search): ResultSet
     {
-        return $this->createElasticaSearch($search, $search->getSearchOptions())->search();
+        if ($this->useAdminProxy) {
+            $response = $this->adminHelper->getCoreApi()->search()->search($search);
+            $resultSet = $response->buildResultSet($this->createElasticaSearch($search, $search->getSearchOptions())->getQuery(), $this->getVersion());
+        } else {
+            $resultSet = $this->createElasticaSearch($search, $search->getSearchOptions())->search();
+        }
+
+        return $resultSet;
     }
 
     public function scroll(Search $search, string $expiryTime = '1m'): Scroll

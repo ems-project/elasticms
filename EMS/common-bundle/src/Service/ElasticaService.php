@@ -333,7 +333,7 @@ class ElasticaService
         }
         $search = new Search($indexes, $queryObject);
         $this->setSearchDefaultOptions($search, $options);
-        $search->addAggregations($this->parseAggregations($options['aggs'] ?? []));
+        $search->addAggregations(Search::parseAggs($options['aggs'] ?? []));
         if (null !== $options['post_filter']) {
             $search->setPostFilter(new Simple($options['post_filter']));
         }
@@ -635,45 +635,6 @@ class ElasticaService
         $resolvedParameters = $resolver->resolve($parameters);
 
         return $resolvedParameters;
-    }
-
-    /**
-     * @param array<mixed> $agg
-     */
-    private function addAggregation(string $name, array $agg): ElasticaAggregation
-    {
-        $subAggregations = [];
-        if (isset($agg['aggs'])) {
-            $subAggregations = $this->parseAggregations($agg['aggs']);
-            unset($agg['aggs']);
-        }
-        if (!\is_array($agg) || 1 !== \count($agg)) {
-            throw new \RuntimeException('Unexpected aggregation basename');
-        }
-        $aggregation = new ElasticaAggregation($name);
-        foreach ($agg as $basename => $rule) {
-            $aggregation->setConfig($basename, $rule);
-            foreach ($subAggregations as $subAggregation) {
-                $aggregation->addAggregation($subAggregation);
-            }
-        }
-
-        return $aggregation;
-    }
-
-    /**
-     * @param array<mixed> $aggs
-     *
-     * @return ElasticaAggregation[]
-     */
-    private function parseAggregations(array $aggs): array
-    {
-        $aggregations = [];
-        foreach ($aggs as $name => $agg) {
-            $aggregations[] = $this->addAggregation($name, $agg);
-        }
-
-        return $aggregations;
     }
 
     private function elasticsearchDefaultResolver(): OptionsResolver

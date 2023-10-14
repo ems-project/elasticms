@@ -303,4 +303,43 @@ class Search
 
         return $serializer;
     }
+
+    /**
+     * @param array<mixed> $aggs
+     *
+     * @return ElasticaAggregation[]
+     */
+    public static function parseAggs(array $aggs): array
+    {
+        $aggregations = [];
+        foreach ($aggs as $name => $agg) {
+            $aggregations[] = self::parseAgg($name, $agg);
+        }
+
+        return $aggregations;
+    }
+
+    /**
+     * @param array<mixed> $agg
+     */
+    private static function parseAgg(string $name, array $agg): ElasticaAggregation
+    {
+        $subAggregations = [];
+        if (isset($agg['aggs'])) {
+            $subAggregations = self::parseAggs($agg['aggs']);
+            unset($agg['aggs']);
+        }
+        if (!\is_array($agg) || 1 !== \count($agg)) {
+            throw new \RuntimeException('Unexpected aggregation basename');
+        }
+        $aggregation = new ElasticaAggregation($name);
+        foreach ($agg as $basename => $rule) {
+            $aggregation->setConfig($basename, $rule);
+            foreach ($subAggregations as $subAggregation) {
+                $aggregation->addAggregation($subAggregation);
+            }
+        }
+
+        return $aggregation;
+    }
 }

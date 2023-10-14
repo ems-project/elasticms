@@ -39,7 +39,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ElasticaService
 {
     private const MAX_INDICES_BY_ALIAS = 100;
-    private ?string $version;
+    private ?string $version = null;
 
     public function __construct(private readonly LoggerInterface $logger, private readonly Client $client, private readonly AdminHelper $adminHelper, private readonly bool $useAdminProxy)
     {

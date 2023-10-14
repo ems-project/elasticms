@@ -40,6 +40,7 @@ class ElasticaService
 {
     private const MAX_INDICES_BY_ALIAS = 100;
     private ?string $version = null;
+    private ?string $healthStatus = null;
 
     public function __construct(private readonly LoggerInterface $logger, private readonly Client $client, private readonly AdminHelper $adminHelper, private readonly bool $useAdminProxy)
     {
@@ -67,19 +68,27 @@ class ElasticaService
 
     public function getHealthStatus(string $waitForStatus = null, string $timeout = '10s', ?string $index = null): string
     {
+        if (null !== $this->healthStatus) {
+            return $this->healthStatus;
+        }
+        if ($this->useAdminProxy) {
+            $this->healthStatus = $this->adminHelper->getCoreApi()->search()->healthStatus();
+
+            return $this->healthStatus;
+        }
         try {
             $health = $this->getClusterHealth($waitForStatus, $timeout, $index);
             $status = $health['status'] ?? 'red';
             if (!\is_string($status)) {
                 throw new \RuntimeException('Unexpected not string status');
             }
-
-            return $status;
+            $this->healthStatus = $status;
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-
-            return 'red';
+            $this->healthStatus = 'red';
         }
+
+        return $this->healthStatus;
     }
 
     /**

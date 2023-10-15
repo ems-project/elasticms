@@ -1,0 +1,12 @@
+{
+    "category": "category:NthJI4cBTbVbdHDCMiF-",
+    "fr": {
+        "title": "Possibilit\u00e9 d\u2019initier, dans l\u2019admin, des jobs/scripts qui seront ex\u00e9cut\u00e9s dans des machines virtuelles distantes (notion de workers)."
+    },
+    "nl": {
+        "title": "In de admin jobs/scripts opstarten die op virtuele machines op afstand worden uitgevoerd (workers-concept)."
+    },
+    "title_fr": "Possibilit\u00e9 d\u2019initier, dans l\u2019admin, des jobs/scripts qui seront ex\u00e9cut\u00e9s dans des machines virtuelles distantes (notion de workers).",
+    "title_nl": "In de admin jobs/scripts opstarten die op virtuele machines op afstand worden uitgevoerd (workers-concept).",
+    "version": "5.8"
+}

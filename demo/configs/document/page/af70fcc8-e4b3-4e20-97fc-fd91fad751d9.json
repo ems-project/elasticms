@@ -1,0 +1,18 @@
+{
+    "fr": {
+        "components": "[{\"id\":\"30392bc0-2f1b-47d2-95fd-8996a7a0307a\",\"label\":\"Overview\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Overview\",\"layout\":\"news\"},\"children\":[]}]",
+        "meta_title": "News",
+        "noindex": false,
+        "title": "What's new"
+    },
+    "label": "News",
+    "menu": "613fa67f-9cc6-4b71-b9a7-04fcb1d182bd",
+    "nl": {
+        "components": "[{\"id\":\"85e5ec3e-6eb5-4ee2-bd02-71c10a629919\",\"label\":\"Overview\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Overview\",\"layout\":\"news\"},\"children\":[]}]",
+        "meta_title": "News",
+        "noindex": false,
+        "title": "What's new"
+    },
+    "title_fr": "What's new",
+    "title_nl": "What's new"
+}

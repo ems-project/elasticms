@@ -16,7 +16,7 @@ parameters:
     env(EMS_BACKEND_URL): ~
     env(EMS_BACKEND_API_KEY): ~
     env(EMS_BACKEND_API_VERIFY): true
-    env(EMS_SEARCH_VIA_BACKEND): false
+    env(EMS_ELASTICSEARCH_PROXY_API): false
 
     env(EMS_CACHE): 'file_system'
     env(EMS_CACHE_PREFIX): ~
@@ -39,7 +39,7 @@ ems_common:
     backend_url: '%env(string:EMS_BACKEND_URL)%'
     backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
     backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
-    search_via_backend: '%env(bool:EMS_SEARCH_VIA_BACKEND)%'
+    elasticsearch_proxy_api: '%env(bool:EMS_ELASTICSEARCH_PROXY_API)%'
     excluded_content_types: '%env(json:EMS_EXCLUDED_CONTENT_TYPES)%'
     webalize:
         removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'

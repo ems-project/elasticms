@@ -298,6 +298,10 @@ class ElasticaService
      */
     public function getAliasesFromIndex(string $indexName): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getAliasesFromIndex($indexName);
+        }
+
         return $this->client->getIndex($indexName)->getAliases();
     }
 

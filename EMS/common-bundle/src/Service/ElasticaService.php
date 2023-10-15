@@ -218,6 +218,9 @@ class ElasticaService
 
     public function nextScroll(string $scrollId, string $expiryTime = '1m'): Response
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('nextScroll not supported in proxy mode');
+        }
         $endpoint = new ScrollEndpoints();
         $endpoint->setBody(['scroll' => $expiryTime]);
         $endpoint->setScrollId($scrollId);

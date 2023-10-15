@@ -320,6 +320,9 @@ class ElasticaService
      */
     public function getIndicesFromAlias(string $alias): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getIndicesFromAlias($alias);
+        }
         $terms = new TermsAggregation('indexes');
         $terms->setSize(self::MAX_INDICES_BY_ALIAS);
         $terms->setField('_index');

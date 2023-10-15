@@ -57,7 +57,7 @@ month:
     October: oktober
     September: September
 navbar:
-    swith-to-locale: Nederlands
+    swith-to-locale: NL
 release:
     search:
         choose_category: 'Kies een categorie'

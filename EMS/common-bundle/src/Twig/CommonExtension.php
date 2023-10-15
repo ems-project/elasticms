@@ -6,7 +6,7 @@ use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\Text\Encoder;
-use EMS\CommonBundle\Storage\Processor\Color;
+use EMS\Helpers\Standard\Color;
 use Ramsey\Uuid\Uuid;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;

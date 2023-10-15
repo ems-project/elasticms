@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Storage\Processor;
+namespace EMS\Helpers\Standard;
 
 class Color
 {

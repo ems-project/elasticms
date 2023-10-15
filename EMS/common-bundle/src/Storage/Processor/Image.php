@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\Standard\Color;
 use Psr\Log\LoggerInterface;
 
 class Image

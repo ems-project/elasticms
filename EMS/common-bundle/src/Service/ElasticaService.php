@@ -187,11 +187,8 @@ class ElasticaService
     public function search(Search $search): ResultSet
     {
         if ($this->useAdminProxy) {
-            $start = \microtime(true);
             $response = $this->adminHelper->getCoreApi()->search()->search($search);
-            $end = \microtime(true);
-            $executionDuration = \round(($end - $start) * 1000, 2);
-            $resultSet = $response->buildResultSet($this->createElasticaSearch($search, $search->getSearchOptions())->getQuery(), $this->getVersion(), $executionDuration);
+            $resultSet = $response->buildResultSet($this->createElasticaSearch($search, $search->getSearchOptions())->getQuery(), $this->getVersion());
         } else {
             $resultSet = $this->createElasticaSearch($search, $search->getSearchOptions())->search();
         }

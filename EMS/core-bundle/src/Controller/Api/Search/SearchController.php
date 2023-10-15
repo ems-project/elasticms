@@ -103,11 +103,24 @@ class SearchController
         $json = Json::decode((string) $request->getContent());
         $alias = $json['alias'] ?? null;
         if (!\is_string($alias)) {
-            throw new \RuntimeException('Unexpected: index must be a string');
+            throw new \RuntimeException('Unexpected: alias must be a string');
         }
 
         return new JsonResponse([
             'indices' => $this->elasticaService->getIndicesFromAlias($alias),
+        ]);
+    }
+
+    public function getIndicesForContentTypes(Request $request): Response
+    {
+        $json = Json::decode((string) $request->getContent());
+        $aliases = $json['aliases'] ?? null;
+        if (!\is_array($aliases)) {
+            throw new \RuntimeException('Unexpected: aliases must be an array');
+        }
+
+        return new JsonResponse([
+            'indices' => $this->elasticaService->getIndicesForContentTypes($aliases),
         ]);
     }
 

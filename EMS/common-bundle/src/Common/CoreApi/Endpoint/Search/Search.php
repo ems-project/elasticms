@@ -118,4 +118,21 @@ class Search implements SearchInterface
             'sources-excludes' => $sourcesExcludes,
         ])->getData());
     }
+
+    /**
+     * @param string[] $aliases
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function getIndicesForContentTypes(array $aliases): array
+    {
+        $indices = $this->client->post('/api/search/indices-for-content-type', [
+            'aliases' => $aliases,
+        ])->getData()['indices'] ?? null;
+        if (!\is_array($indices)) {
+            throw new \RuntimeException('Unexpected: search must be an array');
+        }
+
+        return $indices;
+    }
 }

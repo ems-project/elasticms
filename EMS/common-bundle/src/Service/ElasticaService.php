@@ -584,8 +584,11 @@ class ElasticaService
      *
      * @return array<string, array<int, string>>
      */
-    private function getIndicesForContentTypes(array $aliases): array
+    public function getIndicesForContentTypes(array $aliases): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getIndicesForContentTypes($aliases);
+        }
         static $indices = null;
 
         if (null !== $indices) {

@@ -224,6 +224,9 @@ class ElasticaService
 
     public function count(Search $search): int
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->count($search);
+        }
         $elasticSearch = $this->createElasticaSearch($search, $search->getCountOptions(), false);
         $query = $elasticSearch->getQuery();
         $body = $query->toArray();

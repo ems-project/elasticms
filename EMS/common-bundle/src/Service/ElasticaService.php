@@ -444,6 +444,9 @@ class ElasticaService
 
     public function getFieldAnalyzer(string $index, string $field): string
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('getFieldAnalyzer not supported in proxy mode');
+        }
         $endpoint = new GetFieldMapping();
         $endpoint->setIndex($index);
         $endpoint->setFields($field);

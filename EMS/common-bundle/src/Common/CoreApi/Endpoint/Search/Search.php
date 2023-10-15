@@ -135,4 +135,23 @@ class Search implements SearchInterface
 
         return $indices;
     }
+
+    /**
+     * @param string[] $words
+     *
+     * @return string[]
+     */
+    public function filterStopWords(string $index, string $analyzer, array $words)
+    {
+        $filtered = $this->client->post('/api/search/filter-stop-words', [
+            'index' => $index,
+            'analyzer' => $analyzer,
+            'words' => $words,
+        ])->getData()['filtered'] ?? null;
+        if (!\is_array($filtered)) {
+            throw new \RuntimeException('Unexpected: filtered must be an array');
+        }
+
+        return $filtered;
+    }
 }

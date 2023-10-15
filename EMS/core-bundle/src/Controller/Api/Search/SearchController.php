@@ -124,6 +124,27 @@ class SearchController
         ]);
     }
 
+    public function filterStopWords(Request $request): Response
+    {
+        $json = Json::decode((string) $request->getContent());
+        $index = $json['index'] ?? null;
+        $analyzer = $json['analyzer'] ?? null;
+        $words = $json['words'] ?? null;
+        if (!\is_string($index)) {
+            throw new \RuntimeException('Unexpected: index must be a string');
+        }
+        if (!\is_string($analyzer)) {
+            throw new \RuntimeException('Unexpected: analyzer must be a string');
+        }
+        if (!\is_array($words)) {
+            throw new \RuntimeException('Unexpected: words must be an array');
+        }
+
+        return new JsonResponse([
+            'filtered' => $this->elasticaService->filterStopWords($index, $analyzer, $words),
+        ]);
+    }
+
     public function getDocument(Request $request): Response
     {
         $json = Json::decode((string) $request->getContent());

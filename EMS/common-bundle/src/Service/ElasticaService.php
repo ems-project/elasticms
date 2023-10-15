@@ -428,6 +428,9 @@ class ElasticaService
      */
     public function filterStopWords(string $index, string $analyzer, array $words): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->filterStopWords($index, $analyzer, $words);
+        }
         $withoutStopWords = [];
         $endpoint = new Analyze();
         $endpoint->setIndex($index);

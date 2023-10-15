@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Tests\Unit\Storage;
 
 use EMS\CommonBundle\Storage\Factory\FileSystemFactory;

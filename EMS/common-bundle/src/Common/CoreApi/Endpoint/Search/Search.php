@@ -141,7 +141,7 @@ class Search implements SearchInterface
      *
      * @return string[]
      */
-    public function filterStopWords(string $index, string $analyzer, array $words)
+    public function filterStopWords(string $index, string $analyzer, array $words): array
     {
         $filtered = $this->client->post('/api/search/filter-stop-words', [
             'index' => $index,

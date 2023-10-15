@@ -132,6 +132,9 @@ class ElasticaService
      */
     public function getClusterInfo(): array
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('getClusterInfo not supported in proxy mode');
+        }
         $endpoint = new Info();
 
         return $this->client->requestEndpoint($endpoint)->getData();

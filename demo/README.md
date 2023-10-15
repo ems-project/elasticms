@@ -22,6 +22,7 @@ docker compose up -d --force-recreate --remove-orphans
 Please wait a minute
 
 ```bash
+make db-setup
 sh ems.sh create_users local
 sh ems.sh config_push local
 ```

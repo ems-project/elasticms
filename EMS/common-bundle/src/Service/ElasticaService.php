@@ -98,6 +98,9 @@ class ElasticaService
      */
     public function getClusterHealth(string $waitForStatus = null, string $timeout = '10s', ?string $index = null): array
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('getClusterHealth not supported in proxy mode');
+        }
         $query = [
             'timeout' => $timeout,
         ];

@@ -141,6 +141,8 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type template
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type template_ems
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type user_group
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type release
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update content-type feature
 
   echo "Create/Update QuerySearches"
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:admin:update query-search pages
@@ -193,6 +195,8 @@ sub_config_push(){
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload media_file
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload news
   docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload user_group
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload release
+  docker compose exec -u ${DOCKER_USER:-1001}:0 web-${environment:-local} preview ems:document:upload feature
 
   echo "Align live"
   docker compose exec -u ${DOCKER_USER:-1001}:0 admin-${environment:-local} ems-demo ems:environment:align preview live --force

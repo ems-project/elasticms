@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Controller\Api\Search;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -127,18 +128,9 @@ class SearchController
     public function filterStopWords(Request $request): Response
     {
         $json = Json::decode((string) $request->getContent());
-        $index = $json['index'] ?? null;
-        $analyzer = $json['analyzer'] ?? null;
-        $words = $json['words'] ?? null;
-        if (!\is_string($index)) {
-            throw new \RuntimeException('Unexpected: index must be a string');
-        }
-        if (!\is_string($analyzer)) {
-            throw new \RuntimeException('Unexpected: analyzer must be a string');
-        }
-        if (!\is_array($words)) {
-            throw new \RuntimeException('Unexpected: words must be an array');
-        }
+        $index = Type::string($json['index']);
+        $analyzer = Type::string($json['analyzer']);
+        $words = Type::array($json['words']);
 
         return new JsonResponse([
             'filtered' => $this->elasticaService->filterStopWords($index, $analyzer, $words),

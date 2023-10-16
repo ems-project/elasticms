@@ -56,9 +56,9 @@ class TokenStore
         } else {
             $baseUrl = $this->giveBaseUrl();
         }
-
-        $token = $this->apiCacheToken($baseUrl)->get();
-        if (\is_string($token)) {
+        $cacheToken = $this->apiCacheToken($baseUrl);
+        $token = $cacheToken->get();
+        if (\is_string($token) && $cacheToken->isHit()) {
             return $token;
         }
 

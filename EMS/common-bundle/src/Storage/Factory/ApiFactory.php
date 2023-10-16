@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Factory;
 
-use EMS\CommonBundle\Common\Admin\AdminHelper;
+use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Storage\Service\ApiStorage;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use Psr\Log\LoggerInterface;
@@ -13,7 +13,7 @@ class ApiFactory extends AbstractFactory implements StorageFactoryInterface
 {
     final public const STORAGE_TYPE = 'api';
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly AdminHelper $adminHelper)
+    public function __construct(private readonly LoggerInterface $logger, private readonly TokenStore $tokenStore)
     {
     }
 
@@ -21,7 +21,7 @@ class ApiFactory extends AbstractFactory implements StorageFactoryInterface
     {
         $config = $this->resolveParameters($parameters);
 
-        return new ApiStorage($this->logger, $this->adminHelper, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
+        return new ApiStorage($this->logger, $this->tokenStore, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
     }
 
     public function getStorageType(): string

@@ -61,7 +61,7 @@
 
         <service id="ems_common.storage.factory.api" class="EMS\CommonBundle\Storage\Factory\ApiFactory">
             <argument type="service" id="logger" />
-            <argument type="service" id="ems.helper.admin_api" />
+            <argument type="service" id="ems_common.core_api.token_store" />
             <tag name="ems_common.storage.factory" alias="api"/>
         </service>
 

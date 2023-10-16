@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Tests\Twig;
 
 use EMS\CommonBundle\Storage\Processor\Processor;

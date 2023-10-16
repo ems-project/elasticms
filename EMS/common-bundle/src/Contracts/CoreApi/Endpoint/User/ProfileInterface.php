@@ -25,4 +25,9 @@ interface ProfileInterface
     public function getCircles(): array;
 
     public function getLastLogin(): ?\DateTimeImmutable;
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function getUserOptions(): array;
 }

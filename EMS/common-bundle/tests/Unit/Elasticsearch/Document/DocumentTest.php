@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Tests\Unit\Elasticsearch\Document;
 
 use EMS\CommonBundle\Elasticsearch\Document\Document;

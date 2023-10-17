@@ -118,4 +118,40 @@ class Search implements SearchInterface
             'sources-excludes' => $sourcesExcludes,
         ])->getData());
     }
+
+    /**
+     * @param string[] $aliases
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function getIndicesForContentTypes(array $aliases): array
+    {
+        $indices = $this->client->post('/api/search/indices-for-content-type', [
+            'aliases' => $aliases,
+        ])->getData()['indices'] ?? null;
+        if (!\is_array($indices)) {
+            throw new \RuntimeException('Unexpected: search must be an array');
+        }
+
+        return $indices;
+    }
+
+    /**
+     * @param string[] $words
+     *
+     * @return string[]
+     */
+    public function filterStopWords(string $index, string $analyzer, array $words): array
+    {
+        $filtered = $this->client->post('/api/search/filter-stop-words', [
+            'index' => $index,
+            'analyzer' => $analyzer,
+            'words' => $words,
+        ])->getData()['filtered'] ?? null;
+        if (!\is_array($filtered)) {
+            throw new \RuntimeException('Unexpected: filtered must be an array');
+        }
+
+        return $filtered;
+    }
 }

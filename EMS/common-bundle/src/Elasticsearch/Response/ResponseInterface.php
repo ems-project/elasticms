@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch\Response;
 
+use Elastica\Query;
+use Elastica\ResultSet;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 
@@ -28,4 +30,6 @@ interface ResponseInterface
     public function getTotal(): int;
 
     public function getTotalDocuments(): int;
+
+    public function buildResultSet(Query $query, string $version): ResultSet;
 }

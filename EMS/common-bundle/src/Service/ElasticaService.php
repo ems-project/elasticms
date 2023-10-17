@@ -21,7 +21,7 @@ use Elasticsearch\Endpoints\Indices\GetFieldMapping;
 use Elasticsearch\Endpoints\Indices\Refresh;
 use Elasticsearch\Endpoints\Info;
 use Elasticsearch\Endpoints\Scroll as ScrollEndpoints;
-use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
+use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
@@ -38,13 +38,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ElasticaService
 {
     private const MAX_INDICES_BY_ALIAS = 100;
+    private ?string $version = null;
+    private ?string $healthStatus = null;
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly Client $client)
+    public function __construct(private readonly LoggerInterface $logger, private readonly Client $client, private readonly AdminHelper $adminHelper, private readonly bool $useAdminProxy)
     {
     }
 
     public function getUrl(): string
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->getBaseUrl();
+        }
         $url = $this->client->getConnection()->getConfig('url');
 
         return \is_array($url) ? \implode(' | ', $url) : Type::string($url);
@@ -52,6 +57,9 @@ class ElasticaService
 
     public function refresh(?string $index): bool
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->refresh($index);
+        }
         $endpoint = new Refresh();
         if (null !== $index) {
             $endpoint->setIndex($index);
@@ -62,19 +70,27 @@ class ElasticaService
 
     public function getHealthStatus(string $waitForStatus = null, string $timeout = '10s', ?string $index = null): string
     {
+        if (null !== $this->healthStatus) {
+            return $this->healthStatus;
+        }
+        if ($this->useAdminProxy) {
+            $this->healthStatus = $this->adminHelper->getCoreApi()->search()->healthStatus();
+
+            return $this->healthStatus;
+        }
         try {
             $health = $this->getClusterHealth($waitForStatus, $timeout, $index);
             $status = $health['status'] ?? 'red';
             if (!\is_string($status)) {
                 throw new \RuntimeException('Unexpected not string status');
             }
-
-            return $status;
+            $this->healthStatus = $status;
         } catch (\Throwable $e) {
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
-
-            return 'red';
+            $this->healthStatus = 'red';
         }
+
+        return $this->healthStatus;
     }
 
     /**
@@ -82,6 +98,9 @@ class ElasticaService
      */
     public function getClusterHealth(string $waitForStatus = null, string $timeout = '10s', ?string $index = null): array
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('getClusterHealth not supported in proxy mode');
+        }
         $query = [
             'timeout' => $timeout,
         ];
@@ -116,6 +135,9 @@ class ElasticaService
      */
     public function getClusterInfo(): array
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('getClusterInfo not supported in proxy mode');
+        }
         $endpoint = new Info();
 
         return $this->client->requestEndpoint($endpoint)->getData();
@@ -164,7 +186,14 @@ class ElasticaService
 
     public function search(Search $search): ResultSet
     {
-        return $this->createElasticaSearch($search, $search->getSearchOptions())->search();
+        if ($this->useAdminProxy) {
+            $response = $this->adminHelper->getCoreApi()->search()->search($search);
+            $resultSet = $response->buildResultSet($this->createElasticaSearch($search, $search->getSearchOptions())->getQuery(), $this->getVersion());
+        } else {
+            $resultSet = $this->createElasticaSearch($search, $search->getSearchOptions())->search();
+        }
+
+        return $resultSet;
     }
 
     public function scroll(Search $search, string $expiryTime = '1m'): Scroll
@@ -189,6 +218,9 @@ class ElasticaService
 
     public function nextScroll(string $scrollId, string $expiryTime = '1m'): Response
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('nextScroll not supported in proxy mode');
+        }
         $endpoint = new ScrollEndpoints();
         $endpoint->setBody(['scroll' => $expiryTime]);
         $endpoint->setScrollId($scrollId);
@@ -198,6 +230,9 @@ class ElasticaService
 
     public function count(Search $search): int
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->count($search);
+        }
         $elasticSearch = $this->createElasticaSearch($search, $search->getCountOptions(), false);
         $query = $elasticSearch->getQuery();
         $body = $query->toArray();
@@ -221,7 +256,16 @@ class ElasticaService
 
     public function getVersion(): string
     {
-        return $this->client->getVersion();
+        if (null !== $this->version) {
+            return $this->version;
+        }
+        if ($this->useAdminProxy) {
+            $this->version = $this->adminHelper->getCoreApi()->search()->version();
+        } else {
+            $this->version = $this->client->getVersion();
+        }
+
+        return $this->version;
     }
 
     /**
@@ -233,6 +277,10 @@ class ElasticaService
     public function filterByContentTypes($query, array $contentTypes)
     {
         if (0 === \count($contentTypes)) {
+            if (\is_array($query) && !isset($query['query'])) {
+                return ['query' => $query];
+            }
+
             return $query;
         }
 
@@ -256,6 +304,10 @@ class ElasticaService
      */
     public function getAliasesFromIndex(string $indexName): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getAliasesFromIndex($indexName);
+        }
+
         return $this->client->getIndex($indexName)->getAliases();
     }
 
@@ -274,6 +326,9 @@ class ElasticaService
      */
     public function getIndicesFromAlias(string $alias): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getIndicesFromAlias($alias);
+        }
         $terms = new TermsAggregation('indexes');
         $terms->setSize(self::MAX_INDICES_BY_ALIAS);
         $terms->setField('_index');
@@ -319,7 +374,7 @@ class ElasticaService
         }
         $search = new Search($indexes, $queryObject);
         $this->setSearchDefaultOptions($search, $options);
-        $search->addAggregations($this->parseAggregations($options['aggs'] ?? []));
+        $search->addAggregations(Search::parseAggs($options['aggs'] ?? []));
         if (null !== $options['post_filter']) {
             $search->setPostFilter(new Simple($options['post_filter']));
         }
@@ -376,6 +431,9 @@ class ElasticaService
      */
     public function filterStopWords(string $index, string $analyzer, array $words): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->filterStopWords($index, $analyzer, $words);
+        }
         $withoutStopWords = [];
         $endpoint = new Analyze();
         $endpoint->setIndex($index);
@@ -395,6 +453,9 @@ class ElasticaService
 
     public function getFieldAnalyzer(string $index, string $field): string
     {
+        if ($this->useAdminProxy) {
+            throw new \RuntimeException('getFieldAnalyzer not supported in proxy mode');
+        }
         $endpoint = new GetFieldMapping();
         $endpoint->setIndex($index);
         $endpoint->setFields($field);
@@ -545,8 +606,11 @@ class ElasticaService
      *
      * @return array<string, array<int, string>>
      */
-    private function getIndicesForContentTypes(array $aliases): array
+    public function getIndicesForContentTypes(array $aliases): array
     {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getIndicesForContentTypes($aliases);
+        }
         static $indices = null;
 
         if (null !== $indices) {
@@ -621,45 +685,6 @@ class ElasticaService
         $resolvedParameters = $resolver->resolve($parameters);
 
         return $resolvedParameters;
-    }
-
-    /**
-     * @param array<mixed> $agg
-     */
-    private function addAggregation(string $name, array $agg): ElasticaAggregation
-    {
-        $subAggregations = [];
-        if (isset($agg['aggs'])) {
-            $subAggregations = $this->parseAggregations($agg['aggs']);
-            unset($agg['aggs']);
-        }
-        if (!\is_array($agg) || 1 !== \count($agg)) {
-            throw new \RuntimeException('Unexpected aggregation basename');
-        }
-        $aggregation = new ElasticaAggregation($name);
-        foreach ($agg as $basename => $rule) {
-            $aggregation->setConfig($basename, $rule);
-            foreach ($subAggregations as $subAggregation) {
-                $aggregation->addAggregation($subAggregation);
-            }
-        }
-
-        return $aggregation;
-    }
-
-    /**
-     * @param array<mixed> $aggs
-     *
-     * @return ElasticaAggregation[]
-     */
-    private function parseAggregations(array $aggs): array
-    {
-        $aggregations = [];
-        foreach ($aggs as $name => $agg) {
-            $aggregations[] = $this->addAggregation($name, $agg);
-        }
-
-        return $aggregations;
     }
 
     private function elasticsearchDefaultResolver(): OptionsResolver

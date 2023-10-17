@@ -38,4 +38,18 @@ interface SearchInterface
      * @param string[] $sourcesExcludes
      */
     public function getDocument(string $index, ?string $contentType, string $id, array $sourceIncludes = [], array $sourcesExcludes = []): DocumentInterface;
+
+    /**
+     * @param string[] $aliases
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function getIndicesForContentTypes(array $aliases): array;
+
+    /**
+     * @param string[] $words
+     *
+     * @return string[]
+     */
+    public function filterStopWords(string $index, string $analyzer, array $words): array;
 }

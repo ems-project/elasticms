@@ -23,4 +23,16 @@ final class Type
 
         return $value;
     }
+
+    /**
+     * @return mixed[]
+     */
+    public static function array(mixed $value): array
+    {
+        if (!\is_array($value)) {
+            throw new \RuntimeException(\sprintf("Expect an array got '%s'", \gettype($value)));
+        }
+
+        return $value;
+    }
 }

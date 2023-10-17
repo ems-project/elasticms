@@ -3,7 +3,7 @@
 
 {% block title %}{{ attribute(source, locale).title|default('') }}{% endblock %}
 
-{% block headtitle %}
+{% block metatitle %}
     {%- apply spaceless %}
         {% if attribute(source, locale).meta_title|default(false) %}
             {{ attribute(source, locale).meta_title }}

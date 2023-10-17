@@ -202,7 +202,7 @@
                                                     "options": {
                                                         "displayOptions": {
                                                             "label": "Label",
-                                                            "class": "col-md-12 hidden",
+                                                            "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
                                                             "prefixIcon": null,
@@ -223,7 +223,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{%- set titleFR = attribute(_source, 'fr').title|default('') -%}\r\n{%- set titleNL = attribute(_source, 'nl').title|default('') -%}\r\n{{- \"#{titleFR} / #{titleNL}\"|json_encode|raw -}}"
+                                                            "postProcessing": null
                                                         }
                                                     },
                                                     "orderKey": 1,

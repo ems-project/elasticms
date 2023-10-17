@@ -1,0 +1,12 @@
+{
+    "category": "category:5e108ac5-369a-4d1c-8311-37b2d1e4ff15",
+    "fr": {
+        "title": "Ajout d\u2019un m\u00e9canisme d\u2019identification des utilisateurs du site web sur base d\u2019utilisateur d\u00e9finis dans l\u2019admin."
+    },
+    "nl": {
+        "title": "Toevoeging van een identificatiemechanisme voor websitegebruikers op basis van gebruikers gedefinieerd in de admin."
+    },
+    "title_fr": "Ajout d\u2019un m\u00e9canisme d\u2019identification des utilisateurs du site web sur base d\u2019utilisateur d\u00e9finis dans l\u2019admin.",
+    "title_nl": "Toevoeging van een identificatiemechanisme voor websitegebruikers op basis van gebruikers gedefinieerd in de admin.",
+    "version": "5.8"
+}

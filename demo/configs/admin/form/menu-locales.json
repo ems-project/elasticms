@@ -69,7 +69,7 @@
                                         "description": null,
                                         "options": {
                                             "displayOptions": {
-                                                "label": "Menu item",
+                                                "label": "Title",
                                                 "class": "col-md-12",
                                                 "lastOfRow": false,
                                                 "helptext": null,

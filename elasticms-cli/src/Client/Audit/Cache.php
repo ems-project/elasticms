@@ -25,7 +25,6 @@ class Cache
     private array $hosts = [];
     private ?string $lastUpdated = null;
     private ?string $current = null;
-    private ?string $status = null;
     private \DateTimeImmutable $startedDatetime;
     private int $startedAt;
     private Report $report;
@@ -163,8 +162,7 @@ class Cache
         $counter = \doubleval($treated - $this->startedAt);
         $duration = \doubleval($now->getTimestamp() - $this->startedDatetime->getTimestamp());
         if ($counter < 1 || $duration < 1) {
-            $this->status = 'Starting...';
-            $output->write($this->status);
+            $output->write('Starting...');
 
             return;
         }
@@ -172,23 +170,19 @@ class Cache
         $estimateSeconds = \round($rate * ($total - $treated));
         $estimateDatetime = new \DateTimeImmutable(\sprintf('+%s seconds', $estimateSeconds));
         $dateIntervalFormat = $estimateSeconds > (24 * 60 * 60) ? '%a days %h:%I:%S' : '%h:%I:%S';
-        $this->status = \sprintf('%d urls audited, %d urls pending, %d urls found, rate %01.2f url/min, EAC in %s', $treated, $total - $treated, $total, 60.0 / $rate, $estimateDatetime->diff(new \DateTimeImmutable())->format($dateIntervalFormat));
-        $output->write($this->status);
+        $output->write(\sprintf('%d urls audited, %d urls pending, %d urls found, rate %01.2f url/min, EAC in %s', $treated, $total - $treated, $total, 60.0 / $rate, $estimateDatetime->diff(new \DateTimeImmutable())->format($dateIntervalFormat)));
     }
 
     public function progressFinish(OutputInterface $output, int $counter): void
     {
         $this->rewindOutput($output);
-        $this->status = null;
         $output->writeln(\sprintf('%d/%d urls have been audited', $counter, \count($this->urls)));
     }
 
     protected function rewindOutput(OutputInterface $output): void
     {
-        if (null !== $this->status) {
-            $length = \strlen($this->status);
-            $output->write(\sprintf("\033[%dD%s\033[%dD", $length, \str_repeat(' ', $length), $length));
-        }
+        $output->write(\sprintf("\x1b[%dG", 1));
+        $output->write("\x1b[2K");
     }
 
     public function resume(): void

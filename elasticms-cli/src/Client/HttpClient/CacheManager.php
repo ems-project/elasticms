@@ -19,6 +19,7 @@ use Symfony\Component\Finder\Finder;
 
 class CacheManager
 {
+    private const WEB_TO_ELASTICMS = 'WebToElasticms';
     private readonly Client $client;
     /** @var UrlReport[] */
     private array $cachedReport = [];
@@ -30,7 +31,7 @@ class CacheManager
             new CacheMiddleware(
                 new PrivateCacheStrategy(
                     new Psr6CacheStorage(
-                        new FilesystemAdapter('WebToElasticms', 0, $cacheFolder)
+                        new FilesystemAdapter(self::WEB_TO_ELASTICMS, 0, $cacheFolder)
                     )
                 )
             ),
@@ -108,7 +109,7 @@ class CacheManager
     public function clear(): void
     {
         $finder = new Finder();
-        $finder->in($this->cacheFolder);
+        $finder->in(\implode(DIRECTORY_SEPARATOR, [$this->cacheFolder, self::WEB_TO_ELASTICMS]));
         if (!$finder->hasResults()) {
             return;
         }

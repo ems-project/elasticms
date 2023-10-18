@@ -1,5 +1,16 @@
 # Changelog 5.x
 
+## 5.10.0 (2023-09-25)
+### Features
+* feat(cli): cache tika by @theus77 in https://github.com/ems-project/elasticms/pull/614
+* feat(cli): load tika by @theus77 in https://github.com/ems-project/elasticms/pull/616
+* feat(cli/media-sync): target folder command option by @theus77 in https://github.com/ems-project/elasticms/pull/593
+* feat(common/ascii): includes utf8 punctuations in ascii folding by @theus77 in https://github.com/ems-project/elasticms/pull/615
+* feat(core/api): fileInterface::uploadContents by @theus77 in https://github.com/ems-project/elasticms/pull/597
+### Bug Fixes
+* fix(core/criteria): correct response for criteria update by @Davidmattei in https://github.com/ems-project/elasticms/pull/618
+* fix(core/datatable): revert horizontal scrollbar fix by @Davidmattei in https://github.com/ems-project/elasticms/pull/617
+
 ## 5.9.3 (2023-09-17)
 ### Bug Fixes
 * fix(core/api): data not consumed error by @Davidmattei in https://github.com/ems-project/elasticms/pull/608

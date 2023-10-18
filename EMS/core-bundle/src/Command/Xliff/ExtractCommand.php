@@ -53,10 +53,10 @@ final class ExtractCommand extends AbstractCommand
     public const OPTION_LOCALE_FIELD = 'locale-field';
     public const OPTION_ENCODING = 'encoding';
     public const OPTION_WITH_BASELINE = 'with-baseline';
-    public const OPTION_MAIL_SUBJECT = 'mail-title';
+    public const OPTION_MAIL_SUBJECT = 'mail-subject';
     public const OPTION_MAIL_TO = 'mail-to';
     public const OPTION_MAIL_CC = 'mail-cc';
-    private const MAIL_TEMPLATE = '@EMSCore/email/xliff/extract.twig';
+    private const MAIL_TEMPLATE = '@EMSCore/email/xliff/extract.email.html.twig';
 
     protected static $defaultName = Commands::XLIFF_EXTRACT;
     private string $xliffFilename;
@@ -166,6 +166,7 @@ final class ExtractCommand extends AbstractCommand
         if (!$extractor->saveXML($this->xliffFilename, $this->encoding)) {
             throw new \RuntimeException(\sprintf('Unexpected error while saving the XLIFF to the file %s', $this->xliffFilename));
         }
+        $this->sendEmail($this->xliffFilename);
 
         if (null !== $this->baseUrl) {
             $this->xliffFilename = $this->baseUrl.$this->assetRuntime->assetPath(
@@ -183,7 +184,6 @@ final class ExtractCommand extends AbstractCommand
                 UrlGeneratorInterface::ABSOLUTE_PATH
             );
         }
-        $this->sendEmail($this->xliffFilename);
 
         $output->writeln('');
         $output->writeln('XLIFF file: '.$this->xliffFilename);
@@ -207,7 +207,12 @@ final class ExtractCommand extends AbstractCommand
                 $mailTemplate->addCc($email);
             }
         }
-        $mailTemplate->setBodyBlock('xliff_extracted', []);
+        $mailTemplate->setBodyBlock('xliff_extracted', [
+            'source' => $this->sourceLocale,
+            'target' => $this->targetLocale,
+            'query' => $this->searchQuery,
+            'fields' => $this->fields,
+        ]);
         $mailTemplate->addAttachment($xliffFilename);
 
         $this->mailerService->sendMailTemplate($mailTemplate);

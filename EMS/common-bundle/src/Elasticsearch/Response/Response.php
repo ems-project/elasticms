@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch\Response;
 
+use Elastica\Query;
 use Elastica\ResultSet;
 use EMS\CommonBundle\Elasticsearch\Aggregation\Aggregation;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -128,5 +129,30 @@ final class Response implements ResponseInterface
     public function isAccurate(): bool
     {
         return $this->accurate;
+    }
+
+    public function buildResultSet(Query $query, string $version): ResultSet
+    {
+        $response = new \Elastica\Response([
+            'timed_out' => false,
+            'took' => 1,
+            '_shards' => [
+                'total' => 1,
+                'successful' => 1,
+                'skipped' => 0,
+                'failed' => 0,
+            ],
+            'aggregations' => $this->aggregations,
+            'hits' => [
+                'hits' => $this->hits,
+                'total' => \version_compare($version, '6') < 0 ? $this->total : [
+                    'value' => $this->total,
+                    'relation' => 'eq',
+                ],
+            ],
+        ], 200);
+        $response->getData();
+
+        return new ResultSet($response, $query, []);
     }
 }

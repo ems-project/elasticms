@@ -1,9 +1,8 @@
-{% extends '@EMSCH/template/view/abstract.html.twig' %}
 {% trans_default_domain trans_default_domain %}
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
 
-{% block title %}{{ 'blog.grid.title'|trans }}{% endblock %}
-
-{% block view_body %}
+{% block widget %}
+    {% trans_default_domain trans_default_domain %}
     {%  set query = emsch_search('news', {
         "sort": {
             "publication_date": {
@@ -47,4 +46,4 @@
             </div>
         </div>
     </div>
-{% endblock view_body %}
+{% endblock %}

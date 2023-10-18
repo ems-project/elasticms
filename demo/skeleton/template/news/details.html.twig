@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block back_link %}
-    <a class="text-white" href="{{ path('emsch_news') }}">{{ 'breadcrumb.back-to'|trans({('%title%'): 'blog.title'|trans}) }}</a>
+    <a class="text-white" href="{{ ('ems://' ~ news_page)|emsch_routing }}">{{ 'breadcrumb.back-to'|trans({('%title%'): 'blog.title'|trans}) }}</a>
 {% endblock back_link %}
 
 {% block request %}

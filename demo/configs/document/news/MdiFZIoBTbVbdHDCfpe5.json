@@ -1,0 +1,35 @@
+{
+    "categories": [
+        "category:d9gzcokBTbVbdHDC6n5N"
+    ],
+    "fr": {
+        "body": "<p>Nous avons vu qu&rsquo;un <a href=\"ems://object:news:eNg1cokBTbVbdHDCnX4S\">SLA</a> d&eacute;finissait les modalit&eacute;s entre un fournisseur de services et un client, concernant les <strong>niveaux de service attendus</strong>.</p>\r\n\r\n<p>Afin de garantir le respect des SLA, plusieurs services et mesures sont g&eacute;n&eacute;ralement mis en place par les fournisseurs de services, notamment par l&rsquo;<strong>&eacute;quipe SaaS</strong> (Software as a Service). Le monitoring interne &eacute;merge comme un &eacute;l&eacute;ment cl&eacute; pour maintenir des niveaux de services optimaux.</p>\r\n\r\n<p>Le monitoring interne d&eacute;signe la <strong>surveillance continue et en temps r&eacute;el</strong> des syst&egrave;mes internes, des performances des applications et de l&rsquo;utilisation des ressources pour faire fonctionner le service. Gr&acirc;ce &agrave; cette veille constante, l&rsquo;&eacute;quipe SaaS est en mesure de <strong>d&eacute;tecter rapidement les anomalies</strong>, d&rsquo;anticiper les probl&egrave;mes et d&rsquo;intervenir avant qu&rsquo;une d&eacute;faillance n&rsquo;affecte les clients. Cela permet donc de d&eacute;tecter rapidement tout &eacute;cart par rapport aux niveaux de services convenus.</p>\r\n\r\n<p>Le monitoring interne se concentre sur la <strong>surveillance des composantes internes</strong> de l&rsquo;infrastructure du service. Cela implique de surveiller les syst&egrave;mes, les applications, les bases de donn&eacute;es, les serveurs, les ressources et les processus internes qui font fonctionner le service. Il permet &eacute;galement &agrave; la supervision de l&rsquo;entreprise d&rsquo;<strong>intervenir rapidement</strong> en cas de probl&egrave;me, de rediriger plus efficacement les demandes vers les bonnes &eacute;quipes, et ce, sans d&eacute;pendre uniquement de l&rsquo;&eacute;quipe SaaS.</p>\r\n\r\n<p>Dans un monde num&eacute;rique ax&eacute; sur la performance, l&rsquo;&eacute;quipes SaaS redouble d&rsquo;efforts pour garantir des niveaux de service exceptionnels. Le monitoring interne offre ainsi <strong>une assurance totale que les SLA sont respect&eacute;s</strong>, renfor&ccedil;ant la confiance des clients dans la fiabilit&eacute; des services SaaS.</p>\r\n\r\n<p>En fin de compte, le monitoring interne dans une &eacute;quipe SaaS est essentiel pour surveiller, maintenir et am&eacute;liorer la qualit&eacute; du service offert aux clients, tout en garantissant la <strong>conformit&eacute; aux SLA convenus</strong>.</p>",
+        "description": "<p>D&eacute;couvrez comment le <strong>monitoring interne</strong> assure des <strong>niveaux de service exceptionnels</strong> et r&eacute;agit rapidement en cas de probl&egrave;mes, renfor&ccedil;ant ainsi la fiabilit&eacute; des <strong>services SaaS</strong>.</p>",
+        "image": {
+            "filename": "ems-monitoring.jpg",
+            "filesize": 306699,
+            "mimetype": "image/jpeg",
+            "sha1": "da32aa9ebc429441e013093c11b72fd4f3470b43"
+        },
+        "slug": "optimisation-des-sla-grace-au-monitoring-interne",
+        "summary": "<p>D&eacute;couvrez comment le <strong>monitoring interne</strong> assure des <strong>niveaux de service exceptionnels</strong> et r&eacute;agit rapidement en cas de probl&egrave;mes, renfor&ccedil;ant ainsi la fiabilit&eacute; des <strong>services SaaS</strong>.</p>",
+        "title": "Optimisation des SLA gr\u00e2ce au monitoring interne"
+    },
+    "label": "Optimisation des SLA gr\u00e2ce au monitoring interne",
+    "nl": {
+        "body": "<p>Een <a href=\"ems://object:news:eNg1cokBTbVbdHDCnX4S\">SLA</a> definieert de modaliteiten tussen een dienstverlener en een klant met betrekking tot het <strong>verwachte niveau van dienstverlening</strong>.</p>\r\n\r\n<p>Om de naleving van SLA&#39;s te garanderen, zetten dienstverleners, met name het <strong>SaaS-team</strong> (Software as a Service), over het algemeen een aantal hulpmiddelen in. De <strong>interne monitoring</strong> is er een van en speelt een sleutelrol.</p>\r\n\r\n<p>Interne monitoring betekent dat interne systemen, de prestaties van toepassingen en het gebruik van resources om de diensten te realiseren <strong>voortdurend en in realtime worden gecontroleerd</strong>. Zo kan het SaaS-team <strong>afwijkingen snel detecteren</strong>, anticiperen op problemen en een storing oplossen voordat die een impact heeft bij de klant.</p>\r\n\r\n<p>Interne monitoring richt zich op de <strong>interne componenten</strong> van de service-infrastructuur. Die infrastructuur bestaat uit systemen, toepassingen, databases, servers, middelen en interne processen. Hij stelt de bedrijfsleiding ook in staat om <strong>snel in te grijpen</strong> als er zich een probleem voordoet en verzoeken naar de juiste teams door te sturen en dit zonder volledig af te hangen van het SaaS-team.</p>\r\n\r\n<p>In een prestatiegerichte digitale wereld doet het SaaS-team extra inspanningen om een uitzonderlijk niveau van dienstverlening te garanderen. Interne monitoring <strong>biedt de zekerheid dat er aan de SLA&#39;s wordt voldaan</strong> en versterkt het vertrouwen van de klant in de SaaS-diensten.</p>\r\n\r\n<p>Die monitoring is essentieel om de kwaliteit van de dienstverlening te bewaken, te handhaven en te verbeteren. Zo garandeert hij dat <strong>de afspraken worden nagekomen</strong>.</p>",
+        "description": "<p><strong>Interne monitoring</strong> zorgt voor een <strong>uitzonderlijk niveau van dienstverlening:</strong> een snelle reactie bij problemen versterkt het vertrouwen in de <strong>SaaS-diensten.</strong></p>",
+        "image": {
+            "filename": "ems-monitoring.jpg",
+            "filesize": 306699,
+            "mimetype": "image/jpeg",
+            "sha1": "da32aa9ebc429441e013093c11b72fd4f3470b43"
+        },
+        "slug": "sla-monitoring-nl",
+        "summary": "<p><strong>Interne monitoring</strong> zorgt voor een <strong>uitzonderlijk niveau van dienstverlening:</strong> een snelle reactie bij problemen versterkt het vertrouwen in de <strong>SaaS-diensten.</strong></p>",
+        "title": "De rol van interne monitoring bij SLA\u2019s"
+    },
+    "publication_date": "2023/09/06",
+    "title_fr": "Optimisation des SLA gr\u00e2ce au monitoring interne",
+    "title_nl": "De rol van interne monitoring bij SLA\u2019s"
+}

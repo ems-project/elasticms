@@ -8,7 +8,7 @@
         "title": "D\u00e9tails des releases"
     },
     "label": "D\u00e9tails des releases",
-    "menu": "0ad7d5d0-3bf0-4916-aeee-36efb9b20329",
+    "menu": "878fdaad-39b6-4441-b867-659e184c7f11",
     "nl": {
         "components": "[{\"id\":\"56aed2e9-25e3-47cd-bf15-c6484296ae69\",\"label\":\"Releases\",\"type\":\"hardcoded_block\",\"object\":{\"label\":\"Releases\",\"layout\":\"releases\"},\"children\":[]}]",
         "description": "<p>Elke release zorgt voor verbeteringen en nieuwe functionnaliteiten. Lees meer over de laatste releases.</p>",

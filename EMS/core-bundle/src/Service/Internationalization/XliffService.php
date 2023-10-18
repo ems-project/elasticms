@@ -13,6 +13,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Revision;
+use EMS\CoreBundle\Exception\XliffException;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Html\HtmlHelper;
 use EMS\Xliff\Xliff\Entity\InsertReport;
@@ -87,11 +88,12 @@ class XliffService
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $revision = $this->revisionService->getByRevisionId($insertionRevision->getRevisionId());
-        if ($currentRevisionOnly && !$revision->isCurrent()) {
+        if ($currentRevisionOnly && $revision->hasEndTime()) {
             $this->logger->warning('log.service.xliff.not_current_revision', [
                 'revision_id' => $insertionRevision->getRevisionId(),
                 'ouuid' => $revision->giveOuuid(),
             ]);
+            throw new XliffException('The source revision is not more the current revision of the document');
         }
         $targetLocale = $insertionRevision->getTargetLocale();
         if (null !== $translationField && null !== $localeField) {

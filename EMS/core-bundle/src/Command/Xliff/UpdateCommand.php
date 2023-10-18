@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Command\Xliff;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Environment;
+use EMS\CoreBundle\Exception\XliffException;
 use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\Internationalization\XliffService;
 use EMS\CoreBundle\Service\PublishService;
@@ -98,7 +99,12 @@ final class UpdateCommand extends AbstractCommand
                 $this->io->progressAdvance();
                 continue;
             }
-            $revision = $this->xliffService->insert($insertReport, $document, $this->localeField, $this->translationField, $this->publishTo, self::XLIFF_UPLOAD_COMMAND, $this->currentRevisionOnly);
+            try {
+                $revision = $this->xliffService->insert($insertReport, $document, $this->localeField, $this->translationField, $this->publishTo, self::XLIFF_UPLOAD_COMMAND, $this->currentRevisionOnly);
+            } catch (XliffException $e) {
+                $output->writeln(\sprintf('Update for %s:%s:%s failed :  %s', $document->getContentType(), $document->getOuuid(), $document->getRevisionId(), $e->getMessage()));
+                continue;
+            }
             if (null !== $this->publishTo) {
                 $this->publishService->publish($revision, $this->publishTo, self::XLIFF_UPLOAD_COMMAND);
             }

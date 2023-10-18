@@ -59,6 +59,12 @@
             <tag name="ems_common.storage.factory" alias="sftp"/>
         </service>
 
+        <service id="ems_common.storage.factory.api" class="EMS\CommonBundle\Storage\Factory\ApiFactory">
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.core_api.token_store" />
+            <tag name="ems_common.storage.factory" alias="api"/>
+        </service>
+
         <service id="EMS\CommonBundle\Storage\StorageManager" alias="ems_common.storage.manager" />
         <service id="EMS\CommonBundle\Storage\Processor\Processor" alias="ems_common.storage.processor" />
     </services>

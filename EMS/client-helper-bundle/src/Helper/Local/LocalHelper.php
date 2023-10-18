@@ -12,11 +12,9 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\Settings;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Environment\EnvironmentApi;
 use EMS\ClientHelperBundle\Helper\Local\Status\Status;
-use EMS\CommonBundle\Common\Standard\Hash;
+use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
-use Psr\Cache\CacheItemInterface;
-use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -25,7 +23,7 @@ final class LocalHelper
     private readonly ClientRequest $clientRequest;
 
     public function __construct(
-        private readonly CacheItemPoolInterface $cache,
+        private readonly TokenStore $tokenStore,
         ClientRequestManager $clientRequestManager,
         private readonly ContentTypeHelper $contentTypeHelper,
         private readonly Builders $builders,
@@ -40,10 +38,9 @@ final class LocalHelper
     {
         $coreApi = $this->environmentApi->api($environment);
         $coreApi->setLogger($this->logger);
-
-        $cacheToken = $this->apiCacheToken($coreApi);
-        if ($cacheToken->isHit()) {
-            $coreApi->setToken($cacheToken->get());
+        $token = $this->tokenStore->getToken($coreApi->getBaseUrl());
+        if (null !== $token) {
+            $coreApi->setToken($token);
         }
 
         return $coreApi;
@@ -71,8 +68,7 @@ final class LocalHelper
     {
         $coreApi = $this->environmentApi->login($environment, $username, $password);
         $coreApi->setLogger($this->logger);
-
-        $this->cache->save($this->apiCacheToken($coreApi)->set($coreApi->getToken()));
+        $this->tokenStore->saveToken($coreApi->getBaseUrl(), $coreApi->getToken());
 
         return $coreApi;
     }
@@ -122,11 +118,6 @@ final class LocalHelper
             $this->statusTemplating($environment, $settings),
             $this->statusRouting($environment, $settings),
         ];
-    }
-
-    private function apiCacheToken(CoreApiInterface $coreApi): CacheItemInterface
-    {
-        return $this->cache->getItem(Hash::string($coreApi->getBaseUrl(), 'token_'));
     }
 
     private function statusRouting(Environment $environment, Settings $settings): Status

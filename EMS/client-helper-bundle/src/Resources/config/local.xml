@@ -10,7 +10,7 @@
             <argument>%emsch.local.path%</argument>
         </service>
         <service id="emsch.helper.local" class="EMS\ClientHelperBundle\Helper\Local\LocalHelper">
-            <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
+            <argument type="service" id="ems_common.core_api.token_store" />
             <argument type="service" id="emsch.manager.client_request" />
             <argument type="service" id="emsch.helper_content_type" />
             <argument type="service" id="emsch.helper.builders" />

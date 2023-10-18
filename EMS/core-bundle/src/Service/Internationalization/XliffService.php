@@ -93,7 +93,7 @@ class XliffService
                 'revision_id' => $insertionRevision->getRevisionId(),
                 'ouuid' => $revision->giveOuuid(),
             ]);
-            throw new XliffException('The source revision is not more the current revision of the document');
+            throw new XliffException($insertionRevision, 'The source revision is not more the current revision of the document');
         }
         $targetLocale = $insertionRevision->getTargetLocale();
         if (null !== $translationField && null !== $localeField) {

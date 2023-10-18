@@ -88,7 +88,7 @@ class XliffService
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $revision = $this->revisionService->getByRevisionId($insertionRevision->getRevisionId());
-        if ($currentRevisionOnly && $revision->hasEndTime()) {
+        if ($currentRevisionOnly && !$revision->isCurrent()) {
             $this->logger->warning('log.service.xliff.not_current_revision', [
                 'revision_id' => $insertionRevision->getRevisionId(),
                 'ouuid' => $revision->giveOuuid(),

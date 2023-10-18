@@ -83,10 +83,16 @@ class XliffService
         }
     }
 
-    public function insert(InsertReport $insertReport, InsertionRevision $insertionRevision, ?string $localeField, ?string $translationField, ?Environment $publishAndArchive, string $username = null): Revision
+    public function insert(InsertReport $insertReport, InsertionRevision $insertionRevision, ?string $localeField, ?string $translationField, ?Environment $publishAndArchive, string $username = null, bool $currentRevisionOnly = false): Revision
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $revision = $this->revisionService->getByRevisionId($insertionRevision->getRevisionId());
+        if ($currentRevisionOnly && !$revision->isCurrent()) {
+            $this->logger->warning('log.service.xliff.not_current_revision', [
+                'revision_id' => $insertionRevision->getRevisionId(),
+                'ouuid' => $revision->giveOuuid(),
+            ]);
+        }
         $targetLocale = $insertionRevision->getTargetLocale();
         if (null !== $translationField && null !== $localeField) {
             $target = $this->getTargetDocument(

@@ -1,5 +1,19 @@
 # Changelog 5.x
 
+## 5.10.1 (2023-10-20)
+### Features
+* feat(admin): xliff export mail and currentRevisionOnly import by @theus77 in https://github.com/ems-project/elasticms/pull/643
+* feat(admin/unpublish): db revisions not updated by @Davidmattei in https://github.com/ems-project/elasticms/pull/632
+### Bug Fixes
+* fix(admin/jmn): form locale and on jmn component by @Davidmattei in https://github.com/ems-project/elasticms/pull/642
+* fix(admin/jmn): link fieldType needs environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/640
+* fix(admin/jmn): spaces in template by @Davidmattei in https://github.com/ems-project/elasticms/pull/645
+* fix(admin/job): support ansi chars by @theus77 in https://github.com/ems-project/elasticms/pull/623
+* fix(admin/mediaLib): template modal not found by @Davidmattei in https://github.com/ems-project/elasticms/pull/626
+* fix(admin/revisions): draft counter and dataTable not the same by @Davidmattei in https://github.com/ems-project/elasticms/pull/620
+* fix(admin/user): ignore empty string as valid Custom User Form by @theus77 in https://github.com/ems-project/elasticms/pull/644
+* fix(cli): back to first character by @theus77 in https://github.com/ems-project/elasticms/pull/622
+
 ## 5.10.0 (2023-09-25)
 ### Features
 * feat(cli): cache tika by @theus77 in https://github.com/ems-project/elasticms/pull/614

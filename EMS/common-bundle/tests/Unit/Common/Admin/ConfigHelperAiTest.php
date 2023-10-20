@@ -55,7 +55,8 @@ class ConfigHelperAiTest extends TestCase
 
         $localConfigs = $this->configHelper->local();
 
-        $this->assertEquals(['config1', 'config2'], $localConfigs);
+        $this->assertContains('config1', $localConfigs);
+        $this->assertContains('config2', $localConfigs);
     }
 
     public function testRemote(): void

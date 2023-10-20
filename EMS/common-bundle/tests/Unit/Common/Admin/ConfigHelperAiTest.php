@@ -49,6 +49,7 @@ class ConfigHelperAiTest extends TestCase
 
     public function testLocal(): void
     {
+        \array_map('unlink', \glob("$this->tempDir/*.*"));
         \touch($this->tempDir.DIRECTORY_SEPARATOR.'config1.json');
         \touch($this->tempDir.DIRECTORY_SEPARATOR.'config2.json');
 

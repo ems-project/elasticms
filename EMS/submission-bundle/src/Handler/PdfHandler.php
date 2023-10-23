@@ -24,7 +24,7 @@ final class PdfHandler extends AbstractHandler
     {
         try {
             $endpoint = $this->twigRenderer->renderEndpointJSON($handleRequest);
-            $html = $this->twigRenderer->renderMessageBlock($handleRequest, 'pdfHtml') ?? '';
+            $html = $this->twigRenderer->renderMessageBlock($handleRequest, 'pdfHtml') ?? $handleRequest->getMessage();
 
             $pdfRequest = new PdfRequest($endpoint, $html);
             $pdfOutput = $this->pdfPrinter->getPdfOutput($pdfRequest->getPdf(), $pdfRequest->getPdfOptions());

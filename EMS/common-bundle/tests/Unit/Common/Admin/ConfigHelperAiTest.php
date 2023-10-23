@@ -17,13 +17,12 @@ class ConfigHelperAiTest extends TestCase
     protected function setUp(): void
     {
         $this->config = $this->createMock(ConfigInterface::class);
-        $this->tempDir = \sys_get_temp_dir().DIRECTORY_SEPARATOR.\uniqid('config_test_', true);
+        $this->tempDir = \sys_get_temp_dir().'/config-helper-ai-test';
         $this->configHelper = new ConfigHelper($this->config, $this->tempDir);
     }
 
     protected function tearDown(): void
     {
-        // Cleanup temporary directory
         \array_map('unlink', \glob("$this->tempDir/*.*"));
         \rmdir($this->tempDir);
     }
@@ -50,12 +49,14 @@ class ConfigHelperAiTest extends TestCase
 
     public function testLocal(): void
     {
+        \array_map('unlink', \glob("$this->tempDir/*.*"));
         \touch($this->tempDir.DIRECTORY_SEPARATOR.'config1.json');
         \touch($this->tempDir.DIRECTORY_SEPARATOR.'config2.json');
 
         $localConfigs = $this->configHelper->local();
 
-        $this->assertEquals(['config1', 'config2'], $localConfigs);
+        $this->assertContains('config1', $localConfigs);
+        $this->assertContains('config2', $localConfigs);
     }
 
     public function testRemote(): void

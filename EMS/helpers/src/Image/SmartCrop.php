@@ -300,24 +300,20 @@ class SmartCrop
     }
 
     /**
-     * Score a crop scheme.
-     *
-     * @param  array $output
-     * @param  array $crop
-     * @return array
+     * @param \SplFixedArray<float> $output
+     * @param array{x: int, y: int, width: int, height: int} $crop
+     * @return array{detail: int, saturation: float, skin: float, boost: int, total: float}
      */
-    public function score($output, $crop)
+    public function score(\SplFixedArray $output, array $crop)
     {
         $result = [
             'detail' => 0,
             'saturation' => 0,
             'skin' => 0,
             'boost' => 0,
-            'total' => 0,
         ];
 
         $downSample = $this->options['scoreDownSample'];
-        $invDownSample = 1 / $downSample;
         $outputHeightDownSample = \floor($this->h / $downSample) * $downSample;
         $outputWidthDownSample = \floor($this->w / $downSample) * $downSample;
         $outputWidth = \floor($this->w / $downSample);
@@ -325,7 +321,7 @@ class SmartCrop
         for ($y = 0; $y < $outputHeightDownSample; $y += $downSample) {
             for ($x = 0; $x < $outputWidthDownSample; $x += $downSample) {
                 $i = $this->importance($crop, $x, $y);
-                $p = \floor($y / $downSample) * $outputWidth * 4 + \floor($x / $downSample) * 4;
+                $p = (int) (\floor($y / $downSample) * $outputWidth * 4 + \floor($x / $downSample) * 4);
                 $detail = $output[$p + 1] / 255;
 
                 $result['skin'] += $output[$p] / 255 * ($detail + $this->options['skinBias']) * $i;
@@ -340,12 +336,9 @@ class SmartCrop
     }
 
     /**
-     * @param  array        $crop
-     * @param  int          $x
-     * @param  int          $y
-     * @return float|number
+     * @param array{x: int, y: int, width: int, height: int} $crop
      */
-    public function importance($crop, $x, $y)
+    public function importance(array $crop, int $x, int $y): float
     {
         if ($crop['x'] > $x || $x >= $crop['x'] + $crop['width'] || $crop['y'] > $y || $y > $crop['y'] + $crop['height']) {
             return $this->options['outsideImportance'];
@@ -365,23 +358,14 @@ class SmartCrop
         return $s + $d;
     }
 
-    /**
-     * @param  int   $x
-     * @return float
-     */
-    public function thirds($x)
+    public function thirds(float $x): float
     {
         $x = (($x - (1 / 3) + 1.0) % 2.0 * 0.5 - 0.5) * 16;
 
         return \max(1.0 - $x * $x, 0.0);
     }
 
-    /**
-     * @param  int   $x
-     * @param  int   $y
-     * @return float
-     */
-    public function sample($x, $y)
+    public function sample(int $x, int $y): float
     {
         $p = $y * $this->w + $x;
         if (isset($this->aSample[$p])) {
@@ -395,11 +379,9 @@ class SmartCrop
     }
 
     /**
-     * @param  int   $x
-     * @param  int   $y
-     * @return float
+     * @return int[]
      */
-    public function getRgbColorAt($x, $y)
+    public function getRgbColorAt(int $x, int $y): array
     {
         $rgb = \imagecolorat($this->oImg, $x, $y);
 
@@ -410,24 +392,12 @@ class SmartCrop
         ];
     }
 
-    /**
-     * @param  int   $r
-     * @param  int   $g
-     * @param  int   $b
-     * @return float
-     */
-    public function cie($r, $g, $b)
+    public function cie(int $r, int $g, int $b): float
     {
         return 0.5126 * $b + 0.7152 * $g + 0.0722 * $r;
     }
 
-    /**
-     * @param  int   $r
-     * @param  int   $g
-     * @param  int   $b
-     * @return float
-     */
-    public function skinColor($r, $g, $b)
+    public function skinColor(int $r, int $g, int $b): float
     {
         $mag = \sqrt($r * $r + $g * $g + $b * $b);
         $mag = $mag > 0 ? $mag : 1;
@@ -439,13 +409,7 @@ class SmartCrop
         return 1 - $d;
     }
 
-    /**
-     * @param  int   $r
-     * @param  int   $g
-     * @param  int   $b
-     * @return float
-     */
-    public function saturation($r, $g, $b)
+    public function saturation(int $r, int $g, int $b): float
     {
         $maximum = \max($r / 255, $g / 255, $b / 255);
         $minimum = \min($r / 255, $g / 255, $b / 255);
@@ -483,10 +447,7 @@ class SmartCrop
         return $this;
     }
 
-    /**
-     * Get canvas.
-     */
-    public function get()
+    public function get(): \GdImage
     {
         return $this->oImg;
     }

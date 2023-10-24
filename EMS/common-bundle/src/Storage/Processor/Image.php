@@ -145,9 +145,13 @@ class Image
         if ('smartCrop' === $resize) {
             $smartCrop = new SmartCrop($image, $width, $height);
             $res = $smartCrop->analyse();
-            $smartCrop->crop($res['topCrop']['x'], $res['topCrop']['y'], $res['topCrop']['width'], $res['topCrop']['height']);
+            if (null === $res['topCrop']) {
+                $resize = 'fillArea';
+            } else {
+                $smartCrop->crop($res['topCrop']['x'], $res['topCrop']['y'], $res['topCrop']['width'], $res['topCrop']['height']);
 
-            return $smartCrop->get();
+                return $smartCrop->get();
+            }
         }
 
         $temp = $this->imageCreate($width, $height);

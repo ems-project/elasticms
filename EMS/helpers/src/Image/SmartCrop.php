@@ -88,32 +88,21 @@ class SmartCrop
         return $this;
     }
 
-    /**
-     * Function for scale image.
-     *
-     * @param  int                    $width
-     * @param  int                    $height
-     * @return \xymak\image\smartcrop
-     */
-    public function canvasImageResample($width, $height)
+    public function canvasImageResample(int $width, int $height): self
     {
-        $oCanvas = \imagecreatetruecolor($width, $height);
-
-        \imagealphablending($oCanvas, false);
-        \imagesavealpha($oCanvas, true);
-
-        \imagecopyresampled($oCanvas, $this->oImg, 0, 0, 0, 0, $width, $height, \imagesx($this->oImg), \imagesy($this->oImg));
-        $this->oImg = $oCanvas;
+        $canvas = \imagecreatetruecolor($width, $height);
+        \imagealphablending($canvas, false);
+        \imagesavealpha($canvas, true);
+        \imagecopyresampled($canvas, $this->oImg, 0, 0, 0, 0, $width, $height, \imagesx($this->oImg), \imagesy($this->oImg));
+        $this->oImg = $canvas;
 
         return $this;
     }
 
     /**
-     * Analyse the image, find out the optimal crop scheme.
-     *
-     * @return array
+     * @return array{topCrop: array|null}
      */
-    public function analyse()
+    public function analyse(): array
     {
         $result = [];
         $w = $this->w = \imagesx($this->oImg);
@@ -157,10 +146,9 @@ class SmartCrop
     }
 
     /**
-     * @param  int            $factor
-     * @return \SplFixedArray
+     * @return \SplFixedArray<float>
      */
-    public function downSample($factor)
+    public function downSample(int $factor): \SplFixedArray
     {
         $width = (int) \floor($this->w / $factor);
         $height = (int) \floor($this->h / $factor);
@@ -207,14 +195,7 @@ class SmartCrop
         return $data;
     }
 
-    /**
-     * @param  int $x
-     * @param  int $y
-     * @param  int $w
-     * @param  int $h
-     * @return int
-     */
-    public function edgeDetect($x, $y, $w, $h)
+    public function edgeDetect(int $x, int $y, int $w, int $h): int
     {
         if (0 === $x || $x >= $w - 1 || 0 === $y || $y >= $h - 1) {
             $lightness = $this->sample($x, $y);
@@ -227,55 +208,39 @@ class SmartCrop
             $lightness = $centerLightness * 4 - $leftLightness - $rightLightness - $topLightness - $bottomLightness;
         }
 
-        return \round($lightness, 0, PHP_ROUND_HALF_EVEN);
+        return (int) \round($lightness, 0, PHP_ROUND_HALF_EVEN);
     }
 
-    /**
-     * @param  int   $r
-     * @param  int   $g
-     * @param  int   $b
-     * @param  float $lightness
-     * @return int
-     */
-    public function skinDetect($r, $g, $b, $lightness)
+    public function skinDetect(int $r, int $g, int $b, float $lightness): int
     {
         $lightness = $lightness / 255;
         $skin = $this->skinColor($r, $g, $b);
         $isSkinColor = $skin > $this->options['skinThreshold'];
         $isSkinBrightness = $lightness > $this->options['skinBrightnessMin'] && $lightness <= $this->options['skinBrightnessMax'];
         if ($isSkinColor && $isSkinBrightness) {
-            return \round(($skin - $this->options['skinThreshold']) * (255 / (1 - $this->options['skinThreshold'])), 0, PHP_ROUND_HALF_EVEN);
+            return (int) \round(($skin - $this->options['skinThreshold']) * (255 / (1 - $this->options['skinThreshold'])), 0, PHP_ROUND_HALF_EVEN);
         } else {
             return 0;
         }
     }
 
-    /**
-     * @param  int $r
-     * @param  int $g
-     * @param  int $b
-     * @param  int $lightness
-     * @return int
-     */
-    public function saturationDetect($r, $g, $b, $lightness)
+    public function saturationDetect(int $r, int $g, int $b, float $lightness): int
     {
         $lightness = $lightness / 255;
         $sat = $this->saturation($r, $g, $b);
         $acceptableSaturation = $sat > $this->options['saturationThreshold'];
         $acceptableLightness = $lightness >= $this->options['saturationBrightnessMin'] && $lightness <= $this->options['saturationBrightnessMax'];
         if ($acceptableLightness && $acceptableSaturation) {
-            return \round(($sat - $this->options['saturationThreshold']) * (255 / (1 - $this->options['saturationThreshold'])), 0, PHP_ROUND_HALF_EVEN);
+            return (int) \round(($sat - $this->options['saturationThreshold']) * (255 / (1 - $this->options['saturationThreshold'])), 0, PHP_ROUND_HALF_EVEN);
         } else {
             return 0;
         }
     }
 
     /**
-     * Generate crop schemes.
-     *
-     * @return array
+     * @return array<array{x: int, y: int, width: int, height: int}>
      */
-    public function generateCrops()
+    public function generateCrops(): array
     {
         $w = \imagesx($this->oImg);
         $h = \imagesy($this->oImg);
@@ -300,8 +265,8 @@ class SmartCrop
     }
 
     /**
-     * @param \SplFixedArray<float> $output
-     * @param array{x: int, y: int, width: int, height: int} $crop
+     * @param  \SplFixedArray<float>                                                        $output
+     * @param  array{x: int, y: int, width: int, height: int}                               $crop
      * @return array{detail: int, saturation: float, skin: float, boost: int, total: float}
      */
     public function score(\SplFixedArray $output, array $crop)

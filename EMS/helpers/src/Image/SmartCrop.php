@@ -46,15 +46,15 @@ class SmartCrop
     private int $h = 0;
     private int $w = 0;
 
-    public function __construct(private \GdImage $oImg, private readonly int $width, private readonly int $height)
+    public function __construct(private \GdImage $image, private readonly int $width, private readonly int $height)
     {
         $this->canvasImageScale();
     }
 
     private function canvasImageScale(): void
     {
-        $imageOriginalWidth = \imagesx($this->oImg);
-        $imageOriginalHeight = \imagesy($this->oImg);
+        $imageOriginalWidth = \imagesx($this->image);
+        $imageOriginalHeight = \imagesy($this->image);
 
         if ($this->debug) {
             if ($imageOriginalWidth >= $this->width) {
@@ -87,8 +87,8 @@ class SmartCrop
         $canvas = Type::gdImage(\imagecreatetruecolor($width, $height));
         \imagealphablending($canvas, false);
         \imagesavealpha($canvas, true);
-        \imagecopyresampled($canvas, $this->oImg, 0, 0, 0, 0, $width, $height, \imagesx($this->oImg), \imagesy($this->oImg));
-        $this->oImg = $canvas;
+        \imagecopyresampled($canvas, $this->image, 0, 0, 0, 0, $width, $height, \imagesx($this->image), \imagesy($this->image));
+        $this->image = $canvas;
     }
 
     /**
@@ -97,8 +97,8 @@ class SmartCrop
     public function analyse(): array
     {
         $result = [];
-        $w = $this->w = \imagesx($this->oImg);
-        $h = $this->h = \imagesy($this->oImg);
+        $w = $this->w = \imagesx($this->image);
+        $h = $this->h = \imagesy($this->image);
 
         $this->od = new \SplFixedArray($h * $w * 3);
         $this->aSample = new \SplFixedArray($h * $w);
@@ -233,8 +233,8 @@ class SmartCrop
      */
     private function generateCrops(): array
     {
-        $w = \imagesx($this->oImg);
-        $h = \imagesy($this->oImg);
+        $w = \imagesx($this->image);
+        $h = \imagesy($this->image);
         $results = [];
         $minDimension = \min($w, $h);
         $cropWidth = empty($this->cropWidth) ? $minDimension : $this->cropWidth;
@@ -339,7 +339,7 @@ class SmartCrop
      */
     private function getRgbColorAt(int $x, int $y): array
     {
-        $rgb = \imagecolorat($this->oImg, $x, $y);
+        $rgb = \imagecolorat($this->image, $x, $y);
 
         return [
             $rgb >> 16,
@@ -392,19 +392,17 @@ class SmartCrop
 
     public function crop(int $x, int $y, int $width, int $height): self
     {
-        $oCanvas = Type::gdImage(\imagecreatetruecolor($width, $height));
-
-        \imagealphablending($oCanvas, false);
-        \imagesavealpha($oCanvas, true);
-
-        \imagecopyresampled($oCanvas, $this->oImg, 0, 0, $x, $y, $width, $height, $width, $height);
-        $this->oImg = $oCanvas;
+        $canvas = Type::gdImage(\imagecreatetruecolor($width, $height));
+        \imagealphablending($canvas, false);
+        \imagesavealpha($canvas, true);
+        \imagecopyresampled($canvas, $this->image, 0, 0, $x, $y, $width, $height, $width, $height);
+        $this->image = $canvas;
 
         return $this;
     }
 
     public function get(): \GdImage
     {
-        return $this->oImg;
+        return $this->image;
     }
 }

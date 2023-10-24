@@ -8,7 +8,7 @@ use EMS\Helpers\Standard\Type;
 
 class SmartCrop
 {
-    public array $options = [
+    private array $options = [
         'cropWidth' => 0,
         'cropHeight' => 0,
         'detailWeight' => 0.2,
@@ -42,18 +42,18 @@ class SmartCrop
         'canvasFactory' => 'defaultCanvasFactory',
         'debug' => false,
     ];
-    public $scale = 1;
-    public $od = [];
-    public $aSample = [];
-    public $h = 0;
-    public $w = 0;
+    private $scale = 1;
+    private $od = [];
+    private $aSample = [];
+    private $h = 0;
+    private $w = 0;
 
     public function __construct(private \GdImage $oImg, private readonly int $width, private readonly int $height)
     {
         $this->canvasImageScale();
     }
 
-    public function canvasImageScale(): self
+    private function canvasImageScale(): self
     {
         $imageOriginalWidth = \imagesx($this->oImg);
         $imageOriginalHeight = \imagesy($this->oImg);
@@ -88,7 +88,7 @@ class SmartCrop
         return $this;
     }
 
-    public function canvasImageResample(int $width, int $height): self
+    private function canvasImageResample(int $width, int $height): self
     {
         $canvas = Type::gdImage(\imagecreatetruecolor($width, $height));
         \imagealphablending($canvas, false);
@@ -148,7 +148,7 @@ class SmartCrop
     /**
      * @return \SplFixedArray<float>
      */
-    public function downSample(int $factor): \SplFixedArray
+    private function downSample(int $factor): \SplFixedArray
     {
         $width = (int) \floor($this->w / $factor);
         $height = (int) \floor($this->h / $factor);
@@ -195,7 +195,7 @@ class SmartCrop
         return $data;
     }
 
-    public function edgeDetect(int $x, int $y, int $w, int $h): int
+    private function edgeDetect(int $x, int $y, int $w, int $h): int
     {
         if (0 === $x || $x >= $w - 1 || 0 === $y || $y >= $h - 1) {
             $lightness = $this->sample($x, $y);
@@ -211,7 +211,7 @@ class SmartCrop
         return (int) \round($lightness, 0, PHP_ROUND_HALF_EVEN);
     }
 
-    public function skinDetect(int $r, int $g, int $b, float $lightness): int
+    private function skinDetect(int $r, int $g, int $b, float $lightness): int
     {
         $lightness = $lightness / 255;
         $skin = $this->skinColor($r, $g, $b);
@@ -224,7 +224,7 @@ class SmartCrop
         }
     }
 
-    public function saturationDetect(int $r, int $g, int $b, float $lightness): int
+    private function saturationDetect(int $r, int $g, int $b, float $lightness): int
     {
         $lightness = $lightness / 255;
         $sat = $this->saturation($r, $g, $b);
@@ -240,7 +240,7 @@ class SmartCrop
     /**
      * @return array<array{x: int, y: int, width: int, height: int}>
      */
-    public function generateCrops(): array
+    private function generateCrops(): array
     {
         $w = \imagesx($this->oImg);
         $h = \imagesy($this->oImg);
@@ -269,7 +269,7 @@ class SmartCrop
      * @param  array{x: int, y: int, width: int, height: int}                               $crop
      * @return array{detail: int, saturation: float, skin: float, boost: int, total: float}
      */
-    public function score(\SplFixedArray $output, array $crop)
+    private function score(\SplFixedArray $output, array $crop)
     {
         $result = [
             'detail' => 0,
@@ -303,7 +303,7 @@ class SmartCrop
     /**
      * @param array{x: int, y: int, width: int, height: int} $crop
      */
-    public function importance(array $crop, int $x, int $y): float
+    private function importance(array $crop, int $x, int $y): float
     {
         if ($crop['x'] > $x || $x >= $crop['x'] + $crop['width'] || $crop['y'] > $y || $y > $crop['y'] + $crop['height']) {
             return $this->options['outsideImportance'];
@@ -323,14 +323,14 @@ class SmartCrop
         return $s + $d;
     }
 
-    public function thirds(float $x): float
+    private function thirds(float $x): float
     {
         $x = (($x - (1 / 3) + 1.0) % 2.0 * 0.5 - 0.5) * 16;
 
         return \max(1.0 - $x * $x, 0.0);
     }
 
-    public function sample(int $x, int $y): float
+    private function sample(int $x, int $y): float
     {
         $p = $y * $this->w + $x;
         if (isset($this->aSample[$p])) {
@@ -346,7 +346,7 @@ class SmartCrop
     /**
      * @return int[]
      */
-    public function getRgbColorAt(int $x, int $y): array
+    private function getRgbColorAt(int $x, int $y): array
     {
         $rgb = \imagecolorat($this->oImg, $x, $y);
 
@@ -357,12 +357,12 @@ class SmartCrop
         ];
     }
 
-    public function cie(int $r, int $g, int $b): float
+    private function cie(int $r, int $g, int $b): float
     {
         return 0.5126 * $b + 0.7152 * $g + 0.0722 * $r;
     }
 
-    public function skinColor(int $r, int $g, int $b): float
+    private function skinColor(int $r, int $g, int $b): float
     {
         $mag = \sqrt($r * $r + $g * $g + $b * $b);
         $mag = $mag > 0 ? $mag : 1;
@@ -374,7 +374,7 @@ class SmartCrop
         return 1 - $d;
     }
 
-    public function saturation(int $r, int $g, int $b): float
+    private function saturation(int $r, int $g, int $b): float
     {
         $maximum = \max($r / 255, $g / 255, $b / 255);
         $minimum = \min($r / 255, $g / 255, $b / 255);

@@ -9,8 +9,6 @@ use EMS\Helpers\Standard\Type;
 class SmartCrop
 {
     public $defaultOptions = [
-        'width' => 0,
-        'height' => 0,
         'cropWidth' => 0,
         'cropHeight' => 0,
         'detailWeight' => 0.2,
@@ -53,38 +51,33 @@ class SmartCrop
     public $h = 0;
     public $w = 0;
 
-    public function __construct(private \GdImage $oImg, $options)
+    public function __construct(private \GdImage $oImg, private readonly int $width, private readonly int $height)
     {
-        $this->options = \array_merge($this->defaultOptions, $options);
+        $this->options = $this->defaultOptions;
         $this->scale = 1;
         $this->prescale = 1;
 
         $this->canvasImageScale();
     }
 
-    /**
-     * Scale the image before smartcrop analyse.
-     *
-     * @return \xymak\image\smartcrop
-     */
-    public function canvasImageScale()
+    public function canvasImageScale(): self
     {
         $imageOriginalWidth = \imagesx($this->oImg);
         $imageOriginalHeight = \imagesy($this->oImg);
 
         if ($this->options['debug']) {
-            if ($imageOriginalWidth >= $this->options['width']) {
+            if ($imageOriginalWidth >= $this->width) {
                 exit('smartcrop: your set image width is greater than the original image width.');
             }
-            if ($imageOriginalHeight >= $this->options['height']) {
+            if ($imageOriginalHeight >= $this->height) {
                 exit('smartcrop: your set image height is greater than the original image height.');
             }
         }
 
-        $scale = \min($imageOriginalWidth / $this->options['width'], $imageOriginalHeight / $this->options['height']);
+        $scale = \min($imageOriginalWidth / $this->width, $imageOriginalHeight / $this->height);
 
-        $this->options['cropWidth'] = \floor($this->options['width'] * $scale);
-        $this->options['cropHeight'] = \floor($this->options['height'] * $scale);
+        $this->options['cropWidth'] = \floor($this->width * $scale);
+        $this->options['cropHeight'] = \floor($this->height * $scale);
 
         $this->options['minScale'] = \min($this->options['maxScale'], \max(1 / $scale, $this->options['minScale']));
 

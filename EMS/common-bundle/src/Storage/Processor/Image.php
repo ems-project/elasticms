@@ -143,10 +143,7 @@ class Image
     {
         $resize = $this->config->getResize();
         if ('smartCrop' === $resize) {
-            $smartCrop = new SmartCrop($image, [
-                'width' => $width,
-                'height' => $height,
-            ]);
+            $smartCrop = new SmartCrop($image, $width, $height);
             $res = $smartCrop->analyse();
             $smartCrop->crop($res['topCrop']['x'], $res['topCrop']['y'], $res['topCrop']['width'], $res['topCrop']['height']);
 

@@ -8,9 +8,9 @@ use EMS\Helpers\Standard\Type;
 
 class SmartCrop
 {
+    private int $cropWidth = 0;
+    private int $cropHeight = 0;
     private array $options = [
-        'cropWidth' => 0,
-        'cropHeight' => 0,
         'detailWeight' => 0.2,
         'skinColor' => [
             0.78,
@@ -71,8 +71,8 @@ class SmartCrop
 
         $scale = \min($imageOriginalWidth / $this->width, $imageOriginalHeight / $this->height);
 
-        $this->options['cropWidth'] = \floor($this->width * $scale);
-        $this->options['cropHeight'] = \floor($this->height * $scale);
+        $this->cropWidth = (int) \floor($this->width * $scale);
+        $this->cropHeight = (int) \floor($this->height * $scale);
 
         $this->options['minScale'] = \min($this->options['maxScale'], \max(1 / $scale, $this->options['minScale']));
 
@@ -80,8 +80,8 @@ class SmartCrop
             $this->preScale = 1 / $scale / $this->options['minScale'];
             if ($this->preScale < 1) {
                 $this->canvasImageResample((int) \ceil($imageOriginalWidth * $this->preScale), (int) \ceil($imageOriginalHeight * $this->preScale));
-                $this->options['cropWidth'] = \ceil($this->options['cropWidth'] * $this->preScale);
-                $this->options['cropHeight'] = \ceil($this->options['cropHeight'] * $this->preScale);
+                $this->cropWidth = (int) \ceil($this->cropWidth * $this->preScale);
+                $this->cropHeight = (int) \ceil($this->cropHeight * $this->preScale);
             } else {
                 $this->preScale = 1;
             }
@@ -141,7 +141,7 @@ class SmartCrop
             $result['crops'] = $crops;
             $result['debugOutput'] = $scoreOutput;
             $result['debugOptions'] = $this->options;
-            $result['debugTopCrop'] = \array_merge([], $result['topCrop']);
+            $result['debugTopCrop'] = $result['topCrop'];
         }
 
         return $result;
@@ -248,8 +248,8 @@ class SmartCrop
         $h = \imagesy($this->oImg);
         $results = [];
         $minDimension = \min($w, $h);
-        $cropWidth = empty($this->options['cropWidth']) ? $minDimension : $this->options['cropWidth'];
-        $cropHeight = empty($this->options['cropHeight']) ? $minDimension : $this->options['cropHeight'];
+        $cropWidth = empty($this->cropWidth) ? $minDimension : $this->cropWidth;
+        $cropHeight = empty($this->cropHeight) ? $minDimension : $this->cropHeight;
         for ($scale = $this->options['maxScale']; $scale >= $this->options['minScale']; $scale -= $this->options['scaleStep']) {
             for ($y = 0; $y + $cropHeight * $scale <= $h; $y += $this->options['step']) {
                 for ($x = 0; $x + $cropWidth * $scale <= $w; $x += $this->options['step']) {

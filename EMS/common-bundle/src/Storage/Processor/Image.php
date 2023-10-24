@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\Image\SmartCrop;
 use EMS\Helpers\Standard\Color;
 use Psr\Log\LoggerInterface;
 
@@ -140,11 +141,20 @@ class Image
 
     private function applyResizeAndBackground(\GdImage $image, int $width, int $height, int $originalWidth, int $originalHeight): \GdImage
     {
-        $temp = $this->imageCreate($width, $height);
-
-        $this->fillBackgroundColor($temp);
-
         $resize = $this->config->getResize();
+        if ('smartCrop' === $resize) {
+            $smartCrop = new SmartCrop($image, [
+                'width' => $width,
+                'height' => $height,
+            ]);
+            $res = $smartCrop->analyse();
+            $smartCrop->crop($res['topCrop']['x'], $res['topCrop']['y'], $res['topCrop']['width'], $res['topCrop']['height']);
+
+            return $smartCrop->get();
+        }
+
+        $temp = $this->imageCreate($width, $height);
+        $this->fillBackgroundColor($temp);
         $gravity = $this->config->getGravity();
 
         if ('fillArea' == $resize) {

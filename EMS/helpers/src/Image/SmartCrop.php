@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace EMS\Helpers\Image;
+
+use EMS\Helpers\Standard\Type;
+
 class SmartCrop
 {
     public $defaultOptions = [
@@ -45,16 +49,14 @@ class SmartCrop
     public $inputImage;
     public $scale;
     public $prescale;
-    public $oImg;
     public $od = [];
     public $aSample = [];
     public $h = 0;
     public $w = 0;
 
-    public function __construct($inputImage, $options)
+    public function __construct(private \GdImage $oImg, $options)
     {
         $this->options = \array_merge($this->defaultOptions, $options);
-        $this->inputImage = $inputImage;
 
         if ($this->options['aspect']) {
             $this->options['width'] = $this->options['aspect'];
@@ -64,31 +66,7 @@ class SmartCrop
         $this->scale = 1;
         $this->prescale = 1;
 
-        $this->canvasImageOpen($inputImage);
         $this->canvasImageScale();
-
-        return $this;
-    }
-
-    /**
-     * Convert a image to gd resource.
-     *
-     * @param  string                 $image
-     * @return \xymak\image\smartcrop
-     */
-    public function canvasImageOpen($image)
-    {
-        if (empty($image)) {
-            return false;
-        }
-
-        if (!\is_string($image) && 'gd' === \get_resource_type($image)) {
-            $this->oImg = $image;
-        } else {
-            $this->oImg = \imagecreatefromstring(\file_get_contents($image));
-        }
-
-        return $this;
     }
 
     /**
@@ -120,7 +98,7 @@ class SmartCrop
         if (false !== $this->options['prescale']) {
             $this->preScale = 1 / $scale / $this->options['minScale'];
             if ($this->preScale < 1) {
-                $this->canvasImageResample(\ceil($imageOriginalWidth * $this->preScale), \ceil($imageOriginalHeight * $this->preScale));
+                $this->canvasImageResample((int) \ceil($imageOriginalWidth * $this->preScale), (int) \ceil($imageOriginalHeight * $this->preScale));
                 $this->options['cropWidth'] = \ceil($this->options['cropWidth'] * $this->preScale);
                 $this->options['cropHeight'] = \ceil($this->options['cropHeight'] * $this->preScale);
             } else {
@@ -205,8 +183,8 @@ class SmartCrop
      */
     public function downSample($factor)
     {
-        $width = \floor($this->w / $factor);
-        $height = \floor($this->h / $factor);
+        $width = (int) \floor($this->w / $factor);
+        $height = (int) \floor($this->h / $factor);
 
         $ifactor2 = 1 / ($factor * $factor);
 
@@ -332,8 +310,8 @@ class SmartCrop
                     $results[] = [
                         'x' => $x,
                         'y' => $y,
-                        'width' => $cropWidth * $scale,
-                        'height' => $cropHeight * $scale,
+                        'width' => (int) ($cropWidth * $scale),
+                        'height' => (int) ($cropHeight * $scale),
                     ];
                 }
             }
@@ -513,18 +491,9 @@ class SmartCrop
         return $l > 0.5 ? $d / (2 - $maximum - $minimum) : $d / ($maximum + $minimum);
     }
 
-    /**
-     * Crop image.
-     *
-     * @param  int                    $x
-     * @param  int                    $y
-     * @param  int                    $width
-     * @param  int                    $height
-     * @return \xymak\image\smartcrop
-     */
-    public function crop($x, $y, $width, $height)
+    public function crop(int $x, int $y, int $width, int $height): self
     {
-        $oCanvas = \imagecreatetruecolor($width, $height);
+        $oCanvas = Type::gdImage(\imagecreatetruecolor($width, $height));
 
         \imagealphablending($oCanvas, false);
         \imagesavealpha($oCanvas, true);

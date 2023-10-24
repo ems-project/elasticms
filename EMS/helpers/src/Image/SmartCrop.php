@@ -42,11 +42,13 @@ class SmartCrop
         'canvasFactory' => 'defaultCanvasFactory',
         'debug' => false,
     ];
-    private $scale = 1;
-    private $od = [];
-    private $aSample = [];
-    private $h = 0;
-    private $w = 0;
+    /** @var \SplFixedArray<int> */
+    private \SplFixedArray $od;
+    /** @var \SplFixedArray<float> */
+    private \SplFixedArray $aSample;
+    private int $h = 0;
+    private int $w = 0;
+    private float $preScale;
 
     public function __construct(private \GdImage $oImg, private readonly int $width, private readonly int $height)
     {
@@ -335,12 +337,12 @@ class SmartCrop
         $p = $y * $this->w + $x;
         if (isset($this->aSample[$p])) {
             return $this->aSample[$p];
-        } else {
-            $aRgbColor = $this->getRgbColorAt($x, $y);
-            $this->aSample[$p] = $this->cie($aRgbColor[0], $aRgbColor[1], $aRgbColor[2]);
-
-            return $this->aSample[$p];
         }
+        $aRgbColor = $this->getRgbColorAt($x, $y);
+        $sample = $this->cie($aRgbColor[0], $aRgbColor[1], $aRgbColor[2]);
+        $this->aSample[$p] = $sample;
+
+        return $sample;
     }
 
     /**

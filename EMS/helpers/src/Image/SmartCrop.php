@@ -8,7 +8,7 @@ use EMS\Helpers\Standard\Type;
 
 class SmartCrop
 {
-    public $defaultOptions = [
+    public array $options = [
         'cropWidth' => 0,
         'cropHeight' => 0,
         'detailWeight' => 0.2,
@@ -42,10 +42,7 @@ class SmartCrop
         'canvasFactory' => 'defaultCanvasFactory',
         'debug' => false,
     ];
-    public $options = [];
-    public $inputImage;
-    public $scale;
-    public $prescale;
+    public $scale = 1;
     public $od = [];
     public $aSample = [];
     public $h = 0;
@@ -53,10 +50,6 @@ class SmartCrop
 
     public function __construct(private \GdImage $oImg, private readonly int $width, private readonly int $height)
     {
-        $this->options = $this->defaultOptions;
-        $this->scale = 1;
-        $this->prescale = 1;
-
         $this->canvasImageScale();
     }
 
@@ -488,27 +481,6 @@ class SmartCrop
         $this->oImg = $oCanvas;
 
         return $this;
-    }
-
-    /**
-     * Output an image to standard output or to a file.
-     *
-     * @param string $filename
-     */
-    public function output($filename = null)
-    {
-        $image_mime = \image_type_to_mime_type(\exif_imagetype($this->inputImage));
-
-        if ('image/jpeg' === $image_mime) {
-            \header('Content-Type: image/jpeg');
-            \imagejpeg($this->oImg, $filename);
-        } elseif ('image/png' === $image_mime) {
-            \header('Content-Type: image/png');
-            \imagepng($this->oImg, $filename);
-        } elseif ('image/gif' === $image_mime) {
-            \header('Content-Type: image/gif');
-            \imagegif($this->oImg, $filename);
-        }
     }
 
     /**

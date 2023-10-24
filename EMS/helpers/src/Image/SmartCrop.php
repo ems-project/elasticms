@@ -90,7 +90,7 @@ class SmartCrop
 
     public function canvasImageResample(int $width, int $height): self
     {
-        $canvas = \imagecreatetruecolor($width, $height);
+        $canvas = Type::gdImage(\imagecreatetruecolor($width, $height));
         \imagealphablending($canvas, false);
         \imagesavealpha($canvas, true);
         \imagecopyresampled($canvas, $this->oImg, 0, 0, 0, 0, $width, $height, \imagesx($this->oImg), \imagesy($this->oImg));
@@ -100,7 +100,7 @@ class SmartCrop
     }
 
     /**
-     * @return array{topCrop: array|null}
+     * @return array{topCrop: array{x: int, y: int, width: int, height: int}|null}
      */
     public function analyse(): array
     {

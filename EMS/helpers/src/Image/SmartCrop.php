@@ -11,7 +11,6 @@ class SmartCrop
     public $defaultOptions = [
         'width' => 0,
         'height' => 0,
-        'aspect' => 0,
         'cropWidth' => 0,
         'cropHeight' => 0,
         'detailWeight' => 0.2,
@@ -57,12 +56,6 @@ class SmartCrop
     public function __construct(private \GdImage $oImg, $options)
     {
         $this->options = \array_merge($this->defaultOptions, $options);
-
-        if ($this->options['aspect']) {
-            $this->options['width'] = $this->options['aspect'];
-            $this->options['height'] = 1;
-        }
-
         $this->scale = 1;
         $this->prescale = 1;
 

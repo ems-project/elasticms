@@ -6,7 +6,7 @@
     <header>
         <div class="container-fluid container-xl">
             <nav class="navbar navbar-expand-xl navbar-light" data-active-message="{{ 'aria.navbar.active-item'|trans }}">
-                <a class="navbar-brand" href="{{ path('emsch_path') }}" id="logo">
+                <a class="navbar-brand" href="{{ path("emsch_path.#{app.request.locale}") }}" id="logo">
                     <img src="{{ asset("img/logos/full-logo.svg", 'emsch') }}" width="181" height="46" alt="{{ 'site.name'|trans }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

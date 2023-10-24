@@ -10,57 +10,53 @@ class SmartCrop
 {
     private int $cropWidth = 0;
     private int $cropHeight = 0;
-    private array $options = [
-        'detailWeight' => 0.2,
-        'skinColor' => [
-            0.78,
-            0.57,
-            0.44,
-        ],
-        'skinBias' => 0.01,
-        'skinBrightnessMin' => 0.2,
-        'skinBrightnessMax' => 1.0,
-        'skinThreshold' => 0.8,
-        'skinWeight' => 1.8,
-        'saturationBrightnessMin' => 0.05,
-        'saturationBrightnessMax' => 0.9,
-        'saturationThreshold' => 0.4,
-        'saturationBias' => 0.2,
-        'saturationWeight' => 0.3,
-        'scoreDownSample' => 8,
-        'step' => 8,
-        'scaleStep' => 0.1,
-        'minScale' => 1.0,
-        'maxScale' => 1.0,
-        'edgeRadius' => 0.4,
-        'edgeWeight' => -20.0,
-        'outsideImportance' => -0.5,
-        'boostWeight' => 100.0,
-        'ruleOfThirds' => true,
-        'prescale' => true,
-        'imageOperations' => null,
-        'canvasFactory' => 'defaultCanvasFactory',
-        'debug' => false,
+    private float $detailWeight = 0.2;
+    /** @var float[] */
+    private array $skinColor = [
+        0.78,
+        0.57,
+        0.44,
     ];
+    private float $skinBias = 0.01;
+    private float $skinBrightnessMin = 0.2;
+    private float $skinBrightnessMax = 1.0;
+    private float $skinThreshold = 0.8;
+    private float $skinWeight = 1.8;
+    private float $saturationBrightnessMin = 0.05;
+    private float $saturationBrightnessMax = 0.9;
+    private float $saturationThreshold = 0.4;
+    private float $saturationBias = 0.2;
+    private float $saturationWeight = 0.3;
+    private int $scoreDownSample = 8;
+    private int $step = 8;
+    private float $scaleStep = 0.1;
+    private float $minScale = 1.0;
+    private float $maxScale = 1.0;
+    private float $edgeRadius = 0.4;
+    private float $edgeWeight = -20.0;
+    private float $outsideImportance = -0.5;
+    private float $boostWeight = 100.0;
+    private bool $ruleOfThirds = true;
+    private bool $prescale = true;
+    private bool $debug = false;
     /** @var \SplFixedArray<int> */
     private \SplFixedArray $od;
     /** @var \SplFixedArray<float> */
     private \SplFixedArray $aSample;
     private int $h = 0;
     private int $w = 0;
-    private float $preScale;
 
     public function __construct(private \GdImage $oImg, private readonly int $width, private readonly int $height)
     {
         $this->canvasImageScale();
     }
 
-    private function canvasImageScale(): self
+    private function canvasImageScale(): void
     {
         $imageOriginalWidth = \imagesx($this->oImg);
         $imageOriginalHeight = \imagesy($this->oImg);
 
-        if ($this->options['debug']) {
+        if ($this->debug) {
             if ($imageOriginalWidth >= $this->width) {
                 exit('smartcrop: your set image width is greater than the original image width.');
             }
@@ -74,31 +70,25 @@ class SmartCrop
         $this->cropWidth = (int) \floor($this->width * $scale);
         $this->cropHeight = (int) \floor($this->height * $scale);
 
-        $this->options['minScale'] = \min($this->options['maxScale'], \max(1 / $scale, $this->options['minScale']));
+        $this->minScale = \min($this->maxScale, \max(1 / $scale, $this->minScale));
 
-        if (false !== $this->options['prescale']) {
-            $this->preScale = 1 / $scale / $this->options['minScale'];
-            if ($this->preScale < 1) {
-                $this->canvasImageResample((int) \ceil($imageOriginalWidth * $this->preScale), (int) \ceil($imageOriginalHeight * $this->preScale));
-                $this->cropWidth = (int) \ceil($this->cropWidth * $this->preScale);
-                $this->cropHeight = (int) \ceil($this->cropHeight * $this->preScale);
-            } else {
-                $this->preScale = 1;
+        if ($this->prescale) {
+            $preScale = 1 / $scale / $this->minScale;
+            if ($preScale < 1) {
+                $this->canvasImageResample((int) \ceil($imageOriginalWidth * $preScale), (int) \ceil($imageOriginalHeight * $preScale));
+                $this->cropWidth = (int) \ceil($this->cropWidth * $preScale);
+                $this->cropHeight = (int) \ceil($this->cropHeight * $preScale);
             }
         }
-
-        return $this;
     }
 
-    private function canvasImageResample(int $width, int $height): self
+    private function canvasImageResample(int $width, int $height): void
     {
         $canvas = Type::gdImage(\imagecreatetruecolor($width, $height));
         \imagealphablending($canvas, false);
         \imagesavealpha($canvas, true);
         \imagecopyresampled($canvas, $this->oImg, 0, 0, 0, 0, $width, $height, \imagesx($this->oImg), \imagesy($this->oImg));
         $this->oImg = $canvas;
-
-        return $this;
     }
 
     /**
@@ -122,7 +112,7 @@ class SmartCrop
             }
         }
 
-        $scoreOutput = $this->downSample($this->options['scoreDownSample']);
+        $scoreOutput = $this->downSample($this->scoreDownSample);
         $topScore = -INF;
         $topCrop = null;
         $crops = $this->generateCrops();
@@ -137,10 +127,9 @@ class SmartCrop
 
         $result['topCrop'] = $topCrop;
 
-        if ($this->options['debug'] && $topCrop) {
+        if ($this->debug && $topCrop) {
             $result['crops'] = $crops;
             $result['debugOutput'] = $scoreOutput;
-            $result['debugOptions'] = $this->options;
             $result['debugTopCrop'] = $result['topCrop'];
         }
 
@@ -217,10 +206,10 @@ class SmartCrop
     {
         $lightness = $lightness / 255;
         $skin = $this->skinColor($r, $g, $b);
-        $isSkinColor = $skin > $this->options['skinThreshold'];
-        $isSkinBrightness = $lightness > $this->options['skinBrightnessMin'] && $lightness <= $this->options['skinBrightnessMax'];
+        $isSkinColor = $skin > $this->skinThreshold;
+        $isSkinBrightness = $lightness > $this->skinBrightnessMin && $lightness <= $this->skinBrightnessMax;
         if ($isSkinColor && $isSkinBrightness) {
-            return (int) \round(($skin - $this->options['skinThreshold']) * (255 / (1 - $this->options['skinThreshold'])), 0, PHP_ROUND_HALF_EVEN);
+            return (int) \round(($skin - $this->skinThreshold) * (255 / (1 - $this->skinThreshold)), 0, PHP_ROUND_HALF_EVEN);
         } else {
             return 0;
         }
@@ -230,10 +219,10 @@ class SmartCrop
     {
         $lightness = $lightness / 255;
         $sat = $this->saturation($r, $g, $b);
-        $acceptableSaturation = $sat > $this->options['saturationThreshold'];
-        $acceptableLightness = $lightness >= $this->options['saturationBrightnessMin'] && $lightness <= $this->options['saturationBrightnessMax'];
+        $acceptableSaturation = $sat > $this->saturationThreshold;
+        $acceptableLightness = $lightness >= $this->saturationBrightnessMin && $lightness <= $this->saturationBrightnessMax;
         if ($acceptableLightness && $acceptableSaturation) {
-            return (int) \round(($sat - $this->options['saturationThreshold']) * (255 / (1 - $this->options['saturationThreshold'])), 0, PHP_ROUND_HALF_EVEN);
+            return (int) \round(($sat - $this->saturationThreshold) * (255 / (1 - $this->saturationThreshold)), 0, PHP_ROUND_HALF_EVEN);
         } else {
             return 0;
         }
@@ -250,9 +239,9 @@ class SmartCrop
         $minDimension = \min($w, $h);
         $cropWidth = empty($this->cropWidth) ? $minDimension : $this->cropWidth;
         $cropHeight = empty($this->cropHeight) ? $minDimension : $this->cropHeight;
-        for ($scale = $this->options['maxScale']; $scale >= $this->options['minScale']; $scale -= $this->options['scaleStep']) {
-            for ($y = 0; $y + $cropHeight * $scale <= $h; $y += $this->options['step']) {
-                for ($x = 0; $x + $cropWidth * $scale <= $w; $x += $this->options['step']) {
+        for ($scale = $this->maxScale; $scale >= $this->minScale; $scale -= $this->scaleStep) {
+            for ($y = 0; $y + $cropHeight * $scale <= $h; $y += $this->step) {
+                for ($x = 0; $x + $cropWidth * $scale <= $w; $x += $this->step) {
                     $results[] = [
                         'x' => $x,
                         'y' => $y,
@@ -271,7 +260,7 @@ class SmartCrop
      * @param  array{x: int, y: int, width: int, height: int}                               $crop
      * @return array{detail: int, saturation: float, skin: float, boost: int, total: float}
      */
-    private function score(\SplFixedArray $output, array $crop)
+    private function score(\SplFixedArray $output, array $crop): array
     {
         $result = [
             'detail' => 0,
@@ -280,7 +269,7 @@ class SmartCrop
             'boost' => 0,
         ];
 
-        $downSample = $this->options['scoreDownSample'];
+        $downSample = $this->scoreDownSample;
         $outputHeightDownSample = \floor($this->h / $downSample) * $downSample;
         $outputWidthDownSample = \floor($this->w / $downSample) * $downSample;
         $outputWidth = \floor($this->w / $downSample);
@@ -291,13 +280,13 @@ class SmartCrop
                 $p = (int) (\floor($y / $downSample) * $outputWidth * 4 + \floor($x / $downSample) * 4);
                 $detail = $output[$p + 1] / 255;
 
-                $result['skin'] += $output[$p] / 255 * ($detail + $this->options['skinBias']) * $i;
-                $result['saturation'] += $output[$p + 2] / 255 * ($detail + $this->options['saturationBias']) * $i;
+                $result['skin'] += $output[$p] / 255 * ($detail + $this->skinBias) * $i;
+                $result['saturation'] += $output[$p + 2] / 255 * ($detail + $this->saturationBias) * $i;
                 $result['detail'] = $p;
             }
         }
 
-        $result['total'] = ($result['detail'] * $this->options['detailWeight'] + $result['skin'] * $this->options['skinWeight'] + $result['saturation'] * $this->options['saturationWeight'] + $result['boost'] * $this->options['boostWeight']) / ($crop['width'] * $crop['height']);
+        $result['total'] = ($result['detail'] * $this->detailWeight + $result['skin'] * $this->skinWeight + $result['saturation'] * $this->saturationWeight + $result['boost'] * $this->boostWeight) / ($crop['width'] * $crop['height']);
 
         return $result;
     }
@@ -308,17 +297,17 @@ class SmartCrop
     private function importance(array $crop, int $x, int $y): float
     {
         if ($crop['x'] > $x || $x >= $crop['x'] + $crop['width'] || $crop['y'] > $y || $y > $crop['y'] + $crop['height']) {
-            return $this->options['outsideImportance'];
+            return $this->outsideImportance;
         }
         $x = ($x - $crop['x']) / $crop['width'];
         $y = ($y - $crop['y']) / $crop['height'];
         $px = \abs(0.5 - $x) * 2;
         $py = \abs(0.5 - $y) * 2;
-        $dx = \max($px - 1.0 + $this->options['edgeRadius'], 0);
-        $dy = \max($py - 1.0 + $this->options['edgeRadius'], 0);
-        $d = ($dx * $dx + $dy * $dy) * $this->options['edgeWeight'];
+        $dx = \max($px - 1.0 + $this->edgeRadius, 0);
+        $dy = \max($py - 1.0 + $this->edgeRadius, 0);
+        $d = ($dx * $dx + $dy * $dy) * $this->edgeWeight;
         $s = 1.41 - \sqrt($px * $px + $py * $py);
-        if ($this->options['ruleOfThirds']) {
+        if ($this->ruleOfThirds) {
             $s += (\max(0, $s + $d + 0.5) * 1.2) * ($this->thirds($px) + $this->thirds($py));
         }
 
@@ -368,9 +357,9 @@ class SmartCrop
     {
         $mag = \sqrt($r * $r + $g * $g + $b * $b);
         $mag = $mag > 0 ? $mag : 1;
-        $rd = ($r / $mag - $this->options['skinColor'][0]);
-        $gd = ($g / $mag - $this->options['skinColor'][1]);
-        $bd = ($b / $mag - $this->options['skinColor'][2]);
+        $rd = ($r / $mag - $this->skinColor[0]);
+        $gd = ($g / $mag - $this->skinColor[1]);
+        $bd = ($b / $mag - $this->skinColor[2]);
         $d = \sqrt($rd * $rd + $gd * $gd + $bd * $bd);
 
         return 1 - $d;

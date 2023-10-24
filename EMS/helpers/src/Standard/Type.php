@@ -35,4 +35,13 @@ final class Type
 
         return $value;
     }
+
+    public static function gdImage(mixed $value): \GdImage
+    {
+        if (!$value instanceof \GdImage) {
+            throw new \RuntimeException(\sprintf("Expect a \GdImage got '%s'", \gettype($value)));
+        }
+
+        return $value;
+    }
 }

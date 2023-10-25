@@ -17,6 +17,8 @@ final class FormData
     private array $raw;
     /** @var array<string, UploadedFile> */
     private array $files = [];
+    /** @var FormDataFile[] */
+    private array $allFiles = [];
 
     /**
      * @param FormInterface<FormInterface> $form
@@ -37,7 +39,9 @@ final class FormData
     /** @return FormDataFile[] */
     public function getAllFiles(): array
     {
-        $files = [];
+        if (!empty($this->allFiles)) {
+            return $this->allFiles;
+        }
 
         foreach ($this->raw as $formField => $value) {
             $element = $this->formConfig->getElementByName($formField);
@@ -50,12 +54,12 @@ final class FormData
 
             foreach ($uploadedFiles as $uploadedFile) {
                 if ($uploadedFile instanceof UploadedFile) {
-                    $files[] = new FormDataFile($uploadedFile, $element);
+                    $this->allFiles[] = new FormDataFile($uploadedFile, $element);
                 }
             }
         }
 
-        return $files;
+        return $this->allFiles;
     }
 
     public function filesAsUUid(): void

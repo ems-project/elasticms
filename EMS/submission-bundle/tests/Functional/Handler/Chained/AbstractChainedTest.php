@@ -6,6 +6,7 @@ namespace EMS\SubmissionBundle\Tests\Functional\Handler\Chained;
 
 use EMS\FormBundle\FormConfig\FormConfig;
 use EMS\FormBundle\FormConfig\SubmissionConfig;
+use EMS\FormBundle\Submission\FormData;
 use EMS\FormBundle\Submission\HandleRequest;
 use EMS\FormBundle\Submission\HandleResponseCollector;
 use EMS\SubmissionBundle\Tests\Functional\AbstractFunctionalTest;
@@ -37,8 +38,9 @@ abstract class AbstractChainedTest extends AbstractFunctionalTest
     protected function createRequest(string $handlerClass, string $endpoint, string $message): HandleRequest
     {
         $submissionConfig = new SubmissionConfig($handlerClass, $endpoint, $message);
+        $formData = new FormData($this->formConfig, $this->form);
 
-        return new HandleRequest($this->form, $this->formConfig, $this->responseCollector, $submissionConfig);
+        return new HandleRequest($this->form, $this->formConfig, $formData, $this->responseCollector, $submissionConfig);
     }
 
     protected function createForm(array $data = []): FormInterface

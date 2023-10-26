@@ -86,7 +86,7 @@ class FormSubmissionFile implements EntityInterface
         $this->filename = $file['filename'];
         $this->formField = $file['form_field'];
         $this->mimeType = $file['mimeType'];
-        $this->size = $file['size'];
+        $this->size = (string) $file['size'];
     }
 
     /**

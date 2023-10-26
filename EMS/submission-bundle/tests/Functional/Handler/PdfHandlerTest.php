@@ -6,6 +6,7 @@ namespace EMS\SubmissionBundle\Tests\Functional\Handler;
 
 use EMS\FormBundle\FormConfig\SubmissionConfig;
 use EMS\FormBundle\Submission\AbstractHandler;
+use EMS\FormBundle\Submission\FormData;
 use EMS\FormBundle\Submission\HandleRequest;
 use EMS\FormBundle\Submission\HandleResponseCollector;
 use EMS\SubmissionBundle\Handler\EmailHandler;
@@ -80,8 +81,9 @@ final class PdfHandlerTest extends AbstractHandlerTest
 
         $responseCollector = new HandleResponseCollector();
         $responseCollector->addResponse($pdfResponse);
+        $formData = new FormData($this->formConfig, $form);
 
-        $emailHandleRequest = new HandleRequest($form, $this->formConfig, $responseCollector, $emailSubmission);
+        $emailHandleRequest = new HandleRequest($form, $this->formConfig, $formData, $responseCollector, $emailSubmission);
         /** @var EmailHandleResponse $emailResponse */
         $emailResponse = $emailHandler->handle($emailHandleRequest);
         $attachments = $emailResponse->getMessage()->getAttachments();

@@ -7,6 +7,7 @@ namespace EMS\SubmissionBundle\Tests\Functional\Handler;
 use EMS\FormBundle\FormConfig\FormConfig;
 use EMS\FormBundle\FormConfig\SubmissionConfig;
 use EMS\FormBundle\Submission\AbstractHandler;
+use EMS\FormBundle\Submission\FormData;
 use EMS\FormBundle\Submission\HandleRequest;
 use EMS\FormBundle\Submission\HandleResponseCollector;
 use EMS\FormBundle\Submission\HandleResponseInterface;
@@ -38,8 +39,9 @@ abstract class AbstractHandlerTest extends AbstractFunctionalTest
     {
         $handler = $this->getHandler();
         $submissionConfig = new SubmissionConfig($handler::class, $endpoint, $message);
+        $formData = new FormData($this->formConfig, $form);
 
-        $handleRequest = new HandleRequest($form, $this->formConfig, new HandleResponseCollector(), $submissionConfig);
+        $handleRequest = new HandleRequest($form, $this->formConfig, $formData, new HandleResponseCollector(), $submissionConfig);
 
         return $handler->handle($handleRequest);
     }

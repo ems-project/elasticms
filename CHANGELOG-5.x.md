@@ -1,5 +1,25 @@
 # Changelog 5.x
 
+## 5.11.0 (2023-10-30)
+### Features
+* feat(admin): colorized app icons by @theus77 in https://github.com/ems-project/elasticms/pull/634
+* feat(admin/postprocessing): better post processing error message by @theus77 in https://github.com/ems-project/elasticms/pull/641
+* feat(common/elasticSearch): skeleton working via the admin as proxy by @theus77 in https://github.com/ems-project/elasticms/pull/637
+* feat(common/storage): api storage by @theus77 in https://github.com/ems-project/elasticms/pull/639
+* feat(core/api): user profile return options by @Davidmattei in https://github.com/ems-project/elasticms/pull/633
+* feat(demo): update demo by @theus77 in https://github.com/ems-project/elasticms/pull/638
+* feat(emscli): add matches expr + keep attr style by @IsaMic in https://github.com/ems-project/elasticms/pull/628
+* feat(emscli): audit file by @theus77 in https://github.com/ems-project/elasticms/pull/630
+* feat(helper): smart crop + implementation by @theus77 in https://github.com/ems-project/elasticms/pull/648
+* feat(http-submission): no redirect http handler by @theus77 in https://github.com/ems-project/elasticms/pull/629
+* feat(submission): submission attachments route by @theus77 in https://github.com/ems-project/elasticms/pull/649
+### Bug Fixes
+* fix(demo): a 500 error is triggered in case of a 404 error by @theus77 in https://github.com/ems-project/elasticms/pull/646
+### Tests
+* test(common): ai generated tests by @coppee in https://github.com/ems-project/elasticms/pull/636
+### Chores
+* chore(scripts): init pg db without schema parameter  by @theus77 in https://github.com/ems-project/elasticms/pull/647
+
 ## 5.10.1 (2023-10-20)
 ### Features
 * feat(admin): xliff export mail and currentRevisionOnly import by @theus77 in https://github.com/ems-project/elasticms/pull/643

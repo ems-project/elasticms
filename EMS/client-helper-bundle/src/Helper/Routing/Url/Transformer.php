@@ -40,7 +40,7 @@ final class Transformer
         try {
             $emsLink = EMSLink::fromMatch($match);
 
-            if (str_ends_with('asset', $emsLink->getLinkType())) {
+            if (\str_ends_with('asset', $emsLink->getLinkType())) {
                 return $this->generateForAsset($emsLink, $match, $config);
             }
 

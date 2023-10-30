@@ -1748,7 +1748,7 @@
                 "doctrine/doctrine-bundle": "^2.8",
                 "doctrine/orm": "^2.6",
                 "dompdf/dompdf": "^v2.0",
-                "elasticms/helpers": "~5.10.0",
+                "elasticms/helpers": "~5.11.0",
                 "ext-dom": "*",
                 "ext-exif": "*",
                 "ext-gd": "*",

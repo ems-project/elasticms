@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.11.1 (2023-10-31)
+### Bug Fixes
+* fix(clientHelper): emsch_routing only prefix internal urls by @Davidmattei in https://github.com/ems-project/elasticms/pull/651
+* fix(core/xliff): extract command email options optional by @theus77 in https://github.com/ems-project/elasticms/pull/652
+
 ## 5.11.0 (2023-10-30)
 ### Features
 * feat(admin): colorized app icons by @theus77 in https://github.com/ems-project/elasticms/pull/634

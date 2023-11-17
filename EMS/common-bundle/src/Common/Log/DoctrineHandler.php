@@ -30,8 +30,8 @@ class DoctrineHandler extends AbstractProcessingHandler
         }
 
         $token = $this->tokenStorage->getToken();
-        $record['username'] = $token instanceof TokenInterface ? $token->getUsername() : null;
-        $record['impersonator'] = $token instanceof SwitchUserToken ? $token->getOriginalToken()->getUsername() : null;
+        $record['username'] = $token instanceof TokenInterface ? $token->getUserIdentifier() : null;
+        $record['impersonator'] = $token instanceof SwitchUserToken ? $token->getOriginalToken()->getUserIdentifier() : null;
 
         $record['context'] = DoctrineHandler::secretContext($record['context']);
 

@@ -512,6 +512,7 @@
             <argument type="service" id="doctrine"/>
             <argument type="service" id="ems.service.notification"/>
             <argument type="service" id="ems.dashboard.manager"/>
+            <argument type="service" id="EMS\CoreBundle\Repository\NotificationRepository"/>
             <argument>%ems_core.paging_size%</argument>
             <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>

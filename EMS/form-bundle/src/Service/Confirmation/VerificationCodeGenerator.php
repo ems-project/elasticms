@@ -7,18 +7,18 @@ namespace EMS\FormBundle\Service\Confirmation;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\FormBundle\Contracts\Confirmation\VerificationCodeGeneratorInterface;
 use EMS\FormBundle\Service\Endpoint\EndpointInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class VerificationCodeGenerator implements VerificationCodeGeneratorInterface
 {
-    public function __construct(private readonly CoreApiInterface $coreApi, private readonly SessionInterface $session)
+    public function __construct(private readonly CoreApiInterface $coreApi, private readonly RequestStack $requestStack)
     {
     }
 
     public function getVerificationCode(EndpointInterface $endpoint, string $confirmValue): ?string
     {
         if ($endpoint->saveInSession()) {
-            $verificationCode = $this->session->get($this->getSessionKey($confirmValue), false);
+            $verificationCode = $this->requestStack->getSession()->get($this->getSessionKey($confirmValue), false);
         } else {
             $verificationCode = $this->coreApi->form()->getVerification($confirmValue);
         }
@@ -32,11 +32,11 @@ final class VerificationCodeGenerator implements VerificationCodeGeneratorInterf
             return $this->coreApi->form()->createVerification($confirmValue);
         }
 
-        $verificationCode = $this->session->get($this->getSessionKey($confirmValue));
+        $verificationCode = $this->requestStack->getSession()->get($this->getSessionKey($confirmValue));
 
         if (null === $verificationCode) {
             $verificationCode = \sprintf('%d%05d', \random_int(1, 9), \random_int(0, 99999));
-            $this->session->set($this->getSessionKey($confirmValue), $verificationCode);
+            $this->requestStack->getSession()->set($this->getSessionKey($confirmValue), $verificationCode);
         }
 
         return $verificationCode;

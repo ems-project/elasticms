@@ -422,6 +422,8 @@
             <argument type="service" id="ems.form.factories.objectChoiceListFactory" />
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="form.registry" />
+            <argument type="service" id="ems.repository.field_type" />
+            <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
             <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>

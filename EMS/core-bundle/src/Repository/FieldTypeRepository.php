@@ -17,4 +17,10 @@ class FieldTypeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, FieldType::class);
     }
+
+    public function save(FieldType $field): void
+    {
+        $this->_em->persist($field);
+        $this->_em->flush();
+    }
 }

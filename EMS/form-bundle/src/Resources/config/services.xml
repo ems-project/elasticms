@@ -48,7 +48,7 @@
         <service id="EMS\FormBundle\Contracts\Confirmation\VerificationCodeGeneratorInterface" alias="emsf.service.confirmation.verification_code_generator" />
         <service id="emsf.service.confirmation.verification_code_generator" class="EMS\FormBundle\Service\Confirmation\VerificationCodeGenerator">
             <argument type="service" id="EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface"/>
-            <argument type="service" id="session"/>
+            <argument type="service" id="request_stack"/>
         </service>
 
         <service id="EMS\FormBundle\Contracts\EndpointManagerInterface" alias="emsf.endpoint_manager" />

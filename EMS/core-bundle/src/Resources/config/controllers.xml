@@ -125,7 +125,7 @@
             <argument type="service" id="twig" />
             <argument type="service" id="ems.service.job" />
             <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository" />
-            <argument type="service" id="EMS\CoreBundle\Repository\SearchRepository" />
+            <argument type="service" id="ems.repository.search" />
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
             <argument type="service" id="EMS\CoreBundle\Repository\TemplateRepository" />
             <argument type="service" id="EMS\CoreBundle\Repository\EnvironmentRepository" />

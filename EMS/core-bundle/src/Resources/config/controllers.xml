@@ -206,6 +206,7 @@
         <service id="EMS\CoreBundle\Controller\ContentManagement\ManagedAliasController" public="true">
             <argument type="service" id="emsco.logger" />
             <argument type="service" id="ems.service.alias" />
+            <argument type="service" id="EMS\CoreBundle\Repository\ManagedAliasRepository" />
             <argument>%ems_core.instance_id%</argument>
             <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>

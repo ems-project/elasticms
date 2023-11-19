@@ -159,6 +159,10 @@
             <argument type="service" id="ems.service.mapping" />
             <argument type="service" id="ems.service.alias" />
             <argument type="service" id="ems.service.job" />
+            <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
+            <argument type="service" id="EMS\CoreBundle\Repository\EnvironmentRepository" />
+            <argument type="service" id="ems.repository.field_type" />
+            <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository" />
             <argument>%ems_core.paging_size%</argument>
             <argument>%ems_core.instance_id%</argument>
             <argument>%ems_core.circles_object%</argument>

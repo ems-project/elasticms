@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Tests\Entity;
 
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
@@ -25,7 +27,7 @@ final class CreatedModifiedTraitAiTest extends TestCase
         $this->assertInstanceOf(\DateTimeInterface::class, $entity->getCreated());
 
         // Sleep for a second to ensure the modified timestamp will be different
-        sleep(1);
+        \sleep(1);
 
         // Test that the modified timestamp is updated
         $entity->updateModified();

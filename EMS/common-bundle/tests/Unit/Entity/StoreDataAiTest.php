@@ -39,4 +39,3 @@ class StoreDataAiTest extends TestCase
         $this->assertSame($data, $this->storeData->getData());
     }
 }
-

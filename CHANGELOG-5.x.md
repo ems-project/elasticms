@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.11.2 (2023-11-21)
+### Bug Fixes
+* fix(common): do not cache empty response by @theus77 in https://github.com/ems-project/elasticms/pull/654
+* fix(emsch/search): add option fields_exclude by @Davidmattei in https://github.com/ems-project/elasticms/pull/659
+* fix(emsch/security): lazy main firewall by @Davidmattei in https://github.com/ems-project/elasticms/pull/660
+
 ## 5.11.1 (2023-10-31)
 ### Bug Fixes
 * fix(clientHelper): emsch_routing only prefix internal urls by @Davidmattei in https://github.com/ems-project/elasticms/pull/651

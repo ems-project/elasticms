@@ -24,6 +24,8 @@ final class Search
     private array $synonyms = [];
     /** @var string[] */
     private array $fields = [];
+    /** @var string[] */
+    private array $fieldsExclude;
     /** @var ?array<mixed> */
     private ?array $querySearch = null;
     /** @var string[] */
@@ -71,6 +73,7 @@ final class Search
         $this->minimumShouldMatch = $options['minimum_should_match'] ?? null;
         $this->defaultSorts = $this->parseSorts($options['default_sorts'] ?? []);
         $this->sorts = $this->parseSorts($options['sorts'] ?? []);
+        $this->fieldsExclude = $options['fields_exclude'] ?? ['*._content'];
 
         $this->setHighlight($options['highlight'] ?? []);
         $this->setFields($options['fields'] ?? []);
@@ -303,6 +306,14 @@ final class Search
     public function getMinimumShouldMatch(): ?string
     {
         return $this->minimumShouldMatch;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getFieldsExclude(): array
+    {
+        return $this->fieldsExclude;
     }
 
     /**

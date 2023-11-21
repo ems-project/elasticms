@@ -32,6 +32,7 @@ final class Manager
 
         $qbService = new QueryBuilder($this->clientRequest, $requestSearch);
         $search = $qbService->buildSearch($requestSearch->getTypes());
+        $search->setSourceExcludes($requestSearch->getFieldsExclude());
         $search->setFrom($requestSearch->getFrom());
         $search->setSize($requestSearch->getSize());
         $search->setRegex($requestSearch->getIndexRegex());

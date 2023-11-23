@@ -133,8 +133,10 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
             if (0 === $e->getTotal() || null === $resultSet) {
                 return null;
             }
+            $document = Document::fromResult($resultSet->offsetGet(0));
+            $this->documents[$emsLink->__toString()] = $document;
 
-            return Document::fromResult($resultSet->offsetGet(0));
+            return $document;
         } catch (NotFoundException) {
             return null;
         }

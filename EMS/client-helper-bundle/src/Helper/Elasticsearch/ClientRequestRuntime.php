@@ -129,7 +129,12 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
             return $document;
         } catch (NotSingleResultException $e) {
             $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $e->getTotal(), $input));
-            throw $e;
+            $resultSet = $e->getResultSet();
+            if (0 === $e->getTotal() || null === $resultSet) {
+                return null;
+            }
+
+            return Document::fromResult($resultSet->offsetGet(0));
         } catch (NotFoundException) {
             return null;
         }

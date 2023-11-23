@@ -115,10 +115,8 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         $bool = ['must' => [['term' => ['_id' => $emsLink->getOuuid()]]]];
 
         if ($emsLink->hasContentType()) {
-            $bool['minimum_should_match'] = 1;
-            $bool['should'] = [
-                ['term' => ['_type' => $emsLink->getContentType()]],
-                ['term' => ['_contenttype' => $emsLink->getContentType()]],
+            $bool['must'][] = [
+                'term' => ['_contenttype' => $emsLink->getContentType()],
             ];
         }
 

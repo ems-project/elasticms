@@ -627,6 +627,14 @@ final class ClientRequest implements ClientRequestInterface
         $this->environmentHelper->giveEnvironment($name)->makeActive();
     }
 
+    /**
+     * @param AbstractQuery|array<mixed>|null $query
+     */
+    public function getCommonSearch(array|AbstractQuery $query = null): Search
+    {
+        return new Search([$this->getAlias()], $query);
+    }
+
     private function getLastPublishedDate(string $contentTypeNames): \DateTimeImmutable
     {
         $publishDates = [];

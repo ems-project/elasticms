@@ -10,6 +10,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
+use EMS\CommonBundle\Service\ElasticaService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -21,8 +22,12 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     /** @var DocumentInterface[] */
     private array $documents = [];
 
-    public function __construct(private readonly ClientRequestManager $manager, private readonly RequestStack $requestStack, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly ClientRequestManager $manager,
+        private readonly RequestStack $requestStack,
+        private readonly LoggerInterface $logger,
+        private readonly ElasticaService $elasticaService,
+    ) {
     }
 
     /**
@@ -114,30 +119,24 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         if (isset($this->documents[$emsLink->__toString()])) {
             return $this->documents[$emsLink->__toString()];
         }
-
-        $bool = ['must' => [['term' => ['_id' => $emsLink->getOuuid()]]]];
+        $query = $this->elasticaService->getTermsQuery('_id', [$emsLink->getOuuid()]);
+        $search = $this->manager->getDefault()->getCommonSearch($query);
+        $search->setSources($source);
 
         if ($emsLink->hasContentType()) {
-            $bool['must'][] = [
-                'term' => ['_contenttype' => $emsLink->getContentType()],
-            ];
+            $search->setContentTypes([$emsLink->getContentType()]);
         }
+        $result = $this->elasticaService->search($search);
 
-        $result = $this->manager->getDefault()->searchArgs([
-            'body' => ['query' => ['bool' => $bool]],
-            '_source' => $source,
-        ]);
-        $total = $result['hits']['total']['value'] ?? $result['hits']['total'];
-
-        if (0 === $total) {
+        if (0 === $result->getTotalHits()) {
             return null;
         }
 
-        if (1 !== $total) {
-            $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $total, $input));
+        if (1 !== $result->getTotalHits()) {
+            $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $result->getTotalHits(), $input));
         }
 
-        $document = Document::fromArray($result['hits']['hits'][0]);
+        $document = Document::fromArray($result->getResponse()->getData()['hits']['hits'][0]);
         $this->documents[$emsLink->__toString()] = $document;
 
         return $document;

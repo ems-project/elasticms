@@ -9,6 +9,8 @@ use EMS\ClientHelperBundle\Helper\Search\Search;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
+use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
+use EMS\CommonBundle\Elasticsearch\Exception\NotSingleResultException;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Service\ElasticaService;
 use Psr\Log\LoggerInterface;
@@ -119,27 +121,18 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         if (isset($this->documents[$emsLink->__toString()])) {
             return $this->documents[$emsLink->__toString()];
         }
-        $query = $this->elasticaService->getTermsQuery('_id', [$emsLink->getOuuid()]);
-        $search = $this->manager->getDefault()->getCommonSearch($query);
-        $search->setSources($source);
 
-        if ($emsLink->hasContentType()) {
-            $search->setContentTypes([$emsLink->getContentType()]);
-        }
-        $result = $this->elasticaService->search($search);
+        try {
+            $document = $this->elasticaService->getDocument($this->manager->getDefault()->getAlias(), $emsLink->hasContentType() ? $emsLink->getContentType() : null, $emsLink->getOuuid(), $source);
+            $this->documents[$emsLink->__toString()] = $document;
 
-        if (0 === $result->getTotalHits()) {
+            return $document;
+        } catch (NotSingleResultException $e) {
+            $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $e->getTotal(), $input));
+            throw $e;
+        } catch (NotFoundException) {
             return null;
         }
-
-        if (1 !== $result->getTotalHits()) {
-            $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $result->getTotalHits(), $input));
-        }
-
-        $document = Document::fromArray($result->getResponse()->getData()['hits']['hits'][0]);
-        $this->documents[$emsLink->__toString()] = $document;
-
-        return $document;
     }
 
     /**

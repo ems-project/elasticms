@@ -124,7 +124,7 @@ class ElasticaService
         }
         $result = $resultSet->offsetGet(0);
         if (1 !== $resultSet->count()) {
-            throw new NotSingleResultException($resultSet->count());
+            throw new NotSingleResultException($resultSet->count(), $resultSet);
         }
 
         return Document::fromResult($result);

@@ -114,6 +114,7 @@
             <argument type="service" id="emsch.manager.client_request" />
             <argument type="service" id="request_stack" />
             <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.service.elastica" />
             <tag name="monolog.logger" channel="emsch_request"/>
             <tag name="twig.runtime" />
         </service>

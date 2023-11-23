@@ -104,6 +104,9 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         return ($response->getTotal() > 1) ? false : null;
     }
 
+    /**
+     * @param string[] $source
+     */
     public function get(string $input, array $source = []): ?DocumentInterface
     {
         $emsLink = EMSLink::fromText($input);

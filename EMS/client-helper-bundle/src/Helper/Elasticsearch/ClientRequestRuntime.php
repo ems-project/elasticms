@@ -104,7 +104,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         return ($response->getTotal() > 1) ? false : null;
     }
 
-    public function get(string $input): ?DocumentInterface
+    public function get(string $input, array $source = []): ?DocumentInterface
     {
         $emsLink = EMSLink::fromText($input);
 
@@ -122,7 +122,10 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
             ];
         }
 
-        $result = $this->manager->getDefault()->searchArgs(['body' => ['query' => ['bool' => $bool]]]);
+        $result = $this->manager->getDefault()->searchArgs([
+            'body' => ['query' => ['bool' => $bool]],
+            '_source' => $source,
+        ]);
         $total = $result['hits']['total']['value'] ?? $result['hits']['total'];
 
         if (0 === $total) {

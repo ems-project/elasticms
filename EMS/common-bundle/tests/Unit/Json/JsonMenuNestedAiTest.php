@@ -134,7 +134,6 @@ class JsonMenuNestedAiTest extends TestCase
             ],
         ]);
 
-
         $diff = $this->menu->diffChildren($newMenu);
         $this->assertCount(1, $diff);
     }

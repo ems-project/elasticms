@@ -9,7 +9,10 @@ use EMS\ClientHelperBundle\Helper\Search\Search;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
+use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
+use EMS\CommonBundle\Elasticsearch\Exception\NotSingleResultException;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
+use EMS\CommonBundle\Service\ElasticaService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -21,8 +24,12 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     /** @var DocumentInterface[] */
     private array $documents = [];
 
-    public function __construct(private readonly ClientRequestManager $manager, private readonly RequestStack $requestStack, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly ClientRequestManager $manager,
+        private readonly RequestStack $requestStack,
+        private readonly LoggerInterface $logger,
+        private readonly ElasticaService $elasticaService,
+    ) {
     }
 
     /**
@@ -87,10 +94,8 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         ];
 
         if ($emsLink->hasContentType()) {
-            $body['query']['bool']['should'] = [
-                ['term' => ['_type' => $emsLink->getContentType()]],
-                ['term' => ['_contenttype' => $emsLink->getContentType()]],
-                ['term' => ['contenttype' => $emsLink->getContentType()]],
+            $body['query']['bool']['must'][] = [
+                'term' => ['_contenttype' => $emsLink->getContentType()],
             ];
         }
 
@@ -104,7 +109,10 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
         return ($response->getTotal() > 1) ? false : null;
     }
 
-    public function get(string $input): ?DocumentInterface
+    /**
+     * @param string[] $source
+     */
+    public function get(string $input, array $source = []): ?DocumentInterface
     {
         $emsLink = EMSLink::fromText($input);
 
@@ -112,31 +120,24 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
             return $this->documents[$emsLink->__toString()];
         }
 
-        $bool = ['must' => [['term' => ['_id' => $emsLink->getOuuid()]]]];
+        try {
+            $document = $this->elasticaService->getDocument($this->manager->getDefault()->getAlias(), $emsLink->hasContentType() ? $emsLink->getContentType() : null, $emsLink->getOuuid(), $source);
+            $this->documents[$emsLink->__toString()] = $document;
 
-        if ($emsLink->hasContentType()) {
-            $bool['minimum_should_match'] = 1;
-            $bool['should'] = [
-                ['term' => ['_type' => $emsLink->getContentType()]],
-                ['term' => ['_contenttype' => $emsLink->getContentType()]],
-            ];
-        }
+            return $document;
+        } catch (NotSingleResultException $e) {
+            $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $e->getTotal(), $input));
+            $resultSet = $e->getResultSet();
+            if (0 === $e->getTotal() || null === $resultSet) {
+                return null;
+            }
+            $document = Document::fromResult($resultSet->offsetGet(0));
+            $this->documents[$emsLink->__toString()] = $document;
 
-        $result = $this->manager->getDefault()->searchArgs(['body' => ['query' => ['bool' => $bool]]]);
-        $total = $result['hits']['total']['value'] ?? $result['hits']['total'];
-
-        if (0 === $total) {
+            return $document;
+        } catch (NotFoundException) {
             return null;
         }
-
-        if (1 !== $total) {
-            $this->logger->error(\sprintf('emsch_get filter found %d results for the ems key %s', $total, $input));
-        }
-
-        $document = Document::fromArray($result['hits']['hits'][0]);
-        $this->documents[$emsLink->__toString()] = $document;
-
-        return $document;
     }
 
     /**

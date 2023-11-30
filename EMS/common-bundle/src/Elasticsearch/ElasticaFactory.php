@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch;
 
+use Elasticsearch\ConnectionPool\SimpleConnectionPool;
 use Elasticsearch\ConnectionPool\SniffingConnectionPool;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -21,15 +22,23 @@ class ElasticaFactory
     {
         $servers = [];
         foreach ($hosts as $host) {
+            if (!\is_string($host)) {
+                $servers[] = $host;
+                continue;
+            }
             if (!\str_ends_with($host, '/')) {
                 $host .= '/';
             }
             $servers[] = ['url' => $host];
         }
 
+        if (null === $connectionPool) {
+            $connectionPool = 1 === \count($servers) ? SimpleConnectionPool::class : SniffingConnectionPool::class;
+        }
+
         $config = [
             'servers' => $servers,
-            'connectionPool' => $connectionPool ?? SniffingConnectionPool::class,
+            'connectionPool' => $connectionPool,
         ];
 
         $client = new Client($config);

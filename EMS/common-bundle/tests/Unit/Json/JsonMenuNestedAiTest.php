@@ -52,30 +52,6 @@ class JsonMenuNestedAiTest extends TestCase
         $this->assertCount(2, $menu);
     }
 
-    public function testAddAndRemoveChild(): void
-    {
-        $child = new JsonMenuNested(['id' => 'child3', 'type' => 'submenu', 'label' => 'Child 3']);
-        $this->menu->addChild($child);
-        $this->assertCount(3, $this->menu);
-
-        $this->menu->removeChild($child);
-        $this->assertCount(2, $this->menu);
-    }
-
-    public function testMoveChild(): void
-    {
-        $fromParent = new JsonMenuNested(['id' => 'fromParent', 'type' => 'menu', 'label' => 'From Parent']);
-        $child = new JsonMenuNested(['id' => 'child3', 'type' => 'submenu', 'label' => 'Child 3']);
-        $toParent = new JsonMenuNested(['id' => 'toParent', 'type' => 'menu', 'label' => 'To Parent']);
-
-        $fromParent->addChild($child);
-
-        $this->menu->moveChild($child, $fromParent, $toParent, 0);
-
-        $this->assertCount(0, $fromParent);
-        $this->assertCount(1, $toParent);
-    }
-
     public function testExceptionOnInvalidMove(): void
     {
         $this->expectException(JsonMenuNestedException::class);

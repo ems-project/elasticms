@@ -1976,16 +1976,16 @@
         },
         {
             "name": "elasticms/client-helper-bundle",
-            "version": "5.11.1",
+            "version": "5.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSClientHelperBundle.git",
-                "reference": "80535e3706a46a37578b003d79833cdad76f5b64"
+                "reference": "e86c179a9182c44cdbfba3b0e75b9aac59ecd6a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/80535e3706a46a37578b003d79833cdad76f5b64",
-                "reference": "80535e3706a46a37578b003d79833cdad76f5b64",
+                "url": "https://api.github.com/repos/ems-project/EMSClientHelperBundle/zipball/e86c179a9182c44cdbfba3b0e75b9aac59ecd6a2",
+                "reference": "e86c179a9182c44cdbfba3b0e75b9aac59ecd6a2",
                 "shasum": ""
             },
             "require": {
@@ -2027,22 +2027,22 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/5.11.1"
+                "source": "https://github.com/ems-project/EMSClientHelperBundle/tree/5.11.2"
             },
-            "time": "2023-10-31T12:34:56+00:00"
+            "time": "2023-11-21T08:10:37+00:00"
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "5.11.1",
+            "version": "5.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "bfc2f9f179c88220ac4b6a3c4650c48a76e9f095"
+                "reference": "7432dffc34d60ff0543bab4fa14d85dc10273891"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/bfc2f9f179c88220ac4b6a3c4650c48a76e9f095",
-                "reference": "bfc2f9f179c88220ac4b6a3c4650c48a76e9f095",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/7432dffc34d60ff0543bab4fa14d85dc10273891",
+                "reference": "7432dffc34d60ff0543bab4fa14d85dc10273891",
                 "shasum": ""
             },
             "require": {
@@ -2119,13 +2119,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.11.1"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.11.2"
             },
-            "time": "2023-10-30T07:52:50+00:00"
+            "time": "2023-11-16T13:07:48+00:00"
         },
         {
             "name": "elasticms/form-bundle",
-            "version": "5.11.1",
+            "version": "5.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSFormBundle.git",
@@ -2171,13 +2171,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSFormBundle/tree/5.11.1"
+                "source": "https://github.com/ems-project/EMSFormBundle/tree/5.11.2"
             },
             "time": "2023-10-30T07:52:50+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "5.11.1",
+            "version": "5.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -2232,13 +2232,13 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/5.11.1"
+                "source": "https://github.com/ems-project/helpers/tree/5.11.2"
             },
             "time": "2023-10-24T18:40:37+00:00"
         },
         {
             "name": "elasticms/submission-bundle",
-            "version": "5.11.1",
+            "version": "5.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSSubmissionBundle.git",
@@ -2287,7 +2287,7 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/5.11.1"
+                "source": "https://github.com/ems-project/EMSSubmissionBundle/tree/5.11.2"
             },
             "time": "2023-10-30T07:52:50+00:00"
         },

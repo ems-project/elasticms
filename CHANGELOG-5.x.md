@@ -1,5 +1,23 @@
 # Changelog 5.x
 
+## 5.12.0 (2023-12-05)
+### Features
+* feat(elasticsearc):  one host means SimpleConnectionPool strategy by @theus77 in https://github.com/ems-project/elasticms/pull/666
+* feat(elk client): support advance host connection definition by @theus77 in https://github.com/ems-project/elasticms/pull/665
+* feat(emsch): source in emsch_get by @theus77 in https://github.com/ems-project/elasticms/pull/663
+### Bug Fixes
+* fix(docker): minio setup by @Davidmattei in https://github.com/ems-project/elasticms/pull/668
+* fix(emsch/search): query_search apply filters by @Davidmattei in https://github.com/ems-project/elasticms/pull/669
+### Code Refactoring
+* refactor(core): last getDoctrine in controller by @theus77 in https://github.com/ems-project/elasticms/pull/662
+* refactor(core): remove deprecated Controller::getDoctrine  by @theus77 in https://github.com/ems-project/elasticms/pull/658
+* refactor(deprecation): session service is deprecated by @theus77 in https://github.com/ems-project/elasticms/pull/655
+* refactor(user): getUsername() -> getUserIdentifier() by @theus77 in https://github.com/ems-project/elasticms/pull/656
+* refactor: ROLE_PREVIOUS_ADMIN -> IS_IMPERSONATOR by @theus77 in https://github.com/ems-project/elasticms/pull/657
+* refactor: _type is deprecated by @theus77 in https://github.com/ems-project/elasticms/pull/664
+### Tests
+* test(common): support by AI (2) by @coppee in https://github.com/ems-project/elasticms/pull/667
+
 ## 5.11.2 (2023-11-21)
 ### Bug Fixes
 * fix(common): do not cache empty response by @theus77 in https://github.com/ems-project/elasticms/pull/654

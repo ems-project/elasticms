@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Search;
 
 use Elastica\Query\AbstractQuery;
+use Elastica\Query\BoolQuery;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Request\RequestHelper;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
@@ -157,9 +158,9 @@ final class Search
     }
 
     /**
-     * @return array<mixed>
+     * @return ?BoolQuery
      */
-    public function getQuerySearch(string $queryString): ?array
+    public function getQuerySearch(string $queryString): ?BoolQuery
     {
         if (null === $this->querySearch) {
             return null;
@@ -170,7 +171,13 @@ final class Search
         $queryString = u($jsonQueryString)->replace('%query%', $queryString)->toString();
         $queryString = RequestHelper::replace($this->request, $queryString);
 
-        return Json::decode($queryString);
+        $querySearch = Json::decode($queryString);
+
+        if (!isset($querySearch['bool'])) {
+            throw new \RuntimeException('Query search should be a bool query');
+        }
+
+        return (new BoolQuery())->setParams($querySearch['bool']);
     }
 
     public function getAnalyzer(): string

@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.12.1 (2023-12-06)
+### Bug Fixes
+* fix(core/repository): fieldType repository is service entity by @Davidmattei in https://github.com/ems-project/elasticms/pull/670
+
 ## 5.12.0 (2023-12-05)
 ### Features
 * feat(elasticsearc):  one host means SimpleConnectionPool strategy by @theus77 in https://github.com/ems-project/elasticms/pull/666

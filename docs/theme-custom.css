@@ -1,0 +1,9 @@
+:root {
+    --content-max-width : 90%;
+    --theme-color   : #00A7E2;
+    --link-color   : #00A7E2;
+    --link-text-decoration   : none;
+    --link-text-decoration--hover       : underline ;
+    font-family: Source Sans Pro,Helvetica Neue,Arial,sans-serif;
+    font-size: 16px;
+}

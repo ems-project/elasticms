@@ -1,11 +1,13 @@
 {
   "name": "ems-project/elasticms",
+  "description": "ElasticMS's monorepo",
   "authors": [
     {
       "name": "EMS Community",
       "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
     }
   ],
+  "license" : "MIT",
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
@@ -186,7 +188,6 @@
     "elasticms/helpers": "self.version",
     "elasticms/submission-bundle": "self.version",
     "elasticms/xliff": "self.version",
-    "ems-project/elasticms": "self.version",
     "symfony/polyfill-ctype": "*",
     "symfony/polyfill-iconv": "*",
     "symfony/polyfill-mbstring": "*",

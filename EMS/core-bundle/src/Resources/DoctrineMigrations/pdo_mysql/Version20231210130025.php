@@ -43,6 +43,11 @@ final class Version20231210130025 extends AbstractMigration
         $this->addSql('ALTER TABLE user CHANGE circles circles JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', CHANGE user_options user_options JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE view CHANGE options options JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE wysiwyg_styles_set CHANGE assets assets JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
+
+        $this->addSql('ALTER TABLE environment CHANGE snapshot snapshot TINYINT(1) DEFAULT false NOT NULL, CHANGE update_referrers update_referrers TINYINT(1) DEFAULT false NOT NULL');
+        $this->addSql('ALTER TABLE revision CHANGE archived archived TINYINT(1) DEFAULT false NOT NULL');
+        $this->addSql('ALTER TABLE search CHANGE default_search default_search TINYINT(1) DEFAULT false NOT NULL');
+        $this->addSql('ALTER TABLE template CHANGE spreadsheet spreadsheet TINYINT(1) DEFAULT false NOT NULL');
     }
 
     public function down(Schema $schema): void
@@ -73,5 +78,10 @@ final class Version20231210130025 extends AbstractMigration
         $this->addSql('ALTER TABLE `user` CHANGE circles circles JSON DEFAULT NULL COMMENT \'(DC2Type:json)\', CHANGE user_options user_options JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE view CHANGE options options JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
         $this->addSql('ALTER TABLE wysiwyg_styles_set CHANGE assets assets JSON DEFAULT NULL COMMENT \'(DC2Type:json)\'');
+
+        $this->addSql('ALTER TABLE environment CHANGE snapshot snapshot TINYINT(1) DEFAULT 0 NOT NULL, CHANGE update_referrers update_referrers TINYINT(1) DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE revision CHANGE archived archived TINYINT(1) DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE search CHANGE default_search default_search TINYINT(1) DEFAULT 0 NOT NULL');
+        $this->addSql('ALTER TABLE template CHANGE spreadsheet spreadsheet TINYINT(1) DEFAULT 0 NOT NULL');
     }
 }

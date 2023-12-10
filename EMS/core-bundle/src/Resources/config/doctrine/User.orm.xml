@@ -30,7 +30,7 @@
     <field name="lastLogin" column="last_login" type="datetime" nullable="true"/>
     <field name="confirmationToken" column="confirmation_token" length="180" nullable="true" unique="true"/>
     <field name="passwordRequestedAt" column="password_requested_at" type="datetime" nullable="true"/>
-    <field name="roles" type="array"/>
+    <field name="roles" type="json"/>
     <field name="userOptions" column="user_options" type="json" nullable="true"/>
 
     <many-to-one field="wysiwygProfile" target-entity="EMS\CoreBundle\Entity\WysiwygProfile">

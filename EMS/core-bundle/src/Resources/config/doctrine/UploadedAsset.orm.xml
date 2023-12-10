@@ -28,7 +28,7 @@
       </options>
     </field>
     <field name="headLast" column="head_last" type="datetime" nullable="true"/>
-    <field name="headIn" column="head_in" type="array" nullable="true"/>
+    <field name="headIn" column="head_in" type="json" nullable="true"/>
 
     <field name="created" type="datetime"/>
     <field name="modified" type="datetime"/>

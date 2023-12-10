@@ -14,7 +14,7 @@
     <field name="name" length="100"/>
     <field name="default" column="default_search" type="boolean">
       <options>
-        <option name="default">false</option>
+        <option name="default">0</option>
       </options>
     </field>
     <field name="sortBy" column="sort_by" length="100" nullable="true"/>

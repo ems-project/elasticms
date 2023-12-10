@@ -14,7 +14,7 @@
     <field name="autoSaveAt" column="auto_save_at" type="datetime" nullable="true"/>
     <field name="archived" type="boolean">
       <options>
-        <option name="default">false</option>
+        <option name="default">0</option>
       </options>
     </field>
     <field name="deleted" type="boolean"/>

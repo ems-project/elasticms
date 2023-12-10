@@ -39,7 +39,7 @@
     </field>
     <field name="spreadsheet" type="boolean">
       <options>
-        <option name="default">false</option>
+        <option name="default">0</option>
       </options>
     </field>
     <field name="tag" length="255" nullable="true"/>

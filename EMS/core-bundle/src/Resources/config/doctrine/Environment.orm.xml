@@ -16,7 +16,7 @@
     <field name="managed" type="boolean"/>
     <field name="snapshot" type="boolean">
       <options>
-        <option name="default">false</option>
+        <option name="default">0</option>
       </options>
     </field>
     <field name="circles" type="json" nullable="true"/>
@@ -24,7 +24,7 @@
     <field name="orderKey" column="order_key" type="integer" nullable="true"/>
     <field name="updateReferrers" column="update_referrers" type="boolean">
       <options>
-        <option name="default">false</option>
+        <option name="default">0</option>
       </options>
     </field>
     <field name="templatePublication" column="template_publication" type="text" nullable="true"/>

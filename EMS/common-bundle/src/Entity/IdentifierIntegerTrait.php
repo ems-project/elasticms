@@ -8,11 +8,11 @@ use EMS\Helpers\Standard\Type;
 
 trait IdentifierIntegerTrait
 {
-    private ?int $id = null;
+    private null|int|string $id = null;
 
     public function getId(): int
     {
-        return Type::integer($this->id);
+        return Type::integer((int) $this->id);
     }
 
     public function hasId(): bool

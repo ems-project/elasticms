@@ -12,7 +12,7 @@ class AssetStorage implements EntityInterface
     private ?string $hash = null;
     /** @var string|resource */
     private $contents;
-    private ?int $size = null;
+    private ?string $size = null;
     private ?bool $confirmed = null;
 
     public function __construct()
@@ -58,12 +58,12 @@ class AssetStorage implements EntityInterface
             throw new \RuntimeException('Unexpected null size');
         }
 
-        return $this->size;
+        return (int) $this->size;
     }
 
     public function setSize(int $size): AssetStorage
     {
-        $this->size = $size;
+        $this->size = (string) $size;
 
         return $this;
     }

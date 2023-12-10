@@ -8,7 +8,6 @@ class SearchFilter implements \JsonSerializable
 {
     use IdentifierIntegerTrait;
 
-    private string $id;
     private ?Search $search = null;
     public ?string $pattern = null;
     public ?string $field = null;
@@ -201,14 +200,14 @@ class SearchFilter implements \JsonSerializable
         return $this;
     }
 
-    public function getBoost(): ?float
+    public function getBoost(): ?string
     {
         return $this->boost;
     }
 
-    public function setBoost(?float $boost): self
+    public function setBoost(?string $boost): self
     {
-        $this->boost = $boost;
+        $this->boost = (string) $boost;
 
         return $this;
     }

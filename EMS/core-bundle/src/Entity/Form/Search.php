@@ -10,7 +10,6 @@ use EMS\CoreBundle\Entity\ContentType;
 class Search implements \JsonSerializable
 {
     use IdentifierIntegerTrait;
-    private string $id;
 
     /** @var Collection<int, SearchFilter> */
     public Collection $filters;

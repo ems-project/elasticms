@@ -18,8 +18,8 @@ class UploadedAsset implements EntityInterface
     private string $type;
     private string $user;
     private bool $available;
-    private int|string|null $size = null;
-    private int|string|null $uploaded = null;
+    private ?string $size = null;
+    private ?string $uploaded = null;
     private ?string $hashAlgo = null;
     private bool $hidden = false;
     private ?\DateTime $headLast = null;
@@ -154,26 +154,26 @@ class UploadedAsset implements EntityInterface
 
     public function setSize(int $size): UploadedAsset
     {
-        $this->size = $size;
+        $this->size = (string) $size;
 
         return $this;
     }
 
     public function getSize(): int
     {
-        return \intval($this->size);
+        return (int) $this->size;
     }
 
     public function setUploaded(int $uploaded): UploadedAsset
     {
-        $this->uploaded = $uploaded;
+        $this->uploaded = (string) $uploaded;
 
         return $this;
     }
 
     public function getUploaded(): int
     {
-        return \intval($this->uploaded);
+        return (int) $this->uploaded;
     }
 
     /**

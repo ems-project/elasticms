@@ -50,6 +50,9 @@
     <field name="settings" type="json" nullable="true"/>
 
     <one-to-one field="fieldType" target-entity="EMS\CoreBundle\Entity\FieldType">
+      <cascade>
+        <cascade-persist/>
+      </cascade>
       <join-column name="field_types_id"/>
     </one-to-one>
     <many-to-one field="environment" target-entity="EMS\CoreBundle\Entity\Environment" inversed-by="contentTypesHavingThisAsDefault">

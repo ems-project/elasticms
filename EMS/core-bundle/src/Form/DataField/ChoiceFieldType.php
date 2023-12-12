@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ChoiceFieldType extends DataFieldType
 {
     private ?int $fakeIndex = null;
-    /** @var array<string, string> */
+    /** @var array<string, string|int> */
     private array $choices;
 
     public function getLabel(): string
@@ -221,8 +221,8 @@ class ChoiceFieldType extends DataFieldType
     }
 
     /**
-     * @param  array<string, mixed>  $options
-     * @return array<string, string>
+     * @param  array<string, mixed>      $options
+     * @return array<string, string|int>
      */
     private function buildChoices(array $options): array
     {
@@ -240,11 +240,11 @@ class ChoiceFieldType extends DataFieldType
             }
         }
 
-        if ($options['linked_collection']) {
+        if (\is_string($options['linked_collection'] ?? null)) {
             $idx = 0;
-            if (isset($options['raw_data'][$options['linked_collection']]) && \is_array($options['raw_data'][$options['linked_collection']])) {
+            if (\is_array($options['raw_data'][$options['linked_collection']] ?? null)) {
                 foreach ($options['raw_data'][$options['linked_collection']] as $idx => $child) {
-                    $choices['#'.$idx.': '.((isset($child[$options['collection_label_field']]) && null !== $child[$options['collection_label_field']]) ? $child[$options['collection_label_field']] : '')] = $idx;
+                    $choices['#'.$idx.': '.((null !== ($child[$options['collection_label_field'] ?? 'label'] ?? null)) ? $child[$options['collection_label_field']] : '')] = $idx;
                 }
                 ++$idx;
             }

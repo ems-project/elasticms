@@ -32,6 +32,9 @@ final class ZipHandler extends AbstractHandler
             $tempFile = $filesystem->tempnam(\sys_get_temp_dir(), 'emss');
 
             $zip = new \ZipArchive();
+            if (\file_exists($tempFile)) {
+                \unlink($tempFile);
+            }
             $zip->open($tempFile, \ZipArchive::CREATE);
 
             foreach ($zipRequest->getFiles() as $file) {

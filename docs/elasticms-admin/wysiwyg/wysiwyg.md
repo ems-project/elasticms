@@ -26,19 +26,21 @@ For building the json, the ckeditor [Toolbar Configurator](https://ckeditor.com/
 
 EMS settings are used over customizing the CKEditor experience.
 
-| Property           | Description                                                              |
-|--------------------|--------------------------------------------------------------------------|
-| urlTypes           | Limit the url types when creating a url                                  |
-| urlAllContentTypes | Disable the option `All ContentTypes` on internal url                    |
-| translations       | See [translations](#translations) section                                |
-| paste              | See [paste](#paste) section                                              |
-| paste.sanitize     | Call html standard [sanitize](../dev/helpers/standard.md#sanitize)       |
-| paste.prettyPrint  | Call html standard [prettyPrint](../dev/helpers/standard.md#prettyPrint) |
+| Property              | Description                                                                |
+|-----------------------|----------------------------------------------------------------------------|
+| urlTypes              | Limit the url types  `["url", "anchor", "localPage", "fileLink", "email"]` |
+| urlAllContentTypes    | Disable the option `All ContentTypes` on internal url                      |
+| urlTargetDefaultBlank | Set target default to _blank. Array with contentType name or/and urlTypes  |
+| translations          | See [translations](#translations) section                                  |
+| paste                 | See [paste](#paste) section                                                |
+| paste.sanitize        | Call html standard [sanitize](../dev/helpers/standard.md#sanitize)         |
+| paste.prettyPrint     | Call html standard [prettyPrint](../dev/helpers/standard.md#prettyPrint)   |
 
 ```json
 {
   "ems": {
     "urlTypes": ["url", "anchor", "localPage", "fileLink", "email"],
+    "urlTargetDefaultBlank": ["url", "fileLink", "media_file", "asset"],
     "urlAllContentTypes": true,
     "translations": {
       "nl": {

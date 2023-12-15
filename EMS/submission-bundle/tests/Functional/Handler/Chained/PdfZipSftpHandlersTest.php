@@ -72,7 +72,9 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTest
 
         \file_put_contents($this->tempFile, $sftpHandleResponse->getTransportedFiles()[0]['contents']);
         $zip = new \ZipArchive();
-        $zip->open($this->tempFile);
+        $this->assertTrue(\filesize($this->tempFile) > 0);
+        $opened = $zip->open($this->tempFile, \ZipArchive::RDONLY);
+        $this->assertTrue($opened);
 
         $this->assertCount(1, $sftpHandleResponse->getTransportedFiles());
         $this->assertEquals('chain.zip', $sftpHandleResponse->getTransportedFiles()[0]['path']);

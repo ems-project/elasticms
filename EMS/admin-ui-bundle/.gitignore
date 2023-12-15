@@ -2,4 +2,3 @@
 /vendor
 /.php-cs-fixer.cache
 /.phpunit.result.cache
-/assets                 export-ignore

@@ -5,7 +5,7 @@ export $(grep -v '^#' .env | xargs)
 
 ELK_VERSION ?= elk7
 ENVIRONMENT ?= local
-DOCKER_USER ?= $UID
+DOCKER_USER ?= $(shell id -u)
 PWD			= $(shell pwd)
 
 DEMO_DIR	?= /opt/src

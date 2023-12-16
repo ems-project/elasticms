@@ -1,25 +1,17 @@
 #!/usr/bin/make -f
 
-DOCKER_USER 	?= $(shell id -u)
+DOCKER_USER			?= $(shell id -u)
 DOCKER_COMPOSE	= docker compose -f docker/docker-compose.yml
-
-PWD			= $(shell pwd)
-
-DEMO_DIR	= ${PWD}/demo
-RUN_PSQL	= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres psql
-RUN_ADMIN	= php ${PWD}/elasticms-admin/bin/console --no-debug
-RUN_WEB		= php ${PWD}/elasticms-web/bin/console --no-debug
-
-PORT_admin = 8881
-PORT_web = 8882
-
-export DEMO_DIR
-export RUN_PSQL
-export RUN_ADMIN
-export RUN_WEB
+PWD							= $(shell pwd)
+PORT_admin 			= 8881
+PORT_web 				= 8882
+RUN_ADMIN				= php ${PWD}/elasticms-admin/bin/console --no-debug
+RUN_WEB					= php ${PWD}/elasticms-web/bin/console --no-debug
+RUN_PSQL				= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres psql
+RUN_DEMO_NPM		= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
-.PHONY: help
+.PHONY: help demo
 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS Monorepo"
@@ -56,29 +48,39 @@ cache-clear: ## cache clear
 	@$(RUN_WEB) c:cl
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
-demo-init: ## init demo (new database PostgreSQL)
-	@$(MAKE) cache-clear
-	@$(MAKE) -C ./demo -s init
-	@$(MAKE) demo-symlink-assets
-demo-db: ## setup demo db (clear)
-	@$(MAKE) -C ./demo -s db-setup
-demo-load: ## load demo data
-	@$(RUN_ADMIN) c:cl
-	@$(RUN_WEB) c:cl
-	@$(MAKE) -C ./demo -s load
-demo-local-status: ## local status
-	@$(MAKE) -C ./demo -s web-local-status
-demo-backup-configs: ## backup configs
-	@$(MAKE) -C ./demo -s web-backup-configs
-demo-backup-documents: ## backup documents
-	@$(MAKE) -C ./demo -s web-backup-documents
-demo-restore-configs: ## restore configs
-	@$(MAKE) -C ./demo -s web-restore-configs
-demo-restore-documents: ## restore documents
-	@$(MAKE) -C ./demo -s web-restore-documents
-demo-symlink-assets: ## symlink assets
+demo: ## make new demo
+	@$(MAKE) -s db-drop/"demo"
+	@$(MAKE) -s db-create/"demo" SCHEMA="schema_demo_adm"
+	@$(MAKE) -s db-migrate
+	@$(RUN_ADMIN) emsco:user:create demo demo@example.com demo --super-admin
+	@$(RUN_ADMIN) emsco:user:promote demo ROLE_API
+	@$(MAKE) -s demo-npm/"install"
+	@$(MAKE) -s demo-npm/"run prod"
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo
+	@$(RUN_ADMIN) ems:admin:login --username=demo --password=demo
+	@$(RUN_ADMIN) ems:admin:restore --configs-folder=./demo/configs/admin --configs --force
+	@$(RUN_ADMIN) ems:contenttype:activate --all --force --no-debug
+	@$(RUN_ADMIN) ems:environment:rebuild --all --no-debug
+	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview preview
+	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview default
+	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live live
+	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live default
+	@$(RUN_ADMIN) emsco:contenttype:switch-default-env media_file default
+	@$(RUN_ADMIN) emsch:local:login demo demo
+	@$(RUN_ADMIN) emsch:local:push --force
+	@$(RUN_ADMIN) emsch:local:upload --filename=./demo/skeleton/template/asset_hash.twig
+	@$(RUN_ADMIN) emsch:local:folder-upload ./demo/configs/admin/assets
+	@$(RUN_ADMIN) ems:admin:restore --documents-folder=./demo/configs/document --documents --force
+	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug
+demo-backup-configs: ## backup demo configs
+	@$(RUN_ADMIN) ems:admin:backup --configs-folder=./demo/configs/admin --configs --export
+demo-backup-documents: ## backup demo documents
+	@$(RUN_ADMIN) ems:admin:backup --documents-folder=./demo/configs/document --documents --export
+demo-npm/%: ## demo npm
+	@$(RUN_DEMO_NPM) $*
+demo-npm-watch: ## demo npm run watch
+	@$(MAKE) -s demo-npm/"run watch"
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web)

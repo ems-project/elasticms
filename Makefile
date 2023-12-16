@@ -10,6 +10,9 @@ RUN_PSQL	= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=a
 RUN_ADMIN	= php ${PWD}/elasticms-admin/bin/console --no-debug
 RUN_WEB		= php ${PWD}/elasticms-web/bin/console --no-debug
 
+PORT_admin = 8881
+PORT_web = 8882
+
 export DEMO_DIR
 export RUN_PSQL
 export RUN_ADMIN
@@ -42,11 +45,11 @@ init: ## init mono repo (copy .env)
 	@cp -fp ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
 start: ## start docker, admin server, web server
 	@$(MAKE) -s docker-up
-	@$(MAKE) -s admin-server-start
-	@$(MAKE) -s web-server-start
+	@$(MAKE) -s server-start/admin
+	@$(MAKE) -s server-start/web
 stop: ## stop docker, admin server, web server
-	@$(MAKE) -s admin-server-stop
-	@$(MAKE) -s web-server-stop
+	@$(MAKE) -s server-stop/admin
+	@$(MAKE) -s server-stop/web
 	@$(MAKE) -s docker-down
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
@@ -77,21 +80,13 @@ demo-symlink-assets: ## symlink assets
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo
 
-## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
-admin-server-start: ## start symfony server (8881)
-	@$(MAKE) -C ./elasticms-admin -s server-start
-admin-server-stop: ## stop symfony server
-	@$(MAKE) -C ./elasticms-admin -s server-stop
-admin-server-log: ## log symfony server
-	@$(MAKE) -C ./elasticms-admin -s server-log
-
-## —— web ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
-web-server-start: ## start symfony server (8882)
-	@$(MAKE) -C ./elasticms-web -s server-start
-web-server-stop: ## stop symfony server
-	@$(MAKE) -C ./elasticms-web -s server-stop
-web-server-log: ## log symfony server
-	@$(MAKE) -C ./elasticms-web -s server-log
+## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
+server-start/%: ## server-start/(admin|web)
+	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*))
+server-stop/%:  ## server-stop/(admin|web)
+	symfony server:stop --dir=elasticms-${*}
+server-log/%:  ## server-log/(admin|web)
+	symfony server:log --dir=elasticms-${*}
 
 ## —— Docker ———————————————————————————————————————————————————————————————————————————————————————————————————————————
 docker-up: ## docker up

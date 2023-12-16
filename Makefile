@@ -35,11 +35,11 @@ help: # Show help for each of the Makefile recipes.
 
 ## —— Mono —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 init: ## init mono repo (copy .env)
-	@cp -u ./docker/.env.dist ./docker/.env
-	@cp ./elasticms-admin/.env.dist ./elasticms-admin/.env
-	@cp -u ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
-	@cp ./elasticms-web/.env.dist ./elasticms-web/.env
-	@cp -u ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
+	@cp -fp ./docker/.env.dist ./docker/.env
+	@cp -fp ./elasticms-admin/.env.dist ./elasticms-admin/.env
+	@cp -fp ./elasticms-admin/.env.local.dist ./elasticms-admin/.env.local
+	@cp -fp ./elasticms-web/.env.dist ./elasticms-web/.env
+	@cp -fp ./elasticms-web/.env.local.dist ./elasticms-web/.env.local
 start: ## start docker, admin server, web server
 	@$(MAKE) -s docker-up
 	@$(MAKE) -s admin-server-start

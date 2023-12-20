@@ -12,8 +12,10 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class ElasticaDataCollector extends DataCollector
 {
-    public function __construct(private readonly ElasticaLogger $logger, private readonly ElasticaService $elasticaService)
-    {
+    public function __construct(
+        private readonly ElasticaLogger $logger,
+        private readonly ElasticaService $elasticaService
+    ) {
     }
 
     public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
@@ -34,18 +36,15 @@ class ElasticaDataCollector extends DataCollector
         return $this->data['version'];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getQueryCount()
+    public function getQueryCount(): int
     {
         return $this->data['nb_queries'];
     }
 
     /**
-     * @return mixed
+     * @return array<mixed>
      */
-    public function getQueries()
+    public function getQueries(): array
     {
         return $this->data['queries'];
     }
@@ -58,6 +57,13 @@ class ElasticaDataCollector extends DataCollector
         }
 
         return $time;
+    }
+
+    public function countErrors(): int
+    {
+        $queries = $this->data['queries'] ?? [];
+
+        return \count(\array_filter($queries, static fn (array $q) => isset($q['exception'])));
     }
 
     public function getExecutionTime(): float

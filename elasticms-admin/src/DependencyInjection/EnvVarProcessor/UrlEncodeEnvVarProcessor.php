@@ -8,10 +8,7 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 class UrlEncodeEnvVarProcessor implements EnvVarProcessorInterface
 {
-    /**
-     * @return mixed
-     */
-    public function getEnv(string $prefix, string $name, \Closure $getEnv)
+    public function getEnv(string $prefix, string $name, \Closure $getEnv): string
     {
         $env = $getEnv($name);
 

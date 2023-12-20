@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Elasticsearch;
 
 use Elastica\Client as BaseClient;
-use Elastica\Connection;
 use Elastica\Exception\ClientException;
 use Elastica\Request;
 use Elastica\Response;
@@ -24,9 +23,7 @@ class Client extends BaseClient
      */
     public function request($path, $method = Request::GET, $data = [], array $query = [], $contentType = Request::DEFAULT_CONTENT_TYPE): Response
     {
-        if (null !== $this->stopwatch) {
-            $this->stopwatch->start('es_request', 'fos_elastica');
-        }
+        $this->stopwatch?->start('es_request', 'fos_elastica');
 
         $response = parent::request($path, $method, $data, $query, $contentType);
         $responseData = $response->getData();
@@ -44,11 +41,8 @@ class Client extends BaseClient
             throw new ClientException($message);
         }
 
-        $this->logQuery($response, $connection, $path, $method, $query, $data);
-
-        if ($this->stopwatch) {
-            $this->stopwatch->stop('es_request');
-        }
+        $this->log($response, $lastRequest);
+        $this->stopwatch?->stop('es_request');
 
         return $response;
     }
@@ -58,30 +52,12 @@ class Client extends BaseClient
         $this->stopwatch = $stopwatch;
     }
 
-    /**
-     * @param array<mixed>|string $data
-     * @param array<mixed>        $query
-     */
-    private function logQuery(Response $elasticaResponse, Connection $connection, string $path, string $method, array $query, array|string $data): void
+    private function log(Response $response, Request $request): void
     {
         if (!$this->_logger instanceof ElasticaLogger || !$this->_logger->isEnabled()) {
             return;
         }
 
-        $connectionArray = [
-            'host' => $connection->getHost(),
-            'port' => $connection->getPort(),
-            'transport' => $connection->getTransport(),
-            'headers' => $connection->hasConfig('headers') ? $connection->getConfig('headers') : [],
-        ];
-
-        $responseData = $elasticaResponse->getData();
-
-        $queryTime = $elasticaResponse->getQueryTime();
-        $engineMS = $responseData['took'] ?? 0;
-
-        $itemCount = $responseData['hits']['total']['value'] ?? $responseData['hits']['total'] ?? 0;
-
-        $this->_logger->logQuery($path, $method, $data, $queryTime, $connectionArray, $query, $engineMS, $itemCount);
+        $this->_logger->logResponse($response, $request);
     }
 }

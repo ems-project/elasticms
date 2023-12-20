@@ -243,9 +243,9 @@ final class FormSubmissionService implements EntityServiceInterface
         return [];
     }
 
-    public function count(string $filterValue = '', $context = null): int
+    public function count(string $searchValue = '', $context = null): int
     {
-        return $this->formSubmissionRepository->countAllUnprocessed($filterValue);
+        return $this->formSubmissionRepository->countAllUnprocessed($searchValue);
     }
 
     public function getByItemName(string $name): ?EntityInterface

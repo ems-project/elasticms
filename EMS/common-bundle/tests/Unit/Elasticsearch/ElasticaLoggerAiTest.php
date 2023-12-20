@@ -37,17 +37,15 @@ final class ElasticaLoggerAiTest extends TestCase
         $method = 'GET';
         $data = ['key' => 'value'];
 
-        $response = new Response('');
-        $connection = new Connection();
         $request = new Request($path, $method, $data);
-        $request->setConnection($connection);
+        $request->setConnection(new Connection());
 
         $this->logger->expects($this->once())->method('info')->with(
             $this->stringContains($path),
             $this->equalTo([$data])
         );
 
-        $this->elasticaLogger->logResponse($response, $request);
+        $this->elasticaLogger->logResponse(new Response(''), $request);
 
         $this->assertSame(1, $this->elasticaLogger->getNbQueries());
         $queries = $this->elasticaLogger->getQueries();
@@ -58,12 +56,10 @@ final class ElasticaLoggerAiTest extends TestCase
 
     public function testReset(): void
     {
-        $response = new Response('');
-        $connection = new Connection();
         $request = new Request('/test_path', 'GET', ['key' => 'value']);
-        $request->setConnection($connection);
+        $request->setConnection(new Connection());
 
-        $this->elasticaLogger->logResponse($response, $request);
+        $this->elasticaLogger->logResponse(new Response(''), $request);
         $this->assertSame(1, $this->elasticaLogger->getNbQueries());
 
         $this->elasticaLogger->reset();

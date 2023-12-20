@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch;
 
 use Elastica\Client as BaseClient;
 use Elastica\Exception\ClientException;
+use Elastica\Exception\ResponseException;
 use Elastica\Request;
 use Elastica\Response;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -25,7 +26,12 @@ class Client extends BaseClient
     {
         $this->stopwatch?->start('es_request', 'fos_elastica');
 
-        $response = parent::request($path, $method, $data, $query, $contentType);
+        try {
+            $response = parent::request($path, $method, $data, $query, $contentType);
+        } catch (ResponseException $e) {
+            $this->getLogger()?->logResponse($e->getResponse(), $e->getRequest(), $e);
+            throw $e;
+        }
         $responseData = $response->getData();
 
         $transportInfo = $response->getTransferInfo();
@@ -41,7 +47,7 @@ class Client extends BaseClient
             throw new ClientException($message);
         }
 
-        $this->log($response, $lastRequest);
+        $this->getLogger()?->logResponse($response, $lastRequest);
         $this->stopwatch?->stop('es_request');
 
         return $response;
@@ -52,12 +58,8 @@ class Client extends BaseClient
         $this->stopwatch = $stopwatch;
     }
 
-    private function log(Response $response, Request $request): void
+    public function getLogger(): ?ElasticaLogger
     {
-        if (!$this->_logger instanceof ElasticaLogger || !$this->_logger->isEnabled()) {
-            return;
-        }
-
-        $this->_logger->logResponse($response, $request);
+        return $this->_logger instanceof ElasticaLogger && $this->_logger->isEnabled() ? $this->_logger : null;
     }
 }

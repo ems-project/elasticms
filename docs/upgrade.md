@@ -48,6 +48,14 @@ If you call the controller twig method in admin templates (Actions, Views, Dashb
 * `EMS\\CoreBundle\\Controller\vContentManagement\\ContentTypeController::editAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::edit`
 * `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editStructureAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editStructure`
 * `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::exportAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::export`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ActionController::indexAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ActionController::index`
+
+## Routes removed
+
+* `template.index` must be replaced by `ems_core_action_index`
+* `template.add` must be replaced by `ems_core_action_add`
+* `template.edit` must be replaced by `ems_core_action_edit`
+* `template.remove` must be replaced by `ems_core_action_delete`
 
 ## version 5.7.x
 

@@ -149,7 +149,7 @@ final class ActionController extends AbstractController
     }
 
     /** @deprecated */
-    public function removeAction(string $id): RedirectResponse
+    public function remove(string $id): RedirectResponse
     {
         \trigger_error('Route template.remove is now deprecated, use the route ems_core_action_delete', E_USER_DEPRECATED);
         $action = $this->templateRepository->find($id);

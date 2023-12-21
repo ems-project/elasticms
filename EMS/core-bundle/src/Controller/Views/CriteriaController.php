@@ -113,7 +113,7 @@ class CriteriaController extends AbstractController
                                     $revision = $this->dataService->getNewestRevision($type, $ouuid);
                                 }
 
-                                if ($revision = $this->removeCriteria($filters, $revision, $criteriaField)) {
+                                if ($revision = $this->removeCriteriaFromRevision($filters, $revision, $criteriaField)) {
                                     $itemToFinalize[$toremove->getValue()] = $revision;
                                 }
                             } else {
@@ -811,7 +811,7 @@ class CriteriaController extends AbstractController
             }
 
             try {
-                if ($revision = $this->removeCriteria($filters, $revision, $criteriaField)) {
+                if ($revision = $this->removeCriteriaFromRevision($filters, $revision, $criteriaField)) {
                     $this->dataService->finalizeDraft($revision);
                 }
             } catch (LockedException) {
@@ -969,7 +969,7 @@ class CriteriaController extends AbstractController
      *
      * @throws \Exception
      */
-    public function removeCriteria(array $filters, Revision $revision, string $criteriaField): false|Revision
+    private function removeCriteriaFromRevision(array $filters, Revision $revision, string $criteriaField): false|Revision
     {
         $rawData = $revision->getRawData();
         if (!isset($rawData[$criteriaField])) {

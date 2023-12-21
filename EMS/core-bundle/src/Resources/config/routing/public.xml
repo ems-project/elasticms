@@ -16,7 +16,7 @@
         <default key="_download">0</default>
     </route>
     <route id="ems_file_download_public" path="/public/file/{sha1}"
-           controller="EMS\CoreBundle\Controller\ContentManagement\FileController::downloadFileAction"
+           controller="EMS\CoreBundle\Controller\ContentManagement\FileController::downloadFile"
            methods="GET|HEAD"/>
 
     <!-- Deprecated routes -->

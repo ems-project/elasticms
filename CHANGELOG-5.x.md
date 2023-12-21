@@ -1,5 +1,15 @@
 # Changelog 5.x
 
+## 5.12.2 (2023-12-21)
+### Bug Fixes
+* fix(common): export/import documents by @theus77 in https://github.com/ems-project/elasticms/pull/675
+* fix(core/choice-field): linked collection values are filtered out during reverse view transform by @theus77 in https://github.com/ems-project/elasticms/pull/674
+* fix(core/extract): new tika content limit for admin by @Davidmattei in https://github.com/ems-project/elasticms/pull/692
+* fix(core/jmn): jmn refresh after change by @Davidmattei in https://github.com/ems-project/elasticms/pull/679
+* fix(demo): avoid to fetch media extracted data (_content, _author, ...) by @theus77 in https://github.com/ems-project/elasticms/pull/673
+* fix(emsch/search): 'query_string' search escape query by @Davidmattei in https://github.com/ems-project/elasticms/pull/688
+* fix(release): assets folders should excluded in packagist (to be tested) by @theus77 in https://github.com/ems-project/elasticms/pull/676
+
 ## 5.12.1 (2023-12-06)
 ### Bug Fixes
 * fix(core/repository): fieldType repository is service entity by @Davidmattei in https://github.com/ems-project/elasticms/pull/670

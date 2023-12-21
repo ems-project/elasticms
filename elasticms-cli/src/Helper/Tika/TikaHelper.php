@@ -18,12 +18,12 @@ class TikaHelper
         $this->mimeTypes = new MimeTypes();
     }
 
-    public static function initTikaJar(?string $tikaCacheFolder = null): TikaHelper
+    public static function initTikaJar(string $tikaCacheFolder = null): TikaHelper
     {
         return new self(null, $tikaCacheFolder);
     }
 
-    public static function initTikaServer(string $tikaBaseUrl, ?string $tikaCacheFolder = null): TikaHelper
+    public static function initTikaServer(string $tikaBaseUrl, string $tikaCacheFolder = null): TikaHelper
     {
         return new self($tikaBaseUrl, $tikaCacheFolder);
     }

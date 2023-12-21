@@ -127,7 +127,7 @@ final class ApiService
     /**
      * @param array<mixed> $filter
      */
-    public function getContentType(string $apiName, string $contentType, array $filter = [], int $size = 10, ?string $scrollId = null): Response
+    public function getContentType(string $apiName, string $contentType, array $filter = [], int $size = 10, string $scrollId = null): Response
     {
         $response = new Response();
 

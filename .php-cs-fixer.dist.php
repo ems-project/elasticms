@@ -21,6 +21,7 @@ return $config
         'phpdoc_separation' => ['skip_unlisted_annotations' => true],
         'native_function_invocation' => ['include' => ['@all']],
         'no_unused_imports' => true,
+        'no_superfluous_phpdoc_tags' => ['allow_mixed' => true, 'remove_inheritdoc' => true],
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)

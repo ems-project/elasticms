@@ -53,7 +53,7 @@ class Client extends BaseClient
         return $response;
     }
 
-    public function setStopwatch(?Stopwatch $stopwatch = null): void
+    public function setStopwatch(Stopwatch $stopwatch = null): void
     {
         $this->stopwatch = $stopwatch;
     }

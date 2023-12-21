@@ -24,8 +24,8 @@ class BaselineTest extends TestCase
             $document->extractTranslations($insertReport, $extractedRawData, $insertRawData);
             $this->assertEquals('Lohn für Arbeitsanfänger', $insertRawData['title'] ?? null);
             $this->assertEquals('Lohn für Arbeitsanfänger', $insertRawData['title_short'] ?? null);
-//            \file_put_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Baseline', 'baseline2_description.html']), $insertRawData['description']);
-//            \file_put_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Baseline', 'baseline2_introduction.html']), $insertRawData['introduction']);
+            //            \file_put_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Baseline', 'baseline2_description.html']), $insertRawData['description']);
+            //            \file_put_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Baseline', 'baseline2_introduction.html']), $insertRawData['introduction']);
             $this->assertEquals(\file_get_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Baseline', 'baseline2_description.html'])), $insertRawData['description'] ?? null);
             $this->assertEquals(\file_get_contents(\join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Baseline', 'baseline2_introduction.html'])), $insertRawData['introduction'] ?? null);
         }

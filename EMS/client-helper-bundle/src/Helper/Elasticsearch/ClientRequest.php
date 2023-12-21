@@ -274,7 +274,7 @@ final class ClientRequest implements ClientRequestInterface
         return $settings;
     }
 
-    public function getContentType(string $name, ?Environment $environment = null): ?ContentType
+    public function getContentType(string $name, Environment $environment = null): ?ContentType
     {
         if (null === $environment) {
             if (null === $currentEnvironment = $this->getCurrentEnvironment()) {
@@ -369,7 +369,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<mixed>
      */
-    public function search(null|string|array $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, string $index = null)
+    public function search(null|string|array $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], string $regex = null, string $index = null)
     {
         if (null === $type) {
             $types = [];
@@ -407,7 +407,7 @@ final class ClientRequest implements ClientRequestInterface
     /**
      * @param string[] $types
      */
-    public function initializeCommonSearch(array $types, ?AbstractQuery $query = null): Search
+    public function initializeCommonSearch(array $types, AbstractQuery $query = null): Search
     {
         $query = $this->elasticaService->filterByContentTypes($query, $types);
 
@@ -477,7 +477,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array{_id: string, _type?: string, _source: array<mixed>}
      */
-    public function searchOne(null|string|array $type, array $body, ?string $indexRegex = null): array
+    public function searchOne(null|string|array $type, array $body, string $indexRegex = null): array
     {
         $this->logger->debug('ClientRequest : searchOne for {type}', ['type' => $type, 'body' => $body, 'indexRegex' => $indexRegex]);
         $search = $this->search($type, $body, 0, 2, [], $indexRegex);

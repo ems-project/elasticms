@@ -86,7 +86,7 @@ final class FormData
      */
     private function recursiveFilesAsUuid(array &$raw): void
     {
-        foreach ($raw  as $key => &$data) {
+        foreach ($raw as $key => &$data) {
             if (\is_array($data)) {
                 $this->recursiveFilesAsUuid($data);
                 continue;

@@ -23,7 +23,7 @@ final class Data implements DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
-    public function create(array $rawData, ?string $ouuid = null): DraftInterface
+    public function create(array $rawData, string $ouuid = null): DraftInterface
     {
         $resource = $this->makeResource('create', $ouuid);
 

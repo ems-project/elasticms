@@ -8,6 +8,7 @@ use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Request\RequestHelper;
+use EMS\CommonBundle\Elasticsearch\QueryStringEscaper;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Request;
@@ -166,12 +167,11 @@ final class Search
             return null;
         }
 
-        $jsonQueryString = Json::encode($this->querySearch);
+        $jsonQuerySearch = Json::encode($this->querySearch);
+        $jsonQuerySearch = u($jsonQuerySearch)->replace('%query%', Json::escape($queryString))->toString();
+        $jsonQuerySearch = RequestHelper::replace($this->request, $jsonQuerySearch);
 
-        $queryString = u($jsonQueryString)->replace('%query%', $queryString)->toString();
-        $queryString = RequestHelper::replace($this->request, $queryString);
-
-        $querySearch = Json::decode($queryString);
+        $querySearch = Json::decode($jsonQuerySearch);
 
         if (!isset($querySearch['bool'])) {
             throw new \RuntimeException('Query search should be a bool query');
@@ -200,7 +200,7 @@ final class Search
 
     public function getQueryString(): ?string
     {
-        return $this->queryString;
+        return $this->queryString ? QueryStringEscaper::escape($this->queryString) : null;
     }
 
     /**

@@ -9,7 +9,7 @@
 
     <div class="sidebar">
         {% if app.user %}
-            {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenuAction')) }}
+            {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenu')) }}
         {% else %}
             {% include '@EMSAdminUI/bootstrap5/elements/side-menu.html.twig' with {
                 'contentTypes': get_content_types()

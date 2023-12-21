@@ -6,8 +6,10 @@ namespace EMS\CommonBundle\Tests\Unit\Common\Search;
 
 use Elastica\Aggregation\Terms;
 use Elastica\Query\MatchAll;
+use Elastica\Suggest;
 use EMS\CommonBundle\Search\Search;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Serializer\Serializer;
 
 class SearchAiTest extends TestCase
 {
@@ -117,7 +119,7 @@ class SearchAiTest extends TestCase
     public function testSetAndGetSuggest(): void
     {
         $search = new Search(['index1']);
-        $suggest = new \Elastica\Suggest();
+        $suggest = new Suggest();
         $search->setSuggest($suggest);
         $this->assertEquals($suggest, $search->getSuggest());
     }
@@ -140,6 +142,6 @@ class SearchAiTest extends TestCase
     public function testGetSerializer(): void
     {
         $serializer = Search::getSerializer();
-        $this->assertInstanceOf(\Symfony\Component\Serializer\Serializer::class, $serializer);
+        $this->assertInstanceOf(Serializer::class, $serializer);
     }
 }

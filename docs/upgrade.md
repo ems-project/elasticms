@@ -6,6 +6,35 @@
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
 
+## version 6.0.x
+
+## Renamed embed methods in web/skeleton templates
+
+All controller methods have lost any trailing `Action`
+
+* `emsch.controller.embed::renderBlockAction` must be replaced by `emsch.controller.embed::renderEmbed`
+* `emsch.controller.embed::renderHierarchyAction` must be replaced by `emsch.controller.embed::renderHierarchy`
+
+E.g.:
+
+```twig
+{{ render(controller('emsch.controller.embed::renderHierarchy', {
+    'template': '@EMSCH/template/menu.html.twig',
+    'parent': 'emsLink',
+    'field': 'children',
+    'depth': 5,
+    'sourceFields': [],
+    'args': {'activeChild': emsLink, 'extra': 'test'}
+} )) }}
+```
+
+## Routes removed
+
+* `template.index` must be replaced by `ems_core_action_index`
+* `template.add` must be replaced by `ems_core_action_add`
+* `template.edit` must be replaced by `ems_core_action_edit`
+* `template.remove` must be replaced by `ems_core_action_delete`
+
 ## version 5.7.x
 
 * Added twig function [ems_template_exists](./site-building/twig.md#ems_template_exists)

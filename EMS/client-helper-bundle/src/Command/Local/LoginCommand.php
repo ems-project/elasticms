@@ -45,7 +45,7 @@ final class LoginCommand extends AbstractLocalCommand
                 $this->getArgumentString(self::ARG_USERNAME),
                 $this->getArgumentString(self::ARG_PASSWORD)
             );
-        } catch (NotAuthenticatedExceptionInterface $e) {
+        } catch (NotAuthenticatedExceptionInterface) {
             $this->io->error('Invalid credentials!');
 
             return self::EXECUTE_ERROR;

@@ -8,10 +8,10 @@ use Psr\Http\Message\StreamInterface;
 
 class TikaJarPromise implements TikaPromiseInterface
 {
-    private TikaWrapper $textWrapper;
-    private TikaWrapper $htmlWrapper;
-    private TikaWrapper $metaWrapper;
-    private TikaWrapper $languageWrapper;
+    private readonly TikaWrapper $textWrapper;
+    private readonly TikaWrapper $htmlWrapper;
+    private readonly TikaWrapper $metaWrapper;
+    private readonly TikaWrapper $languageWrapper;
 
     public function __construct(StreamInterface $stream)
     {

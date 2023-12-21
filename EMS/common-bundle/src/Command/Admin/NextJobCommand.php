@@ -16,8 +16,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NextJobCommand extends AbstractCommand
 {
-    public const TAG_ARGUMENT = 'tag';
-    public const SILENT_OPTION = 'silent';
+    final public const TAG_ARGUMENT = 'tag';
+    final public const SILENT_OPTION = 'silent';
     protected static $defaultName = Commands::ADMIN_NEXT_JOB;
     private string $tag;
     private bool $silent;

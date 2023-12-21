@@ -6,7 +6,7 @@ namespace EMS\Helpers\Standard;
 
 class Color
 {
-    public const EMS_COLORS = [
+    final public const EMS_COLORS = [
         'ems-black' => '000000',
         'ems-black-light' => '000000',
         'ems-blue' => '3C8DBC',
@@ -21,7 +21,7 @@ class Color
         'ems-yellow-light' => 'E08E0B',
         'ems-white' => 'FFFFFF',
     ];
-    public const STANDARD_HTML_COLORS = [
+    final public const STANDARD_HTML_COLORS = [
         'aliceblue' => 'F0F8FF',
         'antiquewhite' => 'FAEBD7',
         'aqua' => '00FFFF',

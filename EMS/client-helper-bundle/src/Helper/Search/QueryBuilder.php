@@ -305,18 +305,11 @@ final class QueryBuilder
 
     private function addToBoolQuery(BoolQuery $query, AbstractQuery $nested, Filter $filter): void
     {
-        switch ($filter->getClause()) {
-            case 'must':
-                $query->addMust($nested);
-                break;
-            case 'should':
-                $query->addShould($nested);
-                break;
-            case 'must_not':
-                $query->addMustNot($nested);
-                break;
-            default:
-                throw new \RuntimeException(\sprintf('Clause %s not suported', $filter->getClause()));
-        }
+        match ($filter->getClause()) {
+            'must' => $query->addMust($nested),
+            'should' => $query->addShould($nested),
+            'must_not' => $query->addMustNot($nested),
+            default => throw new \RuntimeException(\sprintf('Clause %s not suported', $filter->getClause())),
+        };
     }
 }

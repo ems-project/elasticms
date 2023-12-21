@@ -25,7 +25,7 @@ final class EmbedController extends AbstractController
      * @param string[]     $sourceFields
      * @param array<mixed> $args
      */
-    public function renderHierarchyAction(string $template, string $parent, string $field, int $depth = null, array $sourceFields = [], array $args = [], string $cacheType = null): Response
+    public function renderHierarchy(string $template, string $parent, string $field, int $depth = null, array $sourceFields = [], array $args = [], string $cacheType = null): Response
     {
         $cacheKey = [
             'EMSCH_Hierarchy',
@@ -55,7 +55,7 @@ final class EmbedController extends AbstractController
      * @param array<mixed>         $args
      * @param string[]             $sourceExclude
      */
-    public function renderBlockAction(null|string|array $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, string $cacheType = null, array $sourceExclude = []): Response
+    public function renderEmbed(null|string|array $searchType, array $body, string $template, array $args = [], int $from = 0, int $size = 10, string $cacheType = null, array $sourceExclude = []): Response
     {
         $cacheKey = [
             'EMSCH_Block',

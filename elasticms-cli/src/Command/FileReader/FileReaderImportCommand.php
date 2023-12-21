@@ -34,7 +34,7 @@ final class FileReaderImportCommand extends AbstractCommand
     private bool $hashOuuid;
     private bool $deleteMissingDocuments;
     private bool $hashFile;
-    private ?string $encoding;
+    private ?string $encoding = null;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {

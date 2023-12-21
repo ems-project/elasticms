@@ -6,7 +6,8 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
-use ZipStream\Option\Archive;
+use ZipStream\CompressionMethod;
+use ZipStream\OperationMode;
 use ZipStream\ZipStream;
 
 class Zip
@@ -22,11 +23,7 @@ class Zip
             throw new \RuntimeException('Unexpected false temporary stream');
         }
 
-        $option = new Archive();
-        $option->setZeroHeader(true);
-        $option->setEnableZip64(false);
-        $option->setOutputStream($stream);
-        $zip = new ZipStream(null, $option);
+        $zip = new ZipStream(OperationMode::NORMAL, '', $stream, CompressionMethod::DEFLATE, 6, false, true);
         foreach ($this->config->getFiles() as $file) {
             $zip->addFileFromPsr7Stream($file['filename'], $file['stream']);
         }

@@ -40,8 +40,8 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_TARGET_FOLDER = 'target-folder';
 
     private bool $tika;
-    private ?string $tikaBaseUrl;
-    private ?string $tikaCacheFolder;
+    private ?string $tikaBaseUrl = null;
+    private ?string $tikaCacheFolder = null;
 
     private MediaLibrarySyncOptions $options;
 

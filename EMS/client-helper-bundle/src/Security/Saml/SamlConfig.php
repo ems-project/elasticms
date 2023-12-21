@@ -6,10 +6,10 @@ namespace EMS\ClientHelperBundle\Security\Saml;
 
 class SamlConfig
 {
-    public const PATH_SAML = '/saml';
-    public const ROUTE_METADATA = 'emsch_saml_metadata';
-    public const ROUTE_LOGIN = 'emsch_saml_login';
-    public const ROUTE_ACS = 'emsch_saml_acs';
+    final public const PATH_SAML = '/saml';
+    final public const ROUTE_METADATA = 'emsch_saml_metadata';
+    final public const ROUTE_LOGIN = 'emsch_saml_login';
+    final public const ROUTE_ACS = 'emsch_saml_acs';
 
     /**
      * @param array<mixed> $config

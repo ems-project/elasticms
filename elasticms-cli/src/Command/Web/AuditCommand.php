@@ -62,9 +62,9 @@ class AuditCommand extends AbstractCommand
     private bool $tika;
     private bool $all;
     private ?string $ignoreRegex = null;
-    private ?string $tikaBaseUrl;
+    private ?string $tikaBaseUrl = null;
     private float $tikaMaxSize;
-    private ?string $saveFolder;
+    private ?string $saveFolder = null;
     /** @var string[] */
     private array $audited = [];
     private string $baseUrl;

@@ -48,9 +48,9 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_json_menu_decode', [TextRuntime::class, 'jsonMenuDecode']),
             new TwigFilter('ems_json_menu_nested_decode', [TextRuntime::class, 'jsonMenuNestedDecode']),
             new TwigFilter('ems_json_decode', [TextRuntime::class, 'jsonDecode']),
-            new TwigFilter('ems_webalize', [Encoder::class, 'webalizeForUsers']),
-            new TwigFilter('ems_ascii_folding', [Encoder::class, 'asciiFolding']),
-            new TwigFilter('ems_markdown', [Encoder::class, 'markdownToHtml'], ['is_safe' => ['html']]),
+            new TwigFilter('ems_webalize', (new Encoder())->webalizeForUsers(...)),
+            new TwigFilter('ems_ascii_folding', Encoder::asciiFolding(...)),
+            new TwigFilter('ems_markdown', Encoder::markdownToHtml(...), ['is_safe' => ['html']]),
             new TwigFilter('ems_stringify', Converter::stringify(...)),
             new TwigFilter('ems_temp_file', [AssetRuntime::class, 'temporaryFile']),
             new TwigFilter('ems_asset_average_color', [AssetRuntime::class, 'assetAverageColor'], ['is_safe' => ['html']]),
@@ -59,7 +59,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_base64_encode', Base64::encode(...)),
             new TwigFilter('ems_base64_decode', Base64::decode(...)),
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),
-            new TwigFilter('ems_preg_match', [Encoder::class, 'pregMatch']),
+            new TwigFilter('ems_preg_match', Encoder::pregMatch(...)),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
         ];
     }

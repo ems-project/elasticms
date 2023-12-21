@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreDataCacheFactory implements StoreDataFactoryInterface
 {
-    public const TYPE_CACHE = 'cache';
+    final public const TYPE_CACHE = 'cache';
 
     public function __construct(
         private readonly Cache $cache

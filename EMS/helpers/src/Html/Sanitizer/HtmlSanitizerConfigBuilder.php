@@ -25,7 +25,7 @@ class HtmlSanitizerConfigBuilder
     /**
      * @var array<mixed>|array{ allow: string[], drop: string[], replace: string[]}
      */
-    private array $classes;
+    private readonly array $classes;
 
     private const CONFIG_ORDER = [
         'max_input_length',

@@ -12,7 +12,7 @@ class TikaCachePromise implements TikaPromiseInterface
     private const TYPE_TEXT = 'text';
     private const TYPE_META = 'meta';
     private const TYPE_HTML = 'html';
-    private string $hash;
+    private readonly string $hash;
 
     public function __construct(StreamInterface $stream, private readonly string $cacheFolder, private readonly TikaPromiseInterface $promise)
     {

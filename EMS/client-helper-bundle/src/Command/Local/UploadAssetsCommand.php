@@ -16,7 +16,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
 {
     private const ARG_BASE_URL = 'base_url';
     private const OPTION_FILENAME = 'filename';
-    private ?string $filename;
+    private ?string $filename = null;
 
     public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper, private readonly ?string $assetLocalFolder)
     {

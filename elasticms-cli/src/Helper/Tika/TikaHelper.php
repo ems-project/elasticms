@@ -11,7 +11,7 @@ use Symfony\Component\Mime\MimeTypesInterface;
 
 class TikaHelper
 {
-    private MimeTypesInterface $mimeTypes;
+    private readonly MimeTypesInterface $mimeTypes;
 
     private function __construct(private readonly ?string $tikaBaseUrl, private readonly ?string $tikaCacheFolder)
     {

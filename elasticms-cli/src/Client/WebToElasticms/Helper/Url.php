@@ -27,7 +27,7 @@ class Url
     private string $path;
     private ?string $query;
     private ?string $fragment;
-    private ?string $referer;
+    private readonly ?string $referer;
 
     public function __construct(string $url, string $referer = null, private readonly ?string $refererLabel = null)
     {

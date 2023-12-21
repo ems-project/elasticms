@@ -18,7 +18,7 @@ class DownloadCommand extends AbstractCommand
 {
     private const CONTENT_TYPE = 'content-type';
     private const FOLDER = 'folder';
-    public const DEFAULT_FOLDER = 'document';
+    final public const DEFAULT_FOLDER = 'document';
     private string $contentType;
     private string $folder;
 

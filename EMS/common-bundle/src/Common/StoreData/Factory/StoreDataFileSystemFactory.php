@@ -8,8 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreDataFileSystemFactory implements StoreDataFactoryInterface
 {
-    public const TYPE_FS = 'fs';
-    public const ROOT_PATH = 'path';
+    final public const TYPE_FS = 'fs';
+    final public const ROOT_PATH = 'path';
 
     public function getType(): string
     {

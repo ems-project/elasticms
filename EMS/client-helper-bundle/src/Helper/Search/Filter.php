@@ -46,7 +46,7 @@ final class Filter
     /** @var array<mixed>|null */
     private ?array $choices = null;
 
-    private bool|string $dateFormat;
+    private readonly bool|string $dateFormat;
 
     private const TYPE_TERM = 'term';
     private const TYPE_TERMS = 'terms';
@@ -61,7 +61,7 @@ final class Filter
         self::TYPE_DATE_TIME_RANGE,
         self::TYPE_DATE_VERSION,
     ];
-    private string $clause;
+    private readonly string $clause;
 
     /**
      * @param array<mixed> $options

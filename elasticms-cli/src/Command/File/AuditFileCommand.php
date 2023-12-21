@@ -24,8 +24,8 @@ class AuditFileCommand extends AbstractCommand
     private const ARG_FOLDER = 'folder';
     private ConsoleLogger $logger;
     private string $folder;
-    private MimeTypes $mimeTypes;
-    private Report $report;
+    private readonly MimeTypes $mimeTypes;
+    private readonly Report $report;
 
     public function __construct()
     {

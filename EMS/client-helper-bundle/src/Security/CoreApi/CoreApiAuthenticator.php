@@ -27,7 +27,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
-    public const CSRF_ID = 'login';
+    final public const CSRF_ID = 'login';
 
     public function __construct(
         private readonly HttpUtils $httpUtils,

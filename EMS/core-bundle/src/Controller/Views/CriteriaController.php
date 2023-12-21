@@ -1115,7 +1115,7 @@ class CriteriaController extends AbstractController
 
         foreach ($choices as $idx => $choice) {
             $label = $labels[$idx] ?? $choice;
-            if (!$request->query->get('q') || \stristr($choice, $request->query->get('q')) || \stristr($label, $request->query->get('q'))) {
+            if (!$request->query->get('q') || \stristr($choice, (string) $request->query->get('q')) || \stristr($label, (string) $request->query->get('q'))) {
                 $out['items'][] = [
                     'id' => $choice,
                     'text' => $label,

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CommandCommand extends AbstractCommand
 {
-    public const COMMAND = 'remote-command';
+    final public const COMMAND = 'remote-command';
     protected static $defaultName = Commands::ADMIN_COMMAND;
     private string $command;
 

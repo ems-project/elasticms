@@ -6,7 +6,9 @@ namespace EMS\CommonBundle\Tests\Unit\Common\Log;
 
 use EMS\CommonBundle\Common\Log\DoctrineHandler;
 use EMS\CommonBundle\Repository\LogRepository;
+use Monolog\Level;
 use Monolog\Logger;
+use Monolog\LogRecord;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -26,16 +28,15 @@ class DoctrineHandlerAiTest extends TestCase
 
     public function testWrite(): void
     {
-        $record = [
-            'message' => 'testMessage',
-            'level' => Logger::ERROR,
-            'level_name' => 'ERROR',
-            'context' => ['api_key' => '123456'],
-            'channel' => 'testChannel',
-            'formatted' => 'testFormatted',
-            'datetime' => new \DateTimeImmutable(),
-            'extra' => [],
-        ];
+        $record = new LogRecord(
+            new \DateTimeImmutable(),
+            'testChannel',
+            Level::Error,
+            'testMessage',
+            ['api_key' => '123456'],
+            [],
+            'testFormatted'
+        );
 
         $secretValue = new \ReflectionClassConstant(DoctrineHandler::class, 'SECRET_VALUE');
 

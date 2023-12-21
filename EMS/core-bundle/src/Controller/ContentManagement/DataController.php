@@ -87,7 +87,7 @@ class DataController extends AbstractController
             'contentType' => $contentType->getId(),
         ]);
         foreach ($searches as $search) {
-            return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::searchAction', [
+            return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
                 'query' => null,
             ], [
                 'search_form' => $search->jsonSerialize(),
@@ -106,7 +106,7 @@ class DataController extends AbstractController
             $searchForm->setSortOrder($contentType->getSortOrder());
         }
 
-        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::searchAction', [
+        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
             'query' => null,
         ], [
             'search_form' => $searchForm->jsonSerialize(),
@@ -156,7 +156,7 @@ class DataController extends AbstractController
 
         $formEncoded = \json_encode($searchForm, JSON_THROW_ON_ERROR);
 
-        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::searchAction', [
+        return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
             'query' => null,
         ], [
             'search_form' => \json_decode($formEncoded, true, 512, JSON_THROW_ON_ERROR),

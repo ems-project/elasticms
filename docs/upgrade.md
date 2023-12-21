@@ -6,6 +6,17 @@
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
 
+## version 6.0.x
+
+All controller methods have lost there trailing `Action`
+
+### `emsch.controller.embed::renderBlockAction` must be replaced by `emsch.controller.embed::renderEmbed`
+```twig
+{{ render(controller('emsch.controller.embed::renderEmbed', {
+    ....
+} )) }}
+```
+
 ## version 5.7.x
 
 * Added twig function [ems_template_exists](./site-building/twig.md#ems_template_exists)

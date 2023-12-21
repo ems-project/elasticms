@@ -10,8 +10,28 @@
 
 All controller methods have lost any trailing `Action`
 
+## Renamed embed methods in web/skeleton templates
+
 * `emsch.controller.embed::renderBlockAction` must be replaced by `emsch.controller.embed::renderEmbed`
 * `emsch.controller.embed::renderHierarchyAction` must be replaced by `emsch.controller.embed::renderHierarchy`
+
+E.g.:
+
+```twig
+{{ render(controller('emsch.controller.embed::renderHierarchy', {
+    'template': '@EMSCH/template/menu.html.twig',
+    'parent': 'emsLink',
+    'field': 'children',
+    'depth': 5,
+    'sourceFields': [],
+    'args': {'activeChild': emsLink, 'extra': 'test'}
+} )) }}
+```
+
+## Renamed embed methods in Core bundle
+
+If you call the controller twig method in admin templates (Actions, Views, Dashboards, ...).
+
 * `App\\Admin\\Controller\\HomeController::indexAction` must be replaced by `App\\Admin\\Controller\\HomeController::index`
 * `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::assetAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::::asset`
 * `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::assetProcessorAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::::assetProcessor`

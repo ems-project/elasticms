@@ -27,9 +27,6 @@ final class EnvironmentHelper implements EnvironmentHelperInterface
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function addEnvironment(string $name, array $config): void
     {
         if ($this->emschEnv && !isset($config[Environment::DEFAULT])) {

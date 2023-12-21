@@ -53,8 +53,6 @@ class Schedule extends JsonDeserializer implements \JsonSerializable, EntityInte
     protected ?string $command = null;
 
     /**
-     * @var \Datetime
-     *
      * @ORM\Column(name="previous_run", type="datetime", nullable=true)
      */
     private ?\Datetime $previousRun = null;

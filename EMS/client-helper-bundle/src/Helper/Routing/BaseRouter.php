@@ -19,17 +19,11 @@ abstract class BaseRouter implements RouterInterface, RequestMatcherInterface
     protected ?UrlMatcher $matcher = null;
     protected ?UrlGenerator $generator = null;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContext(): RequestContext
     {
         return $this->context;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function setContext(RequestContext $context): void
     {
         $this->context = $context;

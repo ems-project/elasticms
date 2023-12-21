@@ -872,7 +872,6 @@ class DataService
      * Parcours all fields and call DataFieldsType postFinalizeTreament function.
      *
      * @param FormInterface<FormInterface> $form
-     * @param mixed                        $previousObjectArray
      */
     public function postFinalizeTreatment(string $type, string $id, FormInterface $form, mixed $previousObjectArray = null): void
     {

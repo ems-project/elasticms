@@ -33,9 +33,6 @@ final class ContentType implements ContentTypeInterface
         return $this->lastPublished->getTimestamp() <= $timestamp;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCacheValidityTag(): string
     {
         return \sprintf('%d_%d', $this->getLastPublished()->getTimestamp(), $this->total);

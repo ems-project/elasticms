@@ -78,9 +78,6 @@ class AppExtension extends AbstractExtension
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFunctions(): array
     {
         return [
@@ -130,9 +127,6 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilters(): array
     {
         return [

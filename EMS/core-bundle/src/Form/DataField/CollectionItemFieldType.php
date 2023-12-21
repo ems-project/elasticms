@@ -18,9 +18,6 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class CollectionItemFieldType extends DataFieldType
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(): string
     {
         return 'Collection item object (this message should neve seen anywhere)';
@@ -90,9 +87,6 @@ class CollectionItemFieldType extends DataFieldType
         ]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function buildObjectArray(DataField $data, array &$out): void
     {
         if (null == $data->getFieldType()) {
@@ -117,18 +111,12 @@ class CollectionItemFieldType extends DataFieldType
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public static function isContainer(): bool
     {
         /* this kind of compound field may contain children */
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generateMapping(FieldType $current): array
     {
         return [
@@ -139,8 +127,6 @@ class CollectionItemFieldType extends DataFieldType
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @param array<mixed> $data
      */
     public function reverseViewTransform($data, FieldType $fieldType): DataField

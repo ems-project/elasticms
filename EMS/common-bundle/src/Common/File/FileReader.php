@@ -12,9 +12,6 @@ use PhpOffice\PhpSpreadsheet\Reader\Slk;
 
 final class FileReader implements FileReaderInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getData(string $filename, bool $skipFirstRow = false, string $encoding = null): array
     {
         $reader = IOFactory::createReaderForFile($filename);

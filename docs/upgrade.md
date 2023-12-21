@@ -8,14 +8,26 @@
 
 ## version 6.0.x
 
-All controller methods have lost there trailing `Action`
+All controller methods have lost any trailing `Action`
 
-### `emsch.controller.embed::renderBlockAction` must be replaced by `emsch.controller.embed::renderEmbed`
-```twig
-{{ render(controller('emsch.controller.embed::renderEmbed', {
-    ....
-} )) }}
-```
+* `emsch.controller.embed::renderBlockAction` must be replaced by `emsch.controller.embed::renderEmbed`
+* `emsch.controller.embed::renderHierarchyAction` must be replaced by `emsch.controller.embed::renderHierarchy`
+* `App\\Admin\\Controller\\HomeController::indexAction` must be replaced by `App\\Admin\\Controller\\HomeController::index`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::assetAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::::asset`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::assetProcessorAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\AssetController::::assetProcessor`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::updateFromJsonAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::updateFromJson`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::removeAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::remove`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::activateAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::activate`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::disableAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::disable`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::refreshMappingAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::refreshMapping`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::addAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::add`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::indexAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::index`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::unreferencedAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::unreferenced`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editFieldAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editField`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::reorderAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::reorder`
+* `EMS\\CoreBundle\\Controller\vContentManagement\\ContentTypeController::editAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::edit`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editStructureAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editStructure`
+* `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::exportAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::export`
 
 ## version 5.7.x
 

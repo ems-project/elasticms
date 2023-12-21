@@ -25,7 +25,7 @@ final class EmbedController extends AbstractController
      * @param string[]     $sourceFields
      * @param array<mixed> $args
      */
-    public function renderHierarchyAction(string $template, string $parent, string $field, int $depth = null, array $sourceFields = [], array $args = [], string $cacheType = null): Response
+    public function renderHierarchy(string $template, string $parent, string $field, int $depth = null, array $sourceFields = [], array $args = [], string $cacheType = null): Response
     {
         $cacheKey = [
             'EMSCH_Hierarchy',

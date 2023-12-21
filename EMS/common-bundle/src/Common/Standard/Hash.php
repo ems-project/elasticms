@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Common\Standard;
 
 final class Hash
 {
-    public static function string(string $value, ?string $prefix = null): string
+    public static function string(string $value, string $prefix = null): string
     {
         return self::hash($value, $prefix);
     }
@@ -14,12 +14,12 @@ final class Hash
     /**
      * @param array<mixed> $value
      */
-    public static function array(array $value, ?string $prefix = null): string
+    public static function array(array $value, string $prefix = null): string
     {
         return self::hash(\EMS\Helpers\Standard\Json::encode($value), $prefix);
     }
 
-    private static function hash(string $value, ?string $prefix = null): string
+    private static function hash(string $value, string $prefix = null): string
     {
         return $prefix.\sha1($value);
     }

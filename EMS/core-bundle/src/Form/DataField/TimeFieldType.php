@@ -155,7 +155,7 @@ class TimeFieldType extends DataFieldType
 
         $attr['class'] .= ' timepicker';
         $attr['data-show-meridian'] = $options['showMeridian'] ? 'true' : 'false';
-//         $attr['data-provide'] = 'timepicker';
+        //         $attr['data-provide'] = 'timepicker';
         $attr['data-default-time'] = $options['defaultTime'];
         $attr['data-show-seconds'] = $options['showSeconds'];
         $attr['data-explicit-mode'] = $options['explicitMode'];

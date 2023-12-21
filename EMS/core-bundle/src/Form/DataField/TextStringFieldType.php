@@ -35,18 +35,18 @@ class TextStringFieldType extends DataFieldType
         $view->vars['attr']['placeholder'] = $options['placeholder'];
     }
 
-//     /**
-//      *
-//      * {@inheritDoc}
-//      * @see \EMS\CoreBundle\Form\DataField\DataFieldType::viewTransform()
-//      */
-//     public function viewTransform(DataField $data){
-//         $out = parent::viewTransform($data);
-//         if(empty($out)) {
-//             return "";
-//         }
-//         return $out;
-//     }
+    //     /**
+    //      *
+    //      * {@inheritDoc}
+    //      * @see \EMS\CoreBundle\Form\DataField\DataFieldType::viewTransform()
+    //      */
+    //     public function viewTransform(DataField $data){
+    //         $out = parent::viewTransform($data);
+    //         if(empty($out)) {
+    //             return "";
+    //         }
+    //         return $out;
+    //     }
 
     public static function getIcon(): string
     {

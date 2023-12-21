@@ -353,7 +353,7 @@ class AppExtension extends AbstractExtension
 
     /**
      * @param mixed|null $rawData
-     * @param mixed|null$compareRawData
+     * @param mixed|null $compareRawData
      */
     public function diffTime($rawData, bool $compare, string $fieldName, $compareRawData, string $format1, string $format2): string
     {
@@ -701,7 +701,7 @@ class AppExtension extends AbstractExtension
      * @param array<mixed>|null $sort
      * @param string[]|null     $sources
      */
-    public function search(array $indexes, array $body = [], array $contentTypes = [], ?int $size = null, int $from = 0, ?array $sort = null, ?array $sources = null): ResultSet
+    public function search(array $indexes, array $body = [], array $contentTypes = [], int $size = null, int $from = 0, array $sort = null, array $sources = null): ResultSet
     {
         $query = $this->elasticaService->filterByContentTypes(null, $contentTypes);
 
@@ -979,7 +979,7 @@ class AppExtension extends AbstractExtension
         return $this->get($key)?->getSource();
     }
 
-    public function get(?string $key, ?Environment $environment = null): ?DocumentInterface
+    public function get(?string $key, Environment $environment = null): ?DocumentInterface
     {
         if (empty($key)) {
             return null;

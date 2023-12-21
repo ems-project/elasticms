@@ -136,8 +136,8 @@ class CheckboxFieldType extends DataFieldType
 //                 'required' => false,
         ]);
 
-//         // String specific mapping options
-//         $optionsForm->get ( 'mappingOptions' )->add ( 'analyzer', AnalyzerPickerType::class);
+        //         // String specific mapping options
+        //         $optionsForm->get ( 'mappingOptions' )->add ( 'analyzer', AnalyzerPickerType::class);
         $optionsForm->get('restrictionOptions')->remove('mandatory');
         $optionsForm->get('restrictionOptions')->remove('mandatory_if');
     }

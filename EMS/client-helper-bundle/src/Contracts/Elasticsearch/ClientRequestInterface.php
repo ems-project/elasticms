@@ -11,7 +11,7 @@ interface ClientRequestInterface
 {
     public function getCacheKey(string $prefix = '', string $environment = null): string;
 
-    public function getContentType(string $name, ?Environment $environment = null): ?ContentTypeInterface;
+    public function getContentType(string $name, Environment $environment = null): ?ContentTypeInterface;
 
     /**
      * @return array<mixed>

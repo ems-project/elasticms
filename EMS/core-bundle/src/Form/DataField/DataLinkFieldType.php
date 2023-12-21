@@ -218,7 +218,7 @@ class DataLinkFieldType extends DataFieldType
                     unset($all[$key]);
                 }
             }
-//             return $loader->loadChoiceList()->loadChoices($choices);
+            //             return $loader->loadChoiceList()->loadChoices($choices);
         }
 
         return $all;

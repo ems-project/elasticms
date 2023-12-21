@@ -85,7 +85,7 @@ final class Admin implements AdminInterface
         return $contentTypes;
     }
 
-    public function runCommand(string $command, ?OutputInterface $output = null): void
+    public function runCommand(string $command, OutputInterface $output = null): void
     {
         $job = [
             'class' => 'EMS\\CoreBundle\\Entity\\Job',

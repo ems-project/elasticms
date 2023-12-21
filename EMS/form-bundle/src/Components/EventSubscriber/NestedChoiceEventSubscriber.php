@@ -89,7 +89,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
     /**
      * @param FormInterface<FormInterface> $form
      */
-    private function addField(string $fieldName, string $choice, FormInterface $form, ?string $defaultData = null): void
+    private function addField(string $fieldName, string $choice, FormInterface $form, string $defaultData = null): void
     {
         $options = $this->field->getOptions();
 

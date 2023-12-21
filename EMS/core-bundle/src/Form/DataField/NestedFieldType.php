@@ -94,8 +94,8 @@ class NestedFieldType extends DataFieldType
             $tmp = [];
             /** @var DataField $child */
             foreach ($data->getChildren() as $child) {
-//                 $className = $child->getFieldType()->getType();
-//                 $class = new $className;
+                //                 $className = $child->getFieldType()->getType();
+                //                 $class = new $className;
                 $class = $this->formRegistry->getType($child->giveFieldType()->getType());
 
                 if (\method_exists($class, 'buildObjectArray')) {

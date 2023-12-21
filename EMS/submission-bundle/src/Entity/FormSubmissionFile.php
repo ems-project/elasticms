@@ -75,7 +75,7 @@ class FormSubmissionFile implements EntityInterface
      *
      * @ORM\JoinColumn(name="form_submission_id", referencedColumnName="id")
      */
-    private FormSubmission $formSubmission, array $file)
+        private FormSubmission $formSubmission, array $file)
     {
         $now = new \DateTime();
 

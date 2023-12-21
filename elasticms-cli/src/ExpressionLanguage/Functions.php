@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 class Functions
 {
-    public static function domToJsonMenu(string $html, string $tag, string $fieldName, string $typeName, ?string $labelField = null): string
+    public static function domToJsonMenu(string $html, string $tag, string $fieldName, string $typeName, string $labelField = null): string
     {
         if ('' === \preg_replace('!\s+!', ' ', $html)) {
             return '[]';

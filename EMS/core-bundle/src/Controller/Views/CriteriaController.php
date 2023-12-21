@@ -220,7 +220,7 @@ class CriteriaController extends AbstractController
         return $authorized;
     }
 
-    public function generateCriteriaTableAction(View $view, Request $request): Response
+    public function generateCriteriaTable(View $view, Request $request): Response
     {
         $counters = $this->revisionRepository->draftCounterGroupedByContentType([], true);
 
@@ -485,7 +485,7 @@ class CriteriaController extends AbstractController
         ];
     }
 
-    public function addCriteriaAction(View $view, Request $request): Response
+    public function addCriteria(View $view, Request $request): Response
     {
         $filters = $request->request->all('filters');
         $target = Type::string($request->request->get('target'));
@@ -779,7 +779,7 @@ class CriteriaController extends AbstractController
         return false;
     }
 
-    public function removeCriteriaAction(View $view, Request $request): Response
+    public function removeCriteria(View $view, Request $request): Response
     {
         $filters = $request->request->all('filters');
         $target = Type::string($request->request->get('target'));
@@ -1098,7 +1098,7 @@ class CriteriaController extends AbstractController
         return false;
     }
 
-    public function fieldFilterAction(Request $request): JsonResponse
+    public function fieldFilter(Request $request): JsonResponse
     {
         /** @var FieldType $field */
         $field = $this->fieldTypeRepository->find($request->query->get('targetField'));

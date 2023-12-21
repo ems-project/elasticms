@@ -141,11 +141,6 @@ class UserController extends AbstractController
         return $this->redirectToRoute(Routes::USER_INDEX);
     }
 
-    public function apiKeyAction(string $username): Response
-    {
-        return $this->apiKey($username);
-    }
-
     public function apiKey(string $username): Response
     {
         $user = $this->userService->giveUser($username, false);

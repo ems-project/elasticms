@@ -65,7 +65,7 @@ class CriteriaController extends AbstractController
         /** @var CriteriaUpdateConfig $criteriaUpdateConfig */
         $criteriaUpdateConfig = $form->getData();
 
-        $tables = $this->generateCriteriaTable($view, $criteriaUpdateConfig);
+        $tables = $this->generateCriteriaTableContext($view, $criteriaUpdateConfig);
         $params = \explode(':', Type::string($request->request->get('alignOn')));
 
         $isRowAlign = ('row' == $params[0]);
@@ -305,7 +305,7 @@ class CriteriaController extends AbstractController
             ]);
         }
 
-        $tables = $this->generateCriteriaTable($view, $criteriaUpdateConfig);
+        $tables = $this->generateCriteriaTableContext($view, $criteriaUpdateConfig);
 
         return $this->render("@$this->templateNamespace/view/custom/criteria_table.html.twig", [
             'table' => $tables['table'],
@@ -331,7 +331,7 @@ class CriteriaController extends AbstractController
      * @throws PerformanceException
      * @throws \Exception
      */
-    public function generateCriteriaTable(View $view, CriteriaUpdateConfig $criteriaUpdateConfig): array
+    private function generateCriteriaTableContext(View $view, CriteriaUpdateConfig $criteriaUpdateConfig): array
     {
         $contentType = $view->getContentType();
 

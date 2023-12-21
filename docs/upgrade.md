@@ -49,6 +49,14 @@ If you call the controller twig method in admin templates (Actions, Views, Dashb
 * `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editStructureAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::editStructure`
 * `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::exportAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController::export`
 * `EMS\\CoreBundle\\Controller\\ContentManagement\\ActionController::indexAction` must be replaced by `EMS\\CoreBundle\\Controller\\ContentManagement\\ActionController::index`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::createAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::create`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::getAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::get`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::finalizeAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::finalize`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::discardAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::discard`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::deleteAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::delete`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::replaceAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::replace`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::mergeAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::merge`
+* `EMS\CoreBundle\Controller\ContentManagement\CrudController::testAction` must be replaced by `EMS\CoreBundle\Controller\ContentManagement\CrudController::test`
 
 ## Routes removed
 

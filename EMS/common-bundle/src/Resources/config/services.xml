@@ -53,6 +53,9 @@
         <service id="ems_common.event_listener.command" class="EMS\CommonBundle\EventListener\CommandListener">
             <tag name="kernel.event_subscriber" />
         </service>
+        <service id="ems.event_listener.doctrine_migration" class="EMS\CommonBundle\EventListener\DoctrineMigrationListener">
+            <tag name="doctrine.event_listener" event="postGenerateSchema"/>
+        </service>
 
         <service id="ems_common.text.encoder" class="EMS\CommonBundle\Helper\Text\Encoder">
             <argument type="string">%ems_common.webalize.removable_regex%</argument>

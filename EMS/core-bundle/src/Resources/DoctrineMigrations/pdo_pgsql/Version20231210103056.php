@@ -30,7 +30,7 @@ final class Version20231210103056 extends AbstractMigration
             ]);
         }
 
-        $uploadAssets = $this->connection->executeQuery('select id, head_in from uploaded_asset');
+        $uploadAssets = $this->connection->executeQuery('select id, head_in from uploaded_asset where head_in is not null');
         while ($uploadAsset = $uploadAssets->fetchAssociative()) {
             $this->addSql('UPDATE uploaded_asset SET head_in = :head_in WHERE id = :id', [
                 'id' => $uploadAsset['id'],
@@ -64,7 +64,7 @@ final class Version20231210103056 extends AbstractMigration
             ]);
         }
 
-        $uploadAssets = $this->connection->executeQuery('select id, head_in from uploaded_asset');
+        $uploadAssets = $this->connection->executeQuery('select id, head_in from uploaded_asset where head_in is not null');
         while ($uploadAsset = $uploadAssets->fetchAssociative()) {
             $this->addSql('UPDATE uploaded_asset SET head_in = :head_in WHERE id = :id', [
                 'id' => $uploadAsset['id'],

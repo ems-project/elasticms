@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.12.3 (2023-12-22)
+### Bug Fixes
+* fix(core): deprecation migration event subscriber by @Davidmattei in https://github.com/ems-project/elasticms/pull/693
+* fix(core/doctrine): invalid entities bigint, decimal returns string by @Davidmattei in https://github.com/ems-project/elasticms/pull/695
+
 ## 5.12.2 (2023-12-21)
 ### Bug Fixes
 * fix(common): export/import documents by @theus77 in https://github.com/ems-project/elasticms/pull/675

@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20230926192729 extends AbstractMigration
+final class Version20231222192729 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {

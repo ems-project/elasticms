@@ -8,7 +8,7 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20230926192534 extends AbstractMigration
+final class Version20231222192534 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {

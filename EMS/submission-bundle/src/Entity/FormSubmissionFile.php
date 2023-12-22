@@ -4,99 +4,41 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CommonBundle\Entity\EntityInterface;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
+use EMS\Helpers\Standard\Base64;
+use EMS\Helpers\Standard\DateTime;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Table(name="form_submission_file")
- *
- * @ORM\Entity()
- *
- * @ORM\HasLifecycleCallbacks()
- */
 class FormSubmissionFile implements EntityInterface
 {
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="uuid", unique=true)
-     *
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     *
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
+    use CreatedModifiedTrait;
+
     private UuidInterface $id;
-
-    /**
-     * @ORM\Column(name="created", type="datetime")
-     */
-    private \DateTime $created;
-
-    /**
-     * @ORM\Column(name="modified", type="datetime")
-     */
-    private \DateTime $modified;
-
-    /**
-     * @var string|resource
-     *
-     * @ORM\Column(name="file", type="blob")
-     */
+    /** @var string|resource */
     private $file;
-
-    /**
-     * @ORM\Column(name="filename", type="string")
-     */
     private string $filename;
-
-    /**
-     * @ORM\Column(name="form_field", type="string")
-     */
     private string $formField;
-
-    /**
-     * @ORM\Column(name="mime_type", type="string", length=1024)
-     */
     private string $mimeType;
-
-    /**
-     * @ORM\Column(name="size", type="bigint")
-     */
     private string $size;
 
     /**
      * @param array<string, string> $file
      */
-    public function __construct(/**
-     * @ORM\ManyToOne(targetEntity="EMS\SubmissionBundle\Entity\FormSubmission", inversedBy="files")
-     *
-     * @ORM\JoinColumn(name="form_submission_id", referencedColumnName="id")
-     */
-        private FormSubmission $formSubmission, array $file)
-    {
-        $now = new \DateTime();
-
+    public function __construct(
+        private readonly FormSubmission $formSubmission,
+        array $file
+    ) {
         $this->id = Uuid::uuid4();
-        $this->created = $now;
-        $this->modified = $now;
-        $this->file = \base64_decode($file['base64']);
+        $this->created = DateTime::create('now');
+        $this->modified = DateTime::create('now');
+
+        $this->file = Base64::decode($file['base64']);
         $this->filename = $file['filename'];
         $this->formField = $file['form_field'];
         $this->mimeType = $file['mimeType'];
         $this->size = (string) $file['size'];
-    }
-
-    /**
-     * @ORM\PrePersist
-     *
-     * @ORM\PreUpdate
-     */
-    public function updateModified(): void
-    {
-        $this->modified = new \DateTime();
     }
 
     /**
@@ -122,16 +64,6 @@ class FormSubmissionFile implements EntityInterface
         return $this->id->toString();
     }
 
-    public function getCreated(): \DateTime
-    {
-        return $this->created;
-    }
-
-    public function getModified(): \DateTime
-    {
-        return $this->modified;
-    }
-
     public function getFormSubmission(): FormSubmission
     {
         return $this->formSubmission;
@@ -147,10 +79,7 @@ class FormSubmissionFile implements EntityInterface
         return $this->mimeType;
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function getSize()
+    public function getSize(): string
     {
         return $this->size;
     }

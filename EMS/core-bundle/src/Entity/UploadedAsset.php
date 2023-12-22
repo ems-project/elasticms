@@ -24,7 +24,7 @@ class UploadedAsset implements EntityInterface
     private bool $hidden = false;
     private ?\DateTime $headLast = null;
     /** @var ?string[] */
-    private ?array $headIn;
+    private ?array $headIn = null;
 
     public function __construct()
     {

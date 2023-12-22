@@ -10,7 +10,7 @@ use Ramsey\Uuid\Uuid;
 
 class Functions
 {
-    public static function domToJsonMenu(string $html, string $tag, string $fieldName, string $typeName, ?string $labelField = null): string
+    public static function domToJsonMenu(string $html, string $tag, string $fieldName, string $typeName, string $labelField = null): string
     {
         if ('' === \preg_replace('!\s+!', ' ', $html)) {
             return '[]';
@@ -107,7 +107,7 @@ class Functions
     }
 
     /**
-     * @param array<string, string[]> $values,
+     * @param array<string, string[]> $values
      * @param array<string, string[]> $labels
      */
     public static function listToJsonMenuNested(array $values, string $fieldName, string $typeName, ?array $labels, ?string $labelField, bool $multiplex = false): string
@@ -146,8 +146,8 @@ class Functions
     }
 
     /**
-     * @param array<string, string[]> $values,
-     * @param array<string, string[]> $keys,
+     * @param array<string, string[]> $values
+     * @param array<string, string[]> $keys
      */
     public static function arrayToJsonMenuNested(array $values, array $keys): string
     {
@@ -170,8 +170,8 @@ class Functions
     }
 
     /**
-     * @param string|array<string>|array<string, string[]> $values,
-     * @param array<string>|array<string, string[]>        $keys,
+     * @param string|array<string>|array<string, string[]> $values
+     * @param array<string>|array<string, string[]>        $keys
      *
      * @return array<string, string[]>
      */

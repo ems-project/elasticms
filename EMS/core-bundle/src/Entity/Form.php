@@ -20,7 +20,7 @@ class Form extends JsonDeserializer implements \JsonSerializable, EntityInterfac
     protected string $name;
     protected string $label;
     protected int $orderKey;
-    protected ?FieldType $fieldType;
+    protected ?FieldType $fieldType = null;
 
     public function __construct()
     {
@@ -90,7 +90,7 @@ class Form extends JsonDeserializer implements \JsonSerializable, EntityInterfac
         return $json;
     }
 
-    public static function fromJson(string $json, ?EntityInterface $form = null): Form
+    public static function fromJson(string $json, EntityInterface $form = null): Form
     {
         $meta = JsonClass::fromJsonString($json);
         $form = $meta->jsonDeserialize($form);

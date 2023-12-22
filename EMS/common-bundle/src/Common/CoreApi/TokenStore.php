@@ -46,7 +46,7 @@ class TokenStore
         return $baseUrl;
     }
 
-    public function getToken(?string $baseUrl = null): ?string
+    public function getToken(string $baseUrl = null): ?string
     {
         if (null !== $baseUrl) {
             $cacheBaseUrl = $this->apiCacheBaseUrl();
@@ -65,7 +65,7 @@ class TokenStore
         return null;
     }
 
-    public function giveToken(?string $baseUrl = null): string
+    public function giveToken(string $baseUrl = null): string
     {
         $token = $this->getToken($baseUrl);
         if (null === $token) {

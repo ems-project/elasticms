@@ -27,7 +27,7 @@ final class Search
     /** @var string[] */
     private array $fields = [];
     /** @var string[] */
-    private array $fieldsExclude;
+    private readonly array $fieldsExclude;
     /** @var ?array<mixed> */
     private ?array $querySearch = null;
     /** @var string[] */
@@ -53,7 +53,7 @@ final class Search
     private ?string $sortBy = null;
     private string $analyzer;
     private string $sortOrder = 'asc';
-    private ?string $minimumShouldMatch;
+    private readonly ?string $minimumShouldMatch;
 
     public function __construct(private readonly Request $request, ClientRequest $clientRequest)
     {

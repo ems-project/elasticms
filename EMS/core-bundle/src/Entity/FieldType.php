@@ -93,11 +93,11 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function setDataValue(mixed $input, DataField &$dataField): never
     {
         throw new \Exception('Deprecated method');
-//         $type = $this->getType();
-//         /** @var DataFieldType $dataFieldType */
-//         $dataFieldType = new $type;
+        //         $type = $this->getType();
+        //         /** @var DataFieldType $dataFieldType */
+        //         $dataFieldType = new $type;
 
-//         $dataFieldType->setDataValue($input, $dataField, $this->getOptions());
+        //         $dataFieldType->setDataValue($input, $dataField, $this->getOptions());
     }
 
     /**
@@ -228,11 +228,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getDisplayOption(string $key, $default = null)
     {
         $options = $this->getDisplayOptions();
-        if (isset($options[$key])) {
-            return $options[$key];
-        }
 
-        return $default;
+        return $options[$key] ?? $default;
     }
 
     public function getDisplayBoolOption(string $key, bool $default): bool
@@ -248,11 +245,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getMappingOption(string $key, $default = null)
     {
         $options = $this->getMappingOptions();
-        if (isset($options[$key])) {
-            return $options[$key];
-        }
 
-        return $default;
+        return $options[$key] ?? $default;
     }
 
     /**
@@ -261,11 +255,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getMappingOptions(): array
     {
         $options = $this->getOptions();
-        if (isset($options['mappingOptions'])) {
-            return $options['mappingOptions'];
-        }
 
-        return [];
+        return $options['mappingOptions'] ?? [];
     }
 
     /**
@@ -274,11 +265,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getRestrictionOptions(): array
     {
         $options = $this->getOptions();
-        if (isset($options['restrictionOptions'])) {
-            return $options['restrictionOptions'];
-        }
 
-        return [];
+        return $options['restrictionOptions'] ?? [];
     }
 
     /**
@@ -287,11 +275,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getRestrictionOption(string $key, mixed $default = null)
     {
         $options = $this->getRestrictionOptions();
-        if (isset($options[$key])) {
-            return $options[$key];
-        }
 
-        return $default;
+        return $options[$key] ?? $default;
     }
 
     /**
@@ -300,11 +285,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getMigrationOption(string $key, mixed $default = null)
     {
         $options = $this->getMigrationOptions();
-        if (isset($options[$key])) {
-            return $options[$key];
-        }
 
-        return $default;
+        return $options[$key] ?? $default;
     }
 
     /**
@@ -313,11 +295,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getMigrationOptions(): array
     {
         $options = $this->getOptions();
-        if (isset($options['migrationOptions'])) {
-            return $options['migrationOptions'];
-        }
 
-        return [];
+        return $options['migrationOptions'] ?? [];
     }
 
     /**
@@ -326,11 +305,8 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
     public function getExtraOptions(): array
     {
         $options = $this->getOptions();
-        if (isset($options['extraOptions'])) {
-            return $options['extraOptions'];
-        }
 
-        return [];
+        return $options['extraOptions'] ?? [];
     }
 
     public function getMinimumRole(): string
@@ -469,22 +445,22 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         return $parent->contentType;
     }
 
-//     /**
-//      * Cette focntion clone casse le CollectionFieldType => impossible d'ajouter un record
-//      */
-//     public function __clone()
-//     {
-//         $this->children = new \Doctrine\Common\Collections\ArrayCollection ();
-//         $this->deleted = $this->deleted;
-//         $this->orderKey = $this->orderKey;
-//         $this->created = null;
-//         $this->modified = null;
-//         $this->description = $this->description;
-//         $this->id = 0;
-//         $this->name = $this->name ;
-//         $this->options = $this->options;
-//         $this->type = $this->type;
-//     }
+    //     /**
+    //      * Cette focntion clone casse le CollectionFieldType => impossible d'ajouter un record
+    //      */
+    //     public function __clone()
+    //     {
+    //         $this->children = new \Doctrine\Common\Collections\ArrayCollection ();
+    //         $this->deleted = $this->deleted;
+    //         $this->orderKey = $this->orderKey;
+    //         $this->created = null;
+    //         $this->modified = null;
+    //         $this->description = $this->description;
+    //         $this->id = 0;
+    //         $this->name = $this->name ;
+    //         $this->options = $this->options;
+    //         $this->type = $this->type;
+    //     }
 
     /**
      * get a child.
@@ -543,7 +519,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         }
     }
 
-    public function setParent(?FieldType $parent = null): self
+    public function setParent(FieldType $parent = null): self
     {
         $this->parent = $parent;
 
@@ -573,7 +549,7 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
      * @param array<mixed>             $newStructure
      * @param array<string, FieldType> $fieldsByIds
      */
-    public function reorderFields(array $newStructure, ?array $fieldsByIds = null): void
+    public function reorderFields(array $newStructure, array $fieldsByIds = null): void
     {
         if (null === $fieldsByIds) {
             $fieldsByIds = $this->listAllFields();

@@ -11,7 +11,7 @@ final class ContentType implements ContentTypeInterface
 {
     private \DateTimeImmutable $lastPublished;
     /** @var mixed */
-    private $cache = null;
+    private $cache;
 
     public function __construct(private readonly Environment $environment, private readonly string $name, private readonly int $total)
     {
@@ -33,9 +33,6 @@ final class ContentType implements ContentTypeInterface
         return $this->lastPublished->getTimestamp() <= $timestamp;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCacheValidityTag(): string
     {
         return \sprintf('%d_%d', $this->getLastPublished()->getTimestamp(), $this->total);

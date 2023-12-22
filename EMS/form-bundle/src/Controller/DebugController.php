@@ -14,7 +14,7 @@ use Twig\Environment;
 class DebugController extends AbstractFormController
 {
     /**
-     * @param string [] $locales
+     * @param string[] $locales
      */
     public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Environment $twig, private readonly RouterInterface $router, private readonly array $locales)
     {

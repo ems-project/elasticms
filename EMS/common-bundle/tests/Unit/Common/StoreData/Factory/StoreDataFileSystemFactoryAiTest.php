@@ -7,6 +7,8 @@ namespace EMS\CommonBundle\Tests\Unit\Common\StoreData\Factory;
 use EMS\CommonBundle\Common\StoreData\Factory\StoreDataFileSystemFactory;
 use EMS\CommonBundle\Common\StoreData\Service\StoreDataFileSystemService;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 class StoreDataFileSystemFactoryAiTest extends TestCase
 {
@@ -29,7 +31,7 @@ class StoreDataFileSystemFactoryAiTest extends TestCase
 
     public function testCreateServiceWithInvalidType(): void
     {
-        $this->expectException(\Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class);
+        $this->expectException(InvalidOptionsException::class);
 
         $factory = new StoreDataFileSystemFactory();
         $factory->createService([
@@ -40,7 +42,7 @@ class StoreDataFileSystemFactoryAiTest extends TestCase
 
     public function testCreateServiceWithoutPath(): void
     {
-        $this->expectException(\Symfony\Component\OptionsResolver\Exception\MissingOptionsException::class);
+        $this->expectException(MissingOptionsException::class);
 
         $factory = new StoreDataFileSystemFactory();
         $factory->createService([

@@ -9,7 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class StoreDataHelper
 {
-    private PropertyAccessor $propertyAccessor;
+    private readonly PropertyAccessor $propertyAccessor;
 
     /**
      * @param mixed[] $data

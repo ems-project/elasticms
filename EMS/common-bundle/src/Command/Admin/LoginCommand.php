@@ -81,7 +81,7 @@ class LoginCommand extends AbstractCommand
                 $this->username,
                 $this->getOptionString(self::OPTION_PASSWORD)
             );
-        } catch (NotAuthenticatedExceptionInterface $e) {
+        } catch (NotAuthenticatedExceptionInterface) {
             $this->io->error('Invalid credentials!');
 
             return self::EXECUTE_ERROR;

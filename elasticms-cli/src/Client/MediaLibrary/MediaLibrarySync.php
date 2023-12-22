@@ -27,10 +27,10 @@ final class MediaLibrarySync
     private array $metadatas = [];
     /** @var string[] */
     private array $knownFolders = [];
-    private DataInterface $contentTypeApi;
-    private string $defaultAlias;
-    private MimeTypes $mimeTypes;
-    private Filesystem $filesystem;
+    private readonly DataInterface $contentTypeApi;
+    private readonly string $defaultAlias;
+    private readonly MimeTypes $mimeTypes;
+    private readonly Filesystem $filesystem;
     private ?TikaHelper $tikaHelper = null;
     /** @var string[] */
     private array $cleanPaths = [];
@@ -212,7 +212,7 @@ final class MediaLibrarySync
             EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
             EmsFields::CONTENT_FILE_NAME_FIELD => $filename,
             EmsFields::CONTENT_MIME_TYPE_FIELD => $mimeType,
-            EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ? $file->getSize() : null,
+            EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ?: null,
         ];
         if (null === $this->tikaHelper) {
             return $assetArray;
@@ -266,11 +266,7 @@ final class MediaLibrarySync
      */
     private function getMetadata(string $path): array
     {
-        if (isset($this->metadatas[$path])) {
-            return $this->metadatas[$path];
-        }
-
-        return [];
+        return $this->metadatas[$path] ?? [];
     }
 
     private function getFolderPath(): string

@@ -25,7 +25,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider providerString
      */
-    public function testTypeString($value, ?string $error = null): void
+    public function testTypeString($value, string $error = null): void
     {
         if ($error) {
             $this->expectException(\RuntimeException::class);
@@ -51,7 +51,7 @@ class TypeTest extends TestCase
     /**
      * @dataProvider providerInteger
      */
-    public function testTypeInteger($value, ?string $error = null): void
+    public function testTypeInteger($value, string $error = null): void
     {
         if ($error) {
             $this->expectException(\RuntimeException::class);

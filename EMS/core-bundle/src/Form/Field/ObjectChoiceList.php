@@ -10,7 +10,7 @@ class ObjectChoiceList implements ChoiceListInterface
     /** @var array<mixed> */
     private array $choices = [];
 
-    public function __construct(private readonly ObjectChoiceCacheService $objectChoiceCacheService, private string $types, private readonly bool $loadAll = false, private bool $circleOnly = false, private bool $withWarning = true, private ?string $querySearchName = null)
+    public function __construct(private readonly ObjectChoiceCacheService $objectChoiceCacheService, private readonly string $types, private readonly bool $loadAll = false, private readonly bool $circleOnly = false, private readonly bool $withWarning = true, private readonly ?string $querySearchName = null)
     {
     }
 
@@ -20,8 +20,6 @@ class ObjectChoiceList implements ChoiceListInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return array<mixed>
      */
     public function getChoices(): array
@@ -32,8 +30,6 @@ class ObjectChoiceList implements ChoiceListInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return array<mixed>
      */
     public function getValues(): array
@@ -55,8 +51,6 @@ class ObjectChoiceList implements ChoiceListInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return array<mixed>
      */
     public function getOriginalKeys(): array
@@ -70,8 +64,6 @@ class ObjectChoiceList implements ChoiceListInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @param array<mixed> $choices
      *
      * @return array<mixed>
@@ -84,8 +76,6 @@ class ObjectChoiceList implements ChoiceListInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @param array<mixed> $choices
      *
      * @return array<mixed>

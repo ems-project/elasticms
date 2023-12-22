@@ -181,7 +181,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     /**
      * @return iterable<JsonMenuNested>|JsonMenuNested[]
      */
-    public function search(string $propertyPath, string $value, ?string $type = null): iterable
+    public function search(string $propertyPath, string $value, string $type = null): iterable
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
@@ -278,7 +278,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     /**
      * @return JsonMenuNested[]
      */
-    public function getChildren(?callable $map = null): array
+    public function getChildren(callable $map = null): array
     {
         return $map ? \array_map($map, $this->children) : $this->children;
     }
@@ -286,7 +286,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     /**
      * @return JsonMenuNested[]
      */
-    public function getPath(?callable $map = null): array
+    public function getPath(callable $map = null): array
     {
         $path = [$map ? $map($this) : $this];
 
@@ -311,7 +311,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return $this->parent;
     }
 
-    public function addChild(JsonMenuNested $child, ?int $position = null): JsonMenuNested
+    public function addChild(JsonMenuNested $child, int $position = null): JsonMenuNested
     {
         $addChild = clone $child;
         $addChild->setParent($this);

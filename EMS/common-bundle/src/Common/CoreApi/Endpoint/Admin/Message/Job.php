@@ -9,9 +9,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Job
 {
-    private string $jobId;
-    private ?string $output;
-    private ?string $command;
+    private readonly string $jobId;
+    private readonly ?string $output;
+    private readonly ?string $command;
 
     public function __construct(private readonly Result $result)
     {

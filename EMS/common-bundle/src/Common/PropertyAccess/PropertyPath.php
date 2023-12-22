@@ -11,7 +11,7 @@ class PropertyPath implements \Iterator, \Countable
 {
     /** @var PropertyPathElement[] */
     private array $elements = [];
-    private int $length;
+    private readonly int $length;
     private int $index = 0;
 
     public function __construct(private readonly string $pathAsString)

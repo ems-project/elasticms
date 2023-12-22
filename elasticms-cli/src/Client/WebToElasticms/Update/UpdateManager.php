@@ -35,7 +35,7 @@ class UpdateManager
             try {
                 $ouuid = $typeManager->finalize($draft->getRevisionId());
                 $this->configManager->setLastUpdated($ouuid);
-            } catch (CoreApiExceptionInterface $e) {
+            } catch (CoreApiExceptionInterface) {
                 $typeManager->discard($draft->getRevisionId());
             }
             $extractedData->getDocument()->setOuuid($ouuid);

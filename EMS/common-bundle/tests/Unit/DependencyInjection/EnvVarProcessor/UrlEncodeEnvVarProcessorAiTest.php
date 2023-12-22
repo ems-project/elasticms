@@ -21,9 +21,7 @@ final class UrlEncodeEnvVarProcessorAiTest extends TestCase
         $value = 'Hello World!';
         $expectedEncodedValue = 'Hello+World%21';
 
-        $result = $this->processor->getEnv('urlencode', 'TEST_ENV_VAR', function () use ($value) {
-            return $value;
-        });
+        $result = $this->processor->getEnv('urlencode', 'TEST_ENV_VAR', fn () => $value);
 
         $this->assertEquals($expectedEncodedValue, $result);
     }

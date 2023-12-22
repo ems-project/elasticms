@@ -8,7 +8,7 @@ use EMS\CoreBundle\Entity\Helper\JsonClass;
 use EMS\CoreBundle\Entity\Helper\JsonDeserializer;
 use EMS\Helpers\Standard\DateTime;
 
-class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, EntityInterface
+class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, EntityInterface, \Stringable
 {
     use CreatedModifiedTrait;
     use IdentifierIntegerTrait;
@@ -79,7 +79,7 @@ class WysiwygProfile extends JsonDeserializer implements \JsonSerializable, Enti
         return $json;
     }
 
-    public static function fromJson(string $json, ?EntityInterface $profile = null): WysiwygProfile
+    public static function fromJson(string $json, EntityInterface $profile = null): WysiwygProfile
     {
         $meta = JsonClass::fromJsonString($json);
         $profile = $meta->jsonDeserialize($profile);

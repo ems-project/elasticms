@@ -8,6 +8,9 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * @implements UserProviderInterface<SamlUser>
+ */
 class SamlUserProvider implements UserProviderInterface
 {
     public function refreshUser(UserInterface $user): UserInterface

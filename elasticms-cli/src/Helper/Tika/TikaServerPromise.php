@@ -10,7 +10,7 @@ use Psr\Http\Message\StreamInterface;
 class TikaServerPromise implements TikaPromiseInterface
 {
     private AsyncResponse $textRequest;
-    private TikaClient $tikaClient;
+    private readonly TikaClient $tikaClient;
     private AsyncResponse $htmlRequest;
     private AsyncResponse $metaRequest;
 

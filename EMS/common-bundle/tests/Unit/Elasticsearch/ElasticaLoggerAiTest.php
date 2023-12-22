@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Elasticsearch;
 
+use Elastica\Connection;
+use Elastica\Request;
+use Elastica\Response;
 use EMS\CommonBundle\Elasticsearch\ElasticaLogger;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -33,14 +36,16 @@ final class ElasticaLoggerAiTest extends TestCase
         $path = '/test_path';
         $method = 'GET';
         $data = ['key' => 'value'];
-        $queryTime = 0.5;
+
+        $request = new Request($path, $method, $data);
+        $request->setConnection(new Connection());
 
         $this->logger->expects($this->once())->method('info')->with(
             $this->stringContains($path),
             $this->equalTo([$data])
         );
 
-        $this->elasticaLogger->logQuery($path, $method, $data, $queryTime);
+        $this->elasticaLogger->logResponse(new Response(''), $request);
 
         $this->assertSame(1, $this->elasticaLogger->getNbQueries());
         $queries = $this->elasticaLogger->getQueries();
@@ -51,7 +56,10 @@ final class ElasticaLoggerAiTest extends TestCase
 
     public function testReset(): void
     {
-        $this->elasticaLogger->logQuery('/test_path', 'GET', ['key' => 'value'], 0.5);
+        $request = new Request('/test_path', 'GET', ['key' => 'value']);
+        $request->setConnection(new Connection());
+
+        $this->elasticaLogger->logResponse(new Response(''), $request);
         $this->assertSame(1, $this->elasticaLogger->getNbQueries());
 
         $this->elasticaLogger->reset();

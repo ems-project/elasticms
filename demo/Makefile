@@ -10,6 +10,7 @@ PWD					= $(shell pwd)
 RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
 RUN_WEB			= docker compose exec web-${ENVIRONMENT} preview
 RUN_PSQL		= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
+RUN_PG_DUMP	= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres pg_dump
 RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
@@ -117,6 +118,8 @@ db-setup: ## setup fresh demo (drops database)
 	@$(MAKE) -s _db-drop
 	@$(MAKE) -s _db-create
 	@$(MAKE) -s db-migrate
+db-dump: ## dump database
+	@$(RUN_PG_DUMP) ${DB_NAME} -w --clean -Fp -O --schema=${DB_SCHEMA} | sed "/^\(DROP\|ALTER\|CREATE\) SCHEMA.*\$$/d" > dump_demo_$$(date +%Y%m%d%H%M%S).sql
 db-migrate: ## run doctrine migrations
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
 _db-drop:

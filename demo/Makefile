@@ -3,15 +3,14 @@
 include .env
 export $(grep -v '^#' .env | xargs)
 
-ELK_VERSION ?= elk7
-ENVIRONMENT ?= local
-DOCKER_USER ?= $(shell id -u)
-PWD					= $(shell pwd)
-RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
-RUN_WEB			= docker compose exec web-${ENVIRONMENT} preview
-RUN_PSQL		= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
-RUN_PG_DUMP	= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres pg_dump
-RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+ELK_VERSION  ?= elk7
+ENVIRONMENT  ?= local
+DOCKER_USER  ?= $(shell id -u)
+PWD					 = $(shell pwd)
+RUN_ADMIN		 = docker compose exec admin-${ENVIRONMENT} ems-demo
+RUN_WEB			 = docker compose exec web-${ENVIRONMENT} preview
+RUN_POSTGRES = docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
+RUN_NPM			 = docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm
@@ -119,20 +118,20 @@ db-setup: ## setup fresh demo (drops database)
 	@$(MAKE) -s _db-create
 	@$(MAKE) -s db-migrate
 db-dump: ## dump database
-	@$(RUN_PG_DUMP) ${DB_NAME} -w --clean -Fp -O --schema=${DB_SCHEMA} | sed "/^\(DROP\|ALTER\|CREATE\) SCHEMA.*\$$/d" > dump_demo_$$(date +%Y%m%d%H%M%S).sql
+	@$(RUN_POSTGRES) pg_dump ${DB_NAME} -w --clean -Fp -O --schema=${DB_SCHEMA} | sed "/^\(DROP\|ALTER\|CREATE\) SCHEMA.*\$$/d" > dump_demo_$$(date +%Y%m%d%H%M%S).sql
 db-migrate: ## run doctrine migrations
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
 _db-drop:
-	@$(RUN_PSQL) -c "DROP DATABASE IF EXISTS ${DB_NAME};"
-	@$(RUN_PSQL) -c "DROP USER IF EXISTS ${DB_USER};"
+	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${DB_NAME};"
+	@$(RUN_POSTGRES) psql -c "DROP USER IF EXISTS ${DB_USER};"
 _db-create:
-	@$(RUN_PSQL) -c "CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';"
-	@$(RUN_PSQL) -c "CREATE DATABASE ${DB_NAME} WITH OWNER ${DB_USER};"
-	@$(RUN_PSQL) -c "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_USER};"
-	@$(RUN_PSQL) -d ${DB_NAME} -c "ALTER SCHEMA public OWNER TO ${DB_USER};"
-	@$(RUN_PSQL) -d ${DB_NAME} -c "ALTER SCHEMA public RENAME TO ${DB_SCHEMA}"
-	@$(RUN_PSQL) -d ${DB_NAME} -c "ALTER USER ${DB_USER} SET search_path TO ${DB_SCHEMA};"
-	@$(RUN_PSQL) -d ${DB_NAME} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${DB_SCHEMA} TO ${DB_USER};"
+	@$(RUN_POSTGRES) psql -c "CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';"
+	@$(RUN_POSTGRES) psql -c "CREATE DATABASE ${DB_NAME} WITH OWNER ${DB_USER};"
+	@$(RUN_POSTGRES) psql -c "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_USER};"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public OWNER TO ${DB_USER};"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public RENAME TO ${DB_SCHEMA}"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER USER ${DB_USER} SET search_path TO ${DB_SCHEMA};"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${DB_SCHEMA} TO ${DB_USER};"
 
 ## —— Npm ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 npm/%:

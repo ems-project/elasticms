@@ -9,7 +9,7 @@ PORT_web 				= 8882
 
 RUN_ADMIN				= php ${PWD}/elasticms-admin/bin/console --no-debug
 RUN_WEB					= php ${PWD}/elasticms-web/bin/console --no-debug
-RUN_PSQL				= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres psql
+RUN_POSTGRES		= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres
 RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
@@ -65,18 +65,23 @@ server-log/%:  ## server-log/(admin|web)
 db-migrate: ## run doctrine migrations
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
 db-load/%: ## make db-load/"db_example" DUMP=../../dumps.sql
-	@$(RUN_PSQL) -U ${*} < ${DUMP}
+	@$(RUN_POSTGRES) psql -U ${*} < ${DUMP}
+db-dump/%s: ## db-dump/"db_example" SCHEMA="schema_example_adm"
+	@$(RUN_POSTGRES) pg_dump ${*} -w --clean -Fp -O --schema=${SCHEMA} | sed "/^\(DROP\|ALTER\|CREATE\) SCHEMA.*\$$/d" > dump_demo_$$(date +%Y%m%d%H%M%S).sql
 db-drop/%: ## db-drop/"db_example"
-	@$(RUN_PSQL) -c "DROP DATABASE IF EXISTS ${*};"
-	@$(RUN_PSQL) -c "DROP USER IF EXISTS ${*};"
+	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${*};"
+	@$(RUN_POSTGRES) psql -c "DROP USER IF EXISTS ${*};"
+db-schema-rename/%s: ## db-schema-rename/"db_example" FROM="schema_from" TO="schema_to"
+	@$(RUN_POSTGRES) psql -d ${*} -c "ALTER SCHEMA ${FROM} RENAME TO ${TO}"
+	@$(RUN_POSTGRES) psql -d ${*} -c "ALTER USER ${*} SET search_path TO ${TO};"
 db-create/%: ## db-create/"db_example" SCHEMA="schema_example_adm"
-	@$(RUN_PSQL) -c "CREATE USER ${*} WITH ENCRYPTED PASSWORD '${*}';"
-	@$(RUN_PSQL) -c "CREATE DATABASE ${*} WITH OWNER ${*};"
-	@$(RUN_PSQL) -c "GRANT ALL PRIVILEGES ON DATABASE ${*} TO ${*};"
-	@$(RUN_PSQL) -d ${*} -c "ALTER SCHEMA public OWNER TO ${*};"
-	@$(RUN_PSQL) -d ${*} -c "ALTER SCHEMA public RENAME TO ${SCHEMA}"
-	@$(RUN_PSQL) -d ${*} -c "ALTER USER ${*} SET search_path TO ${SCHEMA};"
-	@$(RUN_PSQL) -d ${*} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${SCHEMA} TO ${*};"
+	@$(RUN_POSTGRES) psql -c "CREATE USER ${*} WITH ENCRYPTED PASSWORD '${*}';"
+	@$(RUN_POSTGRES) psql -c "CREATE DATABASE ${*} WITH OWNER ${*};"
+	@$(RUN_POSTGRES) psql -c "GRANT ALL PRIVILEGES ON DATABASE ${*} TO ${*};"
+	@$(RUN_POSTGRES) psql -d ${*} -c "ALTER SCHEMA public OWNER TO ${*};"
+	@$(RUN_POSTGRES) psql -d ${*} -c "ALTER SCHEMA public RENAME TO ${SCHEMA}"
+	@$(RUN_POSTGRES) psql -d ${*} -c "ALTER USER ${*} SET search_path TO ${SCHEMA};"
+	@$(RUN_POSTGRES) psql -d ${*} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${SCHEMA} TO ${*};"
 	@echo 'DB_URL="pgsql://${*}:${*}@127.0.0.1:5432/${*}"'
 db-create-mysql: ## create mysql database
 	@$(RUN_ADMIN) doctrine:database:drop --if-exists --force

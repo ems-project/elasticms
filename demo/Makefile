@@ -6,13 +6,11 @@ export $(grep -v '^#' .env | xargs)
 ELK_VERSION ?= elk7
 ENVIRONMENT ?= local
 DOCKER_USER ?= $(shell id -u)
-PWD			= $(shell pwd)
-
-DEMO_DIR	?= /opt/src
-RUN_ADMIN	?= docker compose exec -u ${DOCKER_USER}:0 admin-${ENVIRONMENT} ems-demo
-RUN_WEB		?= docker compose exec -u ${DOCKER_USER}:0 web-${ENVIRONMENT} preview
-RUN_PSQL	?= docker compose exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
-RUN_NPM		?= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+PWD					= $(shell pwd)
+RUN_ADMIN		= docker compose exec -u ${DOCKER_USER}:0 admin-${ENVIRONMENT} ems-demo
+RUN_WEB			= docker compose exec -u ${DOCKER_USER}:0 web-${ENVIRONMENT} preview
+RUN_PSQL		= docker compose exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
+RUN_NPM			= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm
@@ -82,41 +80,17 @@ web-local-push: ## web local push
 web-local-pull: ## web local pull
 	@$(RUN_WEB) emsch:local:pull
 web-local-upload: ## web local upload (bundle.zip)
-    ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) emsch:local:upload --filename=/opt/src/local/skeleton/template/asset_hash.twig
-    else
-		@$(RUN_WEB) emsch:local:upload ../../demo/dist/ --filename=${DEMO_DIR}/skeleton/template/asset_hash.twig
-    endif
 web-backup-configs:
-    ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) ems:admin:backup --configs --export
-    else
-		@$(RUN_WEB) ems:admin:backup --configs-folder=${DEMO_DIR}/configs/admin --configs --export
-    endif
 web-backup-documents:
-    ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) ems:admin:backup --configs --export
-    else
-		@$(RUN_WEB) ems:admin:backup --documents-folder=${DEMO_DIR}/configs/document --documents --export
-    endif
 web-restore-configs:
-    ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) ems:admin:restore --configs --force
-    else
-		@$(RUN_WEB) ems:admin:restore --configs-folder=${DEMO_DIR}/configs/admin --configs --force
-    endif
 web-restore-documents:
-    ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) ems:admin:restore --documents --force
-    else
-		@$(RUN_WEB) ems:admin:restore --documents-folder=${DEMO_DIR}/configs/document --documents --force
-    endif
 web-upload-folder-assets: ## web upload folder assets
-    ifeq (${DEMO_DIR},/opt/src)
 		@$(RUN_WEB) emsch:local:folder-upload /opt/src/admin/assets
-    else
-		@$(RUN_WEB) emsch:local:folder-upload ${DEMO_DIR}/configs/admin/assets
-    endif
 web-health-check:
 	@$(RUN_WEB) emsch:health-check -g --no-debug
 

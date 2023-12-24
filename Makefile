@@ -10,7 +10,7 @@ PORT_web 				= 8882
 RUN_ADMIN				= php ${PWD}/elasticms-admin/bin/console --no-debug
 RUN_WEB					= php ${PWD}/elasticms-web/bin/console --no-debug
 RUN_PSQL				= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg ems-mono-postgres psql
-RUN_DEMO_NPM		= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+RUN_DEMO_NPM		= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help demo docs

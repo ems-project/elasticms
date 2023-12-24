@@ -62,7 +62,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
     /**
      * @param mixed[] $headers
      */
-    public function httpException(int $statusCode, ?string $message = '', array $headers = [], ?int $code = 0): never
+    public function httpException(int $statusCode, string $message = '', array $headers = [], int $code = 0): never
     {
         throw new HttpException($statusCode, $message, null, $headers, $code);
     }

@@ -26,9 +26,6 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="110" />
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
         </service>
-        <service id="emsco.event_listener.migration" class="EMS\CoreBundle\EventListener\MigrationEventSubscriber">
-            <tag name="doctrine.event_subscriber" connection="default" />
-        </service>
 
         <!-- core service -->
         <service id="ems.dashboard.manager" class="EMS\CoreBundle\Core\Dashboard\DashboardManager">
@@ -410,6 +407,7 @@
             <argument>%ems_core.tika_server%</argument>
             <argument>%kernel.project_dir%</argument>
             <argument>%ems_core.tika_download_url%</argument>
+            <argument>%ems_core.tika_max_content%</argument>
             <tag name="kernel.cache_warmer" />
         </service>
         <service id="ems.service.search" class="EMS\CoreBundle\Service\SearchService">

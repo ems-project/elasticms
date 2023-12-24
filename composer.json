@@ -7,7 +7,7 @@
       "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
     }
   ],
-  "license" : "MIT",
+  "license": "MIT",
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {

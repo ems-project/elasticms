@@ -7,10 +7,10 @@ ELK_VERSION ?= elk7
 ENVIRONMENT ?= local
 DOCKER_USER ?= $(shell id -u)
 PWD					= $(shell pwd)
-RUN_ADMIN		= docker compose exec -u ${DOCKER_USER}:0 admin-${ENVIRONMENT} ems-demo
-RUN_WEB			= docker compose exec -u ${DOCKER_USER}:0 web-${ENVIRONMENT} preview
-RUN_PSQL		= docker compose exec -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
-RUN_NPM			= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
+RUN_ADMIN		= docker compose exec admin-${ENVIRONMENT} ems-demo
+RUN_WEB			= docker compose exec web-${ENVIRONMENT} preview
+RUN_PSQL		= docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres psql
+RUN_NPM			= docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
 .PHONY: help npm
@@ -36,16 +36,21 @@ help: # Show help for each of the Makefile recipes.
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 start: ## start
 	@$(MAKE) -s docker-start
+restart: ## restart
+	@$(MAKE) -s docker-restart
 stop: ## stop
 	@$(MAKE) -s docker-stop
-init: ## init
+status: ## status
+	@$(MAKE) -s docker-status
+init: ## init demo (fresh db)
 	@$(MAKE) -s npm-install
 	@$(MAKE) -s npm-prod
-	@$(MAKE) -s start
+	@$(RUN_ADMIN) cache:clear
+	@$(RUN_WEB) cache:clear
 	@$(MAKE) -s db-setup
+	@$(MAKE) -s _init-create-users
 	@$(MAKE) -s load
 load: ## load
-	@$(MAKE) -s _init-create-users
 	@$(MAKE) -s web-login
 	@$(MAKE) -s web-restore-configs
 	@$(MAKE) -s admin-activate
@@ -70,28 +75,28 @@ admin-align: ## align preview with live
 	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug
 
 ## —— Web ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
-web-login: ## web login (ems & emsch)
+web-login: ## login
 	@$(RUN_WEB) emsch:local:login demo demo
 	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
-web-local-status: ## web local status
+web-local-status: ## local status
 	@$(RUN_WEB) emsch:local:status
-web-local-push: ## web local push
+web-local-push: ## local push
 	@$(RUN_WEB) emsch:local:push --force
-web-local-pull: ## web local pull
+web-local-pull: ## local pull
 	@$(RUN_WEB) emsch:local:pull
-web-local-upload: ## web local upload (bundle.zip)
-		@$(RUN_WEB) emsch:local:upload --filename=/opt/src/local/skeleton/template/asset_hash.twig
-web-backup-configs:
-		@$(RUN_WEB) ems:admin:backup --configs --export
-web-backup-documents:
-		@$(RUN_WEB) ems:admin:backup --configs --export
-web-restore-configs:
-		@$(RUN_WEB) ems:admin:restore --configs --force
-web-restore-documents:
-		@$(RUN_WEB) ems:admin:restore --documents --force
-web-upload-folder-assets: ## web upload folder assets
-		@$(RUN_WEB) emsch:local:folder-upload /opt/src/admin/assets
-web-health-check:
+web-local-upload: ## local upload (bundle.zip)
+	@$(RUN_WEB) emsch:local:upload --filename=/opt/src/local/skeleton/template/asset_hash.twig
+web-backup-configs: ## backup configs
+	@$(RUN_WEB) ems:admin:backup --configs --export
+web-backup-documents: ## backup documents
+	@$(RUN_WEB) ems:admin:backup --documents --export
+web-restore-configs: ## restore configs
+	@$(RUN_WEB) ems:admin:restore --configs --force
+web-restore-documents: ## restore documents
+	@$(RUN_WEB) ems:admin:restore --documents --force
+web-upload-folder-assets: ## upload folder assets
+	@$(RUN_WEB) emsch:local:folder-upload /opt/src/admin/assets
+web-health-check: ## health check
 	@$(RUN_WEB) emsch:health-check -g --no-debug
 
 ## —— Docker ———————————————————————————————————————————————————————————————————————————————————————————————————————————

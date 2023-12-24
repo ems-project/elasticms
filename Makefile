@@ -83,6 +83,7 @@ db-create-mysql: ## create mysql database
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 demo: ## make new demo
+	@$(MAKE) -s cache-clear
 	@$(MAKE) -s db-drop/"demo"
 	@$(MAKE) -s db-create/"demo" SCHEMA="schema_demo_adm"
 	@$(MAKE) -s db-migrate

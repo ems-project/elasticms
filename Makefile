@@ -13,7 +13,7 @@ RUN_PSQL				= docker exec -i -u ${DOCKER_USER}:0 -e PGUSER=postgres -e PGPASSWOR
 RUN_DEMO_NPM		= docker run -u ${DOCKER_USER} --rm -it -v ${PWD}/demo:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
 .DEFAULT_GOAL := help
-.PHONY: help demo
+.PHONY: help demo docs
 
 help: # Show help for each of the Makefile recipes.
 	@echo "EMS Monorepo"
@@ -48,6 +48,8 @@ stop: ## stop docker, admin server, web server
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
+docs: ## serve docs
+	@docsify serve ./docs
 status: ## status
 	@$(DOCKER_COMPOSE) ps
 

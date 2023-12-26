@@ -34,4 +34,5 @@ final class Commands
 
     public const MANAGED_ALIAS_CREATE = 'ems:managed-alias:create';
     public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';
+    public const ASSET_SYNCHRONIZE = 'emsco:asset:synchronize';
 }

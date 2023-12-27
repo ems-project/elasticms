@@ -7,13 +7,18 @@ namespace EMS\CommonBundle\Command;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Repository\LogRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::CLEAR_LOGS,
+    description: 'Clear doctrine logs.',
+    hidden: false
+)]
 class ClearLogsCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::CLEAR_LOGS;
     private \DateTime $before;
     /** @var string[] */
     private array $channels = [];
@@ -28,7 +33,6 @@ class ClearLogsCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Clear doctrine logs');
         $this
             ->addOption(self::OPTION_BEFORE, null, InputOption::VALUE_OPTIONAL, 'CLear logs older than the strtotime (-1day, -5min, now)', '-1week')
             ->addOption(self::OPTION_CHANNEL, null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Define channels default [app]', ['app'])

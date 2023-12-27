@@ -8,13 +8,18 @@ use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::STATUS,
+    description: 'Returns the health status of the elasticsearch cluster and of the different storage services.',
+    hidden: false
+)]
 class StatusCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::STATUS;
     private const OPTION_TIMEOUT = 'timeout';
     private const OPTION_SILENT = 'silent';
     private const OPTION_WAIT_FOR_STATUS = 'wait-for-status';
@@ -26,7 +31,7 @@ class StatusCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Returns the health status of the elasticsearch cluster and of the different storage services.')
+        $this
             ->addOption(
                 self::OPTION_SILENT,
                 null,

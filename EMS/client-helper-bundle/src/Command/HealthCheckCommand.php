@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Command;
 
+use EMS\ClientHelperBundle\Commands;
 use EMS\ClientHelperBundle\Exception\ClusterHealthNotGreenException;
 use EMS\ClientHelperBundle\Exception\ClusterHealthRedException;
 use EMS\ClientHelperBundle\Exception\IndexNotFoundException;
@@ -11,14 +12,18 @@ use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::HEALTH_CHECK,
+    description: 'Performs system health check.',
+    hidden: false
+)]
 final class HealthCheckCommand extends AbstractCommand
 {
-    protected static $defaultName = 'emsch:health-check';
-
     public function __construct(
         private readonly EnvironmentHelper $environmentHelper,
         private readonly ElasticaService $elasticaService,
@@ -29,7 +34,7 @@ final class HealthCheckCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Performs system health check.')
+        $this
             ->setHelp('Verify that the assets folder exists and is not empty. Verify that the Elasticsearch cluster is at least yellow and that the configured indexes exist.')
             ->addOption('green', 'g', InputOption::VALUE_NONE, 'Require a green Elasticsearch cluster health.', null)
             ->addOption('skip-storage', 's', InputOption::VALUE_NONE, 'Skip the storage health check.', null);

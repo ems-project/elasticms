@@ -18,6 +18,7 @@ final class Commands
     public const CONTENT_TYPE_MIGRATE = 'emsco:contenttype:migrate';
     public const CONTENT_TYPE_LOCK = 'emsco:contenttype:lock';
     public const CONTENT_TYPE_IMPORT = 'emsco:contenttype:import';
+    public const CONTENT_TYPE_EXPORT = 'emsco:contenttype:export';
     public const DELETE_ORPHANS = 'emsco:delete:orphans';
 
     public const ENVIRONMENT_ALIGN = 'emsco:environment:align';
@@ -34,6 +35,8 @@ final class Commands
     public const MANAGED_ALIAS_LIST = 'emsco:managed-alias:list';
     public const MANAGED_ALIAS_ALIGN = 'emsco:managed-alias:align';
     public const MANAGED_ALIAS_CHECK = 'emsco:managed-alias:check';
+    public const NOTIFICATION_BULK_ACTION = 'emsco:notification:bulk-action';
+    public const NOTIFICATION_SEND = 'emsco:notification:send';
 
     public const RELEASE_PUBLISH = 'emsco:release:publish';
     public const RELEASE_CREATE = 'emsco:release:create';
@@ -45,6 +48,7 @@ final class Commands
     public const REVISION_DISCARD_DRAFT = 'emsco:revision:discard-draft';
     public const REVISIONS_UNLOCK = 'emsco:revisions:unlock';
     public const REVISIONS_INDEX_FILE_FIELDS = 'emsco:revisions:index-file-fields';
+    public const REVISIONS_TIME_MACHINE = 'emsco:revisions:time-machine';
     public const SUBMISSIONS_EMAIL = 'emsco:submissions:email';
     public const SUBMISSIONS_REMOVE_EXPIRED = 'emsco:submissions:remove-expired';
 

@@ -30,7 +30,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 )]
 class IndexFileCommand extends EmsCommand
 {
-    protected static $defaultName = 'ems:revisions:index-file-fields';
     /** @var string */
     private const SYSTEM_USERNAME = 'SYSTEM_FILE_INDEXER';
     /** @var string */

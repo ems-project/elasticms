@@ -37,9 +37,6 @@ class DocumentCommand extends Command
     private const OPTION_FORCE = 'force';
     private const OPTION_DONT_FINALIZE = 'dont-finalize';
     private const OPTION_BUSINESS_KEY = 'business-key';
-
-    /** @var string */
-    protected static $defaultName = self::COMMAND;
     private ?SymfonyStyle $io = null;
     private ?ContentType $contentType = null;
     private ?string $archiveFilename = null;

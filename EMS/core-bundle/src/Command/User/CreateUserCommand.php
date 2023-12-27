@@ -20,8 +20,6 @@ use Symfony\Component\Console\Question\Question;
 )]
 class CreateUserCommand extends AbstractUserCommand
 {
-    protected static $defaultName = Commands::USER_CREATE;
-
     protected function configure(): void
     {
         $this

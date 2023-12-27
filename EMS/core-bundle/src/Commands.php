@@ -10,14 +10,16 @@ final class Commands
     public const ASSET_EXTRACT = 'emsco:asset:extract';
     public const CONTENT_TYPE_TRANSFORM = 'emsco:contenttype:transform';
     public const CONTENT_TYPE_SWITCH_DEFAULT_ENV = 'emsco:contenttype:switch-default-env';
+    public const CONTENT_TYPE_RECOMPUTE = 'emsco:contenttype:recompute';
+    public const DELETE_ORPHANS = 'emsco:delete:orphans';
 
     public const ENVIRONMENT_ALIGN = 'emsco:environment:align';
     public const ENVIRONMENT_UNPUBLISH = 'emsco:environment:unpublish';
     public const ENVIRONMENT_CREATE = 'emsco:environment:create';
-    public const ENVIRONMENT_REINDEX = 'ems:environment:reindex';
-    public const ENVIRONMENT_LIST = 'ems:environment:list';
+    public const ENVIRONMENT_REINDEX = 'emsco:environment:reindex';
+    public const ENVIRONMENT_LIST = 'emsco:environment:list';
 
-    public const MANAGED_ALIAS_CREATE = 'ems:managed-alias:create';
+    public const MANAGED_ALIAS_CREATE = 'emsco:managed-alias:create';
     public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';
     public const MANAGED_ALIAS_LIST = 'emsco:managed-alias:list';
 

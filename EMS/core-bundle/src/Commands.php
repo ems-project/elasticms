@@ -21,10 +21,13 @@ final class Commands
     public const ENVIRONMENT_REINDEX = 'emsco:environment:reindex';
     public const ENVIRONMENT_LIST = 'emsco:environment:list';
     public const ENVIRONMENT_UPDATE_META_FIELD = 'emsco:environment:update-meta-field';
+    public const ENVIRONMENT_REBUILD = 'emsco:environment:rebuild';
 
     public const MANAGED_ALIAS_CREATE = 'emsco:managed-alias:create';
     public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';
     public const MANAGED_ALIAS_LIST = 'emsco:managed-alias:list';
+    public const MANAGED_ALIAS_ALIGN = 'emsco:managed-alias:align';
+    public const MANAGED_ALIAS_CHECK = 'emsco:managed-alias:check';
 
     public const RELEASE_PUBLISH = 'emsco:release:publish';
     public const RELEASE_CREATE = 'emsco:release:create';

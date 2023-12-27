@@ -34,39 +34,49 @@ help: # Show help for each of the Makefile recipes.
 	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' Makefile | awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
-start: ## start
-	@$(MAKE) -s docker-start
-restart: ## restart
-	@$(MAKE) -s docker-restart
-stop: ## stop
-	@$(MAKE) -s docker-stop
-status: ## status
-	@$(MAKE) -s docker-status
+start: ## start docker
+	@docker compose up -d
+restart: ## restart docker and recreate
+	@docker compose up -d --force-recreate
+stop: ## stop docker
+	@docker compose down
+status: ## status docker
+	@docker compose ps
+logs: ## logs
+	@docker compose logs -f
+update: ## update docker images
+	@docker compose pull
+	@docker compose up -d
+dump: ## create db dump
+	@$(MAKE) -s _db-dump
+clear-cache: ## clear cache
+	@$(RUN_ADMIN) cache:clear
+	@$(RUN_WEB) cache:clear
 init: ## init demo (fresh db)
 	@$(MAKE) -s npm-install
 	@$(MAKE) -s npm-prod
-	@$(RUN_ADMIN) cache:clear
-	@$(RUN_WEB) cache:clear
-	@$(MAKE) -s db-setup
+	@$(MAKE) -s cache:clear
+	@$(MAKE) -s _db-setup
 	@$(MAKE) -s _init-create-users
 	@$(MAKE) -s load
 load: ## load
-	@$(MAKE) -s web-login
-	@$(MAKE) -s web-restore-configs
+	@$(MAKE) -s login
+	@$(MAKE) -s restore-configs
 	@$(MAKE) -s admin-activate
 	@$(MAKE) -s admin-rebuild
 	@$(MAKE) -s _init-create-managed-aliases
-	@$(MAKE) -s web-health-check
+	@$(MAKE) -s health-check
 	@$(MAKE) -s _init-switch_default-env
-	@$(MAKE) -s web-login
-	@$(MAKE) -s web-upload-folder-assets
-	@$(MAKE) -s web-local-upload
-	@$(MAKE) -s web-local-push
-	@$(MAKE) -s web-health-check
-	@$(MAKE) -s web-restore-documents
+	@$(MAKE) -s emsch-folder-upload
+	@$(MAKE) -s emsch-assets
+	@$(MAKE) -s emsch-push
+	@$(MAKE) -s health-check
+	@$(MAKE) -s restore-documents
 	@$(MAKE) -s admin-align
 
 ## —— Admin ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+admin/%: ## run admin command
+	@$(RUN_ADMIN) $*
 admin-rebuild: ## rebuild all environments
 	@$(RUN_ADMIN) ems:environment:rebuild --all --no-debug
 admin-activate: ## activate content types
@@ -75,63 +85,31 @@ admin-align: ## align preview with live
 	@$(RUN_ADMIN) ems:environment:align preview live --force --no-debug
 
 ## —— Web ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
-web-login: ## login
+web/%: ## run web command
+	@$(RUN_WEB) $*
+login: ## login
 	@$(RUN_WEB) emsch:local:login demo demo
 	@$(RUN_WEB) ems:admin:login --username=demo --password=demo
-web-local-status: ## local status
+emsch-status: ## local status
 	@$(RUN_WEB) emsch:local:status
-web-local-push: ## local push
+emsch-push: ## local push
 	@$(RUN_WEB) emsch:local:push --force
-web-local-pull: ## local pull
+emsch-pull: ## local pull
 	@$(RUN_WEB) emsch:local:pull
-web-local-upload: ## local upload (bundle.zip)
+emsch-assets: ## local upload (bundle.zip)
 	@$(RUN_WEB) emsch:local:upload --filename=/opt/src/local/skeleton/template/asset_hash.twig
-web-backup-configs: ## backup configs
-	@$(RUN_WEB) ems:admin:backup --configs --export
-web-backup-documents: ## backup documents
-	@$(RUN_WEB) ems:admin:backup --documents --export
-web-restore-configs: ## restore configs
-	@$(RUN_WEB) ems:admin:restore --configs --force
-web-restore-documents: ## restore documents
-	@$(RUN_WEB) ems:admin:restore --documents --force
-web-upload-folder-assets: ## upload folder assets
+emsch-folder-upload: ## upload folder assets
 	@$(RUN_WEB) emsch:local:folder-upload /opt/src/admin/assets
-web-health-check: ## health check
+backup-configs: ## backup configs
+	@$(RUN_WEB) ems:admin:backup --configs --export
+backup-documents: ## backup documents
+	@$(RUN_WEB) ems:admin:backup --documents --export
+restore-configs: ## restore configs
+	@$(RUN_WEB) ems:admin:restore --configs --force
+restore-documents: ## restore documents
+	@$(RUN_WEB) ems:admin:restore --documents --force
+health-check: ## health check
 	@$(RUN_WEB) emsch:health-check -g --no-debug
-
-## —— Docker ———————————————————————————————————————————————————————————————————————————————————————————————————————————
-docker-start: ## start docker
-	@docker compose up -d
-docker-restart: ## restart docker
-	@docker compose up -d --force-recreate
-docker-stop: ## stop docker
-	@docker compose down
-docker-status: ## status docker
-	@docker compose ps
-docker-update: ## update docker
-	@docker compose pull
-	@docker compose up -d
-
-## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
-db-setup: ## setup fresh demo (drops database)
-	@$(MAKE) -s _db-drop
-	@$(MAKE) -s _db-create
-	@$(MAKE) -s db-migrate
-db-dump: ## dump database
-	@$(RUN_POSTGRES) pg_dump ${DB_NAME} -w --clean -Fp -O --schema=${DB_SCHEMA} | sed "/^\(DROP\|ALTER\|CREATE\) SCHEMA.*\$$/d" > dump_demo_$$(date +%Y%m%d%H%M%S).sql
-db-migrate: ## run doctrine migrations
-	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
-_db-drop:
-	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${DB_NAME};"
-	@$(RUN_POSTGRES) psql -c "DROP USER IF EXISTS ${DB_USER};"
-_db-create:
-	@$(RUN_POSTGRES) psql -c "CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';"
-	@$(RUN_POSTGRES) psql -c "CREATE DATABASE ${DB_NAME} WITH OWNER ${DB_USER};"
-	@$(RUN_POSTGRES) psql -c "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_USER};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public OWNER TO ${DB_USER};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public RENAME TO ${DB_SCHEMA}"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER USER ${DB_USER} SET search_path TO ${DB_SCHEMA};"
-	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${DB_SCHEMA} TO ${DB_USER};"
 
 ## —— Npm ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
 npm/%:
@@ -144,6 +122,26 @@ npm-watch: ## npm run watch
 	@$(MAKE) npm/"run watch"
 npm-dev: ## npm run dev
 	@$(MAKE) npm/"run dev"
+
+_db-setup:
+	@$(MAKE) -s _db-drop
+	@$(MAKE) -s _db-create
+	@$(MAKE) -s _db-migrate
+_db-dump:
+	@$(RUN_POSTGRES) pg_dump ${DB_NAME} -w --clean -Fp -O --schema=${DB_SCHEMA} | sed "/^\(DROP\|ALTER\|CREATE\) SCHEMA.*\$$/d" > dump_demo_$$(date +%Y%m%d%H%M%S).sql
+_db-migrate:
+	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
+_db-drop:
+	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${DB_NAME};"
+	@$(RUN_POSTGRES) psql -c "DROP USER IF EXISTS ${DB_USER};"
+_db-create:
+	@$(RUN_POSTGRES) psql -c "CREATE USER ${DB_USER} WITH ENCRYPTED PASSWORD '${DB_PASSWORD}';"
+	@$(RUN_POSTGRES) psql -c "CREATE DATABASE ${DB_NAME} WITH OWNER ${DB_USER};"
+	@$(RUN_POSTGRES) psql -c "GRANT ALL PRIVILEGES ON DATABASE ${DB_NAME} TO ${DB_USER};"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public OWNER TO ${DB_USER};"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER SCHEMA public RENAME TO ${DB_SCHEMA}"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "ALTER USER ${DB_USER} SET search_path TO ${DB_SCHEMA};"
+	@$(RUN_POSTGRES) psql -d ${DB_NAME} -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA ${DB_SCHEMA} TO ${DB_USER};"
 
 _init-create-managed-aliases:
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview preview

@@ -14,6 +14,7 @@ final class Commands
     public const CONTENT_TYPE_SWITCH_DEFAULT_ENV = 'emsco:contenttype:switch-default-env';
     public const CONTENT_TYPE_RECOMPUTE = 'emsco:contenttype:recompute';
     public const CONTENT_TYPE_CLEAN = 'emsco:contenttype:clean';
+    public const CONTENT_TYPE_ACTIVATE = 'emsco:contenttype:activate';
     public const DELETE_ORPHANS = 'emsco:delete:orphans';
 
     public const ENVIRONMENT_ALIGN = 'emsco:environment:align';
@@ -40,7 +41,9 @@ final class Commands
     public const REVISION_TASK_CREATE = 'emsco:revision:task:create';
     public const REVISION_DISCARD_DRAFT = 'emsco:revision:discard-draft';
     public const REVISIONS_UNLOCK = 'emsco:revisions:unlock';
+    public const REVISIONS_INDEX_FILE_FIELDS = 'emsco:revisions:index-file-fields';
     public const SUBMISSIONS_EMAIL = 'emsco:submissions:email';
+    public const SUBMISSIONS_REMOVE_EXPIRED = 'emsco:submissions:remove-expired';
 
     public const USER_ACTIVATE = 'emsco:user:activate';
     public const USER_CHANGE_PASSWORD = 'emsco:user:change-password';

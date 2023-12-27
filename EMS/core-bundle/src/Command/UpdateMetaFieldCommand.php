@@ -26,7 +26,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class UpdateMetaFieldCommand extends EmsCommand
 {
-    protected static $defaultName = 'ems:environment:updatemetafield';
 
     public function __construct(protected Registry $doctrine, protected LoggerInterface $logger, protected DataService $dataService)
     {

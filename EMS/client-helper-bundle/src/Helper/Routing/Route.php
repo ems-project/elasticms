@@ -110,14 +110,14 @@ final class Route
                 'defaults' => [],
                 'requirements' => [],
                 'options' => [],
-                'host' => null,
-                'schemes' => null,
+                'host' => '',
+                'schemes' => [],
                 'prefix' => null,
                 'type' => null,
                 'query' => null,
                 'template' => '[template]',
                 'index_regex' => null,
-                'condition' => null,
+                'condition' => '',
             ])
             ->addAllowedTypes('method', ['string', 'string[]'])
             ->setNormalizer('defaults', function (Options $options, $value) {

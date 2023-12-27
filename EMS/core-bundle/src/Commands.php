@@ -8,6 +8,8 @@ final class Commands
 {
     public const ASSET_SYNCHRONIZE = 'emsco:asset:synchronize';
     public const ASSET_EXTRACT = 'emsco:asset:extract';
+    public const ASSET_CLEAN = 'emsco:asset:clean';
+    public const ASSET_HEAD = 'emsco:asset:head';
     public const CONTENT_TYPE_TRANSFORM = 'emsco:contenttype:transform';
     public const CONTENT_TYPE_SWITCH_DEFAULT_ENV = 'emsco:contenttype:switch-default-env';
     public const CONTENT_TYPE_RECOMPUTE = 'emsco:contenttype:recompute';
@@ -18,6 +20,7 @@ final class Commands
     public const ENVIRONMENT_CREATE = 'emsco:environment:create';
     public const ENVIRONMENT_REINDEX = 'emsco:environment:reindex';
     public const ENVIRONMENT_LIST = 'emsco:environment:list';
+    public const ENVIRONMENT_UPDATE_META_FIELD = 'emsco:environment:update-meta-field';
 
     public const MANAGED_ALIAS_CREATE = 'emsco:managed-alias:create';
     public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';

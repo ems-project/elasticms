@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Command;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Exception\NotLockedException;
@@ -11,11 +12,18 @@ use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\DataService;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::ENVIRONMENT_UPDATE_META_FIELD,
+    description: 'Update meta fields for all revisions of an environment.',
+    hidden: false,
+    aliases: ['ems:environment:updatemetafield']
+)]
 class UpdateMetaFieldCommand extends EmsCommand
 {
     protected static $defaultName = 'ems:environment:updatemetafield';
@@ -27,7 +35,7 @@ class UpdateMetaFieldCommand extends EmsCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Update meta fields for all revisions of an environment')
+        $this
             ->addArgument(
                 'name',
                 InputArgument::REQUIRED,

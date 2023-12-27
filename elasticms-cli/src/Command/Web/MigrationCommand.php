@@ -13,16 +13,20 @@ use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::WEB_MIGRATION,
+    description: 'Migration web resources to elaticms documents.',
+    hidden: false
+)]
 class MigrationCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::WEB_MIGRATION;
-
     private const ARG_CONFIG_FILE_PATH = 'json-path';
     private const OPTION_CONTINUE = 'continue';
     private const ARG_OUUID = 'OUUID';
@@ -51,7 +55,6 @@ class MigrationCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Migration web resources to elaticms documents')
             ->addArgument(
                 self::ARG_CONFIG_FILE_PATH,
                 InputArgument::REQUIRED,

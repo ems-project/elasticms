@@ -7,15 +7,19 @@ namespace App\CLI\Command\MediaLibrary;
 use App\CLI\Commands;
 use App\CLI\Helper\Tika\TikaHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 
+#[AsCommand(
+    name: Commands::MEDIA_LIBRARY_TIKA_CACHE,
+    description: 'Generate a tika cache from files in a given folder.',
+    hidden: false
+)]
 final class LoadTikaCache extends AbstractCommand
 {
-    protected static $defaultName = Commands::MEDIA_LIBRARY_TIKA_CACHE;
-
     private const ARGUMENT_FOLDER = 'folder';
     private const ARGUMENT_TIKA_CACHE_FOLDER = 'tika-cache-folder';
     private string $folder;
@@ -24,7 +28,6 @@ final class LoadTikaCache extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Generate a tika cache from files in a given folder')
             ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Folder path')
             ->addArgument(self::ARGUMENT_TIKA_CACHE_FOLDER, InputArgument::REQUIRED, 'Folder where tika extraction can be cached')
         ;

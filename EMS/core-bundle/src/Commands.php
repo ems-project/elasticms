@@ -13,6 +13,7 @@ final class Commands
     public const CONTENT_TYPE_TRANSFORM = 'emsco:contenttype:transform';
     public const CONTENT_TYPE_SWITCH_DEFAULT_ENV = 'emsco:contenttype:switch-default-env';
     public const CONTENT_TYPE_RECOMPUTE = 'emsco:contenttype:recompute';
+    public const CONTENT_TYPE_CLEAN = 'emsco:contenttype:clean';
     public const DELETE_ORPHANS = 'emsco:delete:orphans';
 
     public const ENVIRONMENT_ALIGN = 'emsco:environment:align';
@@ -22,6 +23,7 @@ final class Commands
     public const ENVIRONMENT_LIST = 'emsco:environment:list';
     public const ENVIRONMENT_UPDATE_META_FIELD = 'emsco:environment:update-meta-field';
     public const ENVIRONMENT_REBUILD = 'emsco:environment:rebuild';
+    public const JOB_RUN = 'emsco:job:run';
 
     public const MANAGED_ALIAS_CREATE = 'emsco:managed-alias:create';
     public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';
@@ -38,6 +40,7 @@ final class Commands
     public const REVISION_TASK_CREATE = 'emsco:revision:task:create';
     public const REVISION_DISCARD_DRAFT = 'emsco:revision:discard-draft';
     public const REVISIONS_UNLOCK = 'emsco:revisions:unlock';
+    public const SUBMISSIONS_EMAIL = 'emsco:submissions:email';
 
     public const USER_ACTIVATE = 'emsco:user:activate';
     public const USER_CHANGE_PASSWORD = 'emsco:user:change-password';

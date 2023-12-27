@@ -6,11 +6,20 @@ namespace EMS\CoreBundle;
 
 final class Commands
 {
+    public const ASSET_SYNCHRONIZE = 'emsco:asset:synchronize';
+    public const ASSET_EXTRACT = 'emsco:asset:extract';
     public const CONTENT_TYPE_TRANSFORM = 'emsco:contenttype:transform';
     public const CONTENT_TYPE_SWITCH_DEFAULT_ENV = 'emsco:contenttype:switch-default-env';
 
     public const ENVIRONMENT_ALIGN = 'emsco:environment:align';
     public const ENVIRONMENT_UNPUBLISH = 'emsco:environment:unpublish';
+    public const ENVIRONMENT_CREATE = 'emsco:environment:create';
+    public const ENVIRONMENT_REINDEX = 'ems:environment:reindex';
+    public const ENVIRONMENT_LIST = 'ems:environment:list';
+
+    public const MANAGED_ALIAS_CREATE = 'ems:managed-alias:create';
+    public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';
+    public const MANAGED_ALIAS_LIST = 'emsco:managed-alias:list';
 
     public const RELEASE_PUBLISH = 'emsco:release:publish';
     public const RELEASE_CREATE = 'emsco:release:create';
@@ -20,6 +29,7 @@ final class Commands
     public const REVISION_DELETE = 'emsco:revision:delete';
     public const REVISION_TASK_CREATE = 'emsco:revision:task:create';
     public const REVISION_DISCARD_DRAFT = 'emsco:revision:discard-draft';
+    public const REVISIONS_UNLOCK = 'emsco:revisions:unlock';
 
     public const USER_ACTIVATE = 'emsco:user:activate';
     public const USER_CHANGE_PASSWORD = 'emsco:user:change-password';
@@ -31,11 +41,4 @@ final class Commands
 
     public const XLIFF_EXTRACT = 'emsco:xliff:extract';
     public const XLIFF_UPDATE = 'emsco:xliff:update';
-
-    public const MANAGED_ALIAS_CREATE = 'ems:managed-alias:create';
-    public const MANAGED_ALIAS_ADD_ENVIRONMENT = 'emsco:managed-alias:add-environment';
-    public const ASSET_SYNCHRONIZE = 'emsco:asset:synchronize';
-    public const ASSET_EXTRACT = 'emsco:asset:extract';
-    public const ENVIRONMENT_CREATE = 'emsco:environment:create';
-    public const REVISIONS_UNLOCK = 'emsco:revisions:unlock';
 }

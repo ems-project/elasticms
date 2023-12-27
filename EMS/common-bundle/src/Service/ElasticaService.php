@@ -164,7 +164,7 @@ class ElasticaService
     public function generateTermsSearch(array $indexes, string $field, array $terms, array $contentTypes = []): Search
     {
         $query = new Terms($field, $terms);
-        if (empty($contentTypes)) {
+        if (!empty($contentTypes)) {
             $query = $this->filterByContentTypes($query, $contentTypes);
         }
 
@@ -405,7 +405,7 @@ class ElasticaService
             $contentTypes[] = $contentType;
         }
 
-        if ($query) {
+        if (null !== $query) {
             $search = $this->generateSearch([$index], $query, $contentTypes);
         } else {
             $search = $this->generateTermsSearch([$index], '_id', [$id], $contentTypes);

@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Command;
 
+use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Exception\CantBeFinalizedException;
 use EMS\CoreBundle\Exception\NotLockedException;
@@ -9,6 +10,7 @@ use EMS\CoreBundle\Helper\Archive;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\DocumentService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,6 +19,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Finder\Finder;
 
+#[AsCommand(
+    name: Commands::CONTENT_TYPE_IMPORT,
+    description: 'Import json files from a zip file as content type\'s documents.',
+    hidden: false,
+    aliases: ['ems:contenttype:import']
+)]
 class DocumentCommand extends Command
 {
     final public const COMMAND = 'ems:contenttype:import';
@@ -44,7 +52,6 @@ class DocumentCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Import json files from a zip file as content type\'s documents')
             ->addArgument(
                 self::ARGUMENT_CONTENT_TYPE,
                 InputArgument::REQUIRED,

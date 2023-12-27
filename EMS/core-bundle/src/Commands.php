@@ -16,6 +16,8 @@ final class Commands
     public const CONTENT_TYPE_CLEAN = 'emsco:contenttype:clean';
     public const CONTENT_TYPE_ACTIVATE = 'emsco:contenttype:activate';
     public const CONTENT_TYPE_MIGRATE = 'emsco:contenttype:migrate';
+    public const CONTENT_TYPE_LOCK = 'emsco:contenttype:lock';
+    public const CONTENT_TYPE_IMPORT = 'emsco:contenttype:import';
     public const DELETE_ORPHANS = 'emsco:delete:orphans';
 
     public const ENVIRONMENT_ALIGN = 'emsco:environment:align';

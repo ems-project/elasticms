@@ -22,16 +22,20 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::WEB_AUDIT,
+    description: 'Audit (security headers, content, locale, accessibility) website.',
+    hidden: false
+)]
 class AuditCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::WEB_AUDIT;
-
     private const ARG_URL = 'url';
     private const OPTION_CONTINUE = 'continue';
     private const OPTION_CACHE_FOLDER = 'cache-folder';
@@ -77,7 +81,6 @@ class AuditCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Audit (security headers, content, locale, accessibility) website')
             ->addArgument(
                 self::ARG_URL,
                 InputArgument::REQUIRED,

@@ -11,11 +11,17 @@ use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::DOCUMENTS_UPDATE,
+    description: 'Update documents from excel or csv file with custom configuration.',
+    hidden: false
+)]
 final class DocumentUpdateCommand extends AbstractCommand
 {
     private string $configFile;
@@ -25,8 +31,6 @@ final class DocumentUpdateCommand extends AbstractCommand
     private ?int $dataLength = null;
     private bool $dataSkipFirstRow;
     private bool $dryRun;
-
-    protected static $defaultName = Commands::DOCUMENTS_UPDATE;
 
     private const ARGUMENT_DATA_FILE = 'data-file';
     private const ARGUMENT_CONFIG_FILE = 'config-file';
@@ -43,7 +47,6 @@ final class DocumentUpdateCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Update documents from excel or csv file with custom configuration')
             ->addArgument(self::ARGUMENT_CONFIG_FILE, InputArgument::REQUIRED, 'Config file (json)')
             ->addArgument(self::ARGUMENT_DATA_FILE, InputArgument::REQUIRED, 'Data file (excel or csv)')
             ->addOption(self::OPTION_DATA_OFFSET, null, InputOption::VALUE_REQUIRED, 'Offset data', 0)

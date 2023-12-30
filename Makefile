@@ -66,7 +66,7 @@ db-migrate: ## run doctrine migrations
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction
 db-load/%: ## make db-load/"db_example" DUMP=../../dumps.sql
 	@$(RUN_POSTGRES) psql -U ${*} < ${DUMP}
-db-dump/%s: ## db-dump/"db_example" SCHEMA="schema_example_adm"
+db-dump/%: ## db-dump/"db_example" SCHEMA="schema_example_adm"
 	@$(RUN_POSTGRES) pg_dump ${*} -w --clean -Fp -O --schema=${SCHEMA} | sed "/^\(DROP\|ALTER\|CREATE\) SCHEMA.*\$$/d" > dump_demo_$$(date +%Y%m%d%H%M%S).sql
 db-drop/%: ## db-drop/"db_example"
 	@$(RUN_POSTGRES) psql -c "DROP DATABASE IF EXISTS ${*};"

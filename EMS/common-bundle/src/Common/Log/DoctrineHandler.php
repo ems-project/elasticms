@@ -31,7 +31,7 @@ class DoctrineHandler extends AbstractProcessingHandler
         $token = $this->tokenStorage->getToken();
         $logArray['username'] = $token instanceof TokenInterface ? $token->getUserIdentifier() : null;
         $logArray['impersonator'] = $token instanceof SwitchUserToken ? $token->getOriginalToken()->getUserIdentifier() : null;
-
+        $logArray['formatted'] = $record->formatted ?? $record->message;
         $logArray['context'] = DoctrineHandler::secretContext($logArray['context']);
 
         $this->logRepository->insertRecord($logArray);

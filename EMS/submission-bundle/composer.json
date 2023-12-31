@@ -1,48 +1,48 @@
 {
-	"name" : "elasticms/submission-bundle",
-	"description" : "Submit data based on elasticms configurations",
-	"type" : "symfony-bundle",
-	"keywords" : [
-		"elasticms"
-	],
-	"license" : "MIT",
-	"authors" : [
-		{
-			"name" : "EMS Community",
-			"homepage" : "https://github.com/ems-project/EMSSubmissionBundle/contributors"
-		}
-	],
-	"require" : {
-		"php" : "^8.1",
-		"elasticms/form-bundle" : "~5.12.0",
-		"league/flysystem-memory": "^2.0",
-		"league/flysystem-sftp-v3": "^2.0",
-		"symfony/console": "^5.4",
-		"symfony/event-dispatcher": "^5.4",
-		"symfony/http-client": "^5.4",
-		"symfony/options-resolver": "^5.4",
-		"symfony/mailer": "^5.4",
-		"symfony/mime": "^5.4",
-		"symfony/twig-bundle": "^5.4"
-    },
-	"require-dev" : {
-		"symfony/test-pack": "^1.0"
-	},
-	"autoload" : {
-		"psr-4" : {
-			"EMS\\SubmissionBundle\\" : "src/"
-		}
-	},
-	"autoload-dev" : {
-		"psr-4" : {
-			"EMS\\SubmissionBundle\\Tests\\" : "tests/"
-		}
-	},
-	"config": {
-		"lock": false,
-		"sort-packages": true
-	},
-	"scripts": {
-		"phpunit": "phpunit"
-	}
+  "name": "elasticms/submission-bundle",
+  "description": "Submit data based on elasticms configurations",
+  "type": "symfony-bundle",
+  "keywords": [
+    "elasticms"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "EMS Community",
+      "homepage": "https://github.com/ems-project/EMSSubmissionBundle/contributors"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "elasticms/form-bundle": "6.0.*",
+    "league/flysystem-memory": "^3.19",
+    "league/flysystem-sftp-v3": "^3.22",
+    "symfony/console": "6.4.*",
+    "symfony/event-dispatcher": "6.4.*",
+    "symfony/http-client": "6.4.*",
+    "symfony/options-resolver": "6.4.*",
+    "symfony/mailer": "6.4.*",
+    "symfony/mime": "6.4.*",
+    "symfony/twig-bundle": "6.4.*"
+  },
+  "require-dev": {
+    "symfony/test-pack": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "EMS\\SubmissionBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "EMS\\SubmissionBundle\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "lock": false,
+    "sort-packages": true
+  },
+  "scripts": {
+    "phpunit": "phpunit"
+  }
 }

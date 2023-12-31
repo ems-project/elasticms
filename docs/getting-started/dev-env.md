@@ -23,9 +23,8 @@ elasticMS comes with multiple micro-services:
 In order to simplify development all those services are available in a docker compose:
 
 ```bash
-cd docker
-cp .env.dist .env
-docker compose up -d
+make init
+make start
 ```
 
 ### Test your config
@@ -64,52 +63,36 @@ sudo mv ~/.symfony5/bin/symfony /usr/local/bin/symfony
 
 ## Init elasticMS
 
-Go to [MinIO](http://minio.localhost/login) with the `accesskey` user and the `secretkey` password:
-
-* Click on "Create Bucket"
-* Specify `demo` as bucket name
-* Click on "Create Bucket"
-
-In order to initialize a Db open a terminal: 
-
 ````bash
-cd docker
-cp .env.dist .env
-sh pg_init.sh demo public
-````
-
-Init the DB and create an admin user:
-
-````bash
-cd ../elasticms-admin
-cp .env.dist .env
+make init 
+make start
+make db-create/"db_example" SCHEMA="schema_example_adm"
+cd elasticms-admin
+# change DB_URL in .env.local -> DB_URL="pgsql://db_example:db_example@127.0.0.1:5432/db_example"
 php bin/console doctrine:migrations:migrate
 php bin/console emsco:user:create --super-admin
 php bin/console asset:install --symlink
-symfony server:start --port=8080 -d --no-tls
 ````
 
-[elasticMS Admin](http://localhost:8080) is now available.
+[elasticMS Admin](http://localhost:8881) is now available.
 
+Useful make commands:
 
-Useful commands:
-
-* `symfony server:log`
+* `make server-log/admin`
+* `make server-log/web`
 
 ## Load and save DB dumps
 
 You may want to load an existing elasticMS dump. If so please check the dump's schema matches the DB's schema.
 
 ```bash
-cd docker
-sh pg_load.sh demo dump_demo.sql
+make db-load/"db_example" DUMP=./dump_example.sql
 ```
 
 To make a dump:
 
 ```bash
-cd docker
-sh pg_dump.sh demo demo > dump_demo.sql
+make db-dump/"db_example" SCHEMA="schema_example_adm"
 ```
 
 ## Identity provider (IDP) (Keycloak)

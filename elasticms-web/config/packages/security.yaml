@@ -1,6 +1,4 @@
 security:
-    enable_authenticator_manager: true
-
     providers:
         core_api:
             id: emsch.security.core_api.user_provider

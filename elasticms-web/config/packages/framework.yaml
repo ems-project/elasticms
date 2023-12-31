@@ -2,11 +2,15 @@ parameters:
     env(DEFAULT_LOCAL): 'en'
 
 framework:
-    secret: '%env(APP_SECRET)%'
     default_locale: '%env(DEFAULT_LOCAL)%'
+    http_method_override: false
+    handle_all_throwables: true
+    secret: '%env(APP_SECRET)%'
 
     session:
         handler_id: ~
+        cookie_secure: auto
+        cookie_samesite: strict
         storage_factory_id: session.storage.factory.native
 
     esi: true

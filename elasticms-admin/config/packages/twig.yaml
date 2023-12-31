@@ -8,4 +8,3 @@ twig:
   exception_controller: null
   globals:
     ems_hash_algo: '%env(string:EMS_HASH_ALGO)%'
-

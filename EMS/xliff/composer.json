@@ -40,10 +40,7 @@
   },
   "config": {
     "lock": false,
-    "sort-packages": true,
-    "allow-plugins": {
-      "phpstan/extension-installer": true
-    }
+    "sort-packages": true
   },
   "extra": {
     "branch-alias": {

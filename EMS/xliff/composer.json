@@ -15,14 +15,14 @@
 		}
 	],
 	"require" : {
-		"php": "^8.1",
+		"php": "^8.2",
         "ext-dom": "*",
-        "elasticms/helpers": "~5.12.0",
-        "symfony/dom-crawler": "^5.4",
-        "symfony/property-access": "^5.4"
+        "elasticms/helpers": "6.0.*",
+        "symfony/dom-crawler": "6.4.*",
+        "symfony/property-access": "6.4.*"
     },
 	"require-dev" : {
-		"mockery/mockery" : "^0.9",
+		"mockery/mockery" : "^1.6",
 		"phpunit/phpunit" : "^9.5"
 	},
 	"autoload" : {

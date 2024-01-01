@@ -463,30 +463,6 @@ class FieldType extends JsonDeserializer implements \JsonSerializable
         throw new \RuntimeException(\sprintf('Field type for key "%s" not found', $key));
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function __set(string $key, mixed $input): void
-    {
-        if (!\str_starts_with($key, 'ems_')) {
-            throw new \Exception('unprotected ems set with key '.$key);
-        } else {
-            $key = \substr($key, 4);
-        }
-        $found = false;
-        /** @var FieldType $child */
-        foreach ($this->children as &$child) {
-            if (!$child->getDeleted() && 0 == \strcmp($key, $child->getName())) {
-                $found = true;
-                $child = $input;
-                break;
-            }
-        }
-        if (!$found) {
-            $this->children->add($input);
-        }
-    }
-
     public function setParent(FieldType $parent = null): self
     {
         $this->parent = $parent;

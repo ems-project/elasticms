@@ -32,7 +32,6 @@
     "caxy/php-htmldiff": "^0.1",
     "cebe/markdown": "^1.2",
     "composer/ca-bundle": "^1.4",
-    "doctrine/annotations": "^1.14",
     "doctrine/doctrine-bundle": "^2.11",
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.17",

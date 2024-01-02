@@ -19,7 +19,6 @@
     "ext-json": "*",
     "ext-openssl": "*",
     "ext-tidy": "*",
-    "doctrine/annotations": "^1.14",
     "doctrine/doctrine-bundle": "^2.11",
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.17",

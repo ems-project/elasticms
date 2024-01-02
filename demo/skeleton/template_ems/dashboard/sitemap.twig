@@ -10,7 +10,7 @@
     {%  set locale = app.request.query.get('locale', locales|first) %}
 
     {% set sections = {
-        "index": 'preview'|emsco_get_environment.alias,
+         "index": 'section'|emsco_get_content_type.environment.alias,
         "size": 10,
         "body": {
             "_source": ['label', 'structure'],

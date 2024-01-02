@@ -8,7 +8,6 @@ return [
     EMS\CommonBundle\EMSCommonBundle::class => ['all' => true],
     EMS\FormBundle\EMSFormBundle::class => ['all' => true],
     EMS\SubmissionBundle\EMSSubmissionBundle::class => ['all' => true],
-    Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],

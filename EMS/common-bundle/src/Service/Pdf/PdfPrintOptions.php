@@ -15,14 +15,14 @@ class PdfPrintOptions
     private readonly string $size;
     private readonly ?string $chroot;
 
-    public const FILENAME = 'filename';
-    public const ATTACHMENT = 'attachment';
-    public const COMPRESS = 'compress';
-    public const HTML5_PARSING = 'html5Parsing';
-    public const PHP_ENABLED = 'phpEnabled';
-    public const ORIENTATION = 'orientation';
-    public const SIZE = 'size';
-    public const CHROOT = 'chroot';
+    final public const FILENAME = 'filename';
+    final public const ATTACHMENT = 'attachment';
+    final public const COMPRESS = 'compress';
+    final public const HTML5_PARSING = 'html5Parsing';
+    final public const PHP_ENABLED = 'phpEnabled';
+    final public const ORIENTATION = 'orientation';
+    final public const SIZE = 'size';
+    final public const CHROOT = 'chroot';
 
     /**
      * @param array<string, mixed> $options

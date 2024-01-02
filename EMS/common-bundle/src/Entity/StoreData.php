@@ -12,7 +12,7 @@ class StoreData
 {
     use CreatedModifiedTrait;
 
-    private UuidInterface $id;
+    private readonly UuidInterface $id;
     private string $key;
     /** @var array<mixed> */
     protected array $data = [];

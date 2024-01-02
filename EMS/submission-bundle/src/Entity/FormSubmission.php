@@ -17,18 +17,18 @@ class FormSubmission implements EntityInterface
 {
     use CreatedModifiedTrait;
 
-    private UuidInterface $id;
-    private string $name;
-    private string $instance;
-    private string $locale;
+    private readonly UuidInterface $id;
+    private readonly string $name;
+    private readonly string $instance;
+    private readonly string $locale;
 
     /** @var array<string, mixed>|null */
     private ?array $data;
     /** @var Collection<int, FormSubmissionFile> */
     protected Collection $files;
 
-    private ?\DateTime $expireDate;
-    private string $label;
+    private readonly ?\DateTime $expireDate;
+    private readonly string $label;
     private int $processTryCounter = 0;
     private ?string $processId = null;
     private ?string $processBy = null;

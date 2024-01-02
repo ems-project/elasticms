@@ -15,13 +15,13 @@ class FormSubmissionFile implements EntityInterface
 {
     use CreatedModifiedTrait;
 
-    private UuidInterface $id;
+    private readonly UuidInterface $id;
     /** @var string|resource */
     private $file;
-    private string $filename;
-    private string $formField;
-    private string $mimeType;
-    private string $size;
+    private readonly string $filename;
+    private readonly string $formField;
+    private readonly string $mimeType;
+    private readonly string $size;
 
     /**
      * @param array<string, string> $file

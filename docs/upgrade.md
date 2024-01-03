@@ -8,7 +8,7 @@
 
 ## version 6.0.x
 
-## Renamed embed methods in web/skeleton templates
+### Renamed embed methods in web/skeleton templates
 
 All controller methods have lost any trailing `Action`
 
@@ -28,12 +28,20 @@ E.g.:
 } )) }}
 ```
 
-## Routes removed
+### Routes removed
 
 * `template.index` must be replaced by `ems_core_action_index`
 * `template.add` must be replaced by `ems_core_action_add`
 * `template.edit` must be replaced by `ems_core_action_edit`
 * `template.remove` must be replaced by `ems_core_action_delete`
+
+### New dynamic mapping config which change the elasticsearch indexes
+
+Before version 6 it was not possible to define elasticsearch dynamic mapping config. In other words, before version 6, every fields present in a document, that aren't strictly defined in the content type, a mapping was automatically guessed by elasticsearch.
+
+Since version 6 the default dynamic mapping config has changed. New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly into the content type.
+
+You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DEFAULT_BULK_SIZE='true'`. But it's not recommended. Check the [EMSCO_DEFAULT_BULK_SIZE documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
 
 ## version 5.7.x
 

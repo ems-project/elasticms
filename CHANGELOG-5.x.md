@@ -1,5 +1,22 @@
 # Changelog 5.x
 
+## 5.13.0 (2024-01-03)
+### Features
+* feat(common/es): log error request/response  by @Davidmattei in https://github.com/ems-project/elasticms/pull/681
+* feat(core/wysiwyg): default target _blank by @Davidmattei in https://github.com/ems-project/elasticms/pull/678
+### Bug Fixes
+* fix(clientHelper): http exception message and code can not be null by @theus77 in https://github.com/ems-project/elasticms/pull/686
+* fix(core/doctrine): doctrine col type 'array' to 'json' by @Davidmattei in https://github.com/ems-project/elasticms/pull/696
+### Documentation
+* docs: migrate docs into monorepo (#671) by @Davidmattei in https://github.com/ems-project/elasticms/pull/672
+### Code Refactoring
+* refactor(admin): UrlEncodeEnvVarProcessor return type by @theus77 in https://github.com/ems-project/elasticms/pull/687
+* refactor(core): getUsername -> getUserIdentifier deprecated by @theus77 in https://github.com/ems-project/elasticms/pull/684
+* refactor(form): missing types in form validators by @theus77 in https://github.com/ems-project/elasticms/pull/682
+* refactor(submission): Using empty file as ZipArchive is deprecated by @theus77 in https://github.com/ems-project/elasticms/pull/677
+### Chores
+* chore: improve makeFile setup by @Davidmattei in https://github.com/ems-project/elasticms/pull/697
+
 ## 5.12.3 (2023-12-22)
 ### Bug Fixes
 * fix(core): deprecation migration event subscriber by @Davidmattei in https://github.com/ems-project/elasticms/pull/693

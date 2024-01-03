@@ -280,7 +280,7 @@ Define the default [dynamic mapping mode](https://www.elastic.co/guide/en/elasti
 This parameter has been introduced in version 6.0.0. Prior version were then using the elasticsearch default value `'false'`.
 
 ```dotenv
-EMSCO_DEFAULT_BULK_SIZE='false'
+EMSCO_DYNAMIC_MAPPING='false'
 ``` 
 Possible values are:
 - `true`: New fields are added to the mapping.

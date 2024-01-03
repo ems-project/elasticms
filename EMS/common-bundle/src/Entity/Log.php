@@ -4,105 +4,33 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
+use EMS\Helpers\Standard\DateTime;
+use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-/**
- * @ORM\Table(name="log_message")
- *
- * @ORM\Entity
- *
- * @ORM\HasLifecycleCallbacks()
- */
 class Log implements EntityInterface
 {
-    /**
-     * @ORM\Id
-     *
-     * @ORM\Column(type="uuid", unique=true)
-     *
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     *
-     * @ORM\CustomIdGenerator(class=UuidGenerator::class)
-     */
+    use CreatedModifiedTrait;
+
     private UuidInterface $id;
-
-    /**
-     * @ORM\Column(name="created", type="datetime")
-     */
-    private \DateTime $created;
-
-    /**
-     * @ORM\Column(name="modified", type="datetime")
-     */
-    private \DateTime $modified;
-
-    /**
-     * @ORM\Column(type="text")
-     */
     private string $message;
-
-    /**
-     * @var array<mixed>
-     *
-     * @ORM\Column(type="json")
-     */
+    /** @var array<mixed> */
     private array $context = [];
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
     private ?string $ouuid = null;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
     private int $level;
-
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
     private string $levelName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private string $channel;
-
-    /**
-     * @var array<mixed>
-     *
-     * @ORM\Column(type="json")
-     */
+    /** @var array<mixed> */
     private array $extra = [];
-
-    /**
-     * @ORM\Column(type="text")
-     */
     private string $formatted;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private ?string $username = null;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private ?string $impersonator = null;
 
-    /**
-     * @ORM\PrePersist
-     *
-     * @ORM\PreUpdate
-     */
-    public function updateModified(): void
+    public function __construct()
     {
-        $this->modified = new \DateTime();
-        if (!isset($this->created)) {
-            $this->created = $this->modified;
-        }
+        $this->id = Uuid::uuid4();
+        $this->created = DateTime::create('now');
+        $this->modified = DateTime::create('now');
     }
 
     public function getId(): string
@@ -113,16 +41,6 @@ class Log implements EntityInterface
     public function setId(UuidInterface $id): void
     {
         $this->id = $id;
-    }
-
-    public function getCreated(): \DateTime
-    {
-        return $this->created;
-    }
-
-    public function getModified(): \DateTime
-    {
-        return $this->modified;
     }
 
     public function getMessage(): string

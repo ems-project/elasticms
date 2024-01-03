@@ -88,7 +88,7 @@ Sorting example
 ## render hierarchy
 
 ```twig
-{{ render(controller('emsch.controller.embed::renderHierarchyAction', {
+{{ render(controller('emsch.controller.embed::renderHierarchy', {
     'template': '@EMSCH/template/menu.html.twig',
     'parent': 'emsLink',
     'field': 'children',

@@ -9,11 +9,8 @@ use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
 
 class Html implements \Stringable
 {
-    private string $html;
-
-    public function __construct(string $html)
+    public function __construct(private readonly string $html)
     {
-        $this->html = $html;
     }
 
     /**

@@ -232,6 +232,7 @@
             <argument type="service" id="ems.service.elasticsearch" />
             <argument type="service" id="ems_common.service.elastica" />
             <argument>%ems_core.instance_id%</argument>
+            <argument>%ems_core.dynamic_mapping%</argument>
         </service>
         <service id="EMS\CoreBundle\Service\DataService" class="EMS\CoreBundle\Service\DataService">
             <argument type="service" id="doctrine" />
@@ -473,7 +474,7 @@
         <service id="ems.form_submission" class="EMS\CoreBundle\Service\Form\Submission\FormSubmissionService">
             <argument type="service" id="ems.repository.form_submission"/>
             <argument type="service" id="twig"/>
-            <argument type="service" id="session.flash_bag"/>
+            <argument type="service" id="request_stack"/>
             <argument type="service" id="translator"/>
             <argument>%ems_core.template_namespace%</argument>
         </service>

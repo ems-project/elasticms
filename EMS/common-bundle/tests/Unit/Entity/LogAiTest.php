@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Entity;
 
 use EMS\CommonBundle\Entity\Log;
 use PHPUnit\Framework\TestCase;
+use Ramsey\Uuid\Uuid;
 
 class LogAiTest extends TestCase
 {
@@ -18,7 +19,7 @@ class LogAiTest extends TestCase
 
     public function testId(): void
     {
-        $uuid = \Ramsey\Uuid\Uuid::uuid4();
+        $uuid = Uuid::uuid4();
         $this->log->setId($uuid);
 
         $this->assertSame($uuid->toString(), $this->log->getId());
@@ -47,8 +48,8 @@ class LogAiTest extends TestCase
         $this->log->updateModified();
         $modified = $this->log->getModified();
 
-        $this->assertInstanceOf(\DateTime::class, $modified);
-        $this->assertLessThanOrEqual(new \DateTime(), $modified);
+        $this->assertInstanceOf(\DateTimeImmutable::class, $modified);
+        $this->assertLessThanOrEqual(new \DateTimeImmutable(), $modified);
     }
 
     public function testOuuid(): void

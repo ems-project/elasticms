@@ -62,7 +62,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
         }
     }
 
-    public function logResponse(Response $response, Request $request, ?ResponseException $responseException = null): void
+    public function logResponse(Response $response, Request $request, ResponseException $responseException = null): void
     {
         $responseData = $response->getData();
         $queryTime = $response->getQueryTime();

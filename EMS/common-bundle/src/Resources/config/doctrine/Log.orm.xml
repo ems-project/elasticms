@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="EMS\CommonBundle\Entity\Log" table="log_message">
+
+    <id name="id" type="uuid" column="id">
+      <generator strategy="CUSTOM"/>
+      <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>
+    </id>
+
+    <field name="message" type="text"/>
+    <field name="context" type="json"/>
+    <field name="ouuid" nullable="true"/>
+    <field name="level" type="smallint"/>
+    <field name="levelName" column="level_name" length="50"/>
+    <field name="channel" length="255"/>
+    <field name="extra" type="json"/>
+    <field name="formatted" type="text" />
+    <field name="username" length="255" nullable="true"/>
+    <field name="impersonator" length="255" nullable="true"/>
+
+    <field name="created" type="datetime"/>
+    <field name="modified" type="datetime"/>
+    <lifecycle-callbacks>
+      <lifecycle-callback type="prePersist" method="updateModified" />
+      <lifecycle-callback type="preUpdate" method="updateModified" />
+    </lifecycle-callbacks>
+  </entity>
+</doctrine-mapping>

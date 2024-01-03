@@ -108,7 +108,7 @@ class Search
     }
 
     /**
-     * @param array<mixed>|null$query
+     * @param array<mixed>|null $query
      */
     public function setQueryArray(?array $query): void
     {

@@ -20,7 +20,7 @@ class StorageManager
     private array $factories = [];
 
     /**
-     * @param iterable<StorageFactoryInterface>                                            $factories
+     * @param iterable<StorageFactoryInterface> $factories
      * @param array<array{type?: string, url?: string, required?: bool, read-only?: bool}> $storageConfigs
      */
     public function __construct(private readonly LoggerInterface $logger, private readonly FileLocatorInterface $fileLocator, iterable $factories, private readonly string $hashAlgo, private readonly array $storageConfigs = [])
@@ -168,7 +168,7 @@ class StorageManager
         return $hash;
     }
 
-    public function computeStringHash(string $string, ?string $hashAlgo = null, bool $binary = false): string
+    public function computeStringHash(string $string, string $hashAlgo = null, bool $binary = false): string
     {
         return \hash($hashAlgo ?? $this->hashAlgo, $string, $binary);
     }

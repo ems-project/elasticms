@@ -28,8 +28,8 @@ final class AssetStorageAiTest extends TestCase
 
         $asset->updateModified();
 
-        $this->assertInstanceOf(\DateTime::class, $asset->getModified());
-        $this->assertInstanceOf(\DateTime::class, $asset->getCreated());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $asset->getModified());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $asset->getCreated());
     }
 
     public function testUnexpectedNullValues(): void

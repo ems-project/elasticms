@@ -10,7 +10,8 @@ use EMS\CoreBundle\Repository\FormSubmissionRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
 use EMS\SubmissionBundle\Entity\FormSubmission;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -19,8 +20,13 @@ use ZipStream\ZipStream;
 
 final class FormSubmissionService implements EntityServiceInterface
 {
-    public function __construct(private readonly FormSubmissionRepository $formSubmissionRepository, private readonly Environment $twig, private readonly FlashBagInterface $flashBag, private readonly TranslatorInterface $translator, private readonly string $templateNamespace)
-    {
+    public function __construct(
+        private readonly FormSubmissionRepository $formSubmissionRepository,
+        private readonly Environment $twig,
+        private readonly RequestStack $requestStack,
+        private readonly TranslatorInterface $translator,
+        private readonly string $templateNamespace
+    ) {
     }
 
     /**
@@ -57,7 +63,7 @@ final class FormSubmissionService implements EntityServiceInterface
     public function createDownloadForMultiple(array $formSubmissionIds): StreamedResponse
     {
         $response = new StreamedResponse(function () use ($formSubmissionIds) {
-            $zip = new ZipStream('submissionData.zip');
+            $zip = new ZipStream(outputName: 'submissionData.zip');
 
             foreach ($formSubmissionIds as $formSubmissionId) {
                 $formSubmission = $this->getById($formSubmissionId);
@@ -147,7 +153,7 @@ final class FormSubmissionService implements EntityServiceInterface
     /**
      * @return FormSubmission[]
      */
-    public function getFormSubmissions(?string $formInstance = null): array
+    public function getFormSubmissions(string $formInstance = null): array
     {
         return $this->formSubmissionRepository->findFormSubmissions($formInstance);
     }
@@ -159,7 +165,11 @@ final class FormSubmissionService implements EntityServiceInterface
         }
 
         $formSubmission = $this->getById($id);
-        $this->flashBag->add('notice', $this->translator->trans('form_submissions.process.success', ['%id%' => $formSubmission->getId()], 'EMSCoreBundle'));
+        $session = $this->requestStack->getSession();
+        if (!$session instanceof FlashBagAwareSessionInterface) {
+            throw new \RuntimeException('Unexpected non FlashBag aware session');
+        }
+        $session->getFlashBag()->add('notice', $this->translator->trans('form_submissions.process.success', ['%id%' => $formSubmission->getId()], 'EMSCoreBundle'));
 
         $formSubmission->process($user->getUsername());
         $this->formSubmissionRepository->save($formSubmission);
@@ -180,7 +190,11 @@ final class FormSubmissionService implements EntityServiceInterface
             $formSubmission = $this->getById($id);
             $formSubmission->process($user->getUsername());
             $this->formSubmissionRepository->persist($formSubmission);
-            $this->flashBag->add('notice', $this->translator->trans('form_submissions.process.success', ['%id%' => $id], 'EMSCoreBundle'));
+            $session = $this->requestStack->getSession();
+            if (!$session instanceof FlashBagAwareSessionInterface) {
+                throw new \RuntimeException('Unexpected non FlashBag aware session');
+            }
+            $session->getFlashBag()->add('notice', $this->translator->trans('form_submissions.process.success', ['%id%' => $id], 'EMSCoreBundle'));
         }
 
         $this->formSubmissionRepository->flush();
@@ -237,9 +251,9 @@ final class FormSubmissionService implements EntityServiceInterface
         return [];
     }
 
-    public function count(string $filterValue = '', $context = null): int
+    public function count(string $searchValue = '', $context = null): int
     {
-        return $this->formSubmissionRepository->countAllUnprocessed($filterValue);
+        return $this->formSubmissionRepository->countAllUnprocessed($searchValue);
     }
 
     public function getByItemName(string $name): ?EntityInterface
@@ -252,7 +266,7 @@ final class FormSubmissionService implements EntityServiceInterface
         throw new \RuntimeException('updateEntityFromJson method not yet implemented');
     }
 
-    public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
+    public function createEntityFromJson(string $json, string $name = null): EntityInterface
     {
         throw new \RuntimeException('createEntityFromJson method not yet implemented');
     }

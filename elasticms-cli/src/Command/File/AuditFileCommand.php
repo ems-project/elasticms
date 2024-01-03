@@ -8,6 +8,7 @@ use App\CLI\Client\File\Report;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\Helpers\File\File;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -15,17 +16,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Mime\MimeTypes;
 
+#[AsCommand(
+    name: Commands::FILE_AUDIT,
+    description: 'Audit files in a folder structure.',
+    hidden: false
+)]
 class AuditFileCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::FILE_AUDIT;
     final public const UPPERCASE_EXTENSION = 'ExtensionWithUppercase';
     final public const EXTENSION_MISMATCH = 'ExtensionMismatch';
 
     private const ARG_FOLDER = 'folder';
     private ConsoleLogger $logger;
     private string $folder;
-    private MimeTypes $mimeTypes;
-    private Report $report;
+    private readonly MimeTypes $mimeTypes;
+    private readonly Report $report;
 
     public function __construct()
     {
@@ -37,7 +42,6 @@ class AuditFileCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Audit files in a folder structure')
             ->addArgument(
                 self::ARG_FOLDER,
                 InputArgument::REQUIRED,

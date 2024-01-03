@@ -46,7 +46,7 @@ final class Filter
     /** @var array<mixed>|null */
     private ?array $choices = null;
 
-    private bool|string $dateFormat;
+    private readonly bool|string $dateFormat;
 
     private const TYPE_TERM = 'term';
     private const TYPE_TERMS = 'terms';
@@ -61,7 +61,7 @@ final class Filter
         self::TYPE_DATE_TIME_RANGE,
         self::TYPE_DATE_VERSION,
     ];
-    private string $clause;
+    private readonly string $clause;
 
     /**
      * @param array<mixed> $options
@@ -192,7 +192,7 @@ final class Filter
      * @param array<mixed> $aggregation
      * @param string[]     $types
      */
-    public function handleAggregation(array $aggregation, array $types = [], ?AbstractQuery $queryFilters = null): void
+    public function handleAggregation(array $aggregation, array $types = [], AbstractQuery $queryFilters = null): void
     {
         $this->queryTypes = $types;
         $this->queryFilters = $queryFilters;

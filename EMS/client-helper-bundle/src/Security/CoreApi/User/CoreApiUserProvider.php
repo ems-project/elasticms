@@ -11,6 +11,9 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
+/**
+ * @implements UserProviderInterface<CoreApiUser>
+ */
 class CoreApiUserProvider implements UserProviderInterface
 {
     public function __construct(

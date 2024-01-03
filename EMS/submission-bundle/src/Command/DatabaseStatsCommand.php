@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Command;
 
+use EMS\SubmissionBundle\Commands;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -16,10 +18,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Address;
 
+#[AsCommand(
+    name: Commands::DATABASE_STATS,
+    hidden: false
+)]
 final class DatabaseStatsCommand extends Command
 {
-    protected static $defaultName = 'emss:database:stats';
-
     public function __construct(private readonly Mailer $mailer, private readonly FormSubmissionRepository $repository)
     {
         parent::__construct();

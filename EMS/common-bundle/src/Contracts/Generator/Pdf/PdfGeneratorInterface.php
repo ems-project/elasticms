@@ -12,7 +12,7 @@ interface PdfGeneratorInterface
 {
     public function createOptionsFromHtml(string $html): PdfPrintOptions;
 
-    public function generateResponseFromHtml(string $html, ?PdfPrintOptions $options = null): Response;
+    public function generateResponseFromHtml(string $html, PdfPrintOptions $options = null): Response;
 
-    public function generateStreamedResponseFromHtml(string $html, ?PdfPrintOptions $options = null): StreamedResponse;
+    public function generateStreamedResponseFromHtml(string $html, PdfPrintOptions $options = null): StreamedResponse;
 }

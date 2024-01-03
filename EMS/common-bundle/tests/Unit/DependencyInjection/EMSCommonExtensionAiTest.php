@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Tests\CommonBundle\Unit\DependencyInjection;
 
+use EMS\CommonBundle\Common\CoreApi\CoreApi;
 use EMS\CommonBundle\DependencyInjection\EMSCommonExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -88,7 +89,7 @@ final class EMSCommonExtensionAiTest extends TestCase
 
         $definition = $this->container->getDefinition('ems_common.core_api');
         $this->assertInstanceOf(Definition::class, $definition);
-        $this->assertEquals('EMS\CommonBundle\Common\CoreApi\CoreApi', $definition->getClass());
+        $this->assertEquals(CoreApi::class, $definition->getClass());
 
         $factory = $definition->getFactory();
         $this->assertInstanceOf(Reference::class, $factory[0]);

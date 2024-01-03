@@ -137,7 +137,7 @@ class ContentTypeService implements EntityServiceInterface
         return $environment->getAlias();
     }
 
-    public function updateMapping(ContentType $contentType, ?string $envs = null): void
+    public function updateMapping(ContentType $contentType, string $envs = null): void
     {
         try {
             $body = $this->environmentService->getIndexAnalysisConfiguration();
@@ -613,7 +613,7 @@ class ContentTypeService implements EntityServiceInterface
         return $this->updateFromJson($entity, $json, false, false);
     }
 
-    public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
+    public function createEntityFromJson(string $json, string $name = null): EntityInterface
     {
         $firstEnvironment = null;
         foreach ($this->environmentService->getEnvironments() as $environment) {
@@ -675,13 +675,11 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         $versionTags = $contentType->getVersionTags();
-        $versionTagsLabels = \array_map(function (string $versionTag) {
-            return $this->translator->trans(
-                'revision.version_tag',
-                ['%version_tag%' => $versionTag],
-                EMSCoreBundle::TRANS_DOMAIN
-            );
-        }, $versionTags);
+        $versionTagsLabels = \array_map(fn (string $versionTag) => $this->translator->trans(
+            'revision.version_tag',
+            ['%version_tag%' => $versionTag],
+            EMSCoreBundle::TRANS_DOMAIN
+        ), $versionTags);
 
         $emptyLabel = $this->translator->trans('revision.version_tag.empty', [], EMSCoreBundle::TRANS_DOMAIN);
 

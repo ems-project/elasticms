@@ -70,9 +70,6 @@ class CriteriaViewType extends ViewType
         return 'criteria_view';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getParameters(View $view, FormFactoryInterface $formFactory, Request $request): array
     {
         $criteriaUpdateConfig = new CriteriaUpdateConfig($view, $this->logger);
@@ -88,7 +85,7 @@ class CriteriaViewType extends ViewType
 
         $categoryField = false;
         if ($view->getContentType()->getCategoryField()) {
-            $categoryField = $view->getContentType()->getFieldType()->__get('ems_'.$view->getContentType()->getCategoryField());
+            $categoryField = $view->getContentType()->getFieldType()->get('ems_'.$view->getContentType()->getCategoryField());
         }
 
         return [
@@ -97,7 +94,7 @@ class CriteriaViewType extends ViewType
             'view' => $view,
             'contentType' => $view->getContentType(),
             'environment' => $view->getContentType()->getEnvironment(),
-            'criterionList' => $view->getContentType()->getFieldType()->__get('ems_'.$view->getOptions()['criteriaField']),
+            'criterionList' => $view->getContentType()->getFieldType()->get('ems_'.$view->getOptions()['criteriaField']),
             'form' => $form->createView(),
         ];
     }

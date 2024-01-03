@@ -62,7 +62,7 @@ final class File implements FileInterface
         return $hash;
     }
 
-    public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
+    public function uploadFile(string $realPath, string $mimeType = null, string $filename = null, callable $callback = null): string
     {
         $hash = $this->hashFile($realPath);
 

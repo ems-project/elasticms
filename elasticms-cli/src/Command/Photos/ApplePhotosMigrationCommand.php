@@ -6,14 +6,18 @@ use App\CLI\Client\Photos\ApplePhotosLibrary;
 use App\CLI\Client\Photos\PhotosLibraryInterface;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::APPLE_PHOTOS_MIGRATION,
+    description: 'Migrate Apple Photo library to elaticms documents.',
+    hidden: false
+)]
 class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
 {
-    protected static $defaultName = Commands::APPLE_PHOTOS_MIGRATION;
-
     final public const ARG_PHOTOS_LIBRARY_PATH = 'photos-library-path';
     private string $applePhotosPathPath;
 
@@ -25,7 +29,6 @@ class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Migrate Apple Photo library to elaticms documents')
             ->addArgument(
                 self::ARG_PHOTOS_LIBRARY_PATH,
                 InputArgument::REQUIRED,

@@ -21,7 +21,7 @@ final class DomPdfPrinter implements PdfPrinterInterface
         }
     }
 
-    public function getPdfOutput(PdfInterface $pdf, ?PdfPrintOptions $options = null): PdfOutput
+    public function getPdfOutput(PdfInterface $pdf, PdfPrintOptions $options = null): PdfOutput
     {
         $options ??= new PdfPrintOptions([]);
         $dompdf = $this->makeDomPdf($pdf, $options);
@@ -29,7 +29,7 @@ final class DomPdfPrinter implements PdfPrinterInterface
         return new PdfOutput(fn (): ?string => $dompdf->output());
     }
 
-    public function getStreamedResponse(PdfInterface $pdf, ?PdfPrintOptions $options = null): StreamedResponse
+    public function getStreamedResponse(PdfInterface $pdf, PdfPrintOptions $options = null): StreamedResponse
     {
         $options ??= new PdfPrintOptions([]);
         $dompdf = $this->makeDomPdf($pdf, $options);

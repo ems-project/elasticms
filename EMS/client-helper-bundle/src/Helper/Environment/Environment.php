@@ -23,8 +23,8 @@ final class Environment
     public const DEFAULT = 'default';
     public const ROUTER = 'router';
     private bool $active = false;
-    private bool $default;
-    private bool $routerEnabled;
+    private readonly bool $default;
+    private readonly bool $routerEnabled;
     private readonly string $alias;
     private readonly ?string $regex;
     private readonly ?string $routePrefix;

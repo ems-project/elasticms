@@ -6,9 +6,9 @@ namespace EMS\ClientHelperBundle\Helper\Hashcash;
 
 final class Token
 {
-    private string $level;
-    private string $csrf;
-    private string $random;
+    private readonly string $level;
+    private readonly string $csrf;
+    private readonly string $random;
 
     private const DELIMITER = '|';
 

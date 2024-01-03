@@ -249,11 +249,7 @@ class EnvironmentService implements EntityServiceInterface
 
     public function getByName(string $name): Environment|false
     {
-        if (isset($this->getEnvironments()[$name])) {
-            return $this->getEnvironments()[$name];
-        }
-
-        return false;
+        return $this->getEnvironments()[$name] ?? false;
     }
 
     public function giveByName(string $name): Environment
@@ -281,11 +277,7 @@ class EnvironmentService implements EntityServiceInterface
      */
     public function getById(int $id): Environment|false
     {
-        if (isset($this->getEnvironmentsById()[$id])) {
-            return $this->getEnvironmentsById()[$id];
-        }
-
-        return false;
+        return $this->getEnvironmentsById()[$id] ?? false;
     }
 
     /**
@@ -408,7 +400,7 @@ class EnvironmentService implements EntityServiceInterface
         return $environment;
     }
 
-    public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
+    public function createEntityFromJson(string $json, string $name = null): EntityInterface
     {
         $meta = JsonClass::fromJsonString($json);
         $environment = $meta->jsonDeserialize();

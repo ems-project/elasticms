@@ -230,22 +230,22 @@ class Image
                 }
                 $centerX = $radius - 1;
                 $centerY = $radius - 1;
-                if ($topLeft && $x < $centerX && $y < $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                if ($topLeft && $x < $centerX && $y < $centerY && \abs($x - $centerX) ** 2 + \abs($y - $centerY) ** 2 > $radius ** 2) {
                     \imagesetpixel($image, $x, $y, $colorId);
                 }
                 $centerX = $radius - 1;
                 $centerY = $height - $radius;
-                if ($bottomLeft && $x < $centerX && $y > $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                if ($bottomLeft && $x < $centerX && $y > $centerY && \abs($x - $centerX) ** 2 + \abs($y - $centerY) ** 2 > $radius ** 2) {
                     \imagesetpixel($image, $x, $y, $colorId);
                 }
                 $centerX = $width - $radius;
                 $centerY = $height - $radius;
-                if ($bottomRight && $x > $centerX && $y > $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                if ($bottomRight && $x > $centerX && $y > $centerY && \abs($x - $centerX) ** 2 + \abs($y - $centerY) ** 2 > $radius ** 2) {
                     \imagesetpixel($image, $x, $y, $colorId);
                 }
                 $centerX = $width - $radius;
                 $centerY = $radius - 1;
-                if ($topRight && $x > $centerX && $y < $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                if ($topRight && $x > $centerX && $y < $centerY && \abs($x - $centerX) ** 2 + \abs($y - $centerY) ** 2 > $radius ** 2) {
                     \imagesetpixel($image, $x, $y, $colorId);
                 }
             }

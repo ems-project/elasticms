@@ -8,8 +8,8 @@ use EMS\Helpers\Standard\Type;
 
 class LoginCredentials
 {
-    public ?string $username;
-    public ?string $password;
+    public ?string $username = null;
+    public ?string $password = null;
 
     public function giveUsername(): string
     {

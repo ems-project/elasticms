@@ -11,19 +11,19 @@ use Symfony\Component\Mime\MimeTypesInterface;
 
 class TikaHelper
 {
-    private MimeTypesInterface $mimeTypes;
+    private readonly MimeTypesInterface $mimeTypes;
 
     private function __construct(private readonly ?string $tikaBaseUrl, private readonly ?string $tikaCacheFolder)
     {
         $this->mimeTypes = new MimeTypes();
     }
 
-    public static function initTikaJar(?string $tikaCacheFolder = null): TikaHelper
+    public static function initTikaJar(string $tikaCacheFolder = null): TikaHelper
     {
         return new self(null, $tikaCacheFolder);
     }
 
-    public static function initTikaServer(string $tikaBaseUrl, ?string $tikaCacheFolder = null): TikaHelper
+    public static function initTikaServer(string $tikaBaseUrl, string $tikaCacheFolder = null): TikaHelper
     {
         return new self($tikaBaseUrl, $tikaCacheFolder);
     }

@@ -8,17 +8,22 @@ use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Common\Job\JobManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::ADMIN_NEXT_JOB,
+    description: 'Contact the admin to check if a job is planned for the given tag and run it locally.',
+    hidden: false
+)]
 class NextJobCommand extends AbstractCommand
 {
-    public const TAG_ARGUMENT = 'tag';
-    public const SILENT_OPTION = 'silent';
-    protected static $defaultName = Commands::ADMIN_NEXT_JOB;
+    final public const TAG_ARGUMENT = 'tag';
+    final public const SILENT_OPTION = 'silent';
     private string $tag;
     private bool $silent;
 
@@ -30,7 +35,6 @@ class NextJobCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Contact the admin to check if a job is planned for the given tag and run it locally');
         $this->addArgument(self::TAG_ARGUMENT, InputArgument::REQUIRED, 'Tag that identifies the scheduled jobs');
         $this->addOption(self::SILENT_OPTION, null, InputOption::VALUE_NONE, 'Dont echo outputs in the console (only in the admin job logs)');
     }

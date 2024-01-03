@@ -1,36 +1,36 @@
 {
   "name": "ems-project/elasticms-cli",
   "description": "command client of the elasticms suite",
-  "type": "project",
-  "license": "MIT",
   "authors": [
     {
       "name": "EMS Community",
       "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
     }
   ],
+  "type": "project",
+  "license": "MIT",
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
-    "php": "^8.1",
+    "php": "^8.2",
     "ext-ctype": "*",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-sqlite3": "*",
     "doctrine/doctrine-migrations-bundle": "^3.2",
-    "elasticms/common-bundle": "~5.12.0",
-    "kevinrob/guzzle-cache-middleware": "^4.0",
-    "symfony/console": "^5.4",
-    "symfony/css-selector": "^5.4",
-    "symfony/dotenv": "^5.4",
-    "symfony/expression-language": "^6.2",
-    "symfony/flex": "^1.6",
-    "symfony/framework-bundle": "^5.4",
-    "symfony/http-client": "^5.4",
-    "symfony/property-info": "^5.4",
-    "symfony/runtime": "^5.4",
-    "symfony/var-exporter": "^5.4",
-    "symfony/yaml": "^5.4"
+    "elasticms/common-bundle": "6.0.*",
+    "kevinrob/guzzle-cache-middleware": "^4.1",
+    "symfony/console": "6.4.*",
+    "symfony/css-selector": "6.4.*",
+    "symfony/dotenv": "6.4.*",
+    "symfony/expression-language": "6.4.*",
+    "symfony/flex": "^2.4",
+    "symfony/framework-bundle": "6.4.*",
+    "symfony/http-client": "6.4.*",
+    "symfony/property-info": "6.4.*",
+    "symfony/runtime": "6.4.*",
+    "symfony/var-exporter": "6.4.*",
+    "symfony/yaml": "6.4.*"
   },
   "require-dev": {
     "phpdocumentor/reflection-docblock": "^5.3",
@@ -77,9 +77,9 @@
       "@auto-scripts"
     ],
     "phpcs": "php-cs-fixer fix",
-    "phpstan": "phpstan analyse",
+    "phpstan": "phpstan analyse --memory-limit 1G",
     "phpunit": "phpunit",
-    "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
+    "phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
   },
   "conflict": {
     "symfony/symfony": "*"
@@ -87,7 +87,7 @@
   "extra": {
     "symfony": {
       "allow-contrib": false,
-      "require": "^5.4"
+      "require": "6.4.*"
     }
   }
 }

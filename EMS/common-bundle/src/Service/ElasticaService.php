@@ -68,7 +68,7 @@ class ElasticaService
         return $this->client->requestEndpoint($endpoint)->isOk();
     }
 
-    public function getHealthStatus(string $waitForStatus = null, string $timeout = '10s', ?string $index = null): string
+    public function getHealthStatus(string $waitForStatus = null, string $timeout = '10s', string $index = null): string
     {
         if (null !== $this->healthStatus) {
             return $this->healthStatus;
@@ -96,7 +96,7 @@ class ElasticaService
     /**
      * @return array<string, mixed>
      */
-    public function getClusterHealth(string $waitForStatus = null, string $timeout = '10s', ?string $index = null): array
+    public function getClusterHealth(string $waitForStatus = null, string $timeout = '10s', string $index = null): array
     {
         if ($this->useAdminProxy) {
             throw new \RuntimeException('getClusterHealth not supported in proxy mode');
@@ -164,7 +164,7 @@ class ElasticaService
     public function generateTermsSearch(array $indexes, string $field, array $terms, array $contentTypes = []): Search
     {
         $query = new Terms($field, $terms);
-        if (empty($contentTypes)) {
+        if (!empty($contentTypes)) {
             $query = $this->filterByContentTypes($query, $contentTypes);
         }
 
@@ -398,14 +398,14 @@ class ElasticaService
      * @param string[] $sourceIncludes
      * @param string[] $sourcesExcludes
      */
-    public function getDocument(string $index, ?string $contentType, string $id, array $sourceIncludes = [], array $sourcesExcludes = [], ?AbstractQuery $query = null): Document
+    public function getDocument(string $index, ?string $contentType, string $id, array $sourceIncludes = [], array $sourcesExcludes = [], AbstractQuery $query = null): Document
     {
         $contentTypes = [];
         if (null !== $contentType) {
             $contentTypes[] = $contentType;
         }
 
-        if ($query) {
+        if (null !== $query) {
             $search = $this->generateSearch([$index], $query, $contentTypes);
         } else {
             $search = $this->generateTermsSearch([$index], '_id', [$id], $contentTypes);

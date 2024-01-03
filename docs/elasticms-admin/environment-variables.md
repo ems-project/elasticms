@@ -273,6 +273,21 @@ Define the default bulk size for commands such as the `ems:environment:rebuild` 
 ```dotenv
 EMSCO_DEFAULT_BULK_SIZE=500
 ``` 
+ 
+### EMSCO_DYNAMIC_MAPPING
+Define the default [dynamic mapping mode](https://www.elastic.co/guide/en/elasticsearch/reference/current/dynamic.html#dynamic-parameters) for the elasticsearch managed indexes. Default value: `'false'`.
+
+This parameter has been introduced in version 6.0.0. Prior version were then using the elasticsearch default value `'false'`.
+
+```dotenv
+EMSCO_DYNAMIC_MAPPING='false'
+``` 
+Possible values are:
+- `true`: New fields are added to the mapping.
+- `runtime`: New fields are added to the mapping as [runtime fields](https://www.elastic.co/guide/en/elasticsearch/reference/current/runtime.html). These fields are not indexed, and are loaded from _source at query time.
+- `false`: New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly.
+- `strict`: If new fields are detected, an exception is thrown and the document is rejected. New fields must be explicitly added to the mapping.
+
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).

@@ -9,16 +9,20 @@ use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Search\Search;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
+#[AsCommand(
+    name: Commands::FILE_READER_IMPORT,
+    description: 'Import an Excel file or a CSV file, one document per row.',
+    hidden: false
+)]
 final class FileReaderImportCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::FILE_READER_IMPORT;
-
     private const ARGUMENT_FILE = 'file';
     private const ARGUMENT_CONTENT_TYPE = 'content-type';
     private const OPTION_OUUID_EXPRESSION = 'ouuid-expression';
@@ -34,7 +38,7 @@ final class FileReaderImportCommand extends AbstractCommand
     private bool $hashOuuid;
     private bool $deleteMissingDocuments;
     private bool $hashFile;
-    private ?string $encoding;
+    private ?string $encoding = null;
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
@@ -44,7 +48,6 @@ final class FileReaderImportCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Import an Excel file or a CSV file, one document per row')
             ->addArgument(self::ARGUMENT_FILE, InputArgument::REQUIRED, 'File path (xlsx or csv)')
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type target')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')

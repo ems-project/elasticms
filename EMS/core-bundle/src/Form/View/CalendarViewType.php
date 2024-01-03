@@ -65,9 +65,6 @@ class CalendarViewType extends ViewType
         return 'calendar_view';
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getParameters(View $view, FormFactoryInterface $formFactory, Request $request): array
     {
         $search = new Search();
@@ -80,7 +77,7 @@ class CalendarViewType extends ViewType
 
         return [
             'view' => $view,
-            'field' => $view->getContentType()->getFieldType()->__get('ems_'.$view->getOptions()['dateRangeField']),
+            'field' => $view->getContentType()->getFieldType()->get('ems_'.$view->getOptions()['dateRangeField']),
             'contentType' => $view->getContentType(),
             'environment' => $view->getContentType()->getEnvironment(),
             'form' => $form->createView(),

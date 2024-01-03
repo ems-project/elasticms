@@ -2,9 +2,9 @@ parameters:
   env(EMS_HASH_ALGO): 'sha1'
 
 twig:
-    debug: '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
-    auto_reload: true
-    exception_controller: null
-    globals:
-      ems_hash_algo: '%env(string:EMS_HASH_ALGO)%'
+  debug: '%kernel.debug%'
+  strict_variables: '%kernel.debug%'
+  auto_reload: true
+  exception_controller: null
+  globals:
+    ems_hash_algo: '%env(string:EMS_HASH_ALGO)%'

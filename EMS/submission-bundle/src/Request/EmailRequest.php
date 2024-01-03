@@ -13,7 +13,7 @@ final class EmailRequest
     private string $contentType = '';
     /** @var array<array<mixed>> */
     private readonly array $attachments;
-    private ?string $replyTo;
+    private readonly ?string $replyTo;
 
     /**
      * @param array<string, mixed> $message

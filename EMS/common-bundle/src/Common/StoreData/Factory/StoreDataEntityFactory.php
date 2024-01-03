@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreDataEntityFactory implements StoreDataFactoryInterface
 {
-    public const TYPE_DB = 'db';
+    final public const TYPE_DB = 'db';
 
     public function __construct(
         private readonly StoreDataRepository $repository

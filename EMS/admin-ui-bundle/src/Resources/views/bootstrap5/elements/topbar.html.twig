@@ -37,7 +37,7 @@
 
         {% if app.user %}
             {{ render(controller('EMS\\CoreBundle\\Controller\\ChannelController::menu')) }}
-            {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotificationAction')) }}
+            {{ render(controller('EMS\\CoreBundle\\Controller\\NotificationController::menuNotification')) }}
         {% endif %}
 
         <li class="nav-item">

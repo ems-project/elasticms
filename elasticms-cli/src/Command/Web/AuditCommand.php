@@ -22,16 +22,20 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::WEB_AUDIT,
+    description: 'Audit (security headers, content, locale, accessibility) website.',
+    hidden: false
+)]
 class AuditCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::WEB_AUDIT;
-
     private const ARG_URL = 'url';
     private const OPTION_CONTINUE = 'continue';
     private const OPTION_CACHE_FOLDER = 'cache-folder';
@@ -62,9 +66,9 @@ class AuditCommand extends AbstractCommand
     private bool $tika;
     private bool $all;
     private ?string $ignoreRegex = null;
-    private ?string $tikaBaseUrl;
+    private ?string $tikaBaseUrl = null;
     private float $tikaMaxSize;
-    private ?string $saveFolder;
+    private ?string $saveFolder = null;
     /** @var string[] */
     private array $audited = [];
     private string $baseUrl;
@@ -77,7 +81,6 @@ class AuditCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Audit (security headers, content, locale, accessibility) website')
             ->addArgument(
                 self::ARG_URL,
                 InputArgument::REQUIRED,

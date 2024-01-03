@@ -40,11 +40,6 @@ class CoreApiUser implements UserInterface
         return null;
     }
 
-    public function getSalt()
-    {
-        return null;
-    }
-
     public function eraseCredentials(): void
     {
     }

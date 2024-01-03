@@ -41,7 +41,7 @@ Before version 6 it was not possible to define elasticsearch dynamic mapping con
 
 Since version 6 the default dynamic mapping config has changed. New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly into the content type.
 
-You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DEFAULT_BULK_SIZE='true'`. But it's not recommended. Check the [EMSCO_DEFAULT_BULK_SIZE documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
+You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
 
 ## version 5.7.x
 

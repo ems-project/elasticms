@@ -61,7 +61,7 @@ class Mapping
     {
         $out = [
             'properties' => [],
-            'dynamic' => 'false' === $this->dynamicMapping,
+            'dynamic' => $this->dynamicMapping,
         ];
 
         if (null != $contentType->getFieldType()) {

@@ -7,24 +7,24 @@
 
 {% block breadcrumb %}
 	<ol class="breadcrumb">
-		<li><i class="fa fa-cubes"></i> Elasticsearch</li>
-   		<li class="active">Status</li>
-   	</ol>
+		<li class="breadcrumb-item"><i class="fa fa-cubes"></i> Elasticsearch</li>
+		<li class="breadcrumb-item active">Status</li>
+	</ol>
 {% endblock %}
 
 
 {% block body %}
 <div class="row">
 	<div class="col-md-6 col-lg-4">
-		<div class="box box box-solid">
-			<div class="box-header with-border bg-{{ status.status }}">
-				<h4 class="box-title">
+		<div class="card card-light">
+			<div class="card-header bg-{{ status.status }}">
+				<h4 class="card-title">
 						<i
 							class="icon fa fa-cubes fa-2x"></i>
 						Cluster name: <strong>{{ status.cluster_name }}</strong>
 				</h4>
 			</div>
-			<div class="box-body ">
+			<div class="card-body ">
 				<ul class="list-group">
 					{% if info is defined and info %}
 						<li class="list-group-item">{{ 'views.elasticsearch.status.cluster-uuid'|trans }}<span
@@ -82,27 +82,27 @@
 	</div>
 	{% if certificate is defined and certificate %}
 		<div class="col-md-6 col-lg-8">
-		<div class="box box box-solid">
-			<div class="box-header with-border bg-{% if certificate %}green{% else %}red{% endif %}">
-				<h4 class="box-title">
-						<i class="icon fa fa-key fa-2x"></i>
-						{{ 'views.elasticsearch.status.certificate-information'|trans }}
+		<div class="card card-light">
+			<div class="card-header bg-{% if certificate %}green{% else %}red{% endif %}">
+				<h4 class="card-title">
+					<i class="icon fa fa-key fa-2x"></i>
+					{{ 'views.elasticsearch.status.certificate-information'|trans }}
 				</h4>
 			</div>
-			<div class="box-body ">
+			<div class="card-body ">
 				<ul class="list-group">
-                    {% if certificate %}
-    					<li class="list-group-item">
+					{% if certificate %}
+						<li class="list-group-item">
 							{{ 'views.elasticsearch.status.bits'|trans }}
 							<span class=" badge bg-green">{{ certificate.bits }}</span>
 						</li>
-    					<li class="list-group-item">
+						<li class="list-group-item">
 							<a href="{{ path('ems_get_public_key') }}">{{ 'views.elasticsearch.status.public-key'|trans }}</a>
-    						<pre>{{ certificate.key }}</pre>
-    					</li>
-                    {% else %}
-    					<li class="list-group-item">{{ 'views.elasticsearch.status.certificate-is-missing'|trans }}</li>
-                    {% endif %}
+							<pre>{{ certificate.key }}</pre>
+						</li>
+					{% else %}
+						<li class="list-group-item">{{ 'views.elasticsearch.status.certificate-is-missing'|trans }}</li>
+					{% endif %}
 
 				</ul>
 			</div>
@@ -112,17 +112,17 @@
 	{% endif %}
     {% if tika is defined and tika %}
 		<div class="col-md-6 col-lg-8">
-			<div class="box box box-solid">
-				<div class="box-header with-border bg-{% if tika %}{% if tika.code == 200 %}green{% else %}red{% endif %}{% else %}yellow{% endif %}">
-					<h4 class="box-title">
+			<div class="card card-light">
+				<div class="card-header bg-{% if tika %}{% if tika.code == 200 %}green{% else %}red{% endif %}{% else %}yellow{% endif %}">
+					<h4 class="card-title">
 						<i class="icon fa fa-external-link fa-2x"></i>
 						{{ 'views.elasticsearch.status.tika-server'|trans }} {% if tika and tika.code != 200 %}({{tika.code}}){% endif %}
 					</h4>
 				</div>
-				<div class="box-body ">
+				<div class="card-body ">
 					<ul class="list-group">
 						<li class="list-group-item">
-                            {% if tika %}{{ tika.content }}{% else %}{{ 'views.elasticsearch.status.tika-server-not-configured'|trans }}{% endif %}
+							{% if tika %}{{ tika.content }}{% else %}{{ 'views.elasticsearch.status.tika-server-not-configured'|trans }}{% endif %}
 						</li>
 					</ul>
 				</div>

@@ -13,12 +13,12 @@
 {% block body %}
 <div class="row">
 	<div class="col-md-12">
-		<div class="box box-info">
-			<div class="box-header with-border">
-				<h3 class="box-title">{{ block('title') }}</h3>
+		<div class="card card-{{ theme_color }} card-outline">
+			<div class="card-header">
+				<h3 class="card-title">{{ block('title') }}</h3>
 			</div>
 			{{ form_start(form) }}
-				<div class="box-body">
+				<div class="card-body">
 					<div class="row">
 						<div class="col-md-4">
 							{{ form_row(form.name) }}
@@ -39,7 +39,7 @@
 					</div>
 
 				</div>
-				<div class="box-footer">
+				<div class="card-footer">
 					<div class="btn-group">
 						{{ form_widget(form.save) }}
 					</div>

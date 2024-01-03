@@ -1,29 +1,27 @@
 {% extends '@EMSAdminUI/bootstrap5/admin-form/abstract.html.twig' %}
 {% trans_default_domain 'emsco-twigs' %}
 
-
-{% block breadcrumb_items %}<li>{{ block('title') }}</li>{% endblock breadcrumb_items %}
-
+{% block breadcrumb_items %}<li class="breadcrumb-item active">{{ block('title') }}</li>{% endblock breadcrumb_items %}
 
 {% block body %}
     <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary">
+        <div class="col-12">
+            <div class="card card-{{ theme_color }} card-outline">
                 {{ form_start(form) }}
-                <div class="box-body">
+                <div class="card-body">
                     <div class="row">
                         {{ form_row(form.name) }}
                         <div class="clearfix"></div>
                         {{ form_row(form.label) }}
                         {%  if form.fieldType is defined %}
                             <div class="clearfix"></div>
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 {{ form_row(form.fieldType) }}
                             </div>
                         {% endif %}
                     </div>
                 </div>
-                <div class="box-footer">
+                <div class="card-footer">
                     {%  if form.create is defined %}
                         {{ form_widget(form.create) }}
                     {% endif %}

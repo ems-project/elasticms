@@ -1,81 +1,81 @@
 {% trans_default_domain 'emsco-twigs' %}
 {{ form_start(form) }}
-	<div class="box ">
+	<div class="card card-{{ theme_color }} card-outline">
 		<div id="searchFormBoxBody" class="collapse {% if openSearchForm is defined and openSearchForm %}in{% endif %}" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{%else%}true{% endif %}">
-			<div class="box-body" >
+			<div class="card-body" >
 				<div class="row">
 					{% if form.environments is defined %}
-						<div class=" col-md-3 col-xs-6">
+						<div class=" col-md-3 col-6">
 							{{ form_row(form.environments) }}
 						</div>
 					{% endif %}
 					{% if form.contentTypes is defined %}
-						<div class=" col-md-4 col-xs-6">
+						<div class=" col-md-4 col-6">
 							{{ form_row(form.contentTypes) }}
 						</div>
 					{% endif %}
 					{% if form.sortBy is defined %}
-						<div class=" col-md-3 col-xs-6">
+						<div class=" col-md-3 col-6">
 							{{ form_row(form.sortBy) }}
 						</div>
 					{% endif %}
 					{% if form.sortBy is defined %}
-						<div class=" col-md-2 col-xs-6">
+						<div class=" col-md-2 col-6">
 							{{ form_row(form.sortOrder) }}
 						</div>
 					{% endif %}
 				</div>
 				<div class="row" id="list-of-search-filters" data-prototype="{{ form_row(form.filters.vars.prototype)|e }}" data-index="{{ form.filters|length }}">
-							<div class="col-xs-12 visible-md-block visible-lg-block">
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="control-label">Boolean clause</label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="form-group">
-										<label class="control-label">Field</label>
-									</div>
-								</div>
-								<div class="col-md-2">
-									<div class="form-group">
-										<label class="control-label">Operator</label>
-									</div>
-								</div>
-								<div class="{% if is_super() %}col-md-3{% else %}col-md-4{% endif %}">
-									<div class="form-group">
-										<label class="control-label">Pattern</label>
-									</div>
-								</div>
-                                {% if is_super() %}
-									<div class="col-md-1">
-										<div class="form-group">
-											<label class="control-label">Boost</label>
-										</div>
-									</div>
-                                {% endif %}
-								<div class="col-md-1">
-									<div class="form-group">
-										<label class="control-label">&nbsp;</label>
-									</div>
-								</div>
-
-								{{- form_errors(form) -}}
+					<div class="col-12 d-none d-md-block"> {# hide on mobile? (syv) #}
+						<div class="col-md-2">
+							<div class="form-group">
+								<label class="control-label">Boolean clause</label>
 							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-group">
+								<label class="control-label">Field</label>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label class="control-label">Operator</label>
+							</div>
+						</div>
+						<div class="{% if is_super() %}col-md-3{% else %}col-md-4{% endif %}">
+							<div class="form-group">
+								<label class="control-label">Pattern</label>
+							</div>
+						</div>
+						{% if is_super() %}
+							<div class="col-md-1">
+								<div class="form-group">
+									<label class="control-label">Boost</label>
+								</div>
+							</div>
+						{% endif %}
+						<div class="col-md-1">
+							<div class="form-group">
+								<label class="control-label">&nbsp;</label>
+							</div>
+						</div>
+
+						{{- form_errors(form) -}}
+					</div>
 					{{ form_widget(form.filters) }}
 				</div>
 				<div class="row">
 					{% if form.minimumShouldMatch is defined %}
-						<div class=" col-md-3 col-xs-6">
+						<div class=" col-md-3 col-6">
 							{{ form_row(form.minimumShouldMatch) }}
 						</div>
 					{% endif %}
 				</div>
 			</div>
 
-			<div class="box-footer">
+			<div class="card-footer">
 				<div class="form-group">
-					<div class="btn-group pull-right">
+					<div class="btn-group float-end">
 						<a class="btn btn-primary" href="#" id="add-search-filter-button"><i class="fa fa-plus"></i> Add filter</a>
 						{% if form.search is defined %}
 							{{ form_widget(form.search) }}
@@ -87,38 +87,38 @@
 					<div class="btn-group">
 						{% if searchId is defined and searchId %}
 							{% if is_granted('ROLE_DEFAULT_SEARCH') %}
-                                {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-                                    'url':  path('ems_search_set_default_search_from', {'id': searchId, 'search': app.request.query}),
-                                    'message': 'Set as default search ?',
-                                    'label': 'Set default',
-                                    'icon': 'check-square',
-                                    'class': 'btn'
-                                }%}
-								{%  if form.contentTypes.vars.value|length == 1 %}
+								{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+									'url':  path('ems_search_set_default_search_from', {'id': searchId, 'search': app.request.query}),
+									'message': 'Set as default search ?',
+									'label': 'Set default',
+									'icon': 'check-square',
+									'class': 'btn'
+								} %}
+								{% if form.contentTypes.vars.value|length == 1 %}
 									{% set contentType = form.contentTypes.vars.value|first|get_content_type %}
 									{% if contentType %}
-                                        {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-                                            'url':  path('ems_search_set_default_search_from', {
-                                                'id': searchId,
-                                                'search': app.request.query,
-                                                'contentType': form.contentTypes.vars.value|first
-                                            }),
-                                            'message': 'Set as default '~contentType.singularName~' search ?',
-                                            'label': 'Set for '~contentType.singularName,
-                                            'icon': contentType.icon|default('check-square'),
-                                            'icon': 'check-square',
-                                            'class': 'btn'
-                                        }%}
-                                    {% endif %}
+										{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+											'url':  path('ems_search_set_default_search_from', {
+												'id': searchId,
+												'search': app.request.query,
+												'contentType': form.contentTypes.vars.value|first
+											}),
+											'message': 'Set as default '~contentType.singularName~' search ?',
+											'label': 'Set for '~contentType.singularName,
+											'icon': contentType.icon|default('check-square'),
+											'icon': 'check-square',
+											'class': 'btn'
+										} %}
+									{% endif %}
 								{% endif %}
 							{% endif %}
-                            {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
+							{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 								'url':  path('elasticsearch.search.delete', {'id': searchId, 'search': app.request.query}),
 								'message': 'Do you confirm ?',
 								'label': 'Delete',
 								'icon': 'trash',
 								'class': 'btn'
-							}%}
+							} %}
 						{% endif %}
 
 						{% if form.save is defined %}
@@ -142,7 +142,7 @@
 				</div>
 			</div>
 		{% endif %}
-		<div class="box-footer with-border">
+		<div class="card-footer">
 			<div class="btn-group">
 				<a class="toggle-button {% if openSearchForm is not defined or not openSearchForm %}collapsed{% endif %} btn btn-primary btn-sm" role="button" data-toggle="collapse" href="#searchFormBoxBody" aria-expanded="{% if openSearchForm is not defined or not openSearchForm %}false{%else%}true{% endif %}" aria-controls="searchFormBoxBody">
 					<i class="fa fa-search"></i> Search form

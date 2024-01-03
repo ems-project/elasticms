@@ -2,7 +2,7 @@
 {%- trans_default_domain 'base' -%}
 
 {% set body_attr = {
-    class: 'hold-transition sidebar-mini layout-fixed',
+    class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
 } %}
 {%  set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
 {% set breadcrumb = [] %}
@@ -24,7 +24,6 @@
 {% block wrapper %}
     {% apply spaceless %}
         <div class="wrapper">
-
             {% if preloader|default(false) %}
                 {{ include('@EMSAdminUI/bootstrap5/elements/preloader.html.twig') }}
             {% endif %}
@@ -32,28 +31,24 @@
             {{ include('@EMSAdminUI/bootstrap5/elements/sidenav.html.twig') }}
             <div class="content-wrapper">
                 {{ include('@EMSAdminUI/bootstrap5/elements/toasts.html.twig') }}
-                <div class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
-                            </div>
-                            <div class="col-sm-6">
+                <div class="container-fluid">
+                    <div class="content-header mb-2">
+                        <div class="d-flex flex-column flex-lg-row">
+                            <div class="ms-lg-auto order-lg-1">
                                 {{ block('breadcrumb') }}
+                            </div>
+                            <div class="order-lg-0">
+                                <h1 class="m-0">{% block pagetitle %}{{ block('title') }}{% endblock %}{% block subtitle %}{% endblock %}</h1>
                             </div>
                         </div>
                     </div>
-                </div>
-                <section class="content">
-                    <div class="container-fluid">
+                    <section class="content">
                         {% block body %}{% endblock body %}
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
 
             {{ include('@EMSAdminUI/bootstrap5/elements/footer.html.twig') }}
-            {{ include('@EMSAdminUI/bootstrap5/elements/control-sidebar.html.twig') }}
-
         </div>
     {% endapply %}
 

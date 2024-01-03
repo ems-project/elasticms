@@ -3,14 +3,14 @@
 
 {% block title %}{{ 'form.reorder.title'|trans({'%label%': entity.label}) }}{% endblock %}
 
-{% block breadcrumb_items %}<li>{{ block('title') }}</li>{% endblock breadcrumb_items %}
+{% block breadcrumb_items %}<li class="breadcrumb-item active">{{ block('title') }}</li>{% endblock breadcrumb_items %}
 
 {% block body %}
 <div class="row">
 	<div class="col-md-12">
-		<div class="box box-solid">
+		<div class="card card-light">
             {{ form_start(form) }}
-				<div class="box-body no-padding">
+				<div class="card-body p-0">
 					<ol class="nested-sortable vertical" id="root-list" data-nested-max-level="15" data-nested-is-tree="true">
 						{% include "@EMSCore/contenttype/reorder_item.html.twig" with {
 							parent: entity.fieldType
@@ -18,7 +18,7 @@
 					</ol>
 				</div>
 				<div>
-					<div class="box-footer">
+					<div class="card-footer">
 						<div class="btn-group">
 							{{ form_widget(form.reorder) }}
 						</div>

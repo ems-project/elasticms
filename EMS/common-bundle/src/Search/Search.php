@@ -7,6 +7,7 @@ use Elastica\Aggregation\Terms;
 use Elastica\Query\AbstractQuery;
 use Elastica\Search as ElasticaSearch;
 use Elastica\Suggest;
+use EMS\CommonBundle\Elasticsearch\Aggregation\ElasticaAggregation;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
@@ -45,7 +46,7 @@ class Search
 
     public function serialize(string $format = 'json'): string
     {
-        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query']]);
+        return self::getSerializer()->serialize($this, $format, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['query', 'aggregations']]);
     }
 
     public static function deserialize(string $data, string $format = 'json'): Search
@@ -240,6 +241,27 @@ class Search
         return $this->aggregations;
     }
 
+    /**
+     * @param array<mixed> $aggs
+     */
+    public function setAggs(array $aggs): void
+    {
+        $this->aggregations = self::parseAggs($aggs);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getAggs(): array
+    {
+        $aggs = [];
+        foreach ($this->aggregations as $aggregation) {
+            $aggs[$aggregation->getName()] = $aggregation->toArray();
+        }
+
+        return $aggs;
+    }
+
     public function addTermsAggregation(string $name, string $field, int $size = 20): void
     {
         $termsAggregation = new Terms($name);
@@ -302,5 +324,44 @@ class Search
         $serializer = new Serializer($normalizers, $encoders);
 
         return $serializer;
+    }
+
+    /**
+     * @param array<mixed> $aggs
+     *
+     * @return ElasticaAggregation[]
+     */
+    public static function parseAggs(array $aggs): array
+    {
+        $aggregations = [];
+        foreach ($aggs as $name => $agg) {
+            $aggregations[] = self::parseAgg($name, $agg);
+        }
+
+        return $aggregations;
+    }
+
+    /**
+     * @param array<mixed> $agg
+     */
+    private static function parseAgg(string $name, array $agg): ElasticaAggregation
+    {
+        $subAggregations = [];
+        if (isset($agg['aggs'])) {
+            $subAggregations = self::parseAggs($agg['aggs']);
+            unset($agg['aggs']);
+        }
+        if (!\is_array($agg) || 1 !== \count($agg)) {
+            throw new \RuntimeException('Unexpected aggregation basename');
+        }
+        $aggregation = new ElasticaAggregation($name);
+        foreach ($agg as $basename => $rule) {
+            $aggregation->setConfig($basename, $rule);
+            foreach ($subAggregations as $subAggregation) {
+                $aggregation->addAggregation($subAggregation);
+            }
+        }
+
+        return $aggregation;
     }
 }

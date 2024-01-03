@@ -1,11 +1,13 @@
 {
   "name": "ems-project/elasticms",
+  "description": "ElasticMS's monorepo",
   "authors": [
     {
       "name": "EMS Community",
       "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
     }
   ],
+  "license" : "MIT",
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
@@ -111,7 +113,8 @@
     "twig/twig": "^3.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.0",
+    "dg/bypass-finals": "^1.5",
+    "friendsofphp/php-cs-fixer": "3.14.2",
     "http-interop/http-factory-guzzle": "^1.0",
     "knplabs/github-api": "^3.0",
     "knplabs/packagist-api": "^2.0",
@@ -185,7 +188,6 @@
     "elasticms/helpers": "self.version",
     "elasticms/submission-bundle": "self.version",
     "elasticms/xliff": "self.version",
-    "ems-project/elasticms": "self.version",
     "symfony/polyfill-ctype": "*",
     "symfony/polyfill-iconv": "*",
     "symfony/polyfill-mbstring": "*",

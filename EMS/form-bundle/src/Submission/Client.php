@@ -34,11 +34,12 @@ class Client
 
         $responseCollector = new HandleResponseCollector();
 
+        $formData = new FormData($formConfig, $form);
         foreach ($formConfig->getSubmissions() as $submissionConfig) {
             if (!$submissionConfig instanceof SubmissionConfig) {
                 throw new \RuntimeException('Unexpected not loaded submissions');
             }
-            $handleRequest = new HandleRequest($form, $formConfig, $responseCollector, $submissionConfig);
+            $handleRequest = new HandleRequest($form, $formConfig, $formData, $responseCollector, $submissionConfig);
             $handler = $this->getHandler($handleRequest);
 
             if (null === $handler) {

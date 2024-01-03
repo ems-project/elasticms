@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Tests\Unit\Helper;
 
 use EMS\CommonBundle\Helper\Cache;
@@ -23,7 +25,7 @@ class CacheTest extends TestCase
     public function testGenerateEtagShouldReturnNull(): void
     {
         $this->response->setContent(null);
-        self::assertNull(null, $this->cache->generateEtag($this->response));
+        self::assertNull($this->cache->generateEtag($this->response));
     }
 
     public function testGenerateEtagShouldReturnHash(): void

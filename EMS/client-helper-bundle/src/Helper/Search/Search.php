@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Search;
 
 use Elastica\Query\AbstractQuery;
+use Elastica\Query\BoolQuery;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Request\RequestHelper;
+use EMS\CommonBundle\Elasticsearch\QueryStringEscaper;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +26,8 @@ final class Search
     private array $synonyms = [];
     /** @var string[] */
     private array $fields = [];
+    /** @var string[] */
+    private array $fieldsExclude;
     /** @var ?array<mixed> */
     private ?array $querySearch = null;
     /** @var string[] */
@@ -71,6 +75,7 @@ final class Search
         $this->minimumShouldMatch = $options['minimum_should_match'] ?? null;
         $this->defaultSorts = $this->parseSorts($options['default_sorts'] ?? []);
         $this->sorts = $this->parseSorts($options['sorts'] ?? []);
+        $this->fieldsExclude = $options['fields_exclude'] ?? ['*._content'];
 
         $this->setHighlight($options['highlight'] ?? []);
         $this->setFields($options['fields'] ?? []);
@@ -154,20 +159,25 @@ final class Search
     }
 
     /**
-     * @return array<mixed>
+     * @return ?BoolQuery
      */
-    public function getQuerySearch(string $queryString): ?array
+    public function getQuerySearch(string $queryString): ?BoolQuery
     {
         if (null === $this->querySearch) {
             return null;
         }
 
-        $jsonQueryString = Json::encode($this->querySearch);
+        $jsonQuerySearch = Json::encode($this->querySearch);
+        $jsonQuerySearch = u($jsonQuerySearch)->replace('%query%', Json::escape($queryString))->toString();
+        $jsonQuerySearch = RequestHelper::replace($this->request, $jsonQuerySearch);
 
-        $queryString = u($jsonQueryString)->replace('%query%', $queryString)->toString();
-        $queryString = RequestHelper::replace($this->request, $queryString);
+        $querySearch = Json::decode($jsonQuerySearch);
 
-        return Json::decode($queryString);
+        if (!isset($querySearch['bool'])) {
+            throw new \RuntimeException('Query search should be a bool query');
+        }
+
+        return (new BoolQuery())->setParams($querySearch['bool']);
     }
 
     public function getAnalyzer(): string
@@ -190,7 +200,7 @@ final class Search
 
     public function getQueryString(): ?string
     {
-        return $this->queryString;
+        return $this->queryString ? QueryStringEscaper::escape($this->queryString) : null;
     }
 
     /**
@@ -303,6 +313,14 @@ final class Search
     public function getMinimumShouldMatch(): ?string
     {
         return $this->minimumShouldMatch;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getFieldsExclude(): array
+    {
+        return $this->fieldsExclude;
     }
 
     /**

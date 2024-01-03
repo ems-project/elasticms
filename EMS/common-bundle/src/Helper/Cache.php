@@ -12,11 +12,12 @@ class Cache
 
     public function generateEtag(Response $response): ?string
     {
-        if (!\is_string($response->getContent())) {
+        $content = $response->getContent();
+        if (false === $content || '' === $content) {
             return null;
         }
 
-        return \hash($this->hashAlgo, $response->getContent());
+        return \hash($this->hashAlgo, $content);
     }
 
     public function makeResponseCacheable(Response $response, string $etag, ?\DateTime $lastUpdateDate, bool $immutableRoute): void

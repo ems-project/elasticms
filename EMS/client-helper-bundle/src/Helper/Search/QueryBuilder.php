@@ -12,7 +12,6 @@ use Elastica\Aggregation\Terms as TermsAggregation;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Nested;
-use Elastica\Query\Simple;
 use Elastica\Query\Terms;
 use Elastica\Suggest;
 use Elastica\Suggest\Term;
@@ -62,7 +61,11 @@ final class QueryBuilder
             return $this->getQueryWithStringAnalyzed($queryString);
         }
 
-        return new Simple($querySearch);
+        if ($this->getQueryFilters()) {
+            $querySearch->addMust($this->getQueryFilters());
+        }
+
+        return $querySearch;
     }
 
     private function getQueryWithStringAnalyzed(string $queryString): ?AbstractQuery

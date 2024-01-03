@@ -92,10 +92,10 @@ services:
       MINIO_SECRET_KEY: secretkey
     command: server /data --console-address ":9001"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
+      test: [ "CMD", "mc", "ready", "local" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.minio.rule=Host(`minio.localhost`)"
@@ -106,12 +106,11 @@ services:
   setup_minio:
     image: minio/mc
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
     entrypoint: >
       /bin/sh -c '
-        echo "Waiting for minio availability";
-        until curl -s -o /dev/null -w "%{http_code}"  http://minio:9000/minio/health/live | grep -q "200"; do sleep 30; done;
-        echo "Minio is ready";
+        echo "Setup minio";
         /usr/bin/mc config host rm local;
         /usr/bin/mc config host add local http://minio:9000 accesskey secretkey;
         /usr/bin/mc mb --ignore-existing local/demo;

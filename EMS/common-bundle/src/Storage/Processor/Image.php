@@ -6,6 +6,8 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\Image\SmartCrop;
+use EMS\Helpers\Standard\Color;
 use Psr\Log\LoggerInterface;
 
 class Image
@@ -50,6 +52,7 @@ class Image
         $rotatedHeight = Type::integer(\imagesy($image));
 
         [$width, $height] = $this->getWidthHeight($rotatedWidth, $rotatedHeight);
+        $this->applyColor($image);
 
         if (null !== $this->config->getResize()) {
             $image = $this->applyResizeAndBackground($image, $width, $height, $rotatedWidth, $rotatedHeight);
@@ -57,10 +60,7 @@ class Image
             $image = $this->applyBackground($image, $width, $height);
         }
 
-        if ($this->config->getRadius() > 0) {
-            $image = $this->applyCorner($image, $width, $height);
-        }
-
+        $this->applyCorner($image, $width, $height);
         $image = $this->applyWatermark($image, $width, $height);
 
         if (null !== $cacheFilename) {
@@ -141,11 +141,21 @@ class Image
 
     private function applyResizeAndBackground(\GdImage $image, int $width, int $height, int $originalWidth, int $originalHeight): \GdImage
     {
-        $temp = $this->imageCreate($width, $height);
-
-        $this->fillBackgroundColor($temp);
-
         $resize = $this->config->getResize();
+        if ('smartCrop' === $resize) {
+            $smartCrop = new SmartCrop($image, $width, $height);
+            $res = $smartCrop->analyse();
+            if (null === $res['topCrop']) {
+                $resize = 'fillArea';
+            } else {
+                $smartCrop->crop($res['topCrop']['x'], $res['topCrop']['y'], $res['topCrop']['width'], $res['topCrop']['height']);
+
+                return $smartCrop->get();
+            }
+        }
+
+        $temp = $this->imageCreate($width, $height);
+        $this->fillBackgroundColor($temp);
         $gravity = $this->config->getGravity();
 
         if ('fillArea' == $resize) {
@@ -194,63 +204,52 @@ class Image
         return $temp;
     }
 
-    private function applyCorner(\GdImage $image, int $width, int $height): \GdImage
+    private function applyCorner(\GdImage &$image, int $width, int $height): void
     {
         $radius = $this->config->getRadius();
+        if ($radius <= 0) {
+            return;
+        }
         $color = $this->config->getBorderColor() ?? $this->config->getBackground();
-
-        $cornerImage = $this->imageCreate($radius, $radius);
-        $clearColor = \imagecolorallocate($cornerImage, 0, 0, 0);
-        if (false === $clearColor) {
-            throw new \RuntimeException('Unexpected false imagecolorallocate');
-        }
-        $solidColor = \imagecolorallocate($cornerImage, (int) \hexdec(\substr($color, 1, 2)), (int) \hexdec(\substr($color, 3, 2)), (int) \hexdec(\substr($color, 5, 2)));
-        if (false === $solidColor) {
-            throw new \RuntimeException('Unexpected false imagecolorallocate');
-        }
-
-        \imagecolortransparent($cornerImage, $clearColor);
-        \imagefill($cornerImage, 0, 0, $solidColor);
-        \imagefilledellipse($cornerImage, $radius, $radius, $radius * 2, $radius * 2, $clearColor);
-
+        $parsedColor = new Color($color);
+        \imagealphablending($image, false);
+        \imagesavealpha($image, true);
         $radiusGeometry = $this->config->getRadiusGeometry();
-
-        // render the top-left, bottom-left, bottom-right, top-right corners by rotating and copying the mask
-        if (false !== \in_array('topleft', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, 0, 0, 0, 0, $radius, $radius, 100);
+        $topLeft = \in_array('topleft', $radiusGeometry);
+        $bottomLeft = \in_array('bottomleft', $radiusGeometry);
+        $bottomRight = \in_array('bottomright', $radiusGeometry);
+        $topRight = \in_array('topright', $radiusGeometry);
+        $colorId = $parsedColor->getColorId($image);
+        for ($x = 0; $x < $width; ++$x) {
+            for ($y = 0; $y < $height; ++$y) {
+                if ($x > $radius && $x < ($width - $radius)) {
+                    continue;
+                }
+                if ($y > $radius && $y < ($height - $radius)) {
+                    continue;
+                }
+                $centerX = $radius - 1;
+                $centerY = $radius - 1;
+                if ($topLeft && $x < $centerX && $y < $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+                $centerX = $radius - 1;
+                $centerY = $height - $radius;
+                if ($bottomLeft && $x < $centerX && $y > $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+                $centerX = $width - $radius;
+                $centerY = $height - $radius;
+                if ($bottomRight && $x > $centerX && $y > $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+                $centerX = $width - $radius;
+                $centerY = $radius - 1;
+                if ($topRight && $x > $centerX && $y < $centerY && \pow(\abs($x - $centerX), 2) + \pow(\abs($y - $centerY), 2) > \pow($radius, 2)) {
+                    \imagesetpixel($image, $x, $y, $colorId);
+                }
+            }
         }
-        $cornerImage = \imagerotate($cornerImage, 90, 0);
-        if (false === $cornerImage) {
-            throw new \RuntimeException('Unexpected false image');
-        }
-
-        if (false !== \in_array('bottomleft', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, 0, $height - $radius, 0, 0, $radius, $radius, 100);
-        }
-        $cornerImage = \imagerotate($cornerImage, 90, 0);
-        if (false === $cornerImage) {
-            throw new \RuntimeException('Unexpected false image');
-        }
-
-        if (false !== \in_array('bottomright', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, $width - $radius, $height - $radius, 0, 0, $radius, $radius, 100);
-        }
-        $cornerImage = \imagerotate($cornerImage, 90, 0);
-        if (false === $cornerImage) {
-            throw new \RuntimeException('Unexpected false image');
-        }
-
-        if (false !== \in_array('topright', $radiusGeometry)) {
-            \imagecopymerge($image, $cornerImage, $width - $radius, 0, 0, 0, $radius, $radius, 100);
-        }
-
-        $transparentColor = \imagecolorallocate($image, (int) \hexdec(\substr($color, 1, 2)), (int) \hexdec(\substr($color, 3, 2)), (int) \hexdec(\substr($color, 5, 2)));
-        if (false === $transparentColor) {
-            throw new \RuntimeException('Unexpected false imagecolorallocate');
-        }
-        \imagecolortransparent($image, $transparentColor);
-
-        return $image;
     }
 
     private function applyWatermark(\GdImage $image, int $width, int $height): \GdImage
@@ -298,12 +297,13 @@ class Image
     private function getBackgroundColor(\GdImage $temp): int
     {
         $background = $this->config->getBackground();
+        $parsedColor = new Color($background);
         $solidColour = \imagecolorallocatealpha(
             $temp,
-            (int) \hexdec(\substr($background, 1, 2)),
-            (int) \hexdec(\substr($background, 3, 2)),
-            (int) \hexdec(\substr($background, 5, 2)),
-            \intval(\hexdec(\substr($background, 7, 2)) / 2)
+            $parsedColor->getRed(),
+            $parsedColor->getGreen(),
+            $parsedColor->getBlue(),
+            $parsedColor->getAlpha(),
         );
         if (false === $solidColour) {
             throw new \RuntimeException('Unexpected false imagecolorallocatealpha');
@@ -396,6 +396,35 @@ class Image
 
         if (false === \call_user_func($resizeFunction, $dstImage, $srcImage, $dstX, $dstY, $srcX, $srcY, $dstWidth, $dstHeight, $srcWidth, $srcHeight)) {
             throw new \RuntimeException('Unexpected error while resizing image');
+        }
+    }
+
+    private function applyColor(\GdImage $image): void
+    {
+        $colorString = $this->config->getColor();
+        if (null === $colorString) {
+            return;
+        }
+        $width = \imagesx($image);
+        $height = \imagesy($image);
+        $color = new Color($colorString);
+        $colors = [];
+        for ($i = 0; $i < 128; ++$i) {
+            $color->setAlpha($i);
+            $colors[$i] = $color->getColorId($image);
+        }
+        for ($x = 0; $x < $width; ++$x) {
+            for ($y = 0; $y < $height; ++$y) {
+                $index = \imagecolorat($image, $x, $y);
+                if (false === $index) {
+                    continue;
+                }
+                $alpha = \imagecolorsforindex($image, $index)['alpha'];
+                if (!isset($colors[$alpha])) {
+                    continue;
+                }
+                \imagesetpixel($image, $x, $y, $colors[$alpha]);
+            }
         }
     }
 }

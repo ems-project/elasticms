@@ -161,7 +161,7 @@ class JobService implements EntityServiceInterface
         $this->repository->save($job);
 
         $output = new JobOutput($this->repository, $job->getId());
-        $output->setDecorated(false);
+        $output->setDecorated(true);
         $output->writeln('Job ready to be launch');
 
         return $output;
@@ -281,7 +281,7 @@ class JobService implements EntityServiceInterface
         if (null === $token) {
             throw new \RuntimeException('Unexpected null token');
         }
-        $job->setUser($token->getUsername());
+        $job->setUser($token->getUserIdentifier());
         $this->repository->save($job);
 
         return $job;

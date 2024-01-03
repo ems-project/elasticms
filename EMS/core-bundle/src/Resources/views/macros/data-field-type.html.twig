@@ -1,11 +1,11 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 
-{% macro renderDataField(dataField, source, compare, compareRawData) %}
-	{{ _self.renderDataFieldBlock(dataField, source, compare, compareRawData) }}
+{% macro renderDataField(dataField, source, compare, compareRawData, locale = null) %}
+	{{ _self.renderDataFieldBlock(dataField, source, compare, compareRawData, '', [], locale) }}
 	{{ _self.messages(dataField) }}
 {% endmacro %}
 
-{% macro renderDataFieldBlock(dataField, source, compare, compareRawData, blockName = '', path = []) %}
+{% macro renderDataFieldBlock(dataField, source, compare, compareRawData, blockName = '', path = [], locale = null) %}
 	{% if blockName is same as('') %}
 		{% set blockName = dataField.fieldType.type|replace({'\\': '_'}) %}
 	{% endif %}
@@ -16,6 +16,7 @@
 		'compare': compare,
 		'compareRawData': compareRawData,
 		'path': path|merge([dataField.fieldType.name]),
+        'locale': locale
 		}
 	%}
 		{{ block(blockName) }}
@@ -43,7 +44,7 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_IndexedAssetFieldType %}
-	{{ _self.renderDataFieldBlock(dataField, source, compare, compareRawData, 'EMS_CoreBundle_Form_DataField_AssetFieldType', path) }}
+	{{ _self.renderDataFieldBlock(dataField, source, compare, compareRawData, 'EMS_CoreBundle_Form_DataField_AssetFieldType', path, locale) }}
 {% endblock %}
 
 
@@ -296,7 +297,7 @@
 							<div class="row">
 								{% for grandchild in child.getChildren %}
 									<div class="{% if grandchild.fieldType.displayOptions.class is defined and grandchild.fieldType.displayOptions.class  %}{{ grandchild.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
-										{{ _self.renderDataFieldBlock(grandchild, source, compare, (attribute(compareCollectionRawData, idx) is defined?attribute(compareCollectionRawData, idx):null), '', subpath) }}
+										{{ _self.renderDataFieldBlock(grandchild, source, compare, (attribute(compareCollectionRawData, idx) is defined?attribute(compareCollectionRawData, idx):null), '', subpath, locale) }}
 									</div>
 									{% if grandchild.fieldType.displayOptions.lastOfRow is defined and grandchild.fieldType.displayOptions.lastOfRow %}
 										<div class="clearfix"></div>
@@ -315,7 +316,7 @@
 {% block EMS_CoreBundle_Form_DataField_HolderFieldType %}
     {% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
         <div class="{{ child.fieldType.displayOptions.class|default('col-md-12') }}">
-            {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path) }}
+            {{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path, locale) }}
         </div>
         {% if child.fieldType.displayOptions.lastOfRow|default(false) %}
             <div class="clearfix"></div>
@@ -350,7 +351,7 @@
 	<div class="row">
 		{% for child in dataField.getChildren|filter(c => false == c.fieldType.deleted) %}
 			<div class="{% if child.fieldType.displayOptions.class is defined and child.fieldType.displayOptions.class  %}{{ child.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
-				{{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path) }}
+				{{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path, locale) }}
 			</div>
 			{% if child.fieldType.displayOptions.lastOfRow is defined and child.fieldType.displayOptions.lastOfRow %}
                 <div class="clearfix"></div>
@@ -389,7 +390,7 @@
 
     {% for child in dataField.getChildren|filter(child => not child.fieldType.deleted) %}
 	<div class="{% if child.fieldType.displayOptions.class is defined and child.fieldType.displayOptions.class  %}{{ child.fieldType.displayOptions.class }}{%else%}col-md-12{% endif %}">
-				{{ _self.renderDataFieldBlock(child, source, compare, compareSubRawData, '', path) }}
+				{{ _self.renderDataFieldBlock(child, source, compare, compareSubRawData, '', path, locale) }}
 			</div>
 			{% if child.fieldType.displayOptions.lastOfRow is defined and child.fieldType.displayOptions.lastOfRow %}
 				<div class="clearfix"></div>
@@ -410,11 +411,14 @@
 	{% for value in values %}
 		{% set choices = choices|merge({(value): attribute(labels, loop.index0)|default(value)}) %}
 	{% endfor %}
+
+    {% if locale != null and locale in values %}
+        {% set values = [locale]|merge(values|filter(v => v != locale))  %}
+    {% endif %}
+
 	{% if dataField.fieldType.displayOptions.localePreferredFirst|default(false) and app.user.localePreferred|default(false) and app.user.localePreferred in values %}
 		{% set values = values|sort((a, b) => a == app.user.localePreferred ? -1 : b == app.user.localePreferred ? 1 : 0) %}
 	{% endif %}
-
-
 
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
@@ -432,7 +436,7 @@
 					{% set childData = source[value]|default([]) %}
 					{% set childCompareData = compareRawData[value]|default([]) %}
 					{% for grandchild in dataField.getChildren.get(value).getChildren|default([]) %}
-						{{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0])) }}
+						{{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([loop.index0]), locale) }}
 					{% endfor %}
 				</div>
 			{% endfor %}
@@ -508,7 +512,7 @@
 								{% set childData = source[key]|default([]) %}
 								{% set childCompareData = compareRawData[key]|default([]) %}
 								{% for grandchild in child.getChildren|default([]) %}
-									{{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([counter])) }}
+									{{ _self.renderDataFieldBlock(grandchild, childData, compare, childCompareData, '', path|merge([counter]), locale) }}
 								{% endfor %}
 							</div>
 						{% endwith %}
@@ -516,7 +520,7 @@
 					{% endfor %}
 				{% elseif 'EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType' == child.fieldType.type|default(null) %}
 					<div class="tab-pane{% if counter == 1%} active{% endif %}" id="item_{{ path|join('_')~'_'~counter }}__tab">
-						{{ _self.renderDataFieldBlock(child, source, compare, compareRawData) }}
+						{{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', [], locale) }}
 					</div>
 					{% set counter = counter + 1 %}
 				{% else %}
@@ -526,7 +530,7 @@
 						}
 					%}
 						<div class="tab-pane{% if counter == 1%} active{% endif %}" id="item_{{ path|join('_')~'_'~counter }}__tab">
-							{{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path|merge([counter])) }}
+							{{ _self.renderDataFieldBlock(child, source, compare, compareRawData, '', path|merge([counter]), locale) }}
 						</div>
 					{% endwith %}
 					{% set counter = counter + 1 %}
@@ -1023,30 +1027,85 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedLinkFieldType %}
-	{%- set fieldOptions = dataField.fieldType.options.displayOptions -%}
+	{%- set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode  )  -%}
+	{%- set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' -%}
+	{%- set displayOptions = dataField.fieldType.options.displayOptions -%}
+	{%- set jmnField = displayOptions.json_menu_nested_field|default(false) -%}
+	{%- set jmnQuery = displayOptions.query|default(false) -%}
+
+	{%- if jmnField and jmnQuery and dataField.rawData is not null -%}
+        {% if displayOptions.environment is not null %}
+            {% set index = displayOptions.environment|emsco_get_environment.alias %}
+        {% else %}
+            {% set index = dataField.fieldType.contentType.environment.alias %}
+        {% endif %}
+		{%- set hits = { index: index, body: jmnQuery}|search.hits.hits -%}
+		{%- set structures = [] -%}
+		{%- for h in hits -%}
+			{% set structures = structures|merge([{
+				'id': h._id,
+				'type': h._source._contenttype,
+				'label': h._source._contenttype,
+				'object': h._source|filter((v, k) => k != jmnField),
+				'children': attribute(h._source, jmnField)|default('{}')|json_decode
+			}]) %}
+		{%- endfor -%}
+		{%- set jmnMenu = structures|json_encode|ems_json_menu_nested_decode -%}
+		{%- set items = [] -%}
+		{%- for structure in jmnMenu.children -%}
+			{%- for item in structure -%}{%- set items = items|merge([item]) -%}{%- endfor -%}
+		{%- endfor -%}
+
+		{% if displayOptions.choices_template|default(false) %}
+			{% set choices = displayOptions.choices_template|generate_from_template({ 'items': items })|json_decode %}
+		{% else %}
+			{%- set choices = [] -%}
+			{%- for item in items -%}
+				{%- set label = item.path|map(p => p.label)|join(' > ') -%}
+				{%- set choices = choices|merge({ (label): item.id }) -%}
+			{%- endfor -%}
+		{% endif %}
+
+		{%- set choiceLabels = choices|default([])|keys -%}
+		{%- set choiceValues = choices|default([])|reduce( (carry, c) => carry|default([])|merge([c])) -%}
+	{%- endif -%}
 	<dl>
 		<dt>
-			{%- if dataField.fieldType.displayOptions.label is defined -%}
-				{{- dataField.fieldType.displayOptions.label -}}{%- if is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
+			{%- if displayOptions.label is defined -%}
+				{{- displayOptions.label -}}{%- if is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
 			{%- else -%}
 				{{- dataField.fieldType.name-}}
 			{%- endif -%}
 		</dt>
 		<dd>
-			<ul>
-				{%- set choices = {} -%}
-				{%- set labels = {} -%}
-				{%- set hits = {
-					index: dataField.fieldType.contentType.environment.alias,
-					body: dataField.fieldType.displayOptions.query|default('{}')
-				}|search.hits.hits -%}
-				{%- for h in hits -%}
-					{% set menu = attribute(h._source, fieldOptions.json_menu_nested_field|default())|default('{}')|ems_json_menu_nested_decode %}
-					{% set choices = menu.toArray()|map(i => i.id) %}
-					{% set labels = menu.toArray()|map(i => i.path|map(i => i.label)|join(' > ')) %}
-				{%- endfor -%}
-				{{ diff_choice(dataField.rawData, labels, choices, compare, dataField.fieldType.name, compareRawData) }}
-			</ul>
+			{%- if displayOptions.display_template|default(false) -%}
+				{%- set rawData = dataField.rawData -%}
+				{%- set data = choices|default([])|filter( (id, label) => rawData is iterable ? id in rawData : id == rawData) -%}
+
+				{%- if doCompare -%}
+					{%- set compareRawData = attribute(compareRawData, dataField.fieldType.name)|default(false) -%}
+					<div class="panel-body {{ color }}">
+						<div class="col-md-6 bg-gray-light">
+							{%- if compareRawData -%}
+								{%- set compareData = choices|default([])|filter( (id, label) => compareRawData is iterable ? id in compareRawData : id == compareRawData) -%}
+								{{- displayOptions.display_template|generate_from_template({ data: compareData, dataField: dataField, choices: choices })|raw -}}
+							{%- endif -%}
+						</div>
+						<div class="col-md-6 bg-gray-light">
+							{{- displayOptions.display_template|generate_from_template({ data: data, dataField: dataField, choices: choices })|raw -}}
+						</div>
+					</div>
+				{%- else -%}
+					{{- displayOptions.display_template|generate_from_template({ data: data, dataField: dataField, choices: choices|default([]) })|raw -}}
+				{%- endif -%}
+			{%- else -%}
+				{%- set diffChoice = diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) -%}
+				{%- if displayOptions.multiple|default(false) -%}
+					<ul>{{ diffChoice|raw }}</ul>
+				{%- else -%}
+					{{ diffChoice|raw }}
+				{%- endif -%}
+			{%- endif -%}
 		</dd>
 	</dl>
 	{{ _self.messages(dataField) }}
@@ -1271,7 +1330,7 @@
         {% set errorMessage = 'view.macros.data-field-type.form.not-found' %}
     {% endif %}
     {% if form is defined and form %}
-        {{ _self.renderDataFieldBlock(emsco_get_data_field(form), source, compare, compareRawData, '', path) }}
+        {{ _self.renderDataFieldBlock(emsco_get_data_field(form), source, compare, compareRawData, '', path, locale) }}
     {% else %}
         <div class="panel panel-warning">
             <div class="panel-heading">

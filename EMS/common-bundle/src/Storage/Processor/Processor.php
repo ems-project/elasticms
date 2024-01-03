@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Config\FileLocator;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -24,8 +25,13 @@ class Processor
 {
     final public const BUFFER_SIZE = 8192;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly Cache $cacheHelper, private readonly string $projectDir)
-    {
+    public function __construct(
+        private readonly StorageManager $storageManager,
+        private readonly LoggerInterface $logger,
+        private readonly Cache $cacheHelper,
+        private readonly string $projectDir,
+        private readonly FileLocator $fileLocator,
+    ) {
     }
 
     /**
@@ -305,5 +311,23 @@ class Processor
         }
 
         return $mimeType;
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    public function generateLocalImage(string $filename, array $config, bool $noCache = false): string
+    {
+        $path = $this->fileLocator->locate($filename);
+        if (!\is_string($path)) {
+            throw new \RuntimeException(\sprintf('Unexpected multiple location to the file %s', $filename));
+        }
+        $config = Config::forFile($this->storageManager, $path, $config);
+        $cacheFilename = $this->getCacheFilename($config, $filename);
+        if (!$noCache && \file_exists($cacheFilename)) {
+            return $cacheFilename;
+        }
+
+        return $this->generateImage($config, $path, $cacheFilename);
     }
 }

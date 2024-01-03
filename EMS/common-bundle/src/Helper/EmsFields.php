@@ -45,6 +45,7 @@ final class EmsFields
     public const ASSET_CONFIG_RADIUS = '_radius';
     public const ASSET_CONFIG_RADIUS_GEOMETRY = '_radius_geometry';
     public const ASSET_CONFIG_BORDER_COLOR = '_border_color';
+    public const ASSET_CONFIG_COLOR = '_color';
     public const ASSET_CONFIG_WATERMARK_HASH = '_watermark_hash';
     public const ASSET_CONFIG_GET_FILE_PATH = '_get_file_path';
     public const ASSET_CONFIG_ROTATE = '_rotate';

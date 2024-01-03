@@ -26,9 +26,6 @@
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="110" />
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
         </service>
-        <service id="emsco.event_listener.migration" class="EMS\CoreBundle\EventListener\MigrationEventSubscriber">
-            <tag name="doctrine.event_subscriber" connection="default" />
-        </service>
 
         <!-- core service -->
         <service id="ems.dashboard.manager" class="EMS\CoreBundle\Core\Dashboard\DashboardManager">
@@ -173,6 +170,8 @@
         <service id="ems_core.service.uploaded-file" alias="EMS\CoreBundle\Service\DatatableService"/>
         <service id="ems_core.core_revision.draft_in_progress" class="EMS\CoreBundle\Core\Revision\DraftInProgress">
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository"/>
+            <argument type="service" id="emsco.manager.user" />
+            <argument type="service" id="security.authorization_checker" />
         </service>
 
         <service id="ems_core.core_ui.flash_message_logger" class="EMS\CoreBundle\Core\UI\FlashMessageLogger">
@@ -242,7 +241,6 @@
             <argument type="service" id="ems_common.service.elastica" />
             <argument type="service" id="ems.service.mapping" />
             <argument>%ems_core.instance_id%</argument>
-            <argument type="service" id="session" />
             <argument type="service" id="form.factory" />
             <argument type="service" id="service_container" />
             <argument type="service" id="form.registry" />
@@ -409,6 +407,7 @@
             <argument>%ems_core.tika_server%</argument>
             <argument>%kernel.project_dir%</argument>
             <argument>%ems_core.tika_download_url%</argument>
+            <argument>%ems_core.tika_max_content%</argument>
             <tag name="kernel.cache_warmer" />
         </service>
         <service id="ems.service.search" class="EMS\CoreBundle\Service\SearchService">
@@ -474,7 +473,7 @@
         <service id="ems.form_submission" class="EMS\CoreBundle\Service\Form\Submission\FormSubmissionService">
             <argument type="service" id="ems.repository.form_submission"/>
             <argument type="service" id="twig"/>
-            <argument type="service" id="session"/>
+            <argument type="service" id="session.flash_bag"/>
             <argument type="service" id="translator"/>
             <argument>%ems_core.template_namespace%</argument>
         </service>

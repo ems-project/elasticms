@@ -1,9 +1,10 @@
-|Q              |A  |
-|---------------|---|
-|Bug fix?       ||
-|New feature?   ||
-|BC breaks?     ||
-|Deprecations?  ||
-|Fixed tickets  ||
+| Q              | A |
+|----------------|---|
+| Bug fix?       |   |
+| New feature?   |   |
+| BC breaks?     |   |
+| Deprecations?  |   |
+| Fixed tickets? |   |
+| Documentation? |   |
 
-Replace_With_One_Paragraph_Description
+Description for the pull request

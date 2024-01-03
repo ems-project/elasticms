@@ -130,4 +130,20 @@ final class Admin implements AdminInterface
             'new-line' => $newline,
         ]);
     }
+
+    public function getVersions(): array
+    {
+        try {
+            return $this->client->get(\implode('/', ['api', 'admin', 'versions']))->getData();
+        } catch (\Throwable) {
+            return [
+              'core' => '1.0.0',
+              'client' => '1.0.0',
+              'common' => '1.0.0',
+              'form' => '1.0.0',
+              'submission' => '1.0.0',
+              'symfony' => '3.0.0',
+            ];
+        }
+    }
 }

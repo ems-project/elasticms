@@ -1,0 +1,12 @@
+{
+    "category": "category:NthJI4cBTbVbdHDCMiF-",
+    "fr": {
+        "title": "Pagination de la media library afin de supporter un tr\u00e8s grand nombre de fichiers par r\u00e9pertoire (< 50.000)."
+    },
+    "nl": {
+        "title": "Paginering van de media library om een zeer groot aantal bestanden per map te ondersteunen (< 50.000)."
+    },
+    "title_fr": "Pagination de la media library afin de supporter un tr\u00e8s grand nombre de fichiers par r\u00e9pertoire (< 50.000).",
+    "title_nl": "Paginering van de media library om een zeer groot aantal bestanden per map te ondersteunen (< 50.000).",
+    "version": "5.7"
+}

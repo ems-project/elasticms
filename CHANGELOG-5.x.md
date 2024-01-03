@@ -1,5 +1,121 @@
 # Changelog 5.x
 
+## 5.12.3 (2023-12-22)
+### Bug Fixes
+* fix(core): deprecation migration event subscriber by @Davidmattei in https://github.com/ems-project/elasticms/pull/693
+* fix(core/doctrine): invalid entities bigint, decimal returns string by @Davidmattei in https://github.com/ems-project/elasticms/pull/695
+
+## 5.12.2 (2023-12-21)
+### Bug Fixes
+* fix(common): export/import documents by @theus77 in https://github.com/ems-project/elasticms/pull/675
+* fix(core/choice-field): linked collection values are filtered out during reverse view transform by @theus77 in https://github.com/ems-project/elasticms/pull/674
+* fix(core/extract): new tika content limit for admin by @Davidmattei in https://github.com/ems-project/elasticms/pull/692
+* fix(core/jmn): jmn refresh after change by @Davidmattei in https://github.com/ems-project/elasticms/pull/679
+* fix(demo): avoid to fetch media extracted data (_content, _author, ...) by @theus77 in https://github.com/ems-project/elasticms/pull/673
+* fix(emsch/search): 'query_string' search escape query by @Davidmattei in https://github.com/ems-project/elasticms/pull/688
+* fix(release): assets folders should excluded in packagist (to be tested) by @theus77 in https://github.com/ems-project/elasticms/pull/676
+
+## 5.12.1 (2023-12-06)
+### Bug Fixes
+* fix(core/repository): fieldType repository is service entity by @Davidmattei in https://github.com/ems-project/elasticms/pull/670
+
+## 5.12.0 (2023-12-05)
+### Features
+* feat(elasticsearc):  one host means SimpleConnectionPool strategy by @theus77 in https://github.com/ems-project/elasticms/pull/666
+* feat(elk client): support advance host connection definition by @theus77 in https://github.com/ems-project/elasticms/pull/665
+* feat(emsch): source in emsch_get by @theus77 in https://github.com/ems-project/elasticms/pull/663
+### Bug Fixes
+* fix(docker): minio setup by @Davidmattei in https://github.com/ems-project/elasticms/pull/668
+* fix(emsch/search): query_search apply filters by @Davidmattei in https://github.com/ems-project/elasticms/pull/669
+### Code Refactoring
+* refactor(core): last getDoctrine in controller by @theus77 in https://github.com/ems-project/elasticms/pull/662
+* refactor(core): remove deprecated Controller::getDoctrine  by @theus77 in https://github.com/ems-project/elasticms/pull/658
+* refactor(deprecation): session service is deprecated by @theus77 in https://github.com/ems-project/elasticms/pull/655
+* refactor(user): getUsername() -> getUserIdentifier() by @theus77 in https://github.com/ems-project/elasticms/pull/656
+* refactor: ROLE_PREVIOUS_ADMIN -> IS_IMPERSONATOR by @theus77 in https://github.com/ems-project/elasticms/pull/657
+* refactor: _type is deprecated by @theus77 in https://github.com/ems-project/elasticms/pull/664
+### Tests
+* test(common): support by AI (2) by @coppee in https://github.com/ems-project/elasticms/pull/667
+
+## 5.11.2 (2023-11-21)
+### Bug Fixes
+* fix(common): do not cache empty response by @theus77 in https://github.com/ems-project/elasticms/pull/654
+* fix(emsch/search): add option fields_exclude by @Davidmattei in https://github.com/ems-project/elasticms/pull/659
+* fix(emsch/security): lazy main firewall by @Davidmattei in https://github.com/ems-project/elasticms/pull/660
+
+## 5.11.1 (2023-10-31)
+### Bug Fixes
+* fix(clientHelper): emsch_routing only prefix internal urls by @Davidmattei in https://github.com/ems-project/elasticms/pull/651
+* fix(core/xliff): extract command email options optional by @theus77 in https://github.com/ems-project/elasticms/pull/652
+
+## 5.11.0 (2023-10-30)
+### Features
+* feat(admin): colorized app icons by @theus77 in https://github.com/ems-project/elasticms/pull/634
+* feat(admin/postprocessing): better post processing error message by @theus77 in https://github.com/ems-project/elasticms/pull/641
+* feat(common/elasticSearch): skeleton working via the admin as proxy by @theus77 in https://github.com/ems-project/elasticms/pull/637
+* feat(common/storage): api storage by @theus77 in https://github.com/ems-project/elasticms/pull/639
+* feat(core/api): user profile return options by @Davidmattei in https://github.com/ems-project/elasticms/pull/633
+* feat(demo): update demo by @theus77 in https://github.com/ems-project/elasticms/pull/638
+* feat(emscli): add matches expr + keep attr style by @IsaMic in https://github.com/ems-project/elasticms/pull/628
+* feat(emscli): audit file by @theus77 in https://github.com/ems-project/elasticms/pull/630
+* feat(helper): smart crop + implementation by @theus77 in https://github.com/ems-project/elasticms/pull/648
+* feat(http-submission): no redirect http handler by @theus77 in https://github.com/ems-project/elasticms/pull/629
+* feat(submission): submission attachments route by @theus77 in https://github.com/ems-project/elasticms/pull/649
+### Bug Fixes
+* fix(demo): a 500 error is triggered in case of a 404 error by @theus77 in https://github.com/ems-project/elasticms/pull/646
+### Tests
+* test(common): ai generated tests by @coppee in https://github.com/ems-project/elasticms/pull/636
+### Chores
+* chore(scripts): init pg db without schema parameter  by @theus77 in https://github.com/ems-project/elasticms/pull/647
+
+## 5.10.1 (2023-10-20)
+### Features
+* feat(admin): xliff export mail and currentRevisionOnly import by @theus77 in https://github.com/ems-project/elasticms/pull/643
+* feat(admin/unpublish): db revisions not updated by @Davidmattei in https://github.com/ems-project/elasticms/pull/632
+### Bug Fixes
+* fix(admin/jmn): form locale and on jmn component by @Davidmattei in https://github.com/ems-project/elasticms/pull/642
+* fix(admin/jmn): link fieldType needs environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/640
+* fix(admin/jmn): spaces in template by @Davidmattei in https://github.com/ems-project/elasticms/pull/645
+* fix(admin/job): support ansi chars by @theus77 in https://github.com/ems-project/elasticms/pull/623
+* fix(admin/mediaLib): template modal not found by @Davidmattei in https://github.com/ems-project/elasticms/pull/626
+* fix(admin/revisions): draft counter and dataTable not the same by @Davidmattei in https://github.com/ems-project/elasticms/pull/620
+* fix(admin/user): ignore empty string as valid Custom User Form by @theus77 in https://github.com/ems-project/elasticms/pull/644
+* fix(cli): back to first character by @theus77 in https://github.com/ems-project/elasticms/pull/622
+
+## 5.10.0 (2023-09-25)
+### Features
+* feat(cli): cache tika by @theus77 in https://github.com/ems-project/elasticms/pull/614
+* feat(cli): load tika by @theus77 in https://github.com/ems-project/elasticms/pull/616
+* feat(cli/media-sync): target folder command option by @theus77 in https://github.com/ems-project/elasticms/pull/593
+* feat(common/ascii): includes utf8 punctuations in ascii folding by @theus77 in https://github.com/ems-project/elasticms/pull/615
+* feat(core/api): fileInterface::uploadContents by @theus77 in https://github.com/ems-project/elasticms/pull/597
+### Bug Fixes
+* fix(core/criteria): correct response for criteria update by @Davidmattei in https://github.com/ems-project/elasticms/pull/618
+* fix(core/datatable): revert horizontal scrollbar fix by @Davidmattei in https://github.com/ems-project/elasticms/pull/617
+
+## 5.9.3 (2023-09-17)
+### Bug Fixes
+* fix(core/api): data not consumed error by @Davidmattei in https://github.com/ems-project/elasticms/pull/608
+* fix(core/api): data not consumed multipex fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/612
+* fix(core/api): default versions (must always work) by @theus77 in https://github.com/ems-project/elasticms/pull/605
+* fix(core/api): index/update refresh wait by @Davidmattei in https://github.com/ems-project/elasticms/pull/610
+* fix(core/api): no flash messages by @Davidmattei in https://github.com/ems-project/elasticms/pull/611
+* fix(core/field): jsonMenuNestedLink fieldType by @Davidmattei in https://github.com/ems-project/elasticms/pull/613
+* fix(core/field): placeholder empty string when not defined by @theus77 in https://github.com/ems-project/elasticms/pull/607
+* fix(core/jmn): jmn component improvements and bugfixes by @Davidmattei in https://github.com/ems-project/elasticms/pull/609
+
+## 5.9.2 (2023-09-11)
+### Features
+* feat(cli): retry on error by @theus77 in https://github.com/ems-project/elasticms/pull/604
+* feat(common/fileReader): hash file support and implementation in cli import by @theus77 in https://github.com/ems-project/elasticms/pull/601
+* feat(core/api):  new index endpoint in order to init/update or merge/finalize by @theus77 in https://github.com/ems-project/elasticms/pull/602
+* feat(core/component): improve json menu nested by @Davidmattei in https://github.com/ems-project/elasticms/pull/595
+### Bug Fixes
+* fix(core): typo synfony -> symfony by @theus77 in https://github.com/ems-project/elasticms/pull/600
+* fix(core/cli): indexed file mapping by @theus77 in https://github.com/ems-project/elasticms/pull/603
+* fix(core/dataTable): correct horizontal scroll bar by @Davidmattei in https://github.com/ems-project/elasticms/pull/599
+* fix(demo): add template news.ems_link.twig by @theus77 in https://github.com/ems-project/elasticms/pull/598
+
 ## 5.9.1 (2023-09-04)
 ### Bug Fixes
 * fix: edit dashboard by @theus77 in https://github.com/ems-project/elasticms/pull/591

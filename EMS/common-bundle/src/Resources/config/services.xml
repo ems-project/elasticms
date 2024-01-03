@@ -13,6 +13,12 @@
             <tag name="monolog.logger" channel="elastica" />
         </service>
 
+        <service id="ems_common.core_api.token_store" class="EMS\CommonBundle\Common\CoreApi\TokenStore">
+            <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
+            <argument type="string">%ems_common.backend_url%</argument>
+            <argument type="string">%ems_common.backend_api_key%</argument>
+        </service>
+
         <service id="ems_common.core_api.factory" class="EMS\CommonBundle\Common\CoreApi\CoreApiFactory">
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.storage.manager" />
@@ -47,6 +53,9 @@
         <service id="ems_common.event_listener.command" class="EMS\CommonBundle\EventListener\CommandListener">
             <tag name="kernel.event_subscriber" />
         </service>
+        <service id="ems.event_listener.doctrine_migration" class="EMS\CommonBundle\EventListener\DoctrineMigrationListener">
+            <tag name="doctrine.event_listener" event="postGenerateSchema"/>
+        </service>
 
         <service id="ems_common.text.encoder" class="EMS\CommonBundle\Helper\Text\Encoder">
             <argument type="string">%ems_common.webalize.removable_regex%</argument>
@@ -67,13 +76,13 @@
         <service id="ems_common.service.elastica" class="EMS\CommonBundle\Service\ElasticaService">
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.elastica.client" />
+            <argument type="service" id="ems.helper.admin_api" />
+            <argument type="string">%ems_common.elasticsearch_proxy_api%</argument>
         </service>
         <service id="ems.helper.admin_api" class="EMS\CommonBundle\Common\Admin\AdminHelper">
             <argument type="service" id="ems_common.core_api.factory" />
-            <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
+            <argument type="service" id="ems_common.core_api.token_store" />
             <argument type="service" id="logger" />
-            <argument type="string">%ems_common.backend_url%</argument>
-            <argument type="string">%ems_common.backend_api_key%</argument>
         </service>
 
         <!-- twig -->

@@ -167,3 +167,7 @@ div.core-js-progress {
 
   & i { padding-right: 10px;}
 }
+
+button > * {
+  pointer-events: none; /* icons clickable inside button, js using event.target */
+}

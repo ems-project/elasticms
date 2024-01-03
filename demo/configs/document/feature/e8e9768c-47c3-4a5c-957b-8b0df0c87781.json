@@ -1,0 +1,12 @@
+{
+    "category": "category:u9hBHIkBTbVbdHDC93W8",
+    "fr": {
+        "title": "Nouveau script capable de restaurer une configuration qui simplifie les proc\u00e9dures d\u2019alignement entre environnements (test, acc, prod..)."
+    },
+    "nl": {
+        "title": "Nieuw script dat de configuratie kan herstellen, wat de aligneringsprocedures voor omgevingen (test, acc, prod, etc.) vereenvoudigt."
+    },
+    "title_fr": "Nouveau script capable de restaurer une configuration qui simplifie les proc\u00e9dures d\u2019alignement entre environnements (test, acc, prod..).",
+    "title_nl": "Nieuw script dat de configuratie kan herstellen, wat de aligneringsprocedures voor omgevingen (test, acc, prod, etc.) vereenvoudigt.",
+    "version": "5.7"
+}

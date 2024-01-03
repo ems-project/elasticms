@@ -1,0 +1,35 @@
+{
+    "categories": [
+        "category:INgMKIoBTbVbdHDCLYqu"
+    ],
+    "fr": {
+        "body": "<p>Lorsque vous r&eacute;digez un texte en ligne, il peut arriver que de longs mots ne puissent pas tenir sur une ligne sans causer de <strong>probl&egrave;mes de mise en page</strong>, comme des espaces excessivement larges ou des <strong>mots coup&eacute;s de mani&egrave;re inappropri&eacute;e</strong> &agrave; la fin d&rsquo;une ligne. Cela peut rendre la lecture difficile et perturber l&rsquo;exp&eacute;rience utilisateur.</p>\r\n\r\n<p>C&rsquo;est l&agrave; que vous pouvez utiliser le <strong>soft hyphen</strong> ! Il s&rsquo;agit d&rsquo;une sorte de <strong>c&eacute;sure automatique invisible</strong> que vous pouvez ins&eacute;rer dans un mot, &agrave; un point o&ugrave; il serait acceptable de le couper en cas de besoin. Lorsque le navigateur atteint ce point et d&eacute;termine qu&rsquo;une coupure est n&eacute;cessaire, il ins&egrave;re un <strong>saut de ligne</strong> au niveau du soft hyphen.</p>\r\n\r\n<p>Le soft hyphen est tr&egrave;s utile lorsque vous travaillez dans des tuiles assez petites qui ne permettent pas de contenir <strong>certains longs mots</strong>, ou encore pour tous les <strong>sites web responsives</strong> o&ugrave; le contenu doit s&rsquo;ajuster &agrave; des &eacute;crans de diff&eacute;rentes tailles. Il garantit ainsi une mise en page propre et une exp&eacute;rience de lecture agr&eacute;able.</p>\r\n\r\n<h2>Comment utiliser le soft hyphen dans un eMS ?</h2>\r\n\r\n<ol>\r\n\t<li>Ouvrez la page du <a href=\"https://symbl.cc/en/00AD/\" target=\"_blank\">Soft Hyphen sur le site symbl.cc</a>.</li>\r\n\t<li>Copiez le <strong>code HTML </strong>du soft hyphen en cliquant sur le bouton y.</li>\r\n\t<li>Dans le champ <strong>Title</strong> (ou <strong>Body</strong>), collez le code HTML &agrave; l&rsquo;endroit d&eacute;sir&eacute;, o&ugrave; vous voulez que votre mot soit coup&eacute;. Exemple : Een toegankelijkheids|verklaring opstellen.</li>\r\n</ol>\r\n\r\n<p>Attention, le soft hyphen ne se voit pas au back-end, sauf en regardant le code source par exemple (uniquement disponible pour le Body). Il ne se verra donc jamais dans le champ Title de l&rsquo;eMS.</p>\r\n\r\n<p>Si vous investiguez et affichez le code source depuis le front-end, vous verrez que le code HTML est bien l&agrave;.</p>",
+        "description": "<p>Un soft hyphen est un <strong>outil typographique</strong> utilis&eacute; en r&eacute;daction web afin <strong>d&rsquo;am&eacute;liorer la lisibilit&eacute; et la mise en page</strong> des textes, notamment lorsque le contenu doit s&rsquo;adapter &agrave; diff&eacute;rentes tailles d&rsquo;&eacute;cran et r&eacute;solutions.</p>",
+        "image": {
+            "filename": "ems-softHyphen.jpg",
+            "filesize": 251537,
+            "mimetype": "image/jpeg",
+            "sha1": "60f64b22aebb36e82f002f8e26ac55aef6227d4b"
+        },
+        "slug": "pourquoi-utiliser-un-soft-hyphen-en-redaction-web-",
+        "summary": "<p>Un soft hyphen est un <strong>outil typographique</strong> utilis&eacute; en r&eacute;daction web afin <strong>d&rsquo;am&eacute;liorer la lisibilit&eacute; et la mise en page</strong> des textes, notamment lorsque le contenu doit s&rsquo;adapter &agrave; diff&eacute;rentes tailles d&rsquo;&eacute;cran et r&eacute;solutions.</p>",
+        "title": "Pourquoi utiliser un soft hyphen en r\u00e9daction web ?"
+    },
+    "label": "Soft hyphen",
+    "nl": {
+        "body": "<p>Wanneer u een onlinetekst schrijft, kan het gebeuren dat lange woorden niet op een regel passen en zo <strong>opmaakproblemen</strong> veroorzaken zoals te grote spaties of <strong>woorden die verkeerd worden afgebroken</strong>. Dit komt de leesbaarheid en de gebruikerservaring niet ten goede!</p>\r\n\r\n<p>Een <strong>soft hyphen</strong> kan de oplossing zijn! Dit zacht afbreekstreepje is een soort <strong>automatische, verborgen woordafbreking</strong> die u op een bepaalde plaats in een woord kan invoegen. Op die manier weet de webbrowser waar hij, indien nodig, het woord op het einde van de regel moet <strong>afbreken</strong> en naar de <strong>volgende lijn</strong> moet gaan.</p>\r\n\r\n<p>Het zachte afbreekstreepje is erg handig als u in kleine tegels werkt waar <strong>bepaalde lange woorden</strong> niet in passen, of voor alle <strong>responsieve websites</strong> waar de inhoud zich moet aanpassen aan verschillende schermformaten. Het garandeert een mooie lay-out en een prettige leeservaring.</p>\r\n\r\n<h2>Hoe de soft hyphen gebruiken in een eMS?</h2>\r\n\r\n<ol>\r\n\t<li>Open de <a href=\"https://symbl.cc/en/00AD/\" target=\"_blank\">Soft Hyphen-pagina op de website symbl.cc</a>.</li>\r\n\t<li>Kopieer de <strong>HTML-code</strong> van de Soft Hyphen door op de Copy-knop te klikken.</li>\r\n\t<li>Plak de HTML-code in het <strong>Title</strong>-veld (of <strong>Body</strong>) waar het woord moet worden afgebroken. Voorbeeld: Een toegankelijkheids\u2502verklaring opstellen</li>\r\n</ol>\r\n\r\n<p>Hou er rekening mee dat het soft hyphen niet zichtbaar is in de backend, behalve als u naar de broncode kijkt (alleen beschikbaar voor de Body). De soft hyphen zal dus nooit zichtbaar zijn in het Title-veld van de eMS.</p>\r\n\r\n<p>Als u de broncode vanaf de frontend opent, ziet u de HTML-code staan.</p>",
+        "description": "<p>Een soft hyphen is een <strong>typografisch hulpmiddel</strong> dat in webteksten wordt gebruikt om <strong>de leesbaarheid en de opmaak van teksten te verbeteren</strong>, vooral wanneer de inhoud zich moet aanpassen aan verschillende schermformaten en resoluties.</p>",
+        "image": {
+            "filename": "ems-softHyphen.jpg",
+            "filesize": 251537,
+            "mimetype": "image/jpeg",
+            "sha1": "60f64b22aebb36e82f002f8e26ac55aef6227d4b"
+        },
+        "slug": "soft-hyphen-nl",
+        "summary": "<p>Een soft hyphen is een <strong>typografisch hulpmiddel</strong> dat in webteksten wordt gebruikt om <strong>de leesbaarheid en de opmaak van teksten te verbeteren</strong>, vooral wanneer de inhoud zich moet aanpassen aan verschillende schermformaten en resoluties.</p>",
+        "title": "Waarom een soft hyphen gebruiken in webteksten?"
+    },
+    "publication_date": "2023/08/29",
+    "title_fr": "Pourquoi utiliser un soft hyphen en r\u00e9daction web ?",
+    "title_nl": "Waarom een soft hyphen gebruiken in webteksten?"
+}

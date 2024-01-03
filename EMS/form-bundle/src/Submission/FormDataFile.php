@@ -10,8 +10,16 @@ use Symfony\Component\Mime\MimeTypes;
 
 final class FormDataFile
 {
+    private string $filename;
+
     public function __construct(private readonly UploadedFile $file, private readonly ElementInterface $formElement)
     {
+        $filename = $file->getClientOriginalName();
+        $extension = MimeTypes::getDefault()->getExtensions($file->getClientMimeType())[0] ?? null;
+        if (null !== $extension && !\str_ends_with(\strtolower($filename), ".$extension")) {
+            $filename .= \sprintf('.%s', $extension);
+        }
+        $this->filename = \sprintf('%s.%s', \uniqid(\sprintf('%s.', $this->formElement->getName()), false), $filename);
     }
 
     public function base64(): ?string
@@ -29,35 +37,12 @@ final class FormDataFile
     /** @return array<string, int|string|false|null> */
     public function toArray(): array
     {
-        $fileName = $this->getFilename($this->file, $this->formElement->getName());
-
         return [
-            'filename' => $fileName,
+            'filename' => $this->filename,
             'pathname' => $this->file->getPathname(),
             'mimeType' => $this->file->getMimeType(),
             'size' => $this->file->getSize(),
             'form_field' => $this->formElement->getName(),
         ];
-    }
-
-    private function getFilename(UploadedFile $uploadedFile, string $fieldName): string
-    {
-        $filename = $uploadedFile->getClientOriginalName();
-        $extension = MimeTypes::getDefault()->getExtensions($uploadedFile->getClientMimeType())[0] ?? null;
-        if (null !== $extension && !$this->helperEndsWith($filename, $extension)) {
-            $filename .= \sprintf('.%s', $extension);
-        }
-
-        return \sprintf('%s.%s', \uniqid(\sprintf('%s.', $fieldName), false), $filename);
-    }
-
-    private function helperEndsWith(string $haystack, string $needle): bool
-    {
-        $length = \strlen($needle);
-        if (0 === $length) {
-            return true;
-        }
-
-        return \substr($haystack, -$length) === $needle;
     }
 }

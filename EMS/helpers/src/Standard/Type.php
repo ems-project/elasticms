@@ -23,4 +23,25 @@ final class Type
 
         return $value;
     }
+
+    /**
+     * @return mixed[]
+     */
+    public static function array(mixed $value): array
+    {
+        if (!\is_array($value)) {
+            throw new \RuntimeException(\sprintf("Expect an array got '%s'", \gettype($value)));
+        }
+
+        return $value;
+    }
+
+    public static function gdImage(mixed $value): \GdImage
+    {
+        if (!$value instanceof \GdImage) {
+            throw new \RuntimeException(\sprintf("Expect a \GdImage got '%s'", \gettype($value)));
+        }
+
+        return $value;
+    }
 }

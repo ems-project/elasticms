@@ -1,0 +1,12 @@
+{
+    "category": "category:u9hBHIkBTbVbdHDC93W8",
+    "fr": {
+        "title": "Nouvelles URL techniques afin de tester la disponibilit\u00e9 (readiness) et la bonne sant\u00e9 (liveness) de l\u2019admin. Permet d\u2019am\u00e9liorer le suivi des d\u00e9ploiements et le monitoring des elasticMS admin."
+    },
+    "nl": {
+        "title": "Nieuwe technische URL's om de \u2018readiness\u2019 en \u2018liveness\u2019 van de admin te testen. Laat toe om de opvolging van implementaties en de monitoring van elasticMS admin te verbeteren."
+    },
+    "title_fr": "Nouvelles URL techniques afin de tester la disponibilit\u00e9 (readiness) et la bonne sant\u00e9 (liveness) de l\u2019admin. Permet d\u2019am\u00e9liorer le suivi des d\u00e9ploiements et le monitoring des elasticMS admin.",
+    "title_nl": "Nieuwe technische URL's om de \u2018readiness\u2019 en \u2018liveness\u2019 van de admin te testen. Laat toe om de opvolging van implementaties en de monitoring van elasticMS admin te verbeteren.",
+    "version": "5.7"
+}

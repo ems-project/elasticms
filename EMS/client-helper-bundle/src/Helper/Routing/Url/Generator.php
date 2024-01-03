@@ -38,6 +38,11 @@ final class Generator
     public function prependBaseUrl(string $url): string
     {
         $url = \trim($url);
+
+        if (!\str_starts_with($url, '/')) {
+            return $url;
+        }
+
         $baseUrl = $this->baseUrl.$this->phpApp;
 
         if (\strlen($baseUrl) > 0 && \str_starts_with($url, $baseUrl)) {

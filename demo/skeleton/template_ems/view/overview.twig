@@ -158,7 +158,9 @@
     <script type="text/javascript">
         window.addEventListener('emsReady', function () {
             let filterForm = document.getElementById('form-filters');
-            filterForm.addEventListener('change', function () { filterForm.submit(); });
+            if (filterForm) {
+                filterForm.addEventListener('change', function () { filterForm.submit(); });
+            }
 
             $('#DataTables_Table_0').on( 'draw.dt', function () {
                 $('[data-toggle="tooltip"]').tooltip();

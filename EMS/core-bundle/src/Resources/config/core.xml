@@ -25,11 +25,13 @@
         </service>
         <service id="emsco.core.json_menu_nested.template_factory" class="EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplateFactory">
             <argument type="service" id="twig" />
+            <argument>%ems_core.template_namespace%</argument>
         </service>
         <service id="emsco.core.json_menu_nested" class="EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedService">
             <argument type="service" id="emsco.core.json_menu_nested.template_factory" />
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="ems.service.user" />
+            <argument type="service" id="ems_common.service.elastica" />
         </service>
 
         <!-- Media Library -->

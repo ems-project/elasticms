@@ -54,10 +54,10 @@ month:
     March: Mars
     May: Mai
     November: Novembre
-    October: octobre
+    October: Octobre
     September: Septembre
 navbar:
-    swith-to-locale: Français
+    swith-to-locale: FR
 release:
     search:
         choose_category: 'Choisissez une catégorie'

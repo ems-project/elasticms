@@ -1,5 +1,5 @@
 {% extends '@EMSCH/template/variables.twig' %}
-{% set rawData = section|emsch_get.source %}
+{% set rawData = section|emsch_get(['paths', 'structure']).source %}
 {% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|array_key('uid') %}
 {% set structure = rawData.structure|default("{}")|ems_json_menu_nested_decode %}
 {% set urls = {} %}
@@ -36,7 +36,7 @@
     },
     _source: ['menu'],
     size: 1000,
-}).hits.hits|default([])|map(p => p._source.menu) %}
+}).hits.hits|default([])|map(p => p._source.menu|default(false))|filter((v) => v != false) %}
 
 
 {% for item in structure %}

@@ -1,0 +1,12 @@
+{
+    "category": "category:u9hBHIkBTbVbdHDC93W8",
+    "fr": {
+        "title": "Support de l\u2019upload multipart pour le stockage de fichiers S3. Permet un meilleur support des fichiers volumineux."
+    },
+    "nl": {
+        "title": "Ondersteuning van Multipart Uploads voor het opslaan van S3-bestanden. Laat een betere ondersteuning voor grote bestanden toe."
+    },
+    "title_fr": "Support de l\u2019upload multipart pour le stockage de fichiers S3. Permet un meilleur support des fichiers volumineux.",
+    "title_nl": "Ondersteuning van Multipart Uploads voor het opslaan van S3-bestanden. Laat een betere ondersteuning voor grote bestanden toe.",
+    "version": "5.7"
+}

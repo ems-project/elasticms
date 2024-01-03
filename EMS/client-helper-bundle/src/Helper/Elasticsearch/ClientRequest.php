@@ -211,7 +211,10 @@ final class ClientRequest implements ClientRequestInterface
         if (false === $item) {
             return null;
         }
-        $contentType = $item['_source'][EMSSource::FIELD_CONTENT_TYPE] ?? $item['_type'];
+        $contentType = $item['_source'][EMSSource::FIELD_CONTENT_TYPE] ?? null;
+        if (null === $contentType) {
+            throw new \RuntimeException('Unexpected not defined content type');
+        }
         $out = new HierarchicalStructure($contentType, $item['_id'], $item['_source'], $activeChild);
 
         if (null === $depth || $depth) {
@@ -625,6 +628,14 @@ final class ClientRequest implements ClientRequestInterface
         }
         $this->environmentHelper->addEnvironment($name, $config);
         $this->environmentHelper->giveEnvironment($name)->makeActive();
+    }
+
+    /**
+     * @param AbstractQuery|array<mixed>|null $query
+     */
+    public function getCommonSearch(array|AbstractQuery $query = null): Search
+    {
+        return new Search([$this->getAlias()], $query);
     }
 
     private function getLastPublishedDate(string $contentTypeNames): \DateTimeImmutable

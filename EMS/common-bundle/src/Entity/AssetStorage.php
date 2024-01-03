@@ -49,7 +49,7 @@ class AssetStorage implements EntityInterface
     /**
      * @ORM\Column(name="size", type="bigint")
      */
-    private ?int $size = null;
+    private ?string $size = null;
 
     /**
      * @ORM\Column(name="confirmed", type="boolean", options={"default" : 0})
@@ -148,12 +148,12 @@ class AssetStorage implements EntityInterface
             throw new \RuntimeException('Unexpected null size');
         }
 
-        return $this->size;
+        return (int) $this->size;
     }
 
     public function setSize(int $size): AssetStorage
     {
-        $this->size = $size;
+        $this->size = (string) $size;
 
         return $this;
     }

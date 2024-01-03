@@ -1,0 +1,32 @@
+{
+  "packages": [
+    {
+      "name": "elasticms/core-bundle",
+      "version": "1.0.0"
+    },
+    {
+      "name": "elasticms/client-helper-bundle",
+      "version": "1.1.0"
+    },
+    {
+      "name": "elasticms/common-bundle",
+      "version": "1.2.0"
+    },
+    {
+      "name": "elasticms/form-bundle",
+      "version": "1.3.0"
+    },
+    {
+      "name": "elasticms/submission-bundle",
+      "version": "1.4.0"
+    },
+    {
+      "name": "symfony/framework-bundle",
+      "version": "5.3.0"
+    },
+    {
+      "name": "unrelated/package",
+      "version": "2.0.0"
+    }
+  ]
+}

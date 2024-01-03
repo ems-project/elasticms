@@ -18,6 +18,7 @@ final class HttpRequest extends AbstractRequest
         'headers' => [],
         'timeout' => 30,
         'query' => [],
+        'max_redirects' => 20,
     ];
 
     /**

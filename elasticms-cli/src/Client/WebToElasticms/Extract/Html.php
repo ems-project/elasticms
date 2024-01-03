@@ -124,7 +124,7 @@ class Html
                         $filter = new InternalLink($this->config, $rapport, $resource->getUrl());
                         break;
                     case StyleCleaner::TYPE:
-                        $filter = new StyleCleaner();
+                        $filter = new StyleCleaner($this->config);
                         break;
                     case ClassCleaner::TYPE:
                         $filter = new ClassCleaner($this->config);

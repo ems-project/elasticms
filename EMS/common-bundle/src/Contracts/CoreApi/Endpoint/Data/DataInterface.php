@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data;
 
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Data\Index;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 
 interface DataInterface
@@ -32,6 +33,13 @@ interface DataInterface
      * @throws CoreApiExceptionInterface
      */
     public function finalize(int $revisionId): string;
+
+    /**
+     * @param array<string, mixed> $rawData
+     *
+     * @throws CoreApiExceptionInterface
+     */
+    public function index(?string $ouuid, array $rawData, bool $merge = false): Index;
 
     /**
      * @throws CoreApiExceptionInterface

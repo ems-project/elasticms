@@ -1,0 +1,49 @@
+{% trans_default_domain trans_default_domain %}
+{% extends '@EMSCH/template/page/blocks/abstract-block.html.twig' %}
+
+{% block widget %}
+    {% trans_default_domain trans_default_domain %}
+    {%  set query = emsch_search('news', {
+        "sort": {
+            "publication_date": {
+                "order": "desc",
+                "missing": "_last",
+                "unmapped_type": "long"
+            }
+        },
+        "size": 100,
+        "aggs": {
+            "categories": {
+                "terms": { "field": "categories", "size": 100 }
+            }
+        }
+    }) %}
+
+    {%  set categories = emsch_search('category', {
+        "size": 1000,
+        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|emsch_ouuid) }},
+        "sort": [
+            {("title_#{locale}.alpha_order"): {"order": "asc"}}
+        ],
+        "_source": ["#{app.request.locale}.title"]
+    }).hits.hits|default([])|array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
+
+    <div class="container-fluid container-lg">
+        <div class="py-5 py-lg-8">
+            <h2>{{ "blog.filter"|trans }}</h2>
+            <div class="news-filters mb-5 d-sm-flex">
+                {% for key, category in categories %}
+                    <div class="custom-control custom-checkbox text-left btn btn-outline-primary pl-5 mr-3 mb-2">
+                        <input type="checkbox" class="custom-control-input" id="{{ key }}" value="{{ key }}">
+                        <label class="custom-control-label" for="{{ key }}">{{ category }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                {% for news in query.hits.hits|default([]) %}
+                    {{ block('card', '@EMSCH/template/news/thumbnail.html.twig') }}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

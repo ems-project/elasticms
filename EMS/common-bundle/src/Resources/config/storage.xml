@@ -27,6 +27,7 @@
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.helper.cache" />
             <argument type="string">%kernel.project_dir%</argument>
+            <argument type="service" id="file_locator" />
             <tag name="monolog.logger" channel="ems_common"/>
         </service>
 
@@ -56,6 +57,12 @@
         <service id="ems_common.storage.factory.sftp" class="EMS\CommonBundle\Storage\Factory\SftpFactory">
             <argument type="service" id="logger" />
             <tag name="ems_common.storage.factory" alias="sftp"/>
+        </service>
+
+        <service id="ems_common.storage.factory.api" class="EMS\CommonBundle\Storage\Factory\ApiFactory">
+            <argument type="service" id="logger" />
+            <argument type="service" id="ems_common.core_api.token_store" />
+            <tag name="ems_common.storage.factory" alias="api"/>
         </service>
 
         <service id="EMS\CommonBundle\Storage\StorageManager" alias="ems_common.storage.manager" />

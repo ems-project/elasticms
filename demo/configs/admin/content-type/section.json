@@ -205,12 +205,12 @@
                                                             "class": "col-md-12",
                                                             "lastOfRow": false,
                                                             "helptext": null,
-                                                            "icon": null,
                                                             "prefixIcon": null,
                                                             "prefixText": null,
                                                             "suffixIcon": null,
                                                             "suffixText": null,
-                                                            "placeholder": null
+                                                            "placeholder": null,
+                                                            "icon": null
                                                         },
                                                         "restrictionOptions": {
                                                             "mandatory": false,

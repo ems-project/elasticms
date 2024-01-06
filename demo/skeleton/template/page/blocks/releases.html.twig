@@ -54,7 +54,7 @@
                 "terms": { "field": "category", "size": 100 },
             },
         }
-    }).aggregations.categories.buckets|map(p => p.key|emsch_ouuid) %}
+    }).aggregations.categories.buckets|map(p => p.key|ems_ouuid) %}
 
     {% set categories = emsch_search('category', {
         "size": 1000,
@@ -104,7 +104,7 @@
                                     <a href="{{ path(app.request.attributes.get('_route'),
                                         app.request.attributes.get('_route_params')|merge(app.request.query.all()|merge({
                                             categories: selectedCategories|filter(p => p != category)
-                                        }))) }}" class="btn btn-sm rounded bg-light" data-category="{{category}}"><span class="sr-only">{{'release.search.remove_tag'|trans}}</span> {{ attribute(categories, category|emsch_ouuid) }} <span>&times;</span></a>
+                                        }))) }}" class="btn btn-sm rounded bg-light" data-category="{{category}}"><span class="sr-only">{{'release.search.remove_tag'|trans}}</span> {{ attribute(categories, category|ems_ouuid) }} <span>&times;</span></a>
                                 {% endfor %}
                             </div>
                         {% endif %}
@@ -130,8 +130,8 @@
                                 {% for feature in features.hits.hits|filter(p => p._source.version == version) %}
                                     <li class="d-flex align-items-start mb-2">
                                         <span class="badge">
-                                            {% if attribute(categories, feature._source.category|emsch_ouuid) is defined %}
-                                                {{ attribute(categories, feature._source.category|emsch_ouuid) }}
+                                            {% if attribute(categories, feature._source.category|ems_ouuid) is defined %}
+                                                {{ attribute(categories, feature._source.category|ems_ouuid) }}
                                             {% else %}
                                                 &nbsp;
                                             {% endif %}

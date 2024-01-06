@@ -296,12 +296,12 @@ Generate a hash value from the message. See the [PHP hash function](https://php.
 - algo: [refers to the hash's algo parameter](https://php.net/manual/en/function.hash.php), default value `null` which means that the `ems_common.hash_algo` will be used
 - binary: [refers to the hash's binary parameter](https://php.net/manual/en/function.hash.php), default value `false`. When set to `true`, outputs raw binary data
 
-## format_bytes
+## ems_format_bytes
 
 Useful to generate a human readable file size from an interger.
 
 ````twig
-{{ 21666|format_bytes }} {# displays: 21.16 KB #}
+{{ 21666|ems_format_bytes }} {# displays: 21.16 KB #}
 ````
 
 A second 'precision' parameter can be defined:
@@ -348,4 +348,19 @@ Use the value of the parameter identified by the given name as array index
 
 ````twig
 {% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|ems_array_key('uid') %}
+````
+
+## ems_ouuid
+
+Extract a OUUID from an ElasticMS link
+
+````twig
+    {%  set categories = emsch_search('category', {
+        "size": 1000,
+        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|ems_ouuid) }},
+        "sort": [
+            {("title_#{locale}.alpha_order"): {"order": "asc"}}
+        ],
+        "_source": ["#{app.request.locale}.title"]
+    }).hits.hits|default([])|ems_array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
 ````

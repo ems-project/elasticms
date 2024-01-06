@@ -2,7 +2,7 @@
 
 {% block card %}
     {% trans_default_domain trans_default_domain %}
-    <div class="col-12 col-md-6 col-lg-4" data-tag="{{ news._source.categories|default([])|map(p => p|emsch_ouuid)|join(' ') }}">
+    <div class="col-12 col-md-6 col-lg-4" data-tag="{{ news._source.categories|default([])|map(p => p|ems_ouuid)|join(' ') }}">
         <a href="{{ path('emsch_news_details', {
                 slug: attribute(news._source, locale).slug,
                 month: news._source.publication_date|date('m'),

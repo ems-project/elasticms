@@ -21,7 +21,7 @@
 
     {%  set categories = emsch_search('category', {
         "size": 1000,
-        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|emsch_ouuid) }},
+        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|ems_ouuid) }},
         "sort": [
             {("title_#{locale}.alpha_order"): {"order": "asc"}}
         ],

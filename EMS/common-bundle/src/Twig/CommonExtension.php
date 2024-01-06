@@ -68,6 +68,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_luma', $this->relativeLuminance(...)),
             new TwigFilter('ems_contrast_ratio', $this->contrastRatio(...)),
             new TwigFilter('ems_color', $this->contrastRatio(...)),
+            new TwigFilter('ems_first_in_array', $this->firstInArray(...)),
             // deprecated
             new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
             new TwigFilter('format_bytes', Converter::formatBytes(...), ['deprecated' => true, 'alternative' => 'ems_format_bytes']),
@@ -79,6 +80,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('md5', $this->md5(...), ['deprecated' => true, 'alternative' => 'ems_md5']),
             new TwigFilter('luma', $this->relativeLuminance(...), ['deprecated' => true, 'alternative' => 'ems_luma']),
             new TwigFilter('contrastratio', $this->contrastRatio(...), ['deprecated' => true, 'alternative' => 'ems_contrast_ratio']),
+            new TwigFilter('firstInArray', $this->firstInArray(...), ['deprecated' => true, 'alternative' => 'ems_first_in_array']),
         ];
     }
 
@@ -164,5 +166,13 @@ class CommonExtension extends AbstractExtension
     public function md5(string $value): string
     {
         return \md5($value);
+    }
+
+    /**
+     * @param array<mixed> $haystack
+     */
+    public function firstInArray(mixed $needle, array $haystack): bool
+    {
+        return 0 === \array_search($needle, $haystack);
     }
 }

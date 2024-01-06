@@ -1430,7 +1430,7 @@
 			<div class="form-group col-xs-6 col-sm-12">
 					<div class="control-label visible-xs-block">&nbsp;
 					</div>
-					{% if not form|firstInArray(form.parent.children)  %}
+					{% if not form|ems_first_in_array(form.parent.children)  %}
 						<a class="btn btn-danger btn-remove form-control" href="#">
 							<i class="fa fa-trash"></i>
 						</a>

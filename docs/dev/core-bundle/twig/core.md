@@ -185,3 +185,12 @@ Convert ElasticMS links in an HTML string to the corresponding revision
 ```twig
 {{ dataField.rawData|json_encode|emsco_internal_links }}
 ```
+
+
+## emsco_get_user
+
+Retrieve the EMS\CoreBundle\Entity\UserInterface for the given username. It returns null if the user is not found.
+
+```twig
+{% set user = username|emsco_get_user %}
+```

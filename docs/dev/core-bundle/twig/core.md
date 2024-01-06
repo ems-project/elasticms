@@ -212,3 +212,12 @@ Log a debug message. An optional context can be provided as second argument.
 ```twig
 {{ username|emsco_debug }}
 ```
+
+
+## emsco_get_field_by_path
+
+Retrieve the corresponding EMS\CoreBundle\Entity\FieldType for the given EMS\CoreBundle\Entity\ContentType and a field path:
+
+```twig
+{% set fieldType = 'page'|emsco_get_content_type|emsco_get_field_by_path('locales.fr') %}
+```

@@ -162,7 +162,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('search', $this->deprecatedSearch(...), ['deprecated' => true, 'alternative' => 'emsco_search']),
             new TwigFilter('emsco_search', $this->search(...)),
             new TwigFilter('call_user_func', $this->callUserFunc(...)),
-            new TwigFilter('merge_recursive', $this->arrayMergeRecursive(...)),
             new TwigFilter('get_string', $this->getString(...)),
             new TwigFilter('get_file', $this->getFile(...)),
             new TwigFilter('get_field_by_path', $this->getFieldByPath(...)),
@@ -629,16 +628,6 @@ class AppExtension extends AbstractExtension
         }
 
         return $repo->nextValue($name);
-    }
-
-    /**
-     * @param array<mixed> ...$arrays
-     *
-     * @return array<mixed>
-     */
-    public function arrayMergeRecursive(array ...$arrays): array
-    {
-        return \array_merge_recursive($arrays);
     }
 
     public function cantBeFinalized(string $message = '', int $code = 0, \Throwable $previous = null): never

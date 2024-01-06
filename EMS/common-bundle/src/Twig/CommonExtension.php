@@ -62,12 +62,14 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_preg_match', Encoder::pregMatch(...)),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
             new TwigFilter('ems_array_intersect', $this->arrayIntersect(...)),
+            new TwigFilter('ems_array_merge_recursive', $this->arrayMergeRecursive(...)),
             // deprecated
             new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
             new TwigFilter('format_bytes', Converter::formatBytes(...), ['deprecated' => true, 'alternative' => 'ems_format_bytes']),
             new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute'], ['deprecated' => true, 'alternative' => 'ems_locale_attr']),
             new TwigFilter('emsch_ouuid', $this->getOuuid(...), ['deprecated' => true, 'alternative' => 'ems_ouuid']),
             new TwigFilter('array_intersect', $this->arrayIntersect(...), ['deprecated' => true, 'alternative' => 'ems_array_intersect']),
+            new TwigFilter('merge_recursive', $this->arrayMergeRecursive(...), ['deprecated' => true, 'alternative' => 'ems_array_merge_recursive']),
         ];
     }
 
@@ -110,5 +112,15 @@ class CommonExtension extends AbstractExtension
     public function arrayIntersect(array $array1, array $array2): array
     {
         return \array_intersect($array1, $array2);
+    }
+
+    /**
+     * @param array<mixed> ...$arrays
+     *
+     * @return array<mixed>
+     */
+    public function arrayMergeRecursive(array ...$arrays): array
+    {
+        return \array_merge_recursive($arrays);
     }
 }

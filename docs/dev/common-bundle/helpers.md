@@ -29,16 +29,6 @@ Possible levels:
 
 ## Standards
 
-### DateTime
-> Because php new DateTime can return false. This common standard will throw runtime exceptions.
-```php
-<?php
-        use EMS\CommonBundle\Common\Standard\DateTime;
-
-        $dateTime = DateTime::create('2018-12-31 13:05:21');
-        $atomDate = DateTime::createFromFormat('2021-03-09T09:53:10+0100', \DATE_ATOM);
-```
-
 ### Json
 > Because php json_encode can return false and json_decode mixed. This common standard will throw runtime exceptions. 
 ```php

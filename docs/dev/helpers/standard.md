@@ -35,9 +35,13 @@ $decoded = Base64::decode($encoded) //foobar
 Create from time or form format, and allways return a \DateTimeInterface or throwing \RuntimeExceptions
 
 ```php
-use EMS\Helpers\Standard\DateTime;
-$fromTime = DateTime::create('now');
-$fromFormat = DateTime::createFromFormat('01-01-2023', 'd-m-Y');
+<?php
+  use EMS\Helpers\Standard\DateTime;
+  
+  $fromTime = DateTime::create('now');
+  $fromFormat = DateTime::createFromFormat('01-01-2023', 'd-m-Y');
+  $dateTime = DateTime::create('2018-12-31 13:05:21');
+  $atomDate = DateTime::createFromFormat('2021-03-09T09:53:10+0100', \DATE_ATOM);
 ```
 
 ## Hash

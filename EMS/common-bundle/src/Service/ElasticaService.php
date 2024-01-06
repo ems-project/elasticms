@@ -30,6 +30,7 @@ use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Elasticsearch\Exception\NotSingleResultException;
 use EMS\CommonBundle\Elasticsearch\Response\Response as EmsResponse;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\Options;
@@ -515,7 +516,7 @@ class ElasticaService
                     return [];
                 }
                 if (\is_string($value)) {
-                    $value = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+                    $value = Json::decode($value);
                 }
 
                 return $value;
@@ -675,7 +676,7 @@ class ElasticaService
         foreach (['query', 'aggs', 'post_filter'] as $attribute) {
             $resolver->setNormalizer($attribute, function (Options $options, $value) {
                 if (\is_string($value)) {
-                    $value = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
+                    $value = Json::decode($value);
                 }
 
                 return $value;

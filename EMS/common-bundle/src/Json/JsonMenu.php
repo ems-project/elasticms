@@ -18,7 +18,7 @@ class JsonMenu
 
     public function __construct(private readonly string $json, private readonly string $glue)
     {
-        $this->structure = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $this->structure = Json::decode($json);
         $this->recursiveWalk($this->structure);
     }
 

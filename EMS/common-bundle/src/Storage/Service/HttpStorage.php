@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Service;
 
 use EMS\CommonBundle\Common\HttpClientFactory;
+use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\StreamInterface;
@@ -63,7 +64,7 @@ class HttpStorage extends AbstractUrlStorage
         try {
             $result = $this->getClient()->get('/status.json');
             if (200 == $result->getStatusCode()) {
-                $status = \json_decode($result->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+                $status = Json::decode($result->getBody()->getContents());
                 if (isset($status['status']) && \in_array($status['status'], ['green', 'yellow'])) {
                     return true;
                 }

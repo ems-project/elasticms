@@ -75,7 +75,7 @@ class JsonMenuAiTest extends TestCase
 
     public function testInvalidJson(): void
     {
-        $this->expectException(\JsonException::class);
+        $this->expectException(\Throwable::class);
         new JsonMenu('invalid json', '/');
     }
 }

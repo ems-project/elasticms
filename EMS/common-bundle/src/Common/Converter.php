@@ -2,6 +2,8 @@
 
 namespace EMS\CommonBundle\Common;
 
+use EMS\Helpers\Standard\Json;
+
 class Converter
 {
     public static function toAscii(string $str): string
@@ -46,7 +48,7 @@ class Converter
             return $var->toString();
         }
         try {
-            return \json_encode($var, JSON_THROW_ON_ERROR);
+            return Json::encode($var);
         } catch (\Throwable) {
             return $defaultValue;
         }

@@ -163,7 +163,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_search', $this->search(...)),
             new TwigFilter('call_user_func', $this->callUserFunc(...)),
             new TwigFilter('merge_recursive', $this->arrayMergeRecursive(...)),
-            new TwigFilter('array_intersect', $this->arrayIntersect(...)),
             new TwigFilter('get_string', $this->getString(...)),
             new TwigFilter('get_file', $this->getFile(...)),
             new TwigFilter('get_field_by_path', $this->getFieldByPath(...)),
@@ -630,17 +629,6 @@ class AppExtension extends AbstractExtension
         }
 
         return $repo->nextValue($name);
-    }
-
-    /**
-     * @param array<mixed> $array1
-     * @param array<mixed> $array2
-     *
-     * @return array<mixed>
-     */
-    public function arrayIntersect(array $array1, array $array2): array
-    {
-        return \array_intersect($array1, $array2);
     }
 
     /**

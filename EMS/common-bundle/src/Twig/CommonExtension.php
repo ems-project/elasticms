@@ -36,26 +36,10 @@ class CommonExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('array_key', $this->arrayKey(...), [
-                'deprecated' => true,
-                'alternative' => 'ems_array_key',
-            ]),
             new TwigFilter('ems_array_key', $this->arrayKey(...)),
             new TwigFilter('ems_file_exists', $this->fileExists(...)),
-            new TwigFilter('format_bytes', Converter::formatBytes(...), [
-                'deprecated' => true,
-                'alternative' => 'ems_format_bytes',
-            ]),
             new TwigFilter('ems_format_bytes', Converter::formatBytes(...)),
-            new TwigFilter('emsch_ouuid', $this->getOuuid(...), [
-                'deprecated' => true,
-                'alternative' => 'ems_ouuid',
-            ]),
             new TwigFilter('ems_ouuid', $this->getOuuid(...)),
-            new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute'], [
-                'deprecated' => true,
-                'alternative' => 'ems_locale_attr',
-            ]),
             new TwigFilter('ems_locale_attr', [RequestRuntime::class, 'localeAttribute']),
             new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
             new TwigFilter('ems_html_decode', [TextRuntime::class, 'htmlDecode']),
@@ -77,6 +61,13 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),
             new TwigFilter('ems_preg_match', Encoder::pregMatch(...)),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
+            new TwigFilter('ems_array_intersect', $this->arrayIntersect(...)),
+            // deprecated
+            new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
+            new TwigFilter('format_bytes', Converter::formatBytes(...), ['deprecated' => true, 'alternative' => 'ems_format_bytes']),
+            new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute'], ['deprecated' => true, 'alternative' => 'ems_locale_attr']),
+            new TwigFilter('emsch_ouuid', $this->getOuuid(...), ['deprecated' => true, 'alternative' => 'ems_ouuid']),
+            new TwigFilter('array_intersect', $this->arrayIntersect(...), ['deprecated' => true, 'alternative' => 'ems_array_intersect']),
         ];
     }
 
@@ -108,5 +99,16 @@ class CommonExtension extends AbstractExtension
     public function getOuuid(string $emsLink): string
     {
         return EMSLink::fromText($emsLink)->getOuuid();
+    }
+
+    /**
+     * @param array<mixed> $array1
+     * @param array<mixed> $array2
+     *
+     * @return array<mixed>
+     */
+    public function arrayIntersect(array $array1, array $array2): array
+    {
+        return \array_intersect($array1, $array2);
     }
 }

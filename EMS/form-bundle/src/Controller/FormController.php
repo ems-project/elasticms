@@ -6,6 +6,7 @@ use EMS\FormBundle\Components\Form;
 use EMS\FormBundle\Components\ValueObject\SymfonyFormFieldsByNameArray;
 use EMS\FormBundle\Security\Guard;
 use EMS\FormBundle\Submission\Client;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -53,12 +54,10 @@ class FormController extends AbstractFormController
         if (!\is_string($content)) {
             throw new \RuntimeException('Unexpected non-string request content');
         }
-        $data = \json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if (null === $data) {
+        if (Json::isEmpty($content)) {
             $data = [];
-        }
-        if (!\is_array($data)) {
-            throw new \RuntimeException('Unexpected non-array request data');
+        } else {
+            $data = Json::decode($content);
         }
 
         $form = $this->formFactory->create(Form::class, $data, ['ouuid' => $ouuid, 'locale' => $request->getLocale()]);

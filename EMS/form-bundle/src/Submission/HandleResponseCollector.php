@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\FormBundle\Submission;
 
+use EMS\Helpers\Standard\Json;
+
 class HandleResponseCollector
 {
     /** @var HandleResponseInterface[] */
@@ -25,7 +27,7 @@ class HandleResponseCollector
         $responses = \array_map(fn (HandleResponseInterface $response) => $response->getResponse(), $this->responses);
 
         try {
-            return \json_encode($responses, JSON_THROW_ON_ERROR);
+            return Json::encode($responses);
         } catch (\Throwable) {
             return '';
         }

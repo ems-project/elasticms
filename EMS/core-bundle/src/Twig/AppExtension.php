@@ -158,7 +158,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_get_environment', [EnvironmentRuntime::class, 'getEnvironment']),
             new TwigFilter('emsco_generate_from_template', $this->generateFromTemplate(...)),
             new TwigFilter('emsco_object_choice_loader', $this->objectChoiceLoader(...)),
-            new TwigFilter('groupedObjectLoader', $this->groupedObjectLoader(...)),
+            new TwigFilter('emsco_grouped_object_loader', $this->groupedObjectLoader(...)),
             new TwigFilter('propertyPath', $this->propertyPath(...)),
             new TwigFilter('i18n', [I18nRuntime::class, 'i18n']),
             new TwigFilter('internal_links', $this->internalLinks(...)),
@@ -204,6 +204,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('is_super', $this->isSuper(...), ['deprecated' => true]),
             new TwigFilter('generate_from_template', $this->generateFromTemplate(...), ['deprecated' => true, 'alternative' => 'emsco_generate_from_template']),
             new TwigFilter('objectChoiceLoader', $this->objectChoiceLoader(...), ['deprecated' => true, 'alternative' => 'emsco_object_choice_loader']),
+            new TwigFilter('groupedObjectLoader', $this->groupedObjectLoader(...), ['deprecated' => true, 'alternative' => 'emsco_grouped_object_loader']),
         ];
     }
 

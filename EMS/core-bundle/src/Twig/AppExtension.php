@@ -147,14 +147,11 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFilter('firstInArray', $this->firstInArray(...)),
-            new TwigFilter('md5', $this->md5(...)),
             new TwigFilter('convertJavaDateFormat', $this->convertJavaDateFormat(...)),
             new TwigFilter('convertJavascriptDateFormat', $this->convertJavascriptDateFormat(...)),
             new TwigFilter('convertJavascriptDateRangeFormat', $this->convertJavascriptDateRangeFormat(...)),
             new TwigFilter('getTimeFieldTimeFormat', $this->getTimeFieldTimeFormat(...)),
             new TwigFilter('soapRequest', $this->soapRequest(...)),
-            new TwigFilter('luma', $this->relativeLuminance(...)),
-            new TwigFilter('contrastratio', $this->contrastRatio(...)),
             new TwigFilter('all_granted', $this->allGranted(...)),
             new TwigFilter('one_granted', $this->oneGranted(...)),
             new TwigFilter('in_my_circles', $this->inMyCircles(...)),
@@ -997,24 +994,12 @@ class AppExtension extends AbstractExtension
         return false;
     }
 
-    public function relativeLuminance(string $rgb): float
-    {
-        $color = new Color($rgb);
-
-        return $color->relativeLuminance();
-    }
-
-    public function contrastRatio(string $c1, string $c2): float
+    private function contrastRatio(string $c1, string $c2): float
     {
         $color1 = new Color($c1);
         $color2 = new Color($c2);
 
         return $color1->contrastRatio($color2);
-    }
-
-    public function md5(string $value): string
-    {
-        return \md5($value);
     }
 
     public function convertJavaDateFormat(string $format): string

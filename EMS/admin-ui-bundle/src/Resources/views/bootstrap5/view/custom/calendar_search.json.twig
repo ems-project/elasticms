@@ -8,7 +8,7 @@
         	{% if contentType.colorField and attribute(item._source, contentType.colorField) is defined %}
 	        	"backgroundColor": {{ attribute(item._source, contentType.colorField)|json_encode|raw }},
 	        	"borderColor": {{ attribute(item._source, contentType.colorField)|json_encode|raw }},
-	        	"textColor": "{%  if attribute(item._source, contentType.colorField)|contrastratio('#000000') > attribute(item._source, contentType.colorField)|contrastratio('#ffffff') %}#000000{% else %}#ffffff{% endif %}",
+	        	"textColor": "{%  if attribute(item._source, contentType.colorField)|ems_contrast_ratio('#000000') > attribute(item._source, contentType.colorField)|ems_contrast_ratio('#ffffff') %}#000000{% else %}#ffffff{% endif %}",
         	{% endif %}
         		{% if field.mappingOptions.nested %}
         			{% set item = attribute(item._source, field.name) %}

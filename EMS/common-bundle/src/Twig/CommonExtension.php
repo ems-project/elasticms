@@ -64,6 +64,10 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_array_intersect', $this->arrayIntersect(...)),
             new TwigFilter('ems_array_merge_recursive', $this->arrayMergeRecursive(...)),
             new TwigFilter('ems_in_array', $this->inArray(...)),
+            new TwigFilter('ems_md5', $this->md5(...)),
+            new TwigFilter('ems_luma', $this->relativeLuminance(...)),
+            new TwigFilter('ems_contrast_ratio', $this->contrastRatio(...)),
+            new TwigFilter('ems_color', $this->contrastRatio(...)),
             // deprecated
             new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
             new TwigFilter('format_bytes', Converter::formatBytes(...), ['deprecated' => true, 'alternative' => 'ems_format_bytes']),
@@ -72,6 +76,9 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('array_intersect', $this->arrayIntersect(...), ['deprecated' => true, 'alternative' => 'ems_array_intersect']),
             new TwigFilter('merge_recursive', $this->arrayMergeRecursive(...), ['deprecated' => true, 'alternative' => 'ems_array_merge_recursive']),
             new TwigFilter('inArray', $this->inArray(...), ['deprecated' => true, 'alternative' => 'ems_in_array']),
+            new TwigFilter('md5', $this->md5(...), ['deprecated' => true, 'alternative' => 'ems_md5']),
+            new TwigFilter('luma', $this->relativeLuminance(...), ['deprecated' => true, 'alternative' => 'ems_luma']),
+            new TwigFilter('contrastratio', $this->contrastRatio(...), ['deprecated' => true, 'alternative' => 'ems_contrast_ratio']),
         ];
     }
 
@@ -132,5 +139,30 @@ class CommonExtension extends AbstractExtension
     public function inArray(mixed $needle, array $haystack): bool
     {
         return false !== \array_search($needle, $haystack, true);
+    }
+
+    public function relativeLuminance(string $rgb): float
+    {
+        $color = new Color($rgb);
+
+        return $color->relativeLuminance();
+    }
+
+    public function contrastRatio(string $c1, string $c2): float
+    {
+        $color1 = new Color($c1);
+        $color2 = new Color($c2);
+
+        return $color1->contrastRatio($color2);
+    }
+
+    public function color(string $color): Color
+    {
+        return new Color($color);
+    }
+
+    public function md5(string $value): string
+    {
+        return \md5($value);
     }
 }

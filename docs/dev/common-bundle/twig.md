@@ -364,3 +364,35 @@ Extract a OUUID from an ElasticMS link
         "_source": ["#{app.request.locale}.title"]
     }).hits.hits|default([])|ems_array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
 ````
+
+## ems_md5
+
+Calculate the md5 hash of a string
+
+````twig
+{{ app.user.email|lower|md5 }}
+````
+
+## ems_luma
+
+Calculate the luminance of a color(string)
+
+````twig
+{% set luminance = '#FF56DD'|ems_luma %}
+````
+
+## ems_contrast_ratio
+
+Calculate the contrast ratio between 2 colors (string)
+
+````twig
+{% if '#FF56DD'|ems_contrast_ratio('black') > '#FF56DD'|ems_contrast_ratio('white') %}#000000{% else %}#ffffff{% endif %}
+````
+
+## ems_color
+
+Convert a color (string) into a EMS\Helpers\Standard\Color
+
+````twig
+{% set color = '#FF56DD'|ems_color %}
+````

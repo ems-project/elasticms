@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\UserApi;
 
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,7 @@ final class TestService
         try {
             $client = $this->client->createClient(['X-Auth-Token' => $request->headers->get('X-Auth-Token')]);
             $response = $client->get('/api/test');
-            $json = \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            $json = Json::decode($response->getBody()->getContents());
 
             $status = ($json['success']) ? '{"success": true}' : '{"success": false}';
 

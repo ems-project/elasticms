@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\UserApi;
 
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -57,7 +58,7 @@ final class DocumentService
             \compact('body')
         );
 
-        $draft = \json_decode($draftResponse->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        $draft = Json::decode($draftResponse->getBody()->getContents());
 
         $finalizeUrl = \sprintf('api/data/%s/finalize/%d', $contentType, $draft['revision_id']);
         $finalizeResponse = $client->post($finalizeUrl);

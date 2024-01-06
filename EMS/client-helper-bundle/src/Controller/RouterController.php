@@ -85,7 +85,7 @@ final class RouterController
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
 
-        $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        $data = Json::decode($json);
 
         if (\is_string($data['config'] ?? false)) {
             $response = $this->processor->getResponse($request, $data['hash'], $data['config'], $data['filename'], $data['immutable'] ?? false);
@@ -111,12 +111,7 @@ final class RouterController
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
 
-        $data = \json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-
-        if (false === $data) {
-            throw new \RuntimeException('JSON is expected with at least a content field as a string');
-        }
-
+        $data = Json::decode($json);
         if (!\is_string($data['content'] ?? null)) {
             throw new \RuntimeException('JSON requires at least a content field as a string');
         }

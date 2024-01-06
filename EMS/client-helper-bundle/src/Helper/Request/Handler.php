@@ -11,6 +11,7 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateDocument;
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
@@ -87,7 +88,7 @@ final class Handler implements HandlerInterface
         }
 
         try {
-            return $this->clientRequest->searchOne($route->getOption('type'), \json_decode($json, true, 512, JSON_THROW_ON_ERROR), $indexRegex);
+            return $this->clientRequest->searchOne($route->getOption('type'), Json::decode($json), $indexRegex);
         } catch (SingleResultException) {
             throw new NotFoundHttpException();
         }

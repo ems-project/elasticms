@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\UserApi;
 
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,7 +22,7 @@ final class AuthService
         ];
 
         $client = $this->client->createClient(['Content-Type' => 'application/json']);
-        $response = $client->post('auth-token', ['body' => \json_encode($credentials, JSON_THROW_ON_ERROR)]);
+        $response = $client->post('auth-token', ['body' => Json::encode($credentials)]);
 
         return new JsonResponse($response->getBody()->getContents());
     }

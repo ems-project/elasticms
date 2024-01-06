@@ -6,6 +6,7 @@ namespace EMS\ClientHelperBundle\Helper\UserApi;
 
 use EMS\ClientHelperBundle\Exception\UserApiResponseException;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -26,9 +27,10 @@ final class FileService
         foreach ($request->files as $file) {
             $responses = $this->upload($client, $file);
         }
-        $encodedResponse = \json_encode($responses);
-        if (false === $encodedResponse) {
-            $this->logger->error('Unexpected json_encode error of file upload\'s response messages : {error}', ['error' => \json_last_error_msg()]);
+        try {
+            $encodedResponse = Json::encode($responses);
+        } catch (\Throwable $e) {
+            $this->logger->error('Unexpected error of file upload\'s response messages : {error}', ['error' => $e->getMessage()]);
             $encodedResponse = '{}';
         }
 
@@ -51,7 +53,7 @@ final class FileService
                 ],
             ]);
 
-            $json = \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+            $json = Json::decode($response->getBody()->getContents());
 
             $success = 1 === $json['uploaded'];
             if (!$success) {

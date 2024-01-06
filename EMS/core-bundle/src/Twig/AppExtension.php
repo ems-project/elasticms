@@ -132,7 +132,6 @@ class AppExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('inArray', $this->inArray(...)),
             new TwigFilter('firstInArray', $this->firstInArray(...)),
             new TwigFilter('md5', $this->md5(...)),
             new TwigFilter('convertJavaDateFormat', $this->convertJavaDateFormat(...)),
@@ -1025,14 +1024,6 @@ class AppExtension extends AbstractExtension
     public function getTimeFieldTimeFormat(array $options): string
     {
         return TimeFieldType::getFormat($options);
-    }
-
-    /**
-     * @param array<mixed> $haystack
-     */
-    public function inArray(mixed $needle, array $haystack): bool
-    {
-        return false !== \array_search($needle, $haystack);
     }
 
     /**

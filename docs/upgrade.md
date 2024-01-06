@@ -48,6 +48,7 @@ E.g.:
 * `emsch_ouuid` must be replaced by `ems_ouuid`
 * `array_intersect` must be replaced by `ems_array_intersect`
 * `merge_recursive` must be replaced by `ems_array_merge_recursive`
+* `inArray` must be replaced by `ems_in_array`
 
 ### Deprecated twig function
 

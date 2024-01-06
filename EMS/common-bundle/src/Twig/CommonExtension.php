@@ -63,6 +63,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
             new TwigFilter('ems_array_intersect', $this->arrayIntersect(...)),
             new TwigFilter('ems_array_merge_recursive', $this->arrayMergeRecursive(...)),
+            new TwigFilter('ems_in_array', $this->inArray(...)),
             // deprecated
             new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
             new TwigFilter('format_bytes', Converter::formatBytes(...), ['deprecated' => true, 'alternative' => 'ems_format_bytes']),
@@ -70,6 +71,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('emsch_ouuid', $this->getOuuid(...), ['deprecated' => true, 'alternative' => 'ems_ouuid']),
             new TwigFilter('array_intersect', $this->arrayIntersect(...), ['deprecated' => true, 'alternative' => 'ems_array_intersect']),
             new TwigFilter('merge_recursive', $this->arrayMergeRecursive(...), ['deprecated' => true, 'alternative' => 'ems_array_merge_recursive']),
+            new TwigFilter('inArray', $this->inArray(...), ['deprecated' => true, 'alternative' => 'ems_in_array']),
         ];
     }
 
@@ -122,5 +124,13 @@ class CommonExtension extends AbstractExtension
     public function arrayMergeRecursive(array ...$arrays): array
     {
         return \array_merge_recursive($arrays);
+    }
+
+    /**
+     * @param array<mixed> $haystack
+     */
+    public function inArray(mixed $needle, array $haystack): bool
+    {
+        return false !== \array_search($needle, $haystack, true);
     }
 }

@@ -172,7 +172,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('displayname', $this->displayName(...)),
             new TwigFilter('date_difference', $this->dateDifference(...)),
             new TwigFilter('debug', $this->debug(...)),
-            new TwigFilter('search', $this->deprecatedSearch(...), ['deprecated' => true, 'alternative' => 'emsco_search']),
             new TwigFilter('emsco_search', $this->search(...)),
             new TwigFilter('call_user_func', $this->callUserFunc(...)),
             new TwigFilter('get_string', $this->getString(...)),
@@ -197,6 +196,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('get_content_type', [ContentTypeRuntime::class, 'getContentType'], ['deprecated' => true, 'alternative' => 'emsco_get_contentType']),
             new TwigFilter('data_label', $this->dataLabel(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_display']),
             new TwigFilter('json_decode', [TextRuntime::class, 'jsonDecode'], ['deprecated' => true, 'alternative' => 'ems_json_decode']),
+            new TwigFilter('search', $this->deprecatedSearch(...), ['deprecated' => true, 'alternative' => 'emsco_search']),
         ];
     }
 

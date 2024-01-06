@@ -586,7 +586,7 @@
 
 {% block EMS_CoreBundle_Form_DataField_ComputedFieldType %}
 	{% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode  )  %}
-    {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
+    {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
 	<dl>
 		{% if dataField.fieldType.displayOptions.label is defined %}
 			<dt>{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
@@ -607,7 +607,7 @@
 				<div class="panel panel-default">
 					<div class="panel-body {{ color }}">
 						{% if doCompare  %}
-							<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|emsco_internal_links }}</pre>
+							<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|emsco_internal_links }}</pre>
 							<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|json_encode|emsco_internal_links }}</pre>
 						{% else %}
 							<pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|json_encode|emsco_internal_links }}</pre>
@@ -654,7 +654,7 @@
 
 {% block EMS_CoreBundle_Form_DataField_JSONFieldType %}
     {% set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode )  %}
-    {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
+    {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
     <dl>
         <dt>
             {% if dataField.fieldType.displayOptions.label is defined %}
@@ -667,7 +667,7 @@
             <div class="panel panel-default">
                 <div class="panel-body {{ color }}">
                     {% if doCompare  %}
-                        <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|emsco_internal_links }}</pre>
+                        <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|emsco_internal_links }}</pre>
                         <pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|json_encode|emsco_internal_links }}</pre>
                     {% else %}
                         <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">
@@ -686,8 +686,8 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_WysiwygFieldType %}
-    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|get_string(dataField.fieldType.name) )  %}
-	{% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
+    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) )  %}
+	{% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
 	<dl>
 		<dt class="{{ color }}">
 			{% if dataField.fieldType.displayOptions.label is defined %}
@@ -718,8 +718,8 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_CodeFieldType %}
-    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|get_string(dataField.fieldType.name) )  %}
-    {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
+    {% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) )  %}
+    {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
@@ -732,7 +732,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body {{ color }}">
 					{% if doCompare  %}
-						<pre class="ems-code-editor col-md-6" data-language="{{ dataField.fieldType.displayOptions.language }}" data-them="{{ dataField.fieldType.displayOptions.theme }}" {% if dataField.fieldType.displayOptions.height %}style="height: {{ dataField.fieldType.displayOptions.height }}px;"{% endif %}>{{ compareRawData|get_string(dataField.fieldType.name) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="{{ dataField.fieldType.displayOptions.language }}" data-them="{{ dataField.fieldType.displayOptions.theme }}" {% if dataField.fieldType.displayOptions.height %}style="height: {{ dataField.fieldType.displayOptions.height }}px;"{% endif %}>{{ compareRawData|emsco_get_string(dataField.fieldType.name) }}</pre>
 						<pre class="ems-code-editor col-md-6" data-language="{{ dataField.fieldType.displayOptions.language }}" data-them="{{ dataField.fieldType.displayOptions.theme }}" {% if dataField.fieldType.displayOptions.height %}style="height: {{ dataField.fieldType.displayOptions.height }}px;"{% endif %}>{{ dataField.rawData }}</pre>
 					{% else %}
 						<pre class="ems-code-editor" data-language="{{ dataField.fieldType.displayOptions.language }}" data-them="{{ dataField.fieldType.displayOptions.theme }}" {% if dataField.fieldType.displayOptions.height %}style="height: {{ dataField.fieldType.displayOptions.height }}px;"{% endif %}>{{ dataField.rawData }}</pre>
@@ -773,8 +773,8 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuEditorFieldType %}
-	{% set doCompare = compare and dataField.rawData is not same as( compareRawData|get_string(dataField.fieldType.name) )  %}
-	{% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
+	{% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) )  %}
+	{% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
@@ -787,7 +787,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body {{ color }}">
 					{% if doCompare  %}
-						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 					{% else %}
 						{% set jsonMenuItems = dataField.rawData|default('{}')|ems_json_menu_decode.structure %}
@@ -811,8 +811,8 @@
 {% endblock %}
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedEditorFieldType %}
-	{% set doCompare = compare and dataField.rawData is not same as( compareRawData|get_string(dataField.fieldType.name) )  %}
-	{% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
+	{% set doCompare = compare and dataField.rawData is not same as( compareRawData|emsco_get_string(dataField.fieldType.name) )  %}
+	{% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
@@ -825,7 +825,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body {{ color }}">
 					{% if doCompare  %}
-						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|emsco_get_string(dataField.fieldType.name)|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 					{% else %}
 						{{ emsco_json_menu_nested({

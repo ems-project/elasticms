@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\SubmissionBundle\Response;
 
 use EMS\FormBundle\Submission\AbstractHandleResponse;
+use EMS\Helpers\Standard\Json;
 
 final class ServiceNowHandleResponse extends AbstractHandleResponse
 {
@@ -15,8 +16,9 @@ final class ServiceNowHandleResponse extends AbstractHandleResponse
 
     public function getResultProperty(string $property): string
     {
-        $decodedData = \json_decode($this->data, true);
-        if (JSON_ERROR_NONE !== \json_last_error()) {
+        try {
+            $decodedData = Json::decode($this->data);
+        } catch (\Throwable) {
             return '';
         }
 
@@ -29,9 +31,9 @@ final class ServiceNowHandleResponse extends AbstractHandleResponse
 
     private function deriveStatus(string $json): string
     {
-        $data = \json_decode($json, true);
-
-        if (JSON_ERROR_NONE !== \json_last_error()) {
+        try {
+            $data = Json::decode($json);
+        } catch (\Throwable) {
             return self::STATUS_ERROR;
         }
 

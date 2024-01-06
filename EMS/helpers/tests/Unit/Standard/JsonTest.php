@@ -93,4 +93,66 @@ class JsonTest extends TestCase
         Json::normalize($provided);
         self::assertSame($expected, Json::encode($provided));
     }
+
+    public function testIsJson(): void
+    {
+        $this->assertTrue(Json::isJson('null'));
+        $this->assertTrue(Json::isJson('54'));
+        $this->assertTrue(Json::isJson('"Foobar"'));
+        $this->assertTrue(Json::isJson('{"foo":"bar"}'));
+        $this->assertTrue(Json::isJson('[{"foo":"bar"},{"foo":"bar"}]'));
+    }
+
+    public function testIsNotJson(): void
+    {
+        $this->assertFalse(Json::isJson('FOOBAR'));
+        $this->assertFalse(Json::isJson('Foobar'));
+        $this->assertFalse(Json::isJson('{"foo":"bar"'));
+        $this->assertFalse(Json::isJson('[{"foo":"bar"}{"toto":"tata"}]'));
+    }
+
+    public function testIsEmptyJson(): void
+    {
+        $this->assertFalse(Json::isEmpty(\json_encode('FOOBAR')));
+        $this->assertFalse(Json::isEmpty(\json_encode(2)));
+        $this->assertFalse(Json::isEmpty(\json_encode('{"foo":"bar"')));
+        $this->assertFalse(Json::isEmpty(\json_encode('[{"foo":"bar"}{"toto":"tata"}]')));
+
+        $this->assertTrue(Json::isEmpty(\json_encode(0)));
+        $this->assertTrue(Json::isEmpty(\json_encode(false)));
+        $this->assertTrue(Json::isEmpty(\json_encode(null)));
+        $this->assertTrue(Json::isEmpty("\n\t"));
+        $this->assertTrue(Json::isEmpty(''));
+        $this->assertTrue(Json::isEmpty('       '));
+    }
+
+    public function testMixedDecode(): void
+    {
+        $this->assertEquals(2, Json::mixedDecode('2'));
+        $this->assertEquals(2.56, Json::mixedDecode('2.56'));
+        $this->assertEquals(true, Json::mixedDecode('true'));
+        $this->assertEquals(false, Json::mixedDecode('false'));
+        $this->assertEquals('foobar', Json::mixedDecode('"foobar"'));
+        $this->assertEquals(null, Json::mixedDecode('null'));
+    }
+
+    public function testUnescapeUnicode(): void
+    {
+        $this->assertEquals('{"A":"éèàçï"}', Json::encode([
+            'A' => 'éèàçï',
+        ], false, true));
+        $this->assertEquals('{"A":"\u00e9\u00e8\u00e0\u00e7\u00ef"}', Json::encode([
+            'A' => 'éèàçï',
+        ]));
+        $this->assertEquals('{
+    "A": "\u00e9\u00e8\u00e0\u00e7\u00ef"
+}', Json::encode([
+            'A' => 'éèàçï',
+        ], true));
+        $this->assertEquals('{
+    "A": "éèàçï"
+}', Json::encode([
+            'A' => 'éèàçï',
+        ], true, true));
+    }
 }

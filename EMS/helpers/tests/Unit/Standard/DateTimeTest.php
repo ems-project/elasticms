@@ -21,4 +21,39 @@ class DateTimeTest extends TestCase
         $this->expectException(\RuntimeException::class);
         DateTime::createFromFormat('1977-02-09');
     }
+
+    public function testCreate2(): void
+    {
+        $time = '2023-10-06 12:00:00';
+        $dateTime = DateTime::create($time);
+
+        $this->assertInstanceOf(\DateTimeInterface::class, $dateTime);
+        $this->assertEquals($time, $dateTime->format('Y-m-d H:i:s'));
+    }
+
+    public function testCreateInvalidTime(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Failed creating time for "invalid-time"');
+
+        DateTime::create('invalid-time');
+    }
+
+    public function testCreateFromFormat2(): void
+    {
+        $time = '2023-10-06T12:00:00+00:00';
+        $format = \DateTimeInterface::ATOM;
+        $dateTime = DateTime::createFromFormat($time, $format);
+
+        $this->assertInstanceOf(\DateTimeInterface::class, $dateTime);
+        $this->assertEquals($time, $dateTime->format($format));
+    }
+
+    public function testCreateFromFormatInvalidTime(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageMatches('/^Failed creating dateTime for "invalid-time" with format ".*", \[.*\]$/');
+
+        DateTime::createFromFormat('invalid-time', \DateTimeInterface::ATOM);
+    }
 }

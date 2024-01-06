@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch\Document;
 
-use EMS\CommonBundle\Common\Standard\DateTime;
+use EMS\Helpers\Standard\DateTime;
 
 final class EMSSource implements EMSSourceInterface
 {

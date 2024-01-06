@@ -6,6 +6,7 @@ namespace EMS\ClientHelperBundle\Helper\Api;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -38,9 +39,9 @@ final class ApiService
         $body = $request->request->all();
         $body = $this->treatFiles($body, $apiName, $request->files);
         if (null !== $validationTemplate) {
-            return \json_decode($this->twig->render($validationTemplate, [
+            return Json::decode($this->twig->render($validationTemplate, [
                 'document' => $body,
-            ]), true, 512, JSON_THROW_ON_ERROR);
+            ]));
         }
 
         return $body;

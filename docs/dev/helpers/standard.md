@@ -35,9 +35,13 @@ $decoded = Base64::decode($encoded) //foobar
 Create from time or form format, and allways return a \DateTimeInterface or throwing \RuntimeExceptions
 
 ```php
-use EMS\Helpers\Standard\DateTime;
-$fromTime = DateTime::create('now');
-$fromFormat = DateTime::createFromFormat('01-01-2023', 'd-m-Y');
+<?php
+  use EMS\Helpers\Standard\DateTime;
+  
+  $fromTime = DateTime::create('now');
+  $fromFormat = DateTime::createFromFormat('01-01-2023', 'd-m-Y');
+  $dateTime = DateTime::create('2018-12-31 13:05:21');
+  $atomDate = DateTime::createFromFormat('2021-03-09T09:53:10+0100', \DATE_ATOM);
 ```
 
 ## Hash
@@ -105,6 +109,16 @@ $settings = [
 ```
 
 ## Json
+
+> Because php json_encode can return false and json_decode mixed. This common standard will throw runtime exceptions.
+
+```php
+<?php
+        use EMS\Helpers\Standard\Json;
+        $pretty = true;
+        $encode = Json::encode(['test' => 'test'], $pretty);
+        $decode = Json::decode($encode);
+```
 
 ## Text
 

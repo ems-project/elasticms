@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Request;
 
+use EMS\Helpers\Standard\Json;
+
 final class ServiceNowRequest
 {
     private readonly string $host;
@@ -32,7 +34,7 @@ final class ServiceNowRequest
         $this->attachmentEndpoint = $endpoint['attachmentEndpoint'] ?? '/api/now/attachment/file';
 
         if (!empty($message['body'])) {
-            $body = \json_encode($message['body'], JSON_THROW_ON_ERROR);
+            $body = Json::encode($message['body']);
             $this->body = (!empty($body)) ? $body : '';
         }
 

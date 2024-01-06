@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\SubmissionBundle\Twig;
 
 use EMS\FormBundle\Submission\HandleRequestInterface;
+use EMS\Helpers\Standard\Json;
 use Twig\Environment;
 
 final class TwigRenderer
@@ -96,12 +97,10 @@ final class TwigRenderer
             return [];
         }
 
-        $decodedJson = \json_decode($json, true);
-
-        if (JSON_ERROR_NONE !== \json_last_error()) {
+        try {
+            return Json::decode($json);
+        } catch (\Throwable) {
             throw new \InvalidArgumentException('invalid json!');
         }
-
-        return $decodedJson;
     }
 }

@@ -8,9 +8,9 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Types;
-use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Entity\Log;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\Standard\Type;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -50,12 +50,12 @@ class LogRepository extends ServiceEntityRepository
     {
         $query = <<<QUERY
             INSERT INTO log_message (
-                id, created, modified, message, context, 
-                level, level_name, channel, extra, formatted, 
+                id, created, modified, message, context,
+                level, level_name, channel, extra, formatted,
                 username, impersonator, ouuid
             ) VALUES (
-                :id, :created, :modified, :message, :context, 
-                :level, :level_name, :channel, :extra, :formatted, 
+                :id, :created, :modified, :message, :context,
+                :level, :level_name, :channel, :extra, :formatted,
                 :username, :impersonator, :ouuid);
 QUERY;
 

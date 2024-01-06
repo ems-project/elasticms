@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Api;
 
 use EMS\CommonBundle\Common\HttpClientFactory;
+use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Client as HttpClient;
 
 /**
@@ -53,10 +54,10 @@ final class Client
 
         $response = $this->client->post(
             $url,
-            ['body' => \json_encode($body, JSON_THROW_ON_ERROR)]
+            ['body' => Json::encode($body)]
         );
 
-        return \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        return Json::decode($response->getBody()->getContents());
     }
 
     /**
@@ -68,10 +69,10 @@ final class Client
     {
         $response = $this->client->post(
             \sprintf('/api/data/%s/replace/%s', $type, $ouuid),
-            ['body' => \json_encode($body, JSON_THROW_ON_ERROR)]
+            ['body' => Json::encode($body)]
         );
 
-        return \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        return Json::decode($response->getBody()->getContents());
     }
 
     /**
@@ -83,7 +84,7 @@ final class Client
             \sprintf('api/data/%s/finalize/%d', $type, $revisionId)
         );
 
-        return \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        return Json::decode($response->getBody()->getContents());
     }
 
     /**
@@ -95,7 +96,7 @@ final class Client
             \sprintf('api/data/%s/discard/%d', $type, $revisionId)
         );
 
-        return \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        return Json::decode($response->getBody()->getContents());
     }
 
     /**
@@ -113,6 +114,6 @@ final class Client
             ],
         ]);
 
-        return \json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        return Json::decode($response->getBody()->getContents());
     }
 }

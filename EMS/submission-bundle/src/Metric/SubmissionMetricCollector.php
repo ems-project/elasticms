@@ -6,7 +6,7 @@ namespace EMS\SubmissionBundle\Metric;
 
 use Doctrine\DBAL\Connection;
 use EMS\CommonBundle\Common\Metric\MetricCollectorInterface;
-use EMS\CommonBundle\Common\Standard\DateTime;
+use EMS\Helpers\Standard\DateTime;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
 use Prometheus\CollectorRegistry;
 

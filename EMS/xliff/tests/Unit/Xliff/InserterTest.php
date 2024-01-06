@@ -59,9 +59,9 @@ Click here</a>
 
                 $expectedFilename = \join(DIRECTORY_SEPARATOR, [__DIR__, '..', 'Resources', 'Translated', $document->getContentType().'-'.$document->getOuuid().'-'.$document->getRevisionId().'.json']);
                 if (!\file_exists($expectedFilename)) {
-                    \file_put_contents($expectedFilename, \json_encode($target, JSON_PRETTY_PRINT));
+                    \file_put_contents($expectedFilename, Json::encode($target, true));
                 }
-                $expected = \json_decode(\file_get_contents($expectedFilename), true, 512, JSON_THROW_ON_ERROR);
+                $expected = Json::decode(\file_get_contents($expectedFilename));
                 $this->assertEquals($expected, $target, \sprintf('For the document ems://%s:%s revision %s during the test %s', $document->getContentType(), $document->getOuuid(), $document->getRevisionId(), $fileNameWithExtension));
             }
         }

@@ -129,7 +129,7 @@ final class Route
             })
             ->setNormalizer('options', function (Options $options, $value) {
                 if (null !== $options['query']) {
-                    $value['query'] = \json_encode($options['query'], JSON_THROW_ON_ERROR);
+                    $value['query'] = Json::encode($options['query']);
                 }
 
                 $value['type'] = $options['type'];

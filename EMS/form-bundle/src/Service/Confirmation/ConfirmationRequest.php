@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\FormBundle\Service\Confirmation;
 
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,13 +19,8 @@ final class ConfirmationRequest
 
     public function __construct(Request $request)
     {
-        $json = \json_decode((string) $request->getContent(), true);
-
-        if (JSON_ERROR_NONE !== \json_last_error() || !\is_array($json)) {
-            throw new \Exception('invalid JSON!');
-        }
-
-        $data = $this->resolveJson(\array_filter($json));
+        $json = Json::decode((string) $request->getContent());
+        $data = $this->resolveOptions(\array_filter($json));
 
         $this->codeField = $data['code-field'];
         $this->locale = $request->getLocale();
@@ -53,17 +49,17 @@ final class ConfirmationRequest
     }
 
     /**
-     * @param mixed[] $json
+     * @param mixed[] $options
      *
      * @return mixed[]
      */
-    private function resolveJson(array $json): array
+    private function resolveOptions(array $options): array
     {
         $jsonResolver = new OptionsResolver();
         $jsonResolver
             ->setDefaults(['value' => null])
             ->setRequired(['code-field', 'token']);
 
-        return $jsonResolver->resolve($json);
+        return $jsonResolver->resolve($options);
     }
 }

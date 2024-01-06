@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\SubmissionBundle\Response;
 
 use EMS\FormBundle\Submission\AbstractHandleResponse;
+use EMS\Helpers\Standard\Json;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class HttpHandleResponse extends AbstractHandleResponse
@@ -29,6 +30,10 @@ final class HttpHandleResponse extends AbstractHandleResponse
      */
     public function getHttpResponseContentJSON(): array
     {
-        return \json_decode($this->responseContent, true, 512, JSON_THROW_ON_ERROR) ?? [];
+        if (Json::isEmpty($this->responseContent)) {
+            return [];
+        }
+
+        return Json::decode($this->responseContent);
     }
 }

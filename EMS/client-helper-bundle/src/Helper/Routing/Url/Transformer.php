@@ -9,6 +9,7 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
@@ -58,7 +59,7 @@ final class Transformer
 
             return null;
         } catch (\Exception $ex) {
-            $this->logger->error(\sprintf('%s match (%s)', $ex->getMessage(), \json_encode($match, JSON_THROW_ON_ERROR)));
+            $this->logger->error(\sprintf('%s match (%s)', $ex->getMessage(), Json::encode($match)));
 
             return null;
         }

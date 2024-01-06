@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Metric;
 
 use EMS\CommonBundle\Common\Composer\ComposerInfo;
-use EMS\CommonBundle\Common\Standard\DateTime;
+use EMS\Helpers\Standard\DateTime;
 use Prometheus\CollectorRegistry;
 
 final class EmsInfoMetricCollector implements MetricCollectorInterface

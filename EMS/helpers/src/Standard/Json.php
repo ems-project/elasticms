@@ -6,9 +6,10 @@ namespace EMS\Helpers\Standard;
 
 final class Json
 {
-    public static function encode(mixed $value, bool $pretty = false): string
+    public static function encode(mixed $value, bool $pretty = false, bool $unescapeUnicode = false): string
     {
         $options = $pretty ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : 0;
+        $options |= $unescapeUnicode ? JSON_UNESCAPED_UNICODE : 0;
         $encoded = \json_encode($value, $options | JSON_INVALID_UTF8_IGNORE);
 
         if (false === $encoded) {
@@ -36,6 +37,17 @@ final class Json
         $decoded = \json_decode($value, true);
 
         if (JSON_ERROR_NONE !== \json_last_error() || !\is_array($decoded)) {
+            throw new \RuntimeException(\sprintf('Invalid json %s', \json_last_error_msg()));
+        }
+
+        return $decoded;
+    }
+
+    public static function mixedDecode(string $value): mixed
+    {
+        $decoded = \json_decode($value, true);
+
+        if (JSON_ERROR_NONE !== \json_last_error()) {
             throw new \RuntimeException(\sprintf('Invalid json %s', \json_last_error_msg()));
         }
 
@@ -94,5 +106,14 @@ final class Json
                 unset($array[$index]);
             }
         }
+    }
+
+    public static function isEmpty(string $string): bool
+    {
+        if ('' === \trim($string)) {
+            return true;
+        }
+
+        return empty(\json_decode($string, true, 512, JSON_THROW_ON_ERROR));
     }
 }

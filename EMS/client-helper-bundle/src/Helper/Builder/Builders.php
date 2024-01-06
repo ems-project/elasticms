@@ -10,7 +10,7 @@ use EMS\ClientHelperBundle\Helper\Environment\Environment;
 use EMS\ClientHelperBundle\Helper\Routing\RoutingBuilder;
 use EMS\ClientHelperBundle\Helper\Templating\TemplateBuilder;
 use EMS\ClientHelperBundle\Helper\Translation\TranslationBuilder;
-use EMS\CommonBundle\Common\Standard\Hash;
+use EMS\Helpers\Standard\Hash;
 
 final class Builders
 {

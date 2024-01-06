@@ -35,6 +35,12 @@ E.g.:
 * `template.edit` must be replaced by `ems_core_action_edit`
 * `template.remove` must be replaced by `ems_core_action_delete`
 
+### Deprecated twig filters
+
+* `array_key` must be replaced by `ems_array_key`
+* `format_bytes` must be replaced by `ems_format_bytes`
+* `locale_attr` must be replaced by `ems_locale_attr`
+
 ### New dynamic mapping config which change the elasticsearch indexes
 
 Before version 6 it was not possible to define elasticsearch dynamic mapping config. In other words, before version 6, every fields present in a document, that aren't strictly defined in the content type, a mapping was automatically guessed by elasticsearch.

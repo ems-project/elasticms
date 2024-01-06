@@ -167,7 +167,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_date_difference', $this->dateDifference(...)),
             new TwigFilter('emsco_debug', $this->debug(...)),
             new TwigFilter('emsco_search', $this->search(...)),
-            new TwigFilter('call_user_func', $this->callUserFunc(...)),
+            new TwigFilter('emsco_call_user_func', $this->callUserFunc(...)),
             new TwigFilter('get_string', $this->getString(...)),
             new TwigFilter('get_file', $this->getFile(...)),
             new TwigFilter('get_field_by_path', $this->getFieldByPath(...)),
@@ -212,6 +212,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('displayname', $this->displayName(...), ['deprecated' => true, 'alternative' => 'emsco_display_name']),
             new TwigFilter('date_difference', $this->dateDifference(...), ['deprecated' => true, 'alternative' => 'emsco_date_difference']),
             new TwigFilter('debug', $this->debug(...), ['deprecated' => true, 'alternative' => 'emsco_debug']),
+            new TwigFilter('call_user_func', $this->callUserFunc(...), ['deprecated' => true, 'alternative' => 'emsco_call_user_func']),
         ];
     }
 

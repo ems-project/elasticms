@@ -1027,15 +1027,6 @@ class AppExtension extends AbstractExtension
         return \md5($value);
     }
 
-    /**
-     * @deprecated
-     * @see https://twig.symfony.com/doc/1.x/functions/dump.html
-     */
-    public function dump(): void
-    {
-        \trigger_error('dump is now integrated by default in twig 1.5', E_USER_DEPRECATED);
-    }
-
     public function convertJavaDateFormat(string $format): string
     {
         return DateFieldType::convertJavaDateFormat($format);

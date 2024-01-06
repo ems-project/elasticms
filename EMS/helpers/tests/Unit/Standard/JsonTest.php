@@ -110,4 +110,19 @@ class JsonTest extends TestCase
         $this->assertFalse(Json::isJson('{"foo":"bar"'));
         $this->assertFalse(Json::isJson('[{"foo":"bar"}{"toto":"tata"}]'));
     }
+
+    public function testIsEmptyJson(): void
+    {
+        $this->assertFalse(Json::isEmpty(\json_encode('FOOBAR')));
+        $this->assertFalse(Json::isEmpty(\json_encode(2)));
+        $this->assertFalse(Json::isEmpty(\json_encode('{"foo":"bar"')));
+        $this->assertFalse(Json::isEmpty(\json_encode('[{"foo":"bar"}{"toto":"tata"}]')));
+
+        $this->assertTrue(Json::isEmpty(\json_encode(0)));
+        $this->assertTrue(Json::isEmpty(\json_encode(false)));
+        $this->assertTrue(Json::isEmpty(\json_encode(null)));
+        $this->assertTrue(Json::isEmpty("\n\t"));
+        $this->assertTrue(Json::isEmpty(''));
+        $this->assertTrue(Json::isEmpty('       '));
+    }
 }

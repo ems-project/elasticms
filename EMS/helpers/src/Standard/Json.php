@@ -95,4 +95,13 @@ final class Json
             }
         }
     }
+
+    public static function isEmpty(string $string): bool
+    {
+        if ('' === \trim($string)) {
+            return true;
+        }
+
+        return empty(\json_decode($string, true, 512, JSON_THROW_ON_ERROR));
+    }
 }

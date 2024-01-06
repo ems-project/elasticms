@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Processor;
 
-use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\FileCollection;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\MimeType;

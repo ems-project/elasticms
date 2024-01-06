@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
-use EMS\CommonBundle\Common\Standard\Base64;
+use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 
 class PropertyAccessor

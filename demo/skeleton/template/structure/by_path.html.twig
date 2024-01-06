@@ -1,7 +1,7 @@
 {% trans_default_domain trans_default_domain %}
 {% set structure = source %}
-{% set paths = source.paths|default([])|filter(p => p.locale == app.request.locale)|array_key('path') %}
-{% set pathsByUids = source.paths|default([])|filter(p => p.locale == app.request.locale)|array_key('uid') %}
+{% set paths = source.paths|default([])|filter(p => p.locale == app.request.locale)|ems_array_key('path') %}
+{% set pathsByUids = source.paths|default([])|filter(p => p.locale == app.request.locale)|ems_array_key('uid') %}
 {% set pathInfo = attribute(paths, app.request.get('path')) %}
 
 {% set target = emsch_search_one(['section', 'page'], {

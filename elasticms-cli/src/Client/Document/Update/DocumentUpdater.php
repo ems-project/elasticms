@@ -7,10 +7,10 @@ namespace App\CLI\Client\Document\Update;
 use App\CLI\Client\Data\Column\TransformContext;
 use App\CLI\Client\Data\Data;
 use EMS\CommonBundle\Common\EMSLink;
-use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DocumentUpdater

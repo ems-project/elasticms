@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Processor;
 
-use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Image\SmartCrop;
 use EMS\Helpers\Standard\Color;
+use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 
 class Image

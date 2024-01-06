@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Tests\Unit\Common\Standard;
+namespace EMS\Helpers\Tests\Unit\Standard;
 
-use EMS\CommonBundle\Common\Standard\Type;
+use EMS\Helpers\Standard\Type;
 use PHPUnit\Framework\TestCase;
 
 class TypeAiTest extends TestCase

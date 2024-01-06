@@ -54,7 +54,11 @@ E.g.:
 * `one_granted` must be replaced by `emsco_one_granted`
 * `in_my_circles` must be replaced by `emsco_in_my_circles`
 * `data_link` must be replaced by `emsco_data_link`
-* `data_link` must be replaced by `emsco_data_link`
+* `i18n` must be replaced by `emsco_i18n`
+* `internal_links` must be replaced by `emsco_internal_links`
+* `displayname` must be replaced by `emsco_display_name`
+* `get_field_by_path` must be replaced by `emsco_get_field_by_path`
+* `get_revision_id` must be replaced by the function `emsco_get_revision_id`
 
 ### Deprecated twig function
 

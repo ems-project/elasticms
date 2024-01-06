@@ -55,6 +55,7 @@ E.g.:
 * `cant_be_finalized` must be replaced by `emsco_cant_be_finalized`
 * `get_default_environments` must be replaced by `emsco_get_default_environment_names`
 * `get_content_types` must be replaced by `emsco_get_content_types`
+* `sequence` deprecated and must be replaced by `emsco_sequence`
 
 ### New dynamic mapping config which change the elasticsearch indexes
 

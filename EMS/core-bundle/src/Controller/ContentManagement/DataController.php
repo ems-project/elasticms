@@ -35,6 +35,7 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -154,7 +155,7 @@ class DataController extends AbstractController
             $searchForm->addFilter($filter);
         }
 
-        $formEncoded = \json_encode($searchForm, JSON_THROW_ON_ERROR);
+        $formEncoded = Json::encode($searchForm);
 
         return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
             'query' => null,

@@ -7,6 +7,7 @@ namespace Application\Migrations;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use EMS\Helpers\Standard\Json;
 
 final class Version20221222130227 extends AbstractMigration
 {
@@ -18,7 +19,7 @@ final class Version20221222130227 extends AbstractMigration
         );
 
         $query = <<<QUERY
-            select id, task_planned_ids from revision 
+            select id, task_planned_ids from revision
             where task_planned_ids is not null and task_planned_ids::text != '[]'
 QUERY;
 
@@ -26,7 +27,7 @@ QUERY;
 
         foreach ($rows as $row) {
             $wrongJson = \json_decode((string) $row['task_planned_ids'], true);
-            $correctJson = \json_encode(\array_values($wrongJson));
+            $correctJson = Json::encode(\array_values($wrongJson));
 
             $this->connection->update('revision', ['task_planned_ids' => $correctJson], ['id' => $row['id']]);
         }

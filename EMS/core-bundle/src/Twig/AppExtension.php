@@ -39,6 +39,7 @@ use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Color;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Form\FormError;
@@ -263,7 +264,7 @@ class AppExtension extends AbstractExtension
         if (\is_string($rawData[$field])) {
             return $rawData[$field];
         }
-        $encoded = \json_encode($rawData[$field], JSON_THROW_ON_ERROR);
+        $encoded = Json::encode($rawData[$field]);
 
         return $encoded;
     }

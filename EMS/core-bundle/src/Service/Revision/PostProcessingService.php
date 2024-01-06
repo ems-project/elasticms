@@ -255,6 +255,6 @@ final class PostProcessingService
             }
         }
 
-        $objectArray[$fieldType->getName()] = \json_encode($jsonMenuNested->toArrayStructure(), JSON_THROW_ON_ERROR);
+        $objectArray[$fieldType->getName()] = Json::encode($jsonMenuNested->toArrayStructure());
     }
 }

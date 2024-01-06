@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Form\DataField;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\CodeEditorType;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -95,7 +96,7 @@ class ComputedFieldType extends DataFieldType
     {
         $out = parent::viewTransform($dataField);
 
-        return ['value' => \json_encode($out, JSON_THROW_ON_ERROR)];
+        return ['value' => Json::encode($out)];
     }
 
     /**

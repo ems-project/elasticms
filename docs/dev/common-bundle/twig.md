@@ -333,3 +333,11 @@ Test if a template exists or not. This function works with all kind of templates
   {% do emsch_http_error(404, 'Page not found') %}
 {% endif %}
 ````
+
+## ems_json_decode
+
+Call the PHP \json_decode method with those default values: `public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`
+
+````twig
+{% set config = 'config'|emsco_i18n('en')|ems_json_decode %}
+````

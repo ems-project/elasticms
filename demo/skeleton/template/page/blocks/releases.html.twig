@@ -5,7 +5,7 @@
     {% set releases = emsch_search('release', {
         "size": 1000,
         "_source": ["version","release_date"],
-    }).hits.hits|default([])|map(p => p._source)|array_key('version') %}
+    }).hits.hits|default([])|map(p => p._source)|ems_array_key('version') %}
     {% set must = {} %}
 
     {% if app.request.get('q', '')|length > 0 %}
@@ -63,7 +63,7 @@
         "sort": [{
             ("title_#{locale}.alpha_order"): { "order": "asc" },
         }],
-    }).hits.hits|default([])|array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
+    }).hits.hits|default([])|ems_array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
 
     <section class="bg-dark text-white py-4 mb-3 mt-n3" id="filter-releases">
         <form method="GET">

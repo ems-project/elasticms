@@ -12,7 +12,7 @@
     },
     "size": 1000,
 }) %}
-{% set switchUrls = source.paths|filter(p => p.locale != app.request.locale and p.uid == pathInfo.uid)|array_key('locale')|map(p => path('emsch_path', {path: p.path, _locale: p.locale})) %}
+{% set switchUrls = source.paths|filter(p => p.locale != app.request.locale and p.uid == pathInfo.uid)|ems_array_key('locale')|map(p => path('emsch_path', {path: p.path, _locale: p.locale})) %}
 
 {% set source = target.source|default(null) %}
 {% set currentStructure = structure.structure|default("[]")|ems_json_menu_nested_decode %}

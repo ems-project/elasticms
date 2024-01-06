@@ -339,5 +339,13 @@ Test if a template exists or not. This function works with all kind of templates
 Call the PHP \json_decode method with those default values: `public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`
 
 ````twig
-{% set config = 'config'|emsco_i18n('en')|ems_json_decode %}
+{% set config = 'con
+````
+
+## ems_array_key
+
+Use the value of the parameter identified by the given name as array index 
+
+````twig
+{% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|ems_array_key('uid') %}
 ````

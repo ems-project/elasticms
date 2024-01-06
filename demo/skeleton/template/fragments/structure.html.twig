@@ -1,6 +1,6 @@
 {% extends '@EMSCH/template/variables.twig' %}
 {% set rawData = section|emsch_get(['paths', 'structure']).source %}
-{% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|array_key('uid') %}
+{% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|ems_array_key('uid') %}
 {% set structure = rawData.structure|default("{}")|ems_json_menu_nested_decode %}
 {% set urls = {} %}
 
@@ -24,7 +24,7 @@
     menu: p._source.menu,
     structure: p._source.structure,
     paths: p._source.paths|default([]),
-})|array_key('menu') %}
+})|ems_array_key('menu') %}
 
 
 
@@ -45,7 +45,7 @@
         {% set urls = urls|merge({(item.id): path('emsch_path', {path: pathInfo.path})}) %}
     {% endif %}
     {% if item.type == 'section' and attribute(sections, item.id) %}
-        {% set paths = paths|merge(attribute(sections, item.id).paths|filter(p => p.locale == locale)|array_key('uid')) %}
+        {% set paths = paths|merge(attribute(sections, item.id).paths|filter(p => p.locale == locale)|ems_array_key('uid')) %}
         {% do item.setChildren(attribute(sections, item.id).structure|default('{}')|ems_json_menu_nested_decode.children) %}
     {% endif %}
 {% endfor %}

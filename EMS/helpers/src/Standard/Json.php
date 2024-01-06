@@ -6,9 +6,10 @@ namespace EMS\Helpers\Standard;
 
 final class Json
 {
-    public static function encode(mixed $value, bool $pretty = false): string
+    public static function encode(mixed $value, bool $pretty = false, bool $unescapeUnicode = false): string
     {
         $options = $pretty ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) : 0;
+        $options |= $unescapeUnicode ? JSON_UNESCAPED_UNICODE : 0;
         $encoded = \json_encode($value, $options | JSON_INVALID_UTF8_IGNORE);
 
         if (false === $encoded) {

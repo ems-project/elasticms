@@ -125,4 +125,24 @@ class JsonTest extends TestCase
         $this->assertTrue(Json::isEmpty(''));
         $this->assertTrue(Json::isEmpty('       '));
     }
+
+    public function testUnescapeUnicode(): void
+    {
+        $this->assertEquals('{"A":"éèàçï"}', Json::encode([
+            'A' => 'éèàçï'
+        ], false, true));
+        $this->assertEquals('{"A":"\u00e9\u00e8\u00e0\u00e7\u00ef"}', Json::encode([
+            'A' => 'éèàçï'
+        ]));
+        $this->assertEquals('{
+    "A": "\u00e9\u00e8\u00e0\u00e7\u00ef"
+}', Json::encode([
+            'A' => 'éèàçï'
+        ], true));
+        $this->assertEquals('{
+    "A": "éèàçï"
+}', Json::encode([
+            'A' => 'éèàçï'
+        ], true, true));
+    }
 }

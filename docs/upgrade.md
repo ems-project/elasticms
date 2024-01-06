@@ -40,6 +40,20 @@ E.g.:
 * `array_key` must be replaced by `ems_array_key`
 * `format_bytes` must be replaced by `ems_format_bytes`
 * `locale_attr` must be replaced by `ems_locale_attr`
+* `data` must be replaced by `emsco_get`
+* `url_generator` must be replaced by `ems_webalize`
+* `get_environment` must be replaced by `emsco_get_environment`
+* `get_content_type` must be replaced by `emsco_get_contentType`
+* `data_label` must be replaced by `emsco_display`
+* `emsch_ouuid` must be replaced by `ems_ouuid`
+* `array_intersect` must be replaced by `ems_array_intersect`
+* `merge_recursive` must be replaced by `ems_array_merge_recursive`
+
+### Deprecated twig function
+
+* `cant_be_finalized` must be replaced by `emsco_cant_be_finalized`
+* `get_default_environments` must be replaced by `emsco_get_default_environment_names`
+* `get_content_types` must be replaced by `emsco_get_content_types`
 
 ### New dynamic mapping config which change the elasticsearch indexes
 

@@ -167,7 +167,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('get_string', $this->getString(...)),
             new TwigFilter('get_file', $this->getFile(...)),
             new TwigFilter('get_field_by_path', $this->getFieldByPath(...)),
-            new TwigFilter('json_decode', [TextRuntime::class, 'jsonDecode'], ['deprecated' => true, 'alternative' => 'ems_json_decode']),
             new TwigFilter('get_revision_id', [RevisionRuntime::class, 'getRevisionId']),
             new TwigFilter('emsco_document_info', [RevisionRuntime::class, 'getDocumentInfo']),
             new TwigFilter('emsco_documents_info', [RevisionRuntime::class, 'getDocumentsInfo']),
@@ -186,6 +185,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('get_environment', [EnvironmentRuntime::class, 'getEnvironment'], ['deprecated' => true, 'alternative' => 'emsco_get_environment']),
             new TwigFilter('get_content_type', [ContentTypeRuntime::class, 'getContentType'], ['deprecated' => true, 'alternative' => 'emsco_get_contentType']),
             new TwigFilter('data_label', $this->dataLabel(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_display']),
+            new TwigFilter('json_decode', [TextRuntime::class, 'jsonDecode'], ['deprecated' => true, 'alternative' => 'ems_json_decode']),
         ];
     }
 

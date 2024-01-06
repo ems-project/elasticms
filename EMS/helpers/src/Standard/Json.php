@@ -43,6 +43,17 @@ final class Json
         return $decoded;
     }
 
+    public static function mixedDecode(string $value): mixed
+    {
+        $decoded = \json_decode($value, true);
+
+        if (JSON_ERROR_NONE !== \json_last_error()) {
+            throw new \RuntimeException(\sprintf('Invalid json %s', \json_last_error_msg()));
+        }
+
+        return $decoded;
+    }
+
     public static function isJson(string $string): bool
     {
         \json_decode($string);

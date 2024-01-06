@@ -126,6 +126,16 @@ class JsonTest extends TestCase
         $this->assertTrue(Json::isEmpty('       '));
     }
 
+    public function testMixedDecode(): void
+    {
+        $this->assertEquals(2, Json::mixedDecode('2'));
+        $this->assertEquals(2.56, Json::mixedDecode('2.56'));
+        $this->assertEquals(true, Json::mixedDecode('true'));
+        $this->assertEquals(false, Json::mixedDecode('false'));
+        $this->assertEquals('foobar', Json::mixedDecode('"foobar"'));
+        $this->assertEquals(null, Json::mixedDecode('null'));
+    }
+
     public function testUnescapeUnicode(): void
     {
         $this->assertEquals('{"A":"éèàçï"}', Json::encode([

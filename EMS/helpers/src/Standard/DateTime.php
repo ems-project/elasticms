@@ -26,8 +26,11 @@ final class DateTime
         $dateTime = \DateTimeImmutable::createFromFormat($format, $time);
 
         if (!$dateTime) {
-            $errors = \json_encode(\DateTimeImmutable::getLastErrors(), JSON_THROW_ON_ERROR);
-            throw new \RuntimeException(\sprintf('Failed creating dateTime for "%s" with format "%s", [%s]', $time, $format, $errors));
+            $errors = \DateTimeImmutable::getLastErrors();
+            if (false === $errors) {
+                throw new \RuntimeException(\sprintf('Failed creating dateTime for "%s" with format "%s", without error', $time, $format));
+            }
+            throw new \RuntimeException(\sprintf('Failed creating dateTime for "%s" with format "%s", [%s]', $time, $format, Json::encode($errors)));
         }
 
         return $dateTime;

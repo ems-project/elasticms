@@ -127,7 +127,7 @@
 {% block emsco_form_table_column_data_value_user %}
     {%- set value = attribute(line.data, column.attribute)|default('') -%}
     {% if column.valid(line.data) %}
-        {%- set displayname = value|displayname  -%}
+        {%- set displayname = value|emsco_display_name  -%}
         {{- block('emsco_form_table_column_data_label_prefix') -}}
         {{- displayname -}}
         {{- block('emsco_form_table_column_data_label_suffix') -}}
@@ -136,7 +136,7 @@
 
 {% block emsco_form_table_column_data_user %}
     {%- set value = attribute(line.data, column.attribute)|default('') -%}
-    {%- set displayname = value|displayname -%}
+    {%- set displayname = value|emsco_display_name -%}
     <td data-search="{{ value }} {{ displayname }}">
         {{- block(column.tableDataValueBlock()) -}}
     </td>

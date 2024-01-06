@@ -163,7 +163,7 @@
 	{% if revision.finalizedBy %}
 		<hr>
 		<strong><i class="fa fa-user margin-r-5"></i> {{ 'views.data.revisions-data-html.finalized-by'|trans }}</strong>
-		<p class="text-muted">{{ revision.finalizedBy|displayname }}</p>
+		<p class="text-muted">{{ revision.finalizedBy|emsco_display_name }}</p>
 	{% endif %}
 	{% if revision.finalizedDate %}
 		<hr>
@@ -178,7 +178,7 @@
 	{% if revision.lockby %}
 		<hr>
 		<strong><i class="fa fa-user margin-r-5"></i> {{ 'views.data.revisions-data-html.modified-by'|trans }}</strong>
-		<p class="text-muted">{{ revision.lockby|displayname }}</p>
+		<p class="text-muted">{{ revision.lockby|emsco_display_name }}</p>
 	{% endif %}
 
 	{% if revision.notifications|length > 0 %}
@@ -341,7 +341,7 @@
 							<td>{{ rev.created|date|date(date_time_format) }}</td>
 							<td>
 								{% if rev.finalizedBy %}
-									by {{ rev.finalizedBy|displayname }} <br>
+									by {{ rev.finalizedBy|emsco_display_name }} <br>
 									{% if rev.finalizedDate %}
 										on {{ rev.finalizedDate|date(date_time_format) }}
 									{% endif %}
@@ -356,7 +356,7 @@
 								</td>
 								<td>
 									{% if rev.autoSave %}
-										by {{ rev.autoSaveBy|displayname  }} <br>
+										by {{ rev.autoSaveBy|emsco_display_name  }} <br>
 										on {{ rev.autoSaveAt|date(date_time_format) }}
 									{% endif %}
 								</td>

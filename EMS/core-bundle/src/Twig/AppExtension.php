@@ -163,7 +163,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_i18n', [I18nRuntime::class, 'i18n']),
             new TwigFilter('emsco_internal_links', $this->internalLinks(...)),
             new TwigFilter('emsco_get_user', $this->getUser(...)),
-            new TwigFilter('displayname', $this->displayName(...)),
+            new TwigFilter('emsco_display_name', $this->displayName(...)),
             new TwigFilter('date_difference', $this->dateDifference(...)),
             new TwigFilter('debug', $this->debug(...)),
             new TwigFilter('emsco_search', $this->search(...)),
@@ -209,6 +209,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('internal_links', $this->internalLinks(...), ['deprecated' => true, 'alternative' => 'emsco_internal_links']),
             new TwigFilter('src_path', $this->srcPath(...), ['deprecated' => true]),
             new TwigFilter('get_user', $this->getUser(...), ['deprecated' => true, 'alternative' => 'emsco_get_user']),
+            new TwigFilter('displayname', $this->displayName(...), ['deprecated' => true, 'alternative' => 'emsco_display_name']),
         ];
     }
 

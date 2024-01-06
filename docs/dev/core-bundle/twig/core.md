@@ -194,3 +194,12 @@ Retrieve the EMS\CoreBundle\Entity\UserInterface for the given username. It retu
 ```twig
 {% set user = username|emsco_get_user %}
 ```
+
+
+## emsco_display_name
+
+Convert a given username into its corresponding display name. It returns the given username if the user is not found in the database.
+
+```twig
+{{ username|emsco_display_name }}
+```

@@ -36,7 +36,7 @@
 								{% endif %}
 								</td>
 								<td>
-									{{ revision.deletedBy|default('N/A')|displayname }}
+									{{ revision.deletedBy|default('N/A')|emsco_display_name }}
 								</td>
 								<td>
 									{{ revision.modified|date(date_time_format) }}

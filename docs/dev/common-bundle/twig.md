@@ -307,7 +307,7 @@ Useful to generate a human readable file size from an interger.
 A second 'precision' parameter can be defined:
 
 ````twig
-{{ 21666|format_bytes(1) }} {# displays: 21.2 KB #}
+{{ 21666|ems_format_bytes(1) }} {# displays: 21.2 KB #}
 ````
 
 ## ems_ascii_folding

@@ -353,7 +353,7 @@ The following example contains all possible blocks, with their default rendering
         <li>
             <div><a href="{{ url }}" download="{{ media.file.filename }}" data-ems-id="{{ media.emsId }}">{{ media.file.filename }}</a></div>
             <div>{{ media.file.mimetype|trans({}, 'emsco-mimetypes') }}</div>
-            <div class="text-right">{{ media.file.filesize|format_bytes }}</div>
+            <div class="text-right">{{ media.file.filesize|ems_format_bytes }}</div>
         </li>
     {% endapply %}
 {%- endblock mediaLibraryFileRow -%}

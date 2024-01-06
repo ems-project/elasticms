@@ -156,3 +156,11 @@ A link to a specific revision can be specified by adding the revision ID as seco
 ```twig
 {{ (notification.revision.contentType.name~':'~notification.revision.ouuid)|emsco_data_link(notification.revision.id) }}
 ```
+
+## emsco_is_super
+
+Test if the user as super rights
+
+```twig
+{% if emsco_is_super() %}
+```

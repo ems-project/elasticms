@@ -160,7 +160,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('objectChoiceLoader', $this->objectChoiceLoader(...)),
             new TwigFilter('groupedObjectLoader', $this->groupedObjectLoader(...)),
             new TwigFilter('propertyPath', $this->propertyPath(...)),
-            new TwigFilter('is_super', $this->isSuper(...)),
             new TwigFilter('i18n', [I18nRuntime::class, 'i18n']),
             new TwigFilter('internal_links', $this->internalLinks(...)),
             new TwigFilter('src_path', $this->srcPath(...)),
@@ -202,6 +201,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('one_granted', $this->oneGranted(...), ['deprecated' => true, 'alternative' => 'emsco_one_granted']),
             new TwigFilter('in_my_circles', $this->inMyCircles(...), ['deprecated' => true, 'alternative' => 'emsco_in_my_circles']),
             new TwigFilter('data_link', $this->dataLink(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_data_link']),
+            new TwigFilter('is_super', $this->isSuper(...), ['deprecated' => true]),
         ];
     }
 

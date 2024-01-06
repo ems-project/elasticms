@@ -160,7 +160,7 @@ class DataController extends AbstractController
         return $this->forward('EMS\CoreBundle\Controller\ElasticsearchController::search', [
             'query' => null,
         ], [
-            'search_form' => \json_decode($formEncoded, true, 512, JSON_THROW_ON_ERROR),
+            'search_form' => Json::decode($formEncoded),
         ]);
     }
 

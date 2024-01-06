@@ -150,7 +150,7 @@ final class PostProcessingService
                     if (!$fieldType->getDisplayOptions()['json']) {
                         $out = \trim($out);
                     } elseif (Json::isJson($out)) {
-                        $out = \json_decode($out, true, 512, JSON_THROW_ON_ERROR);
+                        $out = Json::mixedDecode($out);
                     } else {
                         if (0 !== \strlen(\trim($out))) {
                             throw new \RuntimeException(\sprintf('None parsable output in "%s"', $path));

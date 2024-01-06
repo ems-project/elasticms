@@ -96,9 +96,9 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_diff_data_link', $this->diffDataLink(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_diff_date', $this->diffDate(...), ['is_safe' => ['html']]),
             new TwigFunction('emsco_diff_time', $this->diffTime(...), ['is_safe' => ['html']]),
-            new TwigFunction('is_super', $this->isSuper(...)),
+            new TwigFunction('emsco_is_super', $this->isSuper(...)),
             new TwigFunction('emsco_asset_path', $this->assetPath(...), ['is_safe' => ['html']]),
-            new TwigFunction('call_user_func', $this->callUserFunc(...)),
+            new TwigFunction('emsco_call_user_func', $this->callUserFunc(...)),
             new TwigFunction('emsco_generate_email', $this->generateEmailMessage(...)),
             new TwigFunction('emsco_send_email', $this->sendEmail(...)),
             new TwigFunction('emsco_users_enabled', [UserRuntime::class, 'getUsersEnabled']),
@@ -138,6 +138,8 @@ class AppExtension extends AbstractExtension
             new TwigFunction('diff_data_link', $this->diffDataLink(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_diff_data_link']),
             new TwigFunction('diff_date', $this->diffDate(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_diff_date']),
             new TwigFunction('diff_time', $this->diffTime(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_diff_time']),
+            new TwigFunction('is_super', $this->isSuper(...), ['deprecated' => true, 'alternative' => 'emsco_is_super']),
+            new TwigFunction('call_user_func', $this->callUserFunc(...), ['deprecated' => true, 'alternative' => 'emsco_call_user_func']),
         ];
     }
 

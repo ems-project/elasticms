@@ -122,6 +122,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_get_form', [FormRuntime::class, 'getFormByName']),
             new TwigFunction('emsco_form', [FormRuntime::class, 'handleForm']),
             new TwigFunction('emsco_get_data_field', [FormRuntime::class, 'getDataField']),
+            new TwigFunction('emsco_get_revision_id', [RevisionRuntime::class, 'getRevisionId']),
             // deprecated
             new TwigFunction('cant_be_finalized', $this->cantBeFinalized(...), ['deprecated' => true, 'alternative' => 'emsco_cant_be_finalized']),
             new TwigFunction('get_default_environments', [EnvironmentRuntime::class, 'getDefaultEnvironmentNames'], ['deprecated' => true, 'alternative' => 'emsco_get_default_environment_names']),
@@ -170,7 +171,6 @@ class AppExtension extends AbstractExtension
             new TwigFilter('emsco_call_user_func', $this->callUserFunc(...)),
             new TwigFilter('emsco_get_string', $this->getString(...)),
             new TwigFilter('emsco_get_field_by_path', $this->getFieldByPath(...)),
-            new TwigFilter('get_revision_id', [RevisionRuntime::class, 'getRevisionId']),
             new TwigFilter('emsco_document_info', [RevisionRuntime::class, 'getDocumentInfo']),
             new TwigFilter('emsco_documents_info', [RevisionRuntime::class, 'getDocumentsInfo']),
             new TwigFilter('emsco_display', [RevisionRuntime::class, 'display']),
@@ -215,6 +215,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('get_string', $this->getString(...), ['deprecated' => true, 'alternative' => 'emsco_get_string']),
             new TwigFilter('get_file', $this->getFile(...), ['deprecated' => true]),
             new TwigFilter('get_field_by_path', $this->getFieldByPath(...), ['deprecated' => true, 'alternative' => 'emsco_get_field_by_path']),
+            new TwigFilter('get_revision_id', [RevisionRuntime::class, 'getRevisionId'], ['deprecated' => true, 'alternative' => 'emsco_get_revision_id']),
         ];
     }
 

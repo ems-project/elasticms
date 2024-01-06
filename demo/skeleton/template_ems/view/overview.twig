@@ -131,7 +131,7 @@
             "default_sort": { "_finalization_datetime": "desc", "_score": "asc" },
             "empty_query": must,
             "query": { "bool": { "must": must|merge(filterQuery) } },
-            "row_context": "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = line.data.id|get_revision_id(line.data.contentType) %}{% set liveId = 'live'|emsco_get_environment.id %}{% set previewId = 'preview'|emsco_get_environment.id %} {% set infoEnv = #{infoEnv} %}",
+            "row_context": "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = emsco_get_revision_id(line.data.id, line.data.contentType) %}{% set liveId = 'live'|emsco_get_environment.id %}{% set previewId = 'preview'|emsco_get_environment.id %} {% set infoEnv = #{infoEnv} %}",
             "columns": columns
         }) }}
     </div>

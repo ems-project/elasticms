@@ -221,3 +221,12 @@ Retrieve the corresponding EMS\CoreBundle\Entity\FieldType for the given EMS\Cor
 ```twig
 {% set fieldType = 'page'|emsco_get_content_type|emsco_get_field_by_path('locales.fr') %}
 ```
+
+
+## emsco_get_revision_id
+
+Retrieve the corresponding revision id for the given OUUID and content type name:
+
+```twig
+{% set revisionId = emsco_get_revision_id(ouuid, 'page') %}
+```

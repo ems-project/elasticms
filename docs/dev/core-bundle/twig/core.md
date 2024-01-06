@@ -176,3 +176,12 @@ Retrieve the value of the I18N corresponding to the provided key and locale. If 
 ```twig
 {{ ('locale.'~locale)|emsco_i18n('fr') }}
 ```
+
+
+## emsco_internal_links
+
+Convert ElasticMS links in an HTML string to the corresponding revision
+
+```twig
+{{ dataField.rawData|json_encode|emsco_internal_links }}
+```

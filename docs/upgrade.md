@@ -50,6 +50,11 @@ E.g.:
 * `merge_recursive` must be replaced by `ems_array_merge_recursive`
 * `inArray` must be replaced by `ems_in_array`
 * `soapRequest` must be replaced by `emsco_soap_request`
+* `all_granted` must be replaced by `emsco_all_granted`
+* `one_granted` must be replaced by `emsco_one_granted`
+* `in_my_circles` must be replaced by `emsco_in_my_circles`
+* `data_link` must be replaced by `emsco_data_link`
+* `data_link` must be replaced by `emsco_data_link`
 
 ### Deprecated twig function
 

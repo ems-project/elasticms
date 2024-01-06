@@ -16,6 +16,7 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CommonBundle\Twig\RequestRuntime;
+use EMS\CommonBundle\Twig\TextRuntime;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Mail\MailerService;
@@ -166,7 +167,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('get_string', $this->getString(...)),
             new TwigFilter('get_file', $this->getFile(...)),
             new TwigFilter('get_field_by_path', $this->getFieldByPath(...)),
-            new TwigFilter('json_decode', $this->jsonDecode(...)),
+            new TwigFilter('json_decode', [TextRuntime::class, 'jsonDecode'], ['deprecated' => true, 'alternative' => 'ems_json_decode']),
             new TwigFilter('get_revision_id', [RevisionRuntime::class, 'getRevisionId']),
             new TwigFilter('emsco_document_info', [RevisionRuntime::class, 'getDocumentInfo']),
             new TwigFilter('emsco_documents_info', [RevisionRuntime::class, 'getDocumentsInfo']),
@@ -226,16 +227,6 @@ class AppExtension extends AbstractExtension
         }
 
         return $this->commonRequestRuntime->assetPath($fileField, $config, $route, $fileHashField, $filenameField, $mimeTypeField, $referenceType);
-    }
-
-    /**
-     * @param int<1,512> $depth
-     *
-     * @return mixed
-     */
-    public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)
-    {
-        return \json_decode($json, $assoc, $depth, $options);
     }
 
     public function getFieldByPath(ContentType $contentType, string $path, bool $skipVirtualFields = false): ?FieldType

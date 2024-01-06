@@ -42,12 +42,12 @@
 								<label class="control-label">Operator</label>
 							</div>
 						</div>
-						<div class="{% if is_super() %}col-md-3{% else %}col-md-4{% endif %}">
+						<div class="{% if emsco_is_super() %}col-md-3{% else %}col-md-4{% endif %}">
 							<div class="form-group">
 								<label class="control-label">Pattern</label>
 							</div>
 						</div>
-						{% if is_super() %}
+						{% if emsco_is_super() %}
 							<div class="col-md-1">
 								<div class="form-group">
 									<label class="control-label">Boost</label>

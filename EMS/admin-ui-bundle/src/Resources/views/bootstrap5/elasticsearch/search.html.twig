@@ -42,7 +42,7 @@
 
 									{% set resultLabel = result|emsco_display %}
 									{{ resultLabel }}
-									{% if resultLabel != result.id or is_super() %}<small>({{ result.id }})</small>{% endif %}
+									{% if resultLabel != result.id or emsco_is_super() %}<small>({{ result.id }})</small>{% endif %}
 			  		</span>
 							{% else %}
 								<i class="fa fa-question"></i>

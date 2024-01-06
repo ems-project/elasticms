@@ -247,7 +247,7 @@
 					{{ dataField.fieldType.displayOptions.label }}
 				{% else %}
 				{% endif %}
-				{% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 				{% if collapsible %}
                     <div class="pull-right">
                         <div class="btn-group toggle-group" role="group">
@@ -542,7 +542,7 @@
 {% block EMS_CoreBundle_Form_DataField_DataLinkFieldType %}
 	<dl>
 		{% if dataField.fieldType.displayOptions.label is defined %}
-			<dt>{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
+			<dt>{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
 		{% else %}
 			<dt>{{ dataField.fieldType.name }}</dt>
 		{% endif %}
@@ -556,7 +556,7 @@
 {% block EMS_CoreBundle_Form_DataField_SelectFieldType %}
 	<dl>
 		{% if dataField.fieldType.displayOptions.label is defined %}
-			<dt>{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
+			<dt>{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
 		{% else %}
 			<dt>{{ dataField.fieldType.name }}</dt>
 		{% endif %}
@@ -575,7 +575,7 @@
 {% block EMS_CoreBundle_Form_DataField_OuuidFieldType %}
 	<dl>
 		{% if dataField.fieldType.displayOptions.label is defined %}
-			<dt>{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
+			<dt>{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
 		{% else %}
 			<dt>{{ dataField.fieldType.name }}</dt>
 		{% endif %}
@@ -589,7 +589,7 @@
     {% set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' %}
 	<dl>
 		{% if dataField.fieldType.displayOptions.label is defined %}
-			<dt>{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
+			<dt>{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
 		{% else %}
 			<dt>{{ dataField.fieldType.name }}</dt>
 		{% endif %}
@@ -623,7 +623,7 @@
 {% block EMS_CoreBundle_Form_DataField_TextStringFieldType %}
 	<dl>
 		{% if dataField.fieldType.displayOptions.label is defined %}
-			<dt>{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
+			<dt>{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}</dt>
 		{% else %}
 			<dt>{{ dataField.fieldType.name }}</dt>
 		{% endif %}
@@ -636,7 +636,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -658,7 +658,7 @@
     <dl>
         <dt>
             {% if dataField.fieldType.displayOptions.label is defined %}
-                {{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+                {{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
             {% else %}
                 {{ dataField.fieldType.name }}
             {% endif %}
@@ -691,7 +691,7 @@
 	<dl>
 		<dt class="{{ color }}">
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -723,7 +723,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -778,7 +778,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -816,7 +816,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -845,7 +845,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -880,7 +880,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -896,7 +896,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -912,7 +912,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -931,7 +931,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -950,7 +950,7 @@
     <dl>
 		<dt class="">
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -987,7 +987,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -1027,7 +1027,7 @@
 	<dl>
 		<dt>
 			{%- if dataField.fieldType.displayOptions.label is defined -%}
-				{{- dataField.fieldType.displayOptions.label -}}{%- if is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
+				{{- dataField.fieldType.displayOptions.label -}}{%- if emsco_is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
 			{%- else -%}
 				{{- dataField.fieldType.name-}}
 			{%- endif -%}
@@ -1058,7 +1058,7 @@
 	<dl>
 		<dt class="{{ color }}">
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1077,7 +1077,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1093,7 +1093,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1109,7 +1109,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1127,7 +1127,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1145,7 +1145,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1209,7 +1209,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1232,7 +1232,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name|raw }}
 			{% endif %}
@@ -1248,7 +1248,7 @@
 	<dl>
 		<dt>
 			{% if dataField.fieldType.displayOptions.label is defined %}
-				{{ dataField.fieldType.displayOptions.label }} {% if is_super() %}({{ dataField.fieldType.name }}){% endif %}
+				{{ dataField.fieldType.displayOptions.label }} {% if emsco_is_super() %}({{ dataField.fieldType.name }}){% endif %}
 			{% else %}
 				{{ dataField.fieldType.name }}
 			{% endif %}
@@ -1275,7 +1275,7 @@
     {% else %}
         <div class="panel panel-warning">
             <div class="panel-heading">
-                {{ dataField.fieldType.displayOptions.label|default(dataField.fieldType.name) }}{% if is_super() %} ({{ dataField.fieldType.name }}){% endif %}
+                {{ dataField.fieldType.displayOptions.label|default(dataField.fieldType.name) }}{% if emsco_is_super() %} ({{ dataField.fieldType.name }}){% endif %}
             </div>
             <div class="panel-body">
                 {{ errorMessage|default('view.macros.data-field-type.form.not-defined')|trans }}

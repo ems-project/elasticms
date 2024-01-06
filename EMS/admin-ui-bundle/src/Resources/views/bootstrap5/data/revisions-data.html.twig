@@ -327,7 +327,7 @@
 						<th style="width: 10px">{{ 'views.data.revisions-data-html.revisions.th.id'|trans }}</th>
 						<th>{{ 'views.data.revisions-data-html.revisions.th.date'|trans }}</th>
 						<th>{{ 'views.data.revisions-data-html.revisions.th.finalize'|trans }}</th>
-						{% if is_super() %}
+						{% if emsco_is_super() %}
 							<th>{{ 'views.data.revisions-data-html.revisions.th.locked'|trans }}</th>
 							<th>{{ 'views.data.revisions-data-html.revisions.th.autosave'|trans }}</th>
 						{% endif %}
@@ -347,7 +347,7 @@
 									{% endif %}
 								{% endif %}
 							</td>
-							{% if is_super() %}
+							{% if emsco_is_super() %}
 								<td>
 									{% if rev.lockUntil and rev.lockUntil > date('now') %}
 										by {{ rev.lockBy }} <br>

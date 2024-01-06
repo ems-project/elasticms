@@ -2,7 +2,7 @@
 {%- apply spaceless %}
     {% if finalize %}
         {% set paths = {} %}
-        {% set config = 'config'|i18n('en')|json_decode %}
+        {% set config = 'config'|i18n('en')|ems_json_decode %}
         {% set locales = config.locales|default([]) %}
         {% set baseUrl = {} %}
         {% for locale in locales %}
@@ -38,7 +38,7 @@
 {% endblock %}
 
 {%  block ems_display %}
-    {% set config = 'config'|i18n('en')|json_decode %}
+    {% set config = 'config'|i18n('en')|ems_json_decode %}
     {% set locales = config.locales|default([]) %}
     <ul>
         {% for locale in locales %}

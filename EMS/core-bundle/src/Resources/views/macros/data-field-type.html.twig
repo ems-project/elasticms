@@ -791,8 +791,8 @@
 			<div class="panel panel-default">
 				<div class="panel-body {{ color }}">
 					{% if doCompare  %}
-						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 					{% else %}
 						{% set jsonMenuItems = dataField.rawData|default('{}')|ems_json_menu_decode.structure %}
 						<div class="json_menu_editor_fieldtype_widget collapsible-container">
@@ -829,8 +829,8 @@
 			<div class="panel panel-default">
 				<div class="panel-body {{ color }}">
 					{% if doCompare  %}
-						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ compareRawData|get_string(dataField.fieldType.name)|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+						<pre class="ems-code-editor col-md-6" data-language="ace/mode/json" data-them="ace/theme/chrome">{{ dataField.rawData|ems_json_decode|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
 					{% else %}
 						{{ emsco_json_menu_nested({
 							'id': ('preview-nested-' ~ dataField.fieldType.id),
@@ -1047,7 +1047,7 @@
 				'type': h._source._contenttype,
 				'label': h._source._contenttype,
 				'object': h._source|filter((v, k) => k != jmnField),
-				'children': attribute(h._source, jmnField)|default('{}')|json_decode
+				'children': attribute(h._source, jmnField)|default('{}')|ems_json_decode
 			}]) %}
 		{%- endfor -%}
 		{%- set jmnMenu = structures|json_encode|ems_json_menu_nested_decode -%}
@@ -1057,7 +1057,7 @@
 		{%- endfor -%}
 
 		{% if displayOptions.choices_template|default(false) %}
-			{% set choices = displayOptions.choices_template|generate_from_template({ 'items': items })|json_decode %}
+			{% set choices = displayOptions.choices_template|generate_from_template({ 'items': items })|ems_json_decode %}
 		{% else %}
 			{%- set choices = [] -%}
 			{%- for item in items -%}

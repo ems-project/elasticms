@@ -891,7 +891,7 @@
 				</span>
 		</div>
 		<ol class="json_menu_sortable vertical not-collapsible">
-			{% set children =  form.vars.data.rawData |default('[]')|json_decode %}
+			{% set children =  form.vars.data.rawData |default('[]')|ems_json_decode %}
 			{{ block('json_menu_editor_fieldtype_node') }}
 		</ol>
 		<div class="input-group">

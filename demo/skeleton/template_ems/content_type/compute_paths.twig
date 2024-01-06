@@ -2,7 +2,7 @@
 {%- apply spaceless %}
     {% if finalize %}
         {% set paths = {} %}
-        {% set config = 'config'|i18n('en')|ems_json_decode %}
+        {% set config = 'config'|emsco_i18n('en')|ems_json_decode %}
         {% set locales = config.locales|default([]) %}
         {% set baseUrl = {} %}
         {% for locale in locales %}
@@ -38,12 +38,12 @@
 {% endblock %}
 
 {%  block ems_display %}
-    {% set config = 'config'|i18n('en')|ems_json_decode %}
+    {% set config = 'config'|emsco_i18n('en')|ems_json_decode %}
     {% set locales = config.locales|default([]) %}
     <ul>
         {% for locale in locales %}
             {% if data|default([])|filter(item => locale == item.locale)|length > 0 %}
-                <li> {{ ('locale.'~locale)|i18n }}:
+                <li> {{ ('locale.'~locale)|emsco_i18n }}:
                     <ul>
                         {% for item in data|filter(item => locale == item.locale) %}
                             <li>

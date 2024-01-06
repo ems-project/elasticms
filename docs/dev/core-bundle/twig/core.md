@@ -164,3 +164,15 @@ Test if the user as super rights
 ```twig
 {% if emsco_is_super() %}
 ```
+
+## emsco_i18n
+
+Retrieve the value of the I18N corresponding to the provided key and locale. If not specified locale is equal to 'en': 
+
+```twig
+{{ ('locale.'~locale)|emsco_i18n }}
+```
+
+```twig
+{{ ('locale.'~locale)|emsco_i18n('fr') }}
+```

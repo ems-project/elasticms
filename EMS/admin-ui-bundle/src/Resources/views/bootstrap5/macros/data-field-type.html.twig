@@ -1190,12 +1190,12 @@
 						<b>Duration </b>
 						{% if compare %}
 							{% if attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName) is defined and attribute(child, dataField.fieldType.mappingOptions.toDateMachineName) is defined %}
-                                {{ emsco_diff(dateFrom|date_difference(dateTo, dataField.fieldType.displayOptions.timePicker), attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName)|date_difference(attribute(child, dataField.fieldType.mappingOptions.toDateMachineName), dataField.fieldType.displayOptions.timePicker), compare, true) }}
+                                {{ emsco_diff(dateFrom|emsco_date_difference(dateTo, dataField.fieldType.displayOptions.timePicker), attribute(child, dataField.fieldType.mappingOptions.fromDateMachineName)|date_difference(attribute(child, dataField.fieldType.mappingOptions.toDateMachineName), dataField.fieldType.displayOptions.timePicker), compare, true) }}
 							{% else %}
-								<span class="text-green"><ins class="diffmod">{{ dateFrom|date_difference(dateTo, dataField.fieldType.displayOptions.timePicker) }}</ins></span>
+								<span class="text-green"><ins class="diffmod">{{ dateFrom|emsco_date_difference(dateTo, dataField.fieldType.displayOptions.timePicker) }}</ins></span>
 							{% endif %}
 						{% else %}
-							{{ dateFrom|date_difference(dateTo, dataField.fieldType.displayOptions.timePicker) }}
+							{{ dateFrom|emsco_date_difference(dateTo, dataField.fieldType.displayOptions.timePicker) }}
 						{% endif %}
 					</li>
 				{% endif %}

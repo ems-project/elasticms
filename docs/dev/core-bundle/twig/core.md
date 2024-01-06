@@ -203,3 +203,12 @@ Convert a given username into its corresponding display name. It returns the giv
 ```twig
 {{ username|emsco_display_name }}
 ```
+
+
+## emsco_debug
+
+Log a debug message. An optional context can be provided as second argument.
+
+```twig
+{{ username|emsco_debug }}
+```

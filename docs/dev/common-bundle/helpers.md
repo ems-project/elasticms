@@ -26,15 +26,3 @@ Possible levels:
 * 550 (ALERT)
 * 600 (EMERGENCY)
 
-
-## Standards
-
-### Json
-> Because php json_encode can return false and json_decode mixed. This common standard will throw runtime exceptions. 
-```php
-<?php
-        use EMS\CommonBundle\Common\Standard\Json;
-        $pretty = true;
-        $encode = Json::encode(['test' => 'test'], $pretty);
-        $decode = Json::decode($encode);
-```

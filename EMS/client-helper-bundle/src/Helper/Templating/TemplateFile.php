@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Templating;
 
-use EMS\CommonBundle\Common\Standard\Hash;
+use EMS\Helpers\Standard\Hash;
 use Symfony\Component\Finder\SplFileInfo;
 
 final class TemplateFile

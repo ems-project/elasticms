@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Local\Status;
 
-use EMS\CommonBundle\Common\Standard\Hash;
+use EMS\Helpers\Standard\Hash;
 
 final class Item
 {

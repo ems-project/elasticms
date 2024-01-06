@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Environment;
 
 use EMS\ClientHelperBundle\Helper\Local\LocalEnvironment;
-use EMS\CommonBundle\Common\Standard\Hash;
+use EMS\Helpers\Standard\Hash;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 

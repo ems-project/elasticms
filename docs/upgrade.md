@@ -49,6 +49,7 @@ E.g.:
 * `array_intersect` must be replaced by `ems_array_intersect`
 * `merge_recursive` must be replaced by `ems_array_merge_recursive`
 * `inArray` must be replaced by `ems_in_array`
+* `soapRequest` must be replaced by `emsco_soap_request`
 
 ### Deprecated twig function
 

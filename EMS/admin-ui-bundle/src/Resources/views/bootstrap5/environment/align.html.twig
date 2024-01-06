@@ -59,8 +59,8 @@
 	<div class="col">
 		<div class="card card-{{ theme_color }} card-outline">
       <div class="card-header">
-      	{% set fromInMyCircles = environments[environment].circles|in_my_circles %}
-      	{% set toInMyCircles = environments[withEnvironment].circles|in_my_circles %}
+      	{% set fromInMyCircles = environments[environment].circles|emsco_in_my_circles %}
+      	{% set toInMyCircles = environments[withEnvironment].circles|emsco_in_my_circles %}
 
         <h3 class="card-title">Compare "{{ environment }}" and "{{ withEnvironment }}"</h3> <small>{{ total }} difference(s)</small>
 

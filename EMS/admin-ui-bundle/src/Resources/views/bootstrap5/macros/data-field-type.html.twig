@@ -1116,7 +1116,7 @@
 		</dt>
 		<dd>
 			<ul>
-				{{ emsco_diff_date(dataField.rawData, compare, dataField.fieldType.name, compareRawData, dataField.fieldType.displayOptions.displayFormat|convertJavascriptDateFormat, false, dataField.fieldType.mappingOptions.format|default('yyyy/MM/dd')|convertJavaDateFormat) }}
+				{{ emsco_diff_date(dataField.rawData, compare, dataField.fieldType.name, compareRawData, dataField.fieldType.displayOptions.displayFormat|emsco_convert_javascript_date_format, false, dataField.fieldType.mappingOptions.format|default('yyyy/MM/dd')|emsco_convert_java_date_format) }}
 			</ul>
 		</dd>
 	</dl>
@@ -1170,19 +1170,19 @@
                         {% set child = null %}
 					{% endif %}
 				{% endif %}
-				{#{% set child = (dataField.fieldType.mappingOptions.nested ? (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null ) : compareRawData, dataField.fieldType.displayOptions.locale.format|convertJavascriptDateRangeFormat) %}#}
+				{#{% set child = (dataField.fieldType.mappingOptions.nested ? (attribute(compareRawData, dataField.fieldType.name) is defined ? attribute(compareRawData, dataField.fieldType.name) : null ) : compareRawData, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format) %}#}
 
 
                 {% if dateFrom %}
 					<li>
 						<b>From </b>
-                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.format|convertJavascriptDateRangeFormat, false, constant('\\DateTime::ISO8601')) }}
+                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('\\DateTime::ISO8601')) }}
 					</li>
 				{% endif %}
 				{% if dateTo %}
 					<li>
 						<b>To </b>
-                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.format|convertJavascriptDateRangeFormat, false, constant('\\DateTime::ISO8601')) }}
+                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('\\DateTime::ISO8601')) }}
 					</li>
 				{% endif %}
 				{% if dateFrom and dateTo %}
@@ -1238,7 +1238,7 @@
 			{% endif %}
 		</dt>
 		<dd>
-            {{ emsco_diff_time(dataField.rawData, compare, dataField.fieldType.name, compareRawData, dataField.fieldType.options|getTimeFieldTimeFormat, dataField.fieldType.mappingOptions.format|convertJavaDateFormat) }}
+            {{ emsco_diff_time(dataField.rawData, compare, dataField.fieldType.name, compareRawData, dataField.fieldType.options|emsco_time_field_time_format, dataField.fieldType.mappingOptions.format|emsco_convert_java_date_format) }}
 		</dd>
 	</dl>
 	{{ _self.messages(dataField) }}

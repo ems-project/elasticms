@@ -146,15 +146,15 @@ class AppExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('convertJavaDateFormat', $this->convertJavaDateFormat(...)),
-            new TwigFilter('convertJavascriptDateFormat', $this->convertJavascriptDateFormat(...)),
-            new TwigFilter('convertJavascriptDateRangeFormat', $this->convertJavascriptDateRangeFormat(...)),
-            new TwigFilter('getTimeFieldTimeFormat', $this->getTimeFieldTimeFormat(...)),
-            new TwigFilter('soapRequest', $this->soapRequest(...)),
-            new TwigFilter('all_granted', $this->allGranted(...)),
-            new TwigFilter('one_granted', $this->oneGranted(...)),
-            new TwigFilter('in_my_circles', $this->inMyCircles(...)),
-            new TwigFilter('data_link', $this->dataLink(...), ['is_safe' => ['html']]),
+            new TwigFilter('emsco_convert_java_date_format', $this->convertJavaDateFormat(...)),
+            new TwigFilter('emsco_convert_javascript_date_format', $this->convertJavascriptDateFormat(...)),
+            new TwigFilter('emsco_convert_javascript_date_range_format', $this->convertJavascriptDateRangeFormat(...)),
+            new TwigFilter('emsco_time_field_time_format', $this->getTimeFieldTimeFormat(...)),
+            new TwigFilter('emsco_soap_request', $this->soapRequest(...)),
+            new TwigFilter('emsco_all_granted', $this->allGranted(...)),
+            new TwigFilter('emsco_one_granted', $this->oneGranted(...)),
+            new TwigFilter('emsco_in_my_circles', $this->inMyCircles(...)),
+            new TwigFilter('emsco_data_link', $this->dataLink(...), ['is_safe' => ['html']]),
             new TwigFilter('emsco_get_environment', [EnvironmentRuntime::class, 'getEnvironment']),
             new TwigFilter('generate_from_template', $this->generateFromTemplate(...)),
             new TwigFilter('objectChoiceLoader', $this->objectChoiceLoader(...)),
@@ -193,6 +193,15 @@ class AppExtension extends AbstractExtension
             new TwigFilter('data_label', $this->dataLabel(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_display']),
             new TwigFilter('json_decode', [TextRuntime::class, 'jsonDecode'], ['deprecated' => true, 'alternative' => 'ems_json_decode']),
             new TwigFilter('search', $this->deprecatedSearch(...), ['deprecated' => true, 'alternative' => 'emsco_search']),
+            new TwigFilter('convertJavaDateFormat', $this->convertJavaDateFormat(...), ['deprecated' => true, 'alternative' => 'emsco_convert_java_date_format']),
+            new TwigFilter('convertJavascriptDateFormat', $this->convertJavascriptDateFormat(...), ['deprecated' => true, 'alternative' => 'emsco_convert_javascript_date_format']),
+            new TwigFilter('convertJavascriptDateRangeFormat', $this->convertJavascriptDateRangeFormat(...), ['deprecated' => true, 'alternative' => 'emsco_convert_javascript_date_range_format']),
+            new TwigFilter('getTimeFieldTimeFormat', $this->getTimeFieldTimeFormat(...), ['deprecated' => true, 'alternative' => 'emsco_time_field_time_format']),
+            new TwigFilter('soapRequest', $this->soapRequest(...), ['deprecated' => true, 'alternative' => 'emsco_soap_request']),
+            new TwigFilter('all_granted', $this->allGranted(...), ['deprecated' => true, 'alternative' => 'emsco_all_granted']),
+            new TwigFilter('one_granted', $this->oneGranted(...), ['deprecated' => true, 'alternative' => 'emsco_one_granted']),
+            new TwigFilter('in_my_circles', $this->inMyCircles(...), ['deprecated' => true, 'alternative' => 'emsco_in_my_circles']),
+            new TwigFilter('data_link', $this->dataLink(...), ['is_safe' => ['html'], 'deprecated' => true, 'alternative' => 'emsco_data_link']),
         ];
     }
 

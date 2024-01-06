@@ -13,7 +13,7 @@
     {%- set value = attribute(line.data, column.attribute)|default([]) -%}
     {%- if value is iterable and column.valid(line.data) -%}
         {%- for link in value -%}
-            {{- link|data_link|raw -}}
+            {{- link|emsco_data_link|raw -}}
             {%- if not loop.last -%}
                 &nbsp;
             {%- endif -%}

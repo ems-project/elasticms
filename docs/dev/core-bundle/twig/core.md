@@ -94,3 +94,65 @@ Context for the expression:
 {# display from emsLink and using contentTypes defined display value #}
 {{ 'page:e6f73dd73a5a3f5336bd3fe52d0304b26e437f34'|emsco_display }}
 ```
+
+## emsco_soap_request
+
+Instantiate a \SoapClient object and call the provided function
+
+```twig
+{% set request = someUrl|emsco_soap_request({
+  options: {
+    trace: 1,
+    stream_context: context
+  },
+  function: 'someWebServiceFunction',
+  parameters: {
+    firstClient: {
+      name: 'someone',
+      adress: 'R. 1001'
+    },
+    secondClient: {
+      name: 'another one',
+      adress: ''
+    }
+  }
+}) %}
+```
+
+## emsco_all_granted
+
+Test that the current user has all the provided roles granted
+
+```twig
+{% if roles|emsco_all_granted %}
+```
+
+## emsco_one_granted
+
+Test that the current user has at least one of the provided roles granted
+
+```twig
+{% if roles|emsco_all_granted %}
+```
+
+## emsco_in_my_circles
+
+Test that the current user has at least one of the provided circles granted
+
+```twig
+{% if not contentType.circlesField or attribute(source, contentType.circlesField) is not defined or attribute(source, contentType.circlesField)|emsco_in_my_circles %}
+```
+
+## emsco_data_link
+
+Generate an HTML link to the provided ElasticMS link 
+
+```twig
+{{ (notification.revision.contentType.name~':'~notification.revision.ouuid)|emsco_data_link}}
+```
+
+A link to a specific revision can be specified by adding the revision ID as second argument:
+
+```twig
+{{ (notification.revision.contentType.name~':'~notification.revision.ouuid)|emsco_data_link(notification.revision.id) }}
+```

@@ -94,7 +94,7 @@
 				{% endif %}
 
 				{% if is_granted(ctRoles.delete) %}
-					{% if not  revision.contentType.circlesField or attribute(object._source, revision.contentType.circlesField) is not defined or attribute(object._source, revision.contentType.circlesField)|in_my_circles %}
+					{% if not  revision.contentType.circlesField or attribute(object._source, revision.contentType.circlesField) is not defined or attribute(object._source, revision.contentType.circlesField)|emsco_in_my_circles %}
 						{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 							'url':  path('object.delete', {'type': revision.contentType.name, 'ouuid': revision.ouuid} ),
 							'label': 'Delete all revisions',
@@ -201,7 +201,7 @@
 			<hr>
 			<strong><i class=" {% if circleContentType.icon %}{{ circleContentType.icon }}{% else %}fa fa-circle-o{% endif %} margin-r-5"></i> {{ circleContentType.pluralName }}</strong>
 			<p class="text-muted">
-				{% for circle in revision.circles %}{{ circle|data_link|raw }} {% endfor %}
+				{% for circle in revision.circles %}{{ circle|emsco_data_link|raw }} {% endfor %}
 			</p>
 		{% endif %}
 	{% endif %}
@@ -301,7 +301,7 @@
 			{% else %}
 				<div class="btn-group">
 					{% for obj in referrerResponse.getDocuments %}
-						{{ obj.emsId|data_link|raw }}
+						{{ obj.emsId|emsco_data_link|raw }}
 					{% endfor %}
 				</div>
 			{% endif %}

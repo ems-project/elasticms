@@ -67,7 +67,6 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_md5', $this->md5(...)),
             new TwigFilter('ems_luma', $this->relativeLuminance(...)),
             new TwigFilter('ems_contrast_ratio', $this->contrastRatio(...)),
-            new TwigFilter('ems_color', $this->contrastRatio(...)),
             new TwigFilter('ems_first_in_array', $this->firstInArray(...)),
             // deprecated
             new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
@@ -156,11 +155,6 @@ class CommonExtension extends AbstractExtension
         $color2 = new Color($c2);
 
         return $color1->contrastRatio($color2);
-    }
-
-    public function color(string $color): Color
-    {
-        return new Color($color);
     }
 
     public function md5(string $value): string

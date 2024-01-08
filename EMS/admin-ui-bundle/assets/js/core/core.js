@@ -1,5 +1,5 @@
-import Image from './Plugins/Image'
-import Select from './Plugins/Select'
+import Image from './plugins/image'
+import Select from './plugins/select'
 
 class Core {
 

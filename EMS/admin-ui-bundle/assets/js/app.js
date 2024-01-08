@@ -5,6 +5,6 @@ require('../css/plugins.scss')
 require('@popperjs/core')
 window.bootstrap = require('bootstrap')
 require('./admin-lte/AdminLTE')
-require('./core/Core')
+require('./core/core')
 
 console.log('Bootstrap 5 UI loaded')

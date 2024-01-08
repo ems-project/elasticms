@@ -36,11 +36,11 @@ class CommonExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('array_key', $this->arrayKey(...)),
+            new TwigFilter('ems_array_key', $this->arrayKey(...)),
             new TwigFilter('ems_file_exists', $this->fileExists(...)),
-            new TwigFilter('format_bytes', Converter::formatBytes(...)),
-            new TwigFilter('emsch_ouuid', $this->getOuuid(...)),
-            new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute']),
+            new TwigFilter('ems_format_bytes', Converter::formatBytes(...)),
+            new TwigFilter('ems_ouuid', $this->getOuuid(...)),
+            new TwigFilter('ems_locale_attr', [RequestRuntime::class, 'localeAttribute']),
             new TwigFilter('ems_html_encode', [TextRuntime::class, 'htmlEncode'], ['is_safe' => ['html']]),
             new TwigFilter('ems_html_decode', [TextRuntime::class, 'htmlDecode']),
             new TwigFilter('ems_anti_spam', [TextRuntime::class, 'htmlEncodePii'], ['is_safe' => ['html']]),
@@ -61,6 +61,25 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),
             new TwigFilter('ems_preg_match', Encoder::pregMatch(...)),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
+            new TwigFilter('ems_array_intersect', $this->arrayIntersect(...)),
+            new TwigFilter('ems_array_merge_recursive', $this->arrayMergeRecursive(...)),
+            new TwigFilter('ems_in_array', $this->inArray(...)),
+            new TwigFilter('ems_md5', $this->md5(...)),
+            new TwigFilter('ems_luma', $this->relativeLuminance(...)),
+            new TwigFilter('ems_contrast_ratio', $this->contrastRatio(...)),
+            new TwigFilter('ems_first_in_array', $this->firstInArray(...)),
+            // deprecated
+            new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
+            new TwigFilter('format_bytes', Converter::formatBytes(...), ['deprecated' => true, 'alternative' => 'ems_format_bytes']),
+            new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute'], ['deprecated' => true, 'alternative' => 'ems_locale_attr']),
+            new TwigFilter('emsch_ouuid', $this->getOuuid(...), ['deprecated' => true, 'alternative' => 'ems_ouuid']),
+            new TwigFilter('array_intersect', $this->arrayIntersect(...), ['deprecated' => true, 'alternative' => 'ems_array_intersect']),
+            new TwigFilter('merge_recursive', $this->arrayMergeRecursive(...), ['deprecated' => true, 'alternative' => 'ems_array_merge_recursive']),
+            new TwigFilter('inArray', $this->inArray(...), ['deprecated' => true, 'alternative' => 'ems_in_array']),
+            new TwigFilter('md5', $this->md5(...), ['deprecated' => true, 'alternative' => 'ems_md5']),
+            new TwigFilter('luma', $this->relativeLuminance(...), ['deprecated' => true, 'alternative' => 'ems_luma']),
+            new TwigFilter('contrastratio', $this->contrastRatio(...), ['deprecated' => true, 'alternative' => 'ems_contrast_ratio']),
+            new TwigFilter('firstInArray', $this->firstInArray(...), ['deprecated' => true, 'alternative' => 'ems_first_in_array']),
         ];
     }
 
@@ -92,5 +111,62 @@ class CommonExtension extends AbstractExtension
     public function getOuuid(string $emsLink): string
     {
         return EMSLink::fromText($emsLink)->getOuuid();
+    }
+
+    /**
+     * @param array<mixed> $array1
+     * @param array<mixed> $array2
+     *
+     * @return array<mixed>
+     */
+    public function arrayIntersect(array $array1, array $array2): array
+    {
+        return \array_intersect($array1, $array2);
+    }
+
+    /**
+     * @param array<mixed> ...$arrays
+     *
+     * @return array<mixed>
+     */
+    public function arrayMergeRecursive(array ...$arrays): array
+    {
+        return \array_merge_recursive($arrays);
+    }
+
+    /**
+     * @param array<mixed> $haystack
+     */
+    public function inArray(mixed $needle, array $haystack): bool
+    {
+        return false !== \array_search($needle, $haystack, true);
+    }
+
+    public function relativeLuminance(string $rgb): float
+    {
+        $color = new Color($rgb);
+
+        return $color->relativeLuminance();
+    }
+
+    public function contrastRatio(string $c1, string $c2): float
+    {
+        $color1 = new Color($c1);
+        $color2 = new Color($c2);
+
+        return $color1->contrastRatio($color2);
+    }
+
+    public function md5(string $value): string
+    {
+        return \md5($value);
+    }
+
+    /**
+     * @param array<mixed> $haystack
+     */
+    public function firstInArray(mixed $needle, array $haystack): bool
+    {
+        return 0 === \array_search($needle, $haystack);
     }
 }

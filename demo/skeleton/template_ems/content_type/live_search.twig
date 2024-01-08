@@ -16,7 +16,7 @@
 
 
 {%  block ems_post_processing %}
-    {% set config = 'config'|i18n('en')|json_decode %}
+    {% set config = 'config'|emsco_i18n('en')|ems_json_decode %}
     {% set locales = config.locales|default([]) %}
     {% set textes = {} %}
     {% if _source.label is defined %}

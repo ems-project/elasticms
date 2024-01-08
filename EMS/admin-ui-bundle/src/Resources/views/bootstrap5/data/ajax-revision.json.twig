@@ -5,7 +5,7 @@
 		"formErrors": [
 		{% for error in formErrors %}
 			{
-				"propertyPath": {{ error|propertyPath|json_encode|raw }},
+				"propertyPath": {{ error|emsco_property_path|json_encode|raw }},
 				"message": {{ error.message|json_encode|raw }}
 			}
 			{% if not loop.last %},{% endif %}

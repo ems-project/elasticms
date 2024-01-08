@@ -296,18 +296,18 @@ Generate a hash value from the message. See the [PHP hash function](https://php.
 - algo: [refers to the hash's algo parameter](https://php.net/manual/en/function.hash.php), default value `null` which means that the `ems_common.hash_algo` will be used
 - binary: [refers to the hash's binary parameter](https://php.net/manual/en/function.hash.php), default value `false`. When set to `true`, outputs raw binary data
 
-## format_bytes
+## ems_format_bytes
 
 Useful to generate a human readable file size from an interger.
 
 ````twig
-{{ 21666|format_bytes }} {# displays: 21.16 KB #}
+{{ 21666|ems_format_bytes }} {# displays: 21.16 KB #}
 ````
 
 A second 'precision' parameter can be defined:
 
 ````twig
-{{ 21666|format_bytes(1) }} {# displays: 21.2 KB #}
+{{ 21666|ems_format_bytes(1) }} {# displays: 21.2 KB #}
 ````
 
 ## ems_ascii_folding
@@ -332,4 +332,67 @@ Test if a template exists or not. This function works with all kind of templates
 {% if not ems_template_exists("@EMSCH/template/page/#{name}.html.twig") %}
   {% do emsch_http_error(404, 'Page not found') %}
 {% endif %}
+````
+
+## ems_json_decode
+
+Call the PHP \json_decode method with those default values: `public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`
+
+````twig
+{% set config = 'con
+````
+
+## ems_array_key
+
+Use the value of the parameter identified by the given name as array index 
+
+````twig
+{% set paths = rawData.paths|default([])|filter(p => p.locale == locale)|ems_array_key('uid') %}
+````
+
+## ems_ouuid
+
+Extract a OUUID from an ElasticMS link
+
+````twig
+    {%  set categories = emsch_search('category', {
+        "size": 1000,
+        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|ems_ouuid) }},
+        "sort": [
+            {("title_#{locale}.alpha_order"): {"order": "asc"}}
+        ],
+        "_source": ["#{app.request.locale}.title"]
+    }).hits.hits|default([])|ems_array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
+````
+
+## ems_md5
+
+Calculate the md5 hash of a string
+
+````twig
+{{ app.user.email|lower|md5 }}
+````
+
+## ems_luma
+
+Calculate the luminance of a color(string)
+
+````twig
+{% set luminance = '#FF56DD'|ems_luma %}
+````
+
+## ems_contrast_ratio
+
+Calculate the contrast ratio between 2 colors (string)
+
+````twig
+{% if '#FF56DD'|ems_contrast_ratio('black') > '#FF56DD'|ems_contrast_ratio('white') %}#000000{% else %}#ffffff{% endif %}
+````
+
+## ems_color
+
+Convert a color (string) into a EMS\Helpers\Standard\Color
+
+````twig
+{% set color = '#FF56DD'|ems_color %}
 ````

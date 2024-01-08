@@ -1,7 +1,7 @@
 {%- trans_default_domain 'elements' -%}
 
 {% if app.user %}
-    <img src="{{ asset('images/anonymous.gif', 'emscore') }}" data-original="https://www.gravatar.com/avatar/{{ app.user.email|lower|md5 }}?s=256" class="{{ class }} lazy" alt="{{ app.user.displayName }}" width="128" height="128">
+    <img src="{{ asset('images/anonymous.gif', 'emscore') }}" data-original="https://www.gravatar.com/avatar/{{ app.user.email|lower|ems_md5 }}?s=256" class="{{ class }} lazy" alt="{{ app.user.displayName }}" width="128" height="128">
 {% else %}
     <img src="{{ asset('images/anonymous.gif', 'emscore') }}" class="{{ class }}" alt="{{ 'elements.user-image.anonymous'|trans }}" width="128" height="128">
 {% endif %}

@@ -24,7 +24,7 @@
             }|search.hits.hits|map(h => h._source|merge({
                 'id': h._id,
                 'emsId': ("#{h._source._contenttype}:#{h._id}")
-            }))|array_key('id') %}
+            }))|ems_array_key('id') %}
 
             {% set pages = pages|merge({ (env.name): (envSearchResult) }) %}
         {% endfor %}

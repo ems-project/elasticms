@@ -20,7 +20,7 @@
 					<tbody>
 						<tr>
 							<th class="text-center" style="width: 10px">{{ '#'|trans }}</th>
-							{% if is_super() %}<th>{{ 'OUUID'|trans }}</th>{% endif %}
+							{% if emsco_is_super() %}<th>{{ 'OUUID'|trans }}</th>{% endif %}
 							<th>{{ 'Label'|trans }}</th>
 							<th>{{ 'Deleted by'|trans }}</th>
 							<th>{{ 'Last update'|trans }}</th>
@@ -29,14 +29,14 @@
 						{% for revision in revisions %}
 							<tr>
 								<td class="text-center">{{ loop.index }}.</td>
-								{% if is_super() %}<td>{{ revision.ouuid }}</td>{% endif %}
+								{% if emsco_is_super() %}<td>{{ revision.ouuid }}</td>{% endif %}
 								<td>
 								{% if revision.contentType.labelField is defined and revision.rawData and attribute(revision.rawData, revision.contentType.labelField) is defined %}
 									{{ attribute(revision.rawData, revision.contentType.labelField) }}
 								{% endif %}
 								</td>
 								<td>
-									{{ revision.deletedBy|default('N/A')|displayname }}
+									{{ revision.deletedBy|default('N/A')|emsco_display_name }}
 								</td>
 								<td>
 									{{ revision.modified|date(date_time_format) }}

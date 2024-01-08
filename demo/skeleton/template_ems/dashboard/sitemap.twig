@@ -22,7 +22,7 @@
         <ul class="nav nav-tabs">
             {% for l in locales %}
                 <li class="{{ html_classes({ 'active': l == locale }) }}">
-                    <a href="{{ path(route, routeParams|merge({ 'locale': l }) ) }}">{{ "locale.#{l}"|i18n }}</a>
+                    <a href="{{ path(route, routeParams|merge({ 'locale': l }) ) }}">{{ "locale.#{l}"|emsco_i18n }}</a>
                 </li>
             {% endfor %}
         </ul>

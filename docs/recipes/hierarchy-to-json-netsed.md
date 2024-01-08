@@ -81,7 +81,7 @@ The following boy will generate a JSON ready to be pasted in a new conet type's 
     type: 'menu',
     index: contentType.environment.alias,
     size: 500,
-}|search.hits.hits|array_key('_id')|map(p => p._source) %}
+}|search.hits.hits|ems_array_key('_id')|map(p => p._source) %}
 
 
 {# recursively walk in the menu documents and fill the JSON Nested object #} 

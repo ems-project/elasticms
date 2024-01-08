@@ -35,6 +35,38 @@ E.g.:
 * `template.edit` must be replaced by `ems_core_action_edit`
 * `template.remove` must be replaced by `ems_core_action_delete`
 
+### Deprecated twig filters
+
+* `array_key` must be replaced by `ems_array_key`
+* `format_bytes` must be replaced by `ems_format_bytes`
+* `locale_attr` must be replaced by `ems_locale_attr`
+* `data` must be replaced by `emsco_get`
+* `url_generator` must be replaced by `ems_webalize`
+* `get_environment` must be replaced by `emsco_get_environment`
+* `get_content_type` must be replaced by `emsco_get_contentType`
+* `data_label` must be replaced by `emsco_display`
+* `emsch_ouuid` must be replaced by `ems_ouuid`
+* `array_intersect` must be replaced by `ems_array_intersect`
+* `merge_recursive` must be replaced by `ems_array_merge_recursive`
+* `inArray` must be replaced by `ems_in_array`
+* `soapRequest` must be replaced by `emsco_soap_request`
+* `all_granted` must be replaced by `emsco_all_granted`
+* `one_granted` must be replaced by `emsco_one_granted`
+* `in_my_circles` must be replaced by `emsco_in_my_circles`
+* `data_link` must be replaced by `emsco_data_link`
+* `i18n` must be replaced by `emsco_i18n`
+* `internal_links` must be replaced by `emsco_internal_links`
+* `displayname` must be replaced by `emsco_display_name`
+* `get_field_by_path` must be replaced by `emsco_get_field_by_path`
+* `get_revision_id` must be replaced by the function `emsco_get_revision_id`
+
+### Deprecated twig function
+
+* `cant_be_finalized` must be replaced by `emsco_cant_be_finalized`
+* `get_default_environments` must be replaced by `emsco_get_default_environment_names`
+* `get_content_types` must be replaced by `emsco_get_content_types`
+* `sequence` deprecated and must be replaced by `emsco_sequence`
+
 ### New dynamic mapping config which change the elasticsearch indexes
 
 Before version 6 it was not possible to define elasticsearch dynamic mapping config. In other words, before version 6, every fields present in a document, that aren't strictly defined in the content type, a mapping was automatically guessed by elasticsearch.

@@ -7,7 +7,7 @@ Here some useful routes that you may want to use in your actions or view
 This piece of code add a link to a datatable view:
 
 ```twig
-{%- set revisionId = object._id|get_revision_id(contentType.name) -%}
+{%- set revisionId = emsco_get_revision_id(object._id, contentType.name) -%}
 
 <a href="{{ path('emsco_pick_a_release', {revision: revisionId}) }}"><i class="glyphicon glyphicon-pushpin"></i> Add to release</a>
 ```

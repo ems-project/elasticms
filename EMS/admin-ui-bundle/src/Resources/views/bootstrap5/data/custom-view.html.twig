@@ -13,7 +13,7 @@
 
 {% block extraheader %}
 	{% if template.header is defined and template.body %}
-		{{ template.header|generate_from_template({
+		{{ template.header|emsco_generate_from_template({
 				environment: environment,
 				contentType: contentType,
 				object: object,
@@ -34,7 +34,7 @@
 			</div>
 			<div class="card-body">
 				{% if template.renderOption in [constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EMBED'), constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT'), constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::PDF')] %}
-					{{ template.body|generate_from_template({
+					{{ template.body|emsco_generate_from_template({
 						environment: environment,
 						contentType: contentType,
 						object: object,
@@ -45,7 +45,7 @@
 
 				{% if template.filename and template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::EXPORT') %}
 					<br/><br/>
-					{{ template.filename|generate_from_template({
+					{{ template.filename|emsco_generate_from_template({
 						environment: environment,
 						contentType: contentType,
 						object: object,

@@ -67,7 +67,7 @@
 								<th class="text-center" style="width: 30px">Active</th>
 								<th>Action</th>
 							</tr>
-							{% for contentType in get_content_types() %}
+							{% for contentType in emsco_get_content_types() %}
 								<tr class="text-{{ contentType.color }}">
 									<td class="text-center">{{ loop.index }}.</td>
 									<td class="text-center">

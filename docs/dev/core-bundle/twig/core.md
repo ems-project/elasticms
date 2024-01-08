@@ -94,3 +94,139 @@ Context for the expression:
 {# display from emsLink and using contentTypes defined display value #}
 {{ 'page:e6f73dd73a5a3f5336bd3fe52d0304b26e437f34'|emsco_display }}
 ```
+
+## emsco_soap_request
+
+Instantiate a \SoapClient object and call the provided function
+
+```twig
+{% set request = someUrl|emsco_soap_request({
+  options: {
+    trace: 1,
+    stream_context: context
+  },
+  function: 'someWebServiceFunction',
+  parameters: {
+    firstClient: {
+      name: 'someone',
+      adress: 'R. 1001'
+    },
+    secondClient: {
+      name: 'another one',
+      adress: ''
+    }
+  }
+}) %}
+```
+
+## emsco_all_granted
+
+Test that the current user has all the provided roles granted
+
+```twig
+{% if roles|emsco_all_granted %}
+```
+
+## emsco_one_granted
+
+Test that the current user has at least one of the provided roles granted
+
+```twig
+{% if roles|emsco_all_granted %}
+```
+
+## emsco_in_my_circles
+
+Test that the current user has at least one of the provided circles granted
+
+```twig
+{% if not contentType.circlesField or attribute(source, contentType.circlesField) is not defined or attribute(source, contentType.circlesField)|emsco_in_my_circles %}
+```
+
+## emsco_data_link
+
+Generate an HTML link to the provided ElasticMS link 
+
+```twig
+{{ (notification.revision.contentType.name~':'~notification.revision.ouuid)|emsco_data_link}}
+```
+
+A link to a specific revision can be specified by adding the revision ID as second argument:
+
+```twig
+{{ (notification.revision.contentType.name~':'~notification.revision.ouuid)|emsco_data_link(notification.revision.id) }}
+```
+
+## emsco_is_super
+
+Test if the user as super rights
+
+```twig
+{% if emsco_is_super() %}
+```
+
+## emsco_i18n
+
+Retrieve the value of the I18N corresponding to the provided key and locale. If not specified locale is equal to 'en': 
+
+```twig
+{{ ('locale.'~locale)|emsco_i18n }}
+```
+
+```twig
+{{ ('locale.'~locale)|emsco_i18n('fr') }}
+```
+
+
+## emsco_internal_links
+
+Convert ElasticMS links in an HTML string to the corresponding revision
+
+```twig
+{{ dataField.rawData|json_encode|emsco_internal_links }}
+```
+
+
+## emsco_get_user
+
+Retrieve the EMS\CoreBundle\Entity\UserInterface for the given username. It returns null if the user is not found.
+
+```twig
+{% set user = username|emsco_get_user %}
+```
+
+
+## emsco_display_name
+
+Convert a given username into its corresponding display name. It returns the given username if the user is not found in the database.
+
+```twig
+{{ username|emsco_display_name }}
+```
+
+
+## emsco_debug
+
+Log a debug message. An optional context can be provided as second argument.
+
+```twig
+{{ username|emsco_debug }}
+```
+
+
+## emsco_get_field_by_path
+
+Retrieve the corresponding EMS\CoreBundle\Entity\FieldType for the given EMS\CoreBundle\Entity\ContentType and a field path:
+
+```twig
+{% set fieldType = 'page'|emsco_get_content_type|emsco_get_field_by_path('locales.fr') %}
+```
+
+
+## emsco_get_revision_id
+
+Retrieve the corresponding revision id for the given OUUID and content type name:
+
+```twig
+{% set revisionId = emsco_get_revision_id(ouuid, 'page') %}
+```

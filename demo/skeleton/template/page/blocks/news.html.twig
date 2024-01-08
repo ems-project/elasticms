@@ -21,12 +21,12 @@
 
     {%  set categories = emsch_search('category', {
         "size": 1000,
-        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|emsch_ouuid) }},
+        "query": { "terms": { "_id": query.aggregations.categories.buckets|map(p => p.key|ems_ouuid) }},
         "sort": [
             {("title_#{locale}.alpha_order"): {"order": "asc"}}
         ],
         "_source": ["#{app.request.locale}.title"]
-    }).hits.hits|default([])|array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
+    }).hits.hits|default([])|ems_array_key('_id')|map(p => attribute(p._source, app.request.locale).title) %}
 
     <div class="container-fluid container-lg">
         <div class="py-5 py-lg-8">

@@ -1,7 +1,7 @@
 {% trans_default_domain trans_default_domain %}
 {% set structure = source %}
-{% set paths = source.paths|default([])|filter(p => p.locale == app.request.locale)|array_key('path') %}
-{% set pathsByUids = source.paths|default([])|filter(p => p.locale == app.request.locale)|array_key('uid') %}
+{% set paths = source.paths|default([])|filter(p => p.locale == app.request.locale)|ems_array_key('path') %}
+{% set pathsByUids = source.paths|default([])|filter(p => p.locale == app.request.locale)|ems_array_key('uid') %}
 {% set pathInfo = attribute(paths, app.request.get('path')) %}
 
 {% set target = emsch_search_one(['section', 'page'], {
@@ -12,7 +12,7 @@
     },
     "size": 1000,
 }) %}
-{% set switchUrls = source.paths|filter(p => p.locale != app.request.locale and p.uid == pathInfo.uid)|array_key('locale')|map(p => path('emsch_path', {path: p.path, _locale: p.locale})) %}
+{% set switchUrls = source.paths|filter(p => p.locale != app.request.locale and p.uid == pathInfo.uid)|ems_array_key('locale')|map(p => path('emsch_path', {path: p.path, _locale: p.locale})) %}
 
 {% set source = target.source|default(null) %}
 {% set currentStructure = structure.structure|default("[]")|ems_json_menu_nested_decode %}

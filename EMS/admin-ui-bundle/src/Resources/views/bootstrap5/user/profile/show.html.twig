@@ -48,7 +48,7 @@
                                 <b>{{ circles_object|get_content_type.pluralName }} : </b>
                                 <i class="float-end">
                                     {% for circle in user.circles  -%}
-                                        <span class="badge bg-primary text-nowrap">{{- circle|data_label|raw -}}</span>&nbsp;
+                                        <span class="badge bg-primary text-nowrap">{{- circle|emsco_display|raw -}}</span>&nbsp;
                                     {%- endfor %}
                                 </i>
                             </li>

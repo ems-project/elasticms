@@ -12,7 +12,7 @@
             {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::sideMenu')) }}
         {% else %}
             {% include '@EMSAdminUI/bootstrap5/elements/side-menu.html.twig' with {
-                'contentTypes': get_content_types()
+                'contentTypes': emsco_get_content_types()
             } %}
         {% endif %}
     </div>

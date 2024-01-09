@@ -44,7 +44,7 @@ const Default = {
  */
 
 class PushMenu {
-  constructor(element, options) {
+  constructor (element, options) {
     this._element = element
     this._options = options
 
@@ -57,7 +57,7 @@ class PushMenu {
 
   // Public
 
-  expand() {
+  expand () {
     const $bodySelector = $(SELECTOR_BODY)
 
     if (this._options.autoCollapseSize && $(window).width() <= this._options.autoCollapseSize) {
@@ -76,7 +76,7 @@ class PushMenu {
     $(this._element).trigger($.Event(EVENT_SHOWN))
   }
 
-  collapse() {
+  collapse () {
     const $bodySelector = $(SELECTOR_BODY)
 
     if (this._options.autoCollapseSize && $(window).width() <= this._options.autoCollapseSize) {
@@ -96,7 +96,7 @@ class PushMenu {
     }, this._options.animationSpeed)
   }
 
-  toggle() {
+  toggle () {
     if ($(SELECTOR_BODY).hasClass(CLASS_NAME_COLLAPSED)) {
       this.expand()
     } else {
@@ -104,7 +104,7 @@ class PushMenu {
     }
   }
 
-  autoCollapse(resize = false) {
+  autoCollapse (resize = false) {
     if (!this._options.autoCollapseSize) {
       return
     }
@@ -124,7 +124,7 @@ class PushMenu {
     }
   }
 
-  remember() {
+  remember () {
     if (!this._options.enableRemember) {
       return
     }
@@ -153,7 +153,7 @@ class PushMenu {
 
   // Private
 
-  _init() {
+  _init () {
     this.remember()
     this.autoCollapse()
 
@@ -162,7 +162,7 @@ class PushMenu {
     })
   }
 
-  _addOverlay() {
+  _addOverlay () {
     const overlay = $('<div />', {
       id: 'sidebar-overlay'
     })
@@ -175,7 +175,7 @@ class PushMenu {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

@@ -44,19 +44,19 @@ const Default = {
  * ====================================================
  */
 class Treeview {
-  constructor(element, config) {
+  constructor (element, config) {
     this._config = config
     this._element = element
   }
 
   // Public
 
-  _init() {
+  _init () {
     $(`${SELECTOR_LI}${SELECTOR_OPEN} ${SELECTOR_TREEVIEW_MENU}${SELECTOR_OPEN}`).css('display', 'block')
     this._setupListeners()
   }
 
-  expand(treeviewMenu, parentLi) {
+  expand (treeviewMenu, parentLi) {
     const expandedEvent = $.Event(EVENT_EXPANDED)
 
     if (this._config.accordion) {
@@ -76,7 +76,7 @@ class Treeview {
     }
   }
 
-  collapse(treeviewMenu, parentLi) {
+  collapse (treeviewMenu, parentLi) {
     const collapsedEvent = $.Event(EVENT_COLLAPSED)
 
     parentLi.removeClass(`${CLASS_NAME_IS_OPENING} ${CLASS_NAME_OPEN}`)
@@ -87,7 +87,7 @@ class Treeview {
     })
   }
 
-  toggle(event) {
+  toggle (event) {
     const $relativeTarget = $(event.currentTarget)
     const $parent = $relativeTarget.parent()
 
@@ -117,21 +117,21 @@ class Treeview {
 
   // Private
 
-  _setupListeners() {
+  _setupListeners () {
     const elementId = this._element.attr('id') !== undefined ? `#${this._element.attr('id')}` : ''
     $(document).on('click', `${elementId}${this._config.trigger}`, event => {
       this.toggle(event)
     })
   }
 
-  _expandSidebar() {
+  _expandSidebar () {
     if ($('body').hasClass(CLASS_NAME_SIDEBAR_COLLAPSED)) {
       $(this._config.sidebarButtonSelector).PushMenu('expand')
     }
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

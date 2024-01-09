@@ -56,14 +56,14 @@ const Default = {
  */
 
 class ControlSidebar {
-  constructor(element, config) {
+  constructor (element, config) {
     this._element = element
     this._config = config
   }
 
   // Public
 
-  collapse() {
+  collapse () {
     const $body = $('body')
     const $html = $('html')
 
@@ -86,7 +86,7 @@ class ControlSidebar {
     }, this._config.animationSpeed)
   }
 
-  show(toggle = false) {
+  show (toggle = false) {
     const $body = $('body')
     const $html = $('html')
 
@@ -114,7 +114,7 @@ class ControlSidebar {
     $(this._element).trigger($.Event(EVENT_EXPANDED))
   }
 
-  toggle() {
+  toggle () {
     const $body = $('body')
     const { target } = this._config
 
@@ -135,7 +135,7 @@ class ControlSidebar {
 
   // Private
 
-  _init() {
+  _init () {
     const $body = $('body')
     const shouldNotHideAll = $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_OPEN) ||
         $body.hasClass(CLASS_NAME_CONTROL_SIDEBAR_SLIDE)
@@ -166,7 +166,7 @@ class ControlSidebar {
     })
   }
 
-  _isNavbarFixed() {
+  _isNavbarFixed () {
     const $body = $('body')
     return (
       $body.hasClass(CLASS_NAME_NAVBAR_FIXED) ||
@@ -177,7 +177,7 @@ class ControlSidebar {
     )
   }
 
-  _isFooterFixed() {
+  _isFooterFixed () {
     const $body = $('body')
     return (
       $body.hasClass(CLASS_NAME_FOOTER_FIXED) ||
@@ -188,7 +188,7 @@ class ControlSidebar {
     )
   }
 
-  _fixScrollHeight() {
+  _fixScrollHeight () {
     const $body = $('body')
     const $controlSidebar = $(this._config.target)
 
@@ -250,7 +250,7 @@ class ControlSidebar {
     }
   }
 
-  _fixHeight() {
+  _fixHeight () {
     const $body = $('body')
     const $controlSidebar = $(`${this._config.target} ${SELECTOR_CONTROL_SIDEBAR_CONTENT}`)
 
@@ -286,7 +286,7 @@ class ControlSidebar {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

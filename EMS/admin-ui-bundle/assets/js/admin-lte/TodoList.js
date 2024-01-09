@@ -20,10 +20,10 @@ const SELECTOR_DATA_TOGGLE = '[data-widget="todo-list"]'
 const CLASS_NAME_TODO_LIST_DONE = 'done'
 
 const Default = {
-  onCheck(item) {
+  onCheck (item) {
     return item
   },
-  onUnCheck(item) {
+  onUnCheck (item) {
     return item
   }
 }
@@ -34,7 +34,7 @@ const Default = {
  */
 
 class TodoList {
-  constructor(element, config) {
+  constructor (element, config) {
     this._config = config
     this._element = element
 
@@ -43,7 +43,7 @@ class TodoList {
 
   // Public
 
-  toggle(item) {
+  toggle (item) {
     item.parents('li').toggleClass(CLASS_NAME_TODO_LIST_DONE)
     if (!$(item).prop('checked')) {
       this.unCheck(item)
@@ -53,17 +53,17 @@ class TodoList {
     this.check(item)
   }
 
-  check(item) {
+  check (item) {
     this._config.onCheck(item)
   }
 
-  unCheck(item) {
+  unCheck (item) {
     this._config.onUnCheck(item)
   }
 
   // Private
 
-  _init() {
+  _init () {
     const $toggleSelector = this._element
 
     $toggleSelector.find('input:checkbox:checked').parents('li').toggleClass(CLASS_NAME_TODO_LIST_DONE)
@@ -73,7 +73,7 @@ class TodoList {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

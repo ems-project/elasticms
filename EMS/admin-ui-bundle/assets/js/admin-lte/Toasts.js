@@ -61,7 +61,7 @@ const Default = {
  * ====================================================
  */
 class Toasts {
-  constructor(element, config) {
+  constructor (element, config) {
     this._config = config
     this._prepareContainer()
 
@@ -70,7 +70,7 @@ class Toasts {
 
   // Public
 
-  create() {
+  create () {
     const toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"/>')
 
     toast.data('autohide', this._config.autohide)
@@ -141,7 +141,7 @@ class Toasts {
 
   // Static
 
-  _getContainerId() {
+  _getContainerId () {
     if (this._config.position === POSITION_TOP_RIGHT) {
       return SELECTOR_CONTAINER_TOP_RIGHT
     }
@@ -159,7 +159,7 @@ class Toasts {
     }
   }
 
-  _prepareContainer() {
+  _prepareContainer () {
     if ($(this._getContainerId()).length === 0) {
       const container = $('<div />').attr('id', this._getContainerId().replace('#', ''))
       if (this._config.position == POSITION_TOP_RIGHT) {
@@ -183,7 +183,7 @@ class Toasts {
   }
 
   // Static
-  static _jQueryInterface(option, config) {
+  static _jQueryInterface (option, config) {
     return this.each(function () {
       const _options = $.extend({}, Default, config)
       const toast = new Toasts($(this), _options)

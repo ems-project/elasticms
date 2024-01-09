@@ -50,14 +50,14 @@ const Default = {
  */
 
 class Layout {
-  constructor(element, config) {
+  constructor (element, config) {
     this._config = config
     this._element = element
   }
 
   // Public
 
-  fixLayoutHeight(extra = null) {
+  fixLayoutHeight (extra = null) {
     const $body = $('body')
     let controlSidebar = 0
 
@@ -114,7 +114,7 @@ class Layout {
     }
   }
 
-  fixLoginRegisterHeight() {
+  fixLoginRegisterHeight () {
     const $body = $('body')
     const $selector = $(`${SELECTOR_LOGIN_BOX}, ${SELECTOR_REGISTER_BOX}`)
 
@@ -136,7 +136,7 @@ class Layout {
 
   // Private
 
-  _init() {
+  _init () {
     // Activate layout height watcher
     this.fixLayoutHeight()
 
@@ -192,7 +192,7 @@ class Layout {
     }, this._config.preloadDuration)
   }
 
-  _max(numbers) {
+  _max (numbers) {
     // Calculate the maximum number in a list
     let max = 0
 
@@ -205,12 +205,12 @@ class Layout {
     return max
   }
 
-  _isFooterFixed() {
+  _isFooterFixed () {
     return $(SELECTOR_FOOTER).css('position') === 'fixed'
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

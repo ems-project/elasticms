@@ -41,13 +41,13 @@ const CLASS_NAME_IFRAME_MODE = 'iframe-mode'
 const CLASS_NAME_FULLSCREEN_MODE = 'iframe-mode-fullscreen'
 
 const Default = {
-  onTabClick(item) {
+  onTabClick (item) {
     return item
   },
-  onTabChanged(item) {
+  onTabChanged (item) {
     return item
   },
-  onTabCreated(item) {
+  onTabCreated (item) {
     return item
   },
   autoIframeMode: true,
@@ -70,7 +70,7 @@ const Default = {
  */
 
 class IFrame {
-  constructor(element, config) {
+  constructor (element, config) {
     this._config = config
     this._element = element
     this._init()
@@ -78,19 +78,19 @@ class IFrame {
 
   // Public
 
-  onTabClick(item) {
+  onTabClick (item) {
     this._config.onTabClick(item)
   }
 
-  onTabChanged(item) {
+  onTabChanged (item) {
     this._config.onTabChanged(item)
   }
 
-  onTabCreated(item) {
+  onTabCreated (item) {
     this._config.onTabCreated(item)
   }
 
-  createTab(title, link, uniqueName, autoOpen) {
+  createTab (title, link, uniqueName, autoOpen) {
     let tabId = `panel-${uniqueName}`
     let navId = `tab-${uniqueName}`
 
@@ -132,7 +132,7 @@ class IFrame {
     this.onTabCreated($(`#${navId}`))
   }
 
-  openTabSidebar(item, autoOpen = this._config.autoShowNewTab) {
+  openTabSidebar (item, autoOpen = this._config.autoShowNewTab) {
     let $item = $(item).clone()
     if ($item.attr('href') === undefined) {
       $item = $(item).parent('a').clone()
@@ -161,7 +161,7 @@ class IFrame {
     }
   }
 
-  switchTab(item, reload = false) {
+  switchTab (item, reload = false) {
     const $item = $(item)
     const tabId = $item.attr('href')
 
@@ -201,7 +201,7 @@ class IFrame {
     }
   }
 
-  removeActiveTab(type, element) {
+  removeActiveTab (type, element) {
     if (type == 'all') {
       $(SELECTOR_TAB_NAVBAR_NAV_ITEM).remove()
       $(SELECTOR_TAB_PANE).remove()
@@ -238,7 +238,7 @@ class IFrame {
     }
   }
 
-  toggleFullscreen() {
+  toggleFullscreen () {
     if ($('body').hasClass(CLASS_NAME_FULLSCREEN_MODE)) {
       $(`${SELECTOR_DATA_TOGGLE_FULLSCREEN} i`).removeClass(this._config.iconMinimize).addClass(this._config.iconMaximize)
       $('body').removeClass(CLASS_NAME_FULLSCREEN_MODE)
@@ -256,7 +256,7 @@ class IFrame {
 
   // Private
 
-  _init() {
+  _init () {
     const usingDefTab = ($(SELECTOR_TAB_CONTENT).children().length > 2)
 
     this._setupListeners()
@@ -271,7 +271,7 @@ class IFrame {
     }
   }
 
-  _initFrameElement() {
+  _initFrameElement () {
     if (window.frameElement && this._config?.autoIframeMode) {
       const $body = $('body')
       $body.addClass(CLASS_NAME_IFRAME_MODE)
@@ -282,12 +282,12 @@ class IFrame {
     }
   }
 
-  _navScroll(offset) {
+  _navScroll (offset) {
     const leftPos = $(SELECTOR_TAB_NAVBAR_NAV).scrollLeft()
     $(SELECTOR_TAB_NAVBAR_NAV).animate({ scrollLeft: (leftPos + offset) }, 250, 'linear')
   }
 
-  _setupListeners() {
+  _setupListeners () {
     $(window).on('resize', () => {
       setTimeout(() => {
         this._fixHeight()
@@ -375,7 +375,7 @@ class IFrame {
     })
   }
 
-  _setItemActive(href) {
+  _setItemActive (href) {
     $(`${SELECTOR_SIDEBAR_MENU_ITEM}, ${SELECTOR_HEADER_DROPDOWN_ITEM}`).removeClass('active')
     $(SELECTOR_HEADER_MENU_ITEM).parent().removeClass('active')
 
@@ -395,7 +395,7 @@ class IFrame {
     })
   }
 
-  _fixHeight(tabEmpty = false) {
+  _fixHeight (tabEmpty = false) {
     if ($('body').hasClass(CLASS_NAME_FULLSCREEN_MODE)) {
       const windowHeight = $(window).height()
       const navbarHeight = $(SELECTOR_TAB_NAV).outerHeight()
@@ -416,7 +416,7 @@ class IFrame {
 
   // Static
   // eslint-disable-next-line max-params
-  static _jQueryInterface(config, name, link, id, reload) {
+  static _jQueryInterface (config, name, link, id, reload) {
     if ($(SELECTOR_DATA_TOGGLE).length > 0) {
       let data = $(this).data(DATA_KEY)
 

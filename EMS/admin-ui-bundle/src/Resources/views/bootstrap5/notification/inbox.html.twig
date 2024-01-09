@@ -3,7 +3,7 @@
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
 			{% if countRejected > 0 %}
-				<li class="active"><a href="#tab_rejected" data-toggle="tab" aria-expanded="true">
+				<li class="active"><a href="#tab_rejected" data-bs-toggle="tab" aria-expanded="true">
 					<i class="fa fa-ban"></i>
 					Rejected
 					<span class="badge badge-primary">{{ countRejected }}</span>
@@ -11,7 +11,7 @@
 			{% endif %}
 
 			{% if countPending > 0 %}
-				<li class="{% if countRejected == 0 %}active{% endif %}"><a href="#tab_to_treat" data-toggle="tab" aria-expanded="{% if countRejected == 0 %}true{%else%}false{% endif %}">
+				<li class="{% if countRejected == 0 %}active{% endif %}"><a href="#tab_to_treat" data-bs-toggle="tab" aria-expanded="{% if countRejected == 0 %}true{%else%}false{% endif %}">
 					<i class="fa fa-hourglass-half" aria-hidden="true"></i>
 					{{ 'To be treated '|trans }}
 					<span class="badge badge-primary">{{ countPending }}</span>

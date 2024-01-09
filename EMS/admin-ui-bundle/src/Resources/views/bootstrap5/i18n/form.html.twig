@@ -4,15 +4,15 @@
 			<i class="fa fa-language"></i><h3 class="box-title">{{ title|trans }}</h3>
 			<div class="btn-group  pull-right">
 				<a class="btn-add btn btn-xs btn-success"
-					data-target="i18n-content"><i class="fa fa-plus-square"></i>
+					data-bs-target="i18n-bs-content"><i class="fa fa-plus-square"></i>
 					{{ 'Translation' }}</a>
 			</div>
 		</div>
 		<div class="box-body">
-			{{ form_row(form.identifier) }} 
-			{{ form_widget(form.content) }} 
+			{{ form_row(form.identifier) }}
+			{{ form_widget(form.content) }}
 		</div>
-	
+
 		<div class="box-footer">
 			<div class="btn-group">
 				<button type="submit" id="i18n_save" name="i18n_save" class="btn-primary btn-sm  btn">
@@ -26,4 +26,4 @@
 			</div>
 		</div>
 	</div>
-{{ form_end(form) }} 
+{{ form_end(form) }}

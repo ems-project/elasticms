@@ -158,7 +158,7 @@
 
 				{% set tempId = dataField.fieldType.name~'_'~random() %}
 				<div class="btn-group">
-					<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#indexed-details-revision_{{ tempId }}">
+					<button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#indexed-details-revision_{{ tempId }}">
 						<i class="fa fa-info"></i>
 						{{ 'Info'|trans }}
 					</button>
@@ -420,7 +420,7 @@
 		<ul class="nav nav-tabs">
 			{% for value in values|default([]) %}
 				<li class="{% if loop.index == 1%}active{% endif %}">
-					<a href="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" data-toggle="tab" aria-expanded="{% if loop.index == 1%}true{% else %}false{% endif %}">
+					<a href="#item_{{ path|join('_')~'_'~loop.index0 }}__tab" data-bs-toggle="tab" aria-expanded="{% if loop.index == 1%}true{% else %}false{% endif %}">
 						{{ attribute(choices, value) }}
 					</a>
 				</li>
@@ -442,7 +442,7 @@
 
 {% block tabsfieldtype_widget_tab_label_per_item %}
 	<li class="{% if counter == 1%}active{% endif %}{% if child.fieldType.displayOptions.class is defined and child.fieldType.displayOptions.class != 'col-md-12' %} {{child.fieldType.displayOptions.class}}{% endif %}">
-		<a href="#item_{{ path|join('_') }}__tab" data-toggle="tab" aria-expanded="false">
+		<a href="#item_{{ path|join('_') }}__tab" data-bs-toggle="tab" aria-expanded="false">
 			{% if child.fieldType.displayOptions.icon is defined and child.fieldType.displayOptions.icon%}
 				<i class="{{ child.fieldType.displayOptions.icon }}"></i>
 			{% endif %}

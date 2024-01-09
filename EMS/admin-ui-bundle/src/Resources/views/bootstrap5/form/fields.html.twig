@@ -480,7 +480,7 @@
 
 {% block tabsfieldtype_widget_tab_label_per_item %}
 	<li id="{{ tab.vars.id}}__label" class="form-group{% if tab.vars.errors|length %} has-error{% endif %}{% if counter == 1%} active{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{tab.vars.class}}{% endif %}">
-		<a href="#{{ tab.vars.id}}__tab" data-toggle="tab" aria-expanded="{% if counter == 1%}true{%else%}false{% endif %}">
+		<a href="#{{ tab.vars.id}}__tab" data-bs-toggle="tab" aria-expanded="{% if counter == 1%}true{%else%}false{% endif %}">
 			{{- form_label(tab) -}}
 		</a>
 	</li>
@@ -844,7 +844,7 @@
     {% set itemTypes =  form.vars.item_types|split(',') %}
 
     {% set addMenu %}
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="fa fa-plus"></span>
             {{ 'field_type.json_menu_editor.add'|trans }}
             <span class="caret"></span>
@@ -994,7 +994,7 @@
 				<div class="input-group input-group-sm">
 					{{- form_widget(fileItem.filename) -}}
 					<span class="input-group-btn">
-						<button type="button" class="btn" title="{{ 'fields.asset.info-modal-button'|trans }}" data-toggle="modal" data-target="#asst-details-{{ form.vars.id }}-__name__">
+						<button type="button" class="btn" title="{{ 'fields.asset.info-modal-button'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
 							<i class="fa fa-info"></i>
 							<span class="sr-only">{{ 'fields.asset.info-modal-button'|trans }}</span>
 						</button>
@@ -1116,7 +1116,7 @@
 			</div>
 			<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'fields.asset.browse-server'|trans }}</span></button>
 			<div class="btn-group">
-				<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#asst-details-{{ form.vars.id }}">
+				<button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
 				  	<i class="fa fa-info"></i>
 					{{ 'fields.asset.info-modal-button'|trans }}
 				</button>
@@ -1200,7 +1200,7 @@
 		</div>
 		<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'fields.asset.browse-server'|trans }}</span></button>
 		<div class="btn-group">
-			<button type="button" class="btn btn-small btn-default asset-details" data-toggle="modal" data-target="#asst-details-{{ form.vars.id }}">
+			<button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
               <i class="fa fa-info"></i>
               {{ 'Info'|trans }}
             </button>
@@ -1251,7 +1251,7 @@
                     </div>
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_add">
+                <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_add">
                     <i class="fa fa-plus"></i> Field
                 </button>
             {% endif %}
@@ -1300,10 +1300,10 @@
                   </div>
                 </div>
                 {% if form.vars.editSubfields  %}
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_add">
+                    <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_add">
                         <i class="fa fa-plus"></i> Subfield
                     </button>
-                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_duplicate">
+                    <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_duplicate">
                         <i class="fa fa-paste"></i> Duplicate
                     </button>
                 {% endif %}
@@ -1325,23 +1325,23 @@
                                 <ul class="nav nav-tabs">
                                     {% set active='active' %}
                                     {% if form.options.displayOptions is defined %}
-                                        <li class="{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-toggle="tab" aria-expanded="true">Display</a></li>
+                                        <li class="{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="true">Display</a></li>
                                         {% set active='' %}
                                     {%  endif %}
                                     {% if form.options.mappingOptions is defined %}
-                                        <li class="{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Mapping</a></li>
+                                        <li class="{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Mapping</a></li>
                                         {% set active='' %}
                                     {%  endif %}
                                     {% if form.options.restrictionOptions is defined %}
-                                      <li class="{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Restriction</a></li>
+                                      <li class="{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Restriction</a></li>
                                         {% set active='' %}
                                     {%  endif %}
                                     {% if form.options.migrationOptions is defined %}
-                                      <li class="{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Migration</a></li>
+                                      <li class="{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Migration</a></li>
                                         {% set active='' %}
                                     {%  endif %}
                                     {% if form.options.extraOptions is defined %}
-                                      <li class="{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Extra</a></li>
+                                      <li class="{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Extra</a></li>
                                         {% set active='' %}
                                     {%  endif %}
                                 </ul>
@@ -1354,7 +1354,7 @@
                     </div>
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_options">
+                <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_options">
                       <i class="fa fa-sliders"></i> Options
                 </button>
             {% endif %}
@@ -1388,7 +1388,7 @@
                     </div>
                   </div>
                 </div>
-                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_reorder">
+                <button type="button" class="btn btn-primary btn-xs" data-bs-toggle="modal" data-bs-target="#{{ form.vars.id }}_modal_reorder">
                     <i class="fa fa-reorder"></i> {{ 'field_type.reorder'|trans }}
                 </button>
             {% endif %}

@@ -16,7 +16,7 @@
                 {{ form_start(form) }}
                     <div class="box-body no-padding">
                         <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="{% if view.options.maxDepth is defined and view.options.maxDepth and view.options.maxDepth >= 1 %}{{ view.options.maxDepth }}{% else %}3{% endif %}" data-nested-is-tree="true">
-                            {% include "@EMSCore/view/custom/hierarchical_item.html.twig" with {
+                            {% include "@EMSAdminUI/bootstrap5/view/custom/hierarchical_item.html.twig" with {
                                 parent: parent._source,
                                 view: view,
                             } %}

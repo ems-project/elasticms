@@ -42,8 +42,8 @@
                 <div id="revision-tasks-approved">
                     <div id="revision-tasks-approved-link">
                         <a href="#" id="btn-tasks-approved"
-                           data-toggle="true"
-                           data-toggle-text="{{ 'task.finished.hide'|trans({ '%number%': tasksApproved|length }) }}">
+                           data-bs-toggle="true"
+                           data-bs-toggle-text="{{ 'task.finished.hide'|trans({ '%number%': tasksApproved|length }) }}">
                             {{- 'task.finished.show'|trans({ '%number%': tasksApproved|length }) -}}
                         </a>
                     </div>
@@ -209,12 +209,12 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#tab_task_info" data-toggle="tab" aria-expanded="true">
+                <a href="#tab_task_info" data-bs-toggle="tab" aria-expanded="true">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;{{ 'task.update.tab.info'|trans }}
                 </a>
             </li>
             <li>
-                <a href="#tab_task_history" data-toggle="tab" aria-expanded="false">
+                <a href="#tab_task_history" data-bs-toggle="tab" aria-expanded="false">
                     <i class="fa fa-history" aria-hidden="true"></i>&nbsp;{{ 'task.update.tab.history'|trans }}
                 </a>
             </li>

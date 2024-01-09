@@ -7,7 +7,7 @@
 }|filter(v => v != false) -%}
 {% if message is defined and message != null %}
 	<div class="btn-group{% if group_class is defined %} {{ group_class }}{% endif %}">
-	  <button type="button" class="btn {% if class is defined %}{{ class }}{% else %}btn-sm{% endif %} btn-{{ btnType|default('primary') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  <button type="button" class="btn {% if class is defined %}{{ class }}{% else %}btn-sm{% endif %} btn-{{ btnType|default('primary') }} dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			{% if icon is defined %}
 				<span class="{{ icon starts with 'glyphicon-' ? "glyphicon #{icon}" : "fa fa-#{icon}" }}"></span>&nbsp;
 			{% endif %}

@@ -202,14 +202,14 @@ class IFrame {
   }
 
   removeActiveTab (type, element) {
-    if (type == 'all') {
+    if (type === 'all') {
       $(SELECTOR_TAB_NAVBAR_NAV_ITEM).remove()
       $(SELECTOR_TAB_PANE).remove()
       $(SELECTOR_TAB_EMPTY).show()
-    } else if (type == 'all-other') {
+    } else if (type === 'all-other') {
       $(`${SELECTOR_TAB_NAVBAR_NAV_ITEM}:not(.active)`).remove()
       $(`${SELECTOR_TAB_PANE}:not(.active)`).remove()
-    } else if (type == 'only-this') {
+    } else if (type === 'only-this') {
       const $navClose = $(element)
       const $navItem = $navClose.parent('.nav-item')
       const $navItemParent = $navItem.parent()
@@ -217,7 +217,7 @@ class IFrame {
       const tabId = $navClose.siblings('.nav-link').attr('aria-controls')
       $navItem.remove()
       $(`#${tabId}`).remove()
-      if ($(SELECTOR_TAB_CONTENT).children().length == $(`${SELECTOR_TAB_EMPTY}, ${SELECTOR_TAB_LOADING}`).length) {
+      if ($(SELECTOR_TAB_CONTENT).children().length === $(`${SELECTOR_TAB_EMPTY}, ${SELECTOR_TAB_LOADING}`).length) {
         $(SELECTOR_TAB_EMPTY).show()
       } else {
         const prevNavItemIndex = navItemIndex - 1
@@ -229,7 +229,7 @@ class IFrame {
       const navItemIndex = $navItem.index()
       $navItem.remove()
       $(`${SELECTOR_TAB_PANE}.active`).remove()
-      if ($(SELECTOR_TAB_CONTENT).children().length == $(`${SELECTOR_TAB_EMPTY}, ${SELECTOR_TAB_LOADING}`).length) {
+      if ($(SELECTOR_TAB_CONTENT).children().length === $(`${SELECTOR_TAB_EMPTY}, ${SELECTOR_TAB_LOADING}`).length) {
         $(SELECTOR_TAB_EMPTY).show()
       } else {
         const prevNavItemIndex = navItemIndex - 1
@@ -404,7 +404,7 @@ class IFrame {
     } else {
       const contentWrapperHeight = parseFloat($(SELECTOR_CONTENT_WRAPPER).css('height'))
       const navbarHeight = $(SELECTOR_TAB_NAV).outerHeight()
-      if (tabEmpty == true) {
+      if (tabEmpty === true) {
         setTimeout(() => {
           $(`${SELECTOR_TAB_EMPTY}, ${SELECTOR_TAB_LOADING}`).height(contentWrapperHeight - navbarHeight)
         }, 50)

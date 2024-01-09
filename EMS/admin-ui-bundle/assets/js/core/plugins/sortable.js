@@ -5,7 +5,8 @@ import '../../../css/core/plugins/sortable.scss'
 
 class Sortable {
     load(target) {
-        const nestedList = $(target).find('.nested-sortable');
+        const query = $(target)
+        const nestedList = query.find('.nested-sortable');
         nestedList.each(function() {
             const nestedList = $(this);
 
@@ -51,7 +52,7 @@ class Sortable {
             });
         });
 
-        $(this.target).find('.reorder-button').on('click', function(){
+        query.find('.reorder-button').on('click', function(){
             const form = $(this).closest('form');
             const hierarchy = form.find('.nested-sortable').nestedSortable('toHierarchy', {startDepthCount: 0});
             form.find('input.reorder-items').val(JSON.stringify(hierarchy)).trigger("change");
@@ -59,15 +60,15 @@ class Sortable {
 
         let findCollapseButtonPrefix = '.json_menu_editor_fieldtype_widget ';
 
-        if ($(this.target).find(findCollapseButtonPrefix).length === 0) {
+        if (query.find(findCollapseButtonPrefix).length === 0) {
             findCollapseButtonPrefix = '.mjs-nestedSortable ';
         }
 
-        if ($(this.target).hasClass('mjs-nestedSortable')) {
+        if (query.hasClass('mjs-nestedSortable')) {
             findCollapseButtonPrefix = '';
         }
 
-        $(this.target).find(findCollapseButtonPrefix+'.button-collapse').click(function (event) {
+        query.find(findCollapseButtonPrefix+'.button-collapse').click(function (event) {
             event.preventDefault();
             const $isExpanded = ($(this).attr('aria-expanded') === 'true');
             $(this).parent().find('> button').attr('aria-expanded', !$isExpanded);
@@ -80,7 +81,7 @@ class Sortable {
             }
         });
 
-        $(this.target).find(findCollapseButtonPrefix+'.button-collapse-all').click(function (event) {
+        query.find(findCollapseButtonPrefix+'.button-collapse-all').click(function (event) {
             event.preventDefault();
             const $isExpanded = ($(this).attr('aria-expanded') === 'true');
             let $panel = $(this).closest('.collapsible-container');

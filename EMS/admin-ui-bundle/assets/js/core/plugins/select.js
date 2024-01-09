@@ -6,8 +6,9 @@ import '../../../css/core/plugins/select.scss'
 
 class Select {
     load(target) {
-        $(target).find('.selectpicker').selectpicker()
-        $(target).find(".select2").select2({
+        const query = $(target)
+        query.find('.selectpicker').selectpicker()
+        query.find(".select2").select2({
             allowClear: true,
             placeholder: "",
             escapeMarkup: function (markup) { return markup; }

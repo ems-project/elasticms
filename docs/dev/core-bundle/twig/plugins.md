@@ -45,14 +45,22 @@ A class icon can be defined in the `data-icon` attribute of the `OPTION` tag. Ad
 
 ## Select 2
 
-Another nice looking plugin for `SELECT` tags.
+Another nice looking plugin for `SELECT` tags. Add a `select2` class to the `SELECT` tag to activate it.
 
 ## Datatable
 
-Activate a datatable on a `TABLE ` tag by adding datatable options (JSON serialized) in a `data-datatable` attribute.
+Activate a datatable on a `TABLE` tag by adding datatable options (JSON serialized) in a `data-datatable` attribute.
 
 ```twig
 <table class="table table-condensed table-striped" data-datatable="{{ datatable.frontendOptions|json_encode|e('html_attr') }}">
   ...
 </table>
+```
+
+## WYWIWYG editor
+
+Activate a WYSIWYG editor on a `TEXTAREA` tag by adding a `ckeditor` class.
+
+```twig
+<textarea id="my-id" name="html_field" class="ckeditor form-control" rows="10"></textarea>
 ```

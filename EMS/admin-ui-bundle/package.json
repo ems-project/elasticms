@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "lint": "eslint --fix assets/",
     "prod": "webpack --mode=production",
     "dev": "webpack --mode=development",
     "watch": "webpack --mode=development --watch"
@@ -8,6 +9,11 @@
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
+    "eslint": "^8.56.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.7.6",
     "postcss-loader": "^7.3.3",

@@ -5,6 +5,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const { CKEditorTranslationsPlugin } = require( '@ckeditor/ckeditor5-dev-translations' );
+const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
 
 module.exports = (env, argv) => {
     return {
@@ -32,6 +34,10 @@ module.exports = (env, argv) => {
                 filename: "css/[name].[contenthash].css",
                 chunkFilename: "[id].css"
             }),
+            new CKEditorTranslationsPlugin( {
+                // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
+                language: 'en'
+            } ),
         ],
         optimization: {
             minimizer: [new TerserPlugin({
@@ -51,6 +57,7 @@ module.exports = (env, argv) => {
             rules: [
                 {
                     test: /\.(sa|sc|c)ss$/,
+                    exclude: /ckeditor5-/,
                     use: [
                         {loader: MiniCssExtractPlugin.loader, options: {publicPath: '../'}},
                         {loader: 'css-loader', options: {sourceMap: (argv.mode !== 'production')}},
@@ -59,14 +66,46 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.(png|jpg|gif|svg)$/,
+                    exclude: /ckeditor5-/,
                     type: 'asset/inline',
                 },
                 {
                     test: /\.(woff|woff2|eot|ttf|otf)$/,
+                    exclude: /ckeditor5-/,
                     type: 'asset/resource',
                     generator: {
                         filename: 'media/[name][contenthash][ext]'
                     }
+                },
+                {
+                    test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+                    use: [ 'raw-loader' ]
+                },
+                {
+                    test: /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+                    use: [
+                        {
+                            loader: 'style-loader',
+                            options: {
+                                injectType: 'singletonStyleTag',
+                                attributes: {
+                                    'data-cke': true
+                                }
+                            }
+                        },
+                        'css-loader',
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                postcssOptions: styles.getPostCssConfig( {
+                                    themeImporter: {
+                                        themePath: require.resolve( '@ckeditor/ckeditor5-theme-lark' )
+                                    },
+                                    minify: true
+                                } )
+                            }
+                        }
+                    ]
                 }
             ]
         }

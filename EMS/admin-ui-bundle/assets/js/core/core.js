@@ -2,14 +2,16 @@ import Image from './plugins/image'
 import Select from './plugins/select'
 import Sortable from './plugins/sortable'
 import Datatable from './plugins/datatable'
+import WYSIWYG from './plugins/wysiwyg'
 
 class Core {
   constructor () {
     this._domListeners = [
+      new Datatable(),
       new Image(),
       new Select(),
       new Sortable(),
-      new Datatable()
+      new WYSIWYG()
     ]
     this.documentReady()
   }

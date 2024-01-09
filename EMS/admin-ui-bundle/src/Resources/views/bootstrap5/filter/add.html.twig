@@ -6,14 +6,14 @@
 {% block subtitle %}<small>{{ 'expert mode'|trans }}</small>{% endblock %}
 {% block breadcrumb %}
 	<ol class="breadcrumb">
-		<li><a href="{{ path('ems_filter_index') }}"><i class="fa fa-filter"></i> {{ 'Filters'|trans }}</a></li>
-		<li>{{ 'Add a Filter'|trans }}</li>
+		<li class="breadcrumb-item"><a href="{{ path('ems_filter_index') }}"><i class="fa fa-filter"></i> {{ 'Filters'|trans }}</a></li>
+		<li class="breadcrumb-item">{{ 'Add a Filter'|trans }}</li>
    	</ol>
 {% endblock %}
 
 {% block body %}
 
-    {% include "@EMSCore/filter/form.html.twig" with {
+    {% include "@EMSAdminUI/bootstrap5/filter/form.html.twig" with {
     	form: form,
     	label: 'Add a Filter'|trans,
     } %}

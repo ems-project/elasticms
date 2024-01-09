@@ -5,13 +5,13 @@
 
 {% block breadcrumb %}
 	<ol class="breadcrumb">
-		<li><a href="{{ path('i18n_index') }}"><i class="fa fa-language"></i> {{ 'I18N'|trans }}</a></li>
-   		<li class="active">{{ 'I18N edit'|trans }} </li>
+		<li class="breadcrumb-item"><a href="{{ path('i18n_index') }}"><i class="fa fa-language"></i> {{ 'I18N'|trans }}</a></li>
+   		<li class="breadcrumb-item active">{{ 'I18N edit'|trans }} </li>
    	</ol>
 {% endblock %}
 
 {% block body %}
-    {% include "@EMSCore/i18n/form.html.twig" with {
+    {% include "@EMSAdminUI/bootstrap5/i18n/form.html.twig" with {
 		form: edit_form,
 		title: 'I18N edit',
 		action: 'Save',

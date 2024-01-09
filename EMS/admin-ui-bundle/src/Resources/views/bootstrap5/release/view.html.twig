@@ -6,8 +6,8 @@
 
 {% block breadcrumb %}
 	<ol class="breadcrumb">
-		<li><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
-		<li>{{ block('title') }}</li>
+		<li class="breadcrumb-item"><a href="{{ path('emsco_release_index') }}"><i class="{{ 'view.icon.class.release'|trans }}"></i> {{ 'release.menu'|trans }}</a></li>
+		<li class="breadcrumb-item">{{ block('title') }}</li>
    	</ol>
 {% endblock %}
 

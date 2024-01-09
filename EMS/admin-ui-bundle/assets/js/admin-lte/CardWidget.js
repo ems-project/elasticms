@@ -50,7 +50,7 @@ const Default = {
 }
 
 class CardWidget {
-  constructor(element, settings) {
+  constructor (element, settings) {
     this._element = element
     this._parent = element.parents(SELECTOR_CARD).first()
 
@@ -61,7 +61,7 @@ class CardWidget {
     this._settings = $.extend({}, Default, settings)
   }
 
-  collapse() {
+  collapse () {
     this._parent.addClass(CLASS_NAME_COLLAPSING).children(`${SELECTOR_CARD_BODY}, ${SELECTOR_CARD_FOOTER}`)
       .slideUp(this._settings.animationSpeed, () => {
         this._parent.addClass(CLASS_NAME_COLLAPSED).removeClass(CLASS_NAME_COLLAPSING)
@@ -74,7 +74,7 @@ class CardWidget {
     this._element.trigger($.Event(EVENT_COLLAPSED), this._parent)
   }
 
-  expand() {
+  expand () {
     this._parent.addClass(CLASS_NAME_EXPANDING).children(`${SELECTOR_CARD_BODY}, ${SELECTOR_CARD_FOOTER}`)
       .slideDown(this._settings.animationSpeed, () => {
         this._parent.removeClass(CLASS_NAME_COLLAPSED).removeClass(CLASS_NAME_EXPANDING)
@@ -87,12 +87,12 @@ class CardWidget {
     this._element.trigger($.Event(EVENT_EXPANDED), this._parent)
   }
 
-  remove() {
+  remove () {
     this._parent.slideUp()
     this._element.trigger($.Event(EVENT_REMOVED), this._parent)
   }
 
-  toggle() {
+  toggle () {
     if (this._parent.hasClass(CLASS_NAME_COLLAPSED)) {
       this.expand()
       return
@@ -101,7 +101,7 @@ class CardWidget {
     this.collapse()
   }
 
-  maximize() {
+  maximize () {
     this._parent.find(`${this._settings.maximizeTrigger} .${this._settings.maximizeIcon}`)
       .addClass(this._settings.minimizeIcon)
       .removeClass(this._settings.maximizeIcon)
@@ -125,7 +125,7 @@ class CardWidget {
     this._element.trigger($.Event(EVENT_MAXIMIZED), this._parent)
   }
 
-  minimize() {
+  minimize () {
     this._parent.find(`${this._settings.maximizeTrigger} .${this._settings.minimizeIcon}`)
       .addClass(this._settings.maximizeIcon)
       .removeClass(this._settings.minimizeIcon)
@@ -149,7 +149,7 @@ class CardWidget {
     this._element.trigger($.Event(EVENT_MINIMIZED), this._parent)
   }
 
-  toggleMaximize() {
+  toggleMaximize () {
     if (this._parent.hasClass(CLASS_NAME_MAXIMIZED)) {
       this.minimize()
       return
@@ -160,7 +160,7 @@ class CardWidget {
 
   // Private
 
-  _init(card) {
+  _init (card) {
     this._parent = card
 
     $(this).find(this._settings.collapseTrigger).click(() => {
@@ -177,7 +177,7 @@ class CardWidget {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     let data = $(this).data(DATA_KEY)
     const _config = $.extend({}, Default, $(this).data())
 

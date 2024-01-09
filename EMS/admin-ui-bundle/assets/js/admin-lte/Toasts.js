@@ -61,7 +61,7 @@ const Default = {
  * ====================================================
  */
 class Toasts {
-  constructor(element, config) {
+  constructor (element, config) {
     this._config = config
     this._prepareContainer()
 
@@ -70,7 +70,7 @@ class Toasts {
 
   // Public
 
-  create() {
+  create () {
     const toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"/>')
 
     toast.data('autohide', this._config.autohide)
@@ -80,7 +80,7 @@ class Toasts {
       toast.addClass(this._config.class)
     }
 
-    if (this._config.delay && this._config.delay != 500) {
+    if (this._config.delay && this._config.delay !== 500) {
       toast.data('delay', this._config.delay)
     }
 
@@ -108,7 +108,7 @@ class Toasts {
       toastHeader.append($('<small />').html(this._config.subtitle))
     }
 
-    if (this._config.close == true) {
+    if (this._config.close === true) {
       const toastClose = $('<button data-dismiss="toast" />').attr('type', 'button').addClass('ml-2 mb-1 close').attr('aria-label', 'Close').append('<span aria-hidden="true">&times;</span>')
 
       if (this._config.title == null) {
@@ -141,7 +141,7 @@ class Toasts {
 
   // Static
 
-  _getContainerId() {
+  _getContainerId () {
     if (this._config.position === POSITION_TOP_RIGHT) {
       return SELECTOR_CONTAINER_TOP_RIGHT
     }
@@ -159,16 +159,16 @@ class Toasts {
     }
   }
 
-  _prepareContainer() {
+  _prepareContainer () {
     if ($(this._getContainerId()).length === 0) {
       const container = $('<div />').attr('id', this._getContainerId().replace('#', ''))
-      if (this._config.position == POSITION_TOP_RIGHT) {
+      if (this._config.position === POSITION_TOP_RIGHT) {
         container.addClass(CLASS_NAME_TOP_RIGHT)
-      } else if (this._config.position == POSITION_TOP_LEFT) {
+      } else if (this._config.position === POSITION_TOP_LEFT) {
         container.addClass(CLASS_NAME_TOP_LEFT)
-      } else if (this._config.position == POSITION_BOTTOM_RIGHT) {
+      } else if (this._config.position === POSITION_BOTTOM_RIGHT) {
         container.addClass(CLASS_NAME_BOTTOM_RIGHT)
-      } else if (this._config.position == POSITION_BOTTOM_LEFT) {
+      } else if (this._config.position === POSITION_BOTTOM_LEFT) {
         container.addClass(CLASS_NAME_BOTTOM_LEFT)
       }
 
@@ -183,7 +183,7 @@ class Toasts {
   }
 
   // Static
-  static _jQueryInterface(option, config) {
+  static _jQueryInterface (option, config) {
     return this.each(function () {
       const _options = $.extend({}, Default, config)
       const toast = new Toasts($(this), _options)

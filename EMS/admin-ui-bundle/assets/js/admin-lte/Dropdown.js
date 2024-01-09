@@ -32,14 +32,14 @@ const Default = {}
  */
 
 class Dropdown {
-  constructor(element, config) {
+  constructor (element, config) {
     this._config = config
     this._element = element
   }
 
   // Public
 
-  toggleSubmenu() {
+  toggleSubmenu () {
     this._element.siblings().show().toggleClass('show')
 
     if (!this._element.next().hasClass('show')) {
@@ -51,7 +51,7 @@ class Dropdown {
     })
   }
 
-  fixPosition() {
+  fixPosition () {
     const $element = $(SELECTOR_DROPDOWN_MENU_ACTIVE)
 
     if ($element.length === 0) {
@@ -88,7 +88,7 @@ class Dropdown {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

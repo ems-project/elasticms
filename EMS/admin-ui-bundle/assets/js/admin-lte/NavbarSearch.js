@@ -33,19 +33,19 @@ const Default = {
  */
 
 class NavbarSearch {
-  constructor(_element, _options) {
+  constructor (_element, _options) {
     this._element = _element
     this._config = _options
   }
 
   // Public
 
-  open() {
+  open () {
     $(this._config.target).css('display', 'flex').hide().fadeIn().addClass(CLASS_NAME_OPEN)
     $(`${this._config.target} ${SELECTOR_SEARCH_INPUT}`).focus()
   }
 
-  close() {
+  close () {
     $(this._config.target).fadeOut().removeClass(CLASS_NAME_OPEN)
 
     if (this._config.resetOnClose) {
@@ -53,7 +53,7 @@ class NavbarSearch {
     }
   }
 
-  toggle() {
+  toggle () {
     if ($(this._config.target).hasClass(CLASS_NAME_OPEN)) {
       this.close()
     } else {
@@ -62,7 +62,7 @@ class NavbarSearch {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

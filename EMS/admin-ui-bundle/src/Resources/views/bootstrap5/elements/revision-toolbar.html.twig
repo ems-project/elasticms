@@ -30,7 +30,7 @@
 						'icon': 'pencil' }%}
 					{% if is_granted('ROLE_SUPER') %}
 						<div class="btn-group">
-							<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+							<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
 								<span class="fa fa-ellipsis-h"></span>
 							</button>
 							<ul class="dropdown-menu">
@@ -86,7 +86,7 @@
 
 
 				<div class="btn-group">
-					<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+					<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
 						<span class="sr-only">{{ 'views.elements.revision-toolbar-html.other-revision-actions'|trans }}</span>
 						<span class="fa fa-ellipsis-h"></span>
 					</button>
@@ -157,7 +157,7 @@
 			<div class="btn-group{% if vertical is defined and vertical %}-vertical{% endif %}">
 				{% if environmentsRevision.publish|length > 0 %}
 					<div class="btn-group">
-					  <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<span class="fa fa-toggle-on"></span>&nbsp;
 							{{ 'views.elements.revision-toolbar-html.publish-to-label'|trans }}
 							<span class="caret"></span>
@@ -172,7 +172,7 @@
 
 			  {% if environmentsRevision.unpublish|length > 0 %}
 				<div class="btn-group">
-					  <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					  <button type="button" class="btn btn-sm btn-outline-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<span class="fa fa-toggle-off"></span>&nbsp;
 							{{ 'views.elements.revision-toolbar-html.unpublish-from-label'|trans }}
 							<span class="caret"></span>
@@ -187,7 +187,7 @@
 
 			{% if emsco_is_super() and environmentsRevision.environments|length > 0 %}
 				<div class="btn-group">
-					<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+					<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown">
 						<span class="sr-only">{{ 'views.elements.revision-toolbar-html.other-environment-actions'|trans }}</span>
 						<span class="fa fa-ellipsis-h"></span>
 					</button>

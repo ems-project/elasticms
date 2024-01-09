@@ -52,7 +52,7 @@ const SearchItems = []
  */
 
 class SidebarSearch {
-  constructor(_element, _options) {
+  constructor (_element, _options) {
     this.element = _element
     this.options = $.extend({}, Default, _options)
     this.items = []
@@ -60,7 +60,7 @@ class SidebarSearch {
 
   // Public
 
-  _init() {
+  _init () {
     if ($(SELECTOR_DATA_WIDGET).length === 0) {
       return
     }
@@ -84,7 +84,7 @@ class SidebarSearch {
     })
   }
 
-  search() {
+  search () {
     const searchValue = $(SELECTOR_SEARCH_INPUT).val().toLowerCase()
     if (searchValue.length < this.options.minLength) {
       $(SELECTOR_SEARCH_RESULTS_GROUP).empty()
@@ -108,17 +108,17 @@ class SidebarSearch {
     this.open()
   }
 
-  open() {
+  open () {
     $(SELECTOR_DATA_WIDGET).parent().addClass(CLASS_NAME_OPEN)
     $(SELECTOR_SEARCH_ICON).removeClass(CLASS_NAME_ICON_SEARCH).addClass(CLASS_NAME_ICON_CLOSE)
   }
 
-  close() {
+  close () {
     $(SELECTOR_DATA_WIDGET).parent().removeClass(CLASS_NAME_OPEN)
     $(SELECTOR_SEARCH_ICON).removeClass(CLASS_NAME_ICON_CLOSE).addClass(CLASS_NAME_ICON_SEARCH)
   }
 
-  toggle() {
+  toggle () {
     if ($(SELECTOR_DATA_WIDGET).parent().hasClass(CLASS_NAME_OPEN)) {
       this.close()
     } else {
@@ -128,7 +128,7 @@ class SidebarSearch {
 
   // Private
 
-  _parseItem(item, path = []) {
+  _parseItem (item, path = []) {
     if ($(item).hasClass(CLASS_NAME_HEADER)) {
       return
     }
@@ -154,11 +154,11 @@ class SidebarSearch {
     }
   }
 
-  _trimText(text) {
+  _trimText (text) {
     return trim(text.replace(/(\r\n|\n|\r)/gm, ' '))
   }
 
-  _renderItem(name, link, path) {
+  _renderItem (name, link, path) {
     path = path.join(` ${this.options.arrowSign} `)
     name = unescape(name)
     link = decodeURI(link)
@@ -202,12 +202,12 @@ class SidebarSearch {
     return groupItemElement
   }
 
-  _addNotFound() {
+  _addNotFound () {
     $(SELECTOR_SEARCH_RESULTS_GROUP).append(this._renderItem(this.options.notFoundText, '#', []))
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())
@@ -240,13 +240,13 @@ $(document).on('click', SELECTOR_SEARCH_BUTTON, event => {
 })
 
 $(document).on('keyup', SELECTOR_SEARCH_INPUT, event => {
-  if (event.keyCode == 38) {
+  if (event.keyCode === 38) {
     event.preventDefault()
     $(SELECTOR_SEARCH_RESULTS_GROUP).children().last().focus()
     return
   }
 
-  if (event.keyCode == 40) {
+  if (event.keyCode === 40) {
     event.preventDefault()
     $(SELECTOR_SEARCH_RESULTS_GROUP).children().first().focus()
     return
@@ -260,7 +260,7 @@ $(document).on('keyup', SELECTOR_SEARCH_INPUT, event => {
 $(document).on('keydown', SELECTOR_SEARCH_RESULTS_GROUP, event => {
   const $focused = $(':focus')
 
-  if (event.keyCode == 38) {
+  if (event.keyCode === 38) {
     event.preventDefault()
 
     if ($focused.is(':first-child')) {
@@ -270,7 +270,7 @@ $(document).on('keydown', SELECTOR_SEARCH_RESULTS_GROUP, event => {
     }
   }
 
-  if (event.keyCode == 40) {
+  if (event.keyCode === 40) {
     event.preventDefault()
 
     if ($focused.is(':last-child')) {

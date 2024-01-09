@@ -1,6 +1,6 @@
 {% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}{% trans_default_domain 'emsco-twigs' %}
 
-{% import "@EMSCore/macros/data-field-type.html.twig" as macros %}
+{% import "@EMSAdminUI/bootstrap5/macros/data-field-type.html.twig" as macros %}
 
 {% set revisionColor = revision.contentType.color %}
 
@@ -270,10 +270,10 @@
 {% block revisionFooterTabs %}
 	<div class="nav-tabs-custom">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab_referrers" data-toggle="tab" aria-expanded="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>
-			<li class=""><a href="#tab_revisions" data-toggle="tab" aria-expanded="false">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
+			<li class="active"><a href="#tab_referrers" data-bs-toggle="tab" aria-expanded="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>
+			<li class=""><a href="#tab_revisions" data-bs-toggle="tab" aria-expanded="false">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
 			{% if auditTable|default(false) %}
-				<li class=""><a href="#tab_audit" data-toggle="tab" aria-expanded="false">Audit <small>({{ auditCount }})</small></a></li>
+				<li class=""><a href="#tab_audit" data-bs-toggle="tab" aria-expanded="false">Audit <small>({{ auditCount }})</small></a></li>
 			{% endif %}
 		</ul>
 		<div class="tab-content">

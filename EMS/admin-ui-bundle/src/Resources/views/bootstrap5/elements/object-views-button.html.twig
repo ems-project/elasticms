@@ -3,7 +3,7 @@
 {%- set source = object.source|default(object._source is defined ? object._source : []) -%}
 {%- if contentType -%}
 	<div class="btn-group">
-		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+		<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 			<i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
 			{{ 'views.elements.object-views-button.action-dropdown-label'|trans({'%environment%': environment.label}) }}
 			<span class="caret"></span>

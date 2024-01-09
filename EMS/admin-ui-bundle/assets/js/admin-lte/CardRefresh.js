@@ -38,15 +38,15 @@ const Default = {
   responseType: '',
   overlayTemplate: '<div class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>',
   errorTemplate: '<span class="text-danger"></span>',
-  onLoadStart() {},
-  onLoadDone(response) {
+  onLoadStart () {},
+  onLoadDone (response) {
     return response
   },
-  onLoadFail(_jqXHR, _textStatus, _errorThrown) {}
+  onLoadFail (_jqXHR, _textStatus, _errorThrown) {}
 }
 
 class CardRefresh {
-  constructor(element, settings) {
+  constructor (element, settings) {
     this._element = element
     this._parent = element.parents(SELECTOR_CARD).first()
     this._settings = $.extend({}, Default, settings)
@@ -61,7 +61,7 @@ class CardRefresh {
     }
   }
 
-  load() {
+  load () {
     this._addOverlay()
     this._settings.onLoadStart.call($(this))
 
@@ -77,33 +77,33 @@ class CardRefresh {
       this._settings.onLoadDone.call($(this), response)
       this._removeOverlay()
     }, this._settings.responseType !== '' && this._settings.responseType)
-    .fail((jqXHR, textStatus, errorThrown) => {
-      this._removeOverlay()
+      .fail((jqXHR, textStatus, errorThrown) => {
+        this._removeOverlay()
 
-      if (this._settings.loadErrorTemplate) {
-        const msg = $(this._settings.errorTemplate).text(errorThrown)
-        this._parent.find(this._settings.content).empty().append(msg)
-      }
+        if (this._settings.loadErrorTemplate) {
+          const msg = $(this._settings.errorTemplate).text(errorThrown)
+          this._parent.find(this._settings.content).empty().append(msg)
+        }
 
-      this._settings.onLoadFail.call($(this), jqXHR, textStatus, errorThrown)
-    })
+        this._settings.onLoadFail.call($(this), jqXHR, textStatus, errorThrown)
+      })
 
     $(this._element).trigger($.Event(EVENT_LOADED))
   }
 
-  _addOverlay() {
+  _addOverlay () {
     this._parent.append(this._overlay)
     $(this._element).trigger($.Event(EVENT_OVERLAY_ADDED))
   }
 
-  _removeOverlay() {
+  _removeOverlay () {
     this._parent.find(this._overlay).remove()
     $(this._element).trigger($.Event(EVENT_OVERLAY_REMOVED))
   }
 
   // Private
 
-  _init() {
+  _init () {
     $(this).find(this._settings.trigger).on('click', () => {
       this.load()
     })
@@ -114,7 +114,7 @@ class CardRefresh {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

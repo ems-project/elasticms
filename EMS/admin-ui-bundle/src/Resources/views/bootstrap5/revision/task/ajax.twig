@@ -42,8 +42,8 @@
                 <div id="revision-tasks-approved">
                     <div id="revision-tasks-approved-link">
                         <a href="#" id="btn-tasks-approved"
-                           data-toggle="true"
-                           data-toggle-text="{{ 'task.finished.hide'|trans({ '%number%': tasksApproved|length }) }}">
+                           data-bs-toggle="true"
+                           data-bs-toggle-text="{{ 'task.finished.hide'|trans({ '%number%': tasksApproved|length }) }}">
                             {{- 'task.finished.show'|trans({ '%number%': tasksApproved|length }) -}}
                         </a>
                     </div>
@@ -172,13 +172,13 @@
 
 {% block modalFooterClose %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-default task-icon-close" data-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-close" data-bs-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
 {% endblock %}
 
 {% block modalFooterActions %}
     <div class="pull-left">
-        <button type="button" class="btn btn-sm btn-default task-icon-close" data-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-close" data-bs-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
     {% if fromRevision == false %}
         <div class="pull-right">
@@ -201,7 +201,7 @@
 {% block modalCreateFooter %}
     <div class="pull-left">
         <button id="ajax-modal-submit" class="btn btn-sm btn-primary task-icon-create">{{ 'task.create.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-default task-icon-cancel" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-cancel" data-bs-dismiss="modal">Cancel</button>
     </div>
 {% endblock %}
 
@@ -209,12 +209,12 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active">
-                <a href="#tab_task_info" data-toggle="tab" aria-expanded="true">
+                <a href="#tab_task_info" data-bs-toggle="tab" aria-expanded="true">
                     <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;{{ 'task.update.tab.info'|trans }}
                 </a>
             </li>
             <li>
-                <a href="#tab_task_history" data-toggle="tab" aria-expanded="false">
+                <a href="#tab_task_history" data-bs-toggle="tab" aria-expanded="false">
                     <i class="fa fa-history" aria-hidden="true"></i>&nbsp;{{ 'task.update.tab.history'|trans }}
                 </a>
             </li>
@@ -274,7 +274,7 @@
                     data-url="{{ path('ems_core_task_ajax_delete', {'revisionId': revisionId, 'taskId': task.id}) }}"
                     class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>
         {% endif %}
-        <button type="button" class="btn btn-sm btn-default task-icon-close" data-dismiss="modal">{{ 'task.close'|trans }}</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-close" data-bs-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
 {% endblock %}
 
@@ -285,7 +285,7 @@
 {% block modalDeleteFooter %}
     <div class="pull-left">
         <button id="ajax-modal-submit" class="btn btn-sm btn-danger task-icon-delete">{{ 'task.delete.submit'|trans }}</button>
-        <button type="button" class="btn btn-sm btn-default task-icon-cancel" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-default task-icon-cancel" data-bs-dismiss="modal">Cancel</button>
     </div>
 {% endblock %}
 

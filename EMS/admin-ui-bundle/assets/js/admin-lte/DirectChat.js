@@ -30,17 +30,17 @@ const CLASS_NAME_DIRECT_CHAT_OPEN = 'direct-chat-contacts-open'
  */
 
 class DirectChat {
-  constructor(element) {
+  constructor (element) {
     this._element = element
   }
 
-  toggle() {
+  toggle () {
     $(this._element).parents(SELECTOR_DIRECT_CHAT).first().toggleClass(CLASS_NAME_DIRECT_CHAT_OPEN)
     $(this._element).trigger($.Event(EVENT_TOGGLED))
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
 

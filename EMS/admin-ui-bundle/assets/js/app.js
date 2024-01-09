@@ -3,7 +3,8 @@ require('../css/fontawsome.scss')
 require('../css/plugins.scss')
 
 require('@popperjs/core')
-require('bootstrap')
+window.bootstrap = require('bootstrap')
 require('./admin-lte/AdminLTE')
+require('./core/core')
 
 console.log('Bootstrap 5 UI loaded')

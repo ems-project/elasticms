@@ -32,14 +32,14 @@ const Default = {
  */
 
 class Fullscreen {
-  constructor(_element, _options) {
+  constructor (_element, _options) {
     this.element = _element
     this.options = _options
   }
 
   // Public
 
-  toggle() {
+  toggle () {
     if (document.fullscreenElement ||
       document.mozFullScreenElement ||
       document.webkitFullscreenElement ||
@@ -50,7 +50,7 @@ class Fullscreen {
     }
   }
 
-  toggleIcon() {
+  toggleIcon () {
     if (document.fullscreenElement ||
       document.mozFullScreenElement ||
       document.webkitFullscreenElement ||
@@ -61,7 +61,7 @@ class Fullscreen {
     }
   }
 
-  fullscreen() {
+  fullscreen () {
     if (document.documentElement.requestFullscreen) {
       document.documentElement.requestFullscreen()
     } else if (document.documentElement.webkitRequestFullscreen) {
@@ -71,7 +71,7 @@ class Fullscreen {
     }
   }
 
-  windowed() {
+  windowed () {
     if (document.exitFullscreen) {
       document.exitFullscreen()
     } else if (document.webkitExitFullscreen) {
@@ -82,7 +82,7 @@ class Fullscreen {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
       const _config = $.extend({}, Default, typeof config === 'object' ? config : $(this).data())

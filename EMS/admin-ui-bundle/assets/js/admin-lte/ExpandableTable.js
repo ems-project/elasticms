@@ -30,13 +30,13 @@ const SELECTOR_ARIA_ATTR = 'aria-expanded'
   * ====================================================
   */
 class ExpandableTable {
-  constructor(element) {
+  constructor (element) {
     this._element = element
   }
 
   // Public
 
-  _init() {
+  _init () {
     $(SELECTOR_DATA_TOGGLE).each((_, $header) => {
       const $type = $($header).attr(SELECTOR_ARIA_ATTR)
       const $body = $($header).next(SELECTOR_EXPANDABLE_BODY).children().first().children()
@@ -49,7 +49,7 @@ class ExpandableTable {
     })
   }
 
-  toggleRow() {
+  toggleRow () {
     let $element = this._element
 
     if ($element[0].nodeName !== 'TR') {
@@ -79,7 +79,7 @@ class ExpandableTable {
   }
 
   // Static
-  static _jQueryInterface(config) {
+  static _jQueryInterface (config) {
     return this.each(function () {
       let data = $(this).data(DATA_KEY)
 

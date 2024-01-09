@@ -15,7 +15,7 @@
         {% for tabName in tabs %}
             {% if currentTab == tabName %}
                 <li class="active">
-                    <a href="#{{ currentTab }}" data-toggle="tab" aria-expanded="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
+                    <a href="#{{ currentTab }}" data-bs-toggle="tab" aria-expanded="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
                 </li>
             {% else %}
                 <li>
@@ -28,7 +28,7 @@
         {% if filterForm is defined %}
             <li class="pull-right">
                 <div>
-                    <a class="btn btn-sm btn-primary" role="button" data-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
+                    <a class="btn btn-sm btn-primary" role="button" data-bs-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
                         <i class="fa fa-filter" aria-hidden="true"></i> {{ 'task.filters'|trans }}
                     </a>
                 </div>
@@ -42,7 +42,7 @@
             {{ form(formTable) }}
             {% if table.count > 0 %}
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Export <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">

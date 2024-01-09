@@ -85,7 +85,7 @@
 
     _isFloating: function (item) {
       return (/left|right/).test(item.css('float')) ||
-			(/inline|table-cell/).test(item.css('display'))
+   (/inline|table-cell/).test(item.css('display'))
     },
 
     _create: function () {
@@ -199,9 +199,9 @@
       this._cacheHelperProportions()
 
       /*
-		 * - Position generation -
-		 * This block generates everything position related - it's the core of draggables.
-		 */
+   * - Position generation -
+   * This block generates everything position related - it's the core of draggables.
+   */
 
       // Cache the margins of the original element
       this._cacheMargins()
@@ -269,7 +269,7 @@
         body.css('cursor', o.cursor)
 
         this.storedStylesheet =
-				$('<style>*{ cursor: ' + o.cursor + ' !important; }</style>').appendTo(body)
+    $('<style>*{ cursor: ' + o.cursor + ' !important; }</style>').appendTo(body)
       }
 
       if (o.opacity) { // opacity option
@@ -288,7 +288,7 @@
 
       // Prepare scrolling
       if (this.scrollParent[0] !== this.document[0] &&
-				this.scrollParent[0].tagName !== 'HTML') {
+    this.scrollParent[0].tagName !== 'HTML') {
         this.overflowOffset = this.scrollParent.offset()
       }
 
@@ -342,29 +342,29 @@
       // Do scrolling
       if (this.options.scroll) {
         if (this.scrollParent[0] !== this.document[0] &&
-					this.scrollParent[0].tagName !== 'HTML') {
+     this.scrollParent[0].tagName !== 'HTML') {
           if ((this.overflowOffset.top + this.scrollParent[0].offsetHeight) -
-						event.pageY < o.scrollSensitivity) {
+      event.pageY < o.scrollSensitivity) {
             this.scrollParent[0].scrollTop =
-						scrolled = this.scrollParent[0].scrollTop + o.scrollSpeed
+      scrolled = this.scrollParent[0].scrollTop + o.scrollSpeed
           } else if (event.pageY - this.overflowOffset.top < o.scrollSensitivity) {
             this.scrollParent[0].scrollTop =
-						scrolled = this.scrollParent[0].scrollTop - o.scrollSpeed
+      scrolled = this.scrollParent[0].scrollTop - o.scrollSpeed
           }
 
           if ((this.overflowOffset.left + this.scrollParent[0].offsetWidth) -
-						event.pageX < o.scrollSensitivity) {
+      event.pageX < o.scrollSensitivity) {
             this.scrollParent[0].scrollLeft = scrolled =
-						this.scrollParent[0].scrollLeft + o.scrollSpeed
+      this.scrollParent[0].scrollLeft + o.scrollSpeed
           } else if (event.pageX - this.overflowOffset.left < o.scrollSensitivity) {
             this.scrollParent[0].scrollLeft = scrolled =
-						this.scrollParent[0].scrollLeft - o.scrollSpeed
+      this.scrollParent[0].scrollLeft - o.scrollSpeed
           }
         } else {
           if (event.pageY - this.document.scrollTop() < o.scrollSensitivity) {
             scrolled = this.document.scrollTop(this.document.scrollTop() - o.scrollSpeed)
           } else if (this.window.height() - (event.pageY - this.document.scrollTop()) <
-						o.scrollSensitivity) {
+      o.scrollSensitivity) {
             scrolled = this.document.scrollTop(this.document.scrollTop() + o.scrollSpeed)
           }
 
@@ -373,7 +373,7 @@
               this.document.scrollLeft() - o.scrollSpeed
             )
           } else if (this.window.width() - (event.pageX - this.document.scrollLeft()) <
-						o.scrollSensitivity) {
+      o.scrollSensitivity) {
             scrolled = this.document.scrollLeft(
               this.document.scrollLeft() + o.scrollSpeed
             )
@@ -421,12 +421,12 @@
         // no useless actions that have been done before
         // no action if the item moved is the parent of the item checked
         if (itemElement !== this.currentItem[0] &&
-				this.placeholder[intersection === 1 ? 'next' : 'prev']()[0] !== itemElement &&
-				!$.contains(this.placeholder[0], itemElement) &&
-				(this.options.type === 'semi-dynamic'
-				    ? !$.contains(this.element[0], itemElement)
-				  : true
-				)
+            this.placeholder[intersection === 1 ? 'next' : 'prev']()[0] !== itemElement &&
+            !$.contains(this.placeholder[0], itemElement) &&
+            (this.options.type === 'semi-dynamic'
+              ? !$.contains(this.element[0], itemElement)
+              : true
+            )
         ) {
           this.direction = intersection === 1 ? 'down' : 'up'
 
@@ -474,17 +474,17 @@
 
         if (!axis || axis === 'x') {
           animation.left = cur.left - this.offset.parent.left - this.margins.left +
-					(this.offsetParent[0] === this.document[0].body
-					  ? 0
-					  : this.offsetParent[0].scrollLeft
-					)
+             (this.offsetParent[0] === this.document[0].body
+               ? 0
+               : this.offsetParent[0].scrollLeft
+             )
         }
         if (!axis || axis === 'y') {
           animation.top = cur.top - this.offset.parent.top - this.margins.top +
-					(this.offsetParent[0] === this.document[0].body
-					  ? 0
-					  : this.offsetParent[0].scrollTop
-					)
+            (this.offsetParent[0] === this.document[0].body
+              ? 0
+              : this.offsetParent[0].scrollTop
+            )
         }
         this.reverting = true
         $(this.helper).animate(
@@ -529,7 +529,7 @@
           this.placeholder[0].parentNode.removeChild(this.placeholder[0])
         }
         if (this.options.helper !== 'original' && this.helper &&
-					this.helper[0].parentNode) {
+     this.helper[0].parentNode) {
           this.helper.remove()
         }
 
@@ -561,7 +561,7 @@
         if (res) {
           str.push(
             (o.key || res[1] + '[]') +
-					'=' + (o.key && o.expression ? res[1] : res[2]))
+     '=' + (o.key && o.expression ? res[1] : res[2]))
         }
       })
 
@@ -597,42 +597,41 @@
       const dyClick = this.offset.click.top
       const dxClick = this.offset.click.left
       const isOverElementHeight = (this.options.axis === 'x') || ((y1 + dyClick) > t &&
-				(y1 + dyClick) < b)
+    (y1 + dyClick) < b)
       const isOverElementWidth = (this.options.axis === 'y') || ((x1 + dxClick) > l &&
-				(x1 + dxClick) < r)
+    (x1 + dxClick) < r)
       const isOverElement = isOverElementHeight && isOverElementWidth
 
       if (this.options.tolerance === 'pointer' ||
-			this.options.forcePointerForContainers ||
-			(this.options.tolerance !== 'pointer' &&
-				this.helperProportions[this.floating ? 'width' : 'height'] >
-				item[this.floating ? 'width' : 'height'])
+   this.options.forcePointerForContainers ||
+   (this.options.tolerance !== 'pointer' &&
+    this.helperProportions[this.floating ? 'width' : 'height'] >
+    item[this.floating ? 'width' : 'height'])
       ) {
         return isOverElement
       } else {
         return (l < x1 + (this.helperProportions.width / 2) && // Right Half
-				x2 - (this.helperProportions.width / 2) < r && // Left Half
-				t < y1 + (this.helperProportions.height / 2) && // Bottom Half
-				y2 - (this.helperProportions.height / 2) < b) // Top Half
+    x2 - (this.helperProportions.width / 2) < r && // Left Half
+    t < y1 + (this.helperProportions.height / 2) && // Bottom Half
+    y2 - (this.helperProportions.height / 2) < b) // Top Half
       }
     },
 
     _intersectsWithPointer: function (item) {
-      let verticalDirection; let horizontalDirection
       const isOverElementHeight = (this.options.axis === 'x') ||
-				this._isOverAxis(
-				  this.positionAbs.top + this.offset.click.top, item.top, item.height)
+    this._isOverAxis(
+      this.positionAbs.top + this.offset.click.top, item.top, item.height)
       const isOverElementWidth = (this.options.axis === 'y') ||
-				this._isOverAxis(
-				  this.positionAbs.left + this.offset.click.left, item.left, item.width)
+    this._isOverAxis(
+      this.positionAbs.left + this.offset.click.left, item.left, item.width)
       const isOverElement = isOverElementHeight && isOverElementWidth
 
       if (!isOverElement) {
         return false
       }
 
-      verticalDirection = this._getDragVerticalDirection()
-      horizontalDirection = this._getDragHorizontalDirection()
+      const verticalDirection = this._getDragVerticalDirection()
+      const horizontalDirection = this._getDragHorizontalDirection()
 
       return this.floating
         ? ((horizontalDirection === 'right' || verticalDirection === 'down') ? 2 : 1)
@@ -641,18 +640,18 @@
 
     _intersectsWithSides: function (item) {
       const isOverBottomHalf = this._isOverAxis(this.positionAbs.top +
-				this.offset.click.top, item.top + (item.height / 2), item.height)
+    this.offset.click.top, item.top + (item.height / 2), item.height)
       const isOverRightHalf = this._isOverAxis(this.positionAbs.left +
-				this.offset.click.left, item.left + (item.width / 2), item.width)
+    this.offset.click.left, item.left + (item.width / 2), item.width)
       const verticalDirection = this._getDragVerticalDirection()
       const horizontalDirection = this._getDragHorizontalDirection()
 
       if (this.floating && horizontalDirection) {
         return ((horizontalDirection === 'right' && isOverRightHalf) ||
-				(horizontalDirection === 'left' && !isOverRightHalf))
+    (horizontalDirection === 'left' && !isOverRightHalf))
       } else {
         return verticalDirection && ((verticalDirection === 'down' && isOverBottomHalf) ||
-				(verticalDirection === 'up' && !isOverBottomHalf))
+    (verticalDirection === 'up' && !isOverBottomHalf))
       }
     },
 
@@ -801,7 +800,7 @@
 
         // We ignore calculating positions of all connected containers when we're not over them
         if (item.instance !== this.currentContainer && this.currentContainer &&
-					item.item[0] !== this.currentItem[0]) {
+     item.item[0] !== this.currentItem[0]) {
           continue
         }
 
@@ -827,9 +826,9 @@
           this.containers[i].containerCache.left = p.left
           this.containers[i].containerCache.top = p.top
           this.containers[i].containerCache.width =
-					this.containers[i].element.outerWidth()
+     this.containers[i].element.outerWidth()
           this.containers[i].containerCache.height =
-					this.containers[i].element.outerHeight()
+     this.containers[i].element.outerHeight()
         }
       }
 
@@ -883,14 +882,14 @@
             if (!p.height()) {
               p.height(
                 that.currentItem.innerHeight() -
-							parseInt(that.currentItem.css('paddingTop') || 0, 10) -
-							parseInt(that.currentItem.css('paddingBottom') || 0, 10))
+       parseInt(that.currentItem.css('paddingTop') || 0, 10) -
+       parseInt(that.currentItem.css('paddingBottom') || 0, 10))
             }
             if (!p.width()) {
               p.width(
                 that.currentItem.innerWidth() -
-							parseInt(that.currentItem.css('paddingLeft') || 0, 10) -
-							parseInt(that.currentItem.css('paddingRight') || 0, 10))
+       parseInt(that.currentItem.css('paddingLeft') || 0, 10) -
+       parseInt(that.currentItem.css('paddingRight') || 0, 10))
             }
           }
         }
@@ -932,9 +931,9 @@
         if (this._intersectsWith(this.containers[i].containerCache)) {
           // If we've already found a container and it's more "inner" than this, then continue
           if (innermostContainer &&
-						$.contains(
-						  this.containers[i].element[0],
-						  innermostContainer.element[0])) {
+      $.contains(
+        this.containers[i].element[0],
+        innermostContainer.element[0])) {
             continue
           }
 
@@ -1088,7 +1087,7 @@
       // the document, which means that the scroll is included in the initial calculation of the
       // offset of the parent, and never recalculated upon drag
       if (this.cssPosition === 'absolute' && this.scrollParent[0] !== this.document[0] &&
-				$.contains(this.scrollParent[0], this.offsetParent[0])) {
+    $.contains(this.scrollParent[0], this.offsetParent[0])) {
         po.left += this.scrollParent.scrollLeft()
         po.top += this.scrollParent.scrollTop()
       }
@@ -1096,8 +1095,8 @@
       // This needs to be actually done for all browsers, since pageX/pageY includes this
       // information with an ugly IE fix
       if (this.offsetParent[0] === this.document[0].body ||
-				(this.offsetParent[0].tagName &&
-				this.offsetParent[0].tagName.toLowerCase() === 'html' && $.ui.ie)) {
+    (this.offsetParent[0].tagName &&
+    this.offsetParent[0].tagName.toLowerCase() === 'html' && $.ui.ie)) {
         po = { top: 0, left: 0 }
       }
 
@@ -1112,9 +1111,9 @@
         const p = this.currentItem.position()
         return {
           top: p.top - (parseInt(this.helper.css('top'), 10) || 0) +
-					this.scrollParent.scrollTop(),
+     this.scrollParent.scrollTop(),
           left: p.left - (parseInt(this.helper.css('left'), 10) || 0) +
-					this.scrollParent.scrollLeft()
+     this.scrollParent.scrollLeft()
         }
       } else {
         return { top: 0, left: 0 }
@@ -1162,17 +1161,17 @@
 
         this.containment = [
           co.left + (parseInt($(ce).css('borderLeftWidth'), 10) || 0) +
-					(parseInt($(ce).css('paddingLeft'), 10) || 0) - this.margins.left,
+     (parseInt($(ce).css('paddingLeft'), 10) || 0) - this.margins.left,
           co.top + (parseInt($(ce).css('borderTopWidth'), 10) || 0) +
-					(parseInt($(ce).css('paddingTop'), 10) || 0) - this.margins.top,
+     (parseInt($(ce).css('paddingTop'), 10) || 0) - this.margins.top,
           co.left + (over ? Math.max(ce.scrollWidth, ce.offsetWidth) : ce.offsetWidth) -
-					(parseInt($(ce).css('borderLeftWidth'), 10) || 0) -
-					(parseInt($(ce).css('paddingRight'), 10) || 0) -
-					this.helperProportions.width - this.margins.left,
+     (parseInt($(ce).css('borderLeftWidth'), 10) || 0) -
+     (parseInt($(ce).css('paddingRight'), 10) || 0) -
+     this.helperProportions.width - this.margins.left,
           co.top + (over ? Math.max(ce.scrollHeight, ce.offsetHeight) : ce.offsetHeight) -
-					(parseInt($(ce).css('borderTopWidth'), 10) || 0) -
-					(parseInt($(ce).css('paddingBottom'), 10) || 0) -
-					this.helperProportions.height - this.margins.top
+     (parseInt($(ce).css('borderTopWidth'), 10) || 0) -
+     (parseInt($(ce).css('paddingBottom'), 10) || 0) -
+     this.helperProportions.height - this.margins.top
         ]
       }
     },
@@ -1183,8 +1182,8 @@
       }
       const mod = d === 'absolute' ? 1 : -1
       const scroll = this.cssPosition === 'absolute' &&
-				!(this.scrollParent[0] !== this.document[0] &&
-				$.contains(this.scrollParent[0], this.offsetParent[0]))
+    !(this.scrollParent[0] !== this.document[0] &&
+    $.contains(this.scrollParent[0], this.offsetParent[0]))
         ? this.offsetParent
         : this.scrollParent
       const scrollIsRootNode = (/(html|body)/i).test(scroll[0].tagName)
@@ -1193,32 +1192,32 @@
         top: (
 
         // The absolute mouse position
-          pos.top	+
+          pos.top +
 
-				// Only for relative positioned nodes: Relative offset from element to offset parent
-				this.offset.relative.top * mod +
+    // Only for relative positioned nodes: Relative offset from element to offset parent
+    this.offset.relative.top * mod +
 
-				// The offsetParent's offset without borders (offset + border)
-				this.offset.parent.top * mod -
-				((this.cssPosition === 'fixed'
-				    ? -this.scrollParent.scrollTop()
-				  : (scrollIsRootNode ? 0 : scroll.scrollTop())) * mod)
+    // The offsetParent's offset without borders (offset + border)
+    this.offset.parent.top * mod -
+    ((this.cssPosition === 'fixed'
+      ? -this.scrollParent.scrollTop()
+      : (scrollIsRootNode ? 0 : scroll.scrollTop())) * mod)
         ),
         left: (
 
         // The absolute mouse position
           pos.left +
 
-				// Only for relative positioned nodes: Relative offset from element to offset parent
-				this.offset.relative.left * mod +
+    // Only for relative positioned nodes: Relative offset from element to offset parent
+    this.offset.relative.left * mod +
 
-				// The offsetParent's offset without borders (offset + border)
-				this.offset.parent.left * mod	-
-				((this.cssPosition === 'fixed'
-				    ? -this.scrollParent.scrollLeft()
-				  : scrollIsRootNode
-				    ? 0
-				    : scroll.scrollLeft()) * mod)
+    // The offsetParent's offset without borders (offset + border)
+    this.offset.parent.left * mod -
+    ((this.cssPosition === 'fixed'
+      ? -this.scrollParent.scrollLeft()
+      : scrollIsRootNode
+        ? 0
+        : scroll.scrollLeft()) * mod)
         )
       }
     },
@@ -1229,8 +1228,8 @@
       let pageX = event.pageX
       let pageY = event.pageY
       const scroll = this.cssPosition === 'absolute' &&
-				!(this.scrollParent[0] !== this.document[0] &&
-				$.contains(this.scrollParent[0], this.offsetParent[0]))
+    !(this.scrollParent[0] !== this.document[0] &&
+    $.contains(this.scrollParent[0], this.offsetParent[0]))
         ? this.offsetParent
         : this.scrollParent
       const scrollIsRootNode = (/(html|body)/i).test(scroll[0].tagName)
@@ -1240,14 +1239,14 @@
       // 2. and the scroll parent is the document or similar to the offset parent
       // we have to refresh the relative offset during the scroll so there are no jumps
       if (this.cssPosition === 'relative' && !(this.scrollParent[0] !== this.document[0] &&
-				this.scrollParent[0] !== this.offsetParent[0])) {
+    this.scrollParent[0] !== this.offsetParent[0])) {
         this.offset.relative = this._getRelativeOffset()
       }
 
       /*
-		 * - Position constraining -
-		 * Constrain the position to a mix of grid, containment.
-		 */
+   * - Position constraining -
+   * Constrain the position to a mix of grid, containment.
+   */
 
       if (this.originalPosition) { // If we are not dragging yet, we won't check for options
         if (this.containment) {
@@ -1267,10 +1266,10 @@
 
         if (o.grid) {
           top = this.originalPageY + Math.round((pageY - this.originalPageY) /
-					o.grid[1]) * o.grid[1]
+     o.grid[1]) * o.grid[1]
           pageY = this.containment
             ? ((top - this.offset.click.top >= this.containment[1] &&
-						top - this.offset.click.top <= this.containment[3])
+      top - this.offset.click.top <= this.containment[3])
                 ? top
                 : ((top - this.offset.click.top >= this.containment[1])
                     ? top - o.grid[1]
@@ -1278,10 +1277,10 @@
             : top
 
           left = this.originalPageX + Math.round((pageX - this.originalPageX) /
-					o.grid[0]) * o.grid[0]
+     o.grid[0]) * o.grid[0]
           pageX = this.containment
             ? ((left - this.offset.click.left >= this.containment[0] &&
-						left - this.offset.click.left <= this.containment[2])
+      left - this.offset.click.left <= this.containment[2])
                 ? left
                 : ((left - this.offset.click.left >= this.containment[0])
                     ? left - o.grid[0]
@@ -1296,34 +1295,34 @@
         // The absolute mouse position
           pageY -
 
-				// Click offset (relative to the element)
-				this.offset.click.top -
+    // Click offset (relative to the element)
+    this.offset.click.top -
 
-				// Only for relative positioned nodes: Relative offset from element to offset parent
-				this.offset.relative.top -
+    // Only for relative positioned nodes: Relative offset from element to offset parent
+    this.offset.relative.top -
 
-				// The offsetParent's offset without borders (offset + border)
-				this.offset.parent.top +
-				((this.cssPosition === 'fixed'
-				    ? -this.scrollParent.scrollTop()
-				  : (scrollIsRootNode ? 0 : scroll.scrollTop())))
+    // The offsetParent's offset without borders (offset + border)
+    this.offset.parent.top +
+    ((this.cssPosition === 'fixed'
+      ? -this.scrollParent.scrollTop()
+      : (scrollIsRootNode ? 0 : scroll.scrollTop())))
         ),
         left: (
 
         // The absolute mouse position
           pageX -
 
-				// Click offset (relative to the element)
-				this.offset.click.left -
+    // Click offset (relative to the element)
+    this.offset.click.left -
 
-				// Only for relative positioned nodes: Relative offset from element to offset parent
-				this.offset.relative.left -
+    // Only for relative positioned nodes: Relative offset from element to offset parent
+    this.offset.relative.left -
 
-				// The offsetParent's offset without borders (offset + border)
-				this.offset.parent.left +
-				((this.cssPosition === 'fixed'
-				    ? -this.scrollParent.scrollLeft()
-				  : scrollIsRootNode ? 0 : scroll.scrollLeft()))
+    // The offsetParent's offset without borders (offset + border)
+    this.offset.parent.left +
+    ((this.cssPosition === 'fixed'
+      ? -this.scrollParent.scrollLeft()
+      : scrollIsRootNode ? 0 : scroll.scrollLeft()))
         )
       }
     },
@@ -1385,9 +1384,9 @@
         })
       }
       if ((this.fromOutside ||
-				this.domPosition.prev !==
-				this.currentItem.prev().not('.ui-sortable-helper')[0] ||
-				this.domPosition.parent !== this.currentItem.parent()[0]) && !noPropagation) {
+    this.domPosition.prev !==
+    this.currentItem.prev().not('.ui-sortable-helper')[0] ||
+    this.domPosition.parent !== this.currentItem.parent()[0]) && !noPropagation) {
         // Trigger update callback if the DOM position has changed
         delayedTriggers.push(function (event) {
           this._trigger('update', event, this._uiHash())

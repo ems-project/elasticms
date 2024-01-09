@@ -4,7 +4,7 @@
  * https://github.com/ilikenwf/nestedSortable
  *
  * Depends on:
- *	 jquery.ui.sortable.js 1.10+
+ *  jquery.ui.sortable.js 1.10+
  *
  * Copyright (c) 2010-2016 Manuele J Sarfatti and contributors
  * Licensed under the MIT License
@@ -63,8 +63,7 @@
 
       // mjs - prevent browser from freezing if the HTML is not correct
       if (!this.element.is(this.options.listType)) {
-        err = 'nestedSortable: ' +
-					'Please check that the listType option is set to your actual list type'
+        err = 'nestedSortable: ' + 'Please check that the listType option is set to your actual list type'
 
         throw new Error(err)
       }
@@ -143,78 +142,34 @@
       // Do scrolling
       if (this.options.scroll) {
         if (false && this.scrollParent[0] !== document && this.scrollParent[0].tagName !== 'HTML') {
-          if (
-            (
-              this.overflowOffset.top +
-							this.scrollParent[0].offsetHeight
-            ) -
-						event.pageY <
-						o.scrollSensitivity
-          ) {
+          if ((this.overflowOffset.top + this.scrollParent[0].offsetHeight) - event.pageY < o.scrollSensitivity) {
             scrolled = this.scrollParent.scrollTop() + o.scrollSpeed
             this.scrollParent.scrollTop(scrolled)
-          } else if (
-            event.pageY -
-						this.overflowOffset.top <
-						o.scrollSensitivity
-          ) {
+          } else if (event.pageY - this.overflowOffset.top < o.scrollSensitivity) {
             scrolled = this.scrollParent.scrollTop() - o.scrollSpeed
             this.scrollParent.scrollTop(scrolled)
           }
 
-          if (
-            (
-              this.overflowOffset.left +
-							this.scrollParent[0].offsetWidth
-            ) -
-						event.pageX <
-						o.scrollSensitivity
-          ) {
+          if ((this.overflowOffset.left + this.scrollParent[0].offsetWidth) - event.pageX < o.scrollSensitivity) {
             scrolled = this.scrollParent.scrollLeft() + o.scrollSpeed
             this.scrollParent.scrollLeft(scrolled)
-          } else if (
-            event.pageX -
-						this.overflowOffset.left <
-						o.scrollSensitivity
-          ) {
+          } else if (event.pageX - this.overflowOffset.left < o.scrollSensitivity) {
             scrolled = this.scrollParent.scrollLeft() - o.scrollSpeed
             this.scrollParent.scrollLeft(scrolled)
           }
         } else {
-          if (
-            event.pageY -
-						$document.scrollTop() <
-						o.scrollSensitivity
-          ) {
+          if (event.pageY - $document.scrollTop() < o.scrollSensitivity) {
             scrolled = $document.scrollTop() - o.scrollSpeed
             $document.scrollTop(scrolled)
-          } else if (
-            $(window).height() -
-						(
-						  event.pageY -
-							$document.scrollTop()
-						) <
-						o.scrollSensitivity
-          ) {
+          } else if ($(window).height() - (event.pageY - $document.scrollTop()) < o.scrollSensitivity) {
             scrolled = $document.scrollTop() + o.scrollSpeed
             $document.scrollTop(scrolled)
           }
 
-          if (
-            event.pageX -
-						$document.scrollLeft() <
-						o.scrollSensitivity
-          ) {
+          if (event.pageX - $document.scrollLeft() < o.scrollSensitivity) {
             scrolled = $document.scrollLeft() - o.scrollSpeed
             $document.scrollLeft(scrolled)
-          } else if (
-            $(window).width() -
-						(
-						  event.pageX -
-							$document.scrollLeft()
-						) <
-						o.scrollSensitivity
-          ) {
+          } else if ($(window).width() - (event.pageX - $document.scrollLeft()) < o.scrollSensitivity) {
             scrolled = $document.scrollLeft() + o.scrollSpeed
             $document.scrollLeft(scrolled)
           }
@@ -302,13 +257,12 @@
         // no useless actions that have been done before
         // no action if the item moved is the parent of the item checked
         if (itemElement !== this.currentItem[0] &&
-					this.placeholder[method]()[0] !== itemElement &&
-					!$.contains(this.placeholder[0], itemElement) &&
-					(
-					  this.options.type === 'semi-dynamic'
-					      ? !$.contains(this.element[0], itemElement)
-					    : true
-					)
+         this.placeholder[method]()[0] !== itemElement &&
+         !$.contains(this.placeholder[0], itemElement) &&
+         (this.options.type === 'semi-dynamic'
+           ? !$.contains(this.element[0], itemElement)
+           : true
+         )
         ) {
           // mjs - we are intersecting an element:
           // trigger the mouseenter event and store this state
@@ -349,16 +303,14 @@
             // it's a root item and 'protectRoot' is true
             // or if it's not a root item but we are trying to make it root
             if (o.protectRoot &&
-							!(
-							  this.currentItem[0].parentNode === this.element[0] &&
-								// it's a root item
-								itemElement.parentNode !== this.element[0]
-								// it's intersecting a non-root item
-							)
+               !(
+                 this.currentItem[0].parentNode === this.element[0] &&
+                // it's a root item
+                itemElement.parentNode !== this.element[0]
+                // it's intersecting a non-root item
+               )
             ) {
-              if (this.currentItem[0].parentNode !== this.element[0] &&
-								itemElement.parentNode === this.element[0]
-              ) {
+              if (this.currentItem[0].parentNode !== this.element[0] && itemElement.parentNode === this.element[0]) {
                 if (!$(itemElement).children(o.listType).length) {
                   itemElement.appendChild(newList)
                   if (o.isTree) {
@@ -409,9 +361,9 @@
       if (previousItem != null) {
         while (
           previousItem[0].nodeName.toLowerCase() !== 'li' ||
-					previousItem[0].className.indexOf(o.disabledClass) !== -1 ||
-					previousItem[0] === this.currentItem[0] ||
-					previousItem[0] === this.helper[0]
+            previousItem[0].className.indexOf(o.disabledClass) !== -1 ||
+            previousItem[0] === this.currentItem[0] ||
+            previousItem[0] === this.helper[0]
         ) {
           if (previousItem[0].previousSibling) {
             previousItem = $(previousItem[0].previousSibling)
@@ -436,9 +388,9 @@
       if (nextItem != null) {
         while (
           nextItem[0].nodeName.toLowerCase() !== 'li' ||
-					nextItem[0].className.indexOf(o.disabledClass) !== -1 ||
-					nextItem[0] === this.currentItem[0] ||
-					nextItem[0] === this.helper[0]
+             nextItem[0].className.indexOf(o.disabledClass) !== -1 ||
+             nextItem[0] === this.currentItem[0] ||
+             nextItem[0] === this.helper[0]
         ) {
           if (nextItem[0].nextSibling) {
             nextItem = $(nextItem[0].nextSibling)
@@ -453,18 +405,19 @@
 
       // mjs - if the item is moved to the left, send it one level up
       // but only if it's at the bottom of the list
-      if (parentItem != null &&
-				nextItem == null &&
-				!(o.protectRoot && parentItem[0].parentNode == this.element[0]) &&
-				(
-				  o.rtl &&
-					(
-					  this.positionAbs.left +
-						this.helper.outerWidth() > parentItem.offset().left +
-						parentItem.outerWidth()
-					) ||
-					!o.rtl && (this.positionAbs.left < parentItem.offset().left)
-				)
+      if (
+        parentItem != null &&
+            nextItem == null &&
+            !(o.protectRoot && parentItem[0].parentNode == this.element[0]) &&
+            (
+              o.rtl &&
+             (
+               this.positionAbs.left +
+              this.helper.outerWidth() > parentItem.offset().left +
+              parentItem.outerWidth()
+             ) ||
+             !o.rtl && (this.positionAbs.left < parentItem.offset().left)
+            )
       ) {
         parentItem.after(this.placeholder[0])
         helperIsNotSibling = !parentItem
@@ -481,25 +434,25 @@
         // mjs - if the item is below a sibling and is moved to the right,
         // make it a child of that sibling
       } else if (previousItem != null &&
-				!previousItem.hasClass(o.disableNestingClass) &&
-				(
-				  previousItem.children(o.listType).length &&
-					previousItem.children(o.listType).is(':visible') ||
-					!previousItem.children(o.listType).length
-				) &&
-				!(o.protectRoot && this.currentItem[0].parentNode === this.element[0]) &&
-				(
-				  o.rtl &&
-					(
-					  this.positionAbs.left +
-						this.helper.outerWidth() <
-						previousItem.offset().left +
-						previousItem.outerWidth() -
-						o.tabSize
-					) ||
-					!o.rtl &&
-					(this.positionAbs.left > previousItem.offset().left + o.tabSize)
-				)
+    !previousItem.hasClass(o.disableNestingClass) &&
+    (
+      previousItem.children(o.listType).length &&
+     previousItem.children(o.listType).is(':visible') ||
+     !previousItem.children(o.listType).length
+    ) &&
+    !(o.protectRoot && this.currentItem[0].parentNode === this.element[0]) &&
+    (
+      o.rtl &&
+     (
+       this.positionAbs.left +
+      this.helper.outerWidth() <
+      previousItem.offset().left +
+      previousItem.outerWidth() -
+      o.tabSize
+     ) ||
+     !o.rtl &&
+     (this.positionAbs.left > previousItem.offset().left + o.tabSize)
+    )
       ) {
         this._isAllowed(previousItem, level, level + childLevels + 1)
 
@@ -596,12 +549,12 @@
       if (this.floating && horizontalDirection) {
         return (
           (horizontalDirection === 'right' && isOverRightHalf) ||
-					(horizontalDirection === 'left' && !isOverRightHalf)
+     (horizontalDirection === 'left' && !isOverRightHalf)
         )
       } else {
         return verticalDirection && (
           (verticalDirection === 'down' && isOverBottomHalf) ||
-					(verticalDirection === 'up' && isOverTopHalf)
+     (verticalDirection === 'up' && isOverTopHalf)
         )
       }
     },
@@ -622,7 +575,7 @@
 
       // relocate event
       if (!(this._pid_current === this._uiHash().item.parent().parent().attr('id') &&
-				this._sort_current === this._uiHash().item.index())) {
+    this._sort_current === this._uiHash().item.index())) {
         this._trigger('relocate', this._relocate_event, this._uiHash())
       }
 
@@ -650,11 +603,11 @@
           str.push(
             (
               (o.key || res[1]) +
-							'[' +
-							(o.key && o.expression ? res[1] : res[2]) + ']'
+       '[' +
+       (o.key && o.expression ? res[1] : res[2]) + ']'
             ) +
-						'=' +
-						(pid ? (o.key && o.expression ? pid[1] : pid[2]) : o.rootID))
+      '=' +
+      (pid ? (o.key && o.expression ? pid[1] : pid[2]) : o.rootID))
         }
       })
 
@@ -756,7 +709,7 @@
         }
 
         if (id) {
-					        const name = $(item).data('name')
+          const name = $(item).data('name')
           ret.push({
             id: id[2],
             parent_id: pid,
@@ -786,9 +739,9 @@
       const hasChildren = childrenList.is(':not(:empty)')
 
       const doNotClear =
-				o.doNotClear ||
-				hasChildren ||
-				o.protectRoot && $(item)[0] === this.element[0]
+    o.doNotClear ||
+    hasChildren ||
+    o.protectRoot && $(item)[0] === this.element[0]
 
       if (o.isTree) {
         replaceClass(item, o.branchClass, o.leafClass, doNotClear)
@@ -842,15 +795,15 @@
       // Check if the parent has changed to prevent it, when o.disableParentChange is true
       const oldParent = this.currentItem.parent().parent()
       const disabledByParentchange = o.disableParentChange && (
-        // From somewhere to somewhere else, except the root
+      // From somewhere to somewhere else, except the root
         typeof parentItem !== 'undefined' && !oldParent.is(parentItem) ||
-					typeof parentItem === 'undefined' && oldParent.is('li')	// From somewhere to the root
+     typeof parentItem === 'undefined' && oldParent.is('li') // From somewhere to the root
       )
       // mjs - is the root protected?
       // mjs - are we nesting too deep?
       if (
         disabledByParentchange ||
-				!o.isAllowed(this.placeholder, parentItem, this.currentItem)
+    !o.isAllowed(this.placeholder, parentItem, this.currentItem)
       ) {
         this.placeholder.addClass(o.errorClass)
         if (maxLevels < levels && maxLevels !== 0) {

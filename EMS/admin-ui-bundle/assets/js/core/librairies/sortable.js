@@ -116,7 +116,6 @@
     },
 
     _setHandleClassName: function () {
-      const that = this
       this._removeClass(this.element.find('.ui-sortable-handle'), 'ui-sortable-handle')
       $.each(this.items, function () {
         (this.instance.options.handle

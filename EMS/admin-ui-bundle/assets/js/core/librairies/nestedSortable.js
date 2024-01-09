@@ -118,13 +118,9 @@
       const o = this.options
       let scrolled = false
       const $document = $(document)
-      let previousTopOffset
       let parentItem
-      let level
-      let childLevels
       let itemAfter
       let itemBefore
-      let newList
       let method
       let a
       let previousItem
@@ -184,7 +180,7 @@
       this.positionAbs = this._convertPositionTo('absolute')
 
       // mjs - find the top offset before rearrangement,
-      previousTopOffset = this.placeholder.offset().top
+      const previousTopOffset = this.placeholder.offset().top
 
       // Set the helper position
       if (!this.options.axis || this.options.axis !== 'y') {
@@ -206,9 +202,9 @@
         }
       }.call(this))
 
-      level = this._getLevel(this.placeholder)
-      childLevels = this._getChildLevels(this.helper)
-      newList = document.createElement(o.listType)
+      const level = this._getLevel(this.placeholder)
+      const childLevels = this._getChildLevels(this.helper)
+      const newList = document.createElement(o.listType)
 
       // Rearrange
       for (i = this.items.length - 1; i >= 0; i--) {
@@ -408,7 +404,7 @@
       if (
         parentItem != null &&
             nextItem == null &&
-            !(o.protectRoot && parentItem[0].parentNode == this.element[0]) &&
+            !(o.protectRoot && parentItem[0].parentNode === this.element[0]) &&
             (
               o.rtl &&
              (
@@ -684,7 +680,6 @@
 
       function _recursiveArray (item, depth, _left) {
         let right = _left + 1
-        let id
         let pid
         let parentItem
 
@@ -696,7 +691,7 @@
           depth--
         }
 
-        id = ($(item).attr(o.attribute || 'id')).match(o.expression || (/(.+)[-=_](.+)/))
+        const id = ($(item).attr(o.attribute || 'id')).match(o.expression || (/(.+)[-=_](.+)/))
 
         if (depth === sDepth) {
           pid = o.rootID

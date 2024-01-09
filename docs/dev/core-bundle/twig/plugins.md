@@ -45,4 +45,14 @@ A class icon can be defined in the `data-icon` attribute of the `OPTION` tag. Ad
 
 ## Select 2
 
-Another This is nice looking plugin for `SELECT` tags.
+Another nice looking plugin for `SELECT` tags.
+
+## Datatable
+
+Activate a datatable on a `TABLE ` tag by adding datatable options (JSON serialized) in a `data-datatable` attribute.
+
+```twig
+<table class="table table-condensed table-striped" data-datatable="{{ datatable.frontendOptions|json_encode|e('html_attr') }}">
+  ...
+</table>
+```

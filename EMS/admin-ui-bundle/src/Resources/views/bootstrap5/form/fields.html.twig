@@ -1215,190 +1215,188 @@
 
 {% block fieldTypeType_row -%}
 <li class="list-group-item" id="{{ form.vars.id }}_item">
-	<h4>
-	{% if form.vars.data.parent %}
-{# 			<i class="glyphicon glyphicon-move move-handle"></i>#}
-		<strong>{{ form.vars.data.name }}</strong>
-		<small>{{ form.vars.data.type }}</small>
-	{% elseif (form.vars.data.contentType.singularName is defined) %}
-		<strong>{{ form.vars.data.contentType.singularName }}</strong>
-	{% else %}
-		<strong>{{ 'form.field-type-type.root'|trans }}</strong>
-	{% endif %}
-	<div class="btn-group pull-right">
-		{% if form.add is defined %}
-			<!-- Modal windows add field -->
-			<div class="modal fade" id="{{ form.vars.id }}_modal_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">
-						Add a field to <strong>{{ form.vars.data.name }}</strong>
-					</h4>
-			      </div>
-			      <div class="modal-body">
-					{{ form_row( attribute(form, 'ems:internal:add:field:class')) }}
-					{{ form_row( attribute(form, 'ems:internal:add:field:name')) }}
-				  </div>
-			      <div class="modal-footer">
-			      	<div class="btn-group">
-			      		{{ form_widget(form.add) }}
-				        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-			      	</div>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_add">
-				<i class="fa fa-plus"></i> Field
-			</button>
-		{% endif %}
+	<div class="d-flex justify-content-between">
+        <h4>
+            {% if form.vars.data.parent %}
+                <strong>{{ form.vars.data.name }}</strong>&nbsp;
+                <small>{{ form.vars.data.type }}</small>
+            {% elseif (form.vars.data.contentType.singularName is defined) %}
+                <strong>{{ form.vars.data.contentType.singularName }}</strong>
+            {% else %}
+                <strong>{{ 'form.field-type-type.root'|trans }}</strong>
+            {% endif %}
+        </h4>
+        <div class="btn-group">
+            {% if form.add is defined %}
+                <!-- Modal windows add field -->
+                <div class="modal fade" id="{{ form.vars.id }}_modal_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Add a field to <strong>{{ form.vars.data.name }}</strong>
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        {{ form_row( attribute(form, 'ems:internal:add:field:class')) }}
+                        {{ form_row( attribute(form, 'ems:internal:add:field:name')) }}
+                      </div>
+                      <div class="modal-footer">
+                        <div class="btn-group">
+                            {{ form_widget(form.add) }}
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_add">
+                    <i class="fa fa-plus"></i> Field
+                </button>
+            {% endif %}
 
-		{% if form.subfield is defined %}
-			<div class="modal fade" id="{{ form.vars.id }}_modal_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">
-						Add a subfield to <strong>{{ form.vars.data.name }}</strong>
-					</h4>
-			      </div>
-			      <div class="modal-body">
-					{{ form_row( attribute(form, 'ems:internal:add:subfield:name')) }}
-				  </div>
-			      <div class="modal-footer">
-			      	<div class="btn-group">
-			      		{{ form_widget(form.subfield) }}
-				        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-			      	</div>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			<div class="modal fade" id="{{ form.vars.id }}_duplicate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">
-						Duplicate <strong>{{ form.vars.data.name }}</strong>
-					</h4>
-			      </div>
-			      <div class="modal-body">
-					{{ form_row( attribute(form, 'ems:internal:add:subfield:target_name')) }}
-				  </div>
-			      <div class="modal-footer">
-			      	<div class="btn-group">
-			      		{{ form_widget(form.duplicate) }}
-				        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-			      	</div>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			{% if form.vars.editSubfields  %}
-				<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_add">
-					<i class="fa fa-plus"></i> Subfield
-				</button>
-				<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_duplicate">
-					<i class="fa fa-paste"></i> Duplicate
-				</button>
-			{% endif %}
-		{% endif %}
+            {% if form.subfield is defined %}
+                <div class="modal fade" id="{{ form.vars.id }}_modal_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Add a subfield to <strong>{{ form.vars.data.name }}</strong>
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        {{ form_row( attribute(form, 'ems:internal:add:subfield:name')) }}
+                      </div>
+                      <div class="modal-footer">
+                        <div class="btn-group">
+                            {{ form_widget(form.subfield) }}
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" id="{{ form.vars.id }}_duplicate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Duplicate <strong>{{ form.vars.data.name }}</strong>
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        {{ form_row( attribute(form, 'ems:internal:add:subfield:target_name')) }}
+                      </div>
+                      <div class="modal-footer">
+                        <div class="btn-group">
+                            {{ form_widget(form.duplicate) }}
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% if form.vars.editSubfields  %}
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_add">
+                        <i class="fa fa-plus"></i> Subfield
+                    </button>
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_duplicate">
+                        <i class="fa fa-paste"></i> Duplicate
+                    </button>
+                {% endif %}
+            {% endif %}
 
-		{% if form.options is defined and form.vars.editSubfields %}
-			<!-- Modal windows field options -->
-			<div class="modal fade" id="{{ form.vars.id }}_modal_options" role="dialog" aria-labelledby="myModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalLabel">
-						Options for the field <strong>{{ form.vars.data.name }}</strong> <small>({{ form.vars.data.type }})</small>
-					</h4>
-			      </div>
-			      <div class="modal-body">
+            {% if form.options is defined and form.vars.editSubfields %}
+                <!-- Modal windows field options -->
+                <div class="modal fade" id="{{ form.vars.id }}_modal_options" role="dialog" aria-labelledby="myModalLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            Options for the field <strong>{{ form.vars.data.name }}</strong> <small>({{ form.vars.data.type }})</small>
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                            <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                    {% set active='active' %}
+                                    {% if form.options.displayOptions is defined %}
+                                        <li class="{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-toggle="tab" aria-expanded="true">Display</a></li>
+                                        {% set active='' %}
+                                    {%  endif %}
+                                    {% if form.options.mappingOptions is defined %}
+                                        <li class="{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Mapping</a></li>
+                                        {% set active='' %}
+                                    {%  endif %}
+                                    {% if form.options.restrictionOptions is defined %}
+                                      <li class="{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Restriction</a></li>
+                                        {% set active='' %}
+                                    {%  endif %}
+                                    {% if form.options.migrationOptions is defined %}
+                                      <li class="{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Migration</a></li>
+                                        {% set active='' %}
+                                    {%  endif %}
+                                    {% if form.options.extraOptions is defined %}
+                                      <li class="{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Extra</a></li>
+                                        {% set active='' %}
+                                    {%  endif %}
+                                </ul>
+                                {{- form_widget(form.options, {'seed': form.vars.id} ) -}}
+                            </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_options">
+                      <i class="fa fa-sliders"></i> Options
+                </button>
+            {% endif %}
 
-						<div class="nav-tabs-custom">
-							<ul class="nav nav-tabs">
-								{% set active='active' %}
-								{% if form.options.displayOptions is defined %}
-									<li class="{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-toggle="tab" aria-expanded="true">Display</a></li>
-									{% set active='' %}
-								{%  endif %}
-								{% if form.options.mappingOptions is defined %}
-									<li class="{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Mapping</a></li>
-									{% set active='' %}
-								{%  endif %}
-				                {% if form.options.restrictionOptions is defined %}
-				                  <li class="{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Restriction</a></li>
-									{% set active='' %}
-				                {%  endif %}
-				                {% if form.options.migrationOptions is defined %}
-				                  <li class="{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Migration</a></li>
-									{% set active='' %}
-				                {%  endif %}
-				                {% if form.options.extraOptions is defined %}
-				                  <li class="{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-toggle="tab" aria-expanded="false">Extra</a></li>
-									{% set active='' %}
-				                {%  endif %}
-							</ul>
-							{{- form_widget(form.options, {'seed': form.vars.id} ) -}}
-						</div>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_options">
-				  <i class="fa fa-sliders"></i> Options
-			</button>
-		{% endif %}
-
-		{% if form.reorder is defined %}
-			<div class="modal fade" id="{{ form.vars.id }}_modal_reorder" tabindex="-1" role="dialog" aria-labelledby="myModalReorderLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="myModalReorderLabel">
-						Reorder fields in <strong>{{ form.vars.data.name }}</strong>
-					</h4>
-			      </div>
-			      <div class="modal-body">
-					<ul class="list-group sortable" id="{{ form.vars.id }}_modal_reorder_list">
-			      		{% for child in form.vars.data.children|filter(child => not child.deleted) %}
-			      			<li class="list-group-item">
-			      				<i class="glyphicon glyphicon-move"></i>
-			      				{{ child.name }}
-			      				{{ form_row( attribute(attribute(form, 'ems_'~child.name), 'name')) }}
-			      			</li>
-			      		{% endfor %}
-					</ul>
-				  </div>
-			      <div class="modal-footer">
-			      	<div class="btn-group">
-			      		{{ form_widget(form.reorder) }}
-			      	</div>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_reorder">
-				<i class="fa fa-reorder"></i> {{ 'field_type.reorder'|trans }}
-			</button>
-		{% endif %}
-		{% if form.remove is defined %}
-			{{ form_widget(form.remove) }}
-		{% endif %}
-
+            {% if form.reorder is defined %}
+                <div class="modal fade" id="{{ form.vars.id }}_modal_reorder" tabindex="-1" role="dialog" aria-labelledby="myModalReorderLabel">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalReorderLabel">
+                            Reorder fields in <strong>{{ form.vars.data.name }}</strong>
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        <ul class="list-group sortable" id="{{ form.vars.id }}_modal_reorder_list">
+                            {% for child in form.vars.data.children|filter(child => not child.deleted) %}
+                                <li class="list-group-item">
+                                    <i class="glyphicon glyphicon-move"></i>
+                                    {{ child.name }}
+                                    {{ form_row( attribute(attribute(form, 'ems_'~child.name), 'name')) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                      </div>
+                      <div class="modal-footer">
+                        <div class="btn-group">
+                            {{ form_widget(form.reorder) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#{{ form.vars.id }}_modal_reorder">
+                    <i class="fa fa-reorder"></i> {{ 'field_type.reorder'|trans }}
+                </button>
+            {% endif %}
+            {% if form.remove is defined %}
+                {{ form_widget(form.remove) }}
+            {% endif %}
+        </div>
 	</div>
-
-	</h4>
 
     {% if form.name is defined and form.name.rendered == false %}
 		{{ form_row(form.name) }}
@@ -1409,7 +1407,7 @@
     {% endif %}
 
 	{% if form.rendered == false and form.vars.data.children is defined and form.vars.data.children|filter(child => not child.deleted)|length > 0 %}
-		<ul class="list-group" id="{{ form.vars.id }}_list_container">
+		<ul class="list-group mt-2" id="{{ form.vars.id }}_list_container">
 			{{- form_widget(form) -}}
 		</ul>
 	{% endif %}

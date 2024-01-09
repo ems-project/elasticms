@@ -1,5 +1,6 @@
 import Image from './plugins/image'
 import Select from './plugins/select'
+import Sortable from './plugins/sortable'
 
 class Core {
 
@@ -7,6 +8,7 @@ class Core {
         this._domListeners = [
             new Image(),
             new Select(),
+            new Sortable(),
         ]
         this.documentReady()
     }

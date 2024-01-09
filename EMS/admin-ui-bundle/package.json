@@ -26,6 +26,7 @@
     "icheck-bootstrap": "^3.0.1",
     "jquery": "^3.7.0",
     "jquery-lazyload": "^1.9.7",
+    "jquery-ui": "^1.13.2",
     "select2": "^4.1.0-rc.0"
   }
 }

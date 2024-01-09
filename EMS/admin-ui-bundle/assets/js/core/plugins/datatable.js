@@ -2,8 +2,9 @@ import $ from 'jquery'
 import 'datatables.net'
 import 'datatables.net-bs'
 import 'datatables.net-bs/css/dataTables.bootstrap.css'
+import '../../../css/core/plugins/datatable.scss'
 
-export default class datatables {
+class Datatable {
   load (target) {
     const datatables = target.querySelectorAll('[data-datatable]');
     [].forEach.call(datatables, function (datatable) {
@@ -11,3 +12,5 @@ export default class datatables {
     })
   }
 }
+
+export default Datatable

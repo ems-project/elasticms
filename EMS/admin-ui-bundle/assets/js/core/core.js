@@ -2,6 +2,7 @@ import Image from './plugins/image'
 import Select from './plugins/select'
 import Sortable from './plugins/sortable'
 import Datatable from './plugins/datatable'
+
 class Core {
   constructor () {
     this._domListeners = [

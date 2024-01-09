@@ -1,13 +1,14 @@
 import Image from './plugins/image'
 import Select from './plugins/select'
 import Sortable from './plugins/sortable'
-
+import Datatable from './plugins/datatable'
 class Core {
   constructor () {
     this._domListeners = [
       new Image(),
       new Select(),
-      new Sortable()
+      new Sortable(),
+      new Datatable()
     ]
     this.documentReady()
   }

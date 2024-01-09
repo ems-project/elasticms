@@ -356,7 +356,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
                                     <strong>{{ reorder_label|default(form.vars.reorder_label)|trans }}</strong>
                                 </h4>
@@ -378,7 +378,7 @@
                             <div class="modal-footer">
                                 <div class="btn-group">
                                     {{ form_widget(form.reorderAction) }}
-                                    <button type="button" class="btn" data-dismiss="modal"><i class="fa fa-close"></i> {{ 'table.index.button.close'|trans }}</button>
+                                    <button type="button" class="btn" data-bs-dismiss="modal"><i class="fa fa-close"></i> {{ 'table.index.button.close'|trans }}</button>
                                 </div>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import 'jquery-ui'
 import '../librairies/sortable'
 import '../librairies/nestedSortable'

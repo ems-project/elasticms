@@ -22,5 +22,6 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
+    indent: [2]
   }
 }

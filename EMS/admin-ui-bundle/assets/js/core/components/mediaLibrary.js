@@ -10,6 +10,7 @@ export default class MediaLibrary {
   #options = {}
   #elements = {}
   #loadedFiles = 0
+  #fileUploaders = []
 
   constructor (el, options) {
     this.#options = options
@@ -42,13 +43,17 @@ export default class MediaLibrary {
   }
 
   _disableButtons () {
-    this.#el.querySelectorAll('button').forEach(button => button.disabled = true)
+    this.#el.querySelectorAll('button').forEach(button => {
+      button.disabled = true
+    })
     const uploadLabel = this.uploadLabel()
     if (uploadLabel) uploadLabel.setAttribute('disabled', 'disabled')
   }
 
   _enableButtons () {
-    this.#el.querySelectorAll('button').forEach(button => button.disabled = false)
+    this.#el.querySelectorAll('button').forEach(button => {
+      button.disabled = false
+    })
     const uploadLabel = this.uploadLabel()
     if (uploadLabel) uploadLabel.removeAttribute('disabled')
   }
@@ -145,8 +150,7 @@ export default class MediaLibrary {
       liUpload.append(progressBar.element())
       this.#elements.listUploads.appendChild(liUpload)
 
-      console.log(this.#options)
-      new FileUploader({
+      this.#fileUploaders.push(new FileUploader({
         file,
         algo: this.#options.hashAlgo,
         initUrl: this.#options.urlInitUpload,
@@ -186,7 +190,7 @@ export default class MediaLibrary {
                 mediaLib.#elements.listUploads.removeChild(liUpload)
               } else {
                 reject()
-                progressBar.status('Error: ' + message)
+                progressBar.status('Error: ' + request.statusText)
                 progressBar.progress(100)
                 progressBar.style('danger')
               }
@@ -197,7 +201,7 @@ export default class MediaLibrary {
           progressBar.progress(100)
           progressBar.style('danger')
         }
-      })
+      }))
     })
   }
 
@@ -206,7 +210,7 @@ export default class MediaLibrary {
       url: [this.#url, 'add-folder'].join('/') + (this.#activeFolder ? '/' + this.#activeFolder : ''),
       size: 'sm'
     }, (json) => {
-      if (json.hasOwnProperty('success') && json.success === true) {
+      if (Object.prototype.hasOwnProperty.call(json, 'success') && json.success === true) {
         this._disableButtons()
         this._getFolders(json.path).then(() => this._enableButtons())
       }
@@ -262,24 +266,24 @@ export default class MediaLibrary {
   }
 
   _appendFiles (json) {
-    if (json.hasOwnProperty('header')) {
+    if (Object.prototype.hasOwnProperty.call(json, 'header')) {
       this.#elements.header.innerHTML = json.header
       this._addEventListenersHeader()
     }
 
-    if (json.hasOwnProperty('rowHeader')) {
+    if (Object.prototype.hasOwnProperty.call(json, 'rowHeader')) {
       this.#elements.listFiles.innerHTML += json.rowHeader
     }
 
-    if (json.hasOwnProperty('rows')) {
+    if (Object.prototype.hasOwnProperty.call(json, 'rows')) {
       json.rows.forEach((row) => { this.#elements.listFiles.innerHTML += row })
     }
 
-    if (json.hasOwnProperty('totalRows')) {
+    if (Object.prototype.hasOwnProperty.call(json, 'totalRows')) {
       this.#loadedFiles += json.totalRows
     }
 
-    if (json.hasOwnProperty('remaining') && json.remaining) {
+    if (Object.prototype.hasOwnProperty.call(json, 'remaining') && json.remaining) {
       this.#elements.loadMoreFiles.classList.add('show-load-more')
     } else {
       this.#elements.loadMoreFiles.classList.remove('show-load-more')
@@ -298,7 +302,7 @@ export default class MediaLibrary {
       const liFolder = document.createElement('li')
       liFolder.appendChild(buttonFolder)
 
-      if (folder.hasOwnProperty('children')) {
+      if (Object.prototype.hasOwnProperty.call(folder, 'children')) {
         const ulChildren = document.createElement('ul')
         this._appendFolderItems(folder.children, ulChildren)
         liFolder.appendChild(ulChildren)

@@ -85,22 +85,21 @@ class AjaxModal {
 
   load (options, callback) {
     const dialog = this.modal.querySelector('.modal-dialog')
-    console.log(dialog.classList)
     dialog.classList.remove('modal-xs', 'modal-sm', 'modal-md', 'modal-lg')
-    if (options.hasOwnProperty('size')) {
+    if (Object.prototype.hasOwnProperty.call(options, 'size')) {
       dialog.classList.add('modal-' + options.size)
     } else {
       dialog.classList.add('modal-md')
     }
 
     this.stateLoading()
-    if (options.hasOwnProperty('title')) {
+    if (Object.prototype.hasOwnProperty.call(options, 'title')) {
       this.modal.querySelector('.modal-title').innerHTML = options.title
     }
     this.bsModal.show()
 
     const fetchOptions = { method: 'GET', headers: { 'Content-Type': 'application/json' } }
-    if (options.hasOwnProperty('data')) {
+    if (Object.prototype.hasOwnProperty.call(options, 'data')) {
       fetchOptions.method = 'POST'
       fetchOptions.body = options.data
     }
@@ -135,29 +134,29 @@ class AjaxModal {
   }
 
   ajaxReady (json, url, callback) {
-    if (json.hasOwnProperty('modalClose') && json.modalClose === true) {
+    if (Object.prototype.hasOwnProperty.call(json, 'modalClose') && json.modalClose === true) {
       if (typeof callback === 'function') { callback(json, this.modal) }
       this.bsModal.hide()
       return
     }
 
-    if (json.hasOwnProperty('modalTitle')) {
+    if (Object.prototype.hasOwnProperty.call(json, 'modalTitle')) {
       this.$modal.find('.modal-title').html(json.modalTitle)
     }
-    if (json.hasOwnProperty('modalBody')) {
+    if (Object.prototype.hasOwnProperty.call(json, 'modalBody')) {
       this.$modal.find('.ajax-modal-body').html(json.modalBody)
       this.$modal.find(':input').each(function () {
         $(this).addClass('ignore-ems-update')
       })
       new AddedDomEvent(this.modal)
     }
-    if (json.hasOwnProperty('modalFooter')) {
+    if (Object.prototype.hasOwnProperty.call(json, 'modalFooter')) {
       this.$modal.find('.ajax-modal-footer').html(json.modalFooter)
     } else {
       this.$modal.find('.ajax-modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
     }
 
-    const messages = json.hasOwnProperty('modalMessages') ? json.modalMessages : []
+    const messages = Object.prototype.hasOwnProperty.call(json, 'modalMessages') ? json.modalMessages : []
     messages.forEach((m) => {
       const messageType = Object.keys(m)[0]
       const message = m[messageType]

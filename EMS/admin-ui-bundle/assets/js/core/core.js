@@ -1,7 +1,8 @@
+import Datatable from './plugins/datatable'
 import Image from './plugins/image'
+import MediaLibrary from './plugins/mediaLibrary'
 import Select from './plugins/select'
 import Sortable from './plugins/sortable'
-import Datatable from './plugins/datatable'
 import WYSIWYG from './plugins/wysiwyg'
 
 class Core {
@@ -9,10 +10,12 @@ class Core {
     this._domListeners = [
       new Datatable(),
       new Image(),
+      new MediaLibrary(),
       new Select(),
       new Sortable(),
       new WYSIWYG()
     ]
+    document.addEventListener('emsAddedDomEvent', (event) => this.load(event.target))
     this.documentReady()
   }
 

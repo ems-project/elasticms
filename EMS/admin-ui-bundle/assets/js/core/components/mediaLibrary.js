@@ -189,7 +189,7 @@ export default class MediaLibrary {
                 resolve()
                 mediaLib.#elements.listUploads.removeChild(liUpload)
               } else {
-                reject()
+                reject(new Error('Unexpected status ' + request.status + ', 201 was expected'))
                 progressBar.status('Error: ' + request.statusText)
                 progressBar.progress(100)
                 progressBar.style('danger')

@@ -148,7 +148,8 @@ class AjaxModal {
       this.$modal.find(':input').each(function () {
         $(this).addClass('ignore-ems-update')
       })
-      new AddedDomEvent(this.modal)
+      const event = new AddedDomEvent(this.modal)
+      event.dispatch()
     }
     if (Object.prototype.hasOwnProperty.call(json, 'modalFooter')) {
       this.$modal.find('.ajax-modal-footer').html(json.modalFooter)

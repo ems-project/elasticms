@@ -120,7 +120,7 @@ emsch_media_file:
         path: '/media-files{path}'
         requirements: { path: .+ }
         controller: 'emsch.controller.router::redirect'
-    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["media_file"]}},{"terms":{"media_path":["%path%"]}}]}},"size":1,"_source":{"excludes":["media_file._content","media_file._language","media_file._author","media_file._title","media_file._date"],"includes":["media_file.*"]}}'
+    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["media_file"]}},{"terms":{"media_path":["%path%"]}}]}},"size":1,"_source":{"excludes":["media_file._content","media_file._language","media_file._author","media_file._title","media_file._date"],"includes":["media_file.*","after","before","username","password","disposition"]}}'
     template_static: template/redirects/media_files.json.twig
 emsch_news_details:
     config:

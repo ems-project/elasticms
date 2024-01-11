@@ -3,6 +3,14 @@
 
 {% set body_attr = {
     class: 'hold-transition sidebar-mini sidebar-mini-md layout-fixed layout-navbar-fixed',
+    'data-hash-algo': ems_hash_algo,
+    'data-status-url': path('elasticsearch.status', {_format: 'json'}),
+    'data-search-api': path('elasticsearch.api.search'),
+    'data-asset-path': asset(''),
+    'data-init-upload': path('emsco_file_data_init_upload'),
+    'data-file-view': path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' }),
+    'data-file-extract': path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' }),
+    'data-file-extract-forced': path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' }),
 } %}
 {%  set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
 {% set breadcrumb = [] %}

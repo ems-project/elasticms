@@ -2,7 +2,7 @@
 
 {% use '@EMSAdminUI/bootstrap5/components/media_library/elements.html.twig' %}
 
-<div class="media-lib" id="{{ id }}" data-hash="{{ hash }}">
+<div class="media-lib media-lib-{{ theme_color }}" id="{{ id }}" data-hash="{{ hash }}">
     <div class="media-nav-bar">
         {{ template.renderHeader|raw }}
     </div>

@@ -1,5 +1,6 @@
 import Datatable from './plugins/datatable'
 import Image from './plugins/image'
+import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
 import Select from './plugins/select'
 import Sortable from './plugins/sortable'
@@ -10,6 +11,7 @@ class Core {
     this._domListeners = [
       new Datatable(),
       new Image(),
+      new JsonMenuNested(),
       new MediaLibrary(),
       new Select(),
       new Sortable(),

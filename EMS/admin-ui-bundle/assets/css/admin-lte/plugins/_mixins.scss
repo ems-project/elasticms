@@ -36,8 +36,8 @@
         &[aria-selected] {
           &,
           &:hover {
-            background-color: darken($color, 3%);
-            color: color-contrast(darken($color, 3%));
+            background-color: color.adjust($color, $lightness: -3%);
+            color: color-contrast(color.adjust($color, $lightness: -3%));
           }
         }
       }
@@ -51,7 +51,7 @@
 
           .select2-selection__choice {
             background-color: $color;
-            border-color: darken($color, 5%);
+            border-color: color.adjust($color, $lightness: -5%);
             color: color-contrast($color);
           }
 

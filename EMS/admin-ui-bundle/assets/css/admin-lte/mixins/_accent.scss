@@ -6,7 +6,7 @@
 @mixin accent-variant($name, $color) {
   $link-color: $color;
   .accent-#{$name} {
-    $link-hover-color: darken($color, 15%);
+    $link-hover-color: color.adjust($color, $lightness: -15%);
     $pagination-active-bg: $color;
     $pagination-active-border-color: $color;
 
@@ -32,7 +32,7 @@
     .custom-control-input:checked ~ .custom-control-label {
       &::before {
         background-color: $color;
-        border-color: darken($color, 20%);
+        border-color: color.adjust($color, $lightness: -20%);
       }
 
       &::after {

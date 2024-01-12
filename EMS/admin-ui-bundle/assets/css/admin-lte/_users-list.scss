@@ -1,5 +1,7 @@
 // Component: Users List
 
+@use "sass:color";
+
 .users-list {
   @include list-unstyled;
 
@@ -39,7 +41,7 @@
 }
 
 .users-list-date {
-  color: darken($gray-500, 20%);
+  color: color.adjust($gray-500, $lightness: -20%);
   font-size: 12px;
 }
 

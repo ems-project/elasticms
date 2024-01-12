@@ -1,5 +1,7 @@
 // Component: Alert
 
+@use "sass:color";
+
 .alert {
   .icon {
     margin-right: 10px;
@@ -25,7 +27,7 @@
   .alert-#{$color} {
     color: color-contrast($value);
     background-color: $value;
-    border-color: darken($value, 5%);
+    border-color: color.adjust($value, $lightness: -5%);
   }
 
   .alert-default-#{$color} {
@@ -38,7 +40,7 @@
     .alert-#{$color} {
       color: color-contrast($value);
       background-color: $value;
-      border-color: darken($value, 5%);
+      border-color: color.adjust($value, $lightness: -5%);
     }
 
     .alert-default-#{$color} {

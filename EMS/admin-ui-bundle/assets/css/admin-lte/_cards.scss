@@ -436,7 +436,7 @@ html.maximized-card {
     }
 
     &.done {
-      color: darken($gray-500, 25%);
+      color: color.adjust($gray-500, $lightness: -25%);
 
       .text {
         font-weight: 500;

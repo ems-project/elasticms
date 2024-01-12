@@ -69,11 +69,11 @@ a.text-muted:hover {
 
 // Link Styles
 .link-muted {
-  color: darken($gray-500, 30%);
+  color: color.adjust($gray-500, $lightness: -30%);
 
   &:hover,
   &:focus {
-    color: darken($gray-500, 40%);
+    color: color.adjust($gray-500, $lightness: -40%);
   }
 }
 

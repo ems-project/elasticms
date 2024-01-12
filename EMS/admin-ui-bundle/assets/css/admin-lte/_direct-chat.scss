@@ -24,7 +24,7 @@
 
   &.timestamp-dark {
     .direct-chat-timestamp {
-      color: darken(color-contrast($yiq-text-dark), 20%);
+      color: color.adjust(color-contrast($yiq-text-dark), $lightness: -20%);
     }
   }
 }
@@ -126,7 +126,7 @@
 }
 
 .direct-chat-timestamp {
-  color: darken($gray-500, 25%);
+  color: color.adjust($gray-500, $lightness: -25%);
 }
 
 //Direct chat contacts pane
@@ -161,7 +161,7 @@
   }
 
   .contacts-list-msg {
-    color: darken($gray-600, 10%);
+    color: color.adjust($gray-600, $lightness: -10%);
   }
 }
 
@@ -213,7 +213,7 @@
 }
 
 .contacts-list-msg {
-  color: darken($gray-400, 10%);
+  color: color.adjust($gray-400, $lightness: -10%);
 }
 
 // Color variants

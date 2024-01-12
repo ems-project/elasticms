@@ -239,7 +239,7 @@
       &:hover,
       &:focus,
       &:active {
-        background-color: darken($sidebar-light-hover-bg, 3%);
+        background-color: color.adjust($sidebar-light-hover-bg, $lightness: -3%);
         color: $sidebar-light-hover-color;
       }
     }
@@ -247,7 +247,7 @@
     .dropdown-menu {
       @include box-shadow(0 2px 4px rgba(0, 0, 0, .4));
 
-      border-color: darken($sidebar-light-hover-bg, 5%);
+      border-color: color.adjust($sidebar-light-hover-bg, $lightness: -5%);
     }
 
     .dropdown-item {
@@ -290,7 +290,7 @@
   // Section Heading
   .nav-header {
     background-color: inherit;
-    color: darken($sidebar-light-color, 5%);
+    color: color.adjust($sidebar-light-color, $lightness: -5%);
   }
 
   // All links within the sidebar menu
@@ -369,7 +369,7 @@
       &:hover,
       &:focus,
       &:active {
-        background-color: darken($sidebar-dark-hover-bg, 3%);
+        background-color: color.adjust($sidebar-dark-hover-bg, $lightness: -3%);
         color: $sidebar-dark-hover-color;
       }
     }
@@ -377,7 +377,7 @@
     .dropdown-menu {
       @include box-shadow(0 2px 4px rgba(0, 0, 0, .4));
 
-      border-color: darken($sidebar-dark-hover-bg, 5%);
+      border-color: color.adjust($sidebar-dark-hover-bg, $lightness: -5%);
     }
 
     .dropdown-item {
@@ -419,8 +419,8 @@
 
   // Section Heading
   .nav-header {
-    background-color: inherit; //darken($sidebar-dark-bg, 3%);
-    color: color.adjust($sidebar-dark-color, $lightness: 5%);
+    background-color: inherit; //color.adjust($sidebar-dark-bg, $lightness: -3%);
+    color: color.adjust($sidebar-dark-color, $lightness: -5%);
   }
 
   // All links within the sidebar menu
@@ -958,33 +958,33 @@
 [class*="sidebar-light"] {
   .form-control-sidebar,
   .btn-sidebar {
-    background-color: darken($sidebar-light-bg, 5%);
-    border: 1px solid darken($sidebar-light-bg, 15%);
-    color: color-contrast(darken($sidebar-light-bg, 5%));
+    background-color: color.adjust($sidebar-light-bg, $lightness: -5%);
+    border: 1px solid color.adjust($sidebar-light-bg, $lightness: -15%);
+    color: color-contrast(color.adjust($sidebar-light-bg, $lightness: -5%));
   }
 
   .form-control-sidebar:focus,
   .btn-sidebar:focus {
-    border: 1px solid darken($sidebar-light-bg, 30%);
+    border: 1px solid color.adjust($sidebar-light-bg, $lightness: -30%);
   }
 
   .btn-sidebar:hover {
-    background-color: darken($sidebar-light-bg, 7.5%);
+    background-color: color.adjust($sidebar-light-bg, $lightness: -7.5%);
   }
 
   .btn-sidebar:focus {
-    background-color: darken($sidebar-light-bg, 10%);
+    background-color: color.adjust($sidebar-light-bg, $lightness: -10%);
   }
 
   .list-group-item {
-    border-color: darken($sidebar-light-bg, 15%);
+    border-color: color.adjust($sidebar-light-bg, $lightness: -15%);
 
     &:hover {
-      background-color: darken($sidebar-light-bg, 7.5%);
+      background-color: color.adjust($sidebar-light-bg, $lightness: -7.5%);
     }
 
     &:focus {
-      background-color: darken($sidebar-light-bg, 10%);
+      background-color: color.adjust($sidebar-light-bg, $lightness: -10%);
     }
 
     .search-path {

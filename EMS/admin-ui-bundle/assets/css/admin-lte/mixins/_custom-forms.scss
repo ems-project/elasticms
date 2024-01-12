@@ -7,7 +7,7 @@
   &.custom-switch-off-#{$name} {
     .custom-control-input ~ .custom-control-label::before {
       background-color: #{$color};
-      border-color: darken($color, 20%);
+      border-color: color.adjust($color, $lightness: -20%);
     }
 
     .custom-control-input:focus ~ .custom-control-label::before {
@@ -15,14 +15,14 @@
     }
 
     .custom-control-input ~ .custom-control-label::after {
-      background-color: darken($color, 25%);
+      background-color: color.adjust($color, $lightness: -25%);
     }
   }
 
   &.custom-switch-on-#{$name} {
     .custom-control-input:checked ~ .custom-control-label::before {
       background-color: #{$color};
-      border-color: darken($color, 20%);
+      border-color: color.adjust($color, $lightness: -20%);
     }
 
     .custom-control-input:checked:focus ~ .custom-control-label::before {

@@ -1,5 +1,7 @@
 // Mixins: Backgrounds
 
+@use "sass:color";
+
 // Background Variant
 @mixin background-variant($name, $color) {
   #{if(&, "&.bg-#{$name}",".bg-#{$name}")} {
@@ -12,17 +14,17 @@
 
     &.btn {
       &:hover {
-        border-color: darken($color, 10%);
-        color: darken(color-contrast($color), 7.5%);
+        border-color: color.adjust($color, $lightness: -10%);
+        color: color.adjust(color-contrast($color), $lightness: -7.5%);
       }
 
       &:not(:disabled, .disabled):active,
       &:not(:disabled, .disabled).active,
       &:active,
       &.active {
-        background-color: darken($color, 10%) !important;
-        border-color: darken($color, 12.5%);
-        color: color-contrast(darken($color, 10%));
+        background-color: color.adjust($color, $lightness: -10%) !important;
+        border-color: color.adjust($color, $lightness: -12.5%);
+        color: color-contrast(color.adjust($color, $lightness: -10%));
       }
     }
   }
@@ -42,18 +44,18 @@
       }
 
       &:hover {
-        background: $color linear-gradient(180deg, mix($body-bg, darken($color, 7.5%), 15%), darken($color, 7.5%)) repeat-x !important;
-        border-color: darken($color, 10%);
-        color: darken(color-contrast($color), 7.5%);
+        background: $color linear-gradient(180deg, mix($body-bg, color.adjust($color, $lightness: -7.5%), 15%), color.adjust($color, $lightness: -7.5%)) repeat-x !important;
+        border-color: color.adjust($color, $lightness: -10%);
+        color: color.adjust(color-contrast($color), $lightness: -7.5%);
       }
 
       &:not(:disabled, .disabled):active,
       &:not(:disabled, .disabled).active,
       &:active,
       &.active {
-        background: $color linear-gradient(180deg, mix($body-bg, darken($color, 10%), 15%), darken($color, 10%)) repeat-x !important;
-        border-color: darken($color, 12.5%);
-        color: color-contrast(darken($color, 10%));
+        background: $color linear-gradient(180deg, mix($body-bg, color.adjust($color, $lightness: -10%), 15%), color.adjust($color, $lightness: -10%)) repeat-x !important;
+        border-color: color.adjust($color, $lightness: -12.5%);
+        color: color-contrast(color.adjust($color, $lightness: -10%));
       }
 
       &:disabled,

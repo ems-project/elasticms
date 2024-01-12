@@ -163,7 +163,7 @@ $body-color:                $gray-900 !default;
 
 $link-color:                map-get($theme-colors, "primary") !default;
 $link-decoration:           none !default;
-$link-hover-color:          darken($link-color, 15%) !default;
+$link-hover-color:          color.adjust($link-color, $lightness: -15%) !default;
 $link-hover-decoration:     none !default;
 
 // Paragraphs
@@ -560,7 +560,7 @@ $dropdown-divider-bg:               $gray-200 !default;
 $dropdown-box-shadow:               0 .5rem 1rem rgba($black, .175) !default;
 
 $dropdown-link-color:               $gray-900 !default;
-$dropdown-link-hover-color:         darken($gray-900, 5%) !default;
+$dropdown-link-hover-color:         color.adjust($gray-900, $lightness: -5%) !default;
 $dropdown-link-hover-bg:            $gray-100 !default;
 
 $dropdown-link-active-color:        $component-active-color !default;
@@ -728,7 +728,7 @@ $popover-border-color:              rgba($black, .2) !default;
 $popover-border-radius:             $border-radius-lg !default;
 $popover-box-shadow:                0 .25rem .5rem rgba($black, .2) !default;
 
-$popover-header-bg:                 darken($popover-bg, 3%) !default;
+$popover-header-bg:                 color.adjust($popover-bg, $lightness: -3%) !default;
 $popover-header-color:              $headings-color !default;
 $popover-header-padding-y:          .5rem !default;
 $popover-header-padding-x:          .75rem !default;

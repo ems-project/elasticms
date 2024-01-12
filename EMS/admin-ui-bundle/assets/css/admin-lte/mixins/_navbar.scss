@@ -16,8 +16,8 @@
 
         &,
         + .input-group-append > .btn-navbar {
-          background-color: darken($color, 4%);
-          border-color: darken($color, 9%);
+          background-color: color.adjust($color, $lightness: -4%);
+          border-color: color.adjust($color, $lightness: -9%);
           color: rgba($gray-800, .8);
         }
 
@@ -28,8 +28,8 @@
 
           &,
           + .input-group-append .btn-navbar {
-            background-color: darken($color, 5%);
-            border-color: darken($color, 9%) !important;
+            background-color: color.adjust($color, $lightness: -5%);
+            border-color: color.adjust($color, $lightness: -9%) !important;
             color: $gray-800;
           }
         }

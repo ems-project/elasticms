@@ -51,8 +51,8 @@
   &:hover,
   &:active,
   &.hover {
-    background-color: darken($button-default-background-color, 5%);
-    color: darken($button-default-color, 10%);
+    background-color: color.adjust($button-default-background-color, $lightness: -5%);
+    color: color.adjust($button-default-color, $lightness: -10%);
   }
 
   &.disabled,
@@ -63,13 +63,13 @@
 }
 
 .btn-outline-light {
-  color: darken($light, 20%);
-  border-color: darken($light, 20%);
+  color: color.adjust($light, $lightness: -20%);
+  border-color: color.adjust($light, $lightness: -20%);
 
   &.disabled,
   &:disabled {
-    color: darken($light, 20%);
-    border-color: darken($light, 20%);
+    color: color.adjust($light, $lightness: -20%);
+    border-color: color.adjust($light, $lightness: -20%);
   }
 }
 
@@ -109,7 +109,7 @@
 
   &:hover {
     background-color: $button-default-background-color;
-    border-color: darken($button-default-border-color, 20%);
+    border-color: color.adjust($button-default-border-color, $lightness: -20%);
     color: $button-default-color;
   }
 
@@ -167,7 +167,7 @@
   @each $color, $value in $theme-colors-alt {
     .btn-#{$color} {
       @if $color == dark {
-        @include button-variant(darken($value, 5%), color.adjust($value,  $lightness:10%));
+        @include button-variant(color.adjust($value, $lightness: -5%), color.adjust($value,  $lightness:10%));
       } @else {
         @include button-variant($value, $value);
       }
@@ -177,7 +177,7 @@
   @each $color, $value in $theme-colors-alt {
     .btn-outline-#{$color} {
       @if $color == dark {
-        @include button-outline-variant(darken($value, 20%));
+        @include button-outline-variant(color.adjust($value, $lightness: -20%));
       } @else {
         @include button-outline-variant($value);
       }

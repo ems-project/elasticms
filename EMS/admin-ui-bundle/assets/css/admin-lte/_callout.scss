@@ -34,19 +34,19 @@
 
   // Themes for different contexts
   &.callout-danger {
-    border-left-color: darken(map-get($theme-colors, "danger"), 10%);
+    border-left-color: color.adjust(map-get($theme-colors, "danger"), $lightness: -10%);
   }
 
   &.callout-warning {
-    border-left-color: darken(map-get($theme-colors, "warning"), 10%);
+    border-left-color: color.adjust(map-get($theme-colors, "warning"), $lightness: -10%);
   }
 
   &.callout-info {
-    border-left-color: darken(map-get($theme-colors, "info"), 10%);
+    border-left-color: color.adjust(map-get($theme-colors, "info"), $lightness: -10%);
   }
 
   &.callout-success {
-    border-left-color: darken(map-get($theme-colors, "success"), 10%);
+    border-left-color: color.adjust(map-get($theme-colors, "success"), $lightness: -10%);
   }
 }
 

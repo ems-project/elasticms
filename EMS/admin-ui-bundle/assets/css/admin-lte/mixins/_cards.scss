@@ -64,7 +64,7 @@
       table td.hour:hover,
       table td.minute:hover,
       table td.second:hover {
-        background-color: darken($color, 8%);
+        background-color: color.adjust($color, $lightness: -8%);
         color: color-contrast($color);
       }
 

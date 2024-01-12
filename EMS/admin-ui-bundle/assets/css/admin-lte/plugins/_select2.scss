@@ -106,7 +106,7 @@
     color: color-contrast($color);
 
     &[aria-selected] {
-      $color: darken($color, 3%);
+      $color: color.adjust($color, $lightness: -3%);
 
       &,
       &:hover {
@@ -150,7 +150,7 @@
 
       .select2-selection__choice {
         background-color: $primary;
-        border-color: darken($primary, 5%);
+        border-color: color.adjust($primary, $lightness: -5%);
         color: color-contrast($primary);
         padding: 0 10px;
         margin-top: .31rem;

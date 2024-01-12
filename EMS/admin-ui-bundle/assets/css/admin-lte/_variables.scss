@@ -1,6 +1,8 @@
 // Core: Variables
 
 @use "sass:color";
+@use "sass:map";
+@use "sass:string";
 
 // COLORS
 // --------------------------------------------------------
@@ -22,7 +24,7 @@ $purple: #605ca8 !default;
 $maroon: #d81b60 !default;
 $black: #111 !default;
 $gray-x-light: #d2d6de !default;
-$colors: map-merge(
+$colors: map.merge(
   (
     "lightblue": $lightblue,
     "navy": $navy,
@@ -206,13 +208,13 @@ $button-border-radius-xs: .15rem !default;
 // ELEVATION
 // --------------------------------------------------------
 $elevations: ();
-$elevations: map-merge(
+$elevations: map.merge(
   (
-    1: unquote("0 1px 3px " + rgba($black, .12) + ", 0 1px 2px " + rgba($black, .24)),
-    2: unquote("0 3px 6px " + rgba($black, .16) + ", 0 3px 6px " + rgba($black, .23)),
-    3: unquote("0 10px 20px " + rgba($black, .19) + ", 0 6px 6px " + rgba($black, .23)),
-    4: unquote("0 14px 28px " + rgba($black, .25) + ", 0 10px 10px " + rgba($black, .22)),
-    5: unquote("0 19px 38px " + rgba($black, .3) + ", 0 15px 12px " + rgba($black, .22)),
+    1: string.unquote("0 1px 3px " + rgba($black, .12) + ", 0 1px 2px " + rgba($black, .24)),
+    2: string.unquote("0 3px 6px " + rgba($black, .16) + ", 0 3px 6px " + rgba($black, .23)),
+    3: string.unquote("0 10px 20px " + rgba($black, .19) + ", 0 6px 6px " + rgba($black, .23)),
+    4: string.unquote("0 14px 28px " + rgba($black, .25) + ", 0 10px 10px " + rgba($black, .22)),
+    5: string.unquote("0 19px 38px " + rgba($black, .3) + ", 0 15px 12px " + rgba($black, .22)),
   ),
   $elevations
 );

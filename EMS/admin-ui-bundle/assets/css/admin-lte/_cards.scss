@@ -1,5 +1,7 @@
 // Component: Cards
 
+@use "sass:color";
+
 // Color variants
 @each $name, $color in $theme-colors {
   @include cards-variant($name, $color);
@@ -351,7 +353,7 @@ html.maximized-card {
   }
 
   .comment-text {
-    color: lighten($gray-700, 20%);
+    color: color.adjust($gray-700, $lightness: 20%);
     margin-left: 40px;
   }
 
@@ -498,7 +500,7 @@ html.maximized-card {
     color: $white;
 
     .card {
-      background-color: lighten($dark, 5%);
+      background-color: color.adjust($dark, $lightness: 5%);
       color: $white;
     }
 
@@ -525,20 +527,20 @@ html.maximized-card {
   }
 
   .card-comments {
-    background-color: lighten($dark, 1.25%);
+    background-color: color.adjust($dark, $lightness: 1.25%);
 
     .username {
       color: $gray-400;
     }
 
     .card-comment {
-      border-bottom-color: lighten($dark, 7.5%);
+      border-bottom-color: color.adjust($dark, $lightness: 7.5%);
     }
   }
 
   .todo-list > li {
-    background-color: lighten($dark, 5%);
-    border-color: lighten($dark, 7.5%);
+    background-color: color.adjust($dark, $lightness: 5%);
+    border-color: color.adjust($dark, $lightness: 7.5%);
     color: $white;
   }
 

@@ -1,5 +1,7 @@
 // Variables
 
+@use "sass:color";
+
 // Variables should follow the `$component-state-property-size` formula for
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
 
@@ -326,7 +328,7 @@ $table-head-color:            $gray-700 !default;
 $table-dark-bg:               $gray-900 !default;
 $table-dark-accent-bg:        rgba($white, .05) !default;
 $table-dark-hover-bg:         rgba($white, .075) !default;
-$table-dark-border-color:     lighten($gray-900, 10%) !default;
+$table-dark-border-color:     color.adjust($gray-900, $lightness: 10%) !default;
 $table-dark-color:            $body-bg !default;
 
 
@@ -417,12 +419,12 @@ $input-border-radius-lg:                $border-radius-lg !default;
 $input-border-radius-sm:                $border-radius-sm !default;
 
 $input-focus-bg:                        $input-bg !default;
-$input-focus-border-color:              lighten($component-active-bg, 25%) !default;
+$input-focus-border-color:              color.adjust($component-active-bg, $lightness: 25%) !default;
 $input-focus-color:                     $input-color !default;
 $input-focus-width:                     0 !default;
 $input-focus-box-shadow:                none !default;
 
-$input-placeholder-color:               lighten($gray-600, 15%) !default;
+$input-placeholder-color:               color.adjust($gray-600, $lightness: 15%) !default;
 
 $input-height-border:                   $input-border-width * 2 !default;
 
@@ -474,7 +476,7 @@ $custom-control-indicator-checked-box-shadow:   none !default;
 $custom-control-indicator-focus-box-shadow:     0 0 0 1px $body-bg, $input-btn-focus-box-shadow !default;
 
 $custom-control-indicator-active-color:         $component-active-color !default;
-$custom-control-indicator-active-bg:            lighten($component-active-bg, 35%) !default;
+$custom-control-indicator-active-bg:            color.adjust($component-active-bg, $lightness: 35%) !default;
 $custom-control-indicator-active-box-shadow:    none !default;
 
 $custom-checkbox-indicator-border-radius:       $border-radius !default;

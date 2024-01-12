@@ -1,5 +1,7 @@
 // Mixins: Cards Variant
 
+@use "sass:color";
+
 @mixin cards-variant($name, $color) {
   .card-#{$name} {
     &:not(.card-outline) {
@@ -72,7 +74,7 @@
 
       table td.active,
       table td.active:hover {
-        background-color: lighten($color, 10%);
+        background-color: color.adjust($color, $lightness: 10%);
         color: color-contrast($color);
       }
     }

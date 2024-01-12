@@ -1,5 +1,7 @@
 // Component: Button
 
+@use "sass:color";
+
 .btn {
   &.disabled,
   &:disabled {
@@ -137,35 +139,35 @@
 @include dark-mode {
   .btn-default,
   .btn-app {
-    background-color: lighten($dark, 2.5%);
+    background-color: color.adjust($dark, $lightness: 2.5%);
     color: $white;
     border-color: $gray-600;
 
     &:hover,
     &:focus {
-      background-color: lighten($dark, 5%);
+      background-color: color.adjust($dark, $lightness: 5%);
       color: $gray-300;
-      border-color: lighten($gray-600, 2.5%);
+      border-color: color.adjust($gray-600, $lightness: 2.5%);
     }
   }
 
   .btn-light {
-    background-color: lighten($dark, 7.5%);
+    background-color: color.adjust($dark, $lightness: 7.5%);
     color: $white;
     border-color: $gray-600;
 
     &:hover,
     &:focus {
-      background-color: lighten($dark, 10%);
+      background-color: color.adjust($dark,  $lightness:10%);
       color: $gray-300;
-      border-color: lighten($gray-600, 5%);
+      border-color: color.adjust($gray-600,  $lightness:5%);
     }
   }
 
   @each $color, $value in $theme-colors-alt {
     .btn-#{$color} {
       @if $color == dark {
-        @include button-variant(darken($value, 5%), lighten($value, 10%));
+        @include button-variant(darken($value, 5%), color.adjust($value,  $lightness:10%));
       } @else {
         @include button-variant($value, $value);
       }

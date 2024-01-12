@@ -1,5 +1,7 @@
 // Component: Callout
 
+@use "sass:color";
+
 // Base styles (regardless of theme)
 .callout {
   @if $enable-rounded {
@@ -50,22 +52,22 @@
 
 @include dark-mode {
   .callout {
-    background-color: lighten($dark, 5%);
+    background-color: color.adjust($dark, $lightness: 5%);
 
     &.callout-danger {
-      border-left-color: lighten($danger-alt, 10%);
+      border-left-color: color.adjust($danger-alt, $lightness: 10%);
     }
 
     &.callout-warning {
-      border-left-color: lighten($warning-alt, 10%);
+      border-left-color: color.adjust($warning-alt, $lightness: 10%);
     }
 
     &.callout-info {
-      border-left-color: lighten($info-alt, 10%);
+      border-left-color: color.adjust($info-alt, $lightness: 10%);
     }
 
     &.callout-success {
-      border-left-color: lighten($success-alt, 10%);
+      border-left-color: color.adjust($success-alt, $lightness: 10%);
     }
   }
 }

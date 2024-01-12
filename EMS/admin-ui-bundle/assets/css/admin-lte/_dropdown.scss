@@ -1,5 +1,7 @@
 // Component: Dropdown
 
+@use "sass:color";
+
 // General Dropdown Rules
 // .dropdown-item {
 //  &:first-of-type {
@@ -262,7 +264,7 @@
 
     &:focus,
     &:hover {
-      background-color: lighten($dark, 5%);
+      background-color: color.adjust($dark, $lightness: 5%);
     }
   }
 
@@ -272,7 +274,7 @@
 
   .navbar-nav > .user-menu > .dropdown-menu {
     > .user-footer {
-      background-color: lighten($dark, 2.5%);
+      background-color: color.adjust($dark, $lightness: 2.5%);
       color: $white;
 
       .btn-default {
@@ -280,12 +282,12 @@
 
         &:hover,
         &:focus {
-          background-color: lighten($dark, 5%);
+          background-color: color.adjust($dark, $lightness: 5%);
           color: $gray-300;
         }
 
         &:focus {
-          background-color: lighten($dark, 7.5%);
+          background-color: color.adjust($dark, $lightness: 7.5%);
         }
       }
     }

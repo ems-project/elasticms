@@ -1,5 +1,7 @@
 // Core: Variables
 
+@use "sass:color";
+
 // COLORS
 // --------------------------------------------------------
 $elasticms_pink: #EF79AC;
@@ -52,7 +54,7 @@ $boxed-layout-max-width: 1250px !default;
 
 // Body background (Affects main content background only)
 $main-bg: #fefeff !default;
-$dark-main-bg: lighten($dark, 7.5%) !important;
+$dark-main-bg: color.adjust($dark, $lightness: 7.5%) !important;
 
 // Content padding
 $content-padding-y: 0 !default;
@@ -148,7 +150,7 @@ $control-sidebar-width: $sidebar-width !default;
 // Cards
 // --------------------------------------------------------
 $card-border-color: $gray-100 !default;
-$card-dark-border-color: lighten($gray-900, 10%) !default;
+$card-dark-border-color: color.adjust($gray-900, $lightness: 10%) !default;
 $card-shadow: 0 0 1px rgb(0 0 0 / 12.5%), 0 1px 3px rgb(0 0 0 / 20%) !default;
 $card-title-font-size: 1.1rem !default;
 $card-title-font-size-sm: 1rem !default;

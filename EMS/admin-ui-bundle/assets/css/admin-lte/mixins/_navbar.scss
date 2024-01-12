@@ -1,5 +1,7 @@
 // Mixins: Navbar
 
+@use "sass:color";
+
 // Navbar Variant
 @mixin navbar-variant($name, $color) {
   .navbar-#{$name} {
@@ -42,8 +44,8 @@
 
         &,
         + .input-group-append > .btn-navbar {
-          background-color: lighten($color, 4%);
-          border-color: lighten($color, 9%);
+          background-color: color.adjust($color, $lightness: 4%);
+          border-color: color.adjust($color, $lightness: 9%);
           color: rgba($white, .8);
         }
 
@@ -54,8 +56,8 @@
 
           &,
           + .input-group-append .btn-navbar {
-            background-color: lighten($color, 5%);
-            border-color: lighten($color, 9%) !important;
+            background-color: color.adjust($color, $lightness: 5%);
+            border-color: color.adjust($color, $lightness: 9%) !important;
             color: $white;
           }
         }

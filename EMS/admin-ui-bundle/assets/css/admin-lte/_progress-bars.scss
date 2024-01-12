@@ -1,5 +1,7 @@
 // Component: Progress Bar
 
+@use "sass:color";
+
 //General CSS
 .progress {
   @include box-shadow(none);
@@ -65,6 +67,6 @@
 
 @include dark-mode {
   .progress {
-    background: lighten($dark, 7.5%);
+    background: color.adjust($dark, $lightness: 7.5%);
   }
 }

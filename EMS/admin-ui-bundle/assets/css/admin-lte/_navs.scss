@@ -1,5 +1,7 @@
 // Component: Nav
 
+@use "sass:color";
+
 .nav-pills {
   .nav-link {
     color: $gray-600;
@@ -80,7 +82,7 @@
       background-color: $value;
 
       @if $color == dark {
-        border-color: lighten($dark, 10%);
+        border-color: color.adjust($dark, $lightness: 10%);
       }
     }
   }
@@ -116,17 +118,17 @@
   }
 
   .nav-tabs {
-    border-color: lighten($dark, 15%);
+    border-color: color.adjust($dark, $lightness: 15%);
 
     .nav-link:focus,
     .nav-link:hover {
-      border-color: lighten($dark, 15%);
+      border-color: color.adjust($dark, $lightness: 15%);
     }
 
     .nav-item.show .nav-link,
     .nav-link.active {
       background-color: $dark;
-      border-color: lighten($dark, 15%) lighten($dark, 15%) transparent lighten($dark, 15%);
+      border-color: color.adjust($dark, $lightness: 15%) color.adjust($dark, $lightness: 15%) transparent color.adjust($dark, $lightness: 15%);
       color: $white;
     }
 
@@ -136,23 +138,23 @@
         &.active,
         &:focus,
         &:hover {
-          border-color: lighten($dark, 15%) transparent lighten($dark, 15%) lighten($dark, 15%);
+          border-color: color.adjust($dark, $lightness: 15%) transparent color.adjust($dark, $lightness: 15%) color.adjust($dark, $lightness: 15%);
         }
 
         &:focus,
         &:hover {
-          background-color: lighten($dark, 5%);
+          background-color: color.adjust($dark, $lightness: 5%);
         }
       }
 
       &.nav-tabs-right {
-        border-color: lighten($dark, 15%);
+        border-color: color.adjust($dark, $lightness: 15%);
 
         .nav-link {
           &.active,
           &:focus,
           &:hover {
-            border-color: lighten($dark, 15%) lighten($dark, 15%) lighten($dark, 15%) transparent;
+            border-color: color.adjust($dark, $lightness: 15%) color.adjust($dark, $lightness: 15%) color.adjust($dark, $lightness: 15%) transparent;
           }
         }
       }
@@ -166,7 +168,7 @@
         background-color: $value;
 
         @if $color == dark {
-          border-color: lighten($dark, 10%);
+          border-color: color.adjust($dark, $lightness: 10%);
         }
       }
     }

@@ -1,5 +1,7 @@
 // Component: Brand
 
+@use "sass:color";
+
 .brand-link {
   $brand-link-padding-y: $navbar-brand-padding-y + $navbar-padding-y;
 
@@ -20,7 +22,7 @@
   }
 
   [class*="sidebar-dark"] & {
-    border-bottom: 1px solid lighten($dark, 10%);
+    border-bottom: 1px solid color.adjust($dark, $lightness: 10%);
 
     &,
     .pushmenu {

@@ -1,5 +1,7 @@
 // Component: Control Sidebar
 
+@use "sass:color";
+
 html.control-sidebar-animate {
   overflow-x: hidden;
 }
@@ -171,7 +173,7 @@ body.text-sm {
 
 // Light skin
 .control-sidebar-light {
-  color: lighten($sidebar-light-color, 10%);
+  color: color.adjust($sidebar-light-color, $lightness: 10%);
 
   //  Background
   background-color: $sidebar-light-bg;

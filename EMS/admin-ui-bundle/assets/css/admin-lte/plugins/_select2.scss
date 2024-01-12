@@ -1,5 +1,7 @@
 // Plugin: Select2
 
+@use "sass:color";
+
 // Signle select
 // .select2-container--default,
 // .select2-selection {
@@ -21,7 +23,7 @@
 
   &.select2-container--open {
     .select2-selection--single {
-      border-color: lighten($primary, 25%);
+      border-color: color.adjust($primary, $lightness: 25%);
     }
   }
 
@@ -282,7 +284,7 @@ select.form-control-sm ~ {
   }
 
   .select2-container--disabled .select2-selection--single {
-    background-color: lighten($dark, 7.5%);
+    background-color: color.adjust($dark, $lightness: 7.5%);
   }
 
   .select2-selection--single {
@@ -308,7 +310,7 @@ select.form-control-sm ~ {
   }
 
   .select2-results__option[aria-selected="true"] {
-    background-color: lighten($dark, 5%) !important;
+    background-color: color.adjust($dark, $lightness: 5%) !important;
     color: $gray-300;
   }
 

@@ -1,5 +1,7 @@
 // Component: Main Sidebar
 
+@use "sass:color";
+
 .main-sidebar {
   height: 100vh;
   overflow-y: hidden;
@@ -37,7 +39,7 @@
   position: relative;
 
   [class*="sidebar-dark"] & {
-    border-bottom: 1px solid lighten($dark, 12%);
+    border-bottom: 1px solid color.adjust($dark, $lightness: 12%);
   }
 
   [class*="sidebar-light"] & {
@@ -418,7 +420,7 @@
   // Section Heading
   .nav-header {
     background-color: inherit; //darken($sidebar-dark-bg, 3%);
-    color: lighten($sidebar-dark-color, 5%);
+    color: color.adjust($sidebar-dark-color, $lightness: 5%);
   }
 
   // All links within the sidebar menu
@@ -916,35 +918,35 @@
 [class*="sidebar-dark"] {
   .form-control-sidebar,
   .btn-sidebar {
-    background-color: lighten($sidebar-dark-bg, 5%);
-    border: 1px solid lighten($sidebar-dark-bg, 15%);
-    color: lighten(color-contrast(lighten($sidebar-dark-bg, 5%)), 15%);
+    background-color: color.adjust($sidebar-dark-bg, $lightness: 5%);
+    border: 1px solid color.adjust($sidebar-dark-bg, $lightness: 15%);
+    color: color.adjust(color-contrast(color.adjust($sidebar-dark-bg, $lightness: 5%)), $lightness: 15%);
   }
 
   .form-control-sidebar:focus,
   .btn-sidebar:focus {
-    border: 1px solid lighten($sidebar-dark-bg, 30%);
+    border: 1px solid color.adjust($sidebar-dark-bg, $lightness: 30%);
   }
 
   .btn-sidebar:hover {
-    background-color: lighten($sidebar-dark-bg, 7.5%);
+    background-color: color.adjust($sidebar-dark-bg, $lightness: 7.5%);
   }
 
   .btn-sidebar:focus {
-    background-color: lighten($sidebar-dark-bg, 10%);
+    background-color: color.adjust($sidebar-dark-bg,$lightness: 10%);
   }
 
   .list-group-item {
-    background-color: lighten($sidebar-dark-bg, 7.5%);
-    border-color: lighten($sidebar-dark-bg, 15%);
+    background-color: color.adjust($sidebar-dark-bg, $lightness: 7.5%);
+    border-color: color.adjust($sidebar-dark-bg, $lightness: 15%);
     color: $sidebar-dark-color;
 
     &:hover {
-      background-color: lighten($sidebar-dark-bg, 10%);
+      background-color: color.adjust($sidebar-dark-bg, $lightness: 10%);
     }
 
     &:focus {
-      background-color: lighten($sidebar-dark-bg, 12.5%);
+      background-color: color.adjust($sidebar-dark-bg, $lightness: 12.5%);
     }
 
     .search-path {
@@ -1098,7 +1100,7 @@
 // Custom Area
 .sidebar-custom {
   [class*="sidebar-dark"] & {
-    border-top: 1px solid lighten($dark, 12%);
+    border-top: 1px solid color.adjust($dark, $lightness: 12%);
   }
 
   [class*="sidebar-light"] & {

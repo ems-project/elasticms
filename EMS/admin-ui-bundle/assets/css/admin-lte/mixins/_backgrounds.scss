@@ -33,7 +33,7 @@
 // Background Gradient Variant
 @mixin background-gradient-variant($name, $color) {
   .bg-gradient-#{$name} {
-    background: $color linear-gradient(180deg, mix($body-bg, $color, 15%), $color) repeat-x !important;
+    background: $color linear-gradient(180deg, color.mix($body-bg, $color, 15%), $color) repeat-x !important;
     color: color-contrast($color);
 
     &.btn {
@@ -44,7 +44,7 @@
       }
 
       &:hover {
-        background: $color linear-gradient(180deg, mix($body-bg, color.adjust($color, $lightness: -7.5%), 15%), color.adjust($color, $lightness: -7.5%)) repeat-x !important;
+        background: $color linear-gradient(180deg, color.mix($body-bg, color.adjust($color, $lightness: -7.5%), 15%), color.adjust($color, $lightness: -7.5%)) repeat-x !important;
         border-color: color.adjust($color, $lightness: -10%);
         color: color.adjust(color-contrast($color), $lightness: -7.5%);
       }
@@ -53,7 +53,7 @@
       &:not(:disabled, .disabled).active,
       &:active,
       &.active {
-        background: $color linear-gradient(180deg, mix($body-bg, color.adjust($color, $lightness: -10%), 15%), color.adjust($color, $lightness: -10%)) repeat-x !important;
+        background: $color linear-gradient(180deg, color.mix($body-bg, color.adjust($color, $lightness: -10%), 15%), color.adjust($color, $lightness: -10%)) repeat-x !important;
         border-color: color.adjust($color, $lightness: -12.5%);
         color: color-contrast(color.adjust($color, $lightness: -10%));
       }

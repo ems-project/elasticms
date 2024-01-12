@@ -11,6 +11,7 @@
   // Flat buttons
   &.btn-flat {
     @include border-radius(0);
+
     border-width: 1px;
     box-shadow: none;
   }
@@ -75,6 +76,7 @@
 // Application buttons
 .btn-app {
   @include border-radius(3px);
+
   background-color: $button-default-background-color;
   border: 1px solid $button-default-border-color;
   color: $gray-600;
@@ -130,10 +132,11 @@
 
 .btn-xs {
   @include button-size($button-padding-y-xs, $button-padding-x-xs, $button-font-size-xs, $button-border-radius-xs);
+
   line-height: $button-line-height-xs;
 }
 
-@include dark-mode () {
+@include dark-mode {
   .btn-default,
   .btn-app {
     background-color: lighten($dark, 2.5%);
@@ -147,6 +150,7 @@
       border-color: lighten($gray-600, 2.5%);
     }
   }
+
   .btn-light {
     background-color: lighten($dark, 7.5%);
     color: $white;

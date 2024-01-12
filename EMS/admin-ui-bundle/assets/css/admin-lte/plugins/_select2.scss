@@ -15,6 +15,7 @@
 .select2-container--default {
   .select2-selection--single {
     border: $input-border-width solid $input-border-color;
+
     //border-radius: $input-radius;
     padding: ($input-padding-y * 1.25) $input-padding-x;
     height: $input-height;
@@ -28,6 +29,7 @@
 
   & .select2-dropdown {
     border: $input-border-width solid $input-border-color;
+
     //border-radius: $input-radius;
   }
 
@@ -38,6 +40,7 @@
 
   & .select2-selection--single .select2-selection__rendered {
     padding-left: 0;
+
     //padding-right: 0;
     height: auto;
     margin-top: -3px;
@@ -98,6 +101,7 @@
 
   .select2-results__option--highlighted {
     $color: $primary;
+
     background-color: $color;
     color: color-contrast($color);
 
@@ -153,7 +157,7 @@
       }
 
       .select2-selection__choice__remove {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgb(255 255 255 / 70%);
         float: right;
         margin-left: 5px;
         margin-right: -2px;
@@ -273,7 +277,7 @@ select.form-control-sm ~ {
   @include select2-variant($name, $color);
 }
 
-@include dark-mode () {
+@include dark-mode {
   .select2-selection {
     background-color: $dark;
     border-color: $gray-600;
@@ -291,21 +295,25 @@ select.form-control-sm ~ {
       color: $white;
     }
   }
+
   .select2-dropdown .select2-search__field,
   .select2-search--inline .select2-search__field {
     background-color: $dark;
     border-color: $gray-600;
     color: white;
   }
+
   .select2-dropdown {
     background-color: $dark;
     border-color: $gray-600;
     color: white;
   }
+
   .select2-results__option[aria-selected="true"] {
     background-color: lighten($dark, 5%) !important;
     color: $gray-300;
   }
+
   .select2-container .select2-search--inline .select2-search__field {
     background-color: transparent;
     color: $white;

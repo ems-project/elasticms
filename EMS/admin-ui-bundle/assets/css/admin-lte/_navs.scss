@@ -46,10 +46,7 @@
     border-right: 0;
 
     .nav-link {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: $nav-tabs-border-radius;
-      border-top-left-radius: 0;
-      border-top-right-radius: $nav-tabs-border-radius;
+      border-radius: 0 $nav-tabs-border-radius $nav-tabs-border-radius 0;
       margin-left: -$nav-tabs-border-width;
 
       &:hover,
@@ -83,6 +80,7 @@
   @if $color == dark or $color == light {
     .navbar-#{$color} {
       background-color: $value;
+
       @if $color == dark {
         border-color: lighten($dark, 10%);
       }
@@ -114,7 +112,7 @@
 }
 
 
-@include dark-mode () {
+@include dark-mode {
   .nav-pills .nav-link {
     color: $gray-400;
   }
@@ -142,13 +140,16 @@
         &:hover {
           border-color: lighten($dark, 15%) transparent lighten($dark, 15%) lighten($dark, 15%);
         }
+
         &:focus,
         &:hover {
           background-color: lighten($dark, 5%);
         }
       }
+
       &.nav-tabs-right {
         border-color: lighten($dark, 15%);
+
         .nav-link {
           &.active,
           &:focus,
@@ -165,6 +166,7 @@
     @if $color == dark or $color == light {
       .navbar-#{$color} {
         background-color: $value;
+
         @if $color == dark {
           border-color: lighten($dark, 10%);
         }

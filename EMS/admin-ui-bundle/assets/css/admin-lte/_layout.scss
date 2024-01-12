@@ -38,6 +38,7 @@ body,
     .layout-fixed & .sidebar {
       height: calc(100vh - (#{$main-header-height-inner} + #{$main-header-bottom-border-width}));
     }
+
     .layout-fixed.text-sm & .sidebar {
       height: calc(100vh - (#{$main-header-height-sm-inner} + #{$main-header-bottom-border-width}));
     }
@@ -163,6 +164,7 @@ body,
     .main-header.border-bottom-0 ~ .content-wrapper {
       margin-top: $main-header-height-inner;
     }
+
     .content-wrapper {
       margin-top: $main-header-height;
     }
@@ -426,7 +428,7 @@ body,
 }
 
 
-body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-mini) {
+body.sidebar-collapse:not(.sidebar-mini-xs, .sidebar-mini-md, .sidebar-mini) {
   .content-wrapper,
   .main-footer,
   .main-header {
@@ -437,7 +439,7 @@ body.sidebar-collapse:not(.sidebar-mini-xs):not(.sidebar-mini-md):not(.sidebar-m
   }
 }
 
-body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) {
+body:not(.sidebar-mini-md, .sidebar-mini-xs, .layout-top-nav) {
   .content-wrapper,
   .main-footer,
   .main-header {
@@ -470,9 +472,11 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) {
         margin-left: $sidebar-mini-width;
       }
     }
+
     @include media-breakpoint-down(md) {
       margin-left: $sidebar-mini-width;
     }
+
     @include media-breakpoint-down(sm) {
       margin-left: 0;
     }
@@ -492,6 +496,7 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) {
         margin-left: $sidebar-mini-width;
       }
     }
+
     @include media-breakpoint-down(md) {
       margin-left: $sidebar-mini-width;
     }
@@ -510,11 +515,13 @@ body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) {
   &,
   &::before {
     $local-sidebar-transition: margin-left $transition-speed $transition-fn, width $transition-speed $transition-fn;
+
     @include transition($local-sidebar-transition);
+
     width: $sidebar-width;
   }
 
-  .sidebar-collapse:not(.sidebar-mini):not(.sidebar-mini-md):not(.sidebar-mini-xs) & {
+  .sidebar-collapse:not(.sidebar-mini, .sidebar-mini-md, .sidebar-mini-xs) & {
     &,
     &::before {
       box-shadow: none !important;
@@ -583,8 +590,9 @@ body:not(.layout-fixed) {
     .control-sidebar-content {
       height: calc(100vh - #{$main-header-height});
       overflow-y: auto;
-      @include scrollbar-width-thin();
-      @include scrollbar-color-gray();
+
+      @include scrollbar-width-thin;
+      @include scrollbar-color-gray;
     }
   }
 }
@@ -658,7 +666,7 @@ body:not(.layout-fixed) {
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   background-color: $dark-main-bg;
   color: $white;
 
@@ -700,10 +708,12 @@ body:not(.layout-fixed) {
       color: $gray-500;
     }
   }
+
   .main-footer {
     background-color: $dark;
     border-color: lighten($dark, 10%);
   }
+
   .content-wrapper {
     background-color: lighten($dark, 7.5%);
     color: $white;

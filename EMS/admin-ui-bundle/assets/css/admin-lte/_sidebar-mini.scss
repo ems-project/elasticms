@@ -41,9 +41,10 @@
 // Add sidebar-mini class to the body tag to activate this feature
 .sidebar-mini {
   @include media-breakpoint-up(lg) {
-    @include sidebar-mini-breakpoint ();
+    @include sidebar-mini-breakpoint;
   }
 }
+
 @include media-breakpoint-down(md) {
   .sidebar-mini.sidebar-collapse .main-sidebar {
     box-shadow: none !important;
@@ -52,9 +53,10 @@
 
 .sidebar-mini-md {
   @include media-breakpoint-up(md) {
-    @include sidebar-mini-breakpoint ();
+    @include sidebar-mini-breakpoint;
   }
 }
+
 @include media-breakpoint-down(sm) {
   .sidebar-mini-md.sidebar-collapse .main-sidebar {
     box-shadow: none !important;
@@ -63,7 +65,7 @@
 
 .sidebar-mini-xs {
   @include media-breakpoint-up(xs) {
-    @include sidebar-mini-breakpoint ();
+    @include sidebar-mini-breakpoint;
   }
 }
 
@@ -100,10 +102,12 @@
         }
       }
     }
+
     .nav-legacy {
       .nav-link {
         width: $sidebar-width;
       }
+
       &.nav-child-indent {
         .nav-treeview {
           .nav-link {
@@ -136,10 +140,12 @@
         }
       }
     }
+
     .nav-flat {
       .nav-link {
         width: $sidebar-width;
       }
+
       &.nav-child-indent {
         .nav-treeview {
           .nav-link {
@@ -172,6 +178,7 @@
         }
       }
     }
+
     .nav-child-indent.nav-compact .nav-treeview {
       .nav-link {
         width: calc(#{$sidebar-width} - #{$sidebar-padding-x} * 2 - .5rem);
@@ -201,10 +208,12 @@
         }
       }
     }
+
     .nav-child-indent.nav-legacy.nav-compact {
       .nav-link {
         width: $sidebar-width;
       }
+
       .nav-treeview {
         .nav-link {
           width: calc(#{$sidebar-width} - .5rem);
@@ -235,8 +244,10 @@
         }
       }
     }
+
     .nav-link {
       width: calc(#{$sidebar-width} - #{$sidebar-padding-x} * 2);
+
       @include transition(width $transition-fn $transition-speed);
     }
   }
@@ -247,7 +258,6 @@
   &.sidebar-mini-md,
   &.sidebar-mini-xs {
     .main-sidebar {
-
       // Hide the sidebar search results when mini mode is active.
       .sidebar-search-results {
         display: none;
@@ -264,6 +274,7 @@
             width: $sidebar-mini-width;
           }
         }
+
         &.nav-child-indent.nav-compact {
           .nav-treeview {
             padding-left: 0 !important;
@@ -289,12 +300,15 @@
           .nav-link {
             width: calc(#{$sidebar-width} - #{$sidebar-padding-x} * 2);
           }
+
           .form-control-sidebar {
             display: inline-block;
           }
+
           .form-control-sidebar ~ .input-group-append {
             display: flex;
           }
+
           .sidebar-search-open .sidebar-search-results {
             display: inline-block;
           }
@@ -305,10 +319,12 @@
             width: calc(#{$sidebar-width} - #{$sidebar-padding-x} * 2);
           }
         }
+
         .nav-legacy {
           .nav-link {
             width: $sidebar-width;
           }
+
           &.nav-child-indent {
             .nav-treeview {
               .nav-link {
@@ -341,10 +357,12 @@
             }
           }
         }
+
         .nav-flat {
           .nav-link {
             width: $sidebar-width;
           }
+
           &.nav-child-indent {
             .nav-treeview {
               .nav-link {
@@ -377,15 +395,18 @@
             }
           }
         }
+
         .nav-child-indent.nav-compact {
           .nav-link {
             width: calc(#{$sidebar-width} - #{$sidebar-padding-x} * 2);
           }
         }
+
         .nav-child-indent.nav-legacy.nav-compact {
           .nav-link {
             width: $sidebar-width;
           }
+
           .nav-treeview {
             .nav-link {
               width: calc(#{$sidebar-width} - .5rem);

@@ -6,9 +6,11 @@
   margin: 0 0 45px;
   padding: 0;
   position: relative;
+
   // The line
   &::before {
     @include border-radius($border-radius);
+
     background-color: $gray-300;
     bottom: 0;
     content: "";
@@ -18,6 +20,7 @@
     top: 0;
     width: 4px;
   }
+
   // Element
   > div {
     &::before,
@@ -29,10 +32,12 @@
     margin-bottom: 15px;
     margin-right: 10px;
     position: relative;
+
     // The content
     > .timeline-item {
       @include box-shadow($card-shadow);
       @include border-radius($border-radius);
+
       background-color: $white;
       color: $gray-700;
       margin-left: 60px;
@@ -40,6 +45,7 @@
       margin-top: 0;
       padding: 0;
       position: relative;
+
       // The time and header
       > .time {
         color: #999;
@@ -47,6 +53,7 @@
         font-size: 12px;
         padding: 10px;
       }
+
       // Header
       > .timeline-header {
         border-bottom: 1px solid $card-border-color;
@@ -55,11 +62,13 @@
         line-height: 1.1;
         margin: 0;
         padding: 10px;
+
         // Link in header
         > a {
           font-weight: 600;
         }
       }
+
       // Item body and footer
       > .timeline-body,
       > .timeline-footer {
@@ -70,6 +79,7 @@
         > img {
           margin: 10px;
         }
+
         > dl,
         ol,
         ul {
@@ -105,15 +115,18 @@
       top: 0;
       width: 30px;
     }
+
     > .svg-inline--fa {
       padding: 7px;
     }
     /* stylelint-enable selector-class-pattern */
   }
+
   // Time label
   > .time-label {
     > span {
       @include border-radius(4px);
+
       background-color: $white;
       display: inline-block;
       font-weight: 600;
@@ -126,6 +139,7 @@
   > div {
     > .timeline-item {
       @include box-shadow(none);
+
       background-color: $gray-100;
       border: 1px solid $gray-300;
 
@@ -136,11 +150,12 @@
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .timeline {
     &::before {
       background-color: $gray-600;
     }
+
     > div > .timeline-item {
       background-color: $dark;
       color: $white;
@@ -150,6 +165,7 @@
         color: $gray-400;
         border-color: $gray-600;
       }
+
       > .time {
         color: $gray-400;
       }

@@ -90,6 +90,7 @@
   .custom-control-input-#{$name} {
     &:checked ~ .custom-control-label::before {
       border-color: $color;
+
       @include gradient-bg($color);
     }
 
@@ -97,6 +98,7 @@
       &[type="checkbox"] ~ .custom-control-label::after {
         background-image: $custom-checkbox-indicator-icon-checked !important;
       }
+
       &[type="radio"] ~ .custom-control-label::after {
         background-image: $custom-radio-indicator-icon-checked !important;
       }

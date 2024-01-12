@@ -111,6 +111,7 @@
     .col-md-2 & {
       .progress-description {
         @include font-size(.75rem);
+
         display: block;
       }
     }
@@ -120,6 +121,7 @@
     .col-md-3 & {
       .progress-description {
         @include font-size(.75rem);
+
         display: block;
       }
     }
@@ -131,6 +133,7 @@
     .col-md-2 & {
       .progress-description {
         @include font-size(1rem);
+
         display: block;
       }
     }
@@ -140,16 +143,18 @@
     .col-md-3 & {
       .progress-description {
         @include font-size(1rem);
+
         display: block;
       }
     }
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .info-box {
     background-color: $dark;
     color: $white;
+
     @each $name, $color in $theme-colors-alt {
       .info-box {
         .bg-#{$name},

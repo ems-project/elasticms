@@ -46,7 +46,7 @@
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .toast {
     background-color: rgba($dark, .85);
     color: $white;
@@ -71,6 +71,7 @@
   @each $name, $color in $theme-colors {
     @include toast-variant($name, $color);
   }
+
   @each $name, $color in $colors {
     @include toast-variant($name, $color);
   }

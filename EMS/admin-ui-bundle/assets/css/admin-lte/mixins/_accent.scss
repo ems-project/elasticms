@@ -11,7 +11,7 @@
     $pagination-active-border-color: $color;
 
     .btn-link,
-    a:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link):not(.page-link):not(.badge):not(.btn),
+    a:not(.dropdown-item, .btn-app, .nav-link, .brand-link, .page-link, .badge, .btn),
     .nav-tabs .nav-link {
       color: $link-color;
 
@@ -37,11 +37,12 @@
 
       &::after {
         $new-color: color-contrast($color);
+
         background-image: str-replace($custom-checkbox-indicator-icon-checked, str-replace(#{$custom-control-indicator-checked-color}, "#", "%23"), str-replace(#{$new-color}, "#", "%23"));
       }
     }
 
-    .form-control:focus:not(.is-invalid):not(.is-warning):not(.is-valid),
+    .form-control:focus:not(.is-invalid, .is-warning, .is-valid),
     .custom-select:focus,
     .custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
     .custom-file-input:focus ~ .custom-file-label {
@@ -70,7 +71,7 @@
 
     [class*="sidebar-dark-"] {
       .sidebar {
-        a:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link) {
+        a:not(.dropdown-item, .btn-app, .nav-link, .brand-link) {
           color: $sidebar-dark-color;
 
           &:hover,
@@ -83,7 +84,7 @@
 
     [class*="sidebar-light-"] {
       .sidebar {
-        a:not(.dropdown-item):not(.btn-app):not(.nav-link):not(.brand-link) {
+        a:not(.dropdown-item, .btn-app, .nav-link, .brand-link) {
           color: $sidebar-light-color;
 
           &:hover,
@@ -94,7 +95,8 @@
       }
     }
   }
-  @include dark-mode () {
+
+  @include dark-mode {
     &.accent-#{$name} {
       .page-item {
         .page-link {

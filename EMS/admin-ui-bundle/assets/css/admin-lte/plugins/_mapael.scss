@@ -8,9 +8,10 @@
   }
 
   .mapTooltip {
-    @include reset-text();
+    @include reset-text;
     @include border-radius($tooltip-border-radius);
     @include font-size($tooltip-font-size);
+
     background-color: $tooltip-bg;
     color: $tooltip-color;
     display: block;
@@ -43,7 +44,6 @@
     position: absolute;
     text-align: center;
     top: 0;
-
     user-select: none;
     width: 16px;
 

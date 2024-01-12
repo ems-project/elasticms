@@ -1,19 +1,15 @@
 
 ol.vertical {
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   padding: 8px;
 
   & > li, ol > li {
     display: block;
     margin-top: 6px;
-
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
 
     & > div > span.input-group {
-      margin-right: -1px;
-      margin-left: -1px;
-      margin-top: -1px;
-      margin-bottom: 8px;
+      margin: -1px -1px 8px;
     }
 
     &.mjs-nestedSortable-no-nesting > div > span.input-group {

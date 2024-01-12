@@ -58,7 +58,8 @@
   position: relative;
 
   > a::after {
-    @include caret-start();
+    @include caret-start;
+
     float: right;
     margin-left: .5rem;
     margin-top: .5rem;
@@ -118,6 +119,7 @@
 // the class .animated-dropdown-menu to the .dropdown-menu ul (or ol)
 .open:not(.dropup) > .animated-dropdown-menu {
   @include animation(flip-in-x .7s both);
+
   backface-visibility: visible !important;
 }
 
@@ -125,6 +127,7 @@
 .navbar-custom-menu > .navbar-nav {
   > li {
     position: relative;
+
     > .dropdown-menu {
       position: absolute;
       right: 0;
@@ -136,8 +139,10 @@
 @include media-breakpoint-down(sm) {
   .navbar-custom-menu > .navbar-nav {
     float: right;
+
     > li {
       position: static;
+
       > .dropdown-menu {
         position: absolute;
         right: 5%;
@@ -157,6 +162,7 @@
 
   > .dropdown-menu {
     @include border-top-radius(0);
+
     padding: 0;
     width: 280px;
 
@@ -178,12 +184,13 @@
         width: 90px;
         border: 3px solid;
         border-color: transparent;
-        border-color: rgba(255, 255, 255, .2);
+        border-color: rgb(255 255 255 / 20%);
       }
 
       > p {
         z-index: 5;
         font-size: 17px;
+
         //text-shadow: 2px 2px 3px #333333;
         margin-top: 10px;
 
@@ -196,7 +203,8 @@
 
     // Menu Body
     > .user-body {
-      @include clearfix ();
+      @include clearfix;
+
       border-bottom: 1px solid $gray-700;
       border-top: 1px solid $gray-300;
       padding: 15px;
@@ -211,7 +219,8 @@
 
     // Menu Footer
     > .user-footer {
-      @include clearfix ();
+      @include clearfix;
+
       background-color: $gray-100;
       padding: 10px;
 
@@ -244,11 +253,12 @@
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .dropdown-menu {
     background-color: $dark;
     color: $white;
   }
+
   .dropdown-item {
     color: $white;
 
@@ -257,6 +267,7 @@
       background-color: lighten($dark, 5%);
     }
   }
+
   .dropdown-divider {
     border-color: $gray-600;
   }
@@ -274,14 +285,17 @@
           background-color: lighten($dark, 5%);
           color: $gray-300;
         }
+
         &:focus {
           background-color: lighten($dark, 7.5%);
         }
       }
     }
+
     > .user-body {
       border-color: $gray-600;
     }
+
     > .user-body a {
       background-color: transparent !important;
       color: $white !important;

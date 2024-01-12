@@ -258,6 +258,7 @@
 
   .overlay {
     @include border-radius($border-radius);
+
     align-items: center;
     background-color: rgba($white, .7);
     display: flex;
@@ -300,6 +301,7 @@
   // Box overlay for LOADING STATE effect on Tab Panels
   > .overlay-wrapper {
     position: relative;
+
     > .overlay {
       border-top-left-radius: 0;
       border-top-right-radius: 0;
@@ -486,10 +488,11 @@ blockquote {
   padding: .375rem .6rem;
 }
 
-@include dark-mode () {
+@include dark-mode {
   a:not(.btn):hover {
     color: lighten($link-color, 10%);
   }
+
   .attachment-block {
     background-color: lighten($dark, 3.75%);
 
@@ -497,6 +500,7 @@ blockquote {
       color: $gray-400;
     }
   }
+
   blockquote {
     background-color: lighten($dark, 5%);
 
@@ -530,14 +534,17 @@ blockquote {
       }
     }
   }
+
   .close,
   .mailbox-attachment-close {
     color: $gray-500;
     text-shadow: 0 1px 0 $gray-700;
   }
+
   .tab-custom-content {
     border-color: $gray-600;
   }
+
   .list-group-item {
     background-color: $dark;
     border-color: $gray-600;

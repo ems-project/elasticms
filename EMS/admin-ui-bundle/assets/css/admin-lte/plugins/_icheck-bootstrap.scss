@@ -40,13 +40,14 @@
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   [class*="icheck-"] > input:first-child:not(:checked) {
     + input[type="hidden"] + label::before,
     + label::before {
       border-color: $gray-600;
     }
   }
+
   // iCheck colors (theme colors)
   @each $name, $color in $theme-colors-alt {
     .icheck-#{$name} > input:first-child:not(:checked):not(:disabled):hover + label::before,

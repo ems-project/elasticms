@@ -1,6 +1,7 @@
 // Component: Table
 
 @use "sass:color";
+@use "sass:map";
 
 .table {
   &:not(.table-dark) {
@@ -63,11 +64,11 @@
     tbody > tr > th,
     tbody > tr > td {
       &:first-of-type {
-        padding-left: map-get($spacers, 4);
+        padding-left: map.get($spacers, 4);
       }
 
       &:last-of-type {
-        padding-right: map-get($spacers, 4);
+        padding-right: map.get($spacers, 4);
       }
     }
   }

@@ -1,6 +1,7 @@
 // Misc: Colors
 
 @use "sass:color";
+@use "sass:map";
 
 // Background colors (theme colors)
 @each $name, $color in $theme-colors {
@@ -64,7 +65,7 @@
 
 // Text muted hover
 a.text-muted:hover {
-  color: map-get($theme-colors, primary) !important;
+  color: map.get($theme-colors, primary) !important;
 }
 
 // Link Styles

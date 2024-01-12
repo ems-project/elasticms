@@ -1,13 +1,14 @@
 // Component: Nav
 
 @use "sass:color";
+@use "sass:map";
 
 .nav-pills {
   .nav-link {
     color: $gray-600;
 
     &:not(.active):hover {
-      color: map-get($theme-colors, "primary");
+      color: map.get($theme-colors, "primary");
     }
   }
 

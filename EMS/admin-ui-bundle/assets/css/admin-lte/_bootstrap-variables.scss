@@ -1,6 +1,7 @@
 // Variables
 
 @use "sass:color";
+@use "sass:map";
 
 // Variables should follow the `$component-state-property-size` formula for
 // consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
@@ -161,7 +162,7 @@ $body-color: $gray-900 !default;
 
 // Style anchor elements.
 
-$link-color: map-get($theme-colors, "primary") !default;
+$link-color: map.get($theme-colors, "primary") !default;
 $link-decoration: none !default;
 $link-hover-color: color.adjust($link-color, $lightness: -15%) !default;
 $link-hover-decoration: none !default;
@@ -226,7 +227,7 @@ $border-radius-lg: .3rem !default;
 $border-radius-sm: .2rem !default;
 
 $component-active-color: $white !default;
-$component-active-bg: map-get($theme-colors, "primary") !default;
+$component-active-bg: map.get($theme-colors, "primary") !default;
 
 $caret-width: .3em !default;
 
@@ -470,7 +471,7 @@ $custom-control-label-disabled-color: $gray-600 !default;
 
 $custom-control-indicator-checked-color: $component-active-color !default;
 $custom-control-indicator-checked-bg: $component-active-bg !default;
-$custom-control-indicator-checked-disabled-bg: rgba(map-get($theme-colors, "primary"), .5) !default;
+$custom-control-indicator-checked-disabled-bg: rgba(map.get($theme-colors, "primary"), .5) !default;
 $custom-control-indicator-checked-box-shadow: none !default;
 
 $custom-control-indicator-focus-box-shadow: 0 0 0 1px $body-bg, $input-btn-focus-box-shadow !default;
@@ -541,8 +542,8 @@ $custom-range-thumb-focus-box-shadow: 0 0 0 1px $body-bg, $input-btn-focus-box-s
 // Form validation
 $form-feedback-margin-top: $form-text-margin-top !default;
 $form-feedback-font-size: $small-font-size !default;
-$form-feedback-valid-color: map-get($theme-colors, "success") !default;
-$form-feedback-invalid-color: map-get($theme-colors, "danger") !default;
+$form-feedback-valid-color: map.get($theme-colors, "success") !default;
+$form-feedback-invalid-color: map.get($theme-colors, "danger") !default;
 
 
 // Dropdowns
@@ -814,7 +815,7 @@ $progress-bg: $gray-200 !default;
 $progress-border-radius: $border-radius !default;
 $progress-box-shadow: inset 0 .1rem .1rem rgba($black, .1) !default;
 $progress-bar-color: $white !default;
-$progress-bar-bg: map-get($theme-colors, "primary") !default;
+$progress-bar-bg: map.get($theme-colors, "primary") !default;
 $progress-bar-animation-timing: 1s linear infinite !default;
 $progress-bar-transition: width .6s ease !default;
 
@@ -919,4 +920,4 @@ $pre-scrollable-max-height: 340px !default;
 
 // Printing
 $print-page-size: a3 !default;
-$print-body-min-width: map-get($grid-breakpoints, "lg") !default;
+$print-body-min-width: map.get($grid-breakpoints, "lg") !default;

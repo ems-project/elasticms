@@ -1,6 +1,7 @@
 // Component: Progress Bar
 
 @use "sass:color";
+@use "sass:map";
 
 // General CSS
 .progress {
@@ -40,7 +41,7 @@
 }
 
 .progress-group {
-  margin-bottom: map-get($spacers, 2);
+  margin-bottom: map.get($spacers, 2);
 }
 
 // size variation

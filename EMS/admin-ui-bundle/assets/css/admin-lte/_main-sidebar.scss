@@ -1,6 +1,7 @@
 // Component: Main Sidebar
 
 @use "sass:color";
+@use "sass:map";
 
 .main-sidebar {
   height: 100vh;
@@ -277,7 +278,7 @@
       color: $sidebar-light-active-color;
 
       @if $enable-shadows {
-        box-shadow: map-get($elevations, 1);
+        box-shadow: map.get($elevations, 1);
       }
     }
 
@@ -407,7 +408,7 @@
       color: $sidebar-dark-hover-color;
 
       @if $enable-shadows {
-        box-shadow: map-get($elevations, 1);
+        box-shadow: map.get($elevations, 1);
       }
     }
 

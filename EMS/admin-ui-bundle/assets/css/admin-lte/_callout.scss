@@ -1,6 +1,7 @@
 // Component: Callout
 
 @use "sass:color";
+@use "sass:map";
 
 // Base styles (regardless of theme)
 .callout {
@@ -9,14 +10,14 @@
   }
 
   @if $enable-shadows {
-    box-shadow: map-get($elevations, 1);
+    box-shadow: map.get($elevations, 1);
   } @else {
     border: 1px solid $gray-300;
   }
 
   background-color: $white;
   border-left: 5px solid $gray-200;
-  margin-bottom: map-get($spacers, 3);
+  margin-bottom: map.get($spacers, 3);
   padding: 1rem;
 
   a {
@@ -34,19 +35,19 @@
 
   // Themes for different contexts
   &.callout-danger {
-    border-left-color: color.adjust(map-get($theme-colors, "danger"), $lightness: -10%);
+    border-left-color: color.adjust(map.get($theme-colors, "danger"), $lightness: -10%);
   }
 
   &.callout-warning {
-    border-left-color: color.adjust(map-get($theme-colors, "warning"), $lightness: -10%);
+    border-left-color: color.adjust(map.get($theme-colors, "warning"), $lightness: -10%);
   }
 
   &.callout-info {
-    border-left-color: color.adjust(map-get($theme-colors, "info"), $lightness: -10%);
+    border-left-color: color.adjust(map.get($theme-colors, "info"), $lightness: -10%);
   }
 
   &.callout-success {
-    border-left-color: color.adjust(map-get($theme-colors, "success"), $lightness: -10%);
+    border-left-color: color.adjust(map.get($theme-colors, "success"), $lightness: -10%);
   }
 }
 

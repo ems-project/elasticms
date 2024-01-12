@@ -1,6 +1,7 @@
 // Component: Cards
 
 @use "sass:color";
+@use "sass:map";
 
 // Color variants
 @each $name, $color in $theme-colors {
@@ -14,7 +15,7 @@
 .card {
   @include box-shadow($card-shadow);
 
-  margin-bottom: map-get($spacers, 3);
+  margin-bottom: map.get($spacers, 3);
 
   &.bg-dark {
     .card-header {
@@ -320,7 +321,7 @@ html.maximized-card {
   margin: 10px 0;
 
   > li {
-    @media (max-width: map-get($grid-breakpoints, sm)) {
+    @media (max-width: map.get($grid-breakpoints, sm)) {
       float: left;
       margin-right: 10px;
     }
@@ -411,7 +412,7 @@ html.maximized-card {
 
     // Tools and options box
     .tools {
-      color: map-get($theme-colors, "danger");
+      color: map.get($theme-colors, "danger");
       display: none;
       float: right;
 

@@ -1,4 +1,5 @@
 // Pages: Login & Register
+@use "sass:map";
 
 .login-logo,
 .register-logo {
@@ -26,7 +27,7 @@
 .register-box {
   width: 360px;
 
-  @media (max-width: map-get($grid-breakpoints, sm)) {
+  @media (max-width: map.get($grid-breakpoints, sm)) {
     margin-top: .5rem;
     width: 90%;
   }

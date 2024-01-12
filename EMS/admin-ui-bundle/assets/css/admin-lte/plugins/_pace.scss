@@ -39,7 +39,7 @@
   .pace-big-counter-#{$name} {
     .pace {
       .pace-progress::after {
-        color: rgba($color, .19999999999999996);
+        color: rgba($color, .2000);
       }
     }
   }
@@ -141,7 +141,7 @@
   .pace-fill-left-#{$name} {
     .pace {
       .pace-progress {
-        background-color: rgba($color, 0.19999999999999996);
+        background-color: rgba($color, 0.2000);
       }
     }
   }

@@ -13,6 +13,7 @@
 
 .card {
   @include box-shadow($card-shadow);
+
   margin-bottom: map-get($spacers, 3);
 
   &.bg-dark {
@@ -206,7 +207,7 @@ html.maximized-card {
 .card-header,
 .card-body,
 .card-footer {
-  @include clearfix ();
+  @include clearfix;
 }
 
 // Box header
@@ -314,7 +315,8 @@ html.maximized-card {
 }
 
 .chart-legend {
-  @include list-unstyled ();
+  @include list-unstyled;
+
   margin: 10px 0;
 
   > li {
@@ -330,7 +332,8 @@ html.maximized-card {
   background-color: $gray-100;
 
   .card-comment {
-    @include clearfix ();
+    @include clearfix;
+
     border-bottom: 1px solid $gray-200;
     padding: 8px 0;
 
@@ -379,6 +382,7 @@ html.maximized-card {
   // Todo list element
   > li {
     @include border-radius(2px);
+
     background-color: $gray-100;
     border-left: 2px solid $gray-200;
     color: $gray-700;
@@ -481,8 +485,7 @@ html.maximized-card {
   }
 }
 
-@include dark-mode () {
-
+@include dark-mode {
   // Color variants
   @each $name, $color in $theme-colors-alt {
     @include cards-variant($name, $color);
@@ -500,19 +503,24 @@ html.maximized-card {
       background-color: lighten($dark, 5%);
       color: $white;
     }
+
     .nav.flex-column > li {
       border-bottom-color: $gray-600;
     }
+
     .card-footer {
       background-color: rgba($black, .1);
     }
+
     &.card-outline-tabs {
       border-top: 0;
     }
+
     &.card-outline-tabs .card-header a:hover {
       border-top-color: $gray-600;
       border-bottom-color: transparent;
     }
+
     &:not(.card-outline) > .card-header a.active {
       color: $white;
     }
@@ -520,9 +528,11 @@ html.maximized-card {
 
   .card-comments {
     background-color: lighten($dark, 1.25%);
+
     .username {
       color: $gray-400;
     }
+
     .card-comment {
       border-bottom-color: lighten($dark, 7.5%);
     }

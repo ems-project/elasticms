@@ -2,11 +2,13 @@ body.iframe-mode {
   .main-sidebar {
     display: none;
   }
+
   .content-wrapper {
     margin-left: 0 !important;
     margin-top: 0 !important;
     padding-bottom: 0 !important;
   }
+
   .main-header,
   .main-footer {
     display: none;
@@ -42,10 +44,11 @@ body.iframe-mode-fullscreen {
         visibility: visible;
       }
 
-      @include on-touch-device() {
+      @include on-touch-device {
         visibility: visible;
       }
     }
+
     .navbar-nav {
       overflow-y: auto;
       width: 100%;
@@ -53,6 +56,7 @@ body.iframe-mode-fullscreen {
       .nav-link {
         white-space: nowrap;
       }
+
       .nav-item {
         position: relative;
 
@@ -64,25 +68,29 @@ body.iframe-mode-fullscreen {
             animation-fill-mode: both;
             visibility: visible;
 
-            @include on-touch-device() {
+            @include on-touch-device {
               visibility: visible;
             }
           }
         }
       }
     }
+
     .tab-content {
       position: relative;
     }
+
     .tab-pane + .tab-empty {
       display: none;
     }
+
     .tab-empty {
       width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     .tab-loading {
       position: absolute;
       top: 0;
@@ -113,10 +121,7 @@ body.iframe-mode-fullscreen {
 
     body.iframe-mode-fullscreen & {
       position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
+      inset: 0;
       margin-left: 0 !important;
       height: 100%;
       min-height: 100%;
@@ -133,7 +138,7 @@ body.iframe-mode-fullscreen {
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .content-wrapper.iframe-mode {
     .tab-loading {
       background-color: $dark;

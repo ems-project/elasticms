@@ -10,7 +10,6 @@
 
 //User Widget Style 1
 .widget-user {
-
   //User name container
   .widget-user-header {
     @if $enable-rounded {
@@ -57,10 +56,10 @@
 
 //User Widget Style 2
 .widget-user-2 {
-
   //User name container
   .widget-user-header {
     @include border-top-radius($border-radius);
+
     padding: 1rem;
   }
 

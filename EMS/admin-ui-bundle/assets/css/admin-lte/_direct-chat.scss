@@ -31,6 +31,7 @@
 
 .direct-chat-messages {
   @include translate(0, 0);
+
   height: 250px;
   overflow: auto;
   padding: 10px;
@@ -42,7 +43,8 @@
 }
 
 .direct-chat-msg {
-  @include clearfix ();
+  @include clearfix;
+
   margin-bottom: 10px;
 }
 
@@ -103,6 +105,7 @@
 
 .direct-chat-img {
   @include border-radius(50%);
+
   float: left;
   height: 40px;
   width: 40px;
@@ -135,6 +138,7 @@
 
 .direct-chat-contacts {
   @include translate(101%, 0);
+
   background-color: $dark;
   bottom: 0;
   color: $white;
@@ -163,10 +167,11 @@
 
 //Contacts list -- for displaying contacts in direct chat contacts pane
 .contacts-list {
-  @include list-unstyled ();
+  @include list-unstyled;
 
   > li {
-    @include clearfix ();
+    @include clearfix;
+
     border-bottom: 1px solid rgba($black, .2);
     margin: 0;
     padding: 10px;
@@ -179,6 +184,7 @@
 
 .contacts-list-img {
   @include border-radius(50%);
+
   float: left;
   width: 40px;
 }
@@ -223,7 +229,7 @@
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .direct-chat-text {
     background-color: lighten($dark, 7.5%);
     border-color: lighten($dark, 10%);
@@ -234,9 +240,11 @@
       border-right-color: lighten($dark, 10%);
     }
   }
+
   .direct-chat-timestamp {
     color: $gray-500;
   }
+
   .right > .direct-chat-text {
     &::after,
     &::before {

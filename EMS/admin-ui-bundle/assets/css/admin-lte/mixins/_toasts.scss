@@ -6,8 +6,8 @@
 @mixin toast-variant($name, $color) {
   &.bg-#{$name} {
     background-color: rgba($color, .9) !important;
-    @if (color-contrast($color) == $yiq-text-light) {
 
+    @if  color-contrast($color) == $yiq-text-light {
       .close {
         color: color-contrast($color);
         text-shadow: 0 1px 0 $black;

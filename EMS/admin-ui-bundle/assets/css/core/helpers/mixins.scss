@@ -7,6 +7,7 @@
 @mixin iconBefore($unicode, $marginRight : 5px) {
   &::before {
     @include icon($unicode);
+
     margin-right: $marginRight;
   }
 }
@@ -14,6 +15,7 @@
 @mixin iconAfter($unicode, $marginLeft : 5px) {
   &::after {
     @include icon($unicode);
+
     margin-left: $marginLeft;
   }
 }

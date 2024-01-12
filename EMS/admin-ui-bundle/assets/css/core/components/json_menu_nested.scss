@@ -9,6 +9,7 @@
     --jmn-gap: 10px;
     --jmn-icon-size: 30px;
     --jmn-collapse-icon-size: calc(var(--jmn-gap) + var(--jmn-icon-size));
+
     position: relative;
     margin-bottom: 50px;
 
@@ -20,7 +21,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color:rgba(248, 248, 248, 0.3);
+        background-color:rgb(248 248 248 / 30%);
         color: var(--jmn-color-border);
         text-align: center;
         font-size: 1em;
@@ -62,7 +63,7 @@
                 position: relative;
                 padding-left: calc(var(--jmn-gap) * 2);
 
-                &:before {
+                &::before {
                     content: '';
                     width: var(--jmn-gap);
                     height: calc(var(--jmn-gap) * 1.5);
@@ -91,6 +92,7 @@
         flex-shrink: 0;
         &:first-child { justify-content: flex-start; flex-shrink: 1; }
     }
+
     .jmn-column {
         align-items: center;
         justify-content: center;
@@ -99,6 +101,7 @@
         font-weight: bold;
         text-align: center;
     }
+
     .jmn-cell {
         justify-content: flex-end;
         align-items: center;
@@ -123,12 +126,15 @@
         border-radius: 50%;
         background-color: var(--jmn-color-bg);
     }
+
     .jmn-column-title {
         padding-left: var(--jmn-collapse-icon-size);
     }
+
     .jmn-cell-title {
         align-items: baseline;
     }
+
     .jmn-btn-more {
         background-color: white;
     }
@@ -139,14 +145,17 @@
 
     .jmn-btn-move {
         cursor: move;
+
         @include iconBefore("\f047");
     }
+
     .jmn-btn-collapse {
         padding: 0;
         border: none;
         &[aria-expanded="true"]::after { @include icon("\f077"); }
         &[aria-expanded="false"]::after { @include icon("\f078"); }
     }
+
     .jmn-badge {
         padding: 5px 10px;
         border-radius: 10px;

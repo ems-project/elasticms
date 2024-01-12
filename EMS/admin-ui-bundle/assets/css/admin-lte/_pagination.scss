@@ -13,6 +13,7 @@
       flex-direction: column;
       box-shadow: none;
     }
+
     &:first-child,
     &:last-child {
       .page-link {
@@ -20,11 +21,13 @@
         font-size: $font-size-lg;
       }
     }
+
     .page-month {
       margin-bottom: 0;
       font-size: $font-size-lg;
       font-weight: $font-weight-bold;
     }
+
     .page-year {
       margin-bottom: 0;
     }
@@ -35,6 +38,7 @@
       font-size: ($font-size-lg * 1.25);
     }
   }
+
   &.pagination-sm {
     .page-month {
       font-size: ($font-size-base);
@@ -42,7 +46,7 @@
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .page-item {
     &.disabled a,
     &.disabled .page-link {
@@ -67,6 +71,7 @@
         }
       }
     }
+
     &:not(.active) {
       .page-link {
         background-color: $dark;

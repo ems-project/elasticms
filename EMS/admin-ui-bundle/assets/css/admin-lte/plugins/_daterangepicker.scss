@@ -1,4 +1,4 @@
-@include dark-mode() {
+@include dark-mode {
   .daterangepicker {
     background-color: lighten($dark, 5%);
     border: inherit;
@@ -12,6 +12,7 @@
     th.available:hover {
       background-color: lighten($dark, 5%);
     }
+
     td.in-range {
       background-color: lighten($dark, 10%);
       color: $white;

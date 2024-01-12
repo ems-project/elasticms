@@ -3,7 +3,7 @@
 //
 
 .users-list {
-  @include list-unstyled ();
+  @include list-unstyled;
 
   > li {
     float: left;
@@ -13,6 +13,7 @@
 
     img {
       @include border-radius(50%);
+
       height: auto;
       max-width: 100%;
     }
@@ -44,10 +45,11 @@
   font-size: 12px;
 }
 
-@include dark-mode () {
+@include dark-mode {
   .users-list-name {
     color: $gray-400;
   }
+
   .users-list-date {
     color: $gray-500;
   }

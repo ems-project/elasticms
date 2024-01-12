@@ -174,7 +174,7 @@ $bootstrap-switch-handle-border-radius: .1rem;
   }
 }
 
-@include dark-mode () {
+@include dark-mode {
   .bootstrap-switch {
     border-color: $gray-600;
 
@@ -184,6 +184,7 @@ $bootstrap-switch-handle-border-radius: .1rem;
       color: $white;
       border-color: lighten($dark, 7.5%);
     }
+
     .bootstrap-switch-handle-on,
     .bootstrap-switch-handle-off {
       @each $name, $color in $theme-colors-alt {

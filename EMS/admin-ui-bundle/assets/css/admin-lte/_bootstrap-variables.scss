@@ -614,6 +614,7 @@ $navbar-padding-x: ($spacer * .5) !default;
 $navbar-nav-link-padding-x: 1rem !default;
 
 $navbar-brand-font-size: $font-size-lg !default;
+
 // Compute the navbar-brand padding-y so the navbar-brand will have the same height as navbar-text and nav-link
 $nav-link-height: ($font-size-base * $line-height-base + $nav-link-padding-y * 2) !default;
 $navbar-brand-height: $navbar-brand-font-size * $line-height-base !default;
@@ -678,7 +679,7 @@ $jumbotron-bg: $gray-200 !default;
 
 $card-spacer-y: .75rem !default;
 $card-spacer-x: 1.25rem !default;
-$card-border-width: 0 !default; //$border-width !default;
+$card-border-width: 0 !default; // $border-width !default;
 $card-border-radius: $border-radius !default;
 $card-border-color: rgba($black, .125) !default;
 $card-inner-border-radius: calc(#{$card-border-radius} - #{$card-border-width}) !default;
@@ -754,6 +755,7 @@ $badge-padding-x: .4em !default;
 $badge-border-radius: $border-radius !default;
 
 $badge-pill-padding-x: .6em !default;
+
 // Use a higher than normal value to ensure completely rounded edges when
 // customizing padding or font-size on labels.
 $badge-pill-border-radius: 10rem !default;

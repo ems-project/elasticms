@@ -65,7 +65,7 @@
   padding: 5px 10px;
   position: relative;
 
-  //Create the arrow
+  // Create the arrow
   &::after,
   &::before {
     border: solid transparent;
@@ -129,7 +129,7 @@
   color: color.adjust($gray-500, $lightness: -25%);
 }
 
-//Direct chat contacts pane
+// Direct chat contacts pane
 .direct-chat-contacts-open {
   .direct-chat-contacts {
     @include translate(0, 0);
@@ -165,7 +165,7 @@
   }
 }
 
-//Contacts list -- for displaying contacts in direct chat contacts pane
+// Contacts list -- for displaying contacts in direct chat contacts pane
 .contacts-list {
   @include list-unstyled;
 

@@ -1,4 +1,5 @@
 import Datatable from './plugins/datatable'
+import File from './plugins/file'
 import Image from './plugins/image'
 import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
@@ -10,6 +11,7 @@ class Core {
   constructor () {
     this._domListeners = [
       new Datatable(),
+      new File(),
       new Image(),
       new JsonMenuNested(),
       new MediaLibrary(),

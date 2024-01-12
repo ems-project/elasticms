@@ -62,8 +62,8 @@
         {% set stil_in_target = true %}
     {% endif %}
     {%  if stil_in_target %}
-        <i class="fa fa-check-square"><span class="sr-only"</span>{{ 'release.release-revisison.still_in_target'|trans({'%target%': data.release.environmentTarget.label}) }}</i>
+        <i class="fa fa-check-square"><span class="visually-hidden"</span>{{ 'release.release-revisison.still_in_target'|trans({'%target%': data.release.environmentTarget.label}) }}</i>
     {% else %}
-        <i class="fa fa-square-o"><span class="sr-only"</span>{{ 'release.release-revisison.no_more_in_target'|trans({'%target%': data.release.environmentTarget.label})  }}</i>
+        <i class="fa fa-square-o"><span class="visually-hidden"</span>{{ 'release.release-revisison.no_more_in_target'|trans({'%target%': data.release.environmentTarget.label})  }}</i>
     {% endif %}
 {% endblock stil_in_target %}

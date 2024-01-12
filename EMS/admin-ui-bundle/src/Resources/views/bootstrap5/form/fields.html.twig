@@ -821,7 +821,7 @@
 						{% endif %}
 						<a type="button" class="btn btn-danger json_menu_sortable_remove_button" title="{{ 'field_type.json_menu_editor.delete_item'|trans }}">
 							<i class="fa fa-trash"></i>
-							<span class="sr-only">{{ 'field_type.json_menu_editor.delete_item'|trans }}</span>
+							<span class="visually-hidden">{{ 'field_type.json_menu_editor.delete_item'|trans }}</span>
 						</a>
 					</span>
 				</span>
@@ -996,19 +996,19 @@
 					<span class="input-group-btn">
 						<button type="button" class="btn" title="{{ 'fields.asset.info-modal-button'|trans }}" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}-__name__">
 							<i class="fa fa-info"></i>
-							<span class="sr-only">{{ 'fields.asset.info-modal-button'|trans }}</span>
+							<span class="visually-hidden">{{ 'fields.asset.info-modal-button'|trans }}</span>
 						</button>
 						<a type="button" class="btn ui-sortable-handle move-handle" title="{{ 'fields.asset.move-button'|trans }}">
 							<i class="fa fa-arrows"></i>
-							<span class="sr-only">{{ 'fields.asset.move-button'|trans }}</span>
+							<span class="visually-hidden">{{ 'fields.asset.move-button'|trans }}</span>
 						</a>
 						<a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled"{% endif %}" title="{{ 'fields.asset.view-button'|trans }}" target="_blank">
 							<i class="fa fa-eye"></i>
-							<span class="sr-only">{{ 'fields.asset.view-button'|trans }}</span>
+							<span class="visually-hidden">{{ 'fields.asset.view-button'|trans }}</span>
 						</a>
 						<button type="button" class="btn btn-danger remove-item" title="{{ 'fields.asset.remove-button'|trans }}">
 							<i class="fa fa-trash"></i>
-							<span class="sr-only">{{ 'fields.asset.remove-button'|trans }}</span>
+							<span class="visually-hidden">{{ 'fields.asset.remove-button'|trans }}</span>
 						</button>
 					</span>
 				</div>
@@ -1114,13 +1114,13 @@
 				<input type="file" id="file-upload-{{ form.vars.id }}" class="file-uploader-input" {% if form.vars.disabled %}disabled="disabled"{% endif %}>
 				<label class="btn btn-default" for="file-upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> {{ 'fields.asset.upload-file'|trans|e('html_attr') }}</label>
 			</div>
-			<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'fields.asset.browse-server'|trans }}</span></button>
+			<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server"><i class="fa fa-folder-open-o"></i><span class="visually-hidden">{{ 'fields.asset.browse-server'|trans }}</span></button>
 			<div class="btn-group">
 				<button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
 				  	<i class="fa fa-info"></i>
 					{{ 'fields.asset.info-modal-button'|trans }}
 				</button>
-				<a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.asset.view-button'|trans }}"><i class="fa fa-eye">&nbsp;{{ 'fields.asset.view-button'|trans }}</i></a>
+				<a href="{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}{{ ems_asset_path(form.vars.value) }}{% endif %}" class="btn btn-small btn-default view-asset-button {% if not form.children.sha1.vars.value %}disabled{% endif %}" target="_blank" alt="{{ 'fields.asset.view-button'|trans }}"><i class="fa fa-eye"></i> {{ 'fields.asset.view-button'|trans }}</a>
 				<a href="#" class="btn btn-small btn-default clear-asset-button  {% if not form.children.sha1.vars.value %}disabled{% endif %}" alt="{{ 'fields.asset.clear-button'|trans }}"><i class="fa fa-remove"></i>&nbsp;{{ 'fields.asset.clear-button'|trans }}</a>
 			</div>
 		{% endif %}
@@ -1198,7 +1198,7 @@
 			<input type="file" id="upload-{{ form.vars.id }}" class="file-uploader-input">
 			<label for="upload-{{ form.vars.id }}"><i class="fa fa-upload"></i> Upload file</label>
 		</div>
-		<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server"><i class="fa fa-folder-open-o"></i><span class="sr-only">{{ 'fields.asset.browse-server'|trans }}</span></button>
+		<button type="button" data-href="{{ path('ems_core_uploaded_file_wysiwyg_modal') }}"  class="btn btn-small btn-default file-browse-server"><i class="fa fa-folder-open-o"></i><span class="visually-hidden">{{ 'fields.asset.browse-server'|trans }}</span></button>
 		<div class="btn-group">
 			<button type="button" class="btn btn-small btn-default asset-details" data-bs-toggle="modal" data-bs-target="#asst-details-{{ form.vars.id }}">
               <i class="fa fa-info"></i>

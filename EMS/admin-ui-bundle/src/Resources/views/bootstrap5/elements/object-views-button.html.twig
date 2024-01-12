@@ -7,7 +7,7 @@
 			<i class="{{ 'views.elements.object-views-button.action-dropdown-icon-class'|trans }}"></i>
 			{{ 'views.elements.object-views-button.action-dropdown-label'|trans({'%environment%': environment.label}) }}
 			<span class="caret"></span>
-			<span class="sr-only">{{ 'views.elements.object-views-button.action-dropdown-sr-only'|trans({'%environment%': environment.label}) }}</span>
+			<span class="visually-hidden">{{ 'views.elements.object-views-button.action-dropdown-sr-only'|trans({'%environment%': environment.label}) }}</span>
 		</button>
 		<ul class="dropdown-menu" role="menu">
 				{% for template in contentType.templates %}

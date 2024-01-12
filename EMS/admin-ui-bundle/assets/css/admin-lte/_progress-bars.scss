@@ -2,7 +2,7 @@
 
 @use "sass:color";
 
-//General CSS
+// General CSS
 .progress {
   @include box-shadow(none);
   @include border-radius($progress-bar-border-radius);
@@ -21,7 +21,7 @@
       width: 100%;
     }
 
-    //Sizes
+    // Sizes
     &.sm,
     &.progress-sm {
       width: 20px;

@@ -1,14 +1,14 @@
 // Component: Social Widgets
 
-//General widget style
+// General widget style
 .card-widget {
   border: 0;
   position: relative;
 }
 
-//User Widget Style 1
+// User Widget Style 1
 .widget-user {
-  //User name container
+  // User name container
   .widget-user-header {
     @if $enable-rounded {
       @include border-top-radius($border-radius);
@@ -19,7 +19,7 @@
     text-align: center;
   }
 
-  //User name
+  // User name
   .widget-user-username {
     font-size: 25px;
     font-weight: 300;
@@ -28,12 +28,12 @@
     text-shadow: 0 1px 1px rgba($black, .2);
   }
 
-  //User single line description
+  // User single line description
   .widget-user-desc {
     margin-top: 0;
   }
 
-  //User image container
+  // User image container
   .widget-user-image {
     left: 50%;
     margin-left: -45px;
@@ -52,7 +52,7 @@
   }
 }
 
-//User Widget Style 2
+// User Widget Style 2
 .widget-user-2 {
   //User name container
   .widget-user-header {
@@ -61,7 +61,7 @@
     padding: 1rem;
   }
 
-  //User name
+  // User name
   .widget-user-username {
     font-size: 25px;
     font-weight: 300;
@@ -69,7 +69,7 @@
     margin-top: 5px;
   }
 
-  //User single line description
+  // User single line description
   .widget-user-desc {
     margin-top: 0;
   }
@@ -79,7 +79,7 @@
     margin-left: 75px;
   }
 
-  //User image container
+  // User image container
   .widget-user-image {
     > img {
       float: left;

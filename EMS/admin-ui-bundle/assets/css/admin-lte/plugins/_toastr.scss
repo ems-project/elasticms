@@ -27,6 +27,11 @@
 //     content: "\f058";
 // }
 
+// full width fix
+.toast-bottom-full-width .toast,
+.toast-top-full-width .toast {
+  max-width: inherit;
+}
 
 #toast-container {
   // Background color
@@ -49,10 +54,4 @@
   .toast-warning {
     background-color: $warning;
   }
-}
-
-// full width fix
-.toast-bottom-full-width .toast,
-.toast-top-full-width .toast {
-  max-width: inherit;
 }

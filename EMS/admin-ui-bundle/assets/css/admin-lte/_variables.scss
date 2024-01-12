@@ -1,6 +1,4 @@
-//
 // Core: Variables
-//
 
 // COLORS
 // --------------------------------------------------------
@@ -246,5 +244,3 @@ $custom-select-dark-background: escape-svg($custom-select-dark-indicator) right 
 // ENABLE DARK MODE
 // --------------------------------------------------------
 $enable-dark-mode: true !default;  // requires `@import "variables-alt";`
-
-//

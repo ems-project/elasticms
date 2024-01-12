@@ -143,14 +143,14 @@
         background-color: white;
     }
 
-    .jmn-dropdown { @include iconAfter("\f0d7"); }
-    .jmn-dropdown-add { @include iconBefore("\f067"); }
-    .jmn-dropdown-more { @include iconBefore("\f142", 0); }
+    .jmn-dropdown { @include icon-after("\f0d7"); }
+    .jmn-dropdown-add { @include icon-before("\f067"); }
+    .jmn-dropdown-more { @include icon-before("\f142", 0); }
 
     .jmn-btn-move {
         cursor: move;
 
-        @include iconBefore("\f047");
+        @include icon-before("\f047");
     }
 
     .jmn-btn-collapse {

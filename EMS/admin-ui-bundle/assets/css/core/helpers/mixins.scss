@@ -4,7 +4,7 @@
   content: $unicode;
 }
 
-@mixin iconBefore($unicode, $marginRight : 5px) {
+@mixin icon-before($unicode, $marginRight : 5px) {
   &::before {
     @include icon($unicode);
 
@@ -12,7 +12,7 @@
   }
 }
 
-@mixin iconAfter($unicode, $marginLeft : 5px) {
+@mixin icon-after($unicode, $marginLeft : 5px) {
   &::after {
     @include icon($unicode);
 

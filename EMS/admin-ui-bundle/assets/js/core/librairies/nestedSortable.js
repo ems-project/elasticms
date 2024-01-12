@@ -48,8 +48,8 @@
 
       branchClass: 'mjs-nestedSortable-branch',
       collapsedClass: 'mjs-nestedSortable-collapsed',
-      disableNestingClass: 'mjs-nestedSortable-no-nesting',
-      errorClass: 'mjs-nestedSortable-error',
+      disableNestingClass: 'mjs-nested-sortable-no-nesting',
+      errorClass: 'mjs-nested-sortable-error',
       expandedClass: 'mjs-nestedSortable-expanded',
       hoveringClass: 'mjs-nestedSortable-hovering',
       leafClass: 'mjs-nestedSortable-leaf',

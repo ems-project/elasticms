@@ -23,9 +23,9 @@
 
 {% block emsco_form_table_column_data_value_bool %}
     {%- if attribute(line.data, column.attribute)|default(false) -%}
-        <i class="fa fa-check-square-o" title="{{ 'form.data.bool_table_collum.true_value'|trans }}"></i> <span class="sr-only">{{ 'form.data.bool_table_collum.true_value'|trans }}</span>
+        <i class="fa fa-check-square-o" title="{{ 'form.data.bool_table_collum.true_value'|trans }}"></i> <span class="visually-hidden">{{ 'form.data.bool_table_collum.true_value'|trans }}</span>
     {%- else -%}
-        <i class="fa fa-square-o" title="{{ 'form.data.bool_table_collum.false_value'|trans }}"></i> <span class="sr-only">{{ 'form.data.bool_table_collum.false_value'|trans }}</span>
+        <i class="fa fa-square-o" title="{{ 'form.data.bool_table_collum.false_value'|trans }}"></i> <span class="visually-hidden">{{ 'form.data.bool_table_collum.false_value'|trans }}</span>
     {%- endif -%}
 {% endblock emsco_form_table_column_data_value_bool %}
 
@@ -293,7 +293,7 @@
                             <tr role="row">
                                 {% if table.supportsTableActions %}
                                     <th class="fit" data-orderable="false" data-name="_checkbox">
-                                        <label class="sr-only" for="select-all">{{ 'form.header.checkbo.select-all'|trans }}</label>
+                                        <label class="visually-hidden" for="select-all">{{ 'form.header.checkbo.select-all'|trans }}</label>
                                         <input type="checkbox" value="" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select" id="select-all">
                                     </th>
                                 {% endif %}
@@ -301,7 +301,7 @@
                                     <th class="nowrap" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{  column.attribute }}">
                                         {% if column.iconClass %}
                                             <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ column.titleKey|trans(column.transLabelOptions)|e('html_attr') }}"></i>
-                                            <span class="sr-only">{{ column.titleKey|trans }}</span>
+                                            <span class="visually-hidden">{{ column.titleKey|trans }}</span>
                                         {% else %}
                                             {{ column.titleKey|trans(column.transLabelOptions) }}
                                         {% endif %}

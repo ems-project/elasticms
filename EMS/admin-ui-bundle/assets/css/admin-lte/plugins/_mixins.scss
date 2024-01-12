@@ -43,8 +43,7 @@
       }
 
       // Multiple select
-      & {
-        .select2-selection--multiple {
+      .select2-selection--multiple {
           &:focus {
             border-color: color.adjust($color, $lightness: 25%);
           }
@@ -67,7 +66,6 @@
         &.select2-container--focus .select2-selection--multiple {
           border-color: color.adjust($color, $lightness: 25%);
         }
-      }
     }
   }
 }

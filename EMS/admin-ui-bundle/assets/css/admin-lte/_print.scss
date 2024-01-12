@@ -2,15 +2,19 @@
 
 @media print {
   // Add to elements that you do not want to show when printing
-  .no-print {
+  %no-print {
     display: none !important;
+  }
+
+  .no-print {
+    @extend %no-print;
   }
 
   // Elements that we want to hide when printing
   .main-sidebar,
   .main-header,
   .content-header {
-    @extend .no-print;
+    @extend %no-print;
   }
 
   // This is the only element that should appear, so let's remove the margins

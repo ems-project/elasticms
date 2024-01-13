@@ -1,12 +1,12 @@
-//
-// Mixins: Accent
-//
+// Mixins: accent
 
-// Accent Variant
+@use "sass:color";
+
+/* Accent Variant */
 @mixin accent-variant($name, $color) {
   $link-color: $color;
   .accent-#{$name} {
-    $link-hover-color: darken($color, 15%);
+    $link-hover-color: color.adjust($color, $lightness: -15%);
     $pagination-active-bg: $color;
     $pagination-active-border-color: $color;
 
@@ -32,7 +32,7 @@
     .custom-control-input:checked ~ .custom-control-label {
       &::before {
         background-color: $color;
-        border-color: darken($color, 20%);
+        border-color: color.adjust($color, $lightness: -20%);
       }
 
       &::after {
@@ -46,7 +46,7 @@
     .custom-select:focus,
     .custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
     .custom-file-input:focus ~ .custom-file-label {
-      border-color: lighten($color, 25%);
+      border-color: color.adjust($color, $lightness: 25%);
     }
 
     .page-item {
@@ -102,7 +102,7 @@
         .page-link {
           &:hover,
           &:focus {
-            color: lighten($link-color, 5%);
+            color: color.adjust($link-color, $lightness: 5%);
           }
         }
       }

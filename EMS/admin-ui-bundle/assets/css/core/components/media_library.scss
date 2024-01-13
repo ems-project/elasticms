@@ -99,10 +99,22 @@ div.media-lib {
       }
 
       li:not(:last-child)::after {
-        font-family: "Font Awesome 6 Free";
+        font-family: $fa-style-family;
         content: fa-content($fa-var-angles-right);
+        font-weight: 900;
         color: #777;
       }
+    }
+  }
+
+  div.media-lib-footer {
+    flex-shrink: 0;
+
+    & > div {
+      border-top: 1px solid #DCDCDC;
+      padding: 8px;
+      height: 100%;
+      min-height: 30px;
     }
   }
 
@@ -141,7 +153,7 @@ div.media-lib {
               padding: 8px;
 
               &::before {
-                font-family: "Font Awesome 6 Free";
+                font-family: $fa-style-family;
                 content: fa-content($fa-var-folder);
                 margin-right: 8px;
               }
@@ -155,12 +167,17 @@ div.media-lib {
 
             &.media-lib-folder-children {
               & > button.media-lib-link-folder::after {
-                font-family: "Font Awesome 6 Free";
-                content: fa-content($fa-var-angles-left);
+                font-family: $fa-style-family;
+                content: fa-content($fa-var-angle-left);
                 margin-right: 8px;
                 color: #777;
                 float: right;
+                font-weight: 900;
               }
+            }
+
+            & > ul {
+              border-bottom: 1px solid #DCDCDC;
             }
 
             &.media-lib-folder-children.open {
@@ -170,6 +187,7 @@ div.media-lib {
 
               & > button.media-lib-link-folder::after {
                 content: fa-content($fa-var-angle-down);
+                font-weight: 900;
               }
 
               & > ul {
@@ -186,10 +204,6 @@ div.media-lib {
               &:hover {
                 background-color: #d9edf7;
               }
-            }
-
-            & > ul {
-              border-bottom: 1px solid #DCDCDC;
             }
           }
         }
@@ -208,8 +222,8 @@ div.media-lib {
         height: 100%;
 
         &.media-lib-drop-area {
-            //border: 2px solid $elasticms_light_blue;
-            background-color:  rgb(0 167 226 / 10%);
+          // border: 2px solid $elasticms-light-blue;
+          background-color:  rgb(0 167 226 / 10%);
         }
 
         ul.media-lib-list-uploads {
@@ -230,6 +244,8 @@ div.media-lib {
           }
         }
 
+        > div { flex: 1; }
+
         ul.media-lib-list-files {
           display: flex;
           flex-direction: column;
@@ -247,34 +263,21 @@ div.media-lib {
             a:hover {
               text-decoration: underline;
             }
-
-            > div { flex: 1; }
           }
         }
       }
     }
 
     div.media-lib-load-more {
-        &.show-load-more { display: flex; }
+      &.show-load-more { display: flex; }
 
-        display: none;
-        color: #777;
-        justify-content: center;
-        align-items: center;
-        column-gap: 8px;
-        padding: 16px 16px 64px;
-        font-weight: bold;
-    }
-  }
-
-  div.media-lib-footer {
-    flex-shrink: 0;
-
-    & > div {
-      border-top: 1px solid #DCDCDC;
-      padding: 8px;
-      height: 100%;
-      min-height: 30px;
+      display: none;
+      color: #777;
+      justify-content: center;
+      align-items: center;
+      column-gap: 8px;
+      padding: 16px 16px 64px;
+      font-weight: bold;
     }
   }
 }

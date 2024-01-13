@@ -1,6 +1,7 @@
-//
 // Misc: Colors
-//
+
+@use "sass:color";
+@use "sass:map";
 
 // Background colors (theme colors)
 @each $name, $color in $theme-colors {
@@ -33,8 +34,8 @@
 }
 
 .bg-gray-light {
-  background-color: lighten($gray-200, 3%);
-  color: color-contrast(lighten($gray-200, 3%)) !important;
+  background-color: color.adjust($gray-200, $lightness: 3%);
+  color: color-contrast(color.adjust($gray-200, $lightness: 3%)) !important;
 }
 
 .bg-black {
@@ -64,16 +65,16 @@
 
 // Text muted hover
 a.text-muted:hover {
-  color: map-get($theme-colors, primary) !important;
+  color: map.get($theme-colors, primary) !important;
 }
 
 // Link Styles
 .link-muted {
-  color: darken($gray-500, 30%);
+  color: color.adjust($gray-500, $lightness: -30%);
 
   &:hover,
   &:focus {
-    color: darken($gray-500, 40%);
+    color: color.adjust($gray-500, $lightness: -40%);
   }
 }
 
@@ -82,7 +83,7 @@ a.text-muted:hover {
 
   &:hover,
   &:focus {
-    color: lighten($gray-500, 20%);
+    color: color.adjust($gray-500, $lightness: 20%);
   }
 }
 
@@ -107,7 +108,7 @@ a.text-muted:hover {
 
 @include dark-mode {
   .bg-light {
-    background-color: lighten($dark, 7.5%) !important;
+    background-color: color.adjust($dark, $lightness: 7.5%) !important;
     color: $white !important;
   }
 
@@ -157,8 +158,6 @@ a.text-muted:hover {
   }
 
   .border-dark {
-    border-color: lighten($dark, 10%) !important;
+    border-color: color.adjust($dark, $lightness: 10%) !important;
   }
 }
-
-//

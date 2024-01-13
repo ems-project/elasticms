@@ -1,7 +1,7 @@
-//
 // Plugins: Miscellaneous
 // Old plugin codes
-//
+
+@use "sass:color";
 
 // _fix for sparkline tooltip
 .jqstooltip {
@@ -41,7 +41,7 @@
 
 @include dark-mode {
   .irs--flat .irs-line {
-    background-color: lighten($dark, 10%);
+    background-color: color.adjust($dark, $lightness: 10%);
   }
 
   .jsgrid-edit-row > .jsgrid-cell,
@@ -60,10 +60,10 @@
   }
 
   .jsgrid-alt-row > .jsgrid-cell {
-    background-color: lighten($dark, 2.5%);
+    background-color: color.adjust($dark, $lightness: 2.5%);
   }
 
   .jsgrid-selected-row > .jsgrid-cell {
-    background-color: lighten($dark, 5%);
+    background-color: color.adjust($dark, $lightness: 5%);
   }
 }

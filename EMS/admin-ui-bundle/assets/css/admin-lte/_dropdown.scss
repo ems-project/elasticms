@@ -1,16 +1,16 @@
-//
 // Component: Dropdown
-//
+
+@use "sass:color";
 
 // General Dropdown Rules
-//.dropdown-item {
+// .dropdown-item {
 //  &:first-of-type {
 //    @include border-top-radius($border-radius);
 //  }
 //  &:last-of-type {
 //    @include border-bottom-radius($border-radius);
 //  }
-//}
+// }
 
 .text-sm {
   .dropdown-menu {
@@ -191,7 +191,7 @@
         z-index: 5;
         font-size: 17px;
 
-        //text-shadow: 2px 2px 3px #333333;
+        // text-shadow: 2px 2px 3px #333333;
         margin-top: 10px;
 
         > small {
@@ -264,7 +264,7 @@
 
     &:focus,
     &:hover {
-      background-color: lighten($dark, 5%);
+      background-color: color.adjust($dark, $lightness: 5%);
     }
   }
 
@@ -274,7 +274,7 @@
 
   .navbar-nav > .user-menu > .dropdown-menu {
     > .user-footer {
-      background-color: lighten($dark, 2.5%);
+      background-color: color.adjust($dark, $lightness: 2.5%);
       color: $white;
 
       .btn-default {
@@ -282,12 +282,12 @@
 
         &:hover,
         &:focus {
-          background-color: lighten($dark, 5%);
+          background-color: color.adjust($dark, $lightness: 5%);
           color: $gray-300;
         }
 
         &:focus {
-          background-color: lighten($dark, 7.5%);
+          background-color: color.adjust($dark, $lightness: 7.5%);
         }
       }
     }

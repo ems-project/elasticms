@@ -12,7 +12,7 @@ ol.vertical {
       margin: -1px -1px 8px;
     }
 
-    &.mjs-nestedSortable-no-nesting > div > span.input-group {
+    &.mjs-nested-sortable-no-nesting > div > span.input-group {
       margin-bottom: -2px;
     }
   }
@@ -25,7 +25,7 @@ ol.vertical {
   }
 }
 
-.mjs-nestedSortable-error {
+.mjs-nested-sortable-error {
   background: #fbe3e4;
   border-color: transparent;
 }

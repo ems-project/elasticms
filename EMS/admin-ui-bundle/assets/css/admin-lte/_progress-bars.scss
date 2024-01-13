@@ -1,8 +1,9 @@
-//
 // Component: Progress Bar
-//
 
-//General CSS
+@use "sass:color";
+@use "sass:map";
+
+// General CSS
 .progress {
   @include box-shadow(none);
   @include border-radius($progress-bar-border-radius);
@@ -21,7 +22,7 @@
       width: 100%;
     }
 
-    //Sizes
+    // Sizes
     &.sm,
     &.progress-sm {
       width: 20px;
@@ -40,7 +41,7 @@
 }
 
 .progress-group {
-  margin-bottom: map-get($spacers, 2);
+  margin-bottom: map.get($spacers, 2);
 }
 
 // size variation
@@ -67,6 +68,6 @@
 
 @include dark-mode {
   .progress {
-    background: lighten($dark, 7.5%);
+    background: color.adjust($dark, $lightness: 7.5%);
   }
 }

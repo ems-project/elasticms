@@ -1,4 +1,7 @@
 // Bootstrap deprecated functions
+@use "sass:map";
+@use "sass:math";
+
 @mixin alert-variant($background, $border, $color) {
   --#{$prefix}alert-color: #{$color};
   --#{$prefix}alert-bg: #{$background};
@@ -15,9 +18,9 @@
 }
 
 @function theme-color-level($color-name: "primary", $level: 0) {
-  $color: map-get($theme-colors, $color-name);
+  $color: map.get($theme-colors, $color-name);
   $color-base: if($level > 0, #000, #fff);
-  $level: abs($level);
+  $level: math.abs($level);
 
   @return mix($color-base, $color, $level * $theme-color-interval);
 }

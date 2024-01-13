@@ -1,4 +1,4 @@
-.close {
+%close {
   float: right;
 
   @include font-size($close-font-size);
@@ -26,6 +26,10 @@
   &:focus {
     outline: none;
   }
+}
+
+.close {
+  @extend %close;
 }
 
 // Additional properties for button version

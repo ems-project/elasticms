@@ -1,6 +1,6 @@
-//
 // Core: Layout
-//
+
+@use "sass:color";
 
 html {
   scroll-behavior: smooth;
@@ -608,7 +608,7 @@ body:not(.layout-fixed) {
 .main-footer {
   background-color: $main-footer-bg;
   border-top: $main-footer-border-top;
-  color: lighten($gray-700, 15%);
+  color: color.adjust($gray-700, $lightness: 15%);
   padding: $main-footer-padding;
 
   .text-sm &,
@@ -633,7 +633,7 @@ body:not(.layout-fixed) {
     }
 
     small {
-      color: lighten($body-color, 25);
+      color: color.adjust($body-color, $lightness: 25%);
       font-weight: normal;
       margin-left: .5em;
       font-size: 1.1rem;
@@ -711,11 +711,11 @@ body:not(.layout-fixed) {
 
   .main-footer {
     background-color: $dark;
-    border-color: lighten($dark, 10%);
+    border-color: color.adjust($dark, $lightness: 10%);
   }
 
   .content-wrapper {
-    background-color: lighten($dark, 7.5%);
+    background-color: color.adjust($dark, $lightness: 7.5%);
     color: $white;
 
     .content-header {

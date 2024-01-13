@@ -1,6 +1,6 @@
-//
 // Misc: Miscellaneous
-//
+
+@use "sass:color";
 
 .border-transparent {
   border-color: transparent !important;
@@ -490,11 +490,11 @@ blockquote {
 
 @include dark-mode {
   a:not(.btn):hover {
-    color: lighten($link-color, 10%);
+    color: color.adjust($link-color, $lightness: 10%);
   }
 
   .attachment-block {
-    background-color: lighten($dark, 3.75%);
+    background-color: color.adjust($dark, $lightness: 3.75%);
 
     .attachment-text {
       color: $gray-400;
@@ -502,7 +502,7 @@ blockquote {
   }
 
   blockquote {
-    background-color: lighten($dark, 5%);
+    background-color: color.adjust($dark, $lightness: 5%);
 
     @each $color, $value in $theme-colors {
       &.quote-#{$color} {

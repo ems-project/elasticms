@@ -1,6 +1,4 @@
-//
 // Pages: Mailbox
-//
 
 .mailbox-messages {
   > .table {
@@ -96,5 +94,5 @@
 }
 
 .mailbox-attachment-close {
-  @extend .close;
+  @extend %close;
 }

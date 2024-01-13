@@ -1,6 +1,7 @@
-//
 // Component: Table
-//
+
+@use "sass:color";
+@use "sass:map";
 
 .table {
   &:not(.table-dark) {
@@ -63,11 +64,11 @@
     tbody > tr > th,
     tbody > tr > td {
       &:first-of-type {
-        padding-left: map-get($spacers, 4);
+        padding-left: map.get($spacers, 4);
       }
 
       &:last-of-type {
-        padding-right: map-get($spacers, 4);
+        padding-right: map.get($spacers, 4);
       }
     }
   }
@@ -159,7 +160,7 @@
   .table-hover {
     tbody tr:hover {
       color: $gray-300;
-      background-color: lighten($dark, 2.5%);
+      background-color: color.adjust($dark, $lightness: 2.5%);
       border-color: $gray-600;
     }
   }
@@ -176,7 +177,7 @@
 
     &.table-head-fixed {
       thead tr:nth-child(1) th {
-        background-color: lighten($dark, 5%);
+        background-color: color.adjust($dark, $lightness: 5%);
       }
     }
   }

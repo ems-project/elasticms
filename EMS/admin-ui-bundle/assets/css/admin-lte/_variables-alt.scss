@@ -1,6 +1,5 @@
-//
 // Core: Variables for Dark Mode
-//
+@use "sass:color";
 
 // COLORS
 // --------------------------------------------------------
@@ -45,13 +44,13 @@ $teal-alt:    #20c997 !default;
 $cyan-alt:    #3498db !default;
 
 // by darken function
-$lightblue-alt: lighten(#3c8dbc, 20%) !default;
-$navy-alt: lighten(#001f3f, 5%) !default;
-$olive-alt: lighten(#3d9970, 20%) !default;
-$lime-alt: lighten(#01ff70, 20%) !default;
-$fuchsia-alt: lighten(#f012be, 20%) !default;
-$maroon-alt: lighten(#d81b60, 20%) !default;
-$gray-x-light-alt: lighten(#d2d6de, 20%) !default;
+$lightblue-alt: color.adjust(#3c8dbc, $lightness: 20%) !default;
+$navy-alt: color.adjust(#001f3f, $lightness: 5%) !default;
+$olive-alt: color.adjust(#3d9970, $lightness: 20%) !default;
+$lime-alt: color.adjust(#01ff70, $lightness: 20%) !default;
+$fuchsia-alt: color.adjust(#f012be, $lightness: 20%) !default;
+$maroon-alt: color.adjust(#d81b60, $lightness: 20%) !default;
+$gray-x-light-alt: color.adjust(#d2d6de, $lightness: 20%) !default;
 
 $colors-alt: () !default;
 $colors-alt: map-merge((
@@ -103,5 +102,3 @@ $colors-alt: map-merge(
   $colors-alt
 );
 // stylelint-enable
-
-//

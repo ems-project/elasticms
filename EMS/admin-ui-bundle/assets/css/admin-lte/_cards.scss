@@ -1,6 +1,7 @@
-//
 // Component: Cards
-//
+
+@use "sass:color";
+@use "sass:map";
 
 // Color variants
 @each $name, $color in $theme-colors {
@@ -14,7 +15,7 @@
 .card {
   @include box-shadow($card-shadow);
 
-  margin-bottom: map-get($spacers, 3);
+  margin-bottom: map.get($spacers, 3);
 
   &.bg-dark {
     .card-header {
@@ -320,7 +321,7 @@ html.maximized-card {
   margin: 10px 0;
 
   > li {
-    @media (max-width: map-get($grid-breakpoints, sm)) {
+    @media (max-width: map.get($grid-breakpoints, sm)) {
       float: left;
       margin-right: 10px;
     }
@@ -353,7 +354,7 @@ html.maximized-card {
   }
 
   .comment-text {
-    color: lighten($gray-700, 20%);
+    color: color.adjust($gray-700, $lightness: 20%);
     margin-left: 40px;
   }
 
@@ -370,7 +371,7 @@ html.maximized-card {
 }
 
 // Widgets
-//-----------
+// -----------
 
 // Widget: TODO LIST
 .todo-list {
@@ -411,7 +412,7 @@ html.maximized-card {
 
     // Tools and options box
     .tools {
-      color: map-get($theme-colors, "danger");
+      color: map.get($theme-colors, "danger");
       display: none;
       float: right;
 
@@ -436,7 +437,7 @@ html.maximized-card {
     }
 
     &.done {
-      color: darken($gray-500, 25%);
+      color: color.adjust($gray-500, $lightness: -25%);
 
       .text {
         font-weight: 500;
@@ -500,7 +501,7 @@ html.maximized-card {
     color: $white;
 
     .card {
-      background-color: lighten($dark, 5%);
+      background-color: color.adjust($dark, $lightness: 5%);
       color: $white;
     }
 
@@ -527,20 +528,20 @@ html.maximized-card {
   }
 
   .card-comments {
-    background-color: lighten($dark, 1.25%);
+    background-color: color.adjust($dark, $lightness: 1.25%);
 
     .username {
       color: $gray-400;
     }
 
     .card-comment {
-      border-bottom-color: lighten($dark, 7.5%);
+      border-bottom-color: color.adjust($dark, $lightness: 7.5%);
     }
   }
 
   .todo-list > li {
-    background-color: lighten($dark, 5%);
-    border-color: lighten($dark, 7.5%);
+    background-color: color.adjust($dark, $lightness: 5%);
+    border-color: color.adjust($dark, $lightness: 7.5%);
     color: $white;
   }
 

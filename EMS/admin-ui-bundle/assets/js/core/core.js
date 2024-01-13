@@ -1,3 +1,4 @@
+import CodeEditor from './plugins/codeEditor'
 import Datatable from './plugins/datatable'
 import File from './plugins/file'
 import Image from './plugins/image'
@@ -10,6 +11,7 @@ import WYSIWYG from './plugins/wysiwyg'
 class Core {
   constructor () {
     this._domListeners = [
+      new CodeEditor(),
       new Datatable(),
       new File(),
       new Image(),

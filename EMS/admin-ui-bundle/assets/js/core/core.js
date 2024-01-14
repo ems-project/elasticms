@@ -1,3 +1,4 @@
+import Choice from './plugins/choice'
 import CodeEditor from './plugins/codeEditor'
 import Datatable from './plugins/datatable'
 import File from './plugins/file'
@@ -12,6 +13,7 @@ import WYSIWYG from './plugins/wysiwyg'
 class Core {
   constructor () {
     this._domListeners = [
+      new Choice(),
       new CodeEditor(),
       new Datatable(),
       new File(),

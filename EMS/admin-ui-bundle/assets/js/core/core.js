@@ -6,6 +6,7 @@ import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
 import Select from './plugins/select'
 import Sortable from './plugins/sortable'
+import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
 class Core {
@@ -19,6 +20,7 @@ class Core {
       new MediaLibrary(),
       new Select(),
       new Sortable(),
+      new Tooltip(),
       new WYSIWYG()
     ]
     document.addEventListener('emsAddedDomEvent', (event) => this.load(event.target))

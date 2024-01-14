@@ -6,6 +6,7 @@ import Image from './plugins/image'
 import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
 import NestedSortable from './plugins/nestedSortable'
+import ObjectPicker from './plugins/objectPicker'
 import Select from './plugins/select'
 import SortableList from './plugins/sortableList'
 import Tooltip from './plugins/tooltip'
@@ -22,6 +23,7 @@ class Core {
       new JsonMenuNested(),
       new MediaLibrary(),
       new NestedSortable(),
+      new ObjectPicker(),
       new Select(),
       new SortableList(),
       new Tooltip(),

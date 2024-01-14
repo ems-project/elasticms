@@ -11,6 +11,7 @@ import NestedSortable from './plugins/nestedSortable'
 import ObjectPicker from './plugins/objectPicker'
 import Select from './plugins/select'
 import SortableList from './plugins/sortableList'
+import SymfonyCollection from './plugins/symfonyCollection'
 import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
@@ -30,6 +31,7 @@ class Core {
       new ObjectPicker(),
       new Select(),
       new SortableList(),
+      new SymfonyCollection(),
       new Tooltip(),
       new WYSIWYG()
     ]

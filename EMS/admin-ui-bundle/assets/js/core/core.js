@@ -7,7 +7,7 @@ import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
 import NestedSortable from './plugins/nestedSortable'
 import Select from './plugins/select'
-import Sortable from './plugins/sortable'
+import SortableList from './plugins/sortableList'
 import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
@@ -23,7 +23,7 @@ class Core {
       new MediaLibrary(),
       new NestedSortable(),
       new Select(),
-      new Sortable(),
+      new SortableList(),
       new Tooltip(),
       new WYSIWYG()
     ]

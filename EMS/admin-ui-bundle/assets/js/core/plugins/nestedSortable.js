@@ -4,7 +4,7 @@ import '../librairies/sortable'
 import '../librairies/nestedSortable'
 import '../../../css/core/plugins/sortable.scss'
 
-class Sortable {
+export default class NestedSortable {
   load (target) {
     const query = $(target)
     const nestedList = query.find('.nested-sortable')
@@ -93,5 +93,3 @@ class Sortable {
     })
   }
 }
-
-export default Sortable

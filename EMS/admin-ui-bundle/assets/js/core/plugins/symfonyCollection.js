@@ -1,0 +1,17 @@
+import $ from 'jquery'
+import a2lixLib from '@a2lix/symfony-collection/dist/a2lix_sf_collection.min'
+
+export default class SymfonyCollection {
+  load (target) {
+    $(target).find('.a2lix_lib_sf_collection').each(function () {
+      a2lixLib.sfCollection.init({
+        collectionsSelector: '#' + $(this).attr('id'),
+        manageRemoveEntry: true,
+        lang: {
+          add: $(this).data('lang-add'),
+          remove: $(this).data('lang-remove')
+        }
+      })
+    })
+  }
+}

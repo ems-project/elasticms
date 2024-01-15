@@ -1,24 +1,38 @@
+import Button from './plugins/button'
+import Choice from './plugins/choice'
 import CodeEditor from './plugins/codeEditor'
+import CollapsibleCollection from './plugins/collapsibleCollection'
 import Datatable from './plugins/datatable'
 import File from './plugins/file'
 import Image from './plugins/image'
 import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
+import NestedSortable from './plugins/nestedSortable'
+import ObjectPicker from './plugins/objectPicker'
 import Select from './plugins/select'
-import Sortable from './plugins/sortable'
+import SortableList from './plugins/sortableList'
+import SymfonyCollection from './plugins/symfonyCollection'
+import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
 class Core {
   constructor () {
     this._domListeners = [
+      new Button(),
+      new Choice(),
       new CodeEditor(),
+      new CollapsibleCollection(),
       new Datatable(),
       new File(),
       new Image(),
       new JsonMenuNested(),
       new MediaLibrary(),
+      new NestedSortable(),
+      new ObjectPicker(),
       new Select(),
-      new Sortable(),
+      new SortableList(),
+      new SymfonyCollection(),
+      new Tooltip(),
       new WYSIWYG()
     ]
     document.addEventListener('emsAddedDomEvent', (event) => this.load(event.target))

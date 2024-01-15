@@ -2,6 +2,30 @@
 {% trans_default_domain 'form' %}
 
 {# Widgets #}
+{%- block checkbox_widget -%}
+    {%- set attr_class = attr_class|default(attr.class|default('')) -%}
+    {%- set row_class = '' -%}
+    {%- if 'btn-check' not in attr_class -%}
+        {%- set attr_class = attr_class ~ ' form-check-input' -%}
+        {%- set row_class = 'form-check icheck-primary' -%}
+    {%- endif -%}
+    {%- set attr = attr|merge({class: attr_class|trim}) -%}
+    {%- set parent_label_class = parent_label_class|default(label_attr.class|default('')) -%}
+    {%- if 'checkbox-inline' in parent_label_class %}
+        {%- set row_class = row_class ~ ' form-check-inline' -%}
+    {% endif -%}
+    {%- if 'checkbox-switch' in parent_label_class %}
+        {%- set row_class = row_class ~ ' form-switch' -%}
+    {% endif -%}
+    {%- if row_class is not empty -%}
+        <div class="{{ row_class }}">
+    {%- endif -%}
+    {{- form_label(form, null, { widget: block('checkbox_widget', 'form_div_layout.html.twig') }) -}}
+    {%- if row_class is not empty -%}
+        </div>
+    {%- endif -%}
+{%- endblock checkbox_widget %}
+
 {% block checkbox_radio_label -%}
     {# Do not display the label if widget is not defined in order to prevent double label rendering #}
     {%- if widget is defined -%}
@@ -21,9 +45,7 @@
                 {% set label = name|humanize %}
             {%- endif -%}
         {%- endif -%}
-		<label {% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-        {{- widget|raw }} <span class="checkbox-radio-label-text">{{ label is not same as(false) ? (translation_domain is same as(false) ? label : label|trans({}, translation_domain)) -}}</span>
-		</label>
+        {{ parent() }}
     {%- endif -%}
 {%- endblock checkbox_radio_label %}
 

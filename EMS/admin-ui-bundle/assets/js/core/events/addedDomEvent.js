@@ -1,6 +1,7 @@
+export const EMS_ADDED_DOM_EVENT = 'emsAddedDomEvent'
 export class AddedDomEvent {
   constructor (target) {
-    this._event = new CustomEvent('emsAddedDomEvent', { target })
+    this._event = new CustomEvent(EMS_ADDED_DOM_EVENT, { target })
     this._target = target
   }
 
@@ -8,3 +9,5 @@ export class AddedDomEvent {
     document.dispatchEvent(this._event)
   }
 }
+
+export default AddedDomEvent

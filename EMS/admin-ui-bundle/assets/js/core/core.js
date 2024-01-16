@@ -15,6 +15,8 @@ import SymfonyCollection from './plugins/symfonyCollection'
 import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
+import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
+
 class Core {
   constructor () {
     this._domListeners = [
@@ -35,8 +37,8 @@ class Core {
       new Tooltip(),
       new WYSIWYG()
     ]
-    document.addEventListener('emsAddedDomEvent', (event) => this.load(event.target))
-    this.documentReady()
+    document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.target))
+    this.coreReady()
   }
 
   load (target) {
@@ -47,7 +49,7 @@ class Core {
     this._domListeners.forEach((element) => element.load(target))
   }
 
-  documentReady () {
+  coreReady () {
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
       setTimeout(this.load(document), 1)
     } else {

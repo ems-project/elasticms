@@ -17,6 +17,8 @@ import SymfonyCollection from './plugins/symfonyCollection'
 import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
+import RevisionTask from './components/revisionTask'
+
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
 
 class Core {
@@ -61,6 +63,9 @@ class Core {
       document.addEventListener('DOMContentLoaded', this.load(document))
     }
     this.initStatusRefresh()
+    this.components = [
+      new RevisionTask()
+    ]
   }
 
   initStatusRefresh () {

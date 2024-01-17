@@ -4,6 +4,7 @@ import CodeEditor from './plugins/codeEditor'
 import CollapsibleCollection from './plugins/collapsibleCollection'
 import Datatable from './plugins/datatable'
 import File from './plugins/file'
+import Iframe from './plugins/iframe'
 import Image from './plugins/image'
 import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
@@ -26,6 +27,7 @@ class Core {
       new CollapsibleCollection(),
       new Datatable(),
       new File(),
+      new Iframe(),
       new Image(),
       new JsonMenuNested(),
       new MediaLibrary(),

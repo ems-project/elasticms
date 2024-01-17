@@ -21,6 +21,7 @@ import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
 
 class Core {
   constructor () {
+    this._statusUpdateUrl = document.body.getAttribute('data-status-url')
     this._domListeners = [
       new Button(),
       new Choice(),
@@ -51,6 +52,7 @@ class Core {
       return
     }
     this._domListeners.forEach((element) => element.load(target))
+    this.initStatusRefresh()
   }
 
   coreReady () {
@@ -59,6 +61,36 @@ class Core {
     } else {
       document.addEventListener('DOMContentLoaded', this.load(document))
     }
+  }
+
+  initStatusRefresh () {
+    const self = this
+    window.setInterval(function () {
+      self.updateStatus()
+    }, 180000)
+  }
+
+  updateStatus () {
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', this._statusUpdateUrl, true)
+
+    xhr.onreadystatechange = function (event) {
+      if (this.readyState !== 4) {
+        return
+      }
+
+      const statusLink = document.getElementById('status-overview')
+      if (this.status === 200) {
+        const json = JSON.parse(xhr.responseText)
+        statusLink.innerHTML = json.body
+        statusLink.setAttribute('title', json.title)
+      } else {
+        statusLink.setAttribute('title', `Error ${xhr.status}`)
+        statusLink.innerHTML = `<i class="fa fa-circle fa-2xs text-red"></i><span class="visually-hidden">Error ${xhr.status}</span>`
+      }
+    }
+
+    xhr.send()
   }
 }
 

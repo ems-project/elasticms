@@ -1,3 +1,4 @@
+@import "@fortawesome/fontawesome-free/scss/variables";
 @import "../helpers/mixins";
 
 .json-menu-nested-component {
@@ -143,9 +144,9 @@
         background-color: white;
     }
 
-    .jmn-dropdown { @include icon-after("\f0d7"); }
-    .jmn-dropdown-add { @include icon-before("\f067"); }
-    .jmn-dropdown-more { @include icon-before("\f142", 0); }
+    .jmn-dropdown { @include icon-after($fa-var-caret-down); }
+    .jmn-dropdown-add { @include icon-before($fa-var-plus); }
+    .jmn-dropdown-more { @include icon-before($fa-var-ellipsis-v, 0); }
 
     .jmn-btn-move {
         cursor: move;

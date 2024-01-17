@@ -95,7 +95,6 @@ export default class CodeEditor {
   getModules (startingWith) {
     const filteredModule = []
     const modules = ace.config.all().$moduleUrls
-    console.log(modules)
     for (const [key] of Object.entries(modules)) {
       if (!key.startsWith(startingWith)) {
         continue
@@ -112,23 +111,25 @@ export default class CodeEditor {
 
   loadAceThemePickers (target) {
     const codeEditorThemeField = $(target).find('.code_editor_theme_ems')
-    if (codeEditorThemeField) {
-      const modes = this.getModules('ace/theme/')
-      codeEditorThemeField.select2({
-        data: modes,
-        placeholder: 'Select a theme'
-      })
+    if (codeEditorThemeField.length === 0) {
+      return
     }
+    const modes = this.getModules('ace/theme/')
+    codeEditorThemeField.select2({
+      data: modes,
+      placeholder: 'Select a theme'
+    })
   }
 
   loadAceModePickers (target) {
     const codeEditorModeField = $(target).find('.code_editor_mode_ems')
-    if (codeEditorModeField) {
-      const modes = this.getModules('ace/mode/')
-      codeEditorModeField.select2({
-        data: modes,
-        placeholder: 'Select a language'
-      })
+    if (codeEditorModeField.length === 0) {
+      return
     }
+    const modes = this.getModules('ace/mode/')
+    codeEditorModeField.select2({
+      data: modes,
+      placeholder: 'Select a language'
+    })
   }
 }

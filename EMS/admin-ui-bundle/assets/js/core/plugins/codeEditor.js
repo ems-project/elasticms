@@ -3,6 +3,12 @@ import ace from 'ace-builds/src-noconflict/ace'
 import 'ace-builds/webpack-resolver'
 export default class CodeEditor {
   load (target) {
+    this.loadEditors(target)
+    this.loadAceThemePickers(target)
+    this.loadAceModePickers(target)
+  }
+
+  loadEditors (target) {
     const self = this
     const codeEditors = target.getElementsByClassName('ems-code-editor')
     for (let i = 0; i < codeEditors.length; i++) {
@@ -33,7 +39,6 @@ export default class CodeEditor {
         minLines = hiddenField.data('min-lines')
       }
 
-      console.log(theme)
       const editor = ace.edit(pre, {
         mode: language,
         readOnly: disabled,
@@ -85,5 +90,45 @@ export default class CodeEditor {
     }
     console.log(this.aceConfig)
     return this.aceConfig
+  }
+
+  getModules (startingWith) {
+    const filteredModule = []
+    const modules = ace.config.all().$moduleUrls
+    console.log(modules)
+    for (const [key] of Object.entries(modules)) {
+      if (!key.startsWith(startingWith)) {
+        continue
+      }
+      let caption = key.substring(startingWith.length).replaceAll('_', ' ')
+      caption = caption.charAt(0).toUpperCase() + caption.slice(1)
+      filteredModule.push({
+        id: key,
+        text: caption
+      })
+    }
+    return filteredModule
+  }
+
+  loadAceThemePickers (target) {
+    const codeEditorThemeField = $(target).find('.code_editor_theme_ems')
+    if (codeEditorThemeField) {
+      const modes = this.getModules('ace/theme/')
+      codeEditorThemeField.select2({
+        data: modes,
+        placeholder: 'Select a theme'
+      })
+    }
+  }
+
+  loadAceModePickers (target) {
+    const codeEditorModeField = $(target).find('.code_editor_mode_ems')
+    if (codeEditorModeField) {
+      const modes = this.getModules('ace/mode/')
+      codeEditorModeField.select2({
+        data: modes,
+        placeholder: 'Select a language'
+      })
+    }
   }
 }

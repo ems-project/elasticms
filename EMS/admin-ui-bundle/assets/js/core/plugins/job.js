@@ -2,6 +2,11 @@ import $ from 'jquery'
 
 class Job {
   load (target) {
+    this.loadStartJob(target)
+    this.loadRequestJob(target)
+  }
+
+  loadStartJob (target) {
     $(target).find('[data-start-job-url]').each(function () {
       $.ajax({
         type: 'POST',
@@ -9,6 +14,21 @@ class Job {
       }).always(function () {
         location.reload()
       })
+    })
+  }
+
+  loadRequestJob (target) {
+    $(target).find('a.request_job').on('click', function (e) {
+      e.preventDefault()
+      window.ajaxRequest.post($(e.target).data('url'))
+        .success(function (message) {
+          window.ajaxRequest.post(message.jobUrl)
+          $('ul#commands-log').prepend('<li title="Job ' + message.jobId + '">' +
+                        '<a href="' + message.url + '" >' +
+                        'Job #' + message.jobId +
+                        '</a>' +
+                        '</li>')
+        })
     })
   }
 }

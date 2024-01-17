@@ -52,7 +52,6 @@ class Core {
       return
     }
     this._domListeners.forEach((element) => element.load(target))
-    this.initStatusRefresh()
   }
 
   coreReady () {
@@ -61,6 +60,7 @@ class Core {
     } else {
       document.addEventListener('DOMContentLoaded', this.load(document))
     }
+    this.initStatusRefresh()
   }
 
   initStatusRefresh () {

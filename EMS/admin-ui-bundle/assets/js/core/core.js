@@ -6,6 +6,7 @@ import Datatable from './plugins/datatable'
 import File from './plugins/file'
 import Iframe from './plugins/iframe'
 import Image from './plugins/image'
+import Job from './plugins/job'
 import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
 import NestedSortable from './plugins/nestedSortable'
@@ -29,6 +30,7 @@ class Core {
       new File(),
       new Iframe(),
       new Image(),
+      new Job(),
       new JsonMenuNested(),
       new MediaLibrary(),
       new NestedSortable(),

@@ -28,11 +28,11 @@ class MediaLibraryFolderFactory
 
     private function createFromDocument(DocumentInterface $document): MediaLibraryFolder
     {
-        $folder = MediaLibraryFolder::fromDocument($this->config, $document);
+        $folder = new MediaLibraryFolder($document, $this->config);
 
         if ($parentPath = $folder->getParentPath()) {
             $parentDocument = $this->searchParent($parentPath);
-            $folder->setParent($this->createFromDocument($parentDocument));
+            $folder->setParent(new MediaLibraryFolder($document, $this->config));
         }
 
         return $folder;

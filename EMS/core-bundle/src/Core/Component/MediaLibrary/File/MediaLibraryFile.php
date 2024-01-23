@@ -6,29 +6,22 @@ namespace EMS\CoreBundle\Core\Component\MediaLibrary\File;
 
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocument;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class MediaLibraryFile
+class MediaLibraryFile extends MediaLibraryDocument
 {
     /** @var array{filename: string, sha1: string, filesize: int, mimetype: string} */
     public array $file;
 
-    public string $path;
-    public string $folder;
-    public string $id;
-    public string $emsId;
-
     public function __construct(
+        public DocumentInterface $document,
         private readonly MediaLibraryConfig $config,
         private readonly UrlGeneratorInterface $urlGenerator,
-        public DocumentInterface $document
     ) {
-        $this->id = $this->document->getId();
-        $this->emsId = (string) $document->getEmsLink();
+        parent::__construct($this->document, $this->config);
 
         $this->file = $document->getValue($config->fieldFile);
-        $this->path = $document->getValue($config->fieldPath);
-        $this->folder = $document->getValue($config->fieldFolder);
     }
 
     public function urlView(): string
@@ -38,17 +31,5 @@ class MediaLibraryFile
             'type' => $this->file['mimetype'],
             'name' => $this->getName(),
         ]);
-    }
-
-    public function setName(string $name): void
-    {
-        $path = \pathinfo($this->path, PATHINFO_DIRNAME).'/'.$name;
-        $this->path = $path;
-        $this->document->setValue($this->config->fieldPath, $path);
-    }
-
-    public function getName(): string
-    {
-        return \basename($this->path);
     }
 }

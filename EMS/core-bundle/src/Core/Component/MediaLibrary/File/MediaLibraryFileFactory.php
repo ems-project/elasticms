@@ -18,6 +18,6 @@ class MediaLibraryFileFactory
 
     public function createFromDocument(DocumentInterface $document): MediaLibraryFile
     {
-        return new MediaLibraryFile($this->config, $this->urlGenerator, $document);
+        return new MediaLibraryFile($document, $this->config, $this->urlGenerator);
     }
 }

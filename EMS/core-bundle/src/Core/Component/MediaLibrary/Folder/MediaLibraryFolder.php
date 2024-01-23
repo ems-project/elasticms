@@ -4,33 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Component\MediaLibrary\Folder;
 
-use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
-use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocument;
 
-class MediaLibraryFolder
+class MediaLibraryFolder extends MediaLibraryDocument
 {
     private ?MediaLibraryFolder $parent = null;
-
-    private function __construct(
-        public readonly DocumentInterface $document,
-        public readonly string $id,
-        public readonly string $name,
-        public readonly string $path,
-    ) {
-    }
-
-    public static function fromDocument(MediaLibraryConfig $config, DocumentInterface $document): self
-    {
-        $path = $document->getValue($config->fieldPath);
-        $name = \basename($path);
-
-        return new self($document, $document->getId(), $name, $path);
-    }
-
-    public function getPath(): string
-    {
-        return $this->path.'/';
-    }
 
     /**
      * @return MediaLibraryFolder[]

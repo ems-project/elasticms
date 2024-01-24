@@ -18,7 +18,7 @@ final class DocumentCollection implements DocumentCollectionInterface
     /**
      * @return DocumentCollection<DocumentInterface>
      */
-    public static function fromResponse(ResponseInterface $response): DocumentCollection
+    public static function fromResponse(ResponseInterface $response): DocumentCollectionInterface
     {
         $collection = new DocumentCollection();
 

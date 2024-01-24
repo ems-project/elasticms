@@ -11,6 +11,7 @@ use Elastica\Query\Term;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentCollectionInterface;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
@@ -275,7 +276,7 @@ class MediaLibraryService
     /**
      * @return MediaLibraryFile[]
      */
-    private function createFilesFromDocumentCollection(MediaLibraryConfig $config, DocumentCollection $documentCollection): array
+    private function createFilesFromDocumentCollection(MediaLibraryConfig $config, DocumentCollectionInterface $documentCollection): array
     {
         $fileFactory = new MediaLibraryFileFactory($this->urlGenerator, $config);
         $mediaLibraryFiles = [];

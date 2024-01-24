@@ -17,8 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ChoiceFieldType extends DataFieldType
 {
     private ?int $fakeIndex = null;
-    /** @var array<string, string|int> */
-    private array $choices;
 
     public function getLabel(): string
     {

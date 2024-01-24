@@ -10,7 +10,6 @@ use Elastica\Query\Nested;
 use Elastica\Query\Term;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Common\EMSLink;
-use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentCollectionInterface;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Search\Search;
@@ -21,7 +20,7 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile;
 use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFileFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolderFactory;
-use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolderStructure;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolders;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplateFactory;
 use EMS\CoreBundle\Service\DataService;
@@ -33,8 +32,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class MediaLibraryService
 {
-    private const MAX_FOLDERS = 5000;
-
     public function __construct(
         private readonly ElasticaService $elasticaService,
         private readonly RevisionService $revisionService,
@@ -142,12 +139,17 @@ class MediaLibraryService
      */
     public function getFolders(MediaLibraryConfig $config): array
     {
-        $searchQuery = $this->elasticaService->getBoolQuery();
-        $searchQuery->addMustNot((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
+        $query = $this->elasticaService->getBoolQuery();
+        $query->addMustNot((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
 
-        $documents = $this->search($config, $searchQuery, self::MAX_FOLDERS)->getDocuments();
+        $folders = new MediaLibraryFolders($config);
+        $search = $this->elasticaService->searchAll($this->buildSearch($config, $query));
 
-        return MediaLibraryFolderStructure::create($config, $documents)->toArray();
+        foreach ($search as $documentCollection) {
+            $folders->addDocuments($documentCollection);
+        }
+
+        return $folders->getStructure();
     }
 
     public function deleteFiles(MediaLibraryConfig $config, ?string $folderId, EMSLink ...$emsLinks): bool
@@ -216,18 +218,9 @@ class MediaLibraryService
 
     private function search(MediaLibraryConfig $config, BoolQuery $query, int $size, int $from = 0): Response
     {
-        if ($config->searchQuery) {
-            $query->addMust($config->searchQuery);
-        }
-
-        $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
-        $search->setContentTypes([$config->contentType->getName()]);
+        $search = $this->buildSearch($config, $query);
         $search->setFrom($from);
         $search->setSize($size);
-
-        if ($config->fieldPathOrder) {
-            $search->setSort([$config->fieldPathOrder => ['order' => 'asc']]);
-        }
 
         return Response::fromResultSet($this->elasticaService->search($search));
     }
@@ -286,5 +279,21 @@ class MediaLibraryService
         }
 
         return $mediaLibraryFiles;
+    }
+
+    private function buildSearch(MediaLibraryConfig $config, BoolQuery $query): Search
+    {
+        if ($config->searchQuery) {
+            $query->addMust($config->searchQuery);
+        }
+
+        $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
+        $search->setContentTypes([$config->contentType->getName()]);
+
+        if ($config->fieldPathOrder) {
+            $search->setSort([$config->fieldPathOrder => ['order' => 'asc']]);
+        }
+
+        return $search;
     }
 }

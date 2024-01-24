@@ -10,6 +10,11 @@ class MediaLibraryFolder extends MediaLibraryDocument
 {
     private ?MediaLibraryFolder $parent = null;
 
+    public function getPath(): string
+    {
+        return parent::getPath().'/';
+    }
+
     /**
      * @return MediaLibraryFolder[]
      */
@@ -26,10 +31,7 @@ class MediaLibraryFolder extends MediaLibraryDocument
 
     public function getParentPath(): ?string
     {
-        $path = \array_filter(\explode('/', $this->path));
-        \array_pop($path);
-
-        return $path ? '/'.\implode('/', $path) : null;
+        return $this->path->parent()?->getValue();
     }
 
     public function getParent(): ?MediaLibraryFolder

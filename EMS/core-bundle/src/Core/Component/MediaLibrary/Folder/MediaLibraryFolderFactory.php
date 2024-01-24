@@ -9,6 +9,7 @@ use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
+use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryPath;
 
 class MediaLibraryFolderFactory
 {
@@ -30,18 +31,18 @@ class MediaLibraryFolderFactory
     {
         $folder = new MediaLibraryFolder($document, $this->config);
 
-        if ($parentPath = $folder->getParentPath()) {
+        if ($parentPath = $folder->path->parent()) {
             $parentDocument = $this->searchParent($parentPath);
-            $folder->setParent(new MediaLibraryFolder($document, $this->config));
+            $folder->setParent(new MediaLibraryFolder($parentDocument, $this->config));
         }
 
         return $folder;
     }
 
-    private function searchParent(string $path): DocumentInterface
+    private function searchParent(MediaLibraryPath $path): DocumentInterface
     {
         $query = $this->elasticaService->getBoolQuery();
-        $query->addMust((new Term())->setTerm($this->config->fieldPath, $path));
+        $query->addMust((new Term())->setTerm($this->config->fieldPath, $path->getValue()));
 
         $search = new Search([$this->config->contentType->giveEnvironment()->getAlias()], $query);
         $search->setContentTypes([$this->config->contentType->getName()]);

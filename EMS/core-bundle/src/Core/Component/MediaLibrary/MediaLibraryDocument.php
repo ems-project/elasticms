@@ -9,10 +9,10 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 
 class MediaLibraryDocument
 {
-    public string $path;
-    public string $folder;
     public string $id;
     public string $emsId;
+    public MediaLibraryPath $folder;
+    public MediaLibraryPath $path;
 
     public function __construct(
         public DocumentInterface $document,
@@ -21,24 +21,26 @@ class MediaLibraryDocument
         $this->id = $this->document->getId();
         $this->emsId = (string) $document->getEmsLink();
 
-        $this->path = $document->getValue($config->fieldPath);
-        $this->folder = $document->getValue($config->fieldFolder);
+        $this->path = MediaLibraryPath::fromString($document->getValue($config->fieldPath));
+        $this->folder = MediaLibraryPath::fromString($document->getValue($config->fieldFolder));
     }
 
     public function getPath(): string
     {
-        return $this->path.'/';
+        return $this->path->getValue();
     }
 
     public function getName(): string
     {
-        return \basename($this->path);
+        return $this->path->getName();
     }
 
     public function setName(string $name): void
     {
-        $path = \pathinfo($this->path, PATHINFO_DIRNAME).'/'.$name;
-        $this->path = $path;
-        $this->document->setValue($this->config->fieldPath, $path);
+        $this->path = $this->path->setName($name);
+
+        $test = $this->path->getValue();
+
+        $this->document->setValue($this->config->fieldPath, $this->path->getValue());
     }
 }

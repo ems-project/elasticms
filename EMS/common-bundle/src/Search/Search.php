@@ -170,6 +170,11 @@ class Search
         return $this->size;
     }
 
+    public function getFrom(): int
+    {
+        return $this->from;
+    }
+
     public function setFrom(int $from): void
     {
         $this->from = $from;

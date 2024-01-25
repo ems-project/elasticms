@@ -34,7 +34,8 @@ class MediaLibraryService
         private readonly DataService $dataService,
         private readonly FileService $fileService,
         private readonly MediaLibraryTemplateFactory $templateFactory,
-        private readonly MediaLibraryFileFactory $fileFactory
+        private readonly MediaLibraryFileFactory $fileFactory,
+        private readonly MediaLibraryFolderFactory $folderFactory
     ) {
     }
 
@@ -126,7 +127,7 @@ class MediaLibraryService
 
     public function getFolder(MediaLibraryConfig $config, string $ouuid): MediaLibraryFolder
     {
-        return (new MediaLibraryFolderFactory($this->elasticaService, $config))->create($ouuid);
+        return $this->folderFactory->create($config, $ouuid);
     }
 
     /**

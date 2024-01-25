@@ -13,39 +13,37 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryPath;
 
 class MediaLibraryFolderFactory
 {
-    public function __construct(
-        private readonly ElasticaService $elasticaService,
-        private readonly MediaLibraryConfig $config)
+    public function __construct(private readonly ElasticaService $elasticaService)
     {
     }
 
-    public function create(string $ouuid): MediaLibraryFolder
+    public function create(MediaLibraryConfig $config, string $ouuid): MediaLibraryFolder
     {
-        $index = $this->config->contentType->giveEnvironment()->getAlias();
-        $document = $this->elasticaService->getDocument($index, $this->config->contentType->getName(), $ouuid);
+        $index = $config->contentType->giveEnvironment()->getAlias();
+        $document = $this->elasticaService->getDocument($index, $config->contentType->getName(), $ouuid);
 
-        return $this->createFromDocument($document);
+        return $this->createFromDocument($config, $document);
     }
 
-    private function createFromDocument(DocumentInterface $document): MediaLibraryFolder
+    private function createFromDocument(MediaLibraryConfig $config, DocumentInterface $document): MediaLibraryFolder
     {
-        $folder = new MediaLibraryFolder($document, $this->config);
+        $folder = new MediaLibraryFolder($document, $config);
 
         if ($parentPath = $folder->path->parent()) {
-            $parentDocument = $this->searchParent($parentPath);
-            $folder->setParent(new MediaLibraryFolder($parentDocument, $this->config));
+            $parentDocument = $this->searchParent($config, $parentPath);
+            $folder->setParent($this->createFromDocument($config, $parentDocument));
         }
 
         return $folder;
     }
 
-    private function searchParent(MediaLibraryPath $path): DocumentInterface
+    private function searchParent(MediaLibraryConfig $config, MediaLibraryPath $path): DocumentInterface
     {
         $query = $this->elasticaService->getBoolQuery();
-        $query->addMust((new Term())->setTerm($this->config->fieldPath, $path->getValue()));
+        $query->addMust((new Term())->setTerm($config->fieldPath, $path->getValue()));
 
-        $search = new Search([$this->config->contentType->giveEnvironment()->getAlias()], $query);
-        $search->setContentTypes([$this->config->contentType->getName()]);
+        $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
+        $search->setContentTypes([$config->contentType->getName()]);
 
         return $this->elasticaService->singleSearch($search);
     }

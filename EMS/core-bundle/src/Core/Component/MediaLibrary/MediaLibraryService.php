@@ -70,25 +70,13 @@ class MediaLibraryService
     /**
      * @param string[] $fileIds
      */
-    public function renderHeader(MediaLibraryConfig $config, MediaLibraryFolder|string|null $folder, array $fileIds = []): string
+    public function deleteFiles(MediaLibraryConfig $config, array $fileIds): bool
     {
-        $mediaFolder = \is_string($folder) ? $this->getFolder($config, $folder) : $folder;
-        $mediaFiles = $this->fileFactory->createFromArray($config, $fileIds);
+        foreach ($this->fileFactory->createFromArray($config, $fileIds) as $mediaFile) {
+            $this->dataService->delete($mediaFile->document->getContentType(), $mediaFile->document->getOuuid());
+        }
 
-        $template = $this->templateFactory->create($config, \array_filter([
-            'mediaFolder' => $mediaFolder,
-            'mediaFile' => 1 === \count($mediaFiles) ? $mediaFiles[0] : null,
-            'mediaFiles' => \count($mediaFiles) > 1 ? $mediaFiles : null,
-        ]));
-
-        return $template->block('media_lib_header');
-    }
-
-    public function renderFileRow(MediaLibraryConfig $config, MediaLibraryFile $mediaLibraryFile): string
-    {
-        return $this->templateFactory
-            ->create($config, ['mediaFile' => $mediaLibraryFile])
-            ->block('media_lib_file_row');
+        return true;
     }
 
     public function getFile(MediaLibraryConfig $config, string $ouuid): MediaLibraryFile
@@ -149,18 +137,6 @@ class MediaLibraryService
     }
 
     /**
-     * @param string[] $fileIds
-     */
-    public function deleteFiles(MediaLibraryConfig $config, array $fileIds): bool
-    {
-        foreach ($this->fileFactory->createFromArray($config, $fileIds) as $mediaFile) {
-            $this->dataService->delete($mediaFile->document->getContentType(), $mediaFile->document->getOuuid());
-        }
-
-        return true;
-    }
-
-    /**
      * @param array<string, mixed> $context
      */
     public function modal(MediaLibraryConfig $config, array $context): ComponentModal
@@ -169,6 +145,30 @@ class MediaLibraryService
         $componentModal->template->context->append($context);
 
         return $componentModal;
+    }
+
+    /**
+     * @param string[] $fileIds
+     */
+    public function renderHeader(MediaLibraryConfig $config, MediaLibraryFolder|string|null $folder, array $fileIds = []): string
+    {
+        $mediaFolder = \is_string($folder) ? $this->getFolder($config, $folder) : $folder;
+        $mediaFiles = $this->fileFactory->createFromArray($config, $fileIds);
+
+        $template = $this->templateFactory->create($config, \array_filter([
+            'mediaFolder' => $mediaFolder,
+            'mediaFile' => 1 === \count($mediaFiles) ? $mediaFiles[0] : null,
+            'mediaFiles' => \count($mediaFiles) > 1 ? $mediaFiles : null,
+        ]));
+
+        return $template->block('media_lib_header');
+    }
+
+    public function renderFileRow(MediaLibraryConfig $config, MediaLibraryFile $mediaLibraryFile): string
+    {
+        return $this->templateFactory
+            ->create($config, ['mediaFile' => $mediaLibraryFile])
+            ->block('media_lib_file_row');
     }
 
     /**

@@ -72,11 +72,11 @@ class MediaLibraryService
      */
     public function renderHeader(MediaLibraryConfig $config, MediaLibraryFolder|string|null $folder, array $fileIds = []): string
     {
-        $folder = \is_string($folder) ? $this->getFolder($config, $folder) : $folder;
+        $mediaFolder = \is_string($folder) ? $this->getFolder($config, $folder) : $folder;
         $mediaFiles = $this->fileFactory->createFromArray($config, $fileIds);
 
         $template = $this->templateFactory->create($config, \array_filter([
-            'folder' => $folder,
+            'mediaFolder' => $mediaFolder,
             'mediaFile' => 1 === \count($mediaFiles) ? $mediaFiles[0] : null,
             'mediaFiles' => \count($mediaFiles) > 1 ? $mediaFiles : null,
         ]));

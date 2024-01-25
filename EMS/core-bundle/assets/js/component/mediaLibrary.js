@@ -64,7 +64,8 @@ export default class MediaLibrary {
             if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete();
             if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
-            if (classList.contains('btn-add-folder')) this._onClickButtonAddFolder();
+            if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd();
+            if (classList.contains('btn-folder-rename')) this._onClickButtonFolderRename(event.target);
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
         }
 
@@ -92,7 +93,10 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (json.hasOwnProperty('fileRow')) fileRow.outerHTML = json.fileRow;
 
-            this._getHeader().then(() => ajaxModal.close());
+            this._getHeader().then(() => {
+                ajaxModal.close();
+                this.loading(false);
+            });
         });
     }
     _onClickButtonFileDelete() {
@@ -120,15 +124,7 @@ export default class MediaLibrary {
         this.#activeFolder = `/${button.dataset.id}`;
         this._getFiles().then(() => this.loading(false));
     }
-    _onClickButtonHome() {
-        this.loading(true);
-        this.#elements.listFolders.querySelectorAll('button')
-            .forEach((li) => li.classList.remove('active'));
-
-        this.#activeFolder = ''
-        this._getFiles().then(() => this.loading(false));
-    }
-    _onClickButtonAddFolder() {
+    _onClickButtonFolderAdd() {
         ajaxModal.load({
             url: `${this.#pathPrefix}/add-folder${this.#activeFolder}`,
             size: 'sm'
@@ -138,6 +134,28 @@ export default class MediaLibrary {
                 this._getFolders(json.path).then(() => this.loading(false));
             }
         });
+    }
+    _onClickButtonFolderRename(button) {
+        const folderId = button.dataset.id;
+        const folderElement = this.#elements.listFolders.querySelector(`[data-id='${folderId}']`);
+
+        ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/rename`, size: 'sm'}, (json) => {
+            if (!json.hasOwnProperty('success') || json.success === false) return;
+            if (json.hasOwnProperty('folderName')) folderElement.innerHTML = json.folderName;
+
+            this._getHeader().then(() => {
+                ajaxModal.close();
+                this.loading(false);
+            });
+        });
+    }
+    _onClickButtonHome() {
+        this.loading(true);
+        this.#elements.listFolders.querySelectorAll('button')
+            .forEach((li) => li.classList.remove('active'));
+
+        this.#activeFolder = ''
+        this._getFiles().then(() => this.loading(false));
     }
     _onClickBreadcrumbItem(item) {
         let id = item.dataset.id;

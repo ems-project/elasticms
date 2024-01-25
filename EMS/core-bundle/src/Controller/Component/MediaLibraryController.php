@@ -120,6 +120,30 @@ class MediaLibraryController
         return new JsonResponse($modal->render());
     }
 
+    public function renameFolder(MediaLibraryConfig $config, Request $request, string $folderId): JsonResponse
+    {
+        $mediaFolder = $this->mediaLibraryService->getFolder($config, $folderId);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $mediaFolder)
+            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->clearFlashes($request);
+
+            return new JsonResponse(['success' => true, 'folderName' => $mediaFolder->getName()]);
+        }
+
+        $modal = $this->mediaLibraryService->modal($config, [
+            'type' => 'rename',
+            'title' => $this->translator->trans('media_library.folder.rename.title', [], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+        ]);
+
+        return new JsonResponse($modal->render());
+    }
+
     public function deleteFiles(MediaLibraryConfig $config, Request $request): JsonResponse
     {
         $fileIds = Json::decode($request->getContent())['files'];

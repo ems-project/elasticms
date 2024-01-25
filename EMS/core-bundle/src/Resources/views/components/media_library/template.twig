@@ -11,6 +11,8 @@
         {%- if mediaFile is defined -%}
             {{- template.block('media_lib_button_file_rename', _context)|raw -}}
             {{- template.block('media_lib_button_file_delete', _context)|raw -}}
+        {%- elseif mediaFolder is defined -%}
+            {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
         {%- endif -%}
         {{- template.block('media_lib_breadcrumb', _context)|raw -}}
     </div>
@@ -49,10 +51,16 @@
 {%- endblock media_lib_button_home -%}
 
 {%- block media_lib_button_folder_add -%}
-    <button class="btn btn-sm btn-default btn-add-folder">
+    <button class="btn btn-sm btn-default btn-folder-add">
         <i class="fa fa-folder" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.add.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_add -%}
+
+{%- block media_lib_button_folder_rename -%}
+    <button class="btn btn-sm btn-default btn-folder-rename" data-id="{{- mediaFolder.id -}}">
+        <i class="fa fa-pencil" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.rename.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_folder_rename -%}
 
 {%- block media_lib_button_file_rename -%}
     <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}">

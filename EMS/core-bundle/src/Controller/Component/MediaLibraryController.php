@@ -102,7 +102,7 @@ class MediaLibraryController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->mediaLibraryService->updateFile($config, $mediaFile);
+            $this->mediaLibraryService->updateDocument($config, $mediaFile);
             $this->clearFlashes($request);
 
             return new JsonResponse([
@@ -122,17 +122,18 @@ class MediaLibraryController
 
     public function renameFolder(MediaLibraryConfig $config, Request $request, string $folderId): JsonResponse
     {
-        $mediaFolder = $this->mediaLibraryService->getFolder($config, $folderId);
+        $folder = $this->mediaLibraryService->getFolder($config, $folderId);
 
-        $form = $this->formFactory->createBuilder(FormType::class, $mediaFolder)
+        $form = $this->formFactory->createBuilder(FormType::class, $folder)
             ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
             ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->mediaLibraryService->renameFolder($config, $folder);
             $this->clearFlashes($request);
 
-            return new JsonResponse(['success' => true, 'folderName' => $mediaFolder->getName()]);
+            return new JsonResponse(['success' => true, 'folderName' => $folder->getName()]);
         }
 
         $modal = $this->mediaLibraryService->modal($config, [

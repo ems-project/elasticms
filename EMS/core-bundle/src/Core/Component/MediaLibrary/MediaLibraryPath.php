@@ -41,6 +41,14 @@ class MediaLibraryPath implements \Countable
         return new self([...$path, $name]);
     }
 
+    public function setRoot(string $root): self
+    {
+        $path = $this->value;
+        \array_shift($path);
+
+        return new self([$root, ...$path]);
+    }
+
     public function parent(): ?self
     {
         $path = $this->value;

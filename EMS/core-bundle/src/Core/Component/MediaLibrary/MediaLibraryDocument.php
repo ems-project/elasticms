@@ -40,4 +40,14 @@ class MediaLibraryDocument
         $this->path = $this->path->setName($name);
         $this->document->setValue($this->config->fieldPath, $this->path->getValue());
     }
+
+    public function setRoot(string $root): void
+    {
+        $this->path = $this->path->setRoot($root);
+        $this->folder = $this->folder->setRoot($root);
+
+        $this->document
+            ->setValue($this->config->fieldPath, $this->path->getValue())
+            ->setValue($this->config->fieldFolder, $this->folder->getValue().'/');
+    }
 }

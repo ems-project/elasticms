@@ -7,7 +7,9 @@ namespace EMS\CoreBundle\Core\Component\MediaLibrary;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Exists;
 use Elastica\Query\Nested;
+use Elastica\Query\Prefix;
 use Elastica\Query\Term;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
@@ -147,6 +149,24 @@ class MediaLibraryService
         return $componentModal;
     }
 
+    public function renameFolder(MediaLibraryConfig $config, MediaLibraryFolder $folder): void
+    {
+        if (null === $previousPath = $folder->previousPath) {
+            return;
+        }
+
+        $documents = $this->findByPath($config, $previousPath->getValue());
+
+        foreach ($documents as $document) {
+            $mediaDocument = new MediaLibraryDocument($document, $config);
+            $mediaDocument->setRoot($folder->path->getName());
+
+            $this->updateDocument($config, $mediaDocument);
+        }
+
+        $this->updateDocument($config, $folder);
+    }
+
     /**
      * @param string[] $fileIds
      */
@@ -188,9 +208,9 @@ class MediaLibraryService
         return 0 === $form->getErrors(true)->count() ? $uuid->toString() : null;
     }
 
-    public function updateFile(MediaLibraryConfig $config, MediaLibraryFile $file): bool
+    public function updateDocument(MediaLibraryConfig $config, MediaLibraryDocument $mediaDocument): bool
     {
-        $document = $file->document;
+        $document = $mediaDocument->document;
         $this->revisionService->updateRawDataByEmsLink($document->getEmsLink(), $document->getSource(true));
         $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());
 
@@ -210,6 +230,36 @@ class MediaLibraryService
         $type = (new File($tempFile))->getMimeType();
 
         return $type ?: 'application/bin';
+    }
+
+    private function buildSearch(MediaLibraryConfig $config, BoolQuery $query): Search
+    {
+        if ($config->searchQuery) {
+            $query->addMust($config->searchQuery);
+        }
+
+        $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
+        $search->setContentTypes([$config->contentType->getName()]);
+
+        if ($config->fieldPathOrder) {
+            $search->setSort([$config->fieldPathOrder => ['order' => 'asc']]);
+        }
+
+        return $search;
+    }
+
+    /**
+     * @return \Generator<DocumentInterface>
+     */
+    private function findByPath(MediaLibraryConfig $config, string $path): \Generator
+    {
+        $query = $this->elasticaService->getBoolQuery();
+        $query->addMust(new Prefix([$config->fieldFolder => $path.'/']));
+        $search = $this->elasticaService->searchAll($this->buildSearch($config, $query));
+
+        foreach ($search as $documentCollection) {
+            yield from $documentCollection;
+        }
     }
 
     /**
@@ -233,21 +283,5 @@ class MediaLibraryService
             'total' => $result->getTotal(),
             'total_documents' => $result->getTotalDocuments(),
         ];
-    }
-
-    private function buildSearch(MediaLibraryConfig $config, BoolQuery $query): Search
-    {
-        if ($config->searchQuery) {
-            $query->addMust($config->searchQuery);
-        }
-
-        $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
-        $search->setContentTypes([$config->contentType->getName()]);
-
-        if ($config->fieldPathOrder) {
-            $search->setSort([$config->fieldPathOrder => ['order' => 'asc']]);
-        }
-
-        return $search;
     }
 }

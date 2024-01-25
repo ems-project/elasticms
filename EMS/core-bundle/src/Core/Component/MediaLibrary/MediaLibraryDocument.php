@@ -38,9 +38,6 @@ class MediaLibraryDocument
     public function setName(string $name): void
     {
         $this->path = $this->path->setName($name);
-
-        $test = $this->path->getValue();
-
         $this->document->setValue($this->config->fieldPath, $this->path->getValue());
     }
 }

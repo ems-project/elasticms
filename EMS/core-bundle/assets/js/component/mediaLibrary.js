@@ -82,23 +82,17 @@ export default class MediaLibrary {
         activeItem.forEach((li) => li.classList.remove('active'))
         item.classList.add('active');
 
-        const query = new URLSearchParams([['items[]', item.dataset.id]]).toString();
-        this._get(`/header${this.#activeFolder}?${query}`).then((json) => {
-             if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
-             this.loading(false);
-        });
+        this._getHeader([item.dataset.id]).then(() => { this.loading(false); });
     }
     _onClickButtonFileRename(button) {
-        const folderId = this._getSelectedFolderId();
         const fileId = button.dataset.id;
-
-        const query = folderId ? '?' + new URLSearchParams({ folderId: folderId}).toString() : '';
         const fileRow = this.#elements.listFiles.querySelector(`[data-id='${fileId}']`);
 
-        ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/rename${query}`, size: 'sm'}, (json) => {
+        ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/rename`, size: 'sm'}, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (json.hasOwnProperty('fileRow')) fileRow.outerHTML = json.fileRow;
-            ajaxModal.close();
+
+            this._getHeader().then(() => ajaxModal.close());
         });
     }
     _onClickButtonFileDelete() {
@@ -106,10 +100,9 @@ export default class MediaLibrary {
         const activeIds =  [];
         activeItems.forEach((element) => activeIds.push(element.dataset.id));
 
-        this._post(`/files/delete${this.#activeFolder}`, { 'items': activeIds }).then((json) => {
+        this._post(`/files/delete`, { 'files': activeIds }).then((json) => {
             if (json.hasOwnProperty('success'))  activeItems.forEach((element) => element.remove());
-            if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
-            this.loading(false);
+            this._getHeader().then(() => this.loading(false));
         });
     }
 
@@ -156,6 +149,18 @@ export default class MediaLibrary {
         }
     }
 
+    _getHeader(files = null) {
+        let path = `/header${this.#activeFolder}`;
+
+        if (files) {
+            let query = new URLSearchParams([['files[]', files]]);
+            path = path + `?${query.toString()}`
+        }
+
+        return this._get(path).then((json) => {
+            if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
+        });
+    }
     _getFiles(from = 0) {
         if (0 === from) {
             this.#loadedFiles = 0;
@@ -172,10 +177,6 @@ export default class MediaLibrary {
             this._appendFolderItems(folders, this.#elements.listFolders);
             if (openPath) { this._openPath(openPath); }
         });
-    }
-    _getSelectedFolderId() {
-        const folderButton = this.#elements.listFolders.querySelector('.media-lib-folder.active');
-        return folderButton ? folderButton.dataset.id : null;
     }
     _openPath(path) {
         let currentPath = '';

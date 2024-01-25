@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Component;
 
-use EMS\CommonBundle\Common\EMSLink;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
@@ -37,9 +36,9 @@ class MediaLibraryController
     {
         return new JsonResponse([
             'header' => $this->mediaLibraryService->renderHeader(
-                $config,
-                $folderId,
-                ...$this->getEmsLinksFromRequest($config, $request)
+                config: $config,
+                folder: $folderId,
+                fileIds: $request->query->all('files')
             ),
         ]);
     }
@@ -95,8 +94,7 @@ class MediaLibraryController
 
     public function renameFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
     {
-        $folderId = $request->query->get('folderId');
-        $mediaFile = $this->mediaLibraryService->getFileByOuuid($config, $fileId, $folderId);
+        $mediaFile = $this->mediaLibraryService->getFile($config, $fileId);
 
         $form = $this->formFactory->createBuilder(FormType::class, $mediaFile)
             ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
@@ -122,36 +120,19 @@ class MediaLibraryController
         return new JsonResponse($modal->render());
     }
 
-    public function deleteFiles(MediaLibraryConfig $config, Request $request, ?string $folderId = null): JsonResponse
+    public function deleteFiles(MediaLibraryConfig $config, Request $request): JsonResponse
     {
-        $success = $this->mediaLibraryService->deleteFiles($config, $folderId, ...$this->getEmsLinksFromRequest($config, $request));
+        $fileIds = Json::decode($request->getContent())['files'];
+
+        $success = $this->mediaLibraryService->deleteFiles($config, $fileIds);
         $this->clearFlashes($request);
 
-        return new JsonResponse([
-            'success' => $success,
-            'header' => $this->mediaLibraryService->renderHeader($config, $folderId),
-        ]);
+        return new JsonResponse(['success' => $success]);
     }
 
     private function getAjaxModal(): AjaxModal
     {
         return $this->ajax->newAjaxModel("@$this->templateNamespace/components/media_library/modal.html.twig");
-    }
-
-    /**
-     * @return EMSLink[]
-     */
-    private function getEmsLinksFromRequest(MediaLibraryConfig $config, Request $request): array
-    {
-        /** @var ?string[] $items */
-        $items = match ($request->getMethod()) {
-            Request::METHOD_GET => $request->query->get('items'),
-            Request::METHOD_POST => Json::decode($request->getContent())['items'],
-            default => throw new \RuntimeException('could not get items from request')
-        };
-        $contentType = $config->contentType->getName();
-
-        return \array_map(static fn (string $id) => EMSLink::fromContentTypeOuuid($contentType, $id), $items ?? []);
     }
 
     private function clearFlashes(Request $request): void

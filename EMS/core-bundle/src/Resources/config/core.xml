@@ -43,8 +43,12 @@
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="EMS\CoreBundle\Service\DataService" />
             <argument type="service" id="ems.service.file" />
-            <argument type="service" id="router" />
             <argument type="service" id="emsco.core.media_library.template_factory" />
+            <argument type="service" id="emsco.core.media_library.file_factory" />
+        </service>
+        <service id="emsco.core.media_library.file_factory" class="EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFileFactory">
+            <argument type="service" id="ems_common.service.elastica"/>
+            <argument type="service" id="router"/>
         </service>
         <service id="emsco.core.media_library.config_factory"
                  class="EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigFactory"

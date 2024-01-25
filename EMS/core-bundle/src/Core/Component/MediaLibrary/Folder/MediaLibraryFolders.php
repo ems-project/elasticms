@@ -51,7 +51,7 @@ class MediaLibraryFolders
             $this->propertyAccessor->setValue($structure, $folderProperty, [
                 'id' => $folder->id,
                 'name' => $folder->getName(),
-                'path' => $folder->path,
+                'path' => $folder->path->getValue(),
             ]);
         }
 

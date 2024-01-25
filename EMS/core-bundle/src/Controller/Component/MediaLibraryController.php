@@ -68,7 +68,7 @@ class MediaLibraryController
             if ($folder) {
                 $request->clearFlashes();
 
-                return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->path]);
+                return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->path->getValue()]);
             }
         }
 

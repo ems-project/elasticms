@@ -20,7 +20,6 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFileFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolderFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolders;
-use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplateFactory;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\FileService;
@@ -41,12 +40,13 @@ class MediaLibraryService
     ) {
     }
 
-    public function createFile(MediaLibraryConfig $config, MediaLibraryRequest $request): bool
+    /**
+     * @param array{ filename: string, filesize: int, mimetype?: string, sha1: string } $file
+     */
+    public function createFile(MediaLibraryConfig $config, array $file, ?MediaLibraryFolder $folder = null): bool
     {
-        $path = $this->getFolderPath($config, $request);
-
-        $file = $request->getContentJson()['file'];
-        $file['mimetype'] = ('' === $file['mimetype'] ? $this->getMimeType($file['sha1']) : $file['mimetype']);
+        $path = $folder ? $folder->path->getValue().'/' : '/';
+        $file['mimetype'] ??= $this->getMimeType($file['sha1']);
 
         $createdUuid = $this->create($config, [
             $config->fieldPath => $path.$file['filename'],
@@ -57,9 +57,9 @@ class MediaLibraryService
         return null !== $createdUuid;
     }
 
-    public function createFolder(MediaLibraryConfig $config, MediaLibraryRequest $request, string $folderName): ?MediaLibraryFolder
+    public function createFolder(MediaLibraryConfig $config, string $folderName, ?MediaLibraryFolder $parentFolder = null): ?MediaLibraryFolder
     {
-        $path = $this->getFolderPath($config, $request);
+        $path = $parentFolder ? $parentFolder->path->getValue().'/' : '/';
 
         $createdUuid = $this->create($config, [
             $config->fieldPath => $path.$folderName,
@@ -95,12 +95,11 @@ class MediaLibraryService
      *     rows?: string
      * }
      */
-    public function getFiles(MediaLibraryConfig $config, MediaLibraryRequest $request): array
+    public function getFiles(MediaLibraryConfig $config, int $from, ?MediaLibraryFolder $folder = null): array
     {
-        $folder = $request->folderId ? $this->getFolder($config, $request->folderId) : null;
-        $path = $this->getFolderPath($config, $request);
+        $path = $folder ? $folder->path->getValue().'/' : '/';
 
-        $findFiles = $this->findFilesByPath($config, $path, $request->from);
+        $findFiles = $this->findFilesByPath($config, $path, $from);
         $template = $this->templateFactory->create($config, \array_filter([
             'folder' => $folder,
             'mediaFiles' => $findFiles['files'],
@@ -108,9 +107,9 @@ class MediaLibraryService
 
         return \array_filter([
             'totalRows' => $findFiles['total_documents'],
-            'remaining' => ($request->from + $findFiles['total_documents'] < $findFiles['total']),
-            'header' => 0 === $request->from ? $this->renderHeader($config, $folder) : null,
-            'rowHeader' => 0 === $request->from ? $template->block('media_lib_file_row_header') : null,
+            'remaining' => ($from + $findFiles['total_documents'] < $findFiles['total']),
+            'header' => 0 === $from ? $this->renderHeader($config, $folder) : null,
+            'rowHeader' => 0 === $from ? $template->block('media_lib_file_row_header') : null,
             'rows' => $template->block('media_lib_file_rows'),
         ]);
     }
@@ -215,11 +214,6 @@ class MediaLibraryService
         $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());
 
         return true;
-    }
-
-    private function getFolderPath(MediaLibraryConfig $config, MediaLibraryRequest $request): string
-    {
-        return $request->folderId ? $this->getFolder($config, $request->folderId)->getPath() : '/';
     }
 
     private function getMimeType(string $fileHash): string

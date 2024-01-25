@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Controller\Component;
 
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
-use EMS\CoreBundle\Core\Component\MediaLibrary\Request\MediaLibraryRequest;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -17,6 +16,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -43,9 +43,13 @@ class MediaLibraryController
         ]);
     }
 
-    public function getFiles(MediaLibraryConfig $config, MediaLibraryRequest $request): JsonResponse
+    public function getFiles(MediaLibraryConfig $config, Request $request): JsonResponse
     {
-        return new JsonResponse($this->mediaLibraryService->getFiles($config, $request));
+        $from = $request->query->getInt('from');
+        $folderId = $request->get('folderId');
+        $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+
+        return new JsonResponse($this->mediaLibraryService->getFiles($config, $from, $folder));
     }
 
     public function getFolders(MediaLibraryConfig $config): JsonResponse
@@ -53,20 +57,23 @@ class MediaLibraryController
         return new JsonResponse($this->mediaLibraryService->getFolders($config));
     }
 
-    public function addFolder(MediaLibraryConfig $config, MediaLibraryRequest $request): JsonResponse
+    public function addFolder(MediaLibraryConfig $config, Request $request): JsonResponse
     {
+        $folderId = $request->get('folderId');
+        $parentFolder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+
         $form = $this->formFactory->createBuilder(FormType::class, [])
             ->add('folder_name', TextType::class, ['constraints' => [new NotBlank()]])
             ->getForm();
 
-        $form->handleRequest($request->getRequest());
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $folderName = (string) $form->get('folder_name')->getData();
-            $folder = $this->mediaLibraryService->createFolder($config, $request, $folderName);
+            $folder = $this->mediaLibraryService->createFolder($config, $folderName, $parentFolder);
 
             if ($folder) {
-                $request->clearFlashes();
+                $this->flashBag($request)->clear();
 
                 return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->path->getValue()]);
             }
@@ -80,14 +87,19 @@ class MediaLibraryController
             ->getResponse();
     }
 
-    public function addFile(MediaLibraryConfig $config, MediaLibraryRequest $request): JsonResponse
+    public function addFile(MediaLibraryConfig $config, Request $request): JsonResponse
     {
-        if (!$this->mediaLibraryService->createFile($config, $request)) {
+        $folderId = $request->get('folderId');
+        $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+        $file = Json::decode($request->getContent())['file'];
+
+        if (!$this->mediaLibraryService->createFile($config, $file, $folder)) {
             return new JsonResponse([
-                'messages' => $request->getFlashes(),
+                'messages' => $this->flashBag($request)->all(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-        $request->clearFlashes();
+
+        $this->flashBag($request)->clear();
 
         return new JsonResponse([], Response::HTTP_CREATED);
     }
@@ -103,7 +115,7 @@ class MediaLibraryController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->mediaLibraryService->updateDocument($config, $mediaFile);
-            $this->clearFlashes($request);
+            $this->flashBag($request)->clear();
 
             return new JsonResponse([
                 'success' => true,
@@ -131,7 +143,7 @@ class MediaLibraryController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->mediaLibraryService->renameFolder($config, $folder);
-            $this->clearFlashes($request);
+            $this->flashBag($request)->clear();
 
             return new JsonResponse(['success' => true, 'folderName' => $folder->getName()]);
         }
@@ -150,7 +162,7 @@ class MediaLibraryController
         $fileIds = Json::decode($request->getContent())['files'];
 
         $success = $this->mediaLibraryService->deleteFiles($config, $fileIds);
-        $this->clearFlashes($request);
+        $this->flashBag($request)->clear();
 
         return new JsonResponse(['success' => $success]);
     }
@@ -160,10 +172,11 @@ class MediaLibraryController
         return $this->ajax->newAjaxModel("@$this->templateNamespace/components/media_library/modal.html.twig");
     }
 
-    private function clearFlashes(Request $request): void
+    private function flashBag(Request $request): FlashBagInterface
     {
         /** @var Session $session */
         $session = $request->getSession();
-        $session->getFlashBag()->clear();
+
+        return $session->getFlashBag();
     }
 }

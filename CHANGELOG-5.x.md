@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.13.3 (2024-01-26)
+### Features
+* feat(admin): activate PdoSessionHandler (new db env) by @theus77 in https://github.com/ems-project/elasticms/pull/733
+
 ## 5.13.2 (2024-01-25)
 ### Bug Fixes
 * fix(core/choice): multiple choice fields do not work by @Davidmattei in https://github.com/ems-project/elasticms/pull/731

@@ -50,6 +50,7 @@ when@prod: &monolog_prod
                 channels: [ app,core,audit ]
 
 when@redis: *monolog_prod
+when@db: *monolog_prod
 
 when@test:
     monolog:

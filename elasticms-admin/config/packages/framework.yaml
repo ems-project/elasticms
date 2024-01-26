@@ -23,6 +23,11 @@ when@redis:
         session:
             handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
 
+when@db:
+    framework:
+        session:
+            handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+
 when@test:
     framework:
         test: true

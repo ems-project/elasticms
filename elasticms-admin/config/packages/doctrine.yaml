@@ -40,3 +40,4 @@ when@prod: &doctrine_prod
                     adapter: cache.system
 
 when@redis: *doctrine_prod
+when@db: *doctrine_prod

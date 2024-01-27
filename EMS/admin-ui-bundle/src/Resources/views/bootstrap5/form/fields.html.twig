@@ -172,37 +172,37 @@
 
 	{% if editSubfields is not defined or editSubfields %}
 		<div class="tab-content">
-			{% set active='active' %}
+			{% set active=' active show' %}
 			{% if form.displayOptions is defined %}
-				<div class="tab-pane {{ active }}" id="tab_display_{{ seed }}">
+				<div class="tab-pane fade{{ active }}" id="tab_display_{{ seed }}" role="tabpanel">
 					{{- form_widget(form.displayOptions) -}}
 				</div>
 				{% set active='' %}
 			{% endif %}
 			<!-- /.tab-pane -->
 			{% if form.mappingOptions is defined %}
-				<div class="tab-pane {{ active }}" id="tab_mapping_{{ seed }}">
+				<div class="tab-pane fade{{ active }}" id="tab_mapping_{{ seed }}" role="tabpanel">
 					{{- form_widget(form.mappingOptions) -}}
 				</div>
 				{% set active='' %}
 			{% endif %}
 			<!-- /.tab-pane -->
 			{% if form.restrictionOptions is defined %}
-			  <div class="tab-pane {{ active }}" id="tab_restriction_{{ seed }}">
+			  <div class="tab-pane fade{{ active }}" id="tab_restriction_{{ seed }}" role="tabpanel">
 				{{- form_widget(form.restrictionOptions) -}}
 			  </div>
 			  {% set active='' %}
 			{% endif %}
 			<!-- /.tab-pane -->
 			{% if form.migrationOptions is defined %}
-			  <div class="tab-pane {{ active }}" id="tab_migration_{{ seed }}">
+			  <div class="tab-pane fade{{ active }}" id="tab_migration_{{ seed }}" role="tabpanel">
 				{{- form_widget(form.migrationOptions) -}}
 			  </div>
 			  {% set active='' %}
 			{% endif %}
 			<!-- /.tab-pane -->
 			{% if form.extraOptions is defined %}
-			  <div class="tab-pane {{ active }}" id="tab_extra_{{ seed }}">
+			  <div class="tab-pane fade{{ active }}" id="tab_extra_{{ seed }}" role="tabpanel">
 				{{- form_widget(form.extraOptions) -}}
 			  </div>
 			{% endif %}

@@ -10,47 +10,49 @@
 {%- set requestQuery = app.request.query.all -%}
 {%- set routeParams = app.request.get('_route_params')|merge(requestQuery) -%}
 {%- set showFilters = attribute(requestQuery, 'filters')|default([])|length > 0 -%}
-<div id="task-dashboard" class="nav-tabs-custom">
-    <ul class="nav nav-tabs">
-        {% for tabName in tabs %}
-            {% if currentTab == tabName %}
-                <li class="active">
-                    <a href="#{{ currentTab }}" data-bs-toggle="tab" aria-expanded="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
+<div id="task-dashboard" class="card card-{{ theme_color }}">
+    <div class="card-header p-0 border-bottom-0">
+        <ul class="nav nav-tabs" role="tablist">
+            {% for tabName in tabs %}
+                <li class="nav-item">
+                    {% if currentTab == tabName %}
+                        <a href="#{{ currentTab }}" data-bs-target="#{{ currentTab }}" data-bs-toggle="pill" class="nav-link active" role="tab" aria-selected="true">{{ "task.dashboard.tab.#{tabName}"|trans }}</a>
+                    {% else %}
+                        <a href="{{ path(route, routeParams|merge({'tab': tabName})) }}" class="nav-link"role="tab" aria-selected="false">
+                            {{ "task.dashboard.tab.#{tabName}"|trans }}
+                        </a>
+                    {% endif %}
                 </li>
-            {% else %}
-                <li>
-                    <a href="{{ path(route, routeParams|merge({'tab': tabName})) }}">
-                        {{ "task.dashboard.tab.#{tabName}"|trans }}
-                    </a>
+            {% endfor %}
+            {% if filterForm is defined %}
+                <li class="pull-right">
+                    <div>
+                        <a class="btn btn-sm btn-primary" role="button" data-bs-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
+                            <i class="fa fa-filter" aria-hidden="true"></i> {{ 'task.filters'|trans }}
+                        </a>
+                    </div>
                 </li>
             {% endif %}
-        {% endfor %}
-        {% if filterForm is defined %}
-            <li class="pull-right">
-                <div>
-                    <a class="btn btn-sm btn-primary" role="button" data-bs-toggle="collapse" href="#filters" aria-expanded="{{ showFilters ? 'true' : 'false' }}" aria-controls="filters">
-                        <i class="fa fa-filter" aria-hidden="true"></i> {{ 'task.filters'|trans }}
-                    </a>
-                </div>
-            </li>
-        {% endif %}
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="{{ currentTab }}">
-            {{ block('filters') }}
-            {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-            {{ form(formTable) }}
-            {% if table.count > 0 %}
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Export <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('ems_core_task_ajax_datatable_excel', routeParams|merge({'tab': currentTab}) ) }}">Excel</a></li>
-                        <li><a href="{{ path('ems_core_task_ajax_datatable_csv', routeParams|merge({'tab': currentTab}) ) }}">CSV</a></li>
-                    </ul>
-                </div>
-            {% endif %}
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="{{ currentTab }}" role="tabpanel">
+                {{ block('filters') }}
+                {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+                {{ form(formTable) }}
+                {% if table.count > 0 %}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Export <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('ems_core_task_ajax_datatable_excel', routeParams|merge({'tab': currentTab}) ) }}">Excel</a></li>
+                            <li><a href="{{ path('ems_core_task_ajax_datatable_csv', routeParams|merge({'tab': currentTab}) ) }}">CSV</a></li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,18 @@
 # Changelog 5.x
 
+## 5.13.3 (2024-01-26)
+### Features
+* feat(admin): activate PdoSessionHandler (new db env) by @theus77 in https://github.com/ems-project/elasticms/pull/733
+
+## 5.13.2 (2024-01-25)
+### Bug Fixes
+* fix(core/choice): multiple choice fields do not work by @Davidmattei in https://github.com/ems-project/elasticms/pull/731
+
+## 5.13.1 (2024-01-19)
+### Bug Fixes
+* fix(core/search): legacy search not working on overviews by @Davidmattei in https://github.com/ems-project/elasticms/pull/729
+* fix(core/twig): merge_recursive not working correctly by @Davidmattei in https://github.com/ems-project/elasticms/pull/728
+
 ## 5.13.0 (2024-01-03)
 ### Features
 * feat(common/es): log error request/response  by @Davidmattei in https://github.com/ems-project/elasticms/pull/681

@@ -501,15 +501,15 @@
 {% endblock tabsfieldtype_row %}
 
 {% block tabsfieldtype_widget_tab_label_per_item %}
-	<li id="{{ tab.vars.id}}__label" class="form-group{% if tab.vars.errors|length %} has-error{% endif %}{% if counter == 1%} active{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{tab.vars.class}}{% endif %}">
-		<a href="#{{ tab.vars.id}}__tab" data-bs-toggle="tab" aria-expanded="{% if counter == 1%}true{%else%}false{% endif %}">
+	<li id="{{ tab.vars.id}}__label" class="nav-item{% if tab.vars.errors|length %} has-error{% endif %}{% if tab.vars.class is defined and tab.vars.class != 'col-md-12' %} {{tab.vars.class}}{% endif %}">
+		<a href="#{{ tab.vars.id}}__tab" data-bs-toggle="pill" class="nav-link{% if counter == 1%} active{% endif %}" id="{{ tab.vars.id}}-tab" data-bs-target="#{{ tab.vars.id}}__tab" role="tab" aria-controls="{{ tab.vars.id}}__tab" aria-selected="{% if counter == 1%}true{%else%}false{% endif %}">
 			{{- form_label(tab) -}}
 		</a>
 	</li>
 {% endblock tabsfieldtype_widget_tab_label_per_item %}
 
 {% block tabsfieldtype_widget_tab_panel_per_item %}
-	<div class="tab-pane{% if counter == 1%} active{% endif %}" id="{{ tab.vars.id}}__tab">
+	<div class="tab-pane fade{% if counter == 1%} active show{% endif %}" id="{{ tab.vars.id}}__tab" role="tabpanel" aria-labelledby="{{ tab.vars.id}}-tab">
 		<div class="form-group has-error"  id="{{ tab.vars.id}}__error">
 			{{ form_errors(tab) }}
 		</div>
@@ -524,9 +524,9 @@
 {% endblock tabsfieldtype_widget_tab_panel_per_item %}
 
 {% block tabsfieldtype_widget -%}
-{# 	<div class="{% if class %}{{ class }}{% else %}col-xs-12 {% endif %}">#}
-		<div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
+	<div class="card card-{{ theme_color }}">
+		<div class="card-header p-0 border-bottom-0">
+			<ul class="nav nav-tabs" role="tablist">
 				{% set counter = 1 %}
 				{% for tab in  form.iterator %}
 					{% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
@@ -552,7 +552,9 @@
 					{% endif %}
 				{% endfor %}
             </ul>
-            <div class="tab-content panel panel-default">
+		</div>
+		<div class="card-body">
+			<div class="tab-content">
 			  {% set counter = 1 %}
               {% for tab in  form.iterator %}
 				  {% if 'EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType' == tab.vars.data.fieldType.type and form.vars.data.fieldType.type == 'EMS\\CoreBundle\\Form\\DataField\\TabsFieldType' %}
@@ -577,10 +579,9 @@
 					  {% set counter = counter + 1 %}
 				  {% endif %}
               {% endfor %}
-            </div>
-            <!-- /.tab-content -->
-         </div>
-{# 	</div>#}
+			</div>
+		</div>
+	 </div>
 {%- endblock tabsfieldtype_widget %}
 
 

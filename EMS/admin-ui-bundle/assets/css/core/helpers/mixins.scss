@@ -1,20 +1,22 @@
-@mixin icon($unicode) {
-  font-family: FontAwesome, serif;
+@import "@fortawesome/fontawesome-free/scss/functions";
+
+@mixin icon($icon) {
+  font-family: $fa-style-family;
   font-weight: 400;
-  content: $unicode;
+  content: fa-content($icon);
 }
 
-@mixin icon-before($unicode, $marginRight : 5px) {
+@mixin icon-before($icon, $marginRight : 5px) {
   &::before {
-    @include icon($unicode);
+    @include icon($icon);
 
     margin-right: $marginRight;
   }
 }
 
-@mixin icon-after($unicode, $marginLeft : 5px) {
+@mixin icon-after($icon, $marginLeft : 5px) {
   &::after {
-    @include icon($unicode);
+    @include icon($icon);
 
     margin-left: $marginLeft;
   }

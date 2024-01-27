@@ -127,10 +127,8 @@
 {%- endblock ems_choice_row %}
 
 {% block colorpicker_widget -%}
-	<div class="input-group colorpicker-component">
-		<span class="input-group-addon"><i></i></span>
-	 	{{ block('form_widget') }}
-	</div>
+    {%- set type = 'color' -%}
+    {{- block('form_widget') -}}
 {%- endblock colorpicker_widget %}
 
 {% block select2_widget -%}

@@ -1,4 +1,8 @@
-{
-	"status": {{ globalStatus|json_encode()|raw }},
-	"body": {{ "<i class=\"fa fa-circle text-#{globalStatus}\"></i> #{globalStatus}"|json_encode()|raw }}
-}
+{%- trans_default_domain 'elements' -%}
+{%- set title = "elements.status.#{globalStatus}"|trans -%}
+{%- set response = {
+    status: globalStatus,
+    body: "<i class=\"fa fa-circle fa-2xs text-#{globalStatus}\"></i>  <span class=\"visually-hidden\">#{title}</span>",
+    title: title,
+} -%}
+{{- response|json_encode|raw -}}

@@ -1,64 +1,56 @@
-{% trans_default_domain 'EMSCoreBundle' %}{% if counter %}
+{% trans_default_domain 'EMSCoreBundle' %}
+{% if counter %}
+	<div class="card card-{{ theme_color }}">
+		<div class="card-header p-0 border-bottom-0">
+			<ul class="nav nav-tabs" role="tablist">
+				{% if countRejected > 0 %}
+					<li class="nav-item"><a href="#tab_rejected" data-bs-target="#tab_rejected" data-bs-toggle="pill" class="nav-link active" role="tab" aria-selected="true">
+						<i class="fa fa-ban"></i>
+						Rejected
+						<span class="badge badge-primary">{{ countRejected }}</span>
+					</a></li>
+				{% endif %}
 
-	<div class="nav-tabs-custom">
-		<ul class="nav nav-tabs">
-			{% if countRejected > 0 %}
-				<li class="active"><a href="#tab_rejected" data-bs-toggle="tab" aria-expanded="true">
-					<i class="fa fa-ban"></i>
-					Rejected
-					<span class="badge badge-primary">{{ countRejected }}</span>
-				</a></li>
-			{% endif %}
-
-			{% if countPending > 0 %}
-				<li class="{% if countRejected == 0 %}active{% endif %}"><a href="#tab_to_treat" data-bs-toggle="tab" aria-expanded="{% if countRejected == 0 %}true{%else%}false{% endif %}">
-					<i class="fa fa-hourglass-half" aria-hidden="true"></i>
-					{{ 'To be treated '|trans }}
-					<span class="badge badge-primary">{{ countPending }}</span>
-				</a></li>
-			{% endif %}
-			<li class="pull-right">
-                {% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
-					'lastPage': lastPage,
-					'currentPage': page,
-					'currentFilters': app.request.query,
-					'paginationPath': paginationPath,
-					'showAlwaysFirstAndLast': false
-				} %}
-			</li>
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane {% if countRejected > 0 %}active{% endif %}" id="tab_rejected">
-                {% include '@EMSAdminUI/bootstrap5/notification/inboxRejected.html.twig' %}
-			</div>
-			<!-- /.tab-pane -->
-			<div class="tab-pane{% if countRejected == 0 %}active{% endif %}" id="tab_to_treat">
-                {% include '@EMSAdminUI/bootstrap5/notification/inboxToTreat.html.twig' %}
-			</div>
-			<!-- /.tab-pane -->
+				{% if countPending > 0 %}
+					<li class="nav-item"><a href="#tab_to_treat" data-bs-target="#tab_to_treat" data-bs-toggle="pill" class="nav-link{% if countRejected == 0 %} active{% endif %}" aria-selected="{% if countRejected == 0 %}true{%else%}false{% endif %}">
+						<i class="fa fa-hourglass-half" aria-hidden="true"></i>
+						{{ 'To be treated '|trans }}
+						<span class="badge badge-primary">{{ countPending }}</span>
+					</a></li>
+				{% endif %}
+				<li class="pull-right">
+					{% include '@EMSAdminUI/bootstrap5/elements/pagination.html.twig' with {
+						'lastPage': lastPage,
+						'currentPage': page,
+						'currentFilters': app.request.query,
+						'paginationPath': paginationPath,
+						'showAlwaysFirstAndLast': false
+					} %}
+				</li>
+			</ul>
 		</div>
-		<!-- /.tab-content -->
+		<div class="card-body">
+			<div class="tab-content">
+				<div class="tab-pane fade{% if countRejected > 0 %} active show{% endif %}" id="tab_rejected" role="tabpanel">
+					{% include '@EMSAdminUI/bootstrap5/notification/inboxRejected.html.twig' %}ssss
+				</div>
+				<div class="tab-pane fade{% if countRejected == 0 %} active show{% endif %}" id="tab_to_treat" role="tabpanel">
+					{% include '@EMSAdminUI/bootstrap5/notification/inboxToTreat.html.twig' %}fffff
+				</div>
+			</div>
+		</div>
 	</div>
-
-
-
-	{% else %}
-          <div class="box box-default">
-            <div class="box-header with-border">
-              <i class="fa fa-check"></i>
-
-              <h3 class="box-title">All treated</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-
-              <div class="callout callout-success">
-                <h4>Nothing to treat</h4>
-
-                <p>You are up to date.</p>
-              </div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-	{% endif %}
+{% else %}
+	<div class="box box-default">
+		<div class="box-header with-border">
+			<i class="fa fa-check"></i>
+			<h3 class="box-title">All treated</h3>
+		</div>
+		<div class="box-body">
+			<div class="callout callout-success">
+				<h4>Nothing to treat</h4>
+				<p>You are up to date.</p>
+			</div>
+		</div>
+	</div>
+{% endif %}

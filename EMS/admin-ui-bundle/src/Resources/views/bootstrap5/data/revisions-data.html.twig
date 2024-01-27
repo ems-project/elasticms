@@ -114,24 +114,28 @@
 	{% if revision.tasksEnabled %}
 		{% set tabs = tabs|merge([{ name: 'tab_tasks', label: 'task.tab_tasks'|trans }]) %}
 	{% endif %}
-	<div id="revision-tabs" class="nav-tabs-custom">
-		<ul class="nav nav-tabs">
-			{% for tab in tabs|reverse %}
-				<li {{ loop.first ? 'class="active"' }}>
-					<a href="#{{ tab.name }}" data-bs-toggle="tab" aria-expanded="{{ loop.first ? 'true' : 'false' }}">{{ tab.label }}</a>
-				</li>
-			{% endfor %}
-		</ul>
-		<div class="tab-content">
-			{% for tab in tabs|reverse %}
-				<div class="tab-pane {{ loop.first ? 'active' }}" id="{{ tab.name }}">
-					{% if tab.name == 'tab_about_revision' %}
-						{{ block('revisionTabAboutRevision') }}
-					{% elseif tab.name == 'tab_tasks' %}
-						{{ block('revisionTabTasks') }}
-					{% endif %}
-				</div>
-			{% endfor %}
+	<div id="revision-tabs" class="card card-{{ theme_color }}">
+		<div class="card-header p-0 border-bottom-0">
+			<ul class="nav nav-tabs" role="tablist">
+				{% for tab in tabs|reverse %}
+					<li class="nav-item{{ loop.first ? ' active' }}">
+						<a href="#{{ tab.name }}" data-bs-target="#{{ tab.name }}" data-bs-toggle="pill" class="nav-link{% if loop.first %} active{% endif %}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}">{{ tab.label }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="card-body">
+			<div class="tab-content">
+				{% for tab in tabs|reverse %}
+					<div class="tab-pane fade{{ loop.first ? ' active show' }}" id="{{ tab.name }}" role="tabpanel">
+						{% if tab.name == 'tab_about_revision' %}
+							{{ block('revisionTabAboutRevision') }}
+						{% elseif tab.name == 'tab_tasks' %}
+							{{ block('revisionTabTasks') }}
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 {% endblock %}

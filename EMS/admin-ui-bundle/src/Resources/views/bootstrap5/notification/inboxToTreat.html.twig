@@ -1,8 +1,8 @@
 {% trans_default_domain 'EMSCoreBundle' %}{{ form_start(treatform) }}
 
-		{% if notifications|length <= 0  %}
-			<p>{{ 'No result for this filters combinaison'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'reset filters' }}</a></p>
-		{% else %}
+	{% if notifications|length <= 0  %}
+		<p>{{ 'No result for this filters combinaison'|trans }}: <a href="{{ path('notifications.inbox') }}">{{ 'reset filters' }}</a></p>
+	{% else %}
 
 		<div class="table-responsive">
 		<table class="table table-condensed table-striped">
@@ -73,15 +73,14 @@
 			{% endfor %}
 		</table>
 		</div>
-	<div class="">
-		<div class="btn-group">
-			<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#treatNotificationsModal">
-			  <i class="fa fa-gear"></i> Treat selection
-			</button>
+		<div class="">
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#treatNotificationsModal">
+				  <i class="fa fa-gear"></i> Treat selection
+				</button>
+			</div>
 		</div>
-		{% endif %}
-	</div>
-
+	{% endif %}
 
 
 	<!-- Modal -->
@@ -94,7 +93,6 @@
 	      </div>
 	      <div class="modal-body">
       		{{ form_row(treatform.response) }}
-{#       		{{ form_row(treatform.unpublishFrom) }}#}
       		{{ form_row(treatform.publishTo) }}
 	      </div>
 	      <div class="modal-footer">

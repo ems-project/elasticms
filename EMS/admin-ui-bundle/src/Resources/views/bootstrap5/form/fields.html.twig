@@ -1335,7 +1335,7 @@
             {% if form.options is defined and form.vars.editSubfields %}
                 <!-- Modal windows field options -->
                 <div class="modal fade" id="{{ form.vars.id }}_modal_options" role="dialog" aria-labelledby="myModalLabel">
-                  <div class="modal-dialog" role="document">
+                  <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -1344,31 +1344,35 @@
                         </h4>
                       </div>
                       <div class="modal-body">
-                            <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                    {% set active='active' %}
-                                    {% if form.options.displayOptions is defined %}
-                                        <li class="{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="true">Display</a></li>
-                                        {% set active='' %}
-                                    {%  endif %}
-                                    {% if form.options.mappingOptions is defined %}
-                                        <li class="{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Mapping</a></li>
-                                        {% set active='' %}
-                                    {%  endif %}
-                                    {% if form.options.restrictionOptions is defined %}
-                                      <li class="{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Restriction</a></li>
-                                        {% set active='' %}
-                                    {%  endif %}
-                                    {% if form.options.migrationOptions is defined %}
-                                      <li class="{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Migration</a></li>
-                                        {% set active='' %}
-                                    {%  endif %}
-                                    {% if form.options.extraOptions is defined %}
-                                      <li class="{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-toggle="tab" aria-expanded="false">Extra</a></li>
-                                        {% set active='' %}
-                                    {%  endif %}
-                                </ul>
-                                {{- form_widget(form.options, {'seed': form.vars.id} ) -}}
+                            <div class="card card-{{ theme_color }}">
+								<div class="card-header p-0 border-bottom-0">
+									<ul class="nav nav-tabs" role="tablist">
+										{% set active=' active' %}
+										{% if form.options.displayOptions is defined %}
+											<li class="nav-item{{ active }}"><a href="#tab_display_{{ form.vars.id }}" data-bs-target="#tab_display_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Display</a></li>
+											{% set active='' %}
+										{%  endif %}
+										{% if form.options.mappingOptions is defined %}
+											<li class="nav-item{{ active }}"><a href="#tab_mapping_{{ form.vars.id }}" data-bs-target="#tab_mapping_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Mapping</a></li>
+											{% set active='' %}
+										{%  endif %}
+										{% if form.options.restrictionOptions is defined %}
+										  <li class="nav-item{{ active }}"><a href="#tab_restriction_{{ form.vars.id }}" data-bs-target="#tab_restriction_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Restriction</a></li>
+											{% set active='' %}
+										{%  endif %}
+										{% if form.options.migrationOptions is defined %}
+										  <li class="nav-item{{ active }}"><a href="#tab_migration_{{ form.vars.id }}" data-bs-target="#tab_migration_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Migration</a></li>
+											{% set active='' %}
+										{%  endif %}
+										{% if form.options.extraOptions is defined %}
+										  <li class="nav-item{{ active }}"><a href="#tab_extra_{{ form.vars.id }}" data-bs-target="#tab_extra_{{ form.vars.id }}" class="nav-link{% if active != ''%} active{% endif %}" data-bs-toggle="pill" aria-selected="{% if active != ''%}true{%else%}false{% endif %}">Extra</a></li>
+											{% set active='' %}
+										{%  endif %}
+									</ul>
+                            	</div>
+								<div class="card-body">
+									{{- form_widget(form.options, {'seed': form.vars.id} ) -}}
+								</div>
                             </div>
                       </div>
                       <div class="modal-footer">

@@ -60,7 +60,7 @@
             </div>
         {% endif %}
 	</div>
-	<div class="row">
+	<div class="row mt-3">
 		<div class="col-12">
 			{{ block('revisionFooterTabs') }}
 		</div>
@@ -114,24 +114,28 @@
 	{% if revision.tasksEnabled %}
 		{% set tabs = tabs|merge([{ name: 'tab_tasks', label: 'task.tab_tasks'|trans }]) %}
 	{% endif %}
-	<div id="revision-tabs" class="nav-tabs-custom">
-		<ul class="nav nav-tabs">
-			{% for tab in tabs|reverse %}
-				<li {{ loop.first ? 'class="active"' }}>
-					<a href="#{{ tab.name }}" data-bs-toggle="tab" aria-expanded="{{ loop.first ? 'true' : 'false' }}">{{ tab.label }}</a>
-				</li>
-			{% endfor %}
-		</ul>
-		<div class="tab-content">
-			{% for tab in tabs|reverse %}
-				<div class="tab-pane {{ loop.first ? 'active' }}" id="{{ tab.name }}">
-					{% if tab.name == 'tab_about_revision' %}
-						{{ block('revisionTabAboutRevision') }}
-					{% elseif tab.name == 'tab_tasks' %}
-						{{ block('revisionTabTasks') }}
-					{% endif %}
-				</div>
-			{% endfor %}
+	<div id="revision-tabs" class="card card-{{ theme_color }}">
+		<div class="card-header p-0 border-bottom-0">
+			<ul class="nav nav-tabs" role="tablist">
+				{% for tab in tabs|reverse %}
+					<li class="nav-item{{ loop.first ? ' active' }}">
+						<a href="#{{ tab.name }}" data-bs-target="#{{ tab.name }}" data-bs-toggle="pill" class="nav-link{% if loop.first %} active{% endif %}" role="tab" aria-selected="{{ loop.first ? 'true' : 'false' }}">{{ tab.label }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="card-body">
+			<div class="tab-content">
+				{% for tab in tabs|reverse %}
+					<div class="tab-pane fade{{ loop.first ? ' active show' }}" id="{{ tab.name }}" role="tabpanel">
+						{% if tab.name == 'tab_about_revision' %}
+							{{ block('revisionTabAboutRevision') }}
+						{% elseif tab.name == 'tab_tasks' %}
+							{{ block('revisionTabTasks') }}
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 {% endblock %}
@@ -268,27 +272,31 @@
 {% endblock %}
 
 {% block revisionFooterTabs %}
-	<div class="nav-tabs-custom">
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#tab_referrers" data-bs-toggle="tab" aria-expanded="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>
-			<li class=""><a href="#tab_revisions" data-bs-toggle="tab" aria-expanded="false">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
-			{% if auditTable|default(false) %}
-				<li class=""><a href="#tab_audit" data-bs-toggle="tab" aria-expanded="false">Audit <small>({{ auditCount }})</small></a></li>
-			{% endif %}
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane active" id="tab_referrers">
-				{{ block('tabReferrers') }}
-			</div>
-			<div class="tab-pane" id="tab_revisions">
-				{{ block('tabRevisions') }}
-			</div>
-			{% if auditTable|default(false) %}
-				<div class="tab-pane" id="tab_audit">
-					{% form_theme auditTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-					{{ form(auditTable) }}
+	<div class="card card-{{ theme_color }}">
+		<div class="card-header p-0 border-bottom-0">
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="nav-item active"><a href="#tab_referrers" data-bs-target="#tab_referrers" data-bs-toggle="pill" class="nav-link active" role="tab" aria-controls="true">{{ 'views.data.revisions-data-html.linked-documents-in'|trans({'%environment%': revision.contentType.environment.label, '%length%': referrerResponse.documents|length, '%total%': referrerResponse.formattedTotal }) }}</a></li>
+				<li class="nav-item"><a href="#tab_revisions" data-bs-target="#tab_revisions" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">Revisions <small>{{ revisionsSummary|length }}/{{ counter }}</small></a></li>
+				{% if auditTable|default(false) %}
+					<li class="nav-item"><a href="#tab_audit" data-bs-target="#tab_audit" data-bs-toggle="pill" class="nav-link" role="tab" aria-controls="false">Audit <small>({{ auditCount }})</small></a></li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="card-body">
+			<div class="tab-content">
+				<div class="tab-pane fade active show" id="tab_referrers" role="tabpanel">
+					{{ block('tabReferrers') }}
 				</div>
-			{% endif %}
+				<div class="tab-pane fade" id="tab_revisions" role="tabpanel">
+					{{ block('tabRevisions') }}
+				</div>
+				{% if auditTable|default(false) %}
+					<div class="tab-pane fade" id="tab_audit" role="tabpanel">
+						{% form_theme auditTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+						{{ form(auditTable) }}
+					</div>
+				{% endif %}
+			</div>
 		</div>
 	</div>
 {% endblock %}

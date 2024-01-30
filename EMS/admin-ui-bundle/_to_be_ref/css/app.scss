@@ -1,0 +1,31 @@
+$ionicons-font-path: $node-modules-path + "ionicons/dist/fonts/";
+
+
+// Import custom Bootstrap variables
+@import "bootstrap-variables";
+
+// Import Bootstrap for Sass
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import "jquery_ui";
+@import "bootstrap_fix";
+@import "~fullcalendar/dist/fullcalendar.css";
+@import "~select2/src/scss/core";
+
+//
+@import "~daterangepicker/daterangepicker.css";
+@import "~eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css";
+@import "~font-awesome/scss/font-awesome";
+@import "~ionicons/dist/scss/ionicons";
+@import "~bootstrap-select/sass/bootstrap-select";
+@import "~bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css";
+@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
+
+@import "ems";
+@import "./component/media_library";
+@import "./component/json_menu_nested";
+@import "./modules/tasks";
+@import "./modules/spacer";
+@import "./modules/flags";
+@import "./modules/json_menu";
+@import "./fontello/animation.css";

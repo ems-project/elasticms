@@ -1,4 +1,31 @@
 {%- trans_default_domain 'elements' -%}
 
 <aside class="control-sidebar control-sidebar-dark">
+    <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+        <li class="nav-item">
+            <a title="{{ 'sidebar.tab.home.label'|trans|e('html_attr') }}" class="nav-link active" id="control-sidebar-home-tab-label" data-bs-toggle="pill"  href="#" data-bs-target="#control-sidebar-home-tab" role="tab" aria-controls="control-sidebar-home-tab" aria-selected="true">
+                <i class="fa fa-home"></i><span class="visually-hidden">{{ 'sidebar.tab.home.label'|trans }}</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a title="{{ 'sidebar.tab.jobs.label'|trans|e('html_attr') }}" class="nav-link" id="control-sidebar-jobs-tab-label" data-bs-toggle="pill" href="#" data-bs-target="#control-sidebar-jobs-tab" role="tab" aria-controls="control-sidebar-jobs-tab" aria-selected="false">
+                <i class="fa fa-terminal"></i><span class="visually-hidden">{{ 'sidebar.tab.jobs.label'|trans }}</span>
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content" id="control-sidebar-tab-content">
+        <div class="tab-pane fade dark show active" id="control-sidebar-home-tab" role="tabpanel" aria-labelledby="control-sidebar-home-tab-label">
+            <h3 class="control-sidebar-heading h4">{{ 'sidebar.tab.home.label'|trans }}</h3>
+        </div>
+        <div class="tab-pane fade dark" id="control-sidebar-jobs-tab" role="tabpanel" aria-labelledby="custom-tabs-two-profile-label">
+            <h3 class="control-sidebar-heading h4">{{ 'sidebar.tab.jobs.label'|trans }}</h3>
+            <ul class="control-sidebar-menu" id="commands-log">
+                {% if app.user %}
+                    {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::jobs', {
+                        'username' : app.user.username
+                    } ) ) }}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </aside>

@@ -73,6 +73,14 @@
         <source>elements.user-image.anonymous</source>
         <target>Anonymous user</target>
       </trans-unit>
+      <trans-unit id="8ZArGEQ" resname="sidebar.tab.home.label">
+        <source>sidebar.tab.home.label</source>
+        <target>Recent Activities</target>
+      </trans-unit>
+      <trans-unit id="9VXm7JM" resname="sidebar.tab.jobs.label">
+        <source>sidebar.tab.jobs.label</source>
+        <target>Last commands</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

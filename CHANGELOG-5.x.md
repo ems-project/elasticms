@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.13.4 (2024-01-31)
+### Bug Fixes
+* fix(core/user): find users for role broken by @Davidmattei in https://github.com/ems-project/elasticms/pull/738
+
 ## 5.13.3 (2024-01-26)
 ### Features
 * feat(admin): activate PdoSessionHandler (new db env) by @theus77 in https://github.com/ems-project/elasticms/pull/733

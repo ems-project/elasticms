@@ -82,6 +82,9 @@ class DeleteCommand extends AbstractCommand
             if (null !== $ouuid) {
                 throw new \RuntimeException(\sprintf('The %s option is forbidden in %s mode', self::OPTION_OUUID, $this->mode));
             }
+            if (null === $queryJson) {
+                throw new \RuntimeException(\sprintf('The %s option is required in %s mode', self::OPTION_QUERY, $this->mode));
+            }
 
             return $this->deleteByQuery($queryJson);
         }
@@ -115,11 +118,8 @@ class DeleteCommand extends AbstractCommand
         return parent::EXECUTE_SUCCESS;
     }
 
-    private function deleteByQuery(?string $queryJson): int
+    private function deleteByQuery(string $queryJson): int
     {
-        if (null === $queryJson) {
-            throw new \RuntimeException(\sprintf('The %s option is required in %s mode', self::OPTION_QUERY, $this->mode));
-        }
         $search = $this->elasticaService->convertElasticsearchSearch(Json::decode($queryJson));
         $this->io->progressStart($this->elasticaService->count($search));
         $scroll = $this->elasticaService->scroll($search);

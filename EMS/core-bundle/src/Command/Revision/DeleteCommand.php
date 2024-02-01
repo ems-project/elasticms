@@ -74,8 +74,12 @@ class DeleteCommand extends AbstractCommand
     {
         $this->io->title('EMSCO - Revision - Delete');
 
+        $queryJson = $this->getOptionStringNull(self::OPTION_QUERY);
         if (self::MODE_BY_QUERY === $this->mode) {
-            return $this->deleteByQuery();
+            return $this->deleteByQuery($queryJson);
+        }
+        if (null !== $queryJson) {
+            throw new \RuntimeException(\sprintf('The %s option is forbidden in %s mode', self::OPTION_QUERY, $this->mode));
         }
 
         $this->io->note(\sprintf('Selected "%s" contentType(s)', \implode(',', $this->contentTypeNames)));
@@ -101,9 +105,8 @@ class DeleteCommand extends AbstractCommand
         return parent::EXECUTE_SUCCESS;
     }
 
-    private function deleteByQuery(): int
+    private function deleteByQuery(?string $queryJson): int
     {
-        $queryJson = $this->getOptionStringNull(self::OPTION_QUERY);
         if (null === $queryJson) {
             throw new \RuntimeException(\sprintf('The %s option is required in %s mode', self::OPTION_QUERY, $this->mode));
         }

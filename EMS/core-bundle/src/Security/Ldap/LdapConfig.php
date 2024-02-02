@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Security\Ldap;
 
 use EMS\CoreBundle\Roles;
-use EMS\Helpers\Standard\Type;
 
 final class LdapConfig
 {

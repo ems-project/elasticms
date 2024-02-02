@@ -31,16 +31,16 @@ class HtmlSanitizerClass implements AttributeSanitizerInterface
         $classes = \explode(' ', $value);
         $classNames = \array_filter($classes, 'trim');
 
+        if (\count($this->settings['replace']) > 0) {
+            $classNames = \array_map(fn (string $className) => $this->settings['replace'][$className] ?? $className, $classNames);
+        }
+
         if (\count($this->settings['allow']) > 0) {
             $classNames = \array_filter($classNames, fn (string $className) => \in_array($className, $this->settings['allow']));
         }
 
         if (\count($this->settings['drop']) > 0) {
             $classNames = \array_filter($classNames, fn (string $className) => !\in_array($className, $this->settings['drop']));
-        }
-
-        if (\count($this->settings['replace']) > 0) {
-            $classNames = \array_map(fn (string $className) => $this->settings['replace'][$className] ?? $className, $classNames);
         }
 
         return \count($classNames) > 0 ? \implode(' ', $classNames) : null;

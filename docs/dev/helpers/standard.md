@@ -101,9 +101,9 @@ $settings = [
     ],
     'drop_elements' => [ 'iframe' ], // remove all `iframe` elements and content
     'classes' => [
-        'allow' => ['my-class', 'my-second-class'],
+        'allow' => ['my-class', 'my-second-class', 'new-class'],
         'drop' => ['delete', 'remove'],
-        'replace' => ['test' => 'example'], 
+        'replace' => ['old-class' => 'new-class'], // IMPORTANT: add new-class in the 'allow' array
     ]
 ]
 ```

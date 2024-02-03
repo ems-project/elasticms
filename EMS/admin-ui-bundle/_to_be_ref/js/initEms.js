@@ -161,7 +161,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
         toggleMenu();
         initSearchForm();
         autoOpenModal(queryString());
-        initAjaxFormSave();
         initJsonMenu();
         intAjaxModalLinks();
         initPostButtons();

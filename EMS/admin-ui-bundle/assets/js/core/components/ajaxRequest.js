@@ -1,33 +1,14 @@
 import $ from 'jquery'
+import notifications from './notifications'
 
 class AjaxRequest {
-  constructor () {
-    this.counter = 0
-  }
 
   initRequest () {
-    if (++this.counter > 0) {
-      $('#ajax-activity').addClass('fa-spin')
-    }
+      notifications.startActivity()
   }
 
   private_begin_response () {
-    if (--this.counter === 0) {
-      $('#ajax-activity').removeClass('fa-spin')
-    }
-  }
-
-  static private_add_messages (messages, color) {
-    if (messages) {
-      for (let index = 0; index < messages.length; ++index) {
-        const message = $($.parseHTML(messages[index]))
-        $('ul#activity-log').append('<li title="' + message.text() + '">' +
-                        '<a href="#" onclick="$(this).parent().remove(); ajaxRequest.updateCounter(); return false;" class="' + color + '">' +
-                        messages[index] +
-                        '</a>' +
-                        '</li>')
-      }
-    }
+      notifications.stopActivity()
   }
 
   post (url, data, modal) {
@@ -155,10 +136,9 @@ class AjaxRequest {
       }
 
       if (response.success) {
-        AjaxRequest.private_add_messages(response.notice, 'text-aqua')
+          notifications.addActivityMessages(response.notice)
         AjaxRequest.private_add_alerts(response.warning, 'warning', 'warning', 'Warning!')
         AjaxRequest.private_add_alerts(response.error, 'danger', 'ban', 'Error!')
-        AjaxRequest.updateCounter()
       } else {
         AjaxRequest.private_add_alerts(response.notice, 'info', 'info', 'Info!')
         AjaxRequest.private_add_alerts(response.warning, 'warning', 'warning', 'Warning!')
@@ -201,15 +181,6 @@ class AjaxRequest {
       }
       output += '</div>'
       $('#' + modal + ' .modal-body').append(output)
-    }
-  }
-
-  static updateCounter () {
-    const numberOfElem = $('ul#activity-log >li').length
-    if (numberOfElem) {
-      $('#system-messages >a >span').text(numberOfElem)
-    } else {
-      $('#system-messages >a >span').empty()
     }
   }
 

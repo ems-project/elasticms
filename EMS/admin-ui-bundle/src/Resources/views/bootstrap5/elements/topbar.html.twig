@@ -46,10 +46,11 @@
                 <span class="visually-hidden">{{ 'topbar.fullscreen.toggle'|trans }}</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item"  id="system-messages">
             <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
                 <i id="ajax-activity" class="fa fa-refresh"></i>
                 <span class="visually-hidden">{{ 'topbar.control_sidebar.toggle'|trans }}</span>
+                <span id="activity-counter" class="badge bg-{{ theme_color }} navbar-badge"></span>
             </a>
         </li>
         {% if app.user %}

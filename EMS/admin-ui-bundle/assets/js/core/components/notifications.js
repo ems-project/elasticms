@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import { Toast } from 'bootstrap'
+import { Toast, Modal } from 'bootstrap'
 
 class Notifications {
   constructor () {
@@ -84,6 +84,15 @@ class Notifications {
       delay: 5000
     })
     toast.show()
+  }
+
+  outOfSync () {
+    const outOfSync = document.getElementById('data-out-of-sync')
+    const modal = new Modal(outOfSync, {
+      keyboard: false,
+      backdrop: 'static'
+    })
+    modal.show()
   }
 }
 

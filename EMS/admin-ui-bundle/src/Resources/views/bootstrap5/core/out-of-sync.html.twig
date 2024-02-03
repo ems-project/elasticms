@@ -1,0 +1,22 @@
+{%- trans_default_domain 'EMSCoreBundle' -%}
+<div class="modal core-modal fade" id="data-out-of-sync" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <i class="fa fa-ban"></i>&nbsp;{{ 'out-of-sync.modal.title'|trans }}
+                </h4>
+            </div>
+            <div class="modal-body ajax-modal-body">
+                {{ 'out-of-sync.modal.something-wrong'|trans }}
+                <br>
+                {{ 'out-of-sync.modal.please-reload'|trans }}
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" onclick="location.reload();">
+                    <i class="fa fa-refresh"></i>&nbsp;{{ 'out-of-sync.modal.reload-page'|trans }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

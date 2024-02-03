@@ -144,14 +144,14 @@ class AjaxRequest {
     } catch (e) {
       console.log(e)
     }
-    $('#data-out-of-sync').modal('show')
+    notifications.outOfSync()
     return null
   }
 
   requestFailed (e) {
     console.log(e)
     this.private_begin_response()
-    $('#data-out-of-sync').modal('show')
+    notifications.outOfSync()
   }
 }
 

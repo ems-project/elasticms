@@ -39,8 +39,16 @@ class Notifications {
     }
   }
 
+  addNoticeMessages (notices) {
+    this.addToastMessages(notices, 'Notice', 'info', 'fa-info', true)
+  }
+
   addWarningMessages (warnings) {
     this.addToastMessages(warnings, 'Warning', 'warning', 'fa-warning', true)
+  }
+
+  addErrorMessages (warnings) {
+    this.addToastMessages(warnings, 'Error', 'danger', 'fa-ban', false)
   }
 
   addToastMessages (messages, title, level, iconClass, autoHide) {

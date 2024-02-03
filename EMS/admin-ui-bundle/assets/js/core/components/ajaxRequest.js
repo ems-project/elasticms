@@ -129,19 +129,16 @@ class AjaxRequest {
 
       if (modal) {
         $('#' + modal).modal('show')
-        AjaxRequest.private_add_modal(modal, response.notice, 'info', 'info', 'Info!')
-        AjaxRequest.private_add_modal(modal, response.warning, 'warning', 'warning', 'Warning!')
-        AjaxRequest.private_add_modal(modal, response.error, 'danger', 'ban', 'Error!')
       }
 
       if (response.success) {
         notifications.addActivityMessages(response.notice)
         notifications.addWarningMessages(response.warning)
-        AjaxRequest.private_add_alerts(response.error, 'danger', 'ban', 'Error!')
+        notifications.addErrorMessages(response.error)
       } else {
-        AjaxRequest.private_add_alerts(response.notice, 'info', 'info', 'Info!')
-        AjaxRequest.private_add_alerts(response.warning, 'warning', 'warning', 'Warning!')
-        AjaxRequest.private_add_alerts(response.error, 'danger', 'ban', 'Error!')
+        notifications.addNoticeMessages(response.notice)
+        notifications.addWarningMessages(response.warning)
+        notifications.addErrorMessages(response.error)
       }
       return response
     } catch (e) {
@@ -149,38 +146,6 @@ class AjaxRequest {
     }
     $('#data-out-of-sync').modal('show')
     return null
-  }
-
-  static private_add_alerts (alerts, cls, icon, title) {
-    if (alerts) {
-      let output = '<div class="alert alert-' + cls + ' alert-dismissible">' +
-                 '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
-                 ' <h4><i class="icon fa fa-' + icon + '"></i> ' +
-                 title +
-                 ' </h4>'
-
-      for (let index = 0; index < alerts.length; ++index) {
-        output += ' <div class="flash-notice">' + alerts[index] + '</div>'
-      }
-      output += '</div>'
-      $('#flashbags').append(output)
-    }
-  }
-
-  static private_add_modal (modal, alerts, cls, icon, title) {
-    if (alerts) {
-      let output = '<div class="alert alert-' + cls + ' alert-dismissible">' +
-                 '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
-                 ' <h4><i class="icon fa fa-' + icon + '"></i> ' +
-                 title +
-                 ' </h4>'
-
-      for (let index = 0; index < alerts.length; ++index) {
-        output += ' <div class="flash-notice">' + alerts[index] + '</div>'
-      }
-      output += '</div>'
-      $('#' + modal + ' .modal-body').append(output)
-    }
   }
 
   requestFailed (e) {

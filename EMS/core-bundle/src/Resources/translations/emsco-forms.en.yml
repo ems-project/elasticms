@@ -110,7 +110,8 @@ ROLE_USER_READ: 'User read'
 ROLE_WEBMASTER: Webmaster
 icon:
     elasticms-icons: 'ElasticMS icons'
-    fa4-icons: 'Font Awsome 4 (dep)'
+    fa6-icons: 'Font Awesome 6'
+    fa4-icons: 'Font Awesome 4 (dep)'
     glyphicon-bs3-icons: 'Glyphicon for Bootstrap 3 (dep)'
     not-defined: 'Not Defined'
     ems-ball: 'Ems Ball'

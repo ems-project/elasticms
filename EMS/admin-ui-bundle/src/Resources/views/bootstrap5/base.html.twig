@@ -156,31 +156,6 @@
 
     <!-- Main content -->
     <section class="content">
-    	<div id="flashbags">{% include '@EMSAdminUI/bootstrap5/core/alerts.twig' %}</div>
-
-      <!-- Your Page Content Here -->
-      {% block body %}{% endblock %}
-
-		<div class="modal fade" id="data-out-of-sync" tabindex="-1" role="dialog" aria-labelledby="myModalOutOfSync">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalOutOfSync">
-							<strong>Out of sync</strong>
-				</h4>
-		      </div>
-		      <div class="modal-body">
-				There is something wrong with this application. Please reload the page.
-			  </div>
-		      <div class="modal-footer">
-		      	<div class="btn-group">
-			        <button type="button" class="btn btn-primary" onclick="location.reload();"><i class="fa fa-refresh"></i> Reload</button>
-		      	</div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
 
 		<div class="modal fade" id="modal-notifications" tabindex="-1" role="dialog" aria-labelledby="myModalNotifications">
 		  <div class="modal-dialog" role="document">
@@ -204,48 +179,6 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Main Footer -->
-  <footer class="main-footer no-print">
-    <!-- To the right -->
-    <div class="pull-right">
-        {{ 'core.version'|trans({ '%core%': ems_version('core'), '%symfony%': ems_version('symfony') }, 'emsco-core') }}
-    </div>
-    <!-- Default to the left -->
-    <a href="http://www.elasticms.eu/">elastic<b>ms</b></a>
-  </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li class="active"><a href="#control-sidebar-home-tab" data-bs-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-bs-toggle="tab"><i class="fa fa-terminal"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu" id="activity-log">
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-      </div>
-      <!-- /.tab-pane -->
-      <!-- Commands tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-          <h3 class="control-sidebar-heading">Last commands</h3>
-          <ul class="control-sidebar-menu" id="commands-log">
-              {% if app.user %}
-                  {{ render(controller('EMS\\CoreBundle\\Controller\\TwigElementsController::jobs', {
-                      'username' : app.user.username
-                  } ) ) }}
-              {% endif %}
-          </ul>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -260,10 +193,6 @@
       <div class="modal-body">
         <div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>
       </div>
-{#       <div class="modal-footer">#}
-{#         <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>#}
-{#         <button type="button" class="btn btn-primary">Send message</button>#}
-{#       </div>#}
     </div>
   </div>
 </div>

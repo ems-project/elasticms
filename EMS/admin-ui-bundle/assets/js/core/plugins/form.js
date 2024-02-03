@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import ajaxRequest from '../components/AjaxRequest'
+import ajaxRequest from '../components/ajaxRequest'
 
 class Form {
   load (target) {

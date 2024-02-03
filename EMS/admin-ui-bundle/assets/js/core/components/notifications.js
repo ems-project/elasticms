@@ -7,13 +7,13 @@ class Notifications {
 
   startActivity () {
     if (++this.counter > 0) {
-        document.getElementById('ajax-activity').classList.add("fa-spin")
+      document.getElementById('ajax-activity').classList.add('fa-spin')
     }
   }
 
   stopActivity () {
     if (--this.counter === 0) {
-        document.getElementById('ajax-activity').classList.remove("fa-spin")
+      document.getElementById('ajax-activity').classList.remove('fa-spin')
     }
   }
 
@@ -23,17 +23,17 @@ class Notifications {
     }
     const activityList = document.getElementById('activity-log')
     for (let index = 0; index < messages.length; ++index) {
-        const listItem = document.createElement('li')
-        listItem.innerHTML = messages[index]
-        listItem.setAttribute('title', listItem.textContent)
-        activityList.insertAdjacentElement("beforeend", listItem)
+      const listItem = document.createElement('li')
+      listItem.innerHTML = messages[index]
+      listItem.setAttribute('title', listItem.textContent)
+      activityList.insertAdjacentElement('beforeend', listItem)
     }
     this.updateCounter()
   }
 
   updateCounter () {
     const numberOfElem = document.querySelectorAll('ul#activity-log>li').length
-      document.getElementById('activity-counter').innerHTML = 0 === numberOfElem ? '' : numberOfElem
+    document.getElementById('activity-counter').innerHTML = numberOfElem === 0 ? '' : numberOfElem
   }
 
   addNoticeMessages (notices) {

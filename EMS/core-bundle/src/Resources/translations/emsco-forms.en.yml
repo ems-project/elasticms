@@ -109,6 +109,9 @@ ROLE_USER_MANAGEMENT: 'User Management'
 ROLE_USER_READ: 'User read'
 ROLE_WEBMASTER: Webmaster
 icon:
+    elasticms-icons: 'ElasticMS icons'
+    fa4-icons: 'Font Awsome 4 (dep)'
+    glyphicon-bs3-icons: 'Glyphicon for Bootstrap 3 (dep)'
     not-defined: 'Not Defined'
     ems-ball: 'Ems Ball'
     500px: 500px
@@ -691,9 +694,7 @@ icon:
     deviantart: Deviantart
     digg: Digg
     dribbble: Dribbble
-    dropbox-old: Dropbox (dep)
     dropbox: Dropbox
-    drupal-old: Drupal (dep)
     drupal: Drupal
     empire: Empire
     facebook: Facebook

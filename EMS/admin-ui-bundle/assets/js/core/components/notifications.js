@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { Toast, Modal } from 'bootstrap'
 
 class Notifications {
@@ -8,13 +7,13 @@ class Notifications {
 
   startActivity () {
     if (++this.counter > 0) {
-      $('#ajax-activity').addClass('fa-spin')
+        document.getElementById('ajax-activity').classList.add("fa-spin")
     }
   }
 
   stopActivity () {
     if (--this.counter === 0) {
-      $('#ajax-activity').removeClass('fa-spin')
+        document.getElementById('ajax-activity').classList.remove("fa-spin")
     }
   }
 
@@ -22,21 +21,19 @@ class Notifications {
     if (!Array.isArray(messages) || messages.length === 0) {
       return
     }
-    const activityList = $('ul#activity-log')
+    const activityList = document.getElementById('activity-log')
     for (let index = 0; index < messages.length; ++index) {
-      const message = $($.parseHTML(messages[index]))
-      activityList.append(`<li title="${message.text()}">${messages[index]}</li>`)
+        const listItem = document.createElement('li')
+        listItem.innerHTML = messages[index]
+        listItem.setAttribute('title', listItem.textContent)
+        activityList.insertAdjacentElement("beforeend", listItem)
     }
     this.updateCounter()
   }
 
   updateCounter () {
-    const numberOfElem = $('ul#activity-log>li').length
-    if (numberOfElem) {
-      $('#activity-counter').text(numberOfElem)
-    } else {
-      $('#activity-counter').empty()
-    }
+    const numberOfElem = document.querySelectorAll('ul#activity-log>li').length
+      document.getElementById('activity-counter').innerHTML = 0 === numberOfElem ? '' : numberOfElem
   }
 
   addNoticeMessages (notices) {

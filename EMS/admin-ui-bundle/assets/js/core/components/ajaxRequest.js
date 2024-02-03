@@ -2,13 +2,12 @@ import $ from 'jquery'
 import notifications from './notifications'
 
 class AjaxRequest {
-
   initRequest () {
-      notifications.startActivity()
+    notifications.startActivity()
   }
 
   private_begin_response () {
-      notifications.stopActivity()
+    notifications.stopActivity()
   }
 
   post (url, data, modal) {
@@ -136,8 +135,8 @@ class AjaxRequest {
       }
 
       if (response.success) {
-          notifications.addActivityMessages(response.notice)
-        AjaxRequest.private_add_alerts(response.warning, 'warning', 'warning', 'Warning!')
+        notifications.addActivityMessages(response.notice)
+        notifications.addWarningMessages(response.warning)
         AjaxRequest.private_add_alerts(response.error, 'danger', 'ban', 'Error!')
       } else {
         AjaxRequest.private_add_alerts(response.notice, 'info', 'info', 'Info!')

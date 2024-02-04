@@ -220,6 +220,7 @@ html.maximized-card {
 
   @if $enable-rounded {
     @include border-top-radius($border-radius);
+
     &:first-child {
       border-radius: inherit;
     }

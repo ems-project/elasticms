@@ -1,6 +1,3 @@
-import AjaxRequest from "./AjaxRequest";
-window.AjaxRequest = AjaxRequest;
-window.ajaxRequest = new AjaxRequest();
 window.object_search_url = document.querySelector("BODY").getAttribute('data-search-api');
 window.ems_wysiwyg_type_filters = JSON.parse(document.querySelector("BODY").getAttribute('data-wysiwyg-type-filters'));
 

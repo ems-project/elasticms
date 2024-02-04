@@ -31,6 +31,5 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     })
 };
 
-require('./helpers');
 require('./initEms');
 

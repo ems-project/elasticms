@@ -59,9 +59,10 @@ class FileController extends AbstractController
     public function extractFileContent(Request $request, string $sha1, bool $forced = false): Response
     {
         $this->closeSession($request);
+        $filename = $request->get('name', $sha1);
 
         try {
-            $data = $this->assetExtractorService->extractMetaData($sha1, null, $forced);
+            $data = $this->assetExtractorService->extractMetaData($sha1, null, $forced, $filename);
         } catch (NotFoundException) {
             throw new NotFoundHttpException(\sprintf('Asset %s not found', $sha1));
         }

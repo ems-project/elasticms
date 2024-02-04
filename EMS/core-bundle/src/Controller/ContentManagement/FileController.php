@@ -68,7 +68,7 @@ class FileController extends AbstractController
         }
 
         $response = $this->render("@$this->templateNamespace/ajax/extract-data-file.json.twig", [
-            'success' => true,
+            'success' => !$data->isEmpty(),
             'data' => $data,
         ]);
         $response->headers->set('Content-Type', 'application/json');

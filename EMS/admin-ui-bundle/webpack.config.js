@@ -48,6 +48,7 @@ module.exports = (env, argv) => {
         entry: {
             'app': './assets/js/app.js',
             'action': './assets/js/action.js',
+            'managed-alias': './assets/js/managed-alias.js',
         },
         output: {
             path: path.resolve(__dirname, 'src/Resources/public'),

@@ -48,6 +48,7 @@ module.exports = (env, argv) => {
         entry: {
             'app': './assets/js/app.js',
             'action': './assets/js/action.js',
+            'calendar': './assets/js/calendar.js',
             'criteria-table': './assets/js/criteria-table.js',
             'criteria-view': './assets/js/criteria-view.js',
             'hierarchical': './assets/js/hierarchical.js',

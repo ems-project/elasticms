@@ -47,6 +47,7 @@ module.exports = (env, argv) => {
         context: path.resolve(__dirname, './'),
         entry: {
             'app': './assets/js/app.js',
+            'action': './assets/js/action.js',
         },
         output: {
             path: path.resolve(__dirname, 'src/Resources/public'),

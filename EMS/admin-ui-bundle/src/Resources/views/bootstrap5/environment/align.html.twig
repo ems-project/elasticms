@@ -82,7 +82,10 @@
             <th style="width: 10px">#</th>
 
             <th>
-                <input type="checkbox" data-grouped-checkbox-target=".item-to-align">
+                <div class="icheck-primary text-center" title="{{ 'environment.align.checkbox-all'|trans }}">
+                    <input type="checkbox" id="align-env-checkbox-all" data-grouped-checkbox-target=".item-to-align"/>
+                    <label for="align-env-checkbox-all"><span class="visually-hidden">{{ 'environment.align.checkbox-all'|trans }}</span></label>
+                </div>
             </th>
               {% include '@EMSAdminUI/bootstrap5/elements/sortable-th.html.twig' with {
                  'title': 'Content type'|trans,
@@ -114,7 +117,10 @@
               <td>{{ loop.index+((page-1)*paging_size) }}.</td>
               <td>
                   {% if  (is_granted('ROLE_ALLOW_ALIGN') and is_granted(item.contentType.roles.publish))  %}
-                    <input class="item-to-align" type="checkbox" name="compare_environment_form[item_to_align][{{ minrev[1] }}]" value="{{ item.content_type_name }}:{{ item.ouuid }}">
+                    <div class="icheck-primary text-center" title="{{ 'environment.align.selected'|trans }}">
+                        <input class="item-to-align" type="checkbox" id="compare_environment_form[item_to_align][{{ minrev[1] }}]" name="compare_environment_form[item_to_align][{{ minrev[1] }}]" value="{{ item.content_type_name }}:{{ item.ouuid }}">
+                        <label for="compare_environment_form[item_to_align][{{ minrev[1] }}]"><span class="visually-hidden">{{ 'environment.align.selected'|trans }}</span></label>
+                    </div>
                   {% endif %}
               </td>
               <td class="text-{{ item.color }}"><i class="{% if item.icon %}{{item.icon}}{% else %}fa fa-book{% endif %}"></i> {{ item.content_type_singular_name }}</td>

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import ajaxRequest from '../components/ajaxRequest'
 
 class Job {
   load (target) {
@@ -20,9 +21,9 @@ class Job {
   loadRequestJob (target) {
     $(target).find('a.request_job').on('click', function (e) {
       e.preventDefault()
-      window.ajaxRequest.post($(e.target).data('url'))
+      ajaxRequest.post($(e.target).data('url'))
         .success(function (message) {
-          window.ajaxRequest.post(message.jobUrl)
+          ajaxRequest.post(message.jobUrl)
           $('ul#commands-log').prepend('<li title="Job ' + message.jobId + '">' +
                         '<a href="' + message.url + '" >' +
                         'Job #' + message.jobId +

@@ -3,6 +3,7 @@ import FileUploader from '@elasticms/file-uploader'
 import { AddedDomEvent } from '../events/addedDomEvent'
 import PickFileFromServer from '../helpers/pickFileFromServer'
 import '../../../css/core/plugins/file.scss'
+import ajaxRequest from '../components/ajaxRequest'
 
 class File {
   constructor () {
@@ -235,7 +236,7 @@ class File {
     uploadTab.show()
     previewTab.hide()
 
-    window.ajaxRequest.get(urlPattern)
+    ajaxRequest.get(urlPattern)
       .success(function (response) {
         $(dateInput).val(response.date)
         $(authorInput).val(response.author)

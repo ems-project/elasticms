@@ -244,11 +244,6 @@ class File {
         $(contentInput).val(response.content)
         $(titleInput).val(response.title)
       })
-      .fail(function () {
-        const modal = $('#modal-notifications')
-        $(modal.find('.modal-body')).html('Something went wrong while extrating information from file')
-        modal.modal('show')
-      })
       .always(function () {
         $(progressText).html('')
         uploadTab.hide()

@@ -71,3 +71,7 @@
     {{ parent() }}
 
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('action.js', 'emsadminui') }}"></script>
+{% endblock %}

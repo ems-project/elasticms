@@ -1,4 +1,3 @@
-window.object_search_url = document.querySelector("BODY").getAttribute('data-search-api');
 window.ems_wysiwyg_type_filters = JSON.parse(document.querySelector("BODY").getAttribute('data-wysiwyg-type-filters'));
 
 require('admin-lte/plugins/timepicker/bootstrap-timepicker');
@@ -32,6 +31,5 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
     })
 };
 
-require('./helpers');
 require('./initEms');
 

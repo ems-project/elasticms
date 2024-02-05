@@ -14,6 +14,20 @@ class Select {
       placeholder: '',
       escapeMarkup: function (markup) { return markup }
     })
+    this.checkboxAll(target)
+  }
+
+  checkboxAll (target) {
+    const checkboxesAll = target.querySelectorAll('input[data-grouped-checkbox-target]')
+    for (let i = 0; i < checkboxesAll.length; ++i) {
+      const selector = checkboxesAll[i].dataset.groupedCheckboxTarget
+      checkboxesAll[i].addEventListener('change', function () {
+        const targets = document.querySelectorAll(selector)
+        for (let j = 0; j < targets.length; ++j) {
+          targets[j].checked = this.checked
+        }
+      })
+    }
   }
 }
 

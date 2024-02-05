@@ -47,6 +47,13 @@ module.exports = (env, argv) => {
         context: path.resolve(__dirname, './'),
         entry: {
             'app': './assets/js/app.js',
+            'action': './assets/js/action.js',
+            'calendar': './assets/js/calendar.js',
+            'criteria-table': './assets/js/criteria-table.js',
+            'criteria-view': './assets/js/criteria-view.js',
+            'hierarchical': './assets/js/hierarchical.js',
+            'i18n': './assets/js/i18n.js',
+            'managed-alias': './assets/js/managed-alias.js',
         },
         output: {
             path: path.resolve(__dirname, 'src/Resources/public'),

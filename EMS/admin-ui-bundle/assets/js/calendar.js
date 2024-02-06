@@ -1,5 +1,6 @@
 'use strict'
 import $ from 'jquery'
+import ajaxRequest from './core/components/ajaxRequest'
 
 function updateEvent (event) {
   const data = {
@@ -10,7 +11,7 @@ function updateEvent (event) {
   if (event.end) {
     data.end = event.end.format()
   }
-  window.ajaxRequest.post(divCalendar.data('replan-calendar-url'), data)
+  ajaxRequest.post(divCalendar.data('replan-calendar-url'), data)
 }
 
 const divCalendar = $('#calendar')
@@ -60,7 +61,7 @@ $(function () {
       let data = $('form[name=search_form]').serialize()
       data = data + '&from=' + from.format() + '&to=' + to.format()
 
-      window.ajaxRequest.get(divCalendar.data('search-calendar-url'), data)
+      ajaxRequest.get(divCalendar.data('search-calendar-url'), data)
         .success(function (response) {
           callback(response.events)
         })

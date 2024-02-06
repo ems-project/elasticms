@@ -2,6 +2,7 @@
 import $ from 'jquery'
 import { luma } from './core/helpers/color'
 import { formatRepo } from './core/helpers/repo'
+import ajaxRequest from './core/components/ajaxRequest'
 
 const form = $('#criteria-form')
 
@@ -74,7 +75,7 @@ window.onload = function () {
           criteriaField: form.data('criteria-field')
         }
 
-        window.ajaxRequest.post(form.data('add-url'), data)
+        ajaxRequest.post(form.data('add-url'), data)
           .success(function () {
             optionElem.attr('data-status', 'added')
           })
@@ -99,7 +100,7 @@ window.onload = function () {
           criteriaField: form.data('criteria-field')
         }
 
-        window.ajaxRequest.post(form.data('remove-url'), data)
+        ajaxRequest.post(form.data('remove-url'), data)
           .success(function () {
             optionElem.attr('data-status', 'removed')
           })

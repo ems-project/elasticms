@@ -316,7 +316,7 @@ class SmartCrop
 
     private function thirds(float $x): float
     {
-        $x = (($x - (1 / 3) + 1.0) % 2.0 * 0.5 - 0.5) * 16;
+        $x = ((int) ($x - (1 / 3) + 1.0) % 2.0 * 0.5 - 0.5) * 16;
 
         return \max(1.0 - $x * $x, 0.0);
     }

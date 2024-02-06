@@ -1,5 +1,18 @@
 # Changelog 5.x
 
+## 5.13.5 (2024-02-05)
+### Bug Fixes
+* fix(admin): db env is prod environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/751
+* fix(core/choice):  duplicate helptext in choice block by @theus77 in https://github.com/ems-project/elasticms/pull/745
+* fix(core/choice): choice with linked collection by @theus77 in https://github.com/ems-project/elasticms/pull/742
+* fix(core/ldap): config contains empty strings by @Davidmattei in https://github.com/ems-project/elasticms/pull/747
+* fix(core/revision): delete command by query only for query and delete oldest by OUUID by @theus77 in https://github.com/ems-project/elasticms/pull/741
+* fix(core/tika): better error management with file that are not supported by tika by @theus77 in https://github.com/ems-project/elasticms/pull/750
+
+## 5.13.4 (2024-01-31)
+### Bug Fixes
+* fix(core/user): find users for role broken by @Davidmattei in https://github.com/ems-project/elasticms/pull/738
+
 ## 5.13.3 (2024-01-26)
 ### Features
 * feat(admin): activate PdoSessionHandler (new db env) by @theus77 in https://github.com/ems-project/elasticms/pull/733

@@ -137,16 +137,28 @@ export default class MediaLibrary {
     }
     _onClickButtonFolderRename(button) {
         const folderId = button.dataset.id;
-        const folderElement = this.#elements.listFolders.querySelector(`[data-id='${folderId}']`);
 
         ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/rename`, size: 'sm'}, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
-            if (json.hasOwnProperty('folderName')) folderElement.innerHTML = json.folderName;
+            if (!json.hasOwnProperty('jobId')) return;
 
-            this._getHeader().then(() => {
-                ajaxModal.close();
-                this.loading(false);
+            let jobProgressBar = new ProgressBar('progress-' + json.jobId, {
+                label: 'Renaming',
+                value: 100,
+                showPercentage: false,
             });
+
+            ajaxModal.getBodyElement().append(jobProgressBar.element());
+            this.loading(true);
+
+            Promise.allSettled([
+                this._startJob(json.jobId),
+                this._jobPolling(json.jobId, jobProgressBar)
+            ])
+                .then(() => this._getFolders())
+                .then(() => setTimeout(() => {}, 1000))
+                .then(() => ajaxModal.close())
+            ;
         });
     }
     _onClickButtonHome() {
@@ -358,6 +370,35 @@ export default class MediaLibrary {
         observer.observe(divLoadMore);
     }
 
+    async _jobPolling(jobId, jobProgressBar) {
+        const jobStatus = await this._getJobStatus(jobId);
+
+        if (jobStatus.started === true && jobStatus.progress > 0) {
+            jobProgressBar.status('Running ...').progress(jobStatus.progress).style('success');
+        }
+        if (jobStatus.done === true) {
+            jobProgressBar.status('Finished').progress(100);
+            return jobStatus;
+        }
+
+        await new Promise((r) => setTimeout(r, 1500));
+        return await this._jobPolling(jobId, jobProgressBar);
+    }
+    async _startJob(jobId) {
+        const response = await fetch(`/job/start/${jobId}`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json'},
+        });
+        return response.json();
+    }
+
+    async _getJobStatus(jobId) {
+        const response = await fetch(`/job/status/${jobId}`, {
+            method: "GET",
+            headers: { 'Content-Type': 'application/json'},
+        });
+        return response.json();
+    }
     async _get(path) {
         this.loading(true);
         const response = await fetch(`${this.#pathPrefix}${path}`, {

@@ -27,6 +27,7 @@ use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class RevisionService implements RevisionServiceInterface
 {
@@ -224,6 +225,17 @@ class RevisionService implements RevisionServiceInterface
     public function getCurrentRevisionByOuuidAndContentType(string $ouuid, string $contentType): ?Revision
     {
         return $this->get($ouuid, $contentType);
+    }
+
+    public function lock(Revision $revision, ?UserInterface $user = null, ?\DateTime $lockTime = null): Revision
+    {
+        $this->dataService->lockRevision(
+            revision: $revision,
+            username: $user?->getUserIdentifier(),
+            lockTime: $lockTime
+        );
+
+        return $revision;
     }
 
     /**

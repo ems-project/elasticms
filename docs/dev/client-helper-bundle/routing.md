@@ -142,6 +142,37 @@ This redirect may take 3 parameters:
  * `query`: associative array containing the non-mandatory parameters (such those passed via the request to the controller). Default value `[]`.
 
 
+#### Redirect a host
+
+When you have a domain `fqdn.tld` you may want that the website answers to those both FQDNs `fqdn.tld` and `www.fqdn.tld`.
+But, for SEO reasons, you also would like to redirect `fqdn.tld` requests to `www.fqdn.tld`.
+Use the following recipe:
+
+In `routes.yaml`
+```yaml
+redirect_hosts:
+  config:
+    path: '{path}'
+    host: 'fqdn.tld'
+    requirements: { path: '.*' }
+    controller: 'emsch.controller.router::redirect'
+  template_static: template/redirects/hosts.json.twig
+```
+
+In `template/redirects/hosts.json.twig`
+```twig
+{%- block request %}
+    {% apply spaceless %}
+        {{ {
+            url: 'https://www.pensionstat.be/' ~ app.request.get('path', '/'),
+            status: 301,
+        }|json_encode|raw }}
+    {% endapply %}
+{% endblock request -%}
+
+```
+
+
 
 ### Search controller
 

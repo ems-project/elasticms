@@ -323,13 +323,17 @@ class RevisionService implements RevisionServiceInterface
     /**
      * @param array<mixed> $rawData
      */
-    public function updateRawDataByEmsLink(EMSLink $emsLink, array $rawData, bool $merge = true): Revision
+    public function updateRawDataByEmsLink(EMSLink $emsLink, array $rawData, bool $merge = true, ?string $username = null): Revision
     {
-        $draft = $this->dataService->initNewDraft($emsLink->getContentType(), $emsLink->getOuuid());
+        $draft = $this->dataService->initNewDraft(
+            type: $emsLink->getContentType(),
+            ouuid: $emsLink->getOuuid(),
+            username: $username
+        );
 
         $this->setRawData($draft, $rawData, $merge);
 
-        return $this->dataService->finalizeDraft($draft);
+        return $this->dataService->finalizeDraft(revision: $draft, username: $username);
     }
 
     /**

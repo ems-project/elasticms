@@ -29,7 +29,7 @@ class MediaLibraryFolderFactory
     {
         $folder = new MediaLibraryFolder($document, $config);
 
-        if ($parentPath = $folder->path->parent()) {
+        if ($parentPath = $folder->getPath()->parent()) {
             $parentDocument = $this->searchParent($config, $parentPath);
             $folder->setParent($this->createFromDocument($config, $parentDocument));
         }

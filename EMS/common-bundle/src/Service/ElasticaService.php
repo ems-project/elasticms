@@ -24,7 +24,6 @@ use Elasticsearch\Endpoints\Scroll as ScrollEndpoints;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
-use EMS\CommonBundle\Elasticsearch\Document\DocumentCollectionInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Elastica\Scroll as EmsScroll;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
@@ -195,23 +194,6 @@ class ElasticaService
         }
 
         return $resultSet;
-    }
-
-    /**
-     * @return \Generator<DocumentCollectionInterface>
-     */
-    public function searchAll(Search $search, int $batchSize = 50): \Generator
-    {
-        $search->setFrom(0);
-        $search->setSize($batchSize);
-
-        $response = EmsResponse::fromResultSet($this->search($search));
-
-        while ($search->getFrom() < $response->getTotal()) {
-            yield $response->getDocumentCollection();
-            $search->setFrom($search->getFrom() + $response->getTotalDocuments());
-            $response = EmsResponse::fromResultSet($this->search($search));
-        }
     }
 
     public function scroll(Search $search, string $expiryTime = '1m'): Scroll

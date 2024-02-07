@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Component\MediaLibrary;
 
+use function Symfony\Component\String\u;
+
 class MediaLibraryPath implements \Countable
 {
     /**
@@ -21,6 +23,11 @@ class MediaLibraryPath implements \Countable
     public function getValue(): string
     {
         return '/'.\implode('/', $this->value);
+    }
+
+    public function getFolderValue(): string
+    {
+        return $this->parent()?->getValue().'/';
     }
 
     public function count(): int
@@ -41,12 +48,11 @@ class MediaLibraryPath implements \Countable
         return new self([...$path, $name]);
     }
 
-    public function setRoot(string $root): self
+    public function move(string $from, string $to): self
     {
-        $path = $this->value;
-        \array_shift($path);
+        $newPath = u($this->getValue())->trimPrefix($from)->prepend($to)->toString();
 
-        return new self([$root, ...$path]);
+        return self::fromString($newPath);
     }
 
     public function parent(): ?self

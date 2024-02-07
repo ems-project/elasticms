@@ -5,17 +5,10 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\MediaLibrary\Folder;
 
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocument;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryPath;
 
 class MediaLibraryFolder extends MediaLibraryDocument
 {
     private ?MediaLibraryFolder $parent = null;
-    public ?MediaLibraryPath $previousPath = null;
-
-    public function getPath(): string
-    {
-        return parent::getPath().'/';
-    }
 
     /**
      * @return MediaLibraryFolder[]
@@ -33,7 +26,7 @@ class MediaLibraryFolder extends MediaLibraryDocument
 
     public function getParentPath(): ?string
     {
-        return $this->path->parent()?->getValue();
+        return $this->getPath()->parent()?->getValue();
     }
 
     public function getParent(): ?MediaLibraryFolder
@@ -44,11 +37,5 @@ class MediaLibraryFolder extends MediaLibraryDocument
     public function setParent(MediaLibraryFolder $parent): void
     {
         $this->parent = $parent;
-    }
-
-    public function setName(string $name): void
-    {
-        $this->previousPath = $this->path;
-        parent::setName($name);
     }
 }

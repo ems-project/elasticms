@@ -7,6 +7,9 @@ media_library:
             cancel: Cancel
         rename:
             title: 'Rename folder'
+            info: | 
+                Folder renaming in progress.
+                Please wait...
     file:
         load_more: 'Loading more files ...'
         add:

@@ -39,6 +39,7 @@
             <argument type="service" id="ems_common.service.elastica" />
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="EMS\CoreBundle\Service\DataService" />
+            <argument type="service" id="EMS\CoreBundle\Service\JobService"/>
             <argument type="service" id="ems.service.file" />
             <argument type="service" id="emsco.core.media_library.template_factory" />
             <argument type="service" id="emsco.core.media_library.file_factory" />

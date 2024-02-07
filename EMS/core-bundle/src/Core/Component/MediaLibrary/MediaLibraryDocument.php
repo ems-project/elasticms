@@ -11,8 +11,7 @@ class MediaLibraryDocument
 {
     public string $id;
     public string $emsId;
-    public MediaLibraryPath $folder;
-    public MediaLibraryPath $path;
+    public string $path;
 
     public function __construct(
         public DocumentInterface $document,
@@ -20,34 +19,30 @@ class MediaLibraryDocument
     ) {
         $this->id = $this->document->getId();
         $this->emsId = (string) $document->getEmsLink();
-
-        $this->path = MediaLibraryPath::fromString($document->getValue($config->fieldPath));
-        $this->folder = MediaLibraryPath::fromString($document->getValue($config->fieldFolder));
+        $this->path = $document->getValue($config->fieldPath);
     }
 
-    public function getPath(): string
+    public function getPath(): MediaLibraryPath
     {
-        return $this->path->getValue();
+        return MediaLibraryPath::fromString($this->path);
     }
 
     public function getName(): string
     {
-        return $this->path->getName();
+        return $this->getPath()->getName();
     }
 
     public function setName(string $name): void
     {
-        $this->path = $this->path->setName($name);
-        $this->document->setValue($this->config->fieldPath, $this->path->getValue());
+        $this->setPath($this->getPath()->setName($name));
     }
 
-    public function setRoot(string $root): void
+    public function setPath(MediaLibraryPath $path): void
     {
-        $this->path = $this->path->setRoot($root);
-        $this->folder = $this->folder->setRoot($root);
+        $this->path = $path->getValue();
 
         $this->document
-            ->setValue($this->config->fieldPath, $this->path->getValue())
-            ->setValue($this->config->fieldFolder, $this->folder->getValue().'/');
+            ->setValue($this->config->fieldPath, $path->getValue())
+            ->setValue($this->config->fieldFolder, $path->getFolderValue());
     }
 }

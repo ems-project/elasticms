@@ -6,7 +6,7 @@ namespace EMS\CoreBundle\Core\Component\MediaLibrary\Folder;
 
 use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Common\PropertyAccess\PropertyPath;
-use EMS\CommonBundle\Elasticsearch\Document\DocumentCollectionInterface;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryPath;
 
@@ -22,12 +22,10 @@ class MediaLibraryFolders
         $this->propertyAccessor = PropertyAccessor::createPropertyAccessor();
     }
 
-    public function addDocuments(DocumentCollectionInterface $collection): void
+    public function addDocument(DocumentInterface $document): void
     {
-        foreach ($collection as $document) {
-            $folder = new MediaLibraryFolder($document, $this->config);
-            $this->folders[$folder->path->getValue()] = $folder;
-        }
+        $folder = new MediaLibraryFolder($document, $this->config);
+        $this->folders[$folder->getPath()->getValue()] = $folder;
     }
 
     /**
@@ -38,20 +36,20 @@ class MediaLibraryFolders
         $structure = [];
 
         foreach ($this->getFolders() as $folder) {
-            if (0 === \count($folder->path)) {
+            if (0 === \count($folder->getPath())) {
                 continue;
             }
 
-            $parentProperty = $folder->path->parent() ? $this->createStructurePath($folder->path->parent()) : null;
+            $parentProperty = $folder->getPath()->parent() ? $this->createStructurePath($folder->getPath()->parent()) : null;
             if ($parentProperty && null === $this->propertyAccessor->getValue($structure, $parentProperty)) {
                 continue;
             }
 
-            $folderProperty = $this->createStructurePath($folder->path);
+            $folderProperty = $this->createStructurePath($folder->getPath());
             $this->propertyAccessor->setValue($structure, $folderProperty, [
                 'id' => $folder->id,
                 'name' => $folder->getName(),
-                'path' => $folder->path->getValue(),
+                'path' => $folder->getPath()->getValue(),
             ]);
         }
 

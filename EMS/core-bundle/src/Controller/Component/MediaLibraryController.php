@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -75,7 +76,7 @@ class MediaLibraryController
             if ($folder) {
                 $this->flashBag($request)->clear();
 
-                return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->path->getValue()]);
+                return $this->getAjaxModal()->getSuccessResponse(['path' => $folder->getPath()->getValue()]);
             }
         }
 
@@ -114,7 +115,8 @@ class MediaLibraryController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->mediaLibraryService->updateDocument($config, $mediaFile);
+            $this->mediaLibraryService->updateDocument($mediaFile);
+            $this->mediaLibraryService->refresh($config);
             $this->flashBag($request)->clear();
 
             return new JsonResponse([
@@ -132,7 +134,7 @@ class MediaLibraryController
         return new JsonResponse($modal->render());
     }
 
-    public function renameFolder(MediaLibraryConfig $config, Request $request, string $folderId): JsonResponse
+    public function renameFolder(MediaLibraryConfig $config, Request $request, UserInterface $user, string $folderId): JsonResponse
     {
         $folder = $this->mediaLibraryService->getFolder($config, $folderId);
 
@@ -142,10 +144,17 @@ class MediaLibraryController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->mediaLibraryService->renameFolder($config, $folder);
+            $job = $this->mediaLibraryService->jobRenameFolder($config, $user, $folder);
             $this->flashBag($request)->clear();
 
-            return new JsonResponse(['success' => true, 'folderName' => $folder->getName()]);
+            return new JsonResponse([
+                'success' => true,
+                'jobId' => $job->getId(),
+                'modalBody' => '',
+                'modalMessages' => [
+                    ['info' => $this->translator->trans('media_library.folder.rename.info', [], EMSCoreBundle::TRANS_COMPONENT)],
+                ],
+            ]);
         }
 
         $modal = $this->mediaLibraryService->modal($config, [

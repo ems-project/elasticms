@@ -194,7 +194,7 @@ class AjaxModal {
 
         this.modal.querySelector('.ajax-modal-body').insertAdjacentHTML(
             'afterbegin',
-            '<div class="alert '+ messageClass +'" role="alert">' + message +'</div>'
+            '<div class="alert '+ messageClass +'" role="alert">' + message.replace(/\n/g, '<br>') +'</div>'
         );
     }
 }

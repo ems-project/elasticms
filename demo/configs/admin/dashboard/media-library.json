@@ -12,7 +12,9 @@
         "role": "ROLE_AUTHOR",
         "color": null,
         "options": {
-            "body": "{{ component('media_library', {\r\n    'id': 'examaple-media-lib'\r\n}) }}"
+            "body": "{{ block(\"body\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}",
+            "header": "{{ block(\"css\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}",
+            "footer": "{{ block(\"javascript\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}"
         },
         "orderKey": 3
     },

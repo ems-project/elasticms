@@ -7,6 +7,8 @@ namespace EMS\CommonBundle\Elasticsearch\Document;
  */
 interface DocumentCollectionInterface extends \IteratorAggregate, \Countable
 {
+    public function getTotal(): int;
+
     public function count(): int;
 
     /**

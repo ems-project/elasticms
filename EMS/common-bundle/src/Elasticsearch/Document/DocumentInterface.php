@@ -21,12 +21,9 @@ interface DocumentInterface
      */
     public function getSource(bool $cleaned = false): array;
 
-    /**
-     * @param mixed $defaultValue
-     *
-     * @return mixed
-     */
-    public function getValue(string $fieldPath, $defaultValue = null);
+    public function getValue(string $fieldPath, mixed $defaultValue = null): mixed;
+
+    public function setValue(string $fieldPath, mixed $value): self;
 
     public function getEMSSource(): EMSSourceInterface;
 }

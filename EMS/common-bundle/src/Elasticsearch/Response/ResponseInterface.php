@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch\Response;
 
 use Elastica\Query;
 use Elastica\ResultSet;
-use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentCollectionInterface;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 
 interface ResponseInterface
@@ -20,10 +20,7 @@ interface ResponseInterface
 
     public function getDocument(int $index): DocumentInterface;
 
-    /**
-     * @return DocumentCollection<DocumentInterface>
-     */
-    public function getDocumentCollection(): DocumentCollection;
+    public function getDocumentCollection(): DocumentCollectionInterface;
 
     public function getScrollId(): ?string;
 

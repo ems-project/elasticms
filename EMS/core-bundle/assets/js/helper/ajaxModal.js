@@ -185,6 +185,9 @@ class AjaxModal {
             case 'error':
                 messageClass = 'alert-danger';
                 break;
+            case 'info':
+                messageClass = 'alert-info';
+                break;
             default:
                 messageClass = 'alert-success';
         }

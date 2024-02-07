@@ -11,6 +11,7 @@
             "mimetype": "image/jpeg",
             "sha1": "a3f3f550566a74312fac86a5d6f07c6ab7b4835c"
         },
+        "noindex": false,
         "slug": "rediger-une-declaration-daccessibilite",
         "summary": "<p>Qu&rsquo;est-ce que la <strong>d&eacute;claration d&rsquo;accessibilit&eacute;</strong> ? &Agrave; quoi sert-elle ? Que doit-elle mentionner ? Voici quelques <strong>explications utiles et aides</strong> pour la r&eacute;daction.</p>",
         "title": "R\u00e9diger une d\u00e9claration d\u2019accessibilit\u00e9"
@@ -25,11 +26,12 @@
             "mimetype": "image/jpeg",
             "sha1": "52040edf2b427eae2fe3f72033a8c6085b606a95"
         },
+        "noindex": false,
         "slug": "een-toegankelijkheidsverklaring-opstellen",
         "summary": "<p>Wat is een <strong>toegankelijkheids&shy;verklaring</strong>? Waar dient ze voor? Wat moet erin staan? <strong>Praktische info en hulp</strong> vindt u hier!</p>",
-        "title": "Een toegankelijkheids\u00adverklaring o\u00adtellen"
+        "title": "Een toegankelijkheids\u00adverklaring ops\u00adtellen"
     },
     "publication_date": "2023/08/07",
     "title_fr": "R\u00e9diger une d\u00e9claration d\u2019accessibilit\u00e9",
-    "title_nl": "Een toegankelijkheids\u00adverklaring o\u00adtellen"
+    "title_nl": "Een toegankelijkheids\u00adverklaring ops\u00adtellen"
 }

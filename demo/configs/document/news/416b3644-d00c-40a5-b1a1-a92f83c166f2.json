@@ -1,0 +1,37 @@
+{
+    "categories": [
+        "category:FtgOvogBTbVbdHDCwWhs"
+    ],
+    "fr": {
+        "body": "<p>Pour d&eacute;terminer si un site web est conforme aux normes d&rsquo;accessibilit&eacute;, nous proc&eacute;dons &agrave; <strong>un audit simplifi&eacute;</strong>. Le r&eacute;sultat est alors visible dans le <strong>rapport d&rsquo;audit simplifi&eacute;</strong>.</p>\r\n\r\n<p>Nous g&eacute;rons un ou plusieurs de vos sites web ? N&rsquo;h&eacute;sitez pas &agrave; <strong>demander le rapport de votre (vos) site(s)</strong> via votre webmaster.</p>\r\n\r\n<h2>Infos suppl&eacute;mentaires</h2>\r\n\r\n<p>Les rapports sont disponibles en 4 langues : fran&ccedil;ais, n&eacute;erlandais, anglais et allemand.</p>\r\n\r\n<p>Ils existent en 2 formats :</p>\r\n\r\n<ul>\r\n\t<li>Bootstrap. Cliquez sur le lien bootstrap pour afficher le rapport en texte lisible.</li>\r\n\t<li>JSON. Cliquez sur le lien json pour afficher le rapport en &lsquo;JavaScript Object Notation&rsquo;.</li>\r\n</ul>",
+        "description": "<p>Toute institution de s&eacute;curit&eacute; sociale peut demander un rapport d&rsquo;audit simplifi&eacute; pour son (ses) propre(s) site(s).</p>",
+        "image": {
+            "filename": "ecms_news_audit.jpg",
+            "filesize": 72957,
+            "mimetype": "image/jpeg",
+            "sha1": "28b2798328dd331c267668bb8ea25d8bd8319915"
+        },
+        "noindex": false,
+        "slug": "un-rapport-daudit-simplifie-pour-les-sites-web-de-chaque-institution-de-securite-sociale",
+        "summary": "<p>Via le <strong>rapport d&rsquo;audit simplifi&eacute;</strong>, chaque institution de s&eacute;curit&eacute; sociale peut v&eacute;rifier dans quelle mesure son (ses) site(s) web respecte(nt) les <strong>exigences en mati&egrave;re d&rsquo;accessibilit&eacute;</strong>.</p>",
+        "title": "Un rapport d\u2019audit simplifi\u00e9 pour le(s) site(s) web de chaque institution de s\u00e9curit\u00e9 sociale"
+    },
+    "label": "Rapport d'audit simplifi\u00e9",
+    "nl": {
+        "body": "<p>Om te bepalen of een website voldoet aan de toegankelijkheidsrichtlijnen, voeren we een <strong>vereenvoudigde audit</strong> uit. Het resultaat hiervan is het <strong>rapport van de vereenvoudigde audit</strong>.</p>\r\n\r\n<p>Heeft u een of meerdere websites die wij beheren? Aarzel niet om via uw webmaster het <strong>rapport voor uw website(s) aan te vragen</strong>.</p>\r\n\r\n<h2>Extra info</h2>\r\n\r\n<p>De rapporten zijn beschikbaar in 4 talen: Frans, Nederlands, Engels en Duits.</p>\r\n\r\n<p>Ze bestaan in 2 formaten:</p>\r\n\r\n<ul>\r\n\t<li>Bootstrap. Klik op de bootstrap-link om het rapport weer te geven in leesbare tekst.</li>\r\n\t<li>JSON. Klik op de json-link om het rapport weer te geven in &lsquo;JavaScript Object Notation&rsquo;.</li>\r\n</ul>",
+        "description": "<p>Elke instelling van Sociale Zekerheid kan een rapport van vereenvoudigde audit aanvragen voor haar eigen website(s).</p>",
+        "image": {
+            "filename": "ecms_news_audit.jpg",
+            "filesize": 72957,
+            "mimetype": "image/jpeg",
+            "sha1": "28b2798328dd331c267668bb8ea25d8bd8319915"
+        },
+        "noindex": false,
+        "slug": "voor-elke-instelling-van-sociale-zekerheid-een-rapport-van-vereenvoudigde-audit-voor-haar-eigen-websites",
+        "summary": "<p>Elke instelling van Sociale Zekerheid kan in haar rapport van de vereenvoudigde audit nagaan in welke mate haar websites voldoen aan de toegankelijkheidsrichtlijnen.</p>",
+        "title": "Voor elke instelling van Sociale Zekerheid een rapport van vereenvoudigde audit voor haar eigen website(s)"
+    },
+    "publication_date": "2023/11/06",
+    "title_fr": "Un rapport d\u2019audit simplifi\u00e9 pour le(s) site(s) web de chaque institution de s\u00e9curit\u00e9 sociale",
+    "title_nl": "Voor elke instelling van Sociale Zekerheid een rapport van vereenvoudigde audit voor haar eigen website(s)"
+}

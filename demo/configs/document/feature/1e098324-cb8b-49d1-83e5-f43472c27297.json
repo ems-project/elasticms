@@ -1,0 +1,12 @@
+{
+    "category": "category:u9hBHIkBTbVbdHDC93W8",
+    "fr": {
+        "title": "Am\u00e9lioration de la gestion des connexions elasticsearch."
+    },
+    "nl": {
+        "title": "Een verbeterd beheer van de elasticsearch-verbindingen."
+    },
+    "title_fr": "Am\u00e9lioration de la gestion des connexions elasticsearch.",
+    "title_nl": "Een verbeterd beheer van de elasticsearch-verbindingen.",
+    "version": "5.12"
+}

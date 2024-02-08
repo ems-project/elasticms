@@ -166,6 +166,36 @@ class MediaLibraryController
         return new JsonResponse($modal->render());
     }
 
+    public function deleteFolder(MediaLibraryConfig $config, Request $request, UserInterface $user, string $folderId): JsonResponse
+    {
+        $folder = $this->mediaLibraryService->getFolder($config, $folderId);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $job = $this->mediaLibraryService->jobDeleteFolder($config, $user, $folder);
+            $this->flashBag($request)->clear();
+
+            return new JsonResponse([
+                'success' => true,
+                'jobId' => $job->getId(),
+                'modalBody' => '',
+                'modalMessages' => [
+                    ['info' => $this->translator->trans('media_library.folder.delete.info', [], EMSCoreBundle::TRANS_COMPONENT)],
+                ],
+            ]);
+        }
+
+        $componentModal = $this->mediaLibraryService->modal($config, [
+            'type' => 'delete',
+            'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+        ]);
+
+        return new JsonResponse($componentModal->render());
+    }
+
     public function deleteFiles(MediaLibraryConfig $config, Request $request): JsonResponse
     {
         $fileIds = Json::decode($request->getContent())['files'];

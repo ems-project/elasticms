@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
+use EMS\CoreBundle\Core\UI\Modal\ModalMessageType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -197,6 +198,11 @@ class MediaLibraryController
             'submitClass' => 'btn-outline-danger',
             'submitLabel' => $this->translator->trans('media_library.folder.delete.submit', [], EMSCoreBundle::TRANS_COMPONENT),
         ]);
+
+        $componentModal->modal->addMessage(
+            ModalMessageType::Warning,
+            $this->translator->trans('media_library.folder.delete.warning', [], EMSCoreBundle::TRANS_COMPONENT)
+        );
 
         return new JsonResponse($componentModal->render());
     }

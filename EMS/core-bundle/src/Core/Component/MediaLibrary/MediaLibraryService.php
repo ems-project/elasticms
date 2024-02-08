@@ -243,6 +243,12 @@ class MediaLibraryService
         );
     }
 
+    public function deleteDocument(MediaLibraryDocument $mediaDocument, ?string $username = null): void
+    {
+        $document = $mediaDocument->document;
+        $this->dataService->delete($document->getContentType(), $document->getOuuid(), $username);
+    }
+
     public function refresh(MediaLibraryConfig $config): void
     {
         $this->elasticaService->refresh($config->contentType->giveEnvironment()->getAlias());

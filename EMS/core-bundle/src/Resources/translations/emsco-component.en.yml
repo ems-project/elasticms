@@ -5,6 +5,11 @@ media_library:
             title: 'Add folder'
             submit: Create
             cancel: Cancel
+        delete:
+            title: 'Delete folder'
+            info: |
+                Folder removing in progress.
+                Please wait...
         rename:
             title: 'Rename folder'
             info: | 

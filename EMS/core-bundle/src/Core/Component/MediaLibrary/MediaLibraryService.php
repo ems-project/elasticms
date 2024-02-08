@@ -171,7 +171,7 @@ class MediaLibraryService
         return $componentModal;
     }
 
-    public function jobDeleteFolder(MediaLibraryConfig $config, UserInterface $user, MediaLibraryFolder $folder): Job
+    public function jobFolderDelete(MediaLibraryConfig $config, UserInterface $user, MediaLibraryFolder $folder): Job
     {
         $revision = $this->getRevision($folder);
         if ($revision->isLocked()) {
@@ -181,7 +181,7 @@ class MediaLibraryService
         $this->revisionService->lock($revision, $user, new \DateTime('+1 hour'));
 
         $command = \vsprintf('%s --hash=%s --username=%s -- %s', [
-            Commands::MEDIA_LIB_DELETE_FOLDER,
+            Commands::MEDIA_LIB_FOLDER_DELETE,
             $config->getHash(),
             $user->getUserIdentifier(),
             $folder->id,
@@ -190,7 +190,7 @@ class MediaLibraryService
         return $this->jobService->createCommand($user, $command);
     }
 
-    public function jobRenameFolder(MediaLibraryConfig $config, UserInterface $user, MediaLibraryFolder $folder): Job
+    public function jobFolderRename(MediaLibraryConfig $config, UserInterface $user, MediaLibraryFolder $folder): Job
     {
         $revision = $this->getRevision($folder);
         if ($revision->isLocked()) {
@@ -200,7 +200,7 @@ class MediaLibraryService
         $this->revisionService->lock($revision, $user, new \DateTime('+1 hour'));
 
         $command = \vsprintf("%s --hash=%s --username=%s -- %s '%s'", [
-            Commands::MEDIA_LIB_RENAME_FOLDER,
+            Commands::MEDIA_LIB_FOLDER_RENAME,
             $config->getHash(),
             $user->getUserIdentifier(),
             $folder->id,

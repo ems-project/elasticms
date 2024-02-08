@@ -145,7 +145,7 @@ class MediaLibraryController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $job = $this->mediaLibraryService->jobRenameFolder($config, $user, $folder);
+            $job = $this->mediaLibraryService->jobFolderRename($config, $user, $folder);
             $this->flashBag($request)->clear();
 
             return new JsonResponse([
@@ -177,7 +177,7 @@ class MediaLibraryController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $job = $this->mediaLibraryService->jobDeleteFolder($config, $user, $folder);
+            $job = $this->mediaLibraryService->jobFolderDelete($config, $user, $folder);
             $this->flashBag($request)->clear();
 
             return new JsonResponse([

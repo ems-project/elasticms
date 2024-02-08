@@ -180,7 +180,7 @@ class MediaLibraryService
 
         $this->revisionService->lock($revision, $user, new \DateTime('+1 hour'));
 
-        $command = \vsprintf("%s --hash=%s --username=%s -- %s", [
+        $command = \vsprintf('%s --hash=%s --username=%s -- %s', [
             Commands::MEDIA_LIB_DELETE_FOLDER,
             $config->getHash(),
             $user->getUserIdentifier(),

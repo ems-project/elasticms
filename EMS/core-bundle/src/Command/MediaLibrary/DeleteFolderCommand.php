@@ -10,7 +10,6 @@ use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocument;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use MonorepoBuilderPrefix202311\Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Attribute\AsCommand;

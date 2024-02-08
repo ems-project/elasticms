@@ -75,14 +75,15 @@ class DeleteFolderCommand extends AbstractCommand
 
         $this->io->info(\sprintf('Found %d children to renaming', $totalChildren));
 
-        $progressBar = $this->io->createProgressBar($totalChildren + 1);
+        $total = $totalChildren + 1;
         $processed = 0;
+        $progressBar = $this->io->createProgressBar($total);
 
         foreach ($children as $child) {
             $this->mediaLibraryService->deleteDocument($child, $this->username);
 
             ++$processed;
-            $percentage = (int) (($processed / $totalChildren) * 100);
+            $percentage = (int) (($processed / $total) * 100);
 
             $jobOutput?->progress($percentage);
             $progressBar->advance();

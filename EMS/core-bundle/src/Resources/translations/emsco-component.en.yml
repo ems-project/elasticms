@@ -7,12 +7,12 @@ media_library:
             cancel: Cancel
         delete:
             title: 'Delete folder'
-            info: |
+            job_info: |
                 Folder removing in progress.
                 Please wait...
         rename:
             title: 'Rename folder'
-            info: | 
+            job_info: | 
                 Folder renaming in progress.
                 Please wait...
     file:

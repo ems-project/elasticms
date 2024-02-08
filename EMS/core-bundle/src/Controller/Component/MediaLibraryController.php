@@ -152,7 +152,7 @@ class MediaLibraryController
                 'jobId' => $job->getId(),
                 'modalBody' => '',
                 'modalMessages' => [
-                    ['info' => $this->translator->trans('media_library.folder.rename.info', [], EMSCoreBundle::TRANS_COMPONENT)],
+                    ['info' => $this->translator->trans('media_library.folder.rename.job_info', [], EMSCoreBundle::TRANS_COMPONENT)],
                 ],
             ]);
         }
@@ -182,7 +182,7 @@ class MediaLibraryController
                 'jobId' => $job->getId(),
                 'modalBody' => '',
                 'modalMessages' => [
-                    ['info' => $this->translator->trans('media_library.folder.delete.info', [], EMSCoreBundle::TRANS_COMPONENT)],
+                    ['info' => $this->translator->trans('media_library.folder.delete.job_info', [], EMSCoreBundle::TRANS_COMPONENT)],
                 ],
             ]);
         }

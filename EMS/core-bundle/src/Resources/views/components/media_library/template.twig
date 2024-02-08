@@ -114,10 +114,13 @@
 
 {%- block media_lib_modal_footer -%}
     <div class="pull-right">
-        {% if form is defined  %}
-            <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
+        {% if form is defined %}
+            <button id="ajax-modal-submit" class="{{ html_classes('btn btn-sm', submitClass|default('btn-primary')) }}">
+                <i class="{{ html_classes('fa', submitIcon|default('fa-save')) }}"></i>
+                {{ submitLabel|default('media_library.submit'|trans) }}
+            </button>
         {% endif %}
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'media_library.cancel'|trans }}</button>
     </div>
 {%- endblock media_lib_modal_footer -%}
 

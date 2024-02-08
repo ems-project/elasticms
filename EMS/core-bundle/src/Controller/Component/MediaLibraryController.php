@@ -161,6 +161,8 @@ class MediaLibraryController
             'type' => 'rename',
             'title' => $this->translator->trans('media_library.folder.rename.title', [], EMSCoreBundle::TRANS_COMPONENT),
             'form' => $form->createView(),
+            'submitIcon' => 'fa-pencil',
+            'submitLabel' => $this->translator->trans('media_library.folder.rename.submit', [], EMSCoreBundle::TRANS_COMPONENT),
         ]);
 
         return new JsonResponse($modal->render());
@@ -191,6 +193,9 @@ class MediaLibraryController
             'type' => 'delete',
             'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT),
             'form' => $form->createView(),
+            'submitIcon' => 'fa-remove',
+            'submitClass' => 'btn-outline-danger',
+            'submitLabel' => $this->translator->trans('media_library.folder.delete.submit', [], EMSCoreBundle::TRANS_COMPONENT),
         ]);
 
         return new JsonResponse($componentModal->render());

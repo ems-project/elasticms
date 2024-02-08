@@ -1,5 +1,7 @@
 media_library:
     home: Home
+    submit: Save
+    cancel: Cancel
     folder:
         add:
             title: 'Add folder'
@@ -7,11 +9,13 @@ media_library:
             cancel: Cancel
         delete:
             title: 'Delete folder'
+            submit: Confirm
             job_info: |
                 Folder removing in progress.
                 Please wait...
         rename:
             title: 'Rename folder'
+            submit: Rename
             job_info: | 
                 Folder renaming in progress.
                 Please wait...

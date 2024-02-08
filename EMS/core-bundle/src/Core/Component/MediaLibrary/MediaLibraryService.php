@@ -83,7 +83,7 @@ class MediaLibraryService
     public function deleteFiles(MediaLibraryConfig $config, array $fileIds): bool
     {
         foreach ($this->fileFactory->createFromArray($config, $fileIds) as $mediaFile) {
-            $this->dataService->delete($mediaFile->document->getContentType(), $mediaFile->document->getOuuid());
+            $this->deleteDocument($mediaFile);
         }
 
         return true;

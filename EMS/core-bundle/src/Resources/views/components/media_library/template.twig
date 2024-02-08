@@ -12,6 +12,7 @@
             {{- template.block('media_lib_button_file_rename', _context)|raw -}}
             {{- template.block('media_lib_button_file_delete', _context)|raw -}}
         {%- elseif mediaFolder is defined -%}
+            {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
             {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
         {%- endif -%}
         {{- template.block('media_lib_breadcrumb', _context)|raw -}}
@@ -55,6 +56,12 @@
         <i class="fa fa-folder" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.add.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_add -%}
+
+{%- block media_lib_button_folder_delete -%}
+    <button class="btn btn-sm btn-default btn-folder-delete" data-id="{{- mediaFolder.id -}}">
+        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.delete.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_folder_delete -%}
 
 {%- block media_lib_button_folder_rename -%}
     <button class="btn btn-sm btn-default btn-folder-rename" data-id="{{- mediaFolder.id -}}">

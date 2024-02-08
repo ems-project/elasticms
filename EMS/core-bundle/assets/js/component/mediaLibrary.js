@@ -138,13 +138,14 @@ export default class MediaLibrary {
     }
     _onClickButtonFolderDelete(button) {
         const folderId = button.dataset.id;
+        const modalSize = button.dataset.modalSize ?? 'sm';
 
-        ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/delete`, size: 'sm'}, (json) => {
+        ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/delete`, size: modalSize }, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (!json.hasOwnProperty('jobId')) return;
 
             let jobProgressBar = new ProgressBar('progress-' + json.jobId, {
-                label: 'Renaming',
+                label: 'Deleting folder',
                 value: 100,
                 showPercentage: false,
             });

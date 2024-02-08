@@ -58,7 +58,7 @@
 {%- endblock media_lib_button_folder_add -%}
 
 {%- block media_lib_button_folder_delete -%}
-    <button class="btn btn-sm btn-default btn-folder-delete" data-id="{{- mediaFolder.id -}}">
+    <button class="btn btn-sm btn-default btn-folder-delete" data-id="{{- mediaFolder.id -}}" data-modal-size="md">
         <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.delete.title'|trans) -}}
     </button>
 {%- endblock media_lib_button_folder_delete -%}

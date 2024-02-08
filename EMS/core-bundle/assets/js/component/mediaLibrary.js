@@ -156,7 +156,7 @@ export default class MediaLibrary {
                 this._startJob(json.jobId),
                 this._jobPolling(json.jobId, jobProgressBar)
             ])
-                .then(() => this.#activeFolder = null)
+                .then(() => this._onClickButtonHome())
                 .then(() => this._getFolders())
                 .then(() => setTimeout(() => {}, 1000))
                 .then(() => ajaxModal.close())

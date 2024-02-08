@@ -164,7 +164,7 @@ In `template/redirects/hosts.json.twig`
 {%- block request %}
     {% apply spaceless %}
         {{ {
-            url: 'https://www.pensionstat.be/' ~ app.request.get('path', '/'),
+            url: 'https://www.fqdn.tld/' ~ app.request.get('path', '/'),
             status: 301,
         }|json_encode|raw }}
     {% endapply %}

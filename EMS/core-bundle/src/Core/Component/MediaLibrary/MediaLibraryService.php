@@ -171,6 +171,25 @@ class MediaLibraryService
         return $componentModal;
     }
 
+    public function jobDeleteFolder(MediaLibraryConfig $config, UserInterface $user, MediaLibraryFolder $folder): Job
+    {
+        $revision = $this->getRevision($folder);
+        if ($revision->isLocked()) {
+            throw new MediaLibraryException('media_library.locked');
+        }
+
+        $this->revisionService->lock($revision, $user, new \DateTime('+1 hour'));
+
+        $command = \vsprintf("%s --hash=%s --username=%s -- %s '%s'", [
+            Commands::MEDIA_LIB_DELETE_FOLDER,
+            $config->getHash(),
+            $user->getUserIdentifier(),
+            $folder->id,
+        ]);
+
+        return $this->jobService->createCommand($user, $command);
+    }
+
     public function jobRenameFolder(MediaLibraryConfig $config, UserInterface $user, MediaLibraryFolder $folder): Job
     {
         $revision = $this->getRevision($folder);

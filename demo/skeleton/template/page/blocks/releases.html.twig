@@ -117,8 +117,8 @@
         <section class="py-5 py-lg-8">
             <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                    {# Remove the following section with es > 7.11 '|map(p => p|split('.'))|sort((a, b) => a[0]|default(0) == b[0]|default(0) ? b[1]|default(0) <=> a[1]|default(0) : b[0]|default(0) <=> a[0]|default(0))|map(p => p|join('.'))' #}
-                    {% for version in features.hits.hits|map(p => p._source.version)|reduce((carry, v) => v in carry ? carry : carry|merge([v]), [])|map(p => p|split('.'))|sort((a, b) => a[0]|default(0) == b[0]|default(0) ? (a[1]|default(0) == b[1]|default(0) ? b[2]|default(0) <=> a[2]|default(0) : b[1]|default(0) <=> a[1]|default(0)) : b[0]|default(0) <=> a[0]|default(0))|map(p => p|join('.')) %}
+                    {# Replace the following section with es > 7.11 by 'features.hits.hits|map(p => p._source.version)|reduce((carry, v) => v in carry ? carry : carry|merge([v]), [])' #}
+                    {% for version in features.hits.hits|map(p => p._source.version)|reduce((carry, v) => v in carry ? carry : carry|merge({(v): v|split('.')}), [])|sort((a, b) => a[0]|default(0) == b[0]|default(0) ? (a[1]|default(0) == b[1]|default(0) ? b[2]|default(0) <=> a[2]|default(0) : b[1]|default(0) <=> a[1]|default(0)) : b[0]|default(0) <=> a[0]|default(0))|map(p => p|join('.')) %}
                         <div class="release-item">
                             <h2>
                                 {{ 'block.release.title'|trans({'%version%': version}) }}
@@ -127,7 +127,7 @@
                                 {% endif %}
                             </h2>
                             <ul class="list-unstyled mb-0">
-                                {% for feature in features.hits.hits|filter(p => p._source.version == version) %}
+                                {% for feature in features.hits.hits|filter(p => p._source.version is same as(version)) %}
                                     <li class="d-flex align-items-start mb-2">
                                         <span class="badge">
                                             {% if attribute(categories, feature._source.category|ems_ouuid) is defined %}

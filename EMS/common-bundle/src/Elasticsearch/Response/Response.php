@@ -10,6 +10,7 @@ use Elastica\ResultSet;
 use EMS\CommonBundle\Elasticsearch\Aggregation\Aggregation;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentCollection;
+use EMS\CommonBundle\Elasticsearch\Document\DocumentCollectionInterface;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 
 final class Response implements ResponseInterface
@@ -94,10 +95,7 @@ final class Response implements ResponseInterface
         }
     }
 
-    /**
-     * @return DocumentCollection<DocumentInterface>
-     */
-    public function getDocumentCollection(): DocumentCollection
+    public function getDocumentCollection(): DocumentCollectionInterface
     {
         return DocumentCollection::fromResponse($this);
     }

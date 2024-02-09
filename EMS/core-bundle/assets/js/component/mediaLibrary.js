@@ -9,6 +9,7 @@ export default class MediaLibrary {
     #options = {};
     #elements = '';
     #activeFolder = '';
+    #activeFolderHeader = '';
     #loadedFiles = 0;
     #selectionLastFile = null;
 
@@ -62,15 +63,28 @@ export default class MediaLibrary {
         this.element.onclick = (event) => {
             let classList = event.target.classList;
 
+            if (classList.contains('media-lib-item')) {
+                this._onClickFile(event.target, event);
+                return;
+            }
+            if (classList.contains('btn-file-rename')) {
+                this._onClickButtonFileRename(event.target, event);
+                return;
+            }
+            if (classList.contains('btn-file-delete')) {
+                this._onClickButtonFileDelete(event.target, event);
+                return;
+            }
+
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
-            if (classList.contains('media-lib-item')) this._onClickFile(event.target, event);
-            if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete();
-            if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
+            if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click();
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd();
             if (classList.contains('btn-folder-delete')) this._onClickButtonFolderDelete(event.target);
             if (classList.contains('btn-folder-rename')) this._onClickButtonFolderRename(event.target);
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
+
+            this._selectFilesReset();
         }
 
         this.element.onchange = (event) => {
@@ -264,7 +278,10 @@ export default class MediaLibrary {
     }
 
     _appendFiles(json) {
-        if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
+        if (json.hasOwnProperty('header')) {
+            this.#elements.header.innerHTML = json.header;
+            this.#activeFolderHeader = json.header;
+        }
         if (json.hasOwnProperty('rowHeader'))  this.#elements.listFiles.innerHTML += json.rowHeader;
         if (json.hasOwnProperty('totalRows'))  this.#loadedFiles += json.totalRows;
         if (json.hasOwnProperty('rows'))  this.#elements.listFiles.innerHTML += json.rows;
@@ -425,6 +442,11 @@ export default class MediaLibrary {
         this.#selectionLastFile = item;
 
         return this.#elements.listFiles.querySelectorAll('.active');
+    }
+
+    _selectFilesReset() {
+        this.#elements.header.innerHTML = this.#activeFolderHeader;
+        this.#elements.listFiles.querySelectorAll('.media-lib-item').forEach((f) => f.classList.remove('active'));
     }
 
     async _jobPolling(jobId, jobProgressBar) {

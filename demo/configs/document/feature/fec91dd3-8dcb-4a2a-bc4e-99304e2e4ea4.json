@@ -1,12 +1,12 @@
 {
     "category": "category:e605d504-cf8c-424b-822b-e88052dbd760",
     "fr": {
-        "title": "Gestionnaire de cache pour l\u2019indexation de fichiers dans la media library"
+        "title": "Gestionnaire de cache pour l\u2019indexation de fichiers dans la media library."
     },
     "nl": {
         "title": "Cache-beheerder voor het indexeren van bestanden in de media library."
     },
-    "title_fr": "Gestionnaire de cache pour l\u2019indexation de fichiers dans la media library",
+    "title_fr": "Gestionnaire de cache pour l\u2019indexation de fichiers dans la media library.",
     "title_nl": "Cache-beheerder voor het indexeren van bestanden in de media library.",
     "version": "5.10"
 }

@@ -1,0 +1,12 @@
+{
+    "category": "category:u9hBHIkBTbVbdHDC93W8",
+    "fr": {
+        "title": "Ajustement des configurations Docker pour une int\u00e9gration plus fluide avec Minio."
+    },
+    "nl": {
+        "title": "Aangepaste Docker-configuraties voor een soepelere integratie met Minio."
+    },
+    "title_fr": "Ajustement des configurations Docker pour une int\u00e9gration plus fluide avec Minio.",
+    "title_nl": "Aangepaste Docker-configuraties voor een soepelere integratie met Minio.",
+    "version": "5.12"
+}

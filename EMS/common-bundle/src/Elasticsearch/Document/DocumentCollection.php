@@ -8,8 +8,10 @@ use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 
 final class DocumentCollection implements DocumentCollectionInterface
 {
-    /** @var array<mixed> */
-    private $documents;
+    private int $total = 0;
+
+    /** @var DocumentInterface[] */
+    private array $documents = [];
 
     private function __construct()
     {
@@ -18,9 +20,10 @@ final class DocumentCollection implements DocumentCollectionInterface
     /**
      * @return DocumentCollection<DocumentInterface>
      */
-    public static function fromResponse(ResponseInterface $response): DocumentCollection
+    public static function fromResponse(ResponseInterface $response): DocumentCollectionInterface
     {
-        $collection = new static();
+        $collection = new self();
+        $collection->total = $response->getTotal();
 
         foreach ($response->getDocuments() as $document) {
             $collection->add($document);
@@ -29,9 +32,14 @@ final class DocumentCollection implements DocumentCollectionInterface
         return $collection;
     }
 
+    public function getTotal(): int
+    {
+        return $this->total;
+    }
+
     public function count(): int
     {
-        return \count((array) $this->documents);
+        return \count($this->documents);
     }
 
     /**

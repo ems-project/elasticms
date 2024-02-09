@@ -34,13 +34,13 @@ class MediaLibraryController
     ) {
     }
 
-    public function getHeader(MediaLibraryConfig $config, Request $request, ?string $folderId = null): JsonResponse
+    public function getHeader(MediaLibraryConfig $config, Request $request): JsonResponse
     {
         return new JsonResponse([
             'header' => $this->mediaLibraryService->renderHeader(
                 config: $config,
-                folder: $folderId,
-                fileIds: $request->query->all('files')
+                folder: $request->query->has('folderId') ? $request->query->get('folderId') : null,
+                file: $request->query->has('fileId') ? $request->query->get('fileId') : null,
             ),
         ]);
     }

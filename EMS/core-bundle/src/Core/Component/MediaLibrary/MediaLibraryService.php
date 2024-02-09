@@ -210,18 +210,14 @@ class MediaLibraryService
         return $this->jobService->createCommand($user, $command);
     }
 
-    /**
-     * @param string[] $fileIds
-     */
-    public function renderHeader(MediaLibraryConfig $config, MediaLibraryFolder|string|null $folder, array $fileIds = []): string
+    public function renderHeader(MediaLibraryConfig $config, MediaLibraryFolder|string|null $folder = null, MediaLibraryFile|string|null $file = null): string
     {
         $mediaFolder = \is_string($folder) ? $this->getFolder($config, $folder) : $folder;
-        $mediaFiles = $this->fileFactory->createFromArray($config, $fileIds);
+        $mediaFile = \is_string($file) ? $this->getFile($config, $file) : $file;
 
         $template = $this->templateFactory->create($config, \array_filter([
             'mediaFolder' => $mediaFolder,
-            'mediaFile' => 1 === \count($mediaFiles) ? $mediaFiles[0] : null,
-            'mediaFiles' => \count($mediaFiles) > 1 ? $mediaFiles : null,
+            'mediaFile' => $mediaFile,
         ]));
 
         return $template->block('media_lib_header');

@@ -62,11 +62,10 @@
     </route>
 
     <!-- Media library -->
-    <route id="emsco.media_library.header" path="/media-lib/{hash}/header/{folderId}"
+    <route id="emsco.media_library.header" path="/media-lib/{hash}/header"
          controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::getHeader"
          methods="GET">
       <requirement key="hash">.*</requirement>
-      <default key="folderId" xsi:nil="true"/>
     </route>
     <route id="emsco.media_library.file.rename" path="/media-lib/{hash}/file/{fileId}/rename"
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::renameFile"

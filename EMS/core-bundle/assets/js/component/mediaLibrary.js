@@ -8,7 +8,7 @@ export default class MediaLibrary {
     #pathPrefix;
     #options = {};
     #elements = '';
-    #activeFolder = '';
+    #activeFolderId = null;
     #activeFolderHeader = '';
     #loadedFiles = 0;
     #selectionLastFile = null;
@@ -103,7 +103,7 @@ export default class MediaLibrary {
             //multiple selection
             console.debug('multiple');
         } else if (1 === selection.length) {
-            this._getHeader([item.dataset.id]).then(() => { this.loading(false); });
+            this._getHeader(item.dataset.id).then(() => { this.loading(false); });
         }
     }
 
@@ -143,14 +143,13 @@ export default class MediaLibrary {
             parentLi.classList.toggle('open');
         }
 
-        this.#activeFolder = `/${button.dataset.id}`;
+        this.#activeFolderId = button.dataset.id;
         this._getFiles().then(() => this.loading(false));
     }
     _onClickButtonFolderAdd() {
-        ajaxModal.load({
-            url: `${this.#pathPrefix}/add-folder${this.#activeFolder}`,
-            size: 'sm'
-        }, (json) => {
+        const path = this.#activeFolderId ? `/add-folder/${this.#activeFolderId}` : '/add-folder';
+
+        ajaxModal.load({ url: this.#pathPrefix + path, size: 'sm'}, (json) => {
             if (json.hasOwnProperty('success') && json.success === true) {
                 this.loading(true);
                 this._getFolders(json.path).then(() => this.loading(false));
@@ -216,7 +215,7 @@ export default class MediaLibrary {
         this.#elements.listFolders.querySelectorAll('button')
             .forEach((li) => li.classList.remove('active'));
 
-        this.#activeFolder = ''
+        this.#activeFolderId = null;
         this._getFiles().then(() => this.loading(false));
     }
     _onClickBreadcrumbItem(item) {
@@ -229,13 +228,14 @@ export default class MediaLibrary {
         }
     }
 
-    _getHeader(files = null) {
-        let path = `/header${this.#activeFolder}`;
+    _getHeader(fileId = null) {
+        let path = '/header';
+        let query = new URLSearchParams();
 
-        if (files) {
-            let query = new URLSearchParams([['files[]', files]]);
-            path = path + `?${query.toString()}`
-        }
+        if (fileId) query.append('fileId', fileId);
+        if (this.#activeFolderId) query.append('folderId', this.#activeFolderId);
+
+        if (query.size > 0) path = path + '?' + query.toString();
 
         return this._get(path).then((json) => {
             if (json.hasOwnProperty('header')) this.#elements.header.innerHTML = json.header;
@@ -249,7 +249,9 @@ export default class MediaLibrary {
         }
 
         const query = new URLSearchParams({ from: from.toString() }).toString();
-        return this._get(`/files${this.#activeFolder}?${query}`).then((files) => { this._appendFiles(files) });
+        const path = this.#activeFolderId ? `/files/${this.#activeFolderId}` : '/files';
+
+        return this._get(`${path}?${query}`).then((files) => { this._appendFiles(files) });
     }
     _getFolders(openPath) {
         this.#elements.listFolders.innerHTML = '';
@@ -360,6 +362,7 @@ export default class MediaLibrary {
                     progressBar.progress(100);
                     progressBar.style('success');
 
+                    const path = mediaLib.#activeFolderId ? `/add-file/${mediaLib.#activeFolderId}` : '/add-file';
                     const data =  {
                         'filename': file.name,
                         'filesize': file.size,
@@ -367,9 +370,7 @@ export default class MediaLibrary {
                     };
                     data[mediaLib.#options.hashAlgo] = fileHash;
 
-                    mediaLib._post(
-                        `/add-file${mediaLib.#activeFolder}`,
-                        { file: data }
+                    mediaLib._post(path, { file: data }
                     ).then(() => {
                         mediaLib.#elements.listUploads.removeChild(liUpload);
                         resolve();

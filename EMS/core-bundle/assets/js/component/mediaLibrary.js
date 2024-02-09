@@ -10,9 +10,7 @@ export default class MediaLibrary {
     #elements = '';
     #activeFolder = '';
     #loadedFiles = 0;
-
-    #files = [];
-    #selectionLastFile
+    #selectionLastFile = null;
 
     constructor (element, options) {
         this.id = element.id;
@@ -409,17 +407,18 @@ export default class MediaLibrary {
     }
 
     _selectFiles(item, event) {
-        if (event.shiftKey && this.#selectionLastFile !== null) {
-            let start = Array.from(this.#files).indexOf(item);
-            let end = Array.from(this.#files).indexOf(this.#selectionLastFile);
+        let files = this.#elements.listFiles.querySelectorAll('.media-lib-item');
 
+        if (event.shiftKey && this.#selectionLastFile !== null) {
+            let start = Array.from(files).indexOf(item);
+            let end = Array.from(files).indexOf(this.#selectionLastFile);
             if (start > end) [start, end] = [end, start];
 
-            this.#files.forEach((f, index) => {
+            files.forEach((f, index) => {
                 if (index >= start && index <= end) f.classList.add('active')
             });
         } else {
-            this.#files.forEach((f) => f.classList.remove('active'));
+            files.forEach((f) => f.classList.remove('active'));
             item.classList.add('active')
         }
 

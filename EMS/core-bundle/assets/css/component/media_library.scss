@@ -230,7 +230,7 @@ div.media-lib {
           }
 
           .media-lib-item {
-            & > * { pointer-events: none; }
+            & > * { pointer-events: none; user-select: none; }
             & a { pointer-events: auto; }
 
             &:hover { background-color: var(--color-light); }

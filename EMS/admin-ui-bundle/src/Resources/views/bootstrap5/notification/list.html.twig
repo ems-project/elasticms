@@ -27,7 +27,7 @@
                                     <i class="fa fa-inbox"></i>
                                     {{ 'Inbox'|trans }}
                                     {% if counter > 0 %}
-                                        <span class="label label-primary pull-right">{{ counter }}</span>
+                                        <span class="label label-primary float-end">{{ counter }}</span>
                                     {% endif %}
                                 </a>
                             </li>
@@ -36,7 +36,7 @@
                                     <i class="fa fa-envelope-o"></i>
                                     {{ 'Outbox'|trans }}
                                     {% if countSent > 0 %}
-                                        <span class="label label-default pull-right">{{ countSent }}</span>
+                                        <span class="label label-default float-end">{{ countSent }}</span>
                                     {% endif %}
                                 </a>
                             </li>

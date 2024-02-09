@@ -123,7 +123,7 @@
     {% if menuMore|length > 0 %}
         <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-            <ul class="dropdown-menu pull-right">
+            <ul class="dropdown-menu float-end">
                 {{ menuMore|raw }}
             </ul>
         </div>
@@ -146,7 +146,7 @@
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown jmn-dropdown-add" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{ buttonLabel|default('Add') }}
             </button>
-            <ul class="dropdown-menu pull-right">
+            <ul class="dropdown-menu float-end">
                 {{ addMenu|raw }}
             </ul>
         </div>
@@ -177,7 +177,7 @@
 {%- endblock jmn_modal_body -%}
 
 {%- block jmn_modal_footer -%}
-    <div class="pull-right">
+    <div class="float-end">
         {% if form is defined  %}
             <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
         {% endif %}

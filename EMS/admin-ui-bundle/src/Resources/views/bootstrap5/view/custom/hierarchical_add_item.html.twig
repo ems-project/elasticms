@@ -1,7 +1,7 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 <li id="{{ child }}" class="collapsible-container {% if contentType.name != view.contentType.name %}mjs-nested-sortable-no-nesting{%  else %}mjs-nestedSortable{% endif %}">
 	<div class="box-header">
-		<div class="pull-right box-tools">
+		<div class="float-end box-tools">
 			<div class="btn-group">
             	<a href="{{ path('data.revisions', {type: key[0], ouuid:key[1]} ) }}" type="button" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" title="" data-original-title="{{ 'Revisions'|trans }}">
               		<i class="fa fa-archive"></i>

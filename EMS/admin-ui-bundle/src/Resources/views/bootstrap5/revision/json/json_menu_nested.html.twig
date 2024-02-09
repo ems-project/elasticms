@@ -91,7 +91,7 @@
         {%- if node.icon is defined -%}<i class="json-menu-nested-item-icon {{ node.icon }}"></i>{%- endif -%}
         <div class="json-menu-nested-item-label">{{ item.label }}</div>
         <div class="json-menu-nested-item-actions">
-            <div class="btn-group pull-right">
+            <div class="btn-group float-end">
                 {{ block('renderButtons') }}
             </div>
         </div>
@@ -167,7 +167,7 @@
                 {{ 'field_type.json_menu_editor.add'|trans }}
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu {{ 'item' == position ? 'pull-right' }}">
+            <ul class="dropdown-menu {{ 'item' == position ? 'float-end' }}">
                 {%- for addNodeName in node.addNodes -%}
                     {%- set addNode = def.getNodeByName(addNodeName) -%}
                     <li>
@@ -193,7 +193,7 @@
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
                 <span class="fa fa-ellipsis-h"></span>
             </button>
-            <ul class="dropdown-menu {{ 'item' == position ? 'pull-right' }}">
+            <ul class="dropdown-menu {{ 'item' == position ? 'float-end' }}">
                 {%- if 'copy' in node.actions -%}
                     <li>
                         <button class="{{ 'root' == position ? 'btn-json-menu-nested-copy-all' : 'btn-json-menu-nested-copy' }}"
@@ -241,7 +241,7 @@
 {% endblock %}
 
 {% block modalSaveFooter %}
-    <div class="pull-right">
+    <div class="float-end">
         <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
         <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">Cancel</button>
     </div>
@@ -256,6 +256,6 @@
 {% block alertOutOfSync %}
     <div class="alert alert-warning" role="alert">
         <span>{{ 'view.data.json-menu-nested.out_of_sync'|trans }}</span>
-        <button class="btn btn-primary btn-sm pull-right" onClick="window.location.reload();">Refresh</button>
+        <button class="btn btn-primary btn-sm float-end" onClick="window.location.reload();">Refresh</button>
     </div>
 {% endblock %}

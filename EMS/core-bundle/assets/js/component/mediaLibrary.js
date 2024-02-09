@@ -11,6 +11,9 @@ export default class MediaLibrary {
     #activeFolder = '';
     #loadedFiles = 0;
 
+    #files = [];
+    #selectionLastFile
+
     constructor (element, options) {
         this.id = element.id;
         this.element = element;
@@ -56,11 +59,13 @@ export default class MediaLibrary {
     }
 
     _addEventListeners() {
+        document.onkeyup = (event) => { if (event.shiftKey) this.#selectionLastFile = null; }
+
         this.element.onclick = (event) => {
             let classList = event.target.classList;
 
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
-            if (classList.contains('media-lib-item')) this._onClickFile(event.target);
+            if (classList.contains('media-lib-item')) this._onClickFile(event.target, event);
             if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete();
             if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
@@ -77,15 +82,19 @@ export default class MediaLibrary {
         }
     }
 
-    _onClickFile(item) {
+    _onClickFile(item, event) {
         this.loading(true);
+        const selection = this._selectFiles(item, event);
 
-        const activeItem = this.#elements.listFiles.querySelectorAll('.active');
-        activeItem.forEach((li) => li.classList.remove('active'))
-        item.classList.add('active');
-
-        this._getHeader([item.dataset.id]).then(() => { this.loading(false); });
+        if (selection.length > 1) {
+            this.loading(false);
+            //multiple selection
+            console.debug('multiple');
+        } else if (1 === selection.length) {
+            this._getHeader([item.dataset.id]).then(() => { this.loading(false); });
+        }
     }
+
     _onClickButtonFileRename(button) {
         const fileId = button.dataset.id;
         const fileRow = this.#elements.listFiles.querySelector(`[data-id='${fileId}']`);
@@ -397,6 +406,26 @@ export default class MediaLibrary {
         }, options);
 
         observer.observe(divLoadMore);
+    }
+
+    _selectFiles(item, event) {
+        if (event.shiftKey && this.#selectionLastFile !== null) {
+            let start = Array.from(this.#files).indexOf(item);
+            let end = Array.from(this.#files).indexOf(this.#selectionLastFile);
+
+            if (start > end) [start, end] = [end, start];
+
+            this.#files.forEach((f, index) => {
+                if (index >= start && index <= end) f.classList.add('active')
+            });
+        } else {
+            this.#files.forEach((f) => f.classList.remove('active'));
+            item.classList.add('active')
+        }
+
+        this.#selectionLastFile = item;
+
+        return this.#elements.listFiles.querySelectorAll('.active');
     }
 
     async _jobPolling(jobId, jobProgressBar) {

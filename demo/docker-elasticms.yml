@@ -11,29 +11,29 @@ services:
       - CONTAINER_HEAP_PERCENT=0.8
       - MAILER_URL=smtp://mailhog:1025
       - EMSCO_TIKA_SERVER=http://tika:9998
-      - EMS_BACKEND_URL=${EMS_BACKEND_URL}
-      - INSTANCE_ID=${INSTANCE_ID}
+      - EMS_BACKEND_URL=${EMS_BACKEND_URL:-~}
+      - INSTANCE_ID=${INSTANCE_ID:-demo_}
       - 'EMS_ELASTICSEARCH_HOSTS=["http://es01:9200","http://es02:9200","http://es03:9200"]'
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - DB_HOST=postgres
       - DB_DRIVER=pgsql
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USER=${DB_USER:-demo}
+      - DB_PASSWORD=${DB_PASSWORD:-demo}
       - DB_PORT=5432
-      - DB_NAME=${DB_NAME}
-      - DB_SCHEMA=${DB_SCHEMA}
+      - DB_NAME=${DB_NAME:-demo}
+      - DB_SCHEMA=${DB_SCHEMA:-public}
       - S3_ACCESS_KEY_ID=accesskey
       - S3_SECRET_ACCESS_KEY=secretkey
       - S3_DEFAULT_REGION=us-east-1
       - S3_ENDPOINT_URL=http://minio:9000
-      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
-      - EMSF_AUTHKEY=${EMSF_AUTHKEY}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-demo}
+      - EMSF_AUTHKEY=${EMSF_AUTHKEY:-~}
       - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
       - TRUSTED_HOSTS=localhost,*.localhost
       - APP_SECRET=ThisIsSecret
     volumes:
-      - ./skeleton:/opt/src/local/${INSTANCE_ID}preview
+      - ./skeleton:/opt/src/local/${INSTANCE_ID:-demo_}preview
       - ./configs/elasticms-admin:/opt/configs
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document
@@ -55,9 +55,9 @@ services:
       - PHP_FPM_REQUEST_MAX_MEMORY_IN_MEGABYTES=64
       - CONTAINER_HEAP_PERCENT=0.8
       - MAILER_URL=smtp://mailhog:1025
-      - EMS_BACKEND_URL=${EMS_BACKEND_URL}
-      - INSTANCE_ID=${INSTANCE_ID}
-      - EMSF_AUTHKEY=${EMSF_AUTHKEY}
+      - EMS_BACKEND_URL=${EMS_BACKEND_URL:-~}
+      - INSTANCE_ID=${INSTANCE_ID:-demo_}
+      - EMSF_AUTHKEY=${EMSF_AUTHKEY:-~}
       - 'EMS_ELASTICSEARCH_HOSTS=["http://es01:9200","http://es02:9200","http://es03:9200"]'
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -65,7 +65,7 @@ services:
       - S3_SECRET_ACCESS_KEY=secretkey
       - S3_DEFAULT_REGION=us-east-1
       - S3_ENDPOINT_URL=http://minio:9000
-      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME:-demo}
       - TRUSTED_PROXIES=127.0.0.1,REMOTE_ADDR
       - TRUSTED_HOSTS=localhost,*.localhost
       - EMSCH_ASSET_LOCAL_FOLDER=skeleton
@@ -75,8 +75,8 @@ services:
       - ./dist:/opt/src/public/skeleton:ro
       - ./configs/admin:/opt/src/admin
       - ./configs/document:/opt/src/document
-      - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_preview
-      - ./skeleton:/opt/src/local/${INSTANCE_ID}ma_live
+      - ./skeleton:/opt/src/local/${INSTANCE_ID:-demo_}ma_preview
+      - ./skeleton:/opt/src/local/${INSTANCE_ID:-demo_}ma_live
       - ./skeleton:/opt/src/local/skeleton
 #      - ../elasticms-web/config:/opt/src/config
 #      - ../EMS/client-helper-bundle:/opt/src/vendor/elasticms/client-helper-bundle

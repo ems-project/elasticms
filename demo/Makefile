@@ -8,7 +8,7 @@ ENVIRONMENT  ?= local
 DOCKER_USER  ?= $(shell id -u)
 PWD					 = $(shell pwd)
 RUN_ADMIN		 = docker compose exec admin-${ENVIRONMENT} ems-demo
-RUN_WEB			 = docker compose exec web-${ENVIRONMENT} preview
+RUN_WEB			 = docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
 RUN_POSTGRES = docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
 RUN_NPM			 = docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 
@@ -35,9 +35,15 @@ help: # Show help for each of the Makefile recipes.
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 start: ## start docker
+	@mkdir -p dist
 	@docker compose up -d
 restart: ## restart docker and recreate
 	@docker compose up -d --force-recreate
+clean:
+	@$(MAKE) -s stop
+	@docker volume rm elasticms_demo_${ELK_VERSION}_data01 elasticms_demo_${ELK_VERSION}_data02 elasticms_demo_${ELK_VERSION}_data03 elasticms_demo_postgres elasticms_demo_redis elasticms_demo_s3
+	@rm -Rf dist/
+	@rm -Rf node_modules/
 stop: ## stop docker
 	@docker compose down
 status: ## status docker
@@ -55,7 +61,7 @@ clear-cache: ## clear cache
 init: ## init demo (fresh db)
 	@$(MAKE) -s npm-install
 	@$(MAKE) -s npm-prod
-	@$(MAKE) -s cache:clear
+	@$(MAKE) -s clear-cache
 	@$(MAKE) -s _db-setup
 	@$(MAKE) -s _init-create-users
 	@$(MAKE) -s load

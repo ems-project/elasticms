@@ -35,7 +35,7 @@ help: # Show help for each of the Makefile recipes.
 
 ## —— Demo —————————————————————————————————————————————————————————————————————————————————————————————————————————————
 start: ## start docker
-	mkdir -p dist
+	@mkdir -p dist
 	@docker compose up -d
 restart: ## restart docker and recreate
 	@docker compose up -d --force-recreate

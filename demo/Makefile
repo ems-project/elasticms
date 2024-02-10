@@ -55,7 +55,7 @@ clear-cache: ## clear cache
 init: ## init demo (fresh db)
 	@$(MAKE) -s npm-install
 	@$(MAKE) -s npm-prod
-	@$(MAKE) -s cache:clear
+	@$(MAKE) -s clear-cache
 	@$(MAKE) -s _db-setup
 	@$(MAKE) -s _init-create-users
 	@$(MAKE) -s load

@@ -85,7 +85,7 @@
                 </div>
             </a>
             {% if taskCurrent.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
-                <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
+                <button class="btn-task-update-modal btn-task-modal btn btn-sm float-end"
                         data-title="{{ 'task.update.title'|trans({ '%title%': taskCurrent.title }) }}"
                         data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: taskCurrent.id }) }}">
                 </button>
@@ -144,7 +144,7 @@
                 </div>
             </a>
             {% if task.isRequester(app.user) or is_granted('ROLE_TASK_MANAGER')  %}
-                <button class="btn-task-update-modal btn-task-modal btn btn-sm pull-right"
+                <button class="btn-task-update-modal btn-task-modal btn btn-sm float-end"
                         data-title="{{ 'task.update.title'|trans({ '%title%': task.title }) }}"
                         data-url="{{ path('ems_core_task_ajax_modal_update', { revisionId: revision.id, taskId: task.id }) }}">
                 </button>
@@ -181,7 +181,7 @@
         <button type="button" class="btn btn-sm btn-default task-icon-close" data-bs-dismiss="modal">{{ 'task.close'|trans }}</button>
     </div>
     {% if fromRevision == false %}
-        <div class="pull-right">
+        <div class="float-end">
             <div class="btn-group">
                 <a class="btn btn-sm btn-default" href="{{ path('data.revisions', { 'type': contentType.name, 'ouuid': ouuid }) }}">
                     <i class="fa fa-file" aria-hidden="true"></i> {{ 'task.dashboard.action.go_revision'|trans }}

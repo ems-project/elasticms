@@ -25,7 +25,7 @@
     							<li class="{% if not link %}disabled{% endif %}"><a href="{{ link }}" target="_blank">
     								<i class="{{ template.icon|raw }}"></i>
     								{{ template.label}}
-    								<i class="fa fa-external-link pull-right"></i>
+    								<i class="fa fa-external-link float-end"></i>
     							</a></li>
 
 						{% elseif template.renderOption is constant('EMS\\CoreBundle\\Form\\Field\\RenderOptionType::RAW_HTML') %}

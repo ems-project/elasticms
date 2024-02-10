@@ -14,7 +14,7 @@
 			<div class="box-header with-border">
 				<i class="fa fa-gear"></i>
 				<h3 class="box-title">{{ 'WYSIWYG profiles'|trans }}</h3>
-				<div class="btn-group  pull-right">
+				<div class="btn-group  float-end">
 					<a class="btn btn-xs btn-primary" href="{{ path('ems_wysiwyg_profile_new') }}"><i class="fa fa-plus"></i> {{ 'Add a profile'|trans }}</a>
 				</div>
 			</div>
@@ -26,7 +26,7 @@
     					{% for profile in profiles %}
     						<li id="{{ profile.id }}" class="mjs-nested-sortable-no-nesting mjs-nestedSortable-leaf">
                 				<div class="box-header ui-sortable-handle">
-        							<div class="pull-right box-tools ui-sortable-handle">
+        							<div class="float-end box-tools ui-sortable-handle">
         								<div class="btn-group">
                                             {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
     											'url':  path('ems_wysiwyg_profile_edit', {'id': profile.id}),
@@ -64,7 +64,7 @@
 			<div class="box-header with-border">
 				<i class="fa fa-css3"></i>
 				<h3 class="box-title">{{ 'WYSIWYG styles sets'|trans }}</h3>
-				<div class="btn-group  pull-right">
+				<div class="btn-group  float-end">
 					<a class="btn btn-xs btn-primary" href="{{ path('ems_wysiwyg_styles_set_new') }}"><i class="fa fa-plus"></i> {{ 'Add a style set'|trans }}</a>
 				</div>
 			</div>
@@ -77,7 +77,7 @@
     					{% for stylesSet in stylesSets %}
     						<li id="{{ stylesSet.id }}" class="mjs-nested-sortable-no-nesting mjs-nestedSortable-leaf">
                 				<div class="box-header ui-sortable-handle">
-        							<div class="pull-right box-tools ui-sortable-handle">
+        							<div class="float-end box-tools ui-sortable-handle">
         								<div class="btn-group">
                                             {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
     											'url':  path('ems_wysiwyg_styles_set_edit', {'id': stylesSet.id}),

@@ -619,7 +619,7 @@
 	  		{{- form_label(form) -}}
 
             {% if collapsible %}
-				<div class="pull-right">
+				<div class="float-end">
 					<div class="btn-group toggle-group" role="group">
 						<button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
 						<button type="button" title="collapse all" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>
@@ -644,10 +644,10 @@
 	<div class="panel panel-default">
 		<div class="panel-heading ems-handle">
 			{{ form_label(form) }}
-	  		<div class="btn-group pull-right">
+	  		<div class="btn-group float-end">
 	  			{{- form_widget(form.remove_collection_item) -}}
                 {% if collapsible %}
-                    <div class="pull-right">
+                    <div class="float-end">
                         <div class="btn-group toggle-group" role="group">
                             <button type="button" title="collapse" aria-expanded="false" class="btn btn-sm button-collapse"></button>
                             <button type="button" title="collapse all" aria-expanded="false" class="btn btn-sm button-collapse-all"></button>

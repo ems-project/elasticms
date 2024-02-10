@@ -39,6 +39,11 @@ start: ## start docker
 	@docker compose up -d
 restart: ## restart docker and recreate
 	@docker compose up -d --force-recreate
+clean:
+	@$(MAKE) -s stop
+	@docker volume rm elasticms_demo_${ELK_VERSION}_data01 elasticms_demo_${ELK_VERSION}_data02 elasticms_demo_${ELK_VERSION}_data03 elasticms_demo_postgres elasticms_demo_redis elasticms_demo_s3
+	@rm -Rf dist/
+	@rm -Rf node_modules/
 stop: ## stop docker
 	@docker compose down
 status: ## status docker

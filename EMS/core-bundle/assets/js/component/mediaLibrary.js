@@ -123,13 +123,21 @@ export default class MediaLibrary {
     }
     _onClickButtonFileDelete() {
         const activeItems = this.#elements.listFiles.querySelectorAll('.active');
-        const activeIds =  [];
-        activeItems.forEach((element) => activeIds.push(element.dataset.id));
 
-        this._post(`/files/delete`, { 'files': activeIds }).then((json) => {
-            if (json.hasOwnProperty('success'))  activeItems.forEach((element) => element.remove());
-            this._getHeader().then(() => this.loading(false));
-        });
+        if (1 === activeItems.length) {
+            let activeItem = activeItems[0];
+            let fileId = activeItem.dataset.id;
+
+            this._post(`/file/${fileId}/delete`).then((json) => {
+                if (!json.hasOwnProperty('success') || json.success === false) return;
+
+                activeItem.remove();
+                this._selectFilesReset();
+                this.loading(false);
+            });
+        } else if (activeItems.length > 1) {
+            // implement multiple delete
+        }
     }
 
     _onClickFolder(button) {

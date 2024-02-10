@@ -77,18 +77,6 @@ class MediaLibraryService
         return $createdUuid ? $this->getFolder($config, $createdUuid) : null;
     }
 
-    /**
-     * @param string[] $fileIds
-     */
-    public function deleteFiles(MediaLibraryConfig $config, array $fileIds): bool
-    {
-        foreach ($this->fileFactory->createFromArray($config, $fileIds) as $mediaFile) {
-            $this->deleteDocument($mediaFile);
-        }
-
-        return true;
-    }
-
     public function getFile(MediaLibraryConfig $config, string $ouuid): MediaLibraryFile
     {
         return $this->fileFactory->create($config, $ouuid);

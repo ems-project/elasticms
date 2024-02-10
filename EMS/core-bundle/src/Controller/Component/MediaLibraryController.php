@@ -207,14 +207,14 @@ class MediaLibraryController
         return new JsonResponse($componentModal->render());
     }
 
-    public function deleteFiles(MediaLibraryConfig $config, Request $request): JsonResponse
+    public function deleteFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
     {
-        $fileIds = Json::decode($request->getContent())['files'];
+        $mediaFile = $this->mediaLibraryService->getFile($config, $fileId);
+        $this->mediaLibraryService->deleteDocument($mediaFile);
 
-        $success = $this->mediaLibraryService->deleteFiles($config, $fileIds);
         $this->flashBag($request)->clear();
 
-        return new JsonResponse(['success' => $success]);
+        return new JsonResponse(['success' => true]);
     }
 
     private function getAjaxModal(): AjaxModal

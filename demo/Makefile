@@ -8,7 +8,7 @@ ENVIRONMENT  ?= local
 DOCKER_USER  ?= $(shell id -u)
 PWD					 = $(shell pwd)
 RUN_ADMIN		 = docker compose exec admin-${ENVIRONMENT} ems-demo
-RUN_WEB			 = docker compose exec web-${ENVIRONMENT} preview
+RUN_WEB			 = docker compose exec -u ${DOCKER_USER} web-${ENVIRONMENT} preview
 RUN_POSTGRES = docker compose exec -e PGUSER=postgres -e PGPASSWORD=adminpg -T postgres
 RUN_NPM			 = docker run -u ${DOCKER_USER}:0 --rm -it -v ${PWD}:/opt/src --workdir /opt/src elasticms/base-php:8.1-cli-dev npm
 

@@ -1,4 +1,5 @@
 /node_modules/
+/src/Resources/public
 /vendor
 /.php-cs-fixer.cache
 /.phpunit.result.cache

@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 
 include .env
-export $(grep -v '^#' .env | xargs)
 
 ELK_VERSION  ?= elk7
 ENVIRONMENT  ?= local

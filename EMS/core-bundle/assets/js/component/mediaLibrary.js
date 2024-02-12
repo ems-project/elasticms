@@ -63,28 +63,24 @@ export default class MediaLibrary {
         this.element.onclick = (event) => {
             let classList = event.target.classList;
 
-            if (classList.contains('media-lib-item')) {
-                this._onClickFile(event.target, event);
-                return;
-            }
-            if (classList.contains('btn-file-rename')) {
-                this._onClickButtonFileRename(event.target, event);
-                return;
-            }
-            if (classList.contains('btn-file-delete')) {
-                this._onClickButtonFileDelete(event.target, event);
-                return;
-            }
-
+            if (classList.contains('media-lib-item')) this._onClickFile(event.target, event);
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
+
             if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click();
-            if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
+            if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target, event);
+            if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target, event);
+
             if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd();
             if (classList.contains('btn-folder-delete')) this._onClickButtonFolderDelete(event.target);
             if (classList.contains('btn-folder-rename')) this._onClickButtonFolderRename(event.target);
+
+            if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
 
-            this._selectFilesReset();
+            const keepSelection = ['media-lib-item', 'btn-file-rename', 'btn-file-delete'];
+            if (!keepSelection.some(className => classList.contains(className))) {
+                this._selectFilesReset();
+            }
         }
 
         this.element.onchange = (event) => {

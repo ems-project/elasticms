@@ -204,7 +204,7 @@ class MediaLibraryController
             'submitLabel' => $this->translator->trans('media_library.folder.delete.submit', [], EMSCoreBundle::TRANS_COMPONENT),
         ]);
 
-        return new JsonResponse($componentModal->setBlockFooter('media_lib_modal_delete_footer')->render());
+        return new JsonResponse($componentModal->render());
     }
 
     public function deleteFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse

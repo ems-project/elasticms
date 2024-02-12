@@ -175,6 +175,10 @@ class MediaLibraryController
     public function deleteFolder(MediaLibraryConfig $config, Request $request, UserInterface $user, string $folderId): JsonResponse
     {
         $folder = $this->mediaLibraryService->getFolder($config, $folderId);
+        $componentModal = $this->mediaLibraryService->modal($config, [
+            'type' => 'delete_folder',
+            'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT)
+        ]);
 
         $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
         $form->handleRequest($request);
@@ -183,31 +187,24 @@ class MediaLibraryController
             $job = $this->mediaLibraryService->jobFolderDelete($config, $user, $folder);
             $this->flashBag($request)->clear();
 
-            return new JsonResponse([
-                'success' => true,
-                'jobId' => $job->getId(),
-                'modalBody' => '',
-                'modalMessages' => [
-                    ['info' => $this->translator->trans('media_library.folder.delete.job_info', [], EMSCoreBundle::TRANS_COMPONENT)],
-                ],
+            $componentModal->modal->data['success'] = true;
+            $componentModal->modal->data['jobId'] = $job->getId();
+            $componentModal->template->context->append([
+                'infoMessage' => $this->translator->trans('media_library.folder.delete.job_info', [], EMSCoreBundle::TRANS_COMPONENT),
             ]);
+
+            return new JsonResponse($componentModal->render());
         }
 
-        $componentModal = $this->mediaLibraryService->modal($config, [
-            'type' => 'delete',
-            'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT),
+        $componentModal->template->context->append([
+            'confirmMessage' => $this->translator->trans('media_library.folder.delete.warning', [], EMSCoreBundle::TRANS_COMPONENT),
             'form' => $form->createView(),
             'submitIcon' => 'fa-remove',
             'submitClass' => 'btn-outline-danger',
             'submitLabel' => $this->translator->trans('media_library.folder.delete.submit', [], EMSCoreBundle::TRANS_COMPONENT),
         ]);
 
-        $componentModal->modal->addMessage(
-            ModalMessageType::Warning,
-            $this->translator->trans('media_library.folder.delete.warning', [], EMSCoreBundle::TRANS_COMPONENT)
-        );
-
-        return new JsonResponse($componentModal->render());
+        return new JsonResponse($componentModal->setBlockFooter('media_lib_modal_delete_footer')->render());
     }
 
     public function deleteFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
@@ -218,6 +215,42 @@ class MediaLibraryController
         $this->flashBag($request)->clear();
 
         return new JsonResponse(['success' => true]);
+    }
+
+    public function deleteFiles(MediaLibraryConfig $config, Request $request): JsonResponse
+    {
+        $selectionFiles = $request->query->getInt('selectionFiles');
+        $folderId = $request->get('folderId');
+        $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+
+        $componentModal = $this->mediaLibraryService->modal($config, [
+            'type' => 'delete_files',
+            'title' => $this->translator->trans('media_library.files.delete.title', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->flashBag($request)->clear();
+
+            $componentModal->modal->data['success'] = true;
+            $componentModal->template->context->append([
+                'infoMessage' => $this->translator->trans('media_library.files.delete.info', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT)
+            ]);
+
+            return new JsonResponse($componentModal->render());
+        }
+
+        $componentModal->template->context->append([
+            'confirmMessage' => $this->translator->trans('media_library.files.delete.warning', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+            'submitIcon' => 'fa-remove',
+            'submitClass' => 'btn-outline-danger',
+            'submitLabel' => $this->translator->trans('media_library.files.delete.submit', [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        return new JsonResponse($componentModal->render());
     }
 
     private function getAjaxModal(): AjaxModal

@@ -114,4 +114,10 @@
         <requirement key="hash">.*</requirement>
         <default key="folderId" xsi:nil="true"/>
     </route>
+    <route id="emsco.media_library.files.delete" path="/media-lib/{hash}/delete-files/{folderId}"
+           controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::deleteFiles"
+           methods="GET|POST">
+        <requirement key="hash">.*</requirement>
+        <default key="folderId" xsi:nil="true"/>
+    </route>
 </routes>

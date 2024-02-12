@@ -8,7 +8,7 @@ Open a terminal and run the following commands:
 
 ```bash
 make start
-make status ## wait until everything is healthy but elasticms_demo-setup_ems-1
+make status ## wait about a minute until elasticms_demo-web-local-1 is healthy
 make init
 ```
 

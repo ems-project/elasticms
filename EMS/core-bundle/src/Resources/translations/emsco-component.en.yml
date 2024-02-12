@@ -30,6 +30,9 @@ media_library:
             title: 'Delete file'
         rename:
             title: 'Rename file'
+    files:
+        delete:
+            title: 'Delete %count% files'
 
 json_menu_nested:
     error:

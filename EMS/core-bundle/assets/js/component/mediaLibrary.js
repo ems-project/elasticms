@@ -100,8 +100,7 @@ export default class MediaLibrary {
 
         if (selection.length > 1) {
             this.loading(false);
-            //multiple selection
-            console.debug('multiple');
+            this._getHeader(null, selection.length).then(() => { this.loading(false); });
         } else if (1 === selection.length) {
             this._getHeader(item.dataset.id).then(() => { this.loading(false); });
         }
@@ -236,11 +235,12 @@ export default class MediaLibrary {
         }
     }
 
-    _getHeader(fileId = null) {
+    _getHeader(fileId = null, selectionFiles = null) {
         let path = '/header';
         let query = new URLSearchParams();
 
         if (fileId) query.append('fileId', fileId);
+        if (selectionFiles) query.append('selectionFiles', selectionFiles);
         if (this.#activeFolderId) query.append('folderId', this.#activeFolderId);
 
         if (query.size > 0) path = path + '?' + query.toString();

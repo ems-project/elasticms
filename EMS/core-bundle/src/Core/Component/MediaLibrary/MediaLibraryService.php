@@ -104,7 +104,7 @@ class MediaLibraryService
         return \array_filter([
             'totalRows' => $findFiles['total_documents'],
             'remaining' => ($from + $findFiles['total_documents'] < $findFiles['total']),
-            'header' => 0 === $from ? $this->renderHeader($config, $folder) : null,
+            'header' => 0 === $from ? $this->renderHeader(config: $config, folder: $folder) : null,
             'rowHeader' => 0 === $from ? $template->block('media_lib_file_row_header') : null,
             'rows' => $template->block('media_lib_file_rows'),
         ]);
@@ -198,7 +198,7 @@ class MediaLibraryService
         return $this->jobService->createCommand($user, $command);
     }
 
-    public function renderHeader(MediaLibraryConfig $config, MediaLibraryFolder|string|null $folder = null, MediaLibraryFile|string|null $file = null): string
+    public function renderHeader(MediaLibraryConfig $config, MediaLibraryFolder|string|null $folder = null, MediaLibraryFile|string|null $file = null, int $selectionFiles = 0): string
     {
         $mediaFolder = \is_string($folder) ? $this->getFolder($config, $folder) : $folder;
         $mediaFile = \is_string($file) ? $this->getFile($config, $file) : $file;
@@ -206,7 +206,8 @@ class MediaLibraryService
         $template = $this->templateFactory->create($config, \array_filter([
             'mediaFolder' => $mediaFolder,
             'mediaFile' => $mediaFile,
-        ]));
+            'selectionFiles' => $selectionFiles,
+        ], static fn ($v) => null !== $v));
 
         return $template->block('media_lib_header');
     }

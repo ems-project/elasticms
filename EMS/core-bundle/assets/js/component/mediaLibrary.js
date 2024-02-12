@@ -56,6 +56,9 @@ export default class MediaLibrary {
             if (uploadButton) uploadButton.removeAttribute('disabled');
         }
     }
+    getSelectionFiles() {
+        return this.#elements.listFiles.querySelectorAll('.active');
+    }
 
     _addEventListeners() {
         document.onkeyup = (event) => { if (event.shiftKey) this.#selectionLastFile = null; }
@@ -67,8 +70,9 @@ export default class MediaLibrary {
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
 
             if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click();
-            if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target, event);
-            if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target, event);
+            if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
+            if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target);
+            if (classList.contains('btn-files-delete')) this._onClickButtonFilesDelete(event.target)
 
             if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd();
             if (classList.contains('btn-folder-delete')) this._onClickButtonFolderDelete(event.target);
@@ -77,7 +81,7 @@ export default class MediaLibrary {
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
 
-            const keepSelection = ['media-lib-item', 'btn-file-rename', 'btn-file-delete'];
+            const keepSelection = ['media-lib-item', 'btn-file-rename', 'btn-file-delete', 'btn-files-delete'];
             if (!keepSelection.some(className => classList.contains(className))) {
                 this._selectFilesReset();
             }
@@ -93,13 +97,8 @@ export default class MediaLibrary {
     _onClickFile(item, event) {
         this.loading(true);
         const selection = this._selectFiles(item, event);
-
-        if (selection.length > 1) {
-            this.loading(false);
-            this._getHeader(null, selection.length).then(() => { this.loading(false); });
-        } else if (1 === selection.length) {
-            this._getHeader(item.dataset.id).then(() => { this.loading(false); });
-        }
+        const fileId = selection.length === 1 ? item.dataset.id : null;
+        this._getHeader(fileId).then(() => { this.loading(false); });
     }
 
     _onClickButtonFileRename(button) {
@@ -116,23 +115,28 @@ export default class MediaLibrary {
             });
         });
     }
-    _onClickButtonFileDelete() {
-        const activeItems = this.#elements.listFiles.querySelectorAll('.active');
+    _onClickButtonFileDelete(button) {
+        const fileId = button.dataset.id;
+        const fileRow = this.#elements.listFiles.querySelector(`[data-id='${fileId}']`);
 
-        if (1 === activeItems.length) {
-            let activeItem = activeItems[0];
-            let fileId = activeItem.dataset.id;
+        this._post(`/file/${fileId}/delete`).then((json) => {
+            if (!json.hasOwnProperty('success') || json.success === false) return;
 
-            this._post(`/file/${fileId}/delete`).then((json) => {
-                if (!json.hasOwnProperty('success') || json.success === false) return;
+            fileRow.remove();
+            this._selectFilesReset();
+            this.loading(false);
+        });
+    }
+    _onClickButtonFilesDelete(button) {
+        const path = this.#activeFolderId ? `/delete-files/${this.#activeFolderId}` : '/delete-files';
+        const query = new URLSearchParams({ 'selectionFiles': this.getSelectionFiles().length.toString() });
+        const modalSize = button.dataset.modalSize ?? 'sm';
 
-                activeItem.remove();
-                this._selectFilesReset();
-                this.loading(false);
-            });
-        } else if (activeItems.length > 1) {
-            // implement multiple delete
-        }
+        ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
+            if (!json.hasOwnProperty('success') || json.success === false) return;
+
+            //implement multiple delete
+        });
     }
 
     _onClickFolder(button) {
@@ -231,12 +235,12 @@ export default class MediaLibrary {
         }
     }
 
-    _getHeader(fileId = null, selectionFiles = null) {
+    _getHeader(fileId = null) {
         let path = '/header';
         let query = new URLSearchParams();
 
         if (fileId) query.append('fileId', fileId);
-        if (selectionFiles) query.append('selectionFiles', selectionFiles);
+        if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString());
         if (this.#activeFolderId) query.append('folderId', this.#activeFolderId);
 
         if (query.size > 0) path = path + '?' + query.toString();
@@ -408,7 +412,6 @@ export default class MediaLibrary {
             this._uploadFiles(Array.from(files));
         }, false);
     }
-
     _initInfiniteScrollFiles(scrollArea, divLoadMore) {
         const options = {
             root: scrollArea,
@@ -446,9 +449,8 @@ export default class MediaLibrary {
 
         this.#selectionLastFile = item;
 
-        return this.#elements.listFiles.querySelectorAll('.active');
+        return this.getSelectionFiles();
     }
-
     _selectFilesReset() {
         this.#elements.header.innerHTML = this.#activeFolderHeader;
         this.#elements.listFiles.querySelectorAll('.media-lib-item').forEach((f) => f.classList.remove('active'));

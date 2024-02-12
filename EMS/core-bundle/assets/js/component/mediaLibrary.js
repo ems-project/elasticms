@@ -196,7 +196,7 @@ export default class MediaLibrary {
 
         ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/rename`, size: 'sm'}, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
-            if (!json.hasOwnProperty('jobId')) return;
+            if (!json.hasOwnProperty('jobId') || !json.hasOwnProperty('path')) return;
 
             let jobProgressBar = new ProgressBar('progress-' + json.jobId, {
                 label: 'Renaming',
@@ -211,7 +211,7 @@ export default class MediaLibrary {
                 this._startJob(json.jobId),
                 this._jobPolling(json.jobId, jobProgressBar)
             ])
-                .then(() => this._getFolders())
+                .then(() => this._getFolders(json.path))
                 .then(() => setTimeout(() => {}, 1000))
                 .then(() => ajaxModal.close())
             ;

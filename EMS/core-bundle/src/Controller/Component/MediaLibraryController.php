@@ -154,6 +154,7 @@ class MediaLibraryController
             return new JsonResponse([
                 'success' => true,
                 'jobId' => $job->getId(),
+                'path' => $folder->getPath()->getValue(),
                 'modalBody' => '',
                 'modalMessages' => [
                     ['info' => $this->translator->trans('media_library.folder.rename.job_info', [], EMSCoreBundle::TRANS_COMPONENT)],

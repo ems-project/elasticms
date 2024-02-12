@@ -128,14 +128,42 @@ export default class MediaLibrary {
         });
     }
     _onClickButtonFilesDelete(button) {
+        const selection = this.getSelectionFiles();
+        if (selection.length < 1) return;
+
         const path = this.#activeFolderId ? `/delete-files/${this.#activeFolderId}` : '/delete-files';
-        const query = new URLSearchParams({ 'selectionFiles': this.getSelectionFiles().length.toString() });
+        const query = new URLSearchParams({ 'selectionFiles': selection.length.toString() });
         const modalSize = button.dataset.modalSize ?? 'sm';
 
         ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
 
-            //implement multiple delete
+            let processed = 0;
+            const progressBar = new ProgressBar('progress-delete-files', {
+                label: 'Deleting files',
+                value: 100,
+                showPercentage: true,
+            });
+
+            ajaxModal.getBodyElement().append(progressBar.element());
+            this.loading(true);
+
+            Promise
+                .allSettled(Array.from(selection).map(fileRow => {
+                    return this._post(`/file/${fileRow.dataset.id}/delete`).then(() => {
+                        if (!json.hasOwnProperty('success') || json.success === false) return;
+
+                        fileRow.remove();
+                        progressBar
+                            .progress(Math.round((++processed / selection.length) * 100))
+                            .style('success');
+                    });
+                }))
+                .then(() => this._selectFilesReset())
+                .then(() => this.loading(false))
+                .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+                .then(() => ajaxModal.close())
+            ;
         });
     }
 
@@ -186,7 +214,7 @@ export default class MediaLibrary {
             ])
                 .then(() => this._onClickButtonHome())
                 .then(() => this._getFolders())
-                .then(() => setTimeout(() => {}, 1000))
+                .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
                 .then(() => ajaxModal.close())
             ;
         });
@@ -212,7 +240,7 @@ export default class MediaLibrary {
                 this._jobPolling(json.jobId, jobProgressBar)
             ])
                 .then(() => this._getFolders(json.path))
-                .then(() => setTimeout(() => {}, 1000))
+                .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
                 .then(() => ajaxModal.close())
             ;
         });

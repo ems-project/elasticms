@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 
 include .env
-export $(grep -v '^#' .env | xargs)
 
 ELK_VERSION  ?= elk7
 ENVIRONMENT  ?= local
@@ -39,7 +38,7 @@ start: ## start docker
 	@docker compose up -d
 restart: ## restart docker and recreate
 	@docker compose up -d --force-recreate
-clean:
+clean: ## delete docker volumes, generated assets and npm dependencies
 	@$(MAKE) -s stop
 	@docker volume rm elasticms_demo_${ELK_VERSION}_data01 elasticms_demo_${ELK_VERSION}_data02 elasticms_demo_${ELK_VERSION}_data03 elasticms_demo_postgres elasticms_demo_redis elasticms_demo_s3
 	@rm -Rf dist/

@@ -429,7 +429,10 @@ export default class MediaLibrary {
             }, false);
         });
         ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => dropArea.classList.add('media-lib-drop-area'), false);
+            dropArea.addEventListener(eventName, () => {
+                this._selectFilesReset();
+                dropArea.classList.add('media-lib-drop-area')
+            }, false);
         });
         ['dragleave', 'drop'].forEach(eventName => {
             dropArea.addEventListener(eventName, () => dropArea.classList.remove('media-lib-drop-area'), false);
@@ -480,6 +483,8 @@ export default class MediaLibrary {
         return this.getSelectionFiles();
     }
     _selectFilesReset() {
+        if (this.getSelectionFiles().length === 0) return;
+
         this.#elements.header.innerHTML = this.#activeFolderHeader;
         this.#elements.listFiles.querySelectorAll('.media-lib-item').forEach((f) => f.classList.remove('active'));
     }

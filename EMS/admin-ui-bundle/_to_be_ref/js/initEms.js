@@ -24,21 +24,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
 
 }(function($) {
 
-    function activeMenu() {
-        //try to find which side menu elements to activate
-        const currentMenuLink = $('section.sidebar ul.sidebar-menu a[href="' + window.location.pathname + window.location.search + '"]');
-
-        if ( currentMenuLink.length > 0 ) {
-            currentMenuLink.last().parents('li').addClass('active');
-        }
-        else {
-            $('#side-menu-id').each(function(){
-                $('#'+$(this).data('target')).parents('li').addClass('active');
-            });
-        }
-    }
-
-
     function closeModalNotification() {
         $('#modal-notification-close-button').on('click', function(){
             $('#modal-notifications .modal-body').empty();
@@ -111,59 +96,14 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
         });
     }
 
-    function initPostButtons() {
-        document.addEventListener('click', function (e) {
-            if (e.target.classList.contains('core-post-button')) {
-                e.preventDefault();
-
-                let button = e.target;
-                let postSettings = JSON.parse(button.dataset.postSettings)
-                let url = button.href;
-
-                let f = postSettings.hasOwnProperty('form') ? document.getElementById(postSettings.form) :  document.createElement('form');
-
-                if (postSettings.hasOwnProperty('form')) {
-                    let my_tb=document.createElement('INPUT');
-                    my_tb.style.display='none';
-                    my_tb.type='TEXT';
-                    my_tb.name='source_url';
-                    my_tb.value= url;
-                    f.appendChild(my_tb);
-
-                    if (postSettings.action) {
-                        f.action=JSON.parse(postSettings.action);
-                    }
-                } else {
-                    f.style.display='none';
-                    f.method='post';
-                    f.action=url;
-                    button.parentNode.appendChild(f);
-                }
-
-                if (postSettings.hasOwnProperty('value') && postSettings.hasOwnProperty('name')) {
-                    let my_tb=document.createElement('INPUT');
-                    my_tb.style.display='none';
-                    my_tb.type='TEXT';
-                    my_tb.name=JSON.parse(postSettings.name);
-                    my_tb.value=JSON.parse(postSettings.value);
-                    f.appendChild(my_tb);
-                }
-
-                f.submit();
-            }
-        });
-    }
-
 
     $(document).ready(function() {
-        activeMenu();
         closeModalNotification();
         toggleMenu();
         initSearchForm();
         autoOpenModal(queryString());
         initJsonMenu();
         intAjaxModalLinks();
-        initPostButtons();
 
         window.dispatchEvent(new CustomEvent('emsReady'));
     });

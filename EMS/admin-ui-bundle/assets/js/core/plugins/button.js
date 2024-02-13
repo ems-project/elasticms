@@ -6,6 +6,7 @@ export default class Button {
     this.addRemoveButtonListeners(target)
     this.addDisabledButtonTreatListeners(target)
     this.addRequestNotificationListeners(target)
+    this.addPostButtonListeners(target)
   }
 
   addRemoveButtonListeners (target) {
@@ -35,7 +36,7 @@ export default class Button {
   }
 
   addRequestNotificationListeners (target) {
-    const links = document.querySelectorAll('a.request-notification')
+    const links = target.querySelectorAll('a.request-notification')
     for (let i = 0; i < links.length; ++i) {
       links[i].addEventListener('click', function (event) {
         event.preventDefault()
@@ -47,6 +48,49 @@ export default class Button {
           ouuid: this.dataset.ouuid
         }
         ajaxRequest.post(url, data, 'modal-notifications')
+      })
+    }
+  }
+
+  addPostButtonListeners (target) {
+    const buttons = target.querySelectorAll('.core-post-button')
+    for (let i = 0; i < buttons.length; ++i) {
+      buttons[i].addEventListener('click', function (e) {
+        e.preventDefault()
+
+        const button = e.target
+        const postSettings = JSON.parse(button.dataset.postSettings)
+        const url = button.href
+        const f = Object.prototype.hasOwnProperty.call(postSettings, 'form') ? document.getElementById(postSettings.form) : document.createElement('form')
+
+        if (Object.prototype.hasOwnProperty.call(postSettings, 'form')) {
+          const inputField = document.createElement('INPUT')
+          inputField.style.display = 'none'
+          inputField.type = 'TEXT'
+          inputField.name = 'source_url'
+          inputField.value = url
+          f.appendChild(inputField)
+
+          if (postSettings.action) {
+            f.action = JSON.parse(postSettings.action)
+          }
+        } else {
+          f.style.display = 'none'
+          f.method = 'post'
+          f.action = url
+          button.parentNode.appendChild(f)
+        }
+
+        if (Object.prototype.hasOwnProperty.call(postSettings, 'value') && Object.prototype.hasOwnProperty.call(postSettings, 'name')) {
+          const inputField = document.createElement('INPUT')
+          inputField.style.display = 'none'
+          inputField.type = 'TEXT'
+          inputField.name = JSON.parse(postSettings.name)
+          inputField.value = JSON.parse(postSettings.value)
+          f.appendChild(inputField)
+        }
+
+        f.submit()
       })
     }
   }

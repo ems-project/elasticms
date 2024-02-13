@@ -20,6 +20,7 @@ import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
 import RevisionTask from './components/revisionTask'
+import Sidebar from './components/sidebar'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
 
@@ -68,7 +69,8 @@ class Core {
     }
     this.initStatusRefresh()
     this.components = [
-      new RevisionTask()
+      new RevisionTask(),
+      new Sidebar()
     ]
   }
 

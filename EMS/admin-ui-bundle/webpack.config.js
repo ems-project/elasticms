@@ -51,6 +51,7 @@ module.exports = (env, argv) => {
             'calendar': './assets/js/calendar.js',
             'criteria-table': './assets/js/criteria-table.js',
             'criteria-view': './assets/js/criteria-view.js',
+            'edit-revision': './assets/js/edit-revision.js',
             'hierarchical': './assets/js/hierarchical.js',
             'i18n': './assets/js/i18n.js',
             'managed-alias': './assets/js/managed-alias.js',

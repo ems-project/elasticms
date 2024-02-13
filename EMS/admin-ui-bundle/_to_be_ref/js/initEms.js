@@ -24,21 +24,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
 
 }(function($) {
 
-    function activeMenu() {
-        //try to find which side menu elements to activate
-        const currentMenuLink = $('section.sidebar ul.sidebar-menu a[href="' + window.location.pathname + window.location.search + '"]');
-
-        if ( currentMenuLink.length > 0 ) {
-            currentMenuLink.last().parents('li').addClass('active');
-        }
-        else {
-            $('#side-menu-id').each(function(){
-                $('#'+$(this).data('target')).parents('li').addClass('active');
-            });
-        }
-    }
-
-
     function closeModalNotification() {
         $('#modal-notification-close-button').on('click', function(){
             $('#modal-notifications .modal-body').empty();
@@ -113,7 +98,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
 
 
     $(document).ready(function() {
-        activeMenu();
         closeModalNotification();
         toggleMenu();
         initSearchForm();

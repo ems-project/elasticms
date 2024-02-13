@@ -8,7 +8,6 @@ use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
-use EMS\CoreBundle\Core\UI\Modal\ModalMessageType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -178,7 +177,7 @@ class MediaLibraryController
         $folder = $this->mediaLibraryService->getFolder($config, $folderId);
         $componentModal = $this->mediaLibraryService->modal($config, [
             'type' => 'delete_folder',
-            'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT)
+            'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT),
         ]);
 
         $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
@@ -237,7 +236,7 @@ class MediaLibraryController
 
             $componentModal->modal->data['success'] = true;
             $componentModal->template->context->append([
-                'infoMessage' => $this->translator->trans('media_library.files.delete.info', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT)
+                'infoMessage' => $this->translator->trans('media_library.files.delete.info', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT),
             ]);
 
             return new JsonResponse($componentModal->render());

@@ -24,21 +24,21 @@ class ComponentModal
         $this->blockFooter = $this->modalName.'_footer';
     }
 
-    public  function setBlockTitle(string $blockTitle): self
+    public function setBlockTitle(string $blockTitle): self
     {
         $this->blockTitle = $blockTitle;
 
         return $this;
     }
 
-    public  function setBlockBody(string $blockBody): self
+    public function setBlockBody(string $blockBody): self
     {
         $this->blockBody = $blockBody;
 
         return $this;
     }
 
-    public  function setBlockFooter(string $blockFooter): self
+    public function setBlockFooter(string $blockFooter): self
     {
         $this->blockFooter = $blockFooter;
 
@@ -50,7 +50,7 @@ class ComponentModal
         $blocks = [
             'title' => $this->blockTitle,
             'body' => $this->blockBody,
-            'footer' => $this->blockFooter
+            'footer' => $this->blockFooter,
         ];
 
         foreach ($blocks as $property => $blockName) {

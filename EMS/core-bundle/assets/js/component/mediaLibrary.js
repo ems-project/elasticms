@@ -483,8 +483,6 @@ export default class MediaLibrary {
         return this.getSelectionFiles();
     }
     _selectFilesReset() {
-        if (this.getSelectionFiles().length === 0) return;
-
         this.#elements.header.innerHTML = this.#activeFolderHeader;
         this.#elements.listFiles.querySelectorAll('.media-lib-item').forEach((f) => f.classList.remove('active'));
     }

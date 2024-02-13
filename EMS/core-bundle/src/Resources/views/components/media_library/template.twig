@@ -23,9 +23,11 @@
 
 {%- block media_lib_file_row_header -%}
     <li>
-        <div>Name</div>
-        <div>Type</div>
-        <div class="text-right">Size</div>
+        <div class="media-lib-item-container">
+            <div>Name</div>
+            <div>Type</div>
+            <div class="text-right">Size</div>
+        </div>
     </li>
 {%- endblock media_lib_file_row_header -%}
 
@@ -37,9 +39,11 @@
 
 {%- block media_lib_file_row -%}
     <li class="media-lib-item" data-id="{{- mediaFile.id -}}">
-        <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}">{{- mediaFile.name -}}</a></div>
-        <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
-        <div class="text-right">{{- mediaFile.file.filesize|format_bytes -}}</div>
+        <div class="media-lib-item-container">
+            <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}">{{- mediaFile.name -}}</a></div>
+            <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+            <div class="text-right">{{- mediaFile.file.filesize|format_bytes -}}</div>
+        </div>
     </li>
 {%- endblock media_lib_file_row -%}
 

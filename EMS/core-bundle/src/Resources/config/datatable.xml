@@ -18,6 +18,12 @@
             <argument>%ems_core.template_namespace%</argument>
             <tag name="emsco.datatable" />
         </service>
+      <service id="emsco.data_table.release.non_member" class="EMS\CoreBundle\DataTable\Type\Release\ReleaseNonMemberRevisionsDataTableType">
+        <argument type="service" id="ems.service.release_revision"/>
+        <argument type="service" id="ems.service.release"/>
+        <argument>%ems_core.template_namespace%</argument>
+        <tag name="emsco.datatable" />
+      </service>
         <service id="emsco.data_table.release.overview" class="EMS\CoreBundle\DataTable\Type\Release\ReleaseOverviewDataTableType">
             <argument type="service" id="ems.service.release"/>
             <argument>%ems_core.template_namespace%</argument>

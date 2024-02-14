@@ -1,9 +1,11 @@
 import $ from 'jquery'
 import ajaxRequest from '../components/ajaxRequest'
+import ChangeEvent from '../events/changeEvent'
 
 class Form {
   load (target) {
     this.initAjaxSave(target)
+    this.initFormChangeEvent(target)
   }
 
   initAjaxSave (target) {
@@ -47,6 +49,16 @@ class Form {
         return true
       })
     })
+  }
+
+  initFormChangeEvent (target) {
+    const inputs = document.querySelectorAll('input,textarea')
+    for (let i = 0; i < inputs.length; ++i) {
+      inputs[i].addEventListener('change', function () {
+        const event = new ChangeEvent(inputs[i])
+        event.dispatch()
+      })
+    }
   }
 }
 

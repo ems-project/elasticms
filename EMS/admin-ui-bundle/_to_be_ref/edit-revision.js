@@ -1,16 +1,6 @@
 'use strict';
 
-import './js/core';
-import './css/app.scss';
-import './css/app.less';
-import IframePreview from "./js/module/iframePreview";
-
-
-import EmsListeners from './js/EmsListeners';
 import {editRevisionEventListeners} from "./js/editRevisionEventListeners";
-window.EmsListeners = EmsListeners;
-
-new IframePreview();
 
 
 let waitingResponse = false;

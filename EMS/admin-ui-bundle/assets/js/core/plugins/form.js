@@ -52,8 +52,11 @@ class Form {
   }
 
   initFormChangeEvent (target) {
-    const inputs = document.querySelectorAll('input,textarea')
+    const inputs = document.querySelectorAll('input,textarea,select')
     for (let i = 0; i < inputs.length; ++i) {
+      if (inputs[i].classList.contains('ignore-ems-update') || inputs[i].classList.contains('datetime-picker')) {
+        continue
+      }
       inputs[i].addEventListener('change', function () {
         const event = new ChangeEvent(inputs[i])
         event.dispatch()

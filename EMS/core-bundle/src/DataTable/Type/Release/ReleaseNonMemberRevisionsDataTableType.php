@@ -35,7 +35,7 @@ class ReleaseNonMemberRevisionsDataTableType extends AbstractQueryTableType
         $table->setIdField('emsLink');
         $table->setSelected($release->getRevisionsOuuids());
 
-        $table->addColumn('release.revision.index.column.label', 'item_labelField');
+        $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.label', 'label', "@$this->templateNamespace/release/columns/revisions.html.twig"));
         $table->addColumn('release.revision.index.column.CT', 'content_type_singular_name');
         $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.minRevId', 'minrevid', "@$this->templateNamespace/release/columns/revisions.html.twig"));
         $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.maxRevId', 'maxrevid', "@$this->templateNamespace/release/columns/revisions.html.twig"));

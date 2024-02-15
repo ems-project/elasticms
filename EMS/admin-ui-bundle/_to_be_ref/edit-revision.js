@@ -2,13 +2,6 @@
 
 import {editRevisionEventListeners} from "./js/editRevisionEventListeners";
 
-$("form[name=revision]").submit(function( ) {
-    //disable all pending auto-save
-    waitingResponse = true;
-    synch = true;
-    $('#data-out-of-sync').remove();
-});
-
 function updateCollectionLabel()
 {
     $('.collection-panel').each(function() {

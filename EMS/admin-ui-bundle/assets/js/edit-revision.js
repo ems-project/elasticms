@@ -79,10 +79,17 @@ function onChange (allowAutoPublish = false) {
     .always(function () {
       waitingResponse = false
       if (!synch) {
-        onChange()
+        onChange(allowAutoPublish)
       }
     })
 }
+
+$("form[name=revision]").submit(function( ) {
+    //disable all pending auto-save
+    waitingResponse = true;
+    synch = true;
+    $('#data-out-of-sync').remove();
+})
 
 window.onload = function () {
   const form = document.querySelector('form[name=revision]')

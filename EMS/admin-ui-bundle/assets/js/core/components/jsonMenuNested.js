@@ -2,10 +2,9 @@ import ajaxModal from '../../../js/core/helpers/ajaxModal'
 import { ajaxJsonPost } from '../helpers/ajax'
 import collapse from '../helpers/collapse'
 import $ from 'jquery'
+import { v4 } from 'uuid'
 
 require('../librairies/nestedSortable')
-
-import {v4} from 'uuid'
 
 export default class JsonMenuNested {
   copyName = 'json_menu_nested_copy'

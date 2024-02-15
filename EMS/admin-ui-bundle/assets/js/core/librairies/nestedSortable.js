@@ -139,6 +139,12 @@ require('jquery-ui/ui/widgets/sortable');
         this.lastPositionAbs = this.positionAbs
       }
 
+
+        this.dragDirection = {
+            vertical: this._getDragVerticalDirection(),
+            horizontal: this._getDragHorizontalDirection()
+        };
+
       // Do scrolling
       if (this.options.scroll) {
         if (false && this.scrollParent[0] !== document && this.scrollParent[0].tagName !== 'HTML') {

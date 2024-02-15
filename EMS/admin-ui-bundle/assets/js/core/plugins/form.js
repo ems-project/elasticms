@@ -1,9 +1,12 @@
 import $ from 'jquery'
 import ajaxRequest from '../components/ajaxRequest'
+import ChangeEvent from '../events/changeEvent'
+import { EMS_CTRL_SAVE_EVENT } from '../events/ctrlSaveEvent'
 
 class Form {
   load (target) {
     this.initAjaxSave(target)
+    this.initFormChangeEvent(target)
   }
 
   initAjaxSave (target) {
@@ -31,22 +34,21 @@ class Form {
       }
 
       button.on('click', ajaxSave)
-
-      $(document).keydown(function (e) {
-        let key
-        const possible = [e.key, e.keyIdentifier, e.keyCode, e.which]
-
-        while (key === undefined && possible.length > 0) {
-          key = possible.pop()
-        }
-
-        if (typeof key === 'number' && (key === 115 || key === 83) && (e.ctrlKey || e.metaKey) && !(e.altKey)) {
-          ajaxSave(e)
-          return false
-        }
-        return true
-      })
+      document.addEventListener(EMS_CTRL_SAVE_EVENT, (event) => ajaxSave(event.detail.parentEvent))
     })
+  }
+
+  initFormChangeEvent (target) {
+    const inputs = document.querySelectorAll('input,textarea,select')
+    for (let i = 0; i < inputs.length; ++i) {
+      if (inputs[i].classList.contains('ignore-ems-update') || inputs[i].classList.contains('datetime-picker')) {
+        continue
+      }
+      inputs[i].addEventListener('change', function () {
+        const event = new ChangeEvent(inputs[i])
+        event.dispatch()
+      })
+    }
   }
 }
 

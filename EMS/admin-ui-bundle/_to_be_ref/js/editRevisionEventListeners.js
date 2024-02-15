@@ -23,12 +23,6 @@ function editRevisionEventListeners(target, onChangeCallback = null){
         }
     });
 
-    if (onChangeCallback) {
-        target.find("input").not(".ignore-ems-update,.datetime-picker,datetime-picker").on('input', onChangeCallback);
-        target.find("select").not(".ignore-ems-update").on('change', onChangeCallback);
-        target.find("textarea").not(".ignore-ems-update").on('input', onChangeCallback);
-    }
-
     target.find('.add-content-button').on('click', function(e) {
         // prevent the link from creating a "#" on the URL
         e.preventDefault();

@@ -45,6 +45,7 @@
     "jquery-lazyload": "^1.9.7",
     "jquery-ui": "^1.13.2",
     "select2": "^4.1.0-rc.0",
-    "sortablejs": "^1.15.1"
+    "sortablejs": "^1.15.1",
+    "uuid": "^9.0.1"
   }
 }

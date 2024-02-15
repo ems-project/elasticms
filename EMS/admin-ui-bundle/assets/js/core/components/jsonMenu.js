@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { ChangeEvent } from '../events/changeEvent'
 require('../librairies/nestedSortable')
 
-const uuidv4 = require('uuid/v4')
+import {v4} from 'uuid'
 
 export default class JsonMenu {
   constructor (target) {
@@ -63,7 +63,7 @@ export default class JsonMenu {
   }
 
   addItem ($target, prototypeTarget, data) {
-    const uuid = uuidv4()
+    const uuid = v4()
     let itemHtml = this.parent.find('.json_menu_editor_fieldtype_widget').data(prototypeTarget)
     itemHtml = itemHtml.replace(/%uuid%/g, uuid)
     for (const [key, value] of Object.entries(data)) {

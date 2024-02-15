@@ -126,6 +126,7 @@ log:
             reindex_failed_in: 'The document "%label%" has encountered an exception during its reindexing in %environment%'
             added_to_release: 'Document "%label%" has been added to release "%release%"'
             can_not_add_draft_in_release: 'Revision in draft mode can not be added to a release'
+            document_not_in_target: 'Document "%label%" is not published in target environment "%environment%"'
             document_already_in_release_but_updated: 'Document "%label%" has been updated with a new revision in release "%release%"'
             already_in_release: 'This revision of document "%label%" was already in release "%release%"'
     elasticsearch:
@@ -526,7 +527,8 @@ data:
     custom-view:
         pagetitle: 'View %name% of the %contentType% "%label%" as indexed in %environment%'
     actions:
-        add_to_release: 'Add to release'
+        add_to_release_publish: 'Add to release for publication'
+        add_to_release_unpublish: 'Add to release for unpublish'
         add_to_release_confirm: 'Do you confirm ?'
 field_type:
     textarea:

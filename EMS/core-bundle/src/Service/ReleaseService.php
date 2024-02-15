@@ -40,7 +40,7 @@ final class ReleaseService implements EntityServiceInterface
         $this->releaseRepository->create($release);
     }
 
-    public function addRevision(Release $release, Revision $revision): void
+    public function addRevisionForPublish(Release $release, Revision $revision): void
     {
         if ($revision->getDraft()) {
             $this->logger->error('log.data.revision.can_not_add_draft_in_release', [...['release' => $release->getName()], ...LogRevisionContext::read($revision)]);
@@ -62,12 +62,45 @@ final class ReleaseService implements EntityServiceInterface
 
             return;
         }
-        $releaseRevision = new ReleaseRevision();
+
+        $releaseRevision = ReleaseRevision::createFromRevision($revision);
         $releaseRevision->setRelease($release);
-        $releaseRevision->setContentType($revision->giveContentType());
-        $releaseRevision->setRevisionOuuid($revision->giveOuuid());
         $releaseRevision->setRevision($revision);
         $release->addRevision($releaseRevision);
+
+        $this->releaseRepository->create($release);
+        $this->logger->notice('log.data.revision.added_to_release', [...['release' => $release->getName()], ...LogRevisionContext::read($revision)]);
+    }
+
+    public function addRevisionForUnpublish(Release $release, Revision $revision): void
+    {
+        if ($revision->getDraft()) {
+            $this->logger->error('log.data.revision.can_not_add_draft_in_release', [...['release' => $release->getName()], ...LogRevisionContext::read($revision)]);
+
+            return;
+        }
+
+        foreach ($release->getRevisions() as $releaseRevision) {
+            if ($releaseRevision->getRevisionOuuid() === $revision->giveOuuid()) {
+                $this->logger->notice('log.data.revision.already_in_release', [...['release' => $release->getName()], ...LogRevisionContext::read($revision)]);
+
+                return;
+            }
+        }
+
+        try {
+            $this->dataService->getRevisionByEnvironment($revision->giveOuuid(), $revision->giveContentType(), $release->getEnvironmentTarget());
+        } catch (NoResultException) {
+            $this->logger->notice('log.data.revision.document_not_in_target', [...['environment' => $release->getEnvironmentTarget()->getName()], ...LogRevisionContext::read($revision)]);
+
+            return;
+        }
+
+        $releaseRevision = ReleaseRevision::createFromRevision($revision);
+        $releaseRevision->setRelease($release);
+        $releaseRevision->setRevision(null);
+        $release->addRevision($releaseRevision);
+
         $this->releaseRepository->create($release);
         $this->logger->notice('log.data.revision.added_to_release', [...['release' => $release->getName()], ...LogRevisionContext::read($revision)]);
     }

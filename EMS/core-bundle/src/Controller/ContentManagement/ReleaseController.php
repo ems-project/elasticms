@@ -169,9 +169,13 @@ final class ReleaseController extends AbstractController
         return $this->redirectToRoute(Routes::RELEASE_INDEX);
     }
 
-    public function addRevisionById(Release $release, Revision $revision): Response
+    public function addRevisionById(Release $release, Revision $revision, string $type): Response
     {
-        $this->releaseService->addRevision($release, $revision);
+        match ($type) {
+            'publish' => $this->releaseService->addRevisionForPublish($release, $revision),
+            'unpublish' => $this->releaseService->addRevisionForUnpublish($release, $revision),
+            default => throw new \RuntimeException('invalid type')
+        };
 
         return $this->redirectToRoute(Routes::VIEW_REVISIONS, [
             'type' => $revision->giveContentType()->getName(),

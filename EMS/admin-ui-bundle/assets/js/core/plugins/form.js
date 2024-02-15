@@ -1,6 +1,8 @@
 import $ from 'jquery'
 import ajaxRequest from '../components/ajaxRequest'
 import ChangeEvent from '../events/changeEvent'
+import { EMS_CTRL_SAVE_EVENT } from '../events/ctrlSaveEvent'
+import { EMS_ADDED_DOM_EVENT } from '../events/addedDomEvent'
 
 class Form {
   load (target) {
@@ -33,21 +35,7 @@ class Form {
       }
 
       button.on('click', ajaxSave)
-
-      $(document).keydown(function (e) {
-        let key
-        const possible = [e.key, e.keyIdentifier, e.keyCode, e.which]
-
-        while (key === undefined && possible.length > 0) {
-          key = possible.pop()
-        }
-
-        if (typeof key === 'number' && (key === 115 || key === 83) && (e.ctrlKey || e.metaKey) && !(e.altKey)) {
-          ajaxSave(e)
-          return false
-        }
-        return true
-      })
+      document.addEventListener(EMS_CTRL_SAVE_EVENT, (event) => ajaxSave(event.detail.parentEvent))
     })
   }
 

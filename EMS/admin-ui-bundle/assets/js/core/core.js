@@ -21,6 +21,7 @@ import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
 import RevisionTask from './components/revisionTask'
+import Modal from './components/modal'
 import Sidebar from './components/sidebar'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
@@ -75,6 +76,7 @@ class Core {
     this.initCtrlSaveEvent()
     this.components = [
       new RevisionTask(),
+      new Modal(),
       new Sidebar()
     ]
   }

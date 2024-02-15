@@ -116,7 +116,7 @@ class Core {
         key = possible.pop()
       }
       if (typeof key === 'number' && (key === 115 || key === 83) && (e.ctrlKey || e.metaKey) && !(e.altKey)) {
-        event = new CtrlSaveEvent(e)
+        const event = new CtrlSaveEvent(e)
         event.dispatch()
       }
     })

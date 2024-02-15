@@ -91,7 +91,7 @@ final class ReleaseService implements EntityServiceInterface
         try {
             $this->dataService->getRevisionByEnvironment($revision->giveOuuid(), $revision->giveContentType(), $release->getEnvironmentTarget());
         } catch (NoResultException) {
-            $this->logger->notice('log.data.revision.document_not_in_target', [...['environment' => $release->getEnvironmentTarget()->getName()], ...LogRevisionContext::read($revision)]);
+            $this->logger->notice('log.data.revision.document_not_in_target', [...['target' => $release->getEnvironmentTarget()->getName()], ...LogRevisionContext::read($revision)]);
 
             return;
         }

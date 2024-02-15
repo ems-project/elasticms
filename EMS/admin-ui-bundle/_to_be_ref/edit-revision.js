@@ -119,25 +119,3 @@ $(window).ready(function() {
     editRevisionEventListeners($('form[name=revision]'), onFormChange);
 });
 
-if (null !== document.querySelector('form[name="revision"]')) {
-    $(document).keydown(function (e) {
-        let key = undefined;
-        /**
-         * @param {{keyIdentifier:string}} e
-         */
-        const possible = [e.key, e.keyIdentifier, e.keyCode, e.which];
-
-        while (key === undefined && possible.length > 0) {
-            key = possible.pop();
-        }
-
-        if (typeof key === "number" && (115 === key || 83 === key) && (e.ctrlKey || e.metaKey) && !(e.altKey)) {
-            e.preventDefault();
-            onFormChange(e, true);
-            return false;
-        }
-        return true;
-
-    });
-}
-

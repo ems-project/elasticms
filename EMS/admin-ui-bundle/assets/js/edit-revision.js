@@ -3,6 +3,7 @@ import $ from 'jquery'
 import ajaxRequest from './core/components/ajaxRequest'
 
 import { EMS_CHANGE_EVENT } from './core/events/changeEvent'
+import { EMS_CTRL_SAVE_EVENT } from './core/events/ctrlSaveEvent'
 
 let waitingResponse = false
 let synch = true
@@ -44,7 +45,6 @@ function onChange (allowAutoPublish = false) {
       $('span.help-block').remove()
       $(response.formErrors).each(function (index, item) {
         let target = item.propertyPath
-          console.log(target)
         const targetLabel = $('#' + target + '__label')
         const targetError = $('#' + target + '__error')
 
@@ -86,5 +86,6 @@ function onChange (allowAutoPublish = false) {
 
 window.onload = function () {
   const form = document.querySelector('form[name=revision]')
-  form.addEventListener(EMS_CHANGE_EVENT, (event) => onChange(form, event.detail.input, event))
+  form.addEventListener(EMS_CHANGE_EVENT, () => onChange())
+  document.addEventListener(EMS_CTRL_SAVE_EVENT, (event) => { event.detail.parentEvent.preventDefault(); onChange(true) })
 }

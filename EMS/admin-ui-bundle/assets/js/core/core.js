@@ -23,6 +23,8 @@ import RevisionTask from './components/revisionTask'
 import Sidebar from './components/sidebar'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
+import CtrlSaveEvent from './events/ctrlSaveEvent'
+import $ from 'jquery'
 
 class Core {
   constructor () {
@@ -68,6 +70,7 @@ class Core {
       document.addEventListener('DOMContentLoaded', this.load(document))
     }
     this.initStatusRefresh()
+    this.initCtrlSaveEvent()
     this.components = [
       new RevisionTask(),
       new Sidebar()
@@ -102,6 +105,21 @@ class Core {
     }
 
     xhr.send()
+  }
+
+  initCtrlSaveEvent () {
+    $(document).keydown(function (e) {
+      let key
+      const possible = [e.key, e.keyIdentifier, e.keyCode, e.which]
+
+      while (key === undefined && possible.length > 0) {
+        key = possible.pop()
+      }
+      if (typeof key === 'number' && (key === 115 || key === 83) && (e.ctrlKey || e.metaKey) && !(e.altKey)) {
+        const event = new CtrlSaveEvent(e)
+        event.dispatch()
+      }
+    })
   }
 }
 

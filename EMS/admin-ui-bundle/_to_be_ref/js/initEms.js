@@ -5,8 +5,6 @@
  *
  */
 import EmsListeners from "./EmsListeners";
-import JsonMenu from "./module/jsonMenu";
-import JsonMenuNested from "./module/jsonMenuNested";
 import ajaxModal from "../../js/core/helpers/ajaxModal";
 
 (function(factory) {
@@ -69,17 +67,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
         });
     }
 
-    function initJsonMenu() {
-        $('.json_menu_editor_fieldtype').each(function(){ new JsonMenu(this); });
-
-        let jsonMenuNestedList = [];
-        $('.json-menu-nested').each(function () {
-            let menu = new JsonMenuNested(this);
-            jsonMenuNestedList[menu.getId()] = menu;
-        });
-        window.jsonMenuNested = jsonMenuNestedList;
-    }
-
     function intAjaxModalLinks() {
         let ajaxModalLinks = document.querySelectorAll('a[data-ajax-modal-url]');
         [].forEach.call(ajaxModalLinks, function (link) {
@@ -102,10 +89,7 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
         toggleMenu();
         initSearchForm();
         autoOpenModal(queryString());
-        initJsonMenu();
         intAjaxModalLinks();
-
-        window.dispatchEvent(new CustomEvent('emsReady'));
     });
 
 }));

@@ -965,10 +965,10 @@
 			{{ form_label(form.value) }}
 		</div>
 		<div class="input-group">
-			<div class="input-group-addon">
-				<i class="fa fa-calendar"></i>
-			</div>
-			{{- form_widget(form.value) -}}
+            <span class="input-group-text">
+                <i class="fa fa-calendar"></i>
+            </span>
+			{{- form_widget(form.value, { 'attr': {'class': errors|length > 0 or not valid ? 'is-invalid' : ''} }) -}}
 		</div>
 		<div class="has-error"  id="{{ form.vars.id}}__error">
 			{{- form_errors(form) -}}

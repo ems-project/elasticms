@@ -106,13 +106,16 @@
 
 {% block icontext_widget -%}
 	{% if  prefixIcon or prefixText or suffixIcon or suffixText %}
+        {% if not valid or errors|length > 0 %}
+            {% set attr = attr|merge({class: attr.class|default('') ~ ' is-invalid'}) %}
+        {% endif %}
 		<div class="input-group">
 			{% if prefixIcon or prefixText %}
-				<span class="input-group-addon"><i class="{% if prefixIcon %}{{ prefixIcon }}{% endif %}"></i>{% if prefixText %} &nbsp; {{ prefixText }} {% endif %}</span>
+				<span class="input-group-text"><i class="{% if prefixIcon %}{{ prefixIcon }}{% endif %}"></i>{% if prefixText %} &nbsp; {{ prefixText }} {% endif %}</span>
 			{% endif %}
 		 	{{ block('form_widget') }}
 			{% if suffixIcon or suffixText %}
-				<span class="input-group-addon"><i class="{% if suffixIcon %}{{ suffixIcon }}{% endif %}"></i>{% if suffixText %} &nbsp; {{ suffixText }} {% endif %}</span>
+				<span class="input-group-text"><i class="{% if suffixIcon %}{{ suffixIcon }}{% endif %}"></i>{% if suffixText %} &nbsp; {{ suffixText }} {% endif %}</span>
 			{% endif %}
 		</div>
 	{% else %}

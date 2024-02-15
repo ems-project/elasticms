@@ -187,7 +187,7 @@
 
 {%- block jmn_modal_view -%}
     {%- if dataFields -%}
-        {%- import "@EMSCore/macros/data-field-type.html.twig" as macros -%}
+        {%- import "@EMSAdminUI/bootstrap5/macros/data-field-type.html.twig" as macros -%}
         {{ macros.renderDataField(dataFields, rawData, false, []) }}
     {%- else -%}
         <p class="text-red">{{ 'view.data.json-menu-nested-json-preview.field-type-not-found'|trans }}</p>

@@ -6,14 +6,14 @@
     		{% set key = child|split(':') %}
     	    {% set contentType = key[0]|get_content_type %}
 
-            {% include "@EMSCore/view/custom/hierarchical_add_item.html.twig" with {
+            {% include "@EMSAdminUI/bootstrap5/view/custom/hierarchical_add_item.html.twig" with {
         		parent: data,
             	view: view,
             	key: key,
             	contentType: contentType,
             	child: child
-        	} %}  
+        	} %}
         {% endif %}
-    
+
     {% endfor %}
 {% endif %}

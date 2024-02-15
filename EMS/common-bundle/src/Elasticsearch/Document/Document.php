@@ -62,11 +62,11 @@ class Document implements DocumentInterface
     /**
      * @param array<string, mixed> $rawData
      */
-    public static function fromData(ContentType $contentType, string $ouuid, array $rawData, string $index = 'not_available'): Document
+    public static function fromData(ContentType|string $contentType, string $ouuid, array $rawData, string $index = 'not_available'): Document
     {
         return new self([
             '_source' => \array_merge($rawData, [
-                EMSSource::FIELD_CONTENT_TYPE => $contentType->getName(),
+                EMSSource::FIELD_CONTENT_TYPE => \is_string($contentType) ? $contentType : $contentType->getName(),
             ]),
             '_id' => $ouuid,
             '_index' => $index,

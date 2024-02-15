@@ -8,6 +8,7 @@ import Form from './plugins/form'
 import Iframe from './plugins/iframe'
 import Image from './plugins/image'
 import Job from './plugins/job'
+import JsonMenu from './plugins/jsonMenu'
 import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
 import NestedSortable from './plugins/nestedSortable'
@@ -40,6 +41,7 @@ class Core {
       new Iframe(),
       new Image(),
       new Job(),
+      new JsonMenu(),
       new JsonMenuNested(),
       new MediaLibrary(),
       new NestedSortable(),

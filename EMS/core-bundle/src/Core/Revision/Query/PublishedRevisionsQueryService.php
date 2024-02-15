@@ -30,18 +30,9 @@ class PublishedRevisionsQueryService implements QueryServiceInterface
         return false;
     }
 
-    /**
-     * @param array{'environment': Environment} $context
-     */
     public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
-        if (!isset($context['environment'])) {
-            throw new \RuntimeException('Missing environment');
-        }
-
-        $environment = $context['environment'];
-
-        $results = $this->createQueryBuilder($environment)
+        $results = $this->createQueryBuilder($context)
             ->addSelect("CONCAT(c.name, ':', p.ouuid) AS ems_link")
             ->addSelect('c.name as content_type_name')
             ->addSelect('c.singularname as content_type_label')
@@ -65,31 +56,30 @@ class PublishedRevisionsQueryService implements QueryServiceInterface
         return $results;
     }
 
-    /**
-     * @param array{'environment': Environment} $context
-     */
     public function countQuery(string $searchValue = '', mixed $context = null): int
+    {
+        return (int) $this->createQueryBuilder($context ?? [])->select('count(p.id)')->fetchOne();
+    }
+
+    /**
+     * @param array{'environment': Environment, 'exclude_ouuids'?: string[]} $context
+     */
+    private function createQueryBuilder(mixed $context = null): QueryBuilder
     {
         if (!isset($context['environment'])) {
             throw new \RuntimeException('Missing environment');
         }
+        $environment = $context['environment'];
+        $excludeOuuids = $context['exclude_ouuids'] ?? [];
 
-        $qb = $this->createQueryBuilder($context['environment']);
-
-        return (int) $qb->select('count(p.id)')->fetchOne();
-    }
-
-    private function createQueryBuilder(Environment $environment): QueryBuilder
-    {
         $contentTypes = $this->contentTypeService->getAllGrantedForPublication();
         $contentTypeIds = \array_map(static fn (ContentType $contentType) => $contentType->getId(), $contentTypes);
 
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
-
         $qb = $em->getConnection()->createQueryBuilder();
 
-        return $qb
+        $qb = $qb
             ->from('revision', 'p')
             ->join('p', 'content_type', 'c', 'p.content_type_id = c.id')
             ->join('p', 'environment_revision', 'er', 'er.revision_id = p.id')
@@ -98,5 +88,13 @@ class PublishedRevisionsQueryService implements QueryServiceInterface
             ->andWhere($qb->expr()->in('c.id', ':content_type_ids'))
             ->setParameter('environment_id', $environment->getId())
             ->setParameter('content_type_ids', $contentTypeIds, ArrayParameterType::INTEGER);
+
+        if (\count($excludeOuuids) > 0) {
+            $qb
+                ->andWhere($qb->expr()->notIn('p.ouuid', ':exclude_ouuids'))
+                ->setParameter('exclude_ouuids', $excludeOuuids, ArrayParameterType::STRING);
+        }
+
+        return $qb;
     }
 }

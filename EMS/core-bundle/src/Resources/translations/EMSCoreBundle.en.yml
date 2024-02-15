@@ -603,7 +603,8 @@ query_search:
     menu: QuerySearch
 release:
     actions:
-        add_revisions: 'Add documents'
+        add_publish: 'Add documents for publication'
+        add_unpublish: 'Add documents for unpublish'
         delete: Delete
         delete_confirm: 'Delete the Release?'
         delete_selected: 'Delete selected'
@@ -634,11 +635,11 @@ release:
     menu: Releases
     revision:
         actions:
-            add: 'Add document'
             add_confirm: 'Do you confirm ?'
             remove: 'Remove documents'
         action:
-            add: 'Add document to release'
+            publish: 'Add document for publication'
+            unpublish: 'Add document for unpublish'
         index:
             column:
                 CT: 'Content Type'
@@ -652,7 +653,8 @@ release:
                 not-applicable: 'not applicable'
                 still_in_target: 'Still in %target%'
                 compare: Compare
-            title: 'List of documents available for release'
+            publish: 'List of documents available for publication'
+            unpublish: 'List of documents available for unpublish'
         menu: 'Add documents'
         view:
             title: 'Release''s documents'

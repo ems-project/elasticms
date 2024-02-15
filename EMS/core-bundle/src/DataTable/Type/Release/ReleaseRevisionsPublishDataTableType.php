@@ -15,7 +15,7 @@ use EMS\CoreBundle\Service\ReleaseRevisionService;
 use EMS\CoreBundle\Service\ReleaseService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ReleaseNonMemberRevisionsDataTableType extends AbstractQueryTableType
+class ReleaseRevisionsPublishDataTableType extends AbstractQueryTableType
 {
     public function __construct(
         ReleaseRevisionService $releaseRevisionService,
@@ -29,19 +29,29 @@ class ReleaseNonMemberRevisionsDataTableType extends AbstractQueryTableType
     {
         /** @var Release $release */
         $release = $table->getContext();
+        $template = "@$this->templateNamespace/release/columns/revisions.html.twig";
 
         $table->setMassAction(true);
         $table->setLabelAttribute('item_labelField');
         $table->setIdField('emsLink');
         $table->setSelected($release->getRevisionsOuuids());
 
-        $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.label', 'label', "@$this->templateNamespace/release/columns/revisions.html.twig"));
+        $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.label', 'publish_label', $template));
         $table->addColumn('release.revision.index.column.CT', 'content_type_singular_name');
-        $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.minRevId', 'minrevid', "@$this->templateNamespace/release/columns/revisions.html.twig"));
-        $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.maxRevId', 'maxrevid', "@$this->templateNamespace/release/columns/revisions.html.twig"));
+        $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.minRevId', 'minrevid', $template));
+        $table->addColumnDefinition(new TemplateBlockTableColumn('release.revision.index.column.maxRevId', 'maxrevid', $template));
 
-        $table->addTableAction(TableAbstract::ADD_ACTION, 'fa fa-plus', 'release.revision.actions.add', 'release.revision.actions.add_confirm');
-        $table->addDynamicItemPostAction(Routes::RELEASE_ADD_REVISION, 'release.revision.action.add', 'plus', 'release.revision.actions.add_confirm', ['release' => \sprintf('%d', $release->getId()), 'emsLinkToAdd' => 'emsLink']);
+        $table->addTableAction(TableAbstract::ADD_ACTION, 'fa fa-plus', 'release.actions.add_publish', 'release.revision.actions.add_confirm');
+        $table->addDynamicItemPostAction(
+            route: Routes::RELEASE_ADD_REVISION,
+            labelKey: 'release.revision.action.publish',
+            icon: 'plus',
+            messageKey: 'release.revision.actions.add_confirm',
+            routeParameters: [
+                'release' => (string) $release->getId(),
+                'type' => 'publish',
+                'emsLinkToAdd' => 'emsLink',
+            ]);
     }
 
     public function getQueryName(): string

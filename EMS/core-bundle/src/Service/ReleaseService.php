@@ -75,7 +75,7 @@ final class ReleaseService implements EntityServiceInterface
     /**
      * @param array<string> $emsLinks
      */
-    public function addRevisions(Release $release, array $emsLinks): void
+    public function addRevisions(Release $release, string $type, array $emsLinks): void
     {
         foreach ($emsLinks as $emsLink) {
             $emsLinkObject = EMSLink::fromText($emsLink);
@@ -85,15 +85,18 @@ final class ReleaseService implements EntityServiceInterface
 
             $contentType = $this->contentTypeService->giveByName($emsLinkObject->getContentType());
             $releaseRevision->setContentType($contentType);
-            $revision = null;
 
-            try {
-                $revision = $this->dataService->getRevisionByEnvironment($emsLinkObject->getOuuid(), $contentType, $release->getEnvironmentSource());
-            } catch (NoResultException) {
-                $revision = null;
+            if ('publish' === $type) {
+                try {
+                    $revision = $this->dataService->getRevisionByEnvironment($emsLinkObject->getOuuid(), $contentType, $release->getEnvironmentSource());
+                } catch (NoResultException) {
+                    $revision = null;
+                }
+                $releaseRevision->setRevision($revision);
+            } elseif ('unpublish' === $type) {
+                $releaseRevision->setRevision(null);
             }
 
-            $releaseRevision->setRevision($revision);
             $release->addRevision($releaseRevision);
         }
         $this->releaseRepository->create($release);

@@ -610,8 +610,8 @@ release:
         delete_selected: 'Delete selected'
         delete_selected_confirm: 'Delete all selected Releases?'
         edit: Edit
-        publish_release: 'Publish now'
-        publish_confirm: 'Publish the release?'
+        publish_release: 'Release now'
+        publish_confirm: 'Do you confirm ?'
         set_status_canceled: 'Cancel release'
         set_status_ready: 'Validate release'
         set_status_wip: 'Rework release'

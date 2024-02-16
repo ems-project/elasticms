@@ -8,7 +8,7 @@ class Text {
     for (let i = 0; i < spans.length; ++i) {
       const span = spans[i]
       const input = span.parentElement.querySelector('textarea,input')
-      if (null === input) {
+      if (input === null) {
         return
       }
       const counterLabel = span.dataset.counterLabel

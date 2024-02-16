@@ -12,6 +12,8 @@ export default class MediaLibrary {
     #activeFolderHeader = '';
     #loadedFiles = 0;
     #selectionLastFile = null;
+    #dragCounter = 0;
+    #dragFiles = [];
 
     constructor (element, options) {
         this.id = element.id;
@@ -35,7 +37,6 @@ export default class MediaLibrary {
     _init() {
         this.loading(true);
         this._addEventListeners();
-        this._initDropArea(this.#elements.files);
         this._initInfiniteScrollFiles(this.#elements.files, this.#elements.loadMoreFiles);
 
         Promise
@@ -86,12 +87,15 @@ export default class MediaLibrary {
                 this._selectFilesReset();
             }
         }
-
         this.element.onchange = (event) => {
             if (event.target.classList.contains('file-uploader-input')) {
                 this._uploadFiles(Array.from(event.target.files));
             }
         }
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((dragEvent) => {
+            this.#elements.files.addEventListener(dragEvent, (event) => this._onDragUpload(event));
+        });
     }
 
     _onClickFile(item, event) {
@@ -348,8 +352,58 @@ export default class MediaLibrary {
                 liFolder.classList.add('media-lib-folder-children');
             }
 
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((dragEvent) => {
+                buttonFolder.addEventListener(dragEvent, (event) => this._onDragFolder(event));
+            });
+
             list.appendChild(liFolder);
         });
+    }
+
+    _onDragUpload(event) {
+        if (this.#dragFiles.length > 0) return;
+
+        if ('dragover' === event.type) {
+            event.preventDefault();
+        }
+        if ('dragenter' === event.type) {
+            this.#dragCounter++;
+            this.#elements.files.classList.add('media-lib-drop-area');
+            this._selectFilesReset();
+        }
+        if ('dragleave' === event.type) {
+            this.#dragCounter--;
+            if (0 === this.#dragCounter) this.#elements.files.classList.remove('media-lib-drop-area');
+        }
+        if ('drop' === event.type) {
+            event.preventDefault();
+            this.#dragCounter = 0;
+            this.#elements.files.classList.remove('media-lib-drop-area');
+
+            const files = event.target.files || event.dataTransfer.files;
+            this._uploadFiles(Array.from(files));
+        }
+    }
+    _onDragFolder(event) {
+        if (this.#dragFiles.length === 0) return;
+
+        if ('dragover' === event.type) {
+            event.preventDefault();
+        }
+        if ('dragenter' === event.type) {
+            console.debug(this.getSelectionFiles());
+            console.debug(event.target.dataset.id);
+            console.debug('implement');
+        }
+    }
+    _onDragFile(event) {
+        if (event.type === 'dragstart') {
+            this.#dragFiles = this.getSelectionFiles();
+        }
+        if (event.type === 'dragend') {
+            this.#dragFiles = [];
+            this._selectFilesReset();
+        }
     }
 
     _uploadFiles(files) {
@@ -421,28 +475,6 @@ export default class MediaLibrary {
         });
     }
 
-    _initDropArea(dropArea)  {
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, false);
-        });
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => {
-                this._selectFilesReset();
-                dropArea.classList.add('media-lib-drop-area')
-            }, false);
-        });
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => dropArea.classList.remove('media-lib-drop-area'), false);
-        });
-
-        dropArea.addEventListener('drop', () => {
-            const files = event.target.files || event.dataTransfer.files;
-            this._uploadFiles(Array.from(files));
-        }, false);
-    }
     _initInfiniteScrollFiles(scrollArea, divLoadMore) {
         const options = {
             root: scrollArea,
@@ -462,6 +494,13 @@ export default class MediaLibrary {
         observer.observe(divLoadMore);
     }
 
+    _selectFile(item) {
+        item.classList.add('active');
+        item.draggable = true;
+        ['dragstart', 'dragend'].forEach((dragEvent) => {
+            item.addEventListener(dragEvent, (event) => this._onDragFile(event));
+        });
+    }
     _selectFiles(item, event) {
         let files = this.#elements.listFiles.querySelectorAll('.media-lib-item');
 
@@ -471,20 +510,26 @@ export default class MediaLibrary {
             if (start > end) [start, end] = [end, start];
 
             files.forEach((f, index) => {
-                if (index >= start && index <= end) f.classList.add('active')
+                if (index >= start && index <= end) this._selectFile(f);
             });
         } else {
-            files.forEach((f) => f.classList.remove('active'));
-            item.classList.add('active')
+            this._selectFilesReset(false);
+            this._selectFile(item);
         }
 
         this.#selectionLastFile = item;
 
         return this.getSelectionFiles();
     }
-    _selectFilesReset() {
-        this.#elements.header.innerHTML = this.#activeFolderHeader;
-        this.#elements.listFiles.querySelectorAll('.media-lib-item').forEach((f) => f.classList.remove('active'));
+    _selectFilesReset(refreshHeader = true) {
+        if (true === refreshHeader) this.#elements.header.innerHTML = this.#activeFolderHeader;
+        this.getSelectionFiles().forEach((file) => {
+            file.classList.remove('active');
+            file.draggable = false;
+            ['dragstart', 'dragend'].forEach((dragEvent) => {
+                file.removeEventListener(dragEvent, (event) => this._onDragFile(event));
+            });
+        });
     }
 
     async _jobPolling(jobId, jobProgressBar) {

@@ -223,18 +223,6 @@ function editRevisionEventListeners(target, onChangeCallback = null){
         }
     });
 
-    target.find('.datetime-picker').each(function( ) {
-        let $element = $(this);
-        $element.unbind('change');
-        $element.datetimepicker({
-            keepInvalid: true, //otherwise daysOfWeekDisabled or disabledHours will not work!
-            extraFormats: [moment.ISO_8601]
-        });
-        if (onChangeCallback) {
-            $element.not(".ignore-ems-update").on('dp.change', onChangeCallback);
-        }
-    });
-
     target.find('.ems_daterangepicker').each(function( ) {
 
         const options = $(this).data('display-option');

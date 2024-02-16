@@ -3,6 +3,7 @@ import Choice from './plugins/choice'
 import CodeEditor from './plugins/codeEditor'
 import CollapsibleCollection from './plugins/collapsibleCollection'
 import Datatable from './plugins/datatable'
+import Datetime from './plugins/datetime'
 import File from './plugins/file'
 import Form from './plugins/form'
 import Iframe from './plugins/iframe'
@@ -37,6 +38,7 @@ class Core {
       new CodeEditor(),
       new CollapsibleCollection(),
       new Datatable(),
+      new Datetime(),
       new File(),
       new Form(),
       new Iframe(),

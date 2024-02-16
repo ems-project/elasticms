@@ -969,7 +969,11 @@
             <span class="input-group-text">
                 <i class="fa fa-calendar"></i>
             </span>
-			{{- form_widget(form.value, { 'attr': {'class': errors|length > 0 or not valid ? 'is-invalid' : ''} }) -}}
+            {% if errors|length > 0 or not valid %}
+                {{- form_widget(form.value, { 'attr': {'class': form.value.vars.attr.class|default('') ~ ' is-invalid'} }) -}}
+            {% else %}
+                {{- form_widget(form.value) -}}
+            {% endif %}
 		</div>
         {{- form_errors(form) -}}
 	</div>

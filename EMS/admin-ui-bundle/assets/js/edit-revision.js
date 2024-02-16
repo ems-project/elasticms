@@ -138,10 +138,10 @@ function onChange (allowAutoPublish = false) {
             case 'DIV': {
               const previousElement = targetElement.previousElementSibling
               targetElement.classList.add('has-error')
-              if (null !== previousElement && previousElement.classList.contains('invalid-feedback') && item.message) {
+              if (previousElement !== null && previousElement.classList.contains('invalid-feedback') && item.message) {
                 $(previousElement).html(item.message)
               } else {
-                  console.log(targetElement)
+                console.log(targetElement)
               }
               break
             }
@@ -149,6 +149,10 @@ function onChange (allowAutoPublish = false) {
               targetElement.classList.add('is-invalid')
               const label = document.querySelector(`label[for=${target}]`)
               if (label !== null) {
+                let parent = label.parentElement
+                if (parent.classList.contains('input-group')) {
+                  parent = parent.parentElement
+                }
                 const invalidFeedback = label.parentElement.querySelector('.invalid-feedback')
                 if (invalidFeedback !== null) {
                   invalidFeedback.textContent = item.message

@@ -10,8 +10,10 @@
         {{- template.block('media_lib_button_upload', _context)|raw -}}
         {%- if mediaFile is defined -%}
             {{- template.block('media_lib_button_file_rename', _context)|raw -}}
+            {{- template.block('media_lib_button_files_move', _context)|raw -}}
             {{- template.block('media_lib_button_file_delete', _context)|raw -}}
         {%- elseif selectionFiles > 0 -%}
+            {{- template.block('media_lib_button_files_move', _context)|raw -}}
             {{- template.block('media_lib_button_files_delete', _context)|raw -}}
         {%- elseif mediaFolder is defined -%}
             {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
@@ -92,6 +94,12 @@
         <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
     </button>
 {%- endblock media_lib_button_files_delete -%}
+
+{%- block media_lib_button_files_move -%}
+    <button class="btn btn-sm btn-default btn-files-move" data-modal-size="md">
+        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.move.title'|trans({ '%count%': selectionFiles })) -}}
+    </button>
+{%- endblock media_lib_button_files_move -%}
 
 {%- block media_lib_button_upload -%}
     <label class="btn btn-sm btn-default btn-file-upload" for="media-lib-upload-{{- id -}}">

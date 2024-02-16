@@ -74,6 +74,7 @@ export default class MediaLibrary {
             if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target);
             if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target);
             if (classList.contains('btn-files-delete')) this._onClickButtonFilesDelete(event.target)
+            if (classList.contains('btn-files-move')) this._onClickButtonFilesMove(event.target)
 
             if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd();
             if (classList.contains('btn-folder-delete')) this._onClickButtonFolderDelete(event.target);
@@ -82,7 +83,7 @@ export default class MediaLibrary {
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
 
-            const keepSelection = ['media-lib-item', 'btn-file-rename', 'btn-file-delete', 'btn-files-delete'];
+            const keepSelection = ['media-lib-item', 'btn-file-rename', 'btn-file-delete', 'btn-files-delete', 'btn-files-move'];
             if (!keepSelection.some(className => classList.contains(className))) {
                 this._selectFilesReset();
             }
@@ -168,6 +169,48 @@ export default class MediaLibrary {
                 .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
                 .then(() => ajaxModal.close())
             ;
+        });
+    }
+    _onClickButtonFilesMove(button) {
+        const selection = this.getSelectionFiles();
+        if (selection.length === 0) return;
+
+        const path = this.#activeFolderId ? `/move-files/${this.#activeFolderId}` : '/move-files';
+        const query = new URLSearchParams({ 'selectionFiles': selection.length.toString() });
+        const modalSize = button.dataset.modalSize ?? 'sm';
+
+        ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
+            if (!json.hasOwnProperty('success') || json.success === false) return;
+
+
+
+            //
+            // let processed = 0;
+            // const progressBar = new ProgressBar('progress-delete-files', {
+            //     label: 'Deleting files',
+            //     value: 100,
+            //     showPercentage: true,
+            // });
+            //
+            // ajaxModal.getBodyElement().append(progressBar.element());
+            // this.loading(true);
+            //
+            // Promise
+            //     .allSettled(Array.from(selection).map(fileRow => {
+            //         return this._post(`/file/${fileRow.dataset.id}/delete`).then(() => {
+            //             if (!json.hasOwnProperty('success') || json.success === false) return;
+            //
+            //             fileRow.remove();
+            //             progressBar
+            //                 .progress(Math.round((++processed / selection.length) * 100))
+            //                 .style('success');
+            //         });
+            //     }))
+            //     .then(() => this._selectFilesReset())
+            //     .then(() => this.loading(false))
+            //     .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+            //     .then(() => ajaxModal.close())
+            // ;
         });
     }
 

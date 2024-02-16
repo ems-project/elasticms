@@ -203,6 +203,10 @@ class MediaLibraryService
         $mediaFolder = \is_string($folder) ? $this->getFolder($config, $folder) : $folder;
         $mediaFile = \is_string($file) ? $this->getFile($config, $file) : $file;
 
+        if ($mediaFile) {
+            $selectionFiles = 1;
+        }
+
         $template = $this->templateFactory->create($config, \array_filter([
             'mediaFolder' => $mediaFolder,
             'mediaFile' => $mediaFile,

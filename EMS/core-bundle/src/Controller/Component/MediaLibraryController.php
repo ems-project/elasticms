@@ -253,6 +253,50 @@ class MediaLibraryController
         return new JsonResponse($componentModal->render());
     }
 
+    public function moveFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
+    {
+        $mediaFile = $this->mediaLibraryService->getFile($config, $fileId);
+        // implement
+
+        $this->flashBag($request)->clear();
+
+        return new JsonResponse(['success' => true]);
+    }
+
+    public function moveFiles(MediaLibraryConfig $config, Request $request): JsonResponse
+    {
+        $selectionFiles = $request->query->getInt('selectionFiles');
+        $folderId = $request->get('folderId');
+        $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+
+        $componentModal = $this->mediaLibraryService->modal($config, [
+            'type' => 'move_files',
+            'title' => $this->translator->trans('media_library.files.move.title', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->flashBag($request)->clear();
+
+            $componentModal->modal->data['success'] = true;
+            $componentModal->template->context->append([
+                'infoMessage' => $this->translator->trans('media_library.files.move.info', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT),
+            ]);
+
+            return new JsonResponse($componentModal->render());
+        }
+
+        $componentModal->template->context->append([
+            'form' => $form->createView(),
+            'submitIcon' => 'fa-location-arrow',
+            'submitLabel' => $this->translator->trans('media_library.files.move.submit', [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        return new JsonResponse($componentModal->render());
+    }
+
     private function getAjaxModal(): AjaxModal
     {
         return $this->ajax->newAjaxModel("@$this->templateNamespace/components/media_library/modal.html.twig");

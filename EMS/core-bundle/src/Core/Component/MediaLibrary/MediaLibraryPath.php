@@ -25,6 +25,11 @@ class MediaLibraryPath implements \Countable
         return '/'.\implode('/', $this->value);
     }
 
+    public function getLabel(): string
+    {
+        return \implode(' / ', $this->value);
+    }
+
     public function getFolderValue(): string
     {
         return $this->parent()?->getValue().'/';

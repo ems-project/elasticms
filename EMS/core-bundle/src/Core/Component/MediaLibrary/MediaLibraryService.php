@@ -115,10 +115,7 @@ class MediaLibraryService
         return $this->folderFactory->create($config, $ouuid);
     }
 
-    /**
-     * @return array<string, array{ id: string, name: string, path: string, children: array<string, mixed> }>
-     */
-    public function getFolders(MediaLibraryConfig $config): array
+    public function getFolders(MediaLibraryConfig $config): MediaLibraryFolders
     {
         $query = $this->elasticaService->getBoolQuery();
         $query->addMustNot((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
@@ -133,7 +130,7 @@ class MediaLibraryService
             }
         }
 
-        return $folders->getStructure();
+        return $folders;
     }
 
     private function getRevision(MediaLibraryDocument $mediaLibraryDocument): Revision

@@ -29,6 +29,20 @@ class MediaLibraryFolders
     }
 
     /**
+     * @return array<string, string>
+     */
+    public function getChoices(): array
+    {
+        $choices = ['Home' => 'home'];
+
+        foreach ($this->getFolders() as $folder) {
+            $choices[$folder->getPath()->getLabel()] = $folder->id;
+        }
+
+        return $choices;
+    }
+
+    /**
      * @return array<string, array{ id: string, name: string, path: string, children: array<string, mixed> }>
      */
     public function getStructure(): array

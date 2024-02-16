@@ -10,6 +10,7 @@ use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactory;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -58,7 +60,7 @@ class MediaLibraryController
 
     public function getFolders(MediaLibraryConfig $config): JsonResponse
     {
-        return new JsonResponse($this->mediaLibraryService->getFolders($config));
+        return new JsonResponse($this->mediaLibraryService->getFolders($config)->getStructure());
     }
 
     public function addFolder(MediaLibraryConfig $config, Request $request): JsonResponse
@@ -268,27 +270,49 @@ class MediaLibraryController
         $selectionFiles = $request->query->getInt('selectionFiles');
         $folderId = $request->get('folderId');
         $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+        $currentPath = ($folder ? $folder->getPath()->getLabel() : 'Home');
 
         $componentModal = $this->mediaLibraryService->modal($config, [
             'type' => 'move_files',
             'title' => $this->translator->trans('media_library.files.move.title', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT),
         ]);
 
-        $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
+        $folders = $this->mediaLibraryService->getFolders($config)->getChoices();
+        $choices = \array_filter($folders, static fn ($folderId) => $folderId !== ($folder->id ?? 'home'));
+
+        $form = $this->formFactory->createBuilder(FormType::class, [])->getForm();
+        $form
+            ->add('target', ChoiceType::class, [
+                'constraints' => [new Assert\NotBlank()],
+                'label' => 'media_library.files.move.select_folder',
+                'translation_domain' => EMSCoreBundle::TRANS_COMPONENT,
+                'choice_translation_domain' => false,
+                'attr' => ['class' => 'select2'],
+                'choices' => $choices,
+                'required' => true,
+            ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->flashBag($request)->clear();
+            $targetId = $form->getData()['target'];
+            $targetFolder = $this->mediaLibraryService->getFolder($config, $targetId);
 
             $componentModal->modal->data['success'] = true;
+            $componentModal->modal->data['target'] = $targetFolder->id;
             $componentModal->template->context->append([
-                'infoMessage' => $this->translator->trans('media_library.files.move.info', ['%count%' => $selectionFiles], EMSCoreBundle::TRANS_COMPONENT),
+                'infoMessage' => $this->translator->trans('media_library.files.move.success', [
+                    '%count%' => $selectionFiles,
+                    '%from%' => $currentPath,
+                    '%to%' => $targetFolder->getPath()->getLabel(),
+                ], EMSCoreBundle::TRANS_COMPONENT),
             ]);
 
             return new JsonResponse($componentModal->render());
         }
 
         $componentModal->template->context->append([
+            'infoMessage' => $this->translator->trans('media_library.files.move.info', ['%path%' => $currentPath], EMSCoreBundle::TRANS_COMPONENT),
             'form' => $form->createView(),
             'submitIcon' => 'fa-location-arrow',
             'submitLabel' => $this->translator->trans('media_library.files.move.submit', [], EMSCoreBundle::TRANS_COMPONENT),

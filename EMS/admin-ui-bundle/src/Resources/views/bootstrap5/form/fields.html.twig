@@ -963,19 +963,15 @@
 {% endblock datefieldtype_row %}
 
 {% block date_time_field_type_row %}
-	<div class="form-group">
-		<div id="{{ form.vars.id}}__label">
-			{{ form_label(form.value) }}
-		</div>
+	<div class="mb-3">
+        {{ form_label(form.value) }}
 		<div class="input-group">
             <span class="input-group-text">
                 <i class="fa fa-calendar"></i>
             </span>
 			{{- form_widget(form.value, { 'attr': {'class': errors|length > 0 or not valid ? 'is-invalid' : ''} }) -}}
 		</div>
-		<div class="has-error"  id="{{ form.vars.id}}__error">
-			{{- form_errors(form) -}}
-		</div>
+        {{- form_errors(form) -}}
 	</div>
 {% endblock date_time_field_type_row %}
 

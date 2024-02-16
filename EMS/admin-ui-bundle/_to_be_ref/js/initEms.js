@@ -38,12 +38,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
         });
     }
 
-    function autoOpenModal(queryString) {
-        if(queryString.open) {
-            $('#content_type_structure_fieldType'+queryString.open).modal('show');
-        }
-    }
-
     function initSearchForm() {
 
         $('#add-search-filter-button').on('click', function(e) {
@@ -88,7 +82,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
         closeModalNotification();
         toggleMenu();
         initSearchForm();
-        autoOpenModal(queryString());
         intAjaxModalLinks();
     });
 

@@ -122,38 +122,86 @@ function onChange (allowAutoPublish = false) {
   waitingResponse = ajaxRequest.post(primaryBox.data('ajax-update'), $('form[name=revision]').serialize())
     .success(function (response) {
       $('.is-invalid').removeClass('is-invalid')
-      $('span.help-block').remove()
+      $('.has-error').removeClass('has-error')
+      $('.invalid-feedback').html('')
       $(response.formErrors).each(function (index, item) {
         let target = item.propertyPath
-        const targetLabel = $('#' + target + '__label')
-        const targetError = $('#' + target + '__error')
-
-        const propPath = $('#' + item.propertyPath + '_value')
-        if (propPath.length && propPath.prop('nodeName') === 'TEXTAREA') {
-          target = item.propertyPath + '_value'
+        let targetElement = document.getElementById(target)
+        if (targetElement === null) {
+          targetElement = document.getElementById(`${target}_value`)
+          if (targetElement !== null) {
+            target = `${target}_value`
+          }
         }
-
-        const targetParent = $('#' + target)
-        if (targetLabel.length) {
-          targetLabel.closest('div.form-group').addClass('has-error')
-          if (item.message && targetError.length > 0) {
-            targetError.addClass('has-error')
-            if ($('#' + target + '__error span.help-block').length === 0) {
-              targetError.append('<span class="help-block"><ul class="list-unstyled"></ul></span>')
+        if (targetElement !== null) {
+          switch (targetElement.nodeName) {
+            case 'DIV': {
+              const previousElement = targetElement.previousElementSibling
+              targetElement.classList.add('has-error')
+              if (previousElement !== null && previousElement.classList.contains('invalid-feedback') && item.message) {
+                $(previousElement).html(item.message)
+              } else {
+                console.log(targetElement)
+              }
+              break
             }
-            $('#' + target + '__error' + ' span.help-block ul.list-unstyled').append('<li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li>')
+            case 'INPUT': {
+              targetElement.classList.add('is-invalid')
+              const label = document.querySelector(`label[for=${target}]`)
+              if (label !== null) {
+                let parent = label.parentElement
+                if (parent.classList.contains('input-group')) {
+                  parent = parent.parentElement
+                }
+                const invalidFeedback = label.parentElement.querySelector('.invalid-feedback')
+                if (invalidFeedback !== null) {
+                  invalidFeedback.textContent = item.message
+                } else {
+                  console.log(targetElement)
+                }
+              } else {
+                console.log(targetElement)
+              }
+              break
+            }
+            default: {
+              console.log(targetElement)
+              console.log(item)
+            }
           }
         } else {
-          $('#' + target).closest('div.form-group').addClass('has-error')
-          targetParent.parents('.form-group').addClass('has-error')
-          if (item.message) {
-            if (targetParent.parents('.form-group').find(' span.help-block').length === 0) {
-              targetParent.parent('.form-group').append('<span class="help-block"><ul class="list-unstyled"><li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li></ul></span>')
-            } else {
-              targetParent.parents('.form-group').find(' span.help-block ul.list-unstyled').append('<li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li>')
-            }
-          }
+          console.log(item)
         }
+
+        // const targetLabel = $('#' + target + '__label')
+        // const targetError = $('#' + target + '__error')
+        //
+        // const propPath = $('#' + item.propertyPath + '_value')
+        // if (propPath.length && propPath.prop('nodeName') === 'TEXTAREA') {
+        //   target = item.propertyPath + '_value'
+        // }
+
+        // const targetParent = $('#' + target)
+        // if (targetLabel.length) {
+        //   targetLabel.closest('div.form-group').addClass('has-error')
+        //   if (item.message && targetError.length > 0) {
+        //     targetError.addClass('has-error')
+        //     if ($('#' + target + '__error span.help-block').length === 0) {
+        //       targetError.append('<span class="help-block"><ul class="list-unstyled"></ul></span>')
+        //     }
+        //     $('#' + target + '__error' + ' span.help-block ul.list-unstyled').append('<li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li>')
+        //   }
+        // } else {
+        //   $('#' + target).closest('div.form-group').addClass('has-error')
+        //   targetParent.parents('.form-group').addClass('has-error')
+        //   if (item.message) {
+        //     if (targetParent.parents('.form-group').find(' span.help-block').length === 0) {
+        //       targetParent.parent('.form-group').append('<span class="help-block"><ul class="list-unstyled"><li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li></ul></span>')
+        //     } else {
+        //       targetParent.parents('.form-group').find(' span.help-block ul.list-unstyled').append('<li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li>')
+        //     }
+        //   }
+        // }
       })
     })
     .always(function () {

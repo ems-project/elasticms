@@ -7,8 +7,8 @@ class Text {
     const spans = target.querySelectorAll('.text-counter[data-counter-label]')
     for (let i = 0; i < spans.length; ++i) {
       const span = spans[i]
-      const input = span.parentNode.querySelector('textarea,input')
-      if (!input || input.parentNode !== span.parentNode) {
+      const input = span.parentElement.querySelector('textarea,input')
+      if (input === null) {
         return
       }
       const counterLabel = span.dataset.counterLabel

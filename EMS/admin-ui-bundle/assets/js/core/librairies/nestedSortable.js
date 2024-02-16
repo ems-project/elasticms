@@ -11,6 +11,9 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 /* eslint-disable */
+require('jquery-ui');
+require('jquery-ui/ui/widgets/sortable');
+
 (function (factory) {
   'use strict'
 
@@ -135,6 +138,12 @@
       if (!this.lastPositionAbs) {
         this.lastPositionAbs = this.positionAbs
       }
+
+
+        this.dragDirection = {
+            vertical: this._getDragVerticalDirection(),
+            horizontal: this._getDragHorizontalDirection()
+        };
 
       // Do scrolling
       if (this.options.scroll) {

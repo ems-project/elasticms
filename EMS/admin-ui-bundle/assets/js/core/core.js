@@ -3,6 +3,7 @@ import Choice from './plugins/choice'
 import CodeEditor from './plugins/codeEditor'
 import CollapsibleCollection from './plugins/collapsibleCollection'
 import Datatable from './plugins/datatable'
+import Datetime from './plugins/datetime'
 import File from './plugins/file'
 import Form from './plugins/form'
 import Iframe from './plugins/iframe'
@@ -21,6 +22,7 @@ import Tooltip from './plugins/tooltip'
 import WYSIWYG from './plugins/wysiwyg'
 
 import RevisionTask from './components/revisionTask'
+import Modal from './components/modal'
 import Sidebar from './components/sidebar'
 
 import { EMS_ADDED_DOM_EVENT } from './events/addedDomEvent'
@@ -36,6 +38,7 @@ class Core {
       new CodeEditor(),
       new CollapsibleCollection(),
       new Datatable(),
+      new Datetime(),
       new File(),
       new Form(),
       new Iframe(),
@@ -75,6 +78,7 @@ class Core {
     this.initCtrlSaveEvent()
     this.components = [
       new RevisionTask(),
+      new Modal(),
       new Sidebar()
     ]
   }

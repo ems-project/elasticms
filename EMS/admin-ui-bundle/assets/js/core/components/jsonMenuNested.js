@@ -2,10 +2,9 @@ import ajaxModal from '../../../js/core/helpers/ajaxModal'
 import { ajaxJsonPost } from '../helpers/ajax'
 import collapse from '../helpers/collapse'
 import $ from 'jquery'
+import { v4 } from 'uuid'
 
 require('../librairies/nestedSortable')
-
-const uuidv4 = require('uuid/v4')
 
 export default class JsonMenuNested {
   copyName = 'json_menu_nested_copy'
@@ -198,7 +197,7 @@ export default class JsonMenuNested {
 
       const json = JSON.parse(localStorage.getItem(this.copyName))
 
-      return loopJson(json, (key, value) => key === 'id' && value !== '_root' ? uuidv4() : value)
+      return loopJson(json, (key, value) => key === 'id' && value !== '_root' ? v4() : value)
     }
 
     return false
@@ -223,7 +222,7 @@ export default class JsonMenuNested {
         }
 
         const node = this.nodes[nodeId]
-        const addItemId = uuidv4()
+        const addItemId = v4()
 
         const params = new URLSearchParams(window.location.search)
 
@@ -345,7 +344,7 @@ export default class JsonMenuNested {
           }
 
           return {
-            id: uuidv4(),
+            id: v4(),
             label: item.label,
             type: item.type,
             object: item.object,

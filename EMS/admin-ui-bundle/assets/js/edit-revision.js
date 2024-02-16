@@ -138,8 +138,10 @@ function onChange (allowAutoPublish = false) {
             case 'DIV': {
               const previousElement = targetElement.previousElementSibling
               targetElement.classList.add('has-error')
-              if (previousElement.classList.contains('invalid-feedback') && item.message) {
+              if (null !== previousElement && previousElement.classList.contains('invalid-feedback') && item.message) {
                 $(previousElement).html(item.message)
+              } else {
+                  console.log(targetElement)
               }
               break
             }

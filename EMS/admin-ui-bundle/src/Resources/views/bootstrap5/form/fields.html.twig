@@ -712,12 +712,12 @@
 
 {% block container_field_type_widget %}
 	<div id="{{ form.vars.id }}" class="container-fluid">
-		<div class="row">
+		<div class="{{ html_classes('row', {
+            'has-error': form.vars.errors|length > 0,
+        }) }}">
 			{% for child in form.iterator %}
                 {% if not child.vars.isVisible is defined or child.vars.isVisible %}
-                    <div class="{{ html_classes(child.vars.data.fieldType.options.displayOptions.class|default(''), {
-                            'has-error': child.vars.errors|length > 0 and child.vars.isContainer|default(false),
-                        }) }}">
+                    <div class="{{ child.vars.data.fieldType.options.displayOptions.class|default('') }}">
                         {{- form_row(child) -}}
                     </div>
                 {% else %}

@@ -3,15 +3,15 @@
 <div aria-live="polite" aria-atomic="true" class="">
     <div class="toast-container top-0 end-0 p-3 position-fixed" id="toaster">
         {%- set types = {
-            'error' : { 'class': 'bg-danger', 'icon': 'fa-ban' },
-            'warning' : { 'class': 'bg-warning', 'icon': 'fa-warning' },
-            'notice' : { 'class': 'bg-info', 'icon': 'fa-info' },
+            'error' : { 'class': 'bg-danger', 'icon': 'fa-ban', 'delay': 99999, 'autohide': false },
+            'warning' : { 'class': 'bg-warning', 'icon': 'fa-warning', 'delay': 10000, 'autohide': true },
+            'notice' : { 'class': 'bg-info', 'icon': 'fa-info', 'delay': 5000, 'autohide': true },
         } -%}
 
         {%- for type, config in types -%}
             {% set alerts = app.session.flashbag.get(type) %}
             {% if alerts|length > 0 %}
-                <div class="toast {{ config.class }} show" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast {{ config.class }}" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="true" data-bs-animation="true" data-bs-autohide="{{ config.autohide ? 'true' : 'false' }}" data-bs-delay="{{ config.delay }}">
                     <div class="toast-header">
                         <span class="me-auto"><i class="icon fa {{ config.icon }}"></i>&nbsp;{{ "toats.level.#{type}"|trans }}</span>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>

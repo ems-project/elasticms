@@ -83,7 +83,7 @@ class DateTimeFieldType extends DataFieldType
             ])
             ->add('parseFormat', TextType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => '(PHP) d/m/Y H:i:s'],
+                'attr' => ['placeholder' => '(PHP) d/m/Y H:i'],
             ])
             ->add('daysOfWeekDisabled', TextType::class, [
                 'required' => false,

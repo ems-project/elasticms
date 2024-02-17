@@ -289,9 +289,9 @@ class DateFieldType extends DataFieldType
         // String specific display options
         $optionsForm->get('displayOptions')->add('displayFormat', TextType::class, [
                 'required' => false,
-                'empty_data' => 'dd/mm/yyyy',
+                'empty_data' => 'dd/MM/yyyy',
                 'attr' => [
-                    'placeholder' => 'i.e. dd/mm/yyyy',
+                    'placeholder' => 'e.g. dd/MM/yyyy',
                 ],
         ]);
         $optionsForm->get('displayOptions')->add('weekStart', IntegerType::class, [

@@ -715,7 +715,9 @@
 		<div class="row">
 			{% for child in form.iterator %}
                 {% if not child.vars.isVisible is defined or child.vars.isVisible %}
-                    <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false)  %} has-error{% endif %}">
+                    <div class="{{ html_classes(child.vars.data.fieldType.options.displayOptions.class|default(''), {
+                            'has-error': child.vars.errors|length > 0 and child.vars.isContainer|default(false),
+                        }) }}">
                         {{- form_row(child) -}}
                     </div>
                 {% else %}

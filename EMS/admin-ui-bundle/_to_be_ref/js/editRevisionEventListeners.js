@@ -177,65 +177,6 @@ function editRevisionEventListeners(target, onChangeCallback = null){
             });
         }
     });
-
-    target.find(".timepicker").each(function(){
-
-        const settings = {
-            showMeridian: 	$( this ).data('show-meridian'),
-            explicitMode: 	$( this ).data('explicit-mode'),
-            minuteStep: 	$( this ).data('minute-step'),
-            disableMousewheel: true,
-            defaultTime: false
-        };
-
-        $( this ).unbind( "change" );
-
-        if ($(this).not('.ignore-ems-update')) {
-            if (onChangeCallback) {
-                $( this ).timepicker(settings).on('changeTime.timepicker', onChangeCallback);
-            }
-        } else {
-            $( this ).timepicker(settings);
-        }
-    });
-
-
-    target.find('.datepicker').each(function( ) {
-
-        $(this).unbind('change');
-        const params = {
-            format: $(this).attr('data-date-format'),
-            todayBtn: true,
-            weekStart: $(this).attr('data-week-start'),
-            daysOfWeekHighlighted: $(this).attr('data-days-of-week-highlighted'),
-            daysOfWeekDisabled: $(this).attr('data-days-of-week-disabled'),
-            todayHighlight: $(this).attr('data-today-highlight')
-        };
-
-        if($(this).attr('data-multidate') && $(this).attr('data-multidate') !== 'false'){
-            params.multidate = true;
-        }
-
-        $(this).datepicker(params);
-
-        if (onChangeCallback) {
-            $(this).not(".ignore-ems-update").on('dp.change', onChangeCallback);
-        }
-    });
-
-    target.find('.ems_daterangepicker').each(function( ) {
-
-        const options = $(this).data('display-option');
-        $(this).unbind('change');
-
-        if ($(this).not('.ignore-ems-update')) {
-            if (onChangeCallback) {
-                $(this).daterangepicker(options, function() { onChangeCallback(); });
-            }
-        } else {
-            $(this).daterangepicker(options);
-        }
-    });
 }
 
 export {editRevisionEventListeners};

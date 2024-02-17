@@ -105,7 +105,12 @@ class DateTimeFieldType extends DataFieldType
             $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $data);
             $fieldType = $dataField->getFieldType();
             $parseFormat = (null !== $fieldType) ? $fieldType->getDisplayOption('parseFormat') : null;
-            $value = $dateTime ? $dateTime->format($parseFormat ?? \DateTimeImmutable::ATOM) : $data;
+            if ($dateTime instanceof \DateTimeInterface) {
+                $value = $dateTime->format($parseFormat ?? 'd/m/Y H:i:s');
+            } else {
+                $dataField->addMessage(\sprintf('Invalid parse format %s for date string: %s', $parseFormat ?? 'd/m/Y H:i:s', $data));
+                $value = $data;
+            }
         }
 
         return ['value' => $value];

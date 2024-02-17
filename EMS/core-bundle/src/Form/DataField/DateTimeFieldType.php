@@ -105,7 +105,7 @@ class DateTimeFieldType extends DataFieldType
             $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $data);
             $fieldType = $dataField->getFieldType();
             $parseFormat = (null !== $fieldType) ? $fieldType->getDisplayOption('parseFormat') : null;
-            $value = $dateTime ? $dateTime->format($parseFormat ?? \DateTimeImmutable::ATOM) : null;
+            $value = $dateTime ? $dateTime->format($parseFormat ?? \DateTimeImmutable::ATOM) : $data;
         }
 
         return ['value' => $value];

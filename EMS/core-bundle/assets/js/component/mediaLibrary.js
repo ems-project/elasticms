@@ -181,36 +181,34 @@ export default class MediaLibrary {
 
         ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
+            if (!json.hasOwnProperty('target')) return;
 
+            let processed = 0;
+            const progressBar = new ProgressBar('progress-move-files', {
+                label: (1 === selection.length ? 'Moving file' : 'Moving files'),
+                value: 100,
+                showPercentage: true,
+            });
 
+            ajaxModal.getBodyElement().append(progressBar.element());
+            this.loading(true);
 
-            //
-            // let processed = 0;
-            // const progressBar = new ProgressBar('progress-delete-files', {
-            //     label: 'Deleting files',
-            //     value: 100,
-            //     showPercentage: true,
-            // });
-            //
-            // ajaxModal.getBodyElement().append(progressBar.element());
-            // this.loading(true);
-            //
-            // Promise
-            //     .allSettled(Array.from(selection).map(fileRow => {
-            //         return this._post(`/file/${fileRow.dataset.id}/delete`).then(() => {
-            //             if (!json.hasOwnProperty('success') || json.success === false) return;
-            //
-            //             fileRow.remove();
-            //             progressBar
-            //                 .progress(Math.round((++processed / selection.length) * 100))
-            //                 .style('success');
-            //         });
-            //     }))
-            //     .then(() => this._selectFilesReset())
-            //     .then(() => this.loading(false))
-            //     .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
-            //     .then(() => ajaxModal.close())
-            // ;
+            Promise
+                .allSettled(Array.from(selection).map(fileRow => {
+                    return this._post(`/file/${fileRow.dataset.id}/move`).then(() => {
+                        if (!json.hasOwnProperty('success') || json.success === false) return;
+
+                        fileRow.remove();
+                        progressBar
+                            .progress(Math.round((++processed / selection.length) * 100))
+                            .style('success');
+                    });
+                }))
+                .then(() => this._selectFilesReset())
+                .then(() => this.loading(false))
+                .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+                .then(() => ajaxModal.close())
+            ;
         });
     }
 

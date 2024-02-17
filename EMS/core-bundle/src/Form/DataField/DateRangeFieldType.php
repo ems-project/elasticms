@@ -32,8 +32,8 @@ class DateRangeFieldType extends DataFieldType
         $rawData = $dataField->getRawData();
 
         if (\is_array($rawData) && !empty($dataField->getRawData())) {
-            $dateFrom = \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $rawData[$options['mappingOptions']['fromDateMachineName']]);
-            $dateTo = \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $rawData[$options['mappingOptions']['toDateMachineName']]);
+            $dateFrom = \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $rawData[$options['mappingOptions']['fromDateMachineName']] ?? null);
+            $dateTo = \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $rawData[$options['mappingOptions']['toDateMachineName']] ?? null);
 
             if ($dateFrom && $dateTo) {
                 $displayFormat = DateRangeFieldType::convertJavascriptDateRangeFormat($options['displayOptions']['locale']['format']);

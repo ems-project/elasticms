@@ -287,7 +287,7 @@ class DateRangeFieldType extends DataFieldType
         $optionsForm->get('displayOptions')->get('locale')->add('format', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'i.e. DD/MM/YYYY HH:mm',
+                    'placeholder' => 'i.e. dd/MM/yyyy HH:mm',
                 ],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('firstDay', IntegerType::class, [

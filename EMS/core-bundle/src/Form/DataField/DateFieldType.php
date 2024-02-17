@@ -303,6 +303,7 @@ class DateFieldType extends DataFieldType
         ]);
         $optionsForm->get('displayOptions')->add('todayHighlight', CheckboxType::class, [
                 'required' => false,
+                'label' => 'Today highlight (deprecated)',
         ]);
         $optionsForm->get('displayOptions')->add('multidate', CheckboxType::class, [
                 'required' => false,
@@ -310,11 +311,12 @@ class DateFieldType extends DataFieldType
         $optionsForm->get('displayOptions')->add('daysOfWeekDisabled', TextType::class, [
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'i.e. 0,6',
+                    'placeholder' => 'e.g. [0,6]',
                 ],
         ]);
         $optionsForm->get('displayOptions')->add('daysOfWeekHighlighted', TextType::class, [
-                'required' => false,
+            'required' => false,
+            'label' => 'Days of week highlighted (deprecated)',
                 'attr' => [
                     'placeholder' => 'i.e. 0,6',
                 ],

@@ -947,19 +947,14 @@
 
 {% block datefieldtype_row %}
 <div class="form-group">
-	<div id="{{ form.vars.id}}__label">
-        {{ form_label(form.value) }}
-	</div>
+    {{ form_label(form.value) }}
 	<div class="input-group">
-    	<div class="input-group-addon">
-    		<i class="fa fa-calendar"></i>
-    	</div>
+        <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+        </span>
         {{- form_widget(form.value) -}}
 	</div>
-	<div class="has-error"  id="{{ form.vars.id}}__error">
-   	    {{- form_errors(form) -}}
-    </div>
-  	<!-- /.input group -->
+    {{- form_errors(form) -}}
 </div>
 <!-- /.form group -->
 {% endblock datefieldtype_row %}

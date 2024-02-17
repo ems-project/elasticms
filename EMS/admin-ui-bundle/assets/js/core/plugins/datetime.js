@@ -6,33 +6,74 @@ class Datetime {
   #iframes = []
 
   load (target) {
-    const datetimePickers = target.querySelectorAll('.datetime-picker')
-    for (let i = 0; i < datetimePickers.length; i++) {
-      const picker = new TempusDominus(datetimePickers[i], {
-        display: {
-          buttons: {
-            today: true,
-            clear: true,
-            close: true
-          }
-        },
-        localization: {
-          format: datetimePickers[i].dataset.dateFormat,
-          startOfTheWeek: 1
-        },
-        restrictions: {
-          daysOfWeekDisabled: JSON.parse(datetimePickers[i].dataset.dateDaysOfWeekDisabled),
-          disabledHours: JSON.parse(datetimePickers[i].dataset.dateDisabledHours)
-        }
+      this.loadDatetime(target)
+      this.loadDate(target)
+  }
+
+  loadDate (target) {
+      this.loadPicker(target, '.datepicker', {
+          display: {
+              buttons: {
+                  today: true,
+                  clear: true,
+                  close: true,
+              },
+              components: {
+                  clock: false
+              },
+          },
+          localization: {},
+          restrictions: {},
+          multipleDatesSeparator: ','
       })
-      if (datetimePickers[i].dataset.dateLocale) {
-        picker.locale(datetimePickers[i].dataset.dateLocale)
+  }
+
+  loadDatetime (target) {
+      this.loadPicker(target, '.datetime-picker', {
+          display: {
+              buttons: {
+                  today: true,
+                  clear: true,
+                  close: true,
+              }
+          },
+          localization: {
+              startOfTheWeek: 1
+          },
+          restrictions: {}
+      })
+  }
+
+  loadPicker (target, query, options) {
+    const pickers = target.querySelectorAll(query)
+    for (let i = 0; i < pickers.length; i++) {
+      if (pickers[i].dataset.multidate) {
+          options.multipleDates = pickers[i].dataset.multidate
       }
-      datetimePickers[i].addEventListener('change.td', function () {
-        if (datetimePickers[i].classList.contains('ignore-ems-update')) {
+      if (pickers[i].dataset.weekStart) {
+          options.localization.startOfTheWeek = pickers[i].dataset.weekStart
+      }
+      if (pickers[i].dataset.dateFormat) {
+          options.localization.format = pickers[i].dataset.dateFormat
+      }
+      if (pickers[i].dataset.daysOfWeekDisabled) {
+          options.restrictions.daysOfWeekDisabled = JSON.parse(pickers[i].dataset.daysOfWeekDisabled)
+      }
+      if (pickers[i].dataset.dateDaysOfWeekDisabled) {
+          options.restrictions.daysOfWeekDisabled = JSON.parse(pickers[i].dataset.dateDaysOfWeekDisabled)
+      }
+      if (pickers[i].dataset.dateDisabledHours) {
+          options.restrictions.disabledHours = JSON.parse(pickers[i].dataset.dateDisabledHours)
+      }
+      const picker = new TempusDominus(pickers[i], options)
+      if (pickers[i].dataset.dateLocale) {
+        picker.locale(pickers[i].dataset.dateLocale)
+      }
+      pickers[i].addEventListener('change.td', function () {
+        if (pickers[i].classList.contains('ignore-ems-update')) {
           return
         }
-        const event = new ChangeEvent(datetimePickers[i])
+        const event = new ChangeEvent(pickers[i])
         event.dispatch()
       })
     }

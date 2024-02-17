@@ -36,7 +36,7 @@ class DateRangeFieldType extends DataFieldType
             $dateTo = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $rawData[$options['mappingOptions']['toDateMachineName']] ?? null);
 
             if ($dateFrom && $dateTo) {
-                $displayFormat = DateRangeFieldType::convertJavascriptDateRangeFormat($options['displayOptions']['locale']['format']);
+                $displayFormat = $options['displayOptions']['locale']['parseFormat'] ?? DateRangeFieldType::convertJavascriptDateRangeFormat($options['displayOptions']['locale']['format']);
 
                 return ['value' => $dateFrom->format($displayFormat).' - '.$dateTo->format($displayFormat)];
             }

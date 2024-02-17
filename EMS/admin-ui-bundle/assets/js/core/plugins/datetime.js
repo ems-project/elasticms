@@ -9,6 +9,13 @@ class Datetime {
       this.loadDatetime(target)
       this.loadDate(target)
       this.loadDateRange(target)
+      this.loadTime(target)
+  }
+
+  loadTime (target) {
+      const options = this.defaultOptions()
+      options.display.components.calendar = false
+      this.loadPicker(target, '.timepicker', options)
   }
 
   loadDateRange (target) {
@@ -51,6 +58,26 @@ class Datetime {
       if (pickers[i].dataset.dateDisabledHours) {
           options.restrictions.disabledHours = JSON.parse(pickers[i].dataset.dateDisabledHours)
       }
+      if (undefined !== pickers[i].dataset.showMeridian) {
+          console.log(pickers[i].dataset.showMeridian)
+          let format;
+          if ('true' === pickers[i].dataset.showMeridian) {
+              format = 'h:mm'
+              options.localization.hourCycle = 'h12'
+          } else {
+              format = 'H:mm'
+              options.localization.hourCycle = 'h23'
+          }
+          if (pickers[i].dataset.showSeconds) {
+              format += ':ss'
+              options.display.components.seconds = true
+          }
+          if ('true' === pickers[i].dataset.showMeridian) {
+              format += ' T'
+          }
+          console.log(format)
+          options.localization.format = format
+      }
       if (pickers[i].dataset.displayOption) {
           const displayOptions = JSON.parse(pickers[i].dataset.displayOption)
           if (undefined !== displayOptions.locale.firstDay) {
@@ -73,6 +100,9 @@ class Datetime {
           if (undefined !== displayOptions.timePickerIncrement) {
               options.stepping = displayOptions.timePickerIncrement
           }
+      }
+      if (pickers[i].dataset.minuteStep) {
+          options.stepping = JSON.parse(pickers[i].dataset.minuteStep)
       }
       const picker = new TempusDominus(pickers[i], options)
       if (pickers[i].dataset.dateLocale) {

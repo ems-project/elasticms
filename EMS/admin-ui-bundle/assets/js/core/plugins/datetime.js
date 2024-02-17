@@ -8,40 +8,26 @@ class Datetime {
   load (target) {
       this.loadDatetime(target)
       this.loadDate(target)
+      this.loadDateRange(target)
+  }
+
+  loadDateRange (target) {
+      const options = this.defaultOptions()
+      options.dateRange = true
+      options.multipleDatesSeparator = ' - '
+      this.loadPicker(target, '.ems_daterangepicker', options)
   }
 
   loadDate (target) {
-      this.loadPicker(target, '.datepicker', {
-          display: {
-              buttons: {
-                  today: true,
-                  clear: true,
-                  close: true,
-              },
-              components: {
-                  clock: false
-              },
-          },
-          localization: {},
-          restrictions: {},
-          multipleDatesSeparator: ','
-      })
+      const options = this.defaultOptions()
+      options.display.components.clock = false
+      options.multipleDatesSeparator = ','
+      this.loadPicker(target, '.datepicker', options)
   }
 
   loadDatetime (target) {
-      this.loadPicker(target, '.datetime-picker', {
-          display: {
-              buttons: {
-                  today: true,
-                  clear: true,
-                  close: true,
-              }
-          },
-          localization: {
-              startOfTheWeek: 1
-          },
-          restrictions: {}
-      })
+      const options = this.defaultOptions()
+      this.loadPicker(target, '.datetime-picker', options)
   }
 
   loadPicker (target, query, options) {
@@ -65,6 +51,29 @@ class Datetime {
       if (pickers[i].dataset.dateDisabledHours) {
           options.restrictions.disabledHours = JSON.parse(pickers[i].dataset.dateDisabledHours)
       }
+      if (pickers[i].dataset.displayOption) {
+          const displayOptions = JSON.parse(pickers[i].dataset.displayOption)
+          if (undefined !== displayOptions.locale.firstDay) {
+              options.localization.startOfTheWeek = displayOptions.locale.firstDay
+          }
+          if (undefined !== displayOptions.locale.format) {
+              options.localization.format = displayOptions.locale.format
+          }
+          if (undefined !== displayOptions.timePicker) {
+              options.display.components.clock = displayOptions.timePicker
+          }
+          if (undefined !== displayOptions.timePicker24Hour && displayOptions.timePicker24Hour) {
+              options.localization.hourCycle = 'h23'
+          } else {
+              options.localization.hourCycle = 'h12'
+          }
+          if (undefined !== displayOptions.showWeekNumbers && displayOptions.showWeekNumbers) {
+              options.display.calendarWeeks = true
+          }
+          if (undefined !== displayOptions.timePickerIncrement) {
+              options.stepping = displayOptions.timePickerIncrement
+          }
+      }
       const picker = new TempusDominus(pickers[i], options)
       if (pickers[i].dataset.dateLocale) {
         picker.locale(pickers[i].dataset.dateLocale)
@@ -78,6 +87,24 @@ class Datetime {
       })
     }
   }
+
+    defaultOptions() {
+        return {
+            display: {
+                buttons: {
+                    today: true,
+                    clear: true,
+                    close: true,
+                },
+                components: {
+                },
+            },
+            localization: {
+                startOfTheWeek: 1
+            },
+            restrictions: {},
+        };
+    }
 }
 
 export default Datetime

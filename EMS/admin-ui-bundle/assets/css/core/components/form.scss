@@ -1,0 +1,7 @@
+form {
+  div.has-error {
+    border-color: var(--bs-form-invalid-border-color);
+    border-style: solid;
+    border-width: 1px;
+  }
+}

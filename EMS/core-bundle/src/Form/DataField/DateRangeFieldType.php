@@ -63,7 +63,7 @@ class DateRangeFieldType extends DataFieldType
 
         $inputs = \explode(' - ', (string) $input);
 
-        if (2 == \count($inputs)) {
+        if (2 === \count($inputs)) {
             $convertedDates = [];
 
             $fromConverted = \DateTime::createFromFormat($format, $inputs[0]);

@@ -1,11 +1,11 @@
 class Notifications {
   constructor () {
     this.counter = 0
-      const toasts = document.querySelectorAll('.toast')
-      for (let i = 0; i < toasts.length; ++i) {
-          const toast = new window.bootstrap.Toast(toasts[i])
-          toast.show()
-      }
+    const toasts = document.querySelectorAll('.toast')
+    for (let i = 0; i < toasts.length; ++i) {
+      const toast = new window.bootstrap.Toast(toasts[i])
+      toast.show()
+    }
   }
 
   startActivity () {

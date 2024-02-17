@@ -59,7 +59,6 @@ class Datetime {
           options.restrictions.disabledHours = JSON.parse(pickers[i].dataset.dateDisabledHours)
       }
       if (undefined !== pickers[i].dataset.showMeridian) {
-          console.log(pickers[i].dataset.showMeridian)
           let format;
           if ('true' === pickers[i].dataset.showMeridian) {
               format = 'h:mm'
@@ -75,7 +74,6 @@ class Datetime {
           if ('true' === pickers[i].dataset.showMeridian) {
               format += ' T'
           }
-          console.log(format)
           options.localization.format = format
       }
       if (pickers[i].dataset.displayOption) {

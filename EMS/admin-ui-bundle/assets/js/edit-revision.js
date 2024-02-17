@@ -141,7 +141,8 @@ function onChange (allowAutoPublish = false) {
               if (previousElement !== null && previousElement.classList.contains('invalid-feedback') && item.message) {
                 $(previousElement).html(item.message)
               } else {
-                console.log(targetElement)
+                const invalidFeedback = createInvalidFeedback(item.message)
+                targetElement.parentNode.insertBefore(invalidFeedback, targetElement)
               }
               break
             }
@@ -157,7 +158,8 @@ function onChange (allowAutoPublish = false) {
                 if (invalidFeedback !== null) {
                   invalidFeedback.textContent = item.message
                 } else {
-                  console.log(targetElement)
+                  const invalidFeedback = createInvalidFeedback(item.message)
+                  parent.appendChild(invalidFeedback)
                 }
               } else {
                 console.log(targetElement)

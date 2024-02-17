@@ -77,13 +77,11 @@
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::deleteFile"
            methods="POST">
       <requirement key="hash">.*</requirement>
-      <default key="folderId" xsi:nil="true"/>
     </route>
   <route id="emsco.media_library.file.move" path="/media-lib/{hash}/file/{fileId}/move"
          controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::moveFile"
          methods="POST">
     <requirement key="hash">.*</requirement>
-    <default key="folderId" xsi:nil="true"/>
   </route>
     <route id="emsco.media_library.files" path="/media-lib/{hash}/files/{folderId}"
            controller="EMS\CoreBundle\Controller\Component\MediaLibraryController::getFiles"

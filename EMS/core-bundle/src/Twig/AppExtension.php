@@ -418,9 +418,10 @@ class AppExtension extends AbstractExtension
                     $date = new \DateTime($item);
                 }
             } catch (\Throwable) {
+                $date = null;
             }
 
-            if (!$item instanceof \DateTime) {
+            if (!$date instanceof \DateTimeInterface) {
                 $out .= '<'.$tag.' class="text-red">'.\htmlentities($item).'</'.$tag.'>';
                 continue;
             }

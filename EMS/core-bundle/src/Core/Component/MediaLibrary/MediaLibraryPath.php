@@ -53,7 +53,14 @@ class MediaLibraryPath implements \Countable
         return new self([...$path, $name]);
     }
 
-    public function move(string $from, string $to): self
+    public function move(string $location): self
+    {
+        $locationPath = self::fromString($location);
+
+        return new self([...$locationPath->value, $this->getName()]);
+    }
+
+    public function renamePrefix(string $from, string $to): self
     {
         $newPath = u($this->getValue())->trimPrefix($from)->prepend($to)->toString();
 

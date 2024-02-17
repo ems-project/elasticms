@@ -1,5 +1,3 @@
-import { Toast, Modal } from 'bootstrap'
-
 class Notifications {
   constructor () {
     this.counter = 0
@@ -75,7 +73,7 @@ class Notifications {
     const toaster = document.getElementById('toaster')
     toaster.insertAdjacentElement('beforeend', div)
 
-    const toast = new Toast(div, {
+    const toast = new window.bootstrap.Toast(div, {
       animation: true,
       autohide: autoHide,
       delay: 5000
@@ -85,7 +83,7 @@ class Notifications {
 
   outOfSync () {
     const outOfSync = document.getElementById('data-out-of-sync')
-    const modal = new Modal(outOfSync, {
+    const modal = new window.bootstrap.Modal(outOfSync, {
       keyboard: false,
       backdrop: 'static'
     })

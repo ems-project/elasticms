@@ -1,6 +1,5 @@
 'use strict'
 import queryString from '../helpers/queryString'
-import { Modal as BSModal } from 'bootstrap'
 
 export default class Modal {
   constructor () {
@@ -11,7 +10,7 @@ export default class Modal {
     const queryStringObject = queryString()
     if (queryStringObject.open) {
       const modalElement = document.getElementById(`content_type_structure_fieldType${queryStringObject.open}`)
-      const modal = BSModal.getOrCreateInstance(modalElement)
+      const modal = window.bootstrap.Modal.getOrCreateInstance(modalElement)
       modal.show()
     }
   }

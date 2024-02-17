@@ -257,8 +257,23 @@ class MediaLibraryController
 
     public function moveFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
     {
+        $data = Json::decode($request->getContent());
         $mediaFile = $this->mediaLibraryService->getFile($config, $fileId);
-        // implement
+
+        $targetFolderId = $data['targetFolderId'] ?? null;
+        if (!isset($targetFolderId)) {
+            throw new \RuntimeException('Missing target folder id');
+        }
+
+        if ('home' === $targetFolderId) {
+            $movePath = $mediaFile->getPath()->move('/');
+        } else {
+            $targetFolder = $this->mediaLibraryService->getFolder($config, $targetFolderId);
+            $movePath = $mediaFile->getPath()->move($targetFolder->getPath()->getValue());
+        }
+
+        $mediaFile->setPath($movePath);
+        $this->mediaLibraryService->updateDocument($mediaFile);
 
         $this->flashBag($request)->clear();
 
@@ -296,15 +311,15 @@ class MediaLibraryController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->flashBag($request)->clear();
             $targetId = $form->getData()['target'];
-            $targetFolder = $this->mediaLibraryService->getFolder($config, $targetId);
+            $targetFolder = 'home' !== $targetId ? $this->mediaLibraryService->getFolder($config, $targetId) : null;
 
             $componentModal->modal->data['success'] = true;
-            $componentModal->modal->data['target'] = $targetFolder->id;
+            $componentModal->modal->data['targetFolderId'] = $targetFolder->id ?? 'home';
             $componentModal->template->context->append([
                 'infoMessage' => $this->translator->trans('media_library.files.move.success', [
                     '%count%' => $selectionFiles,
                     '%from%' => $currentPath,
-                    '%to%' => $targetFolder->getPath()->getLabel(),
+                    '%to%' => $targetFolder ? $targetFolder->getPath()->getLabel() : 'Home',
                 ], EMSCoreBundle::TRANS_COMPONENT),
             ]);
 

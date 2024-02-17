@@ -37,8 +37,13 @@ media_library:
         move:
             title: '{1} Move file |]1,Inf[ Move %count% files'
             submit: Move
-            warning: '{1} Are you sure you want to move the selected file? |]1,Inf[ Are you sure you want to move the %count% selected files?'
-            info: '{1} Moving the selected file. Please wait... |]1,Inf[ Moving %count% files. Please wait...'
+            info: 'Current location: "%path%"'
+            success: |
+                {1}Moving the selected file from "%from%" to "%to%"
+                Please wait...
+                |]1,Inf[ Moving %count% files from "%from%" to "%to%"
+                Please wait...
+            select_folder: 'Select new location:'
 
 json_menu_nested:
     error:

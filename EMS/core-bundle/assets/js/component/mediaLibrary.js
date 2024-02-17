@@ -181,7 +181,7 @@ export default class MediaLibrary {
 
         ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
             if (!json.hasOwnProperty('success') || json.success === false) return;
-            if (!json.hasOwnProperty('target')) return;
+            if (!json.hasOwnProperty('targetFolderId')) return;
 
             let processed = 0;
             const progressBar = new ProgressBar('progress-move-files', {
@@ -195,7 +195,9 @@ export default class MediaLibrary {
 
             Promise
                 .allSettled(Array.from(selection).map(fileRow => {
-                    return this._post(`/file/${fileRow.dataset.id}/move`).then(() => {
+                    return this._post(`/file/${fileRow.dataset.id}/move`, {
+                        targetFolderId: json.targetFolderId
+                    }).then(() => {
                         if (!json.hasOwnProperty('success') || json.success === false) return;
 
                         fileRow.remove();

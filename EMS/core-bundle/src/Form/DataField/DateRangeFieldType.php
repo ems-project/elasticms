@@ -59,7 +59,7 @@ class DateRangeFieldType extends DataFieldType
         $input = $data['value'];
         $options = $fieldType->getOptions();
 
-        $format = DateRangeFieldType::convertJavascriptDateRangeFormat($options['displayOptions']['locale']['format']);
+        $format = $options['displayOptions']['locale']['parseFormat'] ?? DateRangeFieldType::convertJavascriptDateRangeFormat($options['displayOptions']['locale']['format']);
 
         $inputs = \explode(' - ', (string) $input);
 
@@ -289,6 +289,10 @@ class DateRangeFieldType extends DataFieldType
                 'attr' => [
                     'placeholder' => 'i.e. dd/MM/yyyy HH:mm',
                 ],
+        ]);
+        $optionsForm->get('displayOptions')->get('locale')->add('parseFormat', TextType::class, [
+            'required' => false,
+            'attr' => ['placeholder' => '(PHP) d/m/Y H:i'],
         ]);
         $optionsForm->get('displayOptions')->get('locale')->add('firstDay', IntegerType::class, [
                 'required' => false,

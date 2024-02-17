@@ -91,6 +91,14 @@ function updateChoiceFieldTypes () {
   })
 }
 
+function createInvalidFeedback (message) {
+  const invalidFeedback = document.createElement('DIV')
+  invalidFeedback.textContent = message
+  invalidFeedback.classList.add('d-block')
+  invalidFeedback.classList.add('invalid-feedback')
+  return invalidFeedback
+}
+
 function onChange (allowAutoPublish = false) {
   if (updateMode === 'disabled') {
     // console.log('No way to save a finalized revision!');

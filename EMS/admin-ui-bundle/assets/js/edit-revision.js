@@ -134,12 +134,11 @@ function onChange (allowAutoPublish = false) {
       $('.invalid-feedback').html('')
       $(response.formErrors).each(function (index, item) {
         let target = item.propertyPath
-        let targetElement = document.getElementById(target)
+        let targetElement = document.getElementById(`${target}_value`)
         if (targetElement === null) {
-          targetElement = document.getElementById(`${target}_value`)
-          if (targetElement !== null) {
-            target = `${target}_value`
-          }
+          targetElement = document.getElementById(target)
+        } else {
+          target = `${target}_value`
         }
         if (targetElement !== null) {
           switch (targetElement.nodeName) {
@@ -154,6 +153,7 @@ function onChange (allowAutoPublish = false) {
               }
               break
             }
+            case 'TEXTAREA':
             case 'INPUT': {
               targetElement.classList.add('is-invalid')
               const label = document.querySelector(`label[for=${target}]`)

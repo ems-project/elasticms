@@ -79,7 +79,7 @@ class DateTimeFieldType extends DataFieldType
         $optionsForm->get('displayOptions')
             ->add('displayFormat', TextType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => '(JS) D/MM/YYYY HH:mm:ss'],
+                'attr' => ['placeholder' => 'dd/MM/yyyy HH:mm'],
             ])
             ->add('parseFormat', TextType::class, [
                 'required' => false,
@@ -87,11 +87,11 @@ class DateTimeFieldType extends DataFieldType
             ])
             ->add('daysOfWeekDisabled', TextType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => 'i.e. 0,6'],
+                'attr' => ['placeholder' => 'e.g. 0,6'],
             ])
             ->add('hoursDisabled', TextType::class, [
                 'required' => false,
-                'attr' => ['placeholder' => 'i.e. 0,24'],
+                'attr' => ['placeholder' => 'e.g. 0,23'],
             ])
         ;
     }
@@ -133,7 +133,7 @@ class DateTimeFieldType extends DataFieldType
 
         if (false === $dateTime) {
             $dataField = parent::reverseViewTransform($value, $fieldType);
-            $dataField->addMessage(\sprintf('Invalid parse format %s or ATOM for date string: %s', $parseFormat, $value));
+            $dataField->addMessage(\sprintf('Invalid parse format %s for date string: %s', $parseFormat, $value));
 
             return $dataField;
         }

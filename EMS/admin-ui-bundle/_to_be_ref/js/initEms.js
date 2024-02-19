@@ -71,7 +71,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
 
     $(document).ready(function() {
         closeModalNotification();
-        toggleMenu();
         initSearchForm();
         intAjaxModalLinks();
     });

@@ -56,7 +56,7 @@ class Core {
       new Tooltip(),
       new WYSIWYG()
     ]
-    document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.target))
+    document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.detail.target))
     this.coreReady()
   }
 

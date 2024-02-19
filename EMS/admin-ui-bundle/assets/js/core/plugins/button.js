@@ -7,6 +7,7 @@ export default class Button {
     this.addDisabledButtonTreatListeners(target)
     this.addRequestNotificationListeners(target)
     this.addPostButtonListeners(target)
+    this.addToggleButtonListeners(target)
   }
 
   addRemoveButtonListeners (target) {
@@ -91,6 +92,19 @@ export default class Button {
         }
 
         f.submit()
+      })
+    }
+  }
+
+  addToggleButtonListeners (target) {
+    const buttons = target.querySelectorAll('[data-bs-toggle-contain].toggle-button')
+    for (let i = 0; i < buttons.length; ++i) {
+      const button = buttons[i]
+      button.addEventListener('click', function () {
+        const toggleText = button.dataset.bsToggleContain
+        const previousText = button.innerHTML
+        button.innerHTML = toggleText
+        button.dataset.bsToggleContain = previousText
       })
     }
   }

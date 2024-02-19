@@ -29,15 +29,6 @@ import ajaxModal from "../../js/core/helpers/ajaxModal";
         });
     }
 
-    function toggleMenu() {
-        $('.toggle-button').on('click', function(){
-            const toggleTex = $(this).data('toggle-contain');
-            const text=$(this).html();
-            $(this).html(toggleTex);
-            $(this).data('toggle-contain', text);
-        });
-    }
-
     function initSearchForm() {
 
         $('#add-search-filter-button').on('click', function(e) {

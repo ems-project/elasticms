@@ -1,48 +1,5 @@
 function editRevisionEventListeners(target, onChangeCallback = null){
 
-    target.find('.remove-content-button').on('click', function(e) {
-        // prevent the link from creating a "#" on the URL
-        e.preventDefault();
-
-        const panel = $(this).closest('.collection-item-panel');
-        panel.find('input._ems_internal_deleted').val('deleted');
-        panel.hide();
-
-        if (onChangeCallback) {
-            onChangeCallback();
-        }
-    });
-
-    target.find('.add-content-button').on('click', function(e) {
-        // prevent the link from creating a "#" on the URL
-        e.preventDefault();
-
-        const panel = $(this).closest('.collection-panel');
-        const index = panel.data('index');
-        const prototype = panel.data('prototype');
-        const prototypeName = new RegExp(panel.data('prototype-name'), "g");
-        const prototypeLabel = new RegExp(panel.data('prototype-label'), "g");
-
-        // Replace '__label__name__$fieldId__' in the prototype's HTML to
-        // Replace '__name__$fieldId__' in the prototype's HTML to
-        // instead be a number based on how many items we have
-        const newForm = $(prototype.replace(prototypeLabel, (index+1)).replace(prototypeName, index));
-        // increase the index with one for the next item
-        panel.data('index', (index + 1));
-
-        editRevisionEventListeners(newForm);
-
-        panel.children('.panel-body').children('.collection-panel-container').append(newForm);
-
-        if (onChangeCallback) {
-            onChangeCallback();
-        }
-    });
-
-    target.find('.ems-sortable > div').sortable({
-        handle: ".ems-handle"
-    });
-
     target.find(".ckeditor_ems").each(function(){
 
         let height = $( this ).attr('data-height');

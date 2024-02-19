@@ -1,7 +1,7 @@
 import Button from './plugins/button'
 import Choice from './plugins/choice'
 import CodeEditor from './plugins/codeEditor'
-import CollapsibleCollection from './plugins/collapsibleCollection'
+import Collection from './plugins/Collection'
 import Datatable from './plugins/datatable'
 import Datetime from './plugins/datetime'
 import File from './plugins/file'
@@ -36,7 +36,7 @@ class Core {
       new Button(),
       new Choice(),
       new CodeEditor(),
-      new CollapsibleCollection(),
+      new Collection(),
       new Datatable(),
       new Datetime(),
       new File(),

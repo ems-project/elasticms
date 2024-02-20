@@ -43,7 +43,7 @@ class MediaLibraryFolders
     }
 
     /**
-     * @return array<string, array{ id: string, name: string, path: string, children: array<string, mixed> }>
+     * @return array<string, array{ folder: MediaLibraryFolder, children: array<string, mixed> }>
      */
     public function getStructure(): array
     {
@@ -60,11 +60,7 @@ class MediaLibraryFolders
             }
 
             $folderProperty = $this->createStructurePath($folder->getPath());
-            $this->propertyAccessor->setValue($structure, $folderProperty, [
-                'id' => $folder->id,
-                'name' => $folder->getName(),
-                'path' => $folder->getPath()->getValue(),
-            ]);
+            $this->propertyAccessor->setValue($structure, $folderProperty, ['folder' => $folder]);
         }
 
         return $structure;

@@ -55,12 +55,12 @@ class MediaLibraryController
         $folderId = $request->get('folderId');
         $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
 
-        return new JsonResponse($this->mediaLibraryService->getFiles($config, $from, $folder));
+        return new JsonResponse($this->mediaLibraryService->renderFiles($config, $from, $folder));
     }
 
     public function getFolders(MediaLibraryConfig $config): JsonResponse
     {
-        return new JsonResponse($this->mediaLibraryService->getFolders($config)->getStructure());
+        return new JsonResponse(['folders' => $this->mediaLibraryService->renderFolders($config)]);
     }
 
     public function addFolder(MediaLibraryConfig $config, Request $request): JsonResponse

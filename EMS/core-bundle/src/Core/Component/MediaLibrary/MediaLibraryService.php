@@ -91,7 +91,7 @@ class MediaLibraryService
      *     rows?: string
      * }
      */
-    public function getFiles(MediaLibraryConfig $config, int $from, ?MediaLibraryFolder $folder = null): array
+    public function renderFiles(MediaLibraryConfig $config, int $from, ?MediaLibraryFolder $folder = null): array
     {
         $path = $folder ? $folder->getPath()->getValue().'/' : '/';
 
@@ -105,9 +105,17 @@ class MediaLibraryService
             'totalRows' => $findFiles['total_documents'],
             'remaining' => ($from + $findFiles['total_documents'] < $findFiles['total']),
             'header' => 0 === $from ? $this->renderHeader(config: $config, folder: $folder) : null,
-            'rowHeader' => 0 === $from ? $template->block('media_lib_file_row_header') : null,
+            'rowHeader' => 0 === $from ? $template->block('media_lib_file_header_row') : null,
             'rows' => $template->block('media_lib_file_rows'),
         ]);
+    }
+
+    public function renderFolders(MediaLibraryConfig $config): string
+    {
+        $folders = $this->getFolders($config);
+        $template = $this->templateFactory->create($config, ['structure' => $folders->getStructure()]);
+
+        return $template->block('media_lib_folder_rows');
     }
 
     public function getFolder(MediaLibraryConfig $config, string $ouuid): MediaLibraryFolder

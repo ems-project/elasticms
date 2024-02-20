@@ -19,6 +19,9 @@ div.media-lib {
 
   button[disabled], label[disabled] {
     opacity: 100%;
+  }
+
+  &.loading {
     cursor: progress;
   }
 

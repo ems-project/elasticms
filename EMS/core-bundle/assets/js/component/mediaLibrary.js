@@ -43,16 +43,20 @@ export default class MediaLibrary {
             .allSettled([this._getFolders(), this._getFiles()])
             .then(() => this.loading(false));
     }
-
+    isLoading() {
+        return this.element.classList.contains('loading');
+    }
     loading(flag) {
         const buttons = this.element.querySelectorAll('button');
         const uploadButton = (this.#elements.inputUpload) ?
             this.#elements.header.querySelector(`label[for="${this.#elements.inputUpload.id}"]`) : false;
 
         if (flag) {
+            this.element.classList.add('loading');
             buttons.forEach(button => button.disabled = true);
             if (uploadButton) uploadButton.setAttribute('disabled', 'disabled');
         } else {
+            this.element.classList.remove('loading');
             buttons.forEach(button => button.disabled = false);
             if (uploadButton) uploadButton.removeAttribute('disabled');
         }
@@ -68,6 +72,8 @@ export default class MediaLibrary {
         document.onkeyup = (event) => { if (event.shiftKey) this.#selectionLastFile = null; }
 
         this.element.onclick = (event) => {
+            if (this.isLoading()) return;
+
             let classList = event.target.classList;
 
             if (classList.contains('media-lib-file')) this._onClickFile(event.target, event);
@@ -92,12 +98,16 @@ export default class MediaLibrary {
             }
         }
         this.element.onchange = (event) => {
+            if (this.isLoading()) return;
+
             if (event.target.classList.contains('file-uploader-input')) {
                 this._uploadFiles(Array.from(event.target.files));
             }
         }
 
         ['dragenter', 'dragover', 'dragleave', 'drop', 'dragend'].forEach((dragEvent) => {
+            if (this.isLoading()) return;
+
             this.#elements.files.addEventListener(dragEvent, (event) => this._onDragUpload(event));
         });
     }
@@ -108,7 +118,6 @@ export default class MediaLibrary {
         const fileId = selection.length === 1 ? item.dataset.id : null;
         this._getHeader(fileId).then(() => { this.loading(false); });
     }
-
     _onClickButtonFileRename(button) {
         const fileId = button.dataset.id;
         const fileRow = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`);

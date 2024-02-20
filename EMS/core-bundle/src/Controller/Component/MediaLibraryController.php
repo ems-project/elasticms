@@ -294,8 +294,11 @@ class MediaLibraryController
 
         $folders = $this->mediaLibraryService->getFolders($config)->getChoices();
         $choices = \array_filter($folders, static fn ($folderId) => $folderId !== ($folder->id ?? 'home'));
+        $targetId = $request->query->get('targetId');
+        $targetFolder = $targetId ? $this->mediaLibraryService->getFolder($config, $targetId) : null;
 
-        $form = $this->formFactory->createBuilder(FormType::class, [])->getForm();
+        $formData = ['target' => $targetFolder?->id];
+        $form = $this->formFactory->createBuilder(FormType::class, $formData)->getForm();
         $form
             ->add('target', ChoiceType::class, [
                 'constraints' => [new Assert\NotBlank()],

@@ -174,12 +174,13 @@ export default class MediaLibrary {
             ;
         });
     }
-    _onClickButtonFilesMove(button) {
+    _onClickButtonFilesMove(button, targetId) {
         const selection = this.getSelectionFiles();
         if (selection.length === 0) return;
 
         const path = this.#activeFolderId ? `/move-files/${this.#activeFolderId}` : '/move-files';
         const query = new URLSearchParams({ 'selectionFiles': selection.length.toString() });
+        if (targetId) query.append('targetId', targetId);
         const modalSize = button.dataset.modalSize ?? 'sm';
 
         ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
@@ -427,9 +428,10 @@ export default class MediaLibrary {
         if ('drop' === event.type) {
             event.preventDefault();
             event.target.classList.remove('media-lib-drop-area');
-
+            const folderId = event.target.dataset.id;
             const moveButton = this.#elements.header.querySelector('.btn-files-move');
-            this._onClickButtonFilesMove(moveButton);
+
+            this._onClickButtonFilesMove(moveButton, folderId);
         }
     }
     _onDragFile(event) {

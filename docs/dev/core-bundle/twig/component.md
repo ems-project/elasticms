@@ -294,20 +294,17 @@ If you use this [media_library.json](/files/contenttype_media_library.json ':ign
 
 ### Templating (media-library)
 
-Available in blocks:
-* [Config](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Core/Component/MediaLibrary/MediaLibraryConfig.php)
-* [MediaFile](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Core/Component/MediaLibrary/MediaLibraryFile.php) only in `mediaLibraryFileRow`
-* The context if defined in config
+See the default [template](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Resources/views/components/media_library/template.twig) for all available blocks.
 
-The following example contains all possible blocks, with their default rendering.
-
-* `mediaLibraryFileRow`: links have by default the `ems-id` data attribute: 
+* `media_lib_file`: links have by default the `ems-id` data attribute: 
   
   When the dashboard is used as file or object browser (wysiwyg) the ems-id will be used as value.
 
 ```twig
 {{ block("body", "@EMSCH/template/dashboard/media_library.twig") }}
 ```
+
+Example add an extra 'go to revision' column. 
 
 ```twig
 {% block body %}
@@ -320,46 +317,17 @@ The following example contains all possible blocks, with their default rendering
     }) }}
 {% endblock body %}
 
-{%- block mediaLibraryHeaderLeft -%}
-    {% apply spaceless %}
-        <div class="media-lib-container">
-            {{ buttonHome|raw }}
-        </div>
-    {% endapply %}
-{%- endblock mediaLibraryHeaderLeft -%}
+{%- block media_lib_file_header -%}
+    <div>Name</div>
+    <div>Type</div>
+    <div>Revision</div>
+    <div class="text-right">Size</div>
+{%- endblock media_lib_file_header -%}
 
-{%- block mediaLibraryHeader -%}
-    {% apply spaceless %}
-        <div class="media-lib-container">
-            {{ buttonAddFolder|raw }}
-            {{ buttonUpload|raw }}
-            {{ breadcrumb|raw }}
-        </div>
-    {% endapply %}
-{%- endblock mediaLibraryHeader -%}
-
-{%- block mediaLibraryFileRowHeader -%}
-    {% apply spaceless %}
-        <li>
-            <div>Name</div>
-            <div>Type</div>
-            <div class="text-right">Size</div>
-        </li>
-    {% endapply %}
-{%- endblock mediaLibraryFileRowHeader -%}
-
-{%- block mediaLibraryFileRow -%}
-    {% apply spaceless %}
-        <li>
-            <div><a href="{{ url }}" download="{{ media.file.filename }}" data-ems-id="{{ media.emsId }}">{{ media.file.filename }}</a></div>
-            <div>{{ media.file.mimetype|trans({}, 'emsco-mimetypes') }}</div>
-            <div class="text-right">{{ media.file.filesize|format_bytes }}</div>
-        </li>
-    {% endapply %}
-{%- endblock mediaLibraryFileRow -%}
-
-{%- block mediaLibraryFooter -%}
-    <div class="media-lib-container"></div>
-{%- endblock mediaLibraryFooter -%}
+{%- block media_lib_file -%}
+    <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}">{{- mediaFile.name -}}</a></div>
+    <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+    <div><a href="{{ path('emsco_view_revisions', { 'type': mediaFile.document.contentType, 'ouuid': mediaFile.id  }) }}">show revision</a></div>
+    <div class="text-right">{{- mediaFile.file.filesize|format_bytes -}}</div>
+{%- endblock media_lib_file -%}
 ```
-

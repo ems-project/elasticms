@@ -1199,9 +1199,9 @@
             {% endif %}
         </dt>
         <dd>
-            <ul>
+            {% if dataField.rawData is iterable %}<ul>{% endif %}
                 {{ emsco_diff_date(dataField.rawData, compare, dataField.fieldType.name, compareRawData, dataField.fieldType.displayOption('parseFormat', 'd/m/Y H:i:s')) }}
-            </ul>
+            {% if dataField.rawData is iterable %}</ul>{% endif %}
         </dd>
     </dl>
     {{ _self.messages(dataField) }}
@@ -1242,13 +1242,13 @@
                 {% if dateFrom %}
                     <li>
                         <b>From </b>
-                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('\\DateTime::ISO8601')) }}
+                        {{ emsco_diff_date(dateFrom, compare, dataField.fieldType.mappingOptions.fromDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('\\DateTime::ATOM')) }}
                     </li>
                 {% endif %}
                 {% if dateTo %}
                     <li>
                         <b>To </b>
-                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format, false, constant('\\DateTime::ISO8601')) }}
+                        {{ emsco_diff_date(dateTo, compare, dataField.fieldType.mappingOptions.toDateMachineName, child, dataField.fieldType.displayOptions.locale.parseFormat|default(dataField.fieldType.displayOptions.locale.format|emsco_convert_javascript_date_range_format), false, constant('\\DateTime::ATOM')) }}
                     </li>
                 {% endif %}
                 {% if dateFrom and dateTo %}

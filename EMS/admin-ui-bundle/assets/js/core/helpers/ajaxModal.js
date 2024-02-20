@@ -1,13 +1,12 @@
 import $ from 'jquery'
 import { AddedDomEvent } from '../events/addedDomEvent'
 import { tooltipDataLinks } from './tooltip'
-import { Modal } from 'bootstrap'
 
 class AjaxModal {
   constructor (selector) {
     this.selector = selector
     this.$modal = $(selector)
-    this.bsModal = new Modal(document.querySelector(selector))
+    this.bsModal = new window.bootstrap.Modal(document.querySelector(selector))
 
     this.modal = document.querySelector(this.selector)
     if (this.modal) {

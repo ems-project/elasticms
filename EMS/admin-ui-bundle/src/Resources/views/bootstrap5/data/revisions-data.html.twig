@@ -171,7 +171,7 @@
 	{% endif %}
 	{% if revision.finalizedDate %}
 		<hr>
-		<strong><i class="glyphicon glyphicon-open margin-r-5"></i> {{ 'views.data.revisions-data-html.finalized-on'|trans }}</strong>
+		<strong><i class="fa fa-upload margin-r-5"></i> {{ 'views.data.revisions-data-html.finalized-on'|trans }}</strong>
 		<p class="text-muted">{{ revision.finalizedDate|date(date_time_format) }}</p>
 	{% elseif revision.draftSaveDate %}
 		<hr>

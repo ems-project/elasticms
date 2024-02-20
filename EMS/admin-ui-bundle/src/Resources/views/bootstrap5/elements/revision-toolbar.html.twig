@@ -35,7 +35,7 @@
 							</button>
 							<ul class="dropdown-menu">
 								<li>
-									<a href="{{ path('emsco_edit_json_revision', {'revision': revisionId}) }}">{{ 'views.elements.revision-toolbar-html.edit-revision-json'|trans }}</a>
+									<a href="{{ path('emsco_edit_json_revision', {'revision': revisionId}) }}" class="dropdown-item">{{ 'views.elements.revision-toolbar-html.edit-revision-json'|trans }}</a>
 								</li>
 							</ul>
 						</div>
@@ -94,13 +94,13 @@
 						{% if draft %}
 							<li>{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
 								'url': path('emsco_edit_revision', {'revisionId': revisionId}),
-								'btnClass': '',
+								'btnClass': 'dropdown-item',
 								'label': 'views.elements.revision-toolbar-html.edit-draft-label'|trans,
 								'icon': 'pencil' }%}</li>
 							{% if autoSave  %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 									'url': path('revision.cancel', {'revision': revisionId}),
-									'btnClass': '',
+									'btnClass': 'dropdown-item',
 									'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
 									'icon': 'remove'
 								}%}</li>
@@ -109,21 +109,21 @@
 							{% if is_granted('ROLE_PUBLISHER') and revision.id|default(false) %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
 										'url': path('emsco_pick_a_release', {revision: revision.id}),
-										'btnClass': '',
+										'btnClass': 'dropdown-item',
 										'label': 'views.elements.revision-toolbar-html.add-to-release'|trans(),
-										'icon': 'glyphicon glyphicon-pushpin' }%}</li>
+										'icon': 'fa fa-map-pin' }%}</li>
 							{% endif %}
 							{% if is_granted('ROLE_SUPER') and instance.contentType.environment not in environmentsRevision.environments %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
 									'url': path('emsco_edit_revision', {'revisionId': revisionId}),
-									'btnClass': ' ',
+									'btnClass': 'dropdown-item',
 									'label': 'views.elements.revision-toolbar-html.edit-revision-label'|trans,
 									'icon': 'pencil' }%}</li>
 							{% endif %}
 							{% if autoSave  %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 									'url': path('revision.cancel', {'revision': revisionId}),
-									'btnClass': '',
+									'btnClass': 'dropdown-item',
 									'message': 'views.elements.revision-toolbar-html.cancel-last-updates-message'|trans,
 									'label': 'views.elements.revision-toolbar-html.cancel-last-updates-label'|trans,
 									'icon': 'remove'
@@ -131,7 +131,7 @@
 							{% endif %}
 								<li>{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 									'url': path('revision.revert', {'id': revisionId}),
-									'btnClass': '',
+									'btnClass': 'dropdown-item',
 									'label': 'views.elements.revision-toolbar-html.revert-revision-label'|trans,
 									'icon': 'undo' }%}</li>
 						{% endif %}
@@ -144,7 +144,7 @@
 									'compareId': rev.id < revision.id ? rev.id :revision.id,
 									'page': page
 								}),
-								'btnClass': '',
+								'btnClass': 'dropdown-item',
 								'label': 'views.elements.revision-toolbar-html.compare-label'|trans,
 								'icon': 'compress' }%}</li>
 						{% endif %}
@@ -164,7 +164,7 @@
 						</button>
 						<ul class="dropdown-menu">
 							{% for env in environmentsRevision.publish %}
-								<li><a href="{{ path('revision.publish_to', {'revisionId': revisionId, 'envId': env.id}) }}">{{ env.label }}</a></li>
+								<li><a href="{{ path('revision.publish_to', {'revisionId': revisionId, 'envId': env.id}) }}" class="dropdown-item">{{ env.label }}</a></li>
 							{% endfor %}
 					   </ul>
 					  </div>
@@ -179,7 +179,7 @@
 					  </button>
 					   <ul class="dropdown-menu">
 							{% for env in environmentsRevision.unpublish %}
-								<li><a href="{{ path('revision.unpublish', {'revisionId': revisionId, 'envId': env.id}) }}">{{ env.label }}</a></li>
+								<li><a href="{{ path('revision.unpublish', {'revisionId': revisionId, 'envId': env.id}) }}" class="dropdown-item">{{ env.label }}</a></li>
 							{% endfor %}
 					   </ul>
 				</div>
@@ -194,7 +194,7 @@
 					<ul class="dropdown-menu">
 						<li>{% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
 							'url': path('revision.reindex', {'revisionId': revisionId}),
-							'btnClass': '',
+							'btnClass': 'dropdown-item',
 							'label': 'views.elements.revision-toolbar-html.re-index-label'|trans,
 							'icon': 'recycle'}%}</li>
 					</ul>

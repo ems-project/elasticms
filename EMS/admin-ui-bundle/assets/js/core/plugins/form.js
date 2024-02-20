@@ -2,6 +2,7 @@ import $ from 'jquery'
 import ajaxRequest from '../components/ajaxRequest'
 import ChangeEvent from '../events/changeEvent'
 import { EMS_CTRL_SAVE_EVENT } from '../events/ctrlSaveEvent'
+import '../../../css/core/components/form.scss'
 
 class Form {
   load (target) {

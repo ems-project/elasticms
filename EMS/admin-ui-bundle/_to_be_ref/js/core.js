@@ -1,6 +1,5 @@
 window.ems_wysiwyg_type_filters = JSON.parse(document.querySelector("BODY").getAttribute('data-wysiwyg-type-filters'));
 
-require('admin-lte/plugins/timepicker/bootstrap-timepicker');
 require('chart.js');
 require('fastclick');
 require('flot');
@@ -11,12 +10,8 @@ require('jquery-sparkline');
 require('moment');
 require('pace');
 require('raphael');
-require('select2/dist/js/select2.full');
 require('slimscroll');
-require('bootstrap-datepicker');
-require('daterangepicker');
 require('fullcalendar');
-require('jquery-match-height');
 
 //Fix issue CK editor in bootstrap model
 //https://ckeditor.com/old/forums/Support/Issue-with-Twitter-Bootstrap#comment-127719
@@ -30,6 +25,4 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
         }
     })
 };
-
-require('./initEms');
 

@@ -712,10 +712,12 @@
 
 {% block container_field_type_widget %}
 	<div id="{{ form.vars.id }}" class="container-fluid">
-		<div class="row">
+		<div class="{{ html_classes('row', {
+            'has-error': form.vars.errors|length > 0,
+        }) }}">
 			{% for child in form.iterator %}
                 {% if not child.vars.isVisible is defined or child.vars.isVisible %}
-                    <div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}{% if child.vars.errors|length > 0 and not child.vars.isContainer|default(false)  %} has-error{% endif %}">
+                    <div class="{{ child.vars.data.fieldType.options.displayOptions.class|default('') }}">
                         {{- form_row(child) -}}
                     </div>
                 {% else %}
@@ -945,19 +947,16 @@
 
 {% block datefieldtype_row %}
 <div class="form-group">
-	<div id="{{ form.vars.id}}__label">
-        {{ form_label(form.value) }}
-	</div>
+    {{ form_label(form.value) }}
 	<div class="input-group">
-    	<div class="input-group-addon">
-    		<i class="fa fa-calendar"></i>
-    	</div>
-        {{- form_widget(form.value) -}}
+        <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+        </span>
+        {{- form_widget(form.value, { 'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+            'is-invalid': errors|length > 0 or not valid,
+        })} }) -}}
 	</div>
-	<div class="has-error"  id="{{ form.vars.id}}__error">
-   	    {{- form_errors(form) -}}
-    </div>
-  	<!-- /.input group -->
+    {{- form_errors(form) -}}
 </div>
 <!-- /.form group -->
 {% endblock datefieldtype_row %}
@@ -969,11 +968,9 @@
             <span class="input-group-text">
                 <i class="fa fa-calendar"></i>
             </span>
-            {% if errors|length > 0 or not valid %}
-                {{- form_widget(form.value, { 'attr': {'class': form.value.vars.attr.class|default('') ~ ' is-invalid'} }) -}}
-            {% else %}
-                {{- form_widget(form.value) -}}
-            {% endif %}
+            {{- form_widget(form.value, { 'attr': {'class': html_classes(form.value.vars.attr.class|default(''), {
+                'is-invalid': errors|length > 0 or not valid,
+            })} }) -}}
 		</div>
         {{- form_errors(form) -}}
 	</div>

@@ -91,6 +91,14 @@ function updateChoiceFieldTypes () {
   })
 }
 
+function createInvalidFeedback (message) {
+  const invalidFeedback = document.createElement('DIV')
+  invalidFeedback.textContent = message
+  invalidFeedback.classList.add('d-block')
+  invalidFeedback.classList.add('invalid-feedback')
+  return invalidFeedback
+}
+
 function onChange (allowAutoPublish = false) {
   if (updateMode === 'disabled') {
     // console.log('No way to save a finalized revision!');
@@ -126,12 +134,11 @@ function onChange (allowAutoPublish = false) {
       $('.invalid-feedback').html('')
       $(response.formErrors).each(function (index, item) {
         let target = item.propertyPath
-        let targetElement = document.getElementById(target)
+        let targetElement = document.getElementById(`${target}_value`)
         if (targetElement === null) {
-          targetElement = document.getElementById(`${target}_value`)
-          if (targetElement !== null) {
-            target = `${target}_value`
-          }
+          targetElement = document.getElementById(target)
+        } else {
+          target = `${target}_value`
         }
         if (targetElement !== null) {
           switch (targetElement.nodeName) {
@@ -141,10 +148,12 @@ function onChange (allowAutoPublish = false) {
               if (previousElement !== null && previousElement.classList.contains('invalid-feedback') && item.message) {
                 $(previousElement).html(item.message)
               } else {
-                console.log(targetElement)
+                const invalidFeedback = createInvalidFeedback(item.message)
+                targetElement.parentNode.insertBefore(invalidFeedback, targetElement)
               }
               break
             }
+            case 'TEXTAREA':
             case 'INPUT': {
               targetElement.classList.add('is-invalid')
               const label = document.querySelector(`label[for=${target}]`)
@@ -157,7 +166,8 @@ function onChange (allowAutoPublish = false) {
                 if (invalidFeedback !== null) {
                   invalidFeedback.textContent = item.message
                 } else {
-                  console.log(targetElement)
+                  const invalidFeedback = createInvalidFeedback(item.message)
+                  parent.appendChild(invalidFeedback)
                 }
               } else {
                 console.log(targetElement)
@@ -172,36 +182,6 @@ function onChange (allowAutoPublish = false) {
         } else {
           console.log(item)
         }
-
-        // const targetLabel = $('#' + target + '__label')
-        // const targetError = $('#' + target + '__error')
-        //
-        // const propPath = $('#' + item.propertyPath + '_value')
-        // if (propPath.length && propPath.prop('nodeName') === 'TEXTAREA') {
-        //   target = item.propertyPath + '_value'
-        // }
-
-        // const targetParent = $('#' + target)
-        // if (targetLabel.length) {
-        //   targetLabel.closest('div.form-group').addClass('has-error')
-        //   if (item.message && targetError.length > 0) {
-        //     targetError.addClass('has-error')
-        //     if ($('#' + target + '__error span.help-block').length === 0) {
-        //       targetError.append('<span class="help-block"><ul class="list-unstyled"></ul></span>')
-        //     }
-        //     $('#' + target + '__error' + ' span.help-block ul.list-unstyled').append('<li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li>')
-        //   }
-        // } else {
-        //   $('#' + target).closest('div.form-group').addClass('has-error')
-        //   targetParent.parents('.form-group').addClass('has-error')
-        //   if (item.message) {
-        //     if (targetParent.parents('.form-group').find(' span.help-block').length === 0) {
-        //       targetParent.parent('.form-group').append('<span class="help-block"><ul class="list-unstyled"><li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li></ul></span>')
-        //     } else {
-        //       targetParent.parents('.form-group').find(' span.help-block ul.list-unstyled').append('<li><span class="glyphicon glyphicon-exclamation-sign"></span> ' + item.message + '</li>')
-        //     }
-        //   }
-        // }
       })
     })
     .always(function () {

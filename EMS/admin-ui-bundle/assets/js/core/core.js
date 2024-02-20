@@ -1,7 +1,7 @@
 import Button from './plugins/button'
 import Choice from './plugins/choice'
 import CodeEditor from './plugins/codeEditor'
-import CollapsibleCollection from './plugins/collapsibleCollection'
+import Collection from './plugins/Collection'
 import Datatable from './plugins/datatable'
 import Datetime from './plugins/datetime'
 import File from './plugins/file'
@@ -14,6 +14,7 @@ import JsonMenuNested from './plugins/jsonMenuNested'
 import MediaLibrary from './plugins/mediaLibrary'
 import NestedSortable from './plugins/nestedSortable'
 import ObjectPicker from './plugins/objectPicker'
+import SearchForm from './plugins/searchForm'
 import Select from './plugins/select'
 import SortableList from './plugins/sortableList'
 import SymfonyCollection from './plugins/symfonyCollection'
@@ -36,7 +37,7 @@ class Core {
       new Button(),
       new Choice(),
       new CodeEditor(),
-      new CollapsibleCollection(),
+      new Collection(),
       new Datatable(),
       new Datetime(),
       new File(),
@@ -49,6 +50,7 @@ class Core {
       new MediaLibrary(),
       new NestedSortable(),
       new ObjectPicker(),
+      new SearchForm(),
       new Select(),
       new SortableList(),
       new SymfonyCollection(),
@@ -56,7 +58,7 @@ class Core {
       new Tooltip(),
       new WYSIWYG()
     ]
-    document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.target))
+    document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.detail.target))
     this.coreReady()
   }
 

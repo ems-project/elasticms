@@ -271,6 +271,7 @@ Uploading a new file will create a new document.
 ### Implementation (media-library)
 
 If you use this [media_library.json](/files/contenttype_media_library.json ':ignore') contentType, the only required attribute is `id`.
+For a more advanced implementation look into our [demo project](https://github.com/ems-project/elasticms-demo).
 
 ```twig
 {{ component('media_library', {
@@ -288,9 +289,13 @@ If you use this [media_library.json](/files/contenttype_media_library.json ':ign
 | `fieldFile`       | media_file             | **required** Field name for asset                          |
 | `defaultValue`    |                        | Key/value array for defining default, example organization |
 | `searchSize`      | 100                    | Used for search and infinity scrolling                     |
-| `searchQuery`     |                        | Example only load media files for an organization          |
+| `searchQuery`     | see config             | Example only load media files for an organization          |
+| `searchFileQuery` |                        | Define the search query used for searching file documents  |
 | `template`        |                        | see [templating](#templating-media-library)                |
 | `context`         |                        | see [templating](#templating-media-library)                |
+
+- [config](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Core/Component/MediaLibrary/Config/MediaLibraryConfig.php)
+- [config factory](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Core/Component/MediaLibrary/Config/MediaLibraryConfigFactory.php)
 
 ### Templating (media-library)
 

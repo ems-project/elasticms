@@ -107,9 +107,9 @@ export default class MediaLibrary {
                 this._selectFilesReset();
             }
         }
-        this.element.onchange = (event) => {
-            if (this.isLoading()) return;
 
+        this.#elements.inputUpload.onchange = (event) => {
+            if (this.isLoading()) return;
             if (event.target.classList.contains('file-uploader-input')) {
                 this._uploadFiles(Array.from(event.target.files));
             }

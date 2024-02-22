@@ -529,6 +529,7 @@
             <argument type="service" id="ems.service.notification"/>
             <argument type="service" id="ems.dashboard.manager"/>
             <argument type="service" id="EMS\CoreBundle\Repository\NotificationRepository"/>
+            <argument type="service" id="ems_core.core_ui.flash_message_logger" />
             <argument>%ems_core.paging_size%</argument>
             <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>

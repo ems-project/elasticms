@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EnvironmentPickerType extends ChoiceType
 {
-    public function __construct(private readonly EnvironmentService $service)
+    public function __construct(private readonly EnvironmentService $environmentService)
     {
         parent::__construct();
     }
@@ -23,9 +23,9 @@ class EnvironmentPickerType extends ChoiceType
     {
         $choices = [];
         if ($options['userPublishEnvironments']) {
-            $environments = $this->service->getUserPublishEnvironments()->toArray();
+            $environments = $this->environmentService->getUserPublishEnvironments()->toArray();
         } else {
-            $environments = $this->service->getEnvironments();
+            $environments = $this->environmentService->getEnvironments();
         }
 
         foreach ($environments as $environment) {
@@ -42,7 +42,6 @@ class EnvironmentPickerType extends ChoiceType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'choices' => [],
             'attr' => [
                 'class' => 'select2',
             ],

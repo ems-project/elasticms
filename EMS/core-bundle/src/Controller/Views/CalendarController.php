@@ -61,7 +61,7 @@ class CalendarController extends AbstractController
             $revision->setRawData($rawData);
             $this->dataService->finalizeDraft($revision);
 
-            return $this->render("@$this->templateNamespace/view/custom/calendar_replan.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                 'success' => true,
             ]);
         } catch (\Exception $e) {

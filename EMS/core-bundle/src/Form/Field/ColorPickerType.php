@@ -5,7 +5,7 @@ namespace EMS\CoreBundle\Form\Field;
 use EMS\Helpers\Standard\Text;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ColorPickerType extends SelectPickerType
+class ColorPickerType extends Select2Type
 {
     /** @var array<string, ?string> */
     private array $choices = [

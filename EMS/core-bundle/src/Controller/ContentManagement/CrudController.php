@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Exception\DataStateException;
@@ -22,8 +23,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CrudController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly UserService $userService, private readonly DataService $dataService, private readonly ContentTypeService $contentTypeService, private readonly string $templateNamespace)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly UserService $userService,
+        private readonly DataService $dataService,
+        private readonly ContentTypeService $contentTypeService,
+        private readonly FlashMessageLogger $flashMessageLogger,
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function create(?string $ouuid, string $name, Request $request): Response
@@ -55,14 +62,14 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                    'success' => false,
-                    'ouuid' => $ouuid,
-                    'type' => $contentType->getName(),
+            return $this->flashMessageLogger->buildJsonResponse([
+                'success' => false,
+                'ouuid' => $ouuid,
+                'type' => $contentType->getName(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
                 'success' => true,
                 'revision_id' => $newRevision->getId(),
                 'ouuid' => $newRevision->getOuuid(),
@@ -131,7 +138,7 @@ class CrudController extends AbstractController
             $out['success'] = false;
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", $out);
+        return $this->flashMessageLogger->buildJsonResponse($out);
     }
 
     /**
@@ -160,14 +167,14 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                     'success' => $isDiscard,
                     'type' => $contentType->getName(),
                     'revision_id' => $id,
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
                 'success' => $isDiscard,
                 'type' => $contentType->getName(),
                 'revision_id' => $revision->getId(),
@@ -202,7 +209,7 @@ class CrudController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
                 'success' => $isDeleted,
                 'ouuid' => $ouuid,
                 'type' => $contentType->getName(),
@@ -237,7 +244,7 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                     'success' => $isReplaced,
                     'ouuid' => $ouuid,
                     'type' => $contentType->getName(),
@@ -245,7 +252,7 @@ class CrudController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
                 'success' => $isReplaced,
                 'ouuid' => $ouuid,
                 'type' => $contentType->getName(),
@@ -281,7 +288,7 @@ class CrudController extends AbstractController
             }
             $isMerged = false;
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                     'success' => $isMerged,
                     'ouuid' => $ouuid,
                     'type' => $contentType->getName(),
@@ -289,7 +296,7 @@ class CrudController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
                 'success' => $isMerged,
                 'ouuid' => $ouuid,
                 'type' => $contentType->getName(),
@@ -299,7 +306,7 @@ class CrudController extends AbstractController
 
     public function test(): Response
     {
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
                 'success' => true,
         ]);
     }

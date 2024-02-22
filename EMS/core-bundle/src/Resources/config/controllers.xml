@@ -177,6 +177,7 @@
             <argument type="service" id="ems.service.file" />
             <argument type="service" id="ems.service.asset_extractor" />
             <argument type="service" id="emsco.logger" />
+            <argument type="service" id="ems_core.core_ui.flash_message_logger" />
             <argument>%ems_core.template_namespace%</argument>
             <argument>%ems_core.theme_color%</argument>
             <call method="setContainer"/>

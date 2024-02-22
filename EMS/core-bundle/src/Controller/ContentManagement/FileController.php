@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
+use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\FileService;
@@ -27,6 +28,7 @@ class FileController extends AbstractController
         private readonly FileService $fileService,
         private readonly AssetExtractorService $assetExtractorService,
         private readonly LoggerInterface $logger,
+        private readonly FlashMessageLogger $flashMessageLogger,
         private readonly string $templateNamespace,
         private readonly string $themeColor,
     ) {
@@ -114,7 +116,7 @@ class FileController extends AbstractController
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
             ]);
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
         }
@@ -153,7 +155,7 @@ class FileController extends AbstractController
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
             ]);
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
         }
@@ -238,7 +240,7 @@ class FileController extends AbstractController
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
                 ]);
 
-                return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+                return $this->flashMessageLogger->buildJsonResponse([
                     'success' => false,
                 ]);
             }
@@ -251,12 +253,12 @@ class FileController extends AbstractController
             $this->logger->warning('log.file.upload_error', [
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $file->getError(),
             ]);
-            $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
             'success' => false,
         ]);
     }

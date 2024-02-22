@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Form\Field;
 
 use EMS\CoreBundle\Entity\Environment;
+use EMS\CoreBundle\Form\DataTransformer\EntityNameModelTransformer;
 use EMS\CoreBundle\Service\EnvironmentService;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,6 +35,7 @@ class EnvironmentPickerType extends ChoiceType
             }
         }
         $options['choices'] = $choices;
+        $builder->addModelTransformer(new EntityNameModelTransformer($this->environmentService, $options['multiple']));
         parent::buildForm($builder, $options);
     }
 

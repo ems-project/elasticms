@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import 'select2/dist/js/select2';
+import 'select2/dist/js/select2'
 
 class Select {
   load (target) {

@@ -92,18 +92,18 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/revision.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                     'success' => false,
                     'ouuid' => $ouuid,
                     'type' => $contentType->getName(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/revision.json.twig", [
-                'success' => true,
-                'revision' => $revision->getRawData(),
-                'ouuid' => $revision->getOuuid(),
-                'id' => $revision->getId(),
+        return $this->flashMessageLogger->buildJsonResponse([
+            'success' => true,
+            'revision' => $revision->getRawData(),
+            'ouuid' => $revision->getOuuid(),
+            'id' => $revision->getId(),
         ]);
     }
 

@@ -315,9 +315,12 @@ class CrudController extends AbstractController
     {
         $contentType = $this->giveContentType($name);
 
-        return $this->render("@$this->templateNamespace/ajax/contenttype_info.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
                 'success' => true,
-                'contentType' => $contentType,
+                'singular_name' => $contentType->getSingularName(),
+                'plural_name' => $contentType->getPluralName(),
+                'default_alias' => $contentType->giveEnvironment()->getAlias(),
+                'default_name' => $contentType->giveEnvironment()->getName(),
         ]);
     }
 

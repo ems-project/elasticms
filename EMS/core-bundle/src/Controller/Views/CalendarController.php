@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Controller\Views;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Form\Form\SearchFormType;
@@ -17,8 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CalendarController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly ElasticaService $elasticaService, private readonly DataService $dataService, private readonly SearchService $searchService, private readonly string $templateNamespace)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly ElasticaService $elasticaService,
+        private readonly DataService $dataService,
+        private readonly SearchService $searchService,
+        private readonly FlashMessageLogger $flashMessageLogger,
+        private readonly string $templateNamespace
+    ) {
     }
 
     public function update(View $view, Request $request): Response
@@ -63,7 +70,7 @@ class CalendarController extends AbstractController
                 EmsFields::LOG_EXCEPTION_FIELD => $e,
             ]);
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
         }

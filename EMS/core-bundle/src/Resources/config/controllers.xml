@@ -424,6 +424,7 @@
             <argument type="service" id="ems_common.service.elastica" />
             <argument type="service" id="ems.service.data" />
             <argument type="service" id="ems.service.search" />
+            <argument type="service" id="ems_core.core_ui.flash_message_logger" />
             <argument>%ems_core.template_namespace%</argument>
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>

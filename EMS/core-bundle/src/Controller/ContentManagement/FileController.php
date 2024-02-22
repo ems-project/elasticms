@@ -70,9 +70,13 @@ class FileController extends AbstractController
             throw new NotFoundHttpException(\sprintf('Asset %s not found', $sha1));
         }
 
-        $response = $this->render("@$this->templateNamespace/ajax/extract-data-file.json.twig", [
+        $response = $this->flashMessageLogger->buildJsonResponse([
             'success' => !$data->isEmpty(),
-            'data' => $data,
+            'content' => $data->getContent(),
+            'author' => $data->getAuthor(),
+            'date' => $data->getDate(),
+            'language' => $data->getLocale(),
+            'title' => $data->getTitle(),
         ]);
         $response->headers->set('Content-Type', 'application/json');
 

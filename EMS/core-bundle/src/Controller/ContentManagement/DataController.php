@@ -7,6 +7,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -69,6 +70,7 @@ class DataController extends AbstractController
         private readonly RevisionRepository $revisionRepository,
         private readonly TemplateRepository $templateRepository,
         private readonly EnvironmentRepository $environmentRepository,
+        private readonly FlashMessageLogger $flashMessageLogger,
         private readonly string $templateNamespace
     ) {
     }
@@ -557,7 +559,7 @@ class DataController extends AbstractController
             ]);
         }
 
-        $response = $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        $response = $this->flashMessageLogger->buildJsonResponse([
             'success' => $success,
         ]);
         $response->headers->set('Content-Type', 'application/json');
@@ -584,7 +586,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
             ]);
 
-            $response = $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            $response = $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
             $response->headers->set('Content-Type', 'application/json');

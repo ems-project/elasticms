@@ -6,7 +6,7 @@ namespace EMS\CoreBundle\Core\UI;
 
 use EMS\CoreBundle\EMSCoreBundle;
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use Monolog\Level;
 use Monolog\LogRecord;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -27,7 +27,7 @@ final class FlashMessageLogger extends AbstractProcessingHandler
         }
 
         $headers = $currentRequest->headers;
-        $logLevel = $headers->has('x-log-level') ? (int) $headers->get('x-log-level') : Logger::NOTICE;
+        $logLevel = $headers->has('x-log-level') ? (int) $headers->get('x-log-level') : Level::Notice;
 
         if ($logArray['level'] < $logLevel) {
             return;

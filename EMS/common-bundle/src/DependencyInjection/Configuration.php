@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\DependencyInjection;
 
+use Monolog\Level;
 use Monolog\Logger;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -12,7 +13,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     private const ELASTICSEARCH_DEFAULT_HOSTS = ['http://localhost:9200'];
-    private const LOG_LEVEL = Logger::NOTICE;
+    private const LOG_LEVEL = Level::Notice;
     final public const WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/";
     final public const WEBALIZE_DASHABLE_REGEX = "/[\/\|\ ]+/";
 

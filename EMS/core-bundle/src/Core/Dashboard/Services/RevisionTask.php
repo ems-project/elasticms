@@ -39,7 +39,7 @@ final class RevisionTask implements DashboardInterface
         $formFilters->handleRequest($request);
         $queryFilter = $request->query->all(RevisionTaskFiltersType::NAME);
 
-        $tableUrl = $this->router->generate('ems_core_task_ajax_datatable', [
+        $tableUrl = $this->router->generate('emsco_task_ajax_datatable', [
             'tab' => $tab,
             RevisionTaskFiltersType::NAME => $queryFilter,
         ]);

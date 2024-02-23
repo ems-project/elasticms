@@ -45,6 +45,16 @@ trait RevisionTaskTrait
         }
     }
 
+    public function hasTask(Task $task): bool
+    {
+        return match (true) {
+            $this->taskCurrent?->getId() === $task->getId() => true,
+            \in_array($task->getId(), $this->getTaskPlannedIds(), true) => true,
+            \in_array($task->getId(), $this->getTaskApprovedIds(), true) => true,
+            default => false
+        };
+    }
+
     public function taskCurrentReplace(Task $newTaskCurrent): bool
     {
         if ($this->hasTaskCurrent() && $newTaskCurrent->getId() === $this->getTaskCurrent()->getId()) {

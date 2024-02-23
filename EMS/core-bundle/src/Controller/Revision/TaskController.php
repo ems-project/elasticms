@@ -119,7 +119,7 @@ final class TaskController extends AbstractController
                 'isManager' => $this->taskManager->isTaskManager(),
                 'fromRevision' => $request->query->getBoolean('fromRevision'),
             ])
-            ->setBody('modalTaskBody', ['task' => $this->taskManager->getTask($taskId)])
+            ->setBody('modalTaskBody', ['task' => $this->taskManager->getTask($taskId, $revision)])
             ->getResponse();
     }
 
@@ -153,7 +153,8 @@ final class TaskController extends AbstractController
 
     public function ajaxModalUpdate(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
     {
-        $task = $this->taskManager->getTask($taskId);
+        $revision = $this->taskManager->getRevision($revisionId);
+        $task = $this->taskManager->getTask($taskId, $revision);
         if (!$task->isRequester($user) && !$this->isGranted('ROLE_TASK_MANAGER')) {
             throw $this->createAccessDeniedException();
         }
@@ -187,7 +188,8 @@ final class TaskController extends AbstractController
 
     public function ajaxModalDelete(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
     {
-        $task = $this->taskManager->getTask($taskId);
+        $revision = $this->taskManager->getRevision($revisionId);
+        $task = $this->taskManager->getTask($taskId, $revision);
         if (!$task->isRequester($user) && !$this->isGranted('ROLE_TASK_MANAGER')) {
             throw $this->createAccessDeniedException();
         }

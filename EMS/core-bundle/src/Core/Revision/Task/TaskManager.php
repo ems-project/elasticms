@@ -73,12 +73,16 @@ final class TaskManager
         return $table;
     }
 
-    public function getTask(string $taskId): Task
+    public function getTask(string $taskId, Revision $revision): Task
     {
         $task = $this->taskRepository->findOneBy(['id' => $taskId]);
 
         if (!$task instanceof Task) {
             throw new \RuntimeException(\sprintf('Task with id "%s" not found', $taskId));
+        }
+
+        if (!$revision->hasTask($task)) {
+            throw new \RuntimeException('Revision has no tasks');
         }
 
         return $task;
@@ -261,7 +265,7 @@ final class TaskManager
     private function setNextPlanned(Revision $revision): void
     {
         $nextPlannedId = $revision->getTaskNextPlannedId();
-        $nextPlannedTask = $nextPlannedId ? $this->getTask($nextPlannedId) : null;
+        $nextPlannedTask = $nextPlannedId ? $this->getTask($nextPlannedId, $revision) : null;
 
         if ($nextPlannedTask) {
             $revision->setTaskCurrent($nextPlannedTask);

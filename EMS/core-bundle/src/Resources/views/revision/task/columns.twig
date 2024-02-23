@@ -2,7 +2,7 @@
 
 {%- block title -%}
     <a href="#" class="task-modal"
-        data-url="{{ path('ems_core_task_ajax_modal_task', { 'revisionId': data.id, 'taskId': data.taskCurrent.id }) }}"
+        data-url="{{ path('emsco_task_ajax_modal_task', { 'revisionOuuid': data.ouuid, 'taskId': data.taskCurrent.id }) }}"
         data-title="Task: {{ data.taskCurrent.title }}">
         {{ data.taskCurrent.title }}
     </a>

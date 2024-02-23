@@ -15,9 +15,9 @@ use EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskType;
 use EMS\CoreBundle\Helper\DataTableRequest;
+use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,6 +31,7 @@ final class TaskController extends AbstractController
 {
     public function __construct(
         private readonly TaskManager $taskManager,
+        private readonly RevisionService $revisionService,
         private readonly AjaxService $ajax,
         private readonly FormFactoryInterface $formFactory,
         private readonly TableExporter $tableExporter,
@@ -67,9 +68,9 @@ final class TaskController extends AbstractController
         return $this->tableExporter->exportExcel($table);
     }
 
-    public function ajaxGetTasks(Request $request, UserInterface $user, int $revisionId): Response
+    public function ajaxGetTasks(Request $request, UserInterface $user, string $revisionOuuid): Response
     {
-        $revision = $this->taskManager->getRevision($revisionId);
+        $revision = $this->revisionService->give($revisionOuuid);
         $ajaxTemplate = $this->getAjaxTemplate();
 
         if ($revision->hasTaskCurrent()) {
@@ -85,7 +86,7 @@ final class TaskController extends AbstractController
                 try {
                     $comment = $formHandle->getData()['comment'];
                     match ($handle) {
-                        'send' => $this->taskManager->taskValidateRequest($revision->getTaskCurrent(), $revisionId, $comment),
+                        'send' => $this->taskManager->taskValidateRequest($revision->getTaskCurrent(), $revision, $comment),
                         'approve' => $this->taskManager->taskValidate($revision, true, $comment),
                         'reject' => $this->taskManager->taskValidate($revision, false, $comment),
                     };
@@ -101,15 +102,15 @@ final class TaskController extends AbstractController
             'tab' => $ajaxTemplate->renderBlock('tasksTab', \array_filter([
                 'formHandle' => isset($formHandle) ? $formHandle->createView() : null,
                 'revision' => $revision,
-                'tasksPlanned' => $this->taskManager->getTasksPlanned($revisionId),
-                'tasksApproved' => $this->taskManager->getTasksApproved($revisionId),
+                'tasksPlanned' => $this->taskManager->getTasksPlanned($revision),
+                'tasksApproved' => $this->taskManager->getTasksApproved($revision),
             ])),
         ]);
     }
 
-    public function ajaxModalTask(Request $request, int $revisionId, string $taskId): JsonResponse
+    public function ajaxModalTask(Request $request, string $revisionOuuid, string $taskId): JsonResponse
     {
-        $revision = $this->taskManager->getRevision($revisionId);
+        $revision = $this->revisionService->give($revisionOuuid);
 
         return $this->getAjaxModal()
             ->setFooter('modalFooterActions', [
@@ -123,17 +124,18 @@ final class TaskController extends AbstractController
             ->getResponse();
     }
 
-    public function ajaxModalCreate(Request $request, int $revisionId): JsonResponse
+    public function ajaxModalCreate(Request $request, string $revisionOuuid): JsonResponse
     {
         $taskDTO = new TaskDTO();
         $ajaxModal = $this->getAjaxModal();
+        $revision = $this->revisionService->give($revisionOuuid);
 
         $form = $this->createForm(RevisionTaskType::class, $taskDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $task = $this->taskManager->taskCreate($taskDTO, $revisionId);
+                $task = $this->taskManager->taskCreate($taskDTO, $revision);
 
                 return $ajaxModal
                     ->addMessageSuccess('task.create.success', ['%title%' => $task->getTitle()])
@@ -151,9 +153,9 @@ final class TaskController extends AbstractController
             ->getResponse();
     }
 
-    public function ajaxModalUpdate(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
+    public function ajaxModalUpdate(Request $request, UserInterface $user, string $revisionOuuid, string $taskId): JsonResponse
     {
-        $revision = $this->taskManager->getRevision($revisionId);
+        $revision = $this->revisionService->give($revisionOuuid);
         $task = $this->taskManager->getTask($taskId, $revision);
         if (!$task->isRequester($user) && !$this->isGranted('ROLE_TASK_MANAGER')) {
             throw $this->createAccessDeniedException();
@@ -162,14 +164,14 @@ final class TaskController extends AbstractController
         $taskDTO = TaskDTO::fromEntity($task, $this->coreDateFormat);
 
         $ajaxModal = $this->getAjaxModal();
-        $ajaxModal->setFooter('modalUpdateFooter', ['task' => $task, 'revisionId' => $revisionId]);
+        $ajaxModal->setFooter('modalUpdateFooter', ['task' => $task, 'revisionOuuid' => $revision->getOuuid()]);
 
         $form = $this->createForm(RevisionTaskType::class, $taskDTO, ['task_status' => $task->getStatus()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->taskManager->taskUpdate($task, $taskDTO, $revisionId);
+                $this->taskManager->taskUpdate($task, $taskDTO, $revision);
 
                 return $ajaxModal
                     ->setTitle('task.update.title', ['%title%' => $task->getTitle()])
@@ -186,9 +188,9 @@ final class TaskController extends AbstractController
             ->getResponse();
     }
 
-    public function ajaxModalDelete(Request $request, UserInterface $user, int $revisionId, string $taskId): JsonResponse
+    public function ajaxModalDelete(Request $request, UserInterface $user, string $revisionOuuid, string $taskId): JsonResponse
     {
-        $revision = $this->taskManager->getRevision($revisionId);
+        $revision = $this->revisionService->give($revisionOuuid);
         $task = $this->taskManager->getTask($taskId, $revision);
         if (!$task->isRequester($user) && !$this->isGranted('ROLE_TASK_MANAGER')) {
             throw $this->createAccessDeniedException();
@@ -196,7 +198,7 @@ final class TaskController extends AbstractController
 
         $ajaxModal = $this->getAjaxModal()->setTitle('task.delete.title', ['%title%' => $task->getTitle()]);
 
-        $form = $this->formFactory->create(FormType::class);
+        $form = $this->formFactory->create();
         $form->add('comment', TextareaType::class, [
             'attr' => ['rows' => 4],
             'constraints' => new NotBlank(),
@@ -205,7 +207,7 @@ final class TaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->taskManager->taskDelete($task, $revisionId, $form->getData()['comment']);
+                $this->taskManager->taskDelete($task, $revision, $form->getData()['comment']);
 
                 return $ajaxModal
                     ->addMessageSuccess('task.delete.success', ['%title%' => $task->getTitle()])
@@ -223,13 +225,14 @@ final class TaskController extends AbstractController
             ->getResponse();
     }
 
-    public function ajaxReorder(Request $request, int $revisionId): JsonResponse
+    public function ajaxReorder(Request $request, string $revisionOuuid): JsonResponse
     {
         try {
+            $revision = $this->revisionService->give($revisionOuuid);
             $data = Json::decode($request->getContent());
             $taskIds = $data['taskIds'] ?? [];
 
-            $this->taskManager->tasksReorder($revisionId, $taskIds);
+            $this->taskManager->tasksReorder($revision, $taskIds);
 
             return new JsonResponse([], Response::HTTP_ACCEPTED);
         } catch (\Throwable $e) {
@@ -253,7 +256,7 @@ final class TaskController extends AbstractController
         $formFilters = $this->formFactory->create(RevisionTaskFiltersType::class, $filters, ['tab' => $tab]);
         $formFilters->handleRequest($request);
 
-        $tableUrl = $this->generateUrl('ems_core_task_ajax_datatable', ['tab' => $tab]);
+        $tableUrl = $this->generateUrl('emsco_task_ajax_datatable', ['tab' => $tab]);
 
         return $this->taskManager->getTable($tableUrl, $tab, $filters, $export);
     }

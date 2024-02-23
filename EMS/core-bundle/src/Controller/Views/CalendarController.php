@@ -10,6 +10,7 @@ use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Form\Form\SearchFormType;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\SearchService;
+use EMS\Helpers\Standard\Color;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,8 +24,7 @@ class CalendarController extends AbstractController
         private readonly ElasticaService $elasticaService,
         private readonly DataService $dataService,
         private readonly SearchService $searchService,
-        private readonly FlashMessageLogger $flashMessageLogger,
-        private readonly string $templateNamespace
+        private readonly FlashMessageLogger $flashMessageLogger
     ) {
     }
 
@@ -142,12 +142,41 @@ class CalendarController extends AbstractController
 
         $search = $this->elasticaService->convertElasticsearchSearch($searchQuery);
 
-        return $this->render("@$this->templateNamespace/view/custom/calendar_search.json.twig", [
+        $field = $view->getContentType()->getFieldType()->get('ems_'.$view->getOptions()['dateRangeField']);
+        $contentType = $view->getContentType();
+        $environment = $view->getContentType()->giveEnvironment();
+        $events = [];
+        foreach ($this->elasticaService->search($search)->getResponse()->getData()['hits']['hits'] ?? [] as $item) {
+            $source = $item['_source'];
+            if ($field['mappingOptions']['nested'] ?? true) {
+                $source = $source[$field->getName()] ?? [];
+            }
+            $event = [
+                'id' => $item['id'] ?? null,
+                'title' => $contentType->hasLabelField() && isset($item['_source'][$contentType->giveLabelField()]) ? $item['_source'][$contentType->giveLabelField()] : $item['id'] ?? null,
+                'url' => $this->generateUrl('data.revisions', [
+                    'type' => $contentType->getName(),
+                    'ouuid' => $item['id'] ?? 'not-found',
+                ]),
+                'start' => $source[$field['mappingOptions']['fromDateMachineName'] ?? 'not-found'] ?? null,
+                'end' => $source[$field['mappingOptions']['toDateMachineName'] ?? 'not-found'] ?? null,
+                'allDay' => !($field['displayOptions']['timePicker'] ?? false),
+            ];
+            if ($contentType->hasColorField() && isset($item['_source'][$contentType->giveColorField()])) {
+                $color = new Color((string) $item['_source'][$contentType->giveColorField()]);
+                $black = new Color('#000000');
+                $white = new Color('#ffffff');
+
+                $event['backgroundColor'] = $color->getRGB();
+                $event['borderColor'] = $color->getRGB();
+                $event['textColor'] = $color->contrastRatio($black) > $color->contrastRatio($white) ? $black->getRGB() : $white->getRGB();
+            }
+            $events[] = $event;
+        }
+
+        return $this->flashMessageLogger->buildJsonResponse([
             'success' => true,
-            'data' => $this->elasticaService->search($search)->getResponse()->getData(),
-            'field' => $view->getContentType()->getFieldType()->get('ems_'.$view->getOptions()['dateRangeField']),
-            'contentType' => $view->getContentType(),
-            'environment' => $view->getContentType()->giveEnvironment(),
+            'events' => $events,
         ]);
     }
 }

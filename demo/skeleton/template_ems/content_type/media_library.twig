@@ -1,0 +1,23 @@
+{% block media_file_processing %}
+    {%- set data = [] -%}
+    {%- if finalize and _source.media_file is defined and _source.media_file.filesize|default(0) < 3145728 -%}
+        {%- set meta = _source.media_file.sha1|emsco_asset_meta|default(false) -%}
+        {%- if meta -%}
+            {%- set content = meta.content|default(false) -%}
+            {%- if content -%}
+                {%- set content = content|ems_replace_regex('!\\s+!', ' ')|u.trim.slice(0, 5120) -%}
+            {%- endif -%}
+
+            {% set data = data|merge({
+                '_author': meta.author|default(false),
+                '_content': content,
+                '_date': meta.date|default(false),
+                '_language': meta.language|default(false),
+                '_title': meta.title|default(false),
+            }) %}
+        {%- endif -%}
+    {%- endif -%}
+    {%- if data|length > 0 -%}
+        {{ _source.media_file|merge(data)|filter(v => v != false)|json_encode|raw }}
+    {%- endif -%}
+{% endblock media_file_processing %}

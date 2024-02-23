@@ -144,11 +144,6 @@
 	{{ block('choice_widget') }}
 {%- endblock objectpicker_widget %}
 
-{% block selectpicker_widget -%}
-	{% set attr = attr|merge({class: (attr.class|default('') ~ ' selectpicker')|trim}) %}
-	{{ block('choice_widget') }}
-{%- endblock selectpicker_widget %}
-
 {%- block submitems_widget -%}
     {%- if label is empty -%}
         {%- if label_format is not empty -%}

@@ -1142,7 +1142,7 @@ class DataService
             $newDraft->setStartTime($now);
             $revision->setEndTime($now);
             $newDraft->setDraftSaveDate(null);
-            $revision->clearTasks();
+            $revision->tasksClear();
 
             $lockedBy = $this->lockRevision($newDraft, null, false, $username);
             $newDraft->setAutoSaveBy($lockedBy);
@@ -1202,6 +1202,7 @@ class DataService
                 $previous = $result[0];
                 $this->lockRevision($previous, null, $super, $username);
                 $previous->setEndTime(null);
+                $previous->tasksRollback($revision);
                 if ($previous->getEnvironments()->isEmpty()) {
                     $previous->setDraft(true);
                 }

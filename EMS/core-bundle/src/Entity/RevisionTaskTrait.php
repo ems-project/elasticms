@@ -58,11 +58,18 @@ trait RevisionTaskTrait
         return true;
     }
 
-    public function clearTasks(): void
+    public function tasksClear(): void
     {
         $this->taskCurrent = null;
         $this->taskPlannedIds = [];
         $this->taskApprovedIds = [];
+    }
+
+    public function tasksRollback(Revision $revision): void
+    {
+        $this->taskCurrent = $revision->taskCurrent;
+        $this->taskPlannedIds = $revision->taskPlannedIds;
+        $this->taskApprovedIds = $revision->taskApprovedIds;
     }
 
     public function deleteTaskPlanned(Task $task): void

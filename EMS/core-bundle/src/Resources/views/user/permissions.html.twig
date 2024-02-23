@@ -7,7 +7,6 @@
         .table {
             border-collapse: collapse;
             width: 100%;
-            overflow-x: auto; /* Ajoutez cette ligne pour activer la barre de défilement horizontale */
         }
         .table th, .table td {
             border: 1px solid #ddd;
@@ -15,13 +14,17 @@
             text-align: left;
         }
         .table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+        .table tr:nth-child(odd) {
             background-color: #f2f2f2;
         }
         .table th {
-            background-color: #4CAF50;
+            background-color: dodgerblue;
             color: white;
         }
     </style>
+
 
     <table class="table table-hover">
         <thead>
@@ -39,21 +42,20 @@
         </tr>
         </thead>
         <tbody>
-            {% for contentType in contentTypes %}
-                <tr>
-                    <td>{{ contentType.name }}</td>
-                    <td>{{ contentType.roles.view }}</td>
-                    <td>{{ contentType.roles.create }}</td>
-                    <td>{{ contentType.roles.edit }}</td>
-                    <td>{{ contentType.roles.publish }}</td>
-                    <td>{{ contentType.roles.delete }}</td>
-                    <td>{{ contentType.roles.trash }}</td>
-                    <td>{{ contentType.roles.archive }}</td>
-                    <td>{{ contentType.roles.show_link_create }}</td>
-                    <td>{{ contentType.roles.show_link_search }}</td>
-                </tr>
-            {% endfor %}
-
+        {% for contentType in contentTypes %}
+            <tr>
+                <td>{{ contentType.name }}</td>
+                <td>{{ contentType.roles.view|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.create|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.edit|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.publish|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.delete|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.trash|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.archive|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.show_link_create|replace({'ROLE_': ''}) }}</td>
+                <td>{{ contentType.roles.show_link_search|replace({'ROLE_': ''}) }}</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 {% endblock body %}

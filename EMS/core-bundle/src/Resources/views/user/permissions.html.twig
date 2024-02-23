@@ -1,0 +1,49 @@
+{% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block pagetitle %}Permissions{% endblock %}
+
+{% block body %}
+    <style>
+        .table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Content type</th>
+            <th>View</th>
+            <th>Create</th>
+            <th>Edit</th>
+            <th>Publish</th>
+            <th>Delete</th>
+            <th>Trash</th>
+            <th>Archive</th>
+            <th>Show link create</th>
+            <th>Show link search</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for contentType in contentTypes %}
+                <tr>
+                    <td>{{ contentType.name }}</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock body %}
+

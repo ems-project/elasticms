@@ -8,6 +8,9 @@
     <route id="ems.user.index" path="/"
            controller="EMS\CoreBundle\Controller\UserController::index"
            methods="GET"/>
+    <route id="user.permissions" path="/permissions"
+           controller="EMS\CoreBundle\Controller\UserController::permissions"
+           methods="GET|POST"/>
     <route id="user.add" path="/add"
            controller="EMS\CoreBundle\Controller\UserController::addUser"
            methods="GET|POST"/>

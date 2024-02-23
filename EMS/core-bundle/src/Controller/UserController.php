@@ -9,11 +9,14 @@ use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\DataTable\Type\UserDataTableType;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\User;
+use EMS\CoreBundle\Form\Form\ContentTypeType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Repository\AuthTokenRepository;
+use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\WysiwygProfileRepository;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\Mapping;
 use EMS\CoreBundle\Service\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +27,8 @@ class UserController extends AbstractController
 {
     public function __construct(
         private readonly LoggerInterface $logger,
+        private readonly Mapping $mappingService,
+        private readonly ContentTypeRepository $contentTypeRepository,
         private readonly UserService $userService,
         private readonly UserManager $userManager,
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator,
@@ -43,6 +48,59 @@ class UserController extends AbstractController
 
         return $this->render("@$this->templateNamespace/user/index.html.twig", [
             'form' => $form->createView(),
+        ]);
+    }
+
+    public function permissions(): Response
+    {
+        $contentTypes = $this->contentTypeRepository->findAll();
+
+        $environments = [];
+        $mappings = [];
+
+        foreach ($contentTypes as $contentType) {
+            $id = $contentType->getId();
+
+            $environment = $contentType->getEnvironment();
+            if (null === $environment) {
+                throw new \RuntimeException('Unexpected null environment for content type with ID ' . $id);
+            }
+            $environments[$id] = $environment->getName();
+
+            try {
+                // Récupérer le mapping pour cet environnement
+                $mappings[$id] = $this->mappingService->getMapping([$environment->getName()]);
+            } catch (\Throwable) {
+                // Gérer les erreurs de récupération du mapping
+                $this->logger->warning('log.contenttype.mapping.not_found', [
+                    EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
+                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
+                ]);
+                $mappings[$id] = null;
+            }
+        }
+        $forms = [];
+        foreach ($contentTypes as $contentType) {
+            $id = $contentType->getId();
+            $environmentName = $environments[$id];
+            $mapping = $mappings[$id];
+
+            // Créer le formulaire pour ce content type avec son environnement et son mapping
+            $forms[$id] = $this->createForm(ContentTypeType::class, $contentType, [
+                'twigWithWysiwyg' => $contentType->getEditTwigWithWysiwyg(),
+                'mapping' => $mapping,
+            ]);
+        }
+        $renderedForms = [];
+        foreach ($forms as $id => $form) {
+            $renderedForms[$id] = $form->createView();
+        }
+
+        return $this->render("@$this->templateNamespace/user/permissions.html.twig", [
+            'contentTypes' => $contentTypes,
+            'mapping' => $mapping,
+            'environments' => $environments,
+            'forms' => $renderedForms
         ]);
     }
 

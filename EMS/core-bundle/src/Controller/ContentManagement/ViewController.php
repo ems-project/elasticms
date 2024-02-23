@@ -74,6 +74,7 @@ class ViewController extends AbstractController
         ]);
     }
 
+
     /** @deprecated */
     public function addDeprecated(string $type, Request $request): Response
     {
@@ -109,6 +110,15 @@ class ViewController extends AbstractController
         return $this->render("@$this->templateNamespace/view/add.html.twig", [
             'contentType' => $contentType,
             'form' => $form->createView(),
+        ]);
+    }
+
+    public function permissions(): Response
+    {
+        $number = random_int(0, 100);
+
+        return $this->render("@$this->templateNamespace/view/permissions.html.twig", [
+            'number' => $number,
         ]);
     }
 

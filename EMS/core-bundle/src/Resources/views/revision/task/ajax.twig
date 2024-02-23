@@ -69,7 +69,7 @@
     {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': taskCurrent.id, 'fromRevision': true }) %}
     <div id="task-item-active">
         <div class="tasks-item-block">
-            <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ taskCurrent.title }}">
+            <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ taskCurrent.title }}">
                 <div class="tasks-item-info">
                     <i class="task-icon {{ taskCurrent.statusIcon }}"></i>
                     <div>
@@ -129,7 +129,7 @@
     {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id, 'fromRevision': true  }) %}
     <li class="list-group-item tasks-item" data-id="{{ task.id }}">
         <div class="tasks-item-block">
-            <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
+            <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
                 <div class="tasks-item-info">
                     <i class="task-icon {{ task.statusIcon }}"></i>
                     <div>
@@ -156,7 +156,7 @@
 {% block taskItemApproved %}
     {% set viewUrl = path('ems_core_task_ajax_modal_task', {'revisionId': revision.id, 'taskId': task.id, 'fromRevision': true  }) %}
     <li class="list-group-item tasks-item-approved">
-        <a href="#" class="tasks-item" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
+        <a href="#" class="tasks-item-view" data-url="{{ viewUrl }}" data-title="Task: {{ task.title }}">
             <div class="tasks-item-block">
                 <div class="tasks-item-info">
                     <i class="task-icon {{ task.statusIcon }}"></i>

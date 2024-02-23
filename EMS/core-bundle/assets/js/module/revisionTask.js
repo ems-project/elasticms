@@ -53,16 +53,14 @@ export default class RevisionTask {
     _addClickListeners() {
         this.tasksTab.addEventListener('click', (event) => {
             const target = event.target;
+            const classList = target.classList;
 
-            if (target.classList.contains('btn-task-modal')) this._onClickButtonTaskCreateOrUpdate(target);
-            if (target.classList.contains('btn-task-handle')) this._onClickButtonHandle(target);
+            if (classList.contains('btn-task-modal')) this._onClickButtonTaskCreateOrUpdate(target);
+            if (classList.contains('btn-task-handle')) this._onClickButtonHandle(target);
+            if (classList.contains('tasks-item-view')) this._onClickTaskItem(event, target);
             if (target.id === 'btn-tasks-reorder') this._onClickButtonTaskReorder(target);
             if (target.id === 'btn-tasks-approved') this._onClickButtonTasksApproved(event, target);
 
-            const closestTasksItem = target.closest('.tasks-item');
-            if (closestTasksItem || target.classList.contains('tasks-item')) {
-                this._onClickTaskItem(event, closestTasksItem ?? target);
-            }
         }, true);
         document.addEventListener('click', (event) => {
             const target = event.target;
@@ -148,8 +146,8 @@ export default class RevisionTask {
             button.dataset.toggle = 'true';
         }
     }
-    _onClickTaskItem(event, link) {
+    _onClickTaskItem(event, target) {
         event.preventDefault();
-        ajaxModal.load({ url: link.dataset.url, title: link.dataset.title});
+        ajaxModal.load({ url: target.dataset.url, title: target.dataset.title});
     }
 }

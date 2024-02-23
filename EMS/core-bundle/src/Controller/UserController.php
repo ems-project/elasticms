@@ -55,52 +55,8 @@ class UserController extends AbstractController
     {
         $contentTypes = $this->contentTypeRepository->findAll();
 
-        $environments = [];
-        $mappings = [];
-
-        foreach ($contentTypes as $contentType) {
-            $id = $contentType->getId();
-
-            $environment = $contentType->getEnvironment();
-            if (null === $environment) {
-                throw new \RuntimeException('Unexpected null environment for content type with ID ' . $id);
-            }
-            $environments[$id] = $environment->getName();
-
-            try {
-                // Récupérer le mapping pour cet environnement
-                $mappings[$id] = $this->mappingService->getMapping([$environment->getName()]);
-            } catch (\Throwable) {
-                // Gérer les erreurs de récupération du mapping
-                $this->logger->warning('log.contenttype.mapping.not_found', [
-                    EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
-                ]);
-                $mappings[$id] = null;
-            }
-        }
-        $forms = [];
-        foreach ($contentTypes as $contentType) {
-            $id = $contentType->getId();
-            $environmentName = $environments[$id];
-            $mapping = $mappings[$id];
-
-            // Créer le formulaire pour ce content type avec son environnement et son mapping
-            $forms[$id] = $this->createForm(ContentTypeType::class, $contentType, [
-                'twigWithWysiwyg' => $contentType->getEditTwigWithWysiwyg(),
-                'mapping' => $mapping,
-            ]);
-        }
-        $renderedForms = [];
-        foreach ($forms as $id => $form) {
-            $renderedForms[$id] = $form->createView();
-        }
-
         return $this->render("@$this->templateNamespace/user/permissions.html.twig", [
-            'contentTypes' => $contentTypes,
-            'mapping' => $mapping,
-            'environments' => $environments,
-            'forms' => $renderedForms
+            'contentTypes' => $contentTypes
         ]);
     }
 

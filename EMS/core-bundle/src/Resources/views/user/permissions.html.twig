@@ -7,6 +7,7 @@
         .table {
             border-collapse: collapse;
             width: 100%;
+            overflow-x: auto; /* Ajoutez cette ligne pour activer la barre de défilement horizontale */
         }
         .table th, .table td {
             border: 1px solid #ddd;
@@ -21,6 +22,7 @@
             color: white;
         }
     </style>
+
     <table class="table table-hover">
         <thead>
         <tr>
@@ -40,6 +42,15 @@
             {% for contentType in contentTypes %}
                 <tr>
                     <td>{{ contentType.name }}</td>
+                    <td>{{ contentType.roles.view }}</td>
+                    <td>{{ contentType.roles.create }}</td>
+                    <td>{{ contentType.roles.edit }}</td>
+                    <td>{{ contentType.roles.publish }}</td>
+                    <td>{{ contentType.roles.delete }}</td>
+                    <td>{{ contentType.roles.trash }}</td>
+                    <td>{{ contentType.roles.archive }}</td>
+                    <td>{{ contentType.roles.show_link_create }}</td>
+                    <td>{{ contentType.roles.show_link_search }}</td>
                 </tr>
             {% endfor %}
 

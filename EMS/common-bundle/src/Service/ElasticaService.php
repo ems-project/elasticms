@@ -576,7 +576,10 @@ class ElasticaService
      */
     private function getIndices(Search $search): array
     {
-        if (0 === \count($search->getContentTypes()) && null === $search->getRegex()) {
+        if (null !== $regex = $search->getRegex()) {
+            $regex = \sprintf('/%s/', $regex);
+        }
+        if (0 === \count($search->getContentTypes()) && null === $regex) {
             return $search->getIndices();
         }
 
@@ -586,15 +589,21 @@ class ElasticaService
                 continue;
             }
 
-            if (null === $search->getRegex()) {
+            if (null === $regex) {
                 $filteredIndices = [...$filteredIndices, ...$indices];
                 continue;
             }
 
             foreach ($indices as $index) {
-                if (\preg_match(\sprintf('/%s/', $search->getRegex()), $index)) {
+                if (\preg_match($regex, $index)) {
                     $filteredIndices[] = $index;
                 }
+            }
+        }
+
+        if (empty($filteredIndices) && null !== $regex) {
+            foreach ($search->getIndices() as $indexOrAlias) {
+                $filteredIndices = [...$filteredIndices, ...\preg_filter($regex, '$0', $this->getIndicesFromAlias($indexOrAlias))];
             }
         }
 

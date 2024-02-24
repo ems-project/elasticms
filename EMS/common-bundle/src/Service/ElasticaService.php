@@ -329,6 +329,19 @@ class ElasticaService
         if ($this->useAdminProxy) {
             return $this->adminHelper->getCoreApi()->search()->getIndicesFromAlias($alias);
         }
+
+        return $this->getIndicesFromAliases([$alias]);
+    }
+
+    /**
+     * @param  string[] $aliases
+     * @return string[]
+     */
+    public function getIndicesFromAliases(array $aliases): array
+    {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getIndicesFromAliases($aliases);
+        }
         $terms = new TermsAggregation('indexes');
         $terms->setSize(self::MAX_INDICES_BY_ALIAS);
         $terms->setField('_index');
@@ -337,7 +350,7 @@ class ElasticaService
         $query = new Query();
         $query->addAggregation($terms);
         $esSearch->setQuery($query);
-        $esSearch->addIndexByName($alias);
+        $esSearch->addIndicesByName($aliases);
         $buckets = $esSearch->search()->getAggregation('indexes')['buckets'] ?? [];
 
         $indices = [];
@@ -602,9 +615,7 @@ class ElasticaService
         }
 
         if (empty($filteredIndices) && null !== $regex) {
-            foreach ($search->getIndices() as $indexOrAlias) {
-                $filteredIndices = [...$filteredIndices, ...\preg_filter($regex, '$0', $this->getIndicesFromAlias($indexOrAlias))];
-            }
+            $filteredIndices = [...$filteredIndices, ...\preg_filter($regex, '$0', $this->getIndicesFromAliases($search->getIndices()))];
         }
 
         return \count($filteredIndices) > 0 ? \array_unique($filteredIndices) : $search->getIndices();

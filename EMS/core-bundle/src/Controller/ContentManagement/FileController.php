@@ -262,9 +262,15 @@ class FileController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/multipart.json.twig", [
+            return new JsonResponse([
                 'success' => true,
-                'asset' => $uploadedAsset,
+                'uploaded' => $uploadedAsset->getUploaded(),
+                'fileName' => $uploadedAsset->getName(),
+                'url' => $this->generateUrl('ems_file_view', [
+                    'sha1' => $uploadedAsset->getSha1(),
+                    'name' => $uploadedAsset->getName(),
+                    'type' => $uploadedAsset->getType(),
+                ]),
             ]);
         } else {
             $this->logger->warning('log.file.upload_error', [

@@ -176,10 +176,21 @@ class FileController extends AbstractController
     public function indexImages(): Response
     {
         $images = $this->fileService->getImages();
+        $response = [];
+        foreach ($images as $image) {
+            $url = $this->generateUrl('ems_file_view', [
+                'sha1' => $image->getSha1(),
+                'name' => $image->getName(),
+                'type' => $image->getType(),
+            ]);
+            $response[] = [
+                'image' => $url,
+                'thumb' => $url,
+                'folder' => $image->getUser(),
+            ];
+        }
 
-        return $this->render("@$this->templateNamespace/ajax/images.json.twig", [
-            'images' => $images,
-        ]);
+        return new JsonResponse($response);
     }
 
     public function icon(Request $request, int $width, int $height, string $background = null): Response

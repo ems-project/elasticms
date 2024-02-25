@@ -39,7 +39,6 @@ class FileController extends AbstractController
         private readonly FlashMessageLogger $flashMessageLogger,
         private readonly AssetRuntime $assetRuntime,
         protected array $assetConfig,
-        private readonly string $templateNamespace,
         private readonly string $themeColor,
     ) {
     }

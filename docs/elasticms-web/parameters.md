@@ -13,6 +13,7 @@ But there is 2 more possible values, specific to elasticms:
 
  - `db` : It's equivalent to a `prod` environment, but PHP sessions are persisted in the RDBMS (does not work with SQLite databases).
  - `redis` : It's equivalent to a `prod` environment, but PHP sessions are saved in a Redis server.
+ - `s3` : It's equivalent to a `prod` environment, but PHP sessions are saved in an S3 bucket (see [`EMS_S3_SESSION_*` variables](#EMS_S3_SESSION_CREDENTIALS)).
 
 ### APP_SECRET
 
@@ -255,6 +256,18 @@ Define (JSON format) the store data services, in the priority order. See the [St
 ### EMS_EXCLUDED_CONTENT_TYPES
 
 Define (JSON format) a list of content type names to exclude from admin backup/restore commands. Example: `["route","template","template_ems","label"]`. Default value `[]`
+
+### EMS_S3_SESSION_CREDENTIALS
+
+Provides AWS S3 credentials where to persist PHP sessions. Example: `{"version":"2006-03-01","credentials":{"key":"accesskey","secret":"secretkey"},"region":"us-east-1","endpoint":"http://localhost:9000","use_path_style_endpoint":true}`. Default value `{}`.
+
+### EMS_S3_SESSION_BUCKET
+
+Provides an AWS S3 bucket name where to persist PHP sessions. Example: `sessions`. Default value ``.
+
+### EMS_S3_SESSION_TTL
+
+Define the time to live of sessions persisted in S3. By default it relies to PHP default TTL. Example: `86400`.
 
 ## Elasticms Form Bundle variables
 

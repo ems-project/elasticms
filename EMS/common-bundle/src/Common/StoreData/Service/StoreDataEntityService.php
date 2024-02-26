@@ -43,4 +43,8 @@ class StoreDataEntityService implements StoreDataServiceInterface
         }
         $this->repository->delete($entity);
     }
+
+    public function gc(): void
+    {
+    }
 }

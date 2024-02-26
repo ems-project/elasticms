@@ -62,6 +62,32 @@ class StoreDataS3Service implements StoreDataServiceInterface
         ]);
     }
 
+    public function gc(): void
+    {
+        $files = $this->getS3Client()->listObjects([
+            'Bucket' => $this->bucket,
+        ]);
+        $contents = $files->get('Contents');
+        $now = new \DateTime();
+        foreach ($contents as $file) {
+            $meta = $this->getS3Client()->headObject([
+                'Bucket' => $this->bucket,
+                'Key' => $file['Key'],
+            ]);
+            $expires = $meta->get('Expires');
+            if (!$expires instanceof \DateTime) {
+                continue;
+            }
+            if ($expires > $now || 0 === $expires->getTimestamp()) {
+                continue;
+            }
+            $this->getS3Client()->deleteObject([
+                'Bucket' => $this->bucket,
+                'Key' => $file['Key'],
+            ]);
+        }
+    }
+
     private function getS3Client(): S3Client
     {
         if (null === $this->s3Client) {

@@ -34,4 +34,8 @@ class StoreDataCacheService implements StoreDataServiceInterface
     {
         $this->cache->delete($key);
     }
+
+    public function gc(): void
+    {
+    }
 }

@@ -51,6 +51,10 @@ class EMSCommonExtension extends Extension
 
         $container->setParameter('ems_common.cache_config', $config['cache']);
 
+        $container->setParameter('ems_common.s3_session_credentials', $config['s3_session_credentials']);
+        $container->setParameter('ems_common.s3_session_bucket', $config['s3_session_bucket']);
+        $container->setParameter('ems_common.s3_session_ttl', $config['s3_session_ttl']);
+
         $container->setParameter('ems_common.webalize.removable_regex', $config['webalize']['removable_regex']);
         $container->setParameter('ems_common.webalize.dashable_regex', $config['webalize']['dashable_regex']);
 

@@ -49,6 +49,9 @@ final class ConfigurationAiTest extends TestCase
                 'removable_regex' => Configuration::WEBALIZE_REMOVABLE_REGEX,
                 'dashable_regex' => Configuration::WEBALIZE_DASHABLE_REGEX,
             ],
+            's3_session_credentials' => [],
+            's3_session_bucket' => '',
+            's3_session_ttl' => null,
         ];
 
         $this->assertEquals($expected, $config);

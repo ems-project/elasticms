@@ -138,5 +138,11 @@
             <argument type="service" id="ems_common.service.elastica"/>
             <tag name="controller.service_arguments"/>
         </service>
+
+        <service id="ems_common.s3_session_handler" class="EMS\CommonBundle\Common\Session\S3SessionHandler">
+          <argument>%ems_common.s3_session_credentials%</argument>
+          <argument>%ems_common.s3_session_bucket%</argument>
+          <argument>%ems_common.s3_session_ttl%</argument>
+        </service>
     </services>
 </container>

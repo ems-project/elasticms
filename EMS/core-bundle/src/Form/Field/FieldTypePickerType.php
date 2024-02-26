@@ -2,6 +2,8 @@
 
 namespace EMS\CoreBundle\Form\Field;
 
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Data\Data;
+use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\DataField\DataFieldType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,6 +29,7 @@ class FieldTypePickerType extends Select2Type
 
     public function configureOptions(OptionsResolver $resolver): void
     {
+        dump($this->dataFieldTypes);
         $resolver->setDefaults([
             'choices' => \array_keys($this->dataFieldTypes),
             'attr' => [
@@ -40,6 +43,16 @@ class FieldTypePickerType extends Select2Type
                 ];
             },
             'choice_value' => fn ($value) => $value,
+            'choice_label' => function ($choice, string $key, mixed $value): string {
+                /* @var ?DataFieldType $choice */
+                $choice = $this->dataFieldTypes[$value] ?? null;
+
+                return $choice?->getLabel();
+
+                // or if you want to translate some key
+                //return 'form.choice.'.$key;
+                //return new TranslatableMessage($key, false === $choice ? [] : ['%status%' => $value], 'store');
+            },
         ]);
     }
 }

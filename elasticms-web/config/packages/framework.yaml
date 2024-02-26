@@ -22,6 +22,11 @@ when@redis:
         session:
             handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
 
+when@s3:
+    framework:
+        session:
+            handler_id: ems_common.s3_session_handler
+
 when@test:
     framework:
         test: true

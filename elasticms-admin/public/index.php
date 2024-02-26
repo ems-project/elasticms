@@ -9,7 +9,7 @@ file_exists(dirname(__DIR__).'/vendor/autoload_runtime.php') ?
 
 $_SERVER['APP_RUNTIME_OPTIONS'] = [
     'disable_dotenv' => ('true' === ($_SERVER['APP_DISABLE_DOTENV'] ?? false)),
-    'prod_envs' => ['prod', 'redis', 'db'],
+    'prod_envs' => ['prod', 'redis', 'db', 's3'],
     'project_dir' => dirname(__DIR__),
 ];
 

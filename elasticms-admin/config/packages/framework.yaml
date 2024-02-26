@@ -28,6 +28,11 @@ when@db:
         session:
             handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
 
+when@s3:
+    framework:
+        session:
+            handler_id: ems_common.s3_session_handler
+
 when@test:
     framework:
         test: true

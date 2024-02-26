@@ -35,6 +35,10 @@ parameters:
     env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
 
+    env(EMS_S3_SESSION_CREDENTIALS): '[]'
+    env(EMS_S3_SESSION_BUCKET): ''
+    env(EMS_S3_SESSION_TTL): ~
+
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
     elasticsearch_connection_pool: '%env(string:EMS_ELASTICSEARCH_CONNECTION_POOL)%'
@@ -46,6 +50,9 @@ ems_common:
     backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
     backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
     excluded_content_types: '%env(json:EMS_EXCLUDED_CONTENT_TYPES)%'
+    s3_session_credentials: '%env(json:EMS_S3_SESSION_CREDENTIALS)%'
+    s3_session_bucket: '%env(EMS_S3_SESSION_BUCKET)%'
+    s3_session_ttl: '%env(EMS_S3_SESSION_TTL)%'
     webalize:
         removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
         dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'

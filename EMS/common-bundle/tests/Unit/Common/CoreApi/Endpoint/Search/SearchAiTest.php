@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\CoreApi\Endpoint\Search;
 
 use Elastica\Query\MatchAll;
 use EMS\CommonBundle\Common\CoreApi\Client;
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Search\Search;
 use EMS\CommonBundle\Common\CoreApi\Result;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -21,7 +22,8 @@ final class SearchAiTest extends TestCase
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);
-        $this->search = new Search($this->client);
+        $admin = $this->createMock(Admin::class);
+        $this->search = new Search($this->client, $admin);
     }
 
     public function testSearch(): void

@@ -31,6 +31,10 @@ This type doesn't have extra parameters.
 
 Example: EMS_STORE_DATA_SERVICES='[{"type":"db"}]'
 
+Parameters:
+* `type`: with the value `db`
+* `ttl`: Time to live (in seconds)(optional)
+
 ### Cache
 
 The data are saved in the application cache as defined by the `EMS_CACHE` variable.

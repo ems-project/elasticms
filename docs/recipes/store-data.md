@@ -47,11 +47,15 @@ CAUTION: The cache services should be always be used in combination with another
 EMS_STORE_DATA_SERVICES='[{"type":"cache"},{"type":"db"}]'
 ```
 
+Parameters:
+* `type`: with the value `cache`
+* `ttl`: Time to live (in seconds)(optional)
+
 ### File storage
 
 The data are saved in a folder.
 
-Parameter:
+Parameters:
  * `type`: with the value `fs`
  * `path`: path to a folder where the sata will be stored
 
@@ -65,7 +69,7 @@ EMS_STORE_DATA_SERVICES='[{"type":"fs", "path":"/opt/store_data"}]'
 
 The data are saved in a S3 bucket.
 
-Parameter:
+Parameters:
  * `type`: with the value `s3`
  * `credentials`: S3 credentials e.g. `{"version":"2006-03-01","credentials":{"key":"accesskey","secret":"secretkey"},"region":"us-east-1","endpoint":"http://localhost:9000","use_path_style_endpoint":true}`
  * `bucket`: bucket's name

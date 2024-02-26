@@ -1,15 +1,7 @@
 {% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %} {{ 'Specific roles of content type :  "%content_type%"'|trans({'%content_type%': contentType.singularName }) }}{% endblock %}
-{% block pagetitle %}{{ 'Specific roles of content type :  "%content_type%"'|trans({'%content_type%': contentType.singularName }) }}{% endblock %}
-
-{% block breadcrumb %}
-    <ol class="breadcrumb">
-        <li><a href="{{ path("contenttype.index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
-        <li><a href="{{ path("contenttype.edit", {id: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Edit {{ contentType.singularName }}</a></li>
-        <li class="active">{{ 'Reorder'|trans }}</li>
-    </ol>
-{% endblock %}
+{% block title %} {{ 'Specific roles of fields - Content type :  "%content_type%"'|trans({'%content_type%': contentType.singularName }) }}{% endblock %}
+{% block pagetitle %}{{ 'Specific roles of fields - Content type :  "%content_type%"'|trans({'%content_type%': contentType.singularName }) }}{% endblock %}
 
 {% block body %}
 

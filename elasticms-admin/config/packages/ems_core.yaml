@@ -58,6 +58,7 @@ parameters:
     env(EMSCO_CUSTOM_USER_OPTIONS_FORM): ~
     env(EMSCO_FALLBACK_LOCALE): 'en'
     env(EMSCO_TEMPLATE_NAMESPACE): 'EMSCore'
+    env(EMSCO_LOCK_TIME): '+1 minutes'
 
     env(EMSCO_LDAP_ENABLED): true
     env(EMSCO_LDAP_DN_STRING): '%env(string:LDAP_DN_STRING)%'
@@ -100,6 +101,7 @@ ems_core:
     custom_user_options_form: '%env(string:EMSCO_CUSTOM_USER_OPTIONS_FORM)%'
     fallback_locale: '%env(string:EMSCO_FALLBACK_LOCALE)%'
     template_namespace: '%env(string:EMSCO_TEMPLATE_NAMESPACE)%'
+    lock_time: '%env(string:EMSCO_LOCK_TIME)%'
 
     ldap:
         enabled: '%env(bool:EMSCO_LDAP_ENABLED)%'

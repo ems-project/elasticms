@@ -4,6 +4,10 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
+use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\CoreBundle\Core\UI\FlashMessageLogger;
+use EMS\CoreBundle\Entity\UploadedAsset;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\FileService;
@@ -15,19 +19,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FileController extends AbstractController
 {
+    /**
+     * @param array<string, mixed> $assetConfig
+     */
     public function __construct(
         private readonly FileService $fileService,
         private readonly AssetExtractorService $assetExtractorService,
         private readonly LoggerInterface $logger,
-        private readonly string $templateNamespace,
+        private readonly FlashMessageLogger $flashMessageLogger,
+        private readonly AssetRuntime $assetRuntime,
+        protected array $assetConfig,
         private readonly string $themeColor,
     ) {
     }
@@ -68,9 +79,13 @@ class FileController extends AbstractController
             throw new NotFoundHttpException(\sprintf('Asset %s not found', $sha1));
         }
 
-        $response = $this->render("@$this->templateNamespace/ajax/extract-data-file.json.twig", [
+        $response = $this->flashMessageLogger->buildJsonResponse([
             'success' => !$data->isEmpty(),
-            'data' => $data,
+            'content' => $data->getContent(),
+            'author' => $data->getAuthor(),
+            'date' => $data->getDate(),
+            'language' => $data->getLocale(),
+            'title' => $data->getTitle(),
         ]);
         $response->headers->set('Content-Type', 'application/json');
 
@@ -114,16 +129,12 @@ class FileController extends AbstractController
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
             ]);
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/file.json.twig", [
-            'success' => true,
-            'asset' => $uploadedAsset,
-            'apiRoute' => $apiRoute,
-        ]);
+        return $this->jsonResponse($uploadedAsset, $apiRoute);
     }
 
     /** @deprecated */
@@ -153,25 +164,32 @@ class FileController extends AbstractController
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
             ]);
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/file.json.twig", [
-            'success' => true,
-            'asset' => $uploadedAsset,
-            'apiRoute' => $apiRoute,
-        ]);
+        return $this->jsonResponse($uploadedAsset, $apiRoute);
     }
 
     public function indexImages(): Response
     {
         $images = $this->fileService->getImages();
+        $response = [];
+        foreach ($images as $image) {
+            $url = $this->generateUrl('ems_file_view', [
+                'sha1' => $image->getSha1(),
+                'name' => $image->getName(),
+                'type' => $image->getType(),
+            ]);
+            $response[] = [
+                'image' => $url,
+                'thumb' => $url,
+                'folder' => $image->getUser(),
+            ];
+        }
 
-        return $this->render("@$this->templateNamespace/ajax/images.json.twig", [
-            'images' => $images,
-        ]);
+        return new JsonResponse($response);
     }
 
     public function icon(Request $request, int $width, int $height, string $background = null): Response
@@ -238,25 +256,31 @@ class FileController extends AbstractController
                     EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
                 ]);
 
-                return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+                return $this->flashMessageLogger->buildJsonResponse([
                     'success' => false,
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/multipart.json.twig", [
+            return new JsonResponse([
                 'success' => true,
-                'asset' => $uploadedAsset,
+                'uploaded' => $uploadedAsset->getUploaded(),
+                'fileName' => $uploadedAsset->getName(),
+                'url' => $this->generateUrl('ems_file_view', [
+                    'sha1' => $uploadedAsset->getSha1(),
+                    'name' => $uploadedAsset->getName(),
+                    'type' => $uploadedAsset->getType(),
+                ]),
             ]);
         } else {
             $this->logger->warning('log.file.upload_error', [
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $file->getError(),
             ]);
-            $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            $this->flashMessageLogger->buildJsonResponse([
                 'success' => false,
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->flashMessageLogger->buildJsonResponse([
             'success' => false,
         ]);
     }
@@ -312,5 +336,32 @@ class FileController extends AbstractController
         if ($session->isStarted()) {
             $session->save();
         }
+    }
+
+    private function jsonResponse(UploadedAsset $asset, bool $apiRoute): JsonResponse
+    {
+        $config = ['_config_type' => 'image'];
+        if (isset($this->assetConfig['preview'])) {
+            $config = \array_merge($this->assetConfig['preview'], $config);
+        }
+        $config = \array_intersect_key($config, Config::getDefaults());
+        unset($config['_published_datetime']);
+
+        return $this->flashMessageLogger->buildJsonResponse([
+            'success' => true,
+            'sha1' => $asset->getSha1(),
+            'hash' => $asset->getSha1(),
+            'type' => $asset->getType(),
+            'available' => $asset->getAvailable(),
+            'name' => $asset->getName(),
+            'size' => $asset->getSize(),
+            'status' => $asset->getStatus(),
+            'uploaded' => $asset->getUploaded(),
+            'user' => $asset->getUser(),
+            'fileName' => $asset->getName(),
+            'previewUrl' => $this->assetRuntime->assetPath($asset->getData(), $config, 'ems_asset', EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD, UrlGeneratorInterface::ABSOLUTE_PATH),
+            'chunkUrl' => $this->generateUrl($apiRoute ? 'emsco_file_api_chunk_upload' : 'emsco_file_data_chunk_upload', ['hash' => $asset->getSha1()]),
+            'url' => $this->assetRuntime->assetPath($asset->getData(), [], 'ems_asset', EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD, UrlGeneratorInterface::ABSOLUTE_PATH),
+        ]);
     }
 }

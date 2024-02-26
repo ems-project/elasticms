@@ -329,6 +329,19 @@ class ElasticaService
         if ($this->useAdminProxy) {
             return $this->adminHelper->getCoreApi()->search()->getIndicesFromAlias($alias);
         }
+
+        return $this->getIndicesFromAliases([$alias]);
+    }
+
+    /**
+     * @param  string[] $aliases
+     * @return string[]
+     */
+    public function getIndicesFromAliases(array $aliases): array
+    {
+        if ($this->useAdminProxy) {
+            return $this->adminHelper->getCoreApi()->search()->getIndicesFromAliases($aliases);
+        }
         $terms = new TermsAggregation('indexes');
         $terms->setSize(self::MAX_INDICES_BY_ALIAS);
         $terms->setField('_index');
@@ -337,7 +350,7 @@ class ElasticaService
         $query = new Query();
         $query->addAggregation($terms);
         $esSearch->setQuery($query);
-        $esSearch->addIndexByName($alias);
+        $esSearch->addIndicesByName($aliases);
         $buckets = $esSearch->search()->getAggregation('indexes')['buckets'] ?? [];
 
         $indices = [];
@@ -576,7 +589,10 @@ class ElasticaService
      */
     private function getIndices(Search $search): array
     {
-        if (0 === \count($search->getContentTypes()) && null === $search->getRegex()) {
+        if (null !== $regex = $search->getRegex()) {
+            $regex = \sprintf('/%s/', $regex);
+        }
+        if (0 === \count($search->getContentTypes()) && null === $regex) {
             return $search->getIndices();
         }
 
@@ -586,16 +602,20 @@ class ElasticaService
                 continue;
             }
 
-            if (null === $search->getRegex()) {
+            if (null === $regex) {
                 $filteredIndices = [...$filteredIndices, ...$indices];
                 continue;
             }
 
             foreach ($indices as $index) {
-                if (\preg_match(\sprintf('/%s/', $search->getRegex()), $index)) {
+                if (\preg_match($regex, $index)) {
                     $filteredIndices[] = $index;
                 }
             }
+        }
+
+        if (empty($filteredIndices) && null !== $regex) {
+            $filteredIndices = [...$filteredIndices, ...\preg_filter($regex, '$0', $this->getIndicesFromAliases($search->getIndices()))];
         }
 
         return \count($filteredIndices) > 0 ? \array_unique($filteredIndices) : $search->getIndices();

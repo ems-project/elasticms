@@ -27,7 +27,7 @@ module.exports = (env, argv) => {
             }),
             new CopyPlugin({
                 "patterns": [
-                    {from: './assets/images', to: 'images/[name].[hash].[ext]'},
+                    {from: './assets/images', to: 'images/[name].[contenthash].[ext]'},
                 ]
             }),
             new MiniCssExtractPlugin({
@@ -36,7 +36,11 @@ module.exports = (env, argv) => {
             }),
             new CKEditorTranslationsPlugin( {
                 // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-                language: 'en'
+                // See https://github.com/ckeditor/ckeditor5-dev/tree/master/packages/ckeditor5-dev-translations
+                language: 'en',
+                outputDirectory: 'translations',
+                buildAllTranslationsToSeparateFiles: true,
+                additionalLanguages: 'all'
             } ),
         ],
         optimization: {

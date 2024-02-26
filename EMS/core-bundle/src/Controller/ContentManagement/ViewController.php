@@ -114,15 +114,6 @@ class ViewController extends AbstractController
         ]);
     }
 
-    public function permissions(): Response
-    {
-        $number = \random_int(0, 100);
-
-        return $this->render("@$this->templateNamespace/view/permissions.html.twig", [
-            'number' => $number,
-        ]);
-    }
-
     /** @deprecated */
     public function editDeprecated(View $view, string $_format, Request $request): Response
     {

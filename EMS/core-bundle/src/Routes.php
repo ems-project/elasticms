@@ -40,7 +40,6 @@ class Routes
     final public const VIEW_EDIT = 'emsco_view_edit';
     final public const VIEW_DELETE = 'emsco_view_delete';
     final public const VIEW_ADD = 'emsco_view_add';
-    final public const VIEW_PERMISSIONS = 'emsco_view_permissions';
     final public const VIEW_DUPLICATE = 'emsco_view_duplicate';
     final public const DATA_DEFAULT_VIEW = 'emsco_data_default_view';
     final public const DATA_IN_MY_CIRCLE_VIEW = 'emsco_data_in_my_circle_view';

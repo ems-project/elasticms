@@ -424,7 +424,7 @@ form:
         table_default_css:
             title: 'Default Table class attribute'
     header:
-        checkbo:
+        checkbox:
             select-all: 'Select all'
 ROLE_ADMIN: Administrator
 ROLE_ALLOW_ALIGN: 'Align Environment'
@@ -1002,6 +1002,20 @@ view:
     user:
         index:
             title: 'User list'
+        permissions:
+            table_headers:
+                content_type: 'Content Type'
+                icon: Icon
+                view: View
+                create: Create
+                edit: Edit
+                specific_roles: 'Specif. Roles'
+                publish: Publish
+                delete: Delete
+                trash: Trash
+                archive: Archive
+                show_link_create: 'Show link create'
+                show_link_search: 'Show link search'
     index:
         reorder: 'Reorder views'
         column:

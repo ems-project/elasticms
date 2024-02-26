@@ -9,7 +9,7 @@
                 {% if fieldOptions.restrictionOptions is defined and fieldOptions.restrictionOptions.minimum_role is null %}
                     <span>No minimum role</span>
                 {% elseif fieldOptions.restrictionOptions.minimum_role is defined %}
-                    <span>Minimum Role: {{ fieldOptions.restrictionOptions.minimum_role }}</span>
+                    <span>Minimum Role: {{ fieldOptions.restrictionOptions.minimum_role|trans }}</span>
                 {% endif %}
             </div>
         </div>

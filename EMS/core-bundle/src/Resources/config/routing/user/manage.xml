@@ -9,7 +9,7 @@
            methods="GET"/>
     <route id="emsco_user_permissions" path="/permissions"
          controller="EMS\CoreBundle\Controller\UserController::permissions"
-         methods="GET|POST"/>
+         methods="GET"/>
     <route id="permissions.view" path="/permissions/{contentType}"
          controller="EMS\CoreBundle\Controller\UserController::view"
          methods="GET|POST"/>

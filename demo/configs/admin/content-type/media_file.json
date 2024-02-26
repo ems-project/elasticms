@@ -159,7 +159,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
                             "children": []
                         },
                         "replaced": []
@@ -168,7 +168,7 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\AssetFieldType",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\IndexedAssetFieldType",
                             "name": "media_file",
                             "contentType": null,
                             "deleted": false,
@@ -179,11 +179,14 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "multiple": false,
                                     "icon": null,
                                     "imageAssetConfigIdentifier": null
                                 },
-                                "mappingOptions": [],
+                                "mappingOptions": {
+                                    "index": null,
+                                    "analyzer": null,
+                                    "copy_to": "_all"
+                                },
                                 "restrictionOptions": {
                                     "mandatory": false,
                                     "mandatory_if": null,
@@ -192,41 +195,12 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": null
+                                    "postProcessing": "{{ block('media_file', '@EMSCH/template_ems/media_file_processing.twig') }}"
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {
                                     "protected": false
                                 }
-                            },
-                            "orderKey": 2,
-                            "children": []
-                        },
-                        "replaced": []
-                    },
-                    {
-                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
-                        "arguments": [],
-                        "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
-                            "name": "search_fields",
-                            "contentType": null,
-                            "deleted": false,
-                            "description": null,
-                            "options": {
-                                "displayOptions": {
-                                    "form": "search_fields"
-                                },
-                                "mappingOptions": [],
-                                "restrictionOptions": {
-                                    "minimum_role": null
-                                },
-                                "extraOptions": {
-                                    "extra": null,
-                                    "clear_on_copy": false,
-                                    "postProcessing": null
-                                },
-                                "raw_data": []
                             },
                             "orderKey": 3,
                             "children": []
@@ -261,7 +235,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 4,
+                            "orderKey": 5,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -284,7 +258,8 @@
                                                 "choices": "attachment\r\ninline",
                                                 "labels": "Attachment\r\nInline",
                                                 "linked_collection": null,
-                                                "collection_label_field": null
+                                                "collection_label_field": null,
+                                                "placeholder": null
                                             },
                                             "mappingOptions": {
                                                 "index": "not_analyzed",
@@ -494,6 +469,42 @@
                             ]
                         },
                         "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
+                            "name": "live_search",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Live Search",
+                                    "class": "col-md-12 hidden",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "valueTemplate": null,
+                                    "json": false,
+                                    "displayTemplate": null
+                                },
+                                "mappingOptions": {
+                                    "mappingOptions": null,
+                                    "copy_to": null
+                                },
+                                "restrictionOptions": [],
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": []
+                            },
+                            "orderKey": 6,
+                            "children": []
+                        },
+                        "replaced": []
                     }
                 ],
                 "__initializer__": null,
@@ -534,6 +545,7 @@
             "show_link_search": "ROLE_SUPER_ADMIN"
         },
         "fields": {
+            "display": null,
             "label": "media_path",
             "color": null,
             "sort": null,

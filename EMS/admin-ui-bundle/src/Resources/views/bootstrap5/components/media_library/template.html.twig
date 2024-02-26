@@ -1,37 +1,190 @@
-{% trans_default_domain 'emsco-component' %}
+{%- trans_default_domain 'emsco-component' -%}
+{# @var template \EMS\CoreBundle\Core\Component\MediaLibrary\Template\MediaLibraryTemplate #}
+{# @var config \EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig #}
+{# @var mediaFile \EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile #}
+{# @var mediaFolder \EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder #}
 
-{%- block mediaLibraryHeader -%}
-    {% apply spaceless %}
+{%- block media_lib_header -%}
+    <div class="media-lib-container">
+        {{- template.block('media_lib_button_home', _context)|raw -}}
+        {{- template.block('media_lib_button_folder_add', _context)|raw -}}
+        {{- template.block('media_lib_button_upload', _context)|raw -}}
+        {%- if mediaFile is defined -%}
+            {{- template.block('media_lib_button_file_rename', _context)|raw -}}
+            {{- template.block('media_lib_button_files_move', _context)|raw -}}
+            {{- template.block('media_lib_button_file_delete', _context)|raw -}}
+        {%- elseif selectionFiles > 0 -%}
+            {{- template.block('media_lib_button_files_move', _context)|raw -}}
+            {{- template.block('media_lib_button_files_delete', _context)|raw -}}
+        {%- elseif mediaFolder is defined -%}
+            {{- template.block('media_lib_button_folder_delete', _context)|raw -}}
+            {{- template.block('media_lib_button_folder_rename', _context)|raw -}}
+        {%- endif -%}
+        {{- template.block('media_lib_breadcrumb', _context)|raw -}}
+    </div>
+{%- endblock media_lib_header -%}
+
+{%- block media_lib_file_header_row -%}
+    <li>
         <div class="media-lib-container">
-            {{ buttonHome|raw }}
-            {{ buttonAddFolder|raw }}
-            {{ buttonUpload|raw }}
-            {{ breadcrumb|raw }}
+            <div class="media-lib-file-header">
+                {{- template.block('media_lib_file_header', _context)|raw -}}
+            </div>
         </div>
-    {% endapply %}
-{%- endblock mediaLibraryHeader -%}
+    </li>
+{%- endblock media_lib_file_header_row -%}
 
-{%- block mediaLibraryFileRowHeader -%}
-    {% apply spaceless %}
-        <li>
-            <div>Name</div>
-            <div>Type</div>
-            <div class="text-right">Size</div>
-        </li>
-    {% endapply %}
-{%- endblock mediaLibraryFileRowHeader -%}
+{%- block media_lib_file_header -%}
+    <div>Name</div>
+    <div>Type</div>
+    <div class="text-right">Size</div>
+{%- endblock media_lib_file_header -%}
 
-{%- block mediaLibraryFileRow -%}
-    {% apply spaceless %}
-        <li>
-            <div><a href="{{ url }}" download="{{ media.file.filename }}" data-ems-id="{{ media.emsId }}">{{ media.file.filename }}</a></div>
-            <div>{{ media.file.mimetype|trans({}, 'emsco-mimetypes') }}</div>
-            <div class="text-right">{{ media.file.filesize|ems_format_bytes }}</div>
-        </li>
-    {% endapply %}
-{%- endblock mediaLibraryFileRow -%}
+{%- block media_lib_file_rows -%}
+    {%- for mediaFile in mediaFiles|default([]) -%}
+        {{- template.block('media_lib_file_row', _context)|raw -}}
+    {%- endfor -%}
+{%- endblock media_lib_file_rows -%}
 
-{%- block mediaLibraryFooter -%}
+{%- block media_lib_file_row -%}
+    <li>
+        <div class="media-lib-container">
+            <div class="media-lib-file" data-id="{{- mediaFile.id -}}">
+                {{- template.block('media_lib_file', _context)|raw -}}
+            </div>
+        </div>
+    </li>
+{%- endblock media_lib_file_row -%}
+
+{% block media_lib_file %}
+    <div><a href="{{- mediaFile.urlView -}}" download="{{- mediaFile.name -}}" data-ems-id="{{- mediaFile.emsId -}}">{{- mediaFile.name -}}</a></div>
+    <div>{{- mediaFile.file.mimetype|trans({}, 'emsco-mimetypes') -}}</div>
+    <div class="text-right">{{- mediaFile.file.filesize|format_bytes -}}</div>
+{% endblock media_lib_file %}
+
+{% block media_lib_folder_rows %}
+    {% for item in structure %}
+        {% set folder = item.folder %}
+        {% set children = item.children|default([]) %}
+        {{- template.block('media_lib_folder_row', _context)|raw -}}
+    {% endfor %}
+{% endblock media_lib_folder_rows %}
+
+{% block media_lib_folder_row %}
+    <li class="{{ html_classes({ 'has-children': children|length > 0 }) }}">
+        <div class="media-lib-container">
+            <div class="media-lib-folder" data-id="{{ folder.id }}" data-path="{{ folder.path }}">
+                {{- template.block('media_lib_folder', _context)|raw -}}
+            </div>
+        </div>
+        {% if children|length > 0 %}
+            <ul>
+                {% with { 'structure': children } %}{{ template.block('media_lib_folder_rows', _context)|raw }}{% endwith %}
+            </ul>
+        {% endif %}
+    </li>
+{% endblock media_lib_folder_row %}
+
+{% block media_lib_folder %}
+    <div>{{ folder.name }}</div>
+{% endblock media_lib_folder %}
+
+{%- block media_lib_footer -%}
     <div class="media-lib-container"></div>
-{%- endblock mediaLibraryFooter -%}
+{%- endblock media_lib_footer -%}
 
+{%- block media_lib_button_home -%}
+    <button class="btn btn-sm btn-default btn-home">
+        <i class="fa fa-home" aria-hidden="true"></i> {{- buttonLabel|default('media_library.home'|trans) -}}
+    </button>
+{%- endblock media_lib_button_home -%}
+
+{%- block media_lib_button_folder_add -%}
+    <button class="btn btn-sm btn-default btn-folder-add">
+        <i class="fa fa-folder" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.add.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_folder_add -%}
+
+{%- block media_lib_button_folder_delete -%}
+    <button class="btn btn-sm btn-default btn-folder-delete" data-id="{{- mediaFolder.id -}}" data-modal-size="md">
+        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.delete.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_folder_delete -%}
+
+{%- block media_lib_button_folder_rename -%}
+    <button class="btn btn-sm btn-default btn-folder-rename" data-id="{{- mediaFolder.id -}}">
+        <i class="fa fa-pencil" aria-hidden="true"></i> {{- buttonLabel|default('media_library.folder.rename.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_folder_rename -%}
+
+{%- block media_lib_button_file_rename -%}
+    <button class="btn btn-sm btn-default btn-file-rename" data-id="{{- mediaFile.id -}}">
+        <i class="fa fa-pencil" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.rename.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_file_rename -%}
+
+{%- block media_lib_button_file_delete -%}
+    <button class="btn btn-sm btn-default btn-file-delete" data-id="{{- mediaFile.id -}}">
+        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.file.delete.title'|trans) -}}
+    </button>
+{%- endblock media_lib_button_file_delete -%}
+
+{%- block media_lib_button_files_delete -%}
+    <button class="btn btn-sm btn-default btn-files-delete" data-modal-size="md">
+        <i class="fa fa-remove" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.delete.title'|trans({ '%count%': selectionFiles })) -}}
+    </button>
+{%- endblock media_lib_button_files_delete -%}
+
+{%- block media_lib_button_files_move -%}
+    <button class="btn btn-sm btn-default btn-files-move" data-modal-size="md">
+        <i class="fa fa-location-arrow" aria-hidden="true"></i> {{- buttonLabel|default('media_library.files.move.title'|trans({ '%count%': selectionFiles })) -}}
+    </button>
+{%- endblock media_lib_button_files_move -%}
+
+{%- block media_lib_button_upload -%}
+    <label class="btn btn-sm btn-default btn-file-upload" for="media-lib-upload-{{- id -}}">
+        <i class="fa fa-upload"></i> {{- buttonLabel|default('media_library.file.add.title'|trans) -}}
+    </label>
+{%- endblock media_lib_button_upload -%}
+
+{%- block media_lib_breadcrumb -%}
+    <ul class="media-lib-list-breadcrumb">
+        <li><button class="breadcrumb-item">Home</button></li>
+        {%- if mediaFolder is defined -%}
+            {%- for parent in mediaFolder.parents -%}
+                <li><button class="breadcrumb-item" data-id="{{- parent.id -}}">{{- parent.name -}}</button></li>
+            {%- endfor -%}
+            {%- if mediaFile is defined -%}
+                <li><button>{{- mediaFile.file.filename -}}</button></li>
+            {%- endif -%}
+        {%- endif -%}
+    </ul>
+{%- endblock media_lib_breadcrumb -%}
+
+{%- block media_lib_modal_title -%}
+    {{- title -}}
+{%- endblock media_lib_modal_title -%}
+
+{%- block media_lib_modal_body -%}
+    {% if confirmMessage is defined %}
+        <div class="alert alert-warning" role="alert">{{ confirmMessage|nl2br }}</div>
+    {% endif %}
+    {% if infoMessage is defined %}
+        <div class="alert alert-info" role="alert">{{ infoMessage|nl2br }}</div>
+    {% endif %}
+    {%- if form is defined -%}
+        {{- form(form) -}}
+    {%- endif -%}
+{%- endblock media_lib_modal_body -%}
+
+{%- block media_lib_modal_footer -%}
+    <div class="pull-right">
+        {% if form is defined %}
+            <button id="ajax-modal-submit" class="{{ html_classes('btn btn-sm', submitClass|default('btn-primary')) }}">
+                <i class="{{ html_classes('fa', submitIcon|default('fa-save')) }}"></i>
+                {{ submitLabel|default('media_library.submit'|trans) }}
+            </button>
+        {% endif %}
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">{{ 'media_library.cancel'|trans }}</button>
+    </div>
+{%- endblock media_lib_modal_footer -%}

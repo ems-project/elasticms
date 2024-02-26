@@ -44,7 +44,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
             'Key' => $key,
         ]);
         $expires = $file->get('Expires');
-        if ($expires instanceof \DateTime && $expires < new \DateTime()) {
+        if ($expires instanceof \DateTime && $expires < new \DateTime() && $expires->getTimestamp() > 0) {
             return null;
         }
 

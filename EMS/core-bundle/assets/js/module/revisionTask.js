@@ -72,25 +72,26 @@ export default class RevisionTask {
             if (json.hasOwnProperty('modalSuccess') && json.modalSuccess) {
                 this.loadTasks();
             }
-        });
+        }, () => location.reload());
     }
     _onClickButtonTaskDelete(button) {
         ajaxModal.load({ url: button.dataset.url, title: button.dataset.title}, (json) => {
             if (json.hasOwnProperty('modalSuccess') && json.modalSuccess) {
                 this.loadTasks();
             }
-        });
+        }, () => location.reload());
     }
     _onClickButtonHandle(button) {
         let formData = new FormData(this.tasksTab.querySelector("form"));
         formData.set('handle', button.dataset.type);
 
         fetch(this.revisionTasks.dataset.url, {method: "POST", body: formData})
-            .then((response) => response.json())
+            .then((response) => response.ok ? response.json() : Promise.reject(response))
             .then((json) => {
                 if (json.hasOwnProperty('success') && json.success) this.loadTasks();
                 if (json.hasOwnProperty('tab')) this._updateTab(json.tab);
-            });
+            })
+            .catch(() => location.reload());
     }
     _onClickButtonTaskReorder(button) {
         this.tasksTab.classList.add('reorder');
@@ -127,7 +128,10 @@ export default class RevisionTask {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify({taskIds: taskIds})
-            }).finally(() => finishReorder());
+            })
+                .then((response) => response.ok ? response.json() : Promise.reject(response))
+                .then(() => finishReorder())
+                .catch(() => location.reload());
         }
     }
     _onClickButtonTasksApproved(event, button) {

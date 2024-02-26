@@ -41,3 +41,4 @@ when@prod: &doctrine_prod
 
 when@redis: *doctrine_prod
 when@db: *doctrine_prod
+when@store_data: *doctrine_prod

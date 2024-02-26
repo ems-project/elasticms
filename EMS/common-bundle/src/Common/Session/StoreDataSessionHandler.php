@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHand
 class StoreDataSessionHandler extends AbstractSessionHandler
 {
     private const SESSION = '[_ems_session]';
+    private bool $gcCalled = false;
 
     public function __construct(private readonly StoreDataManager $storeDataManager)
     {
@@ -36,11 +37,17 @@ class StoreDataSessionHandler extends AbstractSessionHandler
 
     public function close(): bool
     {
+        if ($this->gcCalled) {
+            $this->storeDataManager->gc();
+        }
+
         return true;
     }
 
     public function gc(int $max_lifetime): int|false
     {
+        $this->gcCalled = true;
+
         return 0;
     }
 

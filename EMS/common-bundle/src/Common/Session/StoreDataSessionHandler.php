@@ -53,6 +53,8 @@ class StoreDataSessionHandler extends AbstractSessionHandler
 
     public function updateTimestamp(string $id, string $data): bool
     {
+        $this->doWrite($id, $data);
+
         return true;
     }
 }

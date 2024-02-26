@@ -75,6 +75,22 @@ class Search implements SearchInterface
     }
 
     /**
+     * @param  string[] $aliases
+     * @return string[]
+     */
+    public function getIndicesFromAliases(array $aliases): array
+    {
+        $indices = $this->client->post('/api/search/indices-from-aliases', [
+            'aliases' => $aliases,
+        ])->getData()['indices'] ?? null;
+        if (!\is_array($indices)) {
+            throw new \RuntimeException('Unexpected: indices must be an array');
+        }
+
+        return $indices;
+    }
+
+    /**
      * @return string[]
      */
     public function getIndicesFromAlias(string $alias): array
@@ -83,7 +99,7 @@ class Search implements SearchInterface
             'alias' => $alias,
         ])->getData()['indices'] ?? null;
         if (!\is_array($indices)) {
-            throw new \RuntimeException('Unexpected: search must be an array');
+            throw new \RuntimeException('Unexpected: indices must be an array');
         }
 
         return $indices;

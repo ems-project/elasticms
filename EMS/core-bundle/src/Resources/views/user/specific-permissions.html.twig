@@ -1,58 +1,37 @@
 {% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}Permissions{% endblock %}
-{% block pagetitle %}Permissions Overview{% endblock %}
+{% block title %} {{ 'Specific roles of content type :  "%content_type%"'|trans({'%content_type%': contentType.singularName }) }}{% endblock %}
+{% block pagetitle %}{{ 'Specific roles of content type :  "%content_type%"'|trans({'%content_type%': contentType.singularName }) }}{% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path("contenttype.index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
+        <li><a href="{{ path("contenttype.edit", {id: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Edit {{ contentType.singularName }}</a></li>
+        <li class="active">{{ 'Reorder'|trans }}</li>
+    </ol>
+{% endblock %}
 
 {% block body %}
+
     <div class="row">
         <div class="col-md-12">
-            <div class="box ">
-                <div class="box-header with-border">
-                    <i class="fa fa-sitemap"></i>
-                    <h3 class="box-title">Permissions of content types</h3>
+            <div class="box box-solid">
 
-                    <div class="modal fade" id="content_type_modal_reorder" tabindex="-1" role="dialog" aria-labelledby="myModalReorder">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <h4 class="modal-title" id="myModalReorderLabel">
-                                        <strong>Reorder Content Types</strong>
-                                    </h4>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div class="table-responsive">
-                        <table class="table table-condensed table-striped">
-                            <tbody>
-                            <tr>
-                                <th class="text-center" style="width: 10px">Content Type</th>
-                                <th class="text-center" style="width: 20px">Icon</th>
-                                <th>View</th>
-                                <th>Create</th>
-                            </tr>
-                            {% for contentType in emsco_get_content_types() %}
-                                <tr class="text-{{ contentType.color }}">
-                                    <td class="text-center">{{ loop.index }}.</td>
-                                    <td class="text-center"><i class="{% if contentType.icon %}{{ contentType.icon }}{% else %}fa fa-book{% endif %}"></i></td>
-                                    <td>{{ contentType.roles.view|replace({'ROLE_': ''}) }}</td>
-                                    <td>{{ contentType.roles.create|replace({'ROLE_': ''}) }}</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-
+                <div class="box-body no-padding">
+                    <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="15" data-nested-is-tree="true">
+                        {% include "@EMSCore/user/specific-permissions-field.html.twig" with {
+                            parent: contentType.fieldType
+                        } %}
+                    </ol>
                 </div>
                 <!-- /.box-body -->
+                <!-- /.box-footer -->
             </div>
         </div>
     </div>
-{% endblock %}
 
+    {% include '@EMSCore/app/menu.html.twig' with {
+        'item':  'contenttype-list'
+    }%}
+
+{% endblock %}

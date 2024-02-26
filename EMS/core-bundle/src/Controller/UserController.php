@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\DataTable\Type\UserDataTableType;
 use EMS\CoreBundle\Entity\AuthToken;
+use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
@@ -57,12 +58,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function view(int $id, Request $request): Response
+    public function view(ContentType $contentType, Request $request): Response
     {
-        $contentTypes = $this->contentTypeRepository->findAll();
-
         return $this->render("@$this->templateNamespace/user/specific-permissions.html.twig", [
-            'contentTypes' => $contentTypes,
+            'contentType' => $contentType,
         ]);
     }
 

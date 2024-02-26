@@ -7,7 +7,6 @@ import { Heading } from '@ckeditor/ckeditor5-heading'
 import { Link } from '@ckeditor/ckeditor5-link'
 import { List } from '@ckeditor/ckeditor5-list'
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph'
-import '../../../css/core/plugins/wysiwyg.scss'
 
 class WYSIWYG {
   load (target) {

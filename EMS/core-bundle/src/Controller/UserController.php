@@ -9,7 +9,6 @@ use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\DataTable\Type\UserDataTableType;
 use EMS\CoreBundle\Entity\AuthToken;
 use EMS\CoreBundle\Entity\User;
-use EMS\CoreBundle\Form\Form\ContentTypeType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Repository\AuthTokenRepository;
@@ -66,7 +65,6 @@ class UserController extends AbstractController
             'contentTypes' => $contentTypes,
         ]);
     }
-
 
     public function addUser(Request $request): Response
     {

@@ -22,13 +22,13 @@ class StoreDataS3Factory implements StoreDataFactoryInterface
     {
         $resolver = new OptionsResolver();
         $resolver
-            ->setRequired([self::CREDENTIALS, self::BUCKET])
+            ->setRequired([self::CONFIG_TYPE, self::CREDENTIALS, self::BUCKET])
+            ->setDefault(self::TTL, null)
             ->setAllowedTypes(self::CONFIG_TYPE, 'string')
             ->setAllowedTypes(self::CREDENTIALS, 'array')
             ->setAllowedTypes(self::BUCKET, 'string')
-            ->setAllowedTypes(self::TTL, 'null|int')
+            ->setAllowedTypes(self::TTL, ['null', 'int'])
             ->setAllowedValues(self::CONFIG_TYPE, [self::TYPE_S3])
-            ->setDefault(self::TTL, null)
         ;
         /** @var array{credentials: array<string, mixed>, bucket: string, ttl: int|null} $options */
         $options = $resolver->resolve($parameters);

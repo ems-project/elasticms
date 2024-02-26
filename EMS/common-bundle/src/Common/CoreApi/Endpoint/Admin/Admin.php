@@ -146,4 +146,9 @@ final class Admin implements AdminInterface
             ];
         }
     }
+
+    public function getCoreVersion(): string
+    {
+        return $this->getVersions()['core'];
+    }
 }

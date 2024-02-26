@@ -101,6 +101,7 @@ final class ActionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     public function permissions(ContentType $contentType, Request $request): Response
     {
         $action = new Template();
@@ -110,12 +111,12 @@ final class ActionController extends AbstractController
 
         $form->handleRequest($request);
 
-
         return $this->render("@$this->templateNamespace/action/permissions.html.twig", [
             'contentType' => $contentType,
             'form' => $form->createView(),
         ]);
     }
+
     public function edit(Template $action, Request $request, string $_format): Response
     {
         $id = $action->getId();

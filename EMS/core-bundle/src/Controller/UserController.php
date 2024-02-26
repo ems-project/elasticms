@@ -16,7 +16,6 @@ use EMS\CoreBundle\Repository\AuthTokenRepository;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\WysiwygProfileRepository;
 use EMS\CoreBundle\Routes;
-use EMS\CoreBundle\Service\Mapping;
 use EMS\CoreBundle\Service\UserService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +26,6 @@ class UserController extends AbstractController
 {
     public function __construct(
         private readonly LoggerInterface $logger,
-        private readonly Mapping $mappingService,
         private readonly ContentTypeRepository $contentTypeRepository,
         private readonly UserService $userService,
         private readonly UserManager $userManager,
@@ -56,9 +54,19 @@ class UserController extends AbstractController
         $contentTypes = $this->contentTypeRepository->findAll();
 
         return $this->render("@$this->templateNamespace/user/permissions.html.twig", [
-            'contentTypes' => $contentTypes
+            'contentTypes' => $contentTypes,
         ]);
     }
+
+    public function view(int $id, Request $request): Response
+    {
+        $contentTypes = $this->contentTypeRepository->findAll();
+
+        return $this->render("@$this->templateNamespace/user/specific-permissions.html.twig", [
+            'contentTypes' => $contentTypes,
+        ]);
+    }
+
 
     public function addUser(Request $request): Response
     {

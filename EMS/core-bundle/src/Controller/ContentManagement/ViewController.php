@@ -74,7 +74,6 @@ class ViewController extends AbstractController
         ]);
     }
 
-
     /** @deprecated */
     public function addDeprecated(string $type, Request $request): Response
     {
@@ -115,7 +114,7 @@ class ViewController extends AbstractController
 
     public function permissions(): Response
     {
-        $number = random_int(0, 100);
+        $number = \random_int(0, 100);
 
         return $this->render("@$this->templateNamespace/view/permissions.html.twig", [
             'number' => $number,

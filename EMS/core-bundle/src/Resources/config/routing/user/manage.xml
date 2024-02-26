@@ -10,6 +10,9 @@
     <route id="emsco_user_permissions" path="/permissions"
          controller="EMS\CoreBundle\Controller\UserController::permissions"
          methods="GET|POST"/>
+    <route id="permissions.view" path="/permissions/{id}"
+         controller="EMS\CoreBundle\Controller\UserController::view"
+         methods="GET|POST"/>
     <route id="emsco_user_add" path="/add"
            controller="EMS\CoreBundle\Controller\UserController::addUser"
            methods="GET|POST"/>

@@ -30,7 +30,7 @@ final class CoreApi implements CoreApiInterface
     public function __construct(private readonly Client $client, StorageManager $storageManager)
     {
         $this->fileEndpoint = new File($client, $storageManager);
-        $this->searchEndpoint = new Search($client);
+        $this->searchEndpoint = new Search($client, $this->admin());
         $this->dataExtractEndpoint = new DataExtract($client);
     }
 

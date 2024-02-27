@@ -14,19 +14,9 @@ class StoreData
 
     private readonly UuidInterface $id;
     private string $key;
+
     /** @var array<mixed> */
     protected array $data = [];
-
-    /**
-     * @var mixed[]
-     *
-     * @ORM\Column(name="data", type="json", nullable=true)
-     */
-    protected array $data = [];
-
-    /**
-     * @ORM\Column(name="expires_at", type="datetime", nullable=true)
-     */
     protected ?\DateTimeInterface $expiresAt = null;
 
     public function __construct()

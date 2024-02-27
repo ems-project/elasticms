@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class StoreDataCacheFactory implements StoreDataFactoryInterface
 {
     final public const TYPE_CACHE = 'cache';
+    public const TTL = 'ttl';
 
     public function __construct(
         private readonly Cache $cache
@@ -26,11 +27,14 @@ class StoreDataCacheFactory implements StoreDataFactoryInterface
         $resolver = new OptionsResolver();
         $resolver
             ->setRequired([self::CONFIG_TYPE])
+            ->setDefault(self::TTL, null)
             ->setAllowedTypes(self::CONFIG_TYPE, 'string')
+            ->setAllowedTypes(self::TTL, ['null', 'int'])
             ->setAllowedValues(self::CONFIG_TYPE, [self::TYPE_CACHE])
         ;
-        $resolver->resolve($parameters);
+        /** @var array{ttl: int|null} $options */
+        $options = $resolver->resolve($parameters);
 
-        return new StoreDataCacheService($this->cache);
+        return new StoreDataCacheService($this->cache, $options[self::TTL]);
     }
 }

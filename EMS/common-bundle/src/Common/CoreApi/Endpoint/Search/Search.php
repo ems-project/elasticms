@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Search;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Search\Scroll;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Search\SearchInterface;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
@@ -15,7 +16,7 @@ use EMS\CommonBundle\Search\Search as SearchObject;
 
 class Search implements SearchInterface
 {
-    public function __construct(private readonly Client $client)
+    public function __construct(private readonly Client $client, private readonly AdminInterface $admin)
     {
     }
 
@@ -80,6 +81,15 @@ class Search implements SearchInterface
      */
     public function getIndicesFromAliases(array $aliases): array
     {
+        if (\version_compare($this->admin->getCoreVersion(), '5.13.5') <= 0) {
+            $indices = [];
+            foreach ($aliases as $alias) {
+                $indices = \array_merge($indices, $this->getIndicesFromAlias($alias));
+            }
+
+            return \array_unique($indices);
+        }
+
         $indices = $this->client->post('/api/search/indices-from-aliases', [
             'aliases' => $aliases,
         ])->getData()['indices'] ?? null;

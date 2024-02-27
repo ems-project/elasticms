@@ -44,4 +44,6 @@ interface AdminInterface
      * @return string[]
      */
     public function getVersions(): array;
+
+    public function getCoreVersion(): string;
 }

@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class StoreDataEntityFactory implements StoreDataFactoryInterface
 {
     final public const TYPE_DB = 'db';
+    private const TTL = 'ttl';
 
     public function __construct(
         private readonly StoreDataRepository $repository
@@ -26,11 +27,14 @@ class StoreDataEntityFactory implements StoreDataFactoryInterface
         $resolver = new OptionsResolver();
         $resolver
             ->setRequired([self::CONFIG_TYPE])
+            ->setDefault(self::TTL, null)
             ->setAllowedTypes(self::CONFIG_TYPE, 'string')
+            ->setAllowedTypes(self::TTL, ['null', 'int'])
             ->setAllowedValues(self::CONFIG_TYPE, [self::TYPE_DB])
         ;
-        $resolver->resolve($parameters);
+        /** @var array{ttl: int|null} $options */
+        $options = $resolver->resolve($parameters);
 
-        return new StoreDataEntityService($this->repository);
+        return new StoreDataEntityService($this->repository, $options[self::TTL]);
     }
 }

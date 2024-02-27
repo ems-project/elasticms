@@ -56,4 +56,8 @@ class StoreDataFileSystemService implements StoreDataServiceInterface
 
         return Folder::createFileDirectories(\sprintf('%s%s%s.json', $realPath, DIRECTORY_SEPARATOR, $key));
     }
+
+    public function gc(): void
+    {
+    }
 }

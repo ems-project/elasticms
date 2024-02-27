@@ -13,4 +13,6 @@ interface StoreDataServiceInterface
     public function read(string $key): ?StoreDataHelper;
 
     public function delete(string $key): void;
+
+    public function gc(): void;
 }

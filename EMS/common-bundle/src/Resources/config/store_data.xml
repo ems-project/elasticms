@@ -28,5 +28,8 @@
       <service id="ems_common.store_data.factory.fs" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataFileSystemFactory">
           <tag name="ems_common.store_data.factory" alias="fs"/>
       </service>
+      <service id="ems_common.store_data.factory.fs" class="EMS\CommonBundle\Common\StoreData\Factory\StoreDataS3Factory">
+          <tag name="ems_common.store_data.factory" alias="s3"/>
+      </service>
   </services>
 </container>

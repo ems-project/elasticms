@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Session;
 
 use EMS\CommonBundle\Common\StoreData\StoreDataManager;

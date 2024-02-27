@@ -131,7 +131,7 @@ function onChange (allowAutoPublish = false) {
     .success(function (response) {
       $('.is-invalid').removeClass('is-invalid')
       $('.has-error').removeClass('has-error')
-      $('.invalid-feedback').html('')
+      $('.invalid-feedback').remove()
       $(response.formErrors).each(function (index, item) {
         let target = item.propertyPath
         let targetElement = document.getElementById(`${target}_value`)

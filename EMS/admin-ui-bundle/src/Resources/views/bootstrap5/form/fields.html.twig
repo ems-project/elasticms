@@ -505,9 +505,7 @@
 
 {% block tabsfieldtype_widget_tab_panel_per_item %}
 	<div class="tab-pane fade{% if counter == 1%} active show{% endif %}" id="{{ tab.vars.id}}__tab" role="tabpanel" aria-labelledby="{{ tab.vars.id}}-tab">
-		<div class="form-group has-error"  id="{{ tab.vars.id}}__error">
-			{{ form_errors(tab) }}
-		</div>
+        {{ form_errors(tab) }}
 		<fieldset>
 			{% if counter == 1%}
 				{{- form_widget(tab) -}}

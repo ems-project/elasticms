@@ -138,5 +138,9 @@
             <argument type="service" id="ems_common.service.elastica"/>
             <tag name="controller.service_arguments"/>
         </service>
+
+        <service id="ems_common.store_data_session_handler" class="EMS\CommonBundle\Common\Session\StoreDataSessionHandler">
+            <argument type="service" id="ems_common.store_data.manager"/>
+        </service>
     </services>
 </container>

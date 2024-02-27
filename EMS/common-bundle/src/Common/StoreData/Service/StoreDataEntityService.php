@@ -10,7 +10,7 @@ use EMS\CommonBundle\Repository\StoreDataRepository;
 
 class StoreDataEntityService implements StoreDataServiceInterface
 {
-    public function __construct(private readonly StoreDataRepository $repository)
+    public function __construct(private readonly StoreDataRepository $repository, private readonly ?int $ttl = null)
     {
     }
 
@@ -22,13 +22,16 @@ class StoreDataEntityService implements StoreDataServiceInterface
             $entity->setKey($data->getKey());
         }
         $entity->setData($data->getData());
+        if (null !== $this->ttl) {
+            $entity->expiresAfter($this->ttl);
+        }
         $this->repository->update($entity);
     }
 
     public function read(string $key): ?StoreDataHelper
     {
         $entity = $this->repository->getByKey($key);
-        if (null === $entity) {
+        if (null === $entity || $entity->isExpired()) {
             return null;
         }
 
@@ -42,5 +45,10 @@ class StoreDataEntityService implements StoreDataServiceInterface
             return;
         }
         $this->repository->delete($entity);
+    }
+
+    public function gc(): void
+    {
+        $this->repository->deleteExpired();
     }
 }

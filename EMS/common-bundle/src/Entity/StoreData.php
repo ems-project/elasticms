@@ -37,19 +37,24 @@ class StoreData
      */
     private string $key;
 
-    public function __construct()
-    {
-        $this->id = Uuid::uuid4();
-        $this->created = DateTime::create('now');
-        $this->modified = DateTime::create('now');
-    }
-
     /**
      * @var mixed[]
      *
      * @ORM\Column(name="data", type="json", nullable=true)
      */
     protected array $data = [];
+
+    /**
+     * @ORM\Column(name="expires_at", type="datetime", nullable=true)
+     */
+    protected ?\DateTimeInterface $expiresAt = null;
+
+    public function __construct()
+    {
+        $this->id = Uuid::uuid4();
+        $this->created = DateTime::create('now');
+        $this->modified = DateTime::create('now');
+    }
 
     public function getId(): UuidInterface
     {
@@ -80,5 +85,20 @@ class StoreData
     public function setData(array $data): void
     {
         $this->data = $data;
+    }
+
+    public function expiresAt(\DateTimeInterface $expiresAt): void
+    {
+        $this->expiresAt = $expiresAt;
+    }
+
+    public function expiresAfter(int $ttl): void
+    {
+        $this->expiresAt = new \DateTimeImmutable(\sprintf('%d seconds', $ttl));
+    }
+
+    public function isExpired(): bool
+    {
+        return null !== $this->expiresAt && $this->expiresAt < new \DateTimeImmutable();
     }
 }

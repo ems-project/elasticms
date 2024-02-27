@@ -14,8 +14,10 @@ class StoreData
 
     private readonly UuidInterface $id;
     private string $key;
+
     /** @var array<mixed> */
     protected array $data = [];
+    protected ?\DateTimeInterface $expiresAt = null;
 
     public function __construct()
     {
@@ -53,5 +55,20 @@ class StoreData
     public function setData(array $data): void
     {
         $this->data = $data;
+    }
+
+    public function expiresAt(\DateTimeInterface $expiresAt): void
+    {
+        $this->expiresAt = $expiresAt;
+    }
+
+    public function expiresAfter(int $ttl): void
+    {
+        $this->expiresAt = new \DateTimeImmutable(\sprintf('%d seconds', $ttl));
+    }
+
+    public function isExpired(): bool
+    {
+        return null !== $this->expiresAt && $this->expiresAt < new \DateTimeImmutable();
     }
 }

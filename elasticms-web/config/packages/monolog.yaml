@@ -34,6 +34,7 @@ when@prod: &monolog_prod
                 channels: [ "!event", "!doctrine" ]
 
 when@redis: *monolog_prod
+when@store_data: *monolog_prod
 
 when@test:
     monolog:

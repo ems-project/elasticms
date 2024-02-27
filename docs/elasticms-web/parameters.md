@@ -13,6 +13,7 @@ But there is 2 more possible values, specific to elasticms:
 
  - `db` : It's equivalent to a `prod` environment, but PHP sessions are persisted in the RDBMS (does not work with SQLite databases).
  - `redis` : It's equivalent to a `prod` environment, but PHP sessions are saved in a Redis server.
+- `store_data` : It's equivalent to a `prod` environment, but PHP sessions are saved in [Store Data services](../recipes/store-data.md).
 
 ### APP_SECRET
 

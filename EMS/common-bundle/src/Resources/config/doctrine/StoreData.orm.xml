@@ -11,6 +11,7 @@
 
     <field name="key" length="2048" unique="true"/>
     <field name="data" type="json" nullable="true"/>
+    <field name="expiresAt" type="datetime" nullable="true"/>
 
     <field name="created" type="datetime"/>
     <field name="modified" type="datetime"/>

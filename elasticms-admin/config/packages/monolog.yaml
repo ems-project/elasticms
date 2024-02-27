@@ -51,6 +51,7 @@ when@prod: &monolog_prod
 
 when@redis: *monolog_prod
 when@db: *monolog_prod
+when@store_data: *monolog_prod
 
 when@test:
     monolog:

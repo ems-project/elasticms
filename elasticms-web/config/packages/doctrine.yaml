@@ -42,3 +42,4 @@ when@prod: &doctrine_prod
                     adapter: cache.system
 
 when@redis: *doctrine_prod
+when@store_data: *doctrine_prod

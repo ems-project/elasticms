@@ -88,4 +88,11 @@ class StoreDataManager
             $service->delete($key);
         }
     }
+
+    public function gc(): void
+    {
+        foreach ($this->services as $service) {
+            $service->gc();
+        }
+    }
 }

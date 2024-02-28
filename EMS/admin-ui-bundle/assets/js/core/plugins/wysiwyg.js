@@ -7,44 +7,83 @@ import { Heading } from '@ckeditor/ckeditor5-heading'
 import { Link } from '@ckeditor/ckeditor5-link'
 import { List } from '@ckeditor/ckeditor5-list'
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph'
-import '../../../css/core/plugins/wysiwyg.scss'
 
 class WYSIWYG {
   load (target) {
-    const wysiwygs = target.querySelectorAll('.ckeditor');
-    [].forEach.call(wysiwygs, function (wysiwyg) {
-      ClassicEditor
-        .create(wysiwyg, {
-          plugins: [
-            Essentials,
-            Autoformat,
-            Bold,
-            Italic,
-            BlockQuote,
-            Heading,
-            Link,
-            List,
-            Paragraph
-          ],
-          toolbar: [
-            'heading',
-            'bold',
-            'italic',
-            'link',
-            'bulletedList',
-            'numberedList',
-            'blockQuote',
-            'undo',
-            'redo'
-          ]
-        })
-        .then(editor => {
-          console.log(editor)
-        })
-        .catch(error => {
-          console.error(error)
-        })
-    })
+    this.loadInAdminUI(target)
+    this.loadInRevision(target)
+  }
+
+  loadInRevision (target) {
+    const wysiwygs = target.querySelectorAll('.ckeditor_ems')
+    for (let i = 0; i < wysiwygs.length; ++i) {
+      console.log(wysiwygs[i])
+      this.createEditor(wysiwygs[i], {
+        plugins: [
+          Essentials,
+          Autoformat,
+          Bold,
+          Italic,
+          BlockQuote,
+          Heading,
+          Link,
+          List,
+          Paragraph
+        ],
+        toolbar: [
+          'heading',
+          'bold',
+          'italic',
+          'link',
+          'bulletedList',
+          'numberedList',
+          'blockQuote',
+          'undo',
+          'redo'
+        ]
+      })
+    }
+  }
+
+  loadInAdminUI (target) {
+    const wysiwygs = target.querySelectorAll('.ckeditor')
+    for (let i = 0; i < wysiwygs.length; ++i) {
+      this.createEditor(wysiwygs[i], {
+        plugins: [
+          Essentials,
+          Autoformat,
+          Bold,
+          Italic,
+          BlockQuote,
+          Heading,
+          Link,
+          List,
+          Paragraph
+        ],
+        toolbar: [
+          'heading',
+          'bold',
+          'italic',
+          'link',
+          'bulletedList',
+          'numberedList',
+          'blockQuote',
+          'undo',
+          'redo'
+        ]
+      })
+    }
+  }
+
+  createEditor (wysiwyg, option) {
+    ClassicEditor
+      .create(wysiwyg, option)
+      .then(editor => {
+        console.log(editor)
+      })
+      .catch(error => {
+        console.error(error)
+      })
   }
 }
 

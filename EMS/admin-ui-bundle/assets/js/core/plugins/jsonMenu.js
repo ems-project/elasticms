@@ -9,14 +9,15 @@ class JsonMenu {
   }
 
   load (target) {
+    const self = this
     $(target).find('.json_menu_editor_fieldtype').each(function () {
       const menu = new JsonMenuSimple(this)
-      this.jsonMenus.push(menu)
+      self.jsonMenus.push(menu)
     })
 
     $(target).find('.json-menu-nested').each(function () {
       const menu = new JsonMenuNested(this)
-      this.jsonMenusNested[menu.getId()] = menu
+      self.jsonMenusNested.push(menu)
     })
   }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <style>body {overflow: hidden;}</style>
+    <link rel="stylesheet" href="{{ asset('iframe.css', 'emsadminui') }}">
     {% apply spaceless %}
         {% if styleSet.assets.sha1|default %}
             {% do emsch_assets_version(styleSet.assets.sha1) %}
@@ -13,39 +13,12 @@
         {% endif %}
     {% endapply %}
 </head>
-<body class="wysiwyg-preview">
-{% if styleSet.contentJs|default %}
-    <script src="{{ asset(styleSet.contentJs, styleSet.saveDir == null ? 'emsch' : null) }}"></script>
-{% endif %}
-    <script type="application/javascript">
-        let loaded = false;
-        const resizeFct = function() {
-            if (!loaded) {
-                return;
-            }
-            window.parent.postMessage("resize", "{{ app.request.getSchemeAndHttpHost() }}");
-        };
-        const startReady = function() {
-            if (loaded) {
-                return;
-            }
-            window.parent.postMessage("ready", "{{ app.request.getSchemeAndHttpHost() }}");
-            setTimeout(startReady, 1000);
-        };
-
-        window.addEventListener('message', function(event) {
-            if (event.source !== window.parent) {
-                console.log('Not a parent\'s message');
-                return;
-            }
-            loaded = true;
-            document.body.insertAdjacentHTML('afterbegin', event.data);
-            resizeFct();
-        });
-        window.addEventListener("resize", resizeFct);
-        window.addEventListener("redraw", resizeFct);
-        window.addEventListener("load", resizeFct);
-        startReady();
-    </script>
+<body class="wysiwyg-preview" data-target-origine="{{ app.request.getSchemeAndHttpHost()|e('html_attr') }}">
+    {% block javascript %}
+        <script src="{{ asset('iframe.js', 'emsadminui') }}"></script>
+    {% endblock javascript %}
+    {% if styleSet.contentJs|default %}
+        <script src="{{ asset(styleSet.contentJs, styleSet.saveDir == null ? 'emsch' : null) }}"></script>
+    {% endif %}
 </body>
 </html>

@@ -56,8 +56,10 @@ module.exports = (env, argv) => {
             'criteria-table': './assets/js/criteria-table.js',
             'criteria-view': './assets/js/criteria-view.js',
             'edit-revision': './assets/js/edit-revision.js',
+            'editor': './assets/js/editor.js',
             'hierarchical': './assets/js/hierarchical.js',
             'i18n': './assets/js/i18n.js',
+            'iframe': './assets/js/iframe.js',
             'managed-alias': './assets/js/managed-alias.js',
         },
         output: {

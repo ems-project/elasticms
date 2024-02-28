@@ -18,6 +18,14 @@ class FieldTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, FieldType::class);
     }
 
+    /**
+     * @return FieldType[]
+     */
+    public function findAllNotDeleted(): array
+    {
+        return $this->findBy(['deleted' => false]);
+    }
+
     public function save(FieldType $field): void
     {
         $this->_em->persist($field);

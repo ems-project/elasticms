@@ -38,4 +38,16 @@ final class StoreDataRepository extends ServiceEntityRepository
         $this->getEntityManager()->remove($entity);
         $this->getEntityManager()->flush();
     }
+
+    public function deleteExpired(): int
+    {
+        $qb = $this->createQueryBuilder('store_data')->delete();
+        $qb->where($qb->expr()->isNotNull('store_data.expiresAt'));
+        $qb->andWhere($qb->expr()->lt('store_data.expiresAt', ':now'));
+        $qb->setParameters([
+            ':now' => new \DateTimeImmutable(),
+        ]);
+
+        return \intval($qb->getQuery()->execute());
+    }
 }

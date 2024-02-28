@@ -9,7 +9,7 @@ use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
 
 class StoreDataCacheService implements StoreDataServiceInterface
 {
-    public function __construct(private readonly Cache $cache)
+    public function __construct(private readonly Cache $cache, private readonly ?int $ttl = null)
     {
     }
 
@@ -17,6 +17,9 @@ class StoreDataCacheService implements StoreDataServiceInterface
     {
         $cacheItem = $this->cache->getItem($data->getKey());
         $cacheItem->set($data->getData());
+        if (null !== $this->ttl) {
+            $cacheItem->expiresAfter($this->ttl);
+        }
         $this->cache->save($cacheItem);
     }
 
@@ -30,5 +33,9 @@ class StoreDataCacheService implements StoreDataServiceInterface
     public function delete(string $key): void
     {
         $this->cache->delete($key);
+    }
+
+    public function gc(): void
+    {
     }
 }

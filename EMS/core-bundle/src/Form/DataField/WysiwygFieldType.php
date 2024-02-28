@@ -105,6 +105,7 @@ class WysiwygFieldType extends DataFieldType
         $resolver->setDefault('styles_set', 'default');
         $resolver->setDefault('content_css', '');
         $resolver->setDefault('styles_set_preview', false);
+        $resolver->setDefault('block_prefix', 'wysiwyg');
     }
 
     /**

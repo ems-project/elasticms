@@ -712,7 +712,7 @@
                 {% set panelBody = emsco_diff_html(dataField.rawData, compare, dataField.fieldType.name, compareRawData) %}
                 {% if dataField.rawData and dataField.fieldType.displayOptions.styles_set_preview|default(false) %}
                     {% set displayOptions = dataField.fieldType.displayOptions %}
-                    {% set iframeUrl = path('emsco_wysiwyg_styleset_iframe', {
+                    {% set iframeUrl = path('emsco_wysiwyg_styleset_iframe_preview', {
                         'name': displayOptions.styles_set|default('default'),
                         'language': displayOptions.language|default('en'),
                     }) %}

@@ -4,8 +4,12 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="emsco_wysiwyg_styleset_iframe" path="/styleset/iframe/{name}/{language}"
-           controller="EMS\CoreBundle\Controller\Wysiwyg\StylesetController::iframe"
+    <route id="emsco_wysiwyg_styleset_iframe_preview" path="/styleset/iframe-preview/{name}/{language}"
+           controller="EMS\CoreBundle\Controller\Wysiwyg\StylesetController::iframePreview"
+           methods="GET"/>
+
+    <route id="emsco_wysiwyg_styleset_iframe_editor" path="/styleset/iframe-editor/{name}/{language}"
+           controller="EMS\CoreBundle\Controller\Wysiwyg\StylesetController::iframeEditor"
            methods="GET"/>
 
     <route id="emsco_wysiwyg_ajax_paste" path="/ajax/{wysiwygProfileId}/paste"

@@ -1482,7 +1482,7 @@
     {%  with {id: "#{id}--hidden-wysiwyg"} %}
         {{ block('hidden_widget') }}
     {% endwith %}
-    {% set iframeUrl = path('emsco_wysiwyg_styleset_iframe', {
+    {% set iframeUrl = path('emsco_wysiwyg_styleset_iframe_editor', {
         'name': data.fieldType.displayOptions.styles_set|default('default'),
         'language': data.fieldType.displayOptions.language|default('en'),
     }) %}

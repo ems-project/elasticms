@@ -1,5 +1,3 @@
-import '../../../css/core/components/iframe_preview.scss'
-
 export class IframePreview {
   constructor (iframe) {
     this.iframe = iframe

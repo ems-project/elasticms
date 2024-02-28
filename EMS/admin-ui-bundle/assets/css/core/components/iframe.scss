@@ -1,0 +1,11 @@
+iframe.styleset-preview {
+  border-width: 0;
+  width: 100%;
+}
+
+iframe.styleset-editor {
+  width: 100%;
+  border: $input-border-width solid $input-border-color;
+  border-radius: $input-border-radius;
+  padding: 6px 12px 6px 12px;
+}

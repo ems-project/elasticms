@@ -15,34 +15,7 @@ class WYSIWYG {
   }
 
   loadInRevision (target) {
-    const wysiwygs = target.querySelectorAll('.ckeditor_ems')
-    for (let i = 0; i < wysiwygs.length; ++i) {
-      console.log(wysiwygs[i])
-      this.createEditor(wysiwygs[i], {
-        plugins: [
-          Essentials,
-          Autoformat,
-          Bold,
-          Italic,
-          BlockQuote,
-          Heading,
-          Link,
-          List,
-          Paragraph
-        ],
-        toolbar: [
-          'heading',
-          'bold',
-          'italic',
-          'link',
-          'bulletedList',
-          'numberedList',
-          'blockQuote',
-          'undo',
-          'redo'
-        ]
-      })
-    }
+
   }
 
   loadInAdminUI (target) {

@@ -3,6 +3,9 @@
 
 {% block subtitle %}<small>{{ 'views.data.edit-revision-html.subtitle'|trans }}</small>{% endblock %}
 
+{%- block stylesheets %}
+    <link rel="stylesheet" href="{{ path('emsco_wysiwyg_styleset_all_prefixed_css') }}">
+{% endblock %}
 
 {% block body %}
 <div class="card card-{{ theme_color }} card-outline" id="revision-primary-box"

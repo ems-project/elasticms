@@ -13,10 +13,11 @@ class FieldTypeTreeItem implements \IteratorAggregate
 {
     private FieldTypeTreeItemCollection $children;
     private string $name;
-    private ?FieldTypeTreeItem $parent = null;
 
-    public function __construct(private readonly FieldType $fieldType)
-    {
+    public function __construct(
+        private readonly FieldType $fieldType,
+        private readonly ?FieldTypeTreeItem $parent = null
+    ) {
         $this->name = $this->fieldType->getName();
         $this->children = new FieldTypeTreeItemCollection();
     }
@@ -81,13 +82,6 @@ class FieldTypeTreeItem implements \IteratorAggregate
         $iterator->ksort();
 
         $this->children = new FieldTypeTreeItemCollection(\iterator_to_array($iterator));
-    }
-
-    public function setParent(FieldTypeTreeItem $parent): self
-    {
-        $this->parent = $parent;
-
-        return $this;
     }
 
     /**

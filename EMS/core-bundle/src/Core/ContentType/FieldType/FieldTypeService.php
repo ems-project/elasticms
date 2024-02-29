@@ -21,15 +21,15 @@ class FieldTypeService
 
     public function getTree(ContentType $contentType): FieldTypeTreeItem
     {
-        return $this->buildTreeItem($contentType->getFieldType());
+        return $this->createTreeItem($contentType->getFieldType());
     }
 
-    private function buildTreeItem(FieldType $fieldType): FieldTypeTreeItem
+    private function createTreeItem(FieldType $fieldType, FieldTypeTreeItem $parent = null): FieldTypeTreeItem
     {
-        $fieldTypeTreeItem = new FieldTypeTreeItem($fieldType);
+        $fieldTypeTreeItem = new FieldTypeTreeItem($fieldType, $parent);
 
         foreach ($this->getChildren($fieldType) as $child) {
-            $childTreeItem = $this->buildTreeItem($child)->setParent($fieldTypeTreeItem);
+            $childTreeItem = $this->createTreeItem($child, $fieldTypeTreeItem);
             $fieldTypeTreeItem->addChild($childTreeItem);
         }
 

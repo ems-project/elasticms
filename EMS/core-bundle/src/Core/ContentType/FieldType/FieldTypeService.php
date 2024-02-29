@@ -52,8 +52,7 @@ class FieldTypeService
     private function getFieldTypes(): ArrayCollection
     {
         if (null === $this->fieldTypes) {
-            $fieldTypes = $this->fieldTypeRepository->findAllNotDeleted();
-            $this->fieldTypes = new ArrayCollection($fieldTypes);
+            $this->fieldTypes = new ArrayCollection($this->fieldTypeRepository->findBy(['deleted' => false]));
         }
 
         return $this->fieldTypes;

@@ -65,11 +65,7 @@ class StylesetController extends AbstractController
             $name = $styleSet->getName();
             $css = $styleSet->giveContentCss();
             $sha1 = $styleSet->giveAssetsHash();
-            try {
-                $directory = $this->assetHelperRuntime->setVersion($sha1);
-            } catch (\Throwable) {
-                continue;
-            }
+            $directory = $this->assetHelperRuntime->setVersion($sha1);
             $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $css]);
             $cssContents = \file_get_contents($filename);
             if (false === $cssContents) {

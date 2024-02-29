@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\Wysiwyg;
 
 use EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Entity\WysiwygStylesSet;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use EMS\Helpers\Html\Headers;
 use ScssPhp\ScssPhp\Compiler;
@@ -27,6 +28,45 @@ class StylesetController extends AbstractController
             'styleSet' => $this->wysiwygStylesSetService->getByName($name),
             'language' => \array_shift($splitLanguage),
         ]);
+    }
+
+    public function allPrefixedCSS(): Response
+    {
+        $size = $this->wysiwygStylesSetService->count();
+        if ($size > 10) {
+            throw new \RuntimeException('There is too much CSS specified to generate a prefixed CSS');
+        }
+        $source = '';
+        $compiler = new Compiler();
+        foreach ($this->wysiwygStylesSetService->get(0, $size, null, 'asc', '') as $styleSet) {
+            if (!$styleSet instanceof WysiwygStylesSet) {
+                throw new \RuntimeException('Unexpected non WysiwygStylesSet entity');
+            }
+            $name = $styleSet->getName();
+            $css = $styleSet->getContentCss();
+            if (null === $css) {
+                continue;
+            }
+            $sha1 = isset($styleSet->getAssets()[EmsFields::CONTENT_FILE_HASH_FIELD]) ? $styleSet->getAssets()[EmsFields::CONTENT_FILE_HASH_FIELD] : null;
+            if (!\is_string($sha1)) {
+                continue;
+            }
+            $directory = $this->assetHelperRuntime->setVersion($sha1);
+            $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $css]);
+            if (!\file_exists($filename)) {
+                continue;
+            }
+            $css = \file_get_contents($filename);
+            $source .= $compiler->compileString(".ems-styleset-$name {
+                all: initial;
+                padding: 10px;
+                $css
+            }", $directory)->getCss();
+        }
+        $response = new Response($source);
+        $response->headers->set(Headers::CONTENT_TYPE, 'text/css');
+
+        return $response;
     }
 
     public function prefixedCSS(string $name): Response
@@ -52,6 +92,7 @@ class StylesetController extends AbstractController
         $compiler = new Compiler();
         $response = new Response($compiler->compileString(".ems-styleset-$name {
             all: initial;
+            padding: 10px;
             $css
         }", $directory)->getCss());
         $response->headers->set(Headers::CONTENT_TYPE, 'text/css');

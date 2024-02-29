@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Core\DataTable;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractQueryTableType;
+use EMS\CoreBundle\Core\DataTable\Type\DataTableFilterFormInterface;
 use EMS\CoreBundle\Core\DataTable\Type\DataTableTypeCollection;
 use EMS\CoreBundle\Core\DataTable\Type\DataTableTypeInterface;
 use EMS\CoreBundle\Form\Data\EntityTable;
@@ -14,6 +15,9 @@ use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Routes;
 use EMS\Helpers\Standard\Hash;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -26,6 +30,8 @@ class DataTableFactory
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly CacheItemPoolInterface $cache,
         private readonly Security $security,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly RequestStack $requestStack,
         private readonly string $templateNamespace,
     ) {
     }
@@ -57,25 +63,30 @@ class DataTableFactory
 
         $options = $this->resolveOptions($type, $options);
         $optionsCacheKey = $this->getOptionsCacheKey($options);
-        $ajaxUrl = $this->generateAjaxUrl($type, $optionsCacheKey);
+        $context = $type->getContext($options);
+
+        $filterForm = $this->buildFilterForm($type, $context);
+        $context = $this->addFilterFormToContext($type, $context, $filterForm);
+        $ajaxUrl = $this->generateAjaxUrl($type, $optionsCacheKey, $filterForm);
 
         return match (true) {
-            $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $ajaxUrl, $options),
-            $type instanceof AbstractQueryTableType => $this->buildQueryTable($type, $ajaxUrl, $options),
+            $type instanceof AbstractEntityTableType => $this
+                ->buildEntityTable($type, $ajaxUrl, $context)
+                ->setFilterForm($filterForm),
+            $type instanceof AbstractQueryTableType => $this
+                ->buildQueryTable($type, $ajaxUrl, $context)
+                ->setFilterForm($filterForm),
             default => throw new \RuntimeException('Unknown dataTableType')
         };
     }
 
-    /**
-     * @param array<string, mixed> $options
-     */
-    private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl, array $options = []): EntityTable
+    private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl, mixed $context): EntityTable
     {
         $table = new EntityTable(
             $this->templateNamespace,
             $type->getEntityService(),
             $ajaxUrl,
-            $type->getContext($options),
+            $context,
             $type->getLoadMaxRows()
         );
 
@@ -84,23 +95,42 @@ class DataTableFactory
         return $table;
     }
 
-    /**
-     * @param array<string, mixed> $options
-     */
-    private function buildQueryTable(AbstractQueryTableType $type, string $ajaxUrl, array $options = []): QueryTable
+    private function buildQueryTable(AbstractQueryTableType $type, string $ajaxUrl, mixed $context): QueryTable
     {
         $table = new QueryTable(
             $this->templateNamespace,
             $type->getQueryService(),
             $type->getQueryName(),
             $ajaxUrl,
-            $type->getContext($options),
+            $context,
             $type->getLoadMaxRows()
         );
 
         $type->build($table);
 
         return $table;
+    }
+
+    private function buildFilterForm(DataTableTypeInterface $type, mixed $context): ?FormInterface
+    {
+        if (!$type instanceof DataTableFilterFormInterface) {
+            return null;
+        }
+
+        $request = $this->requestStack->getCurrentRequest();
+        $filterForm = $type->createFilterForm($this->formFactory, $context);
+        $filterForm->handleRequest($request);
+
+        return $filterForm;
+    }
+
+    private function addFilterFormToContext(DataTableTypeInterface $type, mixed $context, ?FormInterface $filterForm = null): mixed
+    {
+        if (!$type instanceof DataTableFilterFormInterface || null === $filterForm) {
+            return $context;
+        }
+
+        return $type->addFilterFormToContext($filterForm, $context);
     }
 
     private function checkRoles(DataTableTypeInterface $type): void
@@ -113,12 +143,20 @@ class DataTableFactory
         }
     }
 
-    private function generateAjaxUrl(DataTableTypeInterface $type, ?string $optionsCacheKey = null): string
+    private function generateAjaxUrl(DataTableTypeInterface $type, ?string $optionsCacheKey = null, ?FormInterface $filterForm = null): string
     {
-        return $this->urlGenerator->generate(Routes::DATA_TABLE_AJAX_TABLE, [
+        $params = [
             'hash' => $type->getHash(),
             'optionsCacheKey' => $optionsCacheKey,
-        ]);
+        ];
+
+        if ($filterForm) {
+            $request = $this->requestStack->getCurrentRequest();
+            $name = $filterForm->getConfig()->getName();
+            $params[$name] = $request?->query->all($name);
+        }
+
+        return $this->urlGenerator->generate(Routes::DATA_TABLE_AJAX_TABLE, $params);
     }
 
     /**

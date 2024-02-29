@@ -710,18 +710,11 @@
         <dd>
             <div class="card card-default">
                 {% set panelBody = emsco_diff_html(dataField.rawData, compare, dataField.fieldType.name, compareRawData) %}
-                {% if dataField.rawData and dataField.fieldType.displayOptions.styles_set_preview|default(false) %}
-                    {% set displayOptions = dataField.fieldType.displayOptions %}
-                    {% set iframeUrl = path('emsco_wysiwyg_styleset_iframe', {
-                        'name': displayOptions.styles_set|default('default'),
-                        'language': displayOptions.language|default('en'),
-                    }) %}
-                    <iframe src="{{ iframeUrl }}" class="styleset-preview card-body" data-iframe-body="{{ panelBody|e('html_attr') }}"></iframe>
-                {% else %}
-                    <div class="card-body">
-                        {{ panelBody|raw }}
-                    </div>
-                {% endif %}
+                <div class="{{ html_classes('card-body', {
+                    ("ems-styleset-#{dataField.fieldType.displayOptions.styles_set|default('default')}"): dataField.fieldType.displayOptions.styles_set_preview|default(false),
+                }) }}">
+                    {{ panelBody|raw }}
+                </div>
             </div>
         </dd>
     </dl>

@@ -13,5 +13,10 @@ interface DataTableTypeInterface
 
     public function getHash(): string;
 
+    /**
+     * @param array<mixed> $options
+     */
+    public function getContext(array $options): mixed;
+
     public function configureOptions(OptionsResolver $optionsResolver): void;
 }

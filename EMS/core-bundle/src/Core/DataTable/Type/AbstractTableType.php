@@ -18,6 +18,14 @@ abstract class AbstractTableType implements DataTableTypeInterface
     {
     }
 
+    /**
+     * @param array<mixed> $options
+     */
+    public function getContext(array $options): mixed
+    {
+        return null;
+    }
+
     public function getHash(): string
     {
         return Hash::string(\get_class($this));

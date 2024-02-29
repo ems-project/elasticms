@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Controller\Wysiwyg;
 use EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use ScssPhp\ScssPhp\Compiler;
@@ -67,10 +68,7 @@ class StylesetController extends AbstractController
             $sha1 = $styleSet->giveAssetsHash();
             $directory = $this->assetHelperRuntime->setVersion($sha1);
             $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $css]);
-            $cssContents = \file_get_contents($filename);
-            if (false === $cssContents) {
-                continue;
-            }
+            $cssContents = File::getFileContents($filename);
             $source .= $this->compilePrefixedCss($name, $cssContents, $directory);
         }
         $response->setContent($source);
@@ -92,10 +90,7 @@ class StylesetController extends AbstractController
         $sha1 = $styleSet->giveAssetsHash();
         $directory = $this->assetHelperRuntime->setVersion($sha1);
         $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $css]);
-        $cssContents = \file_get_contents($filename);
-        if (false === $cssContents) {
-            throw new NotFoundHttpException(\sprintf('Unexpected false contents for %s', $css));
-        }
+        $cssContents = File::getFileContents($filename);
         $response->setContent($this->compilePrefixedCss($name, $cssContents, $directory));
 
         return $response;

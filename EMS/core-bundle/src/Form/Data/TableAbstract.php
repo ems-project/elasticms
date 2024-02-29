@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Data;
 
 use EMS\CoreBundle\Helper\DataTableRequest;
+use Symfony\Component\Form\FormInterface;
 
 abstract class TableAbstract implements TableInterface
 {
@@ -35,6 +36,8 @@ abstract class TableAbstract implements TableInterface
     private string $searchValue = '';
     /** @var array<mixed> */
     private array $extraFrontendOption = [];
+
+    private ?FormInterface $filterForm = null;
 
     private string $exportSheetName = 'table';
     private string $exportFileName = 'table';
@@ -268,6 +271,18 @@ abstract class TableAbstract implements TableInterface
     public function getAjaxUrl(): ?string
     {
         return $this->ajaxUrl;
+    }
+
+    public function getFilterForm(): ?FormInterface
+    {
+        return $this->filterForm;
+    }
+
+    public function setFilterForm(?FormInterface $filterForm): self
+    {
+        $this->filterForm = $filterForm;
+
+        return $this;
     }
 
     public function getOrderField(): ?string

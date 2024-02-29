@@ -4,6 +4,8 @@ namespace EMS\CoreBundle\Controller;
 
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
+use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeTreeItem;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Core\User\UserManager;
@@ -22,8 +24,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
-use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeTreeItem;
+
 class UserController extends AbstractController
 {
     public function __construct(

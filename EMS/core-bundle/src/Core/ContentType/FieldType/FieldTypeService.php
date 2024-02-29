@@ -21,29 +21,7 @@ class FieldTypeService
 
     public function getTree(ContentType $contentType): FieldTypeTreeItem
     {
-        return $this->createTreeItem($contentType->getFieldType());
-    }
-
-    private function createTreeItem(FieldType $fieldType, FieldTypeTreeItem $parent = null): FieldTypeTreeItem
-    {
-        $fieldTypeTreeItem = new FieldTypeTreeItem($fieldType, $parent);
-
-        foreach ($this->getChildren($fieldType) as $child) {
-            $childTreeItem = $this->createTreeItem($child, $fieldTypeTreeItem);
-            $fieldTypeTreeItem->addChild($childTreeItem);
-        }
-
-        $fieldTypeTreeItem->orderChildren();
-
-        return $fieldTypeTreeItem;
-    }
-
-    /**
-     * @return ArrayCollection<int, FieldType>
-     */
-    private function getChildren(FieldType $fieldType): ArrayCollection
-    {
-        return $this->getFieldTypes()->filter(fn (FieldType $f) => $f->getParent()?->getId() === $fieldType->getId());
+        return new FieldTypeTreeItem($contentType->getFieldType(), $this->getFieldTypes());
     }
 
     /**

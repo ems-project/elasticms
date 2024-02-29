@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\ContentType\FieldType;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use EMS\CoreBundle\Entity\FieldType;
 
 /**
@@ -12,14 +13,29 @@ use EMS\CoreBundle\Entity\FieldType;
 class FieldTypeTreeItem implements \IteratorAggregate
 {
     private FieldTypeTreeItemCollection $children;
+    private ?FieldTypeTreeItem $parent = null;
     private string $name;
 
+    /**
+     * @param ArrayCollection<int, FieldType> $fieldTypes
+     */
     public function __construct(
         private readonly FieldType $fieldType,
-        private readonly ?FieldTypeTreeItem $parent = null
+        ArrayCollection $fieldTypes
     ) {
         $this->name = $this->fieldType->getName();
-        $this->children = new FieldTypeTreeItemCollection();
+
+        $children = [];
+        $childFieldTypes = $fieldTypes->filter(fn (FieldType $f) => $f->getParent()?->getId() === $fieldType->getId());
+
+        foreach ($childFieldTypes as $childFieldType) {
+            $child = new FieldTypeTreeItem($childFieldType, $fieldTypes);
+            $child->setParent($this);
+            $children[$child->fieldType->getOrderKey()] = $child;
+        }
+
+        \ksort($children);
+        $this->children = new FieldTypeTreeItemCollection($children);
     }
 
     public function __toString(): string
@@ -76,14 +92,6 @@ class FieldTypeTreeItem implements \IteratorAggregate
         return $path;
     }
 
-    public function orderChildren(): void
-    {
-        $iterator = $this->children->getIterator();
-        $iterator->ksort();
-
-        $this->children = new FieldTypeTreeItemCollection(\iterator_to_array($iterator));
-    }
-
     /**
      * @return FieldTypeTreeItem[]
      */
@@ -96,5 +104,10 @@ class FieldTypeTreeItem implements \IteratorAggregate
         }
 
         return $data;
+    }
+
+    public function setParent(?FieldTypeTreeItem $parent): void
+    {
+        $this->parent = $parent;
     }
 }

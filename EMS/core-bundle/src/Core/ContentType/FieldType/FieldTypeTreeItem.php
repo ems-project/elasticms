@@ -24,7 +24,6 @@ class FieldTypeTreeItem implements \IteratorAggregate
         ArrayCollection $fieldTypes
     ) {
         $this->name = $this->fieldType->getName();
-
         $children = [];
         $childFieldTypes = $fieldTypes->filter(fn (FieldType $f) => $f->getParent()?->getId() === $fieldType->getId());
 
@@ -78,6 +77,21 @@ class FieldTypeTreeItem implements \IteratorAggregate
         return $this->name;
     }
 
+//    usage in specific-permissions-field.html.twig
+    public function getDisplayOptionsLabel(): ?string
+    {
+        $fieldType = $this->getFieldType();
+        $options = $fieldType->getOptions();
+
+        // Vérifiez si l'option 'displayOptions' est définie et si elle contient un label
+        if (isset($options['displayOptions']['label'])) {
+            return $options['displayOptions']['label'];
+        }
+
+        // Retourne null si l'option 'displayOptions' ou le label n'est pas défini
+        return null;
+    }
+
     /**
      * @return FieldTypeTreeItem[]
      */
@@ -105,9 +119,12 @@ class FieldTypeTreeItem implements \IteratorAggregate
 
         return $data;
     }
-
     public function setParent(?FieldTypeTreeItem $parent): void
     {
         $this->parent = $parent;
+    }
+    public function getParent(): ?FieldTypeTreeItem
+    {
+        return $this->parent;
     }
 }

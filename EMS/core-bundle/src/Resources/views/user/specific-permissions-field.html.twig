@@ -1,25 +1,32 @@
 {% trans_default_domain 'EMSCoreBundle' %}
-{% for child in parent.children|filter(child => not child.deleted) %}
 
-    <li id="{{ child.id }}" class="{% if not (child.type~'::isContainer')|emsco_call_user_func %}mjs-nestedSortable-no-nesting{% endif %}">
-        <div class="box-header">
-            <b>{{ child.name }}</b> {{ child.type }}
-            <div class="pull-right"
-                {% set fieldOptions = child.options %}
-                {% if fieldOptions.restrictionOptions is defined and fieldOptions.restrictionOptions.minimum_role is null %}
-                    <span>No minimum role</span>
-                {% elseif fieldOptions.restrictionOptions.minimum_role is defined %}
-                    <span>Minimum Role: {{ fieldOptions.restrictionOptions.minimum_role|trans }}</span>
-                {% endif %}
-            </div>
-        </div>
-        {% if (child.type~'::isContainer')|emsco_call_user_func and child.children|length > 0  %}
-            <ol>
-                {% include "@EMSCore/user/specific-permissions.html.twig" with {
-                    parent: child
-                } %}
-            </ol>
+<style>
+    .custom-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .custom-list li {
+        margin-bottom: 5px;
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<ul class="custom-list">
+    {% for child in children %}
+    <li>
+        {% if child.getDisplayOptionsLabel() is null %}
+            source
+        {% else %}
+            {{ child.getParent() }} >
+            {{ child.getDisplayOptionsLabel() }}
         {% endif %}
+        <div class="pull-right">
+            <span>Role : {{ child.getFieldType().getRestrictionOption('minimum_role')|trans }}</span>
+        </div>
     </li>
-
-{% endfor %}
+    {% endfor %}
+</ul>

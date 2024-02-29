@@ -8,22 +8,16 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box box-solid">
-
                 <div class="box-body no-padding">
                     <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="15" data-nested-is-tree="true">
-                        {% include "@EMSCore/user/specific-permissions-field.html.twig" with {
-                            parent: contentType.fieldType
-                        } %}
+                            {% include "@EMSCore/user/specific-permissions-field.html.twig" with {
+                                parent: contentType.fieldType
+                            } %}
                     </ol>
                 </div>
-                <!-- /.box-body -->
-                <!-- /.box-footer -->
             </div>
         </div>
     </div>
 
-    {% include '@EMSCore/app/menu.html.twig' with {
-        'item':  'contenttype-list'
-    }%}
 
 {% endblock %}

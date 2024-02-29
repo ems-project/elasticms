@@ -22,7 +22,8 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeService;
+use EMS\CoreBundle\Core\ContentType\FieldType\FieldTypeTreeItem;
 class UserController extends AbstractController
 {
     public function __construct(
@@ -35,7 +36,8 @@ class UserController extends AbstractController
         private readonly AuthTokenRepository $authTokenRepository,
         private readonly WysiwygProfileRepository $wysiwygProfileRepository,
         private readonly FlashMessageLogger $flashMessageLogger,
-        private readonly string $templateNamespace
+        private readonly string $templateNamespace,
+        private readonly FieldTypeService $fieldTypeService,
     ) {
     }
 
@@ -62,8 +64,16 @@ class UserController extends AbstractController
 
     public function view(ContentType $contentType, Request $request): Response
     {
+        $tree = $this->fieldTypeService->getTree($contentType);
+
+        $fieldTypesWithMinimumRole = $tree->getChildrenRecursive()->filter(function (FieldTypeTreeItem $item) {
+            return $item->getFieldType()->getRestrictionOption('minimum_role', false);
+        });
+
         return $this->render("@$this->templateNamespace/user/specific-permissions.html.twig", [
             'contentType' => $contentType,
+            'tree' => $tree,
+            'children' => $fieldTypesWithMinimumRole,
         ]);
     }
 

@@ -33,6 +33,11 @@ class Task implements EntityInterface
     private UuidInterface $id;
 
     /**
+     * @ORM\Column(name="revision_ouuid", type="string", length=255)
+     */
+    private string $revisionOuuid;
+
+    /**
      * @ORM\Column(name="title", type="string", length=255)
      */
     private string $title;
@@ -88,9 +93,10 @@ class Task implements EntityInterface
         self::STATUS_APPROVED => ['icon' => 'fa fa-check', 'bg' => 'green', 'text' => 'success', 'label' => 'success'],
     ];
 
-    public function __construct(string $username)
+    private function __construct(Revision $revision, string $username)
     {
         $this->id = Uuid::uuid4();
+        $this->revisionOuuid = $revision->giveOuuid();
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
         $this->createdBy = $username;
@@ -101,9 +107,9 @@ class Task implements EntityInterface
         $this->logs[] = $taskLog->getData();
     }
 
-    public static function createFromDTO(TaskDTO $dto, string $username): Task
+    public static function createFromDTO(TaskDTO $dto, Revision $revision, string $username): Task
     {
-        $task = new self($username);
+        $task = new self($revision, $username);
         $task->updateFromDTO($dto);
 
         return $task;

@@ -5,17 +5,20 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Wysiwyg;
 
 use EMS\ClientHelperBundle\Helper\Asset\AssetHelperRuntime;
-use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 use EMS\Helpers\Html\Headers;
+use EMS\Helpers\Standard\Json;
 use ScssPhp\ScssPhp\Compiler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StylesetController extends AbstractController
 {
+    private ?Compiler $compiler = null;
+
     public function __construct(private readonly WysiwygStylesSetService $wysiwygStylesSetService, private readonly AssetHelperRuntime $assetHelperRuntime, private readonly string $templateNamespace)
     {
     }
@@ -30,71 +33,105 @@ class StylesetController extends AbstractController
         ]);
     }
 
-    public function allPrefixedCSS(): Response
+    public function allPrefixedCSS(Request $request): Response
     {
         $size = $this->wysiwygStylesSetService->count();
-        if ($size > 10) {
+        if ($size > 20) {
             throw new \RuntimeException('There is too much CSS specified to generate a prefixed CSS');
         }
-        $source = '';
-        $compiler = new Compiler();
-        foreach ($this->wysiwygStylesSetService->get(0, $size, null, 'asc', '') as $styleSet) {
+        $etags = [];
+        foreach ($this->wysiwygStylesSetService->get(0, $size, 'order', 'asc', '') as $styleSet) {
             if (!$styleSet instanceof WysiwygStylesSet) {
                 throw new \RuntimeException('Unexpected non WysiwygStylesSet entity');
             }
-            $name = $styleSet->getName();
-            $css = $styleSet->getContentCss();
-            if (null === $css) {
+            if (!$styleSet->hasCSS()) {
                 continue;
             }
-            $sha1 = isset($styleSet->getAssets()[EmsFields::CONTENT_FILE_HASH_FIELD]) ? $styleSet->getAssets()[EmsFields::CONTENT_FILE_HASH_FIELD] : null;
-            if (!\is_string($sha1)) {
-                continue;
-            }
-            $directory = $this->assetHelperRuntime->setVersion($sha1);
-            $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $css]);
-            if (!\file_exists($filename)) {
-                continue;
-            }
-            $css = \file_get_contents($filename);
-            $source .= $compiler->compileString(".ems-styleset-$name {
-                all: initial;
-                padding: 10px;
-                $css
-            }", $directory)->getCss();
+            $etags[] = $styleSet->getCssEtag();
         }
-        $response = new Response($source);
-        $response->headers->set(Headers::CONTENT_TYPE, 'text/css');
+        $response = $this->cssResponse(\sha1(Json::encode($etags)));
+        if ($response->isNotModified($request)) {
+            return $response;
+        }
+
+        $source = '';
+        foreach ($this->wysiwygStylesSetService->get(0, $size, 'order', 'asc', '') as $styleSet) {
+            if (!$styleSet instanceof WysiwygStylesSet) {
+                throw new \RuntimeException('Unexpected non WysiwygStylesSet entity');
+            }
+            if (!$styleSet->hasCSS()) {
+                continue;
+            }
+            $name = $styleSet->getName();
+            $css = $styleSet->giveContentCss();
+            $sha1 = $styleSet->giveAssetsHash();
+            try {
+                $directory = $this->assetHelperRuntime->setVersion($sha1);
+            } catch (\Throwable) {
+                continue;
+            }
+            $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $css]);
+            $cssContents = \file_get_contents($filename);
+            if (false === $cssContents) {
+                continue;
+            }
+            $source .= $this->compilePrefixedCss($name, $cssContents, $directory);
+        }
+        $response->setContent($source);
 
         return $response;
     }
 
-    public function prefixedCSS(string $name): Response
+    public function prefixedCSS(Request $request, string $name): Response
     {
         $styleSet = $this->wysiwygStylesSetService->getByName($name);
-        if (null === $styleSet) {
-            throw new NotFoundHttpException(\sprintf('Style Set %s not found', $name));
+        if (null === $styleSet || !$styleSet->hasCSS()) {
+            throw new NotFoundHttpException(\sprintf('CSS for Style Set %s not found', $name));
         }
-        $css = $styleSet->getContentCss();
-        if (null === $css) {
-            throw new NotFoundHttpException(\sprintf('CSS not specified for %s', $name));
+        $response = $this->cssResponse($styleSet->getCssEtag());
+        if ($response->isNotModified($request)) {
+            return $response;
         }
-        $sha1 = isset($styleSet->getAssets()[EmsFields::CONTENT_FILE_HASH_FIELD]) ? $styleSet->getAssets()[EmsFields::CONTENT_FILE_HASH_FIELD] : null;
-        if (!\is_string($sha1)) {
-            throw new NotFoundHttpException(\sprintf('Assets archive not specified for %s', $name));
-        }
+        $css = $styleSet->giveContentCss();
+        $sha1 = $styleSet->giveAssetsHash();
         $directory = $this->assetHelperRuntime->setVersion($sha1);
         $filename = \implode(DIRECTORY_SEPARATOR, [$directory, $css]);
-        if (!\file_exists($filename)) {
-            throw new NotFoundHttpException(\sprintf('File %s not found', $css));
+        $cssContents = \file_get_contents($filename);
+        if (false === $cssContents) {
+            throw new NotFoundHttpException(\sprintf('Unexpected false contents for %s', $css));
         }
-        $css = \file_get_contents($filename);
-        $compiler = new Compiler();
-        $response = new Response($compiler->compileString(".ems-styleset-$name {
+        $response->setContent($this->compilePrefixedCss($name, $cssContents, $directory));
+
+        return $response;
+    }
+
+    private function compilePrefixedCss(string $name, string $css, string $directory): string
+    {
+        return $this->getCompiler()->compileString(".ems-styleset-$name {
             all: initial;
             padding: 10px;
             $css
-        }", $directory)->getCss());
+        }", $directory)->getCss();
+    }
+
+    private function getCompiler(): Compiler
+    {
+        if (null === $this->compiler) {
+            $this->compiler = new Compiler();
+        }
+
+        return $this->compiler;
+    }
+
+    private function cssResponse(string $etag): Response
+    {
+        $response = new Response();
+        $response->setCache([
+            'etag' => $etag,
+            'max_age' => 3600,
+            'public' => true,
+            'private' => false,
+        ]);
         $response->headers->set(Headers::CONTENT_TYPE, 'text/css');
 
         return $response;

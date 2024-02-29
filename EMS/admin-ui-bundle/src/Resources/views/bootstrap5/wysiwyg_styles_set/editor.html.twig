@@ -1,1 +1,14 @@
 {% extends '@EMSAdminUI/bootstrap5/wysiwyg_styles_set/iframe.html.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('editor.css', 'emsadminui') }}">
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script src="{{ asset('editor.js', 'emsadminui') }}"></script>
+{% endblock javascript %}
+
+
+{% block content %}
+<div id="wysiwyg-content"></div>
+{% endblock content %}

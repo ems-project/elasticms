@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="{{ asset('iframe.css', 'emsadminui') }}">
+    {% block stylesheet %}<link rel="stylesheet" href="{{ asset('iframe.css', 'emsadminui') }}">{% endblock stylesheet %}
     {% apply spaceless %}
         {% if styleSet.assets.sha1|default %}
             {% do emsch_assets_version(styleSet.assets.sha1) %}
@@ -14,9 +14,8 @@
     {% endapply %}
 </head>
 <body class="wysiwyg-preview" data-target-origine="{{ app.request.getSchemeAndHttpHost()|e('html_attr') }}">
-    {% block javascript %}
-        <script src="{{ asset('iframe.js', 'emsadminui') }}"></script>
-    {% endblock javascript %}
+    {% block content %}{% endblock content %}
+    {% block javascript %}<script src="{{ asset('iframe.js', 'emsadminui') }}"></script>{% endblock javascript %}
     {% if styleSet.contentJs|default %}
         <script src="{{ asset(styleSet.contentJs, styleSet.saveDir == null ? 'emsch' : null) }}"></script>
     {% endif %}

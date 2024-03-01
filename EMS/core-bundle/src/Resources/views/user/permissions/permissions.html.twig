@@ -47,12 +47,11 @@
                             </tr>
                             {% for contentType in emsco_get_content_types() %}
                                 <tr class="text-{{ contentType.color }}">
-                                    <td class="text-center">{{ loop.index }}.</td>
+                                    <td class="text-center">{{ contentType.name }}</td>
                                     <td class="text-center"><i class="{% if contentType.icon %}{{ contentType.icon }}{% else %}fa fa-book{% endif %}"></i></td>
                                     <td>{{ contentType.roles.view|trans }}</td>
                                     <td>{{ contentType.roles.create|trans }}</td>
                                     <td>{{ contentType.roles.edit|trans }}</td>
-
                                     <td>
                                         <div class="btn-group">
                                             {% if contentTypeCounts[contentType.id] != 0 %}

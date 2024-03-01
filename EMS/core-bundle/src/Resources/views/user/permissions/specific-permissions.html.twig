@@ -4,20 +4,15 @@
 {% block pagetitle %}{{ 'Specific roles of fields - Content type :  "%content_type%"'|trans({'%content_type%': contentType.singularName }) }}{% endblock %}
 
 {% block body %}
-
     <div class="row">
         <div class="col-md-12">
             <div class="box box-solid">
                 <div class="box-body no-padding">
                     <ol class="nested-sortable vertical" id="root-list" data-nested-max-level="15" data-nested-is-tree="true">
-                            {% include "@EMSCore/user/specific-permissions-field.html.twig" with {
-                                parent: contentType.fieldType
-                            } %}
+                            {% include "@EMSCore/user/permissions/specific-permissions-field.html.twig" %}
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-
-
 {% endblock %}

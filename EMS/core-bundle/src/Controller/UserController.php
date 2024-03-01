@@ -54,7 +54,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function permissions(): Response
+    public function user_contentType_permissions(): Response
     {
         $contentTypes = $this->contentTypeRepository->findAll();
 
@@ -69,13 +69,13 @@ class UserController extends AbstractController
             $contentTypeCounts[$contentType->getId()] = \count($fieldTypesWithMinimumRole);
         }
 
-        return $this->render("@$this->templateNamespace/user/permissions.html.twig", [
+        return $this->render("@$this->templateNamespace/user/permissions/permissions.html.twig", [
             'contentTypes' => $contentTypes,
             'contentTypeCounts' => $contentTypeCounts,
         ]);
     }
 
-    public function view(ContentType $contentType, Request $request): Response
+    public function user_contentType_fields_permissions(ContentType $contentType, Request $request): Response
     {
         $tree = $this->fieldTypeService->getTree($contentType);
 
@@ -83,7 +83,7 @@ class UserController extends AbstractController
             return $item->getFieldType()->getRestrictionOption('minimum_role', false);
         });
 
-        return $this->render("@$this->templateNamespace/user/specific-permissions.html.twig", [
+        return $this->render("@$this->templateNamespace/user/permissions/specific-permissions.html.twig", [
             'contentType' => $contentType,
             'tree' => $tree,
             'children' => $fieldTypesWithMinimumRole,

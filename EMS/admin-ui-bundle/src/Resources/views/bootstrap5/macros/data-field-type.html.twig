@@ -1085,7 +1085,7 @@
     <dl>
         <dt>
             {%- if displayOptions.label is defined -%}
-                {{- displayOptions.label -}}{%- if is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
+                {{- displayOptions.label -}}{%- if emsco_is_super() -%}({{- dataField.fieldType.name -}}){%- endif -%}
             {%- else -%}
                 {{- dataField.fieldType.name-}}
             {%- endif -%}

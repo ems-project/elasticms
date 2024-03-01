@@ -113,9 +113,12 @@ final class TaskLog
             return 'fa fa-pencil bg-gray';
         }
 
-        $style = Task::STYLES[$this->status] ?? null;
+        $status = TaskStatus::tryFrom($this->status);
+        if ($status) {
+            return \sprintf('%s bg-%s', $status->getCssClassIcon(), $status->getColor());
+        }
 
-        return $style ? \sprintf('%s bg-%s', $style['icon'], $style['bg']) : 'fa fa-dot-circle-o bg-gray';
+        return 'fa fa-dot-circle-o bg-gray';
     }
 
     public function getStatus(): string

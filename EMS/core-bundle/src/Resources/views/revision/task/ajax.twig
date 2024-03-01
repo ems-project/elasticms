@@ -80,7 +80,7 @@
                             </span>
                             <span>{{ 'task.assigned_to'|trans }}<strong>{{ taskCurrent.assignee|displayname }}</strong></span>
                         </div>
-                        <div><span class="task-current-status label label-{{ taskCurrent.statusLabel }}">{{ "task.status.#{taskCurrent.status}"|trans }}</span></div>
+                        <div><span class="task-current-status label {{ taskCurrent.statusLabel }}">{{ "task.status.#{taskCurrent.status}"|trans }}</span></div>
                     </div>
                 </div>
             </a>
@@ -138,7 +138,7 @@
                             <span>{{ 'task.assigned_to'|trans }}<strong>{{ task.assignee|displayname }}</strong></span>
                         </div>
                         {% if isCurrent|default(false) %}
-                            <div><span class="task-current-status label label-{{ task.statusLabel }}">{{ "task.status.#{task.status}"|trans }}</span></div>
+                            <div><span class="task-current-status label {{ task.statusLabel }}">{{ "task.status.#{task.status}"|trans }}</span></div>
                         {% endif %}
                     </div>
                 </div>

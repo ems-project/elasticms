@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Core\Revision\Task\TaskDTO;
 use EMS\CoreBundle\Core\Revision\Task\TaskLog;
+use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Type;
 use Ramsey\Uuid\Uuid;
@@ -85,14 +86,6 @@ class Task implements EntityInterface
     final public const STATUS_REJECTED = 'rejected';
     final public const STATUS_APPROVED = 'approved';
 
-    final public const STYLES = [
-        self::STATUS_PLANNED => ['icon' => 'fa fa-hourglass-o', 'bg' => 'gray', 'text' => 'muted', 'label' => 'default'],
-        self::STATUS_PROGRESS => ['icon' => 'fa fa-ticket', 'bg' => 'blue', 'text' => 'primary', 'label' => 'primary'],
-        self::STATUS_COMPLETED => ['icon' => 'fa fa-paper-plane', 'bg' => 'green', 'text' => 'success', 'label' => 'success'],
-        self::STATUS_REJECTED => ['icon' => 'fa fa-close', 'bg' => 'red', 'text' => 'danger', 'label' => 'danger'],
-        self::STATUS_APPROVED => ['icon' => 'fa fa-check', 'bg' => 'green', 'text' => 'success', 'label' => 'success'],
-    ];
-
     private function __construct(Revision $revision, string $username)
     {
         $this->id = Uuid::uuid4();
@@ -149,19 +142,17 @@ class Task implements EntityInterface
 
     public function getStatusIcon(): string
     {
-        $style = self::STYLES[$this->status] ?? null;
-
-        return $style ? \sprintf('%s text-%s', $style['icon'], $style['text']) : 'fa-dot-circle-o';
+        return TaskStatus::from($this->status)->getCssClassIcon();
     }
 
     public function getStatusLabel(): string
     {
-        return self::STYLES[$this->status]['label'] ?? 'default';
+        return TaskStatus::from($this->status)->getCssClassLabel();
     }
 
     public function getStatusText(): string
     {
-        return self::STYLES[$this->status]['text'] ?? '';
+        return TaskStatus::from($this->status)->getCssClassText();
     }
 
     public function getTitle(): string

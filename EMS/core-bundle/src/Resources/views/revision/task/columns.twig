@@ -22,7 +22,7 @@
 
 {% block status %}
     <i class="{{ data.taskCurrent.statusIcon }}"></i>
-    <span class="text-{{- data.taskCurrent.statusText -}}">{{ "task.status.#{data.taskCurrent.status}"|trans }}</span>
+    <span class="{{- data.taskCurrent.statusText -}}">{{ "task.status.#{data.taskCurrent.status}"|trans }}</span>
 {% endblock %}
 
 {%- block deadline -%}

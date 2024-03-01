@@ -1036,7 +1036,7 @@
 
 {% block EMS_CoreBundle_Form_DataField_JsonMenuNestedLinkFieldType %}
     {%- set doCompare = compare and dataField.rawData|json_encode is not same as( (attribute(compareRawData, dataField.fieldType.name) is defined?attribute(compareRawData, dataField.fieldType.name):null)|json_encode  )  -%}
-    {%- set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' -%}
+    {%- set color = not doCompare ? '' : not dataField.rawData ? 'bg-red' : not compareRawData|emsco_get_string(dataField.fieldType.name) ? 'bg-green' : 'bg-orange' -%}
     {%- set displayOptions = dataField.fieldType.options.displayOptions -%}
     {%- set jmnField = displayOptions.json_menu_nested_field|default(false) -%}
     {%- set jmnQuery = displayOptions.query|default(false) -%}

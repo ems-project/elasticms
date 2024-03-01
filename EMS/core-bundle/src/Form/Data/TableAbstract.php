@@ -37,6 +37,8 @@ abstract class TableAbstract implements TableInterface
     /** @var array<mixed> */
     private array $extraFrontendOption = [];
 
+    /** @var array<string, string> */
+    private array $exportUrls = [];
     private ?FormInterface $filterForm = null;
 
     private string $exportSheetName = 'table';
@@ -324,6 +326,19 @@ abstract class TableAbstract implements TableInterface
     abstract public function supportsTableActions(): bool;
 
     abstract public function totalCount(): int;
+
+    /**
+     * @return array<string, string>
+     */
+    public function getExportUrls(): array
+    {
+        return $this->exportUrls;
+    }
+
+    public function addExportUrl(string $exportFormat, string $exportUrl): void
+    {
+        $this->exportUrls[$exportFormat] = $exportUrl;
+    }
 
     public function getExportSheetName(): string
     {

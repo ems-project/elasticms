@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\DataTable\Type;
 
+use EMS\CoreBundle\Core\DataTable\DataTableFormat;
 use EMS\Helpers\Standard\Hash;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractTableType implements DataTableTypeInterface
 {
+    protected DataTableFormat $format = DataTableFormat::TABLE;
+
     /**
      * @return string[]
      */
@@ -16,6 +19,11 @@ abstract class AbstractTableType implements DataTableTypeInterface
 
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
+    }
+
+    public function exportFormats(): array
+    {
+        return [];
     }
 
     /**
@@ -29,5 +37,10 @@ abstract class AbstractTableType implements DataTableTypeInterface
     public function getHash(): string
     {
         return Hash::string(\get_class($this));
+    }
+
+    public function setFormat(DataTableFormat $format): void
+    {
+        $this->format = $format;
     }
 }

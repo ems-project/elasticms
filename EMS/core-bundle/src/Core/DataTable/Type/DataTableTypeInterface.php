@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Core\DataTable\Type;
 
+use EMS\CoreBundle\Core\DataTable\DataTableFormat;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 interface DataTableTypeInterface
@@ -14,9 +15,16 @@ interface DataTableTypeInterface
     public function getHash(): string;
 
     /**
+     * @return DataTableFormat[]
+     */
+    public function exportFormats(): array;
+
+    /**
      * @param array<mixed> $options
      */
     public function getContext(array $options): mixed;
 
     public function configureOptions(OptionsResolver $optionsResolver): void;
+
+    public function setFormat(DataTableFormat $format): void;
 }

@@ -46,9 +46,11 @@ class DataTableFactory
         return $this->build($type, $options);
     }
 
-    public function createFromHash(string $hash, ?string $optionsCacheKey): TableAbstract
+    public function createFromHash(string $hash, ?string $optionsCacheKey, DataTableFormat $format = DataTableFormat::TABLE): TableAbstract
     {
         $type = $this->typeCollection->getByHash($hash);
+        $type->setFormat($format);
+
         $options = $optionsCacheKey ? $this->cache->getItem($optionsCacheKey)->get() : [];
 
         return $this->build($type, $options);
@@ -67,17 +69,24 @@ class DataTableFactory
 
         $filterForm = $this->buildFilterForm($type, $context);
         $context = $this->addFilterFormToContext($type, $context, $filterForm);
-        $ajaxUrl = $this->generateAjaxUrl($type, $optionsCacheKey, $filterForm);
 
-        return match (true) {
-            $type instanceof AbstractEntityTableType => $this
-                ->buildEntityTable($type, $ajaxUrl, $context)
-                ->setFilterForm($filterForm),
-            $type instanceof AbstractQueryTableType => $this
-                ->buildQueryTable($type, $ajaxUrl, $context)
-                ->setFilterForm($filterForm),
+        $ajaxParams = $this->generateUrlParams($type, $optionsCacheKey, $filterForm);
+        $ajaxUrl = $this->generateUrl('ajax_table', $ajaxParams);
+
+        $table = match (true) {
+            $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $ajaxUrl, $context),
+            $type instanceof AbstractQueryTableType => $this->buildQueryTable($type, $ajaxUrl, $context),
             default => throw new \RuntimeException('Unknown dataTableType')
         };
+
+        $table->setFilterForm($filterForm);
+
+        foreach ($type->exportFormats() as $format) {
+            $exportParams = [...$ajaxParams, ...['format' => $format->value]];
+            $table->addExportUrl($format->value, $this->generateUrl('ajax_export', $exportParams));
+        }
+
+        return $table;
     }
 
     private function buildEntityTable(AbstractEntityTableType $type, string $ajaxUrl, mixed $context): EntityTable
@@ -143,7 +152,22 @@ class DataTableFactory
         }
     }
 
-    private function generateAjaxUrl(DataTableTypeInterface $type, ?string $optionsCacheKey = null, ?FormInterface $filterForm = null): string
+    /**
+     * @param array<string, mixed> $params
+     */
+    private function generateUrl(string $name, array $params): string
+    {
+        return match ($name) {
+            'ajax_table' => $this->urlGenerator->generate(Routes::DATA_TABLE_AJAX_TABLE, $params),
+            'ajax_export' => $this->urlGenerator->generate(Routes::DATA_TABLE_AJAX_TABLE_EXPORT, $params),
+            default => throw new \RuntimeException(\sprintf('Could not generate url for "%s"', $name)),
+        };
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function generateUrlParams(DataTableTypeInterface $type, ?string $optionsCacheKey, ?FormInterface $filterForm): array
     {
         $params = [
             'hash' => $type->getHash(),
@@ -156,7 +180,7 @@ class DataTableFactory
             $params[$name] = $request?->query->all($name);
         }
 
-        return $this->urlGenerator->generate(Routes::DATA_TABLE_AJAX_TABLE, $params);
+        return $params;
     }
 
     /**

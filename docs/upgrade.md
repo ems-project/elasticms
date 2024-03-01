@@ -1,10 +1,18 @@
 # Upgrade
 
+  * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
   * [version 5.3.x](#version-53x)
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## version 5.14.x
+
+* All tasks records will be **deleted** after deployment
+  * Because we had to upgrade the database schema. [#778](https://github.com/ems-project/elasticms/pull/778)
+
+* If you are using revision versions, you should run ```ems:environment:updatemetafield``` after deployment.
 
 ## version 5.7.x
 

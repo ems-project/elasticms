@@ -525,6 +525,7 @@ class DataService
         if ($revision->hasVersionTags()) {
             $objectArray[Mapping::VERSION_UUID] = $revision->getVersionUuid();
             $objectArray[Mapping::VERSION_TAG] = $revision->getVersionTag();
+            $revision->updateVersionNextTag();
         }
 
         $hash = $this->signRaw($objectArray);

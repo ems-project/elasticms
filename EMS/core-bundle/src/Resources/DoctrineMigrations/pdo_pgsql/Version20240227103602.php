@@ -12,7 +12,7 @@ final class Version20240227103602 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add revision ouuid on task table';
+        return 'Add revision ouuid on task table and version_next_tag on revision';
     }
 
     public function up(Schema $schema): void
@@ -22,7 +22,10 @@ final class Version20240227103602 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\PostgreSQLPlatform'."
         );
 
+        $this->addSql('UPDATE revision SET task_current_id = NULL, task_planned_ids = NULL, task_approved_ids = NULL');
+        $this->addSql('DELETE FROM task');
         $this->addSql('ALTER TABLE task ADD revision_ouuid VARCHAR(255) NOT NULL');
+        $this->addSql('ALTER TABLE revision ADD version_next_tag VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -33,5 +36,6 @@ final class Version20240227103602 extends AbstractMigration
         );
 
         $this->addSql('ALTER TABLE task DROP revision_ouuid');
+        $this->addSql('ALTER TABLE revision DROP version_next_tag');
     }
 }

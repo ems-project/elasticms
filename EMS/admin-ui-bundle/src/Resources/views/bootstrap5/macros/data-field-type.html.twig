@@ -1009,11 +1009,12 @@
                 {% set choices = {} %}
                 {% set labels = {} %}
                 {% if contentType %}
-                    {%  set hits = {
-                        index: contentType.environment.alias,
-                        type: contentType.name,
-                        body: dataField.fieldType.displayOptions.query|default('{}')
-                    }|search.hits.hits %}
+                    {%  set hits = emsco_search(
+                        contentType.environment.alias,
+                        dataField.fieldType.displayOptions.query|default('{}'),
+                        contentType.name,
+                        20,
+                    ).response.data.hits.hits %}
                     {%  for hit in hits %}
                         {% set label = attribute(hit._source, contentType.labelField|default(false))|default(hit._id) ~ ' /'  %}
                         {% set choices = choices|merge([hit._id]) %}
@@ -1046,7 +1047,12 @@
         {% else %}
             {% set index = dataField.fieldType.contentType.environment.alias %}
         {% endif %}
-        {%- set hits = { index: index, body: jmnQuery}|search.hits.hits -%}
+        {%-  set hits = emsco_search(
+            index,
+            jmnQuery,
+            [],
+            20,
+        ).response.data.hits.hits -%}
         {%- set structures = [] -%}
         {%- for h in hits -%}
             {% set structures = structures|merge([{

@@ -1060,7 +1060,7 @@
                 'type': h._source._contenttype,
                 'label': h._source._contenttype,
                 'object': h._source|filter((v, k) => k != jmnField),
-                'children': attribute(h._source, jmnField)|default('{}')|json_decode
+                'children': attribute(h._source, jmnField)|default('{}')|ems_json_decode
             }]) %}
         {%- endfor -%}
         {%- set jmnMenu = structures|json_encode|ems_json_menu_nested_decode -%}
@@ -1070,7 +1070,7 @@
         {%- endfor -%}
 
         {% if displayOptions.choices_template|default(false) %}
-            {% set choices = displayOptions.choices_template|generate_from_template({ 'items': items })|json_decode %}
+            {% set choices = displayOptions.choices_template|generate_from_template({ 'items': items })|ems_json_decode %}
         {% else %}
             {%- set choices = [] -%}
             {%- for item in items -%}

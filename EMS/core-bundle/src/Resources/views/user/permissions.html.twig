@@ -55,23 +55,7 @@
 
                                     <td>
                                         <div class="btn-group">
-                                            {% if contentType.fieldType is defined and contentType.fieldType is not empty %}
-                                                {% set hasNullMinimumRole = false %}
-                                                {% for field in contentType.fieldType %}
-                                                    {% set fieldOptions = field.options %}
-                                                    {% if fieldOptions.restrictionOptions is defined and fieldOptions.restrictionOptions.minimum_role is null %}
-                                                        console.log(minimum_role)
-                                                        {% set hasNullMinimumRole = true %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                {% if not hasNullMinimumRole %}
-                                                    {% include '@EMSCore/elements/get-button.html.twig' with {
-                                                        'url':  path('permissions.view', {'contentType': contentType.id}),
-                                                        'label': 'View',
-                                                        'icon': 'tv'
-                                                    }%}
-                                                {% endif %}
-                                            {% else %}
+                                            {% if contentTypeCounts[contentType.id] != 0 %}
                                                 {% include '@EMSCore/elements/get-button.html.twig' with {
                                                     'url':  path('permissions.view', {'contentType': contentType.id}),
                                                     'label': 'View',

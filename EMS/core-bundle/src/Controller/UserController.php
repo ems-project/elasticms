@@ -58,8 +58,20 @@ class UserController extends AbstractController
     {
         $contentTypes = $this->contentTypeRepository->findAll();
 
+        $contentTypeCounts = [];
+        foreach ($contentTypes as $contentType) {
+            $tree = $this->fieldTypeService->getTree($contentType);
+
+            $fieldTypesWithMinimumRole = $tree->getChildrenRecursive()->filter(function (FieldTypeTreeItem $item) {
+                return $item->getFieldType()->getRestrictionOption('minimum_role', false);
+            });
+
+            $contentTypeCounts[$contentType->getId()] = \count($fieldTypesWithMinimumRole);
+        }
+
         return $this->render("@$this->templateNamespace/user/permissions.html.twig", [
             'contentTypes' => $contentTypes,
+            'contentTypeCounts' => $contentTypeCounts,
         ]);
     }
 

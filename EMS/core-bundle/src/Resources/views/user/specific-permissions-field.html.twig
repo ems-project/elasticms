@@ -18,10 +18,11 @@
 <ul class="custom-list">
     {% for child in children %}
     <li>
-        {% if child.getDisplayOptionsLabel() is null %}
-            source
+        {{ dump(child) }}
+        {% if child.getParent() is not null %}
+            {{ child.getParent().getDisplayOptionsLabel() }} >
+            {{ child.getDisplayOptionsLabel() }}
         {% else %}
-            {{ child.getParent() }} >
             {{ child.getDisplayOptionsLabel() }}
         {% endif %}
         <div class="pull-right">

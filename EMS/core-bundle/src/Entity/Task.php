@@ -149,7 +149,7 @@ class Task implements EntityInterface
 
     public function getStatusIcon(): string
     {
-        $style = Task::STYLES[$this->status] ?? null;
+        $style = self::STYLES[$this->status] ?? null;
 
         return $style ? \sprintf('%s text-%s', $style['icon'], $style['text']) : 'fa-dot-circle-o';
     }
@@ -249,12 +249,12 @@ class Task implements EntityInterface
      */
     public function getLogs(): array
     {
-        return \array_map(fn (array $log) => TaskLog::fromData($log), $this->logs);
+        return \array_map(static fn (array $log) => TaskLog::fromData($log), $this->logs);
     }
 
     public function isOpen(): bool
     {
-        return !\in_array($this->status, [Task::STATUS_COMPLETED, Task::STATUS_APPROVED], true);
+        return !\in_array($this->status, [self::STATUS_COMPLETED, self::STATUS_APPROVED], true);
     }
 
     public function setAssignee(string $assignee): void
@@ -270,7 +270,7 @@ class Task implements EntityInterface
     private function getLogLatestByStatus(string $status): ?TaskLog
     {
         $logs = $this->getLogs();
-        $statusLogs = \array_filter($logs, fn (TaskLog $log) => $log->getStatus() === $status);
+        $statusLogs = \array_filter($logs, static fn (TaskLog $log) => $log->getStatus() === $status);
         $latestStatusLog = \array_pop($statusLogs);
 
         return $latestStatusLog instanceof TaskLog ? $latestStatusLog : null;

@@ -1070,7 +1070,7 @@
         {%- endfor -%}
 
         {% if displayOptions.choices_template|default(false) %}
-            {% set choices = displayOptions.choices_template|generate_from_template({ 'items': items })|ems_json_decode %}
+            {% set choices = displayOptions.choices_template|emsco_generate_from_template({ 'items': items })|ems_json_decode %}
         {% else %}
             {%- set choices = [] -%}
             {%- for item in items -%}
@@ -1101,15 +1101,15 @@
                         <div class="col-md-6 bg-gray-light">
                             {%- if compareRawData -%}
                                 {%- set compareData = choices|default([])|filter( (id, label) => compareRawData is iterable ? id in compareRawData : id == compareRawData) -%}
-                                {{- displayOptions.display_template|generate_from_template({ data: compareData, dataField: dataField, choices: choices })|raw -}}
+                                {{- displayOptions.display_template|emsco_generate_from_template({ data: compareData, dataField: dataField, choices: choices })|raw -}}
                             {%- endif -%}
                         </div>
                         <div class="col-md-6 bg-gray-light">
-                            {{- displayOptions.display_template|generate_from_template({ data: data, dataField: dataField, choices: choices })|raw -}}
+                            {{- displayOptions.display_template|emsco_generate_from_template({ data: data, dataField: dataField, choices: choices })|raw -}}
                         </div>
                     </div>
                 {%- else -%}
-                    {{- displayOptions.display_template|generate_from_template({ data: data, dataField: dataField, choices: choices|default([]) })|raw -}}
+                    {{- displayOptions.display_template|emsco_generate_from_template({ data: data, dataField: dataField, choices: choices|default([]) })|raw -}}
                 {%- endif -%}
             {%- else -%}
                 {%- set diffChoice = diff_choice(dataField.rawData, choiceLabels|default([]), choiceValues|default([]), compare, dataField.fieldType.name, compareRawData) -%}

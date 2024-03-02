@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormInterface;
 
 interface DataTableFilterFormInterface
 {
-    public function createFilterForm(FormFactoryInterface $formFactory, mixed $context): FormInterface;
+    public function filterFormBuild(FormFactoryInterface $formFactory, mixed $context): FormInterface;
 
-    public function addFilterFormToContext(FormInterface $filterForm, mixed $context): mixed;
+    public function filterFormAddToContext(FormInterface $filterForm, mixed $context): mixed;
 }

@@ -81,7 +81,7 @@ class DataTableFactory
 
         $table->setFilterForm($filterForm);
 
-        foreach ($type->exportFormats() as $format) {
+        foreach ($type->getExportFormats() as $format) {
             $exportParams = [...$ajaxParams, ...['format' => $format->value]];
             $table->addExportUrl($format->value, $this->generateUrl('ajax_export', $exportParams));
         }
@@ -127,7 +127,7 @@ class DataTableFactory
         }
 
         $request = $this->requestStack->getCurrentRequest();
-        $filterForm = $type->createFilterForm($this->formFactory, $context);
+        $filterForm = $type->filterFormBuild($this->formFactory, $context);
         $filterForm->handleRequest($request);
 
         return $filterForm;
@@ -139,7 +139,7 @@ class DataTableFactory
             return $context;
         }
 
-        return $type->addFilterFormToContext($filterForm, $context);
+        return $type->filterFormAddToContext($filterForm, $context);
     }
 
     private function checkRoles(DataTableTypeInterface $type): void

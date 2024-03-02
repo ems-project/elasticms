@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Revision\Task;
 
-use EMS\CoreBundle\Core\Revision\Task\Table\TaskTableFilters;
-use EMS\CoreBundle\Core\Revision\Task\TaskManager;
+use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableContext;
+use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableFilters;
 use EMS\CoreBundle\Entity\Task;
 use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use Symfony\Component\Form\AbstractType;
@@ -16,8 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RevisionTaskFiltersType extends AbstractType
 {
-    final public const NAME = 'filters';
-
     /**
      * @param FormBuilderInterface<FormBuilderInterface> $builder
      * @param array<string, mixed>                       $options
@@ -34,7 +32,7 @@ class RevisionTaskFiltersType extends AbstractType
             ],
         ]);
 
-        if (TaskManager::TAB_USER !== $options['tab']) {
+        if (TasksDataTableContext::TAB_USER !== $options['tab']) {
             $builder->add('assignee', SelectUserPropertyType::class, [
                 'required' => false,
                 'allow_add' => false,
@@ -43,7 +41,7 @@ class RevisionTaskFiltersType extends AbstractType
                 'label_property' => 'displayName',
             ]);
         }
-        if (TaskManager::TAB_REQUESTER !== $options['tab']) {
+        if (TasksDataTableContext::TAB_REQUESTER !== $options['tab']) {
             $builder->add('requester', SelectUserPropertyType::class, [
                 'required' => false,
                 'allow_add' => false,
@@ -56,7 +54,7 @@ class RevisionTaskFiltersType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return self::NAME;
+        return 'filters';
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -65,7 +63,7 @@ class RevisionTaskFiltersType extends AbstractType
             ->setRequired(['tab'])
             ->setDefaults([
                 'method' => Request::METHOD_GET,
-                'data_class' => TaskTableFilters::class,
+                'data_class' => TasksDataTableFilters::class,
                 'csrf_protection' => false,
                 'allow_extra_fields' => true,
                 'translation_domain' => false,

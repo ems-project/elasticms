@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Revision\Task;
 
-use EMS\CoreBundle\Core\Revision\Task\Table\TaskTableContext;
-use EMS\CoreBundle\Core\Revision\Task\Table\TaskTableFilters;
-use EMS\CoreBundle\Core\Revision\Task\Table\TaskTableService;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Task;
-use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Repository\TaskRepository;
 use EMS\CoreBundle\Service\DataService;
@@ -19,53 +15,19 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class TaskManager
 {
-    public const TAB_USER = 'user';
-    public const TAB_REQUESTER = 'requester';
-    public const TAB_MANAGER = 'manager';
-
     public function __construct(
         private readonly TaskRepository $taskRepository,
-        private readonly TaskTableService $taskTableService,
         private readonly RevisionRepository $revisionRepository,
         private readonly DataService $dataService,
         private readonly UserService $userService,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LoggerInterface $logger,
-        private readonly string $templateNamespace)
-    {
+    ) {
     }
 
     public function countApprovedTasks(Revision $revision): int
     {
         return $this->taskRepository->countApproved($revision);
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getDashboardTabs(): array
-    {
-        return \array_filter([
-            self::TAB_USER,
-            self::TAB_REQUESTER,
-            $this->isTaskManager() ? self::TAB_MANAGER : null,
-        ]);
-    }
-
-    public function getTable(string $ajaxUrl, string $tab, TaskTableFilters $filters, bool $export): EntityTable
-    {
-        $taskTableContext = new TaskTableContext($this->userService->getCurrentUser(), $tab, $filters);
-        $taskTableContext->showVersionTagColumn = $this->taskRepository->hasVersionedContentType();
-
-        $table = new EntityTable($this->templateNamespace, $this->taskTableService, $ajaxUrl, $taskTableContext);
-
-        if ($export) {
-            $this->taskTableService->buildTableExport($table, $taskTableContext);
-        } else {
-            $this->taskTableService->buildTable($table, $taskTableContext);
-        }
-
-        return $table;
     }
 
     public function getTask(string $taskId, Revision $revision): Task

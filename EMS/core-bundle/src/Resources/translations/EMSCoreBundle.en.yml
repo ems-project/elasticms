@@ -742,7 +742,7 @@ task:
             edit_revision: 'Edit revision'
             go_revision: Revision
         column:
-            version_tag: 'New version'
+            version_next_tag: 'New version'
             actions: Actions
             assignee: Assignee
             deadline: Deadline
@@ -772,6 +772,7 @@ task:
         hide: 'Hide finished tasks (%number%)'
         show: 'Show finished tasks (%number%)'
     close: Close
+    delay_days: '%number% days'
     history: History
     in_progress: 'This task is '
     planned:

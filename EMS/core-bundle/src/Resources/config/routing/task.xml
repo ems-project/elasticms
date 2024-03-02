@@ -4,25 +4,6 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="emsco_task_ajax_datatable" path="/tasks/dashboard/{tab}.json"
-           controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxDataTable"
-           methods="GET|POST">
-        <requirement key="tab">user|requester|manager</requirement>
-        <default key="tab">user</default>
-    </route>
-    <route id="emsco_task_ajax_datatable_csv" path="/tasks/dashboard/{tab}.csv"
-           controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxDataTableCSV"
-           methods="GET">
-        <requirement key="tab">user|requester|manager</requirement>
-        <default key="tab">user</default>
-    </route>
-    <route id="emsco_task_ajax_datatable_excel" path="/tasks/dashboard/{tab}-excel"
-           controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxDataTableExcel"
-           methods="GET">
-        <requirement key="tab">user|requester|manager</requirement>
-        <default key="tab">user</default>
-    </route>
-
     <route id="emsco_task_ajax_tasks" path="/data/revisions/{revisionOuuid}/tasks"
            controller="EMS\CoreBundle\Controller\Revision\TaskController::ajaxGetTasks"
            methods="GET|POST"/>

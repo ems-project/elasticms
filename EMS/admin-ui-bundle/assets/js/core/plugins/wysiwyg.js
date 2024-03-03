@@ -1,4 +1,4 @@
-import Cke5 from '../helpers/cke5'
+import Editor from '../helpers/editor'
 
 class WYSIWYG {
   editors = []
@@ -26,7 +26,7 @@ class WYSIWYG {
   }
 
   createEditor (element, options = {}) {
-    this.editors.push(new Cke5(element, options))
+    this.editors.push(new Editor(element, options))
   }
 }
 

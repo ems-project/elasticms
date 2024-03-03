@@ -41,7 +41,7 @@ import { Undo } from '@ckeditor/ckeditor5-undo'
 
 import ChangeEvent from '../events/changeEvent'
 
-export default class Cke5 {
+export default class Editor {
   constructor (element, options) {
     const self = this
     this.element = element

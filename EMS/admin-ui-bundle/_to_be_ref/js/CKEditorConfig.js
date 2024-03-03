@@ -21,10 +21,6 @@ export class CKEditorConfig {
             emsBrowsers(this.#config)
         }
     }
-
-    getConfig() {
-        return this.#config
-    }
 }
 
 function emsBrowsers(config) {

@@ -11,6 +11,7 @@ use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,10 +31,10 @@ class RevisionTaskFiltersType extends AbstractType
             'choice_translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             'choices' => [
                 'task.status.progress' => TaskStatus::PROGRESS->value,
-                'task.status.planned' => TaskStatus::PLANNED->value,
-                'task.status.completed' => TaskStatus::COMPLETED->value,
                 'task.status.rejected' => TaskStatus::REJECTED->value,
                 'task.status.approved' => TaskStatus::APPROVED->value,
+                'task.status.planned' => TaskStatus::PLANNED->value,
+                'task.status.completed' => TaskStatus::COMPLETED->value,
             ],
         ]);
 
@@ -55,6 +56,11 @@ class RevisionTaskFiltersType extends AbstractType
                 'label_property' => 'displayName',
             ]);
         }
+
+        $builder->add('submit', SubmitType::class, [
+            'label' => 'task.filter.submit',
+            'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
+        ]);
     }
 
     public function getBlockPrefix(): string

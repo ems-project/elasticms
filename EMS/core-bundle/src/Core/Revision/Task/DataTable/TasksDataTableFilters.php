@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Revision\Task\DataTable;
 
+use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
+
 class TasksDataTableFilters
 {
     /** @var string[] */
@@ -12,4 +14,13 @@ class TasksDataTableFilters
     public array $assignee = [];
     /** @var string[] */
     public array $requester = [];
+
+    public function __construct()
+    {
+        $this->status = [
+            TaskStatus::PROGRESS->value,
+            TaskStatus::REJECTED->value,
+            TaskStatus::COMPLETED->value,
+        ];
+    }
 }

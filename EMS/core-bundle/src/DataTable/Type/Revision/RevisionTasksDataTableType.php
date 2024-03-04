@@ -8,7 +8,6 @@ use EMS\CoreBundle\Core\DataTable\DataTableFormat;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractQueryTableType;
 use EMS\CoreBundle\Core\DataTable\Type\DataTableFilterFormInterface;
 use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableContext;
-use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableFilters;
 use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableQueryService;
 use EMS\CoreBundle\Form\Data\DateTableColumn;
 use EMS\CoreBundle\Form\Data\QueryTable;
@@ -49,7 +48,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
         $context = $table->getContext();
 
         $table->setIdField('task_id');
-        $table->setDefaultOrder('modified', 'DESC');
+        $table->setDefaultOrder('task_modified', 'DESC');
 
         match ($this->format) {
             DataTableFormat::TABLE => $this->buildTable($table, $context),
@@ -78,7 +77,9 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
      */
     public function filterFormAddToContext(FormInterface $filterForm, mixed $context): mixed
     {
-        $context->filters = $filterForm->getData();
+        if ($filterForm->isSubmitted()) {
+            $context->filters = $filterForm->getData();
+        }
 
         return $context;
     }
@@ -90,7 +91,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
     {
         return $formFactory->create(
             type: RevisionTaskFiltersType::class,
-            data: new TasksDataTableFilters(),
+            data: $context->filters,
             options: ['tab' => $context->tab]
         );
     }

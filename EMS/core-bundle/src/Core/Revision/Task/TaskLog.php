@@ -147,7 +147,7 @@ final class TaskLog
             'date' => $this->date->format(\DATE_ATOM),
             'task_title' => $this->taskTitle,
             'task_assignee' => $this->taskAssignee,
-            'task_deadline' => $this->taskDeadline ? $this->taskDeadline->format(\DATE_ATOM) : null,
+            'task_deadline' => $this->taskDeadline?->format(\DATE_ATOM),
             'task_description' => $this->taskDescription,
         ]);
     }

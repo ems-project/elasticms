@@ -7,10 +7,10 @@ namespace EMS\CoreBundle\Core\Revision\Task;
 enum TaskStatus: string
 {
     case PROGRESS = 'progress';
-    case PLANNED = 'planned';
-    case COMPLETED = 'completed';
     case REJECTED = 'rejected';
     case APPROVED = 'approved';
+    case PLANNED = 'planned';
+    case COMPLETED = 'completed';
 
     public function getColor(): string
     {

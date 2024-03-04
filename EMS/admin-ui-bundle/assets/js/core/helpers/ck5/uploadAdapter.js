@@ -12,7 +12,9 @@ export class UploadAdapter {
   }
 
   abort () {
-    // this.fileUploader.abort()
+    if (typeof this.fileUploader.abort === 'function') {
+      this.fileUploader.abort()
+    }
   }
 
   _init (resolve, reject) {
@@ -47,7 +49,7 @@ export class UploadAdapter {
 
   _uploaded (assetUrl, previewUrl) {
     this.resolve({
-      default: previewUrl
+      default: assetUrl
     })
   }
 

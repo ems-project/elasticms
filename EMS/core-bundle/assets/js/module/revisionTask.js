@@ -20,17 +20,6 @@ export default class RevisionTask {
                 e.preventDefault();
                 ajaxModal.load({ url: e.target.dataset.url, title: e.target.dataset.title});
             }
-            if (e.target.classList.contains('btn-task-change-owner-modal')) {
-                e.preventDefault();
-                ajaxModal.load(
-                    { url: e.target.dataset.url, title: e.target.dataset.title},
-                    (json) => {
-                        if (json.hasOwnProperty('modalSuccess') && json.modalSuccess === true) {
-                            window.location.reload();
-                        }
-                    }
-                );
-            }
         });
     }
     loadTasks() {

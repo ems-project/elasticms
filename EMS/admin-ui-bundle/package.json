@@ -56,7 +56,7 @@
     "@ckeditor/ckeditor5-table": "41.1.0",
     "@ckeditor/ckeditor5-typing": "41.1.0",
     "@ckeditor/ckeditor5-undo": "41.1.0",
-    "@elasticms/file-uploader": "^1.0.1",
+    "@elasticms/file-uploader": "^1.0.2",
     "@eonasdan/tempus-dominus": "^6.9.5",
     "@fortawesome/fontawesome-free": "^6.4.0",
     "@popperjs/core": "^2.11.8",

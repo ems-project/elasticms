@@ -137,7 +137,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
                 template: $columnTemplate,
                 orderField: !\in_array($name, ['label', 'actions']) ? $field : null
             );
-            $def->setCellRender(\in_array($name, ['deadline', 'modified']));
+            $def->setCellRender(!\in_array($name, ['deadline', 'modified']));
             $table->addColumnDefinition($def)->setCellClass('col-'.$name);
         }
     }

@@ -21,15 +21,12 @@
             {% set displayedParents = displayedParents|merge([parent]) %}
             <li>
                 {{ parent.getDisplayOptionsLabel() ?? 'Source' }}
-                <div class="pull-right">
-                    <span>No minimum role</span>
-                </div>
             </li>
         {% endif %}
         <li>
             {{ child.getParent() is not null ? (child.getParent().getDisplayOptionsLabel() ?? 'Source') ~ ' > ' : '' }}{{ child.getDisplayOptionsLabel() }}
             <div class="pull-right">
-                <span>Minimum role : {{ child.getFieldType().getRestrictionOption('minimum_role')|trans }}</span>
+                <span>{{ child.getFieldType().getRestrictionOption('minimum_role')|trans }}</span>
             </div>
         </li>
     {% endfor %}

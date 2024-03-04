@@ -12,6 +12,10 @@
 	{%- if versionTo != 'now' -%}{%- set revisionColor = 'gray' -%}{%- endif -%}
 {% endif %}
 
+{%- block stylesheets %}
+    <link rel="stylesheet" href="{{ path('emsco_wysiwyg_styleset_all_prefixed_css') }}">
+{% endblock %}
+
 {% block title %}
 	{{ 'views.data.revisions-data-html.title'|trans({
 		'%content-type%': revision.contentType.singularName,
@@ -200,7 +204,7 @@
 		</p>
 	{% endif %}
 	{% if circles_object and revision.circles|length > 0 %}
-		{% set circleContentType = circles_object|get_content_type %}
+		{% set circleContentType = circles_object|emsco_get_content_type %}
 		{% if  circleContentType %}
 			<hr>
 			<strong><i class=" {% if circleContentType.icon %}{{ circleContentType.icon }}{% else %}fa fa-circle-o{% endif %} margin-r-5"></i> {{ circleContentType.pluralName }}</strong>

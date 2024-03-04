@@ -17,11 +17,6 @@ function editRevisionEventListeners(target, onChangeCallback = null){
             ckconfig.stylesSet = styles_set;
         }
 
-        const content_css = $( this ).attr('data-content-css');
-        if(content_css){
-            ckconfig.contentsCss = content_css;
-        }
-
         const language = $( this ).attr('data-lang');
         if(language){
             ckconfig.language = language;
@@ -37,12 +32,6 @@ function editRevisionEventListeners(target, onChangeCallback = null){
 
         ckconfig.height = height;
         ckconfig.div_wrapTable = 'true';
-
-        //http://stackoverflow.com/questions/18250404/ckeditor-strips-i-tag
-        //TODO: see if we could moved it to the wysiwyg templates tools
-        ckconfig.allowedContent = true;
-        ckconfig.extraAllowedContent = 'p(*)[*]{*};div(*)[*]{*};li(*)[*]{*};ul(*)[*]{*}';
-        CKEDITOR.dtd.$removeEmpty.i = 0;
 
         CKEDITOR.on('instanceReady', (event) => {
             let editor = event.editor;

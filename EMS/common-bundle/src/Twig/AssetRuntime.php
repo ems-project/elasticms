@@ -51,7 +51,7 @@ class AssetRuntime
 
             return \iterator_to_array(Finder::create()->in($saveDir)->files()->filter($excludeCheckFile)->getIterator());
         } catch (\Exception $e) {
-            $this->logger->error('ems_zip failed : {error}', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+            $this->logger->error('ems_zip failed : %error%', ['error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
         }
 
         return [];

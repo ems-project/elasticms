@@ -14,6 +14,8 @@ import {
   ImageCaption,
   ImageStyle,
   ImageToolbar,
+  ImageResizeEditing,
+  ImageResizeHandles,
   ImageUpload,
   PictureEditing
 } from '@ckeditor/ckeditor5-image'
@@ -39,7 +41,15 @@ import {
 import { TextTransformation } from '@ckeditor/ckeditor5-typing'
 import { Undo } from '@ckeditor/ckeditor5-undo'
 
+import { UploadAdapter } from './ck5/uploadAdapter'
+
 import ChangeEvent from '../events/changeEvent'
+
+function initUploadAdaptor (editor) {
+  editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+    return new UploadAdapter(loader)
+  }
+}
 
 export default class Editor {
   constructor (element, options) {
@@ -68,6 +78,9 @@ export default class Editor {
           }
         ]
       },
+      extraPlugins: [
+        initUploadAdaptor
+      ],
       plugins: [
         Alignment,
         Autoformat,
@@ -84,6 +97,8 @@ export default class Editor {
         ImageCaption,
         ImageStyle,
         ImageToolbar,
+        ImageResizeEditing,
+        ImageResizeHandles,
         ImageUpload,
         Indent,
         Italic,

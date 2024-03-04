@@ -1040,11 +1040,15 @@
         {% else %}
             {% set index = dataField.fieldType.contentType.environment.alias %}
         {% endif %}
+        {%- set jmnQuery = jmnQuery|json_decode -%}
         {%-  set hits = emsco_search(
             index,
-            jmnQuery,
+            jmnQuery.query|default({}),
             [],
             20,
+            jmnQuery.from|default(0),
+            jmnQuery.sort|default(null),
+            jmnQuery._source|default(null)
         ).response.data.hits.hits -%}
         {%- set structures = [] -%}
         {%- for h in hits -%}

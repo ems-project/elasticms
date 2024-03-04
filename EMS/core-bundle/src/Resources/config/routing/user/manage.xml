@@ -8,10 +8,10 @@
            controller="EMS\CoreBundle\Controller\UserController::index"
            methods="GET"/>
     <route id="emsco_user_permissions" path="/permissions"
-         controller="EMS\CoreBundle\Controller\UserController::user_contentType_permissions"
+         controller="EMS\CoreBundle\Controller\UserController::contentType_permissions"
          methods="GET"/>
     <route id="permissions.view" path="/permissions/{contentType}"
-         controller="EMS\CoreBundle\Controller\UserController::user_contentType_fields_permissions"
+         controller="EMS\CoreBundle\Controller\UserController::contentType_fields_permissions"
          methods="GET|POST"/>
     <route id="emsco_user_add" path="/add"
            controller="EMS\CoreBundle\Controller\UserController::addUser"

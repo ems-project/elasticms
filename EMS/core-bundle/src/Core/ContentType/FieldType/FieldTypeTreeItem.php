@@ -77,7 +77,7 @@ class FieldTypeTreeItem implements \IteratorAggregate
         return $this->name;
     }
 
-    //    usage in specific-permissions-field.html.twig
+    //    usage in user/permissions/specific-permissions-field.html.twig
     public function getDisplayOptionsLabel(): ?string
     {
         $fieldType = $this->getFieldType();

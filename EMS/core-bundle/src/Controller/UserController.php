@@ -54,7 +54,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function user_contentType_permissions(): Response
+    public function contentType_permissions(): Response
     {
         $contentTypes = $this->contentTypeRepository->findAll();
 
@@ -75,7 +75,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function user_contentType_fields_permissions(ContentType $contentType, Request $request): Response
+    public function contentType_fields_permissions(ContentType $contentType, Request $request): Response
     {
         $tree = $this->fieldTypeService->getTree($contentType);
 

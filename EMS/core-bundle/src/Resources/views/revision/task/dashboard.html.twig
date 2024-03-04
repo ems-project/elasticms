@@ -64,14 +64,14 @@
                 <div class="row">
                     {{ form_start(filterForm) }}
                     {{ form_row(filterForm.status, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.status'|trans }) }}
-                    {% if filterForm.version is defined %}
-                        {{ form_row(filterForm.version, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.version'|trans  }) }}
-                    {% endif %}
                     {% if filterForm.assignee is defined %}
                         {{ form_row(filterForm.assignee, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.assignee'|trans  }) }}
                     {% endif %}
                     {% if filterForm.requester is defined %}
                         {{ form_row(filterForm.requester, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.requester'|trans  }) }}
+                    {% endif %}
+                    {% if filterForm.versionNextTag is defined %}
+                        {{ form_row(filterForm.versionNextTag, {'row_attr': { 'class': 'col-md-3' }, 'label': 'task.filter.version_next_tag'|trans  }) }}
                     {% endif %}
                     <div class="col-md-12">
                         <input type="hidden" name="tab" value="{{ currentTab }}" />

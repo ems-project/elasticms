@@ -130,11 +130,11 @@ class Task implements EntityInterface
 
     public function setStatus(string $status): void
     {
+        $this->status = $status;
+
         if ($this->isStatus(TaskStatus::PROGRESS)) {
             $this->deadline = DateTime::create('now')->add(new \DateInterval(\sprintf('P%dD', $this->delay)));
         }
-
-        $this->status = $status;
     }
 
     public function getStatusIcon(): string

@@ -138,6 +138,10 @@
             <argument type="service" id="ems.service.user" />
             <argument type="service" id="ems.service.revision" />
         </service>
+      <service id="emsco.revision.task.filter_type" class="EMS\CoreBundle\Form\Revision\Task\RevisionTaskFiltersType">
+        <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService" />
+        <tag name="form.type" />
+      </service>
         <service id="emsco.revision.task.handle_type" class="EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType">
             <argument type="service" id="security.authorization_checker" />
             <tag name="form.type" />

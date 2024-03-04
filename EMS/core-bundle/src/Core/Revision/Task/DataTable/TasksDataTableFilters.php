@@ -14,6 +14,8 @@ class TasksDataTableFilters
     public array $assignee = [];
     /** @var string[] */
     public array $requester = [];
+    /** @var array<string, string|null> */
+    public array $versionNextTag = [];
 
     public function __construct()
     {

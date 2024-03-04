@@ -9,6 +9,7 @@ use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableFilters;
 use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
+use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,6 +19,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RevisionTaskFiltersType extends AbstractType
 {
+    public function __construct(private readonly ContentTypeService $contentTypeService)
+    {
+    }
+
     /**
      * @param FormBuilderInterface<FormBuilderInterface> $builder
      * @param array<string, mixed>                       $options
@@ -54,6 +59,16 @@ class RevisionTaskFiltersType extends AbstractType
                 'multiple' => true,
                 'user_property' => 'username',
                 'label_property' => 'displayName',
+            ]);
+        }
+
+        $versionTags = $this->contentTypeService->getVersionTags();
+        if (\count($versionTags) > 0) {
+            $builder->add('versionNextTag', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'attr' => ['class' => 'select2'],
+                'choices' => $versionTags,
             ]);
         }
 

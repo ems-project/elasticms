@@ -131,13 +131,25 @@ class TasksDataTableQueryService implements QueryServiceInterface
             'status' => ['t.status', $context->filters->status],
             'assignee' => ['t.assignee', $context->filters->assignee],
             'requester' => ['t.created_by', $context->filters->requester],
+            'version_next' => ['r.version_next_tag', $context->filters->versionNextTag],
         ];
 
         foreach ($filters as $name => [$column, $values]) {
+            $expressions = [];
+            if (\in_array(null, $values, true)) {
+                $expressions[] = $qb->expr()->isNull($column);
+                $values = \array_filter($values);
+            }
+
             if (\count($values) > 0) {
-                $qb
-                    ->andWhere($qb->expr()->in($column, ':filter_'.$name))
-                    ->setParameter('filter_'.$name, $values, ArrayParameterType::STRING);
+                $expressions[] = $qb->expr()->in($column, ':filter_'.$name);
+                $qb->setParameter('filter_'.$name, $values, ArrayParameterType::STRING);
+            }
+
+            if (1 === \count($expressions)) {
+                $qb->andWhere(...$expressions);
+            } elseif (\count($expressions) > 1) {
+                $qb->andWhere($qb->expr()->or(...$expressions));
             }
         }
 

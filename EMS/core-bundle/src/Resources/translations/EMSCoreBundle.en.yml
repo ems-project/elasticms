@@ -790,7 +790,7 @@ task:
         rejected: 'Rejected task "%title%" for "%document%"'
         updated: 'Update task "%title%" for "%document%"'
     status:
-        approved: Approved
+        approved: Finished
         completed: Completed
         history:
             approved: '%user% approved the task'

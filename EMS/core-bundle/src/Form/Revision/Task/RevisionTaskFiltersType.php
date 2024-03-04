@@ -32,9 +32,9 @@ class RevisionTaskFiltersType extends AbstractType
             'choices' => [
                 'task.status.progress' => TaskStatus::PROGRESS->value,
                 'task.status.rejected' => TaskStatus::REJECTED->value,
-                'task.status.approved' => TaskStatus::APPROVED->value,
-                'task.status.planned' => TaskStatus::PLANNED->value,
                 'task.status.completed' => TaskStatus::COMPLETED->value,
+                'task.status.planned' => TaskStatus::PLANNED->value,
+                'task.status.approved' => TaskStatus::APPROVED->value,
             ],
         ]);
 

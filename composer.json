@@ -51,6 +51,7 @@
     "psr/simple-cache": "^2.0",
     "ramsey/uuid-doctrine": "^1.8",
     "ruflin/elastica": "^7.3",
+    "scssphp/scssphp": "^1.12",
     "sensiolabs/ansi-to-html": "^1.2",
     "symfony-cmf/routing": "^3.0",
     "symfony/asset": "6.4.*",

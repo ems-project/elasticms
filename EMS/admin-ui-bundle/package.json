@@ -31,6 +31,8 @@
     "@ckeditor/ckeditor5-build-classic": "^40.2.0",
     "@ckeditor/ckeditor5-dev-translations": "^39.5.1",
     "@ckeditor/ckeditor5-dev-utils": "^39.5.1",
+    "@ckeditor/ckeditor5-html-support": "^40.2.0",
+    "@ckeditor/ckeditor5-source-editing": "^40.2.0",
     "@ckeditor/ckeditor5-theme-lark": "^40.2.0",
     "@elasticms/file-uploader": "^1.0.1",
     "@eonasdan/tempus-dominus": "^6.9.5",

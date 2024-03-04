@@ -29,6 +29,16 @@ class File
         return new self(new \SplFileInfo($filename));
     }
 
+    public static function getFileContents(string $filename): string
+    {
+        $contents = \file_get_contents($filename);
+        if (false === $contents) {
+            throw new \RuntimeException(\sprintf('Unexpected false contents for %s', $filename));
+        }
+
+        return $contents;
+    }
+
     /**
      * @return iterable<string>
      */

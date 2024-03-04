@@ -6,7 +6,8 @@ namespace EMS\CoreBundle\Form\Revision\Task;
 
 use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableContext;
 use EMS\CoreBundle\Core\Revision\Task\DataTable\TasksDataTableFilters;
-use EMS\CoreBundle\Entity\Task;
+use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
+use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,9 +27,13 @@ class RevisionTaskFiltersType extends AbstractType
             'required' => false,
             'multiple' => true,
             'attr' => ['class' => 'select2'],
+            'choice_translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             'choices' => [
-                'In progress' => Task::STATUS_PROGRESS,
-                'Completed' => Task::STATUS_COMPLETED,
+                'task.status.progress' => TaskStatus::PROGRESS->value,
+                'task.status.planned' => TaskStatus::PLANNED->value,
+                'task.status.completed' => TaskStatus::COMPLETED->value,
+                'task.status.rejected' => TaskStatus::REJECTED->value,
+                'task.status.approved' => TaskStatus::APPROVED->value,
             ],
         ]);
 

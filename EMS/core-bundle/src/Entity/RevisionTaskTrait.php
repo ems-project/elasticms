@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
 
 trait RevisionTaskTrait
 {
@@ -38,9 +39,9 @@ trait RevisionTaskTrait
     {
         if (null === $this->taskCurrent) {
             $this->taskCurrent = $task;
-        } elseif (Task::STATUS_PLANNED === $task->getStatus()) {
+        } elseif ($task->isStatus(TaskStatus::PLANNED)) {
             $this->taskPlannedIds[] = $task->getId();
-        } elseif (Task::STATUS_APPROVED === $task->getStatus()) {
+        } elseif ($task->isStatus(TaskStatus::APPROVED)) {
             $this->taskApprovedIds[] = $task->getId();
         }
     }

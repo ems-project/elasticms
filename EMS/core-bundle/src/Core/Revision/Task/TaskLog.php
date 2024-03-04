@@ -58,7 +58,7 @@ final class TaskLog
     public static function logNewAssignee(Task $task, string $username): self
     {
         $log = new self($task->getAssignee(), $username);
-        $log->status = Task::STATUS_PROGRESS;
+        $log->status = TaskStatus::PROGRESS->value;
 
         return $log;
     }

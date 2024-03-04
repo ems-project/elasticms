@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Revision\Task;
 
 use EMS\CoreBundle\Core\Revision\Task\TaskDTO;
-use EMS\CoreBundle\Entity\Task;
+use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
 use EMS\CoreBundle\Form\Field\SelectUserPropertyType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -40,7 +40,7 @@ final class RevisionTaskType extends AbstractType
             ])
         ;
 
-        if (null === $taskDto->id || Task::STATUS_PLANNED === $options['task_status']) {
+        if (null === $taskDto->id || TaskStatus::PLANNED->value === $options['task_status']) {
             $builder->add('delay', IntegerType::class, [
                 'label' => 'task.field.delay',
                 'attr' => ['min' => 0],

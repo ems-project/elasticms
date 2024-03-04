@@ -46,7 +46,7 @@ class Task implements EntityInterface
     /**
      * @ORM\Column(name="status", type="string", length=25)
      */
-    private string $status = self::STATUS_PLANNED;
+    private string $status;
 
     /**
      * @ORM\Column(name="delay", type="integer")
@@ -80,12 +80,6 @@ class Task implements EntityInterface
      */
     private string $createdBy;
 
-    final public const STATUS_PROGRESS = 'progress';
-    final public const STATUS_PLANNED = 'planned';
-    final public const STATUS_COMPLETED = 'completed';
-    final public const STATUS_REJECTED = 'rejected';
-    final public const STATUS_APPROVED = 'approved';
-
     private function __construct(Revision $revision, string $username)
     {
         $this->id = Uuid::uuid4();
@@ -93,6 +87,7 @@ class Task implements EntityInterface
         $this->created = DateTime::create('now');
         $this->modified = DateTime::create('now');
         $this->createdBy = $username;
+        $this->status = TaskStatus::PLANNED->value;
     }
 
     public function addLog(TaskLog $taskLog): void
@@ -126,14 +121,16 @@ class Task implements EntityInterface
         return $this->status;
     }
 
-    public function isStatus(string ...$status): bool
+    public function isStatus(TaskStatus ...$status): bool
     {
-        return \in_array($this->status, $status);
+        $statuses = \array_map(static fn (TaskStatus $s) => $s->value, $status);
+
+        return \in_array($this->status, $statuses, true);
     }
 
     public function setStatus(string $status): void
     {
-        if (self::STATUS_PROGRESS === $status) {
+        if ($this->isStatus(TaskStatus::PROGRESS)) {
             $this->deadline = DateTime::create('now')->add(new \DateInterval(\sprintf('P%dD', $this->delay)));
         }
 
@@ -210,29 +207,29 @@ class Task implements EntityInterface
 
     public function getLatestCompleted(): ?TaskLog
     {
-        if (self::STATUS_COMPLETED !== $this->status) {
+        if (!$this->isStatus(TaskStatus::COMPLETED)) {
             return null;
         }
 
-        return $this->getLogLatestByStatus(self::STATUS_COMPLETED);
+        return $this->getLogLatestByStatus(TaskStatus::COMPLETED);
     }
 
     public function getLatestRejection(): ?TaskLog
     {
-        if (self::STATUS_REJECTED !== $this->status) {
+        if (!$this->isStatus(TaskStatus::REJECTED)) {
             return null;
         }
 
-        return $this->getLogLatestByStatus(self::STATUS_REJECTED);
+        return $this->getLogLatestByStatus(TaskStatus::REJECTED);
     }
 
     public function getLatestApproved(): ?TaskLog
     {
-        if (self::STATUS_APPROVED !== $this->status) {
+        if (!$this->isStatus(TaskStatus::APPROVED)) {
             return null;
         }
 
-        return $this->getLogLatestByStatus(self::STATUS_APPROVED);
+        return $this->getLogLatestByStatus(TaskStatus::APPROVED);
     }
 
     /**
@@ -245,7 +242,7 @@ class Task implements EntityInterface
 
     public function isOpen(): bool
     {
-        return !\in_array($this->status, [self::STATUS_COMPLETED, self::STATUS_APPROVED], true);
+        return !$this->isStatus(TaskStatus::COMPLETED, TaskStatus::APPROVED);
     }
 
     public function setAssignee(string $assignee): void
@@ -258,10 +255,10 @@ class Task implements EntityInterface
         $this->description = $description;
     }
 
-    private function getLogLatestByStatus(string $status): ?TaskLog
+    private function getLogLatestByStatus(TaskStatus $status): ?TaskLog
     {
         $logs = $this->getLogs();
-        $statusLogs = \array_filter($logs, static fn (TaskLog $log) => $log->getStatus() === $status);
+        $statusLogs = \array_filter($logs, static fn (TaskLog $log) => $log->getStatus() === $status->value);
         $latestStatusLog = \array_pop($statusLogs);
 
         return $latestStatusLog instanceof TaskLog ? $latestStatusLog : null;

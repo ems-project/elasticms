@@ -6,7 +6,7 @@
         {%- elseif attrvalue is same as(true) -%}
             {{- attrname }}="{{ attrname }}"
         {%- elseif attrvalue is not same as(false) -%}
-            {{- attrname }}="{{ attrvalue }}"
+            {{- attrname }}="{{ attrvalue|e('html_attr') }}"
         {%- endif -%}
     {%- endfor -%}
 {%- endblock attributes -%}

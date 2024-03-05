@@ -35,6 +35,7 @@ import {
   Table,
   TableCaption,
   TableCellProperties,
+  TableProperties,
   TableColumnResize,
   TableToolbar
 } from '@ckeditor/ckeditor5-table'
@@ -132,6 +133,7 @@ export default class Editor {
         TableCaption,
         TableCellProperties,
         TableColumnResize,
+        TableProperties,
         TableToolbar,
         TextTransformation,
         Undo
@@ -176,10 +178,12 @@ export default class Editor {
         ]
       },
       table: {
+        defaultHeadings: { rows: 1 },
         contentToolbar: [
           'tableColumn',
           'tableRow',
           'mergeTableCells',
+          'tableProperties',
           'tableCellProperties'
         ]
       }

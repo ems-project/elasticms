@@ -38,16 +38,6 @@ class FieldTypePickerType extends Select2Type
                 return "<i class=\"$icon\"></i>&nbsp;$label";
             },
             'choice_value' => fn ($value) => $value,
-            'choice_label' => function ($choice, string $key, mixed $value): string|null {
-                /* @var ?DataFieldType $choice */
-                $choice = $this->dataFieldTypes[$value] ?? null;
-
-                return $choice?->getLabel();
-
-                // or if you want to translate some key
-                // return 'form.choice.'.$key;
-                // return new TranslatableMessage($key, false === $choice ? [] : ['%status%' => $value], 'store');
-            },
         ]);
     }
 }

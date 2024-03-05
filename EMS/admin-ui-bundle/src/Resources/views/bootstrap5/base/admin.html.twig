@@ -11,6 +11,7 @@
     'data-file-view': path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract': path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract-forced': path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' }),
+    'data-wysiwyg-info': emsco_wysiwyg_info(),
 } %}
 {%  set theme_color_contrast = theme_color in ['yellow','lime','white','cyan'] ? 'light' : 'dark' %}
 {% set breadcrumb = [] %}

@@ -150,10 +150,8 @@ trait RevisionTaskTrait
         }
 
         $taskPlannedIds = $this->getTaskPlannedIds();
-        $nextPlannedId = \array_shift($taskPlannedIds);
-        $this->taskPlannedIds = $taskPlannedIds;
 
-        return $nextPlannedId;
+        return \array_shift($taskPlannedIds);
     }
 
     public function hasTasks(bool $includeApproved = true): bool
@@ -194,6 +192,10 @@ trait RevisionTaskTrait
     public function setTaskCurrent(?Task $task): void
     {
         $this->taskCurrent = $task;
+
+        if ($task) {
+            $this->deleteTaskPlanned($task);
+        }
     }
 
     /**

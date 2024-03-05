@@ -107,8 +107,14 @@ class Task implements EntityInterface
     {
         $this->title = Type::string($taskDTO->title);
         $this->assignee = Type::string($taskDTO->assignee);
-        $this->delay = Type::integer($taskDTO->delay);
         $this->description = $taskDTO->description;
+
+        if (null !== $taskDTO->delay) {
+            $this->delay = Type::integer($taskDTO->delay);
+        }
+        if (null !== $taskDTO->deadline) {
+            $this->deadline = $taskDTO->deadline;
+        }
     }
 
     public function getId(): string

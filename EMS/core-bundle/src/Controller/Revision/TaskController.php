@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\Revision;
 
 use EMS\CoreBundle\Core\Revision\Task\TaskDTO;
 use EMS\CoreBundle\Core\Revision\Task\TaskManager;
+use EMS\CoreBundle\Core\Revision\Task\TaskStatus;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\Form\Revision\Task\RevisionTaskHandleType;
@@ -97,7 +98,7 @@ final class TaskController extends AbstractController
     public function ajaxModalCreate(Request $request, string $revisionOuuid): JsonResponse
     {
         try {
-            $taskDTO = new TaskDTO();
+            $taskDTO = new TaskDTO($this->coreDateFormat);
             $ajaxModal = $this->getAjaxModal();
             $revision = $this->revisionService->give($revisionOuuid);
 
@@ -137,7 +138,9 @@ final class TaskController extends AbstractController
             $ajaxModal = $this->getAjaxModal();
             $ajaxModal->setFooter('modalUpdateFooter', ['task' => $task, 'revisionOuuid' => $revision->getOuuid()]);
 
-            $form = $this->createForm(RevisionTaskType::class, $taskDTO, ['task_status' => $task->getStatus()]);
+            $form = $this->createForm(RevisionTaskType::class, $taskDTO, [
+                'task_status' => TaskStatus::from($task->getStatus()),
+            ]);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {

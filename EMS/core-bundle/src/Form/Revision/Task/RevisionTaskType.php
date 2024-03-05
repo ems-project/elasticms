@@ -16,6 +16,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class RevisionTaskType extends AbstractType
 {
+    public function __construct(private readonly string $coreDatepickerFormat)
+    {
+    }
+
     /**
      * @param FormBuilderInterface<FormBuilderInterface> $builder
      * @param array<string, mixed>                       $options
@@ -24,6 +28,8 @@ final class RevisionTaskType extends AbstractType
     {
         /** @var TaskDTO $taskDto */
         $taskDto = $options['data'];
+        /** @var TaskStatus $taskStatus */
+        $taskStatus = $options['task_status'];
 
         $builder
             ->add('title', TextType::class, ['label' => 'task.field.title'])
@@ -40,16 +46,21 @@ final class RevisionTaskType extends AbstractType
             ])
         ;
 
-        if (null === $taskDto->id || TaskStatus::PLANNED->value === $options['task_status']) {
+        if (null === $taskDto->id || TaskStatus::PLANNED === $taskStatus) {
             $builder->add('delay', IntegerType::class, [
                 'label' => 'task.field.delay',
                 'attr' => ['min' => 0],
             ]);
         } else {
             $builder->add('deadline', TextType::class, [
-                'disabled' => true,
+                'disabled' => TaskStatus::COMPLETED === $taskStatus,
                 'label' => 'task.field.deadline',
-                'attr' => ['readonly' => true],
+                'attr' => [
+                    'readonly' => TaskStatus::COMPLETED === $taskStatus,
+                    'class' => 'datetime-picker',
+                    'data-date-format' => $this->coreDatepickerFormat,
+                    'data-date-disabled-hours' => '[true]',
+                ],
             ]);
         }
     }

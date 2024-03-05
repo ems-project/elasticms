@@ -76,7 +76,9 @@ final class TaskEventSubscriber implements EventSubscriberInterface
             $this->sendMail($event, 'deleted', $event->task->getCreatedBy());
         }
 
-        $this->sendMail($event, 'deleted', $event->task->getAssignee());
+        if ($event->task->isStatus(TaskStatus::PROGRESS)) {
+            $this->sendMail($event, 'deleted', $event->task->getAssignee());
+        }
     }
 
     public function onTaskStatusProgress(TaskEvent $event): void

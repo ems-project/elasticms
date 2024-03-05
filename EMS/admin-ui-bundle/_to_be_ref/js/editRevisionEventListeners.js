@@ -1,36 +1,6 @@
 function editRevisionEventListeners(target, onChangeCallback = null){
 
     target.find(".ckeditor_ems").each(function(){
-
-        let height = $( this ).attr('data-height');
-        if(!height){
-            height = 400;
-        }
-
-        const format_tags = $( this ).attr('data-format-tags');
-        if(format_tags){
-            ckconfig.format_tags = format_tags;
-        }
-
-        const styles_set = $( this ).attr('data-styles-set');
-        if(styles_set){
-            ckconfig.stylesSet = styles_set;
-        }
-
-        const language = $( this ).attr('data-lang');
-        if(language){
-            ckconfig.language = language;
-        }
-
-        ckconfig.referrerEmsId = $( this ).attr('data-referrer-ems-id');
-
-        let tableDefaultCss = $( this ).attr('data-table-default-css');
-        if(typeof tableDefaultCss == 'undefined'){
-            tableDefaultCss = 'table table-bordered';
-        }
-
-
-        ckconfig.height = height;
         ckconfig.div_wrapTable = 'true';
 
         CKEDITOR.on('instanceReady', (event) => {
@@ -77,12 +47,6 @@ function editRevisionEventListeners(target, onChangeCallback = null){
                 txtCellSpace['default'] = "";
                 const txtWidth = infoTab.get( 'txtWidth' );
                 txtWidth['default'] = "";
-
-                // Get a reference to the "Table Advanced" tab.
-                const advancedTab = dialogDefinition.getContents( 'advanced' );
-
-                const advCSSClasses = advancedTab.get( 'advCSSClasses' );
-                advCSSClasses['default'] = tableDefaultCss;
 
             }
         });

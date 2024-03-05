@@ -18,7 +18,8 @@ class WYSIWYG {
         contentCss: wysiwygs[i].dataset.contentCss,
         height: wysiwygs[i].dataset.height,
         referrerEmsId: wysiwygs[i].dataset.referrerEmsId,
-        tableDefaultCss: wysiwygs[i].dataset.tableDefaultCss
+        tableDefaultCss: wysiwygs[i].dataset.tableDefaultCss,
+        lang: wysiwygs[i].dataset.lang
       })
     }
   }

@@ -70,6 +70,7 @@ export default class Editor {
     let options = this.getDefaultOptions()
     options = this._applyStyleSet(options)
     options = this._applyHeadings(options)
+    options = this._applyLang(options)
 
     return options
   }
@@ -161,7 +162,10 @@ export default class Editor {
         ],
         shouldNotGroupWhenFull: true
       },
-      language: 'en',
+      language: {
+        ui: 'en',
+        content: 'en'
+      },
       image: {
         toolbar: [
           'imageTextAlternative',
@@ -238,6 +242,13 @@ export default class Editor {
       console.error(`The format tags option expect an JSON, did you migrated it? Got: ${this.options.formatTags}`)
     }
 
+    return options
+  }
+
+  _applyLang (options) {
+    if (undefined !== this.options.lang && this.options.lang.length > 0) {
+      options.language.content = this.options.lang
+    }
     return options
   }
 }

@@ -20,6 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RevisionTasksDataTableType extends AbstractQueryTableType implements DataTableFilterFormInterface
 {
+    public const LOAD_MAX_ROWS = 1000;
+
     /**
      * @return array<string, array{'order_field'?: string, 'cellRender'?: bool }>
      */
@@ -106,7 +108,7 @@ class RevisionTasksDataTableType extends AbstractQueryTableType implements DataT
 
     public function getLoadMaxRows(): int
     {
-        return 1000;
+        return self::LOAD_MAX_ROWS;
     }
 
     public function getQueryName(): string

@@ -48,6 +48,7 @@ final class RevisionTask implements DashboardInterface
             'currentTab' => $tab,
             'tabs' => $tabs,
             'filterForm' => $table->getFilterForm()?->createView(),
+            'loadMaxRows' => RevisionTasksDataTableType::LOAD_MAX_ROWS,
         ])));
     }
 

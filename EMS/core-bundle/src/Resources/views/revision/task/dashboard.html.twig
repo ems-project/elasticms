@@ -38,6 +38,11 @@
     <div class="tab-content">
         <div class="tab-pane active" id="{{ currentTab }}">
             {{ block('filters') }}
+
+            {% if table.count > loadMaxRows %}
+                <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({ '%count%': loadMaxRows }) }}</div>
+            {% endif %}
+
             {% form_theme formTable '@EMSCore/form/forms.html.twig' %}
             {{ form(formTable) }}
             {% if table.count > 0 %}

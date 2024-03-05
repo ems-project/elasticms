@@ -738,6 +738,7 @@ task:
         success: 'Task "%title%" successfully created.'
         title: 'Add a new task'
     dashboard:
+        search_warning: 'More than %count% tasks, search on document title is impossible.'
         action:
             edit_revision: 'Edit revision'
             go_revision: Revision

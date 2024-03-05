@@ -1,8 +1,8 @@
 {% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block title %}Permissions{% endblock %}
-{% block pagetitle %}Permissions Overview{% endblock %}
-
+{% block pagetitle %}
+    {{ 'view.user.permissions.page_title'|trans }}
+{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -10,37 +10,34 @@
             <div class="box ">
                 <div class="box-header with-border">
                     <i class="fa fa-sitemap"></i>
-                    <h3 class="box-title">Permissions of content types</h3>
+                    <h3 class="box-title">{{ 'view.user.permissions.titles.content_type_permissions'|trans }}</h3>
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body">
                     <div class="table-responsive">
                         <table class="table table-condensed table-striped">
                             <tbody>
                             <tr>
-                                <th class="text-center" style="width: 10px">Content Type</th>
-                                <th class="text-center" style="width: 20px">Icon</th>
+                                <th class="text-center" style="width: 10px">{{ 'view.user.permissions.table_headers.content_type'|trans }}</th>
+                                <th class="text-center" style="width: 20px">{{ 'view.user.permissions.table_headers.icon'|trans }}</th>
                                 <th>{{ 'view.user.permissions.table_headers.view'|trans }}</th>
-                                <th>Create</th>
-                                <th>Edit</th>
-                                <th>Publish</th>
-                                <th>Delete</th>
-                                <th>Trash</th>
-                                <th>Archive</th>
-                                <th>Show link create</th>
-                                <th>Show link search</th>
-                                <th>Specif. Roles</th>
+                                <th>{{ 'view.user.permissions.table_headers.create'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.edit'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.publish'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.delete'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.trash'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.archive'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.show_link_create'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.show_link_search'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.specific_roles'|trans }}</th>
                             </tr>
                             {% for contentType in emsco_get_content_types() %}
                                 <tr class="text-{{ contentType.color }}">
                                     <td class="text-center">{{ contentType.name }}</td>
                                     <td class="text-center"><i class="{% if contentType.icon %}{{ contentType.icon }}{% else %}fa fa-book{% endif %}"></i></td>
                                     {% for role in [contentType.roles.view, contentType.roles.create, contentType.roles.edit, contentType.roles.publish, contentType.roles.delete, contentType.roles.trash, contentType.roles.archive, contentType.roles.show_link_create, contentType.roles.show_link_search] %}
-                                        {% if role == 'not-defined' %}
-                                            <td class="text-muted">{{ role|trans }}</td>
-                                        {% else %}
-                                            <td>{{ role|trans }}</td>
-                                        {% endif %}
+                                        <td class="{{ html_classes({'text-muted': role == 'not-defined'}) }} ">
+                                            {{ role|trans }}
+                                        </td>
                                     {% endfor %}
                                     <td>
                                         <div class="btn-group">
@@ -55,85 +52,39 @@
                                     </td>
                                 </tr>
                             {% endfor %}
-
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <!-- /.box-body -->
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="box ">
                 <div class="box-header with-border">
                     <i class="fa fa-group"></i>
-                    <h3 class="box-title">Roles hierarchy</h3>
+                    <h3 class="box-title">{{ 'view.user.permissions.titles.roles_hierarchy'|trans }}</h3>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
-                        <p>Access to a role implies access to all roles below it in the hierarchy. Hierarchical roles can be assigned to grant and limit access to the content type.</p>
+                        <p>{{ 'view.user.permissions.titles.descriptions.roles_hierarchy_description'|trans }}</p>
                         <table class="table table-condensed table-striped">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Role</th>
-                                <th>Description</th>
+                                <th>{{ 'view.user.permissions.table_headers.role'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.description'|trans }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>{{ 'ROLE_USER'|trans }}</td>
-                                <td>User has basic access.</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>{{ 'ROLE_AUTHOR'|trans }}</td>
-                                <td>Author can create and edit content.</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>{{ 'ROLE_REVIEWER'|trans }}</td>
-                                <td>Reviewer role for reviewing content.</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>{{ 'ROLE_TRADUCTOR'|trans }}</td>
-                                <td>Traductor role for translating content.</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>{{ 'ROLE_AUDITOR'|trans }}</td>
-                                <td>Auditor role for auditing content.</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>{{ 'ROLE_COPYWRITER'|trans }}</td>
-                                <td>Copywriter role for writing content.</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>{{ 'ROLE_PUBLISHER'|trans }}</td>
-                                <td>Publisher role for publishing content.</td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>{{ 'ROLE_WEBMASTER'|trans }}</td>
-                                <td>Webmaster role for managing website.</td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>{{ 'ROLE_ADMIN'|trans }}</td>
-                                <td>Admin role for administrative tasks.</td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>{{ 'ROLE_SUPER_ADMIN'|trans }}</td>
-                                <td>Super Admin role for all functionalities.</td>
-                            </tr>
+                            {% for role in roles %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ role|trans }}</td>
+                                    <td>{{ roleDescriptions[role]|trans }}</td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -141,64 +92,43 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="box ">
                 <div class="box-header with-border">
                     <i class="fa fa-group"></i>
-                    <h3 class="box-title">Roles for specific functionalities</h3>
+                    <h3 class="box-title">{{ 'view.user.permissions.titles.roles_specific_functionalities'|trans }}</h3>
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
-                        <p>These roles are specifically for functionality and have nothing to do with content management. They are functional roles that grant access to specific CMS features.</p>
+                        <p>{{ 'view.user.permissions.titles.descriptions.roles_functionalities_description'|trans }}</p>
                         <table class="table table-condensed table-striped">
                             <thead>
                             <tr>
-                                <th>Role</th>
-                                <th>Description</th>
+                                <th>{{ 'view.user.permissions.table_headers.role'|trans }}</th>
+                                <th>{{ 'view.user.permissions.table_headers.description'|trans }}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>{{ 'ROLE_API'|trans }}</td>
-                                <td>API role for accessing basic functionalities.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_FORM_CRM'|trans }}</td>
-                                <td>Form CRM grants access to the mini CRM management tool included in the CMS.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_TASK_MANAGER'|trans }}</td>
-                                <td>Task Manager role for managing tasks.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_ALLOW_ALIGN'|trans }}</td>
-                                <td>Align environment grants access to a tool that allows bulk publishing of various documents.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_USER_MANAGEMENT'|trans }}</td>
-                                <td>User Management role for managing users.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_COPY_PASTE'|trans }}</td>
-                                <td>Copy/Paste role for copying and pasting content on documents.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_DEFAULT_SEARCH'|trans }}</td>
-                                <td>Default Search role for default search functionality.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_SUPER_USER'|trans }}</td>
-                                <td>Super User role for super user functionalities.</td>
-                            </tr>
-                            <tr>
-                                <td>{{ 'ROLE_USER_READ'|trans }}</td>
-                                <td>User Read role for reading user data.</td>
-                            </tr>
+                            {% for roleData in [
+                                {'role': 'ROLE_API', 'description': 'view.user.permissions.roles_functionality.role_api'|trans},
+                                {'role': 'ROLE_FORM_CRM', 'description': 'view.user.permissions.roles_functionality.role_form_crm'|trans},
+                                {'role': 'ROLE_TASK_MANAGER', 'description': 'view.user.permissions.roles_functionality.role_task_manager'|trans},
+                                {'role': 'ROLE_ALLOW_ALIGN', 'description': 'view.user.permissions.roles_functionality.role_allow_align'|trans},
+                                {'role': 'ROLE_USER_MANAGEMENT', 'description': 'view.user.permissions.roles_functionality.role_user_management'|trans},
+                                {'role': 'ROLE_COPY_PASTE', 'description': 'view.user.permissions.roles_functionality.role_copy_paste'|trans},
+                                {'role': 'ROLE_DEFAULT_SEARCH', 'description': 'view.user.permissions.roles_functionality.role_default_search'|trans},
+                                {'role': 'ROLE_SUPER_USER', 'description': 'view.user.permissions.roles_functionality.role_super_user'|trans},
+                                {'role': 'ROLE_USER_READ', 'description': 'view.user.permissions.roles_functionality.role_user_read'|trans}
+                            ] %}
+                                <tr>
+                                    <td>{{ roleData.role|trans }}</td>
+                                    <td>{{ roleData.description|trans }}</td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
-
                         </table>
+
                     </div>
                 </div>
             </div>

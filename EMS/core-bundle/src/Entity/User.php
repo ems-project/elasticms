@@ -10,6 +10,7 @@ use EMS\CoreBundle\Core\User\UserOptions;
 use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\DateTime;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use DateTimeInterface;
 
 class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
@@ -38,6 +39,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private ?string $plainPassword = null;
     private ?\DateTime $lastLogin = null;
     private ?string $confirmationToken = null;
+    private $expirationDate;
     private ?\DateTime $passwordRequestedAt = null;
     /** @var string[] */
     private array $roles = [];
@@ -53,6 +55,17 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         $this->modified = DateTime::create('now');
     }
 
+    public function getExpirationDate(): ?DateTimeInterface
+    {
+        return $this->expirationDate;
+    }
+
+    public function setExpirationDate(?DateTimeInterface $expirationDate): self
+    {
+        $this->expirationDate = $expirationDate;
+
+        return $this;
+    }
     public function __clone()
     {
         $this->authTokens = new ArrayCollection();

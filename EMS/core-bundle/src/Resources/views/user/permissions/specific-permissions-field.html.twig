@@ -1,32 +1,19 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 
-<style>
-    .custom-list {
-        list-style-type: none;
-        padding-left: 0;
-    }
-    .custom-list li {
-        margin-bottom: 5px;
-        background-color: #f9f9f9;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-</style>
-<ul class="custom-list">
+<ul class="list-group">
     {% set displayedParents = [] %}
     {% for child in children %}
         {% set parent = child.getParent() %}
         {% if parent is not null and parent not in displayedParents %}
             {% set displayedParents = displayedParents|merge([parent]) %}
-            <li>
+            <li class="list-group-item">
                 {{ parent.getDisplayOptionsLabel() ?? 'Source' }}
             </li>
         {% endif %}
-        <li>
+        <li class="list-group-item">
             {{ child.getParent() is not null ? (child.getParent().getDisplayOptionsLabel() ?? 'Source') ~ ' > ' : '' }}{{ child.getDisplayOptionsLabel() }}
             <div class="pull-right">
-                <span>{{ child.getFieldType().getRestrictionOption('minimum_role')|trans }}</span>
+                <span class="badge badge-primary">{{ child.getFieldType().getRestrictionOption('minimum_role')|trans }}</span>
             </div>
         </li>
     {% endfor %}

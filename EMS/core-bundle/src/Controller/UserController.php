@@ -54,7 +54,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    public function contentType_permissions(): Response
+    public function contentTypePermissions(): Response
     {
         $contentTypes = $this->contentTypeRepository->findAll();
 
@@ -69,13 +69,29 @@ class UserController extends AbstractController
             $contentTypeCounts[$contentType->getId()] = \count($fieldTypesWithMinimumRole);
         }
 
+        $roles = ['ROLE_AUTHOR', 'ROLE_REVIEWER', 'ROLE_TRADUCTOR', 'ROLE_AUDITOR', 'ROLE_COPYWRITER', 'ROLE_PUBLISHER', 'ROLE_WEBMASTER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'];
+
+        $roleDescriptions = [
+            'ROLE_AUTHOR' => 'Author can create and edit content.',
+            'ROLE_REVIEWER' => 'Reviewer role for reviewing content.',
+            'ROLE_TRADUCTOR' => 'Traductor role for translating content.',
+            'ROLE_AUDITOR' => 'Auditor role for auditing content.',
+            'ROLE_COPYWRITER' => 'Copywriter role for writing content.',
+            'ROLE_PUBLISHER' => 'Publisher role for publishing content.',
+            'ROLE_WEBMASTER' => 'Webmaster role for managing website.',
+            'ROLE_ADMIN' => 'Admin role for administrative tasks.',
+            'ROLE_SUPER_ADMIN' => 'Super Admin role for all functionalities.',
+        ];
+
         return $this->render("@$this->templateNamespace/user/permissions/permissions.html.twig", [
             'contentTypes' => $contentTypes,
             'contentTypeCounts' => $contentTypeCounts,
+            'roles' => $roles,
+            'roleDescriptions' => $roleDescriptions,
         ]);
     }
 
-    public function contentType_fields_permissions(ContentType $contentType, Request $request): Response
+    public function contentTypeFieldsPermissions(ContentType $contentType, Request $request): Response
     {
         $tree = $this->fieldTypeService->getTree($contentType);
 

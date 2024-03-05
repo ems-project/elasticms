@@ -27,7 +27,6 @@ class FieldTypePickerType extends Select2Type
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        \dump($this->dataFieldTypes);
         $resolver->setDefaults([
             'choices' => \array_keys($this->dataFieldTypes),
             'choice_label' => function ($value) {

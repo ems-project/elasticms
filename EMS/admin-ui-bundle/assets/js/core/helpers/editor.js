@@ -197,6 +197,11 @@ export default class Editor {
         self._change()
       })
     }
+    if (undefined !== this.options.height && this.options.height > 0) {
+      editor.editing.view.change(writer => {
+        writer.setStyle('height', `${this.options.height}px`, editor.editing.view.document.getRoot())
+      })
+    }
   }
 
   _change () {

@@ -13,7 +13,12 @@ class WYSIWYG {
     for (let i = 0; i < wysiwygs.length; ++i) {
       this.createEditor(wysiwygs[i], {
         onChangeEvent: 'keyup',
-        styleSet: wysiwygs[i].dataset.stylesSet
+        styleSet: wysiwygs[i].dataset.stylesSet,
+        formatTags: wysiwygs[i].dataset.formatTags,
+        contentCss: wysiwygs[i].dataset.contentCss,
+        height: wysiwygs[i].dataset.height,
+        referrerEmsId: wysiwygs[i].dataset.referrerEmsId,
+        tableDefaultCss: wysiwygs[i].dataset.tableDefaultCss
       })
     }
   }

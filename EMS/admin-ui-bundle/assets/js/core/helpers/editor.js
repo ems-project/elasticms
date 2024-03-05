@@ -67,6 +67,18 @@ export default class Editor {
   }
 
   buildCke5Options () {
+    const styleSet = this._getStyleSet()
+    const options = this.getDefaultOptions()
+    if (styleSet !== null) {
+      options.toolbar.items.unshift('style')
+      options.style = {
+        definitions: styleSet
+      }
+    }
+    return options
+  }
+
+  getDefaultOptions () {
     return {
       htmlSupport: {
         allow: [
@@ -184,5 +196,26 @@ export default class Editor {
     this.editor.updateSourceElement()
     const event = new ChangeEvent(this.element)
     event.dispatch()
+  }
+
+  _getStyleSet () {
+    if (undefined === document.body.dataset.wysiwygInfo || document.body.dataset.wysiwygInfo.length === 0) {
+      return null
+    }
+    if (undefined === this.options.styleSet || this.options.styleSet === 0) {
+      return null
+    }
+    const config = JSON.parse(document.body.dataset.wysiwygInfo)
+    const styleSet = this.options.styleSet
+    if (undefined === config.styles && config.styles.length === 0) {
+      return null
+    }
+    for (let i = 0; i < config.styles.length; ++i) {
+      if (config.styles[i].name !== styleSet || undefined === config.styles[i].config) {
+        continue
+      }
+      return config.styles[i].config
+    }
+    return null
   }
 }

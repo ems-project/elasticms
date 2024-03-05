@@ -67,19 +67,22 @@ export default class Editor {
   }
 
   buildCke5Options () {
-    const styleSet = this._getStyleSet()
-    const options = this.getDefaultOptions()
-    if (styleSet !== null) {
-      options.toolbar.items.unshift('style')
-      options.style = {
-        definitions: styleSet
-      }
-    }
+    let options = this.getDefaultOptions()
+    options = this._applyStyleSet(options)
+    options = this._applyHeadings(options)
+
     return options
   }
 
   getDefaultOptions () {
     return {
+      heading: {
+        options: [
+          { model: 'paragraph', title: 'Paragraph', class: '' },
+          { model: 'heading2', view: 'h2', title: 'Heading 2', class: '' },
+          { model: 'heading3', view: 'h3', title: 'Heading 3', class: '' }
+        ]
+      },
       htmlSupport: {
         allow: [
           {
@@ -198,24 +201,43 @@ export default class Editor {
     event.dispatch()
   }
 
-  _getStyleSet () {
-    if (undefined === document.body.dataset.wysiwygInfo || document.body.dataset.wysiwygInfo.length === 0) {
-      return null
-    }
+  _applyStyleSet (options) {
     if (undefined === this.options.styleSet || this.options.styleSet === 0) {
-      return null
+      return options
+    }
+    const styleSet = this.options.styleSet
+    if (undefined === document.body.dataset.wysiwygInfo || document.body.dataset.wysiwygInfo.length === 0) {
+      return options
     }
     const config = JSON.parse(document.body.dataset.wysiwygInfo)
-    const styleSet = this.options.styleSet
-    if (undefined === config.styles && config.styles.length === 0) {
-      return null
+    if (undefined === config.styles || config.styles.length === 0) {
+      return options
     }
     for (let i = 0; i < config.styles.length; ++i) {
       if (config.styles[i].name !== styleSet || undefined === config.styles[i].config) {
         continue
       }
-      return config.styles[i].config
+      options.toolbar.items.unshift('style')
+      options.style = {
+        definitions: config.styles[i].config
+      }
+      break
     }
-    return null
+    return options
+  }
+
+  _applyHeadings (options) {
+    if (undefined === this.options.formatTags || this.options.formatTags.length === 0) {
+      return options
+    }
+
+    try {
+      const formatTags = JSON.parse(this.options.formatTags)
+      options.heading.options = formatTags
+    } catch (e) {
+      console.error(`The format tags option expect an JSON, did you migrated it? Got: ${this.options.formatTags}`)
+    }
+
+    return options
   }
 }

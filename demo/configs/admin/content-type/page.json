@@ -1482,7 +1482,7 @@
             "asset": null
         },
         "settings": {
-            "tasks_enabled": false,
+            "tasks_enabled": true,
             "hide_revision_sidebar": false
         }
     },

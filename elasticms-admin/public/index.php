@@ -28,6 +28,5 @@ return function (Request $request, array $context) {
             | Request::HEADER_X_FORWARDED_PROTO
             | Request::HEADER_X_FORWARDED_PORT);
     }
-
     return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 };

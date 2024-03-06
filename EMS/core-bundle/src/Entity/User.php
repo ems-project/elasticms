@@ -196,16 +196,19 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     {
         return $this->circles ?? [];
     }
+
     public function getExpirationDate(): \DateTime
     {
         return $this->expirationDate;
     }
+
     public function setExpirationDate(\DateTime $expirationDate): self
     {
         $this->expirationDate = $expirationDate;
 
         return $this;
     }
+
     /**
      * {@inheritDoc}
      */

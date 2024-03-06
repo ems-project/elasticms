@@ -1122,6 +1122,8 @@ Environments: Environments
     '': 'All environments have to be re-builded each times that the filters configuration is updated.'
 'List filters': 'List filters'
 Add: Add
+show: Show
+hide: Hide
 'Asset options': 'Asset options'
 'Hash signature': 'Hash signature'
 'Extract content': 'Extract content'

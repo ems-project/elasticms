@@ -98,6 +98,15 @@
                             {% endembed  %}
                         {% endif %}
 
+                        {% embed "@EMSCore/core/panel.html.twig" with { icon: 'fa fa-ticket', id: 'tasks'} %}
+                            {% block title %}Tasks{% endblock title %}
+                            {% block body %}
+                                <div class="row">
+                                    <div class="col-md-4">{{ form_widget(form.settings.tasks_enabled) }}</div>
+                                </div>
+                            {% endblock body %}
+                        {% endembed  %}
+
                         {% if form.versionFields is defined %}
                             {% embed "@EMSCore/core/panel.html.twig" with { icon: 'fa fa-tags', id: 'versioning'} %}
                                 {% block title %}Versioning{% endblock title %}
@@ -113,8 +122,6 @@
                             {% endembed  %}
                         {% endif %}
                     </div>
-
-
                     <div class="col-md-8">
                         <table class="table table-hover">
                             <thead>
@@ -123,11 +130,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for settingField in form.settings %}
                                 <tr>
-                                    <td>{{ form_widget(settingField) }}</td>
+                                    <td>{{ form_widget(form.settings.hide_revision_sidebar) }}</td>
                                 </tr>
-                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

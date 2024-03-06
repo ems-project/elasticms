@@ -15,13 +15,14 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Validator\Constraints as Assert;
 final class UserType extends AbstractType
 {
     public const MODE_CREATE = 'create';
@@ -46,6 +47,16 @@ final class UserType extends AbstractType
             ->add('username', null, [
                 'label' => 'form.username',
                 'disabled' => (self::MODE_CREATE !== $mode),
+            ])
+            ->add('expirationDate', DateType::class, [
+                'required' => true,
+                'label' => 'Expiration date',
+                'constraints' => [
+                    new Assert\GreaterThanOrEqual([
+                        'value' => new \DateTime(),
+                        'message' => 'The expiration date must be greater than or equal to the current date.',
+                    ]),
+                ],
             ]);
 
         if (self::MODE_CREATE === $mode) {

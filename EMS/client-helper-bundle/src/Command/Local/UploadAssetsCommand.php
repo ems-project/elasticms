@@ -103,7 +103,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         if (!$this->updateStyleSets) {
             return;
         }
-        $styleSetClient = $this->coreApi->admin()->getConfig(ConfigTypes::WYSIWYG_STYLE_SET);
+        $styleSetClient = $this->coreApi->admin()->getConfig(ConfigTypes::WYSIWYG_STYLE_SET->value);
         $styleSetNames = $styleSetClient->index();
         if (empty($styleSetNames)) {
             return;

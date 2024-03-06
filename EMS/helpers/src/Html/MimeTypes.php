@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\Html;
 
-class MimeTypes
+enum MimeTypes: string
 {
-    public const APPLICATION_ZIP = 'application/zip';
+    case APPLICATION_ZIP = 'application/zip';
 }

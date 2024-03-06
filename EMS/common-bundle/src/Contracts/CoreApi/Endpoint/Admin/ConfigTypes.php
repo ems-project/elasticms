@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin;
 
-class ConfigTypes
+enum ConfigTypes: string
 {
-    public const WYSIWYG_STYLE_SET = 'wysiwyg-style-set';
+    case WYSIWYG_STYLE_SET = 'wysiwyg-style-set';
 }

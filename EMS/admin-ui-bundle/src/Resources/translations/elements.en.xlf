@@ -73,6 +73,14 @@
         <source>elements.user-image.anonymous</source>
         <target>Anonymous user</target>
       </trans-unit>
+      <trans-unit id="H1u5eRo" resname="hide">
+        <source>hide</source>
+        <target>Hide</target>
+      </trans-unit>
+      <trans-unit id="HGMzUJ3" resname="show">
+        <source>show</source>
+        <target>Show</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

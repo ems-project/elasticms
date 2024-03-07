@@ -13,7 +13,7 @@ class Configuration implements ConfigurationInterface
 {
     private const ELASTICSEARCH_DEFAULT_HOSTS = ['http://localhost:9200'];
     private const LOG_LEVEL = Logger::NOTICE;
-    final public const WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9_| \-.'])|(\.$)/";
+    final public const WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9_| \-.'\/])|(\.$)/";
     final public const WEBALIZE_DASHABLE_REGEX = "/[\/| ']+/";
 
     public function getConfigTreeBuilder(): TreeBuilder

@@ -96,4 +96,19 @@ class EncoderTest extends TestCase
     {
         self::assertSame($expected, $this->encoder->encodeUrl($text));
     }
+
+    public function testWebalize(): void
+    {
+        self::assertSame('l-iphone', Encoder::webalize('l\'iphone'));
+        self::assertSame('a_a-a-a-a-a', Encoder::webalize('a_a-a a\'a A'));
+        self::assertSame('coucou-comment-vas-tu', Encoder::webalize('Coucou/Comment-vas tu?'));
+    }
+
+    public function testAsciiFolding(): void
+    {
+        self::assertSame('l\'iphone', Encoder::asciiFolding('l\'iphone'));
+        self::assertSame('a_a-a a\'a A', Encoder::asciiFolding('a_a-a a\'a A'));
+        self::assertSame('aiea', Encoder::asciiFolding('äîéà'));
+        self::assertSame('ueUEssSSaeoeAE', Encoder::asciiFolding('üÜßẞäöÄ', 'de'));
+    }
 }

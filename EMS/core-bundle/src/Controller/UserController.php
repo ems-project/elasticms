@@ -18,6 +18,7 @@ use EMS\CoreBundle\Form\Form\UserType;
 use EMS\CoreBundle\Repository\AuthTokenRepository;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\WysiwygProfileRepository;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\UserService;
 use Psr\Log\LoggerInterface;
@@ -67,27 +68,42 @@ class UserController extends AbstractController
             });
 
             $contentTypeCounts[$contentType->getId()] = \count($fieldTypesWithMinimumRole);
+
+            $roles = [
+                'view' => $contentType->getRoles()['view'],
+                'create' => $contentType->getRoles()['create'],
+                'edit' => $contentType->getRoles()['edit'],
+                'publish' => $contentType->getRoles()['publish'],
+                'delete' => $contentType->getRoles()['delete'],
+                'trash' => $contentType->getRoles()['trash'],
+                'archive' => $contentType->getRoles()['archive'],
+                'show_link_create' => $contentType->getRoles()['show_link_create'],
+                'show_link_search' => $contentType->getRoles()['show_link_search'],
+            ];
+
+            $contentTypePermissions[] = [
+                'contentType' => $contentType,
+                'roles' => $roles,
+            ];
         }
 
-        $roles = ['ROLE_AUTHOR', 'ROLE_REVIEWER', 'ROLE_TRADUCTOR', 'ROLE_AUDITOR', 'ROLE_COPYWRITER', 'ROLE_PUBLISHER', 'ROLE_WEBMASTER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN'];
-
-        $roleDescriptions = [
-            'ROLE_AUTHOR' => 'Author can create and edit content.',
-            'ROLE_REVIEWER' => 'Reviewer role for reviewing content.',
-            'ROLE_TRADUCTOR' => 'Traductor role for translating content.',
-            'ROLE_AUDITOR' => 'Auditor role for auditing content.',
-            'ROLE_COPYWRITER' => 'Copywriter role for writing content.',
-            'ROLE_PUBLISHER' => 'Publisher role for publishing content.',
-            'ROLE_WEBMASTER' => 'Webmaster role for managing website.',
-            'ROLE_ADMIN' => 'Admin role for administrative tasks.',
-            'ROLE_SUPER_ADMIN' => 'Super Admin role for all functionalities.',
+        $roles = [
+            Roles::ROLE_AUTHOR,
+            Roles::ROLE_REVIEWER,
+            Roles::ROLE_TRADUCTOR,
+            Roles::ROLE_AUDITOR,
+            Roles::ROLE_COPYWRITER,
+            Roles::ROLE_PUBLISHER,
+            Roles::ROLE_WEBMASTER,
+            Roles::ROLE_ADMIN,
+            Roles::ROLE_SUPER_ADMIN,
         ];
 
         return $this->render("@$this->templateNamespace/user/permissions/permissions.html.twig", [
-            'contentTypes' => $contentTypes,
             'contentTypeCounts' => $contentTypeCounts,
             'roles' => $roles,
-            'roleDescriptions' => $roleDescriptions,
+            'contentTypePermissions' => $contentTypePermissions,
+            'contentTypes' => $contentTypes,
         ]);
     }
 

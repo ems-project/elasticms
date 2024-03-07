@@ -1033,9 +1033,9 @@ view:
                 role_allow_align: 'Align environment grants access to a tool that allows bulk publishing of various documents.'
                 role_user_management: 'User Management role for managing users.'
                 role_copy_paste: 'Copy/Paste role for copying and pasting content on documents.'
-                role_default_search: 'Default Search role for default search functionality.'
+                role_default_search: 'Default Search role for default search functionality (deprecated).'
                 role_super_user: 'Super User role for super user functionalities.'
-                role_user_read: 'User Read role for reading user data.'
+                role_user_read: 'User Read role for accessing to CMS user accounts information through the API.'
         specific_permissions:
             back: 'Back'
             breadcrumb:

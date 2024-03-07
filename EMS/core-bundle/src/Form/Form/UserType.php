@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use Doctrine\ORM\EntityRepository;
+use EMS\CommonBundle\Common\Standard\DateTime;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\WysiwygProfile;
@@ -66,16 +67,17 @@ final class UserType extends AbstractType
         $builder
             ->add('expirationDate', DateType::class, [
                 'required' => false,
-                'label' => 'form-submission.index.column.expire_date',
-//                'constraints' => [
-//                    new Assert\DateTime([
-//                        'message' => 'Please enter a valid expiration date.',
-//                    ]),
-//                    new Assert\GreaterThanOrEqual([
-//                        'value' => new \DateTime(),
-//                        'message' => 'The expiration date must be greater than or equal to the current date.',
-//                    ]),
-//                ],
+                'label' => 'Expiration date',
+                'constraints' => [
+                    new Assert\Type([
+                        'type' => '\DateTimeInterface',
+                        'message' => 'Please enter a valid expiration date.',
+                    ]),
+                    new Assert\GreaterThanOrEqual([
+                        'value' => new \DateTime(),
+                        'message' => 'The expiration date must be greater than or equal to the current date.',
+                    ]),
+                ],
             ])
             ->add('emailNotification', CheckboxType::class, [
                 'required' => false,

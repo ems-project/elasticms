@@ -11,6 +11,7 @@ use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -113,8 +114,9 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private ?\DateTime $lastLogin = null;
     /**
      * @ORM\Column(name="expiration_date", type="datetime", nullable=true)
+     * @Assert\Type("\DateTimeInterface")
      */
-    private ?\DateTime $expirationDate = null;
+    private ?\DateTimeInterface $expirationDate = null;
     /**
      * @ORM\Column(name="confirmation_token", type="string", length=180, unique=true, nullable=true)
      */
@@ -198,12 +200,12 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         return $this->circles ?? [];
     }
 
-    public function getExpirationDate(): ?\DateTime
+    public function getExpirationDate(): ?\DateTimeInterface
     {
         return $this->expirationDate;
     }
 
-    public function setExpirationDate(?\DateTime $time = null): void
+    public function setExpirationDate(?\DateTimeInterface $time = null): void
     {
         $this->expirationDate = $time;
     }

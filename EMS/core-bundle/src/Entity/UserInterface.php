@@ -2,7 +2,6 @@
 
 namespace EMS\CoreBundle\Entity;
 
-use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 
 interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface

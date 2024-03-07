@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Revision\Task;
 
 use EMS\CoreBundle\Core\Mail\MailerService;
-use EMS\CoreBundle\Repository\TaskRepository;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -14,7 +13,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
     private const MAIL_TEMPLATE = '/revision/task/mail.twig';
 
     public function __construct(
-        private readonly TaskRepository $taskRepository,
+        private readonly TaskManager $taskManager,
         private readonly MailerService $mailerService,
         private readonly UserService $userService,
         private readonly ?string $urlUser,
@@ -43,7 +42,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
     {
         $task = $event->task;
         $task->addLog(TaskLog::logCreate($task, $event->username));
-        $this->taskRepository->save($task);
+        $this->taskManager->taskSave($task);
     }
 
     public function onTaskUpdate(TaskEvent $event): void
@@ -55,7 +54,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
         $changeSet = $event->changeSet;
         $task = $event->task;
         $task->addLog(TaskLog::logUpdate($task, $event->username, $changeSet));
-        $this->taskRepository->save($task);
+        $this->taskManager->taskSave($task);
 
         if ($event->isTaskCurrent()) {
             if (isset($changeSet['assignee'])) {
@@ -63,7 +62,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
                 $this->sendMail($event, 'created', $changeSet['assignee'][1]);
 
                 $task->addLog(TaskLog::logNewAssignee($task, $event->username));
-                $this->taskRepository->save($task);
+                $this->taskManager->taskSave($task);
             } else {
                 $this->sendMail($event, 'updated', $task->getAssignee());
             }
@@ -128,7 +127,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
         $task->setStatus($status->value);
 
         $task->addLog(TaskLog::logStatusUpdate($event->task, $event->username, $event->comment));
-        $this->taskRepository->save($task);
+        $this->taskManager->taskSave($task);
     }
 
     private function sendMail(TaskEvent $event, string $type, string $receiverUsername): void

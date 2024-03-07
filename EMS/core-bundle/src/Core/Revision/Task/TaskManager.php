@@ -149,6 +149,11 @@ final class TaskManager
         $transaction($revision);
     }
 
+    public function taskSave(Task $task): void
+    {
+        $this->taskRepository->save($task);
+    }
+
     public function taskValidate(Revision $revision, bool $approve, ?string $comment): void
     {
         $transaction = $this->revisionTransaction(function (Revision $revision) use ($approve, $comment) {

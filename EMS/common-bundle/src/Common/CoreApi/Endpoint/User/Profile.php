@@ -84,6 +84,7 @@ final class Profile implements ProfileInterface
     {
         return $this->lastLogin;
     }
+
     public function getExpirationDate(): ?\DateTimeImmutable
     {
         return $this->expirationDate;

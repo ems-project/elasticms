@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 
 interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface
 {
-    public function getCreated(): DateTimeInterface;
+    public function getCreated(): \DateTimeInterface;
 
-    public function getModified(): DateTimeInterface;
+    public function getModified(): \DateTimeInterface;
 
     /** @return string[] */
     public function getCircles(): array;
@@ -55,7 +55,8 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
     public function getEmail(): string;
 
     public function getLastLogin(): ?\DateTime;
-    public function getExpirationDate(): ?DateTimeInterface;
+
+    public function getExpirationDate(): ?\DateTime;
 
     /**
      * @return array{
@@ -66,7 +67,7 @@ interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterf
      *     email:string,
      *     circles:array<string>,
      *     lastLogin: ?string,
-     *     expirationDate: ?DateTimeInterface,
+     *     expirationDate: ?string,
      *     userOptions: ?array<string, mixed>
      * }
      */

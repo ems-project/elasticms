@@ -187,7 +187,7 @@ class UserController extends AbstractController
 
     public function spreadsheetExport(string $_format): Response
     {
-        $rows = [['username', 'display name', 'notification', 'email', 'enabled', 'last login', 'roles']];
+        $rows = [['username', 'display name', 'notification', 'email', 'enabled', 'last login', 'expiration date', 'roles']];
         foreach ($this->userService->getAll() as $user) {
             $lastLogin = $user->getLastLogin();
             if (null !== $lastLogin) {
@@ -201,6 +201,7 @@ class UserController extends AbstractController
                 $user->getEmailNotification() ? 'Y' : 'N',
                 $user->getEmail(),
                 $user->isEnabled() ? 'Y' : 'N',
+                $user->getExpirationDate(),
                 $lastLogin,
                 \implode(', ', $user->getRoles()),
             ];

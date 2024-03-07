@@ -48,16 +48,6 @@ final class UserType extends AbstractType
             ->add('username', null, [
                 'label' => 'form.username',
                 'disabled' => (self::MODE_CREATE !== $mode),
-            ])
-            ->add('expirationDate', DateType::class, [
-                'required' => true,
-                'label' => 'Expiration date',
-                'constraints' => [
-                    new Assert\GreaterThanOrEqual([
-                        'value' => new \DateTime(),
-                        'message' => 'The expiration date must be greater than or equal to the current date.',
-                    ]),
-                ],
             ]);
 
         if (self::MODE_CREATE === $mode) {
@@ -74,6 +64,19 @@ final class UserType extends AbstractType
         }
 
         $builder
+            ->add('expirationDate', DateType::class, [
+                'required' => false,
+                'label' => 'form-submission.index.column.expire_date',
+//                'constraints' => [
+//                    new Assert\DateTime([
+//                        'message' => 'Please enter a valid expiration date.',
+//                    ]),
+//                    new Assert\GreaterThanOrEqual([
+//                        'value' => new \DateTime(),
+//                        'message' => 'The expiration date must be greater than or equal to the current date.',
+//                    ]),
+//                ],
+            ])
             ->add('emailNotification', CheckboxType::class, [
                 'required' => false,
             ])

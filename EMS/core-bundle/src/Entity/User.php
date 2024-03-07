@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Entity;
 
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,7 @@ use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -113,8 +115,9 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private ?\DateTime $lastLogin = null;
     /**
      * @ORM\Column(name="expiration_date", type="datetime", nullable=true)
+     * @Assert\Type("\DateTimeInterface")
      */
-    private \DateTime $expirationDate;
+    private ?\DateTimeInterface $expirationDate = null;
     /**
      * @ORM\Column(name="confirmation_token", type="string", length=180, unique=true, nullable=true)
      */
@@ -163,6 +166,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
             'email' => $this->getEmail(),
             'circles' => $this->getCircles(),
             'lastLogin' => null !== $this->getLastLogin() ? $this->getLastLogin()->format('c') : null,
+            'expirationDate' => null !== $this->getExpirationDate() ? $this->getExpirationDate()->format('c') : null,
             'locale' => $this->getLocale(),
             'localePreferred' => $this->getLocalePreferred(),
             'userOptions' => $this->userOptions,
@@ -197,18 +201,16 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         return $this->circles ?? [];
     }
 
-    public function getExpirationDate(): \DateTime
+    public function getExpirationDate(): ?\DateTimeInterface
     {
         return $this->expirationDate;
     }
 
-    public function setExpirationDate(\DateTime $expirationDate): self
+    public function setExpirationDate(?DateTimeInterface  $time = null): self
     {
-        $this->expirationDate = $expirationDate;
-
+        $this->expirationDate = $time;
         return $this;
     }
-
     /**
      * {@inheritDoc}
      */
@@ -362,6 +364,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
             $this->id,
             $this->email,
             $this->emailCanonical,
+            $this->expirationDate,
         ]);
     }
 

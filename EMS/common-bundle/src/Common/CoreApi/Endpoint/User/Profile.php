@@ -19,6 +19,7 @@ final class Profile implements ProfileInterface
     /** @var array<string, mixed> */
     private readonly array $userOptions;
     private ?\DateTimeImmutable $lastLogin = null;
+    private ?\DateTimeImmutable $expirationDate = null;
 
     /**
      * @param array<string, mixed> $data
@@ -36,6 +37,10 @@ final class Profile implements ProfileInterface
         if (isset($data['lastLogin'])) {
             $lastLogin = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $data['lastLogin']);
             $this->lastLogin = false !== $lastLogin ? $lastLogin : null;
+        }
+        if (isset($data['expirationDate'])) {
+            $expirationDate = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $data['expirationDate']);
+            $this->expirationDate = false !== $expirationDate ? $expirationDate : null;
         }
     }
 
@@ -78,6 +83,10 @@ final class Profile implements ProfileInterface
     public function getLastLogin(): ?\DateTimeImmutable
     {
         return $this->lastLogin;
+    }
+    public function getExpirationDate(): ?\DateTimeImmutable
+    {
+        return $this->expirationDate;
     }
 
     /**

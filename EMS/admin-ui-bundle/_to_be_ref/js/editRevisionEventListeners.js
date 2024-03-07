@@ -47,28 +47,8 @@ function editRevisionEventListeners(target, onChangeCallback = null){
                 txtCellSpace['default'] = "";
                 const txtWidth = infoTab.get( 'txtWidth' );
                 txtWidth['default'] = "";
-
             }
         });
-
-        if (ckconfig.hasOwnProperty('emsAjaxPaste')) {
-            let editor = CKEDITOR.instances[$( this ).attr('id')];
-            editor.on('beforePaste', (event) => {
-                let pastedText = event.data.dataTransfer.getData('text/html');
-                if (!pastedText || pastedText === '') return
-
-                event.cancel();
-                fetch(ckconfig.emsAjaxPaste, {
-                    method: 'POST',
-                    body: JSON.stringify({ content: pastedText }),
-                    headers: { 'Content-Type': 'application/json' }
-                }).then((response) => {
-                    return response.ok ? response.json().then((json) => {
-                        editor.fire( 'paste', { type: 'auto', dataValue: json.content, method: 'paste' } );
-                    }): Promise.reject(response)
-                }).catch(() => { console.error('error pasting') })
-            });
-        }
     });
 }
 

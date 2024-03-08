@@ -1,4 +1,13 @@
-{% block task_event_mail %}
+{% trans_default_domain 'EMSCoreBundle' %}
+
+{% block task_event_mail_subject %}
+    {{ "task.mail.#{type}.subject"|trans({
+        '%title%': task.title,
+        '%document%': revision|emsco_display
+    })|raw }}
+{% endblock task_event_mail_subject %}
+
+{% block task_event_mail_body %}
     <p>From « {{ senderUsername|displayname }} » ,</p>
     <p>Greetings {{ receiver.displayname }},</p>
     <p>This task has been: {{ action }} {{ senderRole ? "by #{senderRole}" }}</p>
@@ -12,4 +21,29 @@
     {% if comment %}<p><strong>comment:</strong><br/>{{ comment|nl2br }}</p>{% endif %}
     <p>Link to document : <a href="{{ documentUrl }}" target="_blank"><strong>{{ revision|emsco_display }}</strong></a></p>
     <p>Kind regards</p>
-{% endblock task_event_mail %}
+{% endblock task_event_mail_body  %}
+
+{% block task_notification_mail_subject %}
+    {{ subject|raw }}
+{% endblock task_notification_mail_subject %}
+
+{% block task_notification_mail_body  %}
+    <p>Greetings {{ receiver.displayname }},</p>
+
+    <p>Below, you'll find the list of task that are overdue</p>
+
+    <ul>
+        {% for revision in revisions %}
+            {% set task = revision.taskCurrent %}
+            <li>{{ "task.status.#{task.status}"|trans }}: {{ task.title }}  in
+                <a href="{{ attribute(documentUrls, revision.ouuid) }}" target="_blank">
+                    <strong>{{ revision|emsco_display }}</strong>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p>Please process them urgently within two days</p>
+
+    <p>Kind regards</p>
+{% endblock task_notification_mail_body  %}

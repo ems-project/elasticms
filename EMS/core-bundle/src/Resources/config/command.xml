@@ -73,6 +73,11 @@
             <argument>%ems_core.date_format%</argument>
             <tag name="console.command"/>
         </service>
+        <service id="emsco.command.revision.task.notification_mail" class="EMS\CoreBundle\Command\Revision\Task\TaskNotificationMailCommand">
+            <argument type="service" id="emsco.revision.task.manager"/>
+            <argument type="service" id="emsco.revision.task.mailer"/>
+            <tag name="console.command"/>
+        </service>
         <!-- EMSCO release -->
         <service id="emsco.release.publish" class="EMS\CoreBundle\Command\Release\PublishReleaseCommand">
             <argument type="service" id="ems.service.release"/>

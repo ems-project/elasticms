@@ -47,6 +47,16 @@ final class TaskManager
         return $task;
     }
 
+    /**
+     * @return Revision[]
+     */
+    public function getRevisionsWithCurrentTask(): array
+    {
+        $statuses = [TaskStatus::PROGRESS, TaskStatus::REJECTED, TaskStatus::COMPLETED];
+
+        return $this->revisionRepository->findAllWithCurrentTask(...$statuses);
+    }
+
     public function getTasksPlanned(Revision $revision): TaskCollection
     {
         $tasks = new TaskCollection($revision);

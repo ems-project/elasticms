@@ -31,7 +31,6 @@
                                 <th>{{ 'view.user.permissions.table_headers.specific_roles'|trans }}</th>
                             </tr>
                             {% for contentType in contentTypes %}
-                                {{ dump(contentType) }}
                                 <tr class="text-{{ contentType.color }}">
                                     <td class="text-center">{{ contentType.name }}</td>
                                     <td class="text-center"><i class="{% if contentType.icon %}{{ contentType.icon }}{% else %}fa fa-book{% endif %}"></i></td>
@@ -109,26 +108,19 @@
                             </tr>
                             </thead>
                             <tbody>
+                                {% for role in rolesFct %}
+                                    <tr>
+                                        <td>{{ role|trans }}</td>
+                                        <td>
+                                            {% set translationKey = 'view.user.permissions.roles_functionality.' ~ role|lower %}
+                                            {% set translatedDescription = translationKey|trans %}
 
-                            {% for roleData in [
-                                {'role': 'ROLE_API', 'description': 'view.user.permissions.roles_functionality.role_api'|trans},
-                                {'role': 'ROLE_FORM_CRM', 'description': 'view.user.permissions.roles_functionality.role_form_crm'|trans},
-                                {'role': 'ROLE_TASK_MANAGER', 'description': 'view.user.permissions.roles_functionality.role_task_manager'|trans},
-                                {'role': 'ROLE_ALLOW_ALIGN', 'description': 'view.user.permissions.roles_functionality.role_allow_align'|trans},
-                                {'role': 'ROLE_USER_MANAGEMENT', 'description': 'view.user.permissions.roles_functionality.role_user_management'|trans},
-                                {'role': 'ROLE_COPY_PASTE', 'description': 'view.user.permissions.roles_functionality.role_copy_paste'|trans},
-                                {'role': 'ROLE_DEFAULT_SEARCH', 'description': 'view.user.permissions.roles_functionality.role_default_search'|trans},
-                                {'role': 'ROLE_SUPER_USER', 'description': 'view.user.permissions.roles_functionality.role_super_user'|trans},
-                                {'role': 'ROLE_USER_READ', 'description': 'view.user.permissions.roles_functionality.role_user_read'|trans}
-                            ] %}
-                                <tr>
-                                    <td>{{ roleData.role|trans }}</td>
-                                    <td>{{ roleData.description|trans }}</td>
-                                </tr>
-                            {% endfor %}
+                                            {{ translatedDescription }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
-
                     </div>
                 </div>
             </div>

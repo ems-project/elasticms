@@ -80,11 +80,6 @@ class UserController extends AbstractController
                 'show_link_create' => $contentType->getRoles()['show_link_create'],
                 'show_link_search' => $contentType->getRoles()['show_link_search'],
             ];
-
-            $contentTypePermissions[] = [
-                'contentType' => $contentType,
-                'roles' => $roles,
-            ];
         }
 
         $roles = [
@@ -99,10 +94,22 @@ class UserController extends AbstractController
             Roles::ROLE_SUPER_ADMIN,
         ];
 
+        $rolesFct = [
+            'ROLE_API',
+            'ROLE_FORM_CRM',
+            'ROLE_TASK_MANAGER',
+            'ROLE_ALLOW_ALIGN',
+            'ROLE_USER_MANAGEMENT',
+            'ROLE_COPY_PASTE',
+            'ROLE_DEFAULT_SEARCH',
+            'ROLE_SUPER_USER',
+            'ROLE_USER_READ',
+        ];
+
         return $this->render("@$this->templateNamespace/user/permissions/permissions.html.twig", [
             'contentTypeCounts' => $contentTypeCounts,
             'roles' => $roles,
-            'contentTypePermissions' => $contentTypePermissions,
+            'rolesFct' => $rolesFct,
             'contentTypes' => $contentTypes,
         ]);
     }

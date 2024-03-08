@@ -51,6 +51,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_ascii_folding', Encoder::asciiFolding(...)),
             new TwigFilter('ems_markdown', Encoder::markdownToHtml(...), ['is_safe' => ['html']]),
             new TwigFilter('ems_stringify', Converter::stringify(...)),
+            new TwigFilter('ems_slug', [Encoder::class, 'slug']),
             new TwigFilter('ems_temp_file', [AssetRuntime::class, 'temporaryFile']),
             new TwigFilter('ems_asset_average_color', [AssetRuntime::class, 'assetAverageColor'], ['is_safe' => ['html']]),
             new TwigFilter('ems_replace_regex', [TextRuntime::class, 'replaceRegex'], ['is_safe' => ['html']]),
@@ -68,7 +69,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_contrast_ratio', $this->contrastRatio(...)),
             new TwigFilter('ems_first_in_array', $this->firstInArray(...)),
             // deprecated
-            new TwigFilter('ems_webalize', (new Encoder())->webalizeForUsers(...), ['deprecated' => true, 'alternative' => 'slug|lower']),
+            new TwigFilter('ems_webalize', (new Encoder())->webalizeForUsers(...), ['deprecated' => true, 'alternative' => 'ems_slug']),
             new TwigFilter('array_key', $this->arrayKey(...), ['deprecated' => true, 'alternative' => 'ems_array_key']),
             new TwigFilter('format_bytes', Converter::formatBytes(...), ['deprecated' => true, 'alternative' => 'ems_format_bytes']),
             new TwigFilter('locale_attr', [RequestRuntime::class, 'localeAttribute'], ['deprecated' => true, 'alternative' => 'ems_locale_attr']),

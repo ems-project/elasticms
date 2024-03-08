@@ -4,10 +4,18 @@ namespace EMS\CommonBundle\Helper\Text;
 
 use cebe\markdown\GithubMarkdown;
 use EMS\CommonBundle\DependencyInjection\Configuration;
+use Symfony\Component\String\AbstractUnicodeString;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class Encoder
 {
-    public function __construct(private readonly string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, private readonly string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX)
+    private ?AsciiSlugger $slugger = null;
+
+    /**
+     * @param array<string, array<string, string>>|null $sluggerSymbolMap
+     */
+    public function __construct(private readonly string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, private readonly string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, private readonly ?array $sluggerSymbolMap = null)
     {
     }
 
@@ -62,17 +70,31 @@ class Encoder
 
     public function webalizeForUsers(string $text, string $locale = null): ?string
     {
+        @\trigger_error('The webalizeForUsers method is deprecated, use the slug method', \E_USER_DEPRECATED);
+
         return static::webalize($text, $this->webalizeRemovableRegex, $this->webalizeDashableRegex, $locale);
     }
 
     public static function webalize(string $text, string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, string $locale = null): string
     {
+        @\trigger_error('The webalize method is deprecated, use the slug method', \E_USER_DEPRECATED);
         $clean = self::asciiFolding($text, $locale);
         $clean = \preg_replace($webalizeRemovableRegex, '', $clean) ?? '';
         $clean = \strtolower(\trim($clean, '-'));
         $clean = \preg_replace($webalizeDashableRegex, '-', $clean) ?? '';
 
         return $clean;
+    }
+
+    public function slug(string $text, string $locale = null, bool $lower = true): AbstractUnicodeString
+    {
+        $slugger = $this->getSlugger($locale ?? 'en');
+        $slug = $slugger->slug($text);
+        if ($lower) {
+            $slug = $slug->lower();
+        }
+
+        return $slug;
     }
 
     public static function asciiFolding(string $text, string $locale = null): string
@@ -196,5 +218,18 @@ class Encoder
         $default = [4 => 'fa fa-file-o', 5 => 'far fa-file'];
 
         return $default[$versionIndex];
+    }
+
+    private function getSlugger(string $locale): SluggerInterface
+    {
+        if (null === $this->slugger) {
+            \dump($this->sluggerSymbolMap);
+            $this->slugger = new AsciiSlugger($locale, $this->sluggerSymbolMap);
+        } else {
+            $this->slugger->setLocale($locale);
+        }
+        $this->slugger->withEmoji($locale);
+
+        return $this->slugger;
     }
 }

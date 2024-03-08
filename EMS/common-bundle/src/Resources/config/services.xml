@@ -60,6 +60,7 @@
         <service id="ems_common.text.encoder" class="EMS\CommonBundle\Helper\Text\Encoder">
             <argument type="string">%ems_common.webalize.removable_regex%</argument>
             <argument type="string">%ems_common.webalize.dashable_regex%</argument>
+            <argument type="string">%ems_common.slug_symbol_map%</argument>
             <tag name="twig.runtime" />
         </service>
         <service id="ems_common.helper.cache" class="EMS\CommonBundle\Helper\Cache">

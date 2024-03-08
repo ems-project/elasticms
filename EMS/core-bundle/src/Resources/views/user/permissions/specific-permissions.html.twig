@@ -1,6 +1,6 @@
 {% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
-{% block pagetitle %}  <a href="{{ path('user.permissions') }}" class="btn btn-default"><i class="fa fa-arrow-left"></i>{{ 'view.user.specific_permissions.back'|trans }}</a>{% endblock %}
+{% block pagetitle %}{{ 'view.user.specific_permissions.titles.specific_permissions'|trans({'%content_type_singular_name%': contentType.name}) }}{% endblock %}
 
 {% block breadcrumb %}
     <ol class="breadcrumb">

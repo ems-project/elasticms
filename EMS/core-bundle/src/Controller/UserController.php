@@ -68,6 +68,18 @@ class UserController extends AbstractController
             });
 
             $contentTypeCounts[$contentType->getId()] = \count($fieldTypesWithMinimumRole);
+
+            $roles = [
+                'view' => $contentType->getRoles()['view'],
+                'create' => $contentType->getRoles()['create'],
+                'edit' => $contentType->getRoles()['edit'],
+                'publish' => $contentType->getRoles()['publish'],
+                'delete' => $contentType->getRoles()['delete'],
+                'trash' => $contentType->getRoles()['trash'],
+                'archive' => $contentType->getRoles()['archive'],
+                'show_link_create' => $contentType->getRoles()['show_link_create'],
+                'show_link_search' => $contentType->getRoles()['show_link_search'],
+            ];
         }
 
         $roles = [
@@ -82,22 +94,22 @@ class UserController extends AbstractController
             Roles::ROLE_SUPER_ADMIN,
         ];
 
-        $rolesFunctionality = [
-            Roles::ROLE_API,
-            Roles::ROLE_FORM_CRM,
-            Roles::ROLE_TASK_MANAGER,
-            Roles::ROLE_ALLOW_ALIGN,
-            Roles::ROLE_USER_MANAGEMENT,
-            Roles::ROLE_COPY_PASTE,
-            Roles::ROLE_DEFAULT_SEARCH,
-            Roles::ROLE_SUPER_USER,
-            Roles::ROLE_USER_READ,
+        $rolesFct = [
+            'ROLE_API',
+            'ROLE_FORM_CRM',
+            'ROLE_TASK_MANAGER',
+            'ROLE_ALLOW_ALIGN',
+            'ROLE_USER_MANAGEMENT',
+            'ROLE_COPY_PASTE',
+            'ROLE_DEFAULT_SEARCH',
+            'ROLE_SUPER_USER',
+            'ROLE_USER_READ',
         ];
 
         return $this->render("@$this->templateNamespace/user/permissions/permissions.html.twig", [
             'contentTypeCounts' => $contentTypeCounts,
             'roles' => $roles,
-            'rolesFunctionality' => $rolesFunctionality,
+            'rolesFct' => $rolesFct,
             'contentTypes' => $contentTypes,
         ]);
     }

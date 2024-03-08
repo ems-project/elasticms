@@ -90,8 +90,8 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('webalize')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('removable_regex')->defaultValue(self::WEBALIZE_REMOVABLE_REGEX)->end()
-                        ->scalarNode('dashable_regex')->defaultValue(self::WEBALIZE_DASHABLE_REGEX)->end()
+                        ->scalarNode('removable_regex')->defaultValue(self::WEBALIZE_REMOVABLE_REGEX)->setDeprecated('elasticms/common-bundle', '6.0.0')->end()
+                        ->scalarNode('dashable_regex')->defaultValue(self::WEBALIZE_DASHABLE_REGEX)->setDeprecated('elasticms/common-bundle', '6.0.0')->end()
                 ->end()
             ->end()
         ;

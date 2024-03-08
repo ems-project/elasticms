@@ -16,9 +16,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class TaskNotificationMailCommand extends AbstractCommand
 {
     private string $subject;
+    private bool $includeTasksManagers;
 
     protected static $defaultName = Commands::REVISION_TASK_NOTIFICATION_MAIL;
     private const OPTION_SUBJECT = 'subject';
+    private const OPTION_INCLUDE_TASK_MANAGERS = 'include-task-managers';
 
     public function __construct(
         private readonly TaskManager $taskManager,
@@ -31,7 +33,9 @@ final class TaskNotificationMailCommand extends AbstractCommand
     {
         $this
             ->setDescription('Send notification mail for tasks')
-            ->addOption(self::OPTION_SUBJECT, null, InputOption::VALUE_REQUIRED, 'Set mail subject', 'notification tasks');
+            ->addOption(self::OPTION_SUBJECT, null, InputOption::VALUE_REQUIRED, 'Set mail subject', 'notification tasks')
+            ->addOption(self::OPTION_INCLUDE_TASK_MANAGERS, null, InputOption::VALUE_NONE, 'Include task managers')
+        ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -41,12 +45,14 @@ final class TaskNotificationMailCommand extends AbstractCommand
         $this->io->title('EMS - Revision - Task notification mail');
 
         $this->subject = $this->getOptionString(self::OPTION_SUBJECT);
+        $this->includeTasksManagers = $this->getOptionBool(self::OPTION_INCLUDE_TASK_MANAGERS);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $revisionsByReceiver = [];
         $revisionsWithCurrentTask = $this->taskManager->getRevisionsWithCurrentTask();
+        $taskManagers = $this->taskManager->getTaskManagers();
 
         foreach ($revisionsWithCurrentTask as $revision) {
             $task = $revision->getTaskCurrent();
@@ -57,6 +63,12 @@ final class TaskNotificationMailCommand extends AbstractCommand
             }
             if (TaskStatus::COMPLETED === $taskStatus) {
                 $revisionsByReceiver[$task->getCreatedBy()][] = $revision;
+            }
+
+            if ($this->includeTasksManagers) {
+                foreach ($taskManagers as $taskManager) {
+                    $revisionsByReceiver[$taskManager->getUsername()][] = $revision;
+                }
             }
         }
 

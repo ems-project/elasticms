@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Core\Revision\Task;
 
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Task;
+use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Repository\TaskRepository;
@@ -55,6 +56,20 @@ final class TaskManager
         $statuses = [TaskStatus::PROGRESS, TaskStatus::REJECTED, TaskStatus::COMPLETED];
 
         return $this->revisionRepository->findAllWithCurrentTask(...$statuses);
+    }
+
+    /**
+     * @return array<string, User>
+     */
+    public function getTaskManagers(): array
+    {
+        $users = $this->userService->findUsersWithRoles([Roles::ROLE_TASK_MANAGER]);
+
+        return \array_reduce($users, static function ($carry, User $user) {
+            $carry[$user->getUsername()] = $user;
+
+            return $carry;
+        }, []);
     }
 
     public function getTasksPlanned(Revision $revision): TaskCollection

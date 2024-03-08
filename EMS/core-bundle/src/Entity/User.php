@@ -11,7 +11,6 @@ use EMS\CoreBundle\Roles;
 use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -203,6 +202,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     {
         return $this->expirationDate;
     }
+
     public function setExpirationDate(?\DateTime $time = null): void
     {
         $this->expirationDate = $time;

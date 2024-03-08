@@ -31,8 +31,8 @@ parameters:
     env(EMS_METRIC_ENABLED): false
     env(EMS_METRIC_HOST): ''
     env(EMS_METRIC_PORT): ~
-    env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
-    env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
+    env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9_| \-.''\/])|(\.$)/'
+    env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/| '']+/'
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
 
 ems_common:

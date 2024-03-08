@@ -6,6 +6,15 @@ namespace EMS\Helpers\Standard;
 
 final class Type
 {
+    public static function bool(mixed $value): bool
+    {
+        if (!\is_bool($value)) {
+            throw new \RuntimeException(\sprintf("Expect a bool got '%s'", \gettype($value)));
+        }
+
+        return $value;
+    }
+
     public static function string(mixed $value): string
     {
         if (!\is_string($value)) {

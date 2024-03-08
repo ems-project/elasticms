@@ -43,6 +43,7 @@ import { TextTransformation } from '@ckeditor/ckeditor5-typing'
 import { Undo } from '@ckeditor/ckeditor5-undo'
 
 import { UploadAdapter } from './ck5/uploadAdapter'
+import { PasteAjax } from './ck5/pasteAjax'
 
 import ChangeEvent from '../events/changeEvent'
 
@@ -123,6 +124,7 @@ export default class Editor {
         List,
         MediaEmbed,
         Paragraph,
+        PasteAjax,
         PictureEditing,
         RemoveFormat,
         SourceEditing,

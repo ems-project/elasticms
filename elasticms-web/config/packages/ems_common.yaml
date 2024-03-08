@@ -28,6 +28,7 @@ parameters:
     env(EMS_WEBALIZE_REMOVABLE_REGEX): '/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/'
     env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
+    env(EMS_SLUG_SYMBOL_MAP): ~
 
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
@@ -41,6 +42,7 @@ ems_common:
     backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
     elasticsearch_proxy_api: '%env(bool:EMS_ELASTICSEARCH_PROXY_API)%'
     excluded_content_types: '%env(json:EMS_EXCLUDED_CONTENT_TYPES)%'
+    slug_symbol_map: '%env(json:EMS_SLUG_SYMBOL_MAP)%'
     webalize:
         removable_regex: '%env(string:EMS_WEBALIZE_REMOVABLE_REGEX)%'
         dashable_regex: '%env(string:EMS_WEBALIZE_DASHABLE_REGEX)%'

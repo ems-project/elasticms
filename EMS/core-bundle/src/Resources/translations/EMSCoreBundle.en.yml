@@ -796,7 +796,7 @@ task:
             action: 'created'
         deleted:
             subject: 'Deleted task "%title%" for "%document%"'
-            action: 'celeted'
+            action: 'deleted'
         rejected:
             subject: 'Rejected task "%title%" for "%document%"'
             action: 'rejected'

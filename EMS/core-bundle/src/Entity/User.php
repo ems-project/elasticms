@@ -114,9 +114,8 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     private ?\DateTime $lastLogin = null;
     /**
      * @ORM\Column(name="expiration_date", type="datetime", nullable=true)
-     * @Assert\Type("\DateTimeInterface")
      */
-    private ?\DateTimeInterface $expirationDate = null;
+    private ?\DateTime $expirationDate = null;
     /**
      * @ORM\Column(name="confirmation_token", type="string", length=180, unique=true, nullable=true)
      */
@@ -200,12 +199,11 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         return $this->circles ?? [];
     }
 
-    public function getExpirationDate(): ?\DateTimeInterface
+    public function getExpirationDate(): ?\DateTime
     {
         return $this->expirationDate;
     }
-
-    public function setExpirationDate(?\DateTimeInterface $time = null): void
+    public function setExpirationDate(?\DateTime $time = null): void
     {
         $this->expirationDate = $time;
     }

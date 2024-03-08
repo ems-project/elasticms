@@ -9,7 +9,7 @@ use EMS\CoreBundle\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
-
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 final class LoginListener implements EventSubscriberInterface
 {
     public function __construct(private readonly UserManager $userManager)
@@ -31,8 +31,15 @@ final class LoginListener implements EventSubscriberInterface
         $user = $event->getAuthenticationToken()->getUser();
 
         if ($user instanceof User) {
-            $user->setLastLogin(new \DateTime());
-            $this->userManager->update($user);
+            $currentDateTime = new \DateTime();
+            $expirationDate = $user->getExpirationDate();
+
+            if ($expirationDate !== null && $currentDateTime > $expirationDate) {
+                throw new AccessDeniedException('Access Denied: Your account has expired.');
+            } else {
+                $user->setLastLogin($currentDateTime);
+                $this->userManager->update($user);
+            }
         }
     }
 }

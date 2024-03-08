@@ -19,7 +19,7 @@
         {% if task.hasDescription %}<strong>description:</strong><br/>{{ task.description|nl2br }}{% endif %}
     </p>
     {% if comment %}<p><strong>comment:</strong><br/>{{ comment|nl2br }}</p>{% endif %}
-    <p>Link to document : <a href="{{ documentUrl }}" target="_blank"><strong>{{ revision|emsco_display }}</strong></a></p>
+    <p>Link to document: <a href="{{ documentUrl }}" target="_blank"><strong>{{ revision|emsco_display }}</strong></a></p>
     <p>Kind regards</p>
 {% endblock task_event_mail_body  %}
 
@@ -30,15 +30,16 @@
 {% block task_notification_mail_body  %}
     <p>Greetings {{ receiver.displayname }},</p>
 
-    <p>Below, you'll find the list of task that are overdue</p>
+    <p>Below, you'll find the list of task that are overdue or active</p>
 
     <ul>
-        {% for revision in revisions %}
+        {% for revision in revisions[0:limit] %}
             {% set task = revision.taskCurrent %}
-            <li>{{ "task.status.#{task.status}"|trans }}: {{ task.title }}  in
-                <a href="{{ attribute(documentUrls, revision.ouuid) }}" target="_blank">
-                    <strong>{{ revision|emsco_display }}</strong>
-                </a>
+            <li>
+                <p>
+                    {{ "task.status.#{task.status}"|trans }}: {{ task.title }} (deadline: {{ task.deadline.format(date_format) }})<br/>
+                    Link to document: <a href="{{ attribute(documentUrls, revision.ouuid) }}" target="_blank"><strong>{{ revision|emsco_display }}</strong></a>
+                </p>
             </li>
         {% endfor %}
     </ul>

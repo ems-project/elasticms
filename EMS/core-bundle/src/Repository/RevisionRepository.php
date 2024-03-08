@@ -682,7 +682,7 @@ class RevisionRepository extends EntityRepository
     /**
      * @return Revision[]
      */
-    public function findAllWithCurrentTask(TaskStatus ...$status): array
+    public function findAllWithCurrentTask(?\DateTimeInterface $deadline = null, TaskStatus ...$status): array
     {
         $qb = $this->createQueryBuilder('r');
         $qb
@@ -693,6 +693,12 @@ class RevisionRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(false)))
             ->orderBy('t.deadline, t.status')
         ;
+
+        if ($deadline) {
+            $qb
+                ->andWhere($qb->expr()->gte('t.deadline', ':deadline'))
+                ->setParameter('deadline', $deadline->format(\DATE_ATOM));
+        }
 
         if (\count($status) > 0) {
             $statuses = \array_map(static fn (TaskStatus $s) => $s->value, $status);

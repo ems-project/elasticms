@@ -69,7 +69,7 @@ class TaskMailer
     /**
      * @param Revision[] $revisions
      */
-    public function sendNotificationMail(string $receiverUsername, string $subject, array $revisions): void
+    public function sendNotificationMail(string $receiverUsername, string $subject, array $revisions, int $limit): void
     {
         $receiver = $this->userService->getUser($receiverUsername);
 
@@ -88,6 +88,7 @@ class TaskMailer
             'receiver' => $receiver,
             'revisions' => $revisions,
             'documentUrls' => $documentUrls,
+            'limit' => $limit,
         ];
 
         $mailTemplate = $this->getMailTemplate($receiver)

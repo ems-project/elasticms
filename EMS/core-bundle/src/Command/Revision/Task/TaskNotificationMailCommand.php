@@ -17,10 +17,14 @@ final class TaskNotificationMailCommand extends AbstractCommand
 {
     private string $subject;
     private bool $includeTasksManagers;
+    private int $limit;
+    private ?\DateTimeInterface $deadline = null;
 
     protected static $defaultName = Commands::REVISION_TASK_NOTIFICATION_MAIL;
     private const OPTION_SUBJECT = 'subject';
     private const OPTION_INCLUDE_TASK_MANAGERS = 'include-task-managers';
+    private const OPTION_DEADLINE = 'deadline';
+    private const OPTION_LIMIT = 'limit';
 
     public function __construct(
         private readonly TaskManager $taskManager,
@@ -34,7 +38,9 @@ final class TaskNotificationMailCommand extends AbstractCommand
         $this
             ->setDescription('Send notification mail for tasks')
             ->addOption(self::OPTION_SUBJECT, null, InputOption::VALUE_REQUIRED, 'Set mail subject', 'notification tasks')
+            ->addOption(self::OPTION_DEADLINE, null, InputOption::VALUE_REQUIRED, 'Example "-1 days"')
             ->addOption(self::OPTION_INCLUDE_TASK_MANAGERS, null, InputOption::VALUE_NONE, 'Include task managers')
+            ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'limit the results inside mail', 10)
         ;
     }
 
@@ -46,12 +52,17 @@ final class TaskNotificationMailCommand extends AbstractCommand
 
         $this->subject = $this->getOptionString(self::OPTION_SUBJECT);
         $this->includeTasksManagers = $this->getOptionBool(self::OPTION_INCLUDE_TASK_MANAGERS);
+        $this->limit = $this->getOptionInt(self::OPTION_LIMIT);
+
+        if ($deadline = $this->getOptionStringNull(self::OPTION_DEADLINE)) {
+            $this->deadline = (new \DateTimeImmutable())->modify($deadline);
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $revisionsByReceiver = [];
-        $revisionsWithCurrentTask = $this->taskManager->getRevisionsWithCurrentTask();
+        $revisionsWithCurrentTask = $this->taskManager->getRevisionsWithCurrentTask($this->deadline);
         $taskManagers = $this->taskManager->getTaskManagers();
 
         foreach ($revisionsWithCurrentTask as $revision) {
@@ -73,7 +84,7 @@ final class TaskNotificationMailCommand extends AbstractCommand
         }
 
         foreach ($revisionsByReceiver as $receiver => $revisions) {
-            $this->taskMailer->sendNotificationMail($receiver, $this->subject, $revisions);
+            $this->taskMailer->sendNotificationMail($receiver, $this->subject, $revisions, $this->limit);
         }
 
         return self::EXECUTE_SUCCESS;

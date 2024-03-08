@@ -1,0 +1,18 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Dashboard",
+    "arguments": [],
+    "properties": {
+        "name": "tasks",
+        "icon": "fa fa-sticky-note",
+        "label": "Tasks",
+        "sidebarMenu": true,
+        "notificationMenu": false,
+        "definition": null,
+        "type": "ems_core.dashboard.revision_task",
+        "role": "ROLE_USER",
+        "color": null,
+        "options": [],
+        "orderKey": 4
+    },
+    "replaced": []
+}

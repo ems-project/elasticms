@@ -11,7 +11,7 @@ parameters:
     env(EMS_PAGING_SIZE): 20
     env(EMS_THEME_COLOR): 'blue'
     env(EMS_DATE_TIME_FORMAT): 'j/m/Y \a\t G:i'
-    env(EMS_DATEPICKER_FORMAT): 'dd/mm/yyyy'
+    env(EMS_DATEPICKER_FORMAT): 'DD/MM/YYYY'
     env(EMS_DATEPICKER_WEEKSTART): 1
     env(EMS_DATEPICKER_DAYSOFWEEK_HIGHLIGHTED): '[0, 6]'
     env(EMS_FROM_EMAIL_ADDRESS): 'elasticms@example.com'
@@ -43,6 +43,8 @@ parameters:
     env(EMSCO_SHORTNAME): '%env(string:EMS_SHORTNAME)%'
     env(EMSCO_PAGING_SIZE): '%env(string:EMS_PAGING_SIZE)%'
     env(EMSCO_THEME_COLOR): '%env(string:EMS_THEME_COLOR)%'
+    env(EMSCO_DATE_FORMAT): 'd/m/Y'
+    env(EMSCO_TIME_FORMAT): 'H:i:s'
     env(EMSCO_DATE_TIME_FORMAT): '%env(string:EMS_DATE_TIME_FORMAT)%'
     env(EMSCO_DATEPICKER_FORMAT): '%env(string:EMS_DATEPICKER_FORMAT)%'
     env(EMSCO_DATEPICKER_WEEKSTART): '%env(string:EMS_DATEPICKER_WEEKSTART)%'
@@ -59,6 +61,7 @@ parameters:
     env(EMSCO_FALLBACK_LOCALE): 'en'
     env(EMSCO_TEMPLATE_NAMESPACE): 'EMSCore'
     env(EMSCO_DYNAMIC_MAPPING): 'false'
+    env(EMSCO_LOCK_TIME): '+1 minutes'
 
     env(EMSCO_LDAP_ENABLED): true
     env(EMSCO_LDAP_DN_STRING): '%env(string:LDAP_DN_STRING)%'
@@ -82,6 +85,8 @@ ems_core:
     shortname: '%env(string:EMSCO_SHORTNAME)%'
     paging_size: '%env(int:EMSCO_PAGING_SIZE)%'
     theme_color: '%env(string:EMSCO_THEME_COLOR)%'
+    date_format: '%env(string:EMSCO_DATE_FORMAT)%'
+    time_format: '%env(string:EMSCO_TIME_FORMAT)%'
     date_time_format:  '%env(string:EMSCO_DATE_TIME_FORMAT)%'
     datepicker_format:  '%env(string:EMSCO_DATEPICKER_FORMAT)%'
     datepicker_weekstart:  '%env(int:EMSCO_DATEPICKER_WEEKSTART)%'
@@ -102,6 +107,7 @@ ems_core:
     fallback_locale: '%env(string:EMSCO_FALLBACK_LOCALE)%'
     template_namespace: '%env(string:EMSCO_TEMPLATE_NAMESPACE)%'
     dynamic_mapping: '%env(string:EMSCO_DYNAMIC_MAPPING)%'
+    lock_time: '%env(string:EMSCO_LOCK_TIME)%'
 
     ldap:
         enabled: '%env(bool:EMSCO_LDAP_ENABLED)%'

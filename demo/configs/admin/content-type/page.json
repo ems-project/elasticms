@@ -1482,7 +1482,11 @@
             "asset": null
         },
         "settings": {
-            "tasks_enabled": false,
+            "tasks_enabled": true,
+            "tasks_titles": [
+                "Publication request",
+                "Validation request"
+            ],
             "hide_revision_sidebar": false
         }
     },

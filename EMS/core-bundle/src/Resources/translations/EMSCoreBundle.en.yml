@@ -744,11 +744,12 @@ task:
         success: 'Task "%title%" successfully created.'
         title: 'Add a new task'
     dashboard:
+        search_warning: 'More than %count% tasks, search on document title is impossible.'
         action:
             edit_revision: 'Edit revision'
             go_revision: Revision
         column:
-            version_tag: 'New version'
+            version_next_tag: 'New version'
             actions: Actions
             assignee: Assignee
             deadline: Deadline
@@ -778,8 +779,8 @@ task:
         hide: 'Hide finished tasks (%number%)'
         show: 'Show finished tasks (%number%)'
     close: Close
+    delay_days: '%number% days'
     history: History
-    in_progress: 'This task is '
     planned:
         title: 'Planned tasks'
     info:
@@ -795,7 +796,7 @@ task:
         rejected: 'Rejected task "%title%" for "%document%"'
         updated: 'Update task "%title%" for "%document%"'
     status:
-        approved: Approved
+        approved: Finished
         completed: Completed
         history:
             approved: '%user% approved the task'
@@ -806,11 +807,11 @@ task:
             rejected: '%user% rejected the task'
             updated: '%user% updated the task'
         planned: Planned
-        progress: 'In progress'
+        progress: Active
         rejected: Rejected
     title: Tasks
     update:
-        submit: 'Edit task'
+        submit: 'Save task'
         success: 'Task "%title%" successfully updated.'
         tab:
             history: History
@@ -825,9 +826,9 @@ task:
     filters: Filters
     filter:
         status: Statuses
-        version: Versions
         assignee: Assignees
         requester: Requesters
+        version_next_tag: New versions
         submit: Search
         reset: Clear
 uploaded-file:
@@ -1169,6 +1170,8 @@ Environments: Environments
     '': 'All environments have to be re-builded each times that the filters configuration is updated.'
 'List filters': 'List filters'
 Add: Add
+show: Show
+hide: Hide
 'Asset options': 'Asset options'
 'Hash signature': 'Hash signature'
 'Extract content': 'Extract content'

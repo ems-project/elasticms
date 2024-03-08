@@ -1,5 +1,6 @@
 # Upgrade
 
+  * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
   * [version 5.3.x](#version-53x)
   * [version 4.2.x](#version-42x)
@@ -74,6 +75,13 @@ Before version 6 it was not possible to define elasticsearch dynamic mapping con
 Since version 6 the default dynamic mapping config has changed. New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly into the content type.
 
 You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
+
+## version 5.14.x
+
+* All tasks records will be **deleted** after deployment
+  * Because we had to upgrade the database schema. [#778](https://github.com/ems-project/elasticms/pull/778)
+
+* If you are using revision versions, you should run ```ems:environment:updatemetafield``` after deployment.
 
 ## version 5.7.x
 

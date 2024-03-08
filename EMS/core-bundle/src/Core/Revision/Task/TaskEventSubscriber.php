@@ -64,9 +64,7 @@ final class TaskEventSubscriber implements EventSubscriberInterface
 
     public function onTaskDelete(TaskEvent $event): void
     {
-        if ($event->username !== $event->task->getCreatedBy()) {
-            $this->taskMailer->sendForEvent($event, 'deleted', $event->task->getCreatedBy());
-        }
+        $this->taskMailer->sendForEvent($event, 'deleted', $event->task->getCreatedBy());
 
         if ($event->task->isStatus(TaskStatus::PROGRESS)) {
             $this->taskMailer->sendForEvent($event, 'deleted', $event->task->getAssignee());

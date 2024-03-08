@@ -13,48 +13,52 @@
                     <h3 class="box-title">{{ 'view.user.permissions.titles.content_type_permissions'|trans }}</h3>
                 </div>
                 <div class="box-body">
-                    <div class="table-responsive">
-                        <table class="table table-condensed table-striped">
-                            <tbody>
-                            <tr>
-                                <th class="text-center" style="width: 10px">{{ 'view.user.permissions.table_headers.content_type'|trans }}</th>
-                                <th class="text-center" style="width: 20px">{{ 'view.user.permissions.table_headers.icon'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.view'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.create'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.edit'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.publish'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.delete'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.trash'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.archive'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.show_link_create'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.show_link_search'|trans }}</th>
-                                <th>{{ 'view.user.permissions.table_headers.specific_roles'|trans }}</th>
-                            </tr>
-                            {% for contentType in contentTypes %}
-                                <tr class="text-{{ contentType.color }}">
-                                    <td class="text-center">{{ contentType.name }}</td>
-                                    <td class="text-center"><i class="{% if contentType.icon %}{{ contentType.icon }}{% else %}fa fa-book{% endif %}"></i></td>
-                                    {% for role in ['view', 'create', 'edit', 'publish', 'delete', 'trash', 'archive', 'show_link_create', 'show_link_search'] %}
-                                        <td class="{{ html_classes({'text-muted': contentType.roles[role] == 'not-defined'}) }} ">
-                                            {{ contentType.roles[role]|trans }}
-                                        </td>
-                                    {% endfor %}
-                                    <td>
-                                        <div class="btn-group">
-                                            {% if contentTypeCounts[contentType.id] != 0 %}
-                                                {% include '@EMSCore/elements/get-button.html.twig' with {
-                                                    'url':  path('permissions.view', {'contentType': contentType.id}),
-                                                    'label': 'View',
-                                                    'icon': 'tv'
-                                                }%}
-                                            {% endif %}
-                                        </div>
-                                    </td>
+                    {% if contentTypes is empty %}
+                        <p>No content type. Nothing to display.</p>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-condensed table-striped">
+                                <tbody>
+                                <tr>
+                                    <th class="text-center" style="width: 10px">{{ 'view.user.permissions.table_headers.content_type'|trans }}</th>
+                                    <th class="text-center" style="width: 20px">{{ 'view.user.permissions.table_headers.icon'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.view'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.create'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.edit'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.publish'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.delete'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.trash'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.archive'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.show_link_create'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.show_link_search'|trans }}</th>
+                                    <th>{{ 'view.user.permissions.table_headers.specific_roles'|trans }}</th>
                                 </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                                {% for contentType in contentTypes %}
+                                    <tr class="text-{{ contentType.color }}">
+                                        <td class="text-center">{{ contentType.name }}</td>
+                                        <td class="text-center"><i class="{% if contentType.icon %}{{ contentType.icon }}{% else %}fa fa-book{% endif %}"></i></td>
+                                        {% for role in ['view', 'create', 'edit', 'publish', 'delete', 'trash', 'archive', 'show_link_create', 'show_link_search'] %}
+                                            <td class="{{ html_classes({'text-muted': contentType.roles[role] == 'not-defined'}) }} ">
+                                                {{ contentType.roles[role]|trans }}
+                                            </td>
+                                        {% endfor %}
+                                        <td>
+                                            <div class="btn-group">
+                                                {% if contentTypeCounts[contentType.id] != 0 %}
+                                                    {% include '@EMSCore/elements/get-button.html.twig' with {
+                                                        'url':  path('permissions.view', {'contentType': contentType.id}),
+                                                        'label': 'View',
+                                                        'icon': 'tv'
+                                                    }%}
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

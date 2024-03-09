@@ -52,6 +52,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_webalize', [Encoder::class, 'webalizeForUsers']),
             new TwigFilter('ems_ascii_folding', [Encoder::class, 'asciiFolding']),
             new TwigFilter('ems_markdown', [Encoder::class, 'markdownToHtml'], ['is_safe' => ['html']]),
+            new TwigFilter('ems_slug', [Encoder::class, 'slug']),
             new TwigFilter('ems_stringify', Converter::stringify(...)),
             new TwigFilter('ems_temp_file', [AssetRuntime::class, 'temporaryFile']),
             new TwigFilter('ems_asset_average_color', [AssetRuntime::class, 'assetAverageColor'], ['is_safe' => ['html']]),

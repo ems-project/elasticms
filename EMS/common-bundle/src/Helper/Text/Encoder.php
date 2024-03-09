@@ -78,12 +78,12 @@ class Encoder
 
     public static function asciiFolding(string $text, ?string $locale = null): string
     {
-        $transliterator = [];
-        if ($locale && ('de' === $locale || 0 === \strpos($locale, 'de_'))) {
-            $transliterator = ['de-ASCII'];
+        $rules = [];
+        if ($locale && ('de' === $locale || \str_starts_with($locale, 'de_'))) {
+            $rules = ['de-ASCII'];
         }
 
-        return (new UnicodeString($text))->ascii($transliterator)->toString();
+        return (new UnicodeString($text))->ascii($rules)->toString();
     }
 
     public static function markdownToHtml(string $markdown): string

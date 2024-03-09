@@ -61,7 +61,7 @@ class FolderRenameCommand extends AbstractCommand
 
         /** @var MediaLibraryConfig $config */
         $config = $this->configFactory->createFromHash($hash);
-        $this->mediaLibraryService->setMediaLibraryConfig($config);
+        $this->mediaLibraryService->setConfig($config);
 
         $this->folder = $this->mediaLibraryService->getFolder($folderId);
         $this->username = $this->getOptionString(self::OPTION_USERNAME);

@@ -263,7 +263,7 @@ class MediaLibraryService
         return $template->block('media_lib_header');
     }
 
-    public function setMediaLibraryConfig(MediaLibraryConfig $config): void
+    public function setConfig(MediaLibraryConfig $config): void
     {
         $this->config = $config;
     }

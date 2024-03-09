@@ -50,9 +50,16 @@ class ElasticaService
         if ($this->useAdminProxy) {
             return $this->adminHelper->getCoreApi()->getBaseUrl();
         }
-        $url = $this->client->getConnection()->getConfig('url');
 
-        return \is_array($url) ? \implode(' | ', $url) : Type::string($url);
+        $connection = $this->client->getConnection();
+
+        if ($connection->hasConfig('url')) {
+            $url = $connection->getConfig('url');
+
+            return \is_array($url) ? \implode(' | ', $url) : Type::string($url);
+        }
+
+        return $connection->getHost();
     }
 
     public function refresh(?string $index): bool

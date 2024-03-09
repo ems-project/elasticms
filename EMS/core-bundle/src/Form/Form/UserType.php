@@ -70,8 +70,6 @@ final class UserType extends AbstractType
                 'attr' => [
                     'class' => 'datetime-picker',
                     'data-date-format' => 'D/MM/YYYY HH:mm:ss',
-                    'data-date-days-of-week-disabled' => '',
-                    'data-date-disabled-hours' => '',
                 ],
             ])
             ->add('emailNotification', CheckboxType::class, [

@@ -96,7 +96,12 @@ final class LocalHelper
     {
         if ($refresh) {
             if ('green' === $this->clientRequest->healthStatus()) {
-                $this->clientRequest->refresh();
+                $api = $this->api($environment);
+                if (\version_compare($api->admin()->getCoreVersion(), '5.11.0') <= 0) {
+                    $this->clientRequest->refresh();
+                } else {
+                    $this->api($environment)->search()->refresh();
+                }
             }
             $this->contentTypeHelper->clear();
         }

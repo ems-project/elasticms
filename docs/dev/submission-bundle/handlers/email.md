@@ -112,8 +112,8 @@ You can override the default values for each file using the `map` filter as show
 {%- set files = {} -%}
 {% for file in formData.allFiles|map(v => v.toArray) %}
     {%- set files = files|merge({(file.form_field):{
-        filename: file.filename|ems_webalize,
-        originalName: file.filename|ems_webalize,
+        filename: file.filename|ems_slug,
+        originalName: file.filename|ems_slug,
         mimeType: file.mimeType,
         pathname: file.pathname,
     } }) -%}

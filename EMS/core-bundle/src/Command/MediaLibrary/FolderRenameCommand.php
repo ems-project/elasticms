@@ -26,7 +26,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FolderRenameCommand extends AbstractCommand
 {
     private MediaLibraryFolder $folder;
-    private MediaLibraryConfig $config;
     private string $folderName;
     private string $username;
 
@@ -62,9 +61,9 @@ class FolderRenameCommand extends AbstractCommand
 
         /** @var MediaLibraryConfig $config */
         $config = $this->configFactory->createFromHash($hash);
+        $this->mediaLibraryService->setMediaLibraryConfig($config);
 
-        $this->config = $config;
-        $this->folder = $this->mediaLibraryService->getFolder($config, $folderId);
+        $this->folder = $this->mediaLibraryService->getFolder($folderId);
         $this->username = $this->getOptionString(self::OPTION_USERNAME);
         $this->folderName = $this->getArgumentString(self::ARGUMENT_FOLDER_NAME);
     }
@@ -77,8 +76,8 @@ class FolderRenameCommand extends AbstractCommand
         $to = $this->folder->getPath()->setName($this->folderName)->getValue();
         $this->io->info(\sprintf('Start renaming from "%s" to "%s"', $from, $to));
 
-        $totalChildren = $this->mediaLibraryService->countByPath($this->config, $from);
-        $children = $this->mediaLibraryService->findByPath($this->config, $from);
+        $totalChildren = $this->mediaLibraryService->countByPath($from);
+        $children = $this->mediaLibraryService->findByPath($from);
 
         $this->io->info(\sprintf('Found %d children to renaming', $totalChildren));
 
@@ -102,7 +101,7 @@ class FolderRenameCommand extends AbstractCommand
         $jobOutput?->progress(100);
         $progressBar->finish();
 
-        $this->mediaLibraryService->refresh($this->config);
+        $this->mediaLibraryService->refresh();
 
         return self::EXECUTE_SUCCESS;
     }

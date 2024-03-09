@@ -25,7 +25,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FolderDeleteCommand extends AbstractCommand
 {
     private MediaLibraryFolder $folder;
-    private MediaLibraryConfig $config;
     private string $username;
 
     public const ARGUMENT_FOLDER_ID = 'folder-id';
@@ -58,9 +57,9 @@ class FolderDeleteCommand extends AbstractCommand
 
         /** @var MediaLibraryConfig $config */
         $config = $this->configFactory->createFromHash($hash);
+        $this->mediaLibraryService->setMediaLibraryConfig($config);
 
-        $this->config = $config;
-        $this->folder = $this->mediaLibraryService->getFolder($config, $folderId);
+        $this->folder = $this->mediaLibraryService->getFolder($folderId);
         $this->username = $this->getOptionString(self::OPTION_USERNAME);
     }
 
@@ -69,8 +68,8 @@ class FolderDeleteCommand extends AbstractCommand
         $jobOutput = $output instanceof JobOutput ? $output : null;
 
         $path = $this->folder->getPath()->getValue();
-        $totalChildren = $this->mediaLibraryService->countByPath($this->config, $path);
-        $children = $this->mediaLibraryService->findByPath($this->config, $path);
+        $totalChildren = $this->mediaLibraryService->countByPath($path);
+        $children = $this->mediaLibraryService->findByPath($path);
 
         $this->io->info(\sprintf('Found %d children to renaming', $totalChildren));
 
@@ -94,7 +93,7 @@ class FolderDeleteCommand extends AbstractCommand
         $jobOutput?->progress(100);
         $progressBar->finish();
 
-        $this->mediaLibraryService->refresh($this->config);
+        $this->mediaLibraryService->refresh();
 
         return self::EXECUTE_SUCCESS;
     }

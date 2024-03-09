@@ -35,37 +35,21 @@ class MediaLibraryController
     ) {
     }
 
-    public function getHeader(MediaLibraryConfig $config, Request $request): JsonResponse
-    {
-        $query = $request->query;
-
-        return new JsonResponse([
-            'header' => $this->mediaLibraryService->renderHeader(
-                config: $config,
-                folder: $query->has('folderId') ? $query->get('folderId') : null,
-                file: $query->has('fileId') ? $query->get('fileId') : null,
-                selectionFiles: $query->has('selectionFiles') ? $query->getInt('selectionFiles') : 0,
-                searchValue: $query->get('search')
-            ),
-        ]);
-    }
-
-    public function getFiles(MediaLibraryConfig $config, Request $request): JsonResponse
+    public function addFile(MediaLibraryConfig $config, Request $request): JsonResponse
     {
         $folderId = $request->get('folderId');
         $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+        $file = Json::decode($request->getContent())['file'];
 
-        return new JsonResponse($this->mediaLibraryService->renderFiles(
-            config: $config,
-            from: $request->query->getInt('from'),
-            folder: $folder,
-            searchValue: $request->get('search')
-        ));
-    }
+        if (!$this->mediaLibraryService->createFile($config, $file, $folder)) {
+            return new JsonResponse([
+                'messages' => $this->flashBag($request)->all(),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-    public function getFolders(MediaLibraryConfig $config): JsonResponse
-    {
-        return new JsonResponse(['folders' => $this->mediaLibraryService->renderFolders($config)]);
+        $this->flashBag($request)->clear();
+
+        return new JsonResponse([], Response::HTTP_CREATED);
     }
 
     public function addFolder(MediaLibraryConfig $config, Request $request): JsonResponse
@@ -96,122 +80,6 @@ class MediaLibraryController
             ->setBody('bodyAddFolder', ['form' => $form->createView()])
             ->setFooter('footerAddFolder')
             ->getResponse();
-    }
-
-    public function addFile(MediaLibraryConfig $config, Request $request): JsonResponse
-    {
-        $folderId = $request->get('folderId');
-        $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
-        $file = Json::decode($request->getContent())['file'];
-
-        if (!$this->mediaLibraryService->createFile($config, $file, $folder)) {
-            return new JsonResponse([
-                'messages' => $this->flashBag($request)->all(),
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $this->flashBag($request)->clear();
-
-        return new JsonResponse([], Response::HTTP_CREATED);
-    }
-
-    public function renameFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
-    {
-        $mediaFile = $this->mediaLibraryService->getFile($config, $fileId);
-
-        $form = $this->formFactory->createBuilder(FormType::class, $mediaFile)
-            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
-            ->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->mediaLibraryService->updateDocument($mediaFile);
-            $this->mediaLibraryService->refresh($config);
-            $this->flashBag($request)->clear();
-
-            return new JsonResponse([
-                'success' => true,
-                'fileRow' => $this->mediaLibraryService->renderFileRow($config, $mediaFile),
-            ]);
-        }
-
-        $modal = $this->mediaLibraryService->modal($config, [
-            'type' => 'rename',
-            'title' => $this->translator->trans('media_library.file.rename.title', [], EMSCoreBundle::TRANS_COMPONENT),
-            'form' => $form->createView(),
-        ]);
-
-        return new JsonResponse($modal->render());
-    }
-
-    public function renameFolder(MediaLibraryConfig $config, Request $request, UserInterface $user, string $folderId): JsonResponse
-    {
-        $folder = $this->mediaLibraryService->getFolder($config, $folderId);
-
-        $form = $this->formFactory->createBuilder(FormType::class, $folder)
-            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
-            ->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $job = $this->mediaLibraryService->jobFolderRename($config, $user, $folder);
-            $this->flashBag($request)->clear();
-
-            return new JsonResponse([
-                'success' => true,
-                'jobId' => $job->getId(),
-                'path' => $folder->getPath()->getValue(),
-                'modalBody' => '',
-                'modalMessages' => [
-                    ['info' => $this->translator->trans('media_library.folder.rename.job_info', [], EMSCoreBundle::TRANS_COMPONENT)],
-                ],
-            ]);
-        }
-
-        $modal = $this->mediaLibraryService->modal($config, [
-            'type' => 'rename',
-            'title' => $this->translator->trans('media_library.folder.rename.title', [], EMSCoreBundle::TRANS_COMPONENT),
-            'form' => $form->createView(),
-            'submitIcon' => 'fa-pencil',
-            'submitLabel' => $this->translator->trans('media_library.folder.rename.submit', [], EMSCoreBundle::TRANS_COMPONENT),
-        ]);
-
-        return new JsonResponse($modal->render());
-    }
-
-    public function deleteFolder(MediaLibraryConfig $config, Request $request, UserInterface $user, string $folderId): JsonResponse
-    {
-        $folder = $this->mediaLibraryService->getFolder($config, $folderId);
-        $componentModal = $this->mediaLibraryService->modal($config, [
-            'type' => 'delete_folder',
-            'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT),
-        ]);
-
-        $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $job = $this->mediaLibraryService->jobFolderDelete($config, $user, $folder);
-            $this->flashBag($request)->clear();
-
-            $componentModal->modal->data['success'] = true;
-            $componentModal->modal->data['jobId'] = $job->getId();
-            $componentModal->template->context->append([
-                'infoMessage' => $this->translator->trans('media_library.folder.delete.job_info', [], EMSCoreBundle::TRANS_COMPONENT),
-            ]);
-
-            return new JsonResponse($componentModal->render());
-        }
-
-        $componentModal->template->context->append([
-            'confirmMessage' => $this->translator->trans('media_library.folder.delete.warning', [], EMSCoreBundle::TRANS_COMPONENT),
-            'form' => $form->createView(),
-            'submitIcon' => 'fa-remove',
-            'submitClass' => 'btn-outline-danger',
-            'submitLabel' => $this->translator->trans('media_library.folder.delete.submit', [], EMSCoreBundle::TRANS_COMPONENT),
-        ]);
-
-        return new JsonResponse($componentModal->render());
     }
 
     public function deleteFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
@@ -258,6 +126,74 @@ class MediaLibraryController
         ]);
 
         return new JsonResponse($componentModal->render());
+    }
+
+    public function deleteFolder(MediaLibraryConfig $config, Request $request, UserInterface $user, string $folderId): JsonResponse
+    {
+        $folder = $this->mediaLibraryService->getFolder($config, $folderId);
+        $componentModal = $this->mediaLibraryService->modal($config, [
+            'type' => 'delete_folder',
+            'title' => $this->translator->trans('media_library.folder.delete.title', [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $folder)->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $job = $this->mediaLibraryService->jobFolderDelete($config, $user, $folder);
+            $this->flashBag($request)->clear();
+
+            $componentModal->modal->data['success'] = true;
+            $componentModal->modal->data['jobId'] = $job->getId();
+            $componentModal->template->context->append([
+                'infoMessage' => $this->translator->trans('media_library.folder.delete.job_info', [], EMSCoreBundle::TRANS_COMPONENT),
+            ]);
+
+            return new JsonResponse($componentModal->render());
+        }
+
+        $componentModal->template->context->append([
+            'confirmMessage' => $this->translator->trans('media_library.folder.delete.warning', [], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+            'submitIcon' => 'fa-remove',
+            'submitClass' => 'btn-outline-danger',
+            'submitLabel' => $this->translator->trans('media_library.folder.delete.submit', [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        return new JsonResponse($componentModal->render());
+    }
+
+    public function getFiles(MediaLibraryConfig $config, Request $request): JsonResponse
+    {
+        $folderId = $request->get('folderId');
+        $folder = $folderId ? $this->mediaLibraryService->getFolder($config, $folderId) : null;
+
+        return new JsonResponse($this->mediaLibraryService->renderFiles(
+            config: $config,
+            from: $request->query->getInt('from'),
+            folder: $folder,
+            searchValue: $request->get('search')
+        ));
+    }
+
+    public function getFolders(MediaLibraryConfig $config): JsonResponse
+    {
+        return new JsonResponse(['folders' => $this->mediaLibraryService->renderFolders($config)]);
+    }
+
+    public function getHeader(MediaLibraryConfig $config, Request $request): JsonResponse
+    {
+        $query = $request->query;
+
+        return new JsonResponse([
+            'header' => $this->mediaLibraryService->renderHeader(
+                config: $config,
+                folder: $query->has('folderId') ? $query->get('folderId') : null,
+                file: $query->has('fileId') ? $query->get('fileId') : null,
+                selectionFiles: $query->has('selectionFiles') ? $query->getInt('selectionFiles') : 0,
+                searchValue: $query->get('search')
+            ),
+        ]);
     }
 
     public function moveFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
@@ -344,9 +280,68 @@ class MediaLibraryController
         return new JsonResponse($componentModal->render());
     }
 
-    private function getAjaxModal(): AjaxModal
+    public function renameFile(MediaLibraryConfig $config, Request $request, string $fileId): JsonResponse
     {
-        return $this->ajax->newAjaxModel("@$this->templateNamespace/components/media_library/modal.html.twig");
+        $mediaFile = $this->mediaLibraryService->getFile($config, $fileId);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $mediaFile)
+            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->mediaLibraryService->updateDocument($mediaFile);
+            $this->mediaLibraryService->refresh($config);
+            $this->flashBag($request)->clear();
+
+            return new JsonResponse([
+                'success' => true,
+                'fileRow' => $this->mediaLibraryService->renderFileRow($config, $mediaFile),
+            ]);
+        }
+
+        $modal = $this->mediaLibraryService->modal($config, [
+            'type' => 'rename',
+            'title' => $this->translator->trans('media_library.file.rename.title', [], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+        ]);
+
+        return new JsonResponse($modal->render());
+    }
+
+    public function renameFolder(MediaLibraryConfig $config, Request $request, UserInterface $user, string $folderId): JsonResponse
+    {
+        $folder = $this->mediaLibraryService->getFolder($config, $folderId);
+
+        $form = $this->formFactory->createBuilder(FormType::class, $folder)
+            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
+            ->getForm();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $job = $this->mediaLibraryService->jobFolderRename($config, $user, $folder);
+            $this->flashBag($request)->clear();
+
+            return new JsonResponse([
+                'success' => true,
+                'jobId' => $job->getId(),
+                'path' => $folder->getPath()->getValue(),
+                'modalBody' => '',
+                'modalMessages' => [
+                    ['info' => $this->translator->trans('media_library.folder.rename.job_info', [], EMSCoreBundle::TRANS_COMPONENT)],
+                ],
+            ]);
+        }
+
+        $modal = $this->mediaLibraryService->modal($config, [
+            'type' => 'rename',
+            'title' => $this->translator->trans('media_library.folder.rename.title', [], EMSCoreBundle::TRANS_COMPONENT),
+            'form' => $form->createView(),
+            'submitIcon' => 'fa-pencil',
+            'submitLabel' => $this->translator->trans('media_library.folder.rename.submit', [], EMSCoreBundle::TRANS_COMPONENT),
+        ]);
+
+        return new JsonResponse($modal->render());
     }
 
     private function flashBag(Request $request): FlashBagInterface
@@ -355,5 +350,10 @@ class MediaLibraryController
         $session = $request->getSession();
 
         return $session->getFlashBag();
+    }
+
+    private function getAjaxModal(): AjaxModal
+    {
+        return $this->ajax->newAjaxModel("@$this->templateNamespace/components/media_library/modal.html.twig");
     }
 }

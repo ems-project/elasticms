@@ -110,6 +110,10 @@ Define (JSON format) the store data services, in the priority order. See the [St
 
 Define (JSON format) a list of content type names to exclude from admin backup/restore commands. Example: `["route","template","template_ems","label"]`. Default value `[]`
 
+### EMS_SLUG_SYMBOL_MAP
+
+Specify replacement strings, per locale to symbols. E.g. if you want to replace the symbol `@` by the string `at` in your slug in English and French : `{"en":{"@":"at"},"fr":{"@":"at"}}`. Default value `~` ([rely on the default Symfony configuration](https://github.com/symfony/string/blob/f5832521b998b0bec40bee688ad5de98d4cf111b/Slugger/AsciiSlugger.php#L59C42-L61C6))
+
 ## CLI variables
 
 ### EMSCLI_TIKA_PATH

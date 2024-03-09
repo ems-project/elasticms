@@ -20,6 +20,7 @@
   * [format_bytes](#format_bytes)
   * [ems_ascii_folding](#ems_ascii_folding)
   * [ems_template_exists](#ems_template_exists)
+  * [ems_slug](#ems_slug)
 
 
 
@@ -395,4 +396,23 @@ Convert a color (string) into a EMS\Helpers\Standard\Color
 
 ````twig
 {% set color = '#FF56DD'|ems_color %}
+````
+
+## ems_slug
+
+Convert a string into an url friendly string
+
+````twig
+{{ 'How do you do ?'|ems_slug }}
+{# how-do-you-do #}
+````
+
+Arguments:
+ - locale: default value `en`
+ - separator: default value `-`
+ - lower: default value `true`
+
+````twig
+{{ 'Wie fährst du deinen großen LKW ?'|ems_slug('de', '/', false) }}
+{# Wie/faehrst/du/deinen/grossen/LKW #}
 ````

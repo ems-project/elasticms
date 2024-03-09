@@ -4,10 +4,18 @@ namespace EMS\CommonBundle\Helper\Text;
 
 use cebe\markdown\GithubMarkdown;
 use EMS\CommonBundle\DependencyInjection\Configuration;
+use Symfony\Component\String\AbstractUnicodeString;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class Encoder
 {
-    public function __construct(private readonly string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, private readonly string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX)
+    private ?AsciiSlugger $slugger = null;
+
+    /**
+     * @param array<string, array<string, string>>|null $sluggerSymbolMap
+     */
+    public function __construct(private readonly string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, private readonly string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, private readonly ?array $sluggerSymbolMap = null)
     {
     }
 
@@ -62,11 +70,14 @@ class Encoder
 
     public function webalizeForUsers(string $text, string $locale = null): ?string
     {
+        @\trigger_error('The webalizeForUsers method is deprecated, use the slug method', \E_USER_DEPRECATED);
+
         return static::webalize($text, $this->webalizeRemovableRegex, $this->webalizeDashableRegex, $locale);
     }
 
     public static function webalize(string $text, string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, string $locale = null): string
     {
+        @\trigger_error('The webalize method is deprecated, use the slug method', \E_USER_DEPRECATED);
         $clean = self::asciiFolding($text, $locale);
         $clean = \preg_replace($webalizeRemovableRegex, '', $clean) ?? '';
         $clean = \strtolower(\trim($clean, '-'));
@@ -75,12 +86,23 @@ class Encoder
         return $clean;
     }
 
+    public function slug(string $text, string $locale = null, string $separator = '-', bool $lower = true): AbstractUnicodeString
+    {
+        $slugger = $this->getSlugger($locale ?? 'en');
+        $slug = $slugger->slug($text, $separator, $locale);
+        if ($lower) {
+            $slug = $slug->lower();
+        }
+
+        return $slug;
+    }
+
     public static function asciiFolding(string $text, string $locale = null): string
     {
         $a = ['―', '—', '–', '‒', '‹', '›', '′', '‵', '‘', '’', '‚', '‛', '″', '‴', '‶', '‷', '“', '”', '„', '‟', '«', '»', 'ß', 'ẞ', 'À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ'];
         $b = ['-', '-', '-', '-', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '"', '"', '"', '"', '"', '"', '"', '"', '"', '"', 'ss', 'SS', 'A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o'];
 
-        if ('de' == $locale) {
+        if ('de' === $locale) {
             $a = \array_merge(['ü', 'Ü', 'ß', 'ẞ', 'ä', 'ö', 'Ä', 'Ö'], $a);
             $b = \array_merge(['ue', 'UE', 'ss', 'SS', 'ae', 'oe', 'AE', 'OE'], $b);
         }
@@ -196,5 +218,16 @@ class Encoder
         $default = [4 => 'fa fa-file-o', 5 => 'far fa-file'];
 
         return $default[$versionIndex];
+    }
+
+    private function getSlugger(string $locale): SluggerInterface
+    {
+        if (null === $this->slugger) {
+            $this->slugger = new AsciiSlugger($locale, $this->sluggerSymbolMap);
+        } else {
+            $this->slugger->setLocale($locale);
+        }
+
+        return $this->slugger;
     }
 }

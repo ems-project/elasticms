@@ -8,6 +8,7 @@ use Elastica\Query\BoolQuery;
 use Elastica\Query\Exists;
 use Elastica\Query\Nested;
 use Elastica\Result;
+use EMS\CommonBundle\Elasticsearch\Response\AnalyzeResponse;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\Helpers\Standard\Hash;
@@ -41,6 +42,14 @@ final class SearchRuntime implements RuntimeExtensionInterface
 
             return true;
         }));
+    }
+
+    /**
+     * @param array<string, string|string[]> $parameters
+     */
+    public function analyze(string $text, array $parameters, string $index = null): AnalyzeResponse
+    {
+        return $this->elasticaService->analyze($text, $parameters, $index);
     }
 
     /**

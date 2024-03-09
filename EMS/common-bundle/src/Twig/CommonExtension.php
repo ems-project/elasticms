@@ -23,6 +23,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_asset_get_content', [AssetRuntime::class, 'getContent']),
             new TwigFunction('ems_html', [TextRuntime::class, 'emsHtml'], ['is_safe' => ['all']]),
             new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),
+            new TwigFunction('ems_analyze', [SearchRuntime::class, 'analyze']),
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
             new TwigFunction('ems_version', [InfoRuntime::class, 'version']),
             new TwigFunction('ems_uuid', [Uuid::class, 'uuid4']),

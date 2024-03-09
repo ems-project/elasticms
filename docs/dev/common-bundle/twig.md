@@ -335,6 +335,24 @@ Test if a template exists or not. This function works with all kind of templates
 {% endif %}
 ````
 
+## ems_analyze
+
+Analyze an input string using the [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze):
+
+````twig
+<p>{{ ems_analyze('― — – ‒ ‹ › ′ ‵ ‘ ’ ‚ ‛ ″ ‴ ‶ ‷ “ ” „ ‟ «  » ü Ü ß ẞ ä ö Ä Ö', {
+  'filter': ['asciifolding'], 
+  'tokenizer': 'keyword'
+}) }}</p>
+{# ― - - - ' ' ' ' ' ' ' ' " ‴ " ‷ " " " ‟ " " u U ss SS a o A O #}
+````
+
+Arguments:
+  - text: the text to analyze (string)
+  - parameters: the Analyze API parameters (check the [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze) documentation) (array)
+  - index: an optional index name (string)
+
+
 ## ems_json_decode
 
 Call the PHP \json_decode method with those default values: `public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`

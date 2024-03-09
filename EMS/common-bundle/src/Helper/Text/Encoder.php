@@ -86,9 +86,9 @@ class Encoder
         return $clean;
     }
 
-    public function slug(string $text, string $locale = null, string $separator = '-', bool|string $emoji = true, bool $lower = true): AbstractUnicodeString
+    public function slug(string $text, string $locale = null, string $separator = '-', bool $lower = true): AbstractUnicodeString
     {
-        $slugger = $this->getSlugger($locale ?? 'en', $emoji);
+        $slugger = $this->getSlugger($locale ?? 'en');
         $slug = $slugger->slug($text, $separator, $locale);
         if ($lower) {
             $slug = $slug->lower();
@@ -220,14 +220,13 @@ class Encoder
         return $default[$versionIndex];
     }
 
-    private function getSlugger(string $locale, bool|string $emoji = true): SluggerInterface
+    private function getSlugger(string $locale): SluggerInterface
     {
         if (null === $this->slugger) {
             $this->slugger = new AsciiSlugger($locale, $this->sluggerSymbolMap);
         } else {
             $this->slugger->setLocale($locale);
         }
-        $this->slugger->withEmoji($emoji);
 
         return $this->slugger;
     }

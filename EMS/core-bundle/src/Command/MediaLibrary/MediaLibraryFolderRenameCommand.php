@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Command\MediaLibrary;
 
-use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CoreBundle\Command\JobOutput;
 use EMS\CoreBundle\Commands;
-use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
-use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfigFactory;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocument;
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use MonorepoBuilderPrefix202311\Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
     description: 'Rename media library folder',
     hidden: false
 )]
-class FolderRenameCommand extends AbstractCommand
+class MediaLibraryFolderRenameCommand extends AbstractMediaLibraryCommand
 {
     private MediaLibraryFolder $folder;
     private string $folderName;
@@ -31,24 +27,23 @@ class FolderRenameCommand extends AbstractCommand
 
     public const ARGUMENT_FOLDER_ID = 'folder-id';
     public const ARGUMENT_FOLDER_NAME = 'folder-name';
-    public const OPTION_HASH = 'hash';
     public const OPTION_USERNAME = 'username';
 
-    public function __construct(
-        private readonly MediaLibraryConfigFactory $configFactory,
-        private readonly MediaLibraryService $mediaLibraryService
-    ) {
-        parent::__construct();
+    public function rename(MediaLibraryDocument $document, string $from, string $to): void
+    {
+        $renamedPath = $document->getPath()->renamePrefix($from, $to);
+        $document->setPath($renamedPath);
+
+        $this->mediaLibraryService->updateDocument($document, $this->username);
     }
 
     protected function configure(): void
     {
+        parent::configure();
         $this
             ->addArgument(self::ARGUMENT_FOLDER_ID, InputArgument::REQUIRED)
             ->addArgument(self::ARGUMENT_FOLDER_NAME, InputArgument::REQUIRED)
-            ->addOption(self::OPTION_HASH, null, InputOption::VALUE_REQUIRED, 'media config hash')
-            ->addOption(self::OPTION_USERNAME, null, InputOption::VALUE_REQUIRED, 'media config hash')
-        ;
+            ->addOption(self::OPTION_USERNAME, null, InputOption::VALUE_REQUIRED, 'media config hash');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -56,12 +51,7 @@ class FolderRenameCommand extends AbstractCommand
         parent::initialize($input, $output);
         $this->io->title('EMS - Media Library - Rename folder');
 
-        $hash = $this->getOptionString(self::OPTION_HASH);
         $folderId = $this->getArgumentString(self::ARGUMENT_FOLDER_ID);
-
-        /** @var MediaLibraryConfig $config */
-        $config = $this->configFactory->createFromHash($hash);
-        $this->mediaLibraryService->setConfig($config);
 
         $this->folder = $this->mediaLibraryService->getFolder($folderId);
         $this->username = $this->getOptionString(self::OPTION_USERNAME);
@@ -104,13 +94,5 @@ class FolderRenameCommand extends AbstractCommand
         $this->mediaLibraryService->refresh();
 
         return self::EXECUTE_SUCCESS;
-    }
-
-    public function rename(MediaLibraryDocument $document, string $from, string $to): void
-    {
-        $renamedPath = $document->getPath()->renamePrefix($from, $to);
-        $document->setPath($renamedPath);
-
-        $this->mediaLibraryService->updateDocument($document, $this->username);
     }
 }

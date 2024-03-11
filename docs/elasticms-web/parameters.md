@@ -283,6 +283,6 @@ Define the [default timeout](https://github.com/ems-project/EMSSubmissionBundle/
 
 ## Deprecated variables
 
-## Since version 6.0.0
+## Since version 5.14.0
 - EMS_WEBALIZE_REMOVABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))
 - EMS_WEBALIZE_DASHABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))

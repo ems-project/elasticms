@@ -49,6 +49,7 @@ final class ConfigurationAiTest extends TestCase
                 'removable_regex' => Configuration::WEBALIZE_REMOVABLE_REGEX,
                 'dashable_regex' => Configuration::WEBALIZE_DASHABLE_REGEX,
             ],
+            'slug_symbol_map' => null,
         ];
 
         $this->assertEquals($expected, $config);

@@ -172,7 +172,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
 
     public function isExpired(): bool
     {
-        if (null === $this->expirationDate){
+        if (null === $this->expirationDate) {
             return false;
         }
 
@@ -180,6 +180,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
 
         return $now > $this->expirationDate;
     }
+
     public function getLocale(): string
     {
         return $this->locale;

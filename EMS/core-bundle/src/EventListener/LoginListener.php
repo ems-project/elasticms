@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\EventListener;
 
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\User;
-use EMS\FormBundle\Components\Field\Date;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -36,8 +35,8 @@ final class LoginListener implements EventSubscriberInterface
             return;
         }
 
-        if ($user->isExpired()){
-            throw new AccessDeniedException("Access Denied: Your account has expired.");
+        if ($user->isExpired()) {
+            throw new AccessDeniedException('Access Denied: Your account has expired.');
         }
 
         $user->setLastLogin(new \DateTime());

@@ -21,6 +21,7 @@ final class ProfileAiTest extends TestCase
             'roles' => ['ROLE_USER', 'ROLE_ADMIN'],
             'circles' => ['circle1', 'circle2'],
             'lastLogin' => '2023-10-06T15:00:00+00:00',
+            'expirationDate' => '2023-10-06T15:00:00+00:00',
             'userOptions' => [
                 'option1' => 'ok',
                 'option2' => 'nope',
@@ -67,6 +68,12 @@ final class ProfileAiTest extends TestCase
     {
         $expectedDate = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, '2023-10-06T15:00:00+00:00');
         $this->assertEquals($expectedDate, $this->profile->getLastLogin());
+    }
+
+    public function testGetExpirationDate(): void
+    {
+        $expectedDate = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, '2023-10-06T15:00:00+00:00');
+        $this->assertEquals($expectedDate, $this->profile->getExpirationDate());
     }
 
     public function testGetUserOptions(): void

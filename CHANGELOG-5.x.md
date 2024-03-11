@@ -1,5 +1,18 @@
 # Changelog 5.x
 
+## 5.13.6 (2024-03-11)
+### Bug Fixes
+* fix(admin): hide sensitive info to non authenticated users by @theus77 in https://github.com/ems-project/elasticms/pull/757
+* fix(api): indices by aliases only if exist by @theus77 in https://github.com/ems-project/elasticms/pull/783
+* fix(common): ascii folding and webalize by @theus77 in https://github.com/ems-project/elasticms/pull/802
+* fix(common): ascii folding use the UnicodeString->ascii method by @theus77 in https://github.com/ems-project/elasticms/pull/806
+* fix(common/elastica): filter the indexes if a regex is defined by @theus77 in https://github.com/ems-project/elasticms/pull/781
+* fix(core/ldap): ldap not configured should through error by @Davidmattei in https://github.com/ems-project/elasticms/pull/764
+* fix(core/revision): linked revisions all default environments by @theus77 in https://github.com/ems-project/elasticms/pull/787
+* fix(docker): docker was not starting any more by @theus77 in https://github.com/ems-project/elasticms/pull/761
+* fix(emsch/api): refresh through core api by @Davidmattei in https://github.com/ems-project/elasticms/pull/805
+* fix(make): demo's make under os x by @theus77 in https://github.com/ems-project/elasticms/pull/762
+
 ## 5.13.5 (2024-02-05)
 ### Bug Fixes
 * fix(admin): db env is prod environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/751

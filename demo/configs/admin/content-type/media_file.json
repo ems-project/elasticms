@@ -195,7 +195,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "{{ block('media_file', '@EMSCH/template_ems/media_file_processing.twig') }}"
+                                    "postProcessing": "{{ block('media_file_processing', '@EMSCH/template_ems/content_type/media_library.twig') }}"
                                 },
                                 "raw_data": [],
                                 "migrationOptions": {

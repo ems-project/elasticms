@@ -274,6 +274,32 @@ Options:
       --search-query[=SEARCH-QUERY]    Query used to find elasticsearch records to import [default: "{}"]
 ```
 
+#### Revision task notification mail
+
+Send a notification mail to assignees, creators and task managers.
+
+Creates a list of all active tasks, ordered by deadline. 
+You can define the deadline start with the deadline option.
+
+Loops over all tasks and checks:
+- If the task is in progress, add to the list of tasks for the assignee
+- If the task is completed, add to the list of tasks for the creator
+- If include-task-managers is true, add to the list of tasks for the manager
+
+For each receiver (assignee, creator, manager), we check if email notification is turn on.
+By default we only send a list of the 10 first result (can be increase with limit option).
+
+```bash
+Usage:
+  emsco:revision:task:notification-mail [options]
+
+Options:
+      --subject=SUBJECT        Set mail subject [default: "notification tasks"]
+      --deadline=DEADLINE      Example "-1 days"
+      --include-task-managers  Include task managers
+      --limit=LIMIT            limit the results inside mail [default: 10]
+```
+
 ### User
 
 #### User activate

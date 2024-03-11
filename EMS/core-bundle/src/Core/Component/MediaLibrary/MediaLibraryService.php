@@ -104,7 +104,7 @@ class MediaLibraryService
     /**
      * @return \Generator<MediaLibraryDocument>
      */
-    public function findByPath(string $path): \Generator
+    public function findChildrenByPath(string $path): \Generator
     {
         $query = $this->elasticaService->getBoolQuery();
         $query->addMust(new Prefix([$this->getConfig()->fieldFolder => $path]));

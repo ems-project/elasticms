@@ -67,7 +67,7 @@ class MediaLibraryFolderRenameCommand extends AbstractMediaLibraryCommand
         $this->io->info(\sprintf('Start renaming from "%s" to "%s"', $from, $to));
 
         $totalChildren = $this->mediaLibraryService->countByPath($from);
-        $children = $this->mediaLibraryService->findByPath($from);
+        $children = $this->mediaLibraryService->findChildrenByPath($from);
 
         $this->io->info(\sprintf('Found %d children to renaming', $totalChildren));
 

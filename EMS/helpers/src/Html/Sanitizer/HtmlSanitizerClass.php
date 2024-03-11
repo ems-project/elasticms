@@ -29,7 +29,7 @@ class HtmlSanitizerClass implements AttributeSanitizerInterface
     public function sanitizeAttribute(string $element, string $attribute, string $value, HtmlSanitizerConfig $config): ?string
     {
         $classes = \explode(' ', $value);
-        $classNames = \array_filter($classes, 'trim');
+        $classNames = \array_filter(\array_map('trim', $classes));
 
         if (\count($this->settings['replace']) > 0) {
             $classNames = \array_map(fn (string $className) => $this->settings['replace'][$className] ?? $className, $classNames);

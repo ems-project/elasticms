@@ -30,7 +30,8 @@ class UserController extends AbstractController
         private readonly DataTableFactory $dataTableFactory,
         private readonly AuthTokenRepository $authTokenRepository,
         private readonly WysiwygProfileRepository $wysiwygProfileRepository,
-        private readonly string $templateNamespace
+        private readonly string $templateNamespace,
+        private readonly string $dateTimeFormat
     ) {
     }
 
@@ -189,20 +190,14 @@ class UserController extends AbstractController
     {
         $rows = [['username', 'display name', 'notification', 'email', 'enabled', 'last login', 'expiration date', 'roles']];
         foreach ($this->userService->getAll() as $user) {
-            $lastLogin = $user->getLastLogin();
-            if (null !== $lastLogin) {
-                $lastLogin = $lastLogin->format('c');
-            } else {
-                $lastLogin = '';
-            }
             $rows[] = [
                 $user->getUsername(),
                 $user->getDisplayName(),
                 $user->getEmailNotification() ? 'Y' : 'N',
                 $user->getEmail(),
                 $user->isEnabled() ? 'Y' : 'N',
-                $user->getExpirationDate(),
-                $lastLogin,
+                $user->getExpirationDate()?->format($this->dateTimeFormat),
+                $user->getLastLogin()?->format($this->dateTimeFormat),
                 \implode(', ', $user->getRoles()),
             ];
         }

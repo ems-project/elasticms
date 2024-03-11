@@ -162,14 +162,24 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
             'roles' => $this->getRoles(),
             'email' => $this->getEmail(),
             'circles' => $this->getCircles(),
-            'lastLogin' => null !== $this->getLastLogin() ? $this->getLastLogin()->format('c') : null,
-            'expirationDate' => null !== $this->getExpirationDate() ? $this->getExpirationDate()->format('c') : null,
+            'lastLogin' => $this->getLastLogin()?->format('c'),
+            'expirationDate' => $this->getExpirationDate()?->format('c'),
             'locale' => $this->getLocale(),
             'localePreferred' => $this->getLocalePreferred(),
             'userOptions' => $this->userOptions,
         ];
     }
 
+    public function isExpired(): bool
+    {
+        if (null === $this->expirationDate){
+            return false;
+        }
+
+        $now = new \DateTime('now');
+
+        return $now > $this->expirationDate;
+    }
     public function getLocale(): string
     {
         return $this->locale;

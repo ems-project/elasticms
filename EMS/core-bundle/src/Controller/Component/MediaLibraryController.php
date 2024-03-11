@@ -309,12 +309,12 @@ class MediaLibraryController
     {
         $folder = $this->mediaLibraryService->getFolder($folderId);
 
-        $form = $this->formFactory->createBuilder(FormType::class, $folder)
-            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
-            ->getForm();
+        $documentDTO = MediaLibraryDocumentDTO::updateFolder($folder);
+        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $documentDTO);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $folder->setName($documentDTO->getName());
             $job = $this->mediaLibraryService->jobFolderRename($user, $folder);
             $this->flashBag($request)->clear();
 

@@ -34,7 +34,7 @@ class DocumentDTOValidator extends ConstraintValidator
             return;
         }
 
-        if ($this->mediaLibraryService->count($dto->getPath()) > 0) {
+        if ($this->mediaLibraryService->count($dto->getPath(), $dto->id) > 0) {
             $this->context
                 ->buildViolation('media_library.error.folder_exists')
                 ->setTranslationDomain(EMSCoreBundle::TRANS_COMPONENT)

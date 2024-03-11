@@ -56,10 +56,14 @@ class MediaLibraryService
     ) {
     }
 
-    public function count(string $path): int
+    public function count(string $path, ?string $excludeId = null): int
     {
         $query = $this->elasticaService->getBoolQuery();
         $query->addMust((new Term())->setTerm($this->getConfig()->fieldPath, $path));
+
+        if ($excludeId) {
+            $query->addMustNot((new Term())->setTerm('_id', $excludeId));
+        }
 
         $search = $this->buildSearch($query, false);
 

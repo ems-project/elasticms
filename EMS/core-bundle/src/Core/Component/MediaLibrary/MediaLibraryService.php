@@ -56,10 +56,20 @@ class MediaLibraryService
     ) {
     }
 
-    public function countByPath(string $path): int
+    public function count(string $path): int
     {
         $query = $this->elasticaService->getBoolQuery();
-        $query->addMust(new Prefix([$this->getConfig()->fieldFolder => $path]));
+        $query->addMust((new Term())->setTerm($this->getConfig()->fieldPath, $path));
+
+        $search = $this->buildSearch($query, false);
+
+        return $this->elasticaService->count($search);
+    }
+
+    public function countChildren(string $folder): int
+    {
+        $query = $this->elasticaService->getBoolQuery();
+        $query->addMust(new Prefix([$this->getConfig()->fieldFolder => $folder]));
         $search = $this->buildSearch($query);
         $search->setSize(0);
 
@@ -83,13 +93,11 @@ class MediaLibraryService
         return null !== $createdUuid;
     }
 
-    public function createFolder(string $folderName, ?MediaLibraryFolder $parentFolder = null): ?MediaLibraryFolder
+    public function createFolder(MediaLibraryDocumentDTO $documentDTO): ?MediaLibraryFolder
     {
-        $path = $parentFolder ? $parentFolder->getPath()->getValue().'/' : '/';
-
         $createdUuid = $this->create([
-            $this->getConfig()->fieldPath => $path.$folderName,
-            $this->getConfig()->fieldFolder => $path,
+            $this->getConfig()->fieldPath => $documentDTO->getPath(),
+            $this->getConfig()->fieldFolder => $documentDTO->getFolder(),
         ]);
 
         return $createdUuid ? $this->getFolder($createdUuid) : null;
@@ -279,9 +287,9 @@ class MediaLibraryService
         );
     }
 
-    private function buildSearch(BoolQuery $query): Search
+    private function buildSearch(BoolQuery $query, bool $includeSearchQuery = true): Search
     {
-        if ($this->getConfig()->searchQuery) {
+        if ($includeSearchQuery && $this->getConfig()->searchQuery) {
             $query->addMust($this->getConfig()->searchQuery);
         }
 

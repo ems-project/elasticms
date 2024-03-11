@@ -180,4 +180,23 @@ class Search implements SearchInterface
 
         return $filtered;
     }
+
+    /**
+     * @param array<string, string|string[]> $parameters
+     *
+     * @return array<int, array<string, int|string>>
+     */
+    public function analyze(string $text, array $parameters, ?string $index): array
+    {
+        $tokens = $this->client->post('/api/search/analyze', [
+            'index' => $index,
+            'text' => $text,
+            'parameters' => $parameters,
+        ])->getData()['tokens'] ?? null;
+        if (!\is_array($tokens)) {
+            throw new \RuntimeException('Unexpected: filtered must be an array');
+        }
+
+        return $tokens;
+    }
 }

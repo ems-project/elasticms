@@ -40,6 +40,7 @@ class UserController extends AbstractController
         private readonly FlashMessageLogger $flashMessageLogger,
         private readonly string $templateNamespace,
         private readonly FieldTypeService $fieldTypeService,
+        private readonly string $dateTimeFormat
     ) {
     }
 
@@ -265,21 +266,16 @@ class UserController extends AbstractController
 
     public function spreadsheetExport(string $_format): Response
     {
-        $rows = [['username', 'display name', 'notification', 'email', 'enabled', 'last login', 'roles']];
+        $rows = [['username', 'display name', 'notification', 'email', 'enabled', 'last login', 'expiration date', 'roles']];
         foreach ($this->userService->getAll() as $user) {
-            $lastLogin = $user->getLastLogin();
-            if (null !== $lastLogin) {
-                $lastLogin = $lastLogin->format('c');
-            } else {
-                $lastLogin = '';
-            }
             $rows[] = [
                 $user->getUsername(),
                 $user->getDisplayName(),
                 $user->getEmailNotification() ? 'Y' : 'N',
                 $user->getEmail(),
                 $user->isEnabled() ? 'Y' : 'N',
-                $lastLogin,
+                $user->getExpirationDate()?->format($this->dateTimeFormat),
+                $user->getLastLogin()?->format($this->dateTimeFormat),
                 \implode(', ', $user->getRoles()),
             ];
         }

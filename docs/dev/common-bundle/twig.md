@@ -20,6 +20,7 @@
   * [format_bytes](#format_bytes)
   * [ems_ascii_folding](#ems_ascii_folding)
   * [ems_template_exists](#ems_template_exists)
+  * [ems_slug](#ems_slug)
 
 
 
@@ -334,6 +335,24 @@ Test if a template exists or not. This function works with all kind of templates
 {% endif %}
 ````
 
+## ems_analyze
+
+Analyze an input string using the [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze):
+
+````twig
+<p>{{ ems_analyze('― — – ‒ ‹ › ′ ‵ ‘ ’ ‚ ‛ ″ ‴ ‶ ‷ “ ” „ ‟ «  » ü Ü ß ẞ ä ö Ä Ö', {
+  'filter': ['asciifolding'], 
+  'tokenizer': 'keyword'
+}) }}</p>
+{# ― - - - ' ' ' ' ' ' ' ' " ‴ " ‷ " " " ‟ " " u U ss SS a o A O #}
+````
+
+Arguments:
+  - text: the text to analyze (string)
+  - parameters: the Analyze API parameters (check the [elasticsearch Analyze API](https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-analyze.html#indices-analyze) documentation) (array)
+  - index: an optional index name (string)
+
+
 ## ems_json_decode
 
 Call the PHP \json_decode method with those default values: `public function jsonDecode(string $json, bool $assoc = true, int $depth = 512, int $options = 0)`
@@ -395,4 +414,23 @@ Convert a color (string) into a EMS\Helpers\Standard\Color
 
 ````twig
 {% set color = '#FF56DD'|ems_color %}
+````
+
+## ems_slug
+
+Convert a string into an url friendly string
+
+````twig
+{{ 'How do you do ?'|ems_slug }}
+{# how-do-you-do #}
+````
+
+Arguments:
+ - locale: default value `en`
+ - separator: default value `-`
+ - lower: default value `true`
+
+````twig
+{{ 'Wie fährst du deinen großen LKW ?'|ems_slug('de', '/', false) }}
+{# Wie/faehrst/du/deinen/grossen/LKW #}
 ````

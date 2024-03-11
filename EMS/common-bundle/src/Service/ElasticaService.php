@@ -28,6 +28,7 @@ use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Elasticsearch\Elastica\Scroll as EmsScroll;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Elasticsearch\Exception\NotSingleResultException;
+use EMS\CommonBundle\Elasticsearch\Response\AnalyzeResponse;
 use EMS\CommonBundle\Elasticsearch\Response\Response as EmsResponse;
 use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\Json;
@@ -51,9 +52,16 @@ class ElasticaService
         if ($this->useAdminProxy) {
             return $this->adminHelper->getCoreApi()->getBaseUrl();
         }
-        $url = $this->client->getConnection()->getConfig('url');
 
-        return \is_array($url) ? \implode(' | ', $url) : Type::string($url);
+        $connection = $this->client->getConnection();
+
+        if ($connection->hasConfig('url')) {
+            $url = $connection->getConfig('url');
+
+            return \is_array($url) ? \implode(' | ', $url) : Type::string($url);
+        }
+
+        return $connection->getHost();
     }
 
     public function refresh(?string $index): bool
@@ -760,5 +768,27 @@ class ElasticaService
         if (null !== $sources && !empty($sources)) {
             $search->setSources($sources);
         }
+    }
+
+    /**
+     * @param array<string, string|string[]> $parameters
+     */
+    public function analyze(string $text, array $parameters, string $index = null): AnalyzeResponse
+    {
+        if ($this->useAdminProxy) {
+            return new AnalyzeResponse($this->adminHelper->getCoreApi()->search()->analyze($text, $parameters, $index));
+        }
+        $endpoint = new Analyze();
+        if (null !== $index) {
+            $endpoint->setIndex($index);
+        }
+        $endpoint->setBody(\array_merge($parameters, ['text' => $text]));
+
+        $response = $this->client->requestEndpoint($endpoint)->getData();
+        if (!\is_array($response['tokens'] ?? null)) {
+            throw new \RuntimeException('Unexpected analyze response');
+        }
+
+        return new AnalyzeResponse($response['tokens']);
     }
 }

@@ -205,3 +205,27 @@ Template (template/redirects/asset.json.twig):
 {% endapply %}
 {% endblock -%}
 ```
+
+### Create an old school "Corresponding revision" in the action menu
+
+Create an action for the content types you want with those parameters:
+
+ * Name: `corresponding-revision`
+ * Label: `Corresponding revision`
+ * Icon: `Archive`
+ * Public: unchecked
+ * Environment: empty
+ * EDit with WYSIWYG: unchecked
+ * Role: `User`
+ * Render option: `Raw HTML`
+ * Body:
+
+```twig
+<a href="{{ path('emsco_data_revision_in_environment', {
+    environment: environment.name,
+    type: contentType.name,
+    ouuid: object._id,
+}) }}">
+	<i class="fa fa-archive"></i> Corresponding revision
+</a>
+```

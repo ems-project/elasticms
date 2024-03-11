@@ -241,13 +241,9 @@ Default value empty, symfony route host pattern for allow hosting on /metrics
 
 Default value null, if defined will check the SERVER_PORT and throw 404 if not matching
 
-### EMS_WEBALIZE_REMOVABLE_REGEX
+### EMS_SLUG_SYMBOL_MAP
 
-Can fine tune the ems_weblize twig filter by adjusting the regex used to remove some characters. Default value `/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/`
-
-### EMS_WEBALIZE_DASHABLE_REGEX
-
-Can fine tune the ems_weblize twig filter by adjusting the regex used to replace some characters by a dash `-`. Default value `/([^a-zA-Z0-9\_\|\ \-\.])|(\.$)/`
+Specify replacement strings, per locale to symbols. E.g. if you want to replace the symbol `@` by the string `at` in your slug in English and French : `{"en":{"@":"at"},"fr":{"@":"at"}}`. Default value `~` ([rely on the default Symfony configuration](https://github.com/symfony/string/blob/f5832521b998b0bec40bee688ad5de98d4cf111b/Slugger/AsciiSlugger.php#L59C42-L61C6))
 
 ### EMS_STORE_DATA_SERVICES
 
@@ -284,3 +280,9 @@ Define the [connections](https://github.com/ems-project/EMSSubmissionBundle/blob
 
 ### EMSS_DEFAULT_TIMEOUT
 Define the [default timeout](https://github.com/ems-project/EMSSubmissionBundle/blob/master/src/Resources/doc/index.md#default-timeout) for the submission bundle. Set to `10` by default.
+
+## Deprecated variables
+
+## Since version 5.14.0
+- EMS_WEBALIZE_REMOVABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))
+- EMS_WEBALIZE_DASHABLE_REGEX : See [EMS_SLUG_SYMBOL_MAP](#EMS_SLUG_SYMBOL_MAP))

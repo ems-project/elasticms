@@ -18,6 +18,7 @@
       * [Revision delete](#revision-delete)
       * [Revision discard](#revision-discard)
       * [Revision task create](#revision-task-create)
+      * [Revision task notification mail](#revision-task-notification-mail)
     * [User](#user)
       * [User activate](#user-activate)
       * [User change](#user-change)
@@ -26,7 +27,7 @@
       * [User demote](#user-demote)
       * [User promote](#user-promote)
       * [User update option](#user-update-option)
-    * [XLIFF](#xliff)
+    * [XLIFF](#xliff-)
       * [XLIFF extract](#xliff-extract)
       * [XLIFF update](#xliff-update)
 <!-- TOC -->
@@ -278,8 +279,8 @@ Options:
 
 Send a notification mail to assignees, creators and task managers.
 
-Creates a list of all active tasks, ordered by deadline. 
-You can define the deadline start with the deadline option.
+Creates a list of all active tasks, ordered by the deadline. 
+You can define the deadline start and end with the deadline options.
 
 Loops over all tasks and checks:
 - If the task is in progress, add to the list of tasks for the assignee
@@ -287,17 +288,18 @@ Loops over all tasks and checks:
 - If include-task-managers is true, add to the list of tasks for the manager
 
 For each receiver (assignee, creator, manager), we check if email notification is turn on.
-By default we only send a list of the 10 first result (can be increase with limit option).
+By default, we only send a list of the 10 first result (can be increase with limit option).
 
 ```bash
 Usage:
   emsco:revision:task:notification-mail [options]
 
 Options:
-      --subject=SUBJECT        Set mail subject [default: "notification tasks"]
-      --deadline=DEADLINE      Example "-1 days"
-      --include-task-managers  Include task managers
-      --limit=LIMIT            limit the results inside mail [default: 10]
+      --subject=SUBJECT                Set mail subject [default: "notification tasks"]
+      --deadline-start=DEADLINE-START  Start deadline from now "-1 days"
+      --deadline-end=DEADLINE-END      End deadline from now "+1 days"
+      --include-task-managers          Include task managers
+      --limit=LIMIT                    limit the results inside mail [default: 10]
 ```
 
 ### User

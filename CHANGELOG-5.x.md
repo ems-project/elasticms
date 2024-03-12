@@ -1,6 +1,6 @@
 # Changelog 5.x
 
-## 5.14.0 (2024-03-11)
+## 5.14.0 (2024-03-12)
 ### Features
 * feat(client-helper/wysiwyg): update style sets during emsch:local:upload-assets by @theus77 in https://github.com/ems-project/elasticms/pull/799
 * feat(common/elasticsearch): ems_analyze twig function by @theus77 in https://github.com/ems-project/elasticms/pull/807
@@ -19,7 +19,11 @@
 ### Bug Fixes
 * fix(admin): still reference template @EMSCore by @Davidmattei in https://github.com/ems-project/elasticms/pull/769
 * fix(core/field): jmn field environment is not required by @Davidmattei in https://github.com/ems-project/elasticms/pull/718
+* fix(core/media-lib): fix folder rename not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/812
 * fix(core/media-lib): folder unique names by @Davidmattei in https://github.com/ems-project/elasticms/pull/810
+* fix(core/tasks): remove tasks on delete revision by @Davidmattei in https://github.com/ems-project/elasticms/pull/815
+* fix(core/tasks): task notification command start/end deadline by @Davidmattei in https://github.com/ems-project/elasticms/pull/814
+* fix(core/user): throw expired exception inside providers by @Davidmattei in https://github.com/ems-project/elasticms/pull/813
 * fix(core/view): log error in view report view templates by @Davidmattei in https://github.com/ems-project/elasticms/pull/739
 * fix(helpers): HTML sanitizer by @coppee in https://github.com/ems-project/elasticms/pull/746
 ### Documentation

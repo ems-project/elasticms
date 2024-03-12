@@ -1,5 +1,50 @@
 # Changelog 5.x
 
+## 5.14.0 (2024-03-11)
+### Features
+* feat(client-helper/wysiwyg): update style sets during emsch:local:upload-assets by @theus77 in https://github.com/ems-project/elasticms/pull/799
+* feat(common/elasticsearch): ems_analyze twig function by @theus77 in https://github.com/ems-project/elasticms/pull/807
+* feat(core/media-lib): add search file functionality by @Davidmattei in https://github.com/ems-project/elasticms/pull/774
+* feat(core/media-lib): delete multiple files by @Davidmattei in https://github.com/ems-project/elasticms/pull/756
+* feat(core/media-lib): file rename/delete and folder rename by @Davidmattei in https://github.com/ems-project/elasticms/pull/627
+* feat(core/media-lib): folder delete by @Davidmattei in https://github.com/ems-project/elasticms/pull/755
+* feat(core/media-lib): move files by @Davidmattei in https://github.com/ems-project/elasticms/pull/771
+* feat(core/release): add unpublish documents in release by @Davidmattei in https://github.com/ems-project/elasticms/pull/766
+* feat(core/tasks): add task title suggestions by @Davidmattei in https://github.com/ems-project/elasticms/pull/797
+* feat(core/tasks): notification mail command by @Davidmattei in https://github.com/ems-project/elasticms/pull/804
+* feat(core/tasks): rework dashboard filters and workflow by @Davidmattei in https://github.com/ems-project/elasticms/pull/778
+* feat(core/user): add expiration date property by @OzkanO2 in https://github.com/ems-project/elasticms/pull/798
+* feat(demo): media file download with config by @Davidmattei in https://github.com/ems-project/elasticms/pull/719
+* feat(elasticms): add s3 store data and storeDataSessionHandler by @theus77 in https://github.com/ems-project/elasticms/pull/785
+### Bug Fixes
+* fix(admin): still reference template @EMSCore by @Davidmattei in https://github.com/ems-project/elasticms/pull/769
+* fix(core/field): jmn field environment is not required by @Davidmattei in https://github.com/ems-project/elasticms/pull/718
+* fix(core/media-lib): folder unique names by @Davidmattei in https://github.com/ems-project/elasticms/pull/810
+* fix(core/view): log error in view report view templates by @Davidmattei in https://github.com/ems-project/elasticms/pull/739
+* fix(helpers): HTML sanitizer by @coppee in https://github.com/ems-project/elasticms/pull/746
+### Documentation
+* docs(demo): update promo contents by @theus77 in https://github.com/ems-project/elasticms/pull/753
+* docs(web): recipe to redirect a domain by @theus77 in https://github.com/ems-project/elasticms/pull/754
+* docs: corresponding revision by @theus77 in https://github.com/ems-project/elasticms/pull/803
+### Code Refactoring
+* refactor(common/twig): ems_slug and flag ems_webalize as deprecated by @Davidmattei in https://github.com/ems-project/elasticms/pull/809
+* refactor(core/media-lib): improve config injection by @Davidmattei in https://github.com/ems-project/elasticms/pull/808
+### Tests
+* test(helpers): support by AI by @coppee in https://github.com/ems-project/elasticms/pull/743
+
+## 5.13.6 (2024-03-11)
+### Bug Fixes
+* fix(admin): hide sensitive info to non authenticated users by @theus77 in https://github.com/ems-project/elasticms/pull/757
+* fix(api): indices by aliases only if exist by @theus77 in https://github.com/ems-project/elasticms/pull/783
+* fix(common): ascii folding and webalize by @theus77 in https://github.com/ems-project/elasticms/pull/802
+* fix(common): ascii folding use the UnicodeString->ascii method by @theus77 in https://github.com/ems-project/elasticms/pull/806
+* fix(common/elastica): filter the indexes if a regex is defined by @theus77 in https://github.com/ems-project/elasticms/pull/781
+* fix(core/ldap): ldap not configured should through error by @Davidmattei in https://github.com/ems-project/elasticms/pull/764
+* fix(core/revision): linked revisions all default environments by @theus77 in https://github.com/ems-project/elasticms/pull/787
+* fix(docker): docker was not starting any more by @theus77 in https://github.com/ems-project/elasticms/pull/761
+* fix(emsch/api): refresh through core api by @Davidmattei in https://github.com/ems-project/elasticms/pull/805
+* fix(make): demo's make under os x by @theus77 in https://github.com/ems-project/elasticms/pull/762
+
 ## 5.13.5 (2024-02-05)
 ### Bug Fixes
 * fix(admin): db env is prod environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/751

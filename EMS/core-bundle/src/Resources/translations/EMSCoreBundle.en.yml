@@ -1043,7 +1043,7 @@ view:
                 role: 'Role'
                 description: 'Description'
             roles_functionality:
-                role_api: 'API role for accessing basic functionalities.'
+                role_api: 'Give access through the API.'
                 role_form_crm: 'Form CRM grants access to the mini CRM management tool included in the CMS.'
                 role_task_manager: 'Task Manager role for managing tasks.'
                 role_allow_align: 'Align environment grants access to a tool that allows bulk publishing of various documents.'
@@ -1053,11 +1053,11 @@ view:
                 role_super_user: 'Super User role for super user functionalities.'
                 role_user_read: 'User Read role for accessing to CMS user accounts information through the API.'
         specific_permissions:
-            back: 'Back'
             breadcrumb:
                 permission_overview: 'Permission Overview'
-                specific_role: 'specific role'
+                specific_role: 'specific roles'
             titles:
+                specific_permissions: 'Permission for %content_type_singular_name%'
                 permissions_overview: 'Permissions Overview'
                 specific_roles: 'Specific roles of fields'
     index:

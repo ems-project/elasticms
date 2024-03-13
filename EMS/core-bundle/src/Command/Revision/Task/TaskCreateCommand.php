@@ -130,7 +130,7 @@ final class TaskCreateCommand extends AbstractCommand
             return;
         }
 
-        if ($revision->hasTasks(false)) {
+        if ($revision->getDraft() || $revision->hasTasks(false)) {
             return;
         }
 

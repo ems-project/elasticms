@@ -261,14 +261,13 @@ Usage:
   emsco:revision:task:create [options] [--] <environment>
 
 Arguments:
-  environment
+  environment                          
 
 Options:
       --task=TASK                      {\"title\":\"title\",\"assignee\":\"username\",\"description\":\"optional\"}
-      --field-owner=FIELD-OWNER        owner field in es document
       --field-assignee=FIELD-ASSIGNEE  assignee field in es document
+      --requester=REQUESTER            requester
       --field-deadline=FIELD-DEADLINE  deadline field in es document
-      --default-owner=DEFAULT-OWNER    default owner username
       --not-published=NOT-PUBLISHED    only for revisions not published in this environment
       --scroll-size=SCROLL-SIZE        Size of the elasticsearch scroll request
       --scroll-timeout=SCROLL-TIMEOUT  Time to migrate "scrollSize" items i.e. 30s or 2m

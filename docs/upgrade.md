@@ -1,7 +1,7 @@
 # Upgrade
 
   * [Switch to CK Editor 5](#switch-to-ck-editor-5)
-  * [version 6.0.x](#version-514x)
+  * [version 6.0.x](#version-60x)
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
   * [version 5.3.x](#version-53x)

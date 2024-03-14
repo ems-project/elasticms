@@ -117,8 +117,6 @@ export default class MediaLibrary {
         }
 
         ['dragenter', 'dragover', 'dragleave', 'drop', 'dragend'].forEach((dragEvent) => {
-            if (this.isLoading()) return;
-
             this.#elements.files.addEventListener(dragEvent, (event) => this._onDragUpload(event));
         });
     }

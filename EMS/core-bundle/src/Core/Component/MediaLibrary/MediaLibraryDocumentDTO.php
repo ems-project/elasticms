@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Core\Component\MediaLibrary;
 
 use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Validator\Constraints as EMSAssert;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[EMSAssert\MediaLibrary\DocumentDTO]
@@ -35,11 +34,6 @@ class MediaLibraryDocumentDTO
         $dto->name = $folder->getName();
 
         return $dto;
-    }
-
-    public function giveName(): string
-    {
-        return Type::string($this->name);
     }
 
     public function getFolder(): string

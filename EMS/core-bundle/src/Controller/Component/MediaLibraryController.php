@@ -11,6 +11,7 @@ use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Form\MediaLibrary\MediaLibraryDocumentFormType;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -314,7 +315,7 @@ class MediaLibraryController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $folder->setName($documentDTO->giveName());
+            $folder->setName(Type::string($documentDTO->name));
             $job = $this->mediaLibraryService->jobFolderRename($user, $folder);
             $this->flashBag($request)->clear();
 

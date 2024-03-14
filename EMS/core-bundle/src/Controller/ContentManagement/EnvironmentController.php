@@ -8,6 +8,7 @@ use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\DataTable\Type\EnvironmentDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -42,7 +43,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use EMS\CoreBundle\DataTable\Type\EnvironmentDataTableType;
 
 class EnvironmentController extends AbstractController
 {
@@ -570,7 +570,6 @@ class EnvironmentController extends AbstractController
     {
         try {
             $table = $this->dataTableFactory->create(EnvironmentDataTableType::class);
-
 
             $logger = $this->logger;
             $logger->debug('For each environments: start');

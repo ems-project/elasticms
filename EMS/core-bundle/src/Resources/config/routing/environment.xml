@@ -31,4 +31,16 @@
     <route id="ems_environment_index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::indexAction"
            methods="GET|POST"/>
+    <route id="ems_core_environment_rebuild" path="/rebuild/{environment}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::rebuild"
+           methods="GET|POST"/>
+    <route id="ems_core_environment_delete" path="/delete/{environment}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::removeAction"
+           methods="GET|POST"/>
+    <route id="ems_core_environment_view" path="/view/{environment}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::viewAction"
+           methods="GET|POST"/>
+    <route id="ems_core_environment_edit" path="/edit/{environment}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
+           methods="GET|POST"/>
 </routes>

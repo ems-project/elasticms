@@ -20,12 +20,17 @@ class EnvironmentDataTableType extends AbstractEntityTableType
     public function build(EntityTable $table): void
     {
         $table->addColumn('table.index.column.loop_count', 'orderKey');
-        $table->addColumn('channel.index.column.label', 'label');
-        $table->addColumn('channel.index.column.name', 'name');
-        $table->addColumn('channel.index.column.alias', 'alias');
-        $table->addItemGetAction('ems_core_channel_edit', 'channel.actions.edit', 'pencil');
-        $table->addItemPostAction('ems_core_channel_delete', 'channel.actions.delete', 'trash', 'channel.actions.delete_confirm');
-        $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'channel.actions.delete_selected', 'channel.actions.delete_selected_confirm');
+        $table->addColumn('environment.index.column.label', 'label');
+        $table->addColumn('environment.index.column.name', 'name');
+        $table->addColumn('environment.index.column.alias', 'alias');
+        $table->addColumn('environment.index.column.total_indexed_label', 'total');
+        $table->addColumn('environment.index.column.total_in_ems', 'counter');
+        $table->addColumn('environment.index.column.total_mark_has_deleted', 'deletedRevision');
+        $table->addItemGetAction('ems_core_environment_rebuild', 'environment.actions.rebuild_button', 'recycle');
+        $table->addItemGetAction('ems_core_environment_view', 'environment.actions.view_button', 'eye');
+        $table->addItemGetAction('ems_core_environment_edit', 'environment.actions.edit_button', 'edit');
+        $table->addItemPostAction('ems_core_environment_delete', 'environment.actions.delete', 'trash', 'environment.actions.delete_confirm');
+        $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'environment.actions.delete_selected', 'environment.actions.delete_selected_confirm');
         $table->setDefaultOrder('label');
     }
 

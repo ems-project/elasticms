@@ -350,6 +350,19 @@ class EnvironmentService implements EntityServiceInterface
         $em->flush();
     }
 
+    /**
+     * @param string[] $ids
+     */
+    public function reorderByIds(array $ids): void
+    {
+        $counter = 1;
+        foreach ($ids as $id) {
+            $environment = $this->environmentRepository->getById($id);
+            $environment->setOrderKey($counter++);
+            $this->environmentRepository->create($environment);
+        }
+    }
+
     public function isSortable(): bool
     {
         return true;

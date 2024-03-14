@@ -201,6 +201,15 @@ class EnvironmentRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
+    public function getById(string $id): Environment
+    {
+        if (null === $environment = $this->find($id)) {
+            throw new \RuntimeException('Unexpected environment type');
+        }
+
+        return $environment;
+    }
+
     /**
      * @return ReadableCollection<int, Environment>
      */

@@ -19,7 +19,7 @@
     <route id="environment.edit" path="/edit/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
            methods="GET|POST"/>
-    <route id="environment.view" path="/{id}"
+    <route id="environment.view" path="/view/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::viewAction"
            methods="GET|POST"/>
     <route id="environment.rebuild" path="/rebuild/{id}"
@@ -42,5 +42,8 @@
            methods="GET|POST"/>
     <route id="ems_core_environment_edit" path="/edit/{environment}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
+           methods="GET|POST"/>
+    <route id="ems_core_environment_add" path="/add"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::addAction"
            methods="GET|POST"/>
 </routes>

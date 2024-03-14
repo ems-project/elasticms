@@ -22,21 +22,17 @@
                 <div class="box-header with-border">
                     <i class="fa fa-database"></i>
                     <h3 class="box-title">{{ 'view.environment.index.local_environment_label'|trans }}</h3>
-                    <div class="btn-group  pull-right">
-                        <a class="btn btn-xs btn-primary" href="{{ path('environment.add') }}">
-                            <i class="fa fa-plus"></i> {{ 'view.environment.index.add_environment_button'|trans }}
-                        </a>
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
-                                data-target="#environment_modal_reorder">
-                            <i class="fa fa-reorder"></i> {{ 'view.environment.index.reorder_button'|trans }}
-                        </button>
-                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div>
+                    {%  set toolbar %}
+                        <a class="btn btn-primary" href="{{ path('ems_core_environment_add') }}"><i class="fa fa-plus"></i> {{ add_label|default(form.vars.add_label)|trans }}</a>
+                    {%  endset %}
+
                     {% form_theme form '@EMSCore/form/forms.html.twig' %}
                     {{ form(form, {
-                        reorder_label: 'environment.index.reorder'
+                        reorder_label: 'environment.index.reorder',
+                        toolbar: toolbar
                     }) }}
                 </div>
             </div>

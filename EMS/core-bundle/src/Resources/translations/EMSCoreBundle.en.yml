@@ -509,7 +509,7 @@ channel:
     menu: Channels
 environment:
     index:
-        reorder: Reorder
+        reorder: 'Reorder environments'
         column:
             label: Label
             alias: Alias

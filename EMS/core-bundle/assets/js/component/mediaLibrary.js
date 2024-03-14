@@ -112,6 +112,7 @@ export default class MediaLibrary {
             if (this.isLoading()) return;
             if (event.target.classList.contains('file-uploader-input')) {
                 this._uploadFiles(Array.from(event.target.files));
+                event.target.value = '';
             }
         }
 

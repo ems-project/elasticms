@@ -7,6 +7,8 @@ use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\DataTable\Type\ChannelDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -62,7 +64,8 @@ class EnvironmentController extends AbstractController
         private readonly int $pagingSize,
         private readonly string $instanceId,
         private readonly ?string $circlesObject,
-        private readonly string $templateNamespace)
+        private readonly string $templateNamespace,
+        private readonly DataTableFactory $dataTableFactory)
     {
     }
 
@@ -566,6 +569,9 @@ class EnvironmentController extends AbstractController
     public function indexAction(Request $request): Response
     {
         try {
+            $table = $this->dataTableFactory->create(ChannelDataTableType::class);
+
+
             $logger = $this->logger;
             $logger->debug('For each environments: start');
 

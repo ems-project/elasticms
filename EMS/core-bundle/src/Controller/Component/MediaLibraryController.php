@@ -59,7 +59,7 @@ class MediaLibraryController
         $folderId = $request->get('folderId');
         $parentFolder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
-        $documentDTO = MediaLibraryDocumentDTO::newFolder($parentFolder);
+        $documentDTO = MediaLibraryDocumentDTO::createFolder($parentFolder);
         $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $documentDTO);
         $form->handleRequest($request);
 

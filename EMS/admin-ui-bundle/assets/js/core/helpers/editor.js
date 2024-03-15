@@ -70,6 +70,7 @@ export default class Editor {
 
   buildCke5Options () {
     let options = this.getDefaultOptions()
+    options = this._applyProfile(options)
     options = this._applyStyleSet(options)
     options = this._applyHeadings(options)
     options = this._applyLang(options)
@@ -218,21 +219,26 @@ export default class Editor {
 
   _applyStyleSet (options) {
     if (undefined === this.options.styleSet || this.options.styleSet === 0) {
+      options.toolbar.items = options.toolbar.items.filter(e => e !== 'style')
       return options
     }
     const styleSet = this.options.styleSet
     if (undefined === document.body.dataset.wysiwygInfo || document.body.dataset.wysiwygInfo.length === 0) {
+      options.toolbar.items = options.toolbar.items.filter(e => e !== 'style')
       return options
     }
     const config = JSON.parse(document.body.dataset.wysiwygInfo)
     if (undefined === config.styles || config.styles.length === 0) {
+      options.toolbar.items = options.toolbar.items.filter(e => e !== 'style')
       return options
     }
     for (let i = 0; i < config.styles.length; ++i) {
       if (config.styles[i].name !== styleSet || undefined === config.styles[i].config) {
         continue
       }
-      options.toolbar.items.unshift('style')
+      if (!options.toolbar.items.includes('style')) {
+        options.toolbar.items.unshift('style')
+      }
       options.style = {
         definitions: config.styles[i].config
       }
@@ -260,6 +266,25 @@ export default class Editor {
     if (undefined !== this.options.lang && this.options.lang.length > 0) {
       options.language.content = this.options.lang
     }
+    return options
+  }
+
+  _applyProfile (options) {
+    if (undefined === document.body.dataset.wysiwygInfo || document.body.dataset.wysiwygInfo === 0 | length) {
+      return options
+    }
+
+    try {
+      const profile = JSON.parse(document.body.dataset.wysiwygInfo)
+      if (typeof profile.config !== 'object') {
+        return options
+      }
+
+      return { ...options, ...profile.config }
+    } catch (e) {
+      console.error(`Impossible to apply the WYSIWYG profile: ${e}`)
+    }
+
     return options
   }
 }

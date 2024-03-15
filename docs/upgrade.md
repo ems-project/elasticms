@@ -1,11 +1,92 @@
 # Upgrade
 
+  * [Switch to CK Editor 5](#switch-to-ck-editor-5)
+  * [version 6.0.x](#version-60x)
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
   * [version 5.3.x](#version-53x)
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## Switch to CK Editor 5
+
+Require ElasticMS version >= 6.0.0
+
+First activate Bootstrap 5 theme with the environment variable `EMSCO_TEMPLATE_NAMESPACE=EMSAdminUI/bootstrap5`
+
+Then go to your `WYSIWYG` > `WYSIWYG styles sets` configs and change the `attributes.class` by a `classes` attribute
+
+So
+
+```json
+[{
+    "name": "Dekstop only",
+    "element": "div",
+    "attributes": {
+      "class": "desktop-only row"
+    }
+}]
+```
+
+becomes
+
+```json
+[{
+    "name": "Dekstop only",
+    "element": "div",
+    "classes": [
+      "desktop-only",
+      "row"
+    ]
+}]
+```
+
+Check then [CK Editor styles configuration](https://ckeditor.com/docs/ckeditor5/latest/features/style.html#configuration) for more details.
+But defining other HTML attributes than the class attribute is not as easy as it was with CKE4.
+
+
+And for the `WYSIWYG` > `WYSIWYG profiles` the config must be recreate from scratch.
+But basically you can override every default [CK Editor config](https://github.com/ems-project/elasticms/blob/1ea0749ec813ac7bd3afd29a8ce9520654d9a97c/EMS/admin-ui-bundle/assets/js/core/helpers/editor.js#L80. 
+Check the [CK Editor builder](https://ckeditor.com/ckeditor-5/online-builder/).
+Here is an example.
+
+```json
+{
+  "ems": {
+    "paste": true
+  },
+  "toolbar": {
+    "items": [
+      "undo",
+      "redo",
+      "style",
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "bulletedList",
+      "numberedList",
+      "removeFormat",
+      "|",
+      "outdent",
+      "indent",
+      "|",
+      "link",
+      "imageUpload",
+      "insertTable",
+      "mediaEmbed",
+      "specialCharacters",
+      "|",
+      "findAndReplace",
+      "sourceEditing"
+    ],
+    "shouldNotGroupWhenFull": true
+  }
+}
+```
+
+
 
 ## version 6.0.x
 

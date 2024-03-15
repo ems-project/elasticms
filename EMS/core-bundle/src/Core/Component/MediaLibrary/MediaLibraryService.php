@@ -329,9 +329,11 @@ class MediaLibraryService
      */
     private function findFilesByPath(string $path, int $from, ?string $searchValue = null): array
     {
+        $hashField = \sprintf('%s.%s', $this->getConfig()->fieldFile, EmsFields::CONTENT_FILE_HASH_FIELD);
+
         $query = $this->elasticaService->getBoolQuery();
         $query
-            ->addMust((new Nested())->setPath($this->getConfig()->fieldFile)->setQuery(new Exists($this->getConfig()->fieldFile)))
+            ->addMust((new Nested())->setPath($this->getConfig()->fieldFile)->setQuery(new Exists($hashField)))
             ->addMust((new Term())->setTerm($this->getConfig()->fieldFolder, $path));
 
         if ($searchValue) {

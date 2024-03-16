@@ -20,7 +20,6 @@ import {
   PictureEditing
 } from '@ckeditor/ckeditor5-image'
 import { Indent } from '@ckeditor/ckeditor5-indent'
-import { Link } from '@ckeditor/ckeditor5-link'
 import { List } from '@ckeditor/ckeditor5-list'
 import { MediaEmbed } from '@ckeditor/ckeditor5-media-embed'
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph'
@@ -42,6 +41,7 @@ import {
 import { TextTransformation } from '@ckeditor/ckeditor5-typing'
 import { Undo } from '@ckeditor/ckeditor5-undo'
 
+import { Link } from './ckeditor5-link/src/index'
 import { UploadAdapter } from './ck5/uploadAdapter'
 import { PasteAjax } from './ck5/pasteAjax'
 

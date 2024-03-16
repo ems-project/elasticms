@@ -13,6 +13,7 @@ import LinkFormView from './ui/linkformview.js'
 import LinkActionsView from './ui/linkactionsview.js'
 import { addLinkProtocolIfApplicable, isLinkElement, LINK_KEYSTROKE } from './utils.js'
 import linkIcon from '../theme/icons/link.svg'
+import LinkModal from '../../linkModal'
 const VISUAL_SELECTION_MARKER_NAME = 'link-ui'
 /**
  * The link UI plugin. It introduces the `'link'` and `'unlink'` buttons and support for the <kbd>Ctrl+K</kbd> keystroke.
@@ -23,14 +24,9 @@ const VISUAL_SELECTION_MARKER_NAME = 'link-ui'
 export default class LinkUI extends Plugin {
   constructor () {
     super(...arguments)
-    /**
-         * The actions view displayed inside of the balloon.
-         */
     this.actionsView = null
-    /**
-         * The form view displayed inside the balloon.
-         */
     this.formView = null
+    this.formModal = null
   }
 
   /**
@@ -98,6 +94,10 @@ export default class LinkUI extends Plugin {
     this._enableUserBalloonInteractions()
   }
 
+  _createModals () {
+    this.formModal = new LinkModal()
+  }
+
   /**
      * Creates the {@link module:link/ui/linkactionsview~LinkActionsView} instance.
      */
@@ -112,6 +112,7 @@ export default class LinkUI extends Plugin {
     // Execute unlink command after clicking on the "Edit" button.
     this.listenTo(actionsView, 'edit', () => {
       this._addFormView()
+      this._addFormModal()
     })
     // Execute unlink command after clicking on the "Unlink" button.
     this.listenTo(actionsView, 'unlink', () => {
@@ -126,6 +127,7 @@ export default class LinkUI extends Plugin {
     // Open the form view on Ctrl+K when the **actions have focus**..
     actionsView.keystrokes.set(LINK_KEYSTROKE, (data, cancel) => {
       this._addFormView()
+      this._addFormModal()
       cancel()
     })
     return actionsView
@@ -297,6 +299,16 @@ export default class LinkUI extends Plugin {
     this.formView.enableCssTransitions()
   }
 
+  _addFormModal () {
+    if (!this.formModal) {
+      this._createModals()
+    }
+    const editor = this.editor
+    const linkCommand = editor.commands.get('link')
+    const value = linkCommand.value || ''
+    this.formModal.show(value)
+  }
+
   /**
      * Closes the form view. Decides whether the balloon should be hidden completely or if the action view should be shown. This is
      * decided upon the link command value (which has a value if the document selection is in the link).
@@ -343,6 +355,9 @@ export default class LinkUI extends Plugin {
     if (!this.formView) {
       this._createViews()
     }
+    if (!this.formModal) {
+      this._createModals()
+    }
     // When there's no link under the selection, go straight to the editing UI.
     if (!this._getSelectedLinkElement()) {
       // Show visual selection on a text without a link when the contextual balloon is displayed.
@@ -354,12 +369,14 @@ export default class LinkUI extends Plugin {
         this._balloon.showStack('main')
       }
       this._addFormView()
+      this._addFormModal()
 
       // If there's a link under the selection...
     } else {
       // Go to the editing UI if actions are already visible.
       if (this._areActionsVisible) {
         this._addFormView()
+        this._addFormModal()
 
         // Otherwise display just the actions UI.
       } else {

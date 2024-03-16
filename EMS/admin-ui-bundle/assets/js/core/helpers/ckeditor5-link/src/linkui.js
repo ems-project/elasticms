@@ -7,11 +7,11 @@
  */
 import { Plugin } from 'ckeditor5/src/core.js'
 import { ClickObserver } from 'ckeditor5/src/engine.js'
-import { ButtonView, ContextualBalloon, clickOutsideHandler, CssTransitionDisablerMixin } from 'ckeditor5/src/ui.js'
+import { ButtonView, ContextualBalloon } from 'ckeditor5/src/ui.js'
 import { isWidget } from 'ckeditor5/src/widget.js'
-import LinkFormView from './ui/linkformview.js'
 import LinkActionsView from './ui/linkactionsview.js'
-import { addLinkProtocolIfApplicable, isLinkElement, LINK_KEYSTROKE } from './utils.js'
+import { EMS_SELECT_LINK_EVENT } from '../../../events/selectLinkEvent'
+import { isLinkElement, LINK_KEYSTROKE } from './utils.js'
 import linkIcon from '../theme/icons/link.svg'
 import LinkModal from '../../linkModal'
 const VISUAL_SELECTION_MARKER_NAME = 'link-ui'
@@ -75,10 +75,6 @@ export default class LinkUI extends Plugin {
      */
   destroy () {
     super.destroy()
-    // Destroy created UI components as they are not automatically destroyed (see ckeditor5#1341).
-    if (this.formView) {
-      this.formView.destroy()
-    }
     if (this.actionsView) {
       this.actionsView.destroy()
     }
@@ -89,9 +85,7 @@ export default class LinkUI extends Plugin {
      */
   _createViews () {
     this.actionsView = this._createActionsView()
-    this.formView = this._createFormView()
-    // Attach lifecycle actions to the the balloon.
-    this._enableUserBalloonInteractions()
+    this._createFormModal()
   }
 
   _createModals () {
@@ -111,7 +105,6 @@ export default class LinkUI extends Plugin {
     actionsView.unlinkButtonView.bind('isEnabled').to(unlinkCommand)
     // Execute unlink command after clicking on the "Edit" button.
     this.listenTo(actionsView, 'edit', () => {
-      this._addFormView()
       this._addFormModal()
     })
     // Execute unlink command after clicking on the "Unlink" button.
@@ -126,44 +119,18 @@ export default class LinkUI extends Plugin {
     })
     // Open the form view on Ctrl+K when the **actions have focus**..
     actionsView.keystrokes.set(LINK_KEYSTROKE, (data, cancel) => {
-      this._addFormView()
       this._addFormModal()
       cancel()
     })
     return actionsView
   }
 
-  /**
-     * Creates the {@link module:link/ui/linkformview~LinkFormView} instance.
-     */
-  _createFormView () {
+  _createFormModal () {
     const editor = this.editor
-    const linkCommand = editor.commands.get('link')
-    const defaultProtocol = editor.config.get('link.defaultProtocol')
-    const allowCreatingEmptyLinks = editor.config.get('link.allowCreatingEmptyLinks')
-    const formView = new (CssTransitionDisablerMixin(LinkFormView))(editor.locale, linkCommand)
-    formView.urlInputView.fieldView.bind('value').to(linkCommand, 'value')
-    // Form elements should be read-only when corresponding commands are disabled.
-    formView.urlInputView.bind('isEnabled').to(linkCommand, 'isEnabled')
-    // Disable the "save" button if the command is disabled or the input is empty despite being required.
-    formView.saveButtonView.bind('isEnabled').to(linkCommand, 'isEnabled', formView.urlInputView, 'isEmpty', (isCommandEnabled, isInputEmpty) => isCommandEnabled && (allowCreatingEmptyLinks || !isInputEmpty))
-    // Execute link command after clicking the "Save" button.
-    this.listenTo(formView, 'submit', () => {
-      const { value } = formView.urlInputView.fieldView.element
-      const parsedUrl = addLinkProtocolIfApplicable(value, defaultProtocol)
-      editor.execute('link', parsedUrl, formView.getDecoratorSwitchesState())
-      this._closeFormView()
+    document.addEventListener(EMS_SELECT_LINK_EVENT, (event) => {
+      editor.execute('link', event.detail.target)
+      this._hideUI()
     })
-    // Hide the panel after clicking the "Cancel" button.
-    this.listenTo(formView, 'cancel', () => {
-      this._closeFormView()
-    })
-    // Close the panel on esc key press when the **form has focus**.
-    formView.keystrokes.set('Esc', (data, cancel) => {
-      this._closeFormView()
-      cancel()
-    })
-    return formView
   }
 
   /**
@@ -218,39 +185,6 @@ export default class LinkUI extends Plugin {
   }
 
   /**
-     * Attaches actions that control whether the balloon panel containing the
-     * {@link #formView} is visible or not.
-     */
-  _enableUserBalloonInteractions () {
-    // Focus the form if the balloon is visible and the Tab key has been pressed.
-    this.editor.keystrokes.set('Tab', (data, cancel) => {
-      if (this._areActionsVisible && !this.actionsView.focusTracker.isFocused) {
-        this.actionsView.focus()
-        cancel()
-      }
-    }, {
-      // Use the high priority because the link UI navigation is more important
-      // than other feature's actions, e.g. list indentation.
-      // https://github.com/ckeditor/ckeditor5-link/issues/146
-      priority: 'high'
-    })
-    // Close the panel on the Esc key press when the editable has focus and the balloon is visible.
-    this.editor.keystrokes.set('Esc', (data, cancel) => {
-      if (this._isUIVisible) {
-        this._hideUI()
-        cancel()
-      }
-    })
-    // Close on click outside of balloon panel element.
-    clickOutsideHandler({
-      emitter: this.formView,
-      activator: () => this._isUIInPanel,
-      contextElements: () => [this._balloon.view.element],
-      callback: () => this._hideUI()
-    })
-  }
-
-  /**
      * Adds the {@link #actionsView} to the {@link #_balloon}.
      *
      * @internal
@@ -268,37 +202,6 @@ export default class LinkUI extends Plugin {
     })
   }
 
-  /**
-     * Adds the {@link #formView} to the {@link #_balloon}.
-     */
-  _addFormView () {
-    if (!this.formView) {
-      this._createViews()
-    }
-    if (this._isFormInPanel) {
-      return
-    }
-    const editor = this.editor
-    const linkCommand = editor.commands.get('link')
-    this.formView.disableCssTransitions()
-    this._balloon.add({
-      view: this.formView,
-      position: this._getBalloonPositionData()
-    })
-    // Make sure that each time the panel shows up, the URL field remains in sync with the value of
-    // the command. If the user typed in the input, then canceled the balloon (`urlInputView.fieldView#value` stays
-    // unaltered) and re-opened it without changing the value of the link command (e.g. because they
-    // clicked the same link), they would see the old value instead of the actual value of the command.
-    // https://github.com/ckeditor/ckeditor5-link/issues/78
-    // https://github.com/ckeditor/ckeditor5-link/issues/123
-    this.formView.urlInputView.fieldView.value = linkCommand.value || ''
-    // Select input when form view is currently visible.
-    if (this._balloon.visibleView === this.formView) {
-      this.formView.urlInputView.fieldView.select()
-    }
-    this.formView.enableCssTransitions()
-  }
-
   _addFormModal () {
     if (!this.formModal) {
       this._createModals()
@@ -310,51 +213,11 @@ export default class LinkUI extends Plugin {
   }
 
   /**
-     * Closes the form view. Decides whether the balloon should be hidden completely or if the action view should be shown. This is
-     * decided upon the link command value (which has a value if the document selection is in the link).
-     *
-     * Additionally, if any {@link module:link/linkconfig~LinkConfig#decorators} are defined in the editor configuration, the state of
-     * switch buttons responsible for manual decorator handling is restored.
-     */
-  _closeFormView () {
-    const linkCommand = this.editor.commands.get('link')
-    // Restore manual decorator states to represent the current model state. This case is important to reset the switch buttons
-    // when the user cancels the editing form.
-    linkCommand.restoreManualDecoratorStates()
-    if (linkCommand.value !== undefined) {
-      this._removeFormView()
-    } else {
-      this._hideUI()
-    }
-  }
-
-  /**
-     * Removes the {@link #formView} from the {@link #_balloon}.
-     */
-  _removeFormView () {
-    if (this._isFormInPanel) {
-      // Blur the input element before removing it from DOM to prevent issues in some browsers.
-      // See https://github.com/ckeditor/ckeditor5/issues/1501.
-      this.formView.saveButtonView.focus()
-      // Reset the URL field to update the state of the submit button.
-      this.formView.urlInputView.fieldView.reset()
-      this._balloon.remove(this.formView)
-      // Because the form has an input which has focus, the focus must be brought back
-      // to the editor. Otherwise, it would be lost.
-      this.editor.editing.view.focus()
-      this._hideFakeVisualSelection()
-    }
-  }
-
-  /**
      * Shows the correct UI type. It is either {@link #formView} or {@link #actionsView}.
      *
      * @internal
      */
   _showUI (forceVisible = false) {
-    if (!this.formView) {
-      this._createViews()
-    }
     if (!this.formModal) {
       this._createModals()
     }
@@ -368,14 +231,12 @@ export default class LinkUI extends Plugin {
       if (forceVisible) {
         this._balloon.showStack('main')
       }
-      this._addFormView()
       this._addFormModal()
 
       // If there's a link under the selection...
     } else {
       // Go to the editing UI if actions are already visible.
       if (this._areActionsVisible) {
-        this._addFormView()
         this._addFormModal()
 
         // Otherwise display just the actions UI.
@@ -391,13 +252,11 @@ export default class LinkUI extends Plugin {
     this._startUpdatingUI()
   }
 
-  /**
-     * Removes the {@link #formView} from the {@link #_balloon}.
-     *
-     * See {@link #_addFormView}, {@link #_addActionsView}.
-     */
   _hideUI () {
     if (!this._isUIInPanel) {
+      return
+    }
+    if (this.formModal.isVisible()) {
       return
     }
     const editor = this.editor
@@ -406,8 +265,6 @@ export default class LinkUI extends Plugin {
     // Make sure the focus always gets back to the editable _before_ removing the focused form view.
     // Doing otherwise causes issues in some browsers. See https://github.com/ckeditor/ckeditor5-link/issues/193.
     editor.editing.view.focus()
-    // Remove form first because it's on top of the stack.
-    this._removeFormView()
     // Then remove the actions view because it's beneath the form.
     this._balloon.remove(this.actionsView)
     this._hideFakeVisualSelection()
@@ -464,13 +321,6 @@ export default class LinkUI extends Plugin {
   }
 
   /**
-     * Returns `true` when {@link #formView} is in the {@link #_balloon}.
-     */
-  get _isFormInPanel () {
-    return !!this.formView && this._balloon.hasView(this.formView)
-  }
-
-  /**
      * Returns `true` when {@link #actionsView} is in the {@link #_balloon}.
      */
   get _areActionsInPanel () {
@@ -489,7 +339,7 @@ export default class LinkUI extends Plugin {
      * Returns `true` when {@link #actionsView} or {@link #formView} is in the {@link #_balloon}.
      */
   get _isUIInPanel () {
-    return this._isFormInPanel || this._areActionsInPanel
+    return this._areActionsInPanel
   }
 
   /**
@@ -497,8 +347,7 @@ export default class LinkUI extends Plugin {
      * currently visible.
      */
   get _isUIVisible () {
-    const visibleView = this._balloon.visibleView
-    return !!this.formView && (visibleView === this.formView || this._areActionsVisible)
+    return this._areActionsVisible
   }
 
   /**

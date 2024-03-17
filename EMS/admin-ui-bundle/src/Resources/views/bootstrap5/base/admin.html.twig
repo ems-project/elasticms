@@ -6,8 +6,12 @@
     'data-hash-algo': ems_hash_algo,
     'data-status-url': path('elasticsearch.status', {_format: 'json'}),
     'data-search-api': path('elasticsearch.api.search'),
-    'data-asset-path': asset(''),
     'data-init-upload': path('emsco_file_data_init_upload'),
+    'data-revision-url': path('emsco_view_revisions', {
+        'type': '__type__',
+        'ouuid': '__ouuid__',
+    }),
+    'data-ems-link-info': path('emsco_ems_link_info'),
     'data-file-view': path('ems.file.view', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract': path('ems_file_extract', { sha1: '__file_identifier__', name: '__file_name__' }),
     'data-file-extract-forced': path('ems_file_extract_forced', { sha1: '__file_identifier__', name: '__file_name__' }),

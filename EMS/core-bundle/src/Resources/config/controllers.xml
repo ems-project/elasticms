@@ -463,6 +463,7 @@
             <tag name="controller.service_arguments"/>
         </service>
         <service id="EMS\CoreBundle\Controller\Wysiwyg\ModalController" public="true">
+            <argument type="service" id="ems.service.revision" />
             <argument type="service" id="twig" />
             <argument type="service" id="ems_core.core_ui.flash_message_logger" />
             <argument>%ems_core.template_namespace%</argument>

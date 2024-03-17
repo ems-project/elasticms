@@ -8,10 +8,11 @@
 import { ButtonView, View, ViewCollection, FocusCycler } from 'ckeditor5/src/ui.js'
 import { FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils.js'
 import { icons } from 'ckeditor5/src/core.js'
-import { ensureSafeUrl } from '../utils.js'
 import '@ckeditor/ckeditor5-ui/theme/components/responsive-form/responsiveform.css'
+import ajaxRequest from '../../../../components/ajaxRequest'
 import '../../theme/linkactions.css'
 import unlinkIcon from '../../theme/icons/unlink.svg'
+import Link from '../../../link'
 /**
  * The link actions view class. This view displays the link preview, allows
  * unlinking or editing the link.
@@ -130,6 +131,7 @@ export default class LinkActionsView extends View {
      * @returns The button view instance.
      */
   _createPreviewButton () {
+    const self = this
     const button = new ButtonView(this.locale)
     const bind = this.bindTemplate
     const t = this.t
@@ -143,17 +145,38 @@ export default class LinkActionsView extends View {
           'ck',
           'ck-link-actions__preview'
         ],
-        href: bind.to('href', href => href && ensureSafeUrl(href)),
+        href: bind.to('href', href => self._getEmsUrl(href)),
         target: '_blank',
         rel: 'noopener noreferrer'
       }
     })
-    button.bind('label').to(this, 'href', href => {
-      return href || t('This link has no URL')
-    })
+    button.bind('label').to(this, 'href', href => self._getEmsLabel(href))
     button.bind('isEnabled').to(this, 'href', href => !!href)
     button.template.tag = 'a'
     button.template.eventListeners = {}
     return button
+  }
+
+  _getEmsLabel (href) {
+    const emsLink = new Link(href)
+    const t = this.t
+    const self = this
+    if (emsLink.isEmsLink()) {
+      ajaxRequest.get(document.body.dataset.emsLinkInfo, { link: href })
+        .success(response => {
+          self.previewButtonView.label = response.label
+        })
+        .fail(() => {
+          self.previewButtonView.label = t('Label not found')
+        })
+
+      return t('Label loading...')
+    }
+    return href || t('This link has no URL')
+  }
+
+  _getEmsUrl (href) {
+    const emsLink = new Link(href)
+    return emsLink.getUrl()
   }
 }

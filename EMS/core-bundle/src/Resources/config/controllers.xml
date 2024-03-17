@@ -467,7 +467,8 @@
             <argument type="service" id="twig" />
             <argument type="service" id="ems_core.core_ui.flash_message_logger" />
             <argument>%ems_core.template_namespace%</argument>
-            <tag name="controller.service_arguments"/>
+            <call method="setContainer"/>
+            <tag name="container.service_subscriber"/>
         </service>
         <service id="EMS\CoreBundle\Controller\Wysiwyg\StylesetController" public="true">
             <argument type="service" id="ems.service.wysiwyg_styles_set" />

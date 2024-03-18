@@ -96,7 +96,8 @@ class EnvironmentRepository extends EntityRepository
             return 0;
         }
     }
-    public function orderKeyExists($orderKey): bool
+
+    public function orderKeyExists(int $orderKey): bool
     {
         $environmentsStats = $this->getEnvironmentsStats();
         foreach ($environmentsStats as $environmentStats) {
@@ -105,8 +106,26 @@ class EnvironmentRepository extends EntityRepository
                 return true;
             }
         }
+
         return false;
     }
+
+    public function getMaxOrderKey(): int
+    {
+        $qb = $this->createQueryBuilder('environment');
+
+        $qb->select('MAX(environment.orderKey) as max_order_key');
+
+        try {
+            $result = $qb->getQuery()->getSingleScalarResult();
+
+            return $result ? (int) $result : 0;
+        } catch (NonUniqueResultException $e) {
+            // Handle exception if needed
+            return 0;
+        }
+    }
+
     public function countRevisionPerEnvironment(Environment $env): int
     {
         $qb = $this->createQueryBuilder('e');

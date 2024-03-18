@@ -436,10 +436,10 @@ class EnvironmentController extends AbstractController
                     $environment->setAlias($this->instanceId.$environment->getName());
                     $environment->setManaged(true);
 
-                    $length = $this->environmentRepository->counter();
-                    do {
-                        $newOrderKey = ++$length;
-                    } while ($this->environmentRepository->orderKeyExists($newOrderKey));
+                    $newOrderKey = $this->environmentRepository->getMaxOrderKey() + 1;
+                    while ($this->environmentRepository->orderKeyExists($newOrderKey)) {
+                        ++$newOrderKey;
+                    }
                     $environment->setOrderKey($newOrderKey);
 
                     $this->environmentRepository->save($environment);

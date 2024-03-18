@@ -9,6 +9,7 @@ import { Plugin } from 'ckeditor5/src/core.js'
 import { Delete, TextWatcher, getLastTextLine, findAttributeRange } from 'ckeditor5/src/typing.js'
 import { addLinkProtocolIfApplicable, linkHasProtocol } from './utils.js'
 import LinkEditing from './linkediting.js'
+import Link from "../../link";
 const MIN_LINK_LENGTH_WITH_SPACE_AT_END = 4 // Ie: "t.co " (length 5).
 // This was a tweak from https://gist.github.com/dperini/729294.
 const URL_REG_EXP = new RegExp(
@@ -154,8 +155,9 @@ export default class AutoLink extends Plugin {
         return
       }
       const matches = newLink.match(URL_REG_EXP)
+      const emsLink = new Link(newLink)
       // If the text in the clipboard has a URL, and that URL is the whole clipboard.
-      if (matches && matches[2] === newLink) {
+      if ((matches && matches[2] === newLink) || emsLink.isEmsLink()) {
         model.change(writer => {
           this._selectEntireLinks(writer, selectedRange)
           linkCommand.execute(newLink)

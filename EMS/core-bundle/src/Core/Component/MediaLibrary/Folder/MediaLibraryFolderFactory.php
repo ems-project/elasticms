@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Component\MediaLibrary\Folder;
 
 use Elastica\Query\Term;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\Component\MediaLibrary\Config\MediaLibraryConfig;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryPath;
+use Ramsey\Uuid\Uuid;
 
 class MediaLibraryFolderFactory
 {
@@ -17,7 +19,19 @@ class MediaLibraryFolderFactory
     {
     }
 
-    public function create(MediaLibraryConfig $config, string $ouuid): MediaLibraryFolder
+    public function create(MediaLibraryConfig $config, ?MediaLibraryFolder $parentFolder): MediaLibraryFolder
+    {
+        $uuid = Uuid::uuid4();
+        $rawData = \array_merge_recursive($config->defaultValue, [
+            $config->fieldFolder => $parentFolder?->getPath()->getValue().'/',
+        ]);
+
+        $document = Document::fromData($config->contentType, $uuid->toString(), $rawData);
+
+        return new MediaLibraryFolder($document, $config);
+    }
+
+    public function createFromOuuid(MediaLibraryConfig $config, string $ouuid): MediaLibraryFolder
     {
         $index = $config->contentType->giveEnvironment()->getAlias();
         $document = $this->elasticaService->getDocument($index, $config->contentType->getName(), $ouuid);

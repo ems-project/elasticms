@@ -493,64 +493,88 @@ export default class MediaLibrary {
     }
     _uploadFile(file) {
         return new Promise((resolve, reject) => {
-            let id = 'upload-' + Date.now();
-            let progressBar = new ProgressBar('progress-' + id, {
-                'label': file.name
-            });
+            const id = Date.now();
+            const liUpload = document.createElement('li');
+            liUpload.id = `upload-${id}`;
 
-            let fileHash = null;
-            let mediaLib = this;
-            let liUpload = document.createElement('li');
-            liUpload.append(progressBar.element());
+            const uploadDiv = document.createElement('div');
+            uploadDiv.className = 'upload-file';
+
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.addEventListener('click', () => this.#elements.listUploads.removeChild(liUpload))
+
+            const closeIcon = document.createElement('i');
+            closeIcon.className = 'fa fa-times';
+            closeIcon.setAttribute('aria-hidden', 'true');
+            closeButton.appendChild(closeIcon);
+
+            const progressBar = new ProgressBar(`progress-${id}`, {'label': file.name, value: 5});
+
+            uploadDiv.append(progressBar.style('success').element());
+            uploadDiv.append(closeButton);
+
+            liUpload.appendChild(uploadDiv);
             this.#elements.listUploads.appendChild(liUpload);
 
+            this._getFileHash(file, progressBar)
+                .then((fileHash) => this._createFile(file, fileHash))
+                .then(() => {
+                    progressBar.status('Finished');
+                   this.#elements.listUploads.removeChild(liUpload);
+                    resolve();
+                })
+                .catch((error) => {
+                    uploadDiv.classList.add('upload-error');
+                    progressBar.status(error.message).style('danger').progress(100);
+                    reject();
+                });
+        });
+    }
+    async _createFile(file, fileHash) {
+        const formData = new FormData();
+        formData.append('name', file.name);
+        formData.append('filesize', file.size);
+        formData.append('fileMimetype', file.type);
+        formData.append('fileHash', fileHash);
+
+        const path = this.#activeFolderId ? `/add-file/${this.#activeFolderId}` : '/add-file';
+        await this._post(path, formData, true)
+            .catch((response) => response.json().then((json) => {
+                throw new Error(json.error);
+            }));
+    }
+    async _getFileHash(file, progressBar) {
+        const hash = await new Promise((resolve, reject) => {
+            let fileHash = null;
             new FileUploader({
                 file: file,
                 algo: this.#options.hashAlgo,
                 initUrl: this.#options.urlInitUpload,
                 onHashAvailable: function (hash) {
-                    progressBar.status('Hash available');
-                    progressBar.progress(0);
+                    progressBar.status('Hash available').progress(0);
                     fileHash = hash;
                 },
                 onProgress: function (status, progress, remaining) {
                     if (status === 'Computing hash') {
-                        progressBar.status('Calculating ...');
-                        progressBar.progress(remaining);
+                        progressBar.status('Calculating ...').progress(remaining);
                     }
                     if (status === 'Uploading') {
-                        progressBar.status('Uploading: ' + remaining);
-                        progressBar.progress(Math.round(progress * 100));
+                        progressBar.status('Uploading: ' + remaining).progress(Math.round(progress * 100));
                     }
                 },
                 onUploaded: function () {
-                    progressBar.status('Uploaded');
-                    progressBar.progress(100);
-                    progressBar.style('success');
-
-                    const path = mediaLib.#activeFolderId ? `/add-file/${mediaLib.#activeFolderId}` : '/add-file';
-                    const data =  {
-                        'filename': file.name,
-                        'filesize': file.size,
-                        'mimetype': file.type,
-                    };
-                    data[mediaLib.#options.hashAlgo] = fileHash;
-
-                    mediaLib._post(path, { file: data }
-                    ).then(() => {
-                        mediaLib.#elements.listUploads.removeChild(liUpload);
-                        resolve();
-                    }).catch(() => reject());
+                    progressBar.status('Uploaded').progress(100);
+                    resolve(fileHash);
                 },
-                onError: function (message) {
-                    progressBar.status('Error: ' + message);
-                    progressBar.progress(100);
-                    progressBar.style('danger');
-                }
+                onError: (message) => reject(message)
             });
         });
-    }
 
+        if (typeof hash !== 'string') throw new Error('Invalid hash');
+
+        return hash;
+    }
     _initInfiniteScrollFiles(scrollArea, divLoadMore) {
         const options = {
             root: scrollArea,
@@ -644,13 +668,22 @@ export default class MediaLibrary {
         });
         return response.json();
     }
-    async _post(path, data = {}) {
+    async _post(path, data = {}, isFormData = false) {
         this.loading(true);
-        const response = await fetch(`${this.#pathPrefix}${path}`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        });
-        return response.json();
+        let options = {};
+
+        if (isFormData) {
+            options = { method: "POST", body: data }
+        } else {
+            options = {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }
+        }
+
+        const response = await fetch(`${this.#pathPrefix}${path}`, options);
+
+        return response.ok ? response.json() : Promise.reject(response);
     }
 }

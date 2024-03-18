@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Component;
 
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocumentDTO;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\Core\UI\AjaxModal;
 use EMS\CoreBundle\Core\UI\AjaxService;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Form\MediaLibrary\MediaLibraryDocumentFormType;
 use EMS\Helpers\Standard\Json;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,13 +38,22 @@ class MediaLibraryController
     public function addFile(Request $request): JsonResponse
     {
         $folderId = $request->get('folderId');
-        $folder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
-        $file = Json::decode($request->getContent())['file'];
+        $parentFolder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
-        if (!$this->mediaLibraryService->createFile($file, $folder)) {
+        $newFile = $this->mediaLibraryService->newFile($parentFolder);
+        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $newFile, [
+            'csrf_protection' => false,
+        ]);
+        $form->submit($request->request->all());
+
+        if (!$form->isValid()) {
             return new JsonResponse([
-                'messages' => $this->flashBag($request)->all(),
+                'error' => $form->getErrors(true)->current()->getMessage(),
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        if (null === $this->mediaLibraryService->createFile($newFile)) {
+            return new JsonResponse(['messages' => $this->flashBag($request)->all()], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $this->flashBag($request)->clear();
@@ -59,12 +66,13 @@ class MediaLibraryController
         $folderId = $request->get('folderId');
         $parentFolder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
-        $documentDTO = MediaLibraryDocumentDTO::createFolder($parentFolder);
-        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $documentDTO);
+        $newFolder = $this->mediaLibraryService->newFolder($parentFolder);
+        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $newFolder);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $folder = $this->mediaLibraryService->createFolder($documentDTO);
+            $folder = $this->mediaLibraryService->createFolder($newFolder);
 
             if ($folder) {
                 $this->flashBag($request)->clear();
@@ -310,12 +318,11 @@ class MediaLibraryController
     {
         $folder = $this->mediaLibraryService->getFolder($folderId);
 
-        $documentDTO = MediaLibraryDocumentDTO::updateFolder($folder);
-        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $documentDTO);
+        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $folder);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $folder->setName(Type::string($documentDTO->name));
+            $folder->setName($folder->giveName());
             $job = $this->mediaLibraryService->jobFolderRename($user, $folder);
             $this->flashBag($request)->clear();
 

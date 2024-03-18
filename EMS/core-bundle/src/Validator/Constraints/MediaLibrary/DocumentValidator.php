@@ -4,37 +4,37 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Validator\Constraints\MediaLibrary;
 
-use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocumentDTO;
+use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocument;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\EMSCoreBundle;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class DocumentDTOValidator extends ConstraintValidator
+class DocumentValidator extends ConstraintValidator
 {
     public function __construct(private readonly MediaLibraryService $mediaLibraryService)
     {
     }
 
     /**
-     * @param MediaLibraryDocumentDTO $dto
+     * @param MediaLibraryDocument $value
      */
-    public function validate($dto, Constraint $constraint): void
+    public function validate($value, Constraint $constraint): void
     {
-        if (!$dto instanceof MediaLibraryDocumentDTO) {
-            throw new UnexpectedValueException($dto, MediaLibraryDocumentDTO::class);
+        if (!$value instanceof MediaLibraryDocument) {
+            throw new UnexpectedValueException($value, MediaLibraryDocument::class);
         }
 
-        if (!$constraint instanceof DocumentDTO) {
-            throw new UnexpectedValueException($constraint, DocumentDTO::class);
+        if (!$constraint instanceof Document) {
+            throw new UnexpectedValueException($constraint, Document::class);
         }
 
-        if (null === $dto->name) {
+        if (!$value->hasName()) {
             return;
         }
 
-        if ($this->mediaLibraryService->count($dto->getPath(), $dto->id) > 0) {
+        if ($this->mediaLibraryService->count($value->getPath()->getValue(), $value->id) > 0) {
             $this->context
                 ->buildViolation('media_library.error.folder_exists')
                 ->setTranslationDomain(EMSCoreBundle::TRANS_COMPONENT)

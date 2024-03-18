@@ -435,8 +435,13 @@ class EnvironmentController extends AbstractController
                 } else {
                     $environment->setAlias($this->instanceId.$environment->getName());
                     $environment->setManaged(true);
+
                     $length = $this->environmentRepository->counter();
-                    $environment->setOrderKey($length++);
+                    do {
+                        $newOrderKey = ++$length;
+                    } while ($this->environmentRepository->orderKeyExists($newOrderKey));
+                    $environment->setOrderKey($newOrderKey);
+
                     $this->environmentRepository->save($environment);
 
                     $indexName = $environment->getNewIndexName();

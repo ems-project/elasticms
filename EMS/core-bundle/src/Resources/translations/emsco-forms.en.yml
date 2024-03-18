@@ -1,3 +1,17 @@
+link_modal:
+    field:
+        field_type: 'Field type'
+        data_link: 'Internal document'
+        mailto: 'To'
+        subject: 'Subject'
+        body: 'Body'
+        href: 'URL'
+        target: 'Target'
+    link_type:
+        url: 'URL'
+        internal: 'Internal Link'
+        file: 'File'
+        mailto: 'Mailto'
 analyzer.type.standard: Standard
 analyzer.type.simple: Simple
 analyzer.type.whitespace: Whitespace

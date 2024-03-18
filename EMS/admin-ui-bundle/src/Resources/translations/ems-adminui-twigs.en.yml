@@ -3,4 +3,4 @@ core:
     close: 'Close'
     loading: 'Loading...'
     link:
-      title: 'Insert an hyperlink'
+      title: 'Insert a link'

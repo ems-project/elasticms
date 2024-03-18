@@ -26,11 +26,22 @@ class ModalController extends AbstractController
         $url = (string) $request->request->get('url', '');
         if (\str_starts_with($url, 'ems://')) {
             $data = [
-                'dataLink' => EMSLink::fromText($url)->getEmsId(),
+                LoadLinkModalType::FIELD_DATA_LINK => EMSLink::fromText($url)->getEmsId(),
+                LoadLinkModalType::FIELD_LINK_TYPE => LoadLinkModalType::LINK_TYPE_INTERNAL,
+            ];
+        } elseif (\str_starts_with($url, 'mailto:')) {
+            \preg_match('/mailto:(?P<mailto>.*)\?(?P<query>.*)?/', $url, $matches);
+            \parse_str($matches['query'] ?? '', $query);
+            $data = [
+                LoadLinkModalType::FIELD_MAILTO => $matches['mailto'] ?? '',
+                LoadLinkModalType::FIELD_SUBJECT => $query['subject'] ?? '',
+                LoadLinkModalType::FIELD_BODY => $query['body'] ?? '',
+                LoadLinkModalType::FIELD_LINK_TYPE => LoadLinkModalType::LINK_TYPE_MAILTO,
             ];
         } else {
             $data = [
-                'href' => $url,
+                LoadLinkModalType::FIELD_HREF => $url,
+                LoadLinkModalType::FIELD_LINK_TYPE => LoadLinkModalType::LINK_TYPE_URL,
             ];
         }
         $form = $this->createForm(LoadLinkModalType::class, $data);

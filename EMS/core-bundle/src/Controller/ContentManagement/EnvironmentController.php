@@ -385,6 +385,7 @@ class EnvironmentController extends AbstractController
                 $this->contentTypeRepository->delete($contentType);
             }
             $this->environmentRepository->delete($environment);
+            $this->environmentRepository->updateOrderKeysAfterDelete($environment->getOrderKey());
             $this->logger->notice('log.environment.deleted', [
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
             ]);

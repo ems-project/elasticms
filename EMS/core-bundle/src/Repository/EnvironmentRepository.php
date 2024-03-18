@@ -125,7 +125,15 @@ class EnvironmentRepository extends EntityRepository
             return 0;
         }
     }
-
+    public function updateOrderKeysAfterDelete(int $deletedOrderKey): void
+    {
+        $qb = $this->createQueryBuilder('e');
+        $qb->update()
+            ->set('e.orderKey', 'e.orderKey - 1')
+            ->where($qb->expr()->gt('e.orderKey', $deletedOrderKey))
+            ->getQuery()
+            ->execute();
+    }
     public function countRevisionPerEnvironment(Environment $env): int
     {
         $qb = $this->createQueryBuilder('e');

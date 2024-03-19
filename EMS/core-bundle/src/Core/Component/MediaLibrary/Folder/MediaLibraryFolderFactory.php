@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Core\Component\MediaLibrary\Folder;
 
+use Elastica\Query\Exists;
+use Elastica\Query\Nested;
 use Elastica\Query\Term;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
@@ -54,7 +56,9 @@ class MediaLibraryFolderFactory
     private function searchParent(MediaLibraryConfig $config, MediaLibraryPath $path): DocumentInterface
     {
         $query = $this->elasticaService->getBoolQuery();
-        $query->addMust((new Term())->setTerm($config->fieldPath, $path->getValue()));
+        $query
+            ->addMust((new Term())->setTerm($config->fieldPath, $path->getValue()))
+            ->addMustNot((new Nested())->setPath($config->fieldFile)->setQuery(new Exists($config->fieldFile)));
 
         $search = new Search([$config->contentType->giveEnvironment()->getAlias()], $query);
         $search->setContentTypes([$config->contentType->getName()]);

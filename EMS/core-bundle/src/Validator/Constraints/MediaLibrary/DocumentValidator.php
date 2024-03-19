@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Validator\Constraints\MediaLibrary;
 
+use EMS\CoreBundle\Core\Component\MediaLibrary\File\MediaLibraryFile;
+use EMS\CoreBundle\Core\Component\MediaLibrary\Folder\MediaLibraryFolder;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryDocument;
 use EMS\CoreBundle\Core\Component\MediaLibrary\MediaLibraryService;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -22,24 +24,31 @@ class DocumentValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint): void
     {
-        if (!$value instanceof MediaLibraryDocument) {
-            throw new UnexpectedValueException($value, MediaLibraryDocument::class);
-        }
-
         if (!$constraint instanceof Document) {
             throw new UnexpectedValueException($constraint, Document::class);
         }
 
-        if (!$value->hasName()) {
+        match (\get_class($value)) {
+            MediaLibraryFile::class, MediaLibraryFolder::class => $this->existsValidation($value),
+            default => throw new UnexpectedValueException($value, MediaLibraryDocument::class)
+        };
+    }
+
+    private function existsValidation(MediaLibraryFile|MediaLibraryFolder $value): void
+    {
+        if (!$value->hasName() || !$this->mediaLibraryService->exists($value)) {
             return;
         }
 
-        if ($this->mediaLibraryService->count($value->getPath()->getValue(), $value->id) > 0) {
-            $this->context
-                ->buildViolation('media_library.error.folder_exists')
-                ->setTranslationDomain(EMSCoreBundle::TRANS_COMPONENT)
-                ->atPath('name')
-                ->addViolation();
-        }
+        $message = match (true) {
+            $value instanceof MediaLibraryFile => 'media_library.error.file_exists',
+            $value instanceof MediaLibraryFolder => 'media_library.error.folder_exists'
+        };
+
+        $this->context
+            ->buildViolation($message)
+            ->setTranslationDomain(EMSCoreBundle::TRANS_COMPONENT)
+            ->atPath('name')
+            ->addViolation();
     }
 }

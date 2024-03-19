@@ -54,20 +54,6 @@ class MediaLibraryService
     ) {
     }
 
-    public function count(string $path, ?string $excludeId = null): int
-    {
-        $query = $this->elasticaService->getBoolQuery();
-        $query->addMust((new Term())->setTerm($this->getConfig()->fieldPath, $path));
-
-        if ($excludeId) {
-            $query->addMustNot((new Term())->setTerm('_id', $excludeId));
-        }
-
-        $search = $this->buildSearch($query, false);
-
-        return $this->elasticaService->count($search);
-    }
-
     public function countChildren(string $folder): int
     {
         $query = $this->elasticaService->getBoolQuery();
@@ -96,6 +82,19 @@ class MediaLibraryService
     {
         $document = $mediaDocument->document;
         $this->dataService->delete($document->getContentType(), $document->getOuuid(), $username);
+    }
+
+    public function exists(MediaLibraryFile|MediaLibraryFolder $document): bool
+    {
+        $query = $this->elasticaService->getBoolQuery();
+        $query
+            ->addMust((new Term())->setTerm($this->getConfig()->fieldPath, $document->path))
+            ->addMustNot((new Term())->setTerm('_id', $document->id));
+
+        $search = $this->buildSearch($query, false);
+        $count = $this->elasticaService->count($search);
+
+        return !(0 === $count);
     }
 
     /**

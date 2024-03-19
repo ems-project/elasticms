@@ -3,6 +3,7 @@ media_library:
     submit: Save
     cancel: Cancel
     error:
+        file_exists: 'File name already exists.'
         folder_exists: 'Folder name already exists.'
     folder:
         add:

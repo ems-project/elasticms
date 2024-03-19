@@ -47,9 +47,9 @@ class MediaLibraryController
         $form->submit($request->request->all());
 
         if (!$form->isValid()) {
-            return new JsonResponse([
-                'error' => $form->getErrors(true)->current()->getMessage(),
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+            $firstError = $form->getErrors(true)->current()->getMessage();
+
+            return new JsonResponse(['error' => $firstError], Response::HTTP_CONFLICT);
         }
 
         if (null === $this->mediaLibraryService->createFile($newFile)) {

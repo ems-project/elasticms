@@ -12,7 +12,6 @@ use EMS\CoreBundle\Form\Form\MediaLibrary\MediaLibraryDocumentFormType;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +20,6 @@ use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MediaLibraryController
@@ -287,21 +285,18 @@ class MediaLibraryController
 
     public function renameFile(Request $request, string $fileId): JsonResponse
     {
-        $mediaFile = $this->mediaLibraryService->getFile($fileId);
+        $file = $this->mediaLibraryService->getFile($fileId);
 
-        $form = $this->formFactory->createBuilder(FormType::class, $mediaFile)
-            ->add('name', TextType::class, ['constraints' => [new NotBlank()]])
-            ->getForm();
+        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $file);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->mediaLibraryService->updateDocument($mediaFile);
-            $this->mediaLibraryService->refresh();
+            $this->mediaLibraryService->updateDocument($file);
             $this->flashBag($request)->clear();
 
             return new JsonResponse([
                 'success' => true,
-                'fileRow' => $this->mediaLibraryService->renderFileRow($mediaFile),
+                'fileRow' => $this->mediaLibraryService->renderFileRow($file),
             ]);
         }
 

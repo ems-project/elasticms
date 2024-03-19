@@ -14,6 +14,7 @@ use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\UserInterface;
+use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Field\ColorPickerType;
 use EMS\CoreBundle\Form\Field\IconTextType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
@@ -578,12 +579,17 @@ class EnvironmentController extends AbstractController
     {
         try {
             $table = $this->dataTableFactory->create(EnvironmentDataTableType::class);
-            $form = $this->createForm(TableType::class, $table);
+            $form = $this->createForm(TableType::class, $table, [
+                "title_label"=> "view.environment.index.local_environment_label"
+            ]);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
                     switch ($action->getName()) {
+                        case EntityTable::DELETE_ACTION:
+                            $this->environmentService->deleteByIds($table->getSelected());
+                            break;
                         case TableType::REORDER_ACTION:
                             $newOrder = TableType::getReorderedKeys($form->getName(), $request);
                             $this->environmentService->reorderByIds($newOrder);

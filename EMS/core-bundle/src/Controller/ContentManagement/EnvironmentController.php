@@ -580,7 +580,7 @@ class EnvironmentController extends AbstractController
         try {
             $table = $this->dataTableFactory->create(EnvironmentDataTableType::class);
             $form = $this->createForm(TableType::class, $table, [
-                "title_label"=> "view.environment.index.local_environment_label"
+                'title_label' => 'view.environment.index.local_environment_label',
             ]);
             $form->handleRequest($request);
 

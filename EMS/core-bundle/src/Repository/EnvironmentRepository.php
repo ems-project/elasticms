@@ -135,6 +135,12 @@ class EnvironmentRepository extends EntityRepository
             ->getQuery()
             ->execute();
     }
+
+    /**
+     * @param string[] $ids
+     *
+     * @return Environment[]
+     */
     public function getByIds(array $ids): array
     {
         $queryBuilder = $this->createQueryBuilder('environment');
@@ -143,6 +149,7 @@ class EnvironmentRepository extends EntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
     public function countRevisionPerEnvironment(Environment $env): int
     {
         $qb = $this->createQueryBuilder('e');

@@ -12,7 +12,6 @@ use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\Environment\EnvironmentsRevision;
 use EMS\CoreBundle\Entity\Analyzer;
-use EMS\CoreBundle\Entity\Channel;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Filter;
 use EMS\CoreBundle\Entity\Helper\JsonClass;
@@ -363,6 +362,7 @@ class EnvironmentService implements EntityServiceInterface
             $this->environmentRepository->create($environment);
         }
     }
+
     /**
      * @param string[] $ids
      */
@@ -372,6 +372,7 @@ class EnvironmentService implements EntityServiceInterface
             $this->delete($environment);
         }
     }
+
     public function delete(Environment $environment): void
     {
         $name = $environment->getName();
@@ -380,6 +381,7 @@ class EnvironmentService implements EntityServiceInterface
             'name' => $name,
         ]);
     }
+
     public function isSortable(): bool
     {
         return true;

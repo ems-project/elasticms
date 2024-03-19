@@ -514,6 +514,7 @@ environment:
             label: Label
             alias: Alias
             name: Name
+            index: Index
             total_indexed_label: "Total in ES"
             total_in_ems: 'Total in ems'
             total_mark_has_deleted: 'Total deleted'

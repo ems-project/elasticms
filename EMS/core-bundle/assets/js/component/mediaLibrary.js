@@ -523,12 +523,18 @@ export default class MediaLibrary {
                 .then((fileHash) => this._createFile(file, fileHash))
                 .then(() => {
                     progressBar.status('Finished');
-                    this.#elements.listUploads.removeChild(liUpload);
-                    resolve();
+                    setTimeout(() => {
+                        this.#elements.listUploads.removeChild(liUpload);
+                        resolve();
+                    }, 2000);
                 })
                 .catch((error) => {
                     uploadDiv.classList.add('upload-error');
                     progressBar.status(error.message).style('danger').progress(100);
+                    setTimeout(() => {
+                        this.#elements.listUploads.removeChild(liUpload);
+                        reject();
+                    }, 4000);
                 });
         });
     }

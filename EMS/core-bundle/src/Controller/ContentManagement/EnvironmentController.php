@@ -42,7 +42,6 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class EnvironmentController extends AbstractController
@@ -311,7 +310,7 @@ class EnvironmentController extends AbstractController
                         'alias' => $name,
                     ]);
 
-                    return $this->redirectToRoute('environment.edit', [
+                    return $this->redirectToRoute('ems_core_environment_edit', [
                             'id' => $environment->getId(),
                     ]);
                 }
@@ -323,7 +322,7 @@ class EnvironmentController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute('ems_core_environment_index');
     }
 
     /**
@@ -337,20 +336,17 @@ class EnvironmentController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute('ems_core_environment_index');
     }
 
-    public function removeAction(int $id): Response
+    public function removeAction(Environment $environment): Response
     {
-        /** @var Environment $environment */
-        $environment = $this->environmentRepository->find($id);
-
         if (0 !== $environment->getRevisions()->count()) {
             $this->logger->error('log.environment.not_empty', [
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute('ems_core_environment_index');
         }
 
         if ($environment->getManaged()) {
@@ -392,7 +388,7 @@ class EnvironmentController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute('ems_core_environment_index');
     }
 
     public static function isValidName(string $name): bool
@@ -459,7 +455,7 @@ class EnvironmentController extends AbstractController
                         EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
                     ]);
 
-                    return $this->redirectToRoute('environment.index');
+                    return $this->redirectToRoute('ems_core_environment_index');
                 }
             }
         }
@@ -469,14 +465,8 @@ class EnvironmentController extends AbstractController
         ]);
     }
 
-    public function editAction(int $id, Request $request): Response
+    public function editAction(Environment $environment, Request $request): Response
     {
-        try {
-            $environment = $this->environmentService->giveById($id);
-        } catch (\Throwable $e) {
-            throw $this->createNotFoundException($e->getMessage());
-        }
-
         $form = $this->createForm(EditEnvironmentType::class, $environment, [
             'type' => (null !== $this->circlesObject && '' !== $this->circlesObject ? $this->circlesObject : null),
         ]);
@@ -489,7 +479,7 @@ class EnvironmentController extends AbstractController
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute('ems_core_environment_index');
         }
 
         return $this->render("@$this->templateNamespace/environment/edit.html.twig", [
@@ -498,15 +488,8 @@ class EnvironmentController extends AbstractController
         ]);
     }
 
-    public function viewAction(int $id): Response
+    public function viewAction(Environment $environment): Response
     {
-        /** @var Environment|null $environment */
-        $environment = $this->environmentRepository->find($id);
-
-        if (null === $environment) {
-            throw new NotFoundHttpException('Unknow environment');
-        }
-
         try {
             $info = $this->mapping->getMapping([$environment->getName()]);
         } catch (NotFoundException $e) {
@@ -525,15 +508,8 @@ class EnvironmentController extends AbstractController
         ]);
     }
 
-    public function rebuild(int $id, Request $request): Response
+    public function rebuild(Environment $environment, Request $request): Response
     {
-        /** @var Environment|null $environment */
-        $environment = $this->environmentRepository->find($id);
-
-        if (null === $environment) {
-            throw new NotFoundHttpException('Unknow environment');
-        }
-
         $rebuildIndex = new RebuildIndex();
 
         $form = $this->createForm(RebuildIndexType::class, $rebuildIndex);

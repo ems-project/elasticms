@@ -616,6 +616,9 @@ class EnvironmentController extends AbstractController
                     $alias = $this->aliasService->getAlias($environment->getAlias());
                     $environment->setIndexes($alias['indexes']);
                     $environment->setTotal($alias['total']);
+
+                    $indexName = \reset($alias['indexes'])['name'];
+                    $environment->setIndexName($indexName);
                 }
                 $environments[] = $environment;
             }

@@ -23,6 +23,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
         $table->addColumn('environment.index.column.label', 'label');
         $table->addColumn('environment.index.column.name', 'name');
         $table->addColumn('environment.index.column.alias', 'alias');
+        $table->addColumn('environment.index.column.index', 'indexName');
         $table->addColumn('environment.index.column.total_indexed_label', 'total');
         $table->addColumn('environment.index.column.total_in_ems', 'counter');
         $table->addColumn('environment.index.column.total_mark_has_deleted', 'deletedRevision');

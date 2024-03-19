@@ -104,7 +104,7 @@ final class ExtractCommand extends AbstractCommand
             ->addOption(self::OPTION_MAIL_SUBJECT, null, InputOption::VALUE_OPTIONAL, 'Mail subject', 'A new XLIFF has been generated')
             ->addOption(self::OPTION_MAIL_TO, null, InputOption::VALUE_OPTIONAL, 'A comma seperated list of emails where to send the XLIFF')
             ->addOption(self::OPTION_MAIL_CC, null, InputOption::VALUE_OPTIONAL, 'A comma seperated list of emails where to send, in carbon copy, the XLIFF')
-            ->addOption(self::OPTION_MAIL_REPLY_TO, null, InputOption::VALUE_OPTIONAL, 'A comma seperated list of emails where to send, in carbon copy, the XLIFF')
+            ->addOption(self::OPTION_MAIL_REPLY_TO, null, InputOption::VALUE_OPTIONAL, 'A comma seperated list of emails where to reply')
         ;
     }
 

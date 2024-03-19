@@ -49,7 +49,7 @@ export default class MediaLibrary {
         return this.element.classList.contains('loading');
     }
     loading(flag) {
-        const buttons = this.element.querySelectorAll('button');
+        const buttons = this.element.querySelectorAll('button:not(.close-button)');
         const uploadButton = (this.#elements.inputUpload) ?
             this.#elements.header.querySelector(`label[for="${this.#elements.inputUpload.id}"]`) : false;
 
@@ -487,9 +487,7 @@ export default class MediaLibrary {
 
         Promise
             .allSettled(files.map((file) => this._uploadFile(file)))
-            .then(() => {
-                this._getFiles().then(() => this.loading(false));
-            });
+            .then(() => this._getFiles().then(() => this.loading(false)));
     }
     _uploadFile(file) {
         return new Promise((resolve, reject) => {
@@ -502,7 +500,11 @@ export default class MediaLibrary {
 
             const closeButton = document.createElement('button');
             closeButton.type = 'button';
-            closeButton.addEventListener('click', () => this.#elements.listUploads.removeChild(liUpload))
+            closeButton.className = 'close-button';
+            closeButton.addEventListener('click', () => {
+                this.#elements.listUploads.removeChild(liUpload);
+                reject();
+            });
 
             const closeIcon = document.createElement('i');
             closeIcon.className = 'fa fa-times';
@@ -521,13 +523,12 @@ export default class MediaLibrary {
                 .then((fileHash) => this._createFile(file, fileHash))
                 .then(() => {
                     progressBar.status('Finished');
-                   this.#elements.listUploads.removeChild(liUpload);
+                    this.#elements.listUploads.removeChild(liUpload);
                     resolve();
                 })
                 .catch((error) => {
                     uploadDiv.classList.add('upload-error');
                     progressBar.status(error.message).style('danger').progress(100);
-                    reject();
                 });
         });
     }

@@ -91,6 +91,15 @@ class MediaLibraryService
             ->addMust((new Term())->setTerm($this->getConfig()->fieldPath, $document->path))
             ->addMustNot((new Term())->setTerm('_id', $document->id));
 
+        $existsFile = (new Nested())
+            ->setPath($this->getConfig()->fieldFile)
+            ->setQuery(new Exists($this->getConfig()->fieldFile));
+
+        match (true) {
+            $document instanceof MediaLibraryFile => $query->addMust($existsFile),
+            $document instanceof MediaLibraryFolder => $query->addMustNot($existsFile)
+        };
+
         $search = $this->buildSearch($query, false);
         $count = $this->elasticaService->count($search);
 

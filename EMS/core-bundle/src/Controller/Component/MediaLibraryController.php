@@ -201,24 +201,27 @@ class MediaLibraryController
 
     public function moveFile(Request $request, string $fileId): JsonResponse
     {
+        $file = $this->mediaLibraryService->getFile($fileId);
         $data = Json::decode($request->getContent());
-        $mediaFile = $this->mediaLibraryService->getFile($fileId);
 
         $targetFolderId = $data['targetFolderId'] ?? null;
         if (!isset($targetFolderId)) {
             throw new \RuntimeException('Missing target folder id');
         }
 
-        if ('home' === $targetFolderId) {
-            $movePath = $mediaFile->getPath()->move('/');
-        } else {
-            $targetFolder = $this->mediaLibraryService->getFolder($targetFolderId);
-            $movePath = $mediaFile->getPath()->move($targetFolder->getPath()->getValue());
+        $folder = $targetFolderId ? $this->mediaLibraryService->getFolder($targetFolderId) : null;
+        $this->mediaLibraryService->moveFile($file, $folder);
+
+        $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $file, ['csrf_protection' => false]);
+        $form->submit($request->request->all(), false);
+
+        if (!$form->isValid()) {
+            $firstError = $form->getErrors(true)->current()->getMessage();
+
+            return new JsonResponse(['error' => $firstError], Response::HTTP_CONFLICT);
         }
 
-        $mediaFile->setPath($movePath);
-        $this->mediaLibraryService->updateDocument($mediaFile);
-
+        $this->mediaLibraryService->updateDocument($file);
         $this->flashBag($request)->clear();
 
         return new JsonResponse(['success' => true]);

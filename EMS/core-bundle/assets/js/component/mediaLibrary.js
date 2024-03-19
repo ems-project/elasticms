@@ -205,33 +205,62 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (!json.hasOwnProperty('targetFolderId')) return;
 
+            const targetFolderId = json.targetFolderId;
+
             let processed = 0;
+            let errorList = [];
             const progressBar = new ProgressBar('progress-move-files', {
                 label: (1 === selection.length ? 'Moving file' : 'Moving files'),
                 value: 100,
                 showPercentage: true,
             });
 
+            const divAlert = document.createElement('div');
+            divAlert.id = 'move-errors';
+            divAlert.className = 'alert alert-danger';
+            divAlert.style.display = 'none';
+            divAlert.attributes.role = 'alert';
+
+            ajaxModal.getBodyElement().append(divAlert);
             ajaxModal.getBodyElement().append(progressBar.element());
             this.loading(true);
 
             Promise
                 .allSettled(Array.from(selection).map(fileRow => {
-                    return this._post(`/file/${fileRow.dataset.id}/move`, {
-                        targetFolderId: json.targetFolderId
-                    }).then(() => {
-                        if (!json.hasOwnProperty('success') || json.success === false) return;
+                    return new Promise((resolve, reject) => {
+                        this._post(`/file/${fileRow.dataset.id}/move`, {targetFolderId: targetFolderId})
+                            .then((moveOk) => {
+                                if (!moveOk.hasOwnProperty('success') || moveOk.success === false) return;
+                                fileRow.closest('li').remove();
+                                resolve();
+                            })
+                            .catch((moveError) => moveError.json().then((moveError) => {
+                                errorList[moveError.error] = (errorList[moveError.error] || 0) + 1;
 
-                        fileRow.closest('li').remove();
-                        progressBar
-                            .progress(Math.round((++processed / selection.length) * 100))
-                            .style('success');
+                                let content = '';
+                                for (let e in errorList) { content += `<p>${e} : for ${errorList[e]} files</p>`;}
+
+                                divAlert.style.display = 'block';
+                                divAlert.innerHTML = content;
+
+                                reject();
+                            }))
+                            .finally(() => {
+                                progressBar
+                                    .style('success')
+                                    .progress(Math.round((++processed / selection.length) * 100))
+                                    .status(`${processed} / ${selection.length}`);
+
+                                const currentDivAlert = ajaxModal.getBodyElement().querySelector('div#move-errors');
+                                if (currentDivAlert) ajaxModal.getBodyElement().replaceChild(divAlert, currentDivAlert);
+                            });
                     });
                 }))
                 .then(() => this._selectFilesReset())
                 .then(() => this.loading(false))
-                .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
-                .then(() => ajaxModal.close())
+                .then(() => {
+                    if (Object.keys(errorList).length === 0) setTimeout(() => { ajaxModal.close() }, 2000);
+                })
             ;
         });
     }

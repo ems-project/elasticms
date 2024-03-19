@@ -201,6 +201,13 @@ class MediaLibraryService
         return $componentModal;
     }
 
+    public function moveFile(MediaLibraryFile $file, ?MediaLibraryFolder $folder): void
+    {
+        $moveLocation = $folder ? $folder->getPath()->getValue() : '/';
+        $newPath = $file->getPath()->move($moveLocation);
+        $file->setPath($newPath);
+    }
+
     public function newFile(?MediaLibraryFolder $parentFolder): MediaLibraryFile
     {
         return $this->fileFactory->create($this->getConfig(), $parentFolder);

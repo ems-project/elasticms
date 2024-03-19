@@ -492,7 +492,7 @@ export default class MediaLibrary {
     _uploadFile(file) {
         return new Promise((resolve, reject) => {
             const id = Date.now();
-            const liUpload = document.createElement('li');
+            let liUpload = document.createElement('li');
             liUpload.id = `upload-${id}`;
 
             const uploadDiv = document.createElement('div');
@@ -503,6 +503,7 @@ export default class MediaLibrary {
             closeButton.className = 'close-button';
             closeButton.addEventListener('click', () => {
                 this.#elements.listUploads.removeChild(liUpload);
+                liUpload = false;
                 reject();
             });
 
@@ -526,15 +527,16 @@ export default class MediaLibrary {
                     setTimeout(() => {
                         this.#elements.listUploads.removeChild(liUpload);
                         resolve();
-                    }, 2000);
+                    }, 1000);
                 })
                 .catch((error) => {
                     uploadDiv.classList.add('upload-error');
                     progressBar.status(error.message).style('danger').progress(100);
                     setTimeout(() => {
+                        if (liUpload === false) return;
                         this.#elements.listUploads.removeChild(liUpload);
                         reject();
-                    }, 4000);
+                    }, 3000);
                 });
         });
     }

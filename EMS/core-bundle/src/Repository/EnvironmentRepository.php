@@ -150,6 +150,14 @@ class EnvironmentRepository extends EntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * @return Environment[]
+     */
+    public function getAll(): array
+    {
+        return $this->findBy([], ['orderKey' => 'ASC']);
+    }
+
     public function countRevisionPerEnvironment(Environment $env): int
     {
         $qb = $this->createQueryBuilder('e');

@@ -16,7 +16,7 @@
     <route id="ems_core_environment_edit" path="/edit/{environment}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
            methods="GET|POST"/>
-    <route id="ems_core_environment_delete" path="/remove/{environment}"
+    <route id="ems_core_environment_remove" path="/remove/{environment}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::removeAction"
            methods="GET|POST"/>
     <route id="ems_core_environment_add" path="/add"
@@ -25,14 +25,32 @@
     <route id="ems_core_environment_attach" path="/attach/{name}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::attachAction"
            methods="POST"/>
+    <route id="ems_core_environment_remove_alias" path="/attach/{name}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::removeAliasAction"
+           methods="POST"/>
 <!--    Deprecated routes-->
-    <route id="environment.index" path="/"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::indexAction"
-           methods="GET|POST"/>
+    <route id="environment.attach" path="/attach/{name}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::attachAction"
+           methods="POST"/>
     <route id="environment.remove.alias" path="/remove/alias/{name}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::removeAliasAction"
            methods="POST"/>
-
-
-
+    <route id="environment.remove" path="/remove/{id}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::removeAction"
+           methods="POST"/>
+    <route id="environment.add" path="/add"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::addAction"
+           methods="GET|POST"/>
+    <route id="environment.edit" path="/edit/{id}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
+           methods="GET|POST"/>
+    <route id="environment.view" path="/{id}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::viewAction"
+           methods="GET|POST"/>
+    <route id="environment.rebuild" path="/rebuild/{id}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::rebuild"
+           methods="GET|POST"/>
+    <route id="environment.index" path="/"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::indexAction"
+           methods="GET|POST"/>
 </routes>

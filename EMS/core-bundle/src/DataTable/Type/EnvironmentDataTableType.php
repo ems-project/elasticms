@@ -30,7 +30,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
         $table->addItemGetAction('ems_core_environment_rebuild', 'environment.actions.rebuild_button', 'recycle');
         $table->addItemGetAction('ems_core_environment_view', 'environment.actions.view_button', 'eye');
         $table->addItemGetAction('ems_core_environment_edit', 'environment.actions.edit_button', 'edit');
-        $table->addItemPostAction('ems_core_environment_delete', 'environment.actions.delete', 'trash', 'environment.actions.delete_confirm');
+        $table->addItemPostAction('ems_core_environment_remove', 'environment.actions.delete', 'trash', 'environment.actions.delete_confirm');
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'environment.actions.delete_selected', 'environment.actions.delete_selected_confirm');
         $table->setDefaultOrder('label');
     }

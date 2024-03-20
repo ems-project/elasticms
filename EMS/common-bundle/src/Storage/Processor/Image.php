@@ -263,7 +263,7 @@ class Image
         }
         $sx = Type::integer(\imagesx($stamp));
         $sy = Type::integer(\imagesy($stamp));
-        \imagecopy($image, $stamp, (int) ($width - $sx) / 2, (int) ($height - $sy) / 2, 0, 0, $sx, $sy);
+        \imagecopy($image, $stamp, \intval(($width - $sx) / 2), \intval(($height - $sy) / 2), 0, 0, $sx, $sy);
 
         return $image;
     }

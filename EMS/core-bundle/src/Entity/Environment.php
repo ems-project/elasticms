@@ -492,7 +492,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
      *
      * @return int
      */
-    public function getOrderKey()
+    public function getOrderKey():int
     {
         return $this->orderKey;
     }

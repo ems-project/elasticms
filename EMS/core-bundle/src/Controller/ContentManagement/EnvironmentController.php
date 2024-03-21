@@ -365,6 +365,8 @@ class EnvironmentController extends AbstractController
             }
         }
 
+        $this->environmentRepository->updateOrderKeysAfterDelete($environment->getOrderKey());
+
         $linked = false;
         /** @var ContentType $contentType */
         foreach ($environment->getContentTypesHavingThisAsDefault() as $contentType) {
@@ -386,7 +388,6 @@ class EnvironmentController extends AbstractController
                 $this->contentTypeRepository->delete($contentType);
             }
             $this->environmentRepository->delete($environment);
-            $this->environmentRepository->updateOrderKeysAfterDelete($environment->getOrderKey());
             $this->logger->notice('log.environment.deleted', [
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
             ]);
@@ -531,7 +532,7 @@ class EnvironmentController extends AbstractController
         $environment = $this->environmentRepository->find($id);
 
         if (null === $environment) {
-            throw new NotFoundHttpException('Unknow environment');
+            throw new NotFoundHttpException('Unknown environment');
         }
 
         $rebuildIndex = new RebuildIndex();
@@ -601,7 +602,7 @@ class EnvironmentController extends AbstractController
                     $this->logger->error('log.controller.environment.unknown_action');
                 }
 
-                return $this->redirectToRoute('ems_core_environment_index');
+                return $this->redirectToRoute('environment.index');
             }
 
             $this->aliasService->build();

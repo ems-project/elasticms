@@ -4,21 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="ems_core_environment_index" path="/"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::indexAction"
-           methods="GET|POST"/>
-    <route id="ems_core_environment_rebuild" path="/rebuild/{environment}"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::rebuild"
-           methods="GET|POST"/>
-    <route id="ems_core_environment_view" path="/view/{environment}"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::viewAction"
-           methods="GET|POST"/>
-    <route id="ems_core_environment_edit" path="/edit/{environment}"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
-           methods="GET|POST"/>
-    <route id="ems_core_environment_remove" path="/remove/{environment}"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::removeAction"
-           methods="GET|POST"/>
+
     <route id="ems_core_environment_add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::addAction"
            methods="GET|POST"/>
@@ -32,6 +18,12 @@
     <route id="environment.attach" path="/attach/{name}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::attachAction"
            methods="POST"/>
+    <route id="environment.view" path="/{id}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::viewAction"
+           methods="GET|POST"/>
+    <route id="environment.edit" path="/edit/{id}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
+           methods="GET|POST"/>
     <route id="environment.remove.alias" path="/remove/alias/{name}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::removeAliasAction"
            methods="POST"/>
@@ -40,12 +32,6 @@
            methods="POST"/>
     <route id="environment.add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::addAction"
-           methods="GET|POST"/>
-    <route id="environment.edit" path="/edit/{id}"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::editAction"
-           methods="GET|POST"/>
-    <route id="environment.view" path="/{id}"
-           controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::viewAction"
            methods="GET|POST"/>
     <route id="environment.rebuild" path="/rebuild/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\EnvironmentController::rebuild"

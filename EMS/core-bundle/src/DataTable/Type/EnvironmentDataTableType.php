@@ -27,10 +27,10 @@ class EnvironmentDataTableType extends AbstractEntityTableType
         $table->addColumn('environment.index.column.total_indexed_label', 'total');
         $table->addColumn('environment.index.column.total_in_ems', 'counter');
         $table->addColumn('environment.index.column.total_mark_has_deleted', 'deletedRevision');
-        $table->addItemGetAction('ems_core_environment_rebuild', 'environment.actions.rebuild_button', 'recycle');
-        $table->addItemGetAction('ems_core_environment_view', 'environment.actions.view_button', 'eye');
-        $table->addItemGetAction('ems_core_environment_edit', 'environment.actions.edit_button', 'edit');
-        $table->addItemPostAction('ems_core_environment_remove', 'environment.actions.delete', 'trash', 'environment.actions.delete_confirm');
+        $table->addItemGetAction('environment.rebuild', 'environment.actions.rebuild_button', 'recycle', ['id' => 'id'])->setDynamic(true);
+        $table->addItemGetAction('environment.view', 'environment.actions.view_button', 'eye', ['id' => 'id'])->setDynamic(true);
+        $table->addItemGetAction('environment.edit', 'environment.actions.edit_button', 'edit', ['id' => 'id'])->setDynamic(true);
+        $table->addItemPostAction('environment.remove', 'environment.actions.delete', 'trash', 'environment.actions.delete_confirm', ['id' => 'id'])->setDynamic(true);
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'environment.actions.delete_selected', 'environment.actions.delete_selected_confirm');
         $table->setDefaultOrder('label');
     }

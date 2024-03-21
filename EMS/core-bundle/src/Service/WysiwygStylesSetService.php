@@ -139,4 +139,9 @@ class WysiwygStylesSetService implements EntityServiceInterface
 
         return \strval($id);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::WYSIWYG_STYLE_SET_PRIORITY;
+    }
 }

@@ -303,4 +303,9 @@ final class ReleaseService implements EntityServiceInterface
     {
         throw new \RuntimeException('deleteByItemName method not supported for releases');
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::RELEASE_PRIORITY;
+    }
 }

@@ -167,4 +167,9 @@ class ScheduleManager implements EntityServiceInterface
 
         return $id;
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::SCHEDULE_PRIORITY;
+    }
 }

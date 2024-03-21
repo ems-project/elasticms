@@ -77,4 +77,9 @@ class FilterManager implements EntityServiceInterface
 
         return \strval($id);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::FILTER_PRIORITY;
+    }
 }

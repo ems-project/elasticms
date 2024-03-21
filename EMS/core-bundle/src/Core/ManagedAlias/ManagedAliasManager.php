@@ -108,4 +108,9 @@ class ManagedAliasManager implements EntityServiceInterface
         $managedAlias->setName($webalized);
         $this->repository->update($managedAlias);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::MANAGED_ALIAS_PRIORITY;
+    }
 }

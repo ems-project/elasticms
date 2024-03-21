@@ -103,4 +103,9 @@ class LogManager implements EntityServiceInterface
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::LOG_PRIORITY;
+    }
 }

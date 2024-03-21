@@ -306,4 +306,9 @@ class JobService implements EntityServiceInterface
 
         $this->logger->info('Job '.$job->getCommand().' completed.');
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::JOB_PRIORITY;
+    }
 }

@@ -167,4 +167,9 @@ class FormManager implements EntityServiceInterface
         $form->getFieldType()->reorderFields($structure);
         $this->update($form);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::FORM_PRIORITY;
+    }
 }

@@ -187,6 +187,11 @@ class DashboardManager implements EntityServiceInterface
         return $dashboard;
     }
 
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::DASHBOARD_PRIORITY;
+    }
+
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         $dashboard = Dashboard::fromJson($json);

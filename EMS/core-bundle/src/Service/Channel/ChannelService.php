@@ -151,4 +151,9 @@ final class ChannelService implements EntityServiceInterface
 
         return $id;
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::CHANNEL_PRIORITY;
+    }
 }

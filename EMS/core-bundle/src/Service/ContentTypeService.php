@@ -745,4 +745,9 @@ class ContentTypeService implements EntityServiceInterface
         $contentType->setEnvironment($target);
         $this->persist($contentType);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::CONTENT_TYPE_PRIORITY;
+    }
 }

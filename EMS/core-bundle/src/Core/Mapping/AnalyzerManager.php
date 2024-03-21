@@ -81,4 +81,9 @@ class AnalyzerManager implements EntityServiceInterface
 
         return \strval($id);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::ANALYZER_PRIORITY;
+    }
 }

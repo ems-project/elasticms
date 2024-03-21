@@ -475,24 +475,18 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
 
     /**
      * Set orderKey.
-     *
-     * @param int $orderKey
-     *
-     * @return Environment
      */
-    public function setOrderKey($orderKey)
+    public function setOrderKey(int $orderKey): int
     {
         $this->orderKey = $orderKey;
 
-        return $this;
+        return $this->orderKey;
     }
 
     /**
      * Get orderKey.
-     *
-     * @return int
      */
-    public function getOrderKey():int
+    public function getOrderKey(): int
     {
         return $this->orderKey;
     }

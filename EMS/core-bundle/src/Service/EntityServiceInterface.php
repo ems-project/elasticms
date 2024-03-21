@@ -29,9 +29,8 @@ interface EntityServiceInterface
     const SCHEDULE_PRIORITY = 19;
     const DRAFT_PRIORITY = 20;
     const USER_PRIORITY = 21;
-    const TASK_TABLE_PRIORITY = 22;
-    const LOG_PRIORITY = 23;
-    const FORM_SUBMISSION_PRIORITY = 24;
+    const LOG_PRIORITY = 22;
+    const FORM_SUBMISSION_PRIORITY = 23;
 
     public function isSortable(): bool;
 

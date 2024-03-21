@@ -508,6 +508,7 @@ class EnvironmentController extends AbstractController
 
     public function viewAction(int $id): Response
     {
+        dump($id);
         /** @var Environment|null $environment */
         $environment = $this->environmentRepository->find($id);
 

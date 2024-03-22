@@ -649,6 +649,8 @@ export default class MediaLibrary {
             files.forEach((f, index) => {
                 if (index >= start && index <= end) this._selectFile(f);
             });
+        } else if (event.ctrlKey) {
+            this._selectFile(item);
         } else {
             this._selectFilesReset(false);
             this._selectFile(item);

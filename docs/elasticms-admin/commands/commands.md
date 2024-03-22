@@ -458,7 +458,7 @@ Arguments:
   search-query                                   Query used to find elasticsearch records to extract from the source environment
   source-locale                                  Source locale
   target-locale                                  Target locale
-  fields                                         List of content type\s fields to extract. Use the pattern %locale% if required
+  fields                                         List of content type\s fields to extract. Use the pattern %locale% if required. Use the `.` to separate nested fields from their parent. Use `json:` `id_key:` and/or `base64;` to decode a field. You can also use `*` as wild char and `|` to list children fields  E.g. `%locale%.json:id_key:content.object.title|content` or `[%locale%][json:id_key:content][object][title|content]`
 
 Options:
       --bulk-size=BULK-SIZE                      Size of the elasticsearch scroll request [default: 500]
@@ -466,10 +466,14 @@ Options:
       --xliff-version[=XLIFF-VERSION]            XLIFF format version: 1.2 2.0 [default: "1.2"]
       --filename[=FILENAME]                      Generate the XLIFF specified file
       --base-url[=BASE-URL]                      Base url, in order to generate a download link to the XLIFF file
-      --locale-field[=LOCALE-FIELD]              Field containing the locale [default: "locale"]
+      --locale-field[=LOCALE-FIELD]              Field containing the locale
       --encoding[=ENCODING]                      Encoding used to generate the XLIFF file [default: "UTF-8"]
-      --translation-field[=TRANSLATION-FIELD]    Field containing the translation field [default: "translation_id"]
-      --encode-html                              HTML fields will be encoded in simple fields
+      --translation-field[=TRANSLATION-FIELD]    Field containing the translation field
+      --with-baseline                            The baseline has been checked and can be used to flag field as final
+      --mail-subject[=MAIL-SUBJECT]              Mail subject [default: "A new XLIFF has been generated"]
+      --mail-to[=MAIL-TO]                        A comma seperated list of emails where to send the XLIFF
+      --mail-cc[=MAIL-CC]                        A comma seperated list of emails where to send, in carbon copy, the XLIFF
+      --mail-reply-to[=MAIL-REPLY-TO]            A comma seperated list of emails where to reply
 ```
 
 #### XLIFF update

@@ -6,6 +6,7 @@ link_modal:
         subject: 'Subject'
         body: 'Body'
         href: 'URL'
+        submit: 'Set link'
         target_blank: 'Open links in a new tab (_blank)'
     link_type:
         url: 'URL'

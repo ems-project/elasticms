@@ -4,14 +4,18 @@ namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Field\ObjectPickerType;
+use EMS\CoreBundle\Form\Field\SubmitEmsType;
+use EMS\CoreBundle\Routes;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 class LoadLinkModalType extends AbstractType
 {
@@ -26,6 +30,12 @@ class LoadLinkModalType extends AbstractType
     public const FIELD_SUBJECT = 'subject';
     public const FIELD_BODY = 'body';
     public const FIELD_TARGET_BLANK = 'targetBlank';
+    public const FIELD_SUBMIT = 'submit';
+    public const WITH_TARGET_BLANK_FIELD = 'with_target_blank_field';
+
+    public function __construct(private readonly RouterInterface $router)
+    {
+    }
 
     /**
      * @param FormBuilderInterface<FormBuilderInterface> $builder
@@ -71,7 +81,7 @@ class LoadLinkModalType extends AbstractType
                     ]]),
                 ],
             ])
-            ->add(self::FIELD_MAILTO, TextType::class, [
+            ->add(self::FIELD_MAILTO, EmailType::class, [
                 'label' => 'link_modal.field.mailto',
                 'required' => false,
                 'row_attr' => [
@@ -123,12 +133,23 @@ class LoadLinkModalType extends AbstractType
                     ]]),
                 ],
             ]);
+
+        if (true === ($options[self::WITH_TARGET_BLANK_FIELD] ?? false)) {
+            $builder->add(self::FIELD_SUBMIT, SubmitEmsType::class, [
+                'label' => 'link_modal.field.submit',
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                    'data-ajax-save-url' => $this->router->generate(Routes::WYSIWYG_MODAL_LOAD_LINK),
+                ],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
+                self::WITH_TARGET_BLANK_FIELD => false,
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 'attr' => [
                     'class' => 'dynamic-form',

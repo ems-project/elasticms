@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Controller\Wysiwyg;
 
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
+use EMS\CoreBundle\Entity\Form\LoadLinkModalEntity;
 use EMS\CoreBundle\Form\Form\LoadLinkModalType;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,33 +25,28 @@ class ModalController extends AbstractController
     public function loadLinkModal(Request $request): JsonResponse
     {
         $url = (string) $request->request->get('url', '');
-        if (\str_starts_with($url, 'ems://')) {
-            $data = [
-                LoadLinkModalType::FIELD_DATA_LINK => EMSLink::fromText($url)->getEmsId(),
-                LoadLinkModalType::FIELD_LINK_TYPE => LoadLinkModalType::LINK_TYPE_INTERNAL,
-            ];
-        } elseif (\str_starts_with($url, 'mailto:')) {
-            \preg_match('/mailto:(?P<mailto>.*)\?(?P<query>.*)?/', $url, $matches);
-            \parse_str($matches['query'] ?? '', $query);
-            $data = [
-                LoadLinkModalType::FIELD_MAILTO => $matches['mailto'] ?? '',
-                LoadLinkModalType::FIELD_SUBJECT => $query['subject'] ?? '',
-                LoadLinkModalType::FIELD_BODY => $query['body'] ?? '',
-                LoadLinkModalType::FIELD_LINK_TYPE => LoadLinkModalType::LINK_TYPE_MAILTO,
-            ];
-        } else {
-            $data = [
-                LoadLinkModalType::FIELD_HREF => $url,
-                LoadLinkModalType::FIELD_LINK_TYPE => LoadLinkModalType::LINK_TYPE_URL,
-            ];
-        }
-        $form = $this->createForm(LoadLinkModalType::class, $data);
+        $target = (string) $request->request->get('target', '');
+        $loadLinkModalEntity = new LoadLinkModalEntity($url, $target);
+        $form = $this->createForm(LoadLinkModalType::class, $loadLinkModalEntity, [
+            LoadLinkModalType::WITH_TARGET_BLANK_FIELD => $loadLinkModalEntity->hasTargetBlank(),
+        ]);
 
-        return $this->flashMessageLogger->buildJsonResponse([
+        $response = [
             'body' => $this->twig->render("@$this->templateNamespace/modal/link.html.twig", [
                 'form' => $form->createView(),
             ]),
-        ]);
+        ];
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            if (!$data instanceof LoadLinkModalEntity) {
+                throw new \RuntimeException('Unexpected not LoadLinkModalEntity submitted data');
+            }
+
+            $response['url'] = $data->generateUrl();
+        }
+
+        return $this->flashMessageLogger->buildJsonResponse($response);
     }
 
     public function emsLinkInfo(Request $request): JsonResponse

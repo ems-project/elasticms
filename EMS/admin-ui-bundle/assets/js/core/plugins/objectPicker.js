@@ -24,7 +24,8 @@ export default class ObjectPicker {
         templateSelection: formatRepoSelection, // omitted for brevity, see the source of this page
         allowClear: true,
         // https://github.com/select2/select2/issues/3781
-        placeholder: querySearchLabel && querySearchLabel !== '' ? querySearchLabel : 'Search'
+        placeholder: querySearchLabel && querySearchLabel !== '' ? querySearchLabel : 'Search',
+        theme: 'bootstrap-5'
       }
 
       if (selectItem.attr('multiple')) {

@@ -3,13 +3,7 @@ import 'select2/dist/js/select2'
 
 class Select {
   load (target) {
-    const query = $(target)
-    query.find('.select2').select2({
-      theme: 'bootstrap-5',
-      allowClear: true,
-      placeholder: '',
-      escapeMarkup: function (markup) { return markup }
-    })
+    this.select2(target)
     this.checkboxAll(target)
   }
 
@@ -24,6 +18,15 @@ class Select {
         }
       })
     }
+  }
+
+  select2 (target) {
+    $(target).find('select.select2').select2({
+      theme: 'bootstrap-5',
+      allowClear: true,
+      placeholder: '',
+      escapeMarkup: function (markup) { return markup }
+    })
   }
 }
 

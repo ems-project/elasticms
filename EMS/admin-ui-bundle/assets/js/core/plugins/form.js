@@ -1,11 +1,14 @@
 import $ from 'jquery'
 import ajaxRequest from '../components/ajaxRequest'
 import ChangeEvent from '../events/changeEvent'
+import DynamicForm from '../helpers/dynamic-form'
 import { EMS_CTRL_SAVE_EVENT } from '../events/ctrlSaveEvent'
 import '../../../css/core/components/form.scss'
 
 class Form {
+  dynamicForms = []
   load (target) {
+    this.initDynamicForms(target)
     this.initAjaxSave(target)
     this.initFormChangeEvent(target)
   }
@@ -49,6 +52,13 @@ class Form {
         const event = new ChangeEvent(inputs[i])
         event.dispatch()
       })
+    }
+  }
+
+  initDynamicForms (target) {
+    const forms = target.querySelectorAll('form.dynamic-form')
+    for (let i = 0; i < forms.length; ++i) {
+      this.dynamicForms.push(new DynamicForm(forms[i]))
     }
   }
 }

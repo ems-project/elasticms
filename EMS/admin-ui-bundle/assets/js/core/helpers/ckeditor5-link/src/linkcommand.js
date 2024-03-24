@@ -166,8 +166,8 @@ export default class LinkCommand extends Command {
           })
 
           if (undefined !== target) {
-            let targetRange = findAttributeRange(position, 'linkTarget', selection.getAttribute('linkTarget'), model)
-            if (null !== target) {
+            const targetRange = findAttributeRange(position, 'linkTarget', selection.getAttribute('linkTarget'), model)
+            if (target !== null) {
               writer.setAttribute('linkTarget', target, targetRange)
             } else {
               writer.removeAttribute('linkTarget', targetRange)

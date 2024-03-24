@@ -54,9 +54,6 @@ export default class LinkModal {
     for (let i = 0; i < forms.length; ++i) {
       forms[i].addEventListener(EMS_FORM_RESPONSE_EVENT_EVENT, (event) => self._onResponse(event))
     }
-
-
-
   }
 
   _onResponse (event) {

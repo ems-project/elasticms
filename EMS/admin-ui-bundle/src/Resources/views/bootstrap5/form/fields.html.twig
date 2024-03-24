@@ -1139,7 +1139,7 @@
 
 
 {% block filetype_row %}
-<div class="card card-default file-uploader-row" {% if form.vars.meta_fields %}data-meta-fields{% endif %}>
+<div {% with {attr: row_attr|merge({class: 'card card-default file-uploader-row'})} %}{{ block('attributes') }}{% endwith %} {% if form.vars.meta_fields %}data-meta-fields{% endif %}>
 	<div class="card-heading">
 		<h3 class="card-title">
 			<i class="fa fa-file-o"></i>

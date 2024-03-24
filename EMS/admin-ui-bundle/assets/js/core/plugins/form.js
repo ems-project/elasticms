@@ -36,8 +36,8 @@ class Form {
               $('#' + item.propertyPath).parent().addClass('has-error')
             })
 
-            if (undefined !== response.errors &&  response.errors.length > 0) {
-              return;
+            if (undefined !== response.errors && response.errors.length > 0) {
+              return
             }
 
             const event = new FormResponseEvent(form.get(0), response)

@@ -5,8 +5,8 @@ export class FormResponseEvent {
 
     this._event = new CustomEvent(EMS_FORM_RESPONSE_EVENT_EVENT, {
       detail: {
-        form: form,
-        response: response
+        form,
+        response
       }
     })
   }

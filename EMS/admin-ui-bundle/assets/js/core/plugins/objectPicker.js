@@ -27,7 +27,7 @@ export default class ObjectPicker {
         // https://github.com/select2/select2/issues/3781
         placeholder: querySearchLabel && querySearchLabel !== '' ? querySearchLabel : 'Search',
         theme: 'bootstrap-5',
-        dropdownParent: targetQuery,
+        dropdownParent: targetQuery
       }
 
       if (selectItem.attr('multiple')) {

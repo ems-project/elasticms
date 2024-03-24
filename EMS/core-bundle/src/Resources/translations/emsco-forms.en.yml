@@ -1,6 +1,7 @@
 link_modal:
     field:
-        field_type: 'Field type'
+        file: 'File'
+        link_type: 'Link type'
         data_link: 'Internal document'
         mailto: 'To'
         subject: 'Subject'

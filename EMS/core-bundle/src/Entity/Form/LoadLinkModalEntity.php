@@ -18,6 +18,8 @@ final class LoadLinkModalEntity
     private ?string $mailto = null;
     private ?string $subject = null;
     private ?string $body = null;
+    /** @var array<string, int|string>|null */
+    private ?array $file = null;
 
     public function __construct(private readonly string $url, string $target)
     {
@@ -138,5 +140,21 @@ final class LoadLinkModalEntity
                 return "mailto:$this->mailto?body=$body&subject=$subject";
         }
         throw new \RuntimeException(\sprintf('Unsupported %s link type', $this->linkType));
+    }
+
+    /**
+     * @return int[]|string[]|null
+     */
+    public function getFile(): ?array
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param int[]|string[]|null $file
+     */
+    public function setFile(?array $file): void
+    {
+        $this->file = $file;
     }
 }

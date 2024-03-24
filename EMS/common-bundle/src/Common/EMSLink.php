@@ -3,6 +3,7 @@
 namespace EMS\CommonBundle\Common;
 
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
+use EMS\CommonBundle\Helper\EmsFields;
 
 class EMSLink implements \Stringable, \JsonSerializable
 {
@@ -154,5 +155,35 @@ class EMSLink implements \Stringable, \JsonSerializable
     public function getEmsId(): string
     {
         return \sprintf('%s:%s', $this->contentType, $this->ouuid);
+    }
+
+    /**
+     * @return array{sha1: string, filename: string, mimetype: string}
+     */
+    public function getFileTypeArray(): array
+    {
+        if ('asset' !== $this->linkType) {
+            throw new \RuntimeException('Only a asset link can be converted into a FileTypeArray');
+        }
+        if (null === $this->ouuid) {
+            throw new \RuntimeException('Unexpected null hash');
+        }
+
+        $attributes = [];
+        if (null !== $this->query) {
+            \parse_str($this->query, $attributes);
+        }
+        if (\is_array($attributes['name'] ?? 'file.bin')) {
+            throw new \RuntimeException('Unexpected array in url name parameter');
+        }
+        if (\is_array($attributes['type'] ?? 'application/bin')) {
+            throw new \RuntimeException('Unexpected array in url type parameter');
+        }
+
+        return [
+            EmsFields::CONTENT_FILE_HASH_FIELD => $this->ouuid,
+            EmsFields::CONTENT_FILE_NAME_FIELD => \strval($attributes['name'] ?? 'file.bin'),
+            EmsFields::CONTENT_MIME_TYPE_FIELD => \strval($attributes['type'] ?? 'application/bin'),
+        ];
     }
 }

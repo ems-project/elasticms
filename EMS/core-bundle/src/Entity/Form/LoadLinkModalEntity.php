@@ -25,9 +25,12 @@ final class LoadLinkModalEntity
     public function __construct(private readonly string $url, string $target)
     {
         $this->target = '' === $target ? null : $target;
-        if (\str_starts_with($this->url, 'ems://')) {
+        if (\str_starts_with($this->url, 'ems://object:')) {
             $this->dataLink = EMSLink::fromText($this->url)->getEmsId();
             $this->linkType = LoadLinkModalType::LINK_TYPE_INTERNAL;
+        } elseif (\str_starts_with($this->url, 'ems://asset:')) {
+            $this->file = EMSLink::fromText($this->url)->getFileTypeArray();
+            $this->linkType = LoadLinkModalType::LINK_TYPE_FILE;
         } elseif (\str_starts_with($this->url, 'mailto:')) {
             \preg_match('/mailto:(?P<mailto>.*)\?(?P<query>.*)?/', $this->url, $matches);
             \parse_str($matches['query'] ?? '', $query);

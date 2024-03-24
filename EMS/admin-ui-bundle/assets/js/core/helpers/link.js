@@ -3,7 +3,16 @@ import queryString from './queryString'
 
 export default class Link {
   constructor (href) {
-    this.href = href
+    const startBy = document.body.dataset.fileView.substring(0, document.body.dataset.fileView.indexOf('__file_identifier__'))
+    if (undefined !== href && href.startsWith(startBy)) {
+      const regex = /([0-9a-zA-Z]*)(\?(.*))?/
+      const match = href.substr(startBy.length).match(regex)
+      const parameters = queryString(match[3])
+      this.href = `ems://asset:${match[1]}?type=${encodeURI(parameters.type)}&name=${encodeURI(parameters.name)}`
+    } else {
+      this.href = href
+    }
+
     this.linkType = null
     this.contentType = null
     this.uid = null
@@ -15,14 +24,6 @@ export default class Link {
   isEmsLink () {
     if (undefined === this.href) {
       return false
-    }
-
-    const startBy = document.body.dataset.fileView.substring(0, document.body.dataset.fileView.indexOf('__file_identifier__'))
-    if (this.href.startsWith(startBy)) {
-      const regex = /([0-9a-zA-Z]*)(\?(.*))?/
-      const match = this.href.substr(startBy.length).match(regex)
-      const parameters = queryString(match[3])
-      this.href = `ems://asset:${match[1]}?type=${parameters.type}&name=${parameters.name}`
     }
 
     if (!this.href || !this.href.startsWith('ems://')) {

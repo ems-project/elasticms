@@ -1,6 +1,7 @@
 import ajaxRequest from '../components/ajaxRequest'
 import AddedDomEvent from '../events/addedDomEvent'
 import SelectLinkEvent from '../events/selectLinkEvent'
+import Link from './link'
 import { EMS_FORM_RESPONSE_EVENT_EVENT } from '../events/formResponseEvent'
 
 export default class LinkModal {
@@ -39,7 +40,8 @@ export default class LinkModal {
 
   _loadModal (value, target) {
     const self = this
-    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: value, target })
+    const link = new Link(value)
+    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: link.href, target })
       .success(response => self._treatResponse(response))
   }
 

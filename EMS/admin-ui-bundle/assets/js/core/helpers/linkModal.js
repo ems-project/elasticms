@@ -31,6 +31,7 @@ export default class LinkModal {
   }
 
   closeModal () {
+    this.setLoading(true)
     this.modal.hide()
   }
 

@@ -9,7 +9,6 @@ export class LinkTarget extends Plugin {
         editor.conversion.for( 'downcast' ).attributeToElement( {
             model: 'linkTarget',
             view: ( attributeValue, caster ) => {
-                console.log(caster.writer)
                 return caster.writer.createAttributeElement( 'a', { target: attributeValue }, { priority: 5 } );
             },
             converterPriority: 'low'

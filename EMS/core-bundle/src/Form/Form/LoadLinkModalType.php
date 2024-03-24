@@ -49,6 +49,7 @@ class LoadLinkModalType extends AbstractType
             ->add(self::FIELD_LINK_TYPE, ChoiceType::class, [
                 'label' => 'link_modal.field.link_type',
                 'required' => true,
+                'expanded' => true,
                 'choices' => [
                     'link_modal.link_type.url' => self::LINK_TYPE_URL,
                     'link_modal.link_type.internal' => self::LINK_TYPE_INTERNAL,
@@ -135,12 +136,6 @@ class LoadLinkModalType extends AbstractType
                         'value' => self::LINK_TYPE_FILE,
                     ]]),
                 ],
-            ])->add(self::FIELD_SUBMIT, SubmitEmsType::class, [
-                'label' => 'link_modal.field.submit',
-                'attr' => [
-                    'class' => 'btn btn-primary',
-                    'data-ajax-save-url' => $this->router->generate(Routes::WYSIWYG_MODAL_LOAD_LINK),
-                ],
             ]);
 
         if (true === ($options[self::WITH_TARGET_BLANK_FIELD] ?? false)) {
@@ -158,6 +153,14 @@ class LoadLinkModalType extends AbstractType
                     ],
                 ]);
         }
+
+        $builder->add(self::FIELD_SUBMIT, SubmitEmsType::class, [
+            'label' => 'link_modal.field.submit',
+            'attr' => [
+                'class' => 'btn btn-primary',
+                'data-ajax-save-url' => $this->router->generate(Routes::WYSIWYG_MODAL_LOAD_LINK),
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -168,6 +171,7 @@ class LoadLinkModalType extends AbstractType
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 'attr' => [
                     'class' => 'dynamic-form',
+                    'data-ajax-save-url' => $this->router->generate(Routes::WYSIWYG_MODAL_LOAD_LINK),
                 ],
             ]);
         parent::configureOptions($resolver);

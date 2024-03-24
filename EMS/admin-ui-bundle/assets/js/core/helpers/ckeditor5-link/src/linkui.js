@@ -209,7 +209,9 @@ export default class LinkUI extends Plugin {
     const editor = this.editor
     const linkCommand = editor.commands.get('link')
     const value = linkCommand.value || ''
-    this.formModal.show(value)
+    const target = undefined !== linkCommand.target ? linkCommand.target : null
+
+    this.formModal.show(value, target)
   }
 
   /**

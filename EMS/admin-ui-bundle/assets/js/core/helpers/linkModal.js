@@ -12,9 +12,9 @@ export default class LinkModal {
     })
   }
 
-  show (value) {
+  show (value, target = null) {
     this.modal.show()
-    this._loadModal(value)
+    this._loadModal(value, target)
   }
 
   setLoading (showLoading) {
@@ -37,9 +37,9 @@ export default class LinkModal {
     return this.modal._isShown
   }
 
-  _loadModal (value) {
+  _loadModal (value, target) {
     const self = this
-    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: value })
+    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: value, target })
       .success(response => self._treatResponse(response))
   }
 

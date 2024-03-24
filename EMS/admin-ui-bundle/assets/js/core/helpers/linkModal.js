@@ -61,7 +61,6 @@ export default class LinkModal {
 
   _onResponse (event) {
     this.closeModal()
-    console.log()
     const selectEvent = new SelectLinkEvent(event.detail.response.url, event.detail.response.target)
     selectEvent.dispatch()
   }

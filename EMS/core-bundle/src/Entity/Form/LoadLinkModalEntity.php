@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Entity\Form;
 
 use EMS\CommonBundle\Common\EMSLink;
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Form\Form\LoadLinkModalType;
 use EMS\Helpers\Standard\Type;
 
@@ -18,7 +19,7 @@ final class LoadLinkModalEntity
     private ?string $mailto = null;
     private ?string $subject = null;
     private ?string $body = null;
-    /** @var array<string, int|string>|null */
+    /** @var array{sha1: string, filename: string|null, mimetype: string|null}|null */
     private ?array $file = null;
 
     public function __construct(private readonly string $url, string $target)
@@ -138,12 +139,20 @@ final class LoadLinkModalEntity
                 }
 
                 return "mailto:$this->mailto?body=$body&subject=$subject";
+            case LoadLinkModalType::LINK_TYPE_FILE:
+                if (null !== $this->file) {
+                    $hash = \rawurlencode($this->file[EmsFields::CONTENT_FILE_HASH_FIELD]);
+                    $name = \rawurlencode($this->file[EmsFields::CONTENT_FILE_NAME_FIELD] ?? 'file.bin');
+                    $type = \rawurlencode($this->file[EmsFields::CONTENT_MIME_TYPE_FIELD] ?? 'application/bin');
+
+                    return "ems://asset:$hash?name=$name&type=$type";
+                }
         }
         throw new \RuntimeException(\sprintf('Unsupported %s link type', $this->linkType));
     }
 
     /**
-     * @return int[]|string[]|null
+     * @return array{sha1: string, filename: string|null, mimetype: string|null}|null
      */
     public function getFile(): ?array
     {
@@ -151,7 +160,7 @@ final class LoadLinkModalEntity
     }
 
     /**
-     * @param int[]|string[]|null $file
+     * @param array{sha1: string, filename: string|null, mimetype: string|null}|null $file
      */
     public function setFile(?array $file): void
     {

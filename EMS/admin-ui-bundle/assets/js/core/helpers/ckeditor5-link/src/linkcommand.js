@@ -132,7 +132,7 @@ export default class LinkCommand extends Command {
      * @param href Link destination.
      * @param manualDecoratorIds The information about manual decorator attributes to be applied or removed upon execution.
      */
-  execute (href, manualDecoratorIds = {}) {
+  execute (href, manualDecoratorIds = {}, target = undefined) {
     const model = this.editor.model
     const selection = model.document.selection
     // Stores information about manual decorators to turn them on/off when command is applied.
@@ -164,6 +164,16 @@ export default class LinkCommand extends Command {
           falsyManualDecorators.forEach(item => {
             writer.removeAttribute(item, linkRange)
           })
+
+          if (undefined !== target) {
+            let targetRange = findAttributeRange(position, 'linkTarget', selection.getAttribute('linkTarget'), model)
+            if (null !== target) {
+              writer.setAttribute('linkTarget', target, targetRange)
+            } else {
+              writer.removeAttribute('linkTarget', targetRange)
+            }
+          }
+
           // Put the selection at the end of the updated link.
           writer.setSelection(writer.createPositionAfter(linkRange.end.nodeBefore))
 
@@ -176,6 +186,9 @@ export default class LinkCommand extends Command {
           truthyManualDecorators.forEach(item => {
             attributes.set(item, true)
           })
+          if (target) {
+            attributes.set('linkTarget', target)
+          }
           const { end: positionAfter } = model.insertContent(writer.createText(href, attributes), position)
           // Put the selection at the end of the inserted link.
           // Using end of range returned from insertContent in case nodes with the same attributes got merged.

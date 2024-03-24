@@ -4,8 +4,9 @@ import { formatRepo, formatRepoSelection } from '../helpers/repo'
 export default class ObjectPicker {
   load (target) {
     const searchApiUrl = $('body').data('search-api')
+    const targetQuery = $(target)
 
-    $(target).find('.objectpicker').each(function () {
+    targetQuery.find('.objectpicker').each(function () {
       const selectItem = $(this)
 
       const type = selectItem.data('type')
@@ -25,7 +26,8 @@ export default class ObjectPicker {
         allowClear: true,
         // https://github.com/select2/select2/issues/3781
         placeholder: querySearchLabel && querySearchLabel !== '' ? querySearchLabel : 'Search',
-        theme: 'bootstrap-5'
+        theme: 'bootstrap-5',
+        dropdownParent: targetQuery,
       }
 
       if (selectItem.attr('multiple')) {

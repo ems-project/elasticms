@@ -44,6 +44,7 @@ import { Undo } from '@ckeditor/ckeditor5-undo'
 import { Link } from './ckeditor5-link/src/index'
 import { UploadAdapter } from './ck5/uploadAdapter'
 import { PasteAjax } from './ck5/pasteAjax'
+import { LinkTarget } from './ck5/linkTarget'
 
 import ChangeEvent from '../events/changeEvent'
 
@@ -122,6 +123,7 @@ export default class Editor {
         Indent,
         Italic,
         Link,
+        LinkTarget,
         List,
         MediaEmbed,
         Paragraph,

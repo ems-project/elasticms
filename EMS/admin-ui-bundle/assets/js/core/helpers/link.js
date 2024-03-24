@@ -13,10 +13,25 @@ export default class Link {
   }
 
   isEmsLink () {
+    if (undefined === this.href) {
+      return false
+    }
+
+    const startBy = document.body.dataset.fileView.substring(0, document.body.dataset.fileView.indexOf('__file_identifier__'))
+    if (this.href.startsWith(startBy)) {
+      const regex = /([0-9a-zA-Z]*)(\?(.*))?/
+      const match = this.href.substr(startBy.length).match(regex)
+      const parameters = queryString(match[3])
+      this.href = `ems://asset:${match[1]}?type=${parameters.type}&name=${parameters.name}`
+    }
+
     if (!this.href || !this.href.startsWith('ems://')) {
       this.linkType = null
       this.contentType = null
       this.uid = null
+      this.hash = null
+      this.name = null
+      this.type = null
       return false
     }
     const regex = /ems:\/\/(.*?):(([a-zA-Z0-9-_.]+):)?([a-zA-Z0-9-_.]+)(\?(.*))?/

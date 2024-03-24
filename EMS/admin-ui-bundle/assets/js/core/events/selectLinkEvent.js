@@ -1,12 +1,12 @@
 export const EMS_SELECT_LINK_EVENT = 'emsSelectLinkEvent'
 export class SelectLinkEvent {
-  constructor (target) {
+  constructor (href, target) {
     this._event = new CustomEvent(EMS_SELECT_LINK_EVENT, {
       detail: {
-        target
+        href: href,
+        target: target,
       }
     })
-    this._target = target
   }
 
   dispatch () {

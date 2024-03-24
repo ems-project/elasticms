@@ -128,7 +128,7 @@ export default class LinkUI extends Plugin {
   _createFormModal () {
     const editor = this.editor
     document.addEventListener(EMS_SELECT_LINK_EVENT, (event) => {
-      editor.execute('link', event.detail.target)
+      editor.execute('link', event.detail.href)
       this._hideUI()
     })
   }

@@ -1,6 +1,7 @@
 import ajaxRequest from '../components/ajaxRequest'
 import AddedDomEvent from '../events/addedDomEvent'
 import SelectLinkEvent from '../events/selectLinkEvent'
+import { EMS_FORM_RESPONSE_EVENT_EVENT } from '../events/formResponseEvent'
 
 export default class LinkModal {
   constructor () {
@@ -49,19 +50,19 @@ export default class LinkModal {
     this.setLoading(false)
     const event = new AddedDomEvent(body)
     event.dispatch()
-    const links = body.querySelectorAll('.editor-link-picker')
-    for (let i = 0; i < links.length; ++i) {
-      links[i].addEventListener('click', (event) => self._onClick(event))
+    const forms = body.querySelectorAll('form')
+    for (let i = 0; i < forms.length; ++i) {
+      forms[i].addEventListener(EMS_FORM_RESPONSE_EVENT_EVENT, (event) => self._onResponse(event))
     }
+
+
+
   }
 
-  _onClick (event) {
-    event.preventDefault()
-    if (undefined === event.target.href) {
-      return
-    }
+  _onResponse (event) {
     this.closeModal()
-    const selectEvent = new SelectLinkEvent(event.target.href)
+    console.log()
+    const selectEvent = new SelectLinkEvent(event.detail.response.url, event.detail.response.target)
     selectEvent.dispatch()
   }
 }

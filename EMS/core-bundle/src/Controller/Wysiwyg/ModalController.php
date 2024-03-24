@@ -44,6 +44,7 @@ class ModalController extends AbstractController
             }
 
             $response['url'] = $data->generateUrl();
+            $response['target'] = $data->getTarget();
         }
 
         return $this->flashMessageLogger->buildJsonResponse($response);

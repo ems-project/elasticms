@@ -3,6 +3,7 @@ import ajaxRequest from '../components/ajaxRequest'
 import ChangeEvent from '../events/changeEvent'
 import DynamicForm from '../helpers/dynamic-form'
 import { EMS_CTRL_SAVE_EVENT } from '../events/ctrlSaveEvent'
+import { FormResponseEvent } from '../events/formResponseEvent'
 import '../../../css/core/components/form.scss'
 
 class Form {
@@ -29,11 +30,18 @@ class Form {
               response = $.parseJSON(message)
             }
 
-            $(form).find('.has-error').removeClass('has-error')
+            form.find('.has-error').removeClass('has-error')
 
             $(response.errors).each(function (index, item) {
               $('#' + item.propertyPath).parent().addClass('has-error')
             })
+
+            if (undefined !== response.errors &&  response.errors.length > 0) {
+              return;
+            }
+
+            const event = new FormResponseEvent(form.get(0), response)
+            event.dispatch()
           })
       }
 

@@ -48,12 +48,19 @@ export default class LinkCommand extends Command {
     const selectedElement = selection.getSelectedElement() || first(selection.getSelectedBlocks())
     // A check for any integration that allows linking elements (e.g. `LinkImage`).
     // Currently the selection reads attributes from text nodes only. See #7429 and #7465.
+    this.target = null
     if (isLinkableElement(selectedElement, model.schema)) {
       this.value = selectedElement.getAttribute('linkHref')
       this.isEnabled = model.schema.checkAttribute(selectedElement, 'linkHref')
+      if (selectedElement.hasAttribute('linkTarget')) {
+        this.target = selection.getAttribute('linkTarget')
+      }
     } else {
       this.value = selection.getAttribute('linkHref')
       this.isEnabled = model.schema.checkAttributeInSelection(selection, 'linkHref')
+      if (selection.hasAttribute('linkTarget')) {
+        this.target = selection.getAttribute('linkTarget')
+      }
     }
     for (const manualDecorator of this.manualDecorators) {
       manualDecorator.value = this._getDecoratorStateFromModel(manualDecorator.id)

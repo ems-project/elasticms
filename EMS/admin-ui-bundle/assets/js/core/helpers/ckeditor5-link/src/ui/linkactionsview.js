@@ -162,15 +162,21 @@ export default class LinkActionsView extends View {
     const t = this.t
     const self = this
     if (emsLink.isEmsLink()) {
-      ajaxRequest.get(document.body.dataset.emsLinkInfo, { link: href })
-        .success(response => {
-          self.previewButtonView.label = response.label
-        })
-        .fail(() => {
-          self.previewButtonView.label = t('Label not found')
-        })
+      switch (emsLink.linkType) {
+        case 'object': {
+          ajaxRequest.get(document.body.dataset.emsLinkInfo, { link: href })
+            .success(response => {
+              self.previewButtonView.label = response.label
+            })
+            .fail(() => {
+              self.previewButtonView.label = t('Label not found')
+            })
 
-      return t('Label loading...')
+          return t('Label loading...')
+        }
+        case 'asset':
+          return emsLink.name
+      }
     }
     return href || t('This link has no URL')
   }

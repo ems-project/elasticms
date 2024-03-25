@@ -354,7 +354,7 @@ class MediaLibraryController
         $modal = $this->mediaLibraryService->modal([
             'type' => 'view',
             'title' => $modalTitle,
-            'mediaFile' => $file
+            'mediaFile' => $file,
         ]);
         $modal
             ->setBlockBody('media_lib_modal_preview')

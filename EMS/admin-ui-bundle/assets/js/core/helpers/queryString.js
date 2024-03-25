@@ -1,8 +1,8 @@
-export function queryString () {
+export function queryString (input = null) {
   // This function is anonymous, is executed immediately and
   // the return value is assigned to QueryString!
   const queryString = {}
-  const query = window.location.search.substring(1)
+  const query = input || window.location.search.substring(1)
   const vars = query.split('&')
   for (let i = 0; i < vars.length; i++) {
     const pair = vars[i].split('=')

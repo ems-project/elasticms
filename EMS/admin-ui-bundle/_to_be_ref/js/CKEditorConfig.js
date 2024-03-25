@@ -3,7 +3,6 @@ export class CKEditorConfig {
 
     constructor() {
         let assetPath = document.querySelector("BODY").getAttribute('data-asset-path')
-        CKEDITOR.plugins.addExternal('adv_link', assetPath+'bundles/emscore/js/cke-plugins/adv_link/plugin.js', '' )
         CKEDITOR.plugins.addExternal('div', assetPath+'bundles/emscore/js/cke-plugins/div/plugin.js', '' )
         CKEDITOR.plugins.addExternal('imagebrowser', assetPath+'bundles/emscore/js/cke-plugins/imagebrowser/plugin.js', '' )
     }

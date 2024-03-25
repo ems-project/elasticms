@@ -1,0 +1,22 @@
+{% trans_default_domain 'ems-adminui-twigs' %}
+<div class="modal core-modal fade" id="link-modal" tabindex="-1" role="dialog" aria-hidden="true" data-modal-init-url="{{ path('emsco_wysiwyg_modal_load_link') }}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ 'core.modal.link.title'|trans }}</h4>
+            </div>
+            <div class="modal-body modal-loading">
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">{{ 'core.modal.loading'|trans }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body ajax-modal-body" style="display:none;"></div>
+            <div class="modal-footer ajax-modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">{{ 'core.modal.close'|trans }}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -475,8 +475,6 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
 
     /**
      * Set orderKey.
-     *
-     * @param int $orderKey
      */
     public function setOrderKey(int $orderKey): void
     {
@@ -485,8 +483,6 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
 
     /**
      * Get orderKey.
-     *
-     * @return int
      */
     public function getOrderKey(): int
     {

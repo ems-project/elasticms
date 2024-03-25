@@ -307,9 +307,6 @@ class EnvironmentController extends AbstractController
                     $environment->setManaged(false);
 
                     $newOrderKey = $this->environmentRepository->getMaxOrderKey() + 1;
-                    while ($this->environmentRepository->orderKeyExists($newOrderKey)) {
-                        ++$newOrderKey;
-                    }
                     $environment->setOrderKey($newOrderKey);
 
                     $this->environmentRepository->save($environment);
@@ -447,9 +444,6 @@ class EnvironmentController extends AbstractController
                     $environment->setManaged(true);
 
                     $newOrderKey = $this->environmentRepository->getMaxOrderKey() + 1;
-                    while ($this->environmentRepository->orderKeyExists($newOrderKey)) {
-                        ++$newOrderKey;
-                    }
                     $environment->setOrderKey($newOrderKey);
 
                     $this->environmentRepository->save($environment);

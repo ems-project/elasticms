@@ -97,19 +97,6 @@ class EnvironmentRepository extends EntityRepository
         }
     }
 
-    public function orderKeyExists(int $orderKey): bool
-    {
-        $environmentsStats = $this->getEnvironmentsStats();
-        foreach ($environmentsStats as $environmentStats) {
-            $environmentOrderKey = $environmentStats['environment']->getOrderKey();
-            if ($environmentOrderKey === $orderKey) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function getMaxOrderKey(): int
     {
         $qb = $this->createQueryBuilder('environment');

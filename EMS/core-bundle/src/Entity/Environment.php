@@ -53,7 +53,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
      */
     protected array $indexes = [];
 
-    protected string $indexName = 'No index name';
+    protected string $indexName;
 
     protected int $total = 0;
 

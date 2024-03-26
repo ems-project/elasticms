@@ -63,7 +63,7 @@ class ModalController extends AbstractController
         }
 
         return $this->flashMessageLogger->buildJsonResponse([
-            'label' => null === $revision ? $emsLink->getOuuid() : $revision->getLabel(),
+            'label' => $this->revisionService->display($link),
         ]);
     }
 }

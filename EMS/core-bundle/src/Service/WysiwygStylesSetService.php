@@ -44,6 +44,19 @@ class WysiwygStylesSetService implements EntityServiceInterface
         return $this->wysiwygStylesSetRepository->findById($id);
     }
 
+    /**
+     * @param string[] $ids
+     */
+    public function reorderByIds(array $ids): void
+    {
+        $counter = 1;
+        foreach ($ids as $id) {
+            $wysiwyg = $this->wysiwygStylesSetRepository->getById($id);
+            $wysiwyg->setOrderKey($counter++);
+            $this->wysiwygStylesSetRepository->create($wysiwyg);
+        }
+    }
+
     public function save(WysiwygStylesSet $stylesSet): void
     {
         $this->wysiwygStylesSetRepository->update($stylesSet);

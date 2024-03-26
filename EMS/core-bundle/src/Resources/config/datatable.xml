@@ -67,8 +67,12 @@
             <argument type="service" id="ems.service.channel"/>
             <tag name="emsco.datatable" />
         </service>
-        <service id="emsco.data_table.wysiwyg" class="EMS\CoreBundle\DataTable\Type\WysiwygProfileDataTableType">
+        <service id="emsco.data_table.wysiwygProfile" class="EMS\CoreBundle\DataTable\Type\WysiwygProfileDataTableType">
             <argument type="service" id="ems.service.wysiwyg_profile"/>
+            <tag name="emsco.datatable" />
+        </service>
+        <service id="emsco.data_table.wysiwygStylesSet" class="EMS\CoreBundle\DataTable\Type\WysiwygStylesSetDataTableType">
+            <argument type="service" id="ems.service.wysiwyg_styles_set"/>
             <tag name="emsco.datatable" />
         </service>
         <service id="emsco.data_table.environment" class="EMS\CoreBundle\DataTable\Type\EnvironmentDataTableType">

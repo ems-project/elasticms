@@ -1015,9 +1015,10 @@ view:
     wysiwyg:
         index:
             column:
-                name: Profiles
+                profileName: Profiles
+                stylesSetName: 'Styles set'
         wysiwyg_profiles_label: 'WYSIWYG profiles'
-        wysiwyg_style_sets: 'WYSIWYG styles sets'
+        wysiwyg_styles_set_label: 'WYSIWYG styles sets'
     index:
         reorder: 'Reorder views'
         column:

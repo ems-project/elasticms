@@ -45,6 +45,15 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
         return $this->find($id);
     }
 
+    public function getById(string $id): WysiwygStylesSet
+    {
+        if (null === $wysiwygStylesSet = $this->find($id)) {
+            throw new \RuntimeException('Unexpected WysiwygStylesSet type');
+        }
+
+        return $wysiwygStylesSet;
+    }
+
     public function getByName(string $name): ?WysiwygStylesSet
     {
         return $this->findOneBy(['name' => $name]);
@@ -78,6 +87,12 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
             $qb->andWhere($or)
                 ->setParameter(':term', '%'.$searchValue.'%');
         }
+    }
+
+    public function create(WysiwygStylesSet $wysiwygStylesSet): void
+    {
+        $this->getEntityManager()->persist($wysiwygStylesSet);
+        $this->getEntityManager()->flush();
     }
 
     public function counter(string $searchValue = ''): int

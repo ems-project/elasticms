@@ -7,11 +7,11 @@ namespace EMS\CoreBundle\DataTable\Type;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Roles;
-use EMS\CoreBundle\Service\WysiwygProfileService;
+use EMS\CoreBundle\Service\WysiwygStylesSetService;
 
-class WysiwygProfileDataTableType extends AbstractEntityTableType
+class WysiwygStylesSetDataTableType extends AbstractEntityTableType
 {
-    public function __construct(WysiwygProfileService $entityService)
+    public function __construct(WysiwygStylesSetService $entityService)
     {
         parent::__construct($entityService);
     }
@@ -19,7 +19,7 @@ class WysiwygProfileDataTableType extends AbstractEntityTableType
     public function build(EntityTable $table): void
     {
         $table->addColumn('table.index.column.loop_count', 'orderKey');
-        $table->addColumn('view.wysiwyg.index.column.profileName', 'name');
+        $table->addColumn('view.wysiwyg.index.column.stylesSetName', 'name');
         $table->addItemGetAction('ems_wysiwyg_profile_edit', 'wysiwyg.actions.edit_button', 'edit', ['id' => 'id'])->setDynamic(true);
         $table->setDefaultOrder('label');
     }

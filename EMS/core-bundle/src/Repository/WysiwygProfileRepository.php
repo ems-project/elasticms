@@ -50,6 +50,21 @@ class WysiwygProfileRepository extends ServiceEntityRepository
         return $this->findOneBy(['name' => $name]);
     }
 
+    public function getById(string $id): WysiwygProfile
+    {
+        if (null === $wysiwygProfile = $this->find($id)) {
+            throw new \RuntimeException('Unexpected WysiwygProfile type');
+        }
+
+        return $wysiwygProfile;
+    }
+
+    public function create(WysiwygProfile $wysiwygProfile): void
+    {
+        $this->getEntityManager()->persist($wysiwygProfile);
+        $this->getEntityManager()->flush();
+    }
+
     /**
      * @return WysiwygProfile[]
      */

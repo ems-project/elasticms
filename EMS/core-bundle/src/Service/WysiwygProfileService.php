@@ -23,6 +23,19 @@ class WysiwygProfileService implements EntityServiceInterface
         return $profiles;
     }
 
+    /**
+     * @param string[] $ids
+     */
+    public function reorderByIds(array $ids): void
+    {
+        $counter = 1;
+        foreach ($ids as $id) {
+            $channel = $this->wysiwygProfileRepository->getById($id);
+            $channel->setOrderKey($counter++);
+            $this->wysiwygProfileRepository->create($channel);
+        }
+    }
+
     public function getById(int $id): ?WysiwygProfile
     {
         return $this->wysiwygProfileRepository->findById($id);

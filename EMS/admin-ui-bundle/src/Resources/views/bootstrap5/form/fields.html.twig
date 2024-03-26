@@ -116,8 +116,14 @@
 	{% else %}
 		{{ block('form_widget') }}
 	{% endif %}
-    <span class="float-end text-counter form-text" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}"></span>
 {%- endblock icontext_widget %}
+
+{% block icontext_help %}
+    <div class="clearfix">
+        <span class="float-end text-counter form-text" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}" data-counter-target="{{ form.vars.id }}"></span>
+        {{ block('form_help') }}
+    </div>
+{% endblock icontext_help %}
 
 
 {% block ems_choice_row %}
@@ -1471,8 +1477,9 @@
 	</div>
 {%- endblock -%}
 
-
-{% block textarea_widget %}
-    {{ parent() }}
-    <span class="float-end text-counter form-text" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}"></span>
-{% endblock textarea_widget %}
+{% block textarea_help %}
+    <div class="clearfix">
+        <span class="float-end text-counter form-text" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}" data-counter-target="{{ form.vars.id }}"></span>
+        {{ block('form_help') }}
+    </div>
+{% endblock textarea_help %}

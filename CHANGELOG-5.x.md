@@ -1,5 +1,18 @@
 # Changelog 5.x
 
+## 5.14.1 (2024-03-26)
+### Bug Fixes
+* fix(admin): publish all search results is not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/835
+* fix(common/processor): image cast int for wartermark by @theus77 in https://github.com/ems-project/elasticms/pull/827
+* fix(core/channel): entry path not defined should return null by @Davidmattei in https://github.com/ems-project/elasticms/pull/824
+* fix(core/media-lib): unique file names by @Davidmattei in https://github.com/ems-project/elasticms/pull/821
+* fix(core/release): revision ouuid does not exist anymore by @Davidmattei in https://github.com/ems-project/elasticms/pull/842
+* fix(core/task): doctrine listener only on current revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/841
+* fix(core/tasks): emsco:revision:task:create skip revisions with drafts by @Davidmattei in https://github.com/ems-project/elasticms/pull/817
+* fix(core/tasks): on revision discard draft skip removing tasks by @Davidmattei in https://github.com/ems-project/elasticms/pull/816
+* fix(core/twig): emsco_revisions_draft broken accessing revision as array by @Davidmattei in https://github.com/ems-project/elasticms/pull/818
+* fix(core/xliff): reply-to option for emsco:xliff:extract command by @Davidmattei in https://github.com/ems-project/elasticms/pull/825
+
 ## 5.14.0 (2024-03-12)
 ### Features
 * feat(client-helper/wysiwyg): update style sets during emsch:local:upload-assets by @theus77 in https://github.com/ems-project/elasticms/pull/799

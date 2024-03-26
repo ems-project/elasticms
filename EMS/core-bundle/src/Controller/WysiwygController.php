@@ -2,11 +2,15 @@
 
 namespace EMS\CoreBundle\Controller;
 
+use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\DataTable\Type\ChannelDataTableType;
+use EMS\CoreBundle\DataTable\Type\WysiwygProfileDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
 use EMS\CoreBundle\Form\Form\ReorderBisType;
 use EMS\CoreBundle\Form\Form\ReorderType;
+use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\WysiwygProfileType;
 use EMS\CoreBundle\Form\Form\WysiwygStylesSetType;
 use EMS\CoreBundle\Service\WysiwygProfileService;
@@ -21,17 +25,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WysiwygController extends AbstractController
 {
-    public function __construct(private readonly WysiwygProfileService $wysiwygProfileService, private readonly WysiwygStylesSetService $wysiwygStylesSetService, private readonly TranslatorInterface $translator, private readonly string $templateNamespace)
+    public function __construct(private readonly WysiwygProfileService $wysiwygProfileService,
+                                private readonly WysiwygStylesSetService $wysiwygStylesSetService,
+                                private readonly TranslatorInterface $translator,
+                                private readonly string $templateNamespace,
+                                private readonly DataTableFactory $dataTableFactory)
     {
     }
 
     public function indexAction(Request $request): Response
     {
-        $data = [];
-        $form = $this->createForm(ReorderType::class, $data, [
+        $table = $this->dataTableFactory->create(WysiwygProfileDataTableType::class);
+
+        $form = $this->createForm(TableType::class, $table, [
+            'title_label' => 'view.wysiwyg.wysiwyg_profiles_label',
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted()) {
             $order = \json_decode((string) $form->getData()['items'], true, 512, JSON_THROW_ON_ERROR);
             $i = 1;
@@ -48,11 +57,10 @@ class WysiwygController extends AbstractController
             return $this->redirectToRoute('ems_wysiwyg_index');
         }
 
-        $dataStylesSet = [];
-        $formStylesSet = $this->createForm(ReorderBisType::class, $dataStylesSet, [
+        $formStylesSet = $this->createForm(TableType::class, $table, [
+            'title_label' => 'view.wysiwyg.wysiwyg_style_label',
         ]);
         $formStylesSet->handleRequest($request);
-
         if ($formStylesSet->isSubmitted()) {
             $order = \json_decode((string) $formStylesSet->getData()['items'], true, 512, JSON_THROW_ON_ERROR);
             $i = 1;

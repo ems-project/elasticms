@@ -599,6 +599,7 @@
             <argument type="service" id="ems.service.wysiwyg_styles_set" />
             <argument type="service" id="translator" />
             <argument>%ems_core.template_namespace%</argument>
+            <argument type="service" id="emsco.data_table.factory" />
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>

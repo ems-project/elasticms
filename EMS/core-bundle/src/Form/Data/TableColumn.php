@@ -61,7 +61,8 @@ class TableColumn
     {
         $this->attribute = $attribute;
     }
-    public function getColorAttribute(): string
+
+    public function getColorAttribute(): ?string
     {
         return $this->colorAttribute;
     }

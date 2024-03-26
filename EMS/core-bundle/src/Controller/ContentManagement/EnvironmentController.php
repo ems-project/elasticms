@@ -369,8 +369,6 @@ class EnvironmentController extends AbstractController
             }
         }
 
-        $this->environmentRepository->updateOrderKeysAfterDelete($environment->getOrderKey());
-
         $linked = false;
         /** @var ContentType $contentType */
         foreach ($environment->getContentTypesHavingThisAsDefault() as $contentType) {

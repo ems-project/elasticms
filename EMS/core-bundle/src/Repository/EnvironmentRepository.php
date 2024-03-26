@@ -113,16 +113,6 @@ class EnvironmentRepository extends EntityRepository
         }
     }
 
-    public function updateOrderKeysAfterDelete(int $deletedOrderKey): void
-    {
-        $qb = $this->createQueryBuilder('e');
-        $qb->update()
-            ->set('e.orderKey', 'e.orderKey - 1')
-            ->where($qb->expr()->gt('e.orderKey', $deletedOrderKey))
-            ->getQuery()
-            ->execute();
-    }
-
     /**
      * @param string[] $ids
      *

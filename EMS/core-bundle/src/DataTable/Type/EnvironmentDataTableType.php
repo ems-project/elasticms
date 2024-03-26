@@ -20,7 +20,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
     public function build(EntityTable $table): void
     {
         $table->addColumn('table.index.column.loop_count', 'orderKey');
-        $table->addColumn('environment.index.column.label', 'label');
+        $table->addColumn('environment.index.column.label', 'label', 'color');
         $table->addColumn('environment.index.column.name', 'name');
         $table->addColumn('environment.index.column.alias', 'alias');
         $table->addColumn('environment.index.column.index', 'indexName');

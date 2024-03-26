@@ -9,6 +9,7 @@ use EMS\CoreBundle\Form\Data\Condition\ConditionInterface;
 class TableColumn
 {
     private string $attribute;
+    private ?string $colorAttribute;
     private ?string $routeName = null;
     private ?\Closure $routeParametersCallback = null;
     private ?string $routeTarget = null;
@@ -27,9 +28,10 @@ class TableColumn
     /** @var array<string, mixed> */
     private array $transLabelOptions = [];
 
-    public function __construct(private readonly string $titleKey, string $attribute)
+    public function __construct(private readonly string $titleKey, string $attribute, ?string $colorAttribute = null)
     {
         $this->orderField = $this->attribute = $attribute;
+        $this->colorAttribute = $colorAttribute;
     }
 
     public function addCondition(ConditionInterface $condition): void
@@ -58,6 +60,10 @@ class TableColumn
     public function setAttribute(string $attribute): void
     {
         $this->attribute = $attribute;
+    }
+    public function getColorAttribute(): string
+    {
+        return $this->colorAttribute;
     }
 
     public function setRoute(string $name, ?\Closure $callback = null, ?string $target = null): void

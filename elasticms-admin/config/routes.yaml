@@ -11,3 +11,6 @@ ems_common:
 emsch_routes:
     resource: 'emsch.routing.route_loader'
     type: service
+
+forms:
+  resource: '@EMSFormBundle/Resources/config/routing/form.xml'

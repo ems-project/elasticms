@@ -444,4 +444,9 @@ class EnvironmentService implements EntityServiceInterface
 
         return \strval($id);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::ENVIRONMENT_PRIORITY;
+    }
 }

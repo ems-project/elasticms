@@ -450,4 +450,9 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
     {
         return $this->processor->generateLocalImage($filename, $config);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::FILE_PRIORITY;
+    }
 }

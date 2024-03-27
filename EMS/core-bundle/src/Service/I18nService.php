@@ -153,4 +153,9 @@ class I18nService implements EntityServiceInterface
     {
         $this->repository->update($i18n);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::I18N_PRIORITY;
+    }
 }

@@ -145,4 +145,9 @@ final class ReleaseRevisionService implements QueryServiceInterface, EntityServi
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::RELEASE_REVISION_PRIORITY;
+    }
 }

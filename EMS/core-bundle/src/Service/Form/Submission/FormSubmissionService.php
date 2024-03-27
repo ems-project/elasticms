@@ -261,4 +261,9 @@ final class FormSubmissionService implements EntityServiceInterface
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::FORM_SUBMISSION_PRIORITY;
+    }
 }

@@ -91,4 +91,9 @@ class DraftInProgress implements EntityServiceInterface
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::DRAFT_PRIORITY;
+    }
 }

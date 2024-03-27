@@ -234,6 +234,11 @@ final class QuerySearchService implements EntityServiceInterface
         return $id;
     }
 
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::QUERY_SEARCH_PRIORITY;
+    }
+
     private function buildQuerySearch(string $json, ?EntityInterface $entity = null): QuerySearch
     {
         $querySearch = QuerySearch::fromJson($json, $entity);

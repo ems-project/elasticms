@@ -122,4 +122,9 @@ class WysiwygProfileService implements EntityServiceInterface
 
         return \strval($id);
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::WYSIWYG_PROFILE_PRIORITY;
+    }
 }

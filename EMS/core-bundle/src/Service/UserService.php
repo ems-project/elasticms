@@ -326,4 +326,9 @@ class UserService implements EntityServiceInterface
 
         return \in_array($circles, $user->getCircles());
     }
+
+    public function getPriority(): int
+    {
+        return EntityServiceInterface::USER_PRIORITY;
+    }
 }

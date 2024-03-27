@@ -1,11 +1,19 @@
 # Upgrade
 
+  * [version 5.15.x](#version-515x)
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
   * [version 5.3.x](#version-53x)
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## version 5.15.x
+
+* Form routes are available inside the elasticms-admin
+  * Skeleton no longer need to proxy the form routes for making form working inside channels. [#848](https://github.com/ems-project/elasticms/pull/848)
+* The form debug routes are no longer 'dev' mode only
+* The form debug routes are available inside the elasticms-admin
 
 ## version 5.14.x
 

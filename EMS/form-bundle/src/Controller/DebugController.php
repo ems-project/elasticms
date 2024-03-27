@@ -55,7 +55,7 @@ class DebugController extends AbstractFormController
         return new Response($this->twig->render('@EMSForm/debug/form.html.twig', [
             'form' => $form->createView(),
             'locales' => $this->locales,
-            'response' => $responses,
+            'responses' => $responses,
             'url' => $request->getSchemeAndHttpHost().$request->getBasePath(),
         ]));
     }

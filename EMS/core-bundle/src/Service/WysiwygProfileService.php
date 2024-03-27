@@ -40,6 +40,7 @@ class WysiwygProfileService implements EntityServiceInterface
     {
         return $this->wysiwygProfileRepository->findById($id);
     }
+
     /**
      * @param string[] $ids
      */
@@ -49,6 +50,7 @@ class WysiwygProfileService implements EntityServiceInterface
             $this->delete($wysiwygProfile);
         }
     }
+
     public function delete(WysiwygProfile $wysiwygProfile): void
     {
         $name = $wysiwygProfile->getName();
@@ -57,6 +59,7 @@ class WysiwygProfileService implements EntityServiceInterface
             'name' => $name,
         ]);
     }
+
     public function saveProfile(WysiwygProfile $profile): void
     {
         $this->wysiwygProfileRepository->update($profile);

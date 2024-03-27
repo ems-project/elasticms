@@ -56,6 +56,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
             $this->wysiwygStylesSetRepository->create($wysiwyg);
         }
     }
+
     /**
      * @param string[] $ids
      */
@@ -65,6 +66,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
             $this->delete($wysiwygStylesSet);
         }
     }
+
     public function delete(WysiwygStylesSet $wysiwygStylesSet): void
     {
         $name = $wysiwygStylesSet->getName();
@@ -73,6 +75,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
             'name' => $name,
         ]);
     }
+
     public function save(WysiwygStylesSet $stylesSet): void
     {
         $this->wysiwygStylesSetRepository->update($stylesSet);

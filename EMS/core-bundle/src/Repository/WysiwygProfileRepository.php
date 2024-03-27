@@ -40,6 +40,20 @@ class WysiwygProfileRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @param string[] $ids
+     *
+     * @return WysiwygProfile[]
+     */
+    public function getByIds(array $ids): array
+    {
+        $queryBuilder = $this->createQueryBuilder('wysiwyg_profile');
+        $queryBuilder->where('wysiwyg_profile.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     public function findById(int $id): ?WysiwygProfile
     {
         return $this->find($id);

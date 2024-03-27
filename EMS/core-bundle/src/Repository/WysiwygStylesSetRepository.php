@@ -44,6 +44,7 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
     {
         return $this->find($id);
     }
+
     /**
      * @param string[] $ids
      *
@@ -57,6 +58,7 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
     public function getById(string $id): WysiwygStylesSet
     {
         if (null === $wysiwygStylesSet = $this->find($id)) {

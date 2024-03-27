@@ -22,7 +22,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WysiwygController extends AbstractController
@@ -55,10 +54,10 @@ class WysiwygController extends AbstractController
                         $this->wysiwygProfileService->reorderByIds($newOrder);
                         break;
                     default:
-                        $this->logger->error('log.controller.wysiwyg.unknown_action');
+                        $this->logger->error('log.controller.wysiwyg_profile.unknown_action');
                 }
             } else {
-                $this->logger->error('log.controller.wysiwyg.unknown_action');
+                $this->logger->error('log.controller.wysiwyg_profile.unknown_action');
             }
 
             return $this->redirectToRoute('ems_wysiwyg_index');
@@ -81,10 +80,10 @@ class WysiwygController extends AbstractController
                         $this->wysiwygStylesSetService->reorderByIds($newOrder);
                         break;
                     default:
-                        $this->logger->error('log.controller.wysiwyg.unknown_action');
+                        $this->logger->error('log.controller.wysiwyg_styles_set.unknown_action');
                 }
             } else {
-                $this->logger->error('log.controller.wysiwyg.unknown_action');
+                $this->logger->error('log.controller.wysiwyg_styles_set.unknown_action');
             }
 
             return $this->redirectToRoute('ems_wysiwyg_index');

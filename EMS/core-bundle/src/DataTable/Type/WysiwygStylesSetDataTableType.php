@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Form\Data\EntityTable;
+use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
 
@@ -20,7 +21,8 @@ class WysiwygStylesSetDataTableType extends AbstractEntityTableType
     {
         $table->addColumn('table.index.column.loop_count', 'orderKey');
         $table->addColumn('view.wysiwyg.index.column.stylesSetName', 'name');
-        $table->addItemGetAction('ems_wysiwyg_profile_edit', 'wysiwyg.actions.edit_button', 'edit', ['id' => 'id'])->setDynamic(true);
+        $table->addItemGetAction('ems_wysiwyg_styles_set_edit', 'wysiwyg.actions.edit_button', 'edit', ['id' => 'id'])->setDynamic(true);
+        $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'view.wysiwyg.actions.delete_selected', 'view.wysiwyg.actions.delete_selected_confirm');
         $table->setDefaultOrder('label');
     }
 

@@ -17,7 +17,7 @@
 
             {% form_theme formProfiles '@EMSCore/form/forms.html.twig' %}
             {{ form(formProfiles, {
-                reorder_label: 'environment.index.reorder',
+                reorder_label: 'view.wysiwyg.index.reorder',
                 toolbar: toolbar
             }) }}
         </div>
@@ -25,12 +25,12 @@
     <div class="col-md-6">
         <div>
             {%  set toolbar %}
-                <a class="btn btn-primary" href="{{ path('ems_wysiwyg_profile_new') }}"><i class="fa fa-plus"></i> {{ add_label|default(formStylesSet.vars.add_label)|trans }}</a>
+                <a class="btn btn-primary" href="{{ path('ems_wysiwyg_styles_set_new') }}"><i class="fa fa-plus"></i> {{ add_label|default(formStylesSet.vars.add_label)|trans }}</a>
             {%  endset %}
 
             {% form_theme formStylesSet '@EMSCore/form/forms.html.twig' %}
             {{ form(formStylesSet, {
-                reorder_label: 'wysiwyg.index.reorder',
+                reorder_label: 'view.wysiwyg.index.reorder',
                 toolbar: toolbar
             }) }}
         </div>

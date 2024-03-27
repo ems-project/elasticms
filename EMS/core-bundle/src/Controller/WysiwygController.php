@@ -8,6 +8,7 @@ use EMS\CoreBundle\DataTable\Type\WysiwygStylesSetDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
+use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\WysiwygProfileType;
 use EMS\CoreBundle\Form\Form\WysiwygStylesSetType;
@@ -46,27 +47,18 @@ class WysiwygController extends AbstractController
         if ($formProfiles->isSubmitted() && $formProfiles->isValid()) {
             if ($formProfiles instanceof Form && ($action = $formProfiles->getClickedButton()) instanceof SubmitButton) {
                 switch ($action->getName()) {
+                    case EntityTable::DELETE_ACTION:
+                        $this->wysiwygProfileService->deleteByIds($tableProfile->getSelected());
+                        break;
                     case TableType::REORDER_ACTION:
                         $newOrder = TableType::getReorderedKeys($formProfiles->getName(), $request);
                         $this->wysiwygProfileService->reorderByIds($newOrder);
                         break;
                     default:
-                        $this->logger->error('log.controller.environment.unknown_action');
+                        $this->logger->error('log.controller.wysiwyg.unknown_action');
                 }
             } else {
-                $this->logger->error('log.controller.environment.unknown_action');
-            }
-
-            $order = \json_decode((string) $formProfiles->getData()['items'], true, 512, JSON_THROW_ON_ERROR);
-            $i = 1;
-            foreach ($order as $id) {
-                $profile = $this->wysiwygProfileService->getById(\intval($id['id']));
-                if (null === $profile) {
-                    throw new NotFoundHttpException(\sprintf('WYSIWYG Profile %d not found', \intval($id['id'])));
-                }
-                $profile->setOrderKey($i++);
-
-                $this->wysiwygProfileService->saveProfile($profile);
+                $this->logger->error('log.controller.wysiwyg.unknown_action');
             }
 
             return $this->redirectToRoute('ems_wysiwyg_index');
@@ -81,27 +73,18 @@ class WysiwygController extends AbstractController
         if ($formStylesSet->isSubmitted() && $formStylesSet->isValid()) {
             if ($formStylesSet instanceof Form && ($action = $formStylesSet->getClickedButton()) instanceof SubmitButton) {
                 switch ($action->getName()) {
+                    case EntityTable::DELETE_ACTION:
+                        $this->wysiwygStylesSetService->deleteByIds($tableProfile->getSelected());
+                        break;
                     case TableType::REORDER_ACTION:
                         $newOrder = TableType::getReorderedKeys($formStylesSet->getName(), $request);
                         $this->wysiwygStylesSetService->reorderByIds($newOrder);
                         break;
                     default:
-                        $this->logger->error('log.controller.environment.unknown_action');
+                        $this->logger->error('log.controller.wysiwyg.unknown_action');
                 }
             } else {
-                $this->logger->error('log.controller.environment.unknown_action');
-            }
-
-            $order = \json_decode((string) $formStylesSet->getData()['items'], true, 512, JSON_THROW_ON_ERROR);
-            $i = 1;
-            foreach ($order as $id) {
-                $stylesSet = $this->wysiwygStylesSetService->getById(\intval($id['id']));
-                if (null === $stylesSet) {
-                    throw new NotFoundHttpException(\sprintf('WYSIWYG Styles Set %d not found', \intval($id['id'])));
-                }
-                $stylesSet->setOrderKey($i++);
-
-                $this->wysiwygStylesSetService->save($stylesSet);
+                $this->logger->error('log.controller.wysiwyg.unknown_action');
             }
 
             return $this->redirectToRoute('ems_wysiwyg_index');

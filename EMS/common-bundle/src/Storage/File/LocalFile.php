@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Storage\File;
 
 use EMS\CommonBundle\Common\Standard\Type;
 
-class LocalFileGetter implements FileGetterInterface
+class LocalFile implements FileInterface
 {
     public function __construct(private readonly string $filename)
     {

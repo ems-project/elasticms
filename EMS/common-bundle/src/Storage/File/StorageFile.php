@@ -7,7 +7,7 @@ namespace EMS\CommonBundle\Storage\File;
 use EMS\Helpers\File\TempFile;
 use Psr\Http\Message\StreamInterface;
 
-class StorageFileGetter implements FileGetterInterface
+class StorageFile implements FileInterface
 {
     private ?TempFile $tempFile = null;
 

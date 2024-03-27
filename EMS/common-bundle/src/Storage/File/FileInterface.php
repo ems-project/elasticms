@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\File;
 
-interface FileGetterInterface
+interface FileInterface
 {
     public function getContent(): string;
 

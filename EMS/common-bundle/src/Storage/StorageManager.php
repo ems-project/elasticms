@@ -6,9 +6,9 @@ namespace EMS\CommonBundle\Storage;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
-use EMS\CommonBundle\Storage\File\FileGetterInterface;
-use EMS\CommonBundle\Storage\File\LocalFileGetter;
-use EMS\CommonBundle\Storage\File\StorageFileGetter;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\File\LocalFile;
+use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
@@ -393,13 +393,13 @@ class StorageManager
         return $this->saveContents($normalizedArray, 'assetConfig.json', 'application/json', StorageInterface::STORAGE_USAGE_CONFIG);
     }
 
-    public function getFile(string $filenameOrHash): FileGetterInterface
+    public function getFile(string $filenameOrHash): FileInterface
     {
         if (\file_exists($filenameOrHash)) {
-            return new LocalFileGetter($filenameOrHash);
+            return new LocalFile($filenameOrHash);
         }
         if (1 === \preg_match('/[0-9a-fA-F]/', $filenameOrHash)) {
-            return new StorageFileGetter($filenameOrHash, $this->getStream($filenameOrHash));
+            return new StorageFile($filenameOrHash, $this->getStream($filenameOrHash));
         }
 
         throw new \RuntimeException(\sprintf('File %s not found', $filenameOrHash));

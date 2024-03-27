@@ -10,7 +10,7 @@
 {% block actions %}
     {% set requestQuery = app.request.query.all|merge({ 'ouuid': config.id }) %}
     <div class="btn-group px-2" role="group" aria-label="go iframe">
-        <a href="{{ path('_emsf_debug_iframe', { 'ouuid': config.id, '_locale': locale }) }}" class="btn btn-primary btn-sm"><b>IFRAME</b></a>
+        <a href="{{ path('emsf_debug_iframe', { 'ouuid': config.id, '_locale': locale }) }}" class="btn btn-primary btn-sm"><b>IFRAME</b></a>
     </div>
     <div class="btn-group px-2" role="group" aria-label="Locales">
         {% for l in locales %}

@@ -16,7 +16,13 @@ class DebugController extends AbstractFormController
     /**
      * @param string [] $locales
      */
-    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Environment $twig, private readonly RouterInterface $router, private readonly array $locales)
+    public function __construct(
+        private readonly FormFactory $formFactory,
+        private readonly Client $client,
+        private readonly Environment $twig,
+        private readonly RouterInterface $router,
+        private readonly array $locales
+    )
     {
     }
 
@@ -57,7 +63,7 @@ class DebugController extends AbstractFormController
 
     public function dynamicFieldAjax(Request $request, string $ouuid): Response
     {
-        $forward = $this->router->generate('_emsf_dynamic_field_ajax', ['ouuid' => $ouuid, '_locale' => $request->getLocale()]);
+        $forward = $this->router->generate('emsf_dynamic_field_ajax', ['ouuid' => $ouuid, '_locale' => $request->getLocale()]);
 
         return new RedirectResponse($forward, Response::HTTP_TEMPORARY_REDIRECT);
     }

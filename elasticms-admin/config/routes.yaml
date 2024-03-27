@@ -14,3 +14,8 @@ emsch_routes:
 
 forms:
   resource: '@EMSFormBundle/Resources/config/routing/form.xml'
+  prefix: /emsf
+
+forms_debug:
+  resource: '@EMSFormBundle/Resources/config/routing/debug.xml'
+  prefix: /emsf

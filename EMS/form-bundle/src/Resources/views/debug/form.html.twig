@@ -28,11 +28,6 @@
     {% include config.template %}
 {% endblock %}
 
-{% block footer %}
-    {{ dump(config) }}
-    {{ dump(response) }}
-{% endblock %}
-
 {% block javascripts %}
     <script type="application/javascript" src="{{ asset('bundles/emsform/js/formDebug.js') }}"></script>
     <script type="application/javascript" src="{{ asset('bundles/emsform/js/validation.js') }}"></script>

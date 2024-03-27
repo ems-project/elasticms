@@ -17,10 +17,6 @@ class LocalFile implements FileInterface
         return Type::string(\file_get_contents($this->filename));
     }
 
-    public function close(): void
-    {
-    }
-
     public function getFilename(): string
     {
         return $this->filename;

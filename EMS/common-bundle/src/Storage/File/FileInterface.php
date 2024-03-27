@@ -9,6 +9,4 @@ interface FileInterface
     public function getContent(): string;
 
     public function getFilename(): string;
-
-    public function close(): void;
 }

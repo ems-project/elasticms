@@ -15,6 +15,15 @@ class StorageFile implements FileInterface
     {
     }
 
+    public function __destruct()
+    {
+        if (null === $this->tempFile) {
+            return;
+        }
+
+        $this->tempFile->clean();
+    }
+
     public function getContent(): string
     {
         return $this->stream->getContents();
@@ -28,13 +37,5 @@ class StorageFile implements FileInterface
         }
 
         return $this->tempFile->path;
-    }
-
-    public function close(): void
-    {
-        if (null !== $this->tempFile) {
-            $this->tempFile->clean();
-        }
-        $this->tempFile = null;
     }
 }

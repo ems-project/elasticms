@@ -124,7 +124,6 @@ final class UpdateCommand extends AbstractCommand
             $insertReport->export($filename);
             $output->writeln(\sprintf('See %s for details', $filename));
         }
-        $fileGetter->close();
 
         return self::EXECUTE_SUCCESS;
     }

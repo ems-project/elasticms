@@ -97,6 +97,44 @@ class EnvironmentRepository extends EntityRepository
         }
     }
 
+    public function getMaxOrderKey(): int
+    {
+        $qb = $this->createQueryBuilder('environment');
+
+        $qb->select('MAX(environment.orderKey) as max_order_key');
+
+        try {
+            $result = $qb->getQuery()->getSingleScalarResult();
+
+            return $result ? (int) $result : 0;
+        } catch (NonUniqueResultException $e) {
+            // Handle exception if needed
+            return 0;
+        }
+    }
+
+    /**
+     * @param string[] $ids
+     *
+     * @return Environment[]
+     */
+    public function getByIds(array $ids): array
+    {
+        $queryBuilder = $this->createQueryBuilder('environment');
+        $queryBuilder->where('environment.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * @return Environment[]
+     */
+    public function getAll(): array
+    {
+        return $this->findBy([], ['orderKey' => 'ASC']);
+    }
+
     public function countRevisionPerEnvironment(Environment $env): int
     {
         $qb = $this->createQueryBuilder('e');
@@ -199,6 +237,15 @@ class EnvironmentRepository extends EntityRepository
     {
         $this->getEntityManager()->remove($environment);
         $this->getEntityManager()->flush();
+    }
+
+    public function getById(string $id): Environment
+    {
+        if (null === $environment = $this->find($id)) {
+            throw new \RuntimeException('Unexpected environment type');
+        }
+
+        return $environment;
     }
 
     /**

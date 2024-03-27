@@ -2,6 +2,7 @@
 
   * [Switch to CK Editor 5](#switch-to-ck-editor-5)
   * [version 6.0.x](#version-60x)
+  * [version 5.15.x](#version-515x)
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
   * [version 5.3.x](#version-53x)
@@ -156,6 +157,13 @@ Before version 6 it was not possible to define elasticsearch dynamic mapping con
 Since version 6 the default dynamic mapping config has changed. New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly into the content type.
 
 You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
+
+## version 5.15.x
+
+* Form routes are available inside the elasticms-admin
+  * Skeleton no longer need to proxy the form routes for making form working inside channels. [#848](https://github.com/ems-project/elasticms/pull/848)
+* The form debug routes are no longer 'dev' mode only
+* The form debug routes are available inside the elasticms-admin
 
 ## version 5.14.x
 

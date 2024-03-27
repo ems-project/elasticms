@@ -8,7 +8,7 @@
         <p>{{ 'ems_form.loading'|trans|raw }}</p>
     </div>
     <div id="ems-message-{{ item.id }}"></div>
-    <iframe id="ems-form-iframe-{{ item.id }}" src="{{ absolute_url(path('form_iframe', {
+    <iframe id="ems-form-iframe-{{ item.id }}" src="{{ absolute_url(path('emsf_iframe', {
         ouuid:form.ouuid,
         _locale: locale
     })) }}" style="display:none;" title="{{ 'ems_form.ignore_iframe'|trans }}" data-form-id="ems-form-{{ item.id }}" data-message-id="ems-message-{{ item.id }}"></iframe>

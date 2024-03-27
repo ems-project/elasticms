@@ -22,8 +22,7 @@ class DebugController extends AbstractFormController
         private readonly Environment $twig,
         private readonly RouterInterface $router,
         private readonly array $locales
-    )
-    {
+    ) {
     }
 
     public function iframe(Request $request, string $ouuid): Response

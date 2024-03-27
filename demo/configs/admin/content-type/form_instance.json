@@ -2328,7 +2328,42 @@
         "editTwigWithWysiwyg": true,
         "webContent": false,
         "autoPublish": false,
-        "templates": [],
+        "templates": [
+            {
+                "class": "EMS\\CoreBundle\\Entity\\Template",
+                "arguments": [],
+                "properties": {
+                    "name": "debug",
+                    "label": "Debug",
+                    "icon": "fa fa-bug",
+                    "body": "{{ block('form_instance_debug', '@EMSCH/template_ems/actions.twig') }}",
+                    "header": null,
+                    "editWithWysiwyg": false,
+                    "renderOption": "rawHTML",
+                    "orderKey": 1,
+                    "accumulateInOneFile": false,
+                    "preview": false,
+                    "mimeType": null,
+                    "filename": null,
+                    "extension": null,
+                    "active": true,
+                    "role": "ROLE_ADMIN",
+                    "roleTo": "not-defined",
+                    "roleCc": "not-defined",
+                    "circlesTo": null,
+                    "responseTemplate": null,
+                    "emailContentType": null,
+                    "allowOrigin": null,
+                    "disposition": null,
+                    "orientation": null,
+                    "size": null,
+                    "public": false,
+                    "spreadsheet": false,
+                    "tag": null
+                },
+                "replaced": []
+            }
+        ],
         "views": [
             {
                 "class": "EMS\\CoreBundle\\Entity\\View",
@@ -2375,7 +2410,8 @@
             "show_link_search": "not-defined"
         },
         "fields": {
-            "label": null,
+            "display": null,
+            "label": "label",
             "color": null,
             "sort": null,
             "tooltip": null,
@@ -2386,6 +2422,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

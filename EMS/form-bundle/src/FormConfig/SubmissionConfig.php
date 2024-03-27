@@ -1,11 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\FormConfig;
 
-class SubmissionConfig
+class SubmissionConfig implements \JsonSerializable
 {
-    public function __construct(private readonly string $class, private readonly string $endpoint, private readonly string $message)
+    public function __construct(
+        private readonly string $class,
+        private readonly string $endpoint,
+        private readonly string $message)
     {
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return \get_object_vars($this);
     }
 
     public function getClass(): string

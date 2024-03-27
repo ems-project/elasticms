@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\FormConfig;
 
 use EMS\ClientHelperBundle\Contracts\Templating\TemplatingInterface;
 
-class FormConfig extends AbstractFormConfig
+class FormConfig extends AbstractFormConfig implements \JsonSerializable
 {
     /** @var string[] */
     private array $domains = [];
@@ -18,6 +20,14 @@ class FormConfig extends AbstractFormConfig
     {
         parent::__construct($id, $locale, $translationDomain);
         $this->themes[] = '@EMSForm/form_theme.html.twig';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return \get_object_vars($this);
     }
 
     public function addDomain(string $domain): void

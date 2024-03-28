@@ -15,7 +15,7 @@
             prefix="/api/extract-data"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/api/file.xml"
             prefix="/api/file"/>
-    <import resource="@EMSCoreBundle/Resources/config/routing/api/admin.xml"
+    <import resource="@EMSCoreBundle/Resources/config/routing/api/forms.xml"
             prefix="/api/forms"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/api/images.xml"
             prefix="/api/images"/>

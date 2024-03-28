@@ -25,11 +25,12 @@ final class Form implements FormInterface
         return $data['submission_id'];
     }
 
-    public function getSubmission(string $submissionId): array
+    public function getSubmission(string $submissionId, ?string $property = null): array
     {
         $resource = $this->makeResource('submissions/'.$submissionId);
+        $query = \array_filter(['property' => $property]);
 
-        return $this->client->get($resource)->getData();
+        return $this->client->get($resource, $query)->getData();
     }
 
     public function createVerification(string $value): string

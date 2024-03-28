@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Controller\Api\Form;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionException;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,18 +38,18 @@ final class SubmissionController extends AbstractController
         }
     }
 
-    public function detail(string $submissionId): JsonResponse
+    public function detail(Request $request, string $submissionId): JsonResponse
     {
-        $submission = $this->formSubmissionService->findById($submissionId);
-
-        if (null === $submission) {
+        if (null === $submission = $this->formSubmissionService->findById($submissionId)) {
             return new JsonResponse([], Response::HTTP_NOT_FOUND);
         }
 
-        $test = $submission->jsonSerialize();
+        if ($request->query->has('property')) {
+            $property = Type::string($request->query->get('property'));
 
-        $test = Json::encode($submission);
+            return new JsonResponse([$property => $this->formSubmissionService->getProperty($submission, $property)]);
+        }
 
-        return JsonResponse::fromJsonString(Json::encode($submission));
+        return new JsonResponse($submission);
     }
 }

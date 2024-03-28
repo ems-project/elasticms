@@ -22,7 +22,7 @@ interface FormInterface
     /**
      * @return array<string, mixed>
      */
-    public function getSubmission(string $submissionId): array;
+    public function getSubmission(string $submissionId, ?string $property = null): array;
 
     public function createVerification(string $value): string;
 

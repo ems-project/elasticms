@@ -124,6 +124,10 @@ final class Example
     > Create a new form verification value
 * **getVerification**(string $value): string
     > Get a created form verification value
+* **submit**(array $data): string
+  > Submit a form data return submission id
+* **getSubmission**(string $submissionId, ?string $property = null): array
+  > Pass a property for filtering the response, for example '[expireData]', '[data][firstName]' or '[files][0][filename]'
 
 ### Search ([SearchInterface](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Contracts/CoreApi/Endpoint/Search/SearchInterface.php))
 * **search**([Search](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Search/Search.php) $search): ResponseInterface

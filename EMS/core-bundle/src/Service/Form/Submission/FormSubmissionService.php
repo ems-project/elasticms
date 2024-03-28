@@ -8,10 +8,12 @@ use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Repository\FormSubmissionRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
+use EMS\Helpers\Standard\Json;
 use EMS\SubmissionBundle\Entity\FormSubmission;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
@@ -47,6 +49,18 @@ final class FormSubmissionService implements EntityServiceInterface
         }
 
         return $submission;
+    }
+
+    public function getProperty(FormSubmission $formSubmission, string $property): mixed
+    {
+        $data = Json::decode(Json::encode($formSubmission));
+
+        $propertyAccessor = new PropertyAccessor();
+        if ($propertyAccessor->isReadable($data, $property)) {
+            return $propertyAccessor->getValue($data, $property);
+        }
+
+        return null;
     }
 
     public function createDownload(string $formSubmission): StreamedResponse

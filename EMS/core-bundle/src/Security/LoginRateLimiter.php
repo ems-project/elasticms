@@ -14,14 +14,16 @@ class LoginRateLimiter implements RequestRateLimiterInterface
 
     public function __construct(RateLimiterFactory $rateLimiterFactory)
     {
-      $this->rateLimiter = $rateLimiterFactory->create('login_attempts');
+        $this->rateLimiter = $rateLimiterFactory->create('login_attempts');
     }
+
     public function consume(Request $request): RateLimit
     {
-      return $this->rateLimiter->consume($request->getClientIp());
+        return $this->rateLimiter->consume(1);
     }
+
     public function reset(Request $request): void
     {
-      $this->rateLimiter->reset();
+        $this->rateLimiter->reset();
     }
 }

@@ -39,6 +39,7 @@ final class FormDataFile
     {
         return [
             'filename' => $this->filename,
+            'originalName' => $this->file->getClientOriginalName(),
             'pathname' => $this->file->getPathname(),
             'mimeType' => $this->file->getMimeType(),
             'size' => $this->file->getSize(),

@@ -29,6 +29,7 @@ ems_form:
     loading: 'bezig met laden...'
 features:
     discover: 'Ontdek alle features'
+files_browse: 'Kiezen bestanden'
 footer:
     join-us-github: 'Join-us on GitHub'
 js:

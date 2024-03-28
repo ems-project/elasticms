@@ -36,13 +36,13 @@ Both fields are rendered by twig and the following information is available in t
 
 ### Supported handlers
 
-* [Email](handlers/email.md)
-* [Http](handlers/http.md)
-* [Pdf](handlers/pdf.md)
-* [ServiceNow](handlers/service-now.md)
-* [Sftp](handlers/sftp.md)
-* [Soap](handlers/soap.md)
-* [Zip](handlers/zip.md)
+* [Email](/dev/submission-bundle/handlers/email.md)
+* [Http](/dev/submission-bundle/handlers/http.md)
+* [Pdf](/dev/submission-bundle/handlers/pdf.md)
+* [ServiceNow](/dev/submission-bundle/handlers/service-now.md)
+* [Sftp](/dev/submission-bundle/handlers/sftp.md)
+* [Soap](/dev/submission-bundle/handlers/soap.md)
+* [Zip](/dev/submission-bundle/handlers/zip.md)
 
 ## Configuration
 ```yaml

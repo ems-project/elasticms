@@ -29,6 +29,7 @@ ems_form:
     loading: 'en cours de chargement...'
 features:
     discover: 'Découvrez toutes les fonctionnalités'
+files_browse: 'Choisir des fichiers'
 footer:
     join-us-github: 'Join-us on GitHub'
 js:

@@ -10,14 +10,14 @@ incoming-email@example.com
 
 Or dynamically:
 ```twig
-{%- spaceless -%}
+{%- apply spaceless -%}
 {%- set destination = "incoming-email@example1.com" -%}
 
 {%- if data.my_destination_field is same as("my_destination_value") -%}
     {%- set destination = "incoming-email@example2.com" -%}
 {%- endif -%}
 
-{%- endspaceless -%}
+{%- endapply -%}
 {{- destination -}}
 ```
 
@@ -89,10 +89,11 @@ You can also define a `reply-to` option:
 } %}
 {% endautoescape %}
 {{ email|js
+```
 
 ### Attachments
 
-Use the **formData** helper object to retreive all files that are attached to the form submission.
+Use the **formData** helper object to retrieve all files that are attached to the form submission.
 You can override the default values for each file using the `map` filter as shown below.
 
 ```twig 
@@ -106,22 +107,13 @@ You can override the default values for each file using the `map` filter as show
 {% set email = {
     "from": data.email,
     "subject": "Email Form subject",
-    "body": body
+    "body": body,
+    "attachments": formData.allFiles|map(v => v.toArray)|map(f => {
+        filename: f.originalName|ems_webalize,
+        mimeType: f.mimeType,
+        pathname: f.pathname,
+    })
 } %}
-
-{%- set files = {} -%}
-{% for file in formData.allFiles|map(v => v.toArray) %}
-    {%- set files = files|merge({(file.form_field):{
-        filename: file.filename|ems_slug,
-        originalName: file.filename|ems_slug,
-        mimeType: file.mimeType,
-        pathname: file.pathname,
-    } }) -%}
-{% endfor %}
-
-{% if files|length > 0 %}
-    {% set email = email|merge({"attachments": files}) %}
-{% endif %}
 
 {% endautoescape %}
 {{ email|json_encode|raw }}

@@ -17,12 +17,21 @@
 
 {% block http_admin_api_form_request_body %}
     {% apply spaceless %}
+        {% set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
+            'filename': ('attachment '~f.filename)|ems_webalize,
+            'mimeType': f.mimeType,
+            'size': f.size,
+            'form_field': f.form_field,
+            'base64': f.base64
+        })|filter(v => v.size > 0) %}
+
         {% set message = {
             'form_name': config.name,
             'instance': config.translationDomain,
             'locale': config.locale,
             'data': formData.raw,
-            'label': "User group",
+            'files': files,
+            'label': "Example files",
             'expire_date': '+1 month'|date('Y-m-d')
         } %}
     {% endapply %}
@@ -44,12 +53,15 @@
     {% apply spaceless %}
         {% set fields = [] %}
         {% set elements = config.elements %}
+
         {% for name, value in formData.raw %}
             {% set element = elements|filter(v => v.name == name)|first %}
-            {% set fields = fields|merge({
-                (element.label|default(name)): value
-            }) %}
+            {% if element.name != 'files' %}
+                {% set fields = fields|merge({ (element.label): value }) %}
+            {% endif %}
         {% endfor %}
+
+        {% set files = formData.allFiles|map(v => v.toArray) %}
 
         {% set body %}
         <body>
@@ -58,6 +70,14 @@
                     <li>{{ label }}: {{ value }}</li>
                 {% endfor %}
             </ul>
+            {% if files|length > 0 %}
+                <p>Files:</p>
+                <ul>
+                    {% for file in files %}
+                        <li>{{ file.originalName }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
             <p>
                 Kind regards.
             </p>
@@ -66,8 +86,13 @@
 
         {% set mail = {
             "from": "no-reply@elasticms.be",
-            "subject": "Form submission from user group form",
-            "body": body
+            "subject": "Form example files",
+            "body": body,
+            "attachments": files|map(f => {
+                filename: f.originalName|ems_webalize,
+                mimeType: f.mimeType,
+                pathname: f.pathname,
+            })
         } %}
     {% endapply %}
     {{- mail|json_encode|raw -}}

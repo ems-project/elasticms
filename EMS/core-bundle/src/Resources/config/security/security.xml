@@ -24,6 +24,10 @@
             <argument type="service" id="router" />
             <argument>%ems_core.security.ldap.enabled%</argument>
         </service>
+        <service id="ems.security.login.rate_limiter" class="EMS\CoreBundle\Security\LoginRateLimiter">
+
+        </service>
+
 
         <service id="ems_core.security.authenticator" class="EMS\CoreBundle\Security\Authenticator\Authenticator">
             <argument type="service" id="emsco.security.authenticator.form_login" />

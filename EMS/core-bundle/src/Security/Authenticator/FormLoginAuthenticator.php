@@ -28,9 +28,9 @@ class FormLoginAuthenticator extends AbstractAuthenticator implements Authentica
 {
     use TargetPathTrait;
 
-    private LoginRateLimiter $rateLimiter;
+    private ?LoginRateLimiter $rateLimiter;
 
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly bool $ldapEnabled, LoginRateLimiter $rateLimiter)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly bool $ldapEnabled, ?LoginRateLimiter $rateLimiter = null)
     {
         $this->rateLimiter = $rateLimiter;
     }

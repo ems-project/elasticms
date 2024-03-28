@@ -29,7 +29,7 @@
             'form_name': config.name,
             'instance': config.translationDomain,
             'locale': config.locale,
-            'data': formData.raw,
+            'data': formData.raw|filter((v, k) => k != 'files'),
             'files': files,
             'label': "Example files",
             'expire_date': '+1 month'|date('Y-m-d')
@@ -51,14 +51,11 @@
 
 {% block email_message %}
     {% apply spaceless %}
-        {% set fields = [] %}
+        {% set data = [] %}
         {% set elements = config.elements %}
-
-        {% for name, value in formData.raw %}
+        {% for name, value in formData.raw|filter((v, k) => k != 'files') %}
             {% set element = elements|filter(v => v.name == name)|first %}
-            {% if element.name != 'files' %}
-                {% set fields = fields|merge({ (element.label): value }) %}
-            {% endif %}
+            {% set data = data|merge({ (element.label): value }) %}
         {% endfor %}
 
         {% set files = formData.allFiles|map(v => v.toArray) %}
@@ -66,7 +63,7 @@
         {% set body %}
         <body>
             <ul>
-                {% for label, value in fields %}
+                {% for label, value in data %}
                     <li>{{ label }}: {{ value }}</li>
                 {% endfor %}
             </ul>

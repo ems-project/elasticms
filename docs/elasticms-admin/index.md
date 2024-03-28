@@ -3,7 +3,7 @@
 |                                                            |                                                      |                                                            |
 |------------------------------------------------------------|------------------------------------------------------|------------------------------------------------------------|
 | [ContentType](/elasticms-admin/contentType/contentType.md) | [Dashboard](/elasticms-admin/dashboard/dashboard.md) | [Environment](/elasticms-admin/environment/environment.md) |
-| [User](/elasticms-admin/user/user.md)                      | [WYSIWYG](/elasticms-admin/wysiwyg/wysiwyg.md)       |                                                            |
+| [User](/elasticms-admin/user/user.md)                      | [WYSIWYG](/elasticms-admin/wysiwyg/wysiwyg.md)       | [I18N](/elasticms-admin/i18n/i18n.md)                      |
 
 
 ## About

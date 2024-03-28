@@ -16,11 +16,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class SubmissionController extends AbstractController
 {
-    public function __construct(private readonly FormSubmissionService $formSubmissionService, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly FormSubmissionService $formSubmissionService,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
-    public function submit(Request $request): Response
+    public function submit(Request $request): JsonResponse
     {
         try {
             $json = Json::decode(\strval($request->getContent()));
@@ -33,5 +35,20 @@ final class SubmissionController extends AbstractController
 
             return new JsonResponse([], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function detail(string $submissionId): JsonResponse
+    {
+        $submission = $this->formSubmissionService->findById($submissionId);
+
+        if (null === $submission) {
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        }
+
+        $test = $submission->jsonSerialize();
+
+        $test = Json::encode($submission);
+
+        return JsonResponse::fromJsonString(Json::encode($submission));
     }
 }

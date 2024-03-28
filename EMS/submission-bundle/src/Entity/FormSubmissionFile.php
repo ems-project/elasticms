@@ -17,7 +17,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  * @ORM\HasLifecycleCallbacks()
  */
-class FormSubmissionFile implements EntityInterface
+class FormSubmissionFile implements EntityInterface, \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -87,6 +87,19 @@ class FormSubmissionFile implements EntityInterface
         $this->formField = $file['form_field'];
         $this->mimeType = $file['mimeType'];
         $this->size = (string) $file['size'];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id->toString(),
+            'filename' => $this->getFilename(),
+            'mimeType' => $this->getMimeType(),
+            'size' => $this->getSize(),
+        ];
     }
 
     /**

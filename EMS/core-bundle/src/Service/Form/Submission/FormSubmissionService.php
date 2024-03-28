@@ -33,12 +33,17 @@ final class FormSubmissionService implements EntityServiceInterface
         return $this->formSubmissionRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 
+    public function findById(string $id): ?FormSubmission
+    {
+        return $this->formSubmissionRepository->findById($id);
+    }
+
     public function getById(string $id): FormSubmission
     {
         $submission = $this->formSubmissionRepository->findById($id);
 
         if (null === $submission) {
-            throw new \Exception(\sprintf('form submission not found!'));
+            throw new \RuntimeException(\sprintf('form submission (%s) not found!', $id));
         }
 
         return $submission;

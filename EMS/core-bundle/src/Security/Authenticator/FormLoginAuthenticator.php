@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Security\Authenticator;
 
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Security\LoginRateLimiter;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,8 +28,11 @@ class FormLoginAuthenticator extends AbstractAuthenticator implements Authentica
 {
     use TargetPathTrait;
 
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly bool $ldapEnabled)
+    private LoginRateLimiter $rateLimiter;
+
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator, private readonly bool $ldapEnabled, LoginRateLimiter $rateLimiter)
     {
+        $this->rateLimiter = $rateLimiter;
     }
 
     public function supports(Request $request): bool
@@ -38,6 +42,10 @@ class FormLoginAuthenticator extends AbstractAuthenticator implements Authentica
 
     public function authenticate(Request $request): Passport
     {
+        $rateLimit = $this->rateLimiter->consume($request);
+        if (!$rateLimit->isAccepted()) {
+            throw new AuthenticationException('Too many login attempts. Please try again later.');
+        }
         $username = Type::string($request->request->get('_username', ''));
         $password = Type::string($request->request->get('_password', ''));
         $csrfToken = Type::string($request->request->get('_csrf_token', ''));

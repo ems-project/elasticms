@@ -124,8 +124,8 @@ final class Example
     > Create a new form verification value
 * **getVerification**(string $value): string
     > Get a created form verification value
-* **submit**(array $data): string
-  > Submit a form data return submission id
+* **submit**(array $data): array
+  > Submit form data, returns an array with submission_id and submission info
 * **getSubmission**(string $submissionId, ?string $property = null): array
   > Pass a property for filtering the response, for example '[expireData]', '[data][firstName]' or '[files][0][filename]'
 * **getSubmissionFile**(string $submissionId, ?string $submissionFileId): StreamedResponse

@@ -18,8 +18,10 @@ interface FormInterface
      *     label: string,
      *     expire_date: string
      * } $data
+     *
+     * @return array{ submission_id: string, submission: array<string, mixed> }
      */
-    public function submit(array $data): string;
+    public function submit(array $data): array;
 
     /**
      * @return array<string, mixed>

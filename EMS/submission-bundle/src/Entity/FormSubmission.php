@@ -125,6 +125,14 @@ class FormSubmission implements EntityInterface, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
+        return $this->toArray();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
         $data = \get_object_vars($this);
         $data['created'] = $this->created->format(\DateTimeInterface::ATOM);
         $data['modified'] = $this->modified->format(\DateTimeInterface::ATOM);

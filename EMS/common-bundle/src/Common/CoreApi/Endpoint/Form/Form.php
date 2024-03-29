@@ -17,13 +17,11 @@ final class Form implements FormInterface
     {
     }
 
-    public function submit(array $data): string
+    public function submit(array $data): array
     {
         $resource = $this->makeResource('submissions');
 
-        $data = $this->client->post($resource, $data)->getData();
-
-        return $data['submission_id'];
+        return $this->client->post($resource, $data)->getData();
     }
 
     public function getSubmission(string $submissionId, ?string $property = null): array

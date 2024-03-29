@@ -5,7 +5,7 @@
 {% block actions %}
     {% set requestQuery = app.request.query.all %}
     <div class="btn-group px-2" role="group" aria-label="go iframe">
-        <a href="{{ path('_emsf_debug_form', { 'ouuid': config.id, '_locale': locale }) }}" class="btn btn-primary btn-sm"><b>FORM</b></a>
+        <a href="{{ path('emsf_debug_form', { 'ouuid': config.id, '_locale': locale }) }}" class="btn btn-primary btn-sm"><b>FORM</b></a>
     </div>
     <div class="btn-group px-2" role="group" aria-label="Locales">
         {% for l in locales %}
@@ -17,11 +17,7 @@
 {% block content %}
     <div id="ems-form"></div>
     <div id="ems-message"></div>
-{% endblock %}
-
-{% block footer %}
-    <iframe id="ems-form-iframe" style="width: 100%;" src="{{ url('emsf_iframe', {'ouuid': config.id, '_locale': locale }) }}"></iframe>
-    {{ dump(config) }}
+    <iframe id="ems-form-iframe" class="d-none" src="{{ url('emsf_iframe', {'ouuid': config.id, '_locale': locale }) }}"></iframe>
 {% endblock %}
 
 {% block javascripts %}

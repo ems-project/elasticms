@@ -19,7 +19,7 @@
            methods="POST">
         <default key="_locale">%locale%</default>
     </route>
-    <route id="_emsf_dynamic_field_ajax" path="/ajax/{ouuid}/{_locale}"
+    <route id="emsf_dynamic_field_ajax" path="/ajax/{ouuid}/{_locale}"
            controller="EMS\FormBundle\Controller\FormController::dynamicFieldAjax"
            methods="POST">
         <default key="_locale">%locale%</default>

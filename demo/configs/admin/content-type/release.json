@@ -3,8 +3,8 @@
     "arguments": [],
     "properties": {
         "name": "release",
-        "pluralName": "Releases",
-        "singularName": "Release",
+        "pluralName": "Release versions",
+        "singularName": "Release version",
         "icon": "fa fa-dropbox",
         "description": null,
         "indexTwig": null,

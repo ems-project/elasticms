@@ -56,7 +56,7 @@ google_verification:
     config:
         path: google559a317bdba2ec40.html
     template_static: template/seo/google.html.twig
-emsch_saml_test:
+emsch_sso_test:
   config:
       path: '/sso/test'
       defaults: { _authenticated: true }

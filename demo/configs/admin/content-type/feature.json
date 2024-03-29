@@ -3,8 +3,8 @@
     "arguments": [],
     "properties": {
         "name": "feature",
-        "pluralName": "Features",
-        "singularName": "Feature",
+        "pluralName": "Release details",
+        "singularName": "Release detail",
         "icon": "fa fa-plus",
         "description": null,
         "indexTwig": null,

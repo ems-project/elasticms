@@ -9,11 +9,14 @@ use EMS\ClientHelperBundle\Helper\Hashcash\HashcashHelper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class ApiController
 {
-    public function __construct(private readonly ApiService $service, private readonly HashcashHelper $hashcashHelper)
-    {
+    public function __construct(
+        private readonly ApiService $service,
+        private readonly HashcashHelper $hashcashHelper
+    ) {
     }
 
     public function contentTypes(string $apiName): JsonResponse
@@ -29,6 +32,13 @@ final class ApiController
         $filter = $request->query->all('filter');
 
         return $this->service->getContentType($apiName, $contentType, $filter, $size, $scrollId)->getResponse();
+    }
+
+    public function getSubmissionFile(string $apiName, string $submissionId, string $submissionFileId): StreamedResponse
+    {
+        $coreApi = $this->service->getApiClient($apiName)->coreApi;
+
+        return $coreApi->form()->getSubmissionFile($submissionId, $submissionFileId);
     }
 
     public function document(string $apiName, string $contentType, string $ouuid): JsonResponse

@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\Api\Form;
 
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionException;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
@@ -63,11 +64,11 @@ final class SubmissionController extends AbstractController
 
         $response = new StreamedResponse(function () use ($submissionFile) {
             if (null === $fileStream = $submissionFile->getFile()) {
-                exit;
+                return;
             }
 
             while (!\feof($fileStream)) {
-                echo \fread($fileStream, 1);
+                echo \fread($fileStream, File::DEFAULT_CHUNK_SIZE);
                 \flush();
             }
             \fclose($fileStream);

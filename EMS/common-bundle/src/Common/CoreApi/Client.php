@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\CoreApi;
 use EMS\CommonBundle\Common\CoreApi\Exception\BaseUrlNotDefinedException;
 use EMS\CommonBundle\Common\CoreApi\Exception\NotAuthenticatedException;
 use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
+use EMS\Helpers\File\File;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpClient\Response\StreamableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -88,6 +90,31 @@ class Client
         }
 
         return new Stream($response->toStream());
+    }
+
+    /**
+     * @param array<mixed> $query
+     */
+    public function streamResponse(string $resource, array $query = []): StreamedResponse
+    {
+        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+            'headers' => $this->headers,
+            'query' => $query,
+        ]);
+
+        if (!$response instanceof StreamableInterface) {
+            throw new \RuntimeException('no stream response');
+        }
+
+        $responseStream = $response->toStream();
+
+        return new StreamedResponse(function () use ($responseStream) {
+            while (!\feof($responseStream)) {
+                echo \fread($responseStream, File::DEFAULT_CHUNK_SIZE);
+                \flush();
+            }
+            \fclose($responseStream);
+        }, $response->getStatusCode(), $response->getHeaders());
     }
 
     /**

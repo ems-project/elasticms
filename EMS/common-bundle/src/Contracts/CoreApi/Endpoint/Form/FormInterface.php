@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form;
 
-use Psr\Http\Message\StreamInterface;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 interface FormInterface
 {
@@ -26,7 +26,7 @@ interface FormInterface
      */
     public function getSubmission(string $submissionId, ?string $property = null): array;
 
-    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): StreamInterface;
+    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): StreamedResponse;
 
     public function createVerification(string $value): string;
 

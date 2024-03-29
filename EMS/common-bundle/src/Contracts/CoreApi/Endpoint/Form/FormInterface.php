@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form;
 
+use Psr\Http\Message\StreamInterface;
+
 interface FormInterface
 {
     /**
@@ -23,6 +25,8 @@ interface FormInterface
      * @return array<string, mixed>
      */
     public function getSubmission(string $submissionId, ?string $property = null): array;
+
+    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): StreamInterface;
 
     public function createVerification(string $value): string;
 

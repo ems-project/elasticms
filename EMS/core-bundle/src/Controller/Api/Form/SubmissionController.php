@@ -11,9 +11,11 @@ use EMS\Helpers\Standard\Type;
 use EMS\SubmissionBundle\Request\DatabaseRequest;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class SubmissionController extends AbstractController
 {
@@ -38,7 +40,7 @@ final class SubmissionController extends AbstractController
         }
     }
 
-    public function detail(Request $request, string $submissionId): JsonResponse
+    public function submission(Request $request, string $submissionId): JsonResponse
     {
         if (null === $submission = $this->formSubmissionService->findById($submissionId)) {
             return new JsonResponse([], Response::HTTP_NOT_FOUND);
@@ -51,5 +53,33 @@ final class SubmissionController extends AbstractController
         }
 
         return new JsonResponse($submission);
+    }
+
+    public function submissionFile(string $submissionId, string $submissionFileId): JsonResponse|StreamedResponse
+    {
+        if (null === $submissionFile = $this->formSubmissionService->findFile($submissionId, $submissionFileId)) {
+            return new JsonResponse([], Response::HTTP_NOT_FOUND);
+        }
+
+        $response = new StreamedResponse(function () use ($submissionFile) {
+            if (null === $fileStream = $submissionFile->getFile()) {
+                exit;
+            }
+
+            while (!\feof($fileStream)) {
+                echo \fread($fileStream, 1);
+                \flush();
+            }
+            \fclose($fileStream);
+        });
+
+        $response->headers->set('Content-Type', $submissionFile->getMimeType());
+        $response->headers->set('Content-Length', $submissionFile->getSize());
+        $response->headers->set('Content-Disposition', HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $submissionFile->getFilename()
+        ));
+
+        return $response;
     }
 }

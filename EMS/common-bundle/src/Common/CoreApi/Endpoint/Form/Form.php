@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Form;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
+use Psr\Http\Message\StreamInterface;
 
 final class Form implements FormInterface
 {
@@ -31,6 +32,13 @@ final class Form implements FormInterface
         $query = \array_filter(['property' => $property]);
 
         return $this->client->get($resource, $query)->getData();
+    }
+
+    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): StreamInterface
+    {
+        $resource = $this->makeResource(\sprintf('submissions/%s/files/%s', $submissionId, $submissionFileId));
+
+        return $this->client->download($resource);
     }
 
     public function createVerification(string $value): string

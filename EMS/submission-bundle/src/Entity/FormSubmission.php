@@ -13,7 +13,7 @@ use EMS\SubmissionBundle\Request\DatabaseRequest;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
-class FormSubmission implements EntityInterface
+class FormSubmission implements EntityInterface, \JsonSerializable
 {
     use CreatedModifiedTrait;
 
@@ -52,6 +52,30 @@ class FormSubmission implements EntityInterface
         foreach ($databaseRequest->getFiles() as $file) {
             $this->files->add(new FormSubmissionFile($this, $file));
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        $data = \get_object_vars($this);
+        $data['created'] = $this->created->format(\DateTimeInterface::ATOM);
+        $data['modified'] = $this->modified->format(\DateTimeInterface::ATOM);
+
+        if ($this->expireDate) {
+            $data['expireDate'] = $this->expireDate->format(\DateTimeInterface::ATOM);
+        } else {
+            unset($data['expireDate']);
+        }
+
+        if ($this->files->count() > 0) {
+            $data['files'] = $this->files->toArray();
+        } else {
+            unset($data['files']);
+        }
+
+        return $data;
     }
 
     public function getId(): string

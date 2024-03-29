@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Request;
 
+use EMS\Helpers\Standard\DateTime;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,7 @@ final class DatabaseRequest
     /** @var array<int, array{filename: string, mimeType: string, base64: string, size: string, form_field: string}> */
     private readonly array $files;
     private readonly string $label;
-    private readonly ?\DateTime $expireDate;
+    private readonly ?\DateTimeImmutable $expireDate;
 
     /**
      * @param array<string, mixed> $databaseRecord
@@ -32,8 +33,7 @@ final class DatabaseRequest
         $this->data = $record['data'];
         $this->files = $record['files'];
         $this->label = $record['label'] ?? '';
-        $formattedDate = \DateTime::createFromFormat(\DateTimeInterface::ATOM, $record['expire_date']);
-        $this->expireDate = false != $formattedDate ? $formattedDate : null;
+        $this->expireDate = isset($record['expire_date']) ? DateTime::create($record['expire_date']) : null;
     }
 
     public function getFormName(): string
@@ -74,13 +74,13 @@ final class DatabaseRequest
 
     public function getExpireDate(): ?\DateTime
     {
-        return $this->expireDate;
+        return $this->expireDate ? \DateTime::createFromImmutable($this->expireDate) : null;
     }
 
     /**
      * @param array<mixed> $databaseRecord
      *
-     * @return array{form_name: string, instance: string, locale: string, data: array<mixed>, files: array<mixed>, label?: string, expire_date: string}
+     * @return array{form_name: string, instance: string, locale: string, data: array<mixed>, files: array<mixed>, label?: string, expire_date: ?string}
      */
     private function resolveDatabaseRecord(array $databaseRecord): array
     {
@@ -89,7 +89,7 @@ final class DatabaseRequest
             ->setRequired(['form_name', 'locale', 'data', 'instance'])
             ->setDefault('files', [])
             ->setDefault('label', '')
-            ->setDefault('expire_date', '')
+            ->setDefault('expire_date', null)
             ->setAllowedTypes('form_name', 'string')
             ->setAllowedTypes('locale', 'string')
             ->setAllowedTypes('data', 'array')

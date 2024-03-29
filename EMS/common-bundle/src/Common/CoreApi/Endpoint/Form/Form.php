@@ -16,6 +16,23 @@ final class Form implements FormInterface
     {
     }
 
+    public function submit(array $data): string
+    {
+        $resource = $this->makeResource('submissions');
+
+        $data = $this->client->post($resource, $data)->getData();
+
+        return $data['submission_id'];
+    }
+
+    public function getSubmission(string $submissionId, string $property = null): array
+    {
+        $resource = $this->makeResource('submissions/'.$submissionId);
+        $query = \array_filter(['property' => $property]);
+
+        return $this->client->get($resource, $query)->getData();
+    }
+
     public function createVerification(string $value): string
     {
         $resource = $this->makeResource('verifications');

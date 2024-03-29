@@ -128,6 +128,8 @@ final class Example
   > Submit a form data return submission id
 * **getSubmission**(string $submissionId, ?string $property = null): array
   > Pass a property for filtering the response, for example '[expireData]', '[data][firstName]' or '[files][0][filename]'
+* **getSubmissionFile**(string $submissionId, ?string $submissionFileId): StreamInterface
+  > Returns a [Psr\Http\Message\StreamInterface]
 
 ### Search ([SearchInterface](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Contracts/CoreApi/Endpoint/Search/SearchInterface.php))
 * **search**([Search](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Search/Search.php) $search): ResponseInterface

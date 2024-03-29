@@ -3,8 +3,8 @@
 namespace EMS\CoreBundle\Controller;
 
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
-use EMS\CoreBundle\DataTable\Type\WysiwygProfileDataTableType;
-use EMS\CoreBundle\DataTable\Type\WysiwygStylesSetDataTableType;
+use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygProfileDataTableType;
+use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygStylesSetDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\WysiwygProfile;
 use EMS\CoreBundle\Entity\WysiwygStylesSet;
@@ -27,11 +27,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class WysiwygController extends AbstractController
 {
     public function __construct(private readonly LoggerInterface $logger,
-                                private readonly WysiwygProfileService $wysiwygProfileService,
-                                private readonly WysiwygStylesSetService $wysiwygStylesSetService,
-                                private readonly TranslatorInterface $translator,
-                                private readonly string $templateNamespace,
-                                private readonly DataTableFactory $dataTableFactory)
+        private readonly WysiwygProfileService $wysiwygProfileService,
+        private readonly WysiwygStylesSetService $wysiwygStylesSetService,
+        private readonly TranslatorInterface $translator,
+        private readonly string $templateNamespace,
+        private readonly DataTableFactory $dataTableFactory)
     {
     }
 

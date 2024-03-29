@@ -1,5 +1,12 @@
 {
     "date": "2024-06-18T09:30:00+02:00",
     "duration": "150 min",
-    "label": "usergroup 2024-06-18"
+    "facilitator_name": "D\u00e9lia Druart, Mathieu De Keyzer, Marie Rose",
+    "fr": {
+        "body": "<p>Refonte de la structure &ndash; Am&eacute;liorations de l&rsquo;interface Media library &ndash; Gestion des t&acirc;ches &ndash; Nouvel &eacute;diteur de texte CKEditor &ndash; Rapport d&rsquo;accessibilit&eacute; : vue client</p>"
+    },
+    "label": "usergroup 2024-06-18",
+    "nl": {
+        "body": "<p>Aanpassingen van de structuur &ndash; Verbeteringen aan de Media library &ndash; Taakbeheer &ndash; Nieuwe CKEditor teksteditor &ndash; Toegankelijkheidsrapport: wat ziet u als klant ?</p>"
+    }
 }

@@ -77,7 +77,7 @@ final class SubmissionController extends AbstractController
         $response->headers->set('Content-Type', $submissionFile->getMimeType());
         $response->headers->set('Content-Length', $submissionFile->getSize());
         $response->headers->set('Content-Disposition', HeaderUtils::makeDisposition(
-            HeaderUtils::DISPOSITION_ATTACHMENT,
+            HeaderUtils::DISPOSITION_INLINE,
             $submissionFile->getFilename()
         ));
 

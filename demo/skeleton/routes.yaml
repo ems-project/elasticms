@@ -61,6 +61,12 @@ emsch_saml_test:
       path: '/sso/test'
       defaults: { _authenticated: true }
   template_static: template/sso/test_sso.html.twig
+emsch_api_form_attachment:
+    config:
+        path: '/form/{submissionId}/attachment/{submissionFileId}'
+        defaults: { apiName: backend, _authenticated: true }
+        controller: 'emsch.controller.api::getSubmissionFile'
+        requirements: { submissionId: .*, submissionFileId: .* }
 emsch_publication:
     config:
         path: { en: 'publications/{slug}', fr: 'fr/publications/{slug}', nl: 'nl/publicaties/{slug}', de: 'de/publikation/{slug}' }

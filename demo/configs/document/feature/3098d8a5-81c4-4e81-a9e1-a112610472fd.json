@@ -1,0 +1,12 @@
+{
+    "category": "category:u9hBHIkBTbVbdHDC93W8",
+    "fr": {
+        "title": "Correction des d\u00e9pr\u00e9ciations de code en pr\u00e9paration \u00e0 la migration Symfony 6."
+    },
+    "nl": {
+        "title": "Correctie van verouderde code als voorbereiding op de migratie naar Symfony 6."
+    },
+    "title_fr": "Correction des d\u00e9pr\u00e9ciations de code en pr\u00e9paration \u00e0 la migration Symfony 6.",
+    "title_nl": "Correctie van verouderde code als voorbereiding op de migratie naar Symfony 6.",
+    "version": "5.13"
+}

@@ -96,6 +96,7 @@ demo: ## make new demo
 	@$(MAKE) -s db-migrate
 	@$(RUN_ADMIN) emsco:user:create demo demo@example.com demo --super-admin
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_API
+	@$(RUN_ADMIN) emsco:user:promote demo ROLE_FORM_CRM
 	@$(MAKE) -s demo-npm/"install"
 	@$(MAKE) -s demo-npm/"run prod"
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo

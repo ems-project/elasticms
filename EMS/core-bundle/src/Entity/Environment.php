@@ -213,8 +213,9 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
      */
     public function getIndexName(): string
     {
-        $firstArray = array_shift($this->indexes);
-        return !empty($firstArray) ? reset($firstArray) : '';
+        $firstArray = \array_shift($this->indexes);
+
+        return !empty($firstArray) ? \reset($firstArray) : '';
     }
 
     public function setTotal(int $total): self

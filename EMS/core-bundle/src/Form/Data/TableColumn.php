@@ -60,10 +60,12 @@ class TableColumn
     {
         $this->attribute = $attribute;
     }
+
     public function setColorAttribute(string $colorAttribute): void
     {
         $this->colorAttribute = $colorAttribute;
     }
+
     public function getColorAttribute(): ?string
     {
         return $this->colorAttribute;

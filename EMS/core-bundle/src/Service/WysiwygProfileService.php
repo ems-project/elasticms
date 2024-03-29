@@ -30,9 +30,9 @@ class WysiwygProfileService implements EntityServiceInterface
     {
         $counter = 1;
         foreach ($ids as $id) {
-            $channel = $this->wysiwygProfileRepository->getById($id);
-            $channel->setOrderKey($counter++);
-            $this->wysiwygProfileRepository->create($channel);
+            $wysiwyg_profile = $this->wysiwygProfileRepository->getById($id);
+            $wysiwyg_profile->setOrderKey($counter++);
+            $this->wysiwygProfileRepository->create($wysiwyg_profile);
         }
     }
 

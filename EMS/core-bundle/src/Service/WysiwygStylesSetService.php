@@ -51,9 +51,9 @@ class WysiwygStylesSetService implements EntityServiceInterface
     {
         $counter = 1;
         foreach ($ids as $id) {
-            $wysiwyg = $this->wysiwygStylesSetRepository->getById($id);
-            $wysiwyg->setOrderKey($counter++);
-            $this->wysiwygStylesSetRepository->create($wysiwyg);
+            $wysiwyg_styles_set = $this->wysiwygStylesSetRepository->getById($id);
+            $wysiwyg_styles_set->setOrderKey($counter++);
+            $this->wysiwygStylesSetRepository->create($wysiwyg_styles_set);
         }
     }
 

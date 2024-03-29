@@ -20,6 +20,33 @@ This value can be overwritten by setting the environment variable **EMSF_HASHCAS
 
 For disabling hashcash set the difficulty value to 0.
 
+To compute the complexity you can use this algorithm (or check the table bellow):
+
+```php
+<?php
+$numberOfPrefixedZero = 5;
+echo pow(2, 4*$numberOfPrefixedZero);
+```
+
+Basically, the proof of work is base on the probably to find a random string in order to get a hash starting by a certain number of leading zeros.
+
+The complexity is the average number of hash to compute in order to get a such random string.
+
+| Leading zeros                | Complexity    |
+|------------------------------|---------------|
+| 0 (hashcash is desactivated) | 0             |
+| 1                            | 16            |
+| 2                            | 256           |
+| 3                            | 4096          |
+| 4                            | 65536         |
+| 5                            | 1048576       |
+| 6                            | 16777216      |
+| 7                            | 268435456     |
+| 8                            | 4294967296    |
+| 9                            | 68719476736   |
+| 10                           | 1099511627776 |
+| ...                          | ...           |
+
 ## Endpoints
 
 For now this endpoints config is use for sending a confirmation. 

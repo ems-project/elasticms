@@ -90,25 +90,6 @@ emsch_language_selection:
     config:
         path: /
     template_static: template/view/language_select.html.twig
-form_iframe:
-    config:
-        path: '/iframe/{ouuid}/{_locale}'
-        controller: 'EMS\FormBundle\Controller\FormController::iframe'
-form_init:
-    config:
-        path: '/init-form/{ouuid}/{_locale}'
-        controller: 'EMS\FormBundle\Controller\FormController::initForm'
-        method: [POST]
-form_submit:
-    config:
-        path: '/form/{ouuid}/{_locale}'
-        controller: 'EMS\FormBundle\Controller\FormController::submitForm'
-        method: [POST]
-form_dynamic_field:
-    config:
-        path: '/ajax/{ouuid}/{_locale}'
-        controller: 'EMS\FormBundle\Controller\FormController::dynamicFieldAjax'
-        method: [POST]
 emsch_word_export:
     config:
         path: '/_word_export/{contentType}/{ouuid}.docx'

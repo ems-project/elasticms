@@ -306,9 +306,6 @@ class EnvironmentController extends AbstractController
                     // TODO: setCircles
                     $environment->setManaged(false);
 
-                    $newOrderKey = $this->environmentRepository->getMaxOrderKey() + 1;
-                    $environment->setOrderKey($newOrderKey);
-
                     $this->environmentRepository->save($environment);
 
                     $this->logger->notice('log.environment.alias_attached', [
@@ -440,9 +437,6 @@ class EnvironmentController extends AbstractController
                 } else {
                     $environment->setAlias($this->instanceId.$environment->getName());
                     $environment->setManaged(true);
-
-                    $newOrderKey = $this->environmentRepository->getMaxOrderKey() + 1;
-                    $environment->setOrderKey($newOrderKey);
 
                     $this->environmentRepository->save($environment);
 

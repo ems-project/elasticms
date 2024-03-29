@@ -119,9 +119,9 @@ abstract class TableAbstract implements TableInterface
         $this->reordered = $reordered;
     }
 
-    public function addColumn(string $titleKey, string $attribute, ?string $colorAttribute = null): TableColumn
+    public function addColumn(string $titleKey, string $attribute): TableColumn
     {
-        $column = new TableColumn($titleKey, $attribute, $colorAttribute);
+        $column = new TableColumn($titleKey, $attribute);
         $this->columns[] = $column;
 
         return $column;

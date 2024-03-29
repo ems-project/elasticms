@@ -97,22 +97,6 @@ class EnvironmentRepository extends EntityRepository
         }
     }
 
-    public function getMaxOrderKey(): int
-    {
-        $qb = $this->createQueryBuilder('environment');
-
-        $qb->select('MAX(environment.orderKey) as max_order_key');
-
-        try {
-            $result = $qb->getQuery()->getSingleScalarResult();
-
-            return $result ? (int) $result : 0;
-        } catch (NonUniqueResultException $e) {
-            // Handle exception if needed
-            return 0;
-        }
-    }
-
     /**
      * @param string[] $ids
      *

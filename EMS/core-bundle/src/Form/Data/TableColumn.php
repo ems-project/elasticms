@@ -28,10 +28,9 @@ class TableColumn
     /** @var array<string, mixed> */
     private array $transLabelOptions = [];
 
-    public function __construct(private readonly string $titleKey, string $attribute, ?string $colorAttribute = null)
+    public function __construct(private readonly string $titleKey, string $attribute)
     {
         $this->orderField = $this->attribute = $attribute;
-        $this->colorAttribute = $colorAttribute;
     }
 
     public function addCondition(ConditionInterface $condition): void
@@ -61,7 +60,10 @@ class TableColumn
     {
         $this->attribute = $attribute;
     }
-
+    public function setColorAttribute(string $colorAttribute): void
+    {
+        $this->colorAttribute = $colorAttribute;
+    }
     public function getColorAttribute(): ?string
     {
         return $this->colorAttribute;

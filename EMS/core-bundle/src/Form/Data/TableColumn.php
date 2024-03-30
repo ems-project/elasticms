@@ -9,7 +9,7 @@ use EMS\CoreBundle\Form\Data\Condition\ConditionInterface;
 class TableColumn
 {
     private string $attribute;
-    private ?string $colorAttribute;
+    private ?string $colorAttribute = null;
     private ?string $routeName = null;
     private ?\Closure $routeParametersCallback = null;
     private ?string $routeTarget = null;

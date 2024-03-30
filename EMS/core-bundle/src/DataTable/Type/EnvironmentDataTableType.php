@@ -24,7 +24,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
     {
         $template = "@$this->templateNamespace/environment/index.html.twig";
 
-        $table->addColumn('table.index.column.loop_count', 'id');
+        $table->addColumn('table.index.column.loop_count', 'orderKey');
         $table->addColumnDefinition(new TemplateBlockTableColumn('environment.index.column.label', 'column_label', $template));
         $table->addColumn('environment.index.column.name', 'name');
         $table->addColumn('environment.index.column.alias', 'alias');
@@ -41,7 +41,7 @@ class EnvironmentDataTableType extends AbstractEntityTableType
             ->setDynamic(true)
             ->setButtonType('outline-danger');
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'environment.actions.delete_selected', 'environment.actions.delete_selected_confirm');
-        $table->setDefaultOrder('label');
+        $table->setDefaultOrder('orderKey');
     }
 
     public function getRoles(): array

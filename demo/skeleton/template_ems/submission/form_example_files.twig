@@ -38,19 +38,15 @@
     {{- message|json_encode|raw -}}
 {% endblock http_admin_api_form_request_body %}
 
-{% block http_admin_api_form_handle_response_extra %}
-    {%- set extra = {
-        'uid': (response.getHttpResponseContentJSON.submission_id)
-    } -%}
-    {{- extra|json_encode|raw -}}
-{% endblock http_admin_api_form_handle_response_extra %}
-
 {% block email_endpoint %}
 {{- "no-reply@elasticms.be" -}}
 {% endblock email_endpoint %}
 
 {% block email_message %}
     {% apply spaceless %}
+        {% set skeletonUrl = app.request.server.all['SKELETON_URL']|default('https://demo-admin.elasticms.eu') %}
+        {% set submission = responses[0].getHttpResponseContentJSON.submission %}
+
         {% set data = [] %}
         {% set elements = config.elements %}
         {% for name, value in formData.raw|filter((v, k) => k != 'files') %}
@@ -70,8 +66,13 @@
             {% if files|length > 0 %}
                 <p>Files:</p>
                 <ul>
-                    {% for file in files %}
-                        <li>{{ file.originalName }}</li>
+                    {% for index, file in files %}
+                        {% set submissionFile = submission.files[index] %}
+                        <li>
+                            <a href="{{ "#{skeletonUrl}/form/#{submission.id}/attachment/#{submissionFile.id}" }}">
+                                {{ file.originalName }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
             {% endif %}

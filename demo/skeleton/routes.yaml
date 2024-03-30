@@ -56,6 +56,17 @@ google_verification:
     config:
         path: google559a317bdba2ec40.html
     template_static: template/seo/google.html.twig
+emsch_sso_test:
+  config:
+      path: '/sso/test'
+      defaults: { _authenticated: true }
+  template_static: template/sso/test_sso.html.twig
+emsch_api_form_attachment:
+    config:
+        path: '/form/{submissionId}/attachment/{submissionFileId}'
+        defaults: { apiName: backend, _authenticated: true }
+        controller: 'emsch.controller.api::getSubmissionFile'
+        requirements: { submissionId: .*, submissionFileId: .* }
 emsch_publication:
     config:
         path: { en: 'publications/{slug}', fr: 'fr/publications/{slug}', nl: 'nl/publicaties/{slug}', de: 'de/publikation/{slug}' }
@@ -111,7 +122,7 @@ emsch_news_details:
 emsch_path:
     config:
         path: { fr: '/fr/{path}', nl: '/nl/{path}' }
-        requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|_error/|metric|file/)(.*$)?).+' }
+        requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|_error/|metric|file|saml/)(.*$)?).+' }
         defaults: { path: home }
     query: '{"query":{"bool":{"must":[{"nested":{"path":"paths","query":{"term":{"paths.path":"%path%"}}}},{"nested":{"path":"paths","query":{"term":{"paths.locale":"%_locale%"}}}},{"terms":{"_contenttype":["section"]}}]}},"size":1}'
     template_static: template/structure/by_path.html.twig

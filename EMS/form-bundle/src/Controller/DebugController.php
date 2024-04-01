@@ -27,7 +27,10 @@ class DebugController extends AbstractFormController
 
     public function iframe(Request $request, string $ouuid): Response
     {
-        $form = $this->formFactory->create(Form::class, [], $this->getFormOptions($ouuid, $request->getLocale()));
+        $form = $this->formFactory->create(Form::class, [], [
+            'ouuid' => $ouuid,
+            'locale' => $request->getLocale(),
+        ]);
 
         return new Response($this->twig->render('@EMSForm/debug/iframe.html.twig', [
             'config' => $this->getFormConfig($form, $request),
@@ -38,7 +41,10 @@ class DebugController extends AbstractFormController
 
     public function form(Request $request, string $ouuid): Response
     {
-        $formOptions = $this->getFormOptions($ouuid, $request->getLocale());
+        $formOptions = [
+            'ouuid' => $ouuid,
+            'locale' => $request->getLocale(),
+        ];
 
         if (!$request->query->getBoolean('validate', true)) {
             $formOptions['attr'] = ['novalidate' => 'novalidate'];

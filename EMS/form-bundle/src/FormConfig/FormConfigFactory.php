@@ -35,13 +35,13 @@ class FormConfigFactory
         $this->emsConfig = $emsConfig;
     }
 
-    public function create(string $ouuid, string $locale): FormConfig
+    public function create(string $ouuid, string $locale, bool $useCache = true): FormConfig
     {
         $validityTags = $this->getValidityTags();
         $cacheKey = $this->client->getCacheKey(\sprintf('formconfig_%s_%s_', $ouuid, $locale));
         $cacheItem = $this->cache->getItem($cacheKey);
 
-        if ($this->emsConfig[Configuration::CACHEABLE] && $cacheItem->isHit()) {
+        if ($this->emsConfig[Configuration::CACHEABLE] && $useCache && $cacheItem->isHit()) {
             $data = $cacheItem->get();
 
             $cacheValidityTags = $data['validity_tags'] ?? null;

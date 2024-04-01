@@ -30,6 +30,7 @@ class DebugController extends AbstractFormController
         $form = $this->formFactory->create(Form::class, [], [
             'ouuid' => $ouuid,
             'locale' => $request->getLocale(),
+            'use_cache' => false,
         ]);
 
         return new Response($this->twig->render('@EMSForm/debug/iframe.html.twig', [
@@ -44,6 +45,7 @@ class DebugController extends AbstractFormController
         $formOptions = [
             'ouuid' => $ouuid,
             'locale' => $request->getLocale(),
+            'use_cache' => false,
         ];
 
         if (!$request->query->getBoolean('validate', true)) {

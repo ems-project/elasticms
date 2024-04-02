@@ -6,12 +6,12 @@
         "body": "<p>Le monitoring externe dans le contexte de notre <strong>&eacute;quipe SaaS</strong> (Software as a Service) est tout aussi crucial que le <a href=\"ems://object:news:MdiFZIoBTbVbdHDCfpe5\">monitoring interne</a>. Alors que le monitoring interne se concentre sur la surveillance des composantes internes de l&rsquo;infrastructure du service, le monitoring externe &eacute;largit la perspective pour inclure la <strong>surveillance des performances</strong> et de l&rsquo;<strong>accessibilit&eacute; du service depuis l&rsquo;ext&eacute;rieur du r&eacute;seau</strong> de l&rsquo;&eacute;quipe. En effet, un service pourrait bien &ecirc;tre disponible en interne, mais pas en externe.</p>\r\n\r\n<p>Le monitoring externe implique l&rsquo;<strong>utilisation de points de vue externes</strong>, tels que des emplacements g&eacute;ographiques distants ou des r&eacute;seaux externes, pour &eacute;valuer la<strong> disponibilit&eacute;</strong> et les <strong>performances</strong> du service SaaS. Cette approche permet de simuler l&rsquo;exp&eacute;rience r&eacute;elle des utilisateurs finaux, offrant ainsi une perspective globale de la qualit&eacute; du service depuis diff&eacute;rentes r&eacute;gions g&eacute;ographiques et divers r&eacute;seaux.</p>\r\n\r\n<p>Les outils de monitoring externe mesurent la <strong>disponibilit&eacute; du service</strong>, les <strong>temps de r&eacute;ponse des applications</strong>, la<strong> latence du r&eacute;seau</strong>, et d&rsquo;autres param&egrave;tres cruciaux depuis des emplacements externes. Cette surveillance proactive offre plusieurs avantages, notamment la d&eacute;tection rapide des probl&egrave;mes externes d&rsquo;accessibilit&eacute; et l&rsquo;identification pr&eacute;coce des &eacute;ventuelles d&eacute;gradations de performances.</p>\r\n\r\n<p>Du c&ocirc;t&eacute; de notre &eacute;quipe, le monitoring externe sert &eacute;galement &agrave; <strong>v&eacute;rifier les certificats SSL</strong> (Secure Socket Layer) en monitorant les <strong>dates d&rsquo;expiration</strong> de ceux-ci. Un certificat SSL est un protocole de s&eacute;curit&eacute; standard utilis&eacute; pour &eacute;tablir une connexion chiffr&eacute;e entre un navigateur web et un serveur. Cette connexion s&eacute;curis&eacute;e garantit que toutes les donn&eacute;es transf&eacute;r&eacute;es entre le navigateur et le serveur restent priv&eacute;es et ne peuvent pas &ecirc;tre intercept&eacute;es par des tiers malveillants.</p>\r\n\r\n<p>En <strong>unissant le monitoring interne et externe</strong>, notre &eacute;quipe SaaS peut &eacute;tablir un <strong>cadre complet de surveillance</strong>, assurant ainsi une gestion proactive des performances, la d&eacute;tection rapide des probl&egrave;mes et la garantie du respect des SLA. L&rsquo;int&eacute;gration des deux approches offre une assurance totale aux clients quant &agrave; la <strong>fiabilit&eacute; du service</strong>, renfor&ccedil;ant ainsi la r&eacute;putation de l&rsquo;&eacute;quipe SaaS dans un environnement num&eacute;rique de plus en plus exigeant.</p>",
         "description": "<p>Explorez l&rsquo;importance du monitoring externe dans notre &eacute;quipe SaaS, de la surveillance des performances &agrave; la gestion proactive</p>",
         "image": {
-            "filename": "ems-monitoring.jpg",
-            "filesize": 306699,
-            "mimetype": "image/jpeg",
-            "sha1": "da32aa9ebc429441e013093c11b72fd4f3470b43"
+            "filename": "Monitoring externe.png",
+            "filesize": 585465,
+            "mimetype": "image/png",
+            "sha1": "ccc3ba07b103a9b17a5c15413f22f4e110561352"
         },
-        "meta_title": "Monitoring externe : cl\u00e9 de fiabilit\u00e9 des services SaaS | elasticMS",
+        "meta_title": "Monitoring externe : cl\u00e9 de fiabilit\u00e9 des services SaaS",
         "noindex": false,
         "slug": "monitoring-externe",
         "summary": "<p>&Agrave; quoi sert le <strong>monitoring externe</strong> ? Comment red&eacute;finit-il la fiabilit&eacute; de notre <strong>&eacute;quipe SaaS</strong> en assurant une gestion proactive des <strong>performances des services</strong> ?</p>",
@@ -22,10 +22,10 @@
         "body": "<p>In het kader van ons <strong>SaaS (Software as a Service)-team is externe monitoring</strong> net zo cruciaal als <a href=\"ems://object:news:MdiFZIoBTbVbdHDCfpe5\">interne monitoring</a>. Terwijl interne monitoring gericht is op het bewaken van interne componenten van de service-infrastructuur, verbreedt externe monitoring het perspectief. Het omvat het opvolgen van prestaties en toegankelijkheid van de service van buitenaf. Een service kan intern beschikbaar zijn, maar dat betekent niet per se dat deze ook extern toegankelijk is.</p>\r\n\r\n<p>Externe monitoring vertrekt vanuit een <strong>extern perspectief</strong> om de beschikbaarheid en prestaties van de SaaS-diensten te beoordelen. Deze aanpak bootst de echte ervaring van eindgebruikers na, waardoor een globaal beeld ontstaat van de servicekwaliteit vanuit verschillende geografische regio&#39;s en diverse netwerken.</p>\r\n\r\n<p>Tools voor externe monitoring meten de <strong>beschikbaarheid van de dienst</strong>, de <strong>responstijden van toepassingen</strong>, de <strong>netwerklatentie </strong>en andere cruciale parameters vanuit externe locaties. Deze proactieve monitoring biedt verschillende voordelen, waaronder een snelle detectie van externe toegankelijkheidsproblemen en een vroegtijdige identificatie van mogelijke prestatieverminderingen.</p>\r\n\r\n<p>Bij ons team wordt externe monitoring ook ingezet om <strong>SSL-certificaten</strong> (Secure Socket Layer) te controleren door hun vervaldata te monitoren. Een SSL-certificaat is een standaard beveiligingsprotocol</p>\r\n\r\n<p>dat wordt gebruikt om een versleutelde verbinding tot stand te brengen tussen een webbrowser en een server. Deze beveiligde verbinding zorgt ervoor dat alle gegevens die tussen de browser en de server worden uitgewisseld, priv&eacute; blijven en niet kunnen worden onderschept door derden met slechte bedoelingen.</p>\r\n\r\n<p>Door <strong>interne en externe monitoring</strong> te <strong>combineren</strong>, zet ons SaaS-team een globaal <strong>monitoringskader </strong>op. Dit zorgt voor een proactief prestatiebeheer, een snelle detectie van problemen en het waarborgen van de naleving van de Service Level Agreements (SLA&#39;s). De combinatie van beide benaderingen biedt klanten volledige zekerheid over de <strong>betrouwbaarheid van de diensten</strong> en versterkt de reputatie van het SaaS-team in een steeds veeleisender wordende digitale omgeving.</p>",
         "description": "<p>Ontdek het belang van externe monitoring binnen ons SaaS-team, van prestatiebewaking tot proactief beheer.</p>",
         "image": {
-            "filename": "ems-monitoring.jpg",
-            "filesize": 306699,
-            "mimetype": "image/jpeg",
-            "sha1": "da32aa9ebc429441e013093c11b72fd4f3470b43"
+            "filename": "Monitoring externe.png",
+            "filesize": 585465,
+            "mimetype": "image/png",
+            "sha1": "ccc3ba07b103a9b17a5c15413f22f4e110561352"
         },
         "meta_title": "Externe monitoring: sleutel tot betrouwbaarheid van SaaS-diensten",
         "noindex": false,
@@ -33,7 +33,7 @@
         "summary": "<p>Wat is het doel van <strong>externe monitoring</strong>? Hoe herdefinieert die monitoring de betrouwbaarheid van ons <strong>SaaS-team</strong> door een proactief <strong>prestatiebeheer </strong>van diensten te waarborgen?</p>",
         "title": "Externe monitoring: sleutel tot betrouwbaarheid van SaaS-diensten"
     },
-    "publication_date": "2024/02/09",
+    "publication_date": "2024/02/06",
     "title_fr": "Monitoring externe : cl\u00e9 de fiabilit\u00e9 des services SaaS",
     "title_nl": "Externe monitoring: sleutel tot betrouwbaarheid van SaaS-diensten"
 }

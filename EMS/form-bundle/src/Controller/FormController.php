@@ -67,7 +67,11 @@ class FormController extends AbstractFormController
 
     public function dynamicFieldAjax(Request $request, string $ouuid): Response
     {
-        $form = $this->formFactory->create(Form::class, [], $this->getDisabledValidationsFormOptions($ouuid, $request->getLocale()));
+        $form = $this->formFactory->create(Form::class, [], [
+            'ouuid' => $ouuid,
+            'locale' => $request->getLocale(),
+            'validation_groups' => false,
+        ]);
         $form->handleRequest($request);
 
         $dynamicFields = new SymfonyFormFieldsByNameArray($request->request->all());

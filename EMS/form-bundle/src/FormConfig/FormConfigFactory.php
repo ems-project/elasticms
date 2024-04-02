@@ -35,13 +35,13 @@ class FormConfigFactory
         $this->emsConfig = $emsConfig;
     }
 
-    public function create(string $ouuid, string $locale): FormConfig
+    public function create(string $ouuid, string $locale, bool $useCache = true): FormConfig
     {
         $validityTags = $this->getValidityTags();
         $cacheKey = $this->client->getCacheKey(\sprintf('formconfig_%s_%s_', $ouuid, $locale));
         $cacheItem = $this->cache->getItem($cacheKey);
 
-        if ($this->emsConfig[Configuration::CACHEABLE] && $cacheItem->isHit()) {
+        if ($this->emsConfig[Configuration::CACHEABLE] && $useCache && $cacheItem->isHit()) {
             $data = $cacheItem->get();
 
             $cacheValidityTags = $data['validity_tags'] ?? null;
@@ -435,22 +435,34 @@ class FormConfigFactory
 
     private function addFieldChoicesFromJson(FieldConfig $fieldConfig, JsonMenuNested $document, string $locale): void
     {
-        $values = [];
-        $labels = [];
-        $sort = null;
-        $id = null;
-        foreach ($document->getChildren() as $child) {
-            if ($child->getType() !== $this->emsConfig[Configuration::TYPE_FORM_CHOICE]) {
-                continue;
-            }
+        $children = $document->getChildren();
+        $choiceType = $this->emsConfig[Configuration::TYPE_FORM_CHOICE];
+        $choiceChildren = \array_filter($children, static fn (JsonMenuNested $c) => $c->getType() === $choiceType);
+
+        if (0 === \count($choiceChildren)) {
+            return;
+        }
+
+        $values = $labels = [];
+        $id = $sort = null;
+
+        foreach ($choiceChildren as $child) {
             try {
                 $id = $child->getId();
-                $values = \array_merge($values, Json::decode($child->getObject()['values']));
-                $labels = \array_merge($labels, Json::decode($child->getObject()[$locale]['labels']));
-                if (isset($child->getObject()['choice_sort'])) {
-                    $sort = $child->getObject()['choice_sort'];
+                $object = $child->getObject();
+
+                $childValues = $object['values'] ?? null;
+                $childLabels = $object[$locale]['labels'] ?? $childValues;
+
+                if (null === $childValues) {
+                    continue;
                 }
-            } catch (\Exception $e) {
+
+                $values = [...$values, ...Json::decode($childValues)];
+                $labels = [...$labels, ...Json::decode($childLabels)];
+
+                $sort ??= $object['choice_sort'] ?? null;
+            } catch (\Throwable $e) {
                 $this->logger->error($e->getMessage(), [$e]);
             }
         }

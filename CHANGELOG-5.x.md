@@ -1,5 +1,25 @@
 # Changelog 5.x
 
+## 5.15.0 (2024-04-02)
+### Features
+* feat(admin/media-lib): add preview file + ctrl click selection by @Davidmattei in https://github.com/ems-project/elasticms/pull/837
+* feat(core/api): new submission file download endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/855
+* feat(core/api): new submission view endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/851
+* feat(core/form): enable form routes with debug  by @Davidmattei in https://github.com/ems-project/elasticms/pull/848
+* feat(core/search): add deprecrated search index view by @coppee in https://github.com/ems-project/elasticms/pull/859
+* feat(core/user): custom reset email with i18n by @theus77 in https://github.com/ems-project/elasticms/pull/853
+* feat(core/xliff): accept filename or hash in update command by @theus77 in https://github.com/ems-project/elasticms/pull/847
+### Bug Fixes
+* fix(core/revision): edit date range field in collection by @theus77 in https://github.com/ems-project/elasticms/pull/850
+* fix(form/choice): choice labels not defined and no cache with debug controller by @Davidmattei in https://github.com/ems-project/elasticms/pull/861
+### Documentation
+* docs(demo): update from promo by @theus77 in https://github.com/ems-project/elasticms/pull/854
+* docs: hashcash improved by @theus77 in https://github.com/ems-project/elasticms/pull/858
+### Code Refactoring
+* refactor(core): environment overview and wysiwyg  by @Davidmattei in https://github.com/ems-project/elasticms/pull/860
+* refactor(core): migration environment table index by @OzkanO2 in https://github.com/ems-project/elasticms/pull/820
+* refactor(core): migration wysiwyg profiles & stylesets by @OzkanO2 in https://github.com/ems-project/elasticms/pull/845
+
 ## 5.14.1 (2024-03-26)
 ### Bug Fixes
 * fix(admin): publish all search results is not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/835

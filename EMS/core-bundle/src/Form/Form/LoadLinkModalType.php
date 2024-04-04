@@ -196,7 +196,7 @@ class LoadLinkModalType extends AbstractType
         $resolver
             ->setDefaults([
                 self::WITH_TARGET_BLANK_FIELD => false,
-                self::ANCHOR_TARGETS => [false],
+                self::ANCHOR_TARGETS => [],
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 'attr' => [
                     'class' => 'dynamic-form',

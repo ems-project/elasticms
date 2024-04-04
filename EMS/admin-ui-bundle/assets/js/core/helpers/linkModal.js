@@ -14,9 +14,9 @@ export default class LinkModal {
     })
   }
 
-  show (value, target = null) {
+  show (value, target = null, content = null) {
     this.modal.show()
-    this._loadModal(value, target)
+    this._loadModal(value, target, content)
   }
 
   setLoading (showLoading) {
@@ -40,10 +40,10 @@ export default class LinkModal {
     return this.modal._isShown
   }
 
-  _loadModal (value, target) {
+  _loadModal (value, target, content) {
     const self = this
     const link = new Link(value)
-    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: link.href, target })
+    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: link.href, target, content })
       .success(response => self._treatResponse(response))
   }
 

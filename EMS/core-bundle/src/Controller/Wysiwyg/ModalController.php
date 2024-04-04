@@ -6,7 +6,10 @@ use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\Form\LoadLinkModalEntity;
 use EMS\CoreBundle\Form\Form\LoadLinkModalType;
 use EMS\CoreBundle\Service\Revision\RevisionService;
+use EMS\Helpers\Html\HtmlHelper;
+use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Callback;
@@ -27,9 +30,31 @@ class ModalController extends AbstractController
     {
         $url = (string) $request->request->get('url', '');
         $target = (string) $request->request->get('target', '');
+        $content = (string) $request->request->get('content', '');
+        $targets = [];
+        if (HtmlHelper::isHtml($content)) {
+            $crawler = new Crawler($content);
+            foreach ($crawler->filter('[id]') as $tag) {
+                if (null === $tag->attributes) {
+                    continue;
+                }
+                $node = $tag->attributes->getNamedItem('id');
+                if (null === $node) {
+                    continue;
+                }
+                $id = $node->nodeValue;
+                $targets[$id] = "#$id";
+            }
+        }
+        $anchorTargets = $request->query->get('anchorTargets');
+        if (empty($targets) && \is_string($anchorTargets)) {
+            $targets = Json::decode($anchorTargets);
+        }
+
         $loadLinkModalEntity = new LoadLinkModalEntity($url, $target);
         $form = $this->createForm(LoadLinkModalType::class, $loadLinkModalEntity, [
             LoadLinkModalType::WITH_TARGET_BLANK_FIELD => $loadLinkModalEntity->hasTargetBlank(),
+            LoadLinkModalType::ANCHOR_TARGETS => $targets,
             'constraints' => [
                 new Callback($this->validate(...)),
             ],

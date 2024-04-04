@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,9 +35,11 @@ class LoadLinkModalType extends AbstractType
     public const FIELD_BODY = 'body';
     public const FIELD_FILE = 'file';
     public const FIELD_ANCHOR = 'anchor';
+    public const FIELD_ANCHOR_TARGETS = 'anchorTargets';
     public const FIELD_TARGET_BLANK = 'targetBlank';
     public const FIELD_SUBMIT = 'submit';
     public const WITH_TARGET_BLANK_FIELD = 'with_target_blank_field';
+    public const ANCHOR_TARGETS = 'anchor_targets';
 
     public function __construct(private readonly RouterInterface $router)
     {
@@ -144,8 +147,12 @@ class LoadLinkModalType extends AbstractType
                     ]]),
                 ],
             ])
-            ->add(self::FIELD_ANCHOR, TextType::class, [
+            ->add(self::FIELD_ANCHOR, ChoiceType::class, [
                 'label' => 'link_modal.field.anchor',
+                'attr' => ['data-tags' => true, 'class' => 'select2'],
+                'choices' => $options[self::ANCHOR_TARGETS],
+                'multiple' => false,
+                'choice_translation_domain' => false,
                 'required' => false,
                 'row_attr' => [
                     'data-show-hide' => 'show',
@@ -156,7 +163,8 @@ class LoadLinkModalType extends AbstractType
                         'value' => self::LINK_TYPE_ANCHOR,
                     ]]),
                 ],
-            ]);
+            ])
+            ->add(self::FIELD_ANCHOR_TARGETS, HiddenType::class);
 
         if (true === ($options[self::WITH_TARGET_BLANK_FIELD] ?? false)) {
             $builder->add(self::FIELD_TARGET_BLANK, CheckboxType::class, [
@@ -178,7 +186,9 @@ class LoadLinkModalType extends AbstractType
             'label' => 'link_modal.field.submit',
             'attr' => [
                 'class' => 'btn btn-primary',
-                'data-ajax-save-url' => $this->router->generate(Routes::WYSIWYG_MODAL_LOAD_LINK),
+                'data-ajax-save-url' => $this->router->generate(Routes::WYSIWYG_MODAL_LOAD_LINK, [
+                    'anchorTargets' => Json::encode($options[self::ANCHOR_TARGETS]),
+                ]),
             ],
         ]);
     }
@@ -188,6 +198,7 @@ class LoadLinkModalType extends AbstractType
         $resolver
             ->setDefaults([
                 self::WITH_TARGET_BLANK_FIELD => false,
+                self::ANCHOR_TARGETS => [false],
                 'translation_domain' => EMSCoreBundle::TRANS_FORM_DOMAIN,
                 'attr' => [
                     'class' => 'dynamic-form',

@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\Constraints\Email;
 
 class LoadLinkModalType extends AbstractType
 {
@@ -95,6 +96,9 @@ class LoadLinkModalType extends AbstractType
                         'condition' => 'is',
                         'value' => self::LINK_TYPE_MAILTO,
                     ]]),
+                ],
+                'constraints' => [
+                    new Email(),
                 ],
             ])
             ->add(self::FIELD_SUBJECT, TextType::class, [

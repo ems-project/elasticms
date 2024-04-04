@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Form\Form\LoadLinkModalType;
 use EMS\Helpers\Standard\Type;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class LoadLinkModalEntity
 {
@@ -168,5 +169,37 @@ final class LoadLinkModalEntity
     public function setFile(?array $file): void
     {
         $this->file = $file;
+    }
+
+    public function validate(ExecutionContextInterface $context): void
+    {
+        switch ($this->getLinkType()) {
+            case LoadLinkModalType::LINK_TYPE_INTERNAL:
+                if ('' === ($this->dataLink ?? '')) {
+                    $context->buildViolation('modal.link.data_link.mandatory')->atPath(LoadLinkModalType::FIELD_DATA_LINK)->addViolation();
+                }
+
+                return;
+            case LoadLinkModalType::LINK_TYPE_URL:
+                if ('' === ($this->url ?? '')) {
+                    $context->buildViolation('modal.link.url.mandatory')->atPath(LoadLinkModalType::FIELD_HREF)->addViolation();
+                }
+
+                return;
+            case LoadLinkModalType::LINK_TYPE_FILE:
+                if (null === ($this->file[EmsFields::CONTENT_FILE_HASH_FIELD] ?? null)) {
+                    $context->buildViolation('modal.link.file.mandatory')->atPath(LoadLinkModalType::FIELD_FILE)->addViolation();
+                }
+
+                return;
+            case LoadLinkModalType::LINK_TYPE_MAILTO:
+                if ('' === ($this->mailto ?? '')) {
+                    $context->buildViolation('modal.link.mailto.mandatory')->atPath(LoadLinkModalType::FIELD_MAILTO)->addViolation();
+                }
+
+                return;
+            default:
+                $context->buildViolation('modal.link.link_type.unknown')->atPath(LoadLinkModalType::FIELD_LINK_TYPE)->addViolation();
+        }
     }
 }

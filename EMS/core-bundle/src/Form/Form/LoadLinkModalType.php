@@ -25,6 +25,7 @@ class LoadLinkModalType extends AbstractType
     public const LINK_TYPE_INTERNAL = 'internal';
     public const LINK_TYPE_FILE = 'file';
     public const LINK_TYPE_MAILTO = 'mailto';
+    public const LINK_TYPE_ANCHOR = 'anchor';
     public const FIELD_LINK_TYPE = 'linkType';
     public const FIELD_HREF = 'href';
     public const FIELD_DATA_LINK = 'dataLink';
@@ -32,6 +33,7 @@ class LoadLinkModalType extends AbstractType
     public const FIELD_SUBJECT = 'subject';
     public const FIELD_BODY = 'body';
     public const FIELD_FILE = 'file';
+    public const FIELD_ANCHOR = 'anchor';
     public const FIELD_TARGET_BLANK = 'targetBlank';
     public const FIELD_SUBMIT = 'submit';
     public const WITH_TARGET_BLANK_FIELD = 'with_target_blank_field';
@@ -56,6 +58,7 @@ class LoadLinkModalType extends AbstractType
                     'link_modal.link_type.internal' => self::LINK_TYPE_INTERNAL,
                     'link_modal.link_type.file' => self::LINK_TYPE_FILE,
                     'link_modal.link_type.mailto' => self::LINK_TYPE_MAILTO,
+                    'link_modal.link_type.anchor' => self::LINK_TYPE_ANCHOR,
                 ],
             ])
             ->add(self::FIELD_HREF, TextType::class, [
@@ -138,6 +141,19 @@ class LoadLinkModalType extends AbstractType
                         'field' => \sprintf('[%s]', self::FIELD_LINK_TYPE),
                         'condition' => 'is',
                         'value' => self::LINK_TYPE_FILE,
+                    ]]),
+                ],
+            ])
+            ->add(self::FIELD_ANCHOR, TextType::class, [
+                'label' => 'link_modal.field.anchor',
+                'required' => false,
+                'row_attr' => [
+                    'data-show-hide' => 'show',
+                    'data-all-any' => 'any',
+                    'data-rules' => Json::encode([[
+                        'field' => \sprintf('[%s]', self::FIELD_LINK_TYPE),
+                        'condition' => 'is',
+                        'value' => self::LINK_TYPE_ANCHOR,
                     ]]),
                 ],
             ]);

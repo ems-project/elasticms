@@ -1,5 +1,8 @@
 modal:
     link:
+        anchor:
+            mandatory: 'A target anchor is required'
+            format: 'An anchor must starts by a #'
         mailto:
             mandatory: 'A target email address is required'
         url:

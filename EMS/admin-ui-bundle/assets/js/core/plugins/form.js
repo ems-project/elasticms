@@ -4,6 +4,7 @@ import ChangeEvent from '../events/changeEvent'
 import DynamicForm from '../helpers/dynamic-form'
 import { EMS_CTRL_SAVE_EVENT } from '../events/ctrlSaveEvent'
 import { FormResponseEvent } from '../events/formResponseEvent'
+import { FormFailEvent } from '../events/formFailEvent'
 import '../../../css/core/components/form.scss'
 
 class Form {
@@ -42,6 +43,10 @@ class Form {
 
             const event = new FormResponseEvent(form.get(0), response)
             event.dispatch()
+          })
+          .fail(function(response){
+              const event = new FormFailEvent(form.get(0), response)
+              event.dispatch()
           })
       }
 

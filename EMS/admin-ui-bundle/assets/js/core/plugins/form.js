@@ -44,9 +44,9 @@ class Form {
             const event = new FormResponseEvent(form.get(0), response)
             event.dispatch()
           })
-          .fail(function(response){
-              const event = new FormFailEvent(form.get(0), response)
-              event.dispatch()
+          .fail(function (response) {
+            const event = new FormFailEvent(form.get(0), response)
+            event.dispatch()
           })
       }
 

@@ -68,6 +68,6 @@ export default class LinkModal {
   }
 
   _onFail (event) {
-      this._treatResponse(event.detail.response)
+    this._treatResponse(event.detail.response)
   }
 }

@@ -23,7 +23,6 @@ final class LoadLinkModalEntity
     /** @var array{sha1: string, filename: string|null, mimetype: string|null}|null */
     private ?array $file = null;
     private ?string $anchor = null;
-    private ?string $anchorTargets = null;
 
     public function __construct(private readonly string $url, string $target)
     {
@@ -188,16 +187,6 @@ final class LoadLinkModalEntity
     public function setAnchor(?string $anchor): void
     {
         $this->anchor = $anchor;
-    }
-
-    public function getAnchorTargets(): ?string
-    {
-        return $this->anchorTargets;
-    }
-
-    public function setAnchorTargets(?string $anchorTargets): void
-    {
-        $this->anchorTargets = $anchorTargets;
     }
 
     public function validate(ExecutionContextInterface $context): void

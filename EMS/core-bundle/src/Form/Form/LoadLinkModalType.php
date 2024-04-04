@@ -35,7 +35,6 @@ class LoadLinkModalType extends AbstractType
     public const FIELD_BODY = 'body';
     public const FIELD_FILE = 'file';
     public const FIELD_ANCHOR = 'anchor';
-    public const FIELD_ANCHOR_TARGETS = 'anchorTargets';
     public const FIELD_TARGET_BLANK = 'targetBlank';
     public const FIELD_SUBMIT = 'submit';
     public const WITH_TARGET_BLANK_FIELD = 'with_target_blank_field';
@@ -163,8 +162,7 @@ class LoadLinkModalType extends AbstractType
                         'value' => self::LINK_TYPE_ANCHOR,
                     ]]),
                 ],
-            ])
-            ->add(self::FIELD_ANCHOR_TARGETS, HiddenType::class);
+            ]);
 
         if (true === ($options[self::WITH_TARGET_BLANK_FIELD] ?? false)) {
             $builder->add(self::FIELD_TARGET_BLANK, CheckboxType::class, [

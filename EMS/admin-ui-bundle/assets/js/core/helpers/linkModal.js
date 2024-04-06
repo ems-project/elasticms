@@ -3,6 +3,7 @@ import AddedDomEvent from '../events/addedDomEvent'
 import SelectLinkEvent from '../events/selectLinkEvent'
 import Link from './link'
 import { EMS_FORM_RESPONSE_EVENT_EVENT } from '../events/formResponseEvent'
+import { EMS_FORM_FAIL_EVENT_EVENT } from '../events/formFailEvent'
 
 export default class LinkModal {
   constructor () {
@@ -13,9 +14,9 @@ export default class LinkModal {
     })
   }
 
-  show (value, target = null) {
+  show (value, target = null, content = null) {
     this.modal.show()
-    this._loadModal(value, target)
+    this._loadModal(value, target, content)
   }
 
   setLoading (showLoading) {
@@ -39,10 +40,10 @@ export default class LinkModal {
     return this.modal._isShown
   }
 
-  _loadModal (value, target) {
+  _loadModal (value, target, content) {
     const self = this
     const link = new Link(value)
-    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: link.href, target })
+    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: link.href, target, content })
       .success(response => self._treatResponse(response))
   }
 
@@ -56,6 +57,7 @@ export default class LinkModal {
     const forms = body.querySelectorAll('form')
     for (let i = 0; i < forms.length; ++i) {
       forms[i].addEventListener(EMS_FORM_RESPONSE_EVENT_EVENT, (event) => self._onResponse(event))
+      forms[i].addEventListener(EMS_FORM_FAIL_EVENT_EVENT, (event) => self._onFail(event))
     }
   }
 
@@ -63,5 +65,9 @@ export default class LinkModal {
     this.closeModal()
     const selectEvent = new SelectLinkEvent(event.detail.response.url, event.detail.response.target)
     selectEvent.dispatch()
+  }
+
+  _onFail (event) {
+    this._treatResponse(event.detail.response)
   }
 }

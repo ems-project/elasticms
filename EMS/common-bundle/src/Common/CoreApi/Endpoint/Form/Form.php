@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Form;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final class Form implements FormInterface
 {
@@ -14,6 +15,28 @@ final class Form implements FormInterface
 
     public function __construct(private readonly Client $client)
     {
+    }
+
+    public function submit(array $data): array
+    {
+        $resource = $this->makeResource('submissions');
+
+        return $this->client->post($resource, $data)->getData();
+    }
+
+    public function getSubmission(string $submissionId, ?string $property = null): array
+    {
+        $resource = $this->makeResource('submissions/'.$submissionId);
+        $query = \array_filter(['property' => $property]);
+
+        return $this->client->get($resource, $query)->getData();
+    }
+
+    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): StreamedResponse
+    {
+        $resource = $this->makeResource(\sprintf('submissions/%s/files/%s', $submissionId, $submissionFileId));
+
+        return $this->client->streamResponse($resource);
     }
 
     public function createVerification(string $value): string

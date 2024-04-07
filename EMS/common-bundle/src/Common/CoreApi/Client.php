@@ -7,15 +7,18 @@ namespace EMS\CommonBundle\Common\CoreApi;
 use EMS\CommonBundle\Common\CoreApi\Exception\BaseUrlNotDefinedException;
 use EMS\CommonBundle\Common\CoreApi\Exception\NotAuthenticatedException;
 use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
+use EMS\Helpers\File\File;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\CurlHttpClient;
-use Symfony\Component\HttpClient\Response\CurlResponse;
+use Symfony\Component\HttpClient\Response\StreamableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class Client
 {
@@ -66,7 +69,7 @@ class Client
      */
     public function get(string $resource, array $query = []): Result
     {
-        return $this->request(Request::METHOD_GET, $resource, [
+        return $this->getResult(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
@@ -77,21 +80,41 @@ class Client
      */
     public function download(string $resource, array $query = []): StreamInterface
     {
-        if ('' === $this->baseUrl) {
-            throw new BaseUrlNotDefinedException();
-        }
-
-        /** @var CurlResponse $response */
-        $response = $this->client->request(Request::METHOD_GET, $resource, [
+        $response = $this->getResponse(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
 
-        if (Response::HTTP_UNAUTHORIZED === $response->getStatusCode()) {
-            throw new NotAuthenticatedException($response);
+        if (!$response instanceof StreamableInterface) {
+            throw new \RuntimeException('no stream response');
         }
 
         return new Stream($response->toStream());
+    }
+
+    /**
+     * @param array<mixed> $query
+     */
+    public function streamResponse(string $resource, array $query = []): StreamedResponse
+    {
+        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+            'headers' => $this->headers,
+            'query' => $query,
+        ]);
+
+        if (!$response instanceof StreamableInterface) {
+            throw new \RuntimeException('no stream response');
+        }
+
+        $responseStream = $response->toStream();
+
+        return new StreamedResponse(function () use ($responseStream) {
+            while (!\feof($responseStream)) {
+                echo \fread($responseStream, File::DEFAULT_CHUNK_SIZE);
+                \flush();
+            }
+            \fclose($responseStream);
+        }, $response->getStatusCode(), $response->getHeaders());
     }
 
     /**
@@ -100,7 +123,7 @@ class Client
      */
     public function post(string $resource, array $body = [], array $options = []): Result
     {
-        return $this->request(Request::METHOD_POST, $resource, \array_merge($options, [
+        return $this->getResult(Request::METHOD_POST, $resource, \array_merge($options, [
             'headers' => $this->headers,
             'json' => $body,
         ]));
@@ -108,7 +131,7 @@ class Client
 
     public function delete(string $resource): Result
     {
-        return $this->request(Request::METHOD_DELETE, $resource, [
+        return $this->getResult(Request::METHOD_DELETE, $resource, [
             'headers' => $this->headers,
         ]);
     }
@@ -124,7 +147,7 @@ class Client
 
     public function postBody(string $resource, string $body): Result
     {
-        return $this->request(Request::METHOD_POST, $resource, [
+        return $this->getResult(Request::METHOD_POST, $resource, [
             'headers' => $this->headers,
             'body' => $body,
         ]);
@@ -142,7 +165,7 @@ class Client
     /**
      * @param array<string, mixed> $options
      */
-    private function request(string $method, string $resource, array $options): Result
+    private function getResponse(string $method, string $resource, array $options): ResponseInterface
     {
         if ('' === $this->baseUrl) {
             throw new BaseUrlNotDefinedException();
@@ -154,6 +177,15 @@ class Client
             throw new NotAuthenticatedException($response);
         }
 
+        return $response;
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function getResult(string $method, string $resource, array $options): Result
+    {
+        $response = $this->getResponse($method, $resource, $options);
         $result = new Result($response, $this->logger);
 
         if (!$result->isSuccess()) {

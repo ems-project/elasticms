@@ -59,8 +59,12 @@ class Form extends AbstractType
 
         $resolver
             ->setRequired(['ouuid', 'locale'])
-            ->setDefault('config', null)
-            ->setNormalizer('config', fn (Options $options, $value) => $value ?: $this->configFactory->create($options['ouuid'], $options['locale']))
+            ->setDefaults(['config' => null, 'use_cache' => true])
+            ->setNormalizer('config', fn (Options $options, $value) => $value ?: $this->configFactory->create(
+                ouuid: $options['ouuid'],
+                locale: $options['locale'],
+                useCache: $options['use_cache']
+            ))
             ->setNormalizer('attr', function (Options $options, $value) {
                 if (!isset($options['config'])) {
                     return $value;

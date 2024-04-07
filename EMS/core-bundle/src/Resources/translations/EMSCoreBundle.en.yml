@@ -8,6 +8,8 @@ log:
             delete: 'Form %name% has been deleted'
         action:
             delete: 'The action %label% has been deleted'
+        environment:
+            delete: 'The environment %name% has been deleted'
         channel:
             delete: 'The channel %name% has been deleted'
         content-type:
@@ -507,6 +509,25 @@ channel:
         reorder: 'Reorder channels'
         title: 'List of channels'
     menu: Channels
+environment:
+    index:
+        reorder: 'Reorder environments'
+        column:
+            label: Label
+            alias: Alias
+            name: Name
+            index: Index
+            total_indexed_label: "Total in ES"
+            total_in_ems: 'Total in ems'
+            total_mark_has_deleted: 'Total deleted'
+    actions:
+        rebuild_button: Rebuild
+        view_button: View
+        edit_button: Edit
+        delete: Delete
+        delete_confirm: 'Delete the "%label%" environment?'
+        delete_selected: 'Delete selected'
+        delete_selected_confirm: 'Delete all selected environments?'
 command:
     reindex:
         end: 'The content type %contenttype%''s documents have been reindexed in %environment% (index: %index%)'
@@ -1012,6 +1033,16 @@ view:
     user:
         index:
             title: 'User list'
+    wysiwyg:
+        actions:
+            delete_selected: 'Delete selected'
+        index:
+            reorder: Reorder
+            column:
+                profileName: Profiles
+                stylesSetName: 'Styles set'
+        wysiwyg_profiles_label: 'WYSIWYG profiles'
+        wysiwyg_styles_set_label: 'WYSIWYG styles set'
     index:
         reorder: 'Reorder views'
         column:
@@ -1038,6 +1069,8 @@ views:
         revision-toolbar-html:
             add-to-release: 'Add to release'
 wysiwyg:
+    actions:
+        edit_button: Edit
     invalid_config_format: 'Format not valid: %msg%'
 revision:
     draft-in-progress:

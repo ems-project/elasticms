@@ -26,8 +26,13 @@ final class ApiService
      * @param ClientRequest[] $clientRequests
      * @param Client[]        $apiClients
      */
-    public function __construct(private readonly LoggerInterface $logger, private readonly Environment $twig, private readonly UrlGeneratorInterface $urlGenerator, private readonly iterable $clientRequests = [], private readonly iterable $apiClients = [])
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly Environment $twig,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly iterable $clientRequests = [],
+        private readonly iterable $apiClients = []
+    ) {
     }
 
     /**

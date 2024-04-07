@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="emsf_debug_iframe" path="/debug/iframe/{ouuid}/{_locale}"
+           controller="EMS\FormBundle\Controller\DebugController::iframe"
+           methods="GET">
+        <default key="_locale">%locale%</default>
+    </route>
+    <route id="emsf_debug_form" path="/debug/form/{ouuid}/{_locale}"
+           controller="EMS\FormBundle\Controller\DebugController::form"
+           methods="GET|POST">
+        <default key="_locale">%locale%</default>
+    </route>
+    <route id="emsf_debug_dynamic_field_ajax" path="/debug/ajax/{ouuid}/{_locale}"
+           controller="EMS\FormBundle\Controller\DebugController::dynamicFieldAjax"
+           methods="POST">
+        <default key="_locale">%locale%</default>
+    </route>
+    <route id="emsf_debug_send_confirmation" path="/debug/send-confirmation/{ouuid}/{_locale}"
+           controller="EMS\FormBundle\Controller\ConfirmationController::postDebug"
+           methods="POST">
+        <default key="_locale">%locale%</default>
+    </route>
+</routes>

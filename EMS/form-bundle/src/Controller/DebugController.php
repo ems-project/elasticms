@@ -16,13 +16,22 @@ class DebugController extends AbstractFormController
     /**
      * @param string [] $locales
      */
-    public function __construct(private readonly FormFactory $formFactory, private readonly Client $client, private readonly Environment $twig, private readonly RouterInterface $router, private readonly array $locales)
-    {
+    public function __construct(
+        private readonly FormFactory $formFactory,
+        private readonly Client $client,
+        private readonly Environment $twig,
+        private readonly RouterInterface $router,
+        private readonly array $locales
+    ) {
     }
 
     public function iframe(Request $request, string $ouuid): Response
     {
-        $form = $this->formFactory->create(Form::class, [], $this->getFormOptions($ouuid, $request->getLocale()));
+        $form = $this->formFactory->create(Form::class, [], [
+            'ouuid' => $ouuid,
+            'locale' => $request->getLocale(),
+            'use_cache' => false,
+        ]);
 
         return new Response($this->twig->render('@EMSForm/debug/iframe.html.twig', [
             'config' => $this->getFormConfig($form, $request),
@@ -33,7 +42,11 @@ class DebugController extends AbstractFormController
 
     public function form(Request $request, string $ouuid): Response
     {
-        $formOptions = $this->getFormOptions($ouuid, $request->getLocale());
+        $formOptions = [
+            'ouuid' => $ouuid,
+            'locale' => $request->getLocale(),
+            'use_cache' => false,
+        ];
 
         if (!$request->query->getBoolean('validate', true)) {
             $formOptions['attr'] = ['novalidate' => 'novalidate'];
@@ -50,14 +63,14 @@ class DebugController extends AbstractFormController
         return new Response($this->twig->render('@EMSForm/debug/form.html.twig', [
             'form' => $form->createView(),
             'locales' => $this->locales,
-            'response' => $responses,
+            'responses' => $responses,
             'url' => $request->getSchemeAndHttpHost().$request->getBasePath(),
         ]));
     }
 
     public function dynamicFieldAjax(Request $request, string $ouuid): Response
     {
-        $forward = $this->router->generate('_emsf_dynamic_field_ajax', ['ouuid' => $ouuid, '_locale' => $request->getLocale()]);
+        $forward = $this->router->generate('emsf_dynamic_field_ajax', ['ouuid' => $ouuid, '_locale' => $request->getLocale()]);
 
         return new RedirectResponse($forward, Response::HTTP_TEMPORARY_REDIRECT);
     }

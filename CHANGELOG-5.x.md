@@ -1,5 +1,38 @@
 # Changelog 5.x
 
+## 5.15.0 (2024-04-02)
+### Features
+* feat(admin/media-lib): add preview file + ctrl click selection by @Davidmattei in https://github.com/ems-project/elasticms/pull/837
+* feat(core/api): new submission file download endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/855
+* feat(core/api): new submission view endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/851
+* feat(core/form): enable form routes with debug  by @Davidmattei in https://github.com/ems-project/elasticms/pull/848
+* feat(core/search): add deprecrated search index view by @coppee in https://github.com/ems-project/elasticms/pull/859
+* feat(core/user): custom reset email with i18n by @theus77 in https://github.com/ems-project/elasticms/pull/853
+* feat(core/xliff): accept filename or hash in update command by @theus77 in https://github.com/ems-project/elasticms/pull/847
+### Bug Fixes
+* fix(core/revision): edit date range field in collection by @theus77 in https://github.com/ems-project/elasticms/pull/850
+* fix(form/choice): choice labels not defined and no cache with debug controller by @Davidmattei in https://github.com/ems-project/elasticms/pull/861
+### Documentation
+* docs(demo): update from promo by @theus77 in https://github.com/ems-project/elasticms/pull/854
+* docs: hashcash improved by @theus77 in https://github.com/ems-project/elasticms/pull/858
+### Code Refactoring
+* refactor(core): environment overview and wysiwyg  by @Davidmattei in https://github.com/ems-project/elasticms/pull/860
+* refactor(core): migration environment table index by @OzkanO2 in https://github.com/ems-project/elasticms/pull/820
+* refactor(core): migration wysiwyg profiles & stylesets by @OzkanO2 in https://github.com/ems-project/elasticms/pull/845
+
+## 5.14.1 (2024-03-26)
+### Bug Fixes
+* fix(admin): publish all search results is not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/835
+* fix(common/processor): image cast int for wartermark by @theus77 in https://github.com/ems-project/elasticms/pull/827
+* fix(core/channel): entry path not defined should return null by @Davidmattei in https://github.com/ems-project/elasticms/pull/824
+* fix(core/media-lib): unique file names by @Davidmattei in https://github.com/ems-project/elasticms/pull/821
+* fix(core/release): revision ouuid does not exist anymore by @Davidmattei in https://github.com/ems-project/elasticms/pull/842
+* fix(core/task): doctrine listener only on current revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/841
+* fix(core/tasks): emsco:revision:task:create skip revisions with drafts by @Davidmattei in https://github.com/ems-project/elasticms/pull/817
+* fix(core/tasks): on revision discard draft skip removing tasks by @Davidmattei in https://github.com/ems-project/elasticms/pull/816
+* fix(core/twig): emsco_revisions_draft broken accessing revision as array by @Davidmattei in https://github.com/ems-project/elasticms/pull/818
+* fix(core/xliff): reply-to option for emsco:xliff:extract command by @Davidmattei in https://github.com/ems-project/elasticms/pull/825
+
 ## 5.14.0 (2024-03-12)
 ### Features
 * feat(client-helper/wysiwyg): update style sets during emsch:local:upload-assets by @theus77 in https://github.com/ems-project/elasticms/pull/799

@@ -8,29 +8,29 @@ use EMS\CommonBundle\Entity\EntityInterface;
 
 interface EntityServiceInterface
 {
-    const I18N_PRIORITY = 1;
-    const FILTER_PRIORITY = 2;
-    const ANALYZER_PRIORITY = 3;
-    const ENVIRONMENT_PRIORITY = 4;
-    const MANAGED_ALIAS_PRIORITY = 5;
-    const FILE_PRIORITY = 6;
-    const WYSIWYG_PROFILE_PRIORITY = 7;
-    const WYSIWYG_STYLE_SET_PRIORITY = 8;
-    const FORM_PRIORITY = 9;
-    const ACTION_PRIORITY = 10;
-    const VIEW_PRIORITY = 11;
-    const QUERY_SEARCH_PRIORITY = 12;
-    const CONTENT_TYPE_PRIORITY = 13;
-    const CHANNEL_PRIORITY = 14;
-    const DASHBOARD_PRIORITY = 15;
-    const JOB_PRIORITY = 16;
-    const RELEASE_PRIORITY = 17;
-    const RELEASE_REVISION_PRIORITY = 18;
-    const SCHEDULE_PRIORITY = 19;
-    const DRAFT_PRIORITY = 20;
-    const USER_PRIORITY = 21;
-    const LOG_PRIORITY = 22;
-    const FORM_SUBMISSION_PRIORITY = 23;
+    public const I18N_PRIORITY = 1;
+    public const FILTER_PRIORITY = 2;
+    public const ANALYZER_PRIORITY = 3;
+    public const ENVIRONMENT_PRIORITY = 4;
+    public const MANAGED_ALIAS_PRIORITY = 5;
+    public const FILE_PRIORITY = 6;
+    public const WYSIWYG_PROFILE_PRIORITY = 7;
+    public const WYSIWYG_STYLE_SET_PRIORITY = 8;
+    public const FORM_PRIORITY = 9;
+    public const ACTION_PRIORITY = 10;
+    public const VIEW_PRIORITY = 11;
+    public const QUERY_SEARCH_PRIORITY = 12;
+    public const CONTENT_TYPE_PRIORITY = 13;
+    public const CHANNEL_PRIORITY = 14;
+    public const DASHBOARD_PRIORITY = 15;
+    public const JOB_PRIORITY = 16;
+    public const RELEASE_PRIORITY = 17;
+    public const RELEASE_REVISION_PRIORITY = 18;
+    public const SCHEDULE_PRIORITY = 19;
+    public const DRAFT_PRIORITY = 20;
+    public const USER_PRIORITY = 21;
+    public const LOG_PRIORITY = 22;
+    public const FORM_SUBMISSION_PRIORITY = 23;
 
     public function isSortable(): bool;
 

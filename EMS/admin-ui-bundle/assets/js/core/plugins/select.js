@@ -21,11 +21,13 @@ class Select {
   }
 
   select2 (target) {
-    $(target).find('select.select2').select2({
+    const targetQuery = $(target)
+    targetQuery.find('select.select2').select2({
       theme: 'bootstrap-5',
       allowClear: true,
       placeholder: '',
-      escapeMarkup: function (markup) { return markup }
+      escapeMarkup: function (markup) { return markup },
+      dropdownParent: targetQuery
     })
   }
 }

@@ -27,7 +27,7 @@ class Select {
       allowClear: true,
       placeholder: '',
       escapeMarkup: function (markup) { return markup },
-      dropdownParent: targetQuery,
+      dropdownParent: targetQuery
     })
   }
 }

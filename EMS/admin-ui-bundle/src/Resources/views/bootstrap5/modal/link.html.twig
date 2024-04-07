@@ -1,1 +1,12 @@
-{{ form(form) }}
+{% trans_default_domain 'ems-adminui-twigs' %}
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+    {% for field in form.children|filter(f => f.vars.name != 'submit') %}
+        {{ form_row(field) }}
+    {% endfor %}
+    <div class="btn-group">
+        {{ form_widget(form.submit) }}
+        <button type="button" class="btn btn-default" data-bs-dismiss="modal">{{ 'core.modal.close'|trans }}</button>
+    </div>
+{{ form_end(form) }}
+

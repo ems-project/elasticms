@@ -356,10 +356,10 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_label">
                                     <strong>{{ reorder_label|default(form.vars.reorder_label)|trans }}</strong>
                                 </h4>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">
                                 <ul class="list-group sortable" id="{{ table.attributeName|e('html_attr') }}_modal_reorder_list">

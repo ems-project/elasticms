@@ -1,0 +1,20 @@
+table:
+  index:
+    button:
+      close: 'Close'
+    column:
+      actions: 'Actions'
+      loop_count: '#'
+form:
+  header:
+    checkbo:
+      select-all: 'Select all'
+view:
+  wysiwyg:
+    wysiwyg_styles_set_label: 'WYSIWYG Style Sets'
+    wysiwyg_profiles_label: 'WYSIWYG Profiles'
+    index:
+      column:
+        stylesSetName: 'Style Set'
+        profileName: 'Profile'
+      reorder: 'Reorder'

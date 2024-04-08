@@ -1,5 +1,5 @@
 {% use '@EMSAdminUI/bootstrap5/form/fields.html.twig' %}
-{% trans_default_domain 'form' %}
+{% trans_default_domain 'emsco-form' %}
 
 {% block emsco_form_table_column_data_value_template %}
     {{- include(template_from_string(column.template), {
@@ -280,7 +280,7 @@
                             {{ toolbar }}
                         {% endif %}
                         {%  if table.sortable and table.supportsTableActions %}
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
+                            <button type="button" class="btn btn-default" data-bs-toggle="modal" data-bs-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
                                 <i class="fa fa-reorder"></i> {{ reorder_label|default(form.vars.reorder_label)|trans }}
                             </button>
                         {% endif %}

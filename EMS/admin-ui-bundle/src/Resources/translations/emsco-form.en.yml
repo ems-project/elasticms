@@ -1,3 +1,11 @@
+channel:
+  index:
+    column:
+      public: 'Public'
+      alias: 'Alias'
+      name: 'Machine Name'
+      label: 'UI Label'
+    reorder: 'Reorder'
 table:
   index:
     button:
@@ -6,6 +14,10 @@ table:
       actions: 'Actions'
       loop_count: '#'
 form:
+  data:
+    bool_table_column:
+      true_value: 'Check'
+      false_value: 'Uncheck'
   header:
     checkbo:
       select-all: 'Select all'

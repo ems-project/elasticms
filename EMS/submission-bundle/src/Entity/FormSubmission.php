@@ -27,7 +27,7 @@ class FormSubmission implements EntityInterface, \JsonSerializable
     /** @var Collection<int, FormSubmissionFile> */
     protected Collection $files;
 
-    private readonly ?\DateTime $expireDate;
+    private readonly ?\DateTimeInterface $expireDate;
     private readonly string $label;
     private int $processTryCounter = 0;
     private ?string $processId = null;

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Application\Migrations;
+namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20240226165436 extends AbstractMigration
+final class Version20240409121627 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Add an expires_at field to StoreData entity';
+        return 'Form submission change expire_date from date to datetime';
     }
 
     public function up(Schema $schema): void
@@ -22,7 +22,7 @@ final class Version20240226165436 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
 
-        $this->addSql('ALTER TABLE store_data ADD expires_at DATETIME DEFAULT NULL');
+        $this->addSql('ALTER TABLE form_submission CHANGE expire_date expire_date DATETIME DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -32,6 +32,6 @@ final class Version20240226165436 extends AbstractMigration
             "Migration can only be executed safely on '\Doctrine\DBAL\Platforms\MySQLPlatform'."
         );
 
-        $this->addSql('ALTER TABLE store_data DROP expires_at');
+        $this->addSql('ALTER TABLE form_submission CHANGE expire_date expire_date DATE DEFAULT NULL');
     }
 }

@@ -46,6 +46,14 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
      */
     public function jsonSerialize(): array
     {
+        return $this->toArray();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
         return [
             'id' => $this->id->toString(),
             'filename' => $this->getFilename(),

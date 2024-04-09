@@ -13,7 +13,7 @@
     <field name="instance" length="255"/>
     <field name="locale" length="2"/>
     <field name="data" type="json" nullable="true"/>
-    <field name="expireDate" column="expire_date" type="date" nullable="true"/>
+    <field name="expireDate" column="expire_date" type="datetime" nullable="true"/>
     <field name="label" length="255"/>
     <field name="processTryCounter" column="process_try_counter" type="integer">
       <options>

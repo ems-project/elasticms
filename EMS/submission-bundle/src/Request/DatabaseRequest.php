@@ -72,7 +72,7 @@ final class DatabaseRequest
         return $this->label;
     }
 
-    public function getExpireDate(): ?\DateTime
+    public function getExpireDate(): ?\DateTimeInterface
     {
         return $this->expireDate ? \DateTime::createFromImmutable($this->expireDate) : null;
     }

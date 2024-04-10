@@ -10,6 +10,7 @@ use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
 use EMS\CoreBundle\Roles;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EnvironmentDataTableType extends AbstractEntityTableType
 {
@@ -44,8 +45,26 @@ class EnvironmentDataTableType extends AbstractEntityTableType
         $table->setDefaultOrder('orderKey');
     }
 
+    /**
+     * @param array{'managed': bool} $options
+     *
+     * @return array{'managed': bool}
+     */
+    public function getContext(array $options): array
+    {
+        return $options;
+    }
+
     public function getRoles(): array
     {
         return [Roles::ROLE_ADMIN];
+    }
+
+    public function configureOptions(OptionsResolver $optionsResolver): void
+    {
+        $optionsResolver
+            ->setRequired(['managed'])
+            ->setAllowedTypes('managed', ['bool'])
+        ;
     }
 }

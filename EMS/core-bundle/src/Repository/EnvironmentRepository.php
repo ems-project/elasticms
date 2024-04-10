@@ -182,8 +182,8 @@ class EnvironmentRepository extends EntityRepository
             ->setMaxResults($size);
         $this->addSearchFilters($qb, $searchValue);
 
-        if (true === $isManaged) {
-            $qb->andWhere($qb->expr()->eq('e.managed', $qb->expr()->literal(true)));
+        if (null !== $isManaged) {
+            $qb->andWhere($qb->expr()->eq('e.managed', $qb->expr()->literal($isManaged)));
         }
 
         if (\in_array($orderField, ['name', 'label'])) {
@@ -201,8 +201,8 @@ class EnvironmentRepository extends EntityRepository
         $qb->select('count(e.id)');
         $this->addSearchFilters($qb, $searchValue);
 
-        if (true === $isManaged) {
-            $qb->andWhere($qb->expr()->eq('e.managed', $qb->expr()->literal(true)));
+        if (null !== $isManaged) {
+            $qb->andWhere($qb->expr()->eq('e.managed', $qb->expr()->literal($isManaged)));
         }
 
         try {

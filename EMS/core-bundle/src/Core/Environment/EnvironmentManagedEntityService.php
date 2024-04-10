@@ -21,13 +21,17 @@ class EnvironmentManagedEntityService implements EntityServiceInterface
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
     {
+        if (!\is_array($context) || !isset($context['managed']) || !\is_bool($context['managed'])) {
+            throw new \RuntimeException('invalid context');
+        }
+
         return $this->environmentRepository->get(
             from: $from,
             size: $size,
             orderField: $orderField,
             orderDirection: $orderDirection,
             searchValue: $searchValue,
-            isManaged: true
+            isManaged: $context['managed']
         );
     }
 
@@ -43,7 +47,11 @@ class EnvironmentManagedEntityService implements EntityServiceInterface
 
     public function count(string $searchValue = '', $context = null): int
     {
-        return $this->environmentRepository->counter(searchValue: $searchValue, isManaged: true);
+        if (!\is_array($context) || !isset($context['managed']) || !\is_bool($context['managed'])) {
+            throw new \RuntimeException('invalid context');
+        }
+
+        return $this->environmentRepository->counter(searchValue: $searchValue, isManaged: $context['managed']);
     }
 
     public function getByItemName(string $name): ?EntityInterface

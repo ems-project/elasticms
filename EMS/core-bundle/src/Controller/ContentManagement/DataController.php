@@ -6,6 +6,7 @@ use Doctrine\ORM\NoResultException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
+use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
@@ -19,8 +20,10 @@ use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Exception\DuplicateOuuidException;
 use EMS\CoreBundle\Exception\ElasticmsException;
+use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Field\IconTextType;
 use EMS\CoreBundle\Form\Form\RevisionType;
+use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
@@ -35,10 +38,13 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
+use EMS\CoreBundle\Service\TrashService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,6 +55,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as TwigEnvironment;
+use EMS\CoreBundle\DataTable\Type\TrashDataTableType;
 
 class DataController extends AbstractController
 {
@@ -56,6 +63,7 @@ class DataController extends AbstractController
         private readonly LoggerInterface $logger,
         private readonly DataService $dataService,
         private readonly SearchService $searchService,
+        private readonly TrashService $trashService,
         private readonly ContentTypeService $contentTypeService,
         private readonly EnvironmentService $environmentService,
         private readonly IndexService $indexService,
@@ -68,7 +76,8 @@ class DataController extends AbstractController
         private readonly RevisionRepository $revisionRepository,
         private readonly TemplateRepository $templateRepository,
         private readonly EnvironmentRepository $environmentRepository,
-        private readonly string $templateNamespace
+        private readonly string $templateNamespace,
+        private readonly DataTableFactory $dataTableFactory,
     ) {
     }
 
@@ -163,10 +172,45 @@ class DataController extends AbstractController
         ]);
     }
 
-    public function trashAction(ContentType $contentType): Response
+//    public function trashAction(ContentType $contentType): Response
+//    {
+//        if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
+//            throw $this->createAccessDeniedException('Trash not granted!');
+//        }
+//
+//        return $this->render("@$this->templateNamespace/data/trash.html.twig", [
+//            'contentType' => $contentType,
+//            'revisions' => $this->dataService->getAllDeleted($contentType),
+//        ]);
+//    }
+    public function trashAction(ContentType $contentType,Request $request): Response
     {
         if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
             throw $this->createAccessDeniedException('Trash not granted!');
+        }
+        $table = $this->dataTableFactory->create(TrashDataTableType::class);
+
+        $form = $this->createForm(TableType::class, $table);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
+                switch ($action->getName()) {
+                    case EntityTable::DELETE_ACTION:
+                        $this->trashService->deleteByIds($table->getSelected());
+                        break;
+                    case TableType::REORDER_ACTION:
+                        $newOrder = TableType::getReorderedKeys($form->getName(), $request);
+                        $this->trashService->reorderByIds($newOrder);
+                        break;
+                    default:
+                        $this->logger->error('log.controller.channel.unknown_action');
+                }
+            } else {
+                $this->logger->error('log.controller.channel.unknown_action');
+            }
+
+            return $this->redirectToRoute('ems_core_channel_index');
         }
 
         return $this->render("@$this->templateNamespace/data/trash.html.twig", [

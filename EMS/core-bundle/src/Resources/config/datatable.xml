@@ -72,6 +72,10 @@
             <argument>%ems_core.template_namespace%</argument>
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.trash" class="EMS\CoreBundle\DataTable\Type\TrashDataTableType">
+            <argument type="service" id="ems.service.trash"/>
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.data_table.wysiwygProfile" class="EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygProfileDataTableType">
             <argument type="service" id="ems.service.wysiwyg_profile"/>
             <tag name="emsco.datatable" />

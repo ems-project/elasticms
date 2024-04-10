@@ -1239,4 +1239,14 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
     {
         $this->settings = $settings->getSettings();
     }
+    public static function fromJson(string $json, ?\EMS\CommonBundle\Entity\EntityInterface $contentType = null): ContentType
+    {
+        $meta = JsonClass::fromJsonString($json);
+        $contentType = $meta->jsonDeserialize($contentType);
+        if (!$contentType instanceof ContentType) {
+            throw new \Exception(\sprintf('Unexpected object class, got %s', $meta->getClass()));
+        }
+
+        return $contentType;
+    }
 }

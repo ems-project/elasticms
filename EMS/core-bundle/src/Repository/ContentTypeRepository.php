@@ -2,19 +2,25 @@
 
 namespace EMS\CoreBundle\Repository;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\ContentType;
 
 /**
- * @extends EntityRepository<ContentType>
+ * @extends ServiceEntityRepository<ContentType>
  *
  * @method ContentType|null findOneBy(array $criteria, array $orderBy = null)
  * @method ContentType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ContentTypeRepository extends EntityRepository
+class ContentTypeRepository extends ServiceEntityRepository
 {
+    public function __construct(Registry $registry)
+    {
+        parent::__construct($registry, ContentType::class);
+    }
     /**
      * @return ContentType[]
      */
@@ -35,6 +41,15 @@ class ContentTypeRepository extends EntityRepository
 
         return $out;
     }
+    public function create(ContentType $contentType): void
+    {
+        $this->getEntityManager()->persist($contentType);
+        $this->getEntityManager()->flush();
+    }
+    public function getByName(string $name): ?ContentType
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
 
     /**
      * @return ContentType[]
@@ -43,7 +58,13 @@ class ContentTypeRepository extends EntityRepository
     {
         return parent::findBy(['deleted' => false], ['orderKey' => 'ASC']);
     }
-
+    /**
+     * @return ContentType[]
+     */
+    public function getAll(): array
+    {
+        return $this->findBy([], ['orderKey' => 'ASC']);
+    }
     public function findByName(string $name): ?ContentType
     {
         return $this->findOneBy(['deleted' => false, 'name' => $name]);
@@ -135,6 +156,28 @@ class ContentTypeRepository extends EntityRepository
             $qb->andWhere($or)
                 ->setParameter(':term', '%'.$searchValue.'%');
         }
+    }
+    /**
+     * @param string[] $ids
+     *
+     * @return ContentType[]
+     */
+    public function getByIds(array $ids): array
+    {
+        $queryBuilder = $this->createQueryBuilder('content_type');
+        $queryBuilder->where('content_type.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getById(string $id): ContentType
+    {
+        if (null === $contentType = $this->find($id)) {
+            throw new \RuntimeException('Unexpected contentType type');
+        }
+
+        return $contentType;
     }
 
     public function save(ContentType $contentType): void

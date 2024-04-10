@@ -24,7 +24,6 @@ final class TrashService implements EntityServiceInterface
         return $this->contentTypeRepository->getAll();
     }
 
-
     public function isSortable(): bool
     {
         return true;
@@ -77,6 +76,7 @@ final class TrashService implements EntityServiceInterface
     {
         return $this->contentTypeRepository->getByName($name);
     }
+
     public function update(ContentType $contentType): void
     {
         if (0 === $contentType->getOrderKey()) {
@@ -87,6 +87,7 @@ final class TrashService implements EntityServiceInterface
         $contentType->setName($webalized);
         $this->contentTypeRepository->create($contentType);
     }
+
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         $schedule = ContentType::fromJson($json, $entity);
@@ -114,6 +115,7 @@ final class TrashService implements EntityServiceInterface
             'name' => $name,
         ]);
     }
+
     public function deleteByItemName(string $name): string
     {
         $contentType = $this->contentTypeRepository->getByName($name);
@@ -127,8 +129,10 @@ final class TrashService implements EntityServiceInterface
             'name' => $name,
             'label' => $label,
         ]);
-        return strval($id);
+
+        return \strval($id);
     }
+
     /**
      * @param string[] $ids
      */
@@ -138,6 +142,7 @@ final class TrashService implements EntityServiceInterface
             $this->delete($contentType);
         }
     }
+
     /**
      * @param string[] $ids
      */

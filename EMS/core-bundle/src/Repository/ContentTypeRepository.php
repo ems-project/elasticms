@@ -4,7 +4,6 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Entity\ContentType;
@@ -21,6 +20,7 @@ class ContentTypeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ContentType::class);
     }
+
     /**
      * @return ContentType[]
      */
@@ -41,11 +41,13 @@ class ContentTypeRepository extends ServiceEntityRepository
 
         return $out;
     }
+
     public function create(ContentType $contentType): void
     {
         $this->getEntityManager()->persist($contentType);
         $this->getEntityManager()->flush();
     }
+
     public function getByName(string $name): ?ContentType
     {
         return $this->findOneBy(['name' => $name]);
@@ -58,6 +60,7 @@ class ContentTypeRepository extends ServiceEntityRepository
     {
         return parent::findBy(['deleted' => false], ['orderKey' => 'ASC']);
     }
+
     /**
      * @return ContentType[]
      */
@@ -65,6 +68,7 @@ class ContentTypeRepository extends ServiceEntityRepository
     {
         return $this->findBy([], ['orderKey' => 'ASC']);
     }
+
     public function findByName(string $name): ?ContentType
     {
         return $this->findOneBy(['deleted' => false, 'name' => $name]);
@@ -157,6 +161,7 @@ class ContentTypeRepository extends ServiceEntityRepository
                 ->setParameter(':term', '%'.$searchValue.'%');
         }
     }
+
     /**
      * @param string[] $ids
      *

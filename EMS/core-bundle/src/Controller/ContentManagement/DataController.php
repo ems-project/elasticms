@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\DataTable\Type\TrashDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -55,7 +56,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment as TwigEnvironment;
-use EMS\CoreBundle\DataTable\Type\TrashDataTableType;
 
 class DataController extends AbstractController
 {
@@ -183,7 +183,7 @@ class DataController extends AbstractController
 //            'revisions' => $this->dataService->getAllDeleted($contentType),
 //        ]);
 //    }
-    public function trashAction(ContentType $contentType,Request $request): Response
+    public function trashAction(ContentType $contentType, Request $request): Response
     {
         if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
             throw $this->createAccessDeniedException('Trash not granted!');

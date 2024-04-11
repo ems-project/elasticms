@@ -402,7 +402,23 @@ class InsertionRevision
         }
         if ('final' === $state->nodeValue) {
             $extracted->addSimpleField($document, $idValue, $source->textContent, $target->textContent, true);
+
+            return;
         }
+        foreach ($translation->getTranslatedFields() as $trans) {
+            $transId = $trans->attributes->getNamedItem('id');
+            if (null === $transId) {
+                throw new \RuntimeException('Unexpected null $transId');
+            }
+            if ($idValue !== $transId->nodeValue) {
+                continue;
+            }
+            $target = DomHelper::getSingleElement($trans, 'target');
+            $extracted->addSimpleField($document, $idValue, $source->textContent, $target->textContent, false);
+
+            return;
+        }
+        throw new \RuntimeException(\sprintf('Translation not found for field %s', $idValue));
     }
 
     private function mergeHtmlField(\DOMElement $segment, \DOMElement $extractDom, InsertionRevision $translation): void

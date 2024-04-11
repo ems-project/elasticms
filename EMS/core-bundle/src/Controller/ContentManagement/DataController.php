@@ -8,7 +8,8 @@ use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
-use EMS\CoreBundle\DataTable\Type\TrashDataTableType;
+use EMS\CoreBundle\Core\Revision\RemovedRevisionsService;
+use EMS\CoreBundle\DataTable\Type\Revision\RemovedRevisionsDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -39,7 +40,6 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
-use EMS\CoreBundle\Service\TrashService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -63,8 +63,8 @@ class DataController extends AbstractController
         private readonly LoggerInterface $logger,
         private readonly DataService $dataService,
         private readonly SearchService $searchService,
-        private readonly TrashService $trashService,
         private readonly ContentTypeService $contentTypeService,
+        private readonly RemovedRevisionsService $removedRevisionsService,
         private readonly EnvironmentService $environmentService,
         private readonly IndexService $indexService,
         private readonly TranslatorInterface $translator,
@@ -172,23 +172,14 @@ class DataController extends AbstractController
         ]);
     }
 
-//    public function trashAction(ContentType $contentType): Response
-//    {
-//        if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
-//            throw $this->createAccessDeniedException('Trash not granted!');
-//        }
-//
-//        return $this->render("@$this->templateNamespace/data/trash.html.twig", [
-//            'contentType' => $contentType,
-//            'revisions' => $this->dataService->getAllDeleted($contentType),
-//        ]);
-//    }
     public function trashAction(ContentType $contentType, Request $request): Response
     {
         if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
             throw $this->createAccessDeniedException('Trash not granted!');
         }
-        $table = $this->dataTableFactory->create(TrashDataTableType::class);
+        $table = $this->dataTableFactory->create(RemovedRevisionsDataTableType::class, [
+            'content_type_name' => $contentType->getName(),
+        ]);
 
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
@@ -197,11 +188,7 @@ class DataController extends AbstractController
             if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
                 switch ($action->getName()) {
                     case EntityTable::DELETE_ACTION:
-                        $this->trashService->deleteByIds($table->getSelected());
-                        break;
-                    case TableType::REORDER_ACTION:
-                        $newOrder = TableType::getReorderedKeys($form->getName(), $request);
-                        $this->trashService->reorderByIds($newOrder);
+                        $this->removedRevisionsService->deleteByIds($table->getSelected());
                         break;
                     default:
                         $this->logger->error('log.controller.channel.unknown_action');
@@ -214,8 +201,8 @@ class DataController extends AbstractController
         }
 
         return $this->render("@$this->templateNamespace/data/trash.html.twig", [
+            'form' => $form->createView(),
             'contentType' => $contentType,
-            'revisions' => $this->dataService->getAllDeleted($contentType),
         ]);
     }
 

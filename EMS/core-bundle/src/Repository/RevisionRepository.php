@@ -862,6 +862,49 @@ class RevisionRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
+    /**
+     * @return Revision[]
+     */
+    public function getRemovedRevisions(int $from, int $size, ?string $orderField, string $orderDirection, ?ContentType $contentType): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->where('r.deleted = :deleted')
+            ->setParameter('deleted', true)
+            ->setFirstResult($from)
+            ->setMaxResults($size);
+
+        if (null !== $contentType) {
+            $qb->andWhere($qb->expr()->eq('r.contentType', ':content_type_id'))
+                ->setParameter('content_type_id', $contentType->getId());
+        }
+        if (null !== $orderField) {
+            $qb->orderBy(\sprintf('r.%s', $orderField), $orderDirection);
+        }
+
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * @param string[] $ids
+     *
+     * @return Revision[]
+     */
+    public function getByIds(array $ids): array
+    {
+        $queryBuilder = $this->createQueryBuilder('revision');
+        $queryBuilder
+            ->andWhere('revision.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function delete(Revision $revision): void
+    {
+        $this->getEntityManager()->remove($revision);
+        $this->getEntityManager()->flush();
+    }
+
     public function findLatestVersion(ContentType $contentType, string $versionOuuid, ?Environment $environment = null): ?Revision
     {
         $toField = $contentType->getVersionDateToField();

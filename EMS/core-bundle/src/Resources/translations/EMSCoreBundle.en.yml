@@ -1090,6 +1090,18 @@ revision:
             discard-selected-confirm: 'All modifications made on those drafts will lost'
         title: '%contentType% in progress'
         breadcrumb: '%contentType% in progress'
+    removed-revisions:
+        column:
+            label: Label
+            deleted-by: 'Deleted by'
+            put-back: 'Put back'
+            discard-removed-revision: 'Delete this removed revision'
+            confirm-put-back-removed-revision: 'Put it back ?'
+            confirm-discard-removed-revision: 'Modifications made in this removed revision will be lost'
+        action:
+            discard-selected-removed-revisions: 'Delete this removed revisions'
+            discard-selected-confirm: 'All modifications made on those removed revisions will be lost'
+        breadcrumb: '%contentType% trash'
     version_tag: 'Yes as %version_tag%'
     version_tag.empty: 'No (Silent publish)'
 'An Error Occurred': 'An Error Occurred'

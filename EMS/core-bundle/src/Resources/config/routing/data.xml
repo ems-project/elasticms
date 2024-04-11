@@ -42,7 +42,10 @@
     <route id="emsco_data_delete" path="/delete/{type}/{ouuid}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::deleteAction"
            methods="POST"/>
-    <route id="emsco_discard_draft" path="/draft/discard/{revisionId}"
+    <route id="emsco_discard_draft" path="/draft/trash/{revisionId}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\DataController::discardRevisionAction"
+           methods="POST"/>
+    <route id="emsco_discard_removed_revision" path="/draft/discard/{revisionId}"
            controller="EMS\CoreBundle\Controller\ContentManagement\DataController::discardRevisionAction"
            methods="POST"/>
     <route id="emsco_data_cancel_modifications" path="/cancel/{revision}"

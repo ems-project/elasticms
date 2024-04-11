@@ -12,11 +12,6 @@
         <service id="ems.repository.channel" class="EMS\CoreBundle\Repository\ChannelRepository">
             <argument type="service" id="doctrine"/>
         </service>
-        <service id="ems.repository.content_type" alias="EMS\CoreBundle\Repository\ContentTypeRepository"/>
-        <service id="EMS\CoreBundle\Repository\ContentTypeRepository">
-            <argument type="service" id="doctrine"/>
-            <tag name="doctrine.repository_service"/>
-        </service>
         <service id="ems.repository.query_search" class="EMS\CoreBundle\Repository\QuerySearchRepository">
             <argument type="service" id="doctrine"/>
         </service>
@@ -80,6 +75,10 @@
             <argument type="service" id="doctrine"/>
         </service>
 
+        <service id="EMS\CoreBundle\Repository\ContentTypeRepository">
+            <factory service="doctrine.orm.default_entity_manager" method="getRepository" />
+            <argument>EMS\CoreBundle\Entity\ContentType</argument>
+        </service>
         <service id="EMS\CoreBundle\Repository\EnvironmentRepository">
             <factory service="doctrine.orm.default_entity_manager" method="getRepository" />
             <argument>EMS\CoreBundle\Entity\Environment</argument>

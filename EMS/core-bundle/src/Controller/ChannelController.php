@@ -34,6 +34,7 @@ final class ChannelController extends AbstractController
 
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
                 switch ($action->getName()) {

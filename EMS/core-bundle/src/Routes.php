@@ -9,8 +9,10 @@ class Routes
     final public const AUTH_TOKEN_LOGIN = 'emsco_auth_token_login';
     final public const EDIT_REVISION = 'emsco_edit_revision';
     final public const VIEW_REVISIONS = 'emsco_view_revisions';
+    final public const PUT_BACK_REMOVED_REVISION = 'ems_data_put_back';
     final public const VIEW_REVISIONS_AUDIT = 'emsco_view_revisions_table_audit';
     final public const DISCARD_DRAFT = 'emsco_discard_draft';
+    final public const DISCARD_REMOVED_REVISION = 'ems_data_empty_trash';
     final public const DRAFT_IN_PROGRESS = 'emsco_draft_in_progress';
     final public const DATA_TABLE_AJAX_TABLE = 'emsco_datatable_ajax_table';
     final public const DATA_TABLE_AJAX_TABLE_EXPORT = 'emsco_datatable_ajax_table_export';

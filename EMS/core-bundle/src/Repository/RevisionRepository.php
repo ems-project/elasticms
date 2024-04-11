@@ -867,8 +867,11 @@ class RevisionRepository extends EntityRepository
      */
     public function getRemovedRevisions(int $from, int $size, ?string $orderField, string $orderDirection, ?ContentType $contentType): array
     {
-        $qb = $this->createQueryBuilder('r')
-            ->where('r.deleted = :deleted')
+        $qb = $this->createQueryBuilder('r');
+        $qb->where('r.deleted = :deleted')
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNotNull('r.autoSaveAt')
+            ))
             ->setParameter('deleted', true)
             ->setFirstResult($from)
             ->setMaxResults($size);

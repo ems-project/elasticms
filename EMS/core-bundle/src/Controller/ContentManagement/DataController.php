@@ -187,7 +187,7 @@ class DataController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
                 switch ($action->getName()) {
-                    case EntityTable::DELETE_ACTION:
+                    case RemovedRevisionsService::DISCARD_SELECTED_REMOVED_REVISION:
                         $this->removedRevisionsService->deleteByIds($table->getSelected());
                         break;
                     default:

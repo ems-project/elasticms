@@ -68,7 +68,7 @@ class MergeCommand extends AbstractCommand
         }
         $this->io->progressFinish();
 
-        $tempFile = TempFile::createNamed('xliff-merge');
+        $tempFile = TempFile::createNamed('xliff_merge.xlf');
         $extracted->saveXML($tempFile->path);
         $this->io->writeln(\sprintf('Extracted file: %s', $tempFile->path));
 

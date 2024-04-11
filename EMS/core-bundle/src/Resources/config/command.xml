@@ -180,6 +180,9 @@
             <argument type="service" id="ems_common.storage.manager"/>
             <tag name="console.command"/>
         </service>
+        <service id="ems.command.xliff.update" class="EMS\CoreBundle\Command\Xliff\MergeCommand">
+            <tag name="console.command"/>
+        </service>
         <service id="ems.command.revision.discard-drafts" class="EMS\CoreBundle\Command\Revision\DiscardDraftCommand">
             <argument type="service" id="ems.service.data"/>
             <argument type="service" id="ems.service.revision"/>

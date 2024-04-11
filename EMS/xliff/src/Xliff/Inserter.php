@@ -65,4 +65,9 @@ class Inserter
 
         return $counter;
     }
+
+    public function getXliffVersion(): string
+    {
+        return $this->version;
+    }
 }

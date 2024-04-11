@@ -67,6 +67,23 @@ class InsertionRevision
         }
     }
 
+    public function mergeTranslations(Extractor $extracted, InsertionRevision $translation): void
+    {
+        $document = $extracted->addDocument($this->contentType, $this->ouuid, $this->revisionId);
+        foreach ($this->getTranslatedFields() as $segment) {
+            switch ($this->fieldType($segment)) {
+                case self::HTML_FIELD:
+                    $this->mergeHtmlField($segment, $document, $translation);
+                    break;
+                case self::SIMPLE_FIELD:
+                    $this->mergeSimpleField($extracted, $document, $segment, $translation);
+                    break;
+                default:
+                    throw new \RuntimeException('Unexpected field type');
+            }
+        }
+    }
+
     /**
      * @return \DOMElement[]
      */
@@ -365,5 +382,30 @@ class InsertionRevision
                 $this->rebuildInline($tag, $node);
             }
         }
+    }
+
+    private function mergeSimpleField(Extractor $extracted, \DOMElement $document, \DOMElement $segment, InsertionRevision $translation): void
+    {
+        $source = DomHelper::getSingleElement($segment, 'source');
+        $target = DomHelper::getSingleElement($segment, 'target');
+        $state = $target->attributes->getNamedItem('state');
+        if (null === $state) {
+            throw new \RuntimeException('Unexpected null state');
+        }
+        $id = $segment->attributes->getNamedItem('id');
+        if (null === $id) {
+            throw new \RuntimeException('Unexpected null id');
+        }
+        $idValue = $id->nodeValue;
+        if (null === $idValue) {
+            throw new \RuntimeException('Unexpected null id value');
+        }
+        if ('final' === $state->nodeValue) {
+            $extracted->addSimpleField($document, $idValue, $source->textContent, $target->textContent, true);
+        }
+    }
+
+    private function mergeHtmlField(\DOMElement $segment, \DOMElement $extractDom, InsertionRevision $translation): void
+    {
     }
 }

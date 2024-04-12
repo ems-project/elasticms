@@ -6,10 +6,12 @@ namespace EMS\ClientHelperBundle\Controller;
 
 use EMS\ClientHelperBundle\Helper\Api\ApiService;
 use EMS\ClientHelperBundle\Helper\Hashcash\HashcashHelper;
+use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 final class ApiController
 {
@@ -34,11 +36,15 @@ final class ApiController
         return $this->service->getContentType($apiName, $contentType, $filter, $size, $scrollId)->getResponse();
     }
 
-    public function getSubmissionFile(string $apiName, string $submissionId, string $submissionFileId): StreamedResponse
+    public function getSubmissionFile(string $apiName, string $submissionId, string $submissionFileId): Response
     {
         $coreApi = $this->service->getApiClient($apiName)->coreApi;
 
-        return $coreApi->form()->getSubmissionFile($submissionId, $submissionFileId);
+        try {
+            return $coreApi->form()->getSubmissionFile($submissionId, $submissionFileId);
+        } catch (ClientException $e) {
+            return throw new HttpException($e->getCode());
+        }
     }
 
     public function document(string $apiName, string $contentType, string $ouuid): JsonResponse

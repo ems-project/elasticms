@@ -73,7 +73,7 @@ class InsertionRevision
         foreach ($this->getTranslatedFields() as $segment) {
             switch ($this->fieldType($segment)) {
                 case self::HTML_FIELD:
-                    $this->mergeHtmlField($segment, $document, $translation);
+                    $this->mergeHtmlField($extracted, $document, $segment, $translation);
                     break;
                 case self::SIMPLE_FIELD:
                     $this->mergeSimpleField($extracted, $document, $segment, $translation);
@@ -421,7 +421,7 @@ class InsertionRevision
         throw new \RuntimeException(\sprintf('Translation not found for field %s', $idValue));
     }
 
-    private function mergeHtmlField(\DOMElement $segment, \DOMElement $extractDom, InsertionRevision $translation): void
+    private function mergeHtmlField(Extractor $extracted, \DOMElement $document, \DOMElement $group, InsertionRevision $translation): void
     {
     }
 }

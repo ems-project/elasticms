@@ -146,7 +146,7 @@ export default class LinkActionsView extends View {
           'ck-link-actions__preview'
         ],
         href: bind.to('href', href => self._getEmsUrl(href)),
-        target: bind.to('href', href => href.startsWith('#') ? '' : '_blank'),
+        target: bind.to('href', href => !href || href.startsWith('#') ? '' : '_blank'),
         rel: 'noopener noreferrer'
       }
     })

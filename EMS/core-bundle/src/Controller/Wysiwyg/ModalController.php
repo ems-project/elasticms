@@ -81,6 +81,11 @@ class ModalController extends AbstractController
         return $this->flashMessageLogger->buildJsonResponse($response);
     }
 
+    public function editImageModal(): JsonResponse
+    {
+        return $this->flashMessageLogger->buildJsonResponse([]);
+    }
+
     public function emsLinkInfo(Request $request): JsonResponse
     {
         $link = $request->query->get('link');

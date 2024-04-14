@@ -1,6 +1,7 @@
 import { Plugin, icons } from 'ckeditor5/src/core.js'
 import { ButtonView } from 'ckeditor5/src/ui.js'
 import UploadImageCommand from '@ckeditor/ckeditor5-image/src/imageupload/uploadimagecommand.js'
+import CkeModal from '../../ckeModal'
 
 export default class AssetManagerUI extends Plugin {
   static get requires () {
@@ -23,6 +24,7 @@ export default class AssetManagerUI extends Plugin {
   }
 
   _initEditImageButton () {
+    const self = this
     const editor = this.editor
     // const editingView = editor.editing.view;
     const t = editor.t
@@ -35,7 +37,7 @@ export default class AssetManagerUI extends Plugin {
         label: t('Edit image')
       })
       this.listenTo(view, 'execute', () => {
-        console.log('Open the image editor interface')
+        self._editImage()
         // editor.execute('toggleImageCaption', { focusCaptionOnShow: true });
         // // Scroll to the selection and highlight the caption if the caption showed up.
         // const modelCaptionElement = imageCaptionUtils.getCaptionFromModelSelection(editor.model.document.selection);
@@ -113,5 +115,26 @@ export default class AssetManagerUI extends Plugin {
         }
       })
     }
+  }
+
+  _createModal () {
+    const t = this.editor.t
+    this.formModal = new CkeModal('initEditImage', t('Edit image'))
+  }
+
+  _editImage () {
+    const editor = this.editor
+    const selection = editor.model.document.selection
+    const imageUtils = editor.plugins.get('ImageUtils')
+    const selectedElement = selection.getSelectedElement()
+    let currentPath = null
+    if (!imageUtils.isImage(selectedElement)) {
+      return
+    }
+    if (!this.formModal) {
+      this._createModal()
+    }
+    currentPath = selectedElement.getAttribute('src')
+    this.formModal.show({ path: currentPath })
   }
 }

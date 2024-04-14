@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller\Wysiwyg;
 
 use EMS\CoreBundle\Core\UI\FlashMessageLogger;
 use EMS\CoreBundle\Entity\Form\LoadLinkModalEntity;
+use EMS\CoreBundle\Form\Form\EditImageModalType;
 use EMS\CoreBundle\Form\Form\LoadLinkModalType;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Html\HtmlHelper;
@@ -62,7 +65,7 @@ class ModalController extends AbstractController
 
         $form->handleRequest($request);
         $response = [
-            'body' => $this->twig->render("@$this->templateNamespace/modal/link.html.twig", [
+            'body' => $this->twig->render("@$this->templateNamespace/modal/default.html.twig", [
                 'form' => $form->createView(),
             ]),
         ];
@@ -81,9 +84,18 @@ class ModalController extends AbstractController
         return $this->flashMessageLogger->buildJsonResponse($response);
     }
 
-    public function editImageModal(): JsonResponse
+    public function editImageModal(Request $request): JsonResponse
     {
-        return $this->flashMessageLogger->buildJsonResponse([]);
+        $path = (string) $request->request->get('path', '');
+        $form = $this->createForm(EditImageModalType::class, [EditImageModalType::FIELD_IMAGE => $path]);
+        $form->handleRequest($request);
+        $response = [
+            'body' => $this->twig->render("@$this->templateNamespace/modal/default.html.twig", [
+                'form' => $form->createView(),
+            ]),
+        ];
+
+        return $this->flashMessageLogger->buildJsonResponse($response);
     }
 
     public function emsLinkInfo(Request $request): JsonResponse

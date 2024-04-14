@@ -88,7 +88,7 @@ export default class LinkUI extends Plugin {
     this._createFormModal()
   }
 
-  _createModals () {
+  _createModal () {
     this.formModal = new LinkModal()
   }
 
@@ -204,7 +204,7 @@ export default class LinkUI extends Plugin {
 
   _addFormModal () {
     if (!this.formModal) {
-      this._createModals()
+      this._createModal()
     }
     const editor = this.editor
     const linkCommand = editor.commands.get('link')
@@ -220,7 +220,7 @@ export default class LinkUI extends Plugin {
      */
   _showUI (forceVisible = false) {
     if (!this.formModal) {
-      this._createModals()
+      this._createModal()
     }
     // When there's no link under the selection, go straight to the editing UI.
     if (!this._getSelectedLinkElement()) {

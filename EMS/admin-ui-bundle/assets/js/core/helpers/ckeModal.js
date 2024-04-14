@@ -5,10 +5,13 @@ import Link from './link'
 import { EMS_FORM_RESPONSE_EVENT_EVENT } from '../events/formResponseEvent'
 import { EMS_FORM_FAIL_EVENT_EVENT } from '../events/formFailEvent'
 
-export default class LinkModal {
-  constructor () {
-    this.linkModal = document.getElementById('link-modal')
-    this.modal = new window.bootstrap.Modal(this.linkModal, {
+export default class CkeModal {
+  constructor (initDatasetAttr, title) {
+    this.modalElement = document.getElementById('cke-modal')
+    const titleElement = document.getElementById('cke-modal-title')
+    titleElement.innerHTML = title
+    this.postUrl = this.modalElement.dataset[initDatasetAttr]
+    this.modal = new window.bootstrap.Modal(this.modalElement, {
       keyboard: false,
       backdrop: 'static'
     })
@@ -20,8 +23,8 @@ export default class LinkModal {
   }
 
   setLoading (showLoading) {
-    const loading = this.linkModal.querySelector('.modal-loading')
-    const body = this.linkModal.querySelector('.ajax-modal-body')
+    const loading = this.modalElement.querySelector('.modal-loading')
+    const body = this.modalElement.querySelector('.ajax-modal-body')
     if (showLoading) {
       loading.style.display = 'block'
       body.style.display = 'none'
@@ -43,13 +46,13 @@ export default class LinkModal {
   _loadModal (value, target, content) {
     const self = this
     const link = new Link(value)
-    ajaxRequest.post(this.linkModal.dataset.modalInitUrl, { url: link.href, target, content })
+    ajaxRequest.post(this.postUrl, { url: link.href, target, content })
       .success(response => self._treatResponse(response))
   }
 
   _treatResponse (response) {
     const self = this
-    const body = this.linkModal.querySelector('.ajax-modal-body')
+    const body = this.modalElement.querySelector('.ajax-modal-body')
     body.innerHTML = response.body
     this.setLoading(false)
     const event = new AddedDomEvent(body)

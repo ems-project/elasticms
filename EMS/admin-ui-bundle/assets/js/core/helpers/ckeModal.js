@@ -1,7 +1,6 @@
 import ajaxRequest from '../components/ajaxRequest'
 import AddedDomEvent from '../events/addedDomEvent'
 import SelectLinkEvent from '../events/selectLinkEvent'
-import Link from './link'
 import { EMS_FORM_RESPONSE_EVENT_EVENT } from '../events/formResponseEvent'
 import { EMS_FORM_FAIL_EVENT_EVENT } from '../events/formFailEvent'
 
@@ -16,11 +15,11 @@ export default class CkeModal {
     })
   }
 
-  show (value, target = null, content = null) {
+  show (data) {
     const titleElement = document.getElementById('cke-modal-title')
     titleElement.innerHTML = this.title
     this.modal.show()
-    this._loadModal(value, target, content)
+    this._loadModal(data)
   }
 
   setLoading (showLoading) {
@@ -44,10 +43,9 @@ export default class CkeModal {
     return this.modal._isShown
   }
 
-  _loadModal (value, target, content) {
+  _loadModal (data) {
     const self = this
-    const link = new Link(value)
-    ajaxRequest.post(this.postUrl, { url: link.href, target, content })
+    ajaxRequest.post(this.postUrl, data)
       .success(response => self._treatResponse(response))
   }
 

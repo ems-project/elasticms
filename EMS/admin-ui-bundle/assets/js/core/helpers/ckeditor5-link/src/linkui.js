@@ -14,6 +14,7 @@ import { EMS_SELECT_LINK_EVENT } from '../../../events/selectLinkEvent'
 import { isLinkElement, LINK_KEYSTROKE } from './utils.js'
 import linkIcon from '../theme/icons/link.svg'
 import CkeModal from '../../ckeModal'
+import Link from '../../link'
 const VISUAL_SELECTION_MARKER_NAME = 'link-ui'
 /**
  * The link UI plugin. It introduces the `'link'` and `'unlink'` buttons and support for the <kbd>Ctrl+K</kbd> keystroke.
@@ -211,7 +212,8 @@ export default class LinkUI extends Plugin {
     const linkCommand = editor.commands.get('link')
     const value = linkCommand.value || ''
     const target = undefined !== linkCommand.target ? linkCommand.target : null
-    this.formModal.show(value, target, editor.getData())
+    const link = new Link(value)
+    this.formModal.show({ url: link.href, target, content: editor.getData() })
   }
 
   /**

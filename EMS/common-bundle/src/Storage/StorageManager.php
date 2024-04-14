@@ -119,6 +119,14 @@ class StorageManager
         return $this->getStream($hash)->getContents();
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function getConfig(string $hash): mixed
+    {
+        return Json::decode($this->getStream($hash)->getContents());
+    }
+
     public function getPublicImage(string $name): string
     {
         $file = $this->fileLocator->locate('@EMSCommonBundle/Resources/public/images/'.$name);

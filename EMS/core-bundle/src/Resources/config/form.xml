@@ -469,9 +469,17 @@
             <argument type="service" id="router" />
             <tag name="form.type"/>
         </service>
+        <service id="ems_core.form.field.image" class="EMS\CoreBundle\Form\Field\ImageType">
+            <argument type="service" id="ems_core.form.transformer.asset" />
+            <tag name="form.type"/>
+        </service>
 
         <service id="emsco.form_extension.locale_form_extension" class="EMS\CoreBundle\Form\Extension\LocaleFormExtension">
             <tag name="form.type_extension"/>
+        </service>
+        <service id="ems_core.form.transformer.asset" class="EMS\CoreBundle\Form\DataTransformer\AssetTransformer">
+            <argument type="service" id="router" />
+            <argument type="service" id="ems_common.storage.manager" />
         </service>
     </services>
 </container>

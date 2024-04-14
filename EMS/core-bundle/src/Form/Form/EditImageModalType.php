@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\EMSCoreBundle;
+use EMS\CoreBundle\Form\Field\ImageType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Routes;
 use Symfony\Component\Form\AbstractType;
@@ -27,6 +28,7 @@ class EditImageModalType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $builder->add(self::FIELD_IMAGE, ImageType::class);
         $builder->add(self::FIELD_SUBMIT, SubmitEmsType::class, [
             'label' => 'edit_image_modal.field.submit',
             'attr' => [

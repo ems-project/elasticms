@@ -7,9 +7,8 @@ import { EMS_FORM_FAIL_EVENT_EVENT } from '../events/formFailEvent'
 
 export default class CkeModal {
   constructor (initDatasetAttr, title) {
+    this.title = title
     this.modalElement = document.getElementById('cke-modal')
-    const titleElement = document.getElementById('cke-modal-title')
-    titleElement.innerHTML = title
     this.postUrl = this.modalElement.dataset[initDatasetAttr]
     this.modal = new window.bootstrap.Modal(this.modalElement, {
       keyboard: false,
@@ -18,6 +17,8 @@ export default class CkeModal {
   }
 
   show (value, target = null, content = null) {
+    const titleElement = document.getElementById('cke-modal-title')
+    titleElement.innerHTML = this.title
     this.modal.show()
     this._loadModal(value, target, content)
   }

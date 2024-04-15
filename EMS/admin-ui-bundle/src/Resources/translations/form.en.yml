@@ -1,4 +1,8 @@
 edit_image:
+  flip:
+    group: 'Flip'
+    horizontal: 'Flip horizontal'
+    vertical: 'Flip vertical'
   zoom:
     minus: 'Zoom in'
     plus: 'Zoom out'

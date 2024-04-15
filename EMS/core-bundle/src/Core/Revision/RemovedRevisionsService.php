@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Revision;
 
 use EMS\CommonBundle\Entity\EntityInterface;
-use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class RemovedRevisionsService implements EntityServiceInterface
 {
@@ -19,8 +17,6 @@ class RemovedRevisionsService implements EntityServiceInterface
 
     public function __construct(
         private readonly RevisionRepository $revisionRepository,
-        private readonly UserManager $userManager,
-        private readonly AuthorizationCheckerInterface $authorizationChecker,
         protected LoggerInterface $logger,
     ) {
     }

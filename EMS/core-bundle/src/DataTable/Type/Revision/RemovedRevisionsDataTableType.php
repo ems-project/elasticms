@@ -38,7 +38,7 @@ class RemovedRevisionsDataTableType extends AbstractEntityTableType
         $deletedBy = new UserTableColumn('revision.removed-revisions.column.deleted-by', 'deletedBy');
         $table->setDefaultOrder('modified', 'desc');
         $table->addColumnDefinition($deletedBy);
-            $table->addColumnDefinition(new DatetimeTableColumn('revision.removed-revisions.column.modified', 'autoSaveDate'));
+        $table->addColumnDefinition(new DatetimeTableColumn('revision.removed-revisions.column.modified', 'autoSaveDate'));
 
         $inMyCircles = new InMyCircles($this->userService);
         $table->addDynamicItemPostAction(Routes::PUT_BACK_REMOVED_REVISION, 'revision.removed-revisions.column.put-back', 'pencil', 'revision.removed-revisions.column.confirm-put-back-removed-revision', [

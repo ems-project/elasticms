@@ -191,8 +191,6 @@
         </service>
         <service id="ems_core.core_revision.removed_revisions" class="EMS\CoreBundle\Core\Revision\RemovedRevisionsService">
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository"/>
-            <argument type="service" id="emsco.manager.user" />
-            <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="logger"/>
         </service>
         <service id="ems_core.core_ui.flash_message_logger" class="EMS\CoreBundle\Core\UI\FlashMessageLogger">

@@ -838,9 +838,6 @@ class RevisionRepository extends EntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    /**
-     * @param string[] $circles
-     */
     public function countRemovedRevisions(?ContentType $contentType): int
     {
         $qb = $this->createQueryBuilder('r');

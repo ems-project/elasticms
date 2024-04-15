@@ -64,11 +64,8 @@ class RemovedRevisionsService implements EntityServiceInterface
             throw new \RuntimeException('Unexpected context');
         }
 
-        return $this->revisionRepository->countDraftInProgress(
-            searchValue: $searchValue,
-            contentType: $context,
-            circles: $this->userManager->getAuthenticatedUser()->getCircles(),
-            isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN')
+        return $this->revisionRepository->countRemovedRevisions(
+            contentType: $context
         );
     }
 

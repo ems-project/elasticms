@@ -1093,6 +1093,7 @@ revision:
     removed-revisions:
         column:
             label: Label
+            modified: 'Last update'
             deleted-by: 'Deleted by'
             put-back: 'Put back'
             discard-removed-revision: 'Delete this removed revision'

@@ -190,10 +190,10 @@ class DataController extends AbstractController
                         $this->removedRevisionsService->deleteByIds($table->getSelected());
                         break;
                     default:
-                        $this->logger->error('log.controller.channel.unknown_action');
+                        $this->logger->error('log.controller.data.unknown_action');
                 }
             } else {
-                $this->logger->error('log.controller.channel.unknown_action');
+                $this->logger->error('log.controller.data.unknown_action');
             }
 
             return $this->redirectToRoute('ems_core_channel_index');

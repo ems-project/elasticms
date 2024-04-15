@@ -840,6 +840,27 @@ class RevisionRepository extends EntityRepository
 
     /**
      * @param string[] $circles
+     */
+    public function countRemovedRevisions(?ContentType $contentType): int
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('count(r.id)')
+            ->where('r.deleted = :deleted')
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->isNotNull('r.autoSaveAt')
+            ))
+            ->setParameter('deleted', true);
+
+        if (null !== $contentType) {
+            $qb->andWhere($qb->expr()->eq('r.contentType', ':content_type_id'))
+                ->setParameter('content_type_id', $contentType->getId());
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * @param string[] $circles
      *
      * @return Revision[]
      */

@@ -106,15 +106,22 @@ class Client
             throw new \RuntimeException('no stream response');
         }
 
-        $responseStream = $response->toStream();
+        $stream = $response->toStream();
 
-        return new StreamedResponse(function () use ($responseStream) {
-            while (!\feof($responseStream)) {
-                echo \fread($responseStream, File::DEFAULT_CHUNK_SIZE);
+        $streamResponse = new StreamedResponse(function () use ($stream) {
+            while (!\feof($stream)) {
+                echo \fread($stream, File::DEFAULT_CHUNK_SIZE);
                 \flush();
             }
-            \fclose($responseStream);
-        }, $response->getStatusCode(), $response->getHeaders());
+            \fclose($stream);
+        }, $response->getStatusCode());
+
+        $headers = $response->getHeaders();
+
+        $streamResponse->headers->set('Content-Type', $headers['content-type']);
+        $streamResponse->headers->set('Content-Disposition', $headers['content-disposition']);
+
+        return $streamResponse;
     }
 
     /**

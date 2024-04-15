@@ -31,8 +31,10 @@ readonly class AssetTransformer implements DataTransformerInterface
         }
 
         $context = new RequestContext();
+        $backupContext = $this->router->getContext();
         $this->router->setContext($context);
         $match = $this->router->match($value);
+        $this->router->setContext($backupContext);
         if (Routes::ASSET !== $match['_route']) {
             throw new \RuntimeException('Was expecting an asset route');
         }

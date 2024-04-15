@@ -1,0 +1,35 @@
+table:
+  index:
+    button:
+      add: 'Add'
+view:
+  environment:
+    index:
+      delete_index_confirm: 'Delete %name% ?'
+      add_alias_button: 'Add'
+      delete_all_button: 'Delete all'
+      delete_all_ophan_indexes_confirm: 'Delete all orphan indexes ?'
+      orphan_index_title: 'Orphan indexes'
+      all_indexes_are_referenced: 'There is no other alias'
+      unreferenced_aliases_title: 'Other aliases'
+      delete_button: 'Delete'
+      delete_managed_environemnt_button: 'Delete %name% ?'
+      attach_button: 'Attach'
+      attach_alias_confirm: 'Attach %name% ?'
+      edit_button: 'Edit'
+      action_label: 'Actions'
+      total_label: 'Total'
+      indexes_label: 'Indexes'
+      alias_label: 'Alias'
+      name_label: 'Name'
+      count_label: '#'
+      add_managed_alias_button: 'Add a managed alias'
+      managed_alias_title:  'Managed aliases'
+      environment_indexes_modal_title: 'Indexes in %name%'
+      no_external_environment_yet: 'There is no external environment defined yet.'
+      external_environments_title: 'External environments'
+      environment_index_count: 'There is %count% indexes'
+      index_breadcrumb: 'Overview'
+      pagetitle: 'Environments'
+      environment_breadcrumb: 'Environments'
+      title: 'Environments'

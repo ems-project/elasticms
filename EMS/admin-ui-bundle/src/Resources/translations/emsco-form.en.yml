@@ -1,0 +1,96 @@
+uploaded-file:
+  index:
+    column:
+      available: 'Available'
+      name: 'Name'
+      created: 'Created'
+      username: 'Username'
+      size: 'Size'
+      hidden: 'Hidden'
+      head_last: 'Last seen'
+      type: 'Type'
+      sha1: 'Hash'
+      true_value: 'Check'
+      false_value: 'Uncheck'
+log:
+  index:
+    column:
+      created: Created
+      channel: Channel
+      level_name: Level
+      message: Message
+      username: Username
+      impersonator: Impersonator
+dashboard:
+  index:
+    reorder: 'Reorder'
+    column:
+      name: 'Machine Name'
+      label: 'UI Label'
+query_search:
+  index:
+    reorder: 'Reorder'
+    column:
+      name: 'Machine Name'
+      label: 'UI Label'
+schedule:
+  index:
+    reorder: 'Reorder'
+    column:
+      name: 'Name'
+      cron: 'Cron'
+      command: 'Command'
+      tag: 'Tag'
+      previous-run: 'Previous run'
+      next-run: 'Next run'
+environment:
+  index:
+    column:
+      name: 'Machine Name'
+      label: 'UI Label'
+      alias: 'Alias'
+      index: 'Index'
+      total_indexed_label: '# indexed'
+      total_in_ems: '# in db'
+      total_mark_has_deleted: '# as deleted'
+    reorder: 'Reorder'
+channel:
+  index:
+    column:
+      public: 'Public'
+      alias: 'Alias'
+      name: 'Machine Name'
+      label: 'UI Label'
+    reorder: 'Reorder'
+table:
+  index:
+    button:
+      close: 'Close'
+    column:
+      actions: 'Actions'
+      loop_count: '#'
+form:
+  index:
+    reorder: 'Reorder'
+    column:
+      name: 'Machine Name'
+      label: 'UI Label'
+  data:
+    bool_table_column:
+      true_value: 'Check'
+      false_value: 'Uncheck'
+  header:
+    checkbox:
+      select-all: 'Select all'
+view:
+  environment:
+    index:
+      local_environment_label: 'Managed Environments'
+  wysiwyg:
+    wysiwyg_styles_set_label: 'WYSIWYG Style Sets'
+    wysiwyg_profiles_label: 'WYSIWYG Profiles'
+    index:
+      column:
+        stylesSetName: 'Style Set'
+        profileName: 'Profile'
+      reorder: 'Reorder'

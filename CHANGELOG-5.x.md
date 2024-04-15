@@ -1,5 +1,16 @@
 # Changelog 5.x
 
+## 5.15.2 (2024-04-12)
+### Bug Fixes
+* fix(core/api): getSubmissionFile correct headers and error handling by @Davidmattei in https://github.com/ems-project/elasticms/pull/871
+
+## 5.15.1 (2024-04-10)
+### Bug Fixes
+* fix(core): reordered entity services by @theus77 in https://github.com/ems-project/elasticms/pull/865
+* fix(core/environment): datatable only show managed environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/869
+* fix(core/environment): set order on create environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/862
+* fix(submission): change expire_date from date to date time by @Davidmattei in https://github.com/ems-project/elasticms/pull/867
+
 ## 5.15.0 (2024-04-02)
 ### Features
 * feat(admin/media-lib): add preview file + ctrl click selection by @Davidmattei in https://github.com/ems-project/elasticms/pull/837

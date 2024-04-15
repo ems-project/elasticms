@@ -47,6 +47,9 @@ class AssetEntity
         $this->config = $config;
     }
 
+    /**
+     * @return string[]
+     */
     public function getFile(): array
     {
         return [

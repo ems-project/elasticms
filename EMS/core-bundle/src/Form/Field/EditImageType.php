@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ImageType extends AbstractType
+class EditImageType extends AbstractType
 {
     public const FIELD_FILENAME = 'filename';
     public const FIELD_HASH = 'hash';

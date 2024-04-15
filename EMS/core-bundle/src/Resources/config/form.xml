@@ -469,7 +469,7 @@
             <argument type="service" id="router" />
             <tag name="form.type"/>
         </service>
-        <service id="ems_core.form.field.image" class="EMS\CoreBundle\Form\Field\ImageType">
+        <service id="ems_core.form.field.image" class="EMS\CoreBundle\Form\Field\EditImageType">
             <argument type="service" id="ems_core.form.transformer.asset" />
             <tag name="form.type"/>
         </service>

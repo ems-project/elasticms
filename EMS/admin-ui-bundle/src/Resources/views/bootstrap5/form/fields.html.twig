@@ -1484,11 +1484,11 @@
     </div>
 {% endblock textarea_help %}
 
-{% block image_widget %}
+{% block edit_image_widget %}
 	<div>
 		<img class="ems-cropper" src="{{ ems_asset_path(form.vars.value.file) }}">
 	</div>
 	<div>
 		{{ block('form_widget') }}
 	</div>
-{% endblock image_widget %}
+{% endblock edit_image_widget %}

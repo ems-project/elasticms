@@ -1,0 +1,12 @@
+edit_image:
+  zoom:
+    minus: 'Zoom in'
+    plus: 'Zoom out'
+    group: 'Zoom'
+  rotate:
+    group: 'Rotate'
+    left: 'Rotate left'
+    right: 'Rotate right'
+field_type:
+  textarea:
+    counter: '%count% characters'

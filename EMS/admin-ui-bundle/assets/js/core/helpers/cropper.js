@@ -9,6 +9,7 @@ class Cropper {
     console.log(this.image)
     this.cropper = new CropperJS(this.image, {
       viewMode: 0,
+      autoCropArea: 1,
       crop (event) { self.cropImage(event) }
     })
     container.querySelector('.ems-cropper-rotate-left').addEventListener('click', () => self.rotate(-90))
@@ -17,6 +18,7 @@ class Cropper {
     container.querySelector('.ems-cropper-flip-vertical').addEventListener('click', () => self.flip(false, true))
     container.querySelector('.ems-cropper-zoom-out').addEventListener('click', () => self.zoom(-0.1))
     container.querySelector('.ems-cropper-zoom-in').addEventListener('click', () => self.zoom(0.1))
+    container.querySelector('.ems-cropper-zoom-reset').addEventListener('click', () => self.reset())
   }
 
   cropImage () {
@@ -42,6 +44,10 @@ class Cropper {
 
   zoom (ratio) {
     this.cropper.zoom(ratio)
+  }
+
+  reset() {
+    this.cropper.reset()
   }
 }
 

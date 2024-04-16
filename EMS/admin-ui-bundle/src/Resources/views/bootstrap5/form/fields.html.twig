@@ -1485,21 +1485,23 @@
 {% endblock textarea_help %}
 
 {% block edit_image_widget %}
-	<div>
-		<img class="ems-cropper" src="{{ ems_asset_path(form.vars.value.file) }}">
-	</div>
-	<div class="btn-toolbar d-flex justify-content-center mt-2" role="toolbar">
-		<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.rotate.group'|trans }}">
-			<button type="button" class="btn btn-primary"><i class="fa fa-rotate-left"></i><span class="visually-hidden">{{ 'edit_image.rotate.left'|trans }}</span></button>
-			<button type="button" class="btn btn-primary"><i class="fa fa-rotate-right"></i><span class="visually-hidden"{{ 'edit_image.rotate.right'|trans }}</span></button>
+	<div class="ems-cropper">
+		<div>
+			<img src="{{ ems_asset_path(form.vars.value.file) }}">
 		</div>
-		<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.flip.group'|trans }}">
-			<button type="button" class="btn btn-primary"><i class="fa-solid fa-arrows-left-right"></i><span class="visually-hidden">{{ 'edit_image.flip.horizontal'|trans }}</span></button>
-			<button type="button" class="btn btn-primary"><i class="fa-solid fa-arrows-up-down"></i><span class="visually-hidden"{{ 'edit_image.flip.vertical'|trans }}</span></i></button>
-		</div>
-		<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.zoom.group'|trans }}">
-			<button type="button" class="btn btn-primary"><i class="fa fa-magnifying-glass-minus"></i><span class="visually-hidden">{{ 'edit_image.zoom.minus'|trans }}</span></button>
-			<button type="button" class="btn btn-primary"><i class="fa fa-magnifying-glass-plus"></i><span class="visually-hidden">{{ 'edit_image.zoom.plus'|trans }}</span></button>
+		<div class="btn-toolbar d-flex justify-content-center mt-2" role="toolbar">
+			<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.rotate.group'|trans }}">
+				<button type="button" class="btn btn-primary ems-cropper-rotate-left" title="{{ 'edit_image.rotate.left'|trans }}"><i class="fa fa-rotate-left"></i><span class="visually-hidden">{{ 'edit_image.rotate.left'|trans }}</span></button>
+				<button type="button" class="btn btn-primary ems-cropper-rotate-right" title="{{ 'edit_image.rotate.right'|trans }}"><i class="fa fa-rotate-right"></i><span class="visually-hidden"{{ 'edit_image.rotate.right'|trans }}</span></button>
+			</div>
+			<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.flip.group'|trans }}">
+				<button type="button" class="btn btn-primary ems-cropper-flip-horizontal" title="{{ 'edit_image.flip.horizontal'|trans }}"><i class="fa-solid fa-arrows-left-right"></i><span class="visually-hidden">{{ 'edit_image.flip.horizontal'|trans }}</span></button>
+				<button type="button" class="btn btn-primary ems-cropper-flip-vertical" title="{{ 'edit_image.flip.vertical'|trans }}"><i class="fa-solid fa-arrows-up-down"></i><span class="visually-hidden"{{ 'edit_image.flip.vertical'|trans }}</span></i></button>
+			</div>
+			<div class="btn-group me-2" role="group" aria-label="{{ 'edit_image.zoom.group'|trans }}">
+				<button type="button" class="btn btn-primary ems-cropper-zoom-out" title="{{ 'edit_image.zoom.minus'|trans }}"><i class="fa fa-magnifying-glass-minus"></i><span class="visually-hidden">{{ 'edit_image.zoom.minus'|trans }}</span></button>
+				<button type="button" class="btn btn-primary ems-cropper-zoom-in" title="{{ 'edit_image.zoom.plus'|trans }}"><i class="fa fa-magnifying-glass-plus"></i><span class="visually-hidden">{{ 'edit_image.zoom.plus'|trans }}</span></button>
+			</div>
 		</div>
 	</div>
 	<div>

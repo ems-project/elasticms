@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Security\Saml\User;
+namespace EMS\ClientHelperBundle\Security\Sso\User;
 
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;

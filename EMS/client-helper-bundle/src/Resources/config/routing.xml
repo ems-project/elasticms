@@ -8,7 +8,7 @@
         <defaults public="false" />
 
         <service id="emsch.routing.route_loader" class="EMS\ClientHelperBundle\Helper\Routing\RouteLoader">
-            <argument type="service" id="emsch.security.saml.config" on-invalid="null" />
+            <argument type="service" id="emsch.security.sso.saml.config" on-invalid="null" />
             <tag name="routing.route_loader"/>
         </service>
 

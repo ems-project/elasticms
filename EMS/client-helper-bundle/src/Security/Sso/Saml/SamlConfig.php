@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Security\Saml;
+namespace EMS\ClientHelperBundle\Security\Sso\Saml;
 
 class SamlConfig
 {

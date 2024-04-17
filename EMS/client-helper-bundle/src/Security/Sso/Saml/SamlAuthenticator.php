@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Security\Saml;
+namespace EMS\ClientHelperBundle\Security\Sso\Saml;
 
-use EMS\ClientHelperBundle\Security\Saml\User\SamlUser;
+use EMS\ClientHelperBundle\Security\Sso\User\SamlUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

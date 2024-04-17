@@ -15,7 +15,7 @@
         <service id="emsch.security.firewall.entry_point" class="EMS\ClientHelperBundle\Security\FirewallEntryPoint">
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="router"/>
-            <argument type="service" id="emsch.security.saml.config"/>
+            <argument type="service" id="emsch.security.sso.saml.config"/>
             <argument type="string">%emsch.security.route_login%</argument>
         </service>
 
@@ -44,24 +44,24 @@
             <argument type="string">%emsch.security.route_login%</argument>
         </service>
 
-        <!-- SAML -->
-        <service id="EMS\ClientHelperBundle\Controller\Security\SamlController">
-            <argument type="service" id="emsch.security.saml.auth_factory"/>
+        <!-- SSO -->
+        <service id="EMS\ClientHelperBundle\Controller\Security\Sso\SamlController">
+            <argument type="service" id="emsch.security.sso.saml.auth_factory"/>
             <tag name="controller.service_arguments"/>
         </service>
-        <service id="emsch.security.saml.config" class="EMS\ClientHelperBundle\Security\Saml\SamlConfig">
+        <service id="emsch.security.sso.saml.config" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlConfig">
             <argument>%emsch.security.saml%</argument>
         </service>
-        <service id="emsch.security.saml.auth_factory" class="EMS\ClientHelperBundle\Security\Saml\SamlAuthFactory">
+        <service id="emsch.security.sso.saml.auth_factory" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlAuthFactory">
             <argument type="service" id="request_stack"/>
-            <argument type="service" id="emsch.security.saml.config"/>
+            <argument type="service" id="emsch.security.sso.saml.config"/>
             <argument type="service" id="security.http_utils"/>
         </service>
-        <service id="emsch.security.saml.user_provider" class="EMS\ClientHelperBundle\Security\Saml\User\SamlUserProvider" />
-        <service id="emsch.security.saml.authenticator" class="EMS\ClientHelperBundle\Security\Saml\SamlAuthenticator">
+        <service id="emsch.security.sso.saml.user_provider" class="EMS\ClientHelperBundle\Security\Sso\User\SamlUserProvider" />
+        <service id="emsch.security.sso.saml.authenticator" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlAuthenticator">
             <argument type="service" id="security.http_utils"/>
-            <argument type="service" id="emsch.security.saml.config"/>
-            <argument type="service" id="emsch.security.saml.auth_factory"/>
+            <argument type="service" id="emsch.security.sso.saml.config"/>
+            <argument type="service" id="emsch.security.sso.saml.auth_factory"/>
         </service>
     </services>
 </container>

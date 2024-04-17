@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
-use EMS\ClientHelperBundle\Controller\Security\SamlController;
-use EMS\ClientHelperBundle\Security\Saml\SamlConfig;
+use EMS\ClientHelperBundle\Controller\Security\Sso\SamlController;
+use EMS\ClientHelperBundle\Security\Sso\Saml\SamlConfig;
 use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
 use Symfony\Component\Routing\RouteCollection;
 

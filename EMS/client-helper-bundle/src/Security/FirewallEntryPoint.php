@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security;
 
-use EMS\ClientHelperBundle\Security\Saml\SamlConfig;
+use EMS\ClientHelperBundle\Security\Sso\Saml\SamlConfig;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;

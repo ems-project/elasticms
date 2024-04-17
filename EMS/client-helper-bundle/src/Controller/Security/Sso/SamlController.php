@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Controller\Security;
+namespace EMS\ClientHelperBundle\Controller\Security\Sso;
 
-use EMS\ClientHelperBundle\Security\Saml\SamlAuthFactory;
+use EMS\ClientHelperBundle\Security\Sso\Saml\SamlAuthFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;

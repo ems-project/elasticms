@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Sso\Saml;
 
-use EMS\ClientHelperBundle\Security\Sso\User\SamlUser;
+use EMS\ClientHelperBundle\Security\Sso\User\SsoUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -47,7 +47,7 @@ class SamlAuthenticator extends AbstractAuthenticator
         return new SelfValidatingPassport(
             new UserBadge(
                 $auth->getNameId(),
-                fn (string $userIdentifier) => new SamlUser($userIdentifier)
+                fn (string $userIdentifier) => new SsoUser($userIdentifier)
             )
         );
     }

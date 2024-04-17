@@ -8,11 +8,11 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class SamlUserProvider implements UserProviderInterface
+class SsoUserProvider implements UserProviderInterface
 {
     public function refreshUser(UserInterface $user): UserInterface
     {
-        if (!$user instanceof SamlUser) {
+        if (!$user instanceof SsoUser) {
             throw new UnsupportedUserException();
         }
 
@@ -21,7 +21,7 @@ class SamlUserProvider implements UserProviderInterface
 
     public function supportsClass(string $class): bool
     {
-        return SamlUser::class === $class;
+        return SsoUser::class === $class;
     }
 
     public function loadUserByUsername(string $username): UserInterface
@@ -31,6 +31,6 @@ class SamlUserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        return new SamlUser($identifier);
+        return new SsoUser($identifier);
     }
 }

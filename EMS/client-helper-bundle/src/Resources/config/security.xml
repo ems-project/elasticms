@@ -45,6 +45,7 @@
         </service>
 
         <!-- SSO -->
+        <service id="emsch.security.sso.user_provider" class="EMS\ClientHelperBundle\Security\Sso\User\SsoUserProvider" />
         <service id="EMS\ClientHelperBundle\Controller\Security\Sso\SamlController">
             <argument type="service" id="emsch.security.sso.saml.auth_factory"/>
             <tag name="controller.service_arguments"/>
@@ -57,7 +58,6 @@
             <argument type="service" id="emsch.security.sso.saml.config"/>
             <argument type="service" id="security.http_utils"/>
         </service>
-        <service id="emsch.security.sso.saml.user_provider" class="EMS\ClientHelperBundle\Security\Sso\User\SamlUserProvider" />
         <service id="emsch.security.sso.saml.authenticator" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlAuthenticator">
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="emsch.security.sso.saml.config"/>

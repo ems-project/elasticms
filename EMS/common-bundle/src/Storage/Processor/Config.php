@@ -572,4 +572,14 @@ final class Config
 
         return \implode('.', [\pathinfo($filename, PATHINFO_FILENAME), $mimetypes[$mimeType]]);
     }
+
+    public function getX(): int
+    {
+        return (int) \round($this->options[EmsFields::ASSET_CONFIG_X] ?? 0);
+    }
+
+    public function getY(): int
+    {
+        return (int) \round($this->options[EmsFields::ASSET_CONFIG_Y] ?? 0);
+    }
 }

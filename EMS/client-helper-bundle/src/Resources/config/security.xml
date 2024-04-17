@@ -51,7 +51,7 @@
             <tag name="controller.service_arguments"/>
         </service>
         <service id="emsch.security.sso.saml.config" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlConfig">
-            <argument>%emsch.security.saml%</argument>
+            <argument>%emsch.security.sso.saml%</argument>
         </service>
         <service id="emsch.security.sso.saml.auth_factory" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlAuthFactory">
             <argument type="service" id="request_stack"/>

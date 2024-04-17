@@ -11,29 +11,6 @@ use Symfony\Component\Security\Http\HttpUtils;
 
 class SamlAuthFactory
 {
-    private const DEFAULT_SECURITY = [
-        'nameIdEncrypted' => false,
-        'authnRequestsSigned' => false,
-        'logoutRequestSigned' => false,
-        'logoutResponseSigned' => false,
-        'signMetadata' => false,
-        'wantMessagesSigned' => false,
-        'wantAssertionsEncrypted' => false,
-        'wantAssertionsSigned' => false,
-        'wantNameId' => true,
-        'wantNameIdEncrypted' => false,
-        'requestedAuthnContext' => false,
-        'wantXMLValidation' => true,
-        'relaxDestinationValidation' => false,
-        'destinationStrictlyMatches' => false,
-        'allowRepeatAttributeName' => true,
-        'rejectUnsolicitedResponsesWithInResponseTo' => false,
-        'signatureAlgorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
-        'digestAlgorithm' => 'http://www.w3.org/2001/04/xmlenc#sha256',
-        'encryption_algorithm' => 'http://www.w3.org/2009/xmlenc11#aes128-gcm',
-        'lowercaseUrlencoding' => false,
-    ];
-
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly SamlConfig $samlConfig,
@@ -54,23 +31,23 @@ class SamlAuthFactory
             'debug' => false,
             'baseurl' => $this->httpUtils->generateUri($request, SamlConfig::PATH_SAML),
             'sp' => [
-                'entityId' => $this->samlConfig->spEntityId(),
+                'entityId' => $this->samlConfig->property(SamlProperty::SP_ENTITY_ID),
                 'assertionConsumerService' => [
                     'url' => $this->httpUtils->generateUri($request, SamlConfig::ROUTE_ACS),
                     'binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
                 ],
-                'x509cert' => $this->samlConfig->spPublicKey(),
-                'privateKey' => $this->samlConfig->spPrivateKey(),
+                'x509cert' => $this->samlConfig->property(SamlProperty::SP_PUBLIC_KEY),
+                'privateKey' => $this->samlConfig->property(SamlProperty::SP_PRIVATE_KEY),
             ],
             'idp' => [
-                'entityId' => $this->samlConfig->idpEntityId(),
+                'entityId' => $this->samlConfig->property(SamlProperty::IDP_ENTITY_ID),
                 'singleSignOnService' => [
-                    'url' => $this->samlConfig->idpSSO(),
+                    'url' => $this->samlConfig->property(SamlProperty::IDP_SSO),
                     'binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
                 ],
-                'x509cert' => $this->samlConfig->idpPublicKey(),
+                'x509cert' => $this->samlConfig->property(SamlProperty::IDP_PUBLIC_KEY),
             ],
-            'security' => \array_merge_recursive(self::DEFAULT_SECURITY, $this->samlConfig->security()),
+            'security' => $this->samlConfig->security(),
         ]);
     }
 }

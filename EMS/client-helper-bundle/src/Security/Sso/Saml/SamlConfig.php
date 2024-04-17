@@ -11,6 +11,29 @@ class SamlConfig
     public const ROUTE_LOGIN = 'emsch_saml_login';
     public const ROUTE_ACS = 'emsch_saml_acs';
 
+    private const DEFAULT_SECURITY = [
+        'nameIdEncrypted' => false,
+        'authnRequestsSigned' => false,
+        'logoutRequestSigned' => false,
+        'logoutResponseSigned' => false,
+        'signMetadata' => false,
+        'wantMessagesSigned' => false,
+        'wantAssertionsEncrypted' => false,
+        'wantAssertionsSigned' => false,
+        'wantNameId' => true,
+        'wantNameIdEncrypted' => false,
+        'requestedAuthnContext' => false,
+        'wantXMLValidation' => true,
+        'relaxDestinationValidation' => false,
+        'destinationStrictlyMatches' => false,
+        'allowRepeatAttributeName' => true,
+        'rejectUnsolicitedResponsesWithInResponseTo' => false,
+        'signatureAlgorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
+        'digestAlgorithm' => 'http://www.w3.org/2001/04/xmlenc#sha256',
+        'encryption_algorithm' => 'http://www.w3.org/2009/xmlenc11#aes128-gcm',
+        'lowercaseUrlencoding' => false,
+    ];
+
     /**
      * @param array<mixed> $config
      */
@@ -23,34 +46,9 @@ class SamlConfig
         return $this->config['enabled'] ?? false;
     }
 
-    public function spPublicKey(): string
+    public function property(SamlProperty $property): string
     {
-        return $this->config['sp']['public_key'];
-    }
-
-    public function spPrivateKey(): string
-    {
-        return $this->config['sp']['private_key'];
-    }
-
-    public function idpPublicKey(): string
-    {
-        return $this->config['idp']['public_key'];
-    }
-
-    public function spEntityId(): string
-    {
-        return $this->config['sp']['entity_id'];
-    }
-
-    public function idpEntityId(): string
-    {
-        return $this->config['idp']['entity_id'];
-    }
-
-    public function idpSSO(): string
-    {
-        return $this->config['idp']['sso'];
+        return $this->config[$property->value];
     }
 
     /**
@@ -58,6 +56,6 @@ class SamlConfig
      */
     public function security(): array
     {
-        return $this->config['security'] ?? [];
+        return \array_merge_recursive(self::DEFAULT_SECURITY, $this->config[SamlProperty::SECURITY->value]);
     }
 }

@@ -43,7 +43,17 @@ class AssetEntity
      */
     public function getConfig(): array
     {
-        return $this->config;
+        return \array_merge($this->config, \array_filter([
+            EmsFields::ASSET_CONFIG_TYPE => EmsFields::ASSET_CONFIG_TYPE_IMAGE,
+            EmsFields::ASSET_CONFIG_RESIZE => 'crop',
+            EmsFields::ASSET_CONFIG_X => $this->x,
+            EmsFields::ASSET_CONFIG_Y => $this->y,
+            EmsFields::ASSET_CONFIG_ROTATE => $this->rotate,
+            EmsFields::ASSET_CONFIG_WIDTH => $this->width,
+            EmsFields::ASSET_CONFIG_HEIGHT => $this->height,
+            EmsFields::ASSET_CONFIG_FLIP_HORIZONTAL => (-1.0 === $this->scaleX),
+            EmsFields::ASSET_CONFIG_FLIP_VERTICAL => (-1.0 === $this->scaleY),
+        ], fn ($value) => null !== $value));
     }
 
     /**
@@ -52,6 +62,13 @@ class AssetEntity
     public function setConfig(array $config): void
     {
         $this->config = $config;
+        $this->x = $config[EmsFields::ASSET_CONFIG_X] ?? null;
+        $this->y = $config[EmsFields::ASSET_CONFIG_Y] ?? null;
+        $this->rotate = $config[EmsFields::ASSET_CONFIG_ROTATE] ?? null;
+        $this->width = $config[EmsFields::ASSET_CONFIG_WIDTH] ?? null;
+        $this->height = $config[EmsFields::ASSET_CONFIG_HEIGHT] ?? null;
+        $this->scaleX = ($config[EmsFields::ASSET_CONFIG_FLIP_HORIZONTAL] ?? false) ? -1.0 : 1.0;
+        $this->scaleY = ($config[EmsFields::ASSET_CONFIG_FLIP_VERTICAL] ?? false) ? -1.0 : 1.0;
     }
 
     /**

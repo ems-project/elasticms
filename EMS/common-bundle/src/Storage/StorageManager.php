@@ -370,7 +370,7 @@ class StorageManager
     /**
      * @param array<string, mixed> $config
      */
-    public function saveConfig(array $config): string
+    public function saveConfig(array $config, int $usageType = StorageInterface::STORAGE_USAGE_CONFIG): string
     {
         if (\is_array($config[EmsFields::ASSET_CONFIG_FILE_NAMES] ?? null) && \count($config[EmsFields::ASSET_CONFIG_FILE_NAMES]) > 0) {
             $hashContext = \hash_init('sha1');
@@ -398,7 +398,7 @@ class StorageManager
         Json::normalize($config);
         $normalizedArray = Json::encode($config);
 
-        return $this->saveContents($normalizedArray, 'assetConfig.json', 'application/json', StorageInterface::STORAGE_USAGE_CONFIG);
+        return $this->saveContents($normalizedArray, 'assetConfig.json', 'application/json', $usageType);
     }
 
     public function getFile(string $filenameOrHash): FileInterface

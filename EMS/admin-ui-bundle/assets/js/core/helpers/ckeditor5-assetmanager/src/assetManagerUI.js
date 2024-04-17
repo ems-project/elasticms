@@ -2,6 +2,7 @@ import { Plugin, icons } from 'ckeditor5/src/core.js'
 import { ButtonView } from 'ckeditor5/src/ui.js'
 import UploadImageCommand from '@ckeditor/ckeditor5-image/src/imageupload/uploadimagecommand.js'
 import CkeModal from '../../ckeModal'
+import { EMS_EDIT_IMAGE_EVENT } from '../../../events/editImageEvent'
 
 export default class AssetManagerUI extends Plugin {
   static get requires () {
@@ -118,8 +119,12 @@ export default class AssetManagerUI extends Plugin {
   }
 
   _createModal () {
+    const editor = this.editor
     const t = this.editor.t
     this.formModal = new CkeModal('initEditImage', t('Edit image'))
+    document.addEventListener(EMS_EDIT_IMAGE_EVENT, (event) => {
+      editor.execute('insertImage', { source: event.detail.url })
+    })
   }
 
   _editImage () {

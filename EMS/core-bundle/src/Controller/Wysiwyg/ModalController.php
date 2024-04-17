@@ -77,6 +77,7 @@ class ModalController extends AbstractController
                 throw new \RuntimeException('Unexpected not LoadLinkModalEntity submitted data');
             }
 
+            $response['type'] = 'select-link';
             $response['url'] = $data->generateUrl();
             $response['target'] = $data->getTarget();
         }
@@ -94,6 +95,10 @@ class ModalController extends AbstractController
                 'form' => $form->createView(),
             ]),
         ];
+        if ($form->isSubmitted() && $form->isValid()) {
+            $response['type'] = 'edit-image';
+            $response['url'] = $form->getData()['image'];
+        }
 
         return $this->flashMessageLogger->buildJsonResponse($response);
     }

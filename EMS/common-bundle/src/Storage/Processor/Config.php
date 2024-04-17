@@ -357,6 +357,8 @@ final class Config
             ->setDefaults($defaults)
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_URL_TYPE, ['int'])
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_ROTATE, ['float', 'int'])
+            ->setAllowedTypes(EmsFields::ASSET_CONFIG_X, ['float', 'int', 'null'])
+            ->setAllowedTypes(EmsFields::ASSET_CONFIG_Y, ['float', 'int', 'null'])
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_AUTO_ROTATE, ['bool'])
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_FLIP_VERTICAL, ['bool'])
             ->setAllowedTypes(EmsFields::ASSET_CONFIG_FLIP_HORIZONTAL, ['bool'])
@@ -430,6 +432,8 @@ final class Config
             EmsFields::ASSET_CONFIG_AFTER => 0,
             EmsFields::ASSET_SEED => null,
             EmsFields::ASSET_CONFIG_IMAGE_FORMAT => null,
+            EmsFields::ASSET_CONFIG_X => null,
+            EmsFields::ASSET_CONFIG_Y => null,
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Form\DataTransformer;
 
 use EMS\CommonBundle\Routes;
+use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Entity\Form\AssetEntity;
 use Symfony\Component\Form\DataTransformerInterface;
@@ -51,7 +52,12 @@ readonly class AssetTransformer implements DataTransformerInterface
         if (!$value instanceof AssetEntity) {
             throw new \RuntimeException('Unexpected non AssetEntity object');
         }
+        $configHash = $this->storageManager->saveConfig($value->getConfig(), StorageInterface::STORAGE_USAGE_ASSET);
 
-        return '';
+        return $this->router->generate(Routes::ASSET, [
+            'hash_config' => $configHash,
+            'filename' => $value->getFilename(),
+            'hash' => $value->getHash(),
+        ]);
     }
 }

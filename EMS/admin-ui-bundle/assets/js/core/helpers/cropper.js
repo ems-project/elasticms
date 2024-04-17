@@ -13,9 +13,22 @@ class Cropper {
     this.rotate = container.querySelector('.ems-cropper-rotate')
     this.scaleX = container.querySelector('.ems-cropper-scale-x')
     this.scaleY = container.querySelector('.ems-cropper-scale-y')
+    this.data = null
+    if (this.x.value.length > 0) {
+      this.data = {
+        x: this.x.value,
+        y: this.y.value,
+        width: this.width.value,
+        height: this.height.value,
+        rotate: this.rotate.value,
+        scaleX: this.scaleX.value,
+        scaleY: this.scaleY.value
+      }
+    }
     this.cropper = new CropperJS(this.image, {
       viewMode: 0,
-      crop (event) { self.change(event) }
+      crop (event) { self.change(event) },
+      ready () { self.ready() }
     })
     container.querySelector('.ems-cropper-rotate-left').addEventListener('click', () => self.rotateImage(-90))
     container.querySelector('.ems-cropper-rotate-right').addEventListener('click', () => self.rotateImage(90))
@@ -53,6 +66,20 @@ class Cropper {
 
   reset () {
     this.cropper.reset()
+  }
+
+  ready () {
+    if (this.data === null) {
+      return
+    }
+    this.cropper.scale(this.data.scaleX, this.data.scaleY)
+    this.cropper.rotate(this.data.rotate)
+    this.cropper.setData({
+      x: Math.round(this.data.x),
+      y: Math.round(this.data.y),
+      width: Math.round(this.data.width),
+      height: Math.round(this.data.height)
+    })
   }
 }
 

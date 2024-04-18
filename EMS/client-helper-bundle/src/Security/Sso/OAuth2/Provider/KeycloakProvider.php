@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 
+use EMS\CommonBundle\Common\Standard\Base64;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
@@ -22,7 +23,9 @@ class KeycloakProvider implements ProviderInterface
         string $clientId,
         string $clientSecret,
         string $redirectUri,
-        string $version
+        ?string $version,
+        ?string $encryptionAlgorithm,
+        ?string $encryptionKey,
     ) {
         $this->keycloak = new Keycloak([
             'authServerUrl' => $authServerUrl,
@@ -30,8 +33,17 @@ class KeycloakProvider implements ProviderInterface
             'clientId' => $clientId,
             'clientSecret' => $clientSecret,
             'redirectUri' => $redirectUri,
-            'version' => $version,
+            'encryptionAlgorithm' => $encryptionAlgorithm,
         ]);
+
+        if ($version) {
+            $this->keycloak->setVersion($version);
+        }
+
+        if ($encryptionAlgorithm && $encryptionKey) {
+            $this->keycloak->setEncryptionAlgorithm($encryptionAlgorithm);
+            $this->keycloak->setEncryptionKey(Base64::decode($encryptionKey));
+        }
     }
 
     public function redirect(Request $request): RedirectResponse

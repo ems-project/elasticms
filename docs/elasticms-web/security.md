@@ -117,14 +117,19 @@ For the moment only keycloak is supported as auth server.
 We use the following library [stevenmaguire/oauth2-keycloak](https://github.com/stevenmaguire/oauth2-keycloak),
 which is using [thephpleague/oauth2-client](https://github.com/thephpleague/oauth2-client)
 
-| Name                       | Description                    |
-|----------------------------|--------------------------------|
-| EMSCH_OAUTH2               | bool for enabling OAUTH2       |
-| EMSCH_OAUTH2_AUTH_SERVER   | Keycloak server url            |
-| EMSCH_OAUTH2_REALM         | Keycloak REALM                 |
-| EMSCH_OAUTH2_CLIENT_ID     | Keycloak client id             |
-| EMSCH_OAUTH2_CLIENT_SECRET | Keycloak client secret         |
-| EMSCH_OAUTH2_REDIRECT_URI  | https://mywebsite/callback-url |
+| Name                              | Description                    |
+|-----------------------------------|--------------------------------|
+| EMSCH_OAUTH2                      | bool for enabling OAUTH2       |
+| EMSCH_OAUTH2_AUTH_SERVER          | Keycloak server url            |
+| EMSCH_OAUTH2_REALM                | Keycloak REALM                 |
+| EMSCH_OAUTH2_CLIENT_ID            | Keycloak client id             |
+| EMSCH_OAUTH2_CLIENT_SECRET        | Keycloak client secret         |
+| EMSCH_OAUTH2_REDIRECT_URI         | https://mywebsite/callback-url |
+| EMSCH_OAUTH2_VERSION              | Optional: keycloak version     |
+| EMSCH_OAUTH2_ENCRYPTION_ALGORITHM | Optional: RS256,ES256,...      |
+| EMSCH_OAUTH2_ENCRYPTION_KEY       | Optional: base64 encode        |
+
+> For encryption see [Identity provider (IDP) (Keycloak)](http://localhost:3000/#/getting-started/dev-env?id=identity-provider-idp-keycloak)
 
 ## SAML (Security Assertion Markup Language)
 

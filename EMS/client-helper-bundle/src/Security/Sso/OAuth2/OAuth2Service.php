@@ -75,7 +75,9 @@ class OAuth2Service
                 clientId: $this->property(OAuth2Property::CLIENT_ID),
                 clientSecret: $this->property(OAuth2Property::CLIENT_SECRET),
                 redirectUri: $this->property(OAuth2Property::REDIRECT_URI),
-                version: $this->property(OAuth2Property::VERSION),
+                version: $this->optionalProperty(OAuth2Property::VERSION),
+                encryptionAlgorithm: $this->optionalProperty(OAuth2Property::ENCRYPTION_ALGORITHM),
+                encryptionKey: $this->optionalProperty(OAuth2Property::ENCRYPTION_KEY)
             ),
             default => throw new \RuntimeException('invalid provider type')
         };
@@ -84,5 +86,12 @@ class OAuth2Service
     private function property(OAuth2Property $property): string
     {
         return $this->config[$property->value];
+    }
+
+    private function optionalProperty(OAuth2Property $property): ?string
+    {
+        $property = $this->config[$property->value];
+
+        return '' !== $property ? $property : null;
     }
 }

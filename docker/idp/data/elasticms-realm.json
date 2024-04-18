@@ -108,7 +108,7 @@
         "composite" : true,
         "composites" : {
           "client" : {
-            "realm-management" : [ "manage-clients", "manage-events", "query-clients", "manage-realm", "manage-users", "manage-identity-providers", "view-realm", "query-users", "query-groups", "query-realms", "view-clients", "view-users", "impersonation", "manage-authorization", "create-client", "view-events", "view-identity-providers", "view-authorization" ]
+            "realm-management" : [ "manage-clients", "manage-events", "query-clients", "manage-realm", "manage-users", "view-realm", "manage-identity-providers", "query-users", "query-groups", "query-realms", "view-clients", "view-users", "impersonation", "manage-authorization", "create-client", "view-events", "view-identity-providers", "view-authorization" ]
           }
         },
         "clientRole" : true,
@@ -546,18 +546,23 @@
     "frontchannelLogout" : true,
     "protocol" : "openid-connect",
     "attributes" : {
+      "user.info.response.signature.alg" : "RS256",
       "client.secret.creation.time" : "1713277679",
       "token.endpoint.auth.signing.alg" : "RS256",
       "post.logout.redirect.uris" : "*",
       "oauth2.device.authorization.grant.enabled" : "false",
       "use.jwks.url" : "false",
+      "access.token.signed.response.alg" : "RS256",
       "backchannel.logout.revoke.offline.tokens" : "false",
       "use.refresh.tokens" : "true",
-      "jwt.credential.certificate" : "MIICszCCAZsCBgGO53Vv5zANBgkqhkiG9w0BAQsFADAdMRswGQYDVQQDDBJkZW1vLXNrZWxldG9uLW9pZGMwHhcNMjQwNDE2MTUwODM3WhcNMzQwNDE2MTUxMDE3WjAdMRswGQYDVQQDDBJkZW1vLXNrZWxldG9uLW9pZGMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvdkBKgnEX+jEoJEw5p5XQdI28CbrMuyyX8XX6yc//+uuxYuCt01j/V3+RqX2AqXyduZ0aumTLC3mfFjXwM1f3fmAtJwKh4OWWpWvBisWyUz/B42ZsvgTgWo+hp5BZ+s6Dl+jptmDtlAf0mTUU5EwtBoWdgDA2FpOub/8IN6COqJ7hQObtRCYclxZBVxwmv/pwV3ugckTDbPYxX1VwfOzWUBP8EwN+TtGNYNdKFqzDYMfAAr6pxEGmrEVvFM+CEfTvUDh8jdoNflz+05HgftrQr+C4Y9nj9puPfp5BKB6yWRV71deYvSvQjYyY84ElRikrOJFat7OCnapBd58MHN69AgMBAAEwDQYJKoZIhvcNAQELBQADggEBAI65YNVAbYujLdxXwUlPZFgeWMAVRdSxolAQoXegWRcKI03eqfJEPYoQQXxNwq6Lvmk+KBC3K0yn+wvnP/NmOWJLaKaGq+AeZBr01jPq17my8uDBRKOrOk4/XMzsuWJxv9wcV4m1PXw5wA81mqU00lGlIXZj7HNXnQyh/ZAH3KojVHN1m8BzFrcQH9CNMFQ4W/cgpCxUevxQLVb7TjbKz/aLNWzVJhHSrJhjyb/Wa+rZzvPRZTDhY7oNYYizVSfm8kXJjulSU3Wo60H1SiV1jWqdEBXWZkCkb7+TwGR5B5CPB2aoWEU7jziYGxmi893l1vv/W63kEbQJgavTc2GwFm0=",
+      "jwt.credential.certificate" : "MIICtzCCAZ8CBgGO8vnndjANBgkqhkiG9w0BAQsFADAfMR0wGwYDVQQDDBRkZW1vLXNrZWxldG9uLW9hdXRoMjAeFw0yNDA0MTgyMDQ5MDdaFw0zNDA0MTgyMDUwNDdaMB8xHTAbBgNVBAMMFGRlbW8tc2tlbGV0b24tb2F1dGgyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvBU89ccQI2uPxX28H7XAH1+Lix4nmppB+fW7l2PqF1l2j915yvcZfzIFFi7kb84zsT2alF6tXNKTrieBsuritce7YDQGlLRrb3RqCP+BCgWgXnVXs3XKbwfM1KxtlXAtruD+hBFMuXKa47mZGLp35EgOs66oABODDzRPzSVJlTZ67177+q1zMmkQsFPNIoq0lKq+xPQ7Oyf9yf44Z73FNCVEjqKVohZJHUb6Seoc+i1bTubeu7N58myfo1YeZehWXZCL0m6bFgL5bj5++4sXi8nHpjaPJujZZ57V6LrECXpjfR1q22Ec0C1jpopA2EUcJgJCbBpFKS9UeSV7b7lNnwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQBYHBrlIdkdKdmMfH2fzfcvIrK+PmV2QVJWQiCI0KJd6AUByl6SBPKI1NJvR+Zy/OLO6tC0kOCMUBknoye29TX57j1WMV69S9ptvKMQQqVxB3GoJ4MCV3eREAOS2VEsI4kSs8y6MtCGEWr0cEGdf5+r4Gd8mDo4hDbbUxF4TEUzmDqCAq1KG/dONJwLNsfRGN1rZij5zmZ/l8BrSll8+LeA0JJuz0UpHYSLVf6qu6aYBzrPp3mZtqyxFmHDuEKfgIY6wQmlD/cBW9MPZDQqOBcSBnFsIogSgOOTXe8dTNjcRiMyFUaGgs6rqkTgmnsixraLNzIVcwquezoyWPw+Pl8P",
       "tls-client-certificate-bound-access-tokens" : "false",
       "oidc.ciba.grant.enabled" : "false",
+      "client.use.lightweight.access.token.enabled" : "false",
+      "id.token.signed.response.alg" : "RS256",
       "backchannel.logout.session.required" : "true",
       "client_credentials.use_refresh_token" : "false",
+      "tls.client.certificate.bound.access.tokens" : "false",
       "acr.loa.map" : "{}",
       "require.pushed.authorization.requests" : "false",
       "display.on.consent.screen" : "false",
@@ -1245,6 +1250,7 @@
   "browserSecurityHeaders" : {
     "contentSecurityPolicyReportOnly" : "",
     "xContentTypeOptions" : "nosniff",
+    "referrerPolicy" : "no-referrer",
     "xRobotsTag" : "none",
     "xFrameOptions" : "SAMEORIGIN",
     "contentSecurityPolicy" : "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
@@ -1271,7 +1277,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper", "oidc-full-name-mapper", "oidc-address-mapper", "oidc-sha256-pairwise-sub-mapper" ]
+        "allowed-protocol-mapper-types" : [ "saml-user-property-mapper", "oidc-address-mapper", "oidc-full-name-mapper", "saml-user-attribute-mapper", "oidc-usermodel-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-role-list-mapper" ]
       }
     }, {
       "id" : "b9082bcc-a7c6-4cde-84cc-aa662e1cdc50",
@@ -1315,7 +1321,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-property-mapper", "saml-user-attribute-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper", "oidc-address-mapper", "oidc-full-name-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "oidc-full-name-mapper", "saml-user-property-mapper", "oidc-usermodel-property-mapper", "oidc-address-mapper", "saml-user-attribute-mapper" ]
       }
     }, {
       "id" : "866cff84-99d2-45b5-9fe7-b83945717553",
@@ -1348,8 +1354,8 @@
       "providerId" : "hmac-generated",
       "subComponents" : { },
       "config" : {
-        "kid" : [ "aa553030-5b76-47bf-a4df-cd9aed70ff0c" ],
-        "secret" : [ "huIcSfbfGVA2iCCs8rx7VEsVTMN_ThV6PDeVPvYD5yDn3w_ifmf9zMJUjwGt9BXluRotK21r_7xBKJQ8iE3l3A" ],
+        "kid" : [ "dfc5c8d4-ae68-44c7-895f-1d7c860ec667" ],
+        "secret" : [ "sJrXkhP2eu_iKSTgyfmcJRIf760La6qDNUM7ylcoI9t50H_9PCq3T0jnrrjonGv92wCFuTzz-R05e1mT3AdgChx6BuUx8wR2nOV28eyLKmP5Yj-VjlbQ0An9P-DbavnVDU8WzvjRptKCWnfR9-v5ePAyGMe3TWC4spbASDVI55I" ],
         "priority" : [ "100" ],
         "algorithm" : [ "HS256" ]
       }

@@ -9,6 +9,7 @@
   * [Init elasticMS](#init-elasticms)
   * [Load and save DB dumps](#load-and-save-db-dumps)
   * [Identity provider (IDP) (Keycloak)](#identity-provider-idp-keycloak)
+  * [About PHP configuration](#about-php-configuration)
 <!-- TOC -->
 
 ## Start external micro-services
@@ -116,6 +117,11 @@ docker compose up -d
     docker compose exec keycloak sh /opt/keycloak/bin/kc.sh import --dir /data
     docker compose up -d --force-recreate
     ```
+
+    If you want to export the data and versioning new settings
+    ```bash
+    docker compose exec keycloak sh /opt/keycloak/bin/kc.sh export --dir /data --users same_file --realm elasticms
+    ```
    
 3) Verify `elasticms` realm is created
 
@@ -138,6 +144,8 @@ EMSCH_OAUTH2_CLIENT_ID='demo-skeleton-oauth2'
 EMSCH_OAUTH2_CLIENT_SECRET='zuB3n0uZ4Ioo27ugsIjiT7vFVqmz5Zfq'
 EMSCH_OAUTH2_REDIRECT_URI='http://localhost:8882/oauth2/connect'
 EMSCH_OAUTH2_VERSION=24.0.3
+EMSCH_OAUTH2_ENCRYPTION_ALGORITHM=RS256
+EMSCH_OAUTH2_ENCRYPTION_KEY=LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNvVENDQVlrQ0JnR0dPc2hTZ0RBTkJna3Foa2lHOXcwQkFRc0ZBREFVTVJJd0VBWURWUVFEREFsbGJHRnoKZEdsamJYTXdIaGNOTWpNd01qRXdNVEF3TWpNeVdoY05Nek13TWpFd01UQXdOREV5V2pBVU1SSXdFQVlEVlFRRApEQWxsYkdGemRHbGpiWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRRElDY3lEClA0S3doUHVJV0xza0JJdDRjanFLdGV3K05wZTNSKzJ0SEc5QkMrYjZHMGNSNzhrWThTZ3pmTkNCTC9RZTVHK0kKTUE4YU44cktienJQWEJvd1JNS0hoRlhqRy8rR042M2docFNVeFN2ZHpMcEc5UGFVaExEZTVXR21wTFMycTcrdQp2QjRJZGtiYytJaENqV0VHMEJQSThCaXpkZVJEYWJ2NmVVYWFHVzYyT0VwU0tXQWxQSzZ4K0x0YXZSK0xCaXhnCm5ob0FrNjZGYXZjdUxYS28yR2x1djB6UVB5elhMRzdhMytyaXJmMjRXRndhMElHemxSd0xmTHpnRXFYQ0dIVjcKaDJ1VmRFNDVRc0Nmb0pZazJsWmRvOHJlSFIxK3VSdkNjM3pIOGVHdUY1eVpIS09neWMvZTRHYXNZdEJ1Vm5qaQoxQmJRaEJQSi84RlhBTWtSQWdNQkFBRXdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBSHc5WGZLTHhCcHZZbGNHCnJFUVNCVmg2dTY0cnRSZ3pNRkpaNlV6S3FQWG16a0s1WDlUVVBFYVFvbnBQc0lldFFySWtaOWVzMlYvd1Q5RHgKUmJ0MnVUTTE1aksvZmxLclBoTWdwdnArWHBpTUVOMEtVdFVwakptRjRxYVJrY0ZpbjYyL2FicHhtaW1pNEptNAp2UGE0VmJ0cVY4YWp3aGl5T1IyOUVwRWd1WHBxLzVDUWVucWhQR09XSlpFSW1nK3JEcjlDNHVQWDFtdFBKRTZsCmZQQ08wSkZkRnpwbzlFdU90VW5XbVVRVTMrUHZzSnZSWk9Xd0pGMWhEeTVsdTBKRnh1dVRDeXNXQythQ3o5NDEKU1cvSGs4a0M2OUxYNXUwcEcvSWZlNE1XRG11cnRacHI0Q21Wc3NHUEl3eC9zRm5oOFNwck1KZ21LTE1EdkdqeQpTdnB0TjRJPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
 
 EMSCH_SAML=true
 EMSCH_SAML_SP_ENTITY_ID='demo-skeleton-saml'
@@ -150,22 +158,27 @@ EMSCH_SAML_IDP_SSO='http://keycloak.localhost/realms/elasticms/protocol/saml'
 
 > *IMPORT* For using xDebug change http://keycloak.localhost -> http://localhost:9081
 
-| Variable                   | Location                                                                                                            |
-|----------------------------|---------------------------------------------------------------------------------------------------------------------|
-| EMSCH_OAUTH2_CLIENT_ID     | http://keycloak.localhost/admin/master/console/#/elasticms/clients/55e433be-33a4-46cf-b972-36eccc5cebb0/settings    |
-| EMSCH_OAUTH2_CLIENT_SECRET | http://keycloak.localhost/admin/master/console/#/elasticms/clients/55e433be-33a4-46cf-b972-36eccc5cebb0/credentials |
-| EMSCH_OAUTH2_REDIRECT_URI  | Valid redirect URIs on the client settings page                                                                     |
-|                            |                                                                                                                     |
-| EMSCH_SAML_SP_ENTITY_ID    | http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/settings    |
-| EMSCH_SAML_SP_PUBLIC_KEY   | http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/keys        |
-| EMSCH_SAML_SP_PRIVATE_KEY  | You receive the private key on generation                                                                           |
-| EMSCH_SAML_IDP_PUBLIC_KEY  | http://keycloak.localhost/realms/elasticms/protocol/saml/descriptor                                                 |
+| Variable                          | Location                                                                                                                                           |
+|-----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| EMSCH_OAUTH2_CLIENT_ID            | [client settings](http://keycloak.localhost/admin/master/console/#/elasticms/clients/55e433be-33a4-46cf-b972-36eccc5cebb0/settings)                |
+| EMSCH_OAUTH2_CLIENT_SECRET        | [client credentials](http://keycloak.localhost/admin/master/console/#/elasticms/clients/55e433be-33a4-46cf-b972-36eccc5cebb0/credentials)          |
+| EMSCH_OAUTH2_REDIRECT_URI         | Valid redirect URIs on the client settings page                                                                                                    |
+| EMSCH_OAUTH2_VERSION              | [master realm info](http://keycloak.localhost/admin/master/console/#/master/info)                                                                  |
+| EMSCH_OAUTH2_ENCRYPTION_ALGORITHM | RS256 [client advanced settings](http://keycloak.localhost/admin/master/console/#/elasticms/clients/55e433be-33a4-46cf-b972-36eccc5cebb0/advanced) |
+| EMSCH_OAUTH2_ENCRYPTION_KEY       | see below                                                                                                                                          |
+|                                   |                                                                                                                                                    |
+| EMSCH_SAML_SP_ENTITY_ID           | [client settings](http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/settings)                |
+| EMSCH_SAML_SP_PUBLIC_KEY          | [client keys](http://keycloak.localhost/admin/master/console/#/elasticms/clients/a959232e-2993-42d2-ab19-0de899880c1a/keys)                        |
+| EMSCH_SAML_SP_PRIVATE_KEY         | You receive the private key on generation                                                                                                          |
+| EMSCH_SAML_IDP_PUBLIC_KEY         | http://keycloak.localhost/realms/elasticms/protocol/saml/descriptor                                                                                |
 
-If you want to export the data and versioning new settings
+* Generate oAuth2 encryption key
 
-```bash
-docker compose exec keycloak sh /opt/keycloak/bin/kc.sh export --dir /data --users same_file --realm elasticms
-```
+  This is the private key, received on creation and not stored in keycloak db.
+  ```bash
+  openssl pkcs12 --nokeys --info -in keystore.p12 
+  ```
+  EMSCH_OAUTH2_ENCRYPTION_KEY=Base64(-----BEGIN CERTIFICATE-----.....-----END CERTIFICATE-----).
 
 ## About PHP configuration
 

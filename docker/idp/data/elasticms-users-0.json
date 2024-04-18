@@ -2,21 +2,21 @@
   "realm" : "elasticms",
   "users" : [ {
     "id" : "cb4c1ef8-9d98-4a67-879c-b8f990e82dc7",
-    "createdTimestamp" : 1676052560411,
     "username" : "user1@example.com",
-    "enabled" : true,
-    "totp" : false,
-    "emailVerified" : true,
     "firstName" : "user1",
     "lastName" : "user1",
     "email" : "user1@example.com",
+    "emailVerified" : true,
+    "createdTimestamp" : 1676052560411,
+    "enabled" : true,
+    "totp" : false,
     "credentials" : [ {
       "id" : "87ced959-52b2-40df-8e47-316d97c9a58d",
       "type" : "password",
       "userLabel" : "My password",
       "createdDate" : 1676052573647,
-      "secretData" : "{\"value\":\"v1pgLHuy2ArFlNh+EOJaAqTa0IBFOkqsAc1oxmNgK8AgxcmHiwLcBk6nuPxeT6VyS+FsvWYRY5y6ql1OHWwf+A==\",\"salt\":\"Rw9p41/FNkvsZaGN/tuWBA==\",\"additionalParameters\":{}}",
-      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+      "secretData" : "{\"value\":\"J8I0Fufl2L/lyoxQ+/4YhuFkwnbt420qpbCZ+Xo26RK/f+cD2s5s8Dquz+xXdEJ88BfryeoZD/jk0XGFO9+Zag==\",\"salt\":\"DWoQxG2PBeGhpq5wdaaZGg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":210000,\"algorithm\":\"pbkdf2-sha512\",\"additionalParameters\":{}}"
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
@@ -25,14 +25,14 @@
     "groups" : [ ]
   }, {
     "id" : "8b59dd81-116d-4564-860b-42d4c01f2d3d",
-    "createdTimestamp" : 1676052587736,
     "username" : "user2@example.com",
-    "enabled" : true,
-    "totp" : false,
-    "emailVerified" : true,
     "firstName" : "user2",
     "lastName" : "user2",
     "email" : "user2@example.com",
+    "emailVerified" : true,
+    "createdTimestamp" : 1676052587736,
+    "enabled" : true,
+    "totp" : false,
     "credentials" : [ {
       "id" : "cc863aea-2a1e-4b99-9ed1-89cb971d94ee",
       "type" : "password",

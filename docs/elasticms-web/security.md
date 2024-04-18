@@ -75,36 +75,62 @@ On submit the application will preform a coreApi login to the environment api.
 {% endif %}
 ```
 
-## SAML (Single sign on)
+## SSO (Single sign on)
 
-For implementing an SSO with SAML protocol, we need a IDP (Identity Provider).
+We have two SSO authenticators SAML and OAuth2:
+- if enabled the login, logout and callback routes will be registered.
+- can be used together, but without login page the entry point will call the Oauth2 first
+
+For implementing an SSO, we need a IDP (Identity Provider).
 Enable a dev IDP see [dev-env](/getting-started/dev-env.md#identity-provider-idp-keycloak).
 
-The current SSO implementation does only support the login. The logout on the IDP was not required.
+Note: the current SSO implementation does only support the login. The logout on the IDP was not required.
 
-We use the following library [onelogin/php-saml](https://github.com/SAML-Toolkits/php-saml/tree/4.1.0)
+## Implementation
 
-### Implementation
+> See the demo project for a full implementation.
 
 1) For forcing authentication on a route set default **_authenticated** to true.
    See [Routing](/dev/client-helper-bundle/routing.md) for more information.
-
-2) Create a login and logout button in twig
+2) Enable OAuth2 or SAML
+3) Visit the authentication route, if both protocols are enabled only OAuth2 will be called.
+4) Add buttons on login page (optional)
    ```twig
-        {% if app.user %}
-            <h1>Welcome {{ app.user.userIdentifier }}</h1>
-            <a href="{{ path("emsch_logout") }}">Logout</a>
-        {% else %}
-            <a href="{{ path("emsch_saml_login") }}">Login</a>
-        {% endif %}
+   {% if app.user %}
+      <h1>Welcome {{ app.user.userIdentifier }}</h1>
+      <a href="{{ path("emsch_logout") }}">Logout</a>
+   {% else %}
+      {% if 'true' == app.request.server.get('EMSCH_SAML') %}
+          <a href="{{ path('emsch_saml_login') }}">SSO SAML</a>
+      {% endif %}
+      {% if 'true' == app.request.server.get('EMSCH_OAUTH2') %}
+          <a href="{{ path('emsch_oauth2_login') }}">SSO OAuth2</a>
+      {% endif %}
+   {% endif %}
    ```
-   
-3) Combine with a form login
 
-   Place a SAML login button on the form login template.
+## OAuth2 (OpenId connect)
 
+> OIDC is a simple identity layer built on top of OAuth 2.0, adding authentication capabilities.
 
-### Environment variables
+For the moment only keycloak is supported as auth server.
+We use the following library [stevenmaguire/oauth2-keycloak](https://github.com/stevenmaguire/oauth2-keycloak),
+which is using [thephpleague/oauth2-client](https://github.com/thephpleague/oauth2-client)
+
+| Name                       | Description                    |
+|----------------------------|--------------------------------|
+| EMSCH_OAUTH2               | bool for enabling OAUTH2       |
+| EMSCH_OAUTH2_AUTH_SERVER   | Keycloak server url            |
+| EMSCH_OAUTH2_REALM         | Keycloak REALM                 |
+| EMSCH_OAUTH2_CLIENT_ID     | Keycloak client id             |
+| EMSCH_OAUTH2_CLIENT_SECRET | Keycloak client secret         |
+| EMSCH_OAUTH2_REDIRECT_URI  | https://mywebsite/callback-url |
+
+## SAML (Security Assertion Markup Language)
+
+> SAML is an XML-based framework for exchanging authentication and authorization data between parties.
+
+We use the following library [onelogin/php-saml](https://github.com/SAML-Toolkits/php-saml/tree/4.1.0)
 
 | Name                      | Description                                                                         |
 |---------------------------|-------------------------------------------------------------------------------------|

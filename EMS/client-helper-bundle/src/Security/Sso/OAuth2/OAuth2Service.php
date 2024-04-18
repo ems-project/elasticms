@@ -57,7 +57,7 @@ class OAuth2Service
         }
 
         $routes
-            ->add(self::ROUTE_LOGIN, '/oauth/login')
+            ->add(self::ROUTE_LOGIN, '/oauth2/login')
                 ->controller([OAuth2Controller::class, 'login'])
                 ->methods(['GET'])
             ->add(self::ROUTE_REDIRECT, $redirectPath)

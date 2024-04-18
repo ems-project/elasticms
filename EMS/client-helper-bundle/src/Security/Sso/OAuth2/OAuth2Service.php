@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
 use EMS\ClientHelperBundle\Controller\Security\Sso\OAuth2Controller;
-use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\KeycloakProvider;
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\ProviderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
@@ -16,6 +17,8 @@ class OAuth2Service
     public const ROUTE_LOGIN = 'emsch_oauth2_login';
     public const ROUTE_REDIRECT = 'emsch_oauth2_redirect';
 
+    private ?ProviderInterface $provider = null;
+
     /**
      * @param array<mixed> $config
      */
@@ -25,16 +28,13 @@ class OAuth2Service
     ) {
     }
 
-    public function getProvider(): Keycloak
+    public function getProvider(): ProviderInterface
     {
-        return new Keycloak([
-            'authServerUrl' => $this->property(OAuth2Property::AUTH_SERVER),
-            'realm' => $this->property(OAuth2Property::REALM),
-            'clientId' => $this->property(OAuth2Property::CLIENT_ID),
-            'clientSecret' => $this->property(OAuth2Property::CLIENT_SECRET),
-            'redirectUri' => $this->property(OAuth2Property::REDIRECT_URI),
-            'version' => $this->property(OAuth2Property::VERSION),
-        ]);
+        if (null === $this->provider) {
+            $this->provider = $this->createProvider();
+        }
+
+        return $this->provider;
     }
 
     public function isEnabled(): bool
@@ -64,6 +64,21 @@ class OAuth2Service
                 ->controller([OAuth2Controller::class, 'redirect'])
                 ->methods(['GET'])
         ;
+    }
+
+    private function createProvider(): ProviderInterface
+    {
+        return match ($this->property(OAuth2Property::PROVIDER)) {
+            'keycloak' => new KeycloakProvider(
+                authServerUrl: $this->property(OAuth2Property::AUTH_SERVER),
+                realm: $this->property(OAuth2Property::REALM),
+                clientId: $this->property(OAuth2Property::CLIENT_ID),
+                clientSecret: $this->property(OAuth2Property::CLIENT_SECRET),
+                redirectUri: $this->property(OAuth2Property::REDIRECT_URI),
+                version: $this->property(OAuth2Property::VERSION),
+            ),
+            default => throw new \RuntimeException('invalid provider type')
+        };
     }
 
     private function property(OAuth2Property $property): string

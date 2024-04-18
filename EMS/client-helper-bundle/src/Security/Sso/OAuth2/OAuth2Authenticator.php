@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
 use EMS\ClientHelperBundle\Security\Sso\User\SsoUser;
-use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -43,21 +42,8 @@ class OAuth2Authenticator extends AbstractAuthenticator
             throw new AuthenticationException('Code missing');
         }
 
-        $token = $this->oAuth2Service->getProvider()->getAccessToken(
-            grant: 'authorization_code',
-            options: ['code' => $code]
-        );
-
-        if (!$token instanceof AccessToken) {
-            throw new AuthenticationException('Invalid access token');
-        }
-
-        $user = $this->oAuth2Service->getProvider()->getResourceOwner($token);
-        $username = $user->getUsername();
-
-        if (null === $username) {
-            throw new AuthenticationException('Username not found');
-        }
+        $token = $this->oAuth2Service->getProvider()->getAccessToken($code);
+        $username = $this->oAuth2Service->getProvider()->getUsername($token);
 
         return new SelfValidatingPassport(
             userBadge: new UserBadge($username, fn (string $userIdentifier) => new SsoUser($userIdentifier))

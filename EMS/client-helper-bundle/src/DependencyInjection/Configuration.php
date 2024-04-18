@@ -179,7 +179,10 @@ final class Configuration implements ConfigurationInterface
 
         $oAuth2 = $sso->arrayNode('oauth2')->canBeEnabled()->children();
         foreach (OAuth2Property::cases() as $oAuth2Property) {
-            $oAuth2->scalarNode($oAuth2Property->value)->end();
+            $oAuthConfig = $oAuth2->scalarNode($oAuth2Property->value);
+            if (OAuth2Property::PROVIDER === $oAuth2Property) {
+                $oAuthConfig->defaultValue('keycloak');
+            }
         }
 
         $saml = $sso->arrayNode('saml')->canBeEnabled()->children();

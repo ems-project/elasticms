@@ -21,6 +21,15 @@ parameters:
     env(EMSCH_LOCAL_PATH):              ~
 
     env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
+
+    env(EMSCH_OAUTH2):                  false
+    env(EMSCH_OAUTH2_AUTH_SERVER):      ~
+    env(EMSCH_OAUTH2_REALM):            ~
+    env(EMSCH_OAUTH2_CLIENT_ID):        ~
+    env(EMSCH_OAUTH2_CLIENT_SECRET):    ~
+    env(EMSCH_OAUTH2_REDIRECT_URI):     ~
+    env(EMSCH_OAUTH2_VERSION):          ~
+
     env(EMSCH_SAML):                    false
     env(EMSCH_SAML_SP_ENTITY_ID):       ~
     env(EMSCH_SAML_SP_PUBLIC_KEY):      ~
@@ -57,6 +66,14 @@ ems_client_helper:
     security:
         route_login: '%env(string:EMSCH_SECURITY_ROUTE_LOGIN)%'
         sso:
+            oauth2:
+                enabled: '%env(bool:EMSCH_OAUTH2)%'
+                auth_server: '%env(string:EMSCH_OAUTH2_AUTH_SERVER)%'
+                realm: '%env(string:EMSCH_OAUTH2_REALM)%'
+                client_id: '%env(string:EMSCH_OAUTH2_CLIENT_ID)%'
+                client_secret: '%env(string:EMSCH_OAUTH2_CLIENT_SECRET)%'
+                redirect_uri: '%env(string:EMSCH_OAUTH2_REDIRECT_URI)%'
+                version: '%env(string:EMSCH_OAUTH2_VERSION)%'
             saml:
                 enabled: '%env(bool:EMSCH_SAML)%'
                 sp_entity_id: '%env(string:EMSCH_SAML_SP_ENTITY_ID)%'

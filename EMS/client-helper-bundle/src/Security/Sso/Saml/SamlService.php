@@ -7,6 +7,8 @@ namespace EMS\ClientHelperBundle\Security\Sso\Saml;
 use EMS\ClientHelperBundle\Controller\Security\Sso\SamlController;
 use OneLogin\Saml2\Auth;
 use OneLogin\Saml2\Utils;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
 use Symfony\Component\Security\Http\HttpUtils;
@@ -82,6 +84,11 @@ class SamlService
             ],
             'security' => $this->getSecurity(),
         ]);
+    }
+
+    public function login(Request $request): RedirectResponse
+    {
+        return $this->httpUtils->createRedirectResponse($request, self::ROUTE_LOGIN);
     }
 
     public function isEnabled(): bool

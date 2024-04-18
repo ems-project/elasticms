@@ -46,11 +46,23 @@
 
         <!-- SSO -->
         <service id="emsch.security.sso" class="EMS\ClientHelperBundle\Security\Sso\SsoService">
+            <argument type="service" id="emsch.security.sso.oauth2"/>
             <argument type="service" id="emsch.security.sso.saml"/>
-            <argument type="service" id="security.http_utils"/>
         </service>
         <service id="emsch.security.sso.user_provider" class="EMS\ClientHelperBundle\Security\Sso\User\SsoUserProvider" />
 
+        <service id="emsch.security.sso.oauth2" class="EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service">
+            <argument type="service" id="security.http_utils"/>
+            <argument>%emsch.security.sso.oauth2%</argument>
+        </service>
+        <service id="EMS\ClientHelperBundle\Controller\Security\Sso\OAuth2Controller">
+            <argument type="service" id="emsch.security.sso.oauth2"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+        <service id="emsch.security.sso.oauth2.authenticator" class="EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Authenticator">
+            <argument type="service" id="security.http_utils"/>
+            <argument type="service" id="emsch.security.sso.oauth2"/>
+        </service>
 
         <service id="emsch.security.sso.saml" class="EMS\ClientHelperBundle\Security\Sso\Saml\SamlService">
             <argument type="service" id="request_stack"/>

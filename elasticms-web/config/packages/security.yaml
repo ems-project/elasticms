@@ -20,6 +20,7 @@ security:
             provider: chain_providers
             custom_authenticators:
                 - emsch.security.core_api.authenticator
+                - emsch.security.sso.oauth2.authenticator
                 - emsch.security.sso.saml.authenticator
             logout:
                 path: emsch_logout

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\DependencyInjection;
 
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Property;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlProperty;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -175,8 +176,13 @@ final class Configuration implements ConfigurationInterface
         $security->scalarNode('route_login')->defaultValue('emsch_login')->end();
 
         $sso = $security->arrayNode('sso')->children();
-        $saml = $sso->arrayNode('saml')->canBeEnabled()->children();
 
+        $oAuth2 = $sso->arrayNode('oauth2')->canBeEnabled()->children();
+        foreach (OAuth2Property::cases() as $oAuth2Property) {
+            $oAuth2->scalarNode($oAuth2Property->value)->end();
+        }
+
+        $saml = $sso->arrayNode('saml')->canBeEnabled()->children();
         foreach (SamlProperty::cases() as $samlProperty) {
             match ($samlProperty) {
                 SamlProperty::SECURITY => $saml->variableNode($samlProperty->value)->end(),

@@ -23,21 +23,20 @@ class SamlAuthenticator extends AbstractAuthenticator
 
     public function __construct(
         private readonly HttpUtils $httpUtils,
-        private readonly SamlConfig $samlConfig,
-        private readonly SamlAuthFactory $samlAuthFactory,
+        private readonly SamlService $samlService,
     ) {
     }
 
     public function supports(Request $request): ?bool
     {
-        return $this->samlConfig->isEnabled()
+        return $this->samlService->isEnabled()
             && $request->isMethod(Request::METHOD_POST)
-            && $this->httpUtils->checkRequestPath($request, SamlConfig::ROUTE_ACS);
+            && $this->httpUtils->checkRequestPath($request, SamlService::ROUTE_ACS);
     }
 
     public function authenticate(Request $request): Passport
     {
-        $auth = $this->samlAuthFactory->create();
+        $auth = $this->samlService->auth();
         $auth->processResponse();
 
         if ($auth->getErrors() && null !== $lastError = $auth->getLastErrorReason()) {
@@ -54,7 +53,7 @@ class SamlAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        $loginPath = $this->httpUtils->generateUri($request, SamlConfig::ROUTE_LOGIN);
+        $loginPath = $this->httpUtils->generateUri($request, SamlService::ROUTE_LOGIN);
 
         $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
         $path = ($targetPath && $loginPath !== $targetPath ? $targetPath : '/');
@@ -66,6 +65,6 @@ class SamlAuthenticator extends AbstractAuthenticator
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
 
-        return $this->httpUtils->createRedirectResponse($request, SamlConfig::ROUTE_LOGIN);
+        return $this->httpUtils->createRedirectResponse($request, SamlService::ROUTE_LOGIN);
     }
 }

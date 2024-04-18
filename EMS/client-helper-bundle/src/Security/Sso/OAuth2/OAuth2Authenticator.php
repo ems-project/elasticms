@@ -36,13 +36,7 @@ class OAuth2Authenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $code = $request->query->get('code');
-
-        if (!$code) {
-            throw new AuthenticationException('Code missing');
-        }
-
-        $token = $this->oAuth2Service->getProvider()->getAccessToken($code);
+        $token = $this->oAuth2Service->getProvider()->getAccessToken($request);
         $username = $this->oAuth2Service->getProvider()->getUsername($token);
 
         return new SelfValidatingPassport(

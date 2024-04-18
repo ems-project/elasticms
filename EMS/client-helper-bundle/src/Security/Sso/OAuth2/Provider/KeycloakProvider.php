@@ -7,10 +7,14 @@ namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class KeycloakProvider implements ProviderInterface
 {
     private Keycloak $keycloak;
+    private const SESSION_STATE = 'keycloak-state';
 
     public function __construct(
         string $authServerUrl,
@@ -30,15 +34,30 @@ class KeycloakProvider implements ProviderInterface
         ]);
     }
 
-    public function getAuthorizationUrl(): string
+    public function redirect(Request $request): RedirectResponse
     {
-        $scopes = ['openid', 'email'];
+        $url = $this->keycloak->getAuthorizationUrl(['scope' => ['openid', 'email']]);
+        $state = $this->keycloak->getState();
 
-        return $this->keycloak->getAuthorizationUrl(['scope' => $scopes]);
+        $request->getSession()->set(self::SESSION_STATE, $state);
+
+        return new RedirectResponse($url);
     }
 
-    public function getAccessToken(string $code): AccessTokenInterface
+    public function getAccessToken(Request $request): AccessTokenInterface
     {
+        $expectedState = $request->getSession()->get(self::SESSION_STATE);
+        $actualState = $request->get('state');
+
+        if (!$actualState || ($actualState !== $expectedState)) {
+            throw new AuthenticationException('Invalid state');
+        }
+
+        $code = $request->query->get('code');
+        if (!$code) {
+            throw new AuthenticationException('Code missing');
+        }
+
         return $this->keycloak->getAccessToken(
             grant: 'authorization_code',
             options: ['code' => $code]

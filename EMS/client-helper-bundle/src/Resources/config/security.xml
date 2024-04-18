@@ -15,7 +15,7 @@
         <service id="emsch.security.firewall.entry_point" class="EMS\ClientHelperBundle\Security\FirewallEntryPoint">
             <argument type="service" id="security.http_utils"/>
             <argument type="service" id="router"/>
-            <argument type="service" id="emsch.security.sso.saml.config"/>
+            <argument type="service" id="emsch.security.sso"/>
             <argument type="string">%emsch.security.route_login%</argument>
         </service>
 
@@ -45,6 +45,10 @@
         </service>
 
         <!-- SSO -->
+        <service id="emsch.security.sso" class="EMS\ClientHelperBundle\Security\Sso\SsoService">
+            <argument type="service" id="emsch.security.sso.saml.config"/>
+            <argument type="service" id="security.http_utils"/>
+        </service>
         <service id="emsch.security.sso.user_provider" class="EMS\ClientHelperBundle\Security\Sso\User\SsoUserProvider" />
         <service id="EMS\ClientHelperBundle\Controller\Security\Sso\SamlController">
             <argument type="service" id="emsch.security.sso.saml.auth_factory"/>

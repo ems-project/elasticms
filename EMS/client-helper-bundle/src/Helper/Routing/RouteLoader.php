@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
-use EMS\ClientHelperBundle\Controller\Security\Sso\SamlController;
-use EMS\ClientHelperBundle\Security\Sso\Saml\SamlConfig;
+use EMS\ClientHelperBundle\Security\Sso\SsoService;
 use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
 use Symfony\Component\Routing\RouteCollection;
 
 class RouteLoader
 {
-    public function __construct(private readonly SamlConfig $samlConfig)
+    public function __construct(private readonly SsoService $ssoService)
     {
     }
 
@@ -21,25 +20,10 @@ class RouteLoader
         $routes = new CollectionConfigurator($routeCollection, '');
         $routes->add('emsch_logout', '/logout')->methods(['GET']);
 
-        if ($this->samlConfig->isEnabled()) {
-            $this->addSamlRoutes($routes);
+        if ($this->ssoService->enabled()) {
+            $this->ssoService->registerRoutes($routes);
         }
 
         return $routeCollection;
-    }
-
-    private function addSamlRoutes(CollectionConfigurator $routes): void
-    {
-        $routes
-            ->add(SamlConfig::ROUTE_METADATA, '/saml/metadata')
-                ->controller([SamlController::class, 'metadata'])
-                ->methods(['GET'])
-            ->add(SamlConfig::ROUTE_LOGIN, '/saml/login')
-                ->controller([SamlController::class, 'login'])
-                ->methods(['GET'])
-            ->add(SamlConfig::ROUTE_ACS, '/saml/acs')
-                ->controller([SamlController::class, 'acs'])
-                ->methods(['POST'])
-        ;
     }
 }

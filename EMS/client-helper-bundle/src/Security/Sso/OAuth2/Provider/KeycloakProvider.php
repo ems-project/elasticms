@@ -32,7 +32,7 @@ class KeycloakProvider implements ProviderInterface
 
     public function getAuthorizationUrl(): string
     {
-        $scopes = ['openid', 'email', 'profile', 'address'];
+        $scopes = ['openid', 'email'];
 
         return $this->keycloak->getAuthorizationUrl(['scope' => $scopes]);
     }

@@ -1,0 +1,39 @@
+{% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block headtitle %}{{ 'login'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <div class="w-25">
+            <div class="card">
+                {{ form_start(form, { 'attr': { 'class': 'form' } }) }}
+                <div class="card-header">
+                    {{ 'login'|trans }}
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error.message|trans }}
+                        </div>
+                    {% endif %}
+                    {{ form_row(form.username, { 'row_attr': { 'class': 'form-group' }, 'attr': { 'class': 'form-control' } }) }}
+                    {{ form_row(form.password, { 'row_attr': { 'class': 'form-group' }, 'attr': { 'class': 'form-control' } }) }}
+
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        {{ form_row(form.submit, { 'attr': { 'class': 'btn btn-primary' } }) }}
+                        {% if 'true' == app.request.server.get('EMSCH_SAML') %}
+                            <a class="btn btn-outline-primary mt-0" href="{{ path('emsch_saml_login') }}">SSO SAML</a>
+                        {% endif %}
+                        {% if 'true' == app.request.server.get('EMSCH_OAUTH2') %}
+                            <a class="btn btn-outline-primary mt-0" href="{{ path('emsch_oauth2_login') }}">SSO OAuth2</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

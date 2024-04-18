@@ -1,1 +1,11 @@
+emsch:
+  security:
+    exception:
+      bad_credentials: 'Bad credentials!'
+      error: 'Something went wrong!'
+    form:
+      username: Username
+      password: Password
+      submit: Login
+login: Login
 files_browse: 'Choose files'

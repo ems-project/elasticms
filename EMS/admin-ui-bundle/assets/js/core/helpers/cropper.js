@@ -5,6 +5,7 @@ import CropperJS from 'cropperjs'
 class Cropper {
   constructor (container) {
     const self = this
+    this.container = container
     this.image = container.querySelector('img')
     this.x = container.querySelector('.ems-cropper-x')
     this.y = container.querySelector('.ems-cropper-y')
@@ -74,6 +75,28 @@ class Cropper {
     }
     this.cropper.scale(this.data.scaleX, this.data.scaleY)
     this.cropper.rotate(this.data.rotate)
+
+    const container = this.container.querySelector('.cropper-container')
+    const canvasData = this.cropper.getCanvasData()
+    const scaleY = container.clientHeight / canvasData.naturalHeight
+    const scaleX = container.clientWidth / canvasData.naturalWidth
+
+    if (this.data.x < 0) {
+      canvasData.left = Math.ceil(-this.data.x * scaleX)
+      canvasData.width -= canvasData.left
+    }
+    if (this.data.y < 0) {
+      canvasData.top = Math.ceil(-this.data.y * scaleY)
+      canvasData.height -= canvasData.top
+    }
+    if (this.data.width > canvasData.naturalWidth) {
+      canvasData.width -= Math.ceil((this.data.width - canvasData.naturalWidth) * scaleX)
+    }
+    if (this.data.height > canvasData.naturalHeight) {
+      canvasData.height -= Math.ceil((this.data.height - canvasData.naturalHeight) * scaleY)
+    }
+    this.cropper.setCanvasData(canvasData)
+
     this.cropper.setData({
       x: Math.round(this.data.x),
       y: Math.round(this.data.y),

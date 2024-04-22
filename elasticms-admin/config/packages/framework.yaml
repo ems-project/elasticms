@@ -18,6 +18,11 @@ framework:
     validation:
         email_validation_mode: html5
 
+    http_client:
+      default_options:
+        headers:
+          'Cookie': 'XDEBUG_SESSION=PHPSTORM'
+
 when@redis:
     framework:
         session:

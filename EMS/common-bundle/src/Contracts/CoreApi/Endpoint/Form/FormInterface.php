@@ -26,7 +26,7 @@ interface FormInterface
     /**
      * @return array<string, mixed>
      */
-    public function getSubmission(string $submissionId, string $property = null): array;
+    public function getSubmission(string $submissionId, ?string $property = null): array;
 
     public function getSubmissionFile(string $submissionId, ?string $submissionFileId): StreamedResponse;
 

@@ -16,7 +16,7 @@ class Data implements \Countable, \IteratorAggregate
     {
     }
 
-    public function slice(?int $offset, int $length = null): void
+    public function slice(?int $offset, ?int $length = null): void
     {
         $this->data = \array_slice($this->data, $offset ?? 0, $length);
     }

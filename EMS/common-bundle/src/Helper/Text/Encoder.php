@@ -69,14 +69,14 @@ class Encoder
         return $encodedText;
     }
 
-    public function webalizeForUsers(string $text, string $locale = null): ?string
+    public function webalizeForUsers(string $text, ?string $locale = null): ?string
     {
         @\trigger_error('The webalizeForUsers method is deprecated, use the slug method', \E_USER_DEPRECATED);
 
         return static::webalize($text, $this->webalizeRemovableRegex, $this->webalizeDashableRegex, $locale);
     }
 
-    public static function webalize(string $text, string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, string $locale = null): string
+    public static function webalize(string $text, string $webalizeRemovableRegex = Configuration::WEBALIZE_REMOVABLE_REGEX, string $webalizeDashableRegex = Configuration::WEBALIZE_DASHABLE_REGEX, ?string $locale = null): string
     {
         @\trigger_error('The webalize method is deprecated, use the slug method', \E_USER_DEPRECATED);
         $clean = self::asciiFolding($text, $locale);
@@ -87,7 +87,7 @@ class Encoder
         return $clean;
     }
 
-    public function slug(string $text, string $locale = null, string $separator = '-', bool $lower = true): AbstractUnicodeString
+    public function slug(string $text, ?string $locale = null, string $separator = '-', bool $lower = true): AbstractUnicodeString
     {
         $slugger = $this->getSlugger($locale ?? 'en');
         $slug = $slugger->slug($text, $separator, $locale);
@@ -98,7 +98,7 @@ class Encoder
         return $slug;
     }
 
-    public static function asciiFolding(string $text, string $locale = null): string
+    public static function asciiFolding(string $text, ?string $locale = null): string
     {
         $rules = [];
         if ($locale && ('de' === $locale || \str_starts_with($locale, 'de_'))) {

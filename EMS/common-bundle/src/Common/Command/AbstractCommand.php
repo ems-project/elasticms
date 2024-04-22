@@ -165,7 +165,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return true === $this->input->getOption($name);
     }
 
-    protected function getOptionInt(string $name, int $default = null): int
+    protected function getOptionInt(string $name, ?int $default = null): int
     {
         if (null !== $option = $this->input->getOption($name)) {
             return \intval($option);
@@ -178,7 +178,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return $default;
     }
 
-    protected function getOptionFloat(string $name, float $default = null): float
+    protected function getOptionFloat(string $name, ?float $default = null): float
     {
         if (null !== $option = $this->input->getOption($name)) {
             return \floatval($option);
@@ -206,7 +206,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
         return null === $option ? null : \intval($option);
     }
 
-    protected function getOptionString(string $name, string $default = null): string
+    protected function getOptionString(string $name, ?string $default = null): string
     {
         if (null !== $option = $this->input->getOption($name)) {
             return \strval($option);

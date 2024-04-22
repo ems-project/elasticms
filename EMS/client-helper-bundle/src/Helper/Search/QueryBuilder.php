@@ -140,7 +140,7 @@ final class QueryBuilder
         return $query;
     }
 
-    private function getPostFilters(Filter $exclude = null): ?AbstractQuery
+    private function getPostFilters(?Filter $exclude = null): ?AbstractQuery
     {
         $postFilters = new BoolQuery();
 

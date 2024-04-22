@@ -270,7 +270,7 @@ class RestoreCommand extends AbstractCommand
                 throw new \RuntimeException('Unexpected false content');
             }
 
-            $dataApi->save($ouuid, JSON::decode($content), DataInterface::MODE_REPLACE);
+            $dataApi->save($ouuid, Json::decode($content), DataInterface::MODE_REPLACE);
         }
     }
 }

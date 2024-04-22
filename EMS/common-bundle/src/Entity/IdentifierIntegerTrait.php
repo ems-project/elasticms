@@ -8,7 +8,7 @@ use EMS\Helpers\Standard\Type;
 
 trait IdentifierIntegerTrait
 {
-    private null|int|string $id = null;
+    private int|string|null $id = null;
 
     public function getId(): int
     {

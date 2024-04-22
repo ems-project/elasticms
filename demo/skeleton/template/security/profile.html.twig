@@ -1,13 +1,14 @@
 {% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
 
-{% block headtitle %}SSO Test{% endblock %}
+{% block headtitle %}Profile{% endblock %}
 
 {% block body %}
     <div class="d-flex justify-content-center align-items-center mt-5">
         <div class="w-25">
             <div class="card">
                 <div class="card-header">
-                    SSO Test
+                    Profile
                 </div>
                 <div class="card-body">
                     <p>Welcome {{ app.user.userIdentifier }}</p>

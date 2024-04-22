@@ -18,7 +18,7 @@ class ElasticaFactory
     /**
      * @param array<string> $hosts
      */
-    public function fromConfig(array $hosts, string $connectionPool = null): Client
+    public function fromConfig(array $hosts, ?string $connectionPool = null): Client
     {
         $servers = [];
         foreach ($hosts as $host) {

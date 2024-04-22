@@ -212,7 +212,7 @@ class AssetRuntime
         return $imageInfo;
     }
 
-    public function hash(string $input, string $hashAlgo = null, bool $binary = false): string
+    public function hash(string $input, ?string $hashAlgo = null, bool $binary = false): string
     {
         return $this->storageManager->computeStringHash($input, $hashAlgo, $binary);
     }

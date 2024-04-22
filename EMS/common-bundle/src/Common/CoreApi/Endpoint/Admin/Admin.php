@@ -86,7 +86,7 @@ final class Admin implements AdminInterface
         return $contentTypes;
     }
 
-    public function runCommand(string $command, OutputInterface $output = null): void
+    public function runCommand(string $command, ?OutputInterface $output = null): void
     {
         $job = [
             'class' => JobEntity::class,
@@ -138,12 +138,12 @@ final class Admin implements AdminInterface
             return $this->client->get(\implode('/', ['api', 'admin', 'versions']))->getData();
         } catch (\Throwable) {
             return [
-              'core' => '1.0.0',
-              'client' => '1.0.0',
-              'common' => '1.0.0',
-              'form' => '1.0.0',
-              'submission' => '1.0.0',
-              'symfony' => '3.0.0',
+                'core' => '1.0.0',
+                'client' => '1.0.0',
+                'common' => '1.0.0',
+                'form' => '1.0.0',
+                'submission' => '1.0.0',
+                'symfony' => '3.0.0',
             ];
         }
     }

@@ -2,11 +2,11 @@ security:
     providers:
         core_api:
             id: emsch.security.core_api.user_provider
-        saml:
-            id: emsch.security.saml.user_provider
+        sso:
+            id: emsch.security.sso.user_provider
         chain_providers:
             chain:
-                providers: [ 'core_api', 'saml' ]
+                providers: [ 'core_api', 'sso' ]
 
     firewalls:
         dev:
@@ -18,7 +18,8 @@ security:
             provider: chain_providers
             custom_authenticators:
                 - emsch.security.core_api.authenticator
-                - emsch.security.saml.authenticator
+                - emsch.security.sso.oauth2.authenticator
+                - emsch.security.sso.saml.authenticator
             logout:
                 path: emsch_logout
 

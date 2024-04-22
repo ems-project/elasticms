@@ -148,7 +148,7 @@ class Processor
         return $filename;
     }
 
-    private function generateImage(Config $config, string $filename = null, string $cacheFilename = null): string
+    private function generateImage(Config $config, ?string $filename = null, ?string $cacheFilename = null): string
     {
         $image = new Image($config, $this->logger);
 

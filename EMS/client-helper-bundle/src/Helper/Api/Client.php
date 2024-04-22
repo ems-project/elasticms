@@ -37,7 +37,7 @@ final class Client
      *
      * @return array<mixed>
      */
-    public function createDraft(string $type, array $body, string $ouuid = null): array
+    public function createDraft(string $type, array $body, ?string $ouuid = null): array
     {
         @\trigger_error('Deprecated use the initNewDocument or initNewDraftRevision functions', E_USER_DEPRECATED);
 
@@ -49,7 +49,7 @@ final class Client
      *
      * @return array<mixed>
      */
-    public function initNewDocument(string $type, array $body, string $ouuid = null): array
+    public function initNewDocument(string $type, array $body, ?string $ouuid = null): array
     {
         if (null === $ouuid) {
             $url = \sprintf('api/data/%s/draft', $type);
@@ -107,7 +107,7 @@ final class Client
     /**
      * @return array<mixed>
      */
-    public function postFile(\SplFileInfo $file, string $forcedFilename = null): array
+    public function postFile(\SplFileInfo $file, ?string $forcedFilename = null): array
     {
         $response = $this->client->post('api/file/upload', [
             'multipart' => [

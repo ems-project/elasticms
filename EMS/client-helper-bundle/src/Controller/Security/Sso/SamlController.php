@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Controller\Security;
+namespace EMS\ClientHelperBundle\Controller\Security\Sso;
 
-use EMS\ClientHelperBundle\Security\Saml\SamlAuthFactory;
+use EMS\ClientHelperBundle\Security\Sso\Saml\SamlService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
@@ -12,13 +12,13 @@ use Symfony\Component\Security\Core\Security;
 class SamlController
 {
     public function __construct(
-        private readonly SamlAuthFactory $samlAuthFactory
+        private readonly SamlService $samlService
     ) {
     }
 
     public function metaData(): Response
     {
-        $metaData = $this->samlAuthFactory->create()->getSettings()->getSPMetadata();
+        $metaData = $this->samlService->auth()->getSettings()->getSPMetadata();
 
         $response = new Response($metaData);
         $response->headers->set('Content-Type', 'xml');
@@ -49,6 +49,6 @@ class SamlController
 
         $targetPath = $session->get('_security.main.target_path');
 
-        $this->samlAuthFactory->create()->login($targetPath);
+        $this->samlService->auth()->login($targetPath);
     }
 }

@@ -47,7 +47,7 @@ final class SearchRuntime implements RuntimeExtensionInterface
     /**
      * @param array<string, string|string[]> $parameters
      */
-    public function analyze(string $text, array $parameters, string $index = null): AnalyzeResponse
+    public function analyze(string $text, array $parameters, ?string $index = null): AnalyzeResponse
     {
         return $this->elasticaService->analyze($text, $parameters, $index);
     }

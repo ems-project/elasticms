@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Reader\Slk;
 
 final class FileReader implements FileReaderInterface
 {
-    public function getData(string $filename, bool $skipFirstRow = false, string $encoding = null): array
+    public function getData(string $filename, bool $skipFirstRow = false, ?string $encoding = null): array
     {
         $reader = IOFactory::createReaderForFile($filename);
         if (($reader instanceof Csv || $reader instanceof Html || $reader instanceof Slk) && null !== $encoding) {

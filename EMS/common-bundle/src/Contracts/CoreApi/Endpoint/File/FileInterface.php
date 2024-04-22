@@ -22,7 +22,7 @@ interface FileInterface
 
     public function uploadContents(string $contents, string $filename, string $mimeType): string;
 
-    public function uploadFile(string $realPath, string $mimeType = null, string $filename = null, callable $callback = null): string;
+    public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string;
 
     public function uploadStream(StreamInterface $stream, string $filename, string $mimeType): string;
 

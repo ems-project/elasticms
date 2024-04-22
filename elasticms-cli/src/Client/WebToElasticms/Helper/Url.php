@@ -29,7 +29,7 @@ class Url
     private ?string $fragment;
     private readonly ?string $referer;
 
-    public function __construct(string $url, string $referer = null, private readonly ?string $refererLabel = null)
+    public function __construct(string $url, ?string $referer = null, private readonly ?string $refererLabel = null)
     {
         $parsed = self::mb_parse_url($url, $referer);
         $relativeParsed = [];
@@ -147,7 +147,7 @@ class Url
         return $this->cleanPath($path);
     }
 
-    public function getUrl(string $path = null, bool $withFragment = false, bool $withPassword = true, bool $withQuery = true): string
+    public function getUrl(?string $path = null, bool $withFragment = false, bool $withPassword = true, bool $withQuery = true): string
     {
         if (null !== $path) {
             return (new Url($path, $this->getUrl()))->getUrl(null, $withFragment);
@@ -238,7 +238,7 @@ class Url
     /**
      * @return array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string}
      */
-    public static function mb_parse_url(string $url, string $referer = null): array
+    public static function mb_parse_url(string $url, ?string $referer = null): array
     {
         $enc_url = \preg_replace_callback(
             '%[^:/@?&=#]+%usD',

@@ -39,10 +39,10 @@ final class ServiceNowHandlerTest extends AbstractHandlerTest
     public function testSubmitFormData(): void
     {
         $message = \json_encode([
-           'body' => [
-               'title' => 'Test serviceNow',
-               'name' => '{{ data.first_name }}',
-           ],
+            'body' => [
+                'title' => 'Test serviceNow',
+                'name' => '{{ data.first_name }}',
+            ],
         ]);
 
         $this->responseFactory->setCallback(function (string $method, string $url, array $options = []) {

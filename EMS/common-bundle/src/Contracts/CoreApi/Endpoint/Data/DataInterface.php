@@ -17,7 +17,7 @@ interface DataInterface
      *
      * @throws CoreApiExceptionInterface
      */
-    public function create(array $rawData, string $ouuid = null): DraftInterface;
+    public function create(array $rawData, ?string $ouuid = null): DraftInterface;
 
     /**
      * @throws CoreApiExceptionInterface

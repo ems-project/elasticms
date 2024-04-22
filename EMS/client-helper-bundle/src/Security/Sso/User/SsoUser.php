@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\ClientHelperBundle\Security\Saml\User;
+namespace EMS\ClientHelperBundle\Security\Sso\User;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class SamlUser implements UserInterface
+class SsoUser implements UserInterface
 {
     public function __construct(private readonly string $identifier)
     {

@@ -23,7 +23,7 @@ class Image
         $this->watermark = $watermark;
     }
 
-    public function generate(string $filename, string $cacheFilename = null): string
+    public function generate(string $filename, ?string $cacheFilename = null): string
     {
         $length = \filesize($filename);
         if (false === $length) {

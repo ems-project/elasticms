@@ -23,7 +23,7 @@ class StorageManager
     private array $factories = [];
 
     /**
-     * @param iterable<StorageFactoryInterface> $factories
+     * @param iterable<StorageFactoryInterface>                                            $factories
      * @param array<array{type?: string, url?: string, required?: bool, read-only?: bool}> $storageConfigs
      */
     public function __construct(private readonly LoggerInterface $logger, private readonly FileLocatorInterface $fileLocator, iterable $factories, private readonly string $hashAlgo, private readonly array $storageConfigs = [])
@@ -121,12 +121,7 @@ class StorageManager
 
     public function getPublicImage(string $name): string
     {
-        $file = $this->fileLocator->locate('@EMSCommonBundle/Resources/public/images/'.$name);
-        if (\is_array($file)) {
-            return $file[0] ?? '';
-        }
-
-        return $file;
+        return $this->fileLocator->locate('@EMSCommonBundle/Resources/public/images/'.$name);
     }
 
     public function getHashAlgo(): string
@@ -171,7 +166,7 @@ class StorageManager
         return $hash;
     }
 
-    public function computeStringHash(string $string, string $hashAlgo = null, bool $binary = false): string
+    public function computeStringHash(string $string, ?string $hashAlgo = null, bool $binary = false): string
     {
         return \hash($hashAlgo ?? $this->hashAlgo, $string, $binary);
     }

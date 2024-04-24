@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch\Response;
 
 use EMS\Helpers\Standard\Type;
 
-class AnalyzeResponse implements \JsonSerializable
+class AnalyzeResponse implements \JsonSerializable, \Stringable
 {
     /**
      * @param array<int, array<string, int|string>> $tokens

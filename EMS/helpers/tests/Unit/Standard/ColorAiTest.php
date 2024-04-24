@@ -73,14 +73,14 @@ class ColorAiTest extends TestCase
     public function testRelativeLuminance()
     {
         $color = new Color('#FFFFFF');
-        $this->assertEquals(1.0, $color->relativeLuminance(), '', 0.01);
+        $this->assertEquals(1.0, $color->relativeLuminance(), '');
     }
 
     public function testContrastRatio()
     {
         $color1 = new Color('#FFFFFF');
         $color2 = new Color('#000000');
-        $this->assertEquals(21, $color1->contrastRatio($color2), '', 0.01);
+        $this->assertEquals(21, $color1->contrastRatio($color2), '');
     }
 
     public function testGetComplementary()

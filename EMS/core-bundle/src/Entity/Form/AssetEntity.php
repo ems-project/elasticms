@@ -15,6 +15,8 @@ class AssetEntity
     private ?float $rotate = null;
     private ?float $scaleX = null;
     private ?float $scaleY = null;
+    private ?string $backgroundColor = null;
+    private ?int $transparency = null;
     /** @var array<string, mixed> */
     private array $config;
 
@@ -53,6 +55,7 @@ class AssetEntity
             EmsFields::ASSET_CONFIG_HEIGHT => $this->height,
             EmsFields::ASSET_CONFIG_FLIP_HORIZONTAL => (-1.0 === $this->scaleX),
             EmsFields::ASSET_CONFIG_FLIP_VERTICAL => (-1.0 === $this->scaleY),
+            EmsFields::ASSET_CONFIG_BACKGROUND => $this->backgroundColor,
         ], fn ($value) => null !== $value));
     }
 
@@ -69,6 +72,7 @@ class AssetEntity
         $this->height = $config[EmsFields::ASSET_CONFIG_HEIGHT] ?? null;
         $this->scaleX = ($config[EmsFields::ASSET_CONFIG_FLIP_HORIZONTAL] ?? false) ? -1.0 : 1.0;
         $this->scaleY = ($config[EmsFields::ASSET_CONFIG_FLIP_VERTICAL] ?? false) ? -1.0 : 1.0;
+        $this->backgroundColor = $config[EmsFields::ASSET_CONFIG_BACKGROUND] ?? null;
     }
 
     /**
@@ -162,4 +166,26 @@ class AssetEntity
     {
         $this->config[EmsFields::CONTENT_MIME_TYPE_FIELD_] = $mimetype;
     }
+
+    public function getBackgroundColor(): ?string
+    {
+        return $this->backgroundColor;
+    }
+
+    public function setBackgroundColor(?string $backgroundColor): void
+    {
+        $this->backgroundColor = '' === $backgroundColor ? null : $backgroundColor;
+    }
+
+    public function getTransparency(): ?int
+    {
+        return $this->transparency;
+    }
+
+    public function setTransparency(?int $transparency): void
+    {
+        $this->transparency = $transparency;
+    }
+
+
 }

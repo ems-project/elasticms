@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.16.0 (2024-04-29)
+### Features
+* feat(core/api): fileUrl for submission endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/876
+* feat(ems/twig): added new ems_http twig function by @Davidmattei in https://github.com/ems-project/elasticms/pull/873
+* feat(emsch/security): oAuth2 Open ID Connect authenticator (keycloak) by @Davidmattei in https://github.com/ems-project/elasticms/pull/874
+
 ## 5.15.2 (2024-04-12)
 ### Bug Fixes
 * fix(core/api): getSubmissionFile correct headers and error handling by @Davidmattei in https://github.com/ems-project/elasticms/pull/871

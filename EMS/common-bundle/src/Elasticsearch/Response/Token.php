@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch\Response;
 
 use EMS\Helpers\Standard\Type;
 
-class Token
+class Token implements \Stringable
 {
     /**
      * @param array<string, int|string> $token

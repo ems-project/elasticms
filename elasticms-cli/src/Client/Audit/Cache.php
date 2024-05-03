@@ -29,7 +29,7 @@ class Cache
     private int $startedAt;
     private Report $report;
 
-    public function __construct(Url $baseUrl = null)
+    public function __construct(?Url $baseUrl = null)
     {
         if (null !== $baseUrl) {
             $this->addUrl($baseUrl);

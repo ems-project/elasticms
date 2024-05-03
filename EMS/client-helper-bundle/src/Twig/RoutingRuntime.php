@@ -27,7 +27,7 @@ final class RoutingRuntime implements RuntimeExtensionInterface
         return $url;
     }
 
-    public function transform(string $content, string $locale = null, string $baseUrl = null): string
+    public function transform(string $content, ?string $locale = null, ?string $baseUrl = null): string
     {
         return $this->transformer->transform($content, ['locale' => $locale, 'baseUrl' => $baseUrl]);
     }

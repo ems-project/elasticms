@@ -192,7 +192,7 @@ final class Filter
      * @param array<mixed> $aggregation
      * @param string[]     $types
      */
-    public function handleAggregation(array $aggregation, array $types = [], AbstractQuery $queryFilters = null): void
+    public function handleAggregation(array $aggregation, array $types = [], ?AbstractQuery $queryFilters = null): void
     {
         $this->queryTypes = $types;
         $this->queryFilters = $queryFilters;

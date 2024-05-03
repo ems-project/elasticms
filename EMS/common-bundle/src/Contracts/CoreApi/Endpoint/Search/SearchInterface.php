@@ -21,7 +21,7 @@ interface SearchInterface
 
     public function healthStatus(): string;
 
-    public function refresh(string $index = null): bool;
+    public function refresh(?string $index = null): bool;
 
     /**
      * @return string[]

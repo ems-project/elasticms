@@ -156,7 +156,7 @@ class InsertionRevision
         $this->importField($insertReport, $segment, $sourceLocale, $targetLocale, $extractedRawData, $sourceValue, $insertRawData, $targetValue, null);
     }
 
-    public function getAttributeValue(\DOMElement $field, string $attributeName, string $defaultValue = null): ?string
+    public function getAttributeValue(\DOMElement $field, string $attributeName, ?string $defaultValue = null): ?string
     {
         if (!\str_contains($attributeName, ':')) {
             $nameSpace = null;

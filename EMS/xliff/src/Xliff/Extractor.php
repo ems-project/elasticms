@@ -185,7 +185,7 @@ class Extractor
         return $this->dom;
     }
 
-    public function addSimpleField(\DOMElement $document, string $fieldPath, string $source, string $target = null, bool $isFinal = false): void
+    public function addSimpleField(\DOMElement $document, string $fieldPath, string $source, ?string $target = null, bool $isFinal = false): void
     {
         $xliffAttributes = [
             'id' => $fieldPath,
@@ -204,7 +204,7 @@ class Extractor
         $this->addTextSegment($unit, $this->escapeSpecialCharacters($source), null === $target ? null : $this->escapeSpecialCharacters($target), $isFinal);
     }
 
-    public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, string $targetHtml = null, string $baselineHtml = null, bool $isFinal = false): void
+    public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, ?string $targetHtml = null, ?string $baselineHtml = null, bool $isFinal = false): void
     {
         $sourceCrawler = new Crawler(HtmlHelper::prettyPrint($sourceHtml));
         $targetCrawler = new Crawler(HtmlHelper::prettyPrint($targetHtml));
@@ -336,7 +336,7 @@ class Extractor
         return $segment;
     }
 
-    private function addId(\DOMElement $xliffElement, \DOMNode $domNode, string $attributeName = null): void
+    private function addId(\DOMElement $xliffElement, \DOMNode $domNode, ?string $attributeName = null): void
     {
         $id = $this->getId($domNode, $attributeName);
         $xliffElement->setAttribute('id', $id);
@@ -395,7 +395,7 @@ class Extractor
         return $this->sourceLocale;
     }
 
-    private function getId(\DOMNode $domNode, string $attributeName = null): string
+    private function getId(\DOMNode $domNode, ?string $attributeName = null): string
     {
         $id = $domNode->getNodePath();
         if (null === $id) {

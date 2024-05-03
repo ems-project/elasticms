@@ -64,10 +64,11 @@ final class FormSubmissionService implements EntityServiceInterface
         return $submission;
     }
 
-    public function getProperty(FormSubmission $formSubmission, string $property): mixed
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function getProperty(array $data, string $property): mixed
     {
-        $data = $formSubmission->toArray();
-
         $propertyAccessor = new PropertyAccessor();
         if ($propertyAccessor->isReadable($data, $property)) {
             return $propertyAccessor->getValue($data, $property);
@@ -152,8 +153,8 @@ final class FormSubmissionService implements EntityServiceInterface
         $config['sheets'] = [];
         foreach ($sheets as $key => $value) {
             $config['sheets'][] = [
-              'name' => $key,
-              'rows' => $value,
+                'name' => $key,
+                'rows' => $value,
             ];
         }
 
@@ -179,7 +180,7 @@ final class FormSubmissionService implements EntityServiceInterface
     /**
      * @return FormSubmission[]
      */
-    public function getFormSubmissions(string $formInstance = null): array
+    public function getFormSubmissions(?string $formInstance = null): array
     {
         return $this->formSubmissionRepository->findFormSubmissions($formInstance);
     }
@@ -294,7 +295,7 @@ final class FormSubmissionService implements EntityServiceInterface
         throw new \RuntimeException('updateEntityFromJson method not yet implemented');
     }
 
-    public function createEntityFromJson(string $json, string $name = null): EntityInterface
+    public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         throw new \RuntimeException('createEntityFromJson method not yet implemented');
     }

@@ -39,7 +39,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
      *
      * @return array<mixed>
      */
-    public function search(null|string|array $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], string $regex = null, string $index = null): array
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null): array
     {
         $client = $this->manager->getDefault();
 
@@ -50,7 +50,7 @@ final class ClientRequestRuntime implements RuntimeExtensionInterface
      * @param string|string[]|null $type
      * @param array<mixed>         $body
      */
-    public function searchOne(null|string|array $type, array $body, string $indexRegex = null): DocumentInterface
+    public function searchOne(string|array|null $type, array $body, ?string $indexRegex = null): DocumentInterface
     {
         try {
             return Document::fromArray($this->manager->getDefault()->searchOne($type, $body, $indexRegex));

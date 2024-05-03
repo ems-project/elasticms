@@ -15,7 +15,7 @@ final class TranslationBuilder extends AbstractBuilder
     /**
      * @return \Generator|MessageCatalogue[]
      */
-    public function buildMessageCatalogues(Environment $environment, string $domain = null): \Generator
+    public function buildMessageCatalogues(Environment $environment, ?string $domain = null): \Generator
     {
         if (null === $contentType = $this->settings($environment)->getTranslationContentType()) {
             return [];

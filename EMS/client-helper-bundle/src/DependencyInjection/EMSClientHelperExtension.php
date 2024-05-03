@@ -37,7 +37,8 @@ final class EMSClientHelperExtension extends Extension
         $container->setParameter('emsch.asset_local_folder', $config['asset_local_folder'] ?? null);
         $container->setParameter('emsch.request_environments', $config['request_environments']);
         $container->setParameter('emsch.search_limit', $config['search_limit']);
-        $container->setParameter('emsch.security.saml', $config['security']['saml'] ?? []);
+        $container->setParameter('emsch.security.sso.oauth2', $config['security']['sso']['oauth2'] ?? []);
+        $container->setParameter('emsch.security.sso.saml', $config['security']['sso']['saml'] ?? []);
         $container->setParameter('emsch.security.route_login', $config['security']['route_login']);
 
         $templates = $config['templates'];

@@ -119,7 +119,7 @@ final class MediaLibrarySync
     /**
      * @param mixed[] $data
      */
-    private function uploadMedia(string $path, array $data = [], SplFileInfo $file = null): void
+    private function uploadMedia(string $path, array $data = [], ?SplFileInfo $file = null): void
     {
         $pos = \strrpos($path, '/');
         if (false === $pos) {

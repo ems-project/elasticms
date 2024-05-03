@@ -9,5 +9,5 @@ interface FileReaderInterface
     /**
      * @return array<mixed>
      */
-    public function getData(string $filename, bool $skipFirstRow = false, string $encoding = null): array;
+    public function getData(string $filename, bool $skipFirstRow = false, ?string $encoding = null): array;
 }

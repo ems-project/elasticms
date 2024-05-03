@@ -47,7 +47,7 @@ final class Route
     /**
      * @param string[] $locales
      */
-    public function addToCollection(RouteCollection $collection, array $locales = [], string $prefix = null): void
+    public function addToCollection(RouteCollection $collection, array $locales = [], ?string $prefix = null): void
     {
         $path = $this->options['path'];
 
@@ -66,7 +66,7 @@ final class Route
         }
     }
 
-    private function createRoute(string $path, string $locale = null): SymfonyRoute
+    private function createRoute(string $path, ?string $locale = null): SymfonyRoute
     {
         $defaults = $this->options['defaults'];
 

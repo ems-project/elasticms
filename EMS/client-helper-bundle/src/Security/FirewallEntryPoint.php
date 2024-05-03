@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security;
 
-use EMS\ClientHelperBundle\Security\Saml\SamlConfig;
+use EMS\ClientHelperBundle\Security\Sso\SsoService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -18,18 +18,18 @@ class FirewallEntryPoint implements AuthenticationEntryPointInterface
     public function __construct(
         private readonly HttpUtils $httpUtils,
         private readonly RouterInterface $router,
-        private readonly SamlConfig $samlConfig,
+        private readonly SsoService $ssoService,
         private readonly string $routeLoginName
     ) {
     }
 
-    public function start(Request $request, AuthenticationException $authException = null): Response
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         $routeLogin = $this->router->getRouteCollection()->get($this->routeLoginName);
 
         return match (true) {
             null !== $routeLogin => $this->httpUtils->createRedirectResponse($request, $this->routeLoginName),
-            $this->samlConfig->isEnabled() => $this->httpUtils->createRedirectResponse($request, SamlConfig::ROUTE_LOGIN),
+            $this->ssoService->enabled() => $this->ssoService->start($request),
             default => throw new NotAnEntryPointException()
         };
     }

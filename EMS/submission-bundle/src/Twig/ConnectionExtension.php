@@ -8,7 +8,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
-final class ConnectionExtension extends abstractExtension
+final class ConnectionExtension extends AbstractExtension
 {
     public function getFunctions(): array
     {

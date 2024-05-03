@@ -63,7 +63,7 @@ class Search implements SearchInterface
         return $status;
     }
 
-    public function refresh(string $index = null): bool
+    public function refresh(?string $index = null): bool
     {
         $success = $this->client->post('/api/search/refresh', [
             'index' => $index,

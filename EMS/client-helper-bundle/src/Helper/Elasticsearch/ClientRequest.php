@@ -203,7 +203,7 @@ final class ClientRequest implements ClientRequestInterface
     /**
      * @param string[] $sourceFields
      */
-    public function getHierarchy(string $emsKey, string $childrenField, int $depth = null, array $sourceFields = [], EMSLink $activeChild = null): ?HierarchicalStructure
+    public function getHierarchy(string $emsKey, string $childrenField, ?int $depth = null, array $sourceFields = [], ?EMSLink $activeChild = null): ?HierarchicalStructure
     {
         $this->logger->debug('ClientRequest : getHierarchy for {emsKey}', ['emsKey' => $emsKey]);
         $item = $this->getByEmsKey($emsKey, $sourceFields);
@@ -274,7 +274,7 @@ final class ClientRequest implements ClientRequestInterface
         return $settings;
     }
 
-    public function getContentType(string $name, Environment $environment = null): ?ContentType
+    public function getContentType(string $name, ?Environment $environment = null): ?ContentType
     {
         if (null === $environment) {
             if (null === $currentEnvironment = $this->getCurrentEnvironment()) {
@@ -369,7 +369,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<mixed>
      */
-    public function search(null|string|array $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], string $regex = null, string $index = null)
+    public function search(string|array|null $type, array $body, int $from = 0, int $size = 10, array $sourceExclude = [], ?string $regex = null, ?string $index = null)
     {
         if (null === $type) {
             $types = [];
@@ -407,7 +407,7 @@ final class ClientRequest implements ClientRequestInterface
     /**
      * @param string[] $types
      */
-    public function initializeCommonSearch(array $types, AbstractQuery $query = null): Search
+    public function initializeCommonSearch(array $types, ?AbstractQuery $query = null): Search
     {
         $query = $this->elasticaService->filterByContentTypes($query, $types);
 
@@ -477,7 +477,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array{_id: string, _type?: string, _source: array<mixed>}
      */
-    public function searchOne(null|string|array $type, array $body, string $indexRegex = null): array
+    public function searchOne(string|array|null $type, array $body, ?string $indexRegex = null): array
     {
         $this->logger->debug('ClientRequest : searchOne for {type}', ['type' => $type, 'body' => $body, 'indexRegex' => $indexRegex]);
         $search = $this->search($type, $body, 0, 2, [], $indexRegex);
@@ -514,7 +514,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<mixed>
      */
-    public function scroll(string $type, array $filter = [], int $size = 10, string $scrollId = null): array
+    public function scroll(string $type, array $filter = [], int $size = 10, ?string $scrollId = null): array
     {
         $scrollTimeout = '30s';
 
@@ -537,7 +537,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return \Generator<array<mixed>>
      */
-    public function scrollAll(array $params, string $timeout = '30s', string $index = null): iterable
+    public function scrollAll(array $params, string $timeout = '30s', ?string $index = null): iterable
     {
         if (null === $index) {
             $index = $this->getAlias();
@@ -558,7 +558,7 @@ final class ClientRequest implements ClientRequestInterface
         return $this->name;
     }
 
-    public function getCacheKey(string $prefix = '', string $environment = null): string
+    public function getCacheKey(string $prefix = '', ?string $environment = null): string
     {
         if ($environment) {
             return $prefix.$environment;
@@ -633,7 +633,7 @@ final class ClientRequest implements ClientRequestInterface
     /**
      * @param AbstractQuery|array<mixed>|null $query
      */
-    public function getCommonSearch(array|AbstractQuery $query = null): Search
+    public function getCommonSearch(array|AbstractQuery|null $query = null): Search
     {
         return new Search([$this->getAlias()], $query);
     }

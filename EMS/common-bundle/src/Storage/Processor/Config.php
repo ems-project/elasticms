@@ -111,7 +111,7 @@ final class Config
     /**
      * Asset_config_type is optional, so _published_datetime can be null.
      */
-    public function isValid(\DateTime $lastCacheDate = null): bool
+    public function isValid(?\DateTime $lastCacheDate = null): bool
     {
         $publishedDateTime = $this->getLastUpdateDate();
 

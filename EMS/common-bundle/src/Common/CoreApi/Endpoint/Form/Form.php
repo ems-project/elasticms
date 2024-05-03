@@ -24,7 +24,7 @@ final class Form implements FormInterface
         return $this->client->post($resource, $data)->getData();
     }
 
-    public function getSubmission(string $submissionId, string $property = null): array
+    public function getSubmission(string $submissionId, ?string $property = null): array
     {
         $resource = $this->makeResource('submissions/'.$submissionId);
         $query = \array_filter(['property' => $property]);

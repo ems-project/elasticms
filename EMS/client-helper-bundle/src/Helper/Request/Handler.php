@@ -97,7 +97,7 @@ final class Handler implements HandlerInterface
     /**
      * @param ?array<mixed> $document
      */
-    private function getTemplate(Request $request, SymfonyRoute $route, array $document = null): string
+    private function getTemplate(Request $request, SymfonyRoute $route, ?array $document = null): string
     {
         $template = $route->getOption('template');
 

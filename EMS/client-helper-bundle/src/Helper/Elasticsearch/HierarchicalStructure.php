@@ -17,7 +17,7 @@ final class HierarchicalStructure
     /**
      * @param array<mixed> $source
      */
-    public function __construct(private readonly string $type, private readonly string $id, private readonly array $source, EMSLink $activeChild = null)
+    public function __construct(private readonly string $type, private readonly string $id, private readonly array $source, ?EMSLink $activeChild = null)
     {
         if (!empty($activeChild)) {
             $this->active = $id === $activeChild->getOuuid() && $type === $activeChild->getContentType();

@@ -8,7 +8,6 @@ use EMS\CoreBundle\Entity\Form\AssetEntity;
 use EMS\CoreBundle\Form\DataTransformer\AssetTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,7 +24,6 @@ class EditImageType extends AbstractType
     public const FIELD_SCALE_X = 'scale_x';
     public const FIELD_SCALE_Y = 'scale_y';
     public const FIELD_BACKGROUND_COLOR = 'background_color';
-    public const FIELD_TRANSPARENCY = 'transparency';
 
     public function __construct(
         private readonly AssetTransformer $transformer,
@@ -80,11 +78,6 @@ class EditImageType extends AbstractType
         $builder->add(self::FIELD_BACKGROUND_COLOR, ColorPickerFullType::class, [
             'attr' => [
                 'class' => 'ems-cropper-background-color',
-            ],
-        ]);
-        $builder->add(self::FIELD_TRANSPARENCY, RangeType::class, [
-            'attr' => [
-                'class' => 'ems-cropper-transparency',
             ],
         ]);
     }

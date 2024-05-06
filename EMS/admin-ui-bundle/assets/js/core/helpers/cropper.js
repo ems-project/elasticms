@@ -14,6 +14,7 @@ class Cropper {
     this.rotate = container.querySelector('.ems-cropper-rotate')
     this.scaleX = container.querySelector('.ems-cropper-scale-x')
     this.scaleY = container.querySelector('.ems-cropper-scale-y')
+    this.backgroundColor = container.querySelector('.ems-cropper-background-color')
     this.data = null
     if (this.x.value.length > 0) {
       this.data = {
@@ -38,6 +39,7 @@ class Cropper {
     container.querySelector('.ems-cropper-zoom-out').addEventListener('click', () => self.zoom(-0.1))
     container.querySelector('.ems-cropper-zoom-in').addEventListener('click', () => self.zoom(0.1))
     container.querySelector('.ems-cropper-zoom-reset').addEventListener('click', () => self.reset())
+    this.backgroundColor.addEventListener('change', () => self.setBackgroundColor())
   }
 
   change () {
@@ -103,6 +105,16 @@ class Cropper {
       width: Math.round(this.data.width),
       height: Math.round(this.data.height)
     })
+
+    this.setBackgroundColor()
+  }
+
+  setBackgroundColor () {
+    if (!this.backgroundColor.value || this.backgroundColor.value === '#000000') {
+      this.container.querySelector('.cropper-crop-box').style.backgroundColor = 'unset'
+    } else {
+      this.container.querySelector('.cropper-crop-box').style.backgroundColor = this.backgroundColor.value
+    }
   }
 }
 

@@ -16,7 +16,6 @@ class AssetEntity
     private ?float $scaleX = null;
     private ?float $scaleY = null;
     private ?string $backgroundColor = null;
-    private ?int $transparency = null;
     /** @var array<string, mixed> */
     private array $config;
 
@@ -169,23 +168,11 @@ class AssetEntity
 
     public function getBackgroundColor(): ?string
     {
-        return $this->backgroundColor;
+        return '#000000' === $this->backgroundColor ? null : $this->backgroundColor;
     }
 
     public function setBackgroundColor(?string $backgroundColor): void
     {
         $this->backgroundColor = '' === $backgroundColor ? null : $backgroundColor;
     }
-
-    public function getTransparency(): ?int
-    {
-        return $this->transparency;
-    }
-
-    public function setTransparency(?int $transparency): void
-    {
-        $this->transparency = $transparency;
-    }
-
-
 }

@@ -838,7 +838,7 @@ class RevisionRepository extends EntityRepository
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function countRemovedRevisions(?ContentType $contentType): int
+    public function countDeletedRevisions(?ContentType $contentType): int
     {
         $qb = $this->createQueryBuilder('r');
         $qb->select('count(r.id)')
@@ -883,7 +883,7 @@ class RevisionRepository extends EntityRepository
     /**
      * @return Revision[]
      */
-    public function getRemovedRevisions(int $from, int $size, ?string $orderField, string $orderDirection, ?ContentType $contentType): array
+    public function getDeletedRevisions(int $from, int $size, ?string $orderField, string $orderDirection, ?ContentType $contentType): array
     {
         $qb = $this->createQueryBuilder('r');
         $qb->where('r.deleted = :deleted')

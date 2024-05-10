@@ -11,7 +11,7 @@ use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
 use Psr\Log\LoggerInterface;
 
-class RemovedRevisionsService implements EntityServiceInterface
+class DeletedRevisionsService implements EntityServiceInterface
 {
     final public const DISCARD_SELECTED_REMOVED_REVISION = 'DISCARD_SELECTED_REMOVED_REVISION';
 
@@ -32,7 +32,7 @@ class RemovedRevisionsService implements EntityServiceInterface
             throw new \RuntimeException('Unexpected context');
         }
 
-        return $this->revisionRepository->getRemovedRevisions(
+        return $this->revisionRepository->getDeletedRevisions(
             from: $from,
             size: $size,
             orderField: $orderField,
@@ -60,7 +60,7 @@ class RemovedRevisionsService implements EntityServiceInterface
             throw new \RuntimeException('Unexpected context');
         }
 
-        return $this->revisionRepository->countRemovedRevisions(
+        return $this->revisionRepository->countDeletedRevisions(
             contentType: $context
         );
     }

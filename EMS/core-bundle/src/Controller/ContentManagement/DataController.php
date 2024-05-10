@@ -8,8 +8,8 @@ use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
-use EMS\CoreBundle\Core\Revision\RemovedRevisionsService;
-use EMS\CoreBundle\DataTable\Type\Revision\RemovedRevisionsDataTableType;
+use EMS\CoreBundle\Core\Revision\DeletedRevisionsService;
+use EMS\CoreBundle\DataTable\Type\Revision\DeletedRevisionsDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -59,21 +59,21 @@ use Twig\Environment as TwigEnvironment;
 class DataController extends AbstractController
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly DataService $dataService,
-        private readonly SearchService $searchService,
-        private readonly ContentTypeService $contentTypeService,
-        private readonly RemovedRevisionsService $removedRevisionsService,
-        private readonly EnvironmentService $environmentService,
-        private readonly IndexService $indexService,
-        private readonly TranslatorInterface $translator,
-        private readonly ViewTypes $viewTypes,
-        private readonly TwigEnvironment $twig,
-        private readonly JobService $jobService,
-        private readonly ContentTypeRepository $contentTypeRepository,
-        private readonly SearchRepository $searchRepository,
-        private readonly RevisionRepository $revisionRepository,
-        private readonly TemplateRepository $templateRepository,
+        private readonly LoggerInterface         $logger,
+        private readonly DataService             $dataService,
+        private readonly SearchService           $searchService,
+        private readonly ContentTypeService      $contentTypeService,
+        private readonly DeletedRevisionsService $removedRevisionsService,
+        private readonly EnvironmentService      $environmentService,
+        private readonly IndexService            $indexService,
+        private readonly TranslatorInterface     $translator,
+        private readonly ViewTypes               $viewTypes,
+        private readonly TwigEnvironment         $twig,
+        private readonly JobService              $jobService,
+        private readonly ContentTypeRepository   $contentTypeRepository,
+        private readonly SearchRepository        $searchRepository,
+        private readonly RevisionRepository      $revisionRepository,
+        private readonly TemplateRepository      $templateRepository,
         private readonly EnvironmentRepository $environmentRepository,
         private readonly string $templateNamespace,
         private readonly DataTableFactory $dataTableFactory,
@@ -176,7 +176,7 @@ class DataController extends AbstractController
         if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
             throw $this->createAccessDeniedException('Trash not granted!');
         }
-        $table = $this->dataTableFactory->create(RemovedRevisionsDataTableType::class, [
+        $table = $this->dataTableFactory->create(DeletedRevisionsDataTableType::class, [
             'content_type_name' => $contentType->getName(),
         ]);
 
@@ -186,7 +186,7 @@ class DataController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
                 switch ($action->getName()) {
-                    case RemovedRevisionsService::DISCARD_SELECTED_REMOVED_REVISION:
+                    case DeletedRevisionsService::DISCARD_SELECTED_REMOVED_REVISION:
                         $this->removedRevisionsService->deleteByIds($table->getSelected());
                         break;
                     default:

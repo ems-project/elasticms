@@ -189,7 +189,7 @@
             <argument type="service" id="emsco.manager.user" />
             <argument type="service" id="security.authorization_checker" />
         </service>
-        <service id="ems_core.core_revision.removed_revisions" class="EMS\CoreBundle\Core\Revision\RemovedRevisionsService">
+        <service id="ems_core.core_revision.delete_revisions" class="EMS\CoreBundle\Core\Revision\DeletedRevisionsService">
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository"/>
             <argument type="service" id="logger"/>
         </service>

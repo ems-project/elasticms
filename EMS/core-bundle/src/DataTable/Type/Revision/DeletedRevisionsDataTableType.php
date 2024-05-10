@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\DataTable\Type\Revision;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
-use EMS\CoreBundle\Core\Revision\RemovedRevisionsService;
+use EMS\CoreBundle\Core\Revision\DeletedRevisionsService;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Form\Data\Condition\InMyCircles;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
@@ -17,12 +17,12 @@ use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RemovedRevisionsDataTableType extends AbstractEntityTableType
+class DeletedRevisionsDataTableType extends AbstractEntityTableType
 {
     public function __construct(
-        RemovedRevisionsService $removedRevisions,
+        DeletedRevisionsService             $removedRevisions,
         private readonly ContentTypeService $contentTypeService,
-        private readonly UserService $userService
+        private readonly UserService        $userService
     ) {
         parent::__construct($removedRevisions);
     }
@@ -52,7 +52,7 @@ class RemovedRevisionsDataTableType extends AbstractEntityTableType
         ])->addCondition($inMyCircles)->setButtonType('outline-danger');
 
         if (null !== $contentType) {
-            $table->addTableAction(RemovedRevisionsService::DISCARD_SELECTED_REMOVED_REVISION, 'fa fa-trash', 'revision.removed-revisions.action.discard-selected-removed-revisions', 'revision.removed-revisions.action.discard-selected-confirm')
+            $table->addTableAction(DeletedRevisionsService::DISCARD_SELECTED_REMOVED_REVISION, 'fa fa-trash', 'revision.removed-revisions.action.discard-selected-removed-revisions', 'revision.removed-revisions.action.discard-selected-confirm')
                 ->setCssClass('btn btn-outline-danger');
         }
     }

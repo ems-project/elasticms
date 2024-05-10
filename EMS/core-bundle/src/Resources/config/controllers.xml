@@ -124,7 +124,7 @@
             <argument type="service" id="ems.service.data" />
             <argument type="service" id="ems.service.search" />
             <argument type="service" id="ems.service.contenttype" />
-            <argument type="service" id="ems_core.core_revision.removed_revisions" />
+            <argument type="service" id="ems_core.core_revision.delete_revisions" />
             <argument type="service" id="ems.service.environment" />
             <argument type="service" id="ems.service.index" />
             <argument type="service" id="translator" />

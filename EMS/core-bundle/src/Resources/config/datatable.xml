@@ -72,8 +72,8 @@
             <argument>%ems_core.template_namespace%</argument>
             <tag name="emsco.datatable" />
         </service>
-        <service id="emsco.data_table.trash" class="EMS\CoreBundle\DataTable\Type\Revision\RemovedRevisionsDataTableType">
-            <argument type="service" id="ems_core.core_revision.removed_revisions" />
+        <service id="emsco.data_table.trash" class="EMS\CoreBundle\DataTable\Type\Revision\DeletedRevisionsDataTableType">
+            <argument type="service" id="ems_core.core_revision.delete_revisions" />
             <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService" />
             <argument type="service" id="ems.service.user" />
             <tag name="emsco.datatable" />

@@ -20,9 +20,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DeletedRevisionsDataTableType extends AbstractEntityTableType
 {
     public function __construct(
-        DeletedRevisionsService             $removedRevisions,
+        DeletedRevisionsService $removedRevisions,
         private readonly ContentTypeService $contentTypeService,
-        private readonly UserService        $userService
+        private readonly UserService $userService
     ) {
         parent::__construct($removedRevisions);
     }

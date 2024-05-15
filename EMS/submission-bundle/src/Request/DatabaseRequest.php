@@ -95,7 +95,7 @@ final class DatabaseRequest
             ->setAllowedTypes('data', 'array')
             ->setAllowedTypes('files', 'array')
             ->setAllowedTypes('label', 'string')
-            ->setAllowedTypes('expire_date', 'string')
+            ->setAllowedTypes('expire_date', ['string', 'null'])
         ;
 
         try {

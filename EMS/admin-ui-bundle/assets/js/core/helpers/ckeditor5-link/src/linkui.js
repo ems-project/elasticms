@@ -13,7 +13,8 @@ import LinkActionsView from './ui/linkactionsview.js'
 import { EMS_SELECT_LINK_EVENT } from '../../../events/selectLinkEvent'
 import { isLinkElement, LINK_KEYSTROKE } from './utils.js'
 import linkIcon from '../theme/icons/link.svg'
-import LinkModal from '../../linkModal'
+import CkeModal from '../../ckeModal'
+import Link from '../../link'
 const VISUAL_SELECTION_MARKER_NAME = 'link-ui'
 /**
  * The link UI plugin. It introduces the `'link'` and `'unlink'` buttons and support for the <kbd>Ctrl+K</kbd> keystroke.
@@ -88,8 +89,9 @@ export default class LinkUI extends Plugin {
     this._createFormModal()
   }
 
-  _createModals () {
-    this.formModal = new LinkModal()
+  _createModal () {
+    const t = this.editor.t
+    this.formModal = new CkeModal('initLink', t('Insert a link'))
   }
 
   /**
@@ -204,13 +206,14 @@ export default class LinkUI extends Plugin {
 
   _addFormModal () {
     if (!this.formModal) {
-      this._createModals()
+      this._createModal()
     }
     const editor = this.editor
     const linkCommand = editor.commands.get('link')
     const value = linkCommand.value || ''
     const target = undefined !== linkCommand.target ? linkCommand.target : null
-    this.formModal.show(value, target, editor.getData())
+    const link = new Link(value)
+    this.formModal.show({ url: link.href, target, content: editor.getData() })
   }
 
   /**
@@ -220,7 +223,7 @@ export default class LinkUI extends Plugin {
      */
   _showUI (forceVisible = false) {
     if (!this.formModal) {
-      this._createModals()
+      this._createModal()
     }
     // When there's no link under the selection, go straight to the editing UI.
     if (!this._getSelectedLinkElement()) {

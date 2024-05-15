@@ -1,0 +1,17 @@
+edit_image:
+  flip:
+    group: 'Flip'
+    horizontal: 'Flip horizontal'
+    vertical: 'Flip vertical'
+  zoom:
+    minus: 'Zoom in'
+    plus: 'Zoom out'
+    group: 'Zoom'
+    reset: 'Reset view'
+  rotate:
+    group: 'Rotate'
+    left: 'Rotate left'
+    right: 'Rotate right'
+field_type:
+  textarea:
+    counter: '%count% characters'

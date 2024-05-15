@@ -2,5 +2,3 @@ core:
   modal:
     close: 'Close'
     loading: 'Loading...'
-    link:
-      title: 'Insert a link'

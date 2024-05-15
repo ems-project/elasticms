@@ -186,6 +186,8 @@ class Image
                 $thumb_width = \intval(($originalWidth * $height) / $originalHeight);
                 $this->imageCopyResized($temp, $image, \intval(($width - $thumb_width) / 2), 0, 0, 0, $thumb_width, $height, $originalWidth, $originalHeight);
             }
+        } elseif ('crop' == $resize) {
+            $this->imageCopyResized($temp, $image, 0, 0, $this->config->getX(), $this->config->getY(), $width, $height, $width, $height);
         } else {
             $this->imageCopyResized($temp, $image, 0, 0, 0, 0, $width, $height, $originalWidth, $originalHeight);
         }

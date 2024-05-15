@@ -12,6 +12,7 @@ import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support'
 import {
   Image,
   ImageCaption,
+  ImageInsertViaUrl,
   ImageStyle,
   ImageToolbar,
   ImageResizeEditing,
@@ -42,6 +43,7 @@ import { TextTransformation } from '@ckeditor/ckeditor5-typing'
 import { Undo } from '@ckeditor/ckeditor5-undo'
 
 import { Link } from './ckeditor5-link/src/index'
+import { AssetManager } from './ckeditor5-assetmanager/src/index'
 import { UploadAdapter } from './ck5/uploadAdapter'
 import { PasteAjax } from './ck5/pasteAjax'
 import { LinkTarget } from './ck5/linkTarget'
@@ -104,6 +106,7 @@ export default class Editor {
       plugins: [
         Alignment,
         Autoformat,
+        AssetManager,
         BlockQuote,
         Bold,
         Essentials,
@@ -115,6 +118,7 @@ export default class Editor {
         Heading,
         Image,
         ImageCaption,
+        ImageInsertViaUrl,
         ImageStyle,
         ImageToolbar,
         ImageResizeEditing,
@@ -159,7 +163,7 @@ export default class Editor {
           'redo',
           '|',
           'link',
-          'imageUpload',
+          'insertImage',
           'insertTable',
           'mediaEmbed',
           'specialCharacters',
@@ -177,10 +181,19 @@ export default class Editor {
         toolbar: [
           'imageTextAlternative',
           'toggleImageCaption',
+          '|',
           'imageStyle:inline',
           'imageStyle:block',
-          'imageStyle:side'
-        ]
+          'imageStyle:side',
+          '|',
+          'editImage'
+        ],
+        insert: {
+          integrations: [
+            'upload',
+            'assetManager'
+          ]
+        }
       },
       table: {
         defaultHeadings: { rows: 1 },

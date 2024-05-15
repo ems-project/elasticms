@@ -77,9 +77,9 @@ class Processor
 
         $cacheResponse = new Response();
         $this->cacheHelper->makeResponseCacheable($cacheResponse, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
-        if ($cacheResponse->isNotModified($request)) {
-            return $cacheResponse;
-        }
+        //        if ($cacheResponse->isNotModified($request)) {
+        //            return $cacheResponse;
+        //        }
 
         $stream = $this->getStream($config, $filename);
 
@@ -219,12 +219,12 @@ class Processor
         }
 
         $cacheFilename = $this->getCacheFilename($config, $filename);
-        if (!$noCache && \file_exists($cacheFilename)) {
-            $fp = \fopen($cacheFilename, 'r');
-            if (false !== $fp) {
-                return new Stream($fp);
-            }
-        }
+        //        if (!$noCache && \file_exists($cacheFilename)) {
+        //            $fp = \fopen($cacheFilename, 'r');
+        //            if (false !== $fp) {
+        //                return new Stream($fp);
+        //            }
+        //        }
 
         return $this->generateStream($config, $cacheFilename);
     }

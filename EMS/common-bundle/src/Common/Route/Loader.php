@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Route;
 
 use EMS\CommonBundle\Controller\MetricController;
+use EMS\CommonBundle\Routes;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -19,7 +20,7 @@ final class Loader
         $commonRouteCollection = new RouteCollection();
 
         if ($this->metricEnabled) {
-            $metricRoute = new Route('/metrics');
+            $metricRoute = new Route(Routes::METRICS->value);
             $metricRoute->setMethods(['GET']);
             $metricRoute->setHost('%ems.metric.host%');
             $metricRoute->setDefault('_controller', MetricController::METRICS);

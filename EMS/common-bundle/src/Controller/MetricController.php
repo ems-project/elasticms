@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Controller;
 use EMS\CommonBundle\Common\Metric\MetricCollector;
 use Prometheus\RenderTextFormat;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 final class MetricController extends AbstractController
@@ -17,9 +18,9 @@ final class MetricController extends AbstractController
     {
     }
 
-    public function metrics(): Response
+    public function metrics(Request $request): Response
     {
-        if (null !== $this->metricPort && $this->metricPort !== $_SERVER['SERVER_PORT']) {
+        if (null !== $this->metricPort && $this->metricPort !== $request->server->get('SERVER_PORT')) {
             throw $this->createNotFoundException();
         }
 

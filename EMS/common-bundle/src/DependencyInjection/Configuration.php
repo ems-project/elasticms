@@ -43,6 +43,7 @@ class Configuration implements ConfigurationInterface
         $this->addCacheSection($rootNode);
         $this->addMetricSection($rootNode);
         $this->addWebalizeSection($rootNode);
+        $this->addRequestSection($rootNode);
 
         return $treeBuilder;
     }
@@ -93,6 +94,19 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('removable_regex')->defaultValue(self::WEBALIZE_REMOVABLE_REGEX)->setDeprecated('elasticms/common-bundle', '6.0.0')->end()
                         ->scalarNode('dashable_regex')->defaultValue(self::WEBALIZE_DASHABLE_REGEX)->setDeprecated('elasticms/common-bundle', '6.0.0')->end()
+                ->end()
+            ->end()
+        ;
+    }
+
+    private function addRequestSection(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('request')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->variableNode('trusted_ips')->defaultValue([])->end()
                 ->end()
             ->end()
         ;

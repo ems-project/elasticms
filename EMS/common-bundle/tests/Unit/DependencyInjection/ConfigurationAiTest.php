@@ -51,8 +51,8 @@ final class ConfigurationAiTest extends TestCase
             ],
             'slug_symbol_map' => null,
             'request' => [
-                'trusted_ips' => []
-            ]
+                'trusted_ips' => [],
+            ],
         ];
 
         $this->assertEquals($expected, $config);

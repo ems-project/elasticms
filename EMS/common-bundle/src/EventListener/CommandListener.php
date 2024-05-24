@@ -31,10 +31,7 @@ class CommandListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @return void
-     */
-    public function onCommand(ConsoleCommandEvent $event)
+    public function onCommand(ConsoleCommandEvent $event): void
     {
         $command = $event->getCommand();
 
@@ -45,10 +42,7 @@ class CommandListener implements EventSubscriberInterface
         $this->stopwatch->start((string) $command->getName());
     }
 
-    /**
-     * @return void
-     */
-    public function onTerminate(ConsoleTerminateEvent $event)
+    public function onTerminate(ConsoleTerminateEvent $event): void
     {
         $command = $event->getCommand();
 

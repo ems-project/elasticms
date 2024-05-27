@@ -8,6 +8,7 @@ use EMS\CommonBundle\Common\Metric\MetricCollector;
 use EMS\CommonBundle\Controller\MetricController;
 use PHPUnit\Framework\TestCase;
 use Prometheus\RenderTextFormat;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -26,17 +27,16 @@ final class MetricControllerAiTest extends TestCase
 
     public function testMetricsWithMismatchedPort(): void
     {
-        $_SERVER['SERVER_PORT'] = '8081';
+        $request = new Request();
+        $request->server->set('SERVER_PORT', '8081');
 
         $this->expectException(NotFoundHttpException::class);
 
-        $this->controller->metrics();
+        $this->controller->metrics($request);
     }
 
     public function testMetricsWithMatchingPort(): void
     {
-        $_SERVER['SERVER_PORT'] = '8080';
-
         $metrics = [];
         $this->metricCollector->expects($this->once())
             ->method('getMetrics')
@@ -45,7 +45,10 @@ final class MetricControllerAiTest extends TestCase
         $renderFormat = new RenderTextFormat();
         $content = $renderFormat->render($metrics);
 
-        $response = $this->controller->metrics();
+        $request = new Request();
+        $request->server->set('SERVER_PORT', '8080');
+
+        $response = $this->controller->metrics($request);
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertEquals(RenderTextFormat::MIME_TYPE, $response->headers->get('Content-type'));

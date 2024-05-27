@@ -29,6 +29,7 @@ parameters:
     env(EMS_WEBALIZE_DASHABLE_REGEX): '/[\/\_\|\ \-]+/'
     env(EMS_EXCLUDED_CONTENT_TYPES): '[]'
     env(EMS_SLUG_SYMBOL_MAP): ~
+    env(EMS_TRUSTED_IPS): '[]'
 
 ems_common:
     hash_algo: '%env(string:EMS_HASH_ALGO)%'
@@ -56,6 +57,8 @@ ems_common:
         enabled: '%env(bool:EMS_METRIC_ENABLED)%'
         host: '%env(string:EMS_METRIC_HOST)%'
         port: '%env(EMS_METRIC_PORT)%'
+    request:
+        trusted_ips: '%env(json:EMS_TRUSTED_IPS)%'
 
 when@dev:
     ems_common:

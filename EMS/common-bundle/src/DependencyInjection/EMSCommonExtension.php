@@ -46,6 +46,7 @@ class EMSCommonExtension extends Extension
         $container->setParameter('ems_common.log_level', $config['log_level']);
         $container->setParameter('ems_common.excluded_content_types', $config['excluded_content_types']);
         $container->setParameter('ems_common.slug_symbol_map', $config['slug_symbol_map']);
+        $container->setParameter('ems_common.request.trusted_ips', $config['request']['trusted_ips']);
 
         $container->setParameter('ems_common.cache_config', $config['cache']);
 

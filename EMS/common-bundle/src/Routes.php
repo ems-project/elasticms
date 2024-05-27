@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle;
 
-class Routes
+enum Routes: string
 {
-    final public const ASSET = 'ems_asset';
+    case ASSET = 'ems_asset';
+
+    case METRICS = 'ems_metrics';
+    case METRICS_PATH = '/metrics';
 }

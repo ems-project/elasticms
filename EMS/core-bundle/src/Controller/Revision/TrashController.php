@@ -20,7 +20,7 @@ class TrashController extends AbstractController
     ) {
     }
 
-    public function trashAction(ContentType $contentType): Response
+    public function trash(ContentType $contentType): Response
     {
         if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
             throw $this->createAccessDeniedException('Trash not granted!');
@@ -32,7 +32,7 @@ class TrashController extends AbstractController
         ]);
     }
 
-    public function putBackAction(ContentType $contentType, string $ouuid): RedirectResponse
+    public function putBack(ContentType $contentType, string $ouuid): RedirectResponse
     {
         $revId = $this->dataService->putBack($contentType, $ouuid);
 
@@ -41,11 +41,11 @@ class TrashController extends AbstractController
         ]);
     }
 
-    public function emptyTrashAction(ContentType $contentType, string $ouuid): RedirectResponse
+    public function emptyTrash(ContentType $contentType, string $ouuid): RedirectResponse
     {
         $this->dataService->emptyTrash($contentType, $ouuid);
 
-        return $this->redirectToRoute('emsco_data_trash', [
+        return $this->redirectToRoute(Routes::DATA_TRASH, [
             'contentType' => $contentType->getId(),
         ]);
     }

@@ -45,7 +45,7 @@ class TrashController extends AbstractController
     {
         $this->dataService->emptyTrash($contentType, $ouuid);
 
-        return $this->redirectToRoute('ems_data_trash', [
+        return $this->redirectToRoute('emsco_data_trash', [
             'contentType' => $contentType->getId(),
         ]);
     }

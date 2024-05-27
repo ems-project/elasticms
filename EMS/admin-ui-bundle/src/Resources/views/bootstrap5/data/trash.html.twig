@@ -46,7 +46,7 @@
 
 									<div class="btn-group">
                                         {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-											'url': path('ems_data_put_back', {
+											'url': path('emsco_data_put_back', {
 												'contentType': revision.contentType.id,
 												'ouuid': revision.ouuid
 											}),
@@ -55,7 +55,7 @@
 											'icon': 'recycle'
 										}%}
                                         {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-											'url': path('ems_data_empty_trash', {
+											'url': path('emsco_data_empty_trash', {
 												'contentType': revision.contentType.id,
 												'ouuid': revision.ouuid
 											}),

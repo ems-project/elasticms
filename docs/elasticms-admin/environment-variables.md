@@ -429,6 +429,11 @@ Specify replacement strings, per locale to symbols. E.g. if you want to replace 
 
 Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. Default value `[{"type":"db"}]`
 
+### EMS_TRUSTED_IPS
+
+Define (JSON format) a range of allowed ip address. Example: `["127.0.0.1", "::1", "192.168.0.1/24"]`
+Important the route `/metrics` is not filtered.
+
 ### EMS_EXCLUDED_CONTENT_TYPES
 
 Define (JSON format) a list of content type names to exclude from admin backup/restore commands. Example: `["route","template","template_ems","label"]`. Default value `[]`

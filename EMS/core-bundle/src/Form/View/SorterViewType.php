@@ -118,7 +118,7 @@ class SorterViewType extends ViewType
         }
 
         $body['sort'] = [
-            $options['field'] => ['order' => 'asc', 'missing' => '_last']
+            $options['field'] => ['order' => 'asc', 'missing' => '_last'],
         ];
 
         $searchQuery = [
@@ -172,7 +172,7 @@ class SorterViewType extends ViewType
                     ]);
                 }
             }
-            $this->logger->notice('form.view.hierarchical.ordered', [
+            $this->logger->notice('form.view.sorter.ordered', [
                 EmsFields::LOG_CONTENTTYPE_FIELD => $view->getContentType()->getName(),
                 'view_name' => $view->getName(),
                 'view_label' => $view->getLabel(),

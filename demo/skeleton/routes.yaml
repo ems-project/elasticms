@@ -128,4 +128,4 @@ emsch_error:
     config:
         path: '/_error/{statusCode}'
         controller: 'emsch.controller.router::errorPreview'
-        defaults: { statusCode: 500 }
+        requirements: { statusCode: '[0-9]{3}' }

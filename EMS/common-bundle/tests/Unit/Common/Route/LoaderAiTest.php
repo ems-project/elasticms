@@ -20,7 +20,7 @@ class LoaderAiTest extends TestCase
         $this->assertCount(1, $routes);
 
         /** @var Route $route */
-        $route = $routes->get('ems_metric');
+        $route = $routes->get('ems_metrics');
         $this->assertInstanceOf(Route::class, $route);
         $this->assertEquals('/metrics', $route->getPath());
         $this->assertEquals(['GET'], $route->getMethods());

@@ -1,5 +1,6 @@
 # Upgrade
 
+  * [version 5.17.x](#version-517x)
   * [version 5.15.x](#version-515x)
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
@@ -7,6 +8,12 @@
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## version 5.17.x
+
+* Check routes single colon is deprecated
+
+  Example replace ```emsch.controller.router:redirect``` by ```emsch.controller.router::redirect```
 
 ## version 5.15.x
 

@@ -73,14 +73,6 @@ emsch_api_form_attachment:
         defaults: { apiName: backend, _authenticated: true }
         controller: 'emsch.controller.api::getSubmissionFile'
         requirements: { submissionId: '.*', submissionFileId: '.*' }
-emsch_publication:
-    config:
-        path: { en: 'publications/{slug}', fr: 'fr/publications/{slug}', nl: 'nl/publicaties/{slug}', de: 'de/publikation/{slug}' }
-        controller: 'emsch.controller.router:asset'
-        defaults: { _target_group: site }
-        requirements: {  }
-    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["publication"]}},{"term":{"target_group":"site"}},{"term":{"show_%_locale%":true}},{"term":{"slug_%_locale%":"%slug%"}}]}},"size":1}'
-    template_static: template/asset/publication.json.twig
 emsch_slideshow:
     config:
         path: { en: 'slideshow/{slug}', fr: 'fr/presentation/{slug}' }

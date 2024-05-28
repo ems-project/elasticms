@@ -2,6 +2,7 @@
 
   * [Switch to CK Editor 5](#switch-to-ck-editor-5)
   * [version 6.0.x](#version-60x)
+  * [version 5.17.x](#version-517x)
   * [version 5.15.x](#version-515x)
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
@@ -87,8 +88,6 @@ Here is an example.
 }
 ```
 
-
-
 ## version 6.0.x
 
 ### Renamed embed methods in web/skeleton templates
@@ -157,6 +156,12 @@ Before version 6 it was not possible to define elasticsearch dynamic mapping con
 Since version 6 the default dynamic mapping config has changed. New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly into the content type.
 
 You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
+
+## version 5.17.x
+
+* Check routes single colon is deprecated
+
+  Example replace ```emsch.controller.router:redirect``` by ```emsch.controller.router::redirect```
 
 ## version 5.15.x
 

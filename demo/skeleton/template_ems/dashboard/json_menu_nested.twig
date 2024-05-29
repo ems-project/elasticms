@@ -176,7 +176,7 @@
 {% block modal_existing_page_body %}
     {% set columns = [
         { "label": "Select", "template": (block('table_existing_column_select')) },
-        { "label": "Page", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
+        { "label": "Label (Page)", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
         { "label": "Live", "template": (block('table_existing_column_live')) },
         { "label": "Last Update", "template": (block('table_existing_column_last_update')), "orderField": "_finalization_datetime" },
     ] %}

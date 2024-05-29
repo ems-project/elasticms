@@ -27,13 +27,6 @@ final class TaskCollection implements \IteratorAggregate
         return new \ArrayIterator($this->tasks);
     }
 
-    public function addTask(object $task): void
-    {
-        if ($task instanceof Task) {
-            $this->tasks[] = $task;
-        }
-    }
-
     /**
      * @param Task[] $tasks
      */

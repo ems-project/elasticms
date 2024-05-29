@@ -33,4 +33,12 @@ final class TaskCollection implements \IteratorAggregate
     {
         return $this->revision;
     }
+
+    public function sort(\Closure $callback): self
+    {
+        $sortTasks = $this->tasks;
+        \usort($sortTasks, $callback);
+
+        return new self($this->revision, $sortTasks);
+    }
 }

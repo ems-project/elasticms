@@ -87,7 +87,11 @@ final class TaskManager
             $tasksApproved = $this->taskRepository->findTasksByIds($revision->getTaskApprovedIds());
         }
 
-        return new TaskCollection(revision: $revision, tasks: $tasksApproved ?? []);
+        $taskCollection = new TaskCollection(revision: $revision, tasks: $tasksApproved ?? []);
+
+        return $taskCollection->sort(function (Task $a, Task $b) {
+            return $b->getModified() <=> $a->getModified();
+        });
     }
 
     public function getTaskCurrent(Revision $revision): ?Task

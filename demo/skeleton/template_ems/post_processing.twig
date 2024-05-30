@@ -1,0 +1,5 @@
+{% block page_slug_value %}
+    {%- if _source.title|default(false) -%}
+        {{ _source.title|ems_webalize|json_encode|raw }}
+    {%- endif -%}
+{% endblock page_slug_value %}

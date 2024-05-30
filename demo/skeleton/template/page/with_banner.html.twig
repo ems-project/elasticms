@@ -10,7 +10,7 @@
         <div class="container-fluid container-lg">
             <div class="row">
                 <div class="col-12  col-md-6 col-xl-5 offset-xl-1">
-                    <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink)) }}>
+                    <h1 {{ emsch_admin_menu(target.getEmsLink|default(emsLink|default(''))) }}>
                         {{ block('title') }}
                     </h1>
                     {{ attribute(source, locale).body|default('')|emsch_routing|raw }}

@@ -1,21 +1,42 @@
 {% trans_default_domain trans_default_domain %}
-{% set structure = source %}
-{% set paths = source.paths|default([])|filter(p => p.locale == app.request.locale)|array_key('path') %}
-{% set pathsByUids = source.paths|default([])|filter(p => p.locale == app.request.locale)|array_key('uid') %}
-{% set pathInfo = attribute(paths, app.request.get('path')) %}
 
-{% set target = emsch_search_one(['section', 'page'], {
+{% set path = app.request.get('path') %}
+{% set locale = app.request.get('_locale') %}
+
+{% set searchSection = emsch_search('section', {
+    "size": 1,
     "query": {
-        "terms": {
-            "menu": [pathInfo.uid],
+        "bool": {
+            "must": [
+                { "nested": { "path": "paths", "query": { "term": { "paths.path": (path) } } } },
+                { "nested": { "path": "paths", "query": { "term": { "paths.locale": (locale) } } } }
+            ]
         }
-    },
-    "size": 1000,
+    }
 }) %}
-{% set switchUrls = source.paths|filter(p => p.locale != app.request.locale and p.uid == pathInfo.uid)|array_key('locale')|map(p => path('emsch_path', {path: p.path, _locale: p.locale})) %}
 
-{% set source = target.source|default(null) %}
-{% set currentStructure = structure.structure|default("[]")|ems_json_menu_nested_decode %}
+{% set structureHit = searchSection.hits.hits|first %}
+{% if structureHit %}
+    {% set structure = structureHit._source %}
+
+    {% set paths = structure.paths|default([])|filter(p => p.locale == locale)|array_key('path') %}
+    {% set pathsByUids = structure.paths|default([])|filter(p => p.locale == locale)|array_key('uid') %}
+    {% set pathInfo = attribute(paths, path) %}
+
+    {% set target = emsch_search_one(['section', 'page'], { "query": { "terms": { "menu": [pathInfo.uid] } } }) %}
+
+    {% set switchUrls = structure.paths|filter(p => p.locale != locale and p.uid == pathInfo.uid)|array_key('locale')|map(p => path('emsch_path', { 'path': p.path, '_locale': p.locale})) %}
+    {% set currentStructure = structure.structure|default("[]")|ems_json_menu_nested_decode %}
+{% else %}
+    {% set target = emsch_search_one('page', { "query": { "term": { ("#{locale}.slug") : (path) } } }) %}
+{% endif %}
+
+{% if target is defined %}
+    {% set source = target.source|default(null) %}
+    {% set switchUrls = ['nl', 'fr']|filter(p => p != locale and attribute(source, p).slug is defined)|map(l => path('emsch_path', { 'path': attribute(source, l).slug, '_locale': l })) %}
+{% else %}
+    {% do emsch_http_error(404) %}
+{% endif %}
 
 {% set baseTemplate = '@EMSCH/template/structure/target-not-found.html.twig' %}
 

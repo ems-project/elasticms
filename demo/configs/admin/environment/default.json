@@ -13,7 +13,7 @@
         "orderKey": 3,
         "updateReferrers": true,
         "templatePublication": null,
-        "rolePublish": null
+        "rolePublish": "not-defined"
     },
     "replaced": []
 }

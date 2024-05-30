@@ -60,9 +60,10 @@
 {%- block jmn_button_item_more_menu -%}
     <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
     <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
-    {% if item.children|length == 0 %}
+    {%- if item.children|length == 0 -%}<li>{{- template.block('jmn_button_item_delete', _context)|raw -}}</li>{%- endif -%}
+    {%- if item.type == 'page' and pageInfo -%}
         <li>
-            <button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ page.id }}">Detach page</button>
+            <button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
         </li>
     {% endif %}
 {%- endblock jmn_button_item_more_menu -%}

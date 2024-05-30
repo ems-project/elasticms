@@ -12,7 +12,7 @@
         "role": "ROLE_USER",
         "color": "light-blue",
         "options": {
-            "body": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/default_search.twig\") }}"
+            "body": "{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/default_search.twig\") }}"
         },
         "orderKey": 2
     },

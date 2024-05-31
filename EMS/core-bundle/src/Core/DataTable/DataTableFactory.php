@@ -61,10 +61,10 @@ class DataTableFactory
      */
     private function build(DataTableTypeInterface $type, array $options): TableAbstract
     {
-        $this->checkRoles($type);
-
         $options = $this->resolveOptions($type, $options);
         $optionsCacheKey = $this->getOptionsCacheKey($options);
+
+        $this->checkRoles($type, $options['roles']);
         $context = $type->getContext($options);
 
         $filterForm = $this->buildFilterForm($type, $context);
@@ -142,9 +142,13 @@ class DataTableFactory
         return $type->filterFormAddToContext($filterForm, $context);
     }
 
-    private function checkRoles(DataTableTypeInterface $type): void
+    /**
+     * @param string[] $optionsRoles
+     */
+    private function checkRoles(DataTableTypeInterface $type, array $optionsRoles): void
     {
-        $roles = $type->getRoles();
+        $roles = [...$type->getRoles(), ...$optionsRoles];
+
         $grantedRoles = \array_filter($roles, fn (string $role) => $this->security->isGranted($role));
 
         if (0 === \count($grantedRoles)) {
@@ -208,6 +212,10 @@ class DataTableFactory
     {
         $optionsResolver = new OptionsResolver();
         $type->configureOptions($optionsResolver);
+
+        $optionsResolver
+            ->setDefault('roles', [])
+            ->setAllowedTypes('roles', 'string[]');
 
         return $optionsResolver->resolve($options);
     }

@@ -298,11 +298,12 @@
                                 {% endif %}
                                 {% for column in table.columns %}
                                     <th class="nowrap" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{  column.attribute }}">
+                                        {% set columnTitle = column.titleKey|trans(column.transLabelOptions, column.translationDomain) %}
                                         {% if column.iconClass %}
-                                            <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ column.titleKey|trans(column.transLabelOptions)|e('html_attr') }}"></i>
-                                            <span class="sr-only">{{ column.titleKey|trans }}</span>
+                                            <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ columnTitle|e('html_attr') }}"></i>
+                                            <span class="sr-only">{{ columnTitle }}</span>
                                         {% else %}
-                                            {{ column.titleKey|trans(column.transLabelOptions) }}
+                                            {{ columnTitle }}
                                         {% endif %}
                                     </th>
                                 {% endfor %}

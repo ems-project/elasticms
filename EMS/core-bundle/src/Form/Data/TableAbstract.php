@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Data;
 
+use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use Symfony\Component\Form\FormInterface;
 
@@ -46,6 +47,7 @@ abstract class TableAbstract implements TableInterface
     private string $exportDisposition = 'attachment';
     private string $labelAttribute = 'name';
     private string $rowActionsClass = '';
+    private string $translationDomain = EMSCoreBundle::TRANS_DOMAIN;
 
     public function __construct(private readonly ?string $ajaxUrl, private int $from, private int $size)
     {
@@ -122,6 +124,7 @@ abstract class TableAbstract implements TableInterface
     public function addColumn(string $titleKey, string $attribute): TableColumn
     {
         $column = new TableColumn($titleKey, $attribute);
+        $column->setTranslationDomain($this->translationDomain);
         $this->columns[] = $column;
 
         return $column;
@@ -384,5 +387,12 @@ abstract class TableAbstract implements TableInterface
     public function setRowActionsClass(string $rowActionsClass): void
     {
         $this->rowActionsClass = $rowActionsClass;
+    }
+
+    public function setTranslationDomain(string $translationDomain): self
+    {
+        $this->translationDomain = $translationDomain;
+
+        return $this;
     }
 }

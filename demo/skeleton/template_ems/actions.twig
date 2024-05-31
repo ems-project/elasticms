@@ -3,3 +3,57 @@
         <i class="fa fa-bug"></i>&nbsp;Debug
     </a>
 {% endblock form_instance_debug %}
+
+{% block show_page_fr %}
+    {% set locale = 'fr' %}
+    {{ block('show') }}
+{% endblock show_page_fr %}
+
+{% block show_page_nl %}
+    {% set locale = 'nl' %}
+    {{ block('show') }}
+{% endblock show_page_nl %}
+
+{% block show %}
+    {% if attribute(source, 'menu') is defined and source.menu|default(false) %}
+        {% set search = {
+        'index': environment.alias,
+        'size': 1,
+        '_source': ['paths.*'],
+        'body': {
+            'query': {
+                'bool': {
+                    'must': [
+                        { 'terms': { '_contenttype': ['section'] } },
+                        { 'nested': {
+                            'path': 'paths',
+                            'query': {
+                                'bool': {
+                                    'must': [
+                                        { 'terms': { 'paths.uid': [source.menu] } },
+                                        { 'terms': { 'paths.locale': [locale] } }
+                                    ]
+                                }
+                            }
+                        },
+                    }],
+                },
+            },
+        }
+    }|search %}
+        {% set path = search.hits.hits|first._source.paths|default([])|filter(p => p.uid == source.menu and p.locale == locale) %}
+        {% if path is defined and path|length > 0 %}
+            {% set slug = path|first.path %}
+        {% endif %}
+    {% elseif attribute(source, locale)|default([]).slug is defined %}
+        {% set slug = attribute(source, locale).slug %}
+    {% endif %}
+
+    {% if slug is defined %}
+        <a href="{{ "/channel/#{environment.name}/#{locale}/#{slug}" }}" target="_blank">
+            <i class="fa fa-eye"></i> {{ "Show #{locale|upper}" }}
+            <i class="fa fa-external-link pull-right"></i>
+        </a>
+    {% endif %}
+{% endblock show %}
+

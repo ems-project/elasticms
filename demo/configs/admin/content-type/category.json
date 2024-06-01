@@ -252,9 +252,9 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
                     },
                     "orderKey": 1,
                     "public": false,

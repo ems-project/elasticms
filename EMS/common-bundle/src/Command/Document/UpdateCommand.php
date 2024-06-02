@@ -117,7 +117,11 @@ class UpdateCommand extends AbstractCommand
                 throw new \RuntimeException(\sprintf("Expect an array got '%s'", \gettype($data)));
             }
             $ouuid = Type::string($json['_id'] ?? null);
-            $dataApi->save($ouuid, $data);
+            try {
+                $dataApi->save($ouuid, $data);
+            } catch (\RuntimeException $e) {
+                $this->io->warning(sprintf('Error while uploading document %s: %s', $ouuid, $e->getMessage()));
+            }
 
             $this->io->progressAdvance();
         }

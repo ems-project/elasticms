@@ -821,7 +821,7 @@ class AppExtension extends AbstractExtension
 
     public function isSuper(): bool
     {
-        return $this->authorizationChecker->isGranted('ROLE_SUPER');
+        return $this->userService->isSuper();
     }
 
     /**

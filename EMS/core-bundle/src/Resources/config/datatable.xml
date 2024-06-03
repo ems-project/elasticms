@@ -67,6 +67,7 @@
             <argument type="service" id="emsco.revision.query_service" />
             <argument type="service" id="ems.service.user" />
             <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService" />
+            <argument type="service" id="security.authorization_checker" />
             <tag name="emsco.datatable" />
         </service>
         <service id="emsco.data_table.channel" class="EMS\CoreBundle\DataTable\Type\ChannelDataTableType">

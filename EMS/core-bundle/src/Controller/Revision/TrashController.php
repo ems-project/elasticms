@@ -66,6 +66,10 @@ class TrashController extends AbstractController
 
     public function emptyTrash(ContentType $contentType, string $ouuid): RedirectResponse
     {
+        if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
+            throw $this->createAccessDeniedException();
+        }
+
         $this->dataService->trashEmpty($contentType, $ouuid);
 
         return $this->redirectToRoute(Routes::DATA_TRASH, ['contentType' => $contentType->getId()]);
@@ -73,6 +77,10 @@ class TrashController extends AbstractController
 
     public function putBack(ContentType $contentType, string $ouuid): RedirectResponse
     {
+        if (!$this->isGranted($contentType->role(ContentTypeRoles::CREATE))) {
+            throw $this->createAccessDeniedException();
+        }
+
         $revisionId = $this->dataService->trashPutBack($contentType, $ouuid);
 
         return $this->redirectToRoute(Routes::EDIT_REVISION, ['revisionId' => $revisionId]);
@@ -80,6 +88,10 @@ class TrashController extends AbstractController
 
     private function emptyTrashSelection(ContentType $contentType, string ...$ouuids): Response
     {
+        if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
+            throw $this->createAccessDeniedException();
+        }
+
         $this->dataService->trashEmpty($contentType, ...$ouuids);
 
         return $this->redirectToRoute(Routes::DATA_TRASH, ['contentType' => $contentType->getId()]);
@@ -87,6 +99,10 @@ class TrashController extends AbstractController
 
     private function putBackSelection(ContentType $contentType, string ...$ouuids): Response
     {
+        if (!$this->isGranted($contentType->role(ContentTypeRoles::CREATE))) {
+            throw $this->createAccessDeniedException();
+        }
+
         $revisionId = $this->dataService->trashPutBack($contentType, ...$ouuids);
 
         if ($revisionId) {

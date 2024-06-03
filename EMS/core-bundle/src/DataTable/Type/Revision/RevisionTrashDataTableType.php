@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\DataTable\Type\Revision;
 
+use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractQueryTableType;
 use EMS\CoreBundle\Core\Revision\RevisionQueryService;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -15,6 +16,7 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class RevisionTrashDataTableType extends AbstractQueryTableType
 {
@@ -25,12 +27,16 @@ class RevisionTrashDataTableType extends AbstractQueryTableType
         RevisionQueryService $queryService,
         private readonly UserService $userService,
         private readonly ContentTypeService $contentTypeService,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
     ) {
         parent::__construct($queryService);
     }
 
     public function build(QueryTable $table): void
     {
+        /** @var ContentType $contentType */
+        $contentType = $table->getContext()['content_type'];
+
         $table->setIdField('ouuid');
         $table->setExtraFrontendOption(['searching' => false]);
 
@@ -44,33 +50,34 @@ class RevisionTrashDataTableType extends AbstractQueryTableType
 
         $table->setLabelAttribute('revision_label');
 
-        $table->addDynamicItemPostAction(
-            route: Routes::DATA_TRASH_PUT_BACK,
-            labelKey: 'revision.trash.put_back',
-            icon: 'recycle',
-            messageKey: 'revision.trash.put_back_confirm',
-            routeParameters: [
-                'contentType' => 'content_type_id',
-                'ouuid' => 'ouuid',
-            ]
-        );
-        $table
-            ->addDynamicItemPostAction(
-                route: Routes::DATA_TRASH_EMPTY,
-                labelKey: 'revision.trash.empty',
-                icon: 'trash',
-                messageKey: 'revision.trash.empty_confirm',
+        if ($this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE))) {
+            $table->addDynamicItemPostAction(
+                route: Routes::DATA_TRASH_PUT_BACK,
+                labelKey: 'revision.trash.put_back',
+                icon: 'recycle',
+                messageKey: 'revision.trash.put_back_confirm',
                 routeParameters: [
                     'contentType' => 'content_type_id',
                     'ouuid' => 'ouuid',
                 ]
-            )->setButtonType('outline-danger');
+            );
+            $table->addTableAction(
+                name: self::ACTION_PUT_BACK,
+                icon: 'fa fa-recycle',
+                labelKey: 'revision.trash.put_back_selected'
+            );
+        }
 
-        $table->addTableAction(
-            name: self::ACTION_PUT_BACK,
-            icon: 'fa fa-recycle',
-            labelKey: 'revision.trash.put_back_selected'
-        );
+        $table->addDynamicItemPostAction(
+            route: Routes::DATA_TRASH_EMPTY,
+            labelKey: 'revision.trash.empty',
+            icon: 'trash',
+            messageKey: 'revision.trash.empty_confirm',
+            routeParameters: [
+                'contentType' => 'content_type_id',
+                'ouuid' => 'ouuid',
+            ]
+        )->setButtonType('outline-danger');
         $table->addTableAction(
             name: self::ACTION_EMPTY_TRASH,
             icon: 'fa fa-trash',

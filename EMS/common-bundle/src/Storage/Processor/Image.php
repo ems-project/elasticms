@@ -26,7 +26,7 @@ class Image
     public function generate(string $filename, ?string $cacheFilename = null): string
     {
         $length = \filesize($filename);
-        if (false === $length) {
+        if (false === $length || 0 === $length) {
             throw new \RuntimeException('Could not read file');
         }
 

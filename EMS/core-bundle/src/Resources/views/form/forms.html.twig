@@ -247,6 +247,7 @@
                     'itemLabel': attribute(line.data, table.labelAttribute),
                     'icon': action.icon,
                     'group_class': loop.last ? 'pull-right' : '',
+                    'translationDomain': table.translationDomain
                 }%}
             {% endif %}
         {% else %}
@@ -256,6 +257,7 @@
                 'itemLabel': attribute(line.data, table.labelAttribute),
                 'btnType': action.buttonType,
                 'icon': action.icon,
+                'translationDomain': table.translationDomain
             }%}
         {% endif %}
     {% endif %}

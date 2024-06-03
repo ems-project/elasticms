@@ -2005,7 +2005,7 @@
             },
             "require": {
                 "composer/ca-bundle": "^1.1",
-                "elasticms/common-bundle": "5.16.*",
+                "elasticms/common-bundle": "5.17.*",
                 "onelogin/php-saml": "^4.1",
                 "php": "^8.1",
                 "stevenmaguire/oauth2-keycloak": "^5.1",
@@ -2068,7 +2068,7 @@
                 "doctrine/doctrine-bundle": "^2.8",
                 "doctrine/orm": "^2.6",
                 "dompdf/dompdf": "^v2.0",
-                "elasticms/helpers": "5.16.*",
+                "elasticms/helpers": "5.17.*",
                 "ext-dom": "*",
                 "ext-exif": "*",
                 "ext-gd": "*",
@@ -2154,7 +2154,7 @@
                 "shasum": ""
             },
             "require": {
-                "elasticms/client-helper-bundle": "5.16.*",
+                "elasticms/client-helper-bundle": "5.17.*",
                 "giggsey/libphonenumber-for-php": "^8.12",
                 "php": "^8.1",
                 "symfony/form": "^5.4",
@@ -2267,7 +2267,7 @@
                 "shasum": ""
             },
             "require": {
-                "elasticms/form-bundle": "5.16.*",
+                "elasticms/form-bundle": "5.17.*",
                 "league/flysystem-memory": "^2.0",
                 "league/flysystem-sftp-v3": "^2.0",
                 "php": "^8.1",

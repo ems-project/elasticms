@@ -132,6 +132,7 @@ abstract class TableAbstract implements TableInterface
 
     public function addColumnDefinition(TableColumn $column): TableColumn
     {
+        $column->setTranslationDomain($this->translationDomain);
         $this->columns[] = $column;
 
         return $column;
@@ -394,5 +395,10 @@ abstract class TableAbstract implements TableInterface
         $this->translationDomain = $translationDomain;
 
         return $this;
+    }
+
+    public function getTranslationDomain(): string
+    {
+        return $this->translationDomain;
     }
 }

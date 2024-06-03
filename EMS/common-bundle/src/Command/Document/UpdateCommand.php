@@ -120,7 +120,7 @@ class UpdateCommand extends AbstractCommand
             try {
                 $dataApi->save($ouuid, $data);
             } catch (\RuntimeException $e) {
-                $this->io->warning(sprintf('Error while uploading document %s: %s', $ouuid, $e->getMessage()));
+                $this->io->warning(\sprintf('Error while uploading document %s: %s', $ouuid, $e->getMessage()));
             }
 
             $this->io->progressAdvance();

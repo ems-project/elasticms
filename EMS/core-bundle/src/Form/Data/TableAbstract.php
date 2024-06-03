@@ -190,7 +190,7 @@ abstract class TableAbstract implements TableInterface
         return $this->itemActionCollection;
     }
 
-    public function addTableAction(string $name, string $icon, string $labelKey, string $confirmationKey): TableAction
+    public function addTableAction(string $name, string $icon, string $labelKey, ?string $confirmationKey = null): TableAction
     {
         $action = new TableAction($name, $icon, $labelKey, $confirmationKey);
         $this->tableActions[] = $action;

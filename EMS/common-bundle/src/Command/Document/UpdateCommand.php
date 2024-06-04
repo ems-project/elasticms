@@ -23,9 +23,11 @@ class UpdateCommand extends AbstractCommand
     private const FOLDER = 'folder';
     private const DEFAULT_FOLDER = 'document';
     private const DUMP_FILE = 'dump-file';
+    private const ONLY_MISSING = 'only-missing';
     private string $contentType;
     private string $folder;
     private ?string $dumpFile;
+    private bool $onlyMissing;
 
     public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
     {
@@ -44,6 +46,7 @@ class UpdateCommand extends AbstractCommand
         }
 
         $this->dumpFile = $this->getOptionStringNull(self::DUMP_FILE);
+        $this->onlyMissing = $this->getOptionBool(self::ONLY_MISSING);
     }
 
     protected function configure(): void
@@ -52,6 +55,7 @@ class UpdateCommand extends AbstractCommand
         $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, \sprintf('Content-type\'s name to update'));
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Folder to scan for JSON files');
         $this->addOption(self::DUMP_FILE, null, InputOption::VALUE_OPTIONAL, 'Will upload the specified elasticdump file instead of the JSON files in the folder');
+        $this->addOption(self::ONLY_MISSING, null, InputOption::VALUE_NONE, 'Only create missing documents');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -80,6 +84,10 @@ class UpdateCommand extends AbstractCommand
                 throw new \RuntimeException('Unexpected SplFileInfo object');
             }
             $ouuid = $file->getBasename('.json');
+            if ($this->onlyMissing && $dataApi->head($ouuid)) {
+                $this->io->progressAdvance();
+                continue;
+            }
             $data = Json::decode($file->getContents());
             $dataApi->save($ouuid, $data);
             $this->io->progressAdvance();
@@ -112,11 +120,15 @@ class UpdateCommand extends AbstractCommand
                 continue;
             }
             $json = Json::decode($line);
+            $ouuid = Type::string($json['_id'] ?? null);
+            if ($this->onlyMissing && $dataApi->head($ouuid)) {
+                $this->io->progressAdvance();
+                continue;
+            }
             $data = $json['_source'] ?? null;
             if (!\is_array($data)) {
                 throw new \RuntimeException(\sprintf("Expect an array got '%s'", \gettype($data)));
             }
-            $ouuid = Type::string($json['_id'] ?? null);
             try {
                 $dataApi->save($ouuid, $data);
             } catch (\RuntimeException $e) {

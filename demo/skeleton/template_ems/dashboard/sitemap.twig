@@ -104,7 +104,7 @@
         function onClickDetachPage(jmn, button) {
             jmn.loading(true);
             updatePage(button.dataset.pageId, { menu: null }).then((json) => {
-                if (json.hasOwnProperty('success') || json.success) jmn.load({ activeItemId: button.dataset.itemId });
+                if (json.hasOwnProperty('success') || json.success) jmn.itemDelete(button.dataset.itemId);
             });
         }
         function onModalExistingPage(jmn, ajaxModal, itemParentId) {

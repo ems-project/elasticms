@@ -349,7 +349,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{% if _source.slug is not defined %}\r\n    {{ _source.title|ems_webalize|json_encode|raw }}\r\n{% endif %}"
+                                                            "postProcessing": "{{ block(\"news_slug\", \"@EMSCH/template_ems/content_type/post_processing.twig\") }}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -749,7 +749,7 @@
             "create": "ROLE_AUTHOR",
             "edit": "ROLE_AUTHOR",
             "publish": "ROLE_PUBLISHER",
-            "delete": "not-defined",
+            "delete": "ROLE_PUBLISHER",
             "trash": "not-defined",
             "archive": "not-defined",
             "show_link_create": "ROLE_USER",

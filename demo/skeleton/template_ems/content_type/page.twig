@@ -1,6 +1,6 @@
 {% block slug_value %}
     {%- if _source.title|default(false) -%}
-        {{ _source.title|ems_webalize|json_encode|raw }}
+        {{ _source.title|slug|json_encode|raw }}
     {%- endif -%}
 {% endblock slug_value %}
 

@@ -91,7 +91,10 @@
                                     "json_menu_nested_types": "section",
                                     "json_menu_nested_field": "structure",
                                     "json_menu_nested_unique": false,
-                                    "query": null
+                                    "query": null,
+                                    "environment": null,
+                                    "choices_template": null,
+                                    "display_template": null
                                 },
                                 "mappingOptions": {
                                     "index": "not_analyzed",
@@ -272,6 +275,44 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\CheckboxFieldType",
+                            "name": "is_main",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Is Main",
+                                    "class": "col-md-12",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "question_label": null
+                                },
+                                "mappingOptions": {
+                                    "index": null
+                                },
+                                "restrictionOptions": {
+                                    "minimum_role": "ROLE_SUPER_ADMIN"
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
+                            "orderKey": 4,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
                             "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
                             "name": "paths",
                             "contentType": null,
@@ -283,9 +324,9 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": "Computed field, will contains all generated path for this section",
-                                    "valueTemplate": "\r\n{{- block(\"ems_value\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}",
+                                    "valueTemplate": "{{- block(\"ems_value\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}",
                                     "json": true,
-                                    "displayTemplate": "\r\n{{- block(\"ems_display\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
+                                    "displayTemplate": "{{- block(\"ems_display\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
                                 },
                                 "mappingOptions": {
                                     "mappingOptions": "{\r\n  \"type\": \"nested\",\r\n  \"properties\": {\r\n    \"uid\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"path\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"locale\": {\r\n      \"type\": \"keyword\"\r\n    }\r\n  }\r\n}",
@@ -295,11 +336,11 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "\r\n{{- block(\"ems_post_processing\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
+                                    "postProcessing": "{{- block(\"ems_post_processing\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 4,
+                            "orderKey": 5,
                             "children": []
                         },
                         "replaced": []
@@ -328,7 +369,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 5,
+                            "orderKey": 6,
                             "children": []
                         },
                         "replaced": []
@@ -368,7 +409,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 6,
+                            "orderKey": 7,
                             "children": []
                         },
                         "replaced": []
@@ -465,6 +506,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

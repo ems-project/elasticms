@@ -407,6 +407,14 @@ Define backend elasticms url. CommonBundle provides a CoreApi instance.
 
 Define backend authentication token. The commonBundle coreApi instance becomes authenticated.
 
+### EMS_BACKEND_API_TIMEOUT
+
+Adjust the API client's timeout. By default is set to `30` seconds, if you API request may take longueur (e.g. during migration) you can increase the timeout :
+
+```dotenv
+EMS_ELASTICSEARCH_HOSTS='300'
+```
+
 ### EMS_CACHE
 
 Define the ems cache type. Default value `file_system`.

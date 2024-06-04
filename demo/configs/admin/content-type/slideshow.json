@@ -461,7 +461,7 @@
                                                         "extraOptions": {
                                                             "extra": null,
                                                             "clear_on_copy": false,
-                                                            "postProcessing": "{% if _source.slug is not defined and _source.title is defined %}\r\n    {% set slug = _source.title|ems_webalize %}\r\n{% elseif _source.slug is defined %}   \r\n    {% set slug = _source.slug %}\r\n{% endif %}\r\n\r\n{% if slug|default(false) %}\r\n    {% set query = {\r\n        'index': ('preview'|emsco_get_environment.alias),\r\n        'size': 1,\r\n        'type': 'page',\r\n        'body': '{\"query\":{\"bool\":{\"should\":[{\"term\":{\"de.slug\":{\"value\":\"' ~ slug ~ '\"}}},{\"term\":{\"en.slug\":{\"value\":\"' ~ slug ~ '\"}}},{\"term\":{\"fr.slug\":{\"value\":\"' ~ slug ~ '\"}}},{\"term\":{\"nl.slug\":{\"value\":\"' ~ slug ~ '\"}}}],\"must_not\":[{\"term\":{\"_id\":{\"value\":\"' ~ _id ~ '\"}}}]}}}'\r\n    }%}\r\n            \r\n    {% set searchResult = query|search %}\r\n    \r\n    {% if finalize|default(false) and searchResult.hits.hits|length > 0 %}\r\n        {{ emsco_cant_be_finalized('The slug: ' ~ slug ~ ' already exists.') }}\r\n    {% endif %}\r\n    \r\n    {{ slug|json_encode|raw }}\r\n{% endif %}"
+                                                            "postProcessing": "{% if _source.slug is not defined and _source.title is defined %}\r\n    {% set slug = _source.title|slug %}\r\n{% elseif _source.slug is defined %}   \r\n    {% set slug = _source.slug %}\r\n{% endif %}\r\n\r\n{% if slug|default(false) %}\r\n    {% set query = {\r\n        'index': ('preview'|emsco_get_environment.alias),\r\n        'size': 1,\r\n        'type': 'page',\r\n        'body': '{\"query\":{\"bool\":{\"should\":[{\"term\":{\"de.slug\":{\"value\":\"' ~ slug ~ '\"}}},{\"term\":{\"en.slug\":{\"value\":\"' ~ slug ~ '\"}}},{\"term\":{\"fr.slug\":{\"value\":\"' ~ slug ~ '\"}}},{\"term\":{\"nl.slug\":{\"value\":\"' ~ slug ~ '\"}}}],\"must_not\":[{\"term\":{\"_id\":{\"value\":\"' ~ _id ~ '\"}}}]}}}'\r\n    }%}\r\n            \r\n    {% set searchResult = query|search %}\r\n    \r\n    {% if finalize|default(false) and searchResult.hits.hits|length > 0 %}\r\n        {{ emsco_cant_be_finalized('The slug: ' ~ slug ~ ' already exists.') }}\r\n    {% endif %}\r\n    \r\n    {{ slug|json_encode|raw }}\r\n{% endif %}"
                                                         },
                                                         "raw_data": [],
                                                         "migrationOptions": {
@@ -645,7 +645,7 @@
             "create": "ROLE_AUTHOR",
             "edit": "ROLE_AUTHOR",
             "publish": "ROLE_PUBLISHER",
-            "delete": "not-defined",
+            "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
             "show_link_create": "ROLE_AUTHOR",

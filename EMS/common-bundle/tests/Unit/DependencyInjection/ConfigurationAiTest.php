@@ -53,6 +53,7 @@ final class ConfigurationAiTest extends TestCase
             'request' => [
                 'trusted_ips' => [],
             ],
+            'backend_api_timeout' => 30,
         ];
 
         $this->assertEquals($expected, $config);

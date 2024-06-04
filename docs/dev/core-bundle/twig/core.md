@@ -124,7 +124,7 @@ In this example an array of identifiers (strings) will be converted into a multi
 {% endif %}
 ```
 
-A forth optional argument allow to defined the file's type:
+A forth optional argument allow to defined the file's type, in order to save the content into right storage services:
  * 0: Cache
  * 1: Config
  * 2: Asset (default value)

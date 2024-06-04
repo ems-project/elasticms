@@ -8,8 +8,19 @@
     "query": {
         "bool": {
             "must": [
-                { "nested": { "path": "paths", "query": { "term": { "paths.path": (path) } } } },
-                { "nested": { "path": "paths", "query": { "term": { "paths.locale": (locale) } } } }
+                {
+                    "nested": {
+                        "path":"paths",
+                        "query":{
+                            "bool":{
+                                "must":[
+                                    { "term": { "paths.locale": {"value":(locale)} } },
+                                    { "term": { "paths.path": {"value":(path) } } }
+                                ]
+                            }
+                        }
+                    }
+                }
             ]
         }
     }

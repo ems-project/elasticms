@@ -2347,7 +2347,7 @@
                     "filename": null,
                     "extension": null,
                     "active": true,
-                    "role": "ROLE_ADMIN",
+                    "role": "ROLE_WEBMASTER",
                     "roleTo": "not-defined",
                     "roleCc": "not-defined",
                     "circlesTo": null,

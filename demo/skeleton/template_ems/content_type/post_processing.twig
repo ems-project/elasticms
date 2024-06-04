@@ -1,6 +1,6 @@
 {% block news_slug %}
     {% if _source.slug is not defined and _source.title is defined %}
-        {{ _source.title|ems_slug|json_encode|raw }}
+        {{ _source.title|slug|json_encode|raw }}
     {% endif %}
 {% endblock news_slug%}
 

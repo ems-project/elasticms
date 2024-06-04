@@ -283,9 +283,9 @@
                                     "class": "col-md-12",
                                     "lastOfRow": false,
                                     "helptext": "Computed field, will contains all generated path for this section",
-                                    "valueTemplate": "\r\n{{- block(\"ems_value\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}",
+                                    "valueTemplate": "{{- block(\"ems_value\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}",
                                     "json": true,
-                                    "displayTemplate": "\r\n{{- block(\"ems_display\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
+                                    "displayTemplate": "{{- block(\"ems_display\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
                                 },
                                 "mappingOptions": {
                                     "mappingOptions": "{\r\n  \"type\": \"nested\",\r\n  \"properties\": {\r\n    \"uid\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"path\": {\r\n      \"type\": \"keyword\"\r\n    },\r\n    \"locale\": {\r\n      \"type\": \"keyword\"\r\n    }\r\n  }\r\n}",
@@ -295,7 +295,7 @@
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
-                                    "postProcessing": "\r\n{{- block(\"ems_post_processing\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
+                                    "postProcessing": "{{- block(\"ems_post_processing\", \"@EMSCH/template_ems/content_type/compute_paths.twig\") -}}"
                                 },
                                 "raw_data": []
                             },

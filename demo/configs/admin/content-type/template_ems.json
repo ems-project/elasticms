@@ -212,14 +212,14 @@
         },
         "roles": {
             "view": "ROLE_ADMIN",
-            "create": "ROLE_ADMIN",
+            "create": "not-defined",
             "edit": "not-defined",
             "publish": "ROLE_ADMIN",
-            "delete": "ROLE_ADMIN",
-            "trash": "ROLE_ADMIN",
+            "delete": "not-defined",
+            "trash": "not-defined",
             "archive": "not-defined",
-            "show_link_create": "ROLE_ADMIN",
-            "show_link_search": "ROLE_ADMIN"
+            "show_link_create": "not-defined",
+            "show_link_search": "not-defined"
         },
         "fields": {
             "label": "name",

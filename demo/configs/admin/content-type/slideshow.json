@@ -645,7 +645,7 @@
             "create": "ROLE_AUTHOR",
             "edit": "ROLE_AUTHOR",
             "publish": "ROLE_PUBLISHER",
-            "delete": "not-defined",
+            "delete": "ROLE_PUBLISHER",
             "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
             "show_link_create": "ROLE_AUTHOR",

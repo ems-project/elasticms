@@ -19,7 +19,7 @@
             {% endfor %}
 
             {% for locale in locales|filter(locale => attribute(path, locale)|length > 0 and null not in attribute(path, locale)) %}
-                {% if homeAttached == false and _source.is_main|default(false) == true and attribute(item.object, locale).title|default|slug != 'home' %}
+                {% if homeAttached == false and _source.is_main|default(false) == true and attribute(item.object, locale).title|default|ems_slug != 'home' %}
                     {% set paths = paths|merge([{
                         'uid': (item.id),
                         'path' : "home",
@@ -29,7 +29,7 @@
 
                 {% set paths = paths|merge([{
                     'uid': (item.id),
-                    'path' : attribute(baseUrl, locale) ~ (attribute(path, locale)|map(p => p|slug)|join('/')|default('/')),
+                    'path' : attribute(baseUrl, locale) ~ (attribute(path, locale)|map(p => p|ems_slug)|join('/')|default('/')),
                     'locale' : locale,
                 }]) %}
             {% endfor %}

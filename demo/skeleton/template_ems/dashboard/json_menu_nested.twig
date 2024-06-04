@@ -88,7 +88,7 @@
     {% if item.type == 'page' %}
         {% if page and pageInfo %}
             <a href="{{ path('emsco_view_revisions', { 'type': 'page', 'ouuid': page.id })  }}">
-                {{ attribute(item.object, locale).title }}
+                {{ attribute(item.object, locale).title|default(item.object.label) }}
             </a>
         {% else %}
             <span class="text-gray">{{ attribute(item.object, locale).title|default('???') }}</span>
@@ -108,7 +108,7 @@
                 Create {{ item.type }}
             </button>
         {% elseif itemPages|length == 1 %}
-            {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) %}
+            {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) and attribute(item.object, locale).title is defined %}
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-sm btn-default jmn-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-eye"></i>&nbsp;View

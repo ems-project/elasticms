@@ -214,7 +214,7 @@
             "view": "ROLE_ADMIN",
             "create": "not-defined",
             "edit": "not-defined",
-            "publish": "ROLE_ADMIN",
+            "publish": "not-defined",
             "delete": "not-defined",
             "trash": "not-defined",
             "archive": "not-defined",
@@ -222,6 +222,7 @@
             "show_link_search": "not-defined"
         },
         "fields": {
+            "display": null,
             "label": "name",
             "color": null,
             "sort": null,
@@ -233,6 +234,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

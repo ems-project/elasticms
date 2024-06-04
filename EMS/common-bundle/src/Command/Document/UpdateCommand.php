@@ -6,6 +6,8 @@ namespace EMS\CommonBundle\Command\Document;
 
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\Standard\Type;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,8 +22,12 @@ class UpdateCommand extends AbstractCommand
     private const CONTENT_TYPE = 'content-type';
     private const FOLDER = 'folder';
     private const DEFAULT_FOLDER = 'document';
+    private const DUMP_FILE = 'dump-file';
+    private const ONLY_MISSING = 'only-missing';
     private string $contentType;
     private string $folder;
+    private ?string $dumpFile;
+    private bool $onlyMissing;
 
     public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)
     {
@@ -38,6 +44,9 @@ class UpdateCommand extends AbstractCommand
         if (null !== $folder) {
             $this->folder = $folder;
         }
+
+        $this->dumpFile = $this->getOptionStringNull(self::DUMP_FILE);
+        $this->onlyMissing = $this->getOptionBool(self::ONLY_MISSING);
     }
 
     protected function configure(): void
@@ -45,6 +54,8 @@ class UpdateCommand extends AbstractCommand
         parent::configure();
         $this->addArgument(self::CONTENT_TYPE, InputArgument::REQUIRED, \sprintf('Content-type\'s name to update'));
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Folder to scan for JSON files');
+        $this->addOption(self::DUMP_FILE, null, InputOption::VALUE_OPTIONAL, 'Will upload the specified elasticdump file instead of the JSON files in the folder');
+        $this->addOption(self::ONLY_MISSING, null, InputOption::VALUE_NONE, 'Only create missing documents');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -60,6 +71,10 @@ class UpdateCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
+        if (null !== $this->dumpFile) {
+            return $this->uploadDumpFile($dataApi, $this->dumpFile);
+        }
+
         $directory = \implode(DIRECTORY_SEPARATOR, [$this->folder, $this->contentType]);
         $finder = new Finder();
         $jsonFiles = $finder->in($directory)->files()->name('*.json');
@@ -69,11 +84,62 @@ class UpdateCommand extends AbstractCommand
                 throw new \RuntimeException('Unexpected SplFileInfo object');
             }
             $ouuid = $file->getBasename('.json');
+            if ($this->onlyMissing && $dataApi->head($ouuid)) {
+                $this->io->progressAdvance();
+                continue;
+            }
             $data = Json::decode($file->getContents());
             $dataApi->save($ouuid, $data);
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
+
+        return self::EXECUTE_SUCCESS;
+    }
+
+    private function uploadDumpFile(DataInterface $dataApi, string $dumpFile): int
+    {
+        $handle = \fopen($dumpFile, 'r');
+        if (false === $handle) {
+            $this->io->error(\sprintf('File %s not found', $dumpFile));
+
+            return self::EXECUTE_ERROR;
+        }
+
+        $lineCount = 0;
+        while (($line = \fgets($handle)) !== false) {
+            if (0 === \strlen($line)) {
+                continue;
+            }
+            ++$lineCount;
+        }
+        \rewind($handle);
+        $this->io->progressStart($lineCount);
+        while (($line = \fgets($handle)) !== false) {
+            if (0 === \strlen($line)) {
+                continue;
+            }
+            $json = Json::decode($line);
+            $ouuid = Type::string($json['_id'] ?? null);
+            if ($this->onlyMissing && $dataApi->head($ouuid)) {
+                $this->io->progressAdvance();
+                continue;
+            }
+            $data = $json['_source'] ?? null;
+            if (!\is_array($data)) {
+                throw new \RuntimeException(\sprintf("Expect an array got '%s'", \gettype($data)));
+            }
+            try {
+                $dataApi->save($ouuid, $data);
+            } catch (\RuntimeException $e) {
+                $this->io->warning(\sprintf('Error while uploading document %s: %s', $ouuid, $e->getMessage()));
+            }
+
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+
+        \fclose($handle);
 
         return self::EXECUTE_SUCCESS;
     }

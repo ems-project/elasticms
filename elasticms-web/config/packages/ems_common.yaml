@@ -16,6 +16,7 @@ parameters:
     env(EMS_BACKEND_URL): ~
     env(EMS_BACKEND_API_KEY): ~
     env(EMS_BACKEND_API_VERIFY): true
+    env(EMS_BACKEND_API_TIMEOUT): '30'
     env(EMS_ELASTICSEARCH_PROXY_API): false
 
     env(EMS_CACHE): 'file_system'
@@ -41,6 +42,7 @@ ems_common:
     backend_url: '%env(string:EMS_BACKEND_URL)%'
     backend_api_key: '%env(string:EMS_BACKEND_API_KEY)%'
     backend_api_verify: '%env(bool:EMS_BACKEND_API_VERIFY)%'
+    backend_api_timeout: '%env(int:EMS_BACKEND_API_TIMEOUT)%'
     elasticsearch_proxy_api: '%env(bool:EMS_ELASTICSEARCH_PROXY_API)%'
     excluded_content_types: '%env(json:EMS_EXCLUDED_CONTENT_TYPES)%'
     slug_symbol_map: '%env(json:EMS_SLUG_SYMBOL_MAP)%'

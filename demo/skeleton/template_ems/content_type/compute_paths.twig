@@ -19,7 +19,7 @@
             {% endfor %}
 
             {% for locale in locales|filter(locale => attribute(path, locale)|length > 0 and null not in attribute(path, locale)) %}
-                {% if homeAttached == false and attribute(item.object, locale).title|default|ems_webalize != 'home' %}
+                {% if homeAttached == false and _source.is_main|default(false) == true and attribute(item.object, locale).title|default|ems_webalize != 'home' %}
                     {% set paths = paths|merge([{
                         'uid': (item.id),
                         'path' : "home",

@@ -1,4 +1,5 @@
 parameters:
+    treatPhpDocTypesAsCertain: false
     paths:
         - %currentWorkingDirectory%/elasticms-admin/src
         - %currentWorkingDirectory%/elasticms-cli/src

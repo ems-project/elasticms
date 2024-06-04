@@ -1,5 +1,19 @@
 # Changelog 5.x
 
+## 5.17.0 (2024-06-03)
+### Features
+* feat(core/revision): trash datatable by @Davidmattei in https://github.com/ems-project/elasticms/pull/888
+* feat(demo): change requests by @Davidmattei in https://github.com/ems-project/elasticms/pull/893
+* feat(ems): ip filtering with EMS_TRUSTED_IPS env variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/883
+### Bug Fixes
+* fix(common/store_data): file system type not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/879
+* fix(core/revision): json compare null as string if not defined by @theus77 in https://github.com/ems-project/elasticms/pull/878
+* fix(core/revision): multiplex apply classes on children by @Davidmattei in https://github.com/ems-project/elasticms/pull/894
+* fix(core/view): sorter view body empty by @Davidmattei in https://github.com/ems-project/elasticms/pull/886
+* fix(submission/db): allow nullable expire_date by @Davidmattei in https://github.com/ems-project/elasticms/pull/880
+### Chores
+* chore(demo): remove publication route and upgrade note single colon controller by @Davidmattei in https://github.com/ems-project/elasticms/pull/887
+
 ## 5.16.0 (2024-04-29)
 ### Features
 * feat(core/api): fileUrl for submission endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/876

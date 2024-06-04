@@ -94,3 +94,38 @@ Context for the expression:
 {# display from emsLink and using contentTypes defined display value #}
 {{ 'page:e6f73dd73a5a3f5336bd3fe52d0304b26e437f34'|emsco_display }}
 ```
+
+## emsco_save_contents
+
+Allow to save a contents into storage services as an asset. Examples bellow.
+
+In this example the contents of a forged URL is saved as an asset in storage services:
+```twig
+{% if finalize and _source.default_image is not defined %}
+    {% set response = ems_http("https://domain.tld/fr/base_url/#{_source.uuid}/original.jpg") %}
+    {% if response.getStatusCode() == 200 %}
+        {{ emsco_save_contents(response.getContent(), "#{_source.name}.jpg", response.getHeaders()['content-type'][0])|json_encode|raw }}
+    {% endif %}
+{% endif %}
+```
+
+
+In this example an array of identifiers (strings) will be converted into a multiple FileFieldType:
+```twig
+{% if finalize and (_source.images is not defined or _source.images|length == 0) %}
+    {% set images = [] %}
+    {% for hash in _source.Stack|default([]) %}
+        {% set response = ems_http("https://domain.tld/base-url/#{hash}/original.jpg") %}
+        {% if response.getStatusCode() == 200 %}
+            {% set images = images|merge([emsco_save_contents(response.getContent(), "#{_source.name}-#{loop.index}.jpg", response.getHeaders()['content-type'][0])]) %}
+        {% endif %}
+    {% endfor %}
+    {{ images|json_encode|raw }}
+{% endif %}
+```
+
+A forth optional argument allow to defined the file's type, in order to save the content into right storage services:
+ * 0: Cache
+ * 1: Config
+ * 2: Asset (default value)
+ * 3: Backup

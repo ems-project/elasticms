@@ -18,7 +18,7 @@
 {% block http_admin_api_form_request_body %}
     {% apply spaceless %}
         {% set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
-            'filename': ('attachment '~f.filename)|slug,
+            'filename': ('attachment '~f.filename)|ems_slug,
             'mimeType': f.mimeType,
             'size': f.size,
             'form_field': f.form_field,
@@ -87,7 +87,7 @@
             "subject": "Form example files",
             "body": body,
             "attachments": files|map(f => {
-                filename: f.originalName|slug,
+                filename: f.originalName|ems_slug,
                 mimeType: f.mimeType,
                 pathname: f.pathname,
             })

@@ -10,8 +10,8 @@ The following components can be used in views/actions and dashboards.
 * [Twig Components](#twig-components)
   * [Json Menu Nested](#json-menu-nested)
     * [Implementation (json-menu-nested)](#implementation-json-menu-nested)
+    * [Javascript and CSS (json-menu-nested)](#javascript-and-css-json-menu-nested)
     * [Templating (json-menu-nested)](#templating-json-menu-nested)
-    * [Javascript (json-menu-nested)](#javascript-json-menu-nested)
   * [Media library](#media-library)
     * [Implementation (media-library)](#implementation-media-library)
     * [Templating (media-library)](#templating-media-library)
@@ -44,27 +44,26 @@ Improvements over the emsco_json_menu_nested:
 }) }}
 ```
 
-| Property        | Default                         | Description                                                                                     |
-|-----------------|---------------------------------|-------------------------------------------------------------------------------------------------|
-| `id`            |                                 | **required** html id attribute                                                                  |
-| `ems_link`      |                                 | **required** emsLink to the object                                                              |
-| `field_path`    |                                 | **required** property path to the json menu nested field                                        |
-| `columns`       | ```json[{name: 'structure'}]``` | Json array of columns (name required, width default 200). Title column will always be available |
-| `template`      |                                 | see [templating](#templating-json-menu-nested)                                                  |
-| `context`       |                                 | key/value array that will be passed to all twig blocks                                          |
-| `context_block` |                                 | The passed block name, will be rendered on each request.                                        |
+| Property         | Default                         | Description                                                                                     |
+|------------------|---------------------------------|-------------------------------------------------------------------------------------------------|
+| `id`             |                                 | **required** html id attribute                                                                  |
+| `ems_link`       |                                 | **required** emsLink to the object                                                              |
+| `field_path`     |                                 | **required** property path to the json menu nested field                                        |
+| `columns`        | ```json[{name: 'structure'}]``` | Json array of columns (name required, width default 200). Title column will always be available |
+| `template`       |                                 | see [templating](#templating-json-menu-nested)                                                  |
+| `context`        |                                 | key/value array that will be passed to all twig blocks                                          |
+| `context_block`  |                                 | The passed block name, will be rendered on each request.                                        |
+| `active_item_id` |                                 | Highlight the item with the passed id                                                           |
 
-### Javascript & CSS (json-menu-nested)
+### Javascript and CSS (json-menu-nested)
 
 The following example, will on load:
-* activate an item `84f4260f-6224-4c1e-983d-d1e81753bf47`
 * change the default modal size to lg
 * get item `4f7dc5b6-54ff-4861-998a-bfc691ba2d12`
 
 ```javascript
 window.addEventListener('emsReady', function () {
     const jsonMenuNested = window.jsonMenuNestedComponents['example-id-component'];
-    jsonMenuNested.load({ activeItemId: '84f4260f-6224-4c1e-983d-d1e81753bf47'});
     jsonMenuNested.modalSize = 'lg';
     jsonMenuNested.itemGet('4f7dc5b6-54ff-4861-998a-bfc691ba2d12').then((json) => {console.debug(json); });
 });
@@ -88,6 +87,8 @@ The following example shows the css variable that can be changed.
 Overwriting the blocks can be done by defining a value for the `template` option. Use `_self` for overwriting in the same template.
 Important blocks that start with `_jmn` can't be overwritten.
 
+See the default [template](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Resources/views/components/json_menu_nested/template.twig) for all available blocks.
+
 Example:
 - Add a new column named 'example'
 - In the block `jmn_column_example` we use variable `column_label` passed through the context config
@@ -105,6 +106,7 @@ The `context_block` will be rendered on each draw of the component. After each a
       'template': _self,
       'context': { 'column_label': 'EXAMPLE' },
       'context_block': 'block_context',
+      'active_item_id': app.request.get('activeItemId')|default(null),
       'columns': [
           { 'name': 'example', 'width': 50 },
           { 'name': 'structure' },
@@ -131,134 +133,6 @@ Available in each blocks:
 * [template](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Core/Component/JsonMenuNested/Template/JsonMenuNestedTemplate.php): object used for rendering
 * [menu](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Json/JsonMenuNested.php): the parent json menu nested of the current item
 * [item](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Json/JsonMenuNested.php): the item that rendered
-
-Full template
-```twig
-{%- block jmn_layout_top -%}
-    <div class="jmn-top">
-        <div class="text-right">{{ template.block('jmn_button_menu_add', _context)|raw }}</div>
-    </div>
-{%- endblock jmn_layout_top -%}
-
-{%- block jmn_layout_footer -%}{% endblock jmn_layout_footer %}
-
-{%- block jmn_column_title -%}<span>Title</span>{%- endblock jmn_column_title -%}
-{%- block jmn_column_structure -%}<span>Structure</span>{%- endblock jmn_column_structure -%}
-
-{%- block jmn_cell_title -%}
-    {% if item.hasChildren %}
-        <button class="jmn-item-icon jmn-btn-collapse" aria-expanded="{{- item in loadParents ? 'true' : 'false' -}}"></button>
-    {% endif %}
-    {% if node.icon %}
-        <div class="jmn-item-icon"><i class="{{ node.icon }}"></i></div>
-    {% endif %}
-    <span>{{ item.label }}</span>
-{%- endblock jmn_cell_title -%}
-
-{%- block jmn_cell_structure -%}
-    {{ template.block('jmn_button_menu_add', _context)|raw }}
-    {{ template.block('jmn_button_item_move', _context)|raw }}
-    {{ template.block('jmn_button_menu_more', _context)|raw }}
-{%- endblock jmn_cell_structure -%}
-
-{%- block jmn_button_item_edit -%}
-    <button class="jmn-btn-edit" data-modal-size="md">Edit</button>
-{%- endblock jmn_button_item_edit -%}
-
-{%- block jmn_button_item_delete -%}
-    <button class="jmn-btn-delete">Delete</button>
-{%- endblock jmn_button_item_delete -%}
-
-{%- block jmn_button_item_move -%}
-    <button class="btn btn-sm btn-default jmn-btn-move">Move</button>
-{%- endblock jmn_button_item_move -%}
-
-{%- block jmn_button_item_view -%}
-    <button class="jmn-btn-view" data-modal-size="md">View</button>
-{%- endblock jmn_button_item_view -%}
-
-{%- block jmn_button_item_add -%}
-    <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="md">
-        {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
-        New {{ addNode.type|capitalize }}
-    </button>
-{%- endblock jmn_button_item_add -%}
-
-{%- block jmn_menu_add -%}
-    <ul class="dropdown-menu pull-right">
-        {% for addNode in addNodes %}
-            <li>{{ template.block('jmn_button_item_add', _context)|raw }}</li>
-        {% endfor %}
-    </ul>
-{%- endblock jmn_menu_add -%}
-
-{%- block jmn_button_add -%}
-    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-plus"></i> Add
-    </button>
-{%- endblock jmn_button_add -%}
-
-{%- block jmn_button_menu_add -%}
-    {% set node = node|default(config.nodes.root) %}
-    {% set addNodes = config.nodes.children(node) %}
-    {% if addNodes|length > 0 %}
-        <div class="btn-group btn-group-sm">
-            {{ template.block('jmn_button_add', _context)|raw }}
-            {{ template.block('jmn_menu_add', _context)|raw }}
-        </div>
-    {% endif %}
-{%- endblock jmn_button_menu_add -%}
-
-{%- block jmn_button_menu_more -%}
-    <div class="btn-group btn-group-sm">
-        {{ template.block('jmn_button_more', _context)|raw }}
-        {{ template.block('jmn_menu_more', _context)|raw }}
-    </div>
-{%- endblock jmn_button_menu_more -%}
-
-{%- block jmn_button_more -%}
-    <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-btn-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-ellipsis-v"></i>
-    </button>
-{%- endblock jmn_button_more -%}
-
-{%- block jmn_menu_more -%}
-    <ul class="dropdown-menu pull-right">
-        <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
-        <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
-        <li>{{ template.block('jmn_button_item_delete', _context)|raw }}</li>
-    </ul>
-{%- endblock jmn_menu_more -%}
-
-{%- block jmn_modal_title -%}
-    {% if node.icon %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
-    {{ action|capitalize }} {{ node.type|capitalize }}
-{%- endblock jmn_modal_title -%}
-
-{%- block jmn_modal_form -%}
-    {{ form_start(form) }}
-    {{ form_widget(form.data) }}
-    {% if form._item_hash is defined %}{{ form_widget(form._item_hash) }}{% endif %}
-    {{ form_end(form) }}
-{%- endblock jmn_modal_form -%}
-
-{%- block jmn_modal_footer_form -%}
-    <div class="pull-right">
-        <button id="ajax-modal-submit" class="btn btn-sm btn-primary"><i class="fa fa-save"></i>&nbsp;Save</button>
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Cancel</button>
-    </div>
-{%- endblock jmn_modal_footer_form -%}
-
-{%- block jmn_modal_preview -%}
-    {{ block('_jmn_preview') }}
-{%- endblock jmn_modal_preview -%}
-
-{%- block jmn_modal_footer_close -%}
-    <div class="pull-right">
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
-    </div>
-{%- endblock jmn_modal_footer_close -%}
-```
 
 ## Media library
 

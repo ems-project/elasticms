@@ -101,8 +101,6 @@ final class FileReaderImportCommand extends AbstractCommand
         $counter = 0;
         $progressBar = $this->io->createProgressBar(\count($rows) - 1);
         foreach ($rows as $key => $rowValues) {
-
-
             if (0 === $key) {
                 continue;
             }

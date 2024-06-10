@@ -40,7 +40,7 @@
     {% set currentStructure = structure.structure|default("[]")|ems_json_menu_nested_decode %}
 {% else %}
     {% set target = emsch_search_one('page', { "query": { "term": { ("#{locale}.slug") : (path) } } }) %}
-    {% set switchUrls = ['nl', 'fr']|filter(p => p != locale and attribute(source, p).slug is defined)|map(l => path('emsch_path', { 'path': attribute(source, l).slug, '_locale': l })) %}
+    {% set switchUrls = locales|filter(p => p != locale and attribute(source, p).slug is defined)|map(l => path('emsch_path', { 'path': attribute(source, l).slug, '_locale': l })) %}
 {% endif %}
 
 {% if target is defined %}

@@ -72,9 +72,6 @@
 
         function onJmnLoad(jmn, event) {
             event.preventDefault();
-
-            console.debug('cool');
-
             jmn.element.querySelectorAll('.btn-new-page').forEach((button) => {
                 button.addEventListener('click', () => onClickNewPage(jmn, button));
             });

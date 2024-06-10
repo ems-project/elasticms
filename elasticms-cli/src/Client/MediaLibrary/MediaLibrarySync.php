@@ -241,7 +241,7 @@ final class MediaLibrarySync
         $metadataFilePath = $this->options->hashMetaDataFile ? $this->getFileByHash($metadataFile) : $metadataFile;
 
         $rows = $this->fileReader->getData($metadataFilePath);
-        $header = $rows[0] ?? [];
+        $header = \array_map('trim', $rows[0] ?? []);
         $this->metadatas = [];
         foreach ($rows as $rowIndex => $value) {
             if (0 === $rowIndex) {

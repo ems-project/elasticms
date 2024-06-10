@@ -805,16 +805,10 @@ class AppExtension extends AbstractExtension
         );
     }
 
-    public function internalLinks(?string $input, bool $asFileName = false): ?string
+    public function internalLinks(string $input, bool $asFileName = false): ?string
     {
-        if (null === $input) {
-            return null;
-        }
-
-        $regex = '/ems:(\/\/|\\\\\/\\\\\/)object:(?<key>[^\\\\|\s]*)/i';
-        $out = \preg_replace_callback($regex, function ($match) {
-            return $this->router->generate(Routes::DATA_LINK, ['key' => $match['key']], UrlGeneratorInterface::ABSOLUTE_PATH);
-        }, $input);
+        $url = $this->router->generate(Routes::DATA_LINK, ['key' => 'object:'], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $out = \preg_replace('/ems:\/\/object:/i', $url, $input);
 
         if (null === $out) {
             throw new \RuntimeException('Unexpected null value');

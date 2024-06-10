@@ -129,3 +129,29 @@ A forth optional argument allow to defined the file's type, in order to save the
  * 1: Config
  * 2: Asset (default value)
  * 3: Backup
+
+
+## emsco_notice
+
+Function that generate a notice message to the user
+
+```twig
+{% if finalize %}
+  {% do emsco_notice('page.finalize.notice'|i18n(userLocale), {
+    'title': _source.label,
+  }) %}
+{% endif %}
+```
+
+
+## emsco_warning
+
+Function that generate a warning message to the user
+
+```twig
+{% if finalize %}
+  {% do emsco_warning('page.finalize.warning'|i18n(userLocale), {
+    'title': _source.label,
+  }) %}
+{% endif %}
+```

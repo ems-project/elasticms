@@ -69,7 +69,12 @@ class ViewManager implements EntityServiceInterface
 
     public function define(View $view, ViewDefinition $definition): void
     {
-        if (null !== $currentDefinition = $this->viewRepository->findOneBy(['definition' => $definition->value])) {
+        $currentDefinition = $this->viewRepository->findOneBy([
+            'definition' => $definition->value,
+            'contentType' => $view->getContentType(),
+        ]);
+
+        if (null !== $currentDefinition) {
             $currentDefinition->setDefinition(null);
             $this->update($view);
         }

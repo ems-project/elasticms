@@ -1748,16 +1748,16 @@
         },
         {
             "name": "elasticms/common-bundle",
-            "version": "5.17.0",
+            "version": "5.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCommonBundle.git",
-                "reference": "dde76350d6bc9521b41b94d6d6a3ad3653a58e7f"
+                "reference": "2e95fb60149fd27aa2136c354353480445bcb468"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/dde76350d6bc9521b41b94d6d6a3ad3653a58e7f",
-                "reference": "dde76350d6bc9521b41b94d6d6a3ad3653a58e7f",
+                "url": "https://api.github.com/repos/ems-project/EMSCommonBundle/zipball/2e95fb60149fd27aa2136c354353480445bcb468",
+                "reference": "2e95fb60149fd27aa2136c354353480445bcb468",
                 "shasum": ""
             },
             "require": {
@@ -1834,13 +1834,13 @@
                 "elasticms"
             ],
             "support": {
-                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.17.0"
+                "source": "https://github.com/ems-project/EMSCommonBundle/tree/5.17.1"
             },
-            "time": "2024-06-03T12:55:23+00:00"
+            "time": "2024-06-04T13:00:56+00:00"
         },
         {
             "name": "elasticms/helpers",
-            "version": "5.17.0",
+            "version": "5.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/helpers.git",
@@ -1895,7 +1895,7 @@
                 "php"
             ],
             "support": {
-                "source": "https://github.com/ems-project/helpers/tree/5.17.0"
+                "source": "https://github.com/ems-project/helpers/tree/5.17.1"
             },
             "time": "2024-03-11T21:13:25+00:00"
         },

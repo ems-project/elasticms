@@ -1,5 +1,15 @@
 # Changelog 5.x
 
+## 5.17.1 (2024-06-11)
+### Bug Fixes
+* fix(core/mapping): fix json field type mapping by @theus77 in https://github.com/ems-project/elasticms/pull/899
+* fix(core/media-lib): edit filename without extension by @Davidmattei in https://github.com/ems-project/elasticms/pull/904
+* fix(core/twig): internal_links filter with null value by @Davidmattei in https://github.com/ems-project/elasticms/pull/909
+* fix(core/twig): json menu nested component activate item by id by @Davidmattei in https://github.com/ems-project/elasticms/pull/906
+* fix(demo): align with promo and last fixes by @Davidmattei in https://github.com/ems-project/elasticms/pull/898
+### Chores
+* chore(demo): revert back to ems_slug by @Davidmattei in https://github.com/ems-project/elasticms/pull/903
+
 ## 5.17.0 (2024-06-03)
 ### Features
 * feat(core/revision): trash datatable by @Davidmattei in https://github.com/ems-project/elasticms/pull/888

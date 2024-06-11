@@ -1,0 +1,2 @@
+{%- set urlType = _emsch_go_to|default(false) ? 0 : 2 -%}
+{{- ems_asset_path(source.file, { '_url_type': urlType }) -}}

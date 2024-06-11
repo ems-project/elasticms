@@ -10,6 +10,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Core\UI\MenuEntry;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -753,10 +754,19 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @return array{0: string, 1: array<string, string>}
+     * @return array{0: string, 1: array<string, string|int>}
      */
     public function getRedirectOverviewRoute(ContentType $contentType): array
     {
+        $defaultOverviewView = $contentType->getViewByDefinition(ViewDefinition::DEFAULT_OVERVIEW);
+
+        if ($defaultOverviewView) {
+            return [
+                $defaultOverviewView->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW,
+                ['viewId' => $defaultOverviewView->getId()],
+            ];
+        }
+
         return [Routes::DATA_DEFAULT_VIEW, ['type' => $contentType->getName()]];
     }
 

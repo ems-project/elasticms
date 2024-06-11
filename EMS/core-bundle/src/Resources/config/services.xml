@@ -351,6 +351,7 @@
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="translator" />
+            <argument type="service" id="router.default" />
             <argument>%ems_core.circles_object%</argument>
             <tag name="emsco.entity.service" priority="60" />
         </service>

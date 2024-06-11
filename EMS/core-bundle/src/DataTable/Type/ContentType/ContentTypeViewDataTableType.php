@@ -36,7 +36,10 @@ class ContentTypeViewDataTableType extends AbstractEntityTableType
         $table->addColumn('view.index.column.name', 'name');
         $table->addColumn('view.index.column.label', 'label')->setItemIconCallback(fn (View $view) => $view->getIcon() ?? '');
         $table->addColumnDefinition(new TranslationTableColumn('view.index.column.type', 'type', EMSCoreBundle::TRANS_FORM_DOMAIN));
-        $table->addColumnDefinition(new TranslationTableColumn('view.index.column.definition', 'definition', EMSCoreBundle::TRANS_FORM_DOMAIN));
+
+        $definitionColumn = new TranslationTableColumn('view.index.column.definition', 'definition', EMSCoreBundle::TRANS_FORM_DOMAIN);
+        $definitionColumn->setKeyPrefix('ems.view.definition');
+        $table->addColumnDefinition($definitionColumn);
 
         $table->addItemGetAction(Routes::VIEW_EDIT, 'view.actions.edit', 'pencil');
         $table->addItemPostAction(Routes::VIEW_DUPLICATE, 'view.actions.duplicate', 'pencil', 'view.actions.duplicate_confirm');

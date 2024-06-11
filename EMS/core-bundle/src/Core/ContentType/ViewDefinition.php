@@ -6,5 +6,5 @@ namespace EMS\CoreBundle\Core\ContentType;
 
 enum ViewDefinition: string
 {
-    case DEFAULT_OVERVIEW = 'ems.view.definition.default_overview';
+    case DEFAULT_OVERVIEW = 'default_overview';
 }

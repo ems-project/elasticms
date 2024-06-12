@@ -41,17 +41,13 @@
 {% endblock revision %}
 
 {% block action %}
-    {% if data.revision %}
-        {{ 'release.release-revisison.publish'|trans }}
-    {% else %}
-        {{ 'release.release-revisison.unpublish'|trans }}
-    {% endif %}
+    {{ "release.release-revisison.#{data.type.value}"|trans }}
 {% endblock action %}
 
 {% block previous %}
-    {% if data.revisionBeforePublish %}
-        <a href="{{ path('emsco_view_revisions', {ouuid: data.revisionBeforePublish.ouuid, type: data.revisionBeforePublish.contentType.name, revisionId: data.revisionBeforePublish.id}) }}">
-            {{ 'release.release-revisison.revision'|trans({ '%date%' : data.revisionBeforePublish.created|date(date_time_format) ,'%user%' : data.revisionBeforePublish.finalizedBy|default('')|displayname }) }}
+    {% if data.revisionRollback %}
+        <a href="{{ path('emsco_view_revisions', {ouuid: data.revisionRollback.ouuid, type: data.revisionRollback.contentType.name, revisionId: data.revisionRollback.id}) }}">
+            {{ 'release.release-revisison.revision'|trans({ '%date%' : data.revisionRollback.created|date(date_time_format) ,'%user%' : data.revisionRollback.finalizedBy|default('')|displayname }) }}
         </a>
     {% else %}
         <span class="text-muted">
@@ -72,8 +68,8 @@
         {% set stil_in_target = (revisionTarget ? true : false) %}
     {% endif %}
     {%  if stil_in_target %}
-        <i class="fa fa-check-square"><span class="sr-only"</span>{{ 'release.release-revisison.still_in_target'|trans({'%target%': data.release.environmentTarget.label}) }}</i>
+        <i class="fa fa-check-square"><span class="sr-only">{{ 'release.release-revisison.still_in_target'|trans({'%target%': data.release.environmentTarget.label}) }}</span></i>
     {% else %}
-        <i class="fa fa-square-o"><span class="sr-only"</span>{{ 'release.release-revisison.no_more_in_target'|trans({'%target%': data.release.environmentTarget.label})  }}</i>
+        <i class="fa fa-square-o"><span class="sr-only">{{ 'release.release-revisison.no_more_in_target'|trans({'%target%': data.release.environmentTarget.label})  }}</span></i>
     {% endif %}
 {% endblock stil_in_target %}

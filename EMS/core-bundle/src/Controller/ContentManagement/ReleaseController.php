@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CoreBundle\Controller\AbstractCoreController;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\Revision\Release\ReleaseRevisionType;
 use EMS\CoreBundle\DataTable\Type\Release\ReleaseOverviewDataTableType;
 use EMS\CoreBundle\DataTable\Type\Release\ReleasePickDataTableType;
 use EMS\CoreBundle\DataTable\Type\Release\ReleaseRevisionDataTableType;
@@ -164,17 +165,19 @@ final class ReleaseController extends AbstractCoreController
 
     public function addRevision(Release $release, string $type, string $emsLinkToAdd): Response
     {
-        $this->releaseService->addRevisions($release, $type, [$emsLinkToAdd]);
+        $releaseType = ReleaseRevisionType::from($type);
+        $this->releaseService->addRevisions($release, $releaseType, [$emsLinkToAdd]);
 
         return $this->redirectToRoute(Routes::RELEASE_EDIT, ['release' => $release->getId()]);
     }
 
     public function addRevisions(Request $request, Release $release, string $type): Response
     {
-        $tableType = match ($type) {
-            'publish' => ReleaseRevisionsPublishDataTableType::class,
-            'unpublish' => ReleaseRevisionsUnpublishDataTableType::class,
-            default => throw new \RuntimeException('invalid type')
+        $releaseType = ReleaseRevisionType::from($type);
+
+        $tableType = match ($releaseType) {
+            ReleaseRevisionType::PUBLISH => ReleaseRevisionsPublishDataTableType::class,
+            ReleaseRevisionType::UNPUBLISH => ReleaseRevisionsUnpublishDataTableType::class
         };
         $table = $this->dataTableFactory->create($tableType, ['release_id' => $release->getId()]);
 
@@ -182,7 +185,7 @@ final class ReleaseController extends AbstractCoreController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if (TableAbstract::ADD_ACTION === $this->getClickedButtonName($form)) {
-                $this->releaseService->addRevisions($release, $type, $table->getSelected());
+                $this->releaseService->addRevisions($release, $releaseType, $table->getSelected());
             } else {
                 $this->logger->error('log.controller.release.unknown_action');
             }
@@ -192,13 +195,13 @@ final class ReleaseController extends AbstractCoreController
 
         return $this->render("@$this->templateNamespace/release/revisions.html.twig", [
             'form' => $form->createView(),
-            'type' => $type,
+            'type' => $releaseType->value,
         ]);
     }
 
     public function releasePublish(Release $release): Response
     {
-        $this->releaseService->publishRelease($release);
+        $this->releaseService->executeRelease($release);
 
         return $this->redirectToRoute(Routes::RELEASE_INDEX);
     }

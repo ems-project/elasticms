@@ -45,9 +45,9 @@
 {% endblock action %}
 
 {% block previous %}
-    {% if data.revisionRollback %}
-        <a href="{{ path('emsco_view_revisions', {ouuid: data.revisionRollback.ouuid, type: data.revisionRollback.contentType.name, revisionId: data.revisionRollback.id}) }}">
-            {{ 'release.release-revisison.revision'|trans({ '%date%' : data.revisionRollback.created|date(date_time_format) ,'%user%' : data.revisionRollback.finalizedBy|default('')|displayname }) }}
+    {% if data.rollbackRevision %}
+        <a href="{{ path('emsco_view_revisions', {ouuid: data.rollbackRevision.ouuid, type: data.rollbackRevision.contentType.name, revisionId: data.rollbackRevision.id}) }}">
+            {{ 'release.release-revisison.revision'|trans({ '%date%' : data.rollbackRevision.created|date(date_time_format) ,'%user%' : data.rollbackRevision.finalizedBy|default('')|displayname }) }}
         </a>
     {% else %}
         <span class="text-muted">
@@ -61,7 +61,7 @@
     {% if data.revision %}
         {% set info = data.revision.emsLink|emsco_document_info %}
         {% set revision = info.getRevision(data.release.environmentTarget) %}
-        {% set stil_in_target = (data.revision.id is same as (revision.id)) %}
+        {% set stil_in_target = (data.revision.id is same as (revision.id|default(null))) %}
     {% else %}
         {% set info = data.emsId|emsco_document_info %}
         {% set revisionTarget = info.getRevision(data.release.environmentTarget.name) %}

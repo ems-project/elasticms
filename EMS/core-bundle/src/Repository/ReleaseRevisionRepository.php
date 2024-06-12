@@ -94,7 +94,7 @@ final class ReleaseRevisionRepository extends ServiceEntityRepository
             ->orderBy(\sprintf('rr.%s', $orderField ?? 'id'), $orderDirection)
             ->setFirstResult($from)
             ->setMaxResults($size)
-            ->setParameters([ 'release' => $release]);
+            ->setParameters(['release' => $release]);
 
         return $qb->getQuery()->execute();
     }

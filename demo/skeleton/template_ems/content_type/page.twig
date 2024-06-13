@@ -47,7 +47,7 @@
 {% block menu_post_processing %}
     {% if finalize and _source.menu|default(false) %}
         {% set found = {
-            "index": 'preview'|get_environment.alias,
+            "index": 'preview'|emsco_get_environment.alias,
             "body": {
                 "query": {
                     "bool": {
@@ -58,7 +58,7 @@
             },
         }|search.hits.hits|default([]) %}
         {% if found|length > 0 %}
-            {{ cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}
+            {{ emsco_cant_be_finalized('Another page has been already created for this entry. Please delete this draft.') }}
         {% endif %}
     {% endif %}
 {% endblock menu_post_processing %}

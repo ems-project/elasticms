@@ -47,13 +47,13 @@
                         "arguments": [],
                         "properties": {
                             "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
-                            "name": "label_field",
+                            "name": "display",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "form": "label"
+                                    "form": "display"
                                 },
                                 "mappingOptions": [],
                                 "restrictionOptions": {
@@ -66,7 +66,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 0,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -98,7 +98,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -129,7 +129,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 0,
+                                        "orderKey": 1,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -173,7 +173,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 0,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -221,7 +221,7 @@
                                                             "transformers": []
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 2,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -269,7 +269,7 @@
                                                             "transformers": []
                                                         }
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 3,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -309,7 +309,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 3,
+                                                    "orderKey": 4,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -356,7 +356,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 4,
+                                                    "orderKey": 5,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -389,7 +389,7 @@
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 5,
+                                                    "orderKey": 6,
                                                     "children": [
                                                         {
                                                             "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -433,7 +433,7 @@
                                                                         "protected": false
                                                                     }
                                                                 },
-                                                                "orderKey": 0,
+                                                                "orderKey": 1,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -481,7 +481,7 @@
                                                                         "transformers": []
                                                                     }
                                                                 },
-                                                                "orderKey": 1,
+                                                                "orderKey": 2,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -519,7 +519,7 @@
                                                                         "protected": false
                                                                     }
                                                                 },
-                                                                "orderKey": 2,
+                                                                "orderKey": 3,
                                                                 "children": []
                                                             },
                                                             "replaced": []
@@ -560,7 +560,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 1,
+                                        "orderKey": 2,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -606,7 +606,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 0,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -653,7 +653,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 2,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -682,7 +682,7 @@
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 3,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -695,10 +695,7 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
@@ -754,11 +751,11 @@
             "trash": "not-defined",
             "archive": "not-defined",
             "show_link_create": "ROLE_USER",
-            "show_link_search": "ROLE_USER"
+            "show_link_search": "not-defined"
         },
         "fields": {
-            "display": null,
-            "label": "label",
+            "display": "(rawData['display_label_'~userLocale] ?? rawData['display_label_fr'])",
+            "label": null,
             "color": null,
             "sort": null,
             "tooltip": null,
@@ -769,6 +766,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

@@ -44,11 +44,24 @@
     {% elseif contentType.name in ['template', 'template_ems'] %}
         {% set columnName %}{% verbatim %}<a href="{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.name }}</a>{% endverbatim %}{% endset %}
         {% set columns = [ { "label": "Name", "template": columnName|format,  "orderField": "name"} ] %}
+    {% elseif contentType.name in ['page', 'news', 'user_group', 'feature', 'release'] %}
+        {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
+        {% set userPreferredLocale = app.user.localePreferred[0:2] %}
+        {% set userLocale = userPreferredLocale in locales ? userPreferredLocale : 'fr' %}
+        {% set orderField = contentType.name in ['feature', 'release'] ? 'version': "display_label_#{userLocale}.alpha_order" %}
+
+        {% set columns = columns|merge([
+            {
+                "label": "Label",
+                "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data|emsco_display }}</a>",
+                "orderField": orderField
+            }
+        ]) %}
     {% else %}
         {% set columns = columns|merge([
             {
                 "label": "EMS label",
-                "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data.source.label }}</a>",
+                "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data|emsco_display }}</a>",
                 "orderField": "label.alpha_order"
             }
         ]) %}

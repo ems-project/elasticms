@@ -161,10 +161,7 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
@@ -194,7 +191,8 @@
                     },
                     "orderKey": 2,
                     "public": false,
-                    "role": "ROLE_ADMIN"
+                    "role": "ROLE_ADMIN",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }

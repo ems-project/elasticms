@@ -4,7 +4,7 @@
     "properties": {
         "name": "dashboard_sitemap_options",
         "label": "Dashboard sitemap options",
-        "orderKey": 1,
+        "orderKey": 2,
         "fieldType": {
             "class": "EMS\\CoreBundle\\Entity\\FieldType",
             "arguments": [],

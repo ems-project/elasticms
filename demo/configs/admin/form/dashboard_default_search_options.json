@@ -4,7 +4,7 @@
     "properties": {
         "name": "dashboard_default_search_options",
         "label": "Default search options",
-        "orderKey": 3,
+        "orderKey": 4,
         "fieldType": {
             "class": "EMS\\CoreBundle\\Entity\\FieldType",
             "arguments": [],

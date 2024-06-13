@@ -2,9 +2,9 @@
     "class": "EMS\\CoreBundle\\Entity\\Form",
     "arguments": [],
     "properties": {
-        "name": "menu-locales",
-        "label": "Menu locales",
-        "orderKey": 3,
+        "name": "display",
+        "label": "Display labels",
+        "orderKey": 1,
         "fieldType": {
             "class": "EMS\\CoreBundle\\Entity\\FieldType",
             "arguments": [],
@@ -31,23 +31,25 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType",
-                            "name": "locales",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
+                            "name": "display_label_nl",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Locales",
-                                    "class": "col-md-12",
+                                    "label": "Display Label (NL)",
+                                    "class": "col-md-12 hidden",
                                     "lastOfRow": false,
                                     "helptext": null,
-                                    "values": "nl\r\nfr",
-                                    "labels": "Nederlands\r\nFran\u00e7ais",
-                                    "localePreferredFirst": true,
-                                    "icon": null
+                                    "valueTemplate": "{{ block(\"value_nl\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
+                                    "json": true,
+                                    "displayTemplate": null
                                 },
-                                "mappingOptions": [],
+                                "mappingOptions": {
+                                    "mappingOptions": "{ \"type\": \"text\" }",
+                                    "copy_to": null
+                                },
                                 "restrictionOptions": [],
                                 "extraOptions": {
                                     "extra": null,
@@ -62,42 +64,22 @@
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
                                     "arguments": [],
                                     "properties": {
-                                        "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                                        "name": "title",
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                        "name": "alpha_order",
                                         "contentType": null,
                                         "deleted": false,
                                         "description": null,
                                         "options": {
-                                            "displayOptions": {
-                                                "label": "Title",
-                                                "class": "col-md-12",
-                                                "lastOfRow": false,
-                                                "helptext": null,
-                                                "prefixIcon": null,
-                                                "prefixText": null,
-                                                "suffixIcon": null,
-                                                "suffixText": null,
-                                                "placeholder": null,
-                                                "icon": null
-                                            },
+                                            "displayOptions": [],
                                             "mappingOptions": {
                                                 "index": null,
-                                                "analyzer": null,
-                                                "copy_to": null
-                                            },
-                                            "restrictionOptions": {
-                                                "mandatory": true,
-                                                "mandatory_if": null,
-                                                "minimum_role": null
+                                                "analyzer": "alpha_order",
+                                                "fielddata": true
                                             },
                                             "extraOptions": {
                                                 "extra": null,
                                                 "clear_on_copy": false,
                                                 "postProcessing": null
-                                            },
-                                            "raw_data": [],
-                                            "migrationOptions": {
-                                                "protected": false
                                             }
                                         },
                                         "orderKey": 0,
@@ -113,37 +95,63 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\CheckboxFieldType",
-                            "name": "dropdown",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType",
+                            "name": "display_label_fr",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Dropdown",
-                                    "class": "col-md-12",
+                                    "label": "Display Label (FR)",
+                                    "class": "col-md-12 hidden",
                                     "lastOfRow": false,
-                                    "helptext": "If selected the children will be visible in the menu in a dropdown menu",
-                                    "question_label": "Show children in a dropdown menu"
+                                    "helptext": null,
+                                    "valueTemplate": "{{ block(\"value_fr\", \"@EMSCH/template_ems/content_type/display.twig\") }}",
+                                    "json": true,
+                                    "displayTemplate": null
                                 },
                                 "mappingOptions": {
-                                    "index": null
+                                    "mappingOptions": "{ \"type\": \"text\" }",
+                                    "copy_to": null
                                 },
-                                "restrictionOptions": {
-                                    "minimum_role": null
-                                },
+                                "restrictionOptions": [],
                                 "extraOptions": {
                                     "extra": null,
                                     "clear_on_copy": false,
                                     "postProcessing": null
                                 },
-                                "raw_data": [],
-                                "migrationOptions": {
-                                    "protected": false
-                                }
+                                "raw_data": []
                             },
                             "orderKey": 1,
-                            "children": []
+                            "children": [
+                                {
+                                    "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                                    "arguments": [],
+                                    "properties": {
+                                        "type": "EMS\\CoreBundle\\Form\\DataField\\SubfieldType",
+                                        "name": "alpha_order",
+                                        "contentType": null,
+                                        "deleted": false,
+                                        "description": null,
+                                        "options": {
+                                            "displayOptions": [],
+                                            "mappingOptions": {
+                                                "index": null,
+                                                "analyzer": "alpha_order",
+                                                "fielddata": true
+                                            },
+                                            "extraOptions": {
+                                                "extra": null,
+                                                "clear_on_copy": false,
+                                                "postProcessing": null
+                                            }
+                                        },
+                                        "orderKey": 0,
+                                        "children": []
+                                    },
+                                    "replaced": []
+                                }
+                            ]
                         },
                         "replaced": []
                     }

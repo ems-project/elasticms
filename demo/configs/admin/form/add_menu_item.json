@@ -4,7 +4,7 @@
     "properties": {
         "name": "add_menu_item",
         "label": "Add a menu item",
-        "orderKey": 4,
+        "orderKey": 5,
         "fieldType": {
             "class": "EMS\\CoreBundle\\Entity\\FieldType",
             "arguments": [],

@@ -5,7 +5,8 @@
     {% set releases = emsch_search('release', {
         "size": 1000,
         "_source": ["version","release_date"],
-    }).hits.hits|default([])|map(p => p._source)|array_key('version') %}
+        "sort": [{ "version": { "order": "desc" } }],
+    }).hits.hits|default([])|map(p => p._source) %}
     {% set must = {} %}
 
     {% if app.request.get('q', '')|length > 0 %}
@@ -41,8 +42,7 @@
         "query": query,
         "sort": [{
             "version": { "order": "desc" },
-            "_score": { "order": "asc" },
-            "_finalization_datetime": { "order": "desc" },
+            ("#{locale}.title.alpha_order"): { "order": "asc" }
         }],
         "_source": ["#{app.request.locale}.title","version","category"],
     }) %}
@@ -117,26 +117,24 @@
         <section class="py-5 py-lg-8">
             <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                    {% for version in features.hits.hits|map(p => p._source.version) %}
+                    {% for release in releases %}
                         <div class="release-item">
                             <h2>
-                                {{ 'block.release.title'|trans({'%version%': version}) }}
-                                {% if attribute(releases, version) is defined and attribute(releases, version).release_date is defined %}
-                                    - {{ ('month.'~attribute(releases, version).release_date|date('F'))|trans }} {{ attribute(releases, version).release_date|date('Y') }}
+                                {{ 'block.release.title'|trans({'%version%': release.version}) }}
+                                {% if release.release_date is defined %}
+                                    - {{ ('month.'~release.release_date|date('F'))|trans }} {{ release.release_date|date('Y') }}
                                 {% endif %}
                             </h2>
+                            {% set releaseFeatures = features.hits.hits|filter(p => p._source.version is same as(release.version))|map(v => v._source) %}
+                            {% set groupedByCategory = categories|map((v, k) => releaseFeatures|filter(f => f.category == "category:#{k}") ) %}
                             <ul class="list-unstyled mb-0">
-                                {% for feature in features.hits.hits|filter(p => p._source.version is same as(version)) %}
-                                    <li class="d-flex align-items-start mb-2">
-                                        <span class="badge">
-                                            {% if attribute(categories, feature._source.category|emsch_ouuid) is defined %}
-                                                {{ attribute(categories, feature._source.category|emsch_ouuid) }}
-                                            {% else %}
-                                                &nbsp;
-                                            {% endif %}
-                                        </span>
-                                        <p>{{ attribute(feature._source, locale).title|default('') }}</p>
-                                    </li>
+                                {% for categoryKey, featuresInCategory in groupedByCategory  %}
+                                    {% for feature in featuresInCategory %}
+                                        <li class="d-flex align-items-start mb-2">
+                                            <span class="badge">{{ attribute(categories, categoryKey) }}</span>
+                                            <p>{{ attribute(feature, locale).title|default('') }}</p>
+                                        </li>
+                                    {% endfor %}
                                 {% endfor %}
                             </ul>
                         </div>

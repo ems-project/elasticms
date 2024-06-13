@@ -48,12 +48,13 @@
         {% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
         {% set userPreferredLocale = app.user.localePreferred[0:2] %}
         {% set userLocale = userPreferredLocale in locales ? userPreferredLocale : 'fr' %}
+        {% set orderField = contentType.name in ['feature', 'release'] ? 'version': "display_label_#{userLocale}.alpha_order" %}
 
         {% set columns = columns|merge([
             {
                 "label": "Label",
                 "template": '<a href="' ~ "{{path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}"~'">' ~"{{ data|emsco_display }}</a>",
-                "orderField": "display_label_#{userLocale}.alpha_order"
+                "orderField": orderField
             }
         ]) %}
     {% else %}

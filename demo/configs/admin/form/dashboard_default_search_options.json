@@ -26,10 +26,7 @@
                     }
                 },
                 "orderKey": 0,
-                "children": [],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                "children": []
             },
             "replaced": []
         }

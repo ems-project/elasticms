@@ -414,10 +414,7 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },

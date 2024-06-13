@@ -46,6 +46,35 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "display",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "form": "display"
+                                },
+                                "mappingOptions": [],
+                                "restrictionOptions": {
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": null
+                                },
+                                "raw_data": []
+                            },
+                            "orderKey": 1,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
                             "type": "EMS\\CoreBundle\\Form\\DataField\\TabsFieldType",
                             "name": "tabs",
                             "contentType": null,
@@ -69,7 +98,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 1,
+                            "orderKey": 2,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -100,7 +129,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 0,
+                                        "orderKey": 1,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -144,7 +173,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 0,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -181,7 +210,7 @@
                                             },
                                             "raw_data": []
                                         },
-                                        "orderKey": 1,
+                                        "orderKey": 2,
                                         "children": [
                                             {
                                                 "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -225,7 +254,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 0,
+                                                    "orderKey": 1,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -274,7 +303,7 @@
                                                             "protected": false
                                                         }
                                                     },
-                                                    "orderKey": 1,
+                                                    "orderKey": 2,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -303,7 +332,7 @@
                                                         },
                                                         "raw_data": []
                                                     },
-                                                    "orderKey": 2,
+                                                    "orderKey": 3,
                                                     "children": []
                                                 },
                                                 "replaced": []
@@ -331,7 +360,30 @@
         "webContent": false,
         "autoPublish": false,
         "templates": [],
-        "views": [],
+        "views": [
+            {
+                "class": "EMS\\CoreBundle\\Entity\\View",
+                "arguments": [],
+                "properties": {
+                    "name": "overview",
+                    "type": "ems.view.report",
+                    "label": "Overview",
+                    "icon": "fa fa-list-ul",
+                    "options": {
+                        "body": "{}",
+                        "size": 0,
+                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                    },
+                    "orderKey": 1,
+                    "public": false,
+                    "role": "ROLE_USER",
+                    "definition": "default_overview"
+                },
+                "replaced": []
+            }
+        ],
         "defaultValue": null,
         "versionTags": [],
         "versionOptions": {
@@ -352,10 +404,10 @@
             "trash": "not-defined",
             "archive": "not-defined",
             "show_link_create": "ROLE_USER",
-            "show_link_search": "ROLE_USER"
+            "show_link_search": "not-defined"
         },
         "fields": {
-            "display": "rawData['version'] ~ '  - ' ~ (rawData[userLocale]['title'] ?? rawData['nl']['title'])",
+            "display": "(rawData['display_label_'~userLocale] ?? rawData['display_label_fr'])",
             "label": null,
             "color": null,
             "sort": null,
@@ -367,6 +419,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

@@ -384,7 +384,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
-                    "icon": "fa fa-list",
+                    "icon": "fa fa-list-ul",
                     "options": {
                         "body": null,
                         "size": 0,
@@ -394,7 +394,8 @@
                     },
                     "orderKey": 1,
                     "public": false,
-                    "role": "ROLE_WEBMASTER"
+                    "role": "ROLE_WEBMASTER",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }

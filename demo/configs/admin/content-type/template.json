@@ -194,7 +194,8 @@
                     },
                     "orderKey": 3,
                     "public": false,
-                    "role": "ROLE_PUBLISHER"
+                    "role": "ROLE_PUBLISHER",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }

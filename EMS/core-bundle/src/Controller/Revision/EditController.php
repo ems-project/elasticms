@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\Controller\Revision;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
-use EMS\CoreBundle\Core\Revision\DraftInProgress;
 use EMS\CoreBundle\DataTable\Type\Revision\RevisionDraftsDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
@@ -261,7 +260,7 @@ class EditController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
                 switch ($action->getName()) {
-                    case DraftInProgress::DISCARD_SELECTED_DRAFT:
+                    case RevisionDraftsDataTableType::DISCARD_SELECTED_DRAFT:
                         foreach ($table->getSelected() as $revisionId) {
                             try {
                                 $revision = $this->dataService->getRevisionById(\intval($revisionId), $contentTypeId);

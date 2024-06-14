@@ -13,8 +13,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class DraftInProgress implements EntityServiceInterface
 {
-    final public const DISCARD_SELECTED_DRAFT = 'DISCARD_SELECTED_DRAFT';
-
     public function __construct(
         private readonly RevisionRepository $revisionRepository,
         private readonly UserManager $userManager,

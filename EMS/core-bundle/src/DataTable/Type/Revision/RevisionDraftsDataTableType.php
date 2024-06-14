@@ -21,6 +21,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RevisionDraftsDataTableType extends AbstractEntityTableType
 {
+    final public const DISCARD_SELECTED_DRAFT = 'DISCARD_SELECTED_DRAFT';
+
     public function __construct(
         DraftInProgress $draftInProgress,
         private readonly ContentTypeService $contentTypeService,
@@ -60,7 +62,7 @@ class RevisionDraftsDataTableType extends AbstractEntityTableType
         ])->addCondition($inMyCircles)->setButtonType('outline-danger');
 
         if (null !== $contentType && (null === $contentType->getCirclesField() || '' === $contentType->getCirclesField())) {
-            $table->addTableAction(DraftInProgress::DISCARD_SELECTED_DRAFT, 'fa fa-trash', 'revision.draft-in-progress.action.discard-selected-draft', 'revision.draft-in-progress.action.discard-selected-confirm')
+            $table->addTableAction(self::DISCARD_SELECTED_DRAFT, 'fa fa-trash', 'revision.draft-in-progress.action.discard-selected-draft', 'revision.draft-in-progress.action.discard-selected-confirm')
                 ->setCssClass('btn btn-outline-danger');
         }
     }

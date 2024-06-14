@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\Release;
+namespace Build\Release;
 
 class Config
 {

@@ -61,6 +61,10 @@ server-stop/%:  ## server-stop/(admin|web)
 server-log/%:  ## server-log/(admin|web)
 	symfony server:log --dir=elasticms-${*}
 
+## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+build-translations: ## build translations
+	@php build/extract-translations
+
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-migrate: ## run doctrine migrations
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction

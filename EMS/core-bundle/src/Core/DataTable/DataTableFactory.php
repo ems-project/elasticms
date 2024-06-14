@@ -9,6 +9,7 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractQueryTableType;
 use EMS\CoreBundle\Core\DataTable\Type\DataTableFilterFormInterface;
 use EMS\CoreBundle\Core\DataTable\Type\DataTableTypeCollection;
 use EMS\CoreBundle\Core\DataTable\Type\DataTableTypeInterface;
+use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\QueryTable;
@@ -77,6 +78,7 @@ class DataTableFactory
         $table = match (true) {
             $type instanceof AbstractEntityTableType => $this->buildEntityTable($type, $options, $ajaxUrl, $context),
             $type instanceof AbstractQueryTableType => $this->buildQueryTable($type, $options, $ajaxUrl, $context),
+            $type instanceof QueryServiceTypeInterface => $this->buildQueryServiceType($type, $options, $ajaxUrl, $context),
             default => throw new \RuntimeException('Unknown dataTableType')
         };
 
@@ -117,6 +119,26 @@ class DataTableFactory
         $table = new QueryTable(
             $this->templateNamespace,
             $type->getQueryService(),
+            $type->getQueryName(),
+            $ajaxUrl,
+            $context,
+            $type->getLoadMaxRows()
+        );
+
+        $table->setTranslationDomain($options['translation_domain']);
+        $type->build($table);
+
+        return $table;
+    }
+
+    /**
+     * @param array<string, mixed> $options
+     */
+    private function buildQueryServiceType(QueryServiceTypeInterface $type, array $options, string $ajaxUrl, mixed $context): QueryTable
+    {
+        $table = new QueryTable(
+            $this->templateNamespace,
+            $type,
             $type->getQueryName(),
             $ajaxUrl,
             $context,

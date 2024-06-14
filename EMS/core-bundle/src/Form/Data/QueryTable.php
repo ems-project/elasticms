@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Data;
 
+use EMS\CoreBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\CoreBundle\Service\QueryServiceInterface;
 
@@ -63,11 +64,16 @@ class QueryTable extends TableAbstract
     }
 
     /**
-     * @return \Traversable<string, QueryRow>
+     * @return \Traversable<string, QueryRow|EntityRow>
      */
     public function getIterator(): \Traversable
     {
         foreach ($this->service->query($this->getFrom(), $this->getSize(), $this->getOrderField(), $this->getOrderDirection(), $this->getSearchValue(), $this->context) as $data) {
+            if ($data instanceof EntityInterface) {
+                yield \strval($data->getId()) => new EntityRow($data);
+                continue;
+            }
+
             $id = $data[$this->idField] ?? null;
             if (null === $id) {
                 continue;

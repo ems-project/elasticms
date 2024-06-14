@@ -4,34 +4,35 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\DataTable\Type\Revision;
 
-use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
-use EMS\CoreBundle\Core\Revision\DraftInProgress;
+use EMS\CoreBundle\Core\DataTable\Type\AbstractTableType;
+use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Form\Data\Condition\DateInFuture;
 use EMS\CoreBundle\Form\Data\Condition\InMyCircles;
 use EMS\CoreBundle\Form\Data\Condition\NotEmpty;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
-use EMS\CoreBundle\Form\Data\EntityTable;
+use EMS\CoreBundle\Form\Data\QueryTable;
 use EMS\CoreBundle\Form\Data\UserTableColumn;
-use EMS\CoreBundle\Roles;
+use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class RevisionDraftsDataTableType extends AbstractEntityTableType
+class RevisionDraftsDataTableType extends AbstractTableType implements QueryServiceTypeInterface
 {
     final public const DISCARD_SELECTED_DRAFT = 'DISCARD_SELECTED_DRAFT';
 
     public function __construct(
-        DraftInProgress $draftInProgress,
+        private readonly RevisionRepository $revisionRepository,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly ContentTypeService $contentTypeService,
         private readonly UserService $userService
     ) {
-        parent::__construct($draftInProgress);
     }
 
-    public function build(EntityTable $table): void
+    public function build(QueryTable $table): void
     {
         /** @var ContentType $contentType */
         $contentType = $table->getContext();
@@ -72,13 +73,50 @@ class RevisionDraftsDataTableType extends AbstractEntityTableType
         return $this->contentTypeService->giveByName($options['content_type_name']);
     }
 
-    public function getRoles(): array
-    {
-        return [Roles::ROLE_USER];
-    }
-
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setRequired(['content_type_name']);
+    }
+
+    public function getQueryName(): string
+    {
+        return 'draft_in_progress';
+    }
+
+    public function isQuerySortable(): bool
+    {
+        return false;
+    }
+
+    public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
+    {
+        if (null !== $context && !$context instanceof ContentType) {
+            throw new \RuntimeException('Unexpected context');
+        }
+
+        return $this->revisionRepository->getDraftInProgress(
+            from: $from,
+            size: $size,
+            orderField: $orderField,
+            orderDirection: $orderDirection,
+            searchValue: $searchValue,
+            contentType: $context,
+            circles: $this->userService->getCurrentUser()->getCircles(),
+            isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN')
+        );
+    }
+
+    public function countQuery(string $searchValue = '', mixed $context = null): int
+    {
+        if (null !== $context && !$context instanceof ContentType) {
+            throw new \RuntimeException('Unexpected context');
+        }
+
+        return $this->revisionRepository->countDraftInProgress(
+            searchValue: $searchValue,
+            contentType: $context,
+            circles: $this->userService->getCurrentUser()->getCircles(),
+            isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN')
+        );
     }
 }

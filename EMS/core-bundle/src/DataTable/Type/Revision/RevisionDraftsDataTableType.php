@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\DataTable\Type\Revision;
 
+use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractTableType;
 use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
 use EMS\CoreBundle\Entity\ContentType;
@@ -94,16 +95,21 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
             throw new \RuntimeException('Unexpected context');
         }
 
-        return $this->revisionRepository->getDraftInProgress(
-            from: $from,
-            size: $size,
-            orderField: $orderField,
-            orderDirection: $orderDirection,
-            searchValue: $searchValue,
-            contentType: $context,
-            circles: $this->userService->getCurrentUser()->getCircles(),
-            isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN')
-        );
+        $qb = $this->createQueryBuilder($searchValue);
+        $qb
+            ->setFirstResult($from)
+            ->setMaxResults($size);
+
+        if (null !== $context) {
+            $qb->andWhere($qb->expr()->eq('c.id', ':content_type_id'));
+            $qb->setParameter('content_type_id', $context->getId());
+        }
+
+        if (null !== $orderField) {
+            $qb->orderBy(\sprintf('r.%s', $orderField), $orderDirection);
+        }
+
+        return $qb->getQuery()->execute();
     }
 
     public function countQuery(string $searchValue = '', mixed $context = null): int
@@ -112,11 +118,23 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
             throw new \RuntimeException('Unexpected context');
         }
 
-        return $this->revisionRepository->countDraftInProgress(
-            searchValue: $searchValue,
-            contentType: $context,
+        $qb = $this->createQueryBuilder($searchValue);
+        $qb->select('count(r.id)');
+
+        if (null !== $context) {
+            $qb->andWhere($qb->expr()->eq('c.id', ':content_type_id'));
+            $qb->setParameter('content_type_id', $context->getId());
+        }
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    private function createQueryBuilder(string $searchValue = ''): QueryBuilder
+    {
+        return $this->revisionRepository->createQueryBuilderDrafts(
             circles: $this->userService->getCurrentUser()->getCircles(),
-            isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN')
+            isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN'),
+            searchValue: $searchValue
         );
     }
 }

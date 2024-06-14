@@ -840,46 +840,6 @@ class RevisionRepository extends EntityRepository
         return $qb->getQuery()->execute();
     }
 
-    /**
-     * @param string[] $circles
-     */
-    public function countDraftInProgress(string $searchValue, ?ContentType $contentType, array $circles = [], bool $isAdmin = false): int
-    {
-        $qb = $this->createQueryBuilderDrafts($circles, $isAdmin, $searchValue);
-        $qb->select('count(r.id)');
-
-        if (null !== $contentType) {
-            $qb->andWhere($qb->expr()->eq('c.id', ':content_type_id'));
-            $qb->setParameter('content_type_id', $contentType->getId());
-        }
-
-        return (int) $qb->getQuery()->getSingleScalarResult();
-    }
-
-    /**
-     * @param string[] $circles
-     *
-     * @return Revision[]
-     */
-    public function getDraftInProgress(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, ?ContentType $contentType, array $circles = [], bool $isAdmin = false): array
-    {
-        $qb = $this->createQueryBuilderDrafts($circles, $isAdmin, $searchValue);
-        $qb
-            ->setFirstResult($from)
-            ->setMaxResults($size);
-
-        if (null !== $contentType) {
-            $qb->andWhere($qb->expr()->eq('c.id', ':content_type_id'));
-            $qb->setParameter('content_type_id', $contentType->getId());
-        }
-
-        if (null !== $orderField) {
-            $qb->orderBy(\sprintf('r.%s', $orderField), $orderDirection);
-        }
-
-        return $qb->getQuery()->execute();
-    }
-
     public function findLatestVersion(ContentType $contentType, string $versionOuuid, ?Environment $environment = null): ?Revision
     {
         $toField = $contentType->getVersionDateToField();
@@ -1074,7 +1034,7 @@ class RevisionRepository extends EntityRepository
     /**
      * @param string[] $circles
      */
-    private function createQueryBuilderDrafts(array $circles = [], bool $isAdmin = false, string $searchValue = ''): QueryBuilder
+    public function createQueryBuilderDrafts(array $circles = [], bool $isAdmin = false, string $searchValue = ''): QueryBuilder
     {
         $qb = $this->createQueryBuilder('r');
         $qb

@@ -94,7 +94,7 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver
-            ->setDefault('translation_domain', EMSCoreBundle::TRANS_REVISION)
+            ->setDefault('translation_domain', EMSCoreBundle::TRANS_CORE)
             ->setRequired(['content_type_name']);
     }
 

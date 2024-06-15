@@ -37,9 +37,6 @@ const IGRNORE_PATHS = [
     'Repository',
     '/Resources\/(public|config|DoctrineMigrations)/',
 ];
-const DOMAINS = [
-    'EMSCoreBundle' => ['emsco-core'],
-];
 
 $command = function (InputInterface $input, OutputInterface $output): int {
     $stopWatch = new Stopwatch();
@@ -50,11 +47,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
 
     $locale = $input->getArgument('locale');
     $bundle = $input->getArgument('bundle');
-
-    $domains = DOMAINS[$bundle] ?? [];
-    if (0 === \count($domains)) {
-        $io->error(\sprintf('No domains defined for bundle "%s"', $bundle));
-    }
+    $domains = $input->getOption('domain');
 
     $io->writeln('Booting admin kernel');
     (new Dotenv())->load(__DIR__.'/../elasticms-admin/.env');
@@ -111,6 +104,12 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     }
 
     $operation = new TargetOperation($filterCurrentCatalogue, $filterExtractedCatalogue);
+    /** @var MessageCatalogue $result */
+    $result = $operation->getResult();
+
+    if (0 === \count($result->all())) {
+        throw new \RuntimeException('No translations found');
+    }
 
     if (true === $input->getOption('write')) {
         $io->writeln('Writing translations');
@@ -118,10 +117,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         $translationWriter = new TranslationWriter();
         $translationWriter->addDumper('yml', new YamlFileDumper());
 
-        /** @var MessageCatalogue $writeCatalogue */
-        $writeCatalogue = $operation->getResult();
-
-        $translationWriter->write($writeCatalogue, 'yml', [
+        $translationWriter->write($result, 'yml', [
             'path' => $bundleDir.'/Resources/translations',
             'as_tree' => true,
             'inline' => 5,
@@ -177,5 +173,6 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     ->addArgument('locale', InputArgument::REQUIRED, 'locale')
     ->addArgument('bundle', InputArgument::REQUIRED, 'bundle')
     ->addOption('write', '', InputOption::VALUE_NONE, 'write translations')
+    ->addOption('domain', 'd', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'domains')
     ->setCode($command)
     ->run();

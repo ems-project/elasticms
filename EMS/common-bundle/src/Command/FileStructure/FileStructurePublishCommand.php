@@ -43,7 +43,7 @@ class FileStructurePublishCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Clear doctrine logs');
+        $this->setDescription('Publish a json encoded file structure into a S3 bucket');
         $this->addArgument(self::ARGUMENT_INDEX, InputArgument::REQUIRED, 'Elasticsearch index');
         $this->addArgument(self::ARGUMENT_IDENTIFIER, InputArgument::REQUIRED, 'Document identifier');
         $this->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'Target (folder or bucket)');

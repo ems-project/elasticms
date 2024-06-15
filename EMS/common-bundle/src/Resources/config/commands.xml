@@ -86,7 +86,7 @@
             <argument type="service" id="ems_common.composer.info"/>
             <tag name="console.command" command="ems:version"/>
         </service>
-        <service id="ems.command.logs.clear" class="EMS\CommonBundle\Command\FileStructure\FileStructurePublishCommand">
+        <service id="ems.command.file_structure.publish" class="EMS\CommonBundle\Command\FileStructure\FileStructurePublishCommand">
             <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>
             <tag name="console.command" />

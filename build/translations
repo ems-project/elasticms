@@ -1,0 +1,182 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__.'/../vendor/autoload.php';
+
+use App\Admin\Kernel;
+use EMS\CommonBundle\Common\Converter;
+use Symfony\Bridge\Twig\Translation\TwigExtractor;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\SingleCommandApplication;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Translation\Catalogue\TargetOperation;
+use Symfony\Component\Translation\Dumper\YamlFileDumper;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
+use Symfony\Component\Translation\Extractor\PhpExtractor;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
+use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\MessageCatalogueInterface;
+use Symfony\Component\Translation\Reader\TranslationReader;
+use Symfony\Component\Translation\Writer\TranslationWriter;
+use Twig\Environment;
+
+const IGRNORE_PATHS = [
+    'Command',
+    'DependencyInjection',
+    'Entity',
+    'Repository',
+    '/Resources\/(public|config|DoctrineMigrations)/',
+];
+const DOMAINS = [
+    'EMSCoreBundle' => ['emsco-core'],
+];
+
+$command = function (InputInterface $input, OutputInterface $output): int {
+    $stopWatch = new Stopwatch();
+    $stopWatch->start('build');
+
+    $io = new SymfonyStyle($input, $output);
+    $io->title('Build: extract translations');
+
+    $locale = $input->getArgument('locale');
+    $bundle = $input->getArgument('bundle');
+
+    $domains = DOMAINS[$bundle] ?? [];
+    if (0 === \count($domains)) {
+        $io->error(\sprintf('No domains defined for bundle "%s"', $bundle));
+    }
+
+    $io->writeln('Booting admin kernel');
+    (new Dotenv())->load(__DIR__.'/../elasticms-admin/.env');
+    $adminKernel = new Kernel('dev', true);
+    $adminKernel->boot();
+    $bundleDir = $adminKernel->getBundle($bundle)->getPath();
+    /** @var Environment $twig */
+    $twig = $adminKernel->getContainer()->get('twig');
+    $io->listing([
+        \sprintf('Locale: %s', $locale),
+        \sprintf('Bundle: %s', $bundleDir),
+    ]);
+
+    $io->writeln('Extracting translation keys from code');
+    $extractedCatalogue = new MessageCatalogue($locale);
+    $finder = (new Finder())
+        ->ignoreUnreadableDirs()
+        ->ignoreVCSIgnored(true)
+        ->notPath(IGRNORE_PATHS)
+        ->in($bundleDir);
+
+    $extractors = [
+       ['Parsing php files', '*.php', new PhpExtractor()],
+       ['Parsing twig files', '*.twig', new TwigExtractor($twig)],
+    ];
+
+    foreach ($extractors as list($title, $name, $extractor)) {
+        /* @var ExtractorInterface $extractor */
+        $io->writeln($title);
+        $files = (clone $finder)->name($name);
+
+        $progressBar = $io->createProgressBar($files->count());
+        foreach ($files as $file) {
+            $extractor->extract($file->getRealPath(), $extractedCatalogue);
+            $progressBar?->advance();
+        }
+
+        $progressBar->finish();
+        $io->newLine();
+    }
+
+    !$io->isVerbose() ?: $io->newLine();
+    $io->writeln('Building current translations');
+    $currentCatalogue = new MessageCatalogue($locale);
+    $reader = new TranslationReader();
+    $reader->addLoader('yml', new YamlFileLoader());
+    $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
+
+    $filterCurrentCatalogue = new MessageCatalogue($locale);
+    $filterExtractedCatalogue = new MessageCatalogue($locale);
+    foreach ($domains as $domain) {
+        $domainIntl = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+        $filterCurrentCatalogue->add($currentCatalogue->all($domainIntl), $domainIntl);
+        $filterExtractedCatalogue->add($extractedCatalogue->all($domain), $domainIntl);
+    }
+
+    $operation = new TargetOperation($filterCurrentCatalogue, $filterExtractedCatalogue);
+
+    if (true === $input->getOption('write')) {
+        $io->writeln('Writing translations');
+
+        $translationWriter = new TranslationWriter();
+        $translationWriter->addDumper('yml', new YamlFileDumper());
+
+        /** @var MessageCatalogue $writeCatalogue */
+        $writeCatalogue = $operation->getResult();
+
+        $translationWriter->write($writeCatalogue, 'yml', [
+            'path' => $bundleDir.'/Resources/translations',
+            'as_tree' => true,
+            'inline' => 5,
+        ]);
+    }
+
+    $rows = [];
+    foreach ($domains as $domain) {
+        $domainObsoleteKeys = \array_keys($operation->getObsoleteMessages($domain));
+        \sort($domainObsoleteKeys);
+        foreach ($domainObsoleteKeys as $key) {
+            $rows[$domain][] = ['<fg=red>unused</>', $domain, $key, $filterCurrentCatalogue->get($key, $domain)];
+        }
+
+        $domainNewKeys = \array_keys($operation->getNewMessages($domain));
+        \sort($domainNewKeys);
+        foreach ($domainNewKeys as $key) {
+            $rows[$domain][] = ['<fg=blue>new</>', $domain, $key, null];
+        }
+
+        $allKeys = \array_diff(\array_keys($operation->getMessages($domain)), $domainNewKeys);
+        \sort($allKeys);
+        foreach ($allKeys as $key) {
+            $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $operation->getResult()->get($key, $domain)];
+        }
+    }
+
+    if (\count($rows) > 0) {
+        $rows = \array_reduce($rows, fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []);
+        $rows = \array_slice($rows, 0, -1); // remove last separtor
+
+        $io->newLine();
+        $io
+            ->createTable()
+            ->setHeaderTitle('Info')
+            ->setHeaders(['State', 'Domain', 'Id', \sprintf('Message (%s)', $locale)])
+            ->setRows($rows)
+            ->render();
+    }
+
+    $buildStopWatch = $stopWatch->stop('build');
+    $io->newLine();
+    $io->listing([
+        \sprintf('Duration: %d s', $buildStopWatch->getDuration() / 1000),
+        \sprintf('Memory: %s', Converter::formatBytes($buildStopWatch->getMemory())),
+    ]);
+
+    return Command::SUCCESS;
+};
+
+(new SingleCommandApplication())
+    ->setName('Build: extract translations')
+    ->addArgument('locale', InputArgument::REQUIRED, 'locale')
+    ->addArgument('bundle', InputArgument::REQUIRED, 'bundle')
+    ->addOption('write', '', InputOption::VALUE_NONE, 'write translations')
+    ->setCode($command)
+    ->run();

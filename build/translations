@@ -96,7 +96,6 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         $io->newLine();
     }
 
-    !$io->isVerbose() ?: $io->newLine();
     $io->writeln('Building current translations');
     $currentCatalogue = new MessageCatalogue($locale);
     $reader = new TranslationReader();

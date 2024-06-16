@@ -49,11 +49,7 @@
         <source>user.profile.title</source>
         <target>Your profile</target>
       </trans-unit>
-      <trans-unit id="6GCzHkA" resname="user.profile.show.alt.user_profile_picture">
-        <source>user.profile.show.alt.user_profile_picture</source>
-        <target>Your profile's picture. Check Gravatar.com to chang it.</target>
-      </trans-unit>
-      <trans-unit id="ccD4UqU" resname="user.profile.show.username">
+      <trans-unit id="0WswaCk" resname="user.profile.show.username">
         <source>user.profile.show.username</source>
         <target>Username</target>
       </trans-unit>
@@ -68,10 +64,6 @@
       <trans-unit id="0oSlnRV" resname="user.profile.show.email_notification">
         <source>user.profile.show.email_notification</source>
         <target>e-mail notification</target>
-      </trans-unit>
-      <trans-unit id="T_3w8O5" resname="user.option.simplified_ui">
-        <source>user.option.simplified_ui</source>
-        <target>Simplified UI</target>
       </trans-unit>
       <trans-unit id="pB.DqAa" resname="user.profile.show.locale">
         <source>user.profile.show.locale</source>
@@ -93,29 +85,33 @@
         <source>user.profile.show.action.edit</source>
         <target>Edit</target>
       </trans-unit>
-      <trans-unit id="2obisa." resname="user.profile.change_password.title">
-        <source>user.change_password.title</source>
+      <trans-unit id="QxXqqK_" resname="user.profile.show.action.cancel">
+        <source>user.profile.show.action.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="Uzm29Jz" resname="user.profile.change_password.title">
+        <source>user.profile.change_password.title</source>
         <target>Change password</target>
       </trans-unit>
-      <trans-unit id="3Vrpx08" resname="user.profile.change_password.submit">
-        <source>user.change_password.submit</source>
+      <trans-unit id="8Wwyiot" resname="user.profile.change_password.submit">
+        <source>user.profile.change_password.submit</source>
         <target>Change password</target>
       </trans-unit>
-      <trans-unit id="VLmPHXS" resname="user.profile.change_password.cancel">
-        <source>user.change_password.cancel</source>
+      <trans-unit id="En5VEV." resname="user.profile.change_password.cancel">
+        <source>user.profile.change_password.cancel</source>
         <target>Cancel</target>
       </trans-unit>
       <trans-unit id="5yLxmZH" resname="user.profile.edit.title">
         <source>user.profile.edit.title</source>
         <target>Edit your profile</target>
       </trans-unit>
-      <trans-unit id="QxXqqK_" resname="user.profile.show.action.cancel">
-        <source>user.profile.show.action.cancel</source>
-        <target>Cancel</target>
-      </trans-unit>
       <trans-unit id="ZWXcMxP" resname="user.profile.edit.breadcrumb_title">
         <source>user.profile.edit.breadcrumb_title</source>
         <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="T_3w8O5" resname="user.option.simplified_ui">
+        <source>user.option.simplified_ui</source>
+        <target>Simplified UI</target>
       </trans-unit>
     </body>
   </file>

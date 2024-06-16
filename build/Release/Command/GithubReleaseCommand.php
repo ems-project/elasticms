@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\Release\Command;
+namespace Build\Release\Command;
 
-use EMS\Release\Config;
+use Build\Release\Config;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

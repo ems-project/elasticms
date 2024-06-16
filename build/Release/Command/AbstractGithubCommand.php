@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\Release\Command;
+namespace Build\Release\Command;
 
 use Github\AuthMethod;
 use Github\Client as ClientGithub;

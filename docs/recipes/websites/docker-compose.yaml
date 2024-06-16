@@ -18,6 +18,8 @@ services:
       - APPEND_SLASH_FOR_POSSIBLE_DIRECTORY=true
       - PROVIDE_INDEX_PAGE=true
       - PROXY_CACHE_VALID_OK=1m
+      - PROXY_CACHE_INACTIVE=1m
+      - DEBUG=false
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.website.rule=Host(`website.localhost`)"

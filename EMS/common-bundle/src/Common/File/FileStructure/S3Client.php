@@ -92,10 +92,14 @@ class S3Client implements FileStructureClientInterface
 
     public function isUpToDate(): bool
     {
-        $hash = $this->client->getObject([
-            'Bucket' => $this->bucket,
-            'Key' => $this->identifier,
-        ])['Body']->__toString();
+        try {
+            $hash = $this->client->getObject([
+                'Bucket' => $this->bucket,
+                'Key' => $this->identifier,
+            ])['Body']->__toString();
+        } catch (\RuntimeException) {
+            return false;
+        }
 
         return $this->hash === $hash;
     }

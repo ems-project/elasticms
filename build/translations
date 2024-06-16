@@ -68,6 +68,24 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         \sprintf('Bundle: %s', $bundleDir),
     ]);
 
+    $io->writeln('Building current translations');
+    $currentCatalogue = new MessageCatalogue($locale);
+    $reader = new TranslationReader();
+    $reader->addLoader('yml', new YamlFileLoader());
+    $reader->addLoader('xlf', new XliffFileLoader());
+    $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
+
+    $catalogueDomains = $currentCatalogue->getDomains();
+    \array_walk($domains, function (string $d) use ($catalogueDomains) {
+      if (!in_array($d, $catalogueDomains, true)) {
+        throw new \RuntimeException(sprintf('Invalid domain: %s', $d));
+      }
+    });
+
+    if (\count($domains) === 0) {
+        $domains = $currentCatalogue->getDomains();
+    }
+
     $io->writeln('Extracting translation keys from code');
     $extractedCatalogue = new MessageCatalogue($locale);
     $finder = (new Finder())
@@ -96,16 +114,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         $io->newLine();
     }
 
-    $io->writeln('Building current translations');
-    $currentCatalogue = new MessageCatalogue($locale);
-    $reader = new TranslationReader();
-    $reader->addLoader('yml', new YamlFileLoader());
-    $reader->addLoader('xlf', new XliffFileLoader());
-    $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
 
-    if (\count($domains) === 0) {
-        $domains = $currentCatalogue->getDomains();
-    }
 
     $filterCurrentCatalogue = new MessageCatalogue($locale);
     $filterExtractedCatalogue = new MessageCatalogue($locale);

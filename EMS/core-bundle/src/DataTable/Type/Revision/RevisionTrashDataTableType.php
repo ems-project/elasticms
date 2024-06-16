@@ -18,8 +18,6 @@ use EMS\CoreBundle\Service\UserService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-use function Symfony\Component\Translation\t;
-
 class RevisionTrashDataTableType extends AbstractQueryTableType
 {
     public const ACTION_EMPTY_TRASH = 'empty-trash';
@@ -41,11 +39,6 @@ class RevisionTrashDataTableType extends AbstractQueryTableType
 
         $table->setIdField('ouuid');
         $table->setExtraFrontendOption(['searching' => false]);
-
-        $test = t('core.version', [], 'emsco-test');
-        $test = t('revision.property.test', [], 'emsco-core');
-        $test = t('revision.property.test7', [], 'emsco-core');
-        $test = t('revision.property.test8', [], 'emsco-core');
 
         if ($this->userService->isSuper()) {
             $table->addColumn('revision.property.ouuid', 'ouuid');

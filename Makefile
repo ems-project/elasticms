@@ -63,7 +63,8 @@ server-log/%:  ## server-log/(admin|web)
 
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations
-	@php build/translations en EMSCoreBundle -d emsco-core
+	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
+	@php build/translations en EMSAdminUIBundle --write --format=xlf -d elements
 
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-migrate: ## run doctrine migrations

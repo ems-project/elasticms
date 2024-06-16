@@ -14,8 +14,13 @@
         {% endif %}
     </div>
     {% if app.user %}
-        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ "elements.status.#{status}"|trans }}">
-            <i class="fa fa-circle fa-2xs text-{{ status }}"></i> <span class="visually-hidden">{{ "elements.status.#{status}"|trans }}</span>
+        {% set statusLabel = {
+            'green': 'elements.status.green'|trans,
+            'red': 'elements.status.red'|trans,
+            'yellow': 'elements.status.yellow'|trans,
+        } %}
+        <a href="{{ path('elasticsearch.status') }}" id="status-overview" class="position-absolute top-0 end-0" title="{{ attribute(statusLabel, status)|default('unknown') }}">
+            <i class="fa fa-circle fa-2xs text-{{ status }}"></i> <span class="visually-hidden">{{ attribute(statusLabel, status)|default('unknown') }}</span>
         </a>
     {% endif %}
 </div>

@@ -15,6 +15,7 @@
     "php": "^8.3",
     "ext-ctype": "*",
     "ext-iconv": "*",
+    "ext-intl": "*",
     "ext-json": "*",
     "doctrine/doctrine-bundle": "^2.11",
     "doctrine/doctrine-migrations-bundle": "^3.2",

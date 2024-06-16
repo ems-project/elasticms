@@ -61,6 +61,11 @@ server-stop/%:  ## server-stop/(admin|web)
 server-log/%:  ## server-log/(admin|web)
 	symfony server:log --dir=elasticms-${*}
 
+## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
+build-translations: ## build translations
+	@php build/translations en EMSCoreBundle --write --format=yml -d emsco-core
+	@php build/translations en EMSAdminUIBundle --write --format=xlf
+
 ## —— Database —————————————————————————————————————————————————————————————————————————————————————————————————————————
 db-migrate: ## run doctrine migrations
 	@$(RUN_ADMIN) doctrine:migrations:migrate --no-interaction

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\Release;
+namespace Build\Release;
 
-use EMS\Release\Command\InfoCommand;
+use Build\Release\Command\InfoCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;

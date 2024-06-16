@@ -20,9 +20,11 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
+use Symfony\Component\Translation\Dumper\XliffFileDumper;
 use Symfony\Component\Translation\Dumper\YamlFileDumper;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\Extractor\PhpExtractor;
+use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
@@ -48,6 +50,11 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $locale = $input->getArgument('locale');
     $bundle = $input->getArgument('bundle');
     $domains = $input->getOption('domain');
+    $format = $input->getOption('format');
+
+    if (!\in_array($format, ['yml', 'xlf'], true)) {
+        throw new \RuntimeException('Invalid format');
+    }
 
     $io->writeln('Booting admin kernel');
     (new Dotenv())->load(__DIR__.'/../elasticms-admin/.env');
@@ -92,14 +99,24 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $io->writeln('Building current translations');
     $currentCatalogue = new MessageCatalogue($locale);
     $reader = new TranslationReader();
-    $reader->addLoader('yml', new YamlFileLoader());
+    $reader->addLoader($format, match ($format) {
+        'yml' => new YamlFileLoader(),
+        'xlf' => new XliffFileLoader(),
+    });
     $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
 
     $filterCurrentCatalogue = new MessageCatalogue($locale);
     $filterExtractedCatalogue = new MessageCatalogue($locale);
     foreach ($domains as $domain) {
         $domainIntl = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
-        $filterCurrentCatalogue->add($currentCatalogue->all($domainIntl), $domainIntl);
+
+        if ($intlMessages = $currentCatalogue->all($domainIntl)) {
+          $filterCurrentCatalogue->add($intlMessages, $domainIntl); // add intl domain message
+        }
+        if ($messages = array_diff($currentCatalogue->all($domain), $intlMessages)) {
+          $filterCurrentCatalogue->add($messages, $domain); // add message from domain
+        }
+
         $filterExtractedCatalogue->add($extractedCatalogue->all($domain), $domainIntl);
     }
 
@@ -115,13 +132,23 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         $io->writeln('Writing translations');
 
         $translationWriter = new TranslationWriter();
-        $translationWriter->addDumper('yml', new YamlFileDumper());
+        $translationWriter->addDumper($format, match ($format) {
+            'yml' => new YamlFileDumper(),
+            'xlf' => new XliffFileDumper()
+        });
 
-        $translationWriter->write($result, 'yml', [
-            'path' => $bundleDir.'/Resources/translations',
-            'as_tree' => true,
-            'inline' => 5,
-        ]);
+        $translationWriter->write($result, $format, match($format) {
+            'yml' => [
+                'path' => $bundleDir.'/Resources/translations',
+                'as_tree' => true,
+                'inline' => 5,
+            ],
+            'xlf' => [
+                'path' => $bundleDir.'/Resources/translations',
+                'version' => '1.2',
+                'default_locale' => 'en'
+            ]
+        });
     }
 
     $rows = [];
@@ -172,7 +199,8 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     ->setName('Build: extract translations')
     ->addArgument('locale', InputArgument::REQUIRED, 'locale')
     ->addArgument('bundle', InputArgument::REQUIRED, 'bundle')
-    ->addOption('write', '', InputOption::VALUE_NONE, 'write translations')
+    ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
     ->addOption('domain', 'd', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'domains')
+    ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')
     ->setCode($command)
     ->run();

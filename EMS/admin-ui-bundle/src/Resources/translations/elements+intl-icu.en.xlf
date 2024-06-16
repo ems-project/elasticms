@@ -57,6 +57,10 @@
         <source>elements.status.red</source>
         <target>Red, systems are facing issues. Please contact your system administrator.</target>
       </trans-unit>
+      <trans-unit id="tVomn.Q" resname="elements.user-image.anonymous">
+        <source>elements.user-image.anonymous</source>
+        <target>Anonymous user</target>
+      </trans-unit>
       <trans-unit id="l_C57Fy" resname="toats.level.error">
         <source>toats.level.error</source>
         <target>Error</target>
@@ -68,10 +72,6 @@
       <trans-unit id="263Rpro" resname="toats.level.warning">
         <source>toats.level.warning</source>
         <target>Warning</target>
-      </trans-unit>
-      <trans-unit id="tVomn.Q" resname="elements.user-image.anonymous">
-        <source>elements.user-image.anonymous</source>
-        <target>Anonymous user</target>
       </trans-unit>
       <trans-unit id="H1u5eRo" resname="hide">
         <source>hide</source>

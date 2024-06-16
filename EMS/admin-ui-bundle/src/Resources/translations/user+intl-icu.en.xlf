@@ -65,10 +65,6 @@
         <source>user.profile.show.email_notification</source>
         <target>e-mail notification</target>
       </trans-unit>
-      <trans-unit id="T_3w8O5" resname="user.option.simplified_ui">
-        <source>user.option.simplified_ui</source>
-        <target>Simplified UI</target>
-      </trans-unit>
       <trans-unit id="pB.DqAa" resname="user.profile.show.locale">
         <source>user.profile.show.locale</source>
         <target>Locale UI</target>
@@ -89,6 +85,10 @@
         <source>user.profile.show.action.edit</source>
         <target>Edit</target>
       </trans-unit>
+      <trans-unit id="QxXqqK_" resname="user.profile.show.action.cancel">
+        <source>user.profile.show.action.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
       <trans-unit id="Uzm29Jz" resname="user.profile.change_password.title">
         <source>user.profile.change_password.title</source>
         <target>Change password</target>
@@ -105,13 +105,13 @@
         <source>user.profile.edit.title</source>
         <target>Edit your profile</target>
       </trans-unit>
-      <trans-unit id="QxXqqK_" resname="user.profile.show.action.cancel">
-        <source>user.profile.show.action.cancel</source>
-        <target>Cancel</target>
-      </trans-unit>
       <trans-unit id="ZWXcMxP" resname="user.profile.edit.breadcrumb_title">
         <source>user.profile.edit.breadcrumb_title</source>
         <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="T_3w8O5" resname="user.option.simplified_ui">
+        <source>user.option.simplified_ui</source>
+        <target>Simplified UI</target>
       </trans-unit>
     </body>
   </file>

@@ -1,4 +1,4 @@
-# Synchronize a directory structure and poublish into an S3 bucket
+# Synchronize a directory structure and publish into an S3 bucket
 
 First of all you must configure a [`directory`](directory.json) content type in an elasticms admin.
 

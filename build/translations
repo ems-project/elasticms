@@ -114,8 +114,6 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         $io->newLine();
     }
 
-
-
     $filterCurrentCatalogue = new MessageCatalogue($locale);
     $filterExtractedCatalogue = new MessageCatalogue($locale);
     foreach ($domains as $domain) {

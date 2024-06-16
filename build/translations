@@ -99,11 +99,13 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $io->writeln('Building current translations');
     $currentCatalogue = new MessageCatalogue($locale);
     $reader = new TranslationReader();
-    $reader->addLoader($format, match ($format) {
-        'yml' => new YamlFileLoader(),
-        'xlf' => new XliffFileLoader(),
-    });
+    $reader->addLoader('yml', new YamlFileLoader());
+    $reader->addLoader('xlf', new XliffFileLoader());
     $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
+
+    if (\count($domains) === 0) {
+        $domains = $currentCatalogue->getDomains();
+    }
 
     $filterCurrentCatalogue = new MessageCatalogue($locale);
     $filterExtractedCatalogue = new MessageCatalogue($locale);
@@ -200,7 +202,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     ->addArgument('locale', InputArgument::REQUIRED, 'locale')
     ->addArgument('bundle', InputArgument::REQUIRED, 'bundle')
     ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
-    ->addOption('domain', 'd', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'domains')
+    ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains')
     ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')
     ->setCode($command)
     ->run();

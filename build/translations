@@ -114,7 +114,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
           $filterCurrentCatalogue->add($intlMessages, $domainIntl); // add intl domain message
         }
         if ($messages = array_diff($currentCatalogue->all($domain), $intlMessages)) {
-          $filterCurrentCatalogue->add($messages, $domain); // add message from domain
+          $filterCurrentCatalogue->add($messages, $domainIntl); // add message from domain
         }
 
         $filterExtractedCatalogue->add($extractedCatalogue->all($domain), $domainIntl);

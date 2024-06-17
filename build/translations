@@ -23,7 +23,8 @@ use Symfony\Component\Translation\Catalogue\TargetOperation;
 use Symfony\Component\Translation\Dumper\XliffFileDumper;
 use Symfony\Component\Translation\Dumper\YamlFileDumper;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
-use Symfony\Component\Translation\Extractor\PhpExtractor;
+use Symfony\Component\Translation\Extractor\PhpAstExtractor;
+use Symfony\Component\Translation\Extractor\Visitor;
 use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\MessageCatalogue;
@@ -58,11 +59,11 @@ $command = function (InputInterface $input, OutputInterface $output): int {
 
     $io->writeln('Booting admin kernel');
     (new Dotenv())->load(__DIR__.'/../elasticms-admin/.env');
-    $adminKernel = new Kernel('dev', true);
+    $adminKernel = new Kernel('test', true);
     $adminKernel->boot();
     $bundleDir = $adminKernel->getBundle($bundle)->getPath();
-    /** @var Environment $twig */
-    $twig = $adminKernel->getContainer()->get('twig');
+    $container = $adminKernel->getContainer()->get('test.service_container');
+
     $io->listing([
         \sprintf('Locale: %s', $locale),
         \sprintf('Bundle: %s', $bundleDir),
@@ -70,9 +71,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
 
     $io->writeln('Building current translations');
     $currentCatalogue = new MessageCatalogue($locale);
-    $reader = new TranslationReader();
-    $reader->addLoader('yml', new YamlFileLoader());
-    $reader->addLoader('xlf', new XliffFileLoader());
+    $reader = $container->get('translation.reader');
     $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
 
     $catalogueDomains = $currentCatalogue->getDomains();
@@ -95,8 +94,12 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         ->in($bundleDir);
 
     $extractors = [
-       ['Parsing php files', '*.php', new PhpExtractor()],
-       ['Parsing twig files', '*.twig', new TwigExtractor($twig)],
+       ['Parsing php files', '*.php', new PhpAstExtractor([
+          new Visitor\ConstraintVisitor(),
+          new Visitor\TransMethodVisitor(),
+          new Visitor\TranslatableMessageVisitor()
+       ])],
+       ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
     ];
 
     foreach ($extractors as list($title, $name, $extractor)) {
@@ -140,12 +143,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     if (true === $input->getOption('write')) {
         $io->writeln('Writing translations');
 
-        $translationWriter = new TranslationWriter();
-        $translationWriter->addDumper($format, match ($format) {
-            'yml' => new YamlFileDumper(),
-            'xlf' => new XliffFileDumper()
-        });
-
+        $translationWriter = $container->get('translation.writer');
         $translationWriter->write($result, $format, match($format) {
             'yml' => [
                 'path' => $bundleDir.'/Resources/translations',

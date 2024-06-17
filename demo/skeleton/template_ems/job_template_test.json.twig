@@ -1,0 +1,10 @@
+{% block execute %}
+
+{% set myCommands = [
+    'emsch:health-check',
+    'ems:version'
+] %}
+
+{{ myCommands|json_encode|raw }}
+
+{% endblock %}

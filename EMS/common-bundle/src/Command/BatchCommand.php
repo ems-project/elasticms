@@ -51,24 +51,16 @@ class BatchCommand extends AbstractCommand
         $application->setAutoExit(false);
 
         try {
-            $context = $this->getOptionString(self::OPTION_CONTEXT, '{}');
-            if (!Json::isJson($context)) {
-                throw new \RuntimeException('Invalid context passed');
-            }
-
             $templateName = $this->getArgumentString(self::ARGUMENT_TEMPLATE);
             $template = $this->getTemplate($templateName);
 
-            $renderContext = Json::decode($context);
+            $context = $this->getOptionString(self::OPTION_CONTEXT, '{}');
+            $renderContext = Json::decode($context, 'Context is not valid json format');
+
             $render = $template->hasBlock('execute') ?
                 $template->renderBlock('execute', $renderContext) : $template->render($renderContext);
 
-            if (!Json::isJson($render)) {
-                throw new \RuntimeException(\sprintf('Template not returning json (%s)', $templateName));
-            }
-
-            $commands = Json::decode($render);
-
+            $commands = Json::decode($render, 'Template not returning valid json');
             foreach ($commands as $command) {
                 $this->io->section($command);
                 $application->run(new StringInput($command), $output);

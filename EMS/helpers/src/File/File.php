@@ -29,6 +29,15 @@ class File
         return new self(new \SplFileInfo($filename));
     }
 
+    public function getContents(): string
+    {
+        if (false === $contents = \file_get_contents($this->file->getRealPath())) {
+            throw new \RuntimeException(\sprintf('Could not open file "%s"', $this->file->getRealPath()));
+        }
+
+        return $contents;
+    }
+
     /**
      * @return iterable<string>
      */

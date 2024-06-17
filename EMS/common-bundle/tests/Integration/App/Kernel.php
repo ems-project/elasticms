@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Tests\Integration\App;
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use EMS\CommonBundle\EMSCommonBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
@@ -28,6 +29,7 @@ final class Kernel extends BaseKernel
             new FrameworkBundle(),
             new DoctrineBundle(),
             new EMSCommonBundle(),
+            new TwigBundle(),
         ];
     }
 

@@ -5,6 +5,10 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="ems.command.batch" class="EMS\CommonBundle\Command\BatchCommand">
+            <argument type="service" id="twig"/>
+            <tag name="console.command"/>
+        </service>
         <service id="ems.command.status" class="EMS\CommonBundle\Command\StatusCommand">
             <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>

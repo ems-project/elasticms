@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Common\File\FileStructure;
 use Aws\CommandPool;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client as AwsS3Client;
+use EMS\CommonBundle\Exception\FileStructureNotSyncException;
 use Psr\Http\Message\StreamInterface;
 
 class S3Client implements FileStructureClientInterface
@@ -98,7 +99,7 @@ class S3Client implements FileStructureClientInterface
                 'Key' => $this->identifier,
             ])['Body']->__toString();
         } catch (\RuntimeException) {
-            return false;
+            throw new FileStructureNotSyncException('It was not possible to get the current hash value');
         }
 
         return $this->hash === $hash;

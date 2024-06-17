@@ -32,7 +32,7 @@ class BatchCommand extends AbstractCommand
     protected function configure(): void
     {
         parent::configure();
-        $this->addArgument(self::ARGUMENT_TEMPLATE, InputArgument::REQUIRED, 'template name or path');
+        $this->addArgument(self::ARGUMENT_TEMPLATE, InputArgument::REQUIRED, 'template name, path or twig code');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

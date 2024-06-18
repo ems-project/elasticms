@@ -29,11 +29,10 @@ class File
         return new self(new \SplFileInfo($filename));
     }
 
-    public static function getFileContents(string $filename): string
+    public function getContents(): string
     {
-        $contents = \file_get_contents($filename);
-        if (false === $contents) {
-            throw new \RuntimeException(\sprintf('Unexpected false contents for %s', $filename));
+        if (false === $contents = \file_get_contents($this->file->getRealPath())) {
+            throw new \RuntimeException(\sprintf('Could not open file "%s"', $this->file->getRealPath()));
         }
 
         return $contents;

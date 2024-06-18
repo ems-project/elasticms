@@ -9,6 +9,7 @@ use EMS\CommonBundle\Common\File\FileStructure\FileStructureClientInterface;
 use EMS\CommonBundle\Common\File\FileStructure\S3Client;
 use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
+use EMS\CommonBundle\Exception\FileStructureNotSyncException;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -25,9 +26,11 @@ class FileStructurePublishCommand extends AbstractFileStructureCommand
     public const ARGUMENT_INDEX = 'index';
     public const ARGUMENT_TARGET = 'target';
     public const OPTION_S3_CREDENTIAL = 's3-credential';
+    public const OPTION_FORCE = 'force';
     private string $target;
     private ?string $s3Credential;
     private string $index;
+    private bool $force;
 
     public function __construct(ElasticaService $elasticaService, private readonly StorageManager $storageManager)
     {
@@ -41,6 +44,7 @@ class FileStructurePublishCommand extends AbstractFileStructureCommand
         $this->addArgument(self::ARGUMENT_INDEX, InputArgument::REQUIRED, 'Elasticsearch index');
         $this->addArgument(self::ARGUMENT_TARGET, InputArgument::REQUIRED, 'Target (folder or bucket)');
         $this->addOption(self::OPTION_S3_CREDENTIAL, null, InputOption::VALUE_OPTIONAL, 'S3 credential in a JSON format');
+        $this->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'The target is synchronize even if the target looks already synchronized or if the target looks out of sync');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -49,6 +53,7 @@ class FileStructurePublishCommand extends AbstractFileStructureCommand
         $this->index = $this->getArgumentString(self::ARGUMENT_INDEX);
         $this->target = $this->getArgumentString(self::ARGUMENT_TARGET);
         $this->s3Credential = $this->getOptionStringNull(self::OPTION_S3_CREDENTIAL);
+        $this->force = $this->getOptionBool(self::OPTION_FORCE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -65,8 +70,14 @@ class FileStructurePublishCommand extends AbstractFileStructureCommand
         $structure = JsonMenuNested::fromStructure($structureJson);
         $client = $this->getClient();
         $client->initSync($this->identifier, $hash);
-        if ($client->isUpToDate()) {
-            $this->io->writeln('Bucket is already up to date');
+        try {
+            if (!$this->force && $client->isUpToDate()) {
+                $this->io->writeln('Bucket is already up to date');
+
+                return self::EXECUTE_SUCCESS;
+            }
+        } catch (FileStructureNotSyncException $e) {
+            $this->io->error(\sprintf('The file structure might contains manual changes, use the --force option: %s', $e->getMessage()));
 
             return self::EXECUTE_SUCCESS;
         }

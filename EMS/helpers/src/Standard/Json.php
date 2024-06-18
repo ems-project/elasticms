@@ -32,12 +32,12 @@ final class Json
     /**
      * @return array<mixed>
      */
-    public static function decode(string $value): array
+    public static function decode(string $value, ?string $invalidMessage = null): array
     {
         $decoded = \json_decode($value, true);
 
         if (JSON_ERROR_NONE !== \json_last_error() || !\is_array($decoded)) {
-            throw new \RuntimeException(\sprintf('Invalid json %s', \json_last_error_msg()));
+            throw new \RuntimeException($invalidMessage ?? \sprintf('Invalid json %s', \json_last_error_msg()));
         }
 
         return $decoded;

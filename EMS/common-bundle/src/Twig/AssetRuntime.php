@@ -153,9 +153,9 @@ class AssetRuntime
                 throw new \RuntimeException('Unexpected imagecolorat error');
             }
             $rgb = \imagecolorsforindex($image, $index);
-            $red = \round(\round(($rgb['red'] ?? 255) / 0x33) * 0x33);
-            $green = \round(\round(($rgb['green'] ?? 255) / 0x33) * 0x33);
-            $blue = \round(\round(($rgb['blue'] ?? 255) / 0x33) * 0x33);
+            $red = \round(\round($rgb['red'] / 0x33) * 0x33);
+            $green = \round(\round($rgb['green'] / 0x33) * 0x33);
+            $blue = \round(\round($rgb['blue'] / 0x33) * 0x33);
 
             return \sprintf('#%02X%02X%02X', $red, $green, $blue);
         } catch (\Throwable) {

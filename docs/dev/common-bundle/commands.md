@@ -1,5 +1,62 @@
 # Commands
 
+<!-- TOC -->
+* [Commands](#commands)
+  * [Batch](#batch)
+  * [Clear logs](#clear-logs)
+    * [Example](#example)
+  * [Status](#status)
+  * [Curl](#curl)
+<!-- TOC -->
+
+## Batch
+
+Run command(s) defined in twig template.
+
+- The template must output a valid json list of commands.
+- If the template contains a block named ```execute```, only this block will be rendered.
+
+```
+Usage:
+  ems:batch <template>
+
+Arguments:
+  template              template name, path or twig code
+  
+Options:
+      --context=CONTEXT  context passed to twig
+```
+
+### Examples
+
+```bash
+# define template twig namespace
+php bin/console ems:batch "@EMSCH/template_ems/batch.json.twig"
+# define template by path
+php bin/console ems:batch ../demo/skeleton/template_ems/batch.json.twig
+# define template in command
+php bin/console ems:batch '["ems:version", "ems:health-check]'
+```
+```twig
+{# example batch.json.twig #}
+{% block execute %}
+  {{ ["ems:version", "ems:health-check"]|json_encode|raw }}
+{% endblock %}
+```
+
+Provide context from command to twig template
+
+```bash
+# add context
+php bin/console ems:batch "@EMSCH/template_ems/batch_context.json.twig" --context='{"envName":"live"}'
+```
+```twig
+{# example batch.json.twig #}
+{% block execute %}
+  {{ ["ems:environment:rebuild #{envName}"]|json_encode|raw }}
+{% endblock %}
+```
+
 ## Clear logs
 
 Remove stored logs from the database.

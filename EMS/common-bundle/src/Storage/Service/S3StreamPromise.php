@@ -62,7 +62,7 @@ class S3StreamPromise implements StreamInterface
         return $this->offset;
     }
 
-    public function eof()
+    public function eof(): bool
     {
         return $this->offset >= $this->getSize();
     }
@@ -99,7 +99,7 @@ class S3StreamPromise implements StreamInterface
         return false;
     }
 
-    public function write(string $string)
+    public function write(string $string): never
     {
         throw new \RuntimeException('Write is not supported');
     }
@@ -135,7 +135,7 @@ class S3StreamPromise implements StreamInterface
         return $this->read($this->getSize() - $this->offset);
     }
 
-    public function getMetadata(?string $key = null)
+    public function getMetadata(?string $key = null): never
     {
         throw new \RuntimeException('Metadata are not supported in ElasticMS storage services');
     }

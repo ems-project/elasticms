@@ -8,6 +8,7 @@ use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Psr7\Stream;
@@ -23,8 +24,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Processor
 {
-    final public const BUFFER_SIZE = 8192;
-
     public function __construct(
         private readonly StorageManager $storageManager,
         private readonly LoggerInterface $logger,
@@ -237,7 +236,7 @@ class Processor
             }
 
             while (!$stream->eof()) {
-                echo $stream->read(self::BUFFER_SIZE);
+                echo $stream->read(File::DEFAULT_CHUNK_SIZE);
             }
             $stream->close();
         });
@@ -267,7 +266,7 @@ class Processor
 
             $response->setCallback(function () use ($stream, $streamRange) {
                 $offset = $streamRange->getStart();
-                $buffer = self::BUFFER_SIZE;
+                $buffer = File::DEFAULT_CHUNK_SIZE;
                 $stream->seek($offset);
                 while (!$stream->eof() && ($offset = $stream->tell()) < $streamRange->getEnd()) {
                     if ($offset + $buffer > $streamRange->getEnd()) {

@@ -171,6 +171,14 @@ class S3Storage extends AbstractUrlStorage
         if (!$confirmed && $this->multipartUpload) {
             $confirmed = true;
         }
+        $result = $this->getS3Client()->getObject([
+            'Bucket' => $this->bucket,
+            'Key' => $confirmed ? $this->key($hash) : $this->uploadKey($hash),
+        ]);
+        $body = $result['Body'] ?? null;
+        if ($body instanceof StreamInterface) {
+            return $body;
+        }
 
         return parent::read($hash, $confirmed);
     }

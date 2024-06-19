@@ -66,7 +66,7 @@ final class Config
         }
 
         if (null === $this->filename) {
-            throw new NotFoundHttpException('File not found');
+            throw new NotFoundHttpException(\sprintf('File %s not found', $this->filename));
         }
 
         if ($this->hasDefaultMimeType()) {

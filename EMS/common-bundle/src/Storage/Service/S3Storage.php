@@ -172,7 +172,7 @@ class S3Storage extends AbstractUrlStorage
             $confirmed = true;
         }
 
-        return parent::read($hash, $confirmed);
+        return new S3StreamPromise($this->getS3Client(), $this->bucket, $confirmed ? $this->key($hash) : $this->uploadKey($hash));
     }
 
     public function initFinalize(string $hash): void

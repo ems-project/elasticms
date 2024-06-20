@@ -51,6 +51,7 @@
 		"symfony/serializer": "^5.4",
 		"symfony/stopwatch": "^5.4",
 		"symfony/translation": "^5.4",
+        "symfony/twig-bundle": "^5.4",
 		"twig/cache-extra": "^3.4",
 		"twig/cssinliner-extra": "^3.4",
 		"twig/extra-bundle": "^3.4",

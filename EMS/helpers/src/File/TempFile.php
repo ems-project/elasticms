@@ -75,4 +75,14 @@ class TempFile
     {
         $this->autoClean = true;
     }
+
+    public function getContents(): string
+    {
+        $contents = \file_get_contents($this->path);
+        if (false === $contents) {
+            throw new \RuntimeException('File contents not found');
+        }
+
+        return $contents;
+    }
 }

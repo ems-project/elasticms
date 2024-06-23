@@ -109,7 +109,7 @@ final class File implements FileInterface
             throw new \RuntimeException(\sprintf('Could not download file with hash %s', $hash));
         }
         $stream = $this->client->download($this->downloadLink($hash));
-        $storageFile = new StorageFile($hash, $stream);
+        $storageFile = new StorageFile($stream);
 
         return $storageFile->getFilename();
     }

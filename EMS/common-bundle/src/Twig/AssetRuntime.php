@@ -63,7 +63,7 @@ class AssetRuntime
             return null;
         }
 
-        return TempFile::createNamed($hash, $this->cacheDir)
+        return TempFile::create()
             ->loadFromStream($this->storageManager->getStream($hash))
             ->path;
     }

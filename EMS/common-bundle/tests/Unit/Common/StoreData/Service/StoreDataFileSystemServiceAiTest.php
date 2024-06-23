@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Unit\Common\StoreData\Service;
 
 use EMS\CommonBundle\Common\StoreData\Service\StoreDataFileSystemService;
 use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
+use EMS\Helpers\File\TempDirectory;
 use PHPUnit\Framework\TestCase;
 
 class StoreDataFileSystemServiceAiTest extends TestCase
@@ -15,7 +16,7 @@ class StoreDataFileSystemServiceAiTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->rootPath = \sys_get_temp_dir().DIRECTORY_SEPARATOR.'store_data_test';
+        $this->rootPath = TempDirectory::create()->path;
         @\mkdir($this->rootPath);
         $this->service = new StoreDataFileSystemService($this->rootPath);
     }

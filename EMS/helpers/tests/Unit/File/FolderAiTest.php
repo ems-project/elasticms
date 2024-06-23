@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\Tests\Unit\File;
 
 use EMS\Helpers\File\Folder;
+use EMS\Helpers\File\TempDirectory;
 use PHPUnit\Framework\TestCase;
 
 class FolderAiTest extends TestCase
@@ -13,7 +14,7 @@ class FolderAiTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->testFolderPath = \sys_get_temp_dir().DIRECTORY_SEPARATOR.'/path/to/test/folder';
+        $this->testFolderPath = TempDirectory::create()->path;
     }
 
     public function testGetRealPathWithExistingDirectory()

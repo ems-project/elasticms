@@ -8,6 +8,7 @@ use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\HashMismatchException;
 use EMS\CommonBundle\Storage\NotFoundException;
+use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\SizeMismatchException;
@@ -424,9 +425,17 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
     /**
      * @param mixed[] $config
      */
-    public function generateImage(string $filename, array $config): string
+    public function generateImage(string $filename, array $config): StreamInterface
     {
         return $this->processor->generateLocalImage($filename, $config);
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    public function localFileConfig(string $filename, array $config): Config
+    {
+        return $this->processor->localFileConfig($filename, $config);
     }
 
     public function saveContents(string $contents, string $filename, string $mimetype, int $usageType): string

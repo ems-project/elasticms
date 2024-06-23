@@ -71,7 +71,6 @@ class Image
             $path = $cacheFilename;
         } else {
             $tempFile = TempFile::create();
-            $tempFile->setAutoClean();
             $path = $tempFile->path;
         }
 

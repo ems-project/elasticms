@@ -13,7 +13,6 @@ use EMS\SubmissionBundle\Request\ZipRequest;
 use EMS\SubmissionBundle\Response\ResponseTransformer;
 use EMS\SubmissionBundle\Response\ZipHandleResponse;
 use EMS\SubmissionBundle\Twig\TwigRenderer;
-use Symfony\Component\Filesystem\Filesystem;
 
 final class ZipHandler extends AbstractHandler
 {
@@ -23,8 +22,6 @@ final class ZipHandler extends AbstractHandler
 
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface
     {
-        $filesystem = new Filesystem();
-
         try {
             $endpoint = $this->twigRenderer->renderEndpointJSON($handleRequest);
             $files = $this->twigRenderer->renderMessageBlockJSON($handleRequest, 'files');
@@ -32,6 +29,7 @@ final class ZipHandler extends AbstractHandler
             $zipRequest = new ZipRequest($endpoint, $files);
             $tempFile = TempFile::create();
             $tempFile->setAutoClean();
+            $tempFile->clean();
 
             $zip = new \ZipArchive();
             $zip->open($tempFile->path, \ZipArchive::CREATE);

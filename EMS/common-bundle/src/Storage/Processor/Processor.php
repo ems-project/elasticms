@@ -140,28 +140,20 @@ class Processor
         throw new \Exception(\sprintf('not able to generate file for the config %s', $config->getConfigHash()));
     }
 
-    private function hashToFilename(string $hash): string
-    {
-        $filename = (string) \tempnam(\sys_get_temp_dir(), 'EMS');
-        \file_put_contents($filename, $this->storageManager->getContents($hash));
-
-        return $filename;
-    }
-
     private function generateImage(Config $config, string $filename = null, string $cacheFilename = null): string
     {
         $image = new Image($config, $this->logger);
 
         $watermark = $config->getWatermark();
         if (null !== $watermark && $this->storageManager->head($watermark)) {
-            $image->setWatermark($this->hashToFilename($watermark));
+            $image->setWatermark($this->storageManager->getFile($watermark)->getFilename());
         }
 
         try {
             if ($filename) {
                 $file = $filename;
             } else {
-                $file = $this->hashToFilename($config->getAssetHash());
+                $file = $this->storageManager->getFile($config->getAssetHash())->getFilename();
             }
             $generatedImage = $config->isSvg() ? $file : $image->generate($file, $cacheFilename);
         } catch (\InvalidArgumentException) {

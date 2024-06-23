@@ -8,6 +8,7 @@ use EMS\FormBundle\Submission\AbstractHandler;
 use EMS\FormBundle\Submission\FailedHandleResponse;
 use EMS\FormBundle\Submission\HandleRequestInterface;
 use EMS\FormBundle\Submission\HandleResponseInterface;
+use EMS\Helpers\File\TempFile;
 use EMS\SubmissionBundle\Request\ZipRequest;
 use EMS\SubmissionBundle\Response\ResponseTransformer;
 use EMS\SubmissionBundle\Response\ZipHandleResponse;
@@ -29,30 +30,22 @@ final class ZipHandler extends AbstractHandler
             $files = $this->twigRenderer->renderMessageBlockJSON($handleRequest, 'files');
 
             $zipRequest = new ZipRequest($endpoint, $files);
-            $tempFile = $filesystem->tempnam(\sys_get_temp_dir(), 'emss');
+            $tempFile = TempFile::create();
+            $tempFile->setAutoClean();
 
             $zip = new \ZipArchive();
-            if (\file_exists($tempFile)) {
-                \unlink($tempFile);
-            }
-            $zip->open($tempFile, \ZipArchive::CREATE);
+            $zip->open($tempFile->path, \ZipArchive::CREATE);
 
             foreach ($zipRequest->getFiles() as $file) {
                 $zip->addFromString($file['path'], $file['contents']);
             }
 
             $zip->close();
-
-            $zipContent = \file_get_contents($tempFile);
-            $handleResponse = new ZipHandleResponse($zipRequest, false === $zipContent ? '' : $zipContent);
+            $handleResponse = new ZipHandleResponse($zipRequest, $tempFile->getContents());
 
             return $this->responseTransformer->transform($handleRequest, $handleResponse);
         } catch (\Throwable $exception) {
             return new FailedHandleResponse($exception);
-        } finally {
-            if (isset($tempFile)) {
-                $filesystem->remove($tempFile);
-            }
         }
     }
 }

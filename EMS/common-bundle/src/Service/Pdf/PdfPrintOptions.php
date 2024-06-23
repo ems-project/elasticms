@@ -25,12 +25,14 @@ class PdfPrintOptions
     public const ORIENTATION = 'orientation';
     public const SIZE = 'size';
     public const CHROOT = 'chroot';
+    private TempDirectory $tempDirectory;
 
     /**
      * @param array<string, mixed> $options
      */
     public function __construct(array $options)
     {
+        $this->tempDirectory = TempDirectory::create();
         $this->filename = $options[self::FILENAME] ?? 'export.pdf';
         $this->attachment = $options[self::ATTACHMENT] ?? true;
         $this->compress = $options[self::COMPRESS] ?? true;
@@ -38,7 +40,7 @@ class PdfPrintOptions
         $this->isPhpEnabled = $options[self::PHP_ENABLED] ?? false;
         $this->orientation = $options[self::ORIENTATION] ?? 'portrait';
         $this->size = $options[self::SIZE] ?? 'a4';
-        $this->chroot = $options[self::CHROOT] ?? TempDirectory::create()->path;
+        $this->chroot = $options[self::CHROOT] ?? $this->tempDirectory->path;
     }
 
     public function getFilename(): string

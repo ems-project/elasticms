@@ -74,15 +74,13 @@ class AssetExtractorService implements CacheWarmerInterface
                 'content' => $result->getBody()->__toString(),
             ];
         } else {
-            $temporaryName = \tempnam(\sys_get_temp_dir(), 'TikaWrapperTest');
-            if (false === $temporaryName) {
-                throw new \RuntimeException('It was possible to generate a temporary filename');
-            }
-            \file_put_contents($temporaryName, "elasticms's built in TikaWrapper : àêïôú");
+            $tempFile = TempFile::create();
+            $tempFile->setAutoClean();
+            \file_put_contents($tempFile->path, "elasticms's built in TikaWrapper : àêïôú");
 
             return [
                 'code' => 200,
-                'content' => self::cleanString($this->getTikaWrapper()->getText($temporaryName)),
+                'content' => self::cleanString($this->getTikaWrapper()->getText($tempFile->path)),
             ];
         }
     }

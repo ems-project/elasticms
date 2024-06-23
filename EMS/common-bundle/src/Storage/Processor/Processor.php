@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Html\Headers;
@@ -151,11 +152,11 @@ class Processor
 
         try {
             if ($filename) {
-                $file = $filename;
+                $file = new LocalFile($filename);
             } else {
-                $file = $this->storageManager->getFile($config->getAssetHash())->getFilename();
+                $file = $this->storageManager->getFile($config->getAssetHash());
             }
-            $generatedImage = $config->isSvg() ? $file : $image->generate($file, $cacheFilename);
+            $generatedImage = $config->isSvg() ? $file : $image->generate($file->getFilename(), $cacheFilename);
         } catch (\InvalidArgumentException) {
             $generatedImage = $image->generate($this->storageManager->getPublicImage('big-logo.png'));
         }

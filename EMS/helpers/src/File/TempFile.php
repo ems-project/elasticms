@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\File;
 
+use EMS\Helpers\Standard\Type;
 use Psr\Http\Message\StreamInterface;
 
 class TempFile
@@ -84,5 +85,10 @@ class TempFile
         }
 
         return $contents;
+    }
+
+    public function getSize(): int
+    {
+        return Type::integer(\filesize($this->path));
     }
 }

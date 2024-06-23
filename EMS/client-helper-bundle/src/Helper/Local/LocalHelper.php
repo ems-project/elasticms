@@ -180,7 +180,7 @@ final class LocalHelper
         $this->logger = $logger;
     }
 
-    public function makeAssetsArchives(string $baseUrl): string
+    public function makeAssetsArchives(string $baseUrl): TempFile
     {
         $directory = \implode(DIRECTORY_SEPARATOR, [$this->projectDir, 'public', $baseUrl]);
         if (!\is_dir($directory)) {
@@ -189,13 +189,9 @@ final class LocalHelper
 
         $tempFile = TempFile::create();
         $tempFile->setAutoClean();
-        $zipFile = $tempFile->path;
-        if (!\is_string($zipFile)) {
-            throw new \RuntimeException('Error while generating a temporary zip file');
-        }
 
         $zip = new \ZipArchive();
-        $zip->open($zipFile, \ZipArchive::OVERWRITE);
+        $zip->open($tempFile->path, \ZipArchive::OVERWRITE);
 
         $finder = new Finder();
         $finder->files()->in($directory);
@@ -216,6 +212,6 @@ final class LocalHelper
         $zip->addPattern('/.*/', $directory);
         $zip->close();
 
-        return $zipFile;
+        return $tempFile;
     }
 }

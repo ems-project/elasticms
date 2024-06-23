@@ -11,6 +11,7 @@ use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Entity\CacheAssetExtractor;
 use EMS\CoreBundle\Helper\AssetExtractor\ExtractedData;
 use EMS\CoreBundle\Tika\TikaWrapper;
+use EMS\Helpers\File\TempFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
@@ -245,14 +246,12 @@ class AssetExtractorService implements CacheWarmerInterface
             ]);
             $meta = ExtractedData::fromJsonString($result->getBody()->__toString(), $this->tikaMaxContent);
         } else {
-            $filename = \tempnam(\sys_get_temp_dir(), 'guess_locale');
-            if (false === $filename) {
-                throw new \RuntimeException('Unexpected false temporary filename');
-            }
-            if (false === \file_put_contents($filename, $text)) {
+            $tempFile = TempFile::create();
+            $tempFile->setAutoClean();
+            if (false === \file_put_contents($tempFile->path, $text)) {
                 throw new \RuntimeException('Unexpected false result on file_put_contents');
             }
-            $meta = ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($filename), $this->tikaMaxContent);
+            $meta = ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($tempFile->path), $this->tikaMaxContent);
         }
 
         return $meta;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Service\Pdf;
 
+use EMS\Helpers\File\TempDirectory;
+
 class PdfPrintOptions
 {
     private readonly string $filename;
@@ -36,7 +38,7 @@ class PdfPrintOptions
         $this->isPhpEnabled = $options[self::PHP_ENABLED] ?? false;
         $this->orientation = $options[self::ORIENTATION] ?? 'portrait';
         $this->size = $options[self::SIZE] ?? 'a4';
-        $this->chroot = $options[self::CHROOT] ?? \sys_get_temp_dir();
+        $this->chroot = $options[self::CHROOT] ?? TempDirectory::create()->path;
     }
 
     public function getFilename(): string

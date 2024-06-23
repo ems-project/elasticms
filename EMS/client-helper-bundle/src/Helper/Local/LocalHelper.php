@@ -15,6 +15,7 @@ use EMS\ClientHelperBundle\Helper\Local\Status\Status;
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
+use EMS\Helpers\File\TempFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -186,7 +187,9 @@ final class LocalHelper
             throw new \RuntimeException(\sprintf('Directory not found %s', $baseUrl));
         }
 
-        $zipFile = \tempnam(\sys_get_temp_dir(), 'zip');
+        $tempFile = TempFile::create();
+        $tempFile->setAutoClean();
+        $zipFile = $tempFile->path;
         if (!\is_string($zipFile)) {
             throw new \RuntimeException('Error while generating a temporary zip file');
         }

@@ -9,9 +9,17 @@ use Psr\Http\Message\StreamInterface;
 class TempFile
 {
     private const PREFIX = 'EMS_temp_file_';
+    private bool $autoClean = false;
 
     private function __construct(public readonly string $path)
     {
+    }
+
+    public function __destruct()
+    {
+        if ($this->autoClean) {
+            $this->clean();
+        }
     }
 
     public static function create(?string $cacheFolder = null): self
@@ -61,5 +69,10 @@ class TempFile
             @\unlink($this->path);
         } catch (\Throwable) {
         }
+    }
+
+    public function setAutoClean(): void
+    {
+        $this->autoClean = true;
     }
 }

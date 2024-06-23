@@ -8,6 +8,8 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
 use EMS\CommonBundle\Entity\AssetStorage;
 use EMS\CommonBundle\Repository\AssetStorageRepository;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\Processor\Config;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -208,5 +210,20 @@ class EntityStorage implements StorageInterface, \Stringable
 
     public function initFinalize(string $hash): void
     {
+    }
+
+    public function readCache(Config $config): ?StreamInterface
+    {
+        return null;
+    }
+
+    public function saveCache(Config $config, FileInterface $file): bool
+    {
+        return false;
+    }
+
+    public function clearCache(): bool
+    {
+        return false;
     }
 }

@@ -179,6 +179,7 @@
             <argument type="service" id="ems.service.publish"/>
             <argument type="service" id="ems.service.revision"/>
             <argument type="service" id="ems_common.storage.manager"/>
+            <argument type="service" id="ems_common.twig.runtime.asset"/>
             <tag name="console.command"/>
         </service>
         <service id="ems.command.revision.discard-drafts" class="EMS\CoreBundle\Command\Revision\DiscardDraftCommand">

@@ -180,25 +180,21 @@ final class ExtractCommand extends AbstractCommand
 
         $hash = $this->storageManager->saveFile($tempFile->path, StorageInterface::STORAGE_USAGE_CONFIG);
 
+        $url = ($this->baseUrl ?? '').$this->assetRuntime->assetPath(
+            [
+                EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
+                EmsFields::CONTENT_FILE_NAME_FIELD => \basename($this->xliffBasename),
+                EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_XML->value,
+            ],
+            [],
+            'ems_asset',
+            EmsFields::CONTENT_FILE_HASH_FIELD,
+            EmsFields::CONTENT_FILE_NAME_FIELD,
+            EmsFields::CONTENT_MIME_TYPE_FIELD,
+            UrlGeneratorInterface::ABSOLUTE_PATH
+        );
         $output->writeln('');
-        if (null !== $this->baseUrl) {
-            $url = $this->baseUrl.$this->assetRuntime->assetPath(
-                [
-                    EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
-                    EmsFields::CONTENT_FILE_NAME_FIELD => \basename($this->xliffBasename),
-                    EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_XML->value,
-                ],
-                [],
-                'ems_asset',
-                EmsFields::CONTENT_FILE_HASH_FIELD,
-                EmsFields::CONTENT_FILE_NAME_FIELD,
-                EmsFields::CONTENT_MIME_TYPE_FIELD,
-                UrlGeneratorInterface::ABSOLUTE_PATH
-            );
-            $output->writeln(\sprintf('The XLIFF export is available at %s', $url));
-        } else {
-            $output->writeln(\sprintf('The XLIFF export has been saved with the hash %s', $hash));
-        }
+        $output->writeln(\sprintf('The XLIFF export is available at %s', $url));
 
         return self::EXECUTE_SUCCESS;
     }

@@ -302,7 +302,7 @@ class Processor
     public function generateLocalImage(string $filename, array $config, bool $noCache = false): StreamInterface
     {
         $path = $this->locate($filename);
-        $config = Config::forFile($this->storageManager, $path, $config);
+        $config = $this->localFileConfig($filename, $config);
         $stream = $this->storageManager->readCache($config);
         if (null !== $stream) {
             return $stream;
@@ -320,11 +320,11 @@ class Processor
     /**
      * @param mixed[] $config
      */
-    public function localImageMimeType(string $filename, array $config): string
+    public function localFileConfig(string $filename, array $config): Config
     {
         $path = $this->locate($filename);
 
-        return Config::forFile($this->storageManager, $path, $config)->getMimeType();
+        return Config::forFile($this->storageManager, $path, $config);
     }
 
     private function locate(string $filename): string

@@ -40,11 +40,6 @@ class TempFile
         return new self($path);
     }
 
-    public static function createNamed(string $name, ?string $cacheFolder = null): self
-    {
-        return new self(\implode(\DIRECTORY_SEPARATOR, [$cacheFolder ?? \sys_get_temp_dir(), self::PREFIX.$name]));
-    }
-
     public function exists(): bool
     {
         return \file_exists($this->path);

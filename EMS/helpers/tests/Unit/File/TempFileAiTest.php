@@ -19,14 +19,6 @@ class TempFileAiTest extends TestCase
         $this->assertFalse(\file_exists($tempFile->path));
     }
 
-    public function testCreateNamed()
-    {
-        $name = 'testfile.txt';
-        $tempFile = TempFile::createNamed($name);
-        $this->assertInstanceOf(TempFile::class, $tempFile);
-        $this->assertEquals(\sys_get_temp_dir().DIRECTORY_SEPARATOR.'EMS_temp_file_'.$name, $tempFile->path);
-    }
-
     public function testLoadFromStream()
     {
         $tempFile = TempFile::create();

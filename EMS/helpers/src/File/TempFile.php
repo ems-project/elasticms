@@ -10,17 +10,25 @@ use Psr\Http\Message\StreamInterface;
 class TempFile
 {
     private const PREFIX = 'EMS_temp_file_';
-    private bool $autoClean = false;
+    /** @var self[] */
+    private static array $collector = [];
 
     private function __construct(public readonly string $path)
     {
+        self::$collector[] = $this;
+    }
+
+    /**
+     * @return TempFile[]
+     */
+    public static function getIterator(): array
+    {
+        return self::$collector;
     }
 
     public function __destruct()
     {
-        if ($this->autoClean) {
-            $this->clean();
-        }
+        $this->clean();
     }
 
     public static function create(): self
@@ -74,7 +82,6 @@ class TempFile
 
     public function setAutoClean(): void
     {
-        $this->autoClean = true;
     }
 
     public function getContents(): string

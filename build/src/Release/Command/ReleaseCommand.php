@@ -226,10 +226,11 @@ class ReleaseCommand extends AbstractCommand
         $this->runProcess(Process::fromShellCommandline(\sprintf('git commit -m "build: %s"', $deploy->version->getTag())));
         $this->runProcess(Process::fromShellCommandline('git push'));
 
-        $latest = $this->git->getLatestSha($deploy->branch);
+        $sha = $this->git->getLatestSha($deploy->branch);
 
-        $this->io->write($latest);
-
-        $this->github->checkSplit($latest);
+        $this->io->comment('Waiting for split to complete...');
+        if ($this->github->splitsIsCompleted($sha)) {
+            $test = 0;
+        }
     }
 }

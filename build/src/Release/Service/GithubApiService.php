@@ -133,16 +133,27 @@ class GithubApiService
         return ['name' => $response['name'], 'body' => $response['body']];
     }
 
-    public function checkSplit(string $sha): void
+    public function splitsIsCompleted(string $sha, int $retry = 5): bool
     {
-        $test = $this->api->repository()->workflowRuns()->listRuns(
+        if (0 === $retry) {
+            throw new \RuntimeException('Could not determine if split is done');
+        }
+
+        $result = $this->api->repository()->workflowRuns()->listRuns(
             username: self::ORG,
             repository: self::REPO,
             workflow: 'splitter.yml',
             parameters: ['head_sha' => $sha]
         );
 
-        $test2 = 1;
+        $run = $result['workflow_runs'][0] ?? null;
+        if (null === $run || 'completed' !== $run['status']) {
+            \sleep(30);
+
+            return $this->splitsIsCompleted($sha, --$retry);
+        }
+
+        return true;
     }
 
     /**

@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.15.3 (2024-06-24)
+### Bug Fixes
+* fix(core/media-lib): preview modal not responsive to content by @Davidmattei in https://github.com/ems-project/elasticms/pull/925
+* fix(core/media-lib): search bar query and ui by @Davidmattei in https://github.com/ems-project/elasticms/pull/926
+* fix(core/revision): json compare null as string if not defined by @theus77 in https://github.com/ems-project/elasticms/pull/878
+
 ## 5.15.2 (2024-04-12)
 ### Bug Fixes
 * fix(core/api): getSubmissionFile correct headers and error handling by @Davidmattei in https://github.com/ems-project/elasticms/pull/871
@@ -755,3 +761,4 @@
 * chore: moved to doc project by @theus77 in https://github.com/ems-project/elasticms/pull/182
 * chore: no pull requests for demo (readonly) by @Davidmattei in https://github.com/ems-project/elasticms/pull/176
 * chore: php 8.1 by @Davidmattei in https://github.com/ems-project/elasticms/pull/149
+

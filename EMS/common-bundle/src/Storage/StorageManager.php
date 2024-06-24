@@ -11,6 +11,7 @@ use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -194,7 +195,7 @@ class StorageManager
         }
         $hashContext = \hash_init($this->hashAlgo);
         while (!$handler->eof()) {
-            \hash_update($hashContext, $handler->read(1024 * 1024));
+            \hash_update($hashContext, $handler->read(File::DEFAULT_CHUNK_SIZE));
         }
 
         return \hash_final($hashContext);

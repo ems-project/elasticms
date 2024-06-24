@@ -10,17 +10,25 @@ use Psr\Http\Message\StreamInterface;
 class TempFile
 {
     private const PREFIX = 'EMS_temp_file_';
-    private bool $autoClean = false;
+    /** @var self[] */
+    private static array $collector = [];
 
     private function __construct(public readonly string $path)
     {
+        self::$collector[] = $this;
+    }
+
+    /**
+     * @return self[]
+     */
+    public static function getIterator(): array
+    {
+        return self::$collector;
     }
 
     public function __destruct()
     {
-        if ($this->autoClean) {
-            $this->clean();
-        }
+        $this->clean();
     }
 
     public static function create(): self
@@ -30,11 +38,6 @@ class TempFile
         }
 
         return new self($path);
-    }
-
-    public static function createNamed(string $name, ?string $cacheFolder = null): self
-    {
-        return new self(\implode(\DIRECTORY_SEPARATOR, [$cacheFolder ?? \sys_get_temp_dir(), self::PREFIX.$name]));
     }
 
     public function exists(): bool
@@ -70,11 +73,6 @@ class TempFile
             @\unlink($this->path);
         } catch (\Throwable) {
         }
-    }
-
-    public function setAutoClean(): void
-    {
-        $this->autoClean = true;
     }
 
     public function getContents(): string

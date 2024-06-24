@@ -75,7 +75,6 @@ class AssetExtractorService implements CacheWarmerInterface
             ];
         } else {
             $tempFile = TempFile::create();
-            $tempFile->setAutoClean();
             \file_put_contents($tempFile->path, "elasticms's built in TikaWrapper : àêïôú");
 
             return [
@@ -245,7 +244,6 @@ class AssetExtractorService implements CacheWarmerInterface
             $meta = ExtractedData::fromJsonString($result->getBody()->__toString(), $this->tikaMaxContent);
         } else {
             $tempFile = TempFile::create();
-            $tempFile->setAutoClean();
             if (false === \file_put_contents($tempFile->path, $text)) {
                 throw new \RuntimeException('Unexpected false result on file_put_contents');
             }

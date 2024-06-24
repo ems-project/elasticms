@@ -28,11 +28,8 @@ final class ZipHandler extends AbstractHandler
 
             $zipRequest = new ZipRequest($endpoint, $files);
             $tempFile = TempFile::create();
-            $tempFile->setAutoClean();
-            $tempFile->clean();
-
             $zip = new \ZipArchive();
-            $zip->open($tempFile->path, \ZipArchive::CREATE);
+            $zip->open($tempFile->path, \ZipArchive::OVERWRITE);
 
             foreach ($zipRequest->getFiles() as $file) {
                 $zip->addFromString($file['path'], $file['contents']);

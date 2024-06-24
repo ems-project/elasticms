@@ -119,7 +119,6 @@ class ExportDocumentsCommand extends AbstractCommand
         $outZipPath = $this->zipFilename;
         if (null === $outZipPath) {
             $tempFile = TempFile::create();
-            $tempFile->setAutoClean();
             $outZipPath = $tempFile->path;
         }
         $zip = new \ZipArchive();

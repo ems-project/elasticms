@@ -16,7 +16,6 @@ final class ZipHandlerTest extends AbstractHandlerTest
     {
         parent::setUp();
         $this->tempFile = TempFile::create();
-        $this->tempFile->setAutoClean();
     }
 
     protected function getHandler(): AbstractHandler

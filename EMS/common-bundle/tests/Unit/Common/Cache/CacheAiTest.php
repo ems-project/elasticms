@@ -16,7 +16,6 @@ class CacheAiTest extends TestCase
     protected function setUp(): void
     {
         $this->cacheDir = TempDirectory::create()->path;
-        \mkdir($this->cacheDir);
     }
 
     protected function removeDirectory($path): void

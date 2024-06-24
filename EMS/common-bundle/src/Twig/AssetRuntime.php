@@ -24,7 +24,7 @@ class AssetRuntime
 {
     private readonly Filesystem $filesystem;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly UrlGeneratorInterface $urlGenerator, private readonly Processor $processor, private readonly string $cacheDir)
+    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly UrlGeneratorInterface $urlGenerator, private readonly Processor $processor)
     {
         $this->filesystem = new Filesystem();
     }
@@ -121,11 +121,9 @@ class AssetRuntime
         }
 
         $configObj = new Config($this->storageManager, $hash, $hashConfig, $config);
-        $tempName = TempFile::createNamed(\implode('-', [$hashConfig, $hash]), $this->cacheDir);
-        if (!$tempName->exists()) {
-            $stream = $this->processor->getStream($configObj, $filename);
-            $tempName->loadFromStream($stream);
-        }
+        $tempName = TempFile::create();
+        $stream = $this->processor->getStream($configObj, $filename);
+        $tempName->loadFromStream($stream);
 
         return $tempName->path;
     }

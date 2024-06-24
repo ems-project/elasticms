@@ -61,7 +61,6 @@ class IntegratedTest extends TestCase
         }
 
         $temp = TempFile::create();
-        $temp->setAutoClean();
         $tempFile = $temp->path;
         $xliffParser->saveXML($tempFile);
 

@@ -134,7 +134,6 @@ final class UpdateCommand extends AbstractCommand
 
         $output->writeln(\sprintf('%d documents faced issue(s)', $insertReport->countErrors()));
         $tempFile = TempFile::create();
-        $tempFile->setAutoClean();
         $insertReport->export($tempFile->path);
         $hash = $this->storageManager->saveFile($tempFile->path, StorageInterface::STORAGE_USAGE_CONFIG);
 

@@ -7,7 +7,6 @@ require __DIR__.'/../vendor/autoload.php';
 
 use App\Admin\Kernel;
 use EMS\CommonBundle\Common\Converter;
-use Symfony\Bridge\Twig\Translation\TwigExtractor;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -20,18 +19,11 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
-use Symfony\Component\Translation\Dumper\XliffFileDumper;
-use Symfony\Component\Translation\Dumper\YamlFileDumper;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\Extractor\PhpAstExtractor;
 use Symfony\Component\Translation\Extractor\Visitor;
-use Symfony\Component\Translation\Loader\XliffFileLoader;
-use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
-use Symfony\Component\Translation\Reader\TranslationReader;
-use Symfony\Component\Translation\Writer\TranslationWriter;
-use Twig\Environment;
 
 const IGRNORE_PATHS = [
     'Command',
@@ -76,12 +68,12 @@ $command = function (InputInterface $input, OutputInterface $output): int {
 
     $catalogueDomains = $currentCatalogue->getDomains();
     \array_walk($domains, function (string $d) use ($catalogueDomains) {
-      if (!in_array($d, $catalogueDomains, true)) {
-        throw new \RuntimeException(sprintf('Invalid domain: %s', $d));
-      }
+        if (!\in_array($d, $catalogueDomains, true)) {
+            throw new \RuntimeException(\sprintf('Invalid domain: %s', $d));
+        }
     });
 
-    if (\count($domains) === 0) {
+    if (0 === \count($domains)) {
         $domains = $currentCatalogue->getDomains();
     }
 
@@ -97,7 +89,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
        ['Parsing php files', '*.php', new PhpAstExtractor([
           new Visitor\ConstraintVisitor(),
           new Visitor\TransMethodVisitor(),
-          new Visitor\TranslatableMessageVisitor()
+          new Visitor\TranslatableMessageVisitor(),
        ])],
        ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
     ];
@@ -123,10 +115,10 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         $domainIntl = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
 
         if ($intlMessages = $currentCatalogue->all($domainIntl)) {
-          $filterCurrentCatalogue->add($intlMessages, $domainIntl); // add intl domain message
+            $filterCurrentCatalogue->add($intlMessages, $domainIntl); // add intl domain message
         }
-        if ($messages = array_diff($currentCatalogue->all($domain), $intlMessages)) {
-          $filterCurrentCatalogue->add($messages, $domainIntl); // add message from domain
+        if ($messages = \array_diff($currentCatalogue->all($domain), $intlMessages)) {
+            $filterCurrentCatalogue->add($messages, $domainIntl); // add message from domain
         }
 
         $filterExtractedCatalogue->add($extractedCatalogue->all($domain), $domainIntl);
@@ -144,7 +136,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         $io->writeln('Writing translations');
 
         $translationWriter = $container->get('translation.writer');
-        $translationWriter->write($result, $format, match($format) {
+        $translationWriter->write($result, $format, match ($format) {
             'yml' => [
                 'path' => $bundleDir.'/Resources/translations',
                 'as_tree' => true,
@@ -153,7 +145,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
             'xlf' => [
                 'path' => $bundleDir.'/Resources/translations',
                 'version' => '1.2',
-                'default_locale' => 'en'
+                'default_locale' => 'en',
             ]
         });
     }

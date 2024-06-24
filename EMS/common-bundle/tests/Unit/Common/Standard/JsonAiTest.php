@@ -50,11 +50,9 @@ class JsonAiTest extends TestCase
     {
         $this->expectDeprecation('The function %s::decodeFile has been deprecated, use %s::decodeFile instead');
         $temp = TempFile::create();
-        $temp->setAutoClean();
         $tempFile = $temp->path;
         \file_put_contents($tempFile, self::TEST_JSON_STRING);
         Json::decodeFile($tempFile);
-        \unlink($tempFile);
     }
 
     /**

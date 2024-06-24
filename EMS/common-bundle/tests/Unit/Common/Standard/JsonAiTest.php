@@ -53,7 +53,6 @@ class JsonAiTest extends TestCase
         $tempFile = $temp->path;
         \file_put_contents($tempFile, self::TEST_JSON_STRING);
         Json::decodeFile($tempFile);
-        \unlink($tempFile);
     }
 
     /**

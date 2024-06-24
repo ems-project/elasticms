@@ -63,7 +63,7 @@ class ReleaseCommand extends AbstractCommand
             ChangelogFile::create($deploy->version)->add($changes)->write();
 
             $this->io->newLine();
-            $this->io->section('Releasing applications');
+            $this->io->section('Release packages');
             $packageReleases = $this->release($deploy, Config::PACKAGES);
 
             $this->io->newLine();
@@ -77,7 +77,20 @@ class ReleaseCommand extends AbstractCommand
             $this->composerUpdate($deploy, Config::APPLICATIONS, $packageReleases);
 
             $this->io->section('Commit release');
-            $this->commitRelease($deploy);
+            $sha = $this->commitRelease($deploy);
+
+            $this->io->section('Release mono repo');
+            $this->releaseMonoRepo($deploy, $sha);
+
+            $this->io->newLine();
+            $this->io->comment('Waiting for completed split...');
+            $this->github->splitsIsCompleted($sha);
+
+            $this->io->section('Release applications');
+            $this->release($deploy, Config::APPLICATIONS);
+
+            $this->io->section('Release docker');
+            $this->release($deploy, Config::DOCKER);
 
             return self::SUCCESS;
         } catch (\Throwable $e) {
@@ -153,9 +166,8 @@ class ReleaseCommand extends AbstractCommand
             if (null === $release->packagistSha) {
                 return [$release->repository, '<error>not published</error>'];
             }
-            if ($release->sha !== $release->packagistSha) {
-                return [$release->repository, '<error>not up to date</error>'];
-            }
+
+            return [$release->repository, '<error>not up to date</error>'];
         }, $notPublished));
         $table->render();
         $this->io->newLine();
@@ -214,7 +226,7 @@ class ReleaseCommand extends AbstractCommand
         }
     }
 
-    private function commitRelease(Deploy $deploy): void
+    private function commitRelease(Deploy $deploy): string
     {
         $this->processHelper->run($this->output, Process::fromShellCommandline('git add .'));
 
@@ -226,11 +238,21 @@ class ReleaseCommand extends AbstractCommand
         $this->runProcess(Process::fromShellCommandline(\sprintf('git commit -m "build: %s"', $deploy->version->getTag())));
         $this->runProcess(Process::fromShellCommandline('git push'));
 
-        $sha = $this->git->getLatestSha($deploy->branch);
+        return $this->git->getLatestSha($deploy->branch);
+    }
 
-        $this->io->comment('Waiting for split to complete...');
-        if ($this->github->splitsIsCompleted($sha)) {
-            $test = 0;
+    private function releaseMonoRepo(Deploy $deploy, string $expectedSha): void
+    {
+        $release = $this->github->getRelease($deploy->version);
+
+        if ($release && $this->confirm('Remove previous release?')) {
+            $this->github->deleteRelease($release);
+        } elseif (null === $release) {
+            $release = $this->github->createRelease($deploy);
+        }
+
+        if ($release->sha !== $expectedSha) {
+            throw new \RuntimeException('The mono repo not correctly released!');
         }
     }
 }

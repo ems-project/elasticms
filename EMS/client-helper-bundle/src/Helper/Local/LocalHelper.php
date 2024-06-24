@@ -188,7 +188,6 @@ final class LocalHelper
         }
 
         $tempFile = TempFile::create();
-        $tempFile->setAutoClean();
 
         $zip = new \ZipArchive();
         $zip->open($tempFile->path, \ZipArchive::OVERWRITE);

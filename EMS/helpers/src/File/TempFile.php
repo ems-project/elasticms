@@ -80,10 +80,6 @@ class TempFile
         }
     }
 
-    public function setAutoClean(): void
-    {
-    }
-
     public function getContents(): string
     {
         $contents = \file_get_contents($this->path);

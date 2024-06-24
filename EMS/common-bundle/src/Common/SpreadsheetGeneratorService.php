@@ -207,7 +207,6 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
 
         $writer = new Xlsx($spreadsheet);
         $tempFile = TempFile::create();
-        $tempFile->setAutoClean();
         $writer->save($tempFile->path);
         $response = new Response($tempFile->getContents());
         $this->attachResponseHeader($response, $config, 'application/vnd.ms-excel');

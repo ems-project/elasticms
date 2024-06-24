@@ -88,7 +88,6 @@ class StorageManagerTest extends WebTestCase
     public function testFoobarFileBySingleUpload(): void
     {
         $temp = TempFile::create();
-        $temp->setAutoClean();
         $tempFile = $temp->path;
         if (!\is_string($tempFile)) {
             throw new \RuntimeException('Impossible to generate temporary filename');

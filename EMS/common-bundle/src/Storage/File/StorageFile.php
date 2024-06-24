@@ -24,7 +24,6 @@ class StorageFile implements FileInterface
     {
         if (null === $this->tempFile) {
             $this->tempFile = TempFile::create();
-            $this->tempFile->setAutoClean();
             $this->tempFile->loadFromStream($this->stream);
         }
 

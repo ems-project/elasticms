@@ -172,7 +172,6 @@ final class ExtractCommand extends AbstractCommand
         }
         $this->io->progressFinish();
         $tempFile = TempFile::create();
-        $tempFile->setAutoClean();
         if (!$extractor->saveXML($tempFile->path, $this->encoding)) {
             throw new \RuntimeException(\sprintf('Unexpected error while saving the XLIFF to the file %s', $this->xliffBasename));
         }

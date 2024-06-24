@@ -200,7 +200,6 @@ class IndexFileCommand extends EmsCommand
 
                     if (\sha1($fileContent) === $rawData[EmsFields::CONTENT_FILE_HASH_FIELD]) {
                         $tempFile = TempFile::create();
-                        $tempFile->setAutoClean();
                         $file = $tempFile->path;
                         \file_put_contents($file, $fileContent);
                         try {

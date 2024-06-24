@@ -1,5 +1,6 @@
 parameters:
     paths:
+        - %currentWorkingDirectory%/build
         - %currentWorkingDirectory%/elasticms-admin/src
         - %currentWorkingDirectory%/elasticms-cli/src
         - %currentWorkingDirectory%/elasticms-web/src
@@ -11,7 +12,6 @@ parameters:
         - %currentWorkingDirectory%/EMS/helpers/src
         - %currentWorkingDirectory%/EMS/submission-bundle/src
         - %currentWorkingDirectory%/EMS/xliff/src
-        - %currentWorkingDirectory%/release
     excludePaths:
         - %currentWorkingDirectory%/vendor/*
         - %currentWorkingDirectory%/EMS/admin-ui-bundle/src/Resources/*

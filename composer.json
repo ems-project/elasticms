@@ -176,7 +176,7 @@
       "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/",
       "EMS\\SubmissionBundle\\Tests\\": "EMS/submission-bundle/tests/",
       "EMS\\Xliff\\Tests\\": "EMS/xliff/tests/",
-      "EMS\\Release\\": "release/"
+      "Build\\": "build/src/"
     }
   },
   "replace": {

@@ -1,5 +1,15 @@
 # Changelog 5.x
 
+## 5.16.1 (2024-06-24)
+### Bug Fixes
+* fix(common/storage): S3StreamPromise read by @theus77 in https://github.com/ems-project/elasticms/pull/924
+* fix(common/store_data): file system type not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/879
+* fix(core/media-lib): preview modal not responsive to content by @Davidmattei in https://github.com/ems-project/elasticms/pull/925
+* fix(core/media-lib): search bar query and ui by @Davidmattei in https://github.com/ems-project/elasticms/pull/926
+* fix(core/mediaLib): wrong import inputOption by @Davidmattei in https://github.com/ems-project/elasticms/pull/922
+* fix(core/revision): json compare null as string if not defined by @theus77 in https://github.com/ems-project/elasticms/pull/878
+* fix(submission/db): allow nullable expire_date by @Davidmattei in https://github.com/ems-project/elasticms/pull/880
+
 ## 5.16.0 (2024-04-29)
 ### Features
 * feat(core/api): fileUrl for submission endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/876

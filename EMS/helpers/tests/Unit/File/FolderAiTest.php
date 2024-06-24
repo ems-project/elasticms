@@ -19,7 +19,6 @@ class FolderAiTest extends TestCase
 
     public function testGetRealPathWithExistingDirectory()
     {
-        \mkdir($this->testFolderPath, 0777, true);
         $realPath = Folder::getRealPath($this->testFolderPath);
         $this->assertEquals(\realpath($this->testFolderPath), $realPath);
     }

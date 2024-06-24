@@ -19,7 +19,7 @@ class TempFile
     }
 
     /**
-     * @return TempFile[]
+     * @return self[]
      */
     public static function getIterator(): array
     {

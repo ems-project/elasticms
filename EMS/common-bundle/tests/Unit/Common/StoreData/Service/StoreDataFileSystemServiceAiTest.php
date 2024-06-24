@@ -17,7 +17,6 @@ class StoreDataFileSystemServiceAiTest extends TestCase
     protected function setUp(): void
     {
         $this->rootPath = TempDirectory::create()->path;
-        @\mkdir($this->rootPath);
         $this->service = new StoreDataFileSystemService($this->rootPath);
     }
 

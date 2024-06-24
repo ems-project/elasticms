@@ -158,7 +158,6 @@ class StorageManagerTest extends WebTestCase
     protected function getFsDir(): string
     {
         $fsDir = TempDirectory::create()->path;
-        \mkdir($fsDir);
 
         return $fsDir;
     }

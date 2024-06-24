@@ -30,11 +30,6 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
     {
     }
 
-    public function getBase64(string $hash): ?string
-    {
-        return $this->storageManager->getBase64($hash);
-    }
-
     /**
      * @return array<string, bool>
      */

@@ -76,10 +76,10 @@ abstract class AbstractCommand extends Command
     {
         $this->processHelper->run($this->output, $process, null, function (string $type, string $data): void {
             if (Process::ERR === $type) {
-                throw new \RuntimeException($data);
+                $this->io->warning($data);
+            } else {
+                $this->output->write($data);
             }
-
-            $this->output->write($data);
         });
     }
 }

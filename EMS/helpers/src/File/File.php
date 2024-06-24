@@ -14,7 +14,7 @@ class File
     public string $mimeType;
     public int $size;
 
-    public const DEFAULT_CHUNK_SIZE = 8 * 1024 * 1024;
+    public const DEFAULT_CHUNK_SIZE = 4 * 1024 * 1024;
 
     public function __construct(private readonly \SplFileInfo $file)
     {
@@ -27,6 +27,15 @@ class File
     public static function fromFilename(string $filename): self
     {
         return new self(new \SplFileInfo($filename));
+    }
+
+    public function getContents(): string
+    {
+        if (false === $contents = \file_get_contents($this->file->getRealPath())) {
+            throw new \RuntimeException(\sprintf('Could not open file "%s"', $this->file->getRealPath()));
+        }
+
+        return $contents;
     }
 
     /**

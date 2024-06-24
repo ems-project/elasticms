@@ -156,7 +156,7 @@ class Processor
             } else {
                 $file = $this->storageManager->getFile($config->getAssetHash());
             }
-            $generatedImage = $config->isSvg() ? $file : $image->generate($file->getFilename(), $cacheFilename);
+            $generatedImage = $config->isSvg() ? $file->getFilename() : $image->generate($file->getFilename(), $cacheFilename);
         } catch (\InvalidArgumentException) {
             $generatedImage = $image->generate($this->storageManager->getPublicImage('big-logo.png'));
         }

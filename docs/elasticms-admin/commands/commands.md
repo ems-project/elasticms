@@ -464,7 +464,7 @@ Options:
       --bulk-size=BULK-SIZE                      Size of the elasticsearch scroll request [default: 500]
       --target-environment[=TARGET-ENVIRONMENT]  Environment with the target documents
       --xliff-version[=XLIFF-VERSION]            XLIFF format version: 1.2 2.0 [default: "1.2"]
-      --filename[=FILENAME]                      Generate the XLIFF specified file
+      --basename[=BASENAME]                      XLIFF export file basename [default: "ems-extract.xlf"]
       --base-url[=BASE-URL]                      Base url, in order to generate a download link to the XLIFF file
       --locale-field[=LOCALE-FIELD]              Field containing the locale
       --encoding[=ENCODING]                      Encoding used to generate the XLIFF file [default: "UTF-8"]
@@ -507,7 +507,9 @@ Arguments:
 Options:
       --publish-to[=PUBLISH-TO]                If defined the revision will be published in the defined environment
       --archive                                If set another revision will be flagged as archived
-      --locale-field[=LOCALE-FIELD]            Field containing the locale [default: "locale"]
-      --translation-field[=TRANSLATION-FIELD]  Field containing the translation field [default: "translation_id"]
+      --locale-field[=LOCALE-FIELD]            Field containing the locale
+      --translation-field[=TRANSLATION-FIELD]  Field containing the translation field
       --dry-run                                If set nothing is saved in the database
+      --current-revision-only                  Translations will be updated only is the source revision is still a current revision
+      --base-url[=BASE-URL]                    Base url, in order to generate a download link to the error report
 ```

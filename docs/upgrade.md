@@ -1,5 +1,6 @@
 # Upgrade
 
+  * [version 5.19.x](#version-519x)
   * [version 5.17.x](#version-517x)
   * [version 5.15.x](#version-515x)
   * [version 5.14.x](#version-514x)
@@ -8,6 +9,17 @@
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## version 5.19.x
+
+* Xliff command options have been updated
+  * The `--filename` option in the `emsco:xliff:extract` command has been replaced by a `--basename` option and does not contains a path anymore, just a file basename.
+
+    Example replace ```emsco:xliff:extract live '{}' nl de title --filename=/tmp/pages-nl-to-de.xlf```
+     by ```emsco:xliff:extract live '{}' nl de title --basename=pages-nl-to-de.xlf```
+  * In case of warning or error in the `emsco:xliff:update` command the report file is no more available locally. The report is upladed in the admin's storages. The directly get a link to the report you need to specify a `--base-url` option.
+
+    Example ```emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld```
 
 ## version 5.17.x
 

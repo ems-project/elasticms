@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Image\SmartCrop;
 use EMS\Helpers\Standard\Color;
 use Psr\Log\LoggerInterface;
@@ -69,10 +70,8 @@ class Image
             }
             $path = $cacheFilename;
         } else {
-            $path = \tempnam(\sys_get_temp_dir(), 'ems_image');
-            if (false === $path) {
-                throw new \RuntimeException('Could not create file with unique name.');
-            }
+            $tempFile = TempFile::create();
+            $path = $tempFile->path;
         }
 
         if (EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT === $this->config->getImageFormat()) {

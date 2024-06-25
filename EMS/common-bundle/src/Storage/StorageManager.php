@@ -400,7 +400,7 @@ class StorageManager
             return new LocalFile($filenameOrHash);
         }
         if (1 === \preg_match('/[0-9a-fA-F]/', $filenameOrHash)) {
-            return new StorageFile($filenameOrHash, $this->getStream($filenameOrHash));
+            return new StorageFile($this->getStream($filenameOrHash));
         }
 
         throw new \RuntimeException(\sprintf('File %s not found', $filenameOrHash));

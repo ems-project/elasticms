@@ -7,6 +7,8 @@ namespace EMS\CommonBundle\Tests\Unit\Storage;
 use EMS\CommonBundle\Storage\Factory\FileSystemFactory;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\TempDirectory;
+use EMS\Helpers\File\TempFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Config\FileLocator;
@@ -16,7 +18,7 @@ class StorageManagerTest extends WebTestCase
     private const BAR = 'bar';
     private const FOO = 'foo';
     private StorageManager $storageManager;
-    private string $tempFile;
+    private TempFile $tempFile;
     private string $hash;
     private LoggerInterface $mockLogger;
 
@@ -35,8 +37,8 @@ class StorageManagerTest extends WebTestCase
             'usage' => StorageInterface::STORAGE_USAGE_ASSET_ATTRIBUTE,
         ]]);
 
-        $this->tempFile = \tempnam(\sys_get_temp_dir(), 'StorageManagerTest');
-        \file_put_contents($this->tempFile, self::FOO.self::BAR);
+        $this->tempFile = TempFile::create();
+        \file_put_contents($this->tempFile->path, self::FOO.self::BAR);
 
         $this->hash = \sha1(self::FOO.self::BAR);
     }
@@ -45,7 +47,7 @@ class StorageManagerTest extends WebTestCase
     {
         $this->assertEquals('sha1', $this->storageManager->getHashAlgo());
         $this->assertEquals($this->hash, $this->storageManager->computeStringHash(self::FOO.self::BAR));
-        $this->assertEquals($this->hash, $this->storageManager->computeFileHash($this->tempFile));
+        $this->assertEquals($this->hash, $this->storageManager->computeFileHash($this->tempFile->path));
     }
 
     public function testHealthStatuses(): void
@@ -85,7 +87,8 @@ class StorageManagerTest extends WebTestCase
 
     public function testFoobarFileBySingleUpload(): void
     {
-        $tempFile = \tempnam(\sys_get_temp_dir(), 'ems_core_test');
+        $temp = TempFile::create();
+        $tempFile = $temp->path;
         if (!\is_string($tempFile)) {
             throw new \RuntimeException('Impossible to generate temporary filename');
         }
@@ -152,18 +155,16 @@ class StorageManagerTest extends WebTestCase
         $this->assertEquals(2, \count($storageManagerB->headIn($hash)));
     }
 
-    protected function getFsDir(): false|string
+    protected function getFsDir(): string
     {
-        $fsDir = \tempnam(\sys_get_temp_dir(), 'StorageManagerTest');
-        \unlink($fsDir);
-        \mkdir($fsDir);
+        $fsDir = TempDirectory::create()->path;
 
         return $fsDir;
     }
 
     protected function getFsFactory(): FileSystemFactory
     {
-        $fsFactory = new FileSystemFactory($this->mockLogger, \tempnam(\sys_get_temp_dir(), 'StorageManagerTest'), \sys_get_temp_dir());
+        $fsFactory = new FileSystemFactory($this->mockLogger, $this->getFsDir());
 
         return $fsFactory;
     }

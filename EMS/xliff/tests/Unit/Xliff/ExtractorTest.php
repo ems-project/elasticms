@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Tests\Unit\Xliff;
 
+use EMS\Helpers\File\TempFile;
 use EMS\Xliff\Xliff\Entity\InsertReport;
 use EMS\Xliff\Xliff\Extractor;
 use EMS\Xliff\Xliff\Inserter;
@@ -110,12 +111,13 @@ class ExtractorTest extends TestCase
             $xliffParser->saveXML($expectedFilename, $encoding);
         }
 
-        $temp_file = \tempnam(\sys_get_temp_dir(), 'TC-');
-        $xliffParser->saveXML($temp_file, $encoding);
+        $tempFile = TempFile::create();
+        $xliffParser->saveXML($tempFile->path, $encoding);
 
         $expected = \file_get_contents($expectedFilename);
-        $actual = \file_get_contents($temp_file);
+        $actual = \file_get_contents($tempFile->path);
 
         $this->assertEquals($expected, $actual, \sprintf('testXliffExtractions: %s', $fileNameWithExtension));
+        $tempFile->clean();
     }
 }

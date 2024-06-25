@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
@@ -139,30 +140,22 @@ class Processor
         throw new \Exception(\sprintf('not able to generate file for the config %s', $config->getConfigHash()));
     }
 
-    private function hashToFilename(string $hash): string
-    {
-        $filename = (string) \tempnam(\sys_get_temp_dir(), 'EMS');
-        \file_put_contents($filename, $this->storageManager->getContents($hash));
-
-        return $filename;
-    }
-
     private function generateImage(Config $config, string $filename = null, string $cacheFilename = null): string
     {
         $image = new Image($config, $this->logger);
 
         $watermark = $config->getWatermark();
         if (null !== $watermark && $this->storageManager->head($watermark)) {
-            $image->setWatermark($this->hashToFilename($watermark));
+            $image->setWatermark($this->storageManager->getFile($watermark)->getFilename());
         }
 
         try {
             if ($filename) {
-                $file = $filename;
+                $file = new LocalFile($filename);
             } else {
-                $file = $this->hashToFilename($config->getAssetHash());
+                $file = $this->storageManager->getFile($config->getAssetHash());
             }
-            $generatedImage = $config->isSvg() ? $file : $image->generate($file, $cacheFilename);
+            $generatedImage = $config->isSvg() ? $file->getFilename() : $image->generate($file->getFilename(), $cacheFilename);
         } catch (\InvalidArgumentException) {
             $generatedImage = $image->generate($this->storageManager->getPublicImage('big-logo.png'));
         }

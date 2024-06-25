@@ -75,9 +75,7 @@ abstract class AbstractCommand extends Command
     protected function runProcess(Process $process): void
     {
         $this->processHelper->run($this->output, $process, null, function (string $type, string $data): void {
-            if (Process::ERR === $type) {
-                $this->io->warning($data);
-            } else {
+            if (Process::ERR !== $type) {
                 $this->output->write($data);
             }
         });

@@ -1,5 +1,25 @@
 # Changelog 5.x
 
+## 5.18.0 (2024-06-25)
+### Features
+* feat(common/admin): update command dump file and onlyMissing option by @theus77 in https://github.com/ems-project/elasticms/pull/897
+* feat(common/api): add EMS_BACKEND_API_TIMEOUT config by @theus77 in https://github.com/ems-project/elasticms/pull/900
+* feat(core/twig): add emsco_save_contents twig function by @theus77 in https://github.com/ems-project/elasticms/pull/901
+* feat(core/twig): add emsco_warning and emsco_notice functions by @theus77 in https://github.com/ems-project/elasticms/pull/905
+* feat(core/view): define contentType default overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/910
+* feat(demo): add asset content type (documentation) by @Davidmattei in https://github.com/ems-project/elasticms/pull/907
+* feat(demo): implement emsco_display for content types by @Davidmattei in https://github.com/ems-project/elasticms/pull/913
+* feat(elasticms): add file structure commands for static websites by @theus77 in https://github.com/ems-project/elasticms/pull/917
+* feat(elasticms): add force option to file structure publish (target out of sync) by @theus77 in https://github.com/ems-project/elasticms/pull/919
+* feat(ems/command): add ems:batch command by @Davidmattei in https://github.com/ems-project/elasticms/pull/918
+### Bug Fixes
+* fix(cli): load twig bundle for (ems:batch) command by @Davidmattei in https://github.com/ems-project/elasticms/pull/927
+* fix(cli/import): trim import headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/908
+* fix(core/release): rework publish and unpublish by @Davidmattei in https://github.com/ems-project/elasticms/pull/912
+### Code Refactoring
+* refactor(core): extract translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/916
+* refactor: build translations with symfony 6 by @Davidmattei in https://github.com/ems-project/elasticms/pull/920
+
 ## 5.17.2 (2024-06-24)
 ### Bug Fixes
 * fix(common/storage): S3StreamPromise read by @theus77 in https://github.com/ems-project/elasticms/pull/924

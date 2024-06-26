@@ -210,7 +210,6 @@ class ElasticaService
         $search = clone $search;
         $search->setSort(null);
         $elasticaSearch = $this->createElasticaSearch($search, $search->getScrollOptions());
-        $elasticaSearch->addIndicesByName($this->getIndices($search));
 
         return new EmsScroll($elasticaSearch, $expiryTime);
     }

@@ -1,6 +1,6 @@
 # Changelog 5.x
 
-## 5.18.0 (2024-06-25)
+## 5.18.0 (2024-06-26)
 ### Features
 * feat(common/admin): update command dump file and onlyMissing option by @theus77 in https://github.com/ems-project/elasticms/pull/897
 * feat(common/api): add EMS_BACKEND_API_TIMEOUT config by @theus77 in https://github.com/ems-project/elasticms/pull/900
@@ -15,6 +15,7 @@
 ### Bug Fixes
 * fix(cli): load twig bundle for (ems:batch) command by @Davidmattei in https://github.com/ems-project/elasticms/pull/927
 * fix(cli/import): trim import headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/908
+* fix(core): translation key core.verion by @Davidmattei in https://github.com/ems-project/elasticms/pull/933
 * fix(core/release): rework publish and unpublish by @Davidmattei in https://github.com/ems-project/elasticms/pull/912
 ### Code Refactoring
 * refactor(core): extract translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/916

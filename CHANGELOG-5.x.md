@@ -1,8 +1,9 @@
 # Changelog 5.x
 
-## 5.17.2 (2024-06-24)
+## 5.17.2 (2024-06-26)
 ### Bug Fixes
 * fix(common/storage): S3StreamPromise read by @theus77 in https://github.com/ems-project/elasticms/pull/924
+* fix(core): environment modal(s) showing on page load by @Davidmattei in https://github.com/ems-project/elasticms/pull/934
 * fix(core/api): json export remove proxy fields (__initializer__, ...) by @Davidmattei in https://github.com/ems-project/elasticms/pull/911
 * fix(core/media-lib): preview modal not responsive to content by @Davidmattei in https://github.com/ems-project/elasticms/pull/925
 * fix(core/media-lib): search bar query and ui by @Davidmattei in https://github.com/ems-project/elasticms/pull/926

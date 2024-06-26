@@ -2017,12 +2017,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
-                "reference": "6de66c23dbd96acb1d92c52ad84a7492e00b5d02"
+                "reference": "f0abfe68507a29008583c8fa0968468d5fe55d39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/6de66c23dbd96acb1d92c52ad84a7492e00b5d02",
-                "reference": "6de66c23dbd96acb1d92c52ad84a7492e00b5d02",
+                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/f0abfe68507a29008583c8fa0968468d5fe55d39",
+                "reference": "f0abfe68507a29008583c8fa0968468d5fe55d39",
                 "shasum": ""
             },
             "require": {
@@ -2054,7 +2054,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/5.17.2"
             },
-            "time": "2024-06-03T12:39:52+00:00"
+            "time": "2024-06-26T08:07:06+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
@@ -2212,12 +2212,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "223b68c0f255db2d0de3cb9b5d6d46d26a3aca05"
+                "reference": "cee73d73967a4e30bb239064a9fb7d0b5ac8fa63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/223b68c0f255db2d0de3cb9b5d6d46d26a3aca05",
-                "reference": "223b68c0f255db2d0de3cb9b5d6d46d26a3aca05",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/cee73d73967a4e30bb239064a9fb7d0b5ac8fa63",
+                "reference": "cee73d73967a4e30bb239064a9fb7d0b5ac8fa63",
                 "shasum": ""
             },
             "require": {
@@ -2278,7 +2278,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCoreBundle/tree/5.17.2"
             },
-            "time": "2024-06-24T16:41:36+00:00"
+            "time": "2024-06-26T08:07:06+00:00"
         },
         {
             "name": "elasticms/form-bundle",

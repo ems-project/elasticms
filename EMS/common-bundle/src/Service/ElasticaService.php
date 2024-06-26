@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Service;
 
 use Elastica\Aggregation\Terms as TermsAggregation;
+use Elastica\Index;
 use Elastica\Query;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
@@ -317,6 +318,11 @@ class ElasticaService
         }
 
         return $this->client->getIndex($indexName)->getAliases();
+    }
+
+    public function getIndex(string $alias): Index
+    {
+        return $this->client->getIndex($alias);
     }
 
     public function getIndexFromAlias(string $alias): string

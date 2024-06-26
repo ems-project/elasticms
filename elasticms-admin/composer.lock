@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.314.7",
+            "version": "3.314.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "3a7ea3e49ae50eaaa969dc15d69b2dd46b4d7284"
+                "reference": "cec444ca2e86dade32886d586ac55838779e2ae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3a7ea3e49ae50eaaa969dc15d69b2dd46b4d7284",
-                "reference": "3a7ea3e49ae50eaaa969dc15d69b2dd46b4d7284",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/cec444ca2e86dade32886d586ac55838779e2ae2",
+                "reference": "cec444ca2e86dade32886d586ac55838779e2ae2",
                 "shasum": ""
             },
             "require": {
@@ -151,9 +151,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.314.7"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.314.8"
             },
-            "time": "2024-06-24T21:03:27+00:00"
+            "time": "2024-06-25T18:13:28+00:00"
         },
         {
             "name": "brick/math",
@@ -2016,12 +2016,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSAdminUIBundle.git",
-                "reference": "e95f6d1a8afd7f152bfdc2cb82d75998d789f1ee"
+                "reference": "2189dd09cd2495f8b97cd124a515af613e6cda6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/e95f6d1a8afd7f152bfdc2cb82d75998d789f1ee",
-                "reference": "e95f6d1a8afd7f152bfdc2cb82d75998d789f1ee",
+                "url": "https://api.github.com/repos/ems-project/EMSAdminUIBundle/zipball/2189dd09cd2495f8b97cd124a515af613e6cda6d",
+                "reference": "2189dd09cd2495f8b97cd124a515af613e6cda6d",
                 "shasum": ""
             },
             "require": {
@@ -2053,7 +2053,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSAdminUIBundle/tree/5.18.0"
             },
-            "time": "2024-06-25T05:20:33+00:00"
+            "time": "2024-06-26T08:07:22+00:00"
         },
         {
             "name": "elasticms/client-helper-bundle",
@@ -2212,12 +2212,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "30b635ea4b1385859d86ecf815b9a82830b8aaf6"
+                "reference": "978fccb7843121d540b841cc49e5d58e5a0cbcf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/30b635ea4b1385859d86ecf815b9a82830b8aaf6",
-                "reference": "30b635ea4b1385859d86ecf815b9a82830b8aaf6",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/978fccb7843121d540b841cc49e5d58e5a0cbcf9",
+                "reference": "978fccb7843121d540b841cc49e5d58e5a0cbcf9",
                 "shasum": ""
             },
             "require": {
@@ -2278,7 +2278,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCoreBundle/tree/5.18.0"
             },
-            "time": "2024-06-25T05:20:33+00:00"
+            "time": "2024-06-26T08:07:22+00:00"
         },
         {
             "name": "elasticms/form-bundle",

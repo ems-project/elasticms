@@ -59,7 +59,7 @@ class SearchService
     {
         $environments = \array_filter(
             \array_map(fn (string $name) => $this->environmentService->giveByName($name), $search->getEnvironments()),
-            fn (Environment $e) => $this->elasticaService->getIndex($e->getAlias())->exists()
+            fn (Environment $e) => $this->elasticaService->hasIndex($e->getAlias())
         );
 
         $mapping = $this->mapping->getMapping(...$environments);

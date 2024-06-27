@@ -43,7 +43,7 @@ class Mapping
     final public const INSTANCE_ID_META_FIELD = 'instance_id';
     final public const PUBLISHED_DATETIME_FIELD = '_published_datetime';
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly Client $elasticaClient, private readonly EnvironmentService $environmentService, private readonly FieldTypeType $fieldTypeType, private readonly ElasticsearchService $elasticsearchService, private readonly ElasticaService $elasticaService, private readonly string $instanceId)
+    public function __construct(private readonly LoggerInterface $logger, private readonly Client $elasticaClient, private readonly FieldTypeType $fieldTypeType, private readonly ElasticsearchService $elasticsearchService, private readonly ElasticaService $elasticaService, private readonly string $instanceId)
     {
     }
 

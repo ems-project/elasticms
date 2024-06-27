@@ -426,6 +426,10 @@ class ElasticaService
      */
     public function getDocument(string $index, ?string $contentType, string $id, array $sourceIncludes = [], array $sourcesExcludes = [], ?AbstractQuery $query = null): Document
     {
+        if (!$this->getIndex($index)->exists()) {
+            throw new NotFoundException($id, $index);
+        }
+
         $contentTypes = [];
         if (null !== $contentType) {
             $contentTypes[] = $contentType;
@@ -444,7 +448,7 @@ class ElasticaService
             return $this->singleSearch($search);
         } catch (NotSingleResultException $e) {
             if (0 === $e->getTotal()) {
-                throw new NotFoundException();
+                throw new NotFoundException($id, $index);
             }
             throw $e;
         }

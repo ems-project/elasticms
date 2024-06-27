@@ -117,8 +117,7 @@ class SearchService
 
     public function getDocument(ContentType $contentType, string $ouuid, ?Environment $environment = null): ElasticsearchDocument
     {
-        $environment ??= $contentType->giveEnvironment();
-        $index = $this->contentTypeService->getIndex($contentType, $environment);
+        $index = $environment?->getAlias() ?? $contentType->giveEnvironment()->getAlias();
         $searchQuery = null;
 
         if ($contentType->hasVersionTags() && null !== $dateToField = $contentType->getVersionDateToField()) {

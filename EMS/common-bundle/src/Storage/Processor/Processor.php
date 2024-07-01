@@ -80,9 +80,12 @@ class Processor
             return $cacheResponse;
         }
 
-        $stream = $this->getStream($config, $filename);
-
-        $response = $this->getResponseFromStreamInterface($stream, $request);
+        try {
+            $stream = $this->getStream($config, $filename);
+            $response = $this->getResponseFromStreamInterface($stream, $request);
+        } catch (NotFoundException) {
+            return new Response(null, Response::HTTP_NOT_FOUND);
+        }
 
         $response->headers->add([
             Headers::CONTENT_DISPOSITION => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => $filename], ';'),

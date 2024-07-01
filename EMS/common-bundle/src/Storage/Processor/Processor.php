@@ -145,7 +145,7 @@ class Processor
         throw new \Exception(\sprintf('not able to generate file for the config %s', $config->getConfigHash()));
     }
 
-    private function generateImage(Config $config, string $filename = null): FileInterface
+    private function generateImage(Config $config, ?string $filename = null): FileInterface
     {
         $image = new Image($config, $this->logger);
 

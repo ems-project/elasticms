@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\File;
 
-use EMS\Helpers\Standard\Type;
 use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Standard\Type;
 
 class LocalFile implements FileInterface
 {

@@ -46,7 +46,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $format = $input->getOption('format');
 
     if (!\in_array($format, ['yml', 'xlf'], true)) {
-        throw new \RuntimeException('Invalid format');
+        throw new RuntimeException('Invalid format');
     }
 
     $io->writeln('Booting admin kernel');
@@ -69,7 +69,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $catalogueDomains = $currentCatalogue->getDomains();
     \array_walk($domains, function (string $d) use ($catalogueDomains) {
         if (!\in_array($d, $catalogueDomains, true)) {
-            throw new \RuntimeException(\sprintf('Invalid domain: %s', $d));
+            throw new RuntimeException(\sprintf('Invalid domain: %s', $d));
         }
     });
 
@@ -86,12 +86,12 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         ->in($bundleDir);
 
     $extractors = [
-       ['Parsing php files', '*.php', new PhpAstExtractor([
-          new Visitor\ConstraintVisitor(),
-          new Visitor\TransMethodVisitor(),
-          new Visitor\TranslatableMessageVisitor(),
-       ])],
-       ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
+        ['Parsing php files', '*.php', new PhpAstExtractor([
+            new Visitor\ConstraintVisitor(),
+            new Visitor\TransMethodVisitor(),
+            new Visitor\TranslatableMessageVisitor(),
+        ])],
+        ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
     ];
 
     foreach ($extractors as list($title, $name, $extractor)) {
@@ -129,7 +129,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $result = $operation->getResult();
 
     if (0 === \count($result->all())) {
-        throw new \RuntimeException('No translations found');
+        throw new RuntimeException('No translations found');
     }
 
     if (true === $input->getOption('write')) {

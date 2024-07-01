@@ -52,7 +52,7 @@ final class ApiController
         return $this->service->getDocument($apiName, $contentType, $ouuid)->getResponse();
     }
 
-    public function handleFormPostRequest(Request $request, string $apiName, string $contentType, ?string $ouuid, string $csrfId, string $validationTemplate, int $hashcashLevel, string $hashAlgo, bool $forceCreate = false): JsonResponse
+    public function handleFormPostRequest(Request $request, string $apiName, string $contentType, ?string $ouuid, string $csrfId, string $validationTemplate, int $hashcashLevel, string $hashAlgo): JsonResponse
     {
         $this->hashcashHelper->validateHashcash($request, $csrfId, $hashcashLevel, $hashAlgo);
         $data = $this->service->treatFormRequest($request, $apiName, $validationTemplate);

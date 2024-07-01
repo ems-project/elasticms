@@ -16,6 +16,7 @@ use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StorageManager
 {
@@ -487,5 +488,16 @@ class StorageManager
                 return;
             }
         }
+    }
+
+    public function getStreamFromArchive(string $hash, string $path): StreamWrapper
+    {
+        foreach ($this->adapters as $adapter) {
+            $stream = $adapter->readFromArchive($hash, $path);
+            if (null !== $stream) {
+                return $stream;
+            }
+        }
+        throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
     }
 }

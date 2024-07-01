@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\StreamWrapper;
+use EMS\Helpers\File\File;
+use EMS\Helpers\File\TempDirectory;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -231,5 +235,22 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
     public function clearCache(): bool
     {
         return false;
+    }
+
+    public function readFromArchive(string $hash, string $path): ?StreamWrapper
+    {
+        if (!$this->head($hash)) {
+            return null;
+        }
+        $dir = TempDirectory::create();
+        $dir->loadFromArchive($this->read($hash));
+        $filename = \implode(DIRECTORY_SEPARATOR, [$dir->path, $path]);
+        if (!\file_exists($filename)) {
+            return null;
+        }
+        $file = File::fromFilename($filename);
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+
+        return new StreamWrapper($file->getStream(), $mimeTypeHelper->guessMimeType($filename), $file->getSize());
     }
 }

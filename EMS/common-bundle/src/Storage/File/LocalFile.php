@@ -5,11 +5,22 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\File;
 
 use EMS\Helpers\Standard\Type;
+use EMS\Helpers\File\TempFile;
 
 class LocalFile implements FileInterface
 {
+    private ?TempFile $tempFile = null;
+
     public function __construct(private readonly string $filename)
     {
+    }
+
+    public static function fromTempFile(TempFile $tempFile): self
+    {
+        $localFile = new self($tempFile->path);
+        $localFile->tempFile = $tempFile;
+
+        return $localFile;
     }
 
     public function getContent(): string
@@ -20,5 +31,10 @@ class LocalFile implements FileInterface
     public function getFilename(): string
     {
         return $this->filename;
+    }
+
+    public function getTempFile(): ?TempFile
+    {
+        return $this->tempFile;
     }
 }

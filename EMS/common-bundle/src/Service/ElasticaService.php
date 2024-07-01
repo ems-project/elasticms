@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Service;
 
 use Elastica\Aggregation\Terms as TermsAggregation;
+use Elastica\Index;
 use Elastica\Query;
 use Elastica\Query\AbstractQuery;
 use Elastica\Query\BoolQuery;
@@ -42,6 +43,8 @@ class ElasticaService
     private const MAX_INDICES_BY_ALIAS = 100;
     private ?string $version = null;
     private ?string $healthStatus = null;
+    /** @var array<string, bool> */
+    private array $existsIndex = [];
 
     public function __construct(private readonly LoggerInterface $logger, private readonly Client $client, private readonly AdminHelper $adminHelper, private readonly bool $useAdminProxy)
     {
@@ -210,7 +213,6 @@ class ElasticaService
         $search = clone $search;
         $search->setSort(null);
         $elasticaSearch = $this->createElasticaSearch($search, $search->getScrollOptions());
-        $elasticaSearch->addIndicesByName($this->getIndices($search));
 
         return new EmsScroll($elasticaSearch, $expiryTime);
     }
@@ -320,6 +322,20 @@ class ElasticaService
         return $this->client->getIndex($indexName)->getAliases();
     }
 
+    public function getIndex(string $alias): Index
+    {
+        return $this->client->getIndex($alias);
+    }
+
+    public function hasIndex(string $index): bool
+    {
+        if (!isset($this->existsIndex[$index])) {
+            $this->existsIndex[$index] = $this->getIndex($index)->exists();
+        }
+
+        return $this->existsIndex[$index];
+    }
+
     public function getIndexFromAlias(string $alias): string
     {
         $indices = $this->getIndicesFromAlias($alias);
@@ -422,6 +438,10 @@ class ElasticaService
      */
     public function getDocument(string $index, ?string $contentType, string $id, array $sourceIncludes = [], array $sourcesExcludes = [], ?AbstractQuery $query = null): Document
     {
+        if (!$this->hasIndex($index)) {
+            throw new NotFoundException($id, $index);
+        }
+
         $contentTypes = [];
         if (null !== $contentType) {
             $contentTypes[] = $contentType;
@@ -440,7 +460,7 @@ class ElasticaService
             return $this->singleSearch($search);
         } catch (NotSingleResultException $e) {
             if (0 === $e->getTotal()) {
-                throw new NotFoundException();
+                throw new NotFoundException($id, $index);
             }
             throw $e;
         }

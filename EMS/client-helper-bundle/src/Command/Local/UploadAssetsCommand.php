@@ -9,7 +9,6 @@ use EMS\ClientHelperBundle\Helper\Local\LocalHelper;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigTypes;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Html\MimeTypes;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -71,9 +70,9 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         }
 
         try {
-            $progressBar = $this->io->createProgressBar(Type::integer(\filesize($assetsArchive)));
+            $progressBar = $this->io->createProgressBar($assetsArchive->getSize());
             $hash = $this->coreApi->file()->uploadFile(
-                $assetsArchive,
+                $assetsArchive->path,
                 'application/zip',
                 'bundle.zip',
                 fn (string $chunk) => $progressBar->advance(\strlen($chunk))

@@ -5,12 +5,15 @@ namespace EMS\CommonBundle\Controller;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\RequestRuntime;
+use EMS\Helpers\File\File;
+use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileController extends AbstractController
 {
@@ -59,9 +62,23 @@ class FileController extends AbstractController
         $this->closeSession($request);
         $options = Json::decode($config);
         $generatedFile = $this->processor->generateLocalImage($filename, $options, $request->isNoCache());
-        $response = new BinaryFileResponse($generatedFile);
+        $response = new StreamedResponse(function () use ($generatedFile) {
+            if ($generatedFile->isSeekable() && $generatedFile->tell() > 0) {
+                $generatedFile->rewind();
+            }
+
+            while (!$generatedFile->eof()) {
+                echo $generatedFile->read(File::DEFAULT_CHUNK_SIZE);
+            }
+            $generatedFile->close();
+        });
+        $config = $this->processor->localFileConfig($filename, $options);
+        $response->headers->add([
+            Headers::CONTENT_DISPOSITION => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => \basename($filename)], ';'),
+            Headers::CONTENT_TYPE => $config->getMimeType(),
+        ]);
         $response->setCache([
-            'etag' => \hash_file('sha1', $generatedFile),
+            'etag' => \hash('sha1', \sprintf('Local Image from %s and config: %s', $filename, Json::encode($config))),
             'max_age' => 3600,
             's_maxage' => 36000,
             'public' => true,

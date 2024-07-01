@@ -2,6 +2,7 @@
 
   * [Switch to CK Editor 5](#switch-to-ck-editor-5)
   * [version 6.0.x](#version-60x)
+  * [version 5.19.x](#version-519x)
   * [version 5.17.x](#version-517x)
   * [version 5.15.x](#version-515x)
   * [version 5.14.x](#version-514x)
@@ -156,6 +157,17 @@ Before version 6 it was not possible to define elasticsearch dynamic mapping con
 Since version 6 the default dynamic mapping config has changed. New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly into the content type.
 
 You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
+
+## version 5.19.x
+
+* Xliff command options have been updated
+  * The `--filename` option in the `emsco:xliff:extract` command has been replaced by a `--basename` option and does not contains a path anymore, just a file basename.
+
+    Example replace ```emsco:xliff:extract live '{}' nl de title --filename=/tmp/pages-nl-to-de.xlf```
+     by ```emsco:xliff:extract live '{}' nl de title --basename=pages-nl-to-de.xlf```
+  * In case of warning or error in the `emsco:xliff:update` command the report file is no more available locally. The report is upladed in the admin's storages. The directly get a link to the report you need to specify a `--base-url` option.
+
+    Example ```emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld```
 
 ## version 5.17.x
 

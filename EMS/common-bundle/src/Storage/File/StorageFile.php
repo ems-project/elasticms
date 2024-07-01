@@ -11,17 +11,8 @@ class StorageFile implements FileInterface
 {
     private ?TempFile $tempFile = null;
 
-    public function __construct(private readonly string $hash, private readonly StreamInterface $stream)
+    public function __construct(private readonly StreamInterface $stream)
     {
-    }
-
-    public function __destruct()
-    {
-        if (null === $this->tempFile) {
-            return;
-        }
-
-        $this->tempFile->clean();
     }
 
     public function getContent(): string
@@ -32,7 +23,7 @@ class StorageFile implements FileInterface
     public function getFilename(): string
     {
         if (null === $this->tempFile) {
-            $this->tempFile = TempFile::createNamed($this->hash);
+            $this->tempFile = TempFile::create();
             $this->tempFile->loadFromStream($this->stream);
         }
 

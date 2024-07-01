@@ -6,6 +6,7 @@ namespace EMS\Tests\CommonBundle\Unit\Common\Admin;
 
 use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
+use EMS\Helpers\File\TempDirectory;
 use PHPUnit\Framework\TestCase;
 
 class ConfigHelperAiTest extends TestCase
@@ -17,7 +18,7 @@ class ConfigHelperAiTest extends TestCase
     protected function setUp(): void
     {
         $this->config = $this->createMock(ConfigInterface::class);
-        $this->tempDir = \sys_get_temp_dir().'/config-helper-ai-test';
+        $this->tempDir = TempDirectory::create()->path;
         $this->configHelper = new ConfigHelper($this->config, $this->tempDir);
     }
 

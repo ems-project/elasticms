@@ -105,5 +105,9 @@
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command" />
         </service>
+        <service id="ems.command.storage.clear_cache" class="EMS\CommonBundle\Command\Storage\ClearCacheCommand">
+            <argument type="service" id="ems_common.storage.manager"/>
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

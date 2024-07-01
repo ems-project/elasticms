@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Xliff\Tests\Unit\Xliff;
 
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\HtmlHelper;
 use EMS\Helpers\Standard\Json;
 use EMS\Xliff\Xliff\Entity\InsertReport;
@@ -59,11 +60,12 @@ class IntegratedTest extends TestCase
             $xliffParser->saveXML($expectedFilename);
         }
 
-        $temp_file = \tempnam(\sys_get_temp_dir(), 'TC-');
-        $xliffParser->saveXML($temp_file);
+        $temp = TempFile::create();
+        $tempFile = $temp->path;
+        $xliffParser->saveXML($tempFile);
 
         $expected = \file_get_contents($expectedFilename);
-        $actual = \file_get_contents($temp_file);
+        $actual = \file_get_contents($tempFile);
 
         $this->assertEquals($expected, $actual, \sprintf('testXliffExtractions: %s', $baseName));
 

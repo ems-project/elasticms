@@ -65,15 +65,12 @@ final class ApiController
         }
 
         try {
-            if (null === $ouuid || $forceCreate) {
-                $ouuid = $this->service->createDocument($apiName, $contentType, $ouuid, $data);
-            } else {
-                $ouuid = $this->service->updateDocument($apiName, $contentType, $ouuid, $data);
-            }
+            $dataEndpoint = $this->service->getApiClient($apiName)->coreApi->data($contentType);
+            $index = $dataEndpoint->index($ouuid, $data);
 
             return new JsonResponse([
                 'success' => true,
-                'ouuid' => $ouuid,
+                'ouuid' => $index->getOuuid(),
             ]);
         } catch (\Exception $e) {
             return new JsonResponse([

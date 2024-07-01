@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\Processor\Config;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -215,4 +217,19 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
      * @return resource|null
      */
     abstract protected function getContext();
+
+    public function readCache(Config $config): ?StreamInterface
+    {
+        return null;
+    }
+
+    public function saveCache(Config $config, FileInterface $file): bool
+    {
+        return false;
+    }
+
+    public function clearCache(): bool
+    {
+        return false;
+    }
 }

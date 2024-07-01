@@ -6,6 +6,8 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Image\SmartCrop;
 use EMS\Helpers\Standard\Color;
@@ -24,7 +26,7 @@ class Image
         $this->watermark = $watermark;
     }
 
-    public function generate(string $filename, string $cacheFilename = null): string
+    public function generate(string $filename): FileInterface
     {
         $length = \filesize($filename);
         if (false === $length || 0 === $length) {
@@ -64,30 +66,22 @@ class Image
         $this->applyCorner($image, $width, $height);
         $image = $this->applyWatermark($image, $width, $height);
 
-        if (null !== $cacheFilename) {
-            if (!\file_exists(\dirname($cacheFilename))) {
-                \mkdir(\dirname($cacheFilename), 0777, true);
-            }
-            $path = $cacheFilename;
-        } else {
-            $tempFile = TempFile::create();
-            $path = $tempFile->path;
-        }
+        $tempFile = TempFile::create();
 
         if (EmsFields::ASSET_CONFIG_WEBP_IMAGE_FORMAT === $this->config->getImageFormat()) {
-            \imagewebp($image, $path, $this->config->getQuality());
+            \imagewebp($image, $tempFile->path, $this->config->getQuality());
         } elseif (EmsFields::ASSET_CONFIG_BMP_IMAGE_FORMAT === $this->config->getImageFormat()) {
-            \imagebmp($image, $path);
+            \imagebmp($image, $tempFile->path);
         } elseif (EmsFields::ASSET_CONFIG_GIF_IMAGE_FORMAT === $this->config->getImageFormat()) {
-            \imagegif($image, $path);
+            \imagegif($image, $tempFile->path);
         } elseif (EmsFields::ASSET_CONFIG_JPEG_IMAGE_FORMAT === $this->config->getImageFormat() || (null === $this->config->getImageFormat() && $this->config->getQuality() > 0)) {
-            \imagejpeg($image, $path, $this->config->getQuality());
+            \imagejpeg($image, $tempFile->path, $this->config->getQuality());
         } else {
-            \imagepng($image, $path);
+            \imagepng($image, $tempFile->path);
         }
         \imagedestroy($image);
 
-        return $path;
+        return LocalFile::fromTempFile($tempFile);
     }
 
     /**

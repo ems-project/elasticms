@@ -9,6 +9,7 @@ use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\File\StorageFile;
+use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
@@ -454,6 +455,37 @@ class StorageManager
             }
         } catch (\Throwable $e) {
             $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $e->getMessage()));
+        }
+    }
+
+    public function clearCaches(): int
+    {
+        $count = 0;
+        foreach ($this->adapters as $adapter) {
+            $count += $adapter->clearCache() ? 1 : 0;
+        }
+
+        return $count;
+    }
+
+    public function readCache(Config $config): ?StreamInterface
+    {
+        foreach ($this->adapters as $adapter) {
+            $stream = $adapter->readCache($config);
+            if (null !== $stream) {
+                return $stream;
+            }
+        }
+
+        return null;
+    }
+
+    public function saveCache(Config $config, FileInterface $file): void
+    {
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->saveCache($config, $file)) {
+                return;
+            }
         }
     }
 }

@@ -10,12 +10,9 @@ use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
-use EMS\Helpers\File\File;
-use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\Standard\Base64;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
 class S3Storage extends AbstractUrlStorage
@@ -292,7 +289,7 @@ class S3Storage extends AbstractUrlStorage
         ]);
     }
 
-    public function readFromArchive(string $hash, string $path): ?StreamWrapper
+    public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
     {
         $cacheKey = \implode('/', [
             'cache',
@@ -305,44 +302,31 @@ class S3Storage extends AbstractUrlStorage
                 'Bucket' => $this->bucket,
                 'Key' => $cacheKey,
             ]);
-            $stream = $response['Body'] ?? null;
-            if ($stream instanceof StreamInterface) {
-                return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypeHelper::APPLICATION_OCTET_STREAM, \intval($response['ContentLength']));
-            }
         } catch (\RuntimeException) {
+            return null;
         }
-
-        if (!$this->head($hash)) {
+        $stream = $response['Body'] ?? null;
+        if (!$stream instanceof StreamInterface) {
             return null;
         }
 
-        $dir = TempDirectory::create();
-        $dir->loadFromArchive($this->read($hash));
-        $finder = new Finder();
-        $finder->files()->in($dir->path);
-        $mimeTypeHelper = MimeTypeHelper::getInstance();
-        /** @var SplFileInfo $file */
-        foreach ($finder as $file) {
-            $this->getS3Client()->putObject([
-                'Bucket' => $this->bucket,
-                'ContentType' => $mimeTypeHelper->guessMimeType($file->getPathname()),
-                'Key' => \implode('/', [
-                    'cache',
-                    \substr($hash, 0, 3),
-                    \substr($hash, 3),
-                    $file->getRelativePathname(),
-                ]),
-                'SourceFile' => $file->getPathname(),
-            ]);
-        }
+        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypeHelper::APPLICATION_OCTET_STREAM, \intval($response['ContentLength']));
+    }
 
-        $filename = \implode(DIRECTORY_SEPARATOR, [$dir->path, $path]);
-        if (!\file_exists($filename)) {
-            return null;
-        }
-        $file = File::fromFilename($filename);
-        $mimeTypeHelper = MimeTypeHelper::getInstance();
+    public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        $result = $this->getS3Client()->putObject([
+            'Bucket' => $this->bucket,
+            'ContentType' => $mimeType,
+            'Key' => \implode('/', [
+                'cache',
+                \substr($hash, 0, 3),
+                \substr($hash, 3),
+                $file->getRelativePathname(),
+            ]),
+            'SourceFile' => $file->getPathname(),
+        ]);
 
-        return new StreamWrapper($file->getStream(), $mimeTypeHelper->guessMimeType($filename), $file->getSize());
+        return $result->hasKey('ETag');
     }
 }

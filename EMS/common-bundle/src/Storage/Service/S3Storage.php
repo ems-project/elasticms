@@ -6,11 +6,17 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\StreamWrapper;
+use EMS\Helpers\File\File;
+use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\Standard\Base64;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class S3Storage extends AbstractUrlStorage
 {
@@ -284,5 +290,59 @@ class S3Storage extends AbstractUrlStorage
             \substr($config->getConfigHash(), 0, 3),
             \substr($config->getConfigHash(), 3),
         ]);
+    }
+
+    public function readFromArchive(string $hash, string $path): ?StreamWrapper
+    {
+        $cacheKey = \implode('/', [
+            'cache',
+            \substr($hash, 0, 3),
+            \substr($hash, 3),
+            $path,
+        ]);
+        try {
+            $response = $this->getS3Client()->getObject([
+                'Bucket' => $this->bucket,
+                'Key' => $cacheKey,
+            ]);
+            $stream = $response['Body'] ?? null;
+            if ($stream instanceof StreamInterface) {
+                return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypeHelper::APPLICATION_OCTET_STREAM, \intval($response['ContentLength']));
+            }
+        } catch (\RuntimeException) {
+        }
+
+        if (!$this->head($hash)) {
+            return null;
+        }
+
+        $dir = TempDirectory::create();
+        $dir->loadFromArchive($this->read($hash));
+        $finder = new Finder();
+        $finder->files()->in($dir->path);
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            $this->getS3Client()->putObject([
+                'Bucket' => $this->bucket,
+                'ContentType' => $mimeTypeHelper->guessMimeType($file->getPathname()),
+                'Key' => \implode('/', [
+                    'cache',
+                    \substr($hash, 0, 3),
+                    \substr($hash, 3),
+                    $file->getRelativePathname(),
+                ]),
+                'SourceFile' => $file->getPathname(),
+            ]);
+        }
+
+        $filename = \implode(DIRECTORY_SEPARATOR, [$dir->path, $path]);
+        if (!\file_exists($filename)) {
+            return null;
+        }
+        $file = File::fromFilename($filename);
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+
+        return new StreamWrapper($file->getStream(), $mimeTypeHelper->guessMimeType($filename), $file->getSize());
     }
 }

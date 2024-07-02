@@ -110,7 +110,7 @@ final class PostProcessingService
             } catch (\Throwable $e) {
                 if ($e->getPrevious() && $e->getPrevious() instanceof CantBeFinalizedException) {
                     if (!$migration) {
-                        $form->addError(new FormError($e->getPrevious()->getMessage()));
+                        $form->addError(new FormError($e->getPrevious()->getMessage(), null, [], null, CantBeFinalizedException::class));
                         $this->logger->warning('service.data.cant_finalize_field', [
                             '_id' => $context['_id'] ?? null,
                             'field_name' => $dataField->giveFieldType()->getName(),

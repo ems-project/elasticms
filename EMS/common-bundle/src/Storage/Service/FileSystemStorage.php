@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\StreamWrapper;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\SplFileInfo;
 
 class FileSystemStorage extends AbstractUrlStorage
 {
@@ -67,6 +70,42 @@ class FileSystemStorage extends AbstractUrlStorage
         ]));
 
         return true;
+    }
+
+    public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
+    {
+        $filename = \join(DIRECTORY_SEPARATOR, [
+            $this->getBaseUrl(),
+            'cache',
+            \substr($hash, 0, 3),
+            \substr($hash, 3),
+            $path,
+        ]);
+        if (!\file_exists($filename)) {
+            return null;
+        }
+        $resource = \fopen($filename, 'r');
+        if (false === $resource) {
+            return null;
+        }
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+
+        return new StreamWrapper(new Stream($resource), $mimeTypeHelper->guessMimeType($filename), \intval(\filesize($filename)));
+    }
+
+    public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        $filename = \implode(DIRECTORY_SEPARATOR, [
+            $this->getBaseUrl(),
+            'cache',
+            \substr($hash, 0, 3),
+            \substr($hash, 3),
+            $file->getRelativePathname(),
+        ]);
+
+        $this->initDirectory($filename);
+
+        return \copy($file->getPathname(), $filename);
     }
 
     protected function getCachePath(Config $config): string

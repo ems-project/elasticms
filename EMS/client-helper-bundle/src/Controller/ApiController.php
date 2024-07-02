@@ -6,6 +6,8 @@ namespace EMS\ClientHelperBundle\Controller;
 
 use EMS\ClientHelperBundle\Helper\Api\ApiService;
 use EMS\ClientHelperBundle\Helper\Hashcash\HashcashHelper;
+use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -58,25 +60,20 @@ final class ApiController
         $data = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
 
         if (null === $data) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => 'Empty data',
-            ]);
+            return new JsonResponse(['success' => false, 'message' => 'Empty data']);
         }
 
         try {
             $dataEndpoint = $this->service->getApiClient($apiName)->coreApi->data($contentType);
-            $index = $dataEndpoint->index($ouuid, $data);
+            $index = $dataEndpoint->index($ouuid ?? Uuid::uuid4()->toString(), $data);
 
-            return new JsonResponse([
-                'success' => true,
-                'ouuid' => $index->getOuuid(),
-            ]);
+            return new JsonResponse(['success' => true, 'ouuid' => $index->getOuuid()]);
+        } catch (NotSuccessfulException $e) {
+            $message = \implode(\PHP_EOL, $e->result->getWarnings());
+
+            return new JsonResponse(['success' => false, 'message' => $message]);
         } catch (\Exception $e) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return new JsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 

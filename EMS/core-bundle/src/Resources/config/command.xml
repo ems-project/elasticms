@@ -230,7 +230,7 @@
             <argument type="service" id="ems.service.index"/>
             <tag name="console.command"/>
         </service>
-        <service id="ems.environment.recompute" class="EMS\CoreBundle\Command\RecomputeCommand">
+        <service id="ems.environment.recompute" class="EMS\CoreBundle\Command\ContentType\RecomputeCommand">
             <argument type="service" id="ems.service.data"/>
             <argument type="service" id="doctrine"/>
             <argument type="service" id="form.factory"/>

@@ -31,12 +31,16 @@ class Result
         }
     }
 
-    /**
-     * @return string[]
-     */
-    public function getWarnings(): array
+    public function getFirstErrorWarning(): ?string
     {
-        return $this->data['warning'] ?? [];
+        $errors = $this->data['error'] ?? [];
+        $warnings = $this->data['warning'] ?? [];
+
+        return match (true) {
+            (\count($errors) > 0) => \array_shift($errors),
+            (\count($warnings) > 0) => \array_shift($warnings),
+            default => null
+        };
     }
 
     /**

@@ -8,7 +8,6 @@
         <defaults public="false" />
 
         <service id="emsch.api" class="EMS\ClientHelperBundle\Helper\Api\ApiService">
-            <argument type="service" id="logger" />
             <argument type="service" id="twig" />
             <argument type="service" id="Symfony\Component\Routing\Generator\UrlGeneratorInterface" />
             <argument type="service" id="security.helper" />

@@ -6,8 +6,6 @@ namespace EMS\ClientHelperBundle\Controller;
 
 use EMS\ClientHelperBundle\Helper\Api\ApiService;
 use EMS\ClientHelperBundle\Helper\Hashcash\HashcashHelper;
-use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -57,31 +55,26 @@ final class ApiController
     public function handleFormPostRequest(Request $request, string $apiName, string $contentType, ?string $ouuid, string $csrfId, string $validationTemplate, int $hashcashLevel, string $hashAlgo): JsonResponse
     {
         $this->hashcashHelper->validateHashcash($request, $csrfId, $hashcashLevel, $hashAlgo);
-        $data = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
+        $rawData = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
 
-        if (null === $data) {
+        if (null === $rawData) {
             return new JsonResponse(['success' => false, 'message' => 'Empty data']);
         }
 
         try {
-            $dataEndpoint = $this->service->getApiClient($apiName)->coreApi->data($contentType);
-            $index = $dataEndpoint->index($ouuid ?? Uuid::uuid4()->toString(), $data);
+            $ouuid = $this->service->index($apiName, $contentType, $ouuid, $rawData);
 
-            return new JsonResponse(['success' => true, 'ouuid' => $index->getOuuid()]);
-        } catch (NotSuccessfulException $e) {
-            $message = \implode(\PHP_EOL, $e->result->getWarnings());
-
-            return new JsonResponse(['success' => false, 'message' => $message]);
-        } catch (\Exception $e) {
+            return new JsonResponse(['success' => true, 'ouuid' => $ouuid]);
+        } catch (\RuntimeException $e) {
             return new JsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     public function createDocumentFromForm(Request $request, string $apiName, string $contentType, ?string $ouuid, string $redirectUrl, string $validationTemplate = null): RedirectResponse
     {
-        $body = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
-        $ouuid = $this->service->createDocument($apiName, $contentType, $ouuid, $body);
+        $rawData = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
 
+        $ouuid = $this->service->index($apiName, $contentType, $ouuid, $rawData);
         $url = \str_replace(['%ouuid%', '%contenttype%'], [$ouuid, $contentType], $redirectUrl);
 
         return new RedirectResponse($url);
@@ -89,9 +82,9 @@ final class ApiController
 
     public function updateDocumentFromForm(Request $request, string $apiName, string $contentType, string $ouuid, string $redirectUrl, string $validationTemplate = null): RedirectResponse
     {
-        $body = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
-        $ouuid = $this->service->updateDocument($apiName, $contentType, $ouuid, $body);
+        $rawData = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
 
+        $ouuid = $this->service->index($apiName, $contentType, $ouuid, $rawData, true);
         $url = \str_replace(['%ouuid%', '%contenttype%'], [$ouuid, $contentType], $redirectUrl);
 
         return new RedirectResponse($url);

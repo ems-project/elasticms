@@ -5,9 +5,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\User;
-use EMS\CoreBundle\Exception\CantBeFinalizedException;
 use EMS\CoreBundle\Exception\DataStateException;
-use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\UserService;
@@ -359,32 +357,23 @@ class CrudController extends AbstractController
         $rawData = Json::decode(Type::string($request->getContent()));
         if (null === $revision) {
             $contentType = $this->contentTypeService->giveByName($name);
-            $draft = $this->dataService->createData($ouuid, $rawData, $contentType);
+            $revision = $this->dataService->createData($ouuid, $rawData, $contentType);
         } else {
-            $draft = $this->dataService->replaceData($revision, $rawData, $replaceOrMerge);
+            $revision = $this->dataService->replaceData($revision, $rawData, $replaceOrMerge);
         }
 
-        $form = $this->createForm(RevisionType::class, $draft, ['raw_data' => $draft->getRawData()]);
-        $newRevision = $this->dataService->finalizeDraft($draft, $form);
-
-        $warnings = [];
-        foreach ($form->getErrors(true) as $formError) {
-            if (CantBeFinalizedException::class === $formError->getCause()) {
-                $warnings[] = $formError->getMessage();
-            }
-        }
+        $this->dataService->finalizeDraft($revision, $form);
 
         if ($request->query->getBoolean('refresh')) {
-            $this->dataService->refresh($draft->giveContentType()->giveEnvironment());
+            $this->dataService->refresh($revision->giveContentType()->giveEnvironment());
         }
 
-        return new JsonResponse([
-            'success' => !$newRevision->getDraft() && 0 === \count($warnings),
-            'warning' => $warnings,
-            'ouuid' => $newRevision->giveOuuid(),
-            'type' => $newRevision->giveContentType()->getName(),
-            'revision_id' => $newRevision->getId(),
-        ]);
+        return new JsonResponse(Json::decode($this->renderView("@$this->templateNamespace/ajax/notification.json.twig", [
+            'success' => !$revision->getDraft(),
+            'ouuid' => $revision->getOuuid(),
+            'type' => $revision->giveContentType()->getName(),
+            'revision_id' => $revision->getId(),
+        ])));
     }
 
     private function giveContentType(string $contentTypeName): ContentType

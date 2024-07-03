@@ -6,9 +6,9 @@ namespace EMS\ClientHelperBundle\Helper\Api;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUser;
+use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\Json;
-use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
@@ -23,20 +23,40 @@ use Twig\Environment;
  */
 final class ApiService
 {
-    private const EMS_AJAX_MESSAGE_LEVELS = ['error', 'warning'];
-
     /**
      * @param ClientRequest[] $clientRequests
      * @param Client[]        $apiClients
      */
     public function __construct(
-        private readonly LoggerInterface $logger,
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly Security $security,
         private readonly iterable $clientRequests = [],
         private readonly iterable $apiClients = []
     ) {
+    }
+
+    /**
+     * @param array<mixed> $rawData
+     */
+    public function index(string $apiName, string $contentType, ?string $ouuid, array $rawData, bool $merge = false): string
+    {
+        $dataEndpoint = $this->getApiClient($apiName)->coreApi->data($contentType);
+
+        try {
+            $ouuid = $ouuid ?? Uuid::uuid4()->toString();
+
+            return $dataEndpoint->index($ouuid, $rawData, $merge, true)->getOuuid();
+        } catch (NotSuccessfulException $e) {
+            $data = $e->result->getData();
+            $revisionId = $data['revision_id'] ?? null;
+
+            if ($revisionId) {
+                $dataEndpoint->discard($revisionId);
+            }
+
+            throw new \RuntimeException($e->result->getFirstErrorWarning() ?? 'Finalize failed');
+        }
     }
 
     /**
@@ -163,68 +183,6 @@ final class ApiService
         }
 
         return $response;
-    }
-
-    /**
-     * @param array<mixed> $body
-     */
-    public function updateDocument(string $apiName, string $type, string $ouuid, array $body): string
-    {
-        $apiClient = $this->getApiClient($apiName);
-        $response = $apiClient->updateDocument($type, $ouuid, $body);
-
-        return $this->finalizeResponse($apiClient, $response, $type, $ouuid);
-    }
-
-    /**
-     * @param array<mixed> $body
-     */
-    public function createDocument(string $apiName, string $type, ?string $ouuid, array $body): string
-    {
-        $ouuid ??= Uuid::uuid4()->toString();
-        $apiClient = $this->getApiClient($apiName);
-        $response = $apiClient->initNewDocument($type, $body, $ouuid);
-
-        return $this->finalizeResponse($apiClient, $response, $type, $ouuid);
-    }
-
-    /**
-     * @param array<mixed> $response
-     */
-    private function finalizeResponse(Client $apiClient, array $response, string $type, ?string $ouuid): string
-    {
-        if (!$response['success']) {
-            foreach (ApiService::EMS_AJAX_MESSAGE_LEVELS as $level) {
-                if (isset($response[$level][0])) {
-                    throw new \Exception($response[$level][0]);
-                }
-            }
-            throw new \Exception('Initialize draft failed');
-        }
-
-        $revisionId = $response['revision_id'];
-        $response = $apiClient->finalize($type, $revisionId);
-
-        if (!$response['success']) {
-            try {
-                $apiClient->discardDraft($type, $revisionId);
-            } catch (\Exception) {
-                $this->logger->warning('emsch.api_service.discard_exception', [
-                    'ouuid' => $ouuid,
-                    'type' => $type,
-                    'revision_id' => $revisionId,
-                ]);
-            }
-
-            foreach (ApiService::EMS_AJAX_MESSAGE_LEVELS as $level) {
-                if (isset($response[$level][0])) {
-                    throw new \Exception($response[$level][0]);
-                }
-            }
-            throw new \Exception('Finalize draft failed');
-        }
-
-        return $response['ouuid'];
     }
 
     /**

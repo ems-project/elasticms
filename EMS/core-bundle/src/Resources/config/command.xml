@@ -6,7 +6,7 @@
 
     <services>
         <!-- EMS content-type -->
-        <service id="ems.contenttype.lock" class="EMS\CoreBundle\Command\LockCommand">
+        <service id="ems.contenttype.lock" class="EMS\CoreBundle\Command\ContentType\LockCommand">
             <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository"/>
             <argument type="service" id="ems_common.service.elastica"/>
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository"/>

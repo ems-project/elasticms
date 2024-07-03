@@ -13,7 +13,6 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Form\Form\RevisionType;
-use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
@@ -33,12 +32,12 @@ final class RecomputeCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::CONTENT_TYPE_RECOMPUTE;
 
+    private EntityManager $em;
     private ContentType $contentType;
     private bool $optionDeep;
     private bool $forceFlag;
     private bool $cronFlag;
     private ?string $ouuid = null;
-    private readonly EntityManager $em;
     private string $query;
 
     private const ARGUMENT_CONTENT_TYPE = 'contentType';
@@ -50,25 +49,21 @@ final class RecomputeCommand extends AbstractCommand
     private const OPTION_OUUID = 'ouuid';
     private const OPTION_DEEP = 'deep';
     private const OPTION_QUERY = 'query';
+
     private const LOCK_BY = 'SYSTEM_RECOMPUTE';
 
     public function __construct(
         private readonly DataService $dataService,
-        Registry $doctrine,
+        private readonly Registry $doctrine,
         private readonly FormFactoryInterface $formFactory,
         private readonly PublishService $publishService,
         protected LoggerInterface $logger,
         private readonly ContentTypeService $contentTypeService,
-        private readonly ContentTypeRepository $contentTypeRepository,
         private readonly RevisionRepository $revisionRepository,
         private readonly IndexService $indexService,
         private readonly SearchService $searchService
     ) {
         parent::__construct();
-
-        /** @var EntityManager $em */
-        $em = $doctrine->getManager();
-        $this->em = $em;
     }
 
     protected function configure(): void
@@ -93,28 +88,17 @@ final class RecomputeCommand extends AbstractCommand
 
         $this->io->title('content-type recompute command');
 
-        $contentTypeName = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
-        if (!\is_string($contentTypeName)) {
-            throw new \RuntimeException('Unexpected content type name');
-        }
-        $contentType = $this->contentTypeRepository->findByName($contentTypeName);
-        if (!$contentType instanceof ContentType) {
-            throw new \RuntimeException('Content type not found');
-        }
-        $this->contentType = $contentType;
+        /** @var EntityManager $em */
+        $em = $this->doctrine->getManager();
+        $this->em = $em;
+
+        $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
+        $this->contentType = $this->contentTypeService->giveByName($contentTypeName);
 
         if (!$input->getOption(self::OPTION_CONTINUE) || $input->getOption(self::OPTION_CRON)) {
-            $forceFlag = $input->getOption(self::OPTION_FORCE);
-            if (!\is_bool($forceFlag)) {
-                throw new \RuntimeException('Unexpected force option');
-            }
-            $this->forceFlag = $forceFlag;
-            $cronFlag = $input->getOption(self::OPTION_CRON);
-            if (!\is_bool($cronFlag)) {
-                throw new \RuntimeException('Unexpected cron option');
-            }
-            $this->cronFlag = $cronFlag;
-            $this->ouuid = $input->getOption(self::OPTION_OUUID) ? \strval($input->getOption(self::OPTION_OUUID)) : null;
+            $this->forceFlag = $this->getOptionBool(self::OPTION_FORCE);
+            $this->cronFlag = $this->getOptionBool(self::OPTION_CRON);
+            $this->ouuid = $this->getOptionStringNull(self::OPTION_OUUID);
         }
 
         if (null !== $input->getOption(self::OPTION_QUERY)) {
@@ -122,7 +106,7 @@ final class RecomputeCommand extends AbstractCommand
             Json::decode($this->query, 'Invalid json query');
         }
 
-        $this->optionDeep = \boolval($input->getOption(self::OPTION_DEEP));
+        $this->optionDeep = $this->getOptionBool(self::OPTION_DEEP);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -250,7 +234,7 @@ final class RecomputeCommand extends AbstractCommand
 
         $this->em->getConnection()->setAutoCommit(true);
 
-        return 0;
+        return self::EXECUTE_SUCCESS;
     }
 
     private function lock(OutputInterface $output, ContentType $contentType, string $query, bool $force = false, bool $ifEmpty = false, ?string $ouuid = null): int

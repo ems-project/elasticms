@@ -121,9 +121,13 @@ final class Data implements DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
-    public function index(?string $ouuid, array $rawData, bool $merge = false): Index
+    public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index
     {
         $resource = $this->makeResource($merge && $ouuid ? 'update' : 'index', $ouuid);
+
+        if ($refresh) {
+            $resource .= '?refresh=true';
+        }
 
         return new Index($this->client->post($resource, $rawData));
     }

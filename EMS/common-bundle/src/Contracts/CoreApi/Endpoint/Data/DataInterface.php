@@ -39,7 +39,7 @@ interface DataInterface
      *
      * @throws CoreApiExceptionInterface
      */
-    public function index(?string $ouuid, array $rawData, bool $merge = false): Index;
+    public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index;
 
     /**
      * @throws CoreApiExceptionInterface

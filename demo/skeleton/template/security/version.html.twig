@@ -1,0 +1,32 @@
+{% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block headtitle %}EMS - Version - {{ source.version|default('New') }} {% endblock %}
+
+{% block body %}
+    {% set action = document is defined ? path('ems_version_update', { 'ouuid': document._id }) : path('ems_version_create') %}
+
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <div class="w-25">
+            <div class="card">
+                <div class="card-header">Version</div>
+                <div class="card-body">
+                    <form method="post" action="{{ action }}">
+                        <div class="form-group">
+                            <label for="version">Version</label>
+                            <input type="text" class="form-control" id="version" name="version" value="{{ source.version|default }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" class="form-control" id="date" name="release_date" value="{{ source.release_date|default|date('Y-m-d') }}" required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">{{ document is defined ? 'Update': 'Create' }}</button>
+                            <a href="{{ path('ems_versions') }}" class="btn btn-secondary">Back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

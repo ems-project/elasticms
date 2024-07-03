@@ -1,0 +1,5 @@
+{%- set data = {
+    'version': document.version,
+    'release_date': document.release_date|date('Y/m/d')
+} -%}
+{{ data|json_encode|raw }}

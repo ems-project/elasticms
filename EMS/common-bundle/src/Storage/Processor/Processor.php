@@ -339,7 +339,7 @@ class Processor
         return $path;
     }
 
-    public function getResponseFromArchive(Request $request, string $hash, string $path): Response
+    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge): Response
     {
         $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path);
         $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
@@ -349,8 +349,7 @@ class Processor
         ]);
         $response->setCache([
             'etag' => \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path)),
-            'max_age' => 36000,
-            's_maxage' => 360000,
+            'max_age' => $maxAge,
             'public' => true,
             'private' => false,
         ]);

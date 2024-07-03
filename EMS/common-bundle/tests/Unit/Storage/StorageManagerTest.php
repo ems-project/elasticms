@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Tests\Unit\Storage;
 
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\FileSystemFactory;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -129,7 +130,7 @@ class StorageManagerTest extends WebTestCase
             'type' => 'fs',
             'path' => $fsDirSource,
         ]]);
-        $hash = $storageManagerA->saveContents(self::FOO.self::BAR, 'foobar.txt', 'text/plain', StorageInterface::STORAGE_USAGE_ASSET);
+        $hash = $storageManagerA->saveContents(self::FOO.self::BAR, 'foobar.txt', MimeTypeHelper::TEXT_PLAIN, StorageInterface::STORAGE_USAGE_ASSET);
         $this->assertEquals($this->hash, $hash);
         $this->assertEquals(1, \count($storageManagerA->headIn($hash)));
 

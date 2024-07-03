@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\FileCollection;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Json;
@@ -76,7 +77,7 @@ final class Config
 
     public function hasDefaultMimeType(): bool
     {
-        return \in_array($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? '', ['application/octet-stream', 'application/bin', '']);
+        return \in_array($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? '', [MimeTypeHelper::APPLICATION_OCTET_STREAM, 'application/bin', '']);
     }
 
     /**
@@ -462,7 +463,7 @@ final class Config
      */
     public static function extractMimetype(array $fileField, array $config, string $filename, string $mimeTypeField = EmsFields::CONTENT_MIME_TYPE_FIELD): string
     {
-        return $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? 'application/octet-stream';
+        return $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? MimeTypeHelper::APPLICATION_OCTET_STREAM;
     }
 
     /**

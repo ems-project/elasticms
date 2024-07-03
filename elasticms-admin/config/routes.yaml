@@ -19,3 +19,6 @@ forms:
 forms_debug:
   resource: '@EMSFormBundle/Resources/config/routing/debug.xml'
   prefix: /emsf
+
+assets:
+  resource: '@EMSCommonBundle/Resources/config/routing/assets.xml'

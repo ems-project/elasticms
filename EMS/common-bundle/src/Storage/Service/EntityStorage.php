@@ -10,8 +10,10 @@ use EMS\CommonBundle\Entity\AssetStorage;
 use EMS\CommonBundle\Repository\AssetStorageRepository;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\StreamWrapper;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -223,6 +225,16 @@ class EntityStorage implements StorageInterface, \Stringable
     }
 
     public function clearCache(): bool
+    {
+        return false;
+    }
+
+    public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
+    {
+        return null;
+    }
+
+    public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
     {
         return false;
     }

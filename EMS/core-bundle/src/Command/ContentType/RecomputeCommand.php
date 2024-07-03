@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Command\ContentType;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
+use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
@@ -19,17 +20,16 @@ use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
+use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Form\FormFactoryInterface;
 
-final class RecomputeCommand extends Command
+final class RecomputeCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::CONTENT_TYPE_RECOMPUTE;
 
@@ -39,14 +39,13 @@ final class RecomputeCommand extends Command
     private bool $cronFlag;
     private ?string $ouuid = null;
     private readonly EntityManager $em;
-    private SymfonyStyle $io;
     private string $query;
 
     private const ARGUMENT_CONTENT_TYPE = 'contentType';
     private const OPTION_FORCE = 'force';
     private const OPTION_MISSING = 'missing';
     private const OPTION_CONTINUE = 'continue';
-    private const OPTION_NOALIGN = 'no-align';
+    private const OPTION_NO_ALIGN = 'no-align';
     private const OPTION_CRON = 'cron';
     private const OPTION_OUUID = 'ouuid';
     private const OPTION_DEEP = 'deep';
@@ -74,14 +73,15 @@ final class RecomputeCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Recompute a content type')
+        $this
+            ->setDescription('Recompute a content type')
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'content type to recompute')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'do not check for already locked revisions')
             ->addOption(self::OPTION_MISSING, null, InputOption::VALUE_NONE, 'will recompute the objects that are missing in their default environment only')
             ->addOption(self::OPTION_CONTINUE, null, InputOption::VALUE_NONE, 'continue a recompute')
-            ->addOption(self::OPTION_NOALIGN, null, InputOption::VALUE_NONE, "don't keep the revisions aligned to all already aligned environments")
+            ->addOption(self::OPTION_NO_ALIGN, null, InputOption::VALUE_NONE, "don't keep the revisions aligned to all already aligned environments")
             ->addOption(self::OPTION_CRON, null, InputOption::VALUE_NONE, 'optimized for automated recurring recompute calls, tries --continue, when no locks are found for user runs command without --continue')
-            ->addOption(self::OPTION_OUUID, null, InputOption::VALUE_OPTIONAL, 'recompute a specific revision ouuid', null)
+            ->addOption(self::OPTION_OUUID, null, InputOption::VALUE_OPTIONAL, 'recompute a specific revision ouuid')
             ->addOption(self::OPTION_DEEP, null, InputOption::VALUE_NONE, 'deep recompute form will be submitted and transformers triggered')
             ->addOption(self::OPTION_QUERY, null, InputOption::VALUE_OPTIONAL, 'ES query', '{}')
         ;
@@ -89,7 +89,8 @@ final class RecomputeCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->io = new SymfonyStyle($input, $output);
+        parent::initialize($input, $output);
+
         $this->io->title('content-type recompute command');
 
         $contentTypeName = $input->getArgument(self::ARGUMENT_CONTENT_TYPE);
@@ -118,10 +119,7 @@ final class RecomputeCommand extends Command
 
         if (null !== $input->getOption(self::OPTION_QUERY)) {
             $this->query = \strval($input->getOption('query'));
-            \json_decode($this->query, true);
-            if (\json_last_error() > 0) {
-                throw new \RuntimeException(\sprintf('Invalid json query %s', $this->query));
-            }
+            Json::decode($this->query, 'Invalid json query');
         }
 
         $this->optionDeep = \boolval($input->getOption(self::OPTION_DEEP));
@@ -129,11 +127,6 @@ final class RecomputeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$this->em instanceof EntityManager) {
-            $output->writeln('The entity manager might not be configured correctly');
-
-            return -1;
-        }
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         $this->em->getConnection()->setAutoCommit(false);
 
@@ -178,7 +171,6 @@ final class RecomputeCommand extends Command
                 }
                 $transactionActive = true;
 
-                /** @var Revision $revision */
                 $newRevision = $revision->convertToDraft();
                 $revisionType->setData($newRevision); // bind new revision on form
 

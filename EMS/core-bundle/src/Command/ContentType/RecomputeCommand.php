@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Command\ContentType;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
+use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Notification;
 use EMS\CoreBundle\Entity\Revision;
@@ -30,7 +31,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 
 final class RecomputeCommand extends Command
 {
-    protected static $defaultName = 'ems:contenttype:recompute';
+    protected static $defaultName = Commands::CONTENT_TYPE_RECOMPUTE;
+
     private ContentType $contentType;
     private bool $optionDeep;
     private bool $forceFlag;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Api;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
+use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUser;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\FileBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
 /**
@@ -31,6 +33,7 @@ final class ApiService
         private readonly LoggerInterface $logger,
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly Security $security,
         private readonly iterable $clientRequests = [],
         private readonly iterable $apiClients = []
     ) {
@@ -270,6 +273,18 @@ final class ApiService
     }
 
     public function getApiClient(string $clientName): Client
+    {
+        $client = $this->getApiClientByName($clientName);
+
+        $user = $this->security->getUser();
+        if ($user instanceof CoreApiUser) {
+            $client->coreApi->setToken($user->getToken());
+        }
+
+        return $client;
+    }
+
+    private function getApiClientByName(string $clientName): Client
     {
         foreach ($this->apiClients as $apiClient) {
             if ($clientName === $apiClient->getName()) {

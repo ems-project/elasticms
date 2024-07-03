@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Request;
 
+use EMS\CommonBundle\Helper\MimeTypeHelper;
+
 final class EmailRequest
 {
     /** @var string */
@@ -28,7 +30,7 @@ final class EmailRequest
         $this->subject = $message['subject'] ?? 'Email submission';
         $this->body = $message['body'] ?? '';
         $this->attachments = $message['attachments'] ?? [];
-        $this->contentType = $message['content-type'] ?? 'text/plain';
+        $this->contentType = $message['content-type'] ?? MimeTypeHelper::TEXT_PLAIN;
         $this->replyTo = $message['reply-to'] ?? null;
     }
 

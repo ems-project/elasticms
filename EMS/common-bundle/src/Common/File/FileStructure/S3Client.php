@@ -8,6 +8,7 @@ use Aws\CommandPool;
 use Aws\S3\MultipartUploader;
 use Aws\S3\S3Client as AwsS3Client;
 use EMS\CommonBundle\Exception\FileStructureNotSyncException;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use Psr\Http\Message\StreamInterface;
 
 class S3Client implements FileStructureClientInterface
@@ -73,7 +74,7 @@ class S3Client implements FileStructureClientInterface
             'Bucket' => $this->bucket,
             'Key' => $key,
             'Body' => $this->hash,
-            'ContentType' => 'text/plain',
+            'ContentType' => MimeTypeHelper::TEXT_PLAIN,
         ]);
         $this->existingFiles[$key] = $key;
         $this->batch[] = $this->client->getCommand('CopyObject', [

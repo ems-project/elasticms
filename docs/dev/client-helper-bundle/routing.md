@@ -73,7 +73,7 @@ And in the redirect_favicon.json.twig template:
 
 ````twig
 {% apply spaceless %}
-      {% set assetPath = emsch_assets_version('240c99f842c118a733f14420bf40e320bdb500b9') %}
+      {% do emsch_assets_version('240c99f842c118a733f14420bf40e320bdb500b9') %}
       {{ {'url': asset('static/favicon-96x96.png', 'emsch'), 'status': 301 }|json_encode|raw }}
 {% endapply %}
 ````
@@ -338,3 +338,17 @@ Return HTTP codes:
 > With all other server APIs, listeners to `kernel.terminate` are still executed, but the response is not sent to 
 > the client until they are all completed.
 
+## Route to assets in archive
+
+With this controller you can specify routes to files in zip archives.
+
+If the route is not immutable (does not contain the archive hash) you must specify the maxAge argument (by default it's set to one week).
+
+```yaml
+emsch_demo_asset_in_archive:
+  config:
+    path: '/assets_in_archive/{path}'
+    requirements: { path: .* }
+    defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
+    controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
+```

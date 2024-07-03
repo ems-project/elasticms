@@ -23,12 +23,12 @@ Example base template.
 
 ## emsch_assets_version
 
-This is similar to [emsch_assets](#emsch_assets) but using the hash as version strategy for the assets. No need to add an alias rule in the Vhost file.
+This function specify the hash of the archive containing the assets of the website (JS, CSS, ...)
 
-This function will unzip the file (hash) in /public/{saveDir}/**hash** (if not exists).
-The default value of the saveDir is **bundles**.
+The second argument should be set to `null` as that argument has been deprecated in 5.19.x.
+
 ```twig
-{{- emsch_assets_version('hash', 'saveDir') -}}
+{%- do emsch_assets_version('hash', null) -%}
 ```
 
 This function can be called only one time per Twig rendering. Otherwise, an error will be thrown.

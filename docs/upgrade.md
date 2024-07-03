@@ -168,6 +168,17 @@ You can reactivate the dynamic mapping with this environment variable:  `EMSCO_D
   * In case of warning or error in the `emsco:xliff:update` command the report file is no more available locally. The report is upladed in the admin's storages. The directly get a link to the report you need to specify a `--base-url` option.
 
     Example ```emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld```
+* You should not specify a folder where to expand website assets in the `emsch_assets_version` twig function, in this case the function returns `null`.
+  * By default, if you specify `null` (e.g. `{% do emsch_assets_version(include('@EMSCH/template/asset_hash.twig'), null) %}`) as second arguments, the `emsch` assets will have a an url like `/bundle/253b903b1fb3ac30975ae9844a0352a65cdcfa3d/site.css` which urls will be resolved by the route `EMS\CommonBundle\Controller\FileController::assetInArchive`
+  * It's also possible the defined you own route for assets in archive, if the route is not immutable (does not contain the archive hash) you must specify the `maxAge` argument (by default it's set to one week): 
+```yaml
+emsch_demo_asset_in_archive:
+  config:
+    path: '/assets_in_archive/{path}'
+    requirements: { path: .* }
+    defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
+    controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
+```
 
 ## version 5.17.x
 

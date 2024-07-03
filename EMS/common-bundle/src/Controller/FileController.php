@@ -88,6 +88,13 @@ class FileController extends AbstractController
         return $response;
     }
 
+    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800): Response
+    {
+        $this->closeSession($request);
+
+        return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge);
+    }
+
     private function getFile(Request $request, string $hash, string $disposition): Response
     {
         @\trigger_error('FileController::download is deprecated use the ems_asset twig filter to generate the route', E_USER_DEPRECATED);

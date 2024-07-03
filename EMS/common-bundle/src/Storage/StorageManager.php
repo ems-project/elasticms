@@ -524,7 +524,7 @@ class StorageManager
             }
         }
         if ($finder->count() === $counter) {
-            $this->logger->debug(\sprintf('%d files have successfully saved in cache', $counter));
+            $this->logger->debug(\sprintf('%d files have been successfully saved in cache', $counter));
         } elseif (0 === $counter) {
             $this->logger->warning(\sprintf('None of the %d files have been successfully saved in cache', $finder->count()));
         } else {

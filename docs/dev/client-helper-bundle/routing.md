@@ -340,9 +340,9 @@ Return HTTP codes:
 
 ## Route to assets in archive
 
-With this controller you can specify route to files in a zip archive.
+With this controller you can specify routes to files in zip archives.
 
-If you route is not immutable (does not contain the archive hash) you must specify the maxAge argument (by default it's set to one week).
+If the route is not immutable (does not contain the archive hash) you must specify the maxAge argument (by default it's set to one week).
 
 ```yaml
 emsch_demo_asset_in_archive:

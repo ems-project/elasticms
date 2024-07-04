@@ -31,13 +31,13 @@ final class LockCommand extends Command
     private string $query;
     private \DateTime $until;
 
-    private const ARGUMENT_CONTENT_TYPE = 'contentType';
-    private const ARGUMENT_TIME = 'time';
-    private const OPTION_QUERY = 'query';
-    private const OPTION_USER = 'user';
-    private const OPTION_FORCE = 'force';
-    private const OPTION_IF_EMPTY = 'if-empty';
-    private const OPTION_OUUID = 'ouuid';
+    public const ARGUMENT_CONTENT_TYPE = 'contentType';
+    public const ARGUMENT_TIME = 'time';
+    public const OPTION_QUERY = 'query';
+    public const OPTION_USER = 'user';
+    public const OPTION_FORCE = 'force';
+    public const OPTION_IF_EMPTY = 'if-empty';
+    public const OPTION_OUUID = 'ouuid';
 
     public const RESULT_SUCCESS = 0;
 

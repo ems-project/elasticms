@@ -21,7 +21,6 @@ use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -115,7 +114,7 @@ final class RecomputeCommand extends AbstractCommand
         $this->em->getConnection()->setAutoCommit(false);
 
         if (!$input->getOption(self::OPTION_CONTINUE) || $input->getOption(self::OPTION_CRON)) {
-            $this->lock($output, $this->contentType, $this->query, $this->forceFlag, $this->cronFlag, $this->ouuid);
+            $this->lock($this->contentType, $this->query, $this->forceFlag, $this->cronFlag, $this->ouuid);
         }
 
         $page = 0;
@@ -237,24 +236,21 @@ final class RecomputeCommand extends AbstractCommand
         return self::EXECUTE_SUCCESS;
     }
 
-    private function lock(OutputInterface $output, ContentType $contentType, string $query, bool $force = false, bool $ifEmpty = false, ?string $ouuid = null): int
+    private function lock(ContentType $contentType, string $query, bool $force = false, bool $ifEmpty = false, ?string $ouuid = null): void
     {
-        $application = $this->getApplication();
-        if (null === $application) {
-            throw new \RuntimeException('Application instance not found');
-        }
-        $command = $application->find('ems:contenttype:lock');
-        $arguments = [
-            'command' => 'ems:contenttype:lock',
-            'contentType' => $contentType->getName(),
-            'time' => '+1day',
-            '--user' => self::LOCK_BY,
-            '--force' => $force,
-            '--if-empty' => $ifEmpty,
-            '--ouuid' => $ouuid,
-            '--query' => $query,
-        ];
-
-        return $command->run(new ArrayInput($arguments), $output);
+        $this->runCommand(
+            command: Commands::CONTENT_TYPE_LOCK,
+            args: [
+                LockCommand::ARGUMENT_CONTENT_TYPE => $contentType->getName(),
+                LockCommand::ARGUMENT_TIME => '+1day',
+            ],
+            options: [
+                LockCommand::OPTION_USER => self::LOCK_BY,
+                LockCommand::OPTION_FORCE => $force,
+                LockCommand::OPTION_IF_EMPTY => $ifEmpty,
+                LockCommand::OPTION_OUUID => $ouuid,
+                LockCommand::OPTION_QUERY => $query,
+            ]
+        );
     }
 }

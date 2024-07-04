@@ -9,46 +9,38 @@
     }).hits.hits|default([])|map(p => p._source) %}
     {% set must = {} %}
 
+    {% set versions = releases|map(r => r.version) %}
+    {% set must = [{ 'terms': { 'version': (versions) } }] %}
+
     {% if app.request.get('q', '')|length > 0 %}
         {% set must = must|merge([{
-            query_string: {
-                query: app.request.get('q'),
-                default_field: "title_#{locale}",
+            'query_string': {
+                'query': app.request.get('q'),
+                'default_field': "title_#{locale}",
             }
         }]) %}
     {% endif %}
-
 
     {% set selectedCategories = app.request.get('categories', []) %}
     {% if selectedCategories|length > 0 %}
         {% set must = must|merge([{
-            terms: {category: selectedCategories|map(p => "category:#{p}")}
+            'terms': { 'category': selectedCategories|map(p => "category:#{p}")|reverse|reverse }
         }]) %}
-    {% endif %}
-
-
-
-    {% set query = {} %}
-    {% if must|length > 0 %}
-        {% set query = {
-            bool: {
-                must: must,
-            }
-        } %}
     {% endif %}
 
     {% set features = emsch_search('feature', {
         "size": 1000,
-        "query": query,
+        "query": { 'bool': { 'must': must } },
         "sort": [{
             "version": { "order": "desc" },
-            ("#{locale}.title.alpha_order"): { "order": "asc" }
+            ("title_#{locale}.alpha_order"): { "order": "asc" }
         }],
         "_source": ["#{app.request.locale}.title","version","category"],
     }) %}
 
     {% set aggsCategories = emsch_search('feature', {
         "size": 0,
+        "query": { "terms": { "version": (versions) } },
         "aggs": {
             "categories": {
                 "terms": { "field": "category", "size": 100 },
@@ -118,28 +110,31 @@
             <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
                     {% for release in releases %}
-                        <div class="release-item">
-                            <h2>
-                                {{ 'block.release.title'|trans({'%version%': release.version}) }}
-                                {% if release.release_date is defined %}
-                                    - {{ ('month.'~release.release_date|date('F'))|trans }} {{ release.release_date|date('Y') }}
-                                {% endif %}
-                            </h2>
-                            {% set releaseFeatures = features.hits.hits|filter(p => p._source.version is same as(release.version))|map(v => v._source) %}
-                            {% set groupedByCategory = categories|map((v, k) => releaseFeatures|filter(f => f.category == "category:#{k}") ) %}
-                            <ul class="list-unstyled mb-0">
-                                {% for categoryKey, featuresInCategory in groupedByCategory  %}
-                                    {% for feature in featuresInCategory %}
-                                        <li class="d-flex align-items-start mb-2">
-                                            <span class="badge">{{ attribute(categories, categoryKey) }}</span>
-                                            <p>{{ attribute(feature, locale).title|default('') }}</p>
-                                        </li>
+                        {% set releaseFeatures = features.hits.hits|filter(p => p._source.version is same as(release.version))|map(v => v._source) %}
+                        {% set groupedByCategory = categories|map((v, k) => releaseFeatures|filter(f => f.category == "category:#{k}") ) %}
+                        {% if releaseFeatures|length > 0 %}
+                            <div class="release-item">
+                                <h2>
+                                    {{ 'block.release.title'|trans({'%version%': release.version}) }}
+                                    {% if release.release_date is defined %}
+                                        - {{ ('month.'~release.release_date|date('F'))|trans }} {{ release.release_date|date('Y') }}
+                                    {% endif %}
+                                </h2>
+
+                                <ul class="list-unstyled mb-0">
+                                    {% for categoryKey, featuresInCategory in groupedByCategory  %}
+                                        {% for feature in featuresInCategory %}
+                                            <li class="d-flex align-items-start mb-2">
+                                                <span class="badge">{{ attribute(categories, categoryKey) }}</span>
+                                                <p>{{ attribute(feature, locale).title|default('') }}</p>
+                                            </li>
+                                        {% endfor %}
                                     {% endfor %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        {% if not loop.last %}
-                            <hr>
+                                </ul>
+                            </div>
+                            {% if not loop.last %}
+                                <hr>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 </div>

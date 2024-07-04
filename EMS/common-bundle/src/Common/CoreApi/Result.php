@@ -15,8 +15,10 @@ class Result
     /** @var array<mixed> */
     private readonly array $data;
 
-    public function __construct(ResponseInterface $response, LoggerInterface $logger)
-    {
+    public function __construct(
+        public readonly ResponseInterface $response,
+        LoggerInterface $logger
+    ) {
         $data = Json::decode($response->getContent());
         $this->data = $data;
         $this->acknowledged = isset($data['acknowledged']) ? \boolval($data['acknowledged']) : null;
@@ -27,6 +29,18 @@ class Result
                 $logger->log($logLevel, $message);
             }
         }
+    }
+
+    public function getFirstErrorWarning(): ?string
+    {
+        $errors = $this->data['error'] ?? [];
+        $warnings = $this->data['warning'] ?? [];
+
+        return match (true) {
+            (\count($errors) > 0) => \array_shift($errors),
+            (\count($warnings) > 0) => \array_shift($warnings),
+            default => null
+        };
     }
 
     /**

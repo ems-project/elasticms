@@ -213,4 +213,13 @@ class AssetRuntime
     {
         return $this->storageManager->computeStringHash($input, $hashAlgo, $binary);
     }
+
+    public function fileFromArchive(string $hash, string $path): string
+    {
+        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path);
+        $tempFile = TempFile::create();
+        $tempFile->loadFromStream($streamWrapper->getStream());
+
+        return $tempFile->path;
+    }
 }

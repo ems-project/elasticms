@@ -2,6 +2,7 @@
 
 {% set path = app.request.get('path') %}
 {% set locale = app.request.get('_locale') %}
+{% set locales = app.request.server.all['EMSCH_LOCALES']|default('[]')|ems_json_decode %}
 
 {% set searchSection = emsch_search('section', {
     "size": 1,

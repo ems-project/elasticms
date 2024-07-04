@@ -6,7 +6,9 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\StreamWrapper;
 use Psr\Http\Message\StreamInterface;
+use Symfony\Component\Finder\SplFileInfo;
 
 interface StorageInterface
 {
@@ -73,4 +75,8 @@ interface StorageInterface
     public function saveCache(Config $config, FileInterface $file): bool;
 
     public function clearCache(): bool;
+
+    public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper;
+
+    public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool;
 }

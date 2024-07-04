@@ -7,6 +7,7 @@ namespace EMS\ClientHelperBundle\Controller;
 use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\Request\ExceptionHelper;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
@@ -124,7 +125,7 @@ final class RouterController
         $response = new Response();
         $response->setContent($data['content']);
 
-        $headers = $data['headers'] ?? ['Content-Type' => 'text/plain'];
+        $headers = $data['headers'] ?? ['Content-Type' => MimeTypeHelper::TEXT_PLAIN];
         if (!\is_array($headers)) {
             throw new \RuntimeException('Unexpected non-array headers parameter');
         }

@@ -25,12 +25,16 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         $this->filesystem = new Filesystem();
     }
 
-    public function setVersion(string $hash, string $saveDir = 'bundles'): string
+    public function setVersion(string $hash, ?string $saveDir = 'bundles'): ?string
     {
         if (null !== $this->versionHash && $this->versionHash !== $hash) {
             throw new \RuntimeException('Another hash version has been already defined');
         }
         $this->versionHash = $hash;
+        if (null === $saveDir) {
+            return null;
+        }
+        \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_versionwith a null saveDir parameter', E_USER_DEPRECATED);
         $this->versionSaveDir = $saveDir;
         if (!empty($this->localFolder)) {
             return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
@@ -89,6 +93,9 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         if (!empty($this->localFolder)) {
             return \sprintf('%s/%s', $this->localFolder, $path);
         }
+        if (null === $this->versionSaveDir) {
+            return \sprintf('bundle/%s/%s', $this->getVersionHash(), $path);
+        }
 
         return \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $this->getVersionHash(), $path);
     }
@@ -102,7 +109,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         return $this->versionHash;
     }
 
-    public function getVersionSaveDir(): string
+    public function getVersionSaveDir(): ?string
     {
         if (null === $this->versionSaveDir) {
             throw new \RuntimeException('Asset version has not been set');

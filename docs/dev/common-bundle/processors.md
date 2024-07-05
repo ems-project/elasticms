@@ -35,7 +35,7 @@ Regarding the file's type, it's possible to generate response from a source file
  - `_disposition`: will specify to the browser if it should render the asset or ask the user to save it locally:
     - with the value `attachment` the browser will propose to save it to the user with a `save as ...` dialog
     - with the value `inline` (default value) the browser will try to display it directly in the browser if the mime-type is supported
- - `_file_names` (array of file path) if provided the first file found will be used instead of the original asset 
+ - `_file_names` (array of file path) if provided the first file found will be used instead of the original asset. A file path can be a path to a local file, but most likely it's a path in a zip archive with the format `{hash of the archive}:{path to file}`; e.g. `8ef54d1e170aede4fa78687f466f35bb6292f4ad:img/banners/banner-home.jpg`
  - `_config_type` specify the processor that should process the asset. If not define the asset itself will be delivered
     - `image` will generate an image (PNG, SVG or JPEG) using the [image processor](#Image processor)
     - `zip` will generate a ZIP archive the [ZIP processor](#ZIP processor)

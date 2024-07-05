@@ -80,7 +80,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     public function asset(string $path, array $assetConfig = []): string
     {
         if (empty($this->localFolder)) {
-            $filename = \sprintf('%s:/%s', $this->getVersionHash(), $path);
+            $filename = \sprintf('%s:%s', $this->getVersionHash(), $path);
         } else {
             $filename = $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder.DIRECTORY_SEPARATOR.$path;
         }

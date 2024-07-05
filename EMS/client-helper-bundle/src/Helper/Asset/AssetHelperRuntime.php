@@ -79,8 +79,12 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
      */
     public function asset(string $path, array $assetConfig = []): string
     {
-        $filename = $this->getAssetsDir().DIRECTORY_SEPARATOR.$path;
-        $basename = \basename($filename);
+        if (empty($this->localFolder)) {
+            $filename = \sprintf('%s:/%s', $this->getVersionHash(), $path);
+        } else {
+            $filename = $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder.DIRECTORY_SEPARATOR.$path;
+        }
+        $basename = \basename($path);
 
         return $this->commonAssetRuntime->assetPath([
             EmsFields::CONTENT_FILE_NAME_FIELD => $basename,
@@ -117,14 +121,5 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
 
         return $this->versionSaveDir;
-    }
-
-    private function getAssetsDir(): string
-    {
-        if (!empty($this->localFolder)) {
-            return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
-        }
-
-        return \implode(\DIRECTORY_SEPARATOR, [$this->publicDir, $this->getVersionSaveDir(), $this->getVersionHash()]);
     }
 }

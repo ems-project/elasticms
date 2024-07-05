@@ -34,7 +34,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         if (null === $saveDir) {
             return null;
         }
-        \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_versionwith a null saveDir parameter', E_USER_DEPRECATED);
+        \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_version with a null saveDir parameter', E_USER_DEPRECATED);
         $this->versionSaveDir = $saveDir;
         if (!empty($this->localFolder)) {
             return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
@@ -45,6 +45,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     public function assets(string $hash, string $saveDir = 'bundles', bool $addEnvironmentSymlink = true): string
     {
+        \trigger_error('The function emsch_assets id deprecated, use emsch_assets_version with a null saveDir parameter instead', E_USER_DEPRECATED);
         $basePath = $this->publicDir.\DIRECTORY_SEPARATOR.$saveDir.\DIRECTORY_SEPARATOR;
         $directory = $basePath.$hash;
 

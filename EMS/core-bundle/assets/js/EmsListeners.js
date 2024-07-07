@@ -310,26 +310,26 @@ export default class EmsListeners {
         const resizedImageHashInput = mainDiv.find(".resized-image-hash");
         const previewLink = mainDiv.find(".img-responsive");
         const reader = new FileReader()
+        const imageMaxSize = document.body.dataset.imageMaxSize
         reader.onload = function (e) {
             const  image = new Image()
             image.onload = function (imageEvent) {
                 const canvas = document.createElement('canvas');
-                const max_size = 1024;
                 let width = image.width;
                 let height = image.height;
-                if (width <= max_size && height <= max_size) {
+                if (width <= imageMaxSize && height <= imageMaxSize) {
                     self.startUpload(fileHandler, container)
                     return
                 }
                 if (width > height) {
-                    if (width > max_size) {
-                        height *= max_size / width;
-                        width = max_size;
+                    if (width > imageMaxSize) {
+                        height *= imageMaxSize / width;
+                        width = imageMaxSize;
                     }
                 } else {
-                    if (height > max_size) {
-                        width *= max_size / height;
-                        height = max_size;
+                    if (height > imageMaxSize) {
+                        width *= imageMaxSize / height;
+                        height = imageMaxSize;
                     }
                 }
                 canvas.width = width;

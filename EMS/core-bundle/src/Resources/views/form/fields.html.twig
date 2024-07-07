@@ -965,6 +965,7 @@
 								<label>{{ 'view.form.fields.asset.file-hash'|trans }}</label>
 								<div class="form-control asset-hash-signature">{% if fileItem.sha1.vars.value is defined %}{{ fileItem.sha1.vars.value }}{% endif %}</div>
 								{{- form_row(fileItem.sha1) -}}
+								{{- form_row(fileItem._image_resized_hash) -}}
 								{{- form_row(fileItem.mimetype) -}}
 							</div>
 						</div>

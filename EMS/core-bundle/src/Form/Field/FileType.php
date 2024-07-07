@@ -25,6 +25,12 @@ class FileType extends AbstractType
             ],
             'required' => $options['required'],
         ])
+        ->add('_image_resized_hash', HiddenType::class, [
+            'attr' => [
+                'class' => 'resized-image-hash',
+            ],
+            'required' => false,
+        ])
         ->add('mimetype', TextType::class, [
             'attr' => [
                     'class' => 'type',

@@ -103,6 +103,7 @@ class AssetFieldType extends DataFieldType
                         'sha1' => $this->elasticsearchService->getKeywordMapping(),
                         'filename' => $this->elasticsearchService->getIndexedStringMapping(),
                         'filesize' => $this->elasticsearchService->getLongMapping(),
+                        '_image_resized_hash' => $this->elasticsearchService->getKeywordMapping(),
                     ],
             ], \array_filter($current->getMappingOptions())),
         ];
@@ -157,6 +158,9 @@ class AssetFieldType extends DataFieldType
             } else {
                 $fileInfo['filesize'] = $this->fileService->getSize($fileInfo['sha1']);
                 $rawData[] = $fileInfo;
+            }
+            if (!empty($fileInfo['_image_resized_hash']) && !$this->fileService->head($fileInfo['_image_resized_hash'])) {
+                $dataField->addMessage(\sprintf('Resized image of %s not found on the server try to re-upload the source image', $fileInfo['filename']));
             }
         }
 

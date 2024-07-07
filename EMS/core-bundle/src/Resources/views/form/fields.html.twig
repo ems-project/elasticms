@@ -1179,7 +1179,7 @@
             	<img
             		data-src="{{ path('ems_asset_processor', {'hash':'_asset_hash_', 'processor': 'preview', 'type':'_asset_mimetype_', 'name': '_asset_name_' }) }}"
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
-            			src="{{ path('ems_asset_processor', {'hash':form.vars.value.sha1, 'processor': 'preview', 'type':form.vars.value.mimetype, 'name':form.vars.value.filename }) }}"
+            			src="{{ path('ems_asset_processor', {'hash': form.vars.value._image_resized_hash ?? form.vars.value.sha1, 'processor': 'preview', 'type':form.vars.value.mimetype, 'name':form.vars.value.filename }) }}"
             		{% endif %}
             		class="img-responsive center-block" alt="Preview of the field {{ form_label(form)|striptags }}"
             	>

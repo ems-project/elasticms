@@ -29,6 +29,9 @@ class Image
         if (false === $length) {
             throw new \RuntimeException('Could not read file');
         }
+        if (0 === $length) {
+            return '';
+        }
 
         $handle = \fopen($filename, 'r');
         if (false === $handle) {

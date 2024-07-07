@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Common\Standard;
 
 use EMS\CommonBundle\Common\Standard\Json;
+use EMS\Helpers\File\TempFile;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 
@@ -48,10 +49,10 @@ class JsonAiTest extends TestCase
     public function testDecodeFileTriggersDeprecation(): void
     {
         $this->expectDeprecation('The function %s::decodeFile has been deprecated, use %s::decodeFile instead');
-        $tempFile = \tempnam(\sys_get_temp_dir(), 'json_test');
+        $temp = TempFile::create();
+        $tempFile = $temp->path;
         \file_put_contents($tempFile, self::TEST_JSON_STRING);
         Json::decodeFile($tempFile);
-        \unlink($tempFile);
     }
 
     /**

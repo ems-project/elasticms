@@ -40,8 +40,9 @@ ems_client_helper:
       api: { "enable": true, "name": "backend" }
       hosts: '["http://localhost:9200"]'
   security:
-    saml:
-      enabled: false
+    sso:
+      saml:
+        enabled: false
 
 services:
   _defaults:

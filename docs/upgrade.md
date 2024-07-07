@@ -1,5 +1,7 @@
 # Upgrade
 
+  * [version 5.19.x](#version-519x)
+  * [version 5.17.x](#version-517x)
   * [version 5.15.x](#version-515x)
   * [version 5.14.x](#version-514x)
   * [version 5.7.x](#version-57x)
@@ -7,6 +9,37 @@
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## version 5.19.x
+
+* The function `emsch_unzip` is deprecated and should not be used anymore. use the function ems_file_from_archive or the route EMS\CommonBundle\Controller\FileController::assetInArchive instead
+  * If the `emsch_unzip` function is used to serve assets via the web server you should use the route [EMS\CommonBundle\Controller\FileController::assetInArchive](dev/client-helper-bundle/routing.md#route-to-assets-in-archive)
+  * If the `emsch_unzip` function is used to get local path to an asset you should use the [`ems_file_from_archive`](dev/common-bundle/twig.md#emsfilefromarchive) function
+* Xliff command options have been updated
+  * The `--filename` option in the `emsco:xliff:extract` command has been replaced by a `--basename` option and does not contains a path anymore, just a file basename.
+
+    Example replace ```emsco:xliff:extract live '{}' nl de title --filename=/tmp/pages-nl-to-de.xlf```
+     by ```emsco:xliff:extract live '{}' nl de title --basename=pages-nl-to-de.xlf```
+  * In case of warning or error in the `emsco:xliff:update` command the report file is no more available locally. The report is upladed in the admin's storages. The directly get a link to the report you need to specify a `--base-url` option.
+
+    Example ```emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld```
+* You should not specify a folder where to expand website assets in the `emsch_assets_version` twig function, in this case the function returns `null`.
+  * By default, if you specify `null` (e.g. `{% do emsch_assets_version(include('@EMSCH/template/asset_hash.twig'), null) %}`) as second arguments, the `emsch` assets will have a an url like `/bundle/253b903b1fb3ac30975ae9844a0352a65cdcfa3d/site.css` which urls will be resolved by the route `EMS\CommonBundle\Controller\FileController::assetInArchive`
+  * It's also possible the defined you own route for assets in archive, if the route is not immutable (does not contain the archive hash) you must specify the `maxAge` argument (by default it's set to one week): 
+```yaml
+emsch_demo_asset_in_archive:
+  config:
+    path: '/assets_in_archive/{path}'
+    requirements: { path: .* }
+    defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
+    controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
+```
+
+## version 5.17.x
+
+* Check routes single colon is deprecated
+
+  Example replace ```emsch.controller.router:redirect``` by ```emsch.controller.router::redirect```
 
 ## version 5.15.x
 

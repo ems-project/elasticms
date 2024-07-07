@@ -218,7 +218,7 @@ class MediaLibraryService
         return $this->folderFactory->create($this->getConfig(), $parentFolder);
     }
 
-    public function refresh(): void
+    private function refresh(): void
     {
         $this->elasticaService->refresh($this->getConfig()->contentType->giveEnvironment()->getAlias());
     }
@@ -300,7 +300,7 @@ class MediaLibraryService
             username: $username
         );
 
-        $this->elasticaService->refresh($this->getConfig()->contentType->giveEnvironment()->getAlias());
+        $this->refresh();
     }
 
     private function buildSearch(BoolQuery $query, bool $includeSearchQuery = true): Search
@@ -329,7 +329,7 @@ class MediaLibraryService
         $form = $this->revisionService->createRevisionForm($revision);
         $this->dataService->finalizeDraft($revision, $form);
 
-        $this->elasticaService->refresh($this->getConfig()->contentType->giveEnvironment()->getAlias());
+        $this->refresh();
 
         return 0 === $form->getErrors(true)->count() ? $uuid->toString() : null;
     }
@@ -350,7 +350,8 @@ class MediaLibraryService
             $jsonSearchFileQuery = Json::encode($this->getConfig()->searchFileQuery);
 
             $searchFileQuery = Json::decode(u($jsonSearchFileQuery)
-                ->replace('%query%', Json::escape(QueryStringEscaper::escape($searchValue)))
+                ->replace('%query%', $searchValue)
+                ->replace('%query_escaped%', Json::escape(QueryStringEscaper::escape($searchValue)))
                 ->toString());
 
             if (!isset($searchFileQuery['bool'])) {

@@ -46,32 +46,17 @@
                         "class": "EMS\\CoreBundle\\Entity\\FieldType",
                         "arguments": [],
                         "properties": {
-                            "type": "EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType",
-                            "name": "label",
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\FormFieldType",
+                            "name": "display",
                             "contentType": null,
                             "deleted": false,
                             "description": null,
                             "options": {
                                 "displayOptions": {
-                                    "label": "Label",
-                                    "class": "col-md-12",
-                                    "lastOfRow": false,
-                                    "helptext": null,
-                                    "prefixIcon": null,
-                                    "prefixText": null,
-                                    "suffixIcon": null,
-                                    "suffixText": null,
-                                    "placeholder": null,
-                                    "icon": null
+                                    "form": "display"
                                 },
-                                "mappingOptions": {
-                                    "index": null,
-                                    "analyzer": null,
-                                    "copy_to": "live_search"
-                                },
+                                "mappingOptions": [],
                                 "restrictionOptions": {
-                                    "mandatory": false,
-                                    "mandatory_if": null,
                                     "minimum_role": null
                                 },
                                 "extraOptions": {
@@ -79,10 +64,7 @@
                                     "clear_on_copy": false,
                                     "postProcessing": null
                                 },
-                                "raw_data": [],
-                                "migrationOptions": {
-                                    "protected": false
-                                }
+                                "raw_data": []
                             },
                             "orderKey": 1,
                             "children": []
@@ -349,10 +331,7 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
@@ -364,7 +343,30 @@
         "webContent": true,
         "autoPublish": false,
         "templates": [],
-        "views": [],
+        "views": [
+            {
+                "class": "EMS\\CoreBundle\\Entity\\View",
+                "arguments": [],
+                "properties": {
+                    "name": "overview",
+                    "type": "ems.view.report",
+                    "label": "Overview",
+                    "icon": "fa fa-list-ul",
+                    "options": {
+                        "body": "{}",
+                        "size": 0,
+                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                    },
+                    "orderKey": 1,
+                    "public": false,
+                    "role": "ROLE_USER",
+                    "definition": "default_overview"
+                },
+                "replaced": []
+            }
+        ],
         "defaultValue": null,
         "versionTags": [],
         "versionOptions": {
@@ -381,14 +383,15 @@
             "create": "ROLE_AUTHOR",
             "edit": "ROLE_AUTHOR",
             "publish": "ROLE_PUBLISHER",
-            "delete": "not-defined",
+            "delete": "ROLE_PUBLISHER",
             "trash": "not-defined",
             "archive": "not-defined",
             "show_link_create": "ROLE_USER",
-            "show_link_search": "ROLE_USER"
+            "show_link_search": "not-defined"
         },
         "fields": {
-            "label": "label",
+            "display": "(rawData['display_label_'~userLocale] ?? rawData['display_label_fr'])",
+            "label": null,
             "color": null,
             "sort": null,
             "tooltip": null,
@@ -399,6 +402,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

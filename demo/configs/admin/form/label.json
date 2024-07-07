@@ -4,7 +4,7 @@
     "properties": {
         "name": "label",
         "label": "Label field",
-        "orderKey": 5,
+        "orderKey": 6,
         "fieldType": {
             "class": "EMS\\CoreBundle\\Entity\\FieldType",
             "arguments": [],
@@ -102,10 +102,7 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         }

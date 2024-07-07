@@ -24,7 +24,7 @@ class AssetRuntime
 {
     private readonly Filesystem $filesystem;
 
-    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly UrlGeneratorInterface $urlGenerator, private readonly Processor $processor, private readonly string $cacheDir)
+    public function __construct(private readonly StorageManager $storageManager, private readonly LoggerInterface $logger, private readonly UrlGeneratorInterface $urlGenerator, private readonly Processor $processor)
     {
         $this->filesystem = new Filesystem();
     }
@@ -34,6 +34,7 @@ class AssetRuntime
      */
     public function unzip(string $hash, string $saveDir, bool $mergeContent = false): array
     {
+        @\trigger_error(\sprintf('The function emsch_unzip is deprecated and should not be used anymore. use the function ems_file_from_archive or the route EMS\CommonBundle\Controller\FileController::assetInArchive instead"'), E_USER_DEPRECATED);
         try {
             $checkFilename = $saveDir.\DIRECTORY_SEPARATOR.$this->storageManager->computeStringHash($saveDir);
             $checkHash = \file_exists($checkFilename) ? \file_get_contents($checkFilename) : false;
@@ -63,7 +64,7 @@ class AssetRuntime
             return null;
         }
 
-        return TempFile::createNamed($hash, $this->cacheDir)
+        return TempFile::create()
             ->loadFromStream($this->storageManager->getStream($hash))
             ->path;
     }
@@ -121,12 +122,9 @@ class AssetRuntime
         }
 
         $configObj = new Config($this->storageManager, $hash, $hashConfig, $config);
-
-        $tempName = TempFile::createNamed(\implode('-', [$hashConfig, $hash]), $this->cacheDir);
-        if (!$tempName->exists()) {
-            $stream = $this->processor->getStream($configObj, $filename);
-            $tempName->loadFromStream($stream);
-        }
+        $tempName = TempFile::create();
+        $stream = $this->processor->getStream($configObj, $filename);
+        $tempName->loadFromStream($stream);
 
         return $tempName->path;
     }
@@ -215,5 +213,14 @@ class AssetRuntime
     public function hash(string $input, ?string $hashAlgo = null, bool $binary = false): string
     {
         return $this->storageManager->computeStringHash($input, $hashAlgo, $binary);
+    }
+
+    public function fileFromArchive(string $hash, string $path): string
+    {
+        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path);
+        $tempFile = TempFile::create();
+        $tempFile->loadFromStream($streamWrapper->getStream());
+
+        return $tempFile->path;
     }
 }

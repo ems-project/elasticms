@@ -392,6 +392,14 @@ Define backend elasticms url. CommonBundle provides a CoreApi instance.
 
 Define backend authentication token. The commonBundle coreApi instance becomes authenticated.
 
+### EMS_BACKEND_API_TIMEOUT
+
+Adjust the API client's timeout. By default is set to `30` seconds, if you API request may take longueur (e.g. during migration) you can increase the timeout :
+
+```dotenv
+EMS_ELASTICSEARCH_HOSTS='300'
+```
+
 ### EMS_CACHE
 
 Define the ems cache type. Default value `file_system`.
@@ -428,6 +436,11 @@ Specify replacement strings, per locale to symbols. E.g. if you want to replace 
 ### EMS_STORE_DATA_SERVICES
 
 Define (JSON format) the store data services, in the priority order. See the [Stora Data documentation](../recipes/store-data.md) for more details. Default value `[{"type":"db"}]`
+
+### EMS_TRUSTED_IPS
+
+Define (JSON format) a range of allowed ip address. Example: `["127.0.0.1", "::1", "192.168.0.1/24"]`
+Important the route `/metrics` is not filtered.
 
 ### EMS_EXCLUDED_CONTENT_TYPES
 

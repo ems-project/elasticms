@@ -80,7 +80,7 @@ class RestoreCommand extends AbstractCommand
     {
         $this->coreApi = $this->adminHelper->getCoreApi();
         $this->io->title('Admin - restore');
-        $this->io->section(\sprintf('Restore configurations to %s', $this->coreApi->getBaseUrl()));
+        $this->io->section(\sprintf('Restore configurations to %s from %s for configs and from %s for documents', $this->coreApi->getBaseUrl(), $this->configsFolder, $this->documentsFolder));
 
         if (!$this->coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->coreApi->getBaseUrl()));

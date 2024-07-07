@@ -60,10 +60,12 @@
 {%- block jmn_button_item_more_menu -%}
     <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
     <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
-    {% if item.children|length == 0 %}
+    {%- if item.type == 'page' and pageInfo -%}
         <li>
-            <button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ page.id }}">Detach page</button>
+            <button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
         </li>
+    {% elseif item.children|length == 0 %}
+        <li>{{- template.block('jmn_button_item_delete', _context)|raw -}}</li>
     {% endif %}
 {%- endblock jmn_button_item_more_menu -%}
 
@@ -86,7 +88,7 @@
     {% if item.type == 'page' %}
         {% if page and pageInfo %}
             <a href="{{ path('emsco_view_revisions', { 'type': 'page', 'ouuid': page.id })  }}">
-                {{ attribute(item.object, locale).title }}
+                {{ attribute(item.object, locale).title|default(item.object.label) }}
             </a>
         {% else %}
             <span class="text-gray">{{ attribute(item.object, locale).title|default('???') }}</span>
@@ -106,13 +108,13 @@
                 Create {{ item.type }}
             </button>
         {% elseif itemPages|length == 1 %}
-            {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) %}
+            {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) and attribute(item.object, locale).title is defined %}
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-sm btn-default jmn-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-eye"></i>&nbsp;View
                     </button>
                     <ul class="dropdown-menu pull-right">
-                        {% set path = item.path|map(p => attribute(p.object, locale).title|ems_webalize) %}
+                        {% set path = item.path|map(p => attribute(p.object, locale).title|ems_slug) %}
                         {% for env in environments|filter(e => pageInfo.published(e.name)) %}
                             <li>
                                 <a href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank">
@@ -176,7 +178,7 @@
 {% block modal_existing_page_body %}
     {% set columns = [
         { "label": "Select", "template": (block('table_existing_column_select')) },
-        { "label": "Page", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
+        { "label": "Label (Page)", "template": (block('table_existing_column_label')), "orderField": "label.alpha_order" },
         { "label": "Live", "template": (block('table_existing_column_live')) },
         { "label": "Last Update", "template": (block('table_existing_column_last_update')), "orderField": "_finalization_datetime" },
     ] %}

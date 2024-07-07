@@ -36,10 +36,7 @@ final class HelperExtension extends AbstractExtension
             new TwigFunction('emsch_asset', [AssetHelperRuntime::class, 'asset'], ['is_safe' => ['html']]),
             new TwigFunction('emsch_assets', [AssetHelperRuntime::class, 'assets']),
             new TwigFunction('emsch_assets_version', [AssetHelperRuntime::class, 'setVersion']),
-            new TwigFunction('emsch_unzip', [AssetRuntime::class, 'unzip'], [
-                'deprecated' => true,
-                'alternative' => 'ems_unzip',
-            ]),
+            new TwigFunction('emsch_unzip', [AssetRuntime::class, 'unzip'], ['deprecated' => true, 'alternative' => 'ems_file_from_archive']),
         ];
     }
 }

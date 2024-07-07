@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Tests\Functional\Handler\Chained;
 
+use EMS\Helpers\File\TempFile;
 use EMS\SubmissionBundle\Handler\PdfHandler;
 use EMS\SubmissionBundle\Handler\SftpHandler;
 use EMS\SubmissionBundle\Handler\ZipHandler;
@@ -23,7 +24,7 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTest
     private $sftpHandler;
     /** @var ZipHandler */
     private $zipHandler;
-    private string $tempFile;
+    private TempFile $tempFile;
 
     protected function setUp(): void
     {
@@ -35,15 +36,9 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTest
         $this->zipHandler = $this->container->get('functional_test.emss.handler.zip');
 
         $filesystem = new Filesystem();
-        $this->tempFile = $filesystem->tempnam(\sys_get_temp_dir(), 'emss');
+        $this->tempFile = TempFile::create();
 
         // $this->filesystemFactory->setFlagNullAdapter(false); uncomment for enabling sftp
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        \unlink($this->tempFile);
     }
 
     public function testPdfZipSftpChain(): void
@@ -70,10 +65,12 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTest
         /** @var SftpHandleResponse $sftpHandleResponse */
         $sftpHandleResponse = $this->sftpHandler->handle($sftpHandleRequest);
 
-        \file_put_contents($this->tempFile, $sftpHandleResponse->getTransportedFiles()[0]['contents']);
+        $filesystem = new Filesystem();
+        $filesystem->dumpFile($this->tempFile->path, $sftpHandleResponse->getTransportedFiles()[0]['contents']);
+
         $zip = new \ZipArchive();
-        $this->assertTrue(\filesize($this->tempFile) > 0);
-        $opened = $zip->open($this->tempFile, \ZipArchive::RDONLY);
+        $this->assertTrue(\filesize($this->tempFile->path) > 0);
+        $opened = $zip->open($this->tempFile->path, \ZipArchive::RDONLY);
         $this->assertTrue($opened);
 
         $this->assertCount(1, $sftpHandleResponse->getTransportedFiles());

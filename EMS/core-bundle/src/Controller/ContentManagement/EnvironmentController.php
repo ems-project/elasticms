@@ -502,7 +502,7 @@ class EnvironmentController extends AbstractController
         }
 
         try {
-            $info = $this->mapping->getMapping([$environment->getName()]);
+            $info = $this->mapping->getMapping($environment);
         } catch (NotFoundException $e) {
             $this->logger->error('log.environment.alias_missing', [
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
@@ -572,7 +572,7 @@ class EnvironmentController extends AbstractController
     public function indexAction(Request $request): Response
     {
         try {
-            $table = $this->dataTableFactory->create(EnvironmentDataTableType::class);
+            $table = $this->dataTableFactory->create(EnvironmentDataTableType::class, ['managed' => true]);
             $form = $this->createForm(TableType::class, $table, [
                 'title_label' => 'view.environment.index.local_environment_label',
             ]);

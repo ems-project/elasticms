@@ -73,9 +73,9 @@ class FormSubmission implements EntityInterface, \JsonSerializable
     protected $files;
 
     /**
-     * @ORM\Column(name="expire_date", type="date", nullable=true)
+     * @ORM\Column(name="expire_date", type="datetime", nullable=true)
      */
-    private ?\DateTime $expireDate;
+    private ?\DateTimeInterface $expireDate;
 
     /**
      * @ORM\Column(name="label", type="string", length=255)
@@ -144,7 +144,8 @@ class FormSubmission implements EntityInterface, \JsonSerializable
         }
 
         if ($this->files->count() > 0) {
-            $data['files'] = $this->files->toArray();
+            $files = $this->files->toArray();
+            $data['files'] = \array_map(static fn (FormSubmissionFile $f) => $f->toArray(), $files);
         } else {
             unset($data['files']);
         }
@@ -203,7 +204,7 @@ class FormSubmission implements EntityInterface, \JsonSerializable
         return $this->label;
     }
 
-    public function getExpireDate(): ?\DateTime
+    public function getExpireDate(): ?\DateTimeInterface
     {
         return $this->expireDate;
     }

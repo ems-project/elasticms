@@ -54,6 +54,7 @@
     "ruflin/elastica": "^7.2",
     "sensio/framework-extra-bundle": "^6.2",
     "sensiolabs/ansi-to-html": "^1.1",
+    "stevenmaguire/oauth2-keycloak": "^5.1",
     "symfony-cmf/routing": "^2.3",
     "symfony/asset": "^5.4",
     "symfony/cache": "^5.4",
@@ -93,7 +94,7 @@
     "symfony/serializer": "^5.4",
     "symfony/stopwatch": "^5.4",
     "symfony/string": "^5.4",
-    "symfony/translation": "^5.4",
+    "symfony/translation": "^6.4",
     "symfony/twig-bridge": "^5.4",
     "symfony/twig-bundle": "^5.4",
     "symfony/ux-twig-component": "^2.6",
@@ -176,7 +177,7 @@
       "EMS\\Helpers\\Tests\\": "EMS/helpers/tests/",
       "EMS\\SubmissionBundle\\Tests\\": "EMS/submission-bundle/tests/",
       "EMS\\Xliff\\Tests\\": "EMS/xliff/tests/",
-      "EMS\\Release\\": "release/"
+      "Build\\": "build/src/"
     }
   },
   "replace": {

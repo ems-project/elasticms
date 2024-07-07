@@ -50,6 +50,10 @@ final class ConfigurationAiTest extends TestCase
                 'dashable_regex' => Configuration::WEBALIZE_DASHABLE_REGEX,
             ],
             'slug_symbol_map' => null,
+            'request' => [
+                'trusted_ips' => [],
+            ],
+            'backend_api_timeout' => 30,
         ];
 
         $this->assertEquals($expected, $config);

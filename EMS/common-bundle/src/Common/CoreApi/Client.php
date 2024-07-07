@@ -27,14 +27,14 @@ class Client
     private readonly HttpClientInterface $client;
     private LoggerInterface $logger;
 
-    public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $verify)
+    public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $verify, int $timeout)
     {
         $this->client = new CurlHttpClient([
             'base_uri' => $baseUrl,
             'headers' => ['Content-Type' => 'application/json'],
             'verify_host' => $verify,
             'verify_peer' => $verify,
-            'timeout' => 30,
+            'timeout' => $timeout,
         ]);
 
         $this->setLogger($logger);
@@ -106,15 +106,22 @@ class Client
             throw new \RuntimeException('no stream response');
         }
 
-        $responseStream = $response->toStream();
+        $stream = $response->toStream();
 
-        return new StreamedResponse(function () use ($responseStream) {
-            while (!\feof($responseStream)) {
-                echo \fread($responseStream, File::DEFAULT_CHUNK_SIZE);
+        $streamResponse = new StreamedResponse(function () use ($stream) {
+            while (!\feof($stream)) {
+                echo \fread($stream, File::DEFAULT_CHUNK_SIZE);
                 \flush();
             }
-            \fclose($responseStream);
-        }, $response->getStatusCode(), $response->getHeaders());
+            \fclose($stream);
+        }, $response->getStatusCode());
+
+        $headers = $response->getHeaders();
+
+        $streamResponse->headers->set('Content-Type', $headers['content-type']);
+        $streamResponse->headers->set('Content-Disposition', $headers['content-disposition']);
+
+        return $streamResponse;
     }
 
     /**
@@ -189,7 +196,7 @@ class Client
         $result = new Result($response, $this->logger);
 
         if (!$result->isSuccess()) {
-            throw new NotSuccessfulException($response);
+            throw new NotSuccessfulException($result);
         }
 
         return $result;

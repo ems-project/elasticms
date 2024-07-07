@@ -18,10 +18,11 @@ class CommonExtension extends AbstractExtension
     {
         return [
             new TwigFunction('ems_asset_path', [AssetRuntime::class, 'assetPath'], ['is_safe' => ['html']]),
-            new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip']),
+            new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip'], ['deprecated' => true, 'alternative' => 'ems_file_from_archive']),
             new TwigFunction('ems_json_file', [AssetRuntime::class, 'jsonFromFile']),
             new TwigFunction('ems_asset_get_content', [AssetRuntime::class, 'getContent']),
             new TwigFunction('ems_html', [TextRuntime::class, 'emsHtml'], ['is_safe' => ['all']]),
+            new TwigFunction('ems_http', [HttpClientRuntime::class, 'request']),
             new TwigFunction('ems_nested_search', [SearchRuntime::class, 'nestedSearch']),
             new TwigFunction('ems_analyze', [SearchRuntime::class, 'analyze']),
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
@@ -31,6 +32,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),
             new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
             new TwigFunction('ems_template_exists', [TemplateRuntime::class, 'templateExists']),
+            new TwigFunction('ems_file_from_archive', [AssetRuntime::class, 'fileFromArchive']),
         ];
     }
 

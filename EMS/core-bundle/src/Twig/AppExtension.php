@@ -14,6 +14,7 @@ use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Twig\AssetRuntime;
 use EMS\CommonBundle\Twig\RequestRuntime;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
@@ -33,6 +34,7 @@ use EMS\CoreBundle\Form\DataField\DateRangeFieldType;
 use EMS\CoreBundle\Form\DataField\TimeFieldType;
 use EMS\CoreBundle\Form\Factory\ObjectChoiceListFactory;
 use EMS\CoreBundle\Repository\SequenceRepository;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
@@ -123,6 +125,9 @@ class AppExtension extends AbstractExtension
             new TwigFunction('emsco_get_form', [FormRuntime::class, 'getFormByName']),
             new TwigFunction('emsco_form', [FormRuntime::class, 'handleForm']),
             new TwigFunction('emsco_get_data_field', [FormRuntime::class, 'getDataField']),
+            new TwigFunction('emsco_save_contents', $this->saveContents(...)),
+            new TwigFunction('emsco_notice', $this->notice(...)),
+            new TwigFunction('emsco_warning', $this->warning(...)),
             // deprecated
             new TwigFunction('cant_be_finalized', $this->cantBeFinalized(...), ['deprecated' => true, 'alternative' => 'emsco_cant_be_finalized']),
             new TwigFunction('get_default_environments', [EnvironmentRuntime::class, 'getDefaultEnvironmentNames'], ['deprecated' => true, 'alternative' => 'emsco_get_default_environment_names']),
@@ -256,6 +261,21 @@ class AppExtension extends AbstractExtension
     public function getFile(string $hash): ?string
     {
         return $this->fileService->getFile($hash);
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function saveContents(string $content, string $filename, string $mimetype, int $usage = StorageInterface::STORAGE_USAGE_ASSET): array
+    {
+        $hash = $this->fileService->saveContents($content, $filename, $mimetype, $usage);
+
+        return [
+            EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
+            EmsFields::CONTENT_FILE_SIZE_FIELD => \strlen($content),
+            EmsFields::CONTENT_FILE_NAME_FIELD => $filename,
+            EmsFields::CONTENT_MIME_TYPE_FIELD => $mimetype,
+        ];
     }
 
     /**
@@ -763,13 +783,10 @@ class AppExtension extends AbstractExtension
 
     public function displayName(?string $username): string
     {
-        if (null === $username || '' === $username) {
-            return 'N/A';
-        }
-        /** @var ?UserInterface $user */
-        $user = $this->userService->getUser($username);
-
-        return $user ? $user->getDisplayName() : $username;
+        return match ($username) {
+            null, '' => 'N/A',
+            default => $this->userService->searchUser($username)?->getDisplayName() ?? $username
+        };
     }
 
     public function srcPath(string $input, bool $asFileName = false): ?string
@@ -809,7 +826,7 @@ class AppExtension extends AbstractExtension
 
     public function internalLinks(string $input, bool $asFileName = false): ?string
     {
-        $url = $this->router->generate('data.link', ['key' => 'object:'], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $url = $this->router->generate(Routes::DATA_LINK, ['key' => 'object:'], UrlGeneratorInterface::ABSOLUTE_PATH);
         $out = \preg_replace('/ems:\/\/object:/i', $url, $input);
 
         if (null === $out) {
@@ -821,7 +838,7 @@ class AppExtension extends AbstractExtension
 
     public function isSuper(): bool
     {
-        return $this->authorizationChecker->isGranted('ROLE_SUPER');
+        return $this->userService->isSuper();
     }
 
     /**
@@ -1126,5 +1143,21 @@ class AppExtension extends AbstractExtension
     public function skipNotificationException(string $message = 'This notification has been skipped'): never
     {
         throw new SkipNotificationException($message);
+    }
+
+    /**
+     * @param mixed[] $context
+     */
+    public function notice(string $message, array $context = []): void
+    {
+        $this->logger->notice($message, $context);
+    }
+
+    /**
+     * @param mixed[] $context
+     */
+    public function warning(string $message, array $context = []): void
+    {
+        $this->logger->warning($message, $context);
     }
 }

@@ -161,16 +161,13 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 14,
+        "orderKey": 15,
         "rootContentType": false,
         "editTwigWithWysiwyg": false,
         "webContent": false,
@@ -188,13 +185,14 @@
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
                     },
                     "orderKey": 2,
                     "public": false,
-                    "role": "ROLE_ADMIN"
+                    "role": "ROLE_ADMIN",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }
@@ -212,16 +210,17 @@
         },
         "roles": {
             "view": "ROLE_ADMIN",
-            "create": "ROLE_ADMIN",
+            "create": "not-defined",
             "edit": "not-defined",
-            "publish": "ROLE_ADMIN",
-            "delete": "ROLE_ADMIN",
-            "trash": "ROLE_ADMIN",
+            "publish": "not-defined",
+            "delete": "not-defined",
+            "trash": "not-defined",
             "archive": "not-defined",
-            "show_link_create": "ROLE_ADMIN",
-            "show_link_search": "ROLE_ADMIN"
+            "show_link_create": "not-defined",
+            "show_link_search": "not-defined"
         },
         "fields": {
+            "display": null,
             "label": "name",
             "color": null,
             "sort": null,
@@ -233,6 +232,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

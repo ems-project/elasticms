@@ -5,6 +5,10 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
+        <service id="ems.command.batch" class="EMS\CommonBundle\Command\BatchCommand">
+            <argument type="service" id="twig"/>
+            <tag name="console.command"/>
+        </service>
         <service id="ems.command.status" class="EMS\CommonBundle\Command\StatusCommand">
             <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>
@@ -85,6 +89,25 @@
         <service id="ems.command.info.version" class="EMS\CommonBundle\Command\Info\VersionCommand">
             <argument type="service" id="ems_common.composer.info"/>
             <tag name="console.command" command="ems:version"/>
+        </service>
+        <service id="ems.command.file_structure.publish" class="EMS\CommonBundle\Command\FileStructure\FileStructurePublishCommand">
+            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
+            <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.file_structure.pull" class="EMS\CommonBundle\Command\FileStructure\FileStructurePullCommand">
+            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.file_structure.push" class="EMS\CommonBundle\Command\FileStructure\FileStructurePushCommand">
+            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.storage.clear_cache" class="EMS\CommonBundle\Command\Storage\ClearCacheCommand">
+            <argument type="service" id="ems_common.storage.manager"/>
+            <tag name="console.command" />
         </service>
     </services>
 </container>

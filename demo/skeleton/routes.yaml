@@ -56,25 +56,12 @@ google_verification:
     config:
         path: google559a317bdba2ec40.html
     template_static: template/seo/google.html.twig
-emsch_sso_test:
-  config:
-      path: '/sso/test'
-      defaults: { _authenticated: true }
-  template_static: template/sso/test_sso.html.twig
 emsch_api_form_attachment:
     config:
         path: '/form/{submissionId}/attachment/{submissionFileId}'
         defaults: { apiName: backend, _authenticated: true }
         controller: 'emsch.controller.api::getSubmissionFile'
-        requirements: { submissionId: .*, submissionFileId: .* }
-emsch_publication:
-    config:
-        path: { en: 'publications/{slug}', fr: 'fr/publications/{slug}', nl: 'nl/publicaties/{slug}', de: 'de/publikation/{slug}' }
-        controller: 'emsch.controller.router:asset'
-        defaults: { _target_group: site }
-        requirements: {  }
-    query: '{"query":{"bool":{"must":[{"terms":{"_contenttype":["publication"]}},{"term":{"target_group":"site"}},{"term":{"show_%_locale%":true}},{"term":{"slug_%_locale%":"%slug%"}}]}},"size":1}'
-    template_static: template/asset/publication.json.twig
+        requirements: { submissionId: '.*', submissionFileId: '.*' }
 emsch_slideshow:
     config:
         path: { en: 'slideshow/{slug}', fr: 'fr/presentation/{slug}' }
@@ -122,12 +109,55 @@ emsch_news_details:
 emsch_path:
     config:
         path: { fr: '/fr/{path}', nl: '/nl/{path}' }
-        requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|_error/|metric|file|saml/)(.*$)?).+' }
+        requirements: { path: '^(?!(fr/|nl/|de/|_wdt/|_profiler/|_error/|metric|file|logout/saml|oauth/)(.*$)?).+' }
         defaults: { path: home }
-    query: '{"query":{"bool":{"must":[{"nested":{"path":"paths","query":{"term":{"paths.path":"%path%"}}}},{"nested":{"path":"paths","query":{"term":{"paths.locale":"%_locale%"}}}},{"terms":{"_contenttype":["section"]}}]}},"size":1}'
     template_static: template/structure/by_path.html.twig
 emsch_error:
     config:
         path: '/_error/{statusCode}'
         controller: 'emsch.controller.router::errorPreview'
-        defaults: { statusCode: 500 }
+        requirements: { statusCode: '[0-9]{3}' }
+emsch_login:
+    config:
+        controller: emsch.controller.security.login
+        path: /login
+        method: [ POST, GET ]
+    template_static: template/security/login.html.twig
+ems:
+    config:
+        path: /ems
+        defaults: { _authenticated: true }
+    template_static: template/security/ems.html.twig
+ems_versions:
+    config:
+        path: /ems/versions
+        defaults: { _authenticated: true }
+    template_static: template/security/versions.html.twig
+ems_version_new:
+    config:
+        method: [ GET ]
+        path: /ems/versions/new
+        defaults: { _authenticated: true }
+    template_static: template/security/version.html.twig
+ems_version_detail:
+    config:
+        method: [ GET ]
+        path: /ems/versions/{ouuid}
+        defaults: { _authenticated: true }
+    query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%ouuid%"}}}]}}}'
+    template_static: template/security/version.html.twig
+ems_version_create:
+    config:
+        method: [ POST ]
+        path: /ems/versions/create
+        controller: 'EMS\ClientHelperBundle\Controller\ApiController::createDocumentFromForm'
+        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: '/ems/versions/%ouuid%', validationTemplate: '@EMSCH/template/security/version_validate.twig' }
+    query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%id%"}}}]}}}'
+ems_version_update:
+    config:
+        method: [ POST ]
+        path: /ems/versions/{ouuid}
+        controller: 'EMS\ClientHelperBundle\Controller\ApiController::updateDocumentFromForm'
+        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: '/ems/versions/%ouuid%', validationTemplate: '@EMSCH/template/security/version_validate.twig' }
+    query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%id%"}}}]}}}'
+

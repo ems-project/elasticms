@@ -21,6 +21,17 @@ parameters:
     env(EMSCH_LOCAL_PATH):              ~
 
     env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
+
+    env(EMSCH_OAUTH2):                      false
+    env(EMSCH_OAUTH2_AUTH_SERVER):          ~
+    env(EMSCH_OAUTH2_REALM):                ~
+    env(EMSCH_OAUTH2_CLIENT_ID):            ~
+    env(EMSCH_OAUTH2_CLIENT_SECRET):        ~
+    env(EMSCH_OAUTH2_REDIRECT_URI):         ~
+    env(EMSCH_OAUTH2_VERSION):              ~
+    env(EMSCH_OAUTH2_ENCRYPTION_ALGORITHM): ~
+    env(EMSCH_OAUTH2_ENCRYPTION_KEY):       ~
+
     env(EMSCH_SAML):                    false
     env(EMSCH_SAML_SP_ENTITY_ID):       ~
     env(EMSCH_SAML_SP_PUBLIC_KEY):      ~
@@ -56,17 +67,26 @@ ems_client_helper:
         url: '%env(string:EMSCH_BACKEND_URL)%'
     security:
         route_login: '%env(string:EMSCH_SECURITY_ROUTE_LOGIN)%'
-        saml:
-            enabled: '%env(bool:EMSCH_SAML)%'
-            sp:
-                entity_id: '%env(string:EMSCH_SAML_SP_ENTITY_ID)%'
-                public_key: '%env(string:EMSCH_SAML_SP_PUBLIC_KEY)%'
-                private_key: '%env(string:EMSCH_SAML_SP_PRIVATE_KEY)%'
-            idp:
-                entity_id: '%env(string:EMSCH_SAML_IDP_ENTITY_ID)%'
-                public_key: '%env(string:EMSCH_SAML_IDP_PUBLIC_KEY)%'
-                sso: '%env(string:EMSCH_SAML_IDP_SSO)%'
-            security: '%env(json:EMSCH_SAML_SECURITY)%'
+        sso:
+            oauth2:
+                enabled: '%env(bool:EMSCH_OAUTH2)%'
+                auth_server: '%env(string:EMSCH_OAUTH2_AUTH_SERVER)%'
+                realm: '%env(string:EMSCH_OAUTH2_REALM)%'
+                client_id: '%env(string:EMSCH_OAUTH2_CLIENT_ID)%'
+                client_secret: '%env(string:EMSCH_OAUTH2_CLIENT_SECRET)%'
+                redirect_uri: '%env(string:EMSCH_OAUTH2_REDIRECT_URI)%'
+                version: '%env(string:EMSCH_OAUTH2_VERSION)%'
+                encryption_key: '%env(string:EMSCH_OAUTH2_ENCRYPTION_KEY)%'
+                encryption_algorithm: '%env(string:EMSCH_OAUTH2_ENCRYPTION_ALGORITHM)%'
+            saml:
+                enabled: '%env(bool:EMSCH_SAML)%'
+                sp_entity_id: '%env(string:EMSCH_SAML_SP_ENTITY_ID)%'
+                sp_public_key: '%env(string:EMSCH_SAML_SP_PUBLIC_KEY)%'
+                sp_private_key: '%env(string:EMSCH_SAML_SP_PRIVATE_KEY)%'
+                idp_entity_id: '%env(string:EMSCH_SAML_IDP_ENTITY_ID)%'
+                idp_public_key: '%env(string:EMSCH_SAML_IDP_PUBLIC_KEY)%'
+                idp_sso: '%env(string:EMSCH_SAML_IDP_SSO)%'
+                security: '%env(json:EMSCH_SAML_SECURITY)%'
 
 when@dev:
     ems_client_helper:

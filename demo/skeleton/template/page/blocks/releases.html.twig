@@ -5,50 +5,42 @@
     {% set releases = emsch_search('release', {
         "size": 1000,
         "_source": ["version","release_date"],
-    }).hits.hits|default([])|map(p => p._source)|array_key('version') %}
+        "sort": [{ "version": { "order": "desc" } }],
+    }).hits.hits|default([])|map(p => p._source) %}
     {% set must = {} %}
+
+    {% set versions = releases|map(r => r.version) %}
+    {% set must = [{ 'terms': { 'version': (versions) } }] %}
 
     {% if app.request.get('q', '')|length > 0 %}
         {% set must = must|merge([{
-            query_string: {
-                query: app.request.get('q'),
-                default_field: "title_#{locale}",
+            'query_string': {
+                'query': app.request.get('q'),
+                'default_field': "title_#{locale}",
             }
         }]) %}
     {% endif %}
-
 
     {% set selectedCategories = app.request.get('categories', []) %}
     {% if selectedCategories|length > 0 %}
         {% set must = must|merge([{
-            terms: {category: selectedCategories|map(p => "category:#{p}")}
+            'terms': { 'category': selectedCategories|map(p => "category:#{p}")|reverse|reverse }
         }]) %}
-    {% endif %}
-
-
-
-    {% set query = {} %}
-    {% if must|length > 0 %}
-        {% set query = {
-            bool: {
-                must: must,
-            }
-        } %}
     {% endif %}
 
     {% set features = emsch_search('feature', {
         "size": 1000,
-        "query": query,
+        "query": { 'bool': { 'must': must } },
         "sort": [{
             "version": { "order": "desc" },
-            "_score": { "order": "asc" },
-            "_finalization_datetime": { "order": "desc" },
+            ("title_#{locale}.alpha_order"): { "order": "asc" }
         }],
         "_source": ["#{app.request.locale}.title","version","category"],
     }) %}
 
     {% set aggsCategories = emsch_search('feature', {
         "size": 0,
+        "query": { "terms": { "version": (versions) } },
         "aggs": {
             "categories": {
                 "terms": { "field": "category", "size": 100 },
@@ -117,32 +109,32 @@
         <section class="py-5 py-lg-8">
             <div class="row">
                 <div class="col-12 col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
-                    {# Replace the following section with es > 7.11 by 'features.hits.hits|map(p => p._source.version)|reduce((carry, v) => v in carry ? carry : carry|merge([v]), [])' #}
-                    {% for version in features.hits.hits|map(p => p._source.version)|reduce((carry, v) => v in carry ? carry : carry|merge({(v): v|split('.')}), [])|sort((a, b) => a[0]|default(0) == b[0]|default(0) ? (a[1]|default(0) == b[1]|default(0) ? b[2]|default(0) <=> a[2]|default(0) : b[1]|default(0) <=> a[1]|default(0)) : b[0]|default(0) <=> a[0]|default(0))|map(p => p|join('.')) %}
-                        <div class="release-item">
-                            <h2>
-                                {{ 'block.release.title'|trans({'%version%': version}) }}
-                                {% if attribute(releases, version) is defined and attribute(releases, version).release_date is defined %}
-                                    - {{ ('month.'~attribute(releases, version).release_date|date('F'))|trans }} {{ attribute(releases, version).release_date|date('Y') }}
-                                {% endif %}
-                            </h2>
-                            <ul class="list-unstyled mb-0">
-                                {% for feature in features.hits.hits|filter(p => p._source.version is same as(version)) %}
-                                    <li class="d-flex align-items-start mb-2">
-                                        <span class="badge">
-                                            {% if attribute(categories, feature._source.category|emsch_ouuid) is defined %}
-                                                {{ attribute(categories, feature._source.category|emsch_ouuid) }}
-                                            {% else %}
-                                                &nbsp;
-                                            {% endif %}
-                                        </span>
-                                        <p>{{ attribute(feature._source, locale).title|default('') }}</p>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                        {% if not loop.last %}
-                            <hr>
+                    {% for release in releases %}
+                        {% set releaseFeatures = features.hits.hits|filter(p => p._source.version is same as(release.version))|map(v => v._source) %}
+                        {% set groupedByCategory = categories|map((v, k) => releaseFeatures|filter(f => f.category == "category:#{k}") ) %}
+                        {% if releaseFeatures|length > 0 %}
+                            <div class="release-item">
+                                <h2>
+                                    {{ 'block.release.title'|trans({'%version%': release.version}) }}
+                                    {% if release.release_date is defined %}
+                                        - {{ ('month.'~release.release_date|date('F'))|trans }} {{ release.release_date|date('Y') }}
+                                    {% endif %}
+                                </h2>
+
+                                <ul class="list-unstyled mb-0">
+                                    {% for categoryKey, featuresInCategory in groupedByCategory  %}
+                                        {% for feature in featuresInCategory %}
+                                            <li class="d-flex align-items-start mb-2">
+                                                <span class="badge">{{ attribute(categories, categoryKey) }}</span>
+                                                <p>{{ attribute(feature, locale).title|default('') }}</p>
+                                            </li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% if not loop.last %}
+                                <hr>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 </div>

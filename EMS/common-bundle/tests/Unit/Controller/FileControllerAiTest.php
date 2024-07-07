@@ -7,6 +7,7 @@ namespace EMS\Tests\CommonBundle\Unit\Controller;
 use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\RequestRuntime;
+use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,11 +70,12 @@ class FileControllerAiTest extends TestCase
 
     public function testGenerateLocalImage(): void
     {
+        $resource = \fopen(self::TEST_IMAGE_PATH, 'r');
         $this->processor->expects($this->once())
             ->method('generateLocalImage')
-            ->willReturn(self::TEST_IMAGE_PATH);
+            ->willReturn(new Stream($resource));
 
-        $response = $this->controller->generateLocalImage(new Request(), 'filename', '[]');
+        $response = $this->controller->generateLocalImage(new Request(), 'filename');
         $this->assertInstanceOf(Response::class, $response);
     }
 

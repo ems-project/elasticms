@@ -15,7 +15,7 @@
         <ol class="breadcrumb text-white">
             <li class="breadcrumb-item">
                 <i class="fas fa-chevron-left mr-1"></i>
-                {% if currentStructure and attribute(currentStructure.getItemById(pathInfo.uid).parent.object, locale).title is defined %}
+                {% if currentStructure is defined and attribute(currentStructure.getItemById(pathInfo.uid).parent.object, locale).title is defined %}
                     <a class="text-white" href="{{ path('emsch_path', { path: attribute(pathsByUids, currentStructure.getItemById(pathInfo.uid).parent.id).path }) }}">{{ 'breadcrumb.back-to'|trans({('%title%'): attribute(currentStructure.getItemById(pathInfo.uid).parent.object, locale).title}) }}</a>
                 {% else %}
                     <a class="text-white" href="{{ path('emsch_path') }}">{{ 'breadcrumb.back-to'|trans({('%title%'): 'breadcrumb.homepage'|trans}) }}</a>

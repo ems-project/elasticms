@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use Doctrine\ORM\NoResultException;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
@@ -14,7 +15,6 @@ use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\Form\SearchFilter;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\Template;
-use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Exception\DuplicateOuuidException;
@@ -163,36 +163,6 @@ class DataController extends AbstractController
         ]);
     }
 
-    public function trashAction(ContentType $contentType): Response
-    {
-        if (!$this->isGranted($contentType->role(ContentTypeRoles::TRASH))) {
-            throw $this->createAccessDeniedException('Trash not granted!');
-        }
-
-        return $this->render("@$this->templateNamespace/data/trash.html.twig", [
-            'contentType' => $contentType,
-            'revisions' => $this->dataService->getAllDeleted($contentType),
-        ]);
-    }
-
-    public function putBackAction(ContentType $contentType, string $ouuid): RedirectResponse
-    {
-        $revId = $this->dataService->putBack($contentType, $ouuid);
-
-        return $this->redirectToRoute(Routes::EDIT_REVISION, [
-            'revisionId' => $revId,
-        ]);
-    }
-
-    public function emptyTrashAction(ContentType $contentType, string $ouuid): RedirectResponse
-    {
-        $this->dataService->emptyTrash($contentType, $ouuid);
-
-        return $this->redirectToRoute('ems_data_trash', [
-            'contentType' => $contentType->getId(),
-        ]);
-    }
-
     public function viewDataAction(string $environmentName, string $type, string $ouuid): Response
     {
         $environment = $this->environmentService->getByName($environmentName);
@@ -253,7 +223,7 @@ class DataController extends AbstractController
     public function publicKey(): Response
     {
         $response = new Response();
-        $response->headers->set('Content-Type', 'text/plain');
+        $response->headers->set('Content-Type', MimeTypeHelper::TEXT_PLAIN);
         $response->setContent($this->dataService->getPublicKey());
 
         return $response;
@@ -374,9 +344,7 @@ class DataController extends AbstractController
 
         $this->dataService->delete($type, $ouuid);
 
-        return $this->redirectToRoute('data.root', [
-            'name' => $type,
-        ]);
+        return $this->contentTypeService->redirectOverview($contentType);
     }
 
     public function discardDraft(Revision $revision): ?int
@@ -727,9 +695,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
             ]);
 
-            return $this->redirectToRoute('data.root', [
-                'name' => $contentType->getName(),
-            ]);
+            return $this->contentTypeService->redirectOverview($contentType);
         }
 
         return $this->intNewDocumentFromArray($contentType, $jsonContent);
@@ -756,9 +722,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
             ]);
 
-            return $this->redirectToRoute('data.root', [
-                'name' => $contentType->getName(),
-            ]);
+            return $this->contentTypeService->redirectOverview($contentType);
         }
     }
 

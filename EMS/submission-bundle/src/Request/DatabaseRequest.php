@@ -72,7 +72,7 @@ final class DatabaseRequest
         return $this->label;
     }
 
-    public function getExpireDate(): ?\DateTime
+    public function getExpireDate(): ?\DateTimeInterface
     {
         return $this->expireDate ? \DateTime::createFromImmutable($this->expireDate) : null;
     }
@@ -95,7 +95,7 @@ final class DatabaseRequest
             ->setAllowedTypes('data', 'array')
             ->setAllowedTypes('files', 'array')
             ->setAllowedTypes('label', 'string')
-            ->setAllowedTypes('expire_date', 'string')
+            ->setAllowedTypes('expire_date', ['string', 'null'])
         ;
 
         try {

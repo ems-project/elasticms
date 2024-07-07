@@ -1,0 +1,26 @@
+{% block value_nl %}
+    {% set locale = 'nl' %}{{ block('value') }}
+{% endblock value_nl %}
+
+{% block value_fr %}
+    {% set locale = 'fr' %}{{ block('value') }}
+{% endblock value_fr %}
+
+{% block value %}
+    {% if finalize %}
+        {% set orderLocales = [locale]|merge(['nl', 'fr']|filter(v => v != locale)) %}
+        {% set titles = orderLocales|map(l => attribute(_source, l).title|default(null))|filter(v => v != null) %}
+
+        {% if _type in ['page', 'news'] %}
+            {{ titles|join(' / ')|default(null)|json_encode|raw }}
+        {% elseif _type == 'user_group' %}
+            {% set date = _source.date is defined ? _source.date|date(date_format) : 'no-date' %}
+            {{ "usergroup: #{date}"|json_encode|raw }}
+        {% elseif _type == 'release' %}
+            {{ "#{_source.version} - #{_source.release_date|date(date_format)}"|json_encode|raw }}
+        {% elseif _type == 'feature' %}
+            {% set prefix = _source.version is defined ? "#{_source.version} - " : '' %}
+            {{ (prefix ~ titles|join(' / '))|default(null)|json_encode|raw  }}
+        {% endif %}
+    {% endif %}
+{% endblock value %}

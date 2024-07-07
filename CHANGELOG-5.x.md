@@ -1,5 +1,92 @@
 # Changelog 5.x
 
+## 5.18.0 (2024-06-26)
+### Features
+* feat(common/admin): update command dump file and onlyMissing option by @theus77 in https://github.com/ems-project/elasticms/pull/897
+* feat(common/api): add EMS_BACKEND_API_TIMEOUT config by @theus77 in https://github.com/ems-project/elasticms/pull/900
+* feat(core/twig): add emsco_save_contents twig function by @theus77 in https://github.com/ems-project/elasticms/pull/901
+* feat(core/twig): add emsco_warning and emsco_notice functions by @theus77 in https://github.com/ems-project/elasticms/pull/905
+* feat(core/view): define contentType default overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/910
+* feat(demo): add asset content type (documentation) by @Davidmattei in https://github.com/ems-project/elasticms/pull/907
+* feat(demo): implement emsco_display for content types by @Davidmattei in https://github.com/ems-project/elasticms/pull/913
+* feat(elasticms): add file structure commands for static websites by @theus77 in https://github.com/ems-project/elasticms/pull/917
+* feat(elasticms): add force option to file structure publish (target out of sync) by @theus77 in https://github.com/ems-project/elasticms/pull/919
+* feat(ems/command): add ems:batch command by @Davidmattei in https://github.com/ems-project/elasticms/pull/918
+### Bug Fixes
+* fix(cli): load twig bundle for (ems:batch) command by @Davidmattei in https://github.com/ems-project/elasticms/pull/927
+* fix(cli/import): trim import headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/908
+* fix(core): translation key core.verion by @Davidmattei in https://github.com/ems-project/elasticms/pull/933
+* fix(core/release): rework publish and unpublish by @Davidmattei in https://github.com/ems-project/elasticms/pull/912
+### Code Refactoring
+* refactor(core): extract translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/916
+* refactor: build translations with symfony 6 by @Davidmattei in https://github.com/ems-project/elasticms/pull/920
+
+## 5.17.2 (2024-06-26)
+### Bug Fixes
+* fix(common/storage): S3StreamPromise read by @theus77 in https://github.com/ems-project/elasticms/pull/924
+* fix(core): environment modal(s) showing on page load by @Davidmattei in https://github.com/ems-project/elasticms/pull/934
+* fix(core/api): json export remove proxy fields (__initializer__, ...) by @Davidmattei in https://github.com/ems-project/elasticms/pull/911
+* fix(core/media-lib): preview modal not responsive to content by @Davidmattei in https://github.com/ems-project/elasticms/pull/925
+* fix(core/media-lib): search bar query and ui by @Davidmattei in https://github.com/ems-project/elasticms/pull/926
+* fix(core/mediaLib): wrong import inputOption by @Davidmattei in https://github.com/ems-project/elasticms/pull/922
+
+## 5.17.1 (2024-06-11)
+### Bug Fixes
+* fix(core/mapping): fix json field type mapping by @theus77 in https://github.com/ems-project/elasticms/pull/899
+* fix(core/media-lib): edit filename without extension by @Davidmattei in https://github.com/ems-project/elasticms/pull/904
+* fix(core/twig): internal_links filter with null value by @Davidmattei in https://github.com/ems-project/elasticms/pull/909
+* fix(core/twig): json menu nested component activate item by id by @Davidmattei in https://github.com/ems-project/elasticms/pull/906
+* fix(demo): align with promo and last fixes by @Davidmattei in https://github.com/ems-project/elasticms/pull/898
+### Chores
+* chore(demo): revert back to ems_slug by @Davidmattei in https://github.com/ems-project/elasticms/pull/903
+
+## 5.17.0 (2024-06-03)
+### Features
+* feat(core/revision): trash datatable by @Davidmattei in https://github.com/ems-project/elasticms/pull/888
+* feat(demo): change requests by @Davidmattei in https://github.com/ems-project/elasticms/pull/893
+* feat(ems): ip filtering with EMS_TRUSTED_IPS env variable by @Davidmattei in https://github.com/ems-project/elasticms/pull/883
+### Bug Fixes
+* fix(common/store_data): file system type not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/879
+* fix(core/revision): json compare null as string if not defined by @theus77 in https://github.com/ems-project/elasticms/pull/878
+* fix(core/revision): multiplex apply classes on children by @Davidmattei in https://github.com/ems-project/elasticms/pull/894
+* fix(core/view): sorter view body empty by @Davidmattei in https://github.com/ems-project/elasticms/pull/886
+* fix(submission/db): allow nullable expire_date by @Davidmattei in https://github.com/ems-project/elasticms/pull/880
+### Chores
+* chore(demo): remove publication route and upgrade note single colon controller by @Davidmattei in https://github.com/ems-project/elasticms/pull/887
+
+## 5.16.1 (2024-06-24)
+### Bug Fixes
+* fix(common/storage): S3StreamPromise read by @theus77 in https://github.com/ems-project/elasticms/pull/924
+* fix(common/store_data): file system type not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/879
+* fix(core/media-lib): preview modal not responsive to content by @Davidmattei in https://github.com/ems-project/elasticms/pull/925
+* fix(core/media-lib): search bar query and ui by @Davidmattei in https://github.com/ems-project/elasticms/pull/926
+* fix(core/mediaLib): wrong import inputOption by @Davidmattei in https://github.com/ems-project/elasticms/pull/922
+* fix(core/revision): json compare null as string if not defined by @theus77 in https://github.com/ems-project/elasticms/pull/878
+* fix(submission/db): allow nullable expire_date by @Davidmattei in https://github.com/ems-project/elasticms/pull/880
+
+## 5.16.0 (2024-04-29)
+### Features
+* feat(core/api): fileUrl for submission endpoint by @Davidmattei in https://github.com/ems-project/elasticms/pull/876
+* feat(ems/twig): added new ems_http twig function by @Davidmattei in https://github.com/ems-project/elasticms/pull/873
+* feat(emsch/security): oAuth2 Open ID Connect authenticator (keycloak) by @Davidmattei in https://github.com/ems-project/elasticms/pull/874
+
+## 5.15.3 (2024-06-24)
+### Bug Fixes
+* fix(core/media-lib): preview modal not responsive to content by @Davidmattei in https://github.com/ems-project/elasticms/pull/925
+* fix(core/media-lib): search bar query and ui by @Davidmattei in https://github.com/ems-project/elasticms/pull/926
+* fix(core/revision): json compare null as string if not defined by @theus77 in https://github.com/ems-project/elasticms/pull/878
+
+## 5.15.2 (2024-04-12)
+### Bug Fixes
+* fix(core/api): getSubmissionFile correct headers and error handling by @Davidmattei in https://github.com/ems-project/elasticms/pull/871
+
+## 5.15.1 (2024-04-10)
+### Bug Fixes
+* fix(core): reordered entity services by @theus77 in https://github.com/ems-project/elasticms/pull/865
+* fix(core/environment): datatable only show managed environments by @Davidmattei in https://github.com/ems-project/elasticms/pull/869
+* fix(core/environment): set order on create environment by @Davidmattei in https://github.com/ems-project/elasticms/pull/862
+* fix(submission): change expire_date from date to date time by @Davidmattei in https://github.com/ems-project/elasticms/pull/867
+
 ## 5.15.0 (2024-04-02)
 ### Features
 * feat(admin/media-lib): add preview file + ctrl click selection by @Davidmattei in https://github.com/ems-project/elasticms/pull/837
@@ -744,3 +831,4 @@
 * chore: moved to doc project by @theus77 in https://github.com/ems-project/elasticms/pull/182
 * chore: no pull requests for demo (readonly) by @Davidmattei in https://github.com/ems-project/elasticms/pull/176
 * chore: php 8.1 by @Davidmattei in https://github.com/ems-project/elasticms/pull/149
+

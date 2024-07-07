@@ -413,16 +413,13 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
         "refererFieldName": null,
         "sortOrder": "asc",
-        "orderKey": 11,
+        "orderKey": 12,
         "rootContentType": false,
         "editTwigWithWysiwyg": true,
         "webContent": false,
@@ -436,17 +433,18 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
-                    "icon": "fa fa-list",
+                    "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
                         "size": 0,
-                        "template": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "header": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
-                        "javascript": "{% do emsch_add_environment('preview'|get_environment.alias) %}\r\n{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
+                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview.twig\") }}",
+                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview.twig\") }}"
                     },
                     "orderKey": 2,
                     "public": false,
-                    "role": "ROLE_USER"
+                    "role": "ROLE_USER",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }
@@ -467,11 +465,11 @@
             "create": "ROLE_WEBMASTER",
             "edit": "ROLE_WEBMASTER",
             "publish": "ROLE_WEBMASTER",
-            "delete": "not-defined",
-            "trash": "ROLE_ADMIN",
+            "delete": "ROLE_WEBMASTER",
+            "trash": "ROLE_WEBMASTER",
             "archive": "not-defined",
             "show_link_create": "ROLE_WEBMASTER",
-            "show_link_search": "ROLE_WEBMASTER"
+            "show_link_search": "not-defined"
         },
         "fields": {
             "display": null,

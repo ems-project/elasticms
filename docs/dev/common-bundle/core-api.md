@@ -128,6 +128,8 @@ final class Example
   > Submit form data, returns an array with submission_id and submission info
 * **getSubmission**(string $submissionId, ?string $property = null): array
   > Pass a property for filtering the response, for example '[expireData]', '[data][firstName]' or '[files][0][filename]'
+
+  > Pass a fileUrl for retrieving file urls for the files, example fileUrl=http://localhost:8882/form/{SUBMISSION_ID}/attachment/{FILE_ID}
 * **getSubmissionFile**(string $submissionId, ?string $submissionFileId): StreamedResponse
   > Returns a new proxy streamed response [Symfony\Component\HttpFoundation\StreamedResponse]
   > Because the file information is inside the headers (mimeType, size, name)

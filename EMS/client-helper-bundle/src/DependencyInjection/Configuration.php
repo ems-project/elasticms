@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\DependencyInjection;
 
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Property;
+use EMS\ClientHelperBundle\Security\Sso\Saml\SamlProperty;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -170,36 +172,25 @@ final class Configuration implements ConfigurationInterface
 
     private function addSecuritySection(ArrayNodeDefinition $rootNode): void
     {
-        $rootNode
-            ->children()
-                ->arrayNode('security')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('route_login')->defaultValue('emsch_login')->end()
-                        ->arrayNode('saml')
-                            ->canBeEnabled()
-                                ->children()
-                                    ->arrayNode('sp')
-                                        ->children()
-                                            ->scalarNode('entity_id')->end()
-                                            ->scalarNode('public_key')->end()
-                                            ->scalarNode('private_key')->end()
-                                        ->end()
-                                    ->end()
-                                    ->arrayNode('idp')
-                                        ->children()
-                                            ->scalarNode('entity_id')->end()
-                                            ->scalarNode('public_key')->end()
-                                            ->scalarNode('sso')->end()
-                                        ->end()
-                                    ->end()
-                                    ->variableNode('security')->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end()
-        ;
+        $security = $rootNode->children()->arrayNode('security')->addDefaultsIfNotSet()->children();
+        $security->scalarNode('route_login')->defaultValue('emsch_login')->end();
+
+        $sso = $security->arrayNode('sso')->children();
+
+        $oAuth2 = $sso->arrayNode('oauth2')->canBeEnabled()->children();
+        foreach (OAuth2Property::cases() as $oAuth2Property) {
+            $oAuthConfig = $oAuth2->scalarNode($oAuth2Property->value);
+            if (OAuth2Property::PROVIDER === $oAuth2Property) {
+                $oAuthConfig->defaultValue('keycloak');
+            }
+        }
+
+        $saml = $sso->arrayNode('saml')->canBeEnabled()->children();
+        foreach (SamlProperty::cases() as $samlProperty) {
+            match ($samlProperty) {
+                SamlProperty::SECURITY => $saml->variableNode($samlProperty->value)->end(),
+                default => $saml->scalarNode($samlProperty->value)->end()
+            };
+        }
     }
 }

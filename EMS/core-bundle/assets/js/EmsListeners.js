@@ -273,11 +273,106 @@ export default class EmsListeners {
         }
     }
 
+    dataURLToBlob(dataUrl) {
+        const BASE64_MARKER = ';base64,';
+        if (dataUrl.indexOf(BASE64_MARKER) === -1) {
+            const parts = dataUrl.split(',');
+            const contentType = parts[0].split(':')[1];
+            const raw = parts[1];
+
+            return new Blob([raw], {type: contentType});
+        }
+
+        const parts = dataUrl.split(BASE64_MARKER);
+        const contentType = parts[0].split(':')[1];
+        const raw = window.atob(parts[1]);
+        const rawLength = raw.length;
+
+        const uInt8Array = new Uint8Array(rawLength);
+
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+
+        return new Blob([uInt8Array], {type: contentType});
+    }
+
+    resizeImage(fileHandler, container){
+        const self = this;
+        const imageTypes = ['image/png','image/jpeg','image/webp']
+        if (!imageTypes.includes(fileHandler.type)) {
+            return
+        }
+
+        const mainDiv = $(container);
+        const metaFields = (typeof mainDiv.data('meta-fields') !== 'undefined');
+        const contentInput = mainDiv.find(".content");
+        const resizedImageHashInput = mainDiv.find(".resized-image-hash");
+        const previewLink = mainDiv.find(".img-responsive");
+        const reader = new FileReader()
+        reader.onload = function (e) {
+            const  image = new Image()
+            image.onload = function (imageEvent) {
+                const canvas = document.createElement('canvas');
+                const max_size = 1024;
+                let width = image.width;
+                let height = image.height;
+                if (width <= max_size && height <= max_size) {
+                    self.startUpload(fileHandler, container)
+                    return
+                }
+                if (width > height) {
+                    if (width > max_size) {
+                        height *= max_size / width;
+                        width = max_size;
+                    }
+                } else {
+                    if (height > max_size) {
+                        width *= max_size / height;
+                        height = max_size;
+                    }
+                }
+                canvas.width = width;
+                canvas.height = height;
+                canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                const dataUrl = canvas.toDataURL(fileHandler.type);
+                const resizedImage = self.dataURLToBlob(dataUrl);
+                resizedImage.name = fileHandler.name
+
+                const resizedImageUploader = new FileUploader({
+                    file: resizedImage,
+                    algo: self.hashAlgo,
+                    initUrl: self.initUpload,
+                    emsListener: self,
+                    onHashAvailable: function(hash){
+                        $(resizedImageHashInput).val(hash);
+                    },
+                    onUploaded: function(assetUrl, previewUrl){
+                        previewLink.attr('src', previewUrl);
+
+                        if(metaFields && $(contentInput).length) {
+                            self.fileDataExtrator(container);
+                        }
+                        else if(typeof self.onChangeCallback === "function"){
+                            self.onChangeCallback();
+                        }
+                    },
+                    onError: function(message, code){
+                        console.log(`Error ${code} during upload of resized image with message: ${message}`);
+                        $(resizedImageHashInput).val('');
+                    },
+                });
+            }
+            image.src = e.target.result
+        }
+        reader.readAsDataURL(fileHandler);
+    }
 
     initFileUploader(fileHandler, container){
         const mainDiv = $(container);
         const metaFields = (typeof mainDiv.data('meta-fields') !== 'undefined');
         const sha1Input = mainDiv.find(".sha1");
+        const resizedImageHashInput = mainDiv.find(".resized-image-hash");
         const typeInput = mainDiv.find(".type");
         const nameInput = mainDiv.find(".name");
         const progressBar = mainDiv.find(".progress-bar");
@@ -306,6 +401,7 @@ export default class EmsListeners {
             emsListener: this,
             onHashAvailable: function(hash, type, name){
                 $(sha1Input).val(hash);
+                $(resizedImageHashInput).val('');
                 $(assetHashSignature).empty().append(hash);
                 $(typeInput).val(type);
                 $(nameInput).val(name);
@@ -336,7 +432,11 @@ export default class EmsListeners {
                 uploadTab.addClass('hidden');
 
 
-                if(metaFields && $(contentInput).length) {
+                const imageTypes = ['image/png','image/jpeg','image/webp']
+                if(imageTypes.includes(fileHandler.type)) {
+                    self.resizeImage(fileHandler, container);
+                }
+                else if(metaFields && $(contentInput).length) {
                     self.fileDataExtrator(container);
                 }
                 else if(typeof self.onChangeCallback === "function"){
@@ -353,6 +453,7 @@ export default class EmsListeners {
                     $(progressNumber).html('Error code : '+code);
                 }
                 $(sha1Input).val('');
+                $(resizedImageHashInput).val('');
                 $(assetHashSignature).empty();
                 $(typeInput).val('');
                 $(nameInput).val('');
@@ -432,6 +533,7 @@ export default class EmsListeners {
     onAssetData(row, data){
         const mainDiv = $(row);
         const sha1Input = mainDiv.find(".sha1");
+        const resizedImageHashInput = mainDiv.find(".resized-image-hash");
         const metaFields = (typeof mainDiv.data('meta-fields') !== 'undefined');
         const typeInput = mainDiv.find(".type");
         const nameInput = mainDiv.find(".name");
@@ -447,6 +549,7 @@ export default class EmsListeners {
         const uploadTab = mainDiv.find(".asset-upload-tab");
         const previewLink = mainDiv.find(".img-responsive");
         sha1Input.val(data.sha1);
+        resizedImageHashInput.val('');
         assetHashSignature.empty().append(data.sha1);
         typeInput.val(data.mimetype);
         nameInput.val(data.filename);
@@ -486,6 +589,7 @@ export default class EmsListeners {
         target.find(".clear-asset-button").click(function() {
             const parent = $(this).closest('.file-uploader-row');
             const sha1Input = $(parent).find(".sha1");
+            const resizedImageHashInput = $(parent).find(".resized-image-hash");
             const typeInput = $(parent).find(".type");
             const nameInput = $(parent).find(".name");
             const progressBar = $(parent).find(".progress-bar");
@@ -502,6 +606,7 @@ export default class EmsListeners {
 
             $(parent).find(".file-uploader-input").val('');
             sha1Input.val('');
+            resizedImageHashInput.val('');
             assetHashSignature.empty();
             typeInput.val('');
             nameInput.val('');

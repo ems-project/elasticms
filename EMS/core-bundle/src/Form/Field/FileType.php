@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Form\Field;
 
+use EMS\CommonBundle\Helper\EmsFields;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,7 +26,7 @@ class FileType extends AbstractType
             ],
             'required' => $options['required'],
         ])
-        ->add('_image_resized_hash', HiddenType::class, [
+        ->add(EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD, HiddenType::class, [
             'attr' => [
                 'class' => 'resized-image-hash',
             ],

@@ -96,7 +96,7 @@ class IndexedAssetFieldType extends DataFieldType
                             EmsFields::CONTENT_FILE_HASH_FIELD => $this->elasticsearchService->getKeywordMapping(),
                             EmsFields::CONTENT_FILE_NAME_FIELD => $this->elasticsearchService->getIndexedStringMapping(),
                             EmsFields::CONTENT_FILE_SIZE_FIELD => $this->elasticsearchService->getLongMapping(),
-                            '_image_resized_hash' => $this->elasticsearchService->getKeywordMapping(),
+                            EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD => $this->elasticsearchService->getKeywordMapping(),
                             '_content' => $mapping[$current->getName()],
                             '_author' => $mapping[$current->getName()],
                             '_title' => $mapping[$current->getName()],
@@ -135,7 +135,7 @@ class IndexedAssetFieldType extends DataFieldType
 
             return;
         }
-        if (!empty($raw['_image_resized_hash']) && !$this->fileService->head($raw['_image_resized_hash'])) {
+        if (!empty($raw[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD]) && !$this->fileService->head($raw[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD])) {
             $dataField->addMessage(\sprintf('Resized image of %s not found on the server try to re-upload the source image', $raw['filename']));
         }
 
@@ -172,7 +172,7 @@ class IndexedAssetFieldType extends DataFieldType
     {
         if (\is_array($data)) {
             foreach ($data as $id => $content) {
-                if (!\in_array($id, [EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_FILE_SIZE_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD, '_image_resized_hash', EmsFields::CONTENT_FILE_DATE, EmsFields::CONTENT_FILE_AUTHOR, EmsFields::CONTENT_FILE_LANGUAGE, EmsFields::CONTENT_FILE_CONTENT, EmsFields::CONTENT_FILE_TITLE], true)) {
+                if (!\in_array($id, [EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_FILE_SIZE_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD,  EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD, EmsFields::CONTENT_FILE_DATE, EmsFields::CONTENT_FILE_AUTHOR, EmsFields::CONTENT_FILE_LANGUAGE, EmsFields::CONTENT_FILE_CONTENT, EmsFields::CONTENT_FILE_TITLE], true)) {
                     unset($data[$id]);
                 } elseif ('sha1' !== $id && empty($data[$id])) {
                     unset($data[$id]);

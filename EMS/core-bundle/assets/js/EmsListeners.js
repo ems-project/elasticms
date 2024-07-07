@@ -323,12 +323,12 @@ export default class EmsListeners {
                 }
                 if (width > height) {
                     if (width > imageMaxSize) {
-                        height *= imageMaxSize / width;
+                        height = Math.round(height * imageMaxSize / width);
                         width = imageMaxSize;
                     }
                 } else {
                     if (height > imageMaxSize) {
-                        width *= imageMaxSize / height;
+                        width = Math.round(width * imageMaxSize / height);
                         height = imageMaxSize;
                     }
                 }
@@ -337,7 +337,13 @@ export default class EmsListeners {
                 canvas.getContext('2d').drawImage(image, 0, 0, width, height);
                 const dataUrl = canvas.toDataURL(fileHandler.type);
                 const resizedImage = self.dataURLToBlob(dataUrl);
-                resizedImage.name = fileHandler.name
+                let basename = fileHandler.name
+                let extension = ''
+                if(basename.lastIndexOf('.') !== -1) {
+                    extension = basename.substring(basename.lastIndexOf("."))
+                    basename = basename.substring(0, basename.lastIndexOf("."))
+                }
+                resizedImage.name = `${basename}_${width}x${height}${extension}`
 
                 const resizedImageUploader = new FileUploader({
                     file: resizedImage,

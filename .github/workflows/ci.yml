@@ -25,7 +25,7 @@ jobs:
       - name: "Get Composer Info"
         id: composer
         run: |
-          echo "dir-cache=$(composer global config cache-files-dir --absolute --quiet)" >> $GITHUB_OUTPUT
+          echo "dir-vendor=$(composer global config vendor-dir --absolute --quiet)" >> $GITHUB_OUTPUT
           echo "composer-lock-hash=${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
 
       - name: "Restore cache results"
@@ -40,7 +40,7 @@ jobs:
         uses: actions/cache/restore@v4
         id: restore-composer
         with:
-          path: ${{ steps.composer.outputs.dir-cache }}
+          path: ${{ steps.composer.outputs.dir-vendor }}
           key: ${{ runner.os }}-composer-${{ steps.composer.outputs.composer-lock-hash }}
 
       - name: "Install Composer dependencies"
@@ -69,5 +69,5 @@ jobs:
         if: steps.restore-composer.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          path: ${{ steps.composer.outputs.dir-cache }}
+          path: ${{ steps.composer.outputs.dir-vendor }}
           key: ${{ runner.os }}-composer-${{ steps.composer.outputs.composer-lock-hash }}

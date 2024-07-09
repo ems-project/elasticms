@@ -9,8 +9,7 @@ env:
   PHPUNIT_FLAGS: "-v"
 
 jobs:
-  php-cs-fixer:
-    name: PHP-CS-Fixer
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout code"
@@ -42,6 +41,12 @@ jobs:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
 
+
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
       - name: "Create .cache dir"
         run: |
           mkdir .cache
@@ -69,37 +74,8 @@ jobs:
   phpstan:
     name: PHPStan
     runs-on: ubuntu-latest
+    needs: setup
     steps:
-      - name: "Checkout code"
-        uses: actions/checkout@v4
-
-      - name: "Install PHP"
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-          coverage: none
-          tools: cs2pr
-
-      - name: "Restore Composer Cache"
-        uses: actions/cache/restore@v4
-        id: restore-composer
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: "Install Composer dependencies"
-        if: steps.restore-composer.outputs.cache-hit != 'true'
-        run: composer install --no-progress
-
-      - name: "Save vendor directory"
-        if: steps.restore-composer.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
-
       - name: "Restore PHPStan cache results"
         uses: actions/cache/restore@v4
         with:
@@ -121,37 +97,8 @@ jobs:
   phpunit:
     name: PHPUnit
     runs-on: ubuntu-latest
+    needs: setup
     steps:
-      - name: "Checkout code"
-        uses: actions/checkout@v4
-
-      - name: "Install PHP with extensions"
-        uses: shivammathur/setup-php@v2
-        with:
-          coverage: "none"
-          php-version: ${{ env.PHP_VERSION }}
-          tools: composer:v2
-
-      - name: "Restore Composer Cache"
-        uses: actions/cache/restore@v4
-        id: restore-composer
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: "Install Composer dependencies"
-        if: steps.restore-composer.outputs.cache-hit != 'true'
-        run: composer install --no-progress
-
-      - name: "Save vendor directory"
-        if: steps.restore-composer.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
-
       - name: "PHPUnit version"
         run: vendor/bin/phpunit --version
 

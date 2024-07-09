@@ -22,6 +22,11 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
 
+      - name: "Get Composer Cache Directory"
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
       - name: "Restore cache results"
         uses: actions/cache/restore@v4
         with:
@@ -34,7 +39,7 @@ jobs:
         uses: actions/cache/restore@v4
         id: restore-composer
         with:
-          path: vendor
+          path: ${{ steps.composer-cache.outputs.dir }}
           key: composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
           restore-keys: |
             composer-

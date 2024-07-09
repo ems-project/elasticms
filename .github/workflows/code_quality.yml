@@ -22,8 +22,25 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
 
-      - name: "Install Composer Dependencies"
-        uses: ramsey/composer-install@v3
+      - name: "Restore Composer Cache"
+        uses: actions/cache/restore@v4
+        id: restore-composer
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: "Install Composer dependencies"
+        if: steps.restore-composer.outputs.cache-hit != 'true'
+        run: composer install --no-progress
+
+      - name: "Save vendor directory"
+        if: steps.restore-composer.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
 
       - name: "Create .cache dir"
         run: |
@@ -74,7 +91,7 @@ jobs:
 
       - name: "Install Composer dependencies"
         if: steps.restore-composer.outputs.cache-hit != 'true'
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
+        run: composer install --no-progress
 
       - name: "Save vendor directory"
         if: steps.restore-composer.outputs.cache-hit != 'true'
@@ -115,8 +132,25 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
           tools: composer:v2
 
-      - name: "Composer install"
-        uses: ramsey/composer-install@v3
+      - name: "Restore Composer Cache"
+        uses: actions/cache/restore@v4
+        id: restore-composer
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: "Install Composer dependencies"
+        if: steps.restore-composer.outputs.cache-hit != 'true'
+        run: composer install --no-progress
+
+      - name: "Save vendor directory"
+        if: steps.restore-composer.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
 
       - name: "PHPUnit version"
         run: vendor/bin/phpunit --version

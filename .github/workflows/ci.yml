@@ -40,7 +40,7 @@ jobs:
         id: restore-composer
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
+          key: composer-cache-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             composer-
 
@@ -71,4 +71,4 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: vendor
-          key: composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
+          key: composer-cache-${{ hashFiles('**/composer.lock') }}

@@ -24,5 +24,6 @@ return $config
         'no_unused_imports' => true,
     ])
     ->setRiskyAllowed(true)
+    ->setCacheFile('.cache/.php-cs-fixer.cache')
     ->setFinder($finder)
 ;

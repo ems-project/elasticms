@@ -53,36 +53,36 @@ jobs:
     name: PHPStan
     runs-on: ubuntu-latest
     steps:
-      -   name: "Checkout code"
-          uses: actions/checkout@v4
+      - name: "Checkout code"
+        uses: actions/checkout@v4
 
-      -   name: "Install PHP"
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: ${{ env.PHP_VERSION }}
-            coverage: none
-            tools: cs2pr
+      - name: "Install PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+          tools: cs2pr
 
-      -   name: "Install Composer Dependencies"
-          uses: ramsey/composer-install@v3
+      - name: "Install Composer Dependencies"
+        uses: ramsey/composer-install@v3
 
-      -   name: "Restore PHPStan cache results"
-          uses: actions/cache/restore@v4
-          with:
-            path: .cache/.phpstan.cache
-            key: "phpstan-result-cache-${{ github.run_id }}"
-            restore-keys: |
-              phpstan-result-cache-
+      - name: "Restore PHPStan cache results"
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/.phpstan.cache
+          key: "phpstan-result-cache-${{ github.run_id }}"
+          restore-keys: |
+            phpstan-result-cache-
 
-      -   name: "Run PHPStan"
-          run: vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | cs2pr
+      - name: "Run PHPStan"
+        run: vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | cs2pr
 
-      -   name: "Save PHPStan cache results"
-          uses: actions/cache/save@v4
-          if: always()
-          with:
-            path: .cache/.phpstan.cache
-            key: "phpstan-result-cache-${{ github.run_id }}"
+      - name: "Save PHPStan cache results"
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache/.phpstan.cache
+          key: "phpstan-result-cache-${{ github.run_id }}"
 
   phpunit:
     name: PHPUnit
@@ -90,15 +90,19 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
+
       - name: "Install PHP with extensions"
         uses: shivammathur/setup-php@v2
         with:
           coverage: "none"
           php-version: ${{ env.PHP_VERSION }}
           tools: composer:v2
+
       - name: "Composer install"
         uses: ramsey/composer-install@v3
+
       - name: "PHPUnit version"
         run: vendor/bin/phpunit --version
+
       - name: "Run tests"
         run: vendor/bin/phpunit ${{ env.PHPUNIT_FLAGS }}

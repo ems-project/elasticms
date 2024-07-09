@@ -34,6 +34,7 @@ emsch_demo_asset_in_archive:
     defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
     controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
 ```
+* Check if you can refactor the use of the `_file_names` attribute in [processor config](dev/common-bundle/processors.md#processor). You should refer to file in an archive (e.g. `8ef54d1e170aede4fa78687f466f35bb6292f4ad:img/banners/banner-home.jpg`) instead of file on the local file system.
 
 ## version 5.17.x
 

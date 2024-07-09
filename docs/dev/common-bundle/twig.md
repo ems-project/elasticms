@@ -434,3 +434,12 @@ Arguments:
 {{ 'Wie fährst du deinen großen LKW ?'|ems_slug('de', '/', false) }}
 {# Wie/faehrst/du/deinen/grossen/LKW #}
 ````
+
+## ems_file_from_archive
+
+Returns a path to a temporary asset extracted from an archive (a zip file). Useful to get local path to an asset (e.g. in case of PDF generation)
+
+
+````twig
+    {% set path = ems_file_from_archive('253b903b1fb3ac30975ae9844a0352a65cdcfa3d', 'img/logos/full-logo.svg') %}
+````

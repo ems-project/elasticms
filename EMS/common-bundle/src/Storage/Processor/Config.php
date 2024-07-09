@@ -8,6 +8,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\FileCollection;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
@@ -59,7 +60,14 @@ final class Config
         }
 
         foreach ($this->getFileNames() as $filename) {
-            if (\is_file($filename)) {
+            if (1 === \preg_match('/(?P<hash>[a-z0-9]+):\\/?(?P<path>.*)/', $filename, $matches)) {
+                $tempFile = TempFile::create();
+                $stream = $this->storageManager->getStreamFromArchive($matches['hash'], $matches['path'])->getStream();
+                $tempFile->loadFromStream($stream);
+                $this->filename = $tempFile->path;
+                $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeStringHash($filename));
+                break;
+            } elseif (\is_file($filename)) {
                 $this->filename = $filename;
                 $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeFileHash($filename));
                 break;

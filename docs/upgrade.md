@@ -160,6 +160,9 @@ You can reactivate the dynamic mapping with this environment variable:  `EMSCO_D
 
 ## version 5.19.x
 
+* The function `emsch_unzip` is deprecated and should not be used anymore. use the function ems_file_from_archive or the route EMS\CommonBundle\Controller\FileController::assetInArchive instead
+  * If the `emsch_unzip` function is used to serve assets via the web server you should use the route [EMS\CommonBundle\Controller\FileController::assetInArchive](dev/client-helper-bundle/routing.md#route-to-assets-in-archive)
+  * If the `emsch_unzip` function is used to get local path to an asset you should use the [`ems_file_from_archive`](dev/common-bundle/twig.md#emsfilefromarchive) function
 * Xliff command options have been updated
   * The `--filename` option in the `emsco:xliff:extract` command has been replaced by a `--basename` option and does not contains a path anymore, just a file basename.
 
@@ -179,6 +182,7 @@ emsch_demo_asset_in_archive:
     defaults: { hash: 253b903b1fb3ac30975ae9844a0352a65cdcfa3d, maxAge: 3600 }
     controller: 'EMS\CommonBundle\Controller\FileController::assetInArchive'
 ```
+* Check if you can refactor the use of the `_file_names` attribute in [processor config](dev/common-bundle/processors.md#processor). You should refer to file in an archive (e.g. `8ef54d1e170aede4fa78687f466f35bb6292f4ad:img/banners/banner-home.jpg`) instead of file on the local file system.
 
 ## version 5.17.x
 

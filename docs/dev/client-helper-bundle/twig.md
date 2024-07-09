@@ -2,24 +2,7 @@
 
 ## emsch_assets
 
-For managing environment based assets.
-
-This function will unzip the file (hash) in /public/{saveDir}/**hash** (if not exists). 
-The default value of the saveDir is **bundles**.
-```twig
-{{- emsch_assets('hash', 'saveDir') -}}
-```
-
-After it will create a symlink /public/{saveDir}/**environment_alias** to the hash directory.
-Now you have the possibility to add the following rule in your apache vhost.
-```
- Alias /bundles/emsch_assets /opt/src/public/bundles/**$ENVIRONMENT_ALIAS**
-```
-
-Example base template.
-```twig
-<link rel="stylesheet" href="{{ asset('bundles/emsch_assets/css/app.css') }}">
-```
+This function is deprecated and should be replaced by `emsch_assets_version`
 
 ## emsch_assets_version
 

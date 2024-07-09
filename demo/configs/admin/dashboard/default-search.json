@@ -14,7 +14,7 @@
         "options": {
             "body": "{{ block(\"ems_body\", \"@EMSCH/template_ems/dashboard/default_search.twig\") }}"
         },
-        "orderKey": 2
+        "orderKey": 1
     },
     "replaced": []
 }

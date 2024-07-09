@@ -52,55 +52,40 @@ final class ApiController
         return $this->service->getDocument($apiName, $contentType, $ouuid)->getResponse();
     }
 
-    public function handleFormPostRequest(Request $request, string $apiName, string $contentType, ?string $ouuid, string $csrfId, string $validationTemplate, int $hashcashLevel, string $hashAlgo, bool $forceCreate = false): JsonResponse
+    public function handleFormPostRequest(Request $request, string $apiName, string $contentType, ?string $ouuid, string $csrfId, string $validationTemplate, int $hashcashLevel, string $hashAlgo): JsonResponse
     {
         $this->hashcashHelper->validateHashcash($request, $csrfId, $hashcashLevel, $hashAlgo);
-        $data = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
+        $rawData = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
 
-        if (null === $data) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => 'Empty data',
-            ]);
+        if (null === $rawData) {
+            return new JsonResponse(['success' => false, 'message' => 'Empty data']);
         }
 
         try {
-            if (null === $ouuid || $forceCreate) {
-                $ouuid = $this->service->createDocument($apiName, $contentType, $ouuid, $data);
-            } else {
-                $ouuid = $this->service->updateDocument($apiName, $contentType, $ouuid, $data);
-            }
+            $ouuid = $this->service->index($apiName, $contentType, $ouuid, $rawData);
 
-            return new JsonResponse([
-                'success' => true,
-                'ouuid' => $ouuid,
-            ]);
-        } catch (\Exception $e) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return new JsonResponse(['success' => true, 'ouuid' => $ouuid]);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['success' => false, 'message' => $e->getMessage()]);
         }
     }
 
     public function createDocumentFromForm(Request $request, string $apiName, string $contentType, ?string $ouuid, string $redirectUrl, ?string $validationTemplate = null): RedirectResponse
     {
-        $body = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
-        $ouuid = $this->service->createDocument($apiName, $contentType, $ouuid, $body);
+        $rawData = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
 
-        $url = \str_replace('%ouuid%', $ouuid, $redirectUrl);
-        $url = \str_replace('%contenttype%', $contentType, $url);
+        $ouuid = $this->service->index($apiName, $contentType, $ouuid, $rawData);
+        $url = \str_replace(['%ouuid%', '%contenttype%'], [$ouuid, $contentType], $redirectUrl);
 
         return new RedirectResponse($url);
     }
 
     public function updateDocumentFromForm(Request $request, string $apiName, string $contentType, string $ouuid, string $redirectUrl, ?string $validationTemplate = null): RedirectResponse
     {
-        $body = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
-        $ouuid = $this->service->updateDocument($apiName, $contentType, $ouuid, $body);
+        $rawData = $this->service->treatFormRequest($request, $apiName, $validationTemplate);
 
-        $url = \str_replace('%ouuid%', $ouuid, $redirectUrl);
-        $url = \str_replace('%contenttype%', $contentType, $url);
+        $ouuid = $this->service->index($apiName, $contentType, $ouuid, $rawData, true);
+        $url = \str_replace(['%ouuid%', '%contenttype%'], [$ouuid, $contentType], $redirectUrl);
 
         return new RedirectResponse($url);
     }

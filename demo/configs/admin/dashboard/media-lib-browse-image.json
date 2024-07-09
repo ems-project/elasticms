@@ -2,12 +2,12 @@
     "class": "EMS\\CoreBundle\\Entity\\Dashboard",
     "arguments": [],
     "properties": {
-        "name": "media-library",
-        "icon": "fa fa-medium",
-        "label": "Media library",
-        "sidebarMenu": true,
+        "name": "media-lib-browse-image",
+        "icon": "fa fa-image",
+        "label": "Browse media library",
+        "sidebarMenu": false,
         "notificationMenu": false,
-        "definition": null,
+        "definition": "browser_image",
         "type": "ems_core.dashboard.template",
         "role": "ROLE_AUTHOR",
         "color": null,
@@ -16,7 +16,7 @@
             "header": "{{ block(\"css\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}",
             "footer": "{{ block(\"javascript\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}"
         },
-        "orderKey": 4
+        "orderKey": 7
     },
     "replaced": []
 }

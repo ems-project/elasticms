@@ -34,7 +34,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         if (null === $saveDir) {
             return null;
         }
-        \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_versionwith a null saveDir parameter', E_USER_DEPRECATED);
+        \trigger_error('Specify a save directory and retrieving a path to the assets are deprecated, use emsch_assets_version with a null saveDir parameter', E_USER_DEPRECATED);
         $this->versionSaveDir = $saveDir;
         if (!empty($this->localFolder)) {
             return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
@@ -45,6 +45,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     public function assets(string $hash, string $saveDir = 'bundles', bool $addEnvironmentSymlink = true): string
     {
+        \trigger_error('The function emsch_assets id deprecated, use emsch_assets_version with a null saveDir parameter instead', E_USER_DEPRECATED);
         $basePath = $this->publicDir.\DIRECTORY_SEPARATOR.$saveDir.\DIRECTORY_SEPARATOR;
         $directory = $basePath.$hash;
 
@@ -78,8 +79,12 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
      */
     public function asset(string $path, array $assetConfig = []): string
     {
-        $filename = $this->getAssetsDir().DIRECTORY_SEPARATOR.$path;
-        $basename = \basename($filename);
+        if (empty($this->localFolder)) {
+            $filename = \sprintf('%s:%s', $this->getVersionHash(), $path);
+        } else {
+            $filename = $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder.DIRECTORY_SEPARATOR.$path;
+        }
+        $basename = \basename($path);
 
         return $this->commonAssetRuntime->assetPath([
             EmsFields::CONTENT_FILE_NAME_FIELD => $basename,
@@ -116,14 +121,5 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         }
 
         return $this->versionSaveDir;
-    }
-
-    private function getAssetsDir(): string
-    {
-        if (!empty($this->localFolder)) {
-            return $this->publicDir.DIRECTORY_SEPARATOR.$this->localFolder;
-        }
-
-        return \implode(\DIRECTORY_SEPARATOR, [$this->publicDir, $this->getVersionSaveDir(), $this->getVersionHash()]);
     }
 }

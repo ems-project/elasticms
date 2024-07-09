@@ -45,8 +45,23 @@ jobs:
       -   name: "Install Composer Dependencies"
           uses: ramsey/composer-install@v3
 
+      -   name: Restore cache PHPStan results
+          uses: actions/cache/restore@v4
+          with:
+            path: .cache
+            key: "phpstan-result-cache-${{ github.run_id }}"
+            restore-keys: |
+              phpstan-result-cache-
+
       -   name: "Run phpstan"
           run: vendor/bin/phpstan analyse --no-progress --error-format=checkstyle | cs2pr
+
+      -   name: "Save result cache"
+          uses: actions/cache/save@v4
+          if: always()
+          with:
+            path: .cache
+            key: "phpstan-result-cache-${{ github.run_id }}"
 
   phpunit:
     name: PHPUnit

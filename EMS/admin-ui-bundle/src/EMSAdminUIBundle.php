@@ -11,6 +11,8 @@ class EMSAdminUIBundle extends Bundle
 {
     public function build(ContainerBuilder $container): void
     {
+        $test = 1;
+
         parent::build($container);
     }
 }

@@ -27,7 +27,7 @@ jobs:
         id: restore-composer
         with:
           path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
@@ -85,7 +85,7 @@ jobs:
         id: restore-composer
         with:
           path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
@@ -137,7 +137,7 @@ jobs:
         id: restore-composer
         with:
           path: vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock','**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 

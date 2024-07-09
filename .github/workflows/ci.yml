@@ -32,8 +32,6 @@ jobs:
         with:
           path: .cache
           key: "ci-result-cache-${{ github.run_id }}"
-          restore-keys: |
-            ci-result-cache-
 
       - name: "Restore Composer Cache"
         uses: actions/cache/restore@v4

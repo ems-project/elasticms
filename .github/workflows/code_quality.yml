@@ -25,6 +25,10 @@ jobs:
       - name: "Install Composer Dependencies"
         uses: ramsey/composer-install@v3
 
+      - name: "Create .cache dir"
+        run: |
+          mkdir .cache
+
       - name: "Restore PHP-cs-fixer cache results"
         uses: actions/cache/restore@v4
         with:

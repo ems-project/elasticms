@@ -31,7 +31,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .cache
-          key: "ci-result-cache-${{ github.run_id }}"
+          key: ci-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            ci-${{ github.ref_name }}-
 
       - name: "Restore Composer Cache"
         uses: actions/cache/restore@v4
@@ -60,7 +62,7 @@ jobs:
         if: always()
         with:
           path: .cache
-          key: "ci-result-cache-${{ github.run_id }}"
+          key: ci-${{ github.ref_name }}-${{ github.run_id }}
 
       - name: "Save vendor directory"
         if: steps.restore-composer.outputs.cache-hit != 'true'

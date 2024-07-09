@@ -2,7 +2,7 @@ name: Commit Quality
 
 on:
   pull_request_target:
-    types: [opened, ready_for_review]
+    types: [ready_for_review]
 
 permissions:
   pull-requests: read

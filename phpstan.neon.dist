@@ -1,5 +1,5 @@
 parameters:
-    tmpDir: .cache/.phpstan.cache
+    tmpDir: .cache/phpstan
     treatPhpDocTypesAsCertain: false
     paths:
         - %currentWorkingDirectory%/build

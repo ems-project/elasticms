@@ -20,6 +20,7 @@ use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -141,10 +142,7 @@ final class RecomputeCommand extends AbstractCommand
                     'content_type' => $this->contentType,
                 ]);
 
-                $revisionId = $revision->getId();
-                if (!\is_int($revisionId)) {
-                    throw new \RuntimeException('Unexpected null revision id');
-                }
+                $revisionId = Type::integer($revision->getId());
 
                 if ($missingInIndex) {
                     try {
@@ -165,6 +163,7 @@ final class RecomputeCommand extends AbstractCommand
                     $viewData = $this->dataService->getSubmitData($revisionType->get('data')); // get view data of new revision
                     $revisionType->submit(['data' => $viewData]); // submit new revision (reverse model transformers called
                 }
+
                 $notifications = [];
                 foreach ($revision->getNotifications() as $notification) {
                     if (Notification::PENDING !== $notification->getStatus()) {
@@ -213,11 +212,7 @@ final class RecomputeCommand extends AbstractCommand
                 }
 
                 $this->revisionRepository->unlockRevision($revisionId);
-                $newRevisionId = $newRevision->getId();
-                if (!\is_int($newRevisionId)) {
-                    throw new \RuntimeException('Unexpected null revision id');
-                }
-                $this->revisionRepository->unlockRevision($newRevisionId);
+                $this->revisionRepository->unlockRevision(Type::integer($newRevision->getId()));
 
                 $progress->advance();
             }

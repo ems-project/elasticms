@@ -2,7 +2,6 @@
 
 namespace EMS\CoreBundle\Entity;
 
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -516,7 +515,7 @@ class Revision implements EntityInterface, \Stringable
     {
         $this->rawData[Mapping::FINALIZED_BY_FIELD] = $finalizedBy;
         $this->tryToFinalizeOn = new \DateTime();
-        $this->rawData[Mapping::FINALIZATION_DATETIME_FIELD] = $this->tryToFinalizeOn->format(DateTimeInterface::ATOM);
+        $this->rawData[Mapping::FINALIZATION_DATETIME_FIELD] = $this->tryToFinalizeOn->format(\DateTimeInterface::ATOM);
 
         return $this;
     }

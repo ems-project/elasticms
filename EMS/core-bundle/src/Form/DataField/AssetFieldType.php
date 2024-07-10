@@ -160,7 +160,7 @@ class AssetFieldType extends DataFieldType
                 $fileInfo['filesize'] = $this->fileService->getSize($fileInfo['sha1']);
                 $rawData[] = $fileInfo;
             }
-            if (!empty($fileInfo[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD]) && !$this->fileService->head($fileInfo['_image_resized_hash'])) {
+            if (!empty($fileInfo[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD]) && !$this->fileService->head($fileInfo[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD])) {
                 $dataField->addMessage(\sprintf('Resized image of %s not found on the server try to re-upload the source image', $fileInfo['filename']));
             }
         }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command\ContentType;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
@@ -33,13 +34,14 @@ final class RecomputeCommand extends AbstractCommand
     protected static $defaultName = Commands::CONTENT_TYPE_RECOMPUTE;
 
     private EntityManager $em;
+    private Connection $conn;
     private ContentType $contentType;
     private bool $isDeep;
     private bool $isForce;
     private bool $isCron;
     private bool $isContinue;
     private bool $isMissing;
-    private bool $isNoAlign;
+    private bool $isAlign;
     private ?string $ouuid = null;
     private string $query;
 
@@ -94,6 +96,7 @@ final class RecomputeCommand extends AbstractCommand
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
         $this->em = $em;
+        $this->conn = $em->getConnection();
 
         $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->contentType = $this->contentTypeService->giveByName($contentTypeName);
@@ -103,7 +106,7 @@ final class RecomputeCommand extends AbstractCommand
         $this->isCron = $this->getOptionBool(self::OPTION_CRON);
         $this->isContinue = $this->getOptionBool(self::OPTION_CONTINUE);
         $this->isMissing = $this->getOptionBool(self::OPTION_MISSING);
-        $this->isNoAlign = $this->getOptionBool(self::OPTION_NO_ALIGN);
+        $this->isAlign = false === $this->getOptionBool(self::OPTION_NO_ALIGN);
         $this->ouuid = $this->getOptionStringNull(self::OPTION_OUUID);
 
         if (null !== $input->getOption(self::OPTION_QUERY)) {
@@ -114,8 +117,7 @@ final class RecomputeCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
-        $this->em->getConnection()->setAutoCommit(false);
+        $this->conn->setAutoCommit(false);
 
         if (!$this->isContinue || $this->isCron) {
             $this->lock($this->contentType, $this->query, $this->isForce, $this->isCron, $this->ouuid);
@@ -134,14 +136,8 @@ final class RecomputeCommand extends AbstractCommand
         }
 
         do {
-            $transactionActive = false;
             /** @var Revision $revision */
             foreach ($paginator as $revision) {
-                $revisionType = $this->formFactory->create(RevisionType::class, null, [
-                    'migration' => true,
-                    'content_type' => $this->contentType,
-                ]);
-
                 $revisionId = Type::integer($revision->getId());
 
                 if ($missingInIndex) {
@@ -153,15 +149,17 @@ final class RecomputeCommand extends AbstractCommand
                     } catch (NotFoundException) {
                     }
                 }
-                $transactionActive = true;
 
                 $newRevision = $revision->convertToDraft();
-                $revisionType->setData($newRevision); // bind new revision on form
+                $revisionType = $this->formFactory->create(RevisionType::class, $newRevision, [
+                    'migration' => true,
+                    'content_type' => $this->contentType,
+                ]);
 
                 if ($this->isDeep) {
                     $newRevision->setRawData([]);
-                    $viewData = $this->dataService->getSubmitData($revisionType->get('data')); // get view data of new revision
-                    $revisionType->submit(['data' => $viewData]); // submit new revision (reverse model transformers called
+                    $viewData = $this->dataService->getSubmitData($revisionType->get('data'));
+                    $revisionType->submit(['data' => $viewData]);
                 }
 
                 $notifications = [];
@@ -174,8 +172,6 @@ final class RecomputeCommand extends AbstractCommand
                 }
 
                 $objectArray = $newRevision->getRawData();
-
-                // @todo maybe improve the data binding like the migration?
 
                 $this->dataService->propagateDataToComputedField($revisionType->get('data'), $objectArray, $this->contentType, $this->contentType->getName(), $newRevision->getOuuid(), true);
                 $newRevision->setRawData($objectArray);
@@ -204,7 +200,7 @@ final class RecomputeCommand extends AbstractCommand
                     $this->em->flush($notification);
                 }
 
-                if (!$this->isNoAlign) {
+                if (!$this->isAlign) {
                     foreach ($revision->getEnvironments() as $environment) {
                         $this->logger->info('published to {env}', ['env' => $environment->getName()]);
                         $this->publishService->publish($newRevision, $environment, self::LOCK_BY);
@@ -217,9 +213,10 @@ final class RecomputeCommand extends AbstractCommand
                 $progress->advance();
             }
 
-            if ($transactionActive) {
+            if ($this->conn->isTransactionActive()) {
                 $this->em->commit();
             }
+
             $this->em->clear();
 
             $paginator = $this->revisionRepository->findAllLockedRevisions($this->contentType, self::LOCK_BY, $page, $limit);
@@ -227,9 +224,9 @@ final class RecomputeCommand extends AbstractCommand
         } while ($iterator instanceof \ArrayIterator && $iterator->count());
 
         $progress->finish();
-        $output->writeln('');
+        $this->io->newLine();
 
-        $this->em->getConnection()->setAutoCommit(true);
+        $this->conn->setAutoCommit(true);
 
         return self::EXECUTE_SUCCESS;
     }

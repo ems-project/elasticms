@@ -6,6 +6,7 @@ import PickFileFromServer from './module/pickFileFromServer';
 import FileUploader from "@elasticms/file-uploader";
 import Datatables from "./module/datatables";
 import {tooltipDataLinks} from "./helper/tooltip";
+import {resizeImage} from "./helper/resizeImage";
 
 
 export default class EmsListeners {
@@ -273,31 +274,7 @@ export default class EmsListeners {
         }
     }
 
-    dataURLToBlob(dataUrl) {
-        const BASE64_MARKER = ';base64,';
-        if (dataUrl.indexOf(BASE64_MARKER) === -1) {
-            const parts = dataUrl.split(',');
-            const contentType = parts[0].split(':')[1];
-            const raw = parts[1];
-
-            return new Blob([raw], {type: contentType});
-        }
-
-        const parts = dataUrl.split(BASE64_MARKER);
-        const contentType = parts[0].split(':')[1];
-        const raw = window.atob(parts[1]);
-        const rawLength = raw.length;
-
-        const uInt8Array = new Uint8Array(rawLength);
-
-        for (let i = 0; i < rawLength; ++i) {
-            uInt8Array[i] = raw.charCodeAt(i);
-        }
-
-        return new Blob([uInt8Array], {type: contentType});
-    }
-
-    resizeImage(fileHandler, container){
+    _resizeImage(fileHandler, container, previewUrl){
         const self = this;
         const imageTypes = ['image/png','image/jpeg','image/webp']
         if (!imageTypes.includes(fileHandler.type)) {
@@ -309,69 +286,27 @@ export default class EmsListeners {
         const contentInput = mainDiv.find(".content");
         const resizedImageHashInput = mainDiv.find(".resized-image-hash");
         const previewLink = mainDiv.find(".img-responsive");
-        const reader = new FileReader()
-        const imageMaxSize = document.body.dataset.imageMaxSize
-        reader.onload = function (e) {
-            const  image = new Image()
-            image.onload = function (imageEvent) {
-                const canvas = document.createElement('canvas');
-                let width = image.width;
-                let height = image.height;
-                if (width <= imageMaxSize && height <= imageMaxSize) {
-                    self.startUpload(fileHandler, container)
-                    return
-                }
-                if (width > height) {
-                    if (width > imageMaxSize) {
-                        height = Math.round(height * imageMaxSize / width);
-                        width = imageMaxSize;
-                    }
-                } else {
-                    if (height > imageMaxSize) {
-                        width = Math.round(width * imageMaxSize / height);
-                        height = imageMaxSize;
-                    }
-                }
-                canvas.width = width;
-                canvas.height = height;
-                canvas.getContext('2d').drawImage(image, 0, 0, width, height);
-                const dataUrl = canvas.toDataURL(fileHandler.type);
-                const resizedImage = self.dataURLToBlob(dataUrl);
-                let basename = fileHandler.name
-                let extension = ''
-                if(basename.lastIndexOf('.') !== -1) {
-                    extension = basename.substring(basename.lastIndexOf("."))
-                    basename = basename.substring(0, basename.lastIndexOf("."))
-                }
-                resizedImage.name = `${basename}_${width}x${height}${extension}`
 
-                const resizedImageUploader = new FileUploader({
-                    file: resizedImage,
-                    algo: self.hashAlgo,
-                    initUrl: self.initUpload,
-                    emsListener: self,
-                    onHashAvailable: function(hash){
-                        $(resizedImageHashInput).val(hash);
-                    },
-                    onUploaded: function(assetUrl, previewUrl){
-                        previewLink.attr('src', previewUrl);
-
-                        if(metaFields && $(contentInput).length) {
-                            self.fileDataExtrator(container);
-                        }
-                        else if(typeof self.onChangeCallback === "function"){
-                            self.onChangeCallback();
-                        }
-                    },
-                    onError: function(message, code){
-                        console.log(`Error ${code} during upload of resized image with message: ${message}`);
-                        $(resizedImageHashInput).val('');
-                    },
-                });
+        resizeImage(this.hashAlgo, this.initUpload, fileHandler).then((response) => {
+            if (null === response) {
+                $(resizedImageHashInput).val('')
+                previewLink.attr('src', previewUrl);
+            } else {
+                $(resizedImageHashInput).val(response.hash)
+                previewLink.attr('src', response.url);
             }
-            image.src = e.target.result
-        }
-        reader.readAsDataURL(fileHandler);
+        }).catch((errorMessage) => {
+            console.log(errorMessage)
+            $(resizedImageHashInput).val('')
+            previewLink.attr('src', previewUrl);
+        }).finally(() => {
+            if(metaFields && $(contentInput).length) {
+                self.fileDataExtrator(container);
+            }
+            else if(typeof self.onChangeCallback === "function"){
+                self.onChangeCallback();
+            }
+        })
     }
 
     initFileUploader(fileHandler, container){
@@ -431,7 +366,6 @@ export default class EmsListeners {
             },
             onUploaded: function(assetUrl, previewUrl){
                 viewButton.attr('href', assetUrl);
-                previewLink.attr('src', previewUrl);
                 viewButton.removeClass("disabled");
                 clearButton.removeClass("disabled");
                 previewTab.removeClass('hidden');
@@ -440,7 +374,7 @@ export default class EmsListeners {
 
                 const imageTypes = ['image/png','image/jpeg','image/webp']
                 if(imageTypes.includes(fileHandler.type)) {
-                    self.resizeImage(fileHandler, container);
+                    self._resizeImage(fileHandler, container, previewUrl);
                 }
                 else if(metaFields && $(contentInput).length) {
                     self.fileDataExtrator(container);

@@ -276,22 +276,15 @@ abstract class AbstractCommand extends Command implements CommandInterface
      */
     protected function runCommand(string $command, array $args = [], array $options = []): int
     {
-        try {
-            if (null === $application = $this->getApplication()) {
-                throw new \RuntimeException('could not find application');
-            }
-
-            $cmd = $application->find($command);
-            $input = $args;
-            foreach ($options as $name => $value) {
-                $input['--'.$name] = $value;
-            }
-
-            return $cmd->run(new ArrayInput($input), $this->output);
-        } catch (\Throwable $e) {
-            $this->io->error(\sprintf('Run command failed! (%s)', $e->getMessage()));
-
-            return 0;
+        if (null === $application = $this->getApplication()) {
+            throw new \RuntimeException('could not find application');
         }
+
+        $input = ['command' => $command, ...$args];
+        foreach ($options as $name => $value) {
+            $input['--'.$name] = $value;
+        }
+
+        return $application->doRun(new ArrayInput($input), $this->output);
     }
 }

@@ -33,9 +33,12 @@ final class RecomputeCommand extends AbstractCommand
 
     private EntityManager $em;
     private ContentType $contentType;
-    private bool $optionDeep;
-    private bool $forceFlag;
-    private bool $cronFlag;
+    private bool $isDeep;
+    private bool $isForce;
+    private bool $isCron;
+    private bool $isContinue;
+    private bool $isMissing;
+    private bool $isNoAlign;
     private ?string $ouuid = null;
     private string $query;
 
@@ -94,18 +97,18 @@ final class RecomputeCommand extends AbstractCommand
         $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->contentType = $this->contentTypeService->giveByName($contentTypeName);
 
-        if (!$input->getOption(self::OPTION_CONTINUE) || $input->getOption(self::OPTION_CRON)) {
-            $this->forceFlag = $this->getOptionBool(self::OPTION_FORCE);
-            $this->cronFlag = $this->getOptionBool(self::OPTION_CRON);
-            $this->ouuid = $this->getOptionStringNull(self::OPTION_OUUID);
-        }
+        $this->isDeep = $this->getOptionBool(self::OPTION_DEEP);
+        $this->isForce = $this->getOptionBool(self::OPTION_FORCE);
+        $this->isCron = $this->getOptionBool(self::OPTION_CRON);
+        $this->isContinue = $this->getOptionBool(self::OPTION_CONTINUE);
+        $this->isMissing = $this->getOptionBool(self::OPTION_MISSING);
+        $this->isNoAlign = $this->getOptionBool(self::OPTION_NO_ALIGN);
+        $this->ouuid = $this->getOptionStringNull(self::OPTION_OUUID);
 
         if (null !== $input->getOption(self::OPTION_QUERY)) {
             $this->query = \strval($input->getOption('query'));
             Json::decode($this->query, 'Invalid json query');
         }
-
-        $this->optionDeep = $this->getOptionBool(self::OPTION_DEEP);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -113,8 +116,8 @@ final class RecomputeCommand extends AbstractCommand
         $this->em->getConnection()->getConfiguration()->setSQLLogger(null);
         $this->em->getConnection()->setAutoCommit(false);
 
-        if (!$input->getOption(self::OPTION_CONTINUE) || $input->getOption(self::OPTION_CRON)) {
-            $this->lock($this->contentType, $this->query, $this->forceFlag, $this->cronFlag, $this->ouuid);
+        if (!$this->isContinue || $this->isCron) {
+            $this->lock($this->contentType, $this->query, $this->isForce, $this->isCron, $this->ouuid);
         }
 
         $page = 0;
@@ -125,7 +128,7 @@ final class RecomputeCommand extends AbstractCommand
         $progress->start();
 
         $missingInIndex = false;
-        if ($input->getOption(self::OPTION_MISSING)) {
+        if ($this->isMissing) {
             $missingInIndex = $this->contentTypeService->getIndex($this->contentType);
         }
 
@@ -157,7 +160,7 @@ final class RecomputeCommand extends AbstractCommand
                 $newRevision = $revision->convertToDraft();
                 $revisionType->setData($newRevision); // bind new revision on form
 
-                if ($this->optionDeep) {
+                if ($this->isDeep) {
                     $newRevision->setRawData([]);
                     $viewData = $this->dataService->getSubmitData($revisionType->get('data')); // get view data of new revision
                     $revisionType->submit(['data' => $viewData]); // submit new revision (reverse model transformers called
@@ -202,7 +205,7 @@ final class RecomputeCommand extends AbstractCommand
                     $this->em->flush($notification);
                 }
 
-                if (!$input->getOption('no-align')) {
+                if (!$this->isNoAlign) {
                     foreach ($revision->getEnvironments() as $environment) {
                         $this->logger->info('published to {env}', ['env' => $environment->getName()]);
                         $this->publishService->publish($newRevision, $environment, self::LOCK_BY);

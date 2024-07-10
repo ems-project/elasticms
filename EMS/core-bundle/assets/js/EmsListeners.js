@@ -276,11 +276,6 @@ export default class EmsListeners {
 
     _resizeImage(fileHandler, container, previewUrl){
         const self = this;
-        const imageTypes = ['image/png','image/jpeg','image/webp']
-        if (!imageTypes.includes(fileHandler.type)) {
-            return
-        }
-
         const mainDiv = $(container);
         const metaFields = (typeof mainDiv.data('meta-fields') !== 'undefined');
         const contentInput = mainDiv.find(".content");

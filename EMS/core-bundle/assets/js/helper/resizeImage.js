@@ -4,6 +4,11 @@ import FileUploader from '@elasticms/file-uploader'
 
 async function resizeImage(hashAlgo, initUpload, fileHandler) {
     return  new Promise((resolve, reject) => {
+        const imageTypes = ['image/png','image/jpeg','image/webp']
+        if (!imageTypes.includes(fileHandler.type)) {
+            resolve(null)
+        }
+
         let fileHash = null
         const reader = new FileReader()
         const imageMaxSize = document.body.dataset.imageMaxSize

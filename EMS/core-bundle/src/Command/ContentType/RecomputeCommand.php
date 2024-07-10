@@ -36,6 +36,7 @@ final class RecomputeCommand extends AbstractCommand
     private EntityManager $em;
     private Connection $conn;
     private ContentType $contentType;
+    private bool $isChanged;
     private bool $isDeep;
     private bool $isForce;
     private bool $isCron;
@@ -46,6 +47,7 @@ final class RecomputeCommand extends AbstractCommand
     private string $query;
 
     private const ARGUMENT_CONTENT_TYPE = 'contentType';
+    private const OPTION_CHANGED = 'changed';
     private const OPTION_FORCE = 'force';
     private const OPTION_MISSING = 'missing';
     private const OPTION_CONTINUE = 'continue';
@@ -76,6 +78,7 @@ final class RecomputeCommand extends AbstractCommand
         $this
             ->setDescription('Recompute a content type')
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'content type to recompute')
+            ->addOption(self::OPTION_CHANGED, null, InputOption::VALUE_NONE, 'only create new revision if the hash changed after recompute')
             ->addOption(self::OPTION_FORCE, null, InputOption::VALUE_NONE, 'do not check for already locked revisions')
             ->addOption(self::OPTION_MISSING, null, InputOption::VALUE_NONE, 'will recompute the objects that are missing in their default environment only')
             ->addOption(self::OPTION_CONTINUE, null, InputOption::VALUE_NONE, 'continue a recompute')
@@ -101,6 +104,7 @@ final class RecomputeCommand extends AbstractCommand
         $contentTypeName = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->contentType = $this->contentTypeService->giveByName($contentTypeName);
 
+        $this->isChanged = $this->getOptionBool(self::OPTION_CHANGED);
         $this->isDeep = $this->getOptionBool(self::OPTION_DEEP);
         $this->isForce = $this->getOptionBool(self::OPTION_FORCE);
         $this->isCron = $this->getOptionBool(self::OPTION_CRON);
@@ -178,10 +182,18 @@ final class RecomputeCommand extends AbstractCommand
 
                 $revision->close(new \DateTime('now'));
                 $newRevision->setDraft(false);
-                $newRevision->setFinalizedBy(self::LOCK_BY);
-                $newRevision->setRawDataFinalizedBy(self::LOCK_BY);
 
                 $this->dataService->sign($revision);
+                $this->dataService->sign($newRevision);
+
+                if ($this->isChanged && $revision->getHash() === $newRevision->getHash()) {
+                    $this->revisionRepository->unlockRevision($revisionId);
+                    $progress->advance();
+                    continue;
+                }
+
+                $newRevision->setFinalizedBy(self::LOCK_BY);
+                $newRevision->setRawDataFinalizedBy(self::LOCK_BY);
                 $this->dataService->sign($newRevision);
 
                 $this->em->persist($revision);

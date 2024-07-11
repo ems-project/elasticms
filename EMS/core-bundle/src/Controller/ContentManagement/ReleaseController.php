@@ -31,8 +31,7 @@ final class ReleaseController extends AbstractController
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly ReleaseService $releaseService,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
+        private readonly DataTableFactory $dataTableFactory
     ) {
     }
 

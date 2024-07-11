@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Controller;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 use function Symfony\Component\String\u;
 
@@ -23,17 +22,24 @@ trait CoreControllerTrait
         return $clickedButton instanceof FormInterface ? $clickedButton->getName() : null;
     }
 
-    /**
-     * @param array<string, mixed> $parameters
-     */
-    protected function render(string $view, array $parameters = [], ?Response $response = null): Response
+    protected function getTemplateNamespace(): string
     {
         $templateNamespace = parent::getParameter('ems_core.template_namespace');
 
-        if (\is_string($templateNamespace) && 'EMSCore' !== $templateNamespace) {
+        return \is_string($templateNamespace) ? $templateNamespace : 'EMSCore';
+    }
+
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    protected function renderView(string $view, array $parameters = []): string
+    {
+        $templateNamespace = $this->getTemplateNamespace();
+
+        if ('EMSCore' !== $templateNamespace) {
             $view = u($view)->replaceMatches('/^@EMSCore/', '@'.$templateNamespace)->toString();
         }
 
-        return parent::render($view, $parameters, $response);
+        return parent::renderView($view, $parameters);
     }
 }

@@ -291,7 +291,7 @@ export default class EmsListeners {
                 previewLink.attr('src', response.url);
             }
         }).catch((errorMessage) => {
-            console.log(errorMessage)
+            console.error(errorMessage)
             $(resizedImageHashInput).val('')
             previewLink.attr('src', previewUrl);
         }).finally(() => {

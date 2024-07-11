@@ -62,6 +62,7 @@ parameters:
     env(EMSCO_TEMPLATE_NAMESPACE): 'EMSCore'
     env(EMSCO_DYNAMIC_MAPPING): 'false'
     env(EMSCO_LOCK_TIME): '+1 minutes'
+    env(EMSCO_IMAGE_MAX_SIZE): 2048
 
     env(EMSCO_LDAP_ENABLED): true
     env(EMSCO_LDAP_DN_STRING): '%env(string:LDAP_DN_STRING)%'
@@ -108,6 +109,7 @@ ems_core:
     template_namespace: '%env(string:EMSCO_TEMPLATE_NAMESPACE)%'
     dynamic_mapping: '%env(string:EMSCO_DYNAMIC_MAPPING)%'
     lock_time: '%env(string:EMSCO_LOCK_TIME)%'
+    image_max_size:  '%env(int:EMSCO_IMAGE_MAX_SIZE)%'
 
     ldap:
         enabled: '%env(bool:EMSCO_LDAP_ENABLED)%'

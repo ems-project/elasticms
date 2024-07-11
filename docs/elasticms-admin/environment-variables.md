@@ -289,6 +289,15 @@ Possible values are:
 - `false`: New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly.
 - `strict`: If new fields are detected, an exception is thrown and the document is rejected. New fields must be explicitly added to the mapping.
 
+ 
+### EMSCO_IMAGE_MAX_SIZE
+Define the limit where a resized image, with that max limit, will be generated on the client side in order to limit the memory consumption.
+The resized image's hash will be available in a `_image_resized_hash` attribute in the file field array (in case of a file field).
+In a WYSIWYG field, the master file won't be uploaded, a resized image will be uploaded and directly used as `src` attribute in the `IMG` tag.
+
+```dotenv
+EMSCO_IMAGE_MAX_SIZE=2048
+``` 
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).

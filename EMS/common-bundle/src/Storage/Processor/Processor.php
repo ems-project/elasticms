@@ -40,7 +40,7 @@ class Processor
      */
     public function resolveAndGetResponse(Request $request, array $fileField, array $configArray = [], bool $immutableRoute = false): Response
     {
-        $hash = Config::extractHash($fileField);
+        $hash = Config::extractHash($fileField, EmsFields::CONTENT_FILE_HASH_FIELD, \strval($configArray[EmsFields::ASSET_CONFIG_TYPE] ?? 'none'));
         $filename = Config::extractFilename($fileField, $configArray);
         $mimetype = Config::extractMimetype($fileField, $configArray, $filename);
         $mimeType = $this->overwriteMimeType($mimetype, $configArray);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Revision;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\Revision\RevisionTrashDataTableType;
@@ -21,11 +22,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TrashController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly DataService $dataService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LoggerInterface $logger,
-        private readonly string $templateNamespace
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -57,7 +59,7 @@ class TrashController extends AbstractController
             };
         }
 
-        return $this->render("@$this->templateNamespace/data/trash.html.twig", [
+        return $this->render('@EMSCore/data/trash.html.twig', [
             'contentType' => $contentType,
             'revisions' => $this->dataService->getAllDeleted($contentType),
             'form' => $form->createView(),

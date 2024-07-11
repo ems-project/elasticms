@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\DataTable\DataTableFormat;
 use EMS\CoreBundle\Core\DataTable\TableExporter;
@@ -20,13 +21,14 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 final class DatatableController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly DatatableService $datatableService,
         private readonly DataTableFactory $dataTableFactory,
         private readonly TableRenderer $tableRenderer,
         private readonly TableExporter $tableExporter,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly string $templateNamespace
+        private readonly TokenStorageInterface $tokenStorage
     ) {
     }
 
@@ -36,7 +38,7 @@ final class DatatableController extends AbstractController
         $dataTableRequest = DataTableRequest::fromRequest($request);
         $table->resetIterator($dataTableRequest);
 
-        return $this->render("@$this->templateNamespace/datatable/ajax.html.twig", [
+        return $this->render('@EMSCore/datatable/ajax.html.twig', [
             'dataTableRequest' => $dataTableRequest,
             'table' => $table,
         ], new JsonResponse());

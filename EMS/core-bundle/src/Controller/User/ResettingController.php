@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\User;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Form\User\ResettingRequestType;
 use EMS\CoreBundle\Form\User\ResettingResetType;
@@ -16,8 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResettingController extends AbstractController
 {
-    public function __construct(private readonly UserManager $userManager, private readonly Authenticator $authenticator, private readonly LoggerInterface $logger, private readonly string $templateNamespace)
-    {
+    use CoreControllerTrait;
+
+    public function __construct(
+        private readonly UserManager $userManager,
+        private readonly Authenticator $authenticator,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     public function request(Request $request): Response
@@ -36,7 +42,7 @@ class ResettingController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/user/resetting/request.html.twig", [
+        return $this->render('@EMSCore/user/resetting/request.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -49,7 +55,7 @@ class ResettingController extends AbstractController
             return $this->redirectToRoute('emsco_user_resetting_request');
         }
 
-        return $this->render("@$this->templateNamespace/user/resetting/check_email.html.twig", [
+        return $this->render('@EMSCore/user/resetting/check_email.html.twig', [
             'tokenLifetime' => UserManager::PASSWORD_RETRY_TTL,
         ]);
     }
@@ -75,7 +81,7 @@ class ResettingController extends AbstractController
             return $this->redirectToRoute(Routes::USER_PROFILE);
         }
 
-        return $this->render("@$this->templateNamespace/user/resetting/reset.html.twig", [
+        return $this->render('@EMSCore/user/resetting/reset.html.twig', [
             'form' => $form->createView(),
         ]);
     }

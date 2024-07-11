@@ -4,25 +4,24 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\User;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Twig\Environment;
 
-class LoginController
+class LoginController extends AbstractController
 {
-    public function __construct(private readonly Environment $twig, private readonly string $templateNamespace)
-    {
-    }
+    use CoreControllerTrait;
 
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return new Response($this->twig->render("@$this->templateNamespace/user/login.html.twig", [
+        return $this->render('@EMSCore/user/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
-        ]));
+        ]);
     }
 
     public function logout(): never

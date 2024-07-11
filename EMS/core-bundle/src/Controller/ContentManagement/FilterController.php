@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\Filter;
 use EMS\CoreBundle\Form\Form\FilterType;
 use EMS\CoreBundle\Repository\FilterRepository;
@@ -15,18 +16,19 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class FilterController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly HelperService $helperService,
-        private readonly FilterRepository $filterRepository,
-        private readonly string $templateNamespace,
+        private readonly FilterRepository $filterRepository
     ) {
     }
 
     public function indexAction(): Response
     {
-        return $this->render("@$this->templateNamespace/filter/index.html.twig", [
-                'paging' => $this->helperService->getPagingTool(Filter::class, 'ems_filter_index', 'name'),
+        return $this->render('@EMSCore/filter/index.html.twig', [
+            'paging' => $this->helperService->getPagingTool(Filter::class, 'ems_filter_index', 'name'),
         ]);
     }
 
@@ -40,12 +42,11 @@ class FilterController extends AbstractController
             $filter = $form->getData();
             $this->filterRepository->update($filter);
 
-            return $this->redirectToRoute('ems_filter_index', [
-            ]);
+            return $this->redirectToRoute('ems_filter_index');
         }
 
-        return $this->render("@$this->templateNamespace/filter/edit.html.twig", [
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/filter/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -72,12 +73,11 @@ class FilterController extends AbstractController
             $filter = $form->getData();
             $this->filterRepository->update($filter);
 
-            return $this->redirectToRoute('ems_filter_index', [
-            ]);
+            return $this->redirectToRoute('ems_filter_index');
         }
 
-        return $this->render("@$this->templateNamespace/filter/add.html.twig", [
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/filter/add.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

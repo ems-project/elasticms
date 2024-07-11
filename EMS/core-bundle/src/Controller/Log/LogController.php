@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Log;
 
 use EMS\CommonBundle\Entity\Log;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogManager;
 use EMS\CoreBundle\DataTable\Type\LogDataTableType;
@@ -20,11 +21,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LogController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LogManager $logManager,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LoggerInterface $logger,
-        private readonly string $templateNamespace
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -47,14 +49,14 @@ class LogController extends AbstractController
             return $this->redirectToRoute(Routes::LOG_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/log/index.html.twig", [
+        return $this->render('@EMSCore/log/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     public function view(Log $log): Response
     {
-        return $this->render("@$this->templateNamespace/log/view.html.twig", [
+        return $this->render('@EMSCore/log/view.html.twig', [
             'log' => $log,
         ]);
     }

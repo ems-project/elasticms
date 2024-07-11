@@ -9,6 +9,7 @@ use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Service\Pdf\Pdf;
 use EMS\CommonBundle\Service\Pdf\PdfPrinterInterface;
 use EMS\CommonBundle\Service\Pdf\PdfPrintOptions;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Form\Field\RenderOptionType;
@@ -17,13 +18,15 @@ use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment as Twig;
 
-class ActionController
+class ActionController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly TemplateRepository $templateRepository,
         private readonly EnvironmentService $environmentService,
@@ -32,11 +35,10 @@ class ActionController
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator,
         private readonly LoggerInterface $logger,
         private readonly Twig $twig,
-        private readonly string $templateNamespace,
     ) {
     }
 
-    public function render(
+    public function renderAction(
         string $environmentName,
         int $templateId,
         string $ouuid,
@@ -45,7 +47,7 @@ class ActionController
     {
         $action = $this->templateRepository->getById($templateId);
         if ($public && !$action->isPublic()) {
-            throw new NotFoundHttpException('Template type not found');
+            throw $this->createNotFoundException('Template type not found');
         }
 
         $environment = $this->environmentService->giveByName($environmentName);
@@ -53,8 +55,8 @@ class ActionController
 
         $body = $this->twig->createTemplate($action->getBody());
 
-        if ($_download || !$action->getPreview()
-            && \in_array($action->getRenderOption(), [RenderOptionType::PDF, RenderOptionType::EXPORT])) {
+        if ($_download || (!$action->getPreview()
+                && \in_array($action->getRenderOption(), [RenderOptionType::PDF, RenderOptionType::EXPORT], true))) {
             try {
                 $content = $body->render([
                     'environment' => $environment,
@@ -76,7 +78,7 @@ class ActionController
             };
         }
 
-        return new Response($this->twig->render("@$this->templateNamespace/data/custom-view.html.twig", [
+        return $this->render('@EMSCore/data/custom-view.html.twig', [
             'template' => $action,
             'environment' => $environment,
             'contentType' => $action->getContentType(),
@@ -84,7 +86,7 @@ class ActionController
             'source' => $document->getSource(),
             '_download' => true,
             'body' => $body,
-        ]));
+        ]);
     }
 
     private function generatePdfResponse(Template $action, string $filename, string $content): Response
@@ -122,7 +124,7 @@ class ActionController
                 HeaderUtils::makeDisposition($action->getDisposition(), $filename.'.'.($action->getExtension() ?? ''))
             );
         }
-        if (null != $action->getAllowOrigin()) {
+        if (null !== $action->getAllowOrigin()) {
             $response->headers->set('Access-Control-Allow-Origin', $action->getAllowOrigin());
             $response->headers->set(
                 'Access-Control-Allow-Headers',

@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\Analyzer;
 use EMS\CoreBundle\Form\Form\AnalyzerType;
 use EMS\CoreBundle\Repository\AnalyzerRepository;
@@ -17,17 +18,18 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class AnalyzerController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly HelperService $helperService,
-        private readonly AnalyzerRepository $analyzerRepository,
-        private readonly string $templateNamespace
+        private readonly AnalyzerRepository $analyzerRepository
     ) {
     }
 
     public function index(): Response
     {
-        return $this->render("@$this->templateNamespace/analyzer/index.html.twig", [
+        return $this->render('@EMSCore/analyzer/index.html.twig', [
                 'paging' => $this->helperService->getPagingTool(Analyzer::class, 'ems_analyzer_index', 'name'),
         ]);
     }
@@ -52,8 +54,8 @@ class AnalyzerController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/analyzer/edit.html.twig", [
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/analyzer/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -96,8 +98,8 @@ class AnalyzerController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/analyzer/add.html.twig", [
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/analyzer/add.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

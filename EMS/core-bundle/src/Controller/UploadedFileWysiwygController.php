@@ -14,10 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class UploadedFileWysiwygController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly AjaxService $ajax,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
+        private readonly DataTableFactory $dataTableFactory
     ) {
     }
 
@@ -27,7 +28,7 @@ final class UploadedFileWysiwygController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
 
-        return $this->render("@$this->templateNamespace/uploaded-file-wysiwyg/index.html.twig", [
+        return $this->render('@EMSCore/uploaded-file-wysiwyg/index.html.twig', [
             'form' => $form->createView(),
             'CKEditorFuncNum' => $request->query->get('CKEditorFuncNum') ?: 0,
         ]);
@@ -38,7 +39,7 @@ final class UploadedFileWysiwygController extends AbstractController
         $table = $this->dataTableFactory->create(WysiwygUploadedFileDataTableType::class);
         $form = $this->createForm(TableType::class, $table);
 
-        return $this->ajax->newAjaxModel("@$this->templateNamespace/uploaded-file-wysiwyg/modal.html.twig")
+        return $this->ajax->newAjaxModel('@'.$this->getTemplateNamespace().'/uploaded-file-wysiwyg/modal.html.twig')
             ->setBody('modalBody', ['form' => $form->createView()])
             ->getResponse();
     }

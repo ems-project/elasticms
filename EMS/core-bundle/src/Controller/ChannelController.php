@@ -20,11 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ChannelController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly ChannelService $channelService,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
+        private readonly DataTableFactory $dataTableFactory
     ) {
     }
 
@@ -54,7 +55,7 @@ final class ChannelController extends AbstractController
             return $this->redirectToRoute('ems_core_channel_index');
         }
 
-        return $this->render("@$this->templateNamespace/channel/index.html.twig", [
+        return $this->render('@EMSCore/channel/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -63,13 +64,13 @@ final class ChannelController extends AbstractController
     {
         $channel = new Channel();
 
-        return $this->edit($request, $channel, "@$this->templateNamespace/channel/add.html.twig");
+        return $this->edit($request, $channel, '@EMSCore/channel/add.html.twig');
     }
 
     public function edit(Request $request, Channel $channel, ?string $view = null): Response
     {
         if (null === $view) {
-            $view = "@$this->templateNamespace/channel/edit.html.twig";
+            $view = '@EMSCore/channel/edit.html.twig';
         }
         $form = $this->createForm(ChannelType::class, $channel);
         $form->handleRequest($request);
@@ -94,7 +95,7 @@ final class ChannelController extends AbstractController
 
     public function menu(): Response
     {
-        return $this->render("@$this->templateNamespace/channel/menu.html.twig", [
+        return $this->render('@EMSCore/channel/menu.html.twig', [
             'channels' => $this->channelService->getAll(),
         ]);
     }

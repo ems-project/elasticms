@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Dashboard;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\DashboardDataTableType;
@@ -21,11 +22,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly DashboardManager $dashboardManager,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
+        private readonly DataTableFactory $dataTableFactory
     ) {
     }
 
@@ -55,7 +57,7 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/dashboard/index.html.twig", [
+        return $this->render('@EMSCore/dashboard/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -84,7 +86,7 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute(Routes::DASHBOARD_ADMIN_INDEX);
         }
 
-        return $this->render($create ? "@$this->templateNamespace/dashboard/add.html.twig" : "@$this->templateNamespace/dashboard/edit.html.twig", [
+        return $this->render($create ? '@EMSCore/dashboard/add.html.twig' : '@EMSCore/dashboard/edit.html.twig', [
             'form' => $form->createView(),
             'dashboard' => $dashboard,
         ]);

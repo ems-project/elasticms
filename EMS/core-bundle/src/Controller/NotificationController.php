@@ -30,6 +30,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NotificationController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly PublishService $publishService,
@@ -38,9 +40,8 @@ class NotificationController extends AbstractController
         private readonly NotificationService $notificationService,
         private readonly DashboardManager $dashboardManager,
         private readonly NotificationRepository $notificationRepository,
-        private readonly int $pagingSize,
-        private readonly string $templateNamespace)
-    {
+        private readonly int $pagingSize
+    ) {
     }
 
     public function ajaxNotificationAction(Request $request): Response
@@ -80,7 +81,7 @@ class NotificationController extends AbstractController
 
         $success = $this->notificationService->addNotification($ct->getActionById(\intval($templateId)), $revision, $env);
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
                 'success' => $success,
         ]);
     }
@@ -146,7 +147,7 @@ class NotificationController extends AbstractController
 
     public function menuNotificationAction(): Response
     {
-        return $this->render("@$this->templateNamespace/notification/menu.html.twig", [
+        return $this->render('@EMSCore/notification/menu.html.twig', [
             'counter' => $this->notificationService->menuNotification(),
             'dashboardMenu' => $this->dashboardManager->getNotificationMenu(),
         ]);
@@ -194,7 +195,7 @@ class NotificationController extends AbstractController
                  'notifications' => $notifications,
          ]);
 
-        return $this->render("@$this->templateNamespace/notification/list.html.twig", [
+        return $this->render('@EMSCore/notification/list.html.twig', [
                 'counter' => $count,
                 'notifications' => $notifications,
                 'lastPage' => $lastPage,

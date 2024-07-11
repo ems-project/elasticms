@@ -51,6 +51,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ElasticsearchController extends AbstractController
 {
+    use CoreControllerTrait;
+
     /**
      * @param string[] $elasticsearchCluster
      */
@@ -73,9 +75,8 @@ class ElasticsearchController extends AbstractController
         private readonly EnvironmentRepository $environmentRepository,
         private readonly int $pagingSize,
         private readonly ?string $healthCheckAllowOrigin,
-        private readonly array $elasticsearchCluster,
-        private readonly string $templateNamespace)
-    {
+        private readonly array $elasticsearchCluster
+    ) {
     }
 
     public function addAliasAction(string $name, Request $request): Response
@@ -104,7 +105,7 @@ class ElasticsearchController extends AbstractController
             return $this->redirectToRoute('environment.index');
         }
 
-        return $this->render("@$this->templateNamespace/elasticsearch/add-alias.html.twig", [
+        return $this->render('@EMSCore/elasticsearch/add-alias.html.twig', [
             'form' => $form->createView(),
             'name' => $name,
         ]);
@@ -115,7 +116,7 @@ class ElasticsearchController extends AbstractController
         try {
             $health = $this->elasticaService->getClusterHealth();
 
-            $response = $this->render("@$this->templateNamespace/elasticsearch/status.$_format.twig", [
+            $response = $this->render('@EMSCore/elasticsearch/status.$_format.twig', [
                 'status' => $health,
                 'globalStatus' => $health['status'] ?? 'red',
             ]);
@@ -161,7 +162,7 @@ class ElasticsearchController extends AbstractController
                 }
             }
 
-            return $this->render("@$this->templateNamespace/elasticsearch/status.$_format.twig", [
+            return $this->render('@EMSCore/elasticsearch/status.$_format.twig', [
                 'status' => $status,
                 'certificate' => $certificateInformation,
                 'tika' => $tika,
@@ -170,7 +171,7 @@ class ElasticsearchController extends AbstractController
                 'specifiedVersion' => $this->elasticaService->getVersion(),
             ]);
         } catch (NoNodesAvailableException) {
-            return $this->render("@$this->templateNamespace/elasticsearch/no-nodes-available.$_format.twig", [
+            return $this->render('@EMSCore/elasticsearch/no-nodes-available.$_format.twig', [
                 'cluster' => $this->elasticsearchCluster,
             ]);
         }
@@ -178,7 +179,7 @@ class ElasticsearchController extends AbstractController
 
     public function indexSearch(): Response
     {
-        return $this->render("@$this->templateNamespace/elasticsearch/index.html.twig", [
+        return $this->render('@EMSCore/elasticsearch/index.html.twig', [
             'data' => $this->searchService->getAll(),
         ]);
     }
@@ -495,7 +496,7 @@ class ElasticsearchController extends AbstractController
                     ])
                     ->getForm();
 
-                return $this->render("@$this->templateNamespace/elasticsearch/save-search.html.twig", [
+                return $this->render('@EMSCore/elasticsearch/save-search.html.twig', [
                     'form' => $form->createView(),
                 ]);
             } elseif ($form->isSubmitted() && $form->isValid() && $request->query->get('search_form') && \array_key_exists('delete', $request->query->all('search_form'))) {
@@ -563,7 +564,7 @@ class ElasticsearchController extends AbstractController
                     $exportForms[] = $exportForm->createView();
                 }
 
-                return $this->render("@$this->templateNamespace/elasticsearch/export-search.html.twig", [
+                return $this->render('@EMSCore/elasticsearch/export-search.html.twig', [
                     'exportForms' => $exportForms,
                 ]);
             }
@@ -588,7 +589,7 @@ class ElasticsearchController extends AbstractController
                 }
             }
 
-            return $this->render("@$this->templateNamespace/elasticsearch/search.html.twig", [
+            return $this->render('@EMSCore/elasticsearch/search.html.twig', [
                 'response' => $response ?? null,
                 'lastPage' => $lastPage,
                 'paginationPath' => 'elasticsearch.search',

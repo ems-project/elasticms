@@ -22,6 +22,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly UserService $userService,
@@ -30,7 +32,6 @@ class UserController extends AbstractController
         private readonly DataTableFactory $dataTableFactory,
         private readonly AuthTokenRepository $authTokenRepository,
         private readonly WysiwygProfileRepository $wysiwygProfileRepository,
-        private readonly string $templateNamespace,
         private readonly string $dateTimeFormat
     ) {
     }
@@ -42,7 +43,7 @@ class UserController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
 
-        return $this->render("@$this->templateNamespace/user/index.html.twig", [
+        return $this->render('@EMSCore/user/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -70,7 +71,7 @@ class UserController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/user/add.html.twig", [
+        return $this->render('@EMSCore/user/add.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -96,7 +97,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute(Routes::USER_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/user/edit.html.twig", [
+        return $this->render('@EMSCore/user/edit.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
         ]);
@@ -181,7 +182,7 @@ class UserController extends AbstractController
         $user->setSidebarCollapse($collapsed);
         $this->userService->updateUser($user);
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
             'success' => true,
         ]);
     }

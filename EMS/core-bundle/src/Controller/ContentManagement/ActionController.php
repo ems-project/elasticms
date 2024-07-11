@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\Text\Encoder;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeActionDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
@@ -28,13 +29,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class ActionController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly ActionService $actionService,
         private readonly DataTableFactory $dataTableFactory,
         private readonly ContentTypeRepository $contentTypeRepository,
-        private readonly TemplateRepository $templateRepository,
-        private readonly string $templateNamespace
+        private readonly TemplateRepository $templateRepository
     ) {
     }
 
@@ -86,7 +88,7 @@ final class ActionController extends AbstractController
             return $this->redirectToRoute('ems_core_action_index', ['contentType' => $contentType->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/action/index.html.twig", [
+        return $this->render('@EMSCore/action/index.html.twig', [
             'form' => $form->createView(),
             'contentType' => $contentType,
         ]);
@@ -130,7 +132,7 @@ final class ActionController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/action/add.html.twig", [
+        return $this->render('@EMSCore/action/add.html.twig', [
             'contentType' => $contentType,
             'form' => $form->createView(),
         ]);
@@ -161,7 +163,7 @@ final class ActionController extends AbstractController
             ]);
 
             if ('json' === $_format) {
-                return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+                return $this->render('@EMSCore/ajax/notification.json.twig', [
                     'success' => true,
                 ]);
             }
@@ -178,12 +180,12 @@ final class ActionController extends AbstractController
                 }
             }
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->render('@EMSCore/ajax/notification.json.twig', [
                 'success' => $form->isValid(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/action/edit.html.twig", [
+        return $this->render('@EMSCore/action/edit.html.twig', [
             'form' => $form->createView(),
             'action' => $action,
             'contentType' => $action->giveContentType(),

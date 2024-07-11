@@ -27,11 +27,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class WysiwygController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger,
+    use CoreControllerTrait;
+
+    public function __construct(
+        private readonly LoggerInterface $logger,
         private readonly WysiwygProfileService $wysiwygProfileService,
         private readonly WysiwygStylesSetService $wysiwygStylesSetService,
         private readonly TranslatorInterface $translator,
-        private readonly string $templateNamespace,
         private readonly DataTableFactory $dataTableFactory,
         private readonly FormFactoryInterface $formFactory,
     ) {
@@ -91,7 +93,7 @@ class WysiwygController extends AbstractController
             return $this->redirectToRoute('ems_wysiwyg_index');
         }
 
-        return $this->render("@$this->templateNamespace/wysiwygprofile/index.html.twig", [
+        return $this->render('@EMSCore/wysiwygprofile/index.html.twig', [
                 'profiles' => $this->wysiwygProfileService->getProfiles(),
                 'stylesSets' => $this->wysiwygStylesSetService->getStylesSets(),
                 'formProfiles' => $formProfiles->createView(),
@@ -120,7 +122,7 @@ class WysiwygController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwygprofile/new.html.twig", [
+        return $this->render('@EMSCore/wysiwygprofile/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -146,8 +148,8 @@ class WysiwygController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwyg_styles_set/new.html.twig", [
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/wysiwyg_styles_set/new.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -176,8 +178,8 @@ class WysiwygController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwyg_styles_set/edit.html.twig", [
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/wysiwyg_styles_set/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -206,8 +208,8 @@ class WysiwygController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/wysiwygprofile/edit.html.twig", [
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/wysiwygprofile/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

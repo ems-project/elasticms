@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Job;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Job\ScheduleManager;
 use EMS\CoreBundle\DataTable\Type\JobScheduleDataTableType;
@@ -19,13 +20,14 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ScheduleController extends AbstractController
+class ScheduleController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly ScheduleManager $scheduleManager,
         private readonly LoggerInterface $logger,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
+        private readonly DataTableFactory $dataTableFactory
     ) {
     }
 
@@ -55,7 +57,7 @@ final class ScheduleController extends AbstractController
             return $this->redirectToRoute(Routes::SCHEDULE_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/schedule/index.html.twig", [
+        return $this->render('@EMSCore/schedule/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -64,13 +66,13 @@ final class ScheduleController extends AbstractController
     {
         $schedule = new Schedule();
 
-        return $this->edit($request, $schedule, 'html', true, 'log.schedule.created', "@$this->templateNamespace/schedule/add.html.twig");
+        return $this->edit($request, $schedule, 'html', true, 'log.schedule.created', '@EMSCore/schedule/add.html.twig');
     }
 
     public function edit(Request $request, Schedule $schedule, string $_format, bool $create = false, string $logMessage = 'log.schedule.updated', ?string $template = null): Response
     {
         if (null === $template) {
-            $template = "@$this->templateNamespace/schedule/edit.html.twig";
+            $template = '@EMSCore/schedule/edit.html.twig';
         }
         $form = $this->createForm(ScheduleType::class, $schedule, [
             'create' => $create,
@@ -84,7 +86,7 @@ final class ScheduleController extends AbstractController
             ]);
 
             if ('json' === $_format) {
-                return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+                return $this->render('@EMSCore/ajax/notification.json.twig', [
                     'success' => true,
                 ]);
             }

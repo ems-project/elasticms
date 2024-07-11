@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Revision;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
@@ -37,6 +38,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class EditController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly DataService $dataService,
         private readonly LoggerInterface $logger,
@@ -44,8 +47,7 @@ class EditController extends AbstractController
         private readonly RevisionService $revisionService,
         private readonly TranslatorInterface $translator,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly ContentTypeService $contentTypeService,
-        private readonly string $templateNamespace
+        private readonly ContentTypeService $contentTypeService
     ) {
     }
 
@@ -82,7 +84,7 @@ class EditController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/data/edit-json-revision.html.twig", [
+        return $this->render('@EMSCore/data/edit-json-revision.html.twig', [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);
@@ -244,7 +246,7 @@ class EditController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/data/edit-revision.html.twig", [
+        return $this->render('@EMSCore/data/edit-revision.html.twig', [
             'revision' => $revision,
             'form' => $form->createView(),
         ]);
@@ -286,7 +288,7 @@ class EditController extends AbstractController
             return $this->redirectToRoute(Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentTypeId->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/data/draft-in-progress.html.twig", [
+        return $this->render('@EMSCore/data/draft-in-progress.html.twig', [
             'form' => $form->createView(),
             'contentType' => $contentTypeId,
         ]);

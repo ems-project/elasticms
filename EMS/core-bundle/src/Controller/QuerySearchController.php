@@ -21,11 +21,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class QuerySearchController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly QuerySearchService $querySearchService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
     ) {
     }
 
@@ -55,7 +56,7 @@ final class QuerySearchController extends AbstractController
             return $this->redirectToRoute('ems_core_query_search_index');
         }
 
-        return $this->render("@$this->templateNamespace/query-search/index.html.twig", [
+        return $this->render('@EMSCore/query-search/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -64,13 +65,13 @@ final class QuerySearchController extends AbstractController
     {
         $querySearch = new QuerySearch();
 
-        return $this->edit($request, $querySearch, "@$this->templateNamespace/query-search/add.html.twig");
+        return $this->edit($request, $querySearch, '@EMSCore/query-search/add.html.twig');
     }
 
     public function edit(Request $request, QuerySearch $querySearch, ?string $view = null): Response
     {
-        if (null == $view) {
-            $view = "@$this->templateNamespace/query-search/edit.html.twig";
+        if (null === $view) {
+            $view = '@EMSCore/query-search/edit.html.twig';
         }
         $form = $this->createForm(QuerySearchType::class, $querySearch);
         $form->handleRequest($request);

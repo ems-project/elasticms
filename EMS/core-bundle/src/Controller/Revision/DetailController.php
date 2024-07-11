@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller\Revision;
 
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
 use EMS\CoreBundle\DataTable\Type\Revision\RevisionAuditDataTableType;
@@ -28,6 +29,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DetailController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly ContentTypeService $contentTypeService,
         private readonly DataService $dataService,
@@ -36,9 +39,8 @@ class DetailController extends AbstractController
         private readonly ElasticaService $elasticaService,
         private readonly SearchService $searchService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LoggerInterface $logger,
-        private readonly string $templateNamespace)
-    {
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     public function detailRevision(Request $request, string $type, string $ouuid, int $revisionId, int $compareId): Response
@@ -151,7 +153,7 @@ class DetailController extends AbstractController
             $auditTableForm->handleRequest($request);
         }
 
-        return $this->render("@$this->templateNamespace/data/revisions-data.html.twig", [
+        return $this->render('@EMSCore/data/revisions-data.html.twig', [
             'revision' => $revision,
             'revisionsSummary' => $revisionsSummary,
             'latestVersion' => $latestVersion ?? null,

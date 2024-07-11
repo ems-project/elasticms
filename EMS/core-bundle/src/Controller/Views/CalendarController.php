@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Controller\Views;
 
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\Form\Search;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Form\Form\SearchFormType;
@@ -17,8 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CalendarController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly ElasticaService $elasticaService, private readonly DataService $dataService, private readonly SearchService $searchService, private readonly string $templateNamespace)
-    {
+    use CoreControllerTrait;
+
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly ElasticaService $elasticaService,
+        private readonly DataService $dataService,
+        private readonly SearchService $searchService
+    ) {
     }
 
     public function update(View $view, Request $request): Response
@@ -54,7 +61,7 @@ class CalendarController extends AbstractController
             $revision->setRawData($rawData);
             $this->dataService->finalizeDraft($revision);
 
-            return $this->render("@$this->templateNamespace/view/custom/calendar_replan.json.twig", [
+            return $this->render('@EMSCore/view/custom/calendar_replan.json.twig', [
                 'success' => true,
             ]);
         } catch (\Exception $e) {
@@ -63,7 +70,7 @@ class CalendarController extends AbstractController
                 EmsFields::LOG_EXCEPTION_FIELD => $e,
             ]);
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->render('@EMSCore/ajax/notification.json.twig', [
                 'success' => false,
             ]);
         }
@@ -135,7 +142,7 @@ class CalendarController extends AbstractController
 
         $search = $this->elasticaService->convertElasticsearchSearch($searchQuery);
 
-        return $this->render("@$this->templateNamespace/view/custom/calendar_search.json.twig", [
+        return $this->render('@EMSCore/view/custom/calendar_search.json.twig', [
             'success' => true,
             'data' => $this->elasticaService->search($search)->getResponse()->getData(),
             'field' => $view->getContentType()->getFieldType()->get('ems_'.$view->getOptions()['dateRangeField']),

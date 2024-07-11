@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TwigElementsController extends AbstractController
 {
+    use CoreControllerTrait;
+
     final public const ASSET_EXTRACTOR_STATUS_CACHE_ID = 'status.asset_extractor.result';
 
     public function __construct(
@@ -25,8 +27,7 @@ class TwigElementsController extends AbstractController
         private readonly JobService $jobService,
         private readonly DashboardManager $dashboardManager,
         private readonly ContentTypeService $contentTypeService,
-        private readonly string $templateNamespace)
-    {
+    ) {
     }
 
     public function sideMenuAction(): Response
@@ -36,32 +37,26 @@ class TwigElementsController extends AbstractController
             $status = $this->getAssetExtractorStatus();
         }
 
-        return $this->render(
-            "@$this->templateNamespace/elements/side-menu.html.twig",
-            [
-                'status' => $status,
-                'menu' => [
-                    $this->userService->getSidebarMenu(),
-                    $this->dashboardManager->getSidebarMenu(),
-                    $this->contentTypeService->getContentTypeMenu(),
-                    $this->getPublisherMenu(),
-                    $this->getCrmMenu(),
-                    $this->getUserAdminMenu(),
-                    $this->getAdminMenu(),
-                    $this->getOtherMenu(),
-                ],
-            ]
-        );
+        return $this->render('@EMSCore/elements/side-menu.html.twig', [
+            'status' => $status,
+            'menu' => [
+                $this->userService->getSidebarMenu(),
+                $this->dashboardManager->getSidebarMenu(),
+                $this->contentTypeService->getContentTypeMenu(),
+                $this->getPublisherMenu(),
+                $this->getCrmMenu(),
+                $this->getUserAdminMenu(),
+                $this->getAdminMenu(),
+                $this->getOtherMenu(),
+            ],
+        ]);
     }
 
     public function jobsAction(string $username): Response
     {
-        return $this->render(
-            "@$this->templateNamespace/elements/jobs-list.html.twig",
-            [
-                'jobs' => $this->jobService->findByUser($username),
-            ]
-        );
+        return $this->render('@EMSCore/elements/jobs-list.html.twig', [
+            'jobs' => $this->jobService->findByUser($username),
+        ]);
     }
 
     private function getAssetExtractorStatus(): string

@@ -7,6 +7,7 @@ use Elastica\Query\AbstractQuery;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Command\Environment\AlignCommand;
 use EMS\CoreBundle\Commands;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\Search;
@@ -31,6 +32,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PublishController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly PublishService $publishService,
         private readonly JobService $jobService,
@@ -38,8 +41,7 @@ class PublishController extends AbstractController
         private readonly ContentTypeService $contentTypeService,
         private readonly SearchService $searchService,
         private readonly ElasticaService $elasticaService,
-        private readonly string $templateNamespace)
-    {
+    ) {
     }
 
     public function publishToAction(Revision $revisionId, Environment $envId): Response
@@ -158,7 +160,7 @@ class PublishController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/publish/publish-search-result.html.twig", [
+        return $this->render('@EMSCore/publish/publish-search-result.html.twig', [
             'form' => $form->createView(),
             'fromEnvironment' => $environment,
             'contentType' => $contentType,

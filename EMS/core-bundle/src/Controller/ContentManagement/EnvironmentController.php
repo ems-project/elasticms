@@ -6,6 +6,7 @@ use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\EnvironmentDataTableType;
@@ -47,6 +48,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class EnvironmentController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly SearchService $searchService,
@@ -65,7 +68,6 @@ class EnvironmentController extends AbstractController
         private readonly int $pagingSize,
         private readonly string $instanceId,
         private readonly ?string $circlesObject,
-        private readonly string $templateNamespace,
         private readonly DataTableFactory $dataTableFactory)
     {
     }
@@ -268,7 +270,7 @@ class EnvironmentController extends AbstractController
             $lastPage = 0;
         }
 
-        return $this->render("@$this->templateNamespace/environment/align.html.twig", [
+        return $this->render('@EMSCore/environment/align.html.twig', [
             'form' => $form->createView(),
             'results' => $results,
             'lastPage' => $lastPage,
@@ -458,7 +460,7 @@ class EnvironmentController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/environment/add.html.twig", [
+        return $this->render('@EMSCore/environment/add.html.twig', [
                 'form' => $form->createView(),
         ]);
     }
@@ -486,7 +488,7 @@ class EnvironmentController extends AbstractController
             return $this->redirectToRoute('environment.index');
         }
 
-        return $this->render("@$this->templateNamespace/environment/edit.html.twig", [
+        return $this->render('@EMSCore/environment/edit.html.twig', [
             'environment' => $environment,
             'form' => $form->createView(),
         ]);
@@ -513,7 +515,7 @@ class EnvironmentController extends AbstractController
             $info = false;
         }
 
-        return $this->render("@$this->templateNamespace/environment/view.html.twig", [
+        return $this->render('@EMSCore/environment/view.html.twig', [
                 'environment' => $environment,
                 'info' => $info,
         ]);
@@ -563,9 +565,9 @@ class EnvironmentController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/environment/rebuild.html.twig", [
-                'environment' => $environment,
-                'form' => $form->createView(),
+        return $this->render('@EMSCore/environment/rebuild.html.twig', [
+            'environment' => $environment,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -614,7 +616,7 @@ class EnvironmentController extends AbstractController
                 $environments[] = $environment;
             }
 
-            return $this->render("@$this->templateNamespace/environment/index.html.twig", [
+            return $this->render('@EMSCore/environment/index.html.twig', [
                 'environments' => $environments,
                 'orphanIndexes' => $this->aliasService->getOrphanIndexes(),
                 'unreferencedAliases' => $this->aliasService->getUnreferencedAliases(),

@@ -5,6 +5,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use Doctrine\ORM\NoResultException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
@@ -52,6 +53,8 @@ use Twig\Environment as TwigEnvironment;
 
 class DataController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly DataService $dataService,
@@ -67,8 +70,7 @@ class DataController extends AbstractController
         private readonly SearchRepository $searchRepository,
         private readonly RevisionRepository $revisionRepository,
         private readonly TemplateRepository $templateRepository,
-        private readonly EnvironmentRepository $environmentRepository,
-        private readonly string $templateNamespace
+        private readonly EnvironmentRepository $environmentRepository
     ) {
     }
 
@@ -181,7 +183,7 @@ class DataController extends AbstractController
             throw new NotFoundHttpException(\sprintf('Document %s with identifier %s not found in environment %s', $contentType->getSingularName(), $ouuid, $environmentName));
         }
 
-        return $this->render("@$this->templateNamespace/data/view-data.html.twig", [
+        return $this->render('@EMSCore/data/view-data.html.twig', [
             'document' => $document,
             'object' => $document->getRaw(),
             'environment' => $environment,
@@ -524,7 +526,7 @@ class DataController extends AbstractController
             ]);
         }
 
-        $response = $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+        $response = $this->render('@EMSCore/ajax/notification.json.twig', [
             'success' => $success,
         ]);
         $response->headers->set('Content-Type', 'application/json');
@@ -551,7 +553,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_REVISION_ID_FIELD => $revision->getId(),
             ]);
 
-            $response = $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            $response = $this->render('@EMSCore/ajax/notification.json.twig', [
                 'success' => false,
             ]);
             $response->headers->set('Content-Type', 'application/json');
@@ -613,7 +615,7 @@ class DataController extends AbstractController
             }
         }
 
-        $response = $this->render("@$this->templateNamespace/data/ajax-revision.json.twig", [
+        $response = $this->render('@EMSCore/data/ajax-revision.json.twig', [
             'success' => true,
             'formErrors' => $formErrors,
         ]);
@@ -773,7 +775,7 @@ class DataController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/data/add.html.twig", [
+        return $this->render('@EMSCore/data/add.html.twig', [
             'contentType' => $contentType,
             'form' => $form->createView(),
         ]);

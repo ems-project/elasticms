@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\ManagedAlias;
 use EMS\CoreBundle\Form\Form\ManagedAliasType;
 use EMS\CoreBundle\Repository\ManagedAliasRepository;
@@ -15,12 +16,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ManagedAliasController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly AliasService $aliasService,
         private readonly ManagedAliasRepository $managedAliasRepository,
         private readonly string $instanceId,
-        private readonly string $templateNamespace
     ) {
     }
 
@@ -40,7 +42,7 @@ class ManagedAliasController extends AbstractController
             return $this->redirectToRoute('environment.index');
         }
 
-        return $this->render("@$this->templateNamespace/environment/managed_alias.html.twig", [
+        return $this->render('@EMSCore/environment/managed_alias.html.twig', [
             'new' => true,
             'form' => $form->createView(),
         ]);
@@ -66,7 +68,7 @@ class ManagedAliasController extends AbstractController
             return $this->redirectToRoute('environment.index');
         }
 
-        return $this->render("@$this->templateNamespace/environment/managed_alias.html.twig", [
+        return $this->render('@EMSCore/environment/managed_alias.html.twig', [
             'new' => false,
             'form' => $form->createView(),
         ]);

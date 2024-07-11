@@ -14,8 +14,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class I18nController extends AbstractController
 {
-    public function __construct(private readonly I18nService $i18nService, private readonly int $pagingSize, private readonly string $templateNamespace)
-    {
+    use CoreControllerTrait;
+
+    public function __construct(
+        private readonly I18nService $i18nService,
+        private readonly int $pagingSize
+    ) {
     }
 
     public function indexAction(Request $request): Response
@@ -40,7 +44,7 @@ class I18nController extends AbstractController
 
         $i18ns = $this->i18nService->findAll(($page - 1) * $paging_size, $paging_size, $filters);
 
-        return $this->render("@$this->templateNamespace/i18n/index.html.twig", [
+        return $this->render('@EMSCore/i18n/index.html.twig', [
             'i18nkeys' => $i18ns,
             'lastPage' => $lastPage,
             'paginationPath' => 'i18n_index',
@@ -64,7 +68,7 @@ class I18nController extends AbstractController
             return $this->redirectToRoute('i18n_index', ['id' => $i18n->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/i18n/new.html.twig", [
+        return $this->render('@EMSCore/i18n/new.html.twig', [
             'i18n' => $i18n,
             'form' => $form->createView(),
         ]);
@@ -91,7 +95,7 @@ class I18nController extends AbstractController
             return $this->redirectToRoute('i18n_index');
         }
 
-        return $this->render("@$this->templateNamespace/i18n/edit.html.twig", [
+        return $this->render('@EMSCore/i18n/edit.html.twig', [
             'i18n' => $i18n,
             'edit_form' => $editForm->createView(),
         ]);

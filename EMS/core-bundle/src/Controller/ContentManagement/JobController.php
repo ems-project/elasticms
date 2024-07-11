@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Form\Form\JobType;
 use EMS\CoreBundle\Helper\EmsCoreResponse;
@@ -22,12 +23,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class JobController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly JobService $jobService,
         private readonly int $pagingSize,
-        private readonly bool $triggerJobFromWeb,
-        private readonly string $templateNamespace
+        private readonly bool $triggerJobFromWeb
     ) {
     }
 
@@ -39,7 +41,7 @@ class JobController extends AbstractController
         $total = $this->jobService->count();
         $lastPage = \ceil($total / $size);
 
-        return $this->render("@$this->templateNamespace/job/index.html.twig", [
+        return $this->render('@EMSCore/job/index.html.twig', [
             'jobs' => $this->jobService->scroll($size, $from),
             'page' => $page,
             'size' => $size,
@@ -66,7 +68,7 @@ class JobController extends AbstractController
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/job/status.html.twig", [
+        return $this->render('@EMSCore/job/status.html.twig', [
             'job' => $job,
             'status' => $encoder->encodeUrl($job->getStatus()),
             'output' => $encoder->encodeUrl($converter->convert($job->getOutput())),
@@ -86,7 +88,7 @@ class JobController extends AbstractController
             return $this->redirectToRoute('job.status', ['job' => $job->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/job/add.html.twig", ['form' => $form->createView()]);
+        return $this->render('@EMSCore/job/add.html.twig', ['form' => $form->createView()]);
     }
 
     public function delete(Job $job): RedirectResponse

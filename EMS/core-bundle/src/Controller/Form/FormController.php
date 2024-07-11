@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Form;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\Form\FormManager;
@@ -24,12 +25,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FormController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly FormManager $formManager,
         private readonly FieldTypeManager $fieldTypeManager,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
+        private readonly DataTableFactory $dataTableFactory
     ) {
     }
 
@@ -59,7 +61,7 @@ class FormController extends AbstractController
             return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/admin-form/index.html.twig", [
+        return $this->render('@EMSCore/admin-form/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -104,7 +106,7 @@ class FormController extends AbstractController
             ]));
         }
 
-        return $this->render($create ? "@$this->templateNamespace/admin-form/add.html.twig" : "@$this->templateNamespace/admin-form/edit.html.twig", [
+        return $this->render($create ? '@EMSCore/admin-form/add.html.twig' : '@EMSCore/admin-form/edit.html.twig', [
             'form' => $formType->createView(),
             'entity' => $form,
         ]);
@@ -123,7 +125,7 @@ class FormController extends AbstractController
             return $this->redirectToRoute(Routes::FORM_ADMIN_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/admin-form/reorder.html.twig", [
+        return $this->render('@EMSCore/admin-form/reorder.html.twig', [
             'form' => $formType->createView(),
             'entity' => $form,
         ]);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\User;
 
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Form\User\ChangePasswordType;
 use EMS\CoreBundle\Form\User\UserProfileType;
@@ -15,13 +16,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends AbstractController
 {
-    public function __construct(private readonly UserManager $userManager, private readonly LoggerInterface $logger, private readonly string $templateNamespace)
-    {
+    use CoreControllerTrait;
+
+    public function __construct(
+        private readonly UserManager $userManager,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     public function show(): Response
     {
-        return $this->render("@$this->templateNamespace/user/profile/show.html.twig", [
+        return $this->render('@EMSCore/user/profile/show.html.twig', [
             'user' => $this->userManager->getAuthenticatedUser(),
         ]);
     }
@@ -39,7 +44,7 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute(Routes::USER_PROFILE);
         }
 
-        return $this->render("@$this->templateNamespace/user/profile/edit.html.twig", [
+        return $this->render('@EMSCore/user/profile/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -58,7 +63,7 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute(Routes::USER_PROFILE);
         }
 
-        return $this->render("@$this->templateNamespace/user/profile/change_password.html.twig", [
+        return $this->render('@EMSCore/user/profile/change_password.html.twig', [
             'form' => $form->createView(),
         ]);
     }

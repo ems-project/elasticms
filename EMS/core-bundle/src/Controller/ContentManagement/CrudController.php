@@ -3,6 +3,7 @@
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Exception\DataStateException;
@@ -22,8 +23,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CrudController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger, private readonly UserService $userService, private readonly DataService $dataService, private readonly ContentTypeService $contentTypeService, private readonly string $templateNamespace)
-    {
+    use CoreControllerTrait;
+
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly UserService $userService,
+        private readonly DataService $dataService,
+        private readonly ContentTypeService $contentTypeService,
+    ) {
     }
 
     public function createAction(?string $ouuid, string $name, Request $request): Response
@@ -55,17 +62,17 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                    'success' => false,
-                    'ouuid' => $ouuid,
-                    'type' => $contentType->getName(),
+            return $this->render('@EMSCore/ajax/notification.json.twig', [
+                'success' => false,
+                'ouuid' => $ouuid,
+                'type' => $contentType->getName(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                'success' => true,
-                'revision_id' => $newRevision->getId(),
-                'ouuid' => $newRevision->getOuuid(),
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
+            'success' => true,
+            'revision_id' => $newRevision->getId(),
+            'ouuid' => $newRevision->getOuuid(),
         ]);
     }
 
@@ -85,18 +92,18 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/revision.json.twig", [
-                    'success' => false,
-                    'ouuid' => $ouuid,
-                    'type' => $contentType->getName(),
+            return $this->render('@EMSCore/ajax/revision.json.twig', [
+                'success' => false,
+                'ouuid' => $ouuid,
+                'type' => $contentType->getName(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/revision.json.twig", [
-                'success' => true,
-                'revision' => $revision->getRawData(),
-                'ouuid' => $revision->getOuuid(),
-                'id' => $revision->getId(),
+        return $this->render('@EMSCore/ajax/revision.json.twig', [
+            'success' => true,
+            'revision' => $revision->getRawData(),
+            'ouuid' => $revision->getOuuid(),
+            'id' => $revision->getId(),
         ]);
     }
 
@@ -131,7 +138,7 @@ class CrudController extends AbstractController
             $out['success'] = false;
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", $out);
+        return $this->render('@EMSCore/ajax/notification.json.twig', $out);
     }
 
     /**
@@ -160,17 +167,17 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                    'success' => $isDiscard,
-                    'type' => $contentType->getName(),
-                    'revision_id' => $id,
+            return $this->render('@EMSCore/ajax/notification.json.twig', [
+                'success' => $isDiscard,
+                'type' => $contentType->getName(),
+                'revision_id' => $id,
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                'success' => $isDiscard,
-                'type' => $contentType->getName(),
-                'revision_id' => $revision->getId(),
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
+            'success' => $isDiscard,
+            'type' => $contentType->getName(),
+            'revision_id' => $revision->getId(),
         ]);
     }
 
@@ -202,10 +209,10 @@ class CrudController extends AbstractController
             }
         }
 
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                'success' => $isDeleted,
-                'ouuid' => $ouuid,
-                'type' => $contentType->getName(),
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
+            'success' => $isDeleted,
+            'ouuid' => $ouuid,
+            'type' => $contentType->getName(),
         ]);
     }
 
@@ -237,19 +244,19 @@ class CrudController extends AbstractController
                 ]);
             }
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                    'success' => $isReplaced,
-                    'ouuid' => $ouuid,
-                    'type' => $contentType->getName(),
-                    'revision_id' => null,
-            ]);
-        }
-
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->render('@EMSCore/ajax/notification.json.twig', [
                 'success' => $isReplaced,
                 'ouuid' => $ouuid,
                 'type' => $contentType->getName(),
-                'revision_id' => $newDraft->getId(),
+                'revision_id' => null,
+            ]);
+        }
+
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
+            'success' => $isReplaced,
+            'ouuid' => $ouuid,
+            'type' => $contentType->getName(),
+            'revision_id' => $newDraft->getId(),
         ]);
     }
 
@@ -281,26 +288,26 @@ class CrudController extends AbstractController
             }
             $isMerged = false;
 
-            return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                    'success' => $isMerged,
-                    'ouuid' => $ouuid,
-                    'type' => $contentType->getName(),
-                    'revision_id' => null,
-            ]);
-        }
-
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
+            return $this->render('@EMSCore/ajax/notification.json.twig', [
                 'success' => $isMerged,
                 'ouuid' => $ouuid,
                 'type' => $contentType->getName(),
-                'revision_id' => $newDraft->getId(),
+                'revision_id' => null,
+            ]);
+        }
+
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
+            'success' => $isMerged,
+            'ouuid' => $ouuid,
+            'type' => $contentType->getName(),
+            'revision_id' => $newDraft->getId(),
         ]);
     }
 
     public function testAction(): Response
     {
-        return $this->render("@$this->templateNamespace/ajax/notification.json.twig", [
-                'success' => true,
+        return $this->render('@EMSCore/ajax/notification.json.twig', [
+            'success' => true,
         ]);
     }
 
@@ -308,9 +315,9 @@ class CrudController extends AbstractController
     {
         $contentType = $this->giveContentType($name);
 
-        return $this->render("@$this->templateNamespace/ajax/contenttype_info.json.twig", [
-                'success' => true,
-                'contentType' => $contentType,
+        return $this->render('@EMSCore/ajax/contenttype_info.json.twig', [
+            'success' => true,
+            'contentType' => $contentType,
         ]);
     }
 
@@ -368,7 +375,7 @@ class CrudController extends AbstractController
             $this->dataService->refresh($revision->giveContentType()->giveEnvironment());
         }
 
-        return new JsonResponse(Json::decode($this->renderView("@$this->templateNamespace/ajax/notification.json.twig", [
+        return new JsonResponse(Json::decode($this->renderView('@EMSCore/ajax/notification.json.twig', [
             'success' => !$revision->getDraft(),
             'ouuid' => $revision->getOuuid(),
             'type' => $revision->giveContentType()->getName(),

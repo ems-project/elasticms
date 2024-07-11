@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Controller\Form;
 
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\FormSubmissionDataTableType;
 use EMS\CoreBundle\Form\Data\TableAbstract;
@@ -27,14 +28,15 @@ use ZipStream\Stream;
 
 final class SubmissionController extends AbstractController
 {
+    use CoreControllerTrait;
+
     final public const BUFFER_SIZE = 8192;
 
     public function __construct(
         private readonly FormSubmissionService $formSubmissionService,
         private readonly LoggerInterface $logger,
         private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGeneratorService,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace
+        private readonly DataTableFactory $dataTableFactory
     ) {
     }
 
@@ -66,7 +68,7 @@ final class SubmissionController extends AbstractController
             return $this->redirectToRoute('form.submissions');
         }
 
-        return $this->render("@$this->templateNamespace/form-submission/index.html.twig", [
+        return $this->render('@EMSCore/form-submission/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }

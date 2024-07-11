@@ -79,10 +79,6 @@
             <tag name="console.command"/>
         </service>
         <!-- EMSCO release -->
-        <service id="emsco.release.publish" class="EMS\CoreBundle\Command\Release\PublishReleaseCommand">
-            <argument type="service" id="ems.service.release"/>
-            <tag name="console.command"/>
-        </service>
         <service id="emsco.release.create" class="EMS\CoreBundle\Command\Release\CreateReleaseCommand">
             <argument type="service" id="ems.service.release"/>
             <argument type="service" id="ems.service.environment"/>

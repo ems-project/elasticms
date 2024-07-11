@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Command;
 
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Job;
 use EMS\CoreBundle\Service\JobService;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class JobCommand extends AbstractCommand
 {
-    protected static $defaultName = 'ems:job:run';
+    protected static $defaultName = Commands::JOB_RUN;
 
     private const OPTION_DUMP = 'dump';
     private const OPTION_TAG = 'tag';

@@ -3,9 +3,9 @@
 <div aria-live="polite" aria-atomic="true" class="">
     <div class="toast-container top-0 end-0 p-3 position-fixed">
         {%- set types = {
-            'error' : { 'class': 'bg-danger', 'icon': 'fa-ban' },
-            'warning' : { 'class': 'bg-warning', 'icon': 'fa-warning' },
-            'notice' : { 'class': 'bg-info', 'icon': 'fa-info' },
+            'error' : { 'class': 'bg-danger', 'icon': 'fa-ban', 'label': 'toats.level.error'|trans },
+            'warning' : { 'class': 'bg-warning', 'icon': 'fa-warning', 'label': 'toats.level.warning'|trans  },
+            'notice' : { 'class': 'bg-info', 'icon': 'fa-info', 'label': 'toats.level.notice'|trans },
         } -%}
 
         {%- for type, config in types -%}
@@ -13,7 +13,7 @@
             {% if alerts|length > 0 %}
                 <div class="toast {{ config.class }} show" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header">
-                        <span class="me-auto"><i class="icon fa {{ config.icon }}"></i>&nbsp;{{ "toats.level.#{type}"|trans }}</span>
+                        <span class="me-auto"><i class="icon fa {{ config.icon }}"></i>&nbsp;{{ config.label }}</span>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body">

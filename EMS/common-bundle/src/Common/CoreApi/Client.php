@@ -196,7 +196,7 @@ class Client
         $result = new Result($response, $this->logger);
 
         if (!$result->isSuccess()) {
-            throw new NotSuccessfulException($response);
+            throw new NotSuccessfulException($result);
         }
 
         return $result;

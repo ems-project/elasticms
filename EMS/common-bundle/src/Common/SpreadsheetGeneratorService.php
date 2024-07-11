@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common;
 
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
+use EMS\Helpers\File\TempFile;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -205,17 +206,9 @@ final class SpreadsheetGeneratorService implements SpreadsheetGeneratorServiceIn
         $spreadsheet = $this->buildUpSheets($config);
 
         $writer = new Xlsx($spreadsheet);
-        $tmp = \tempnam(\sys_get_temp_dir(), 'tmp_xls_');
-        if (false === $tmp) {
-            throw new \RuntimeException('Unexpected error while creating a temp file !');
-        }
-
-        $writer->save($tmp);
-        $content = \file_get_contents($tmp);
-        if (false === $content) {
-            throw new \RuntimeException('File contents not found');
-        }
-        $response = new Response($content);
+        $tempFile = TempFile::create();
+        $writer->save($tempFile->path);
+        $response = new Response($tempFile->getContents());
         $this->attachResponseHeader($response, $config, 'application/vnd.ms-excel');
 
         return $response;

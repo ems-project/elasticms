@@ -6,8 +6,10 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\FileCollection;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\MimeType;
@@ -58,7 +60,14 @@ final class Config
         }
 
         foreach ($this->getFileNames() as $filename) {
-            if (\is_file($filename)) {
+            if (1 === \preg_match('/(?P<hash>[a-z0-9]+):\\/?(?P<path>.*)/', $filename, $matches)) {
+                $tempFile = TempFile::create();
+                $stream = $this->storageManager->getStreamFromArchive($matches['hash'], $matches['path'])->getStream();
+                $tempFile->loadFromStream($stream);
+                $this->filename = $tempFile->path;
+                $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeStringHash($filename));
+                break;
+            } elseif (\is_file($filename)) {
                 $this->filename = $filename;
                 $this->cacheKey = $this->makeCacheKey($this->configHash, $this->storageManager->computeFileHash($filename));
                 break;
@@ -66,7 +75,7 @@ final class Config
         }
 
         if (null === $this->filename) {
-            throw new NotFoundHttpException('File not found');
+            throw new NotFoundHttpException(\sprintf('File %s not found', $this->filename));
         }
 
         if ($this->hasDefaultMimeType()) {
@@ -76,7 +85,7 @@ final class Config
 
     public function hasDefaultMimeType(): bool
     {
-        return \in_array($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? '', ['application/octet-stream', 'application/bin', '']);
+        return \in_array($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? '', [MimeTypeHelper::APPLICATION_OCTET_STREAM, 'application/bin', '']);
     }
 
     /**
@@ -436,9 +445,14 @@ final class Config
     /**
      * @param array<string, mixed> $fileField
      */
-    public static function extractHash(array $fileField, string $fileHashField = EmsFields::CONTENT_FILE_HASH_FIELD): string
+    public static function extractHash(array $fileField, string $fileHashField, string $processorType): string
     {
-        return $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $fileField[$fileHashField] ?? 'processor';
+        $default = $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $fileField[$fileHashField] ?? 'processor';
+
+        return match ($processorType) {
+            EmsFields::ASSET_CONFIG_TYPE_IMAGE => $fileField[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD] ?? $default,
+            default => $default,
+        };
     }
 
     /**
@@ -462,7 +476,7 @@ final class Config
      */
     public static function extractMimetype(array $fileField, array $config, string $filename, string $mimeTypeField = EmsFields::CONTENT_MIME_TYPE_FIELD): string
     {
-        return $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? 'application/octet-stream';
+        return $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? MimeTypeHelper::APPLICATION_OCTET_STREAM;
     }
 
     /**

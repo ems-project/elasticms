@@ -5,24 +5,17 @@ declare(strict_types=1);
 namespace EMS\SubmissionBundle\Tests\Functional\Handler;
 
 use EMS\FormBundle\Submission\AbstractHandler;
+use EMS\Helpers\File\TempFile;
 use EMS\SubmissionBundle\Response\ZipHandleResponse;
-use Symfony\Component\Filesystem\Filesystem;
 
 final class ZipHandlerTest extends AbstractHandlerTest
 {
-    private string $tempFile;
+    private TempFile $tempFile;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $filesystem = new Filesystem();
-        $this->tempFile = $filesystem->tempnam(\sys_get_temp_dir(), 'emss');
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-        \unlink($this->tempFile);
+        $this->tempFile = TempFile::create();
     }
 
     protected function getHandler(): AbstractHandler
@@ -38,9 +31,9 @@ final class ZipHandlerTest extends AbstractHandlerTest
         $handleResponse = $this->handle($this->createFormUploadFiles(), $endpoint, $message);
 
         $content = $handleResponse->getContent();
-        \file_put_contents($this->tempFile, \base64_decode($content));
+        \file_put_contents($this->tempFile->path, \base64_decode($content));
         $zip = new \ZipArchive();
-        $zip->open($this->tempFile);
+        $zip->open($this->tempFile->path);
 
         $this->assertEquals(
             '{"status":"success","data":"Submission zip ready."}',
@@ -99,9 +92,9 @@ final class ZipHandlerTest extends AbstractHandlerTest
         );
 
         $content = $handleResponse->getContent();
-        \file_put_contents($this->tempFile, \base64_decode($content));
+        \file_put_contents($this->tempFile->path, \base64_decode($content));
         $zip = new \ZipArchive();
-        $zip->open($this->tempFile);
+        $zip->open($this->tempFile->path);
 
         $this->assertCount(1, \iterator_to_array($handleResponse->getZipRequest()->getFiles()));
         $this->assertEquals(1, $zip->numFiles);

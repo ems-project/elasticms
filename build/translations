@@ -1,0 +1,205 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__.'/../vendor/autoload.php';
+
+use App\Admin\Kernel;
+use EMS\CommonBundle\Common\Converter;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\TableSeparator;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\SingleCommandApplication;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Translation\Catalogue\TargetOperation;
+use Symfony\Component\Translation\Extractor\ExtractorInterface;
+use Symfony\Component\Translation\Extractor\PhpAstExtractor;
+use Symfony\Component\Translation\Extractor\Visitor;
+use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\MessageCatalogueInterface;
+
+const IGRNORE_PATHS = [
+    'Command',
+    'DependencyInjection',
+    'Entity',
+    'Repository',
+    '/Resources\/(public|config|DoctrineMigrations)/',
+];
+
+$command = function (InputInterface $input, OutputInterface $output): int {
+    $stopWatch = new Stopwatch();
+    $stopWatch->start('build');
+
+    $io = new SymfonyStyle($input, $output);
+    $io->title('Build: extract translations');
+
+    $locale = $input->getArgument('locale');
+    $bundle = $input->getArgument('bundle');
+    $domains = $input->getOption('domain');
+    $format = $input->getOption('format');
+
+    if (!\in_array($format, ['yml', 'xlf'], true)) {
+        throw new \RuntimeException('Invalid format');
+    }
+
+    $io->writeln('Booting admin kernel');
+    (new Dotenv())->load(__DIR__.'/../elasticms-admin/.env');
+    $adminKernel = new Kernel('test', true);
+    $adminKernel->boot();
+    $bundleDir = $adminKernel->getBundle($bundle)->getPath();
+    $container = $adminKernel->getContainer()->get('test.service_container');
+
+    $io->listing([
+        \sprintf('Locale: %s', $locale),
+        \sprintf('Bundle: %s', $bundleDir),
+    ]);
+
+    $io->writeln('Building current translations');
+    $currentCatalogue = new MessageCatalogue($locale);
+    $reader = $container->get('translation.reader');
+    $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
+
+    $catalogueDomains = $currentCatalogue->getDomains();
+    \array_walk($domains, function (string $d) use ($catalogueDomains) {
+        if (!\in_array($d, $catalogueDomains, true)) {
+            throw new \RuntimeException(\sprintf('Invalid domain: %s', $d));
+        }
+    });
+
+    if (0 === \count($domains)) {
+        $domains = $currentCatalogue->getDomains();
+    }
+
+    $io->writeln('Extracting translation keys from code');
+    $extractedCatalogue = new MessageCatalogue($locale);
+    $finder = (new Finder())
+        ->ignoreUnreadableDirs()
+        ->ignoreVCSIgnored(true)
+        ->notPath(IGRNORE_PATHS)
+        ->in($bundleDir);
+
+    $extractors = [
+       ['Parsing php files', '*.php', new PhpAstExtractor([
+          new Visitor\ConstraintVisitor(),
+          new Visitor\TransMethodVisitor(),
+          new Visitor\TranslatableMessageVisitor(),
+       ])],
+       ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
+    ];
+
+    foreach ($extractors as list($title, $name, $extractor)) {
+        /* @var ExtractorInterface $extractor */
+        $io->writeln($title);
+        $files = (clone $finder)->name($name);
+
+        $progressBar = $io->createProgressBar($files->count());
+        foreach ($files as $file) {
+            $extractor->extract($file->getRealPath(), $extractedCatalogue);
+            $progressBar?->advance();
+        }
+
+        $progressBar->finish();
+        $io->newLine();
+    }
+
+    $filterCurrentCatalogue = new MessageCatalogue($locale);
+    $filterExtractedCatalogue = new MessageCatalogue($locale);
+    foreach ($domains as $domain) {
+        $domainIntl = $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX;
+
+        if ($intlMessages = $currentCatalogue->all($domainIntl)) {
+            $filterCurrentCatalogue->add($intlMessages, $domainIntl); // add intl domain message
+        }
+        if ($messages = \array_diff($currentCatalogue->all($domain), $intlMessages)) {
+            $filterCurrentCatalogue->add($messages, $domainIntl); // add message from domain
+        }
+
+        $filterExtractedCatalogue->add($extractedCatalogue->all($domain), $domainIntl);
+    }
+
+    $operation = new TargetOperation($filterCurrentCatalogue, $filterExtractedCatalogue);
+    /** @var MessageCatalogue $result */
+    $result = $operation->getResult();
+
+    if (0 === \count($result->all())) {
+        throw new \RuntimeException('No translations found');
+    }
+
+    if (true === $input->getOption('write')) {
+        $io->writeln('Writing translations');
+
+        $translationWriter = $container->get('translation.writer');
+        $translationWriter->write($result, $format, match ($format) {
+            'yml' => [
+                'path' => $bundleDir.'/Resources/translations',
+                'as_tree' => true,
+                'inline' => 5,
+            ],
+            'xlf' => [
+                'path' => $bundleDir.'/Resources/translations',
+                'version' => '1.2',
+                'default_locale' => 'en',
+            ]
+        });
+    }
+
+    $rows = [];
+    foreach ($domains as $domain) {
+        $domainObsoleteKeys = \array_keys($operation->getObsoleteMessages($domain));
+        \sort($domainObsoleteKeys);
+        foreach ($domainObsoleteKeys as $key) {
+            $rows[$domain][] = ['<fg=red>unused</>', $domain, $key, $filterCurrentCatalogue->get($key, $domain)];
+        }
+
+        $domainNewKeys = \array_keys($operation->getNewMessages($domain));
+        \sort($domainNewKeys);
+        foreach ($domainNewKeys as $key) {
+            $rows[$domain][] = ['<fg=blue>new</>', $domain, $key, null];
+        }
+
+        $allKeys = \array_diff(\array_keys($operation->getMessages($domain)), $domainNewKeys);
+        \sort($allKeys);
+        foreach ($allKeys as $key) {
+            $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $operation->getResult()->get($key, $domain)];
+        }
+    }
+
+    if (\count($rows) > 0) {
+        $rows = \array_reduce($rows, fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []);
+        $rows = \array_slice($rows, 0, -1); // remove last separtor
+
+        $io->newLine();
+        $io
+            ->createTable()
+            ->setHeaderTitle('Info')
+            ->setHeaders(['State', 'Domain', 'Id', \sprintf('Message (%s)', $locale)])
+            ->setRows($rows)
+            ->render();
+    }
+
+    $buildStopWatch = $stopWatch->stop('build');
+    $io->newLine();
+    $io->listing([
+        \sprintf('Duration: %d s', $buildStopWatch->getDuration() / 1000),
+        \sprintf('Memory: %s', Converter::formatBytes($buildStopWatch->getMemory())),
+    ]);
+
+    return Command::SUCCESS;
+};
+
+(new SingleCommandApplication())
+    ->setName('Build: extract translations')
+    ->addArgument('locale', InputArgument::REQUIRED, 'locale')
+    ->addArgument('bundle', InputArgument::REQUIRED, 'bundle')
+    ->addOption('write', null, InputOption::VALUE_NONE, 'write translations')
+    ->addOption('domain', 'd', InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'domains')
+    ->addOption('format', null, InputOption::VALUE_REQUIRED, 'format (yml or xlf)', 'yml')
+    ->setCode($command)
+    ->run();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Tests\CommonBundle\Unit\Common\Cache;
 
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\Helpers\File\TempDirectory;
 use PHPUnit\Framework\TestCase;
 
 class CacheAiTest extends TestCase
@@ -14,8 +15,7 @@ class CacheAiTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->cacheDir = \sys_get_temp_dir().DIRECTORY_SEPARATOR.\uniqid('cache_test_', true);
-        \mkdir($this->cacheDir);
+        $this->cacheDir = TempDirectory::create()->path;
     }
 
     protected function removeDirectory($path): void

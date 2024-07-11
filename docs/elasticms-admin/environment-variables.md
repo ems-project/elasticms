@@ -274,6 +274,15 @@ Define the default bulk size for commands such as the `ems:environment:rebuild` 
 ```dotenv
 EMSCO_DEFAULT_BULK_SIZE=500
 ``` 
+ 
+### EMSCO_IMAGE_MAX_SIZE
+Define the limit where a resized image, with that max limit, will be generated on the client side in order to limit the memory consumption.
+The resized image's hash will be available in a `_image_resized_hash` attribute in the file field array (in case of a file field).
+In a WYSIWYG field, the master file won't be uploaded, a resized image will be uploaded and directly used as `src` attribute in the `IMG` tag.
+
+```dotenv
+EMSCO_IMAGE_MAX_SIZE=2048
+``` 
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).

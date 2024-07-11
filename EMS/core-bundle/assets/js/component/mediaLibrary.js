@@ -1,6 +1,7 @@
 import ajaxModal from "./../helper/ajaxModal";
 import ProgressBar from "../helper/progressBar";
 import FileUploader from "@elasticms/file-uploader";
+import {resizeImage} from "../helper/resizeImage";
 
 export default class MediaLibrary {
     id;
@@ -80,16 +81,15 @@ export default class MediaLibrary {
     _addEventListeners() {
         this.element.onkeyup = (event) => {
             if (event.shiftKey) this.#selectionLastFile = null;
-            if (event.target.classList.contains('media-lib-search')) this._onSearchInput(event.target, 500);
+            if (event.target.classList.contains('media-lib-search')) this._onSearchInput(event.target, 1000);
         }
 
         this.element.onclick = (event) => {
             if (this.isLoading()) return;
 
-            if (event.target.id === 'media_lib_search') return;
-
             let classList = event.target.classList;
 
+            if (classList.contains('media-lib-search')) return;
             if (classList.contains('media-lib-file')) this._onClickFile(event.target, event);
             if (classList.contains('media-lib-folder')) this._onClickFolder(event.target);
 
@@ -176,7 +176,7 @@ export default class MediaLibrary {
             }
             ajaxModal.modal.addEventListener('ajax-modal-close', onClose);
 
-            ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/view`, size: 'lg', noLoading: true }, () => {
+            ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/view`, size: 'auto-size', noLoading: true }, () => {
                 navigation('prev', 'previousSibling', fileId);
                 navigation('next','nextSibling', fileId);
                 document.addEventListener('keydown', onKeydown);
@@ -608,7 +608,7 @@ export default class MediaLibrary {
             this.#elements.listUploads.appendChild(liUpload);
 
             this._getFileHash(file, progressBar)
-                .then((fileHash) => this._createFile(file, fileHash))
+                .then((fileHash) => this._resizeImage(file, fileHash))
                 .then(() => {
                     progressBar.status('Finished');
                     setTimeout(() => {
@@ -627,12 +627,24 @@ export default class MediaLibrary {
                 });
         });
     }
-    async _createFile(file, fileHash) {
+    async _resizeImage(file, fileHash) {
+        resizeImage(this.#options.hashAlgo, this.#options.urlInitUpload, file).then((response) => {
+            if (null === response) {
+                this._createFile(file, fileHash)
+            } else {
+                this._createFile(file, fileHash, response.hash)
+            }
+        }).catch(() => {
+            this._createFile(file, fileHash)
+        })
+    }
+    async _createFile(file, fileHash, resizedHash = null) {
         const formData = new FormData();
         formData.append('name', file.name);
         formData.append('filesize', file.size);
         formData.append('fileMimetype', file.type);
         formData.append('fileHash', fileHash);
+        formData.append('fileResizedHash', resizedHash);
 
         const path = this.#activeFolderId ? `/add-file/${this.#activeFolderId}` : '/add-file';
         await this._post(path, formData, true)

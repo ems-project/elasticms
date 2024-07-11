@@ -7,7 +7,7 @@
         "label": "Media library",
         "sidebarMenu": true,
         "notificationMenu": false,
-        "definition": "browser_file",
+        "definition": null,
         "type": "ems_core.dashboard.template",
         "role": "ROLE_AUTHOR",
         "color": null,
@@ -16,7 +16,7 @@
             "header": "{{ block(\"css\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}",
             "footer": "{{ block(\"javascript\", \"@EMSCH/template_ems/dashboard/media_library.twig\") }}"
         },
-        "orderKey": 3
+        "orderKey": 4
     },
     "replaced": []
 }

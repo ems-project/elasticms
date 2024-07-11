@@ -56,17 +56,6 @@ google_verification:
     config:
         path: google559a317bdba2ec40.html
     template_static: template/seo/google.html.twig
-emsch_login:
-    config:
-        controller: emsch.controller.security.login
-        path: /login
-        method: [POST, GET]
-    template_static: template/security/login.html.twig
-emsch_profile:
-    config:
-        path: /profile
-        defaults: { _authenticated: true }
-    template_static: template/security/profile.html.twig
 emsch_api_form_attachment:
     config:
         path: '/form/{submissionId}/attachment/{submissionFileId}'
@@ -128,3 +117,47 @@ emsch_error:
         path: '/_error/{statusCode}'
         controller: 'emsch.controller.router::errorPreview'
         requirements: { statusCode: '[0-9]{3}' }
+emsch_login:
+    config:
+        controller: emsch.controller.security.login
+        path: /login
+        method: [ POST, GET ]
+    template_static: template/security/login.html.twig
+ems:
+    config:
+        path: /ems
+        defaults: { _authenticated: true }
+    template_static: template/security/ems.html.twig
+ems_versions:
+    config:
+        path: /ems/versions
+        defaults: { _authenticated: true }
+    template_static: template/security/versions.html.twig
+ems_version_new:
+    config:
+        method: [ GET ]
+        path: /ems/versions/new
+        defaults: { _authenticated: true }
+    template_static: template/security/version.html.twig
+ems_version_detail:
+    config:
+        method: [ GET ]
+        path: /ems/versions/{ouuid}
+        defaults: { _authenticated: true }
+    query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%ouuid%"}}}]}}}'
+    template_static: template/security/version.html.twig
+ems_version_create:
+    config:
+        method: [ POST ]
+        path: /ems/versions/create
+        controller: 'EMS\ClientHelperBundle\Controller\ApiController::createDocumentFromForm'
+        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: '/ems/versions/%ouuid%', validationTemplate: '@EMSCH/template/security/version_validate.twig' }
+    query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%id%"}}}]}}}'
+ems_version_update:
+    config:
+        method: [ POST ]
+        path: /ems/versions/{ouuid}
+        controller: 'EMS\ClientHelperBundle\Controller\ApiController::updateDocumentFromForm'
+        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: '/ems/versions/%ouuid%', validationTemplate: '@EMSCH/template/security/version_validate.twig' }
+    query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%id%"}}}]}}}'
+

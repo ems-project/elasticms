@@ -11,6 +11,7 @@ class DateTimeAiTest extends TestCase
 {
     public function testCreate()
     {
+        \date_default_timezone_set('UTC');
         $timeString = '2024-01-01 00:00:00';
         $dateTime = DateTime::create($timeString);
         $this->assertInstanceOf(\DateTimeImmutable::class, $dateTime);

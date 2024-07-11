@@ -25,5 +25,6 @@ return $config
         'no_superfluous_phpdoc_tags' => ['allow_mixed' => true, 'remove_inheritdoc' => true],
     ])
     ->setRiskyAllowed(true)
+    ->setCacheFile(__DIR__.'/.cache/.php-cs-fixer.cache')
     ->setFinder($finder)
 ;

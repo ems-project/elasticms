@@ -9,6 +9,8 @@ use Build\Release\Version;
 use EMS\Helpers\Standard\DateTime;
 use Github\AuthMethod;
 use Github\Client as ClientGithub;
+use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Component\HttpClient\Psr18Client;
 
 class GithubApiService
 {
@@ -25,7 +27,12 @@ class GithubApiService
             throw new \RuntimeException('GITHUB_API_TOKEN not defined!');
         }
 
-        $this->api = new ClientGithub();
+        $httpClient = new Psr18Client(new CurlHttpClient([
+            'verify_host' => false,
+            'verify_peer' => false,
+        ]));
+
+        $this->api = ClientGithub::createWithHttpClient($httpClient);
         $this->api->authenticate($token, AuthMethod::JWT);
     }
 

@@ -1,37 +1,37 @@
 name: 'Split up the monorepo into subrepositories'
 
 on:
-    push:
-        branches:
-            - '6.*'
-        tags-ignore:
-            - '*'
+  push:
+    branches:
+      - '6.*'
+    tags-ignore:
+      - '*'
 
 jobs:
-    sync_commits:
-        runs-on: ubuntu-latest
-        name: Sync commits
-        if: github.repository == 'ems-project/elasticms'
-        steps:
-            -   uses: actions/checkout@v4
-                with:
-                    persist-credentials: false
-                    fetch-depth: 0
+  sync_commits:
+    runs-on: ubuntu-latest
+    name: "Sync commits"
+    if: github.repository == 'ems-project/elasticms'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
 
-            -   uses: frankdejonge/use-github-token@1.0.2
-                with:
-                    authentication: 'Davidmattei:${{ secrets.SPLITTER_TOKEN }}'
-                    user_name: 'Davidmattei'
-                    user_email: 'info@elasticms.eu'
+      - uses: frankdejonge/use-github-token@1.0.2
+        with:
+          authentication: 'Davidmattei:${{ secrets.SPLITTER_TOKEN }}'
+          user_name: 'Davidmattei'
+          user_email: 'info@elasticms.eu'
 
-            -   name: Cache splitsh-lite
-                uses: actions/cache@v3
-                with:
-                    path: './splitsh'
-                    key: '${{ runner.os }}-splitsh-v101'
+      - name: "Cache splitsh-lite"
+        uses: actions/cache@v3
+        with:
+          path: './splitsh'
+          key: '${{ runner.os }}-splitsh-v101'
 
-            -   name: subtree split
-                uses: acrobat/subtree-splitter@v1.1.4
-                with:
-                    config-path: .github/subtree-splitter-config.json
-                    batch-size: 1
+      - name: "subtree split"
+        uses: acrobat/subtree-splitter@v1.1.4
+        with:
+          config-path: .github/subtree-splitter-config.json
+          batch-size: 1

@@ -84,6 +84,7 @@ php bin/console ems:contenttype:migrate [options] [--] <elasticsearchIndex> <con
 php bin/console ems:contenttype:recompute [options] [--] <contentType>
 ```
 
+* **--changed** : only create new revision if the hash changed after recompute
 * **--force** : do not check for already locked revisions
 * **--missing** : will recompute the objects that are missing in their default environment only
 * **--continue** : continue a recompute
@@ -91,6 +92,7 @@ php bin/console ems:contenttype:recompute [options] [--] <contentType>
 * **--cron** : optimized for automated recurring recompute calls, tries --continue, when no locks are found for user runs command without --continue
 * **--ouuid[=OUUID]** : recompute a specific revision ouuid
 * **--deep** : deep recompute form will be submitted and transformers triggered
+* **--query[=QUERY]** : ES query [default: "{}"]
 
 ## Notification
 

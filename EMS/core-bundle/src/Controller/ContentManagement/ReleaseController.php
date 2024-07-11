@@ -50,7 +50,7 @@ final class ReleaseController extends AbstractController
             return $this->redirectToRoute(Routes::RELEASE_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/release/index.html.twig", [
+        return $this->render('@EMSCore/release/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -65,7 +65,7 @@ final class ReleaseController extends AbstractController
             return $this->redirectToRoute(Routes::RELEASE_EDIT, ['release' => $release->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/release/add.html.twig", [
+        return $this->render('@EMSCore/release/add.html.twig', [
             'form_release' => $form->createView(),
         ]);
     }
@@ -101,7 +101,7 @@ final class ReleaseController extends AbstractController
             };
         }
 
-        return $this->render("@$this->templateNamespace/release/edit.html.twig", [
+        return $this->render('@EMSCore/release/edit.html.twig', [
             'form' => $revisionsForm->createView(),
             'form_release' => $releaseForm->createView(),
             'release' => $release,
@@ -130,7 +130,7 @@ final class ReleaseController extends AbstractController
             return $this->redirectToRoute(Routes::RELEASE_VIEW, ['release' => $release->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/release/view.html.twig", [
+        return $this->render('@EMSCore/release/view.html.twig', [
             'form' => $form->createView(),
             'release' => $release,
         ]);
@@ -196,7 +196,7 @@ final class ReleaseController extends AbstractController
             return $this->redirectToRoute(Routes::RELEASE_EDIT, ['release' => $release->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/release/revisions.html.twig", [
+        return $this->render('@EMSCore/release/revisions.html.twig', [
             'form' => $form->createView(),
             'type' => $releaseType->value,
         ]);
@@ -217,7 +217,7 @@ final class ReleaseController extends AbstractController
 
         $form = $this->createForm(TableType::class, $table);
 
-        return $this->render("@$this->templateNamespace/release/add-to-release.html.twig", [
+        return $this->render('@EMSCore/release/add-to-release.html.twig', [
             'form' => $form->createView(),
             'revision' => $revision,
         ]);

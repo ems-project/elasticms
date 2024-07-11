@@ -445,9 +445,14 @@ final class Config
     /**
      * @param array<string, mixed> $fileField
      */
-    public static function extractHash(array $fileField, string $fileHashField = EmsFields::CONTENT_FILE_HASH_FIELD): string
+    public static function extractHash(array $fileField, string $fileHashField, string $processorType): string
     {
-        return $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $fileField[$fileHashField] ?? 'processor';
+        $default = $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? $fileField[$fileHashField] ?? 'processor';
+
+        return match ($processorType) {
+            EmsFields::ASSET_CONFIG_TYPE_IMAGE => $fileField[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD] ?? $default,
+            default => $default,
+        };
     }
 
     /**

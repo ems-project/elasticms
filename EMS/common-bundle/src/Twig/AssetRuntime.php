@@ -96,7 +96,7 @@ class AssetRuntime
     {
         $config = $assetConfig;
 
-        $hash = Config::extractHash($fileField, $fileHashField);
+        $hash = Config::extractHash($fileField, $fileHashField, \strval($assetConfig[EmsFields::ASSET_CONFIG_TYPE] ?? 'none'));
         $filename = Config::extractFilename($fileField, $config, $filenameField, $mimeTypeField);
         $mimeType = Config::extractMimetype($fileField, $config, $filename, $mimeTypeField);
         $referenceType = Config::extractUrlType($fileField, $referenceType);

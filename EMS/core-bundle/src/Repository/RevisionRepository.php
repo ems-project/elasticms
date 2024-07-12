@@ -488,7 +488,7 @@ class RevisionRepository extends EntityRepository
                 'contentType' => $contentType,
             ]);
 
-        $revision = $qb->getQuery()->getSingleResult();
+        $revision = $qb->getQuery()->getOneOrNullResult();
 
         return $revision instanceof Revision ? $revision : null;
     }

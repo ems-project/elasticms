@@ -835,6 +835,7 @@ class RevisionRepository extends EntityRepository
             ->andWhere($qb->expr()->eq('c.id', ':content_type_id'))
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
             ->andWhere($qb->expr()->eq('r.deleted', $qb->expr()->literal(true)))
+            ->orderBy('r.startTime', 'DESC')
             ->setParameter('content_type_id', $contentType->getId())
             ->setParameter('ouuids', $ouuids, ArrayParameterType::STRING)
         ;

@@ -449,15 +449,7 @@ class DataService
         $newRevision->setLockUntil($until);
         $newRevision->setRawData($rawdata);
 
-        if (null !== $ouuid && null !== $this->revRepository->getCurrentRevision($contentType, $ouuid)) {
-            throw new DuplicateOuuidException($ouuid, $contentType->getName());
-        }
-
-        $em = $this->doctrine->getManager();
-        $em->persist($newRevision);
-        $em->flush();
-
-        return $newRevision;
+        return $this->createNewRevision($newRevision);
     }
 
     /**
@@ -919,14 +911,8 @@ class DataService
     public function newDocument(ContentType $contentType, ?string $ouuid = null, ?array $rawData = null, ?string $username = null): Revision
     {
         $this->hasCreateRights($contentType);
-        /** @var RevisionRepository $revisionRepository */
-        $revisionRepository = $this->em->getRepository(Revision::class);
 
         $revision = new Revision();
-
-        if (null !== $ouuid && $revisionRepository->getCurrentRevision($contentType, $ouuid)) {
-            throw new DuplicateOuuidException($ouuid, $contentType->getName());
-        }
 
         if (!empty($contentType->getDefaultValue())) {
             try {
@@ -1011,10 +997,7 @@ class DataService
         }
         $this->setMetaFields($revision);
 
-        $this->em->persist($revision);
-        $this->em->flush();
-
-        return $revision;
+        return $this->createNewRevision($revision);
     }
 
     /**
@@ -1967,5 +1950,37 @@ class DataService
     public function getAllDrafts(): array
     {
         return $this->revRepository->findAllDrafts();
+    }
+
+    private function createNewRevision(Revision $revision): Revision
+    {
+        $ouuid = $revision->getOuuid();
+        $contentType = $revision->giveContentType();
+
+        $currentRevision = $ouuid ? $this->revRepository->getCurrentRevision($contentType, $ouuid) : null;
+        if ($ouuid && $currentRevision && !$currentRevision->getDeleted()) {
+            throw new DuplicateOuuidException($ouuid, $contentType->getName());
+        }
+
+        $this->em->getConnection()->beginTransaction();
+
+        try {
+            $restoredDraft = $currentRevision ? $this->trashPutBackAsDraft($contentType, $currentRevision->giveOuuid()) : null;
+
+            if ($restoredDraft) {
+                $restoredDraft->setDraft(false);
+                $restoredDraft->setEndTime($revision->getStartTime());
+                $this->unlockRevision($restoredDraft);
+            }
+
+            $this->em->persist($revision);
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+        } catch (\Throwable $e) {
+            $this->em->getConnection()->rollBack();
+            throw $e;
+        }
+
+        return $revision;
     }
 }

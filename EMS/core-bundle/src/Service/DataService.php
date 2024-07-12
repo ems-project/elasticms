@@ -1262,25 +1262,23 @@ class DataService
         $this->em->flush();
     }
 
-    public function trashPutBack(ContentType $contentType, string ...$ouuids): null|int
+    public function trashPutBackAsDraft(ContentType $contentType, string ...$ouuids): null|Revision
     {
-        $revisionIds = [];
         $revisions = $this->revRepository->findTrashRevisions($contentType, ...$ouuids);
 
         foreach ($revisions as $revision) {
-            $this->lockRevision($revision);
             $revision->setDeleted(false);
             $revision->setDeletedBy(null);
             if (null === $revision->getEndTime()) {
+                $this->lockRevision($revision);
                 $revision->setDraft(true);
-                $revisionIds[] = $revision->getId();
                 $this->auditLogger->notice('log.revision.restored', LogRevisionContext::update($revision));
             }
             $this->em->persist($revision);
         }
         $this->em->flush();
 
-        return 1 === \count($ouuids) ? \array_shift($revisionIds) : null;
+        return 1 === \count($ouuids) ? \array_shift($revisions) : null;
     }
 
     /**

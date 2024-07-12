@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Controller;
 
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
+use Twig\Environment;
 
 use function Symfony\Component\String\u;
 
@@ -34,12 +35,18 @@ trait CoreControllerTrait
      */
     protected function renderView(string $view, array $parameters = []): string
     {
+        /** @var Environment $twig */
+        $twig = $this->container->get('twig');
         $templateNamespace = $this->getTemplateNamespace();
 
         if ('EMSCore' !== $templateNamespace) {
-            $view = u($view)->replaceMatches('/^@EMSCore/', '@'.$templateNamespace)->toString();
+            $namespaceView = u($view)->replaceMatches('/^@EMSCore/', '@'.$templateNamespace)->toString();
+
+            if ($twig->getLoader()->exists($namespaceView)) {
+                return $twig->render($namespaceView, $parameters);
+            }
         }
 
-        return parent::renderView($view, $parameters);
+        return $twig->render($view, $parameters);
     }
 }

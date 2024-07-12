@@ -478,20 +478,19 @@ class RevisionRepository extends EntityRepository
 
     public function getCurrentRevision(ContentType $contentType, string $ouuid): ?Revision
     {
-        $qb = $this->createQueryBuilder('r')->select()
-            ->where('r.contentType = ?2')
-            ->andWhere('r.ouuid = ?3')
-            ->andWhere('r.endTime is null')
-            ->setParameter(2, $contentType)
-            ->setParameter(3, $ouuid);
+        $qb = $this->createQueryBuilder('r');
+        $qb
+            ->andWhere($qb->expr()->eq('r.ouuid', ':ouuid'))
+            ->andWhere($qb->expr()->eq('r.contentType', ':contentType'))
+            ->andWhere($qb->expr()->isNull('r.endTime'))
+            ->setParameters([
+                'ouuid' => $ouuid,
+                'contentType' => $contentType,
+            ]);
 
-        /** @var Revision[] $currentRevision */
-        $currentRevision = $qb->getQuery()->execute();
-        if (isset($currentRevision[0])) {
-            return $currentRevision[0];
-        } else {
-            return null;
-        }
+        $revision = $qb->getQuery()->getSingleResult();
+
+        return $revision instanceof Revision ? $revision : null;
     }
 
     public function publishRevision(Revision $revision, bool $draft = false): int

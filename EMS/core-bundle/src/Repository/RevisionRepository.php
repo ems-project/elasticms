@@ -349,12 +349,15 @@ class RevisionRepository extends EntityRepository
 
     public function countRevisions(string $ouuid, ContentType $contentType): int
     {
-        $qb = $this->createQueryBuilder('r')
-            ->select('COUNT(r)');
-        $qb->where($qb->expr()->eq('r.ouuid', ':ouuid'));
-        $qb->andWhere($qb->expr()->eq('r.contentType', ':contentType'));
-        $qb->setParameter('ouuid', $ouuid);
-        $qb->setParameter('contentType', $contentType);
+        $qb = $this->createQueryBuilder('r');
+        $qb
+            ->select('COUNT(r.id)')
+            ->andWhere($qb->expr()->eq('r.ouuid', ':ouuid'))
+            ->andWhere($qb->expr()->eq('r.contentType', ':contentType'))
+            ->setParameters([
+                'ouuid' => $ouuid,
+                'contentType' => $contentType,
+            ]);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }

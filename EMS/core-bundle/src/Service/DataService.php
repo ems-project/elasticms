@@ -49,7 +49,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -443,32 +442,18 @@ class DataService
         $newRevision->setEndTime(null);
         $newRevision->setDeleted(false);
         $newRevision->setDraft(true);
-        if ($byARealUser) {
-            $token = $this->tokenStorage->getToken();
-            if (null === $token) {
-                throw new \RuntimeException('Unexpected null token');
-            }
-            $newRevision->setLockBy($token->getUserIdentifier());
-        } else {
-            $newRevision->setLockBy('DATA_SERVICE');
-        }
+
+        $lockBy = $byARealUser ? $this->userService->getCurrentUser()->getUserIdentifier() : 'DATA_SERVICE';
+        $newRevision->setLockBy($lockBy);
+
         $newRevision->setLockUntil($until);
         $newRevision->setRawData($rawdata);
 
-        $em = $this->doctrine->getManager();
-        if (!empty($ouuid)) {
-            $revisionRepository = $em->getRepository(Revision::class);
-            $anotherObject = $revisionRepository->findOneBy([
-                    'contentType' => $contentType,
-                    'ouuid' => $newRevision->getOuuid(),
-                    'endTime' => null,
-            ]);
-
-            if (!empty($anotherObject)) {
-                throw new ConflictHttpException('Duplicate OUUID '.$ouuid.' for this content type');
-            }
+        if (null !== $ouuid && null !== $this->revRepository->getCurrentRevision($contentType, $ouuid)) {
+            throw new DuplicateOuuidException($ouuid, $contentType->getName());
         }
 
+        $em = $this->doctrine->getManager();
         $em->persist($newRevision);
         $em->flush();
 
@@ -939,8 +924,8 @@ class DataService
 
         $revision = new Revision();
 
-        if (null !== $ouuid && $revisionRepository->countRevisions($ouuid, $contentType)) {
-            throw new DuplicateOuuidException();
+        if (null !== $ouuid && $revisionRepository->getCurrentRevision($contentType, $ouuid)) {
+            throw new DuplicateOuuidException($ouuid, $contentType->getName());
         }
 
         if (!empty($contentType->getDefaultValue())) {

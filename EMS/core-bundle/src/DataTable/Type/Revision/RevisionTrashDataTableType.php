@@ -60,9 +60,9 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         if ($this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE))) {
             $table->addDynamicItemPostAction(
                 route: Routes::DATA_TRASH_PUT_BACK,
-                labelKey: 'revision.trash.put_back',
+                labelKey: t('revision.trash.put_back', [], 'emsco-core'),
                 icon: 'recycle',
-                messageKey: 'revision.trash.put_back_confirm',
+                messageKey: t('revision.trash.put_back_confirm', [], 'emsco-core'),
                 routeParameters: [
                     'contentType' => 'content_type_id',
                     'ouuid' => 'ouuid',
@@ -77,9 +77,9 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
 
         $table->addDynamicItemPostAction(
             route: Routes::DATA_TRASH_EMPTY,
-            labelKey: 'revision.trash.empty',
+            labelKey: t('revision.trash.empty', [], 'emsco-core'),
             icon: 'trash',
-            messageKey: 'revision.trash.empty_confirm',
+            messageKey: t('revision.trash.empty_confirm', [], 'emsco-core'),
             routeParameters: [
                 'contentType' => 'content_type_id',
                 'ouuid' => 'ouuid',

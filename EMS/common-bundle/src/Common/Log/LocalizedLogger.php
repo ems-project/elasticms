@@ -57,6 +57,10 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
         $context['translation_message'] = $message;
         $translation = $this->translator->trans((string) $message, [], $this->translationDomain);
 
-        return \preg_replace_callback(self::PATTERN, fn ($match) => $context[$match['parameter']] ?? $match['parameter'], $translation) ?? (string) $message;
+        return \preg_replace_callback(
+            pattern: self::PATTERN,
+            callback: static fn ($match) => $context[$match['parameter']] ?? $match['parameter'],
+            subject: $translation
+        ) ?? (string) $message;
     }
 }

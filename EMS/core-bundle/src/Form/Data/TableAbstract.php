@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Data;
 
+use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Translation\TranslatableMessage;
@@ -188,8 +189,12 @@ abstract class TableAbstract implements TableInterface
         return $this->itemActionCollection;
     }
 
-    public function addTableAction(string $name, string $icon, string $labelKey, ?string $confirmationKey = null): TableAction
+    public function addTableAction(string $name, string $icon, string|TranslatableMessage $labelKey, ?string $confirmationKey = null): TableAction
     {
+        if (!$labelKey instanceof TranslatableMessage) {
+            $labelKey = new TranslatableMessage($labelKey, [], EMSCoreBundle::TRANS_DOMAIN);
+        }
+
         $action = new TableAction($name, $icon, $labelKey, $confirmationKey);
         $this->tableActions[] = $action;
 

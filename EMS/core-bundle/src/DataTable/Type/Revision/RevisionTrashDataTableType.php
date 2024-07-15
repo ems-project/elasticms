@@ -71,15 +71,15 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
             $table->addTableAction(
                 name: self::ACTION_PUT_BACK,
                 icon: 'fa fa-recycle',
-                labelKey: 'revision.trash.put_back_selected'
+                labelKey: t('revision.trash.put_back_selected', [], 'emsco-core')
             );
         }
 
         $table->addDynamicItemPostAction(
             route: Routes::DATA_TRASH_EMPTY,
-            labelKey: t('revision.trash.empty', [], 'emsco-core'),
+            labelKey: t('table.delete', [], 'emsco-core'),
             icon: 'trash',
-            messageKey: t('revision.trash.empty_confirm', [], 'emsco-core'),
+            messageKey: t('revision.trash.delete_confirm', [], 'emsco-core'),
             routeParameters: [
                 'contentType' => 'content_type_id',
                 'ouuid' => 'ouuid',
@@ -88,7 +88,7 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         $table->addTableAction(
             name: self::ACTION_EMPTY_TRASH,
             icon: 'fa fa-trash',
-            labelKey: 'revision.trash.empty_selected'
+            labelKey: t('table.delete_selected', [], 'emsco-core')
         )->setCssClass('btn btn-outline-danger');
     }
 

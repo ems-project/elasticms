@@ -8,9 +8,12 @@ revision:
     field:
         ouuid: Ouuid
     trash:
-        empty: 'Remove trash'
-        empty_confirm: 'Remove trash "{label}" ?'
+        delete_confirm: 'Remove trash "{label}" ?'
         put_back: 'Put back'
         put_back_confirm: 'Put back "{label}" ?'
+        put_back_selected: 'Put back selected'
         sub_title: '{pluralName} in trash'
         title: 'Trash for content type {name}'
+table:
+    delete: Delete
+    delete_selected: 'Delete selected'

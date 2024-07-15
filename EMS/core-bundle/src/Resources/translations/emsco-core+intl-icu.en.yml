@@ -1,2 +1,12 @@
 core:
     version: 'Version {core} with Symfony {symfony}'
+field:
+    deleted_by: 'Deleted by'
+    label: Label
+    modified: 'Last update'
+revision:
+    field:
+        ouuid: Ouuid
+    trash:
+        sub_title: '{pluralName} in trash'
+        title: 'Trash for content type {name}'

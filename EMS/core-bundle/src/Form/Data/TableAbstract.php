@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Form\Data;
 
 use EMS\CoreBundle\Helper\DataTableRequest;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 abstract class TableAbstract implements TableInterface
 {
@@ -119,7 +120,7 @@ abstract class TableAbstract implements TableInterface
         $this->reordered = $reordered;
     }
 
-    public function addColumn(string $titleKey, string $attribute): TableColumn
+    public function addColumn(string|TranslatableMessage $titleKey, string $attribute): TableColumn
     {
         $column = new TableColumn($titleKey, $attribute);
         $this->columns[] = $column;

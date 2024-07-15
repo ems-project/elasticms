@@ -23,6 +23,8 @@ use EMS\Helpers\Standard\Json;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+use function Symfony\Component\Translation\t;
+
 class RevisionTrashDataTableType extends AbstractTableType implements QueryServiceTypeInterface
 {
     public const ACTION_EMPTY_TRASH = 'empty-trash';
@@ -46,12 +48,12 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         $table->setExtraFrontendOption(['searching' => false]);
 
         if ($this->userService->isSuper()) {
-            $table->addColumn('revision.property.ouuid', 'ouuid');
+            $table->addColumn(t('revision.field.ouuid', [], 'emsco-core'), 'ouuid');
         }
 
-        $table->addColumn('revision.property.label', 'revision_label');
-        $table->addColumnDefinition(new UserTableColumn('revision.property.deleted_by', 'deleted_by'));
-        $table->addColumnDefinition(new DatetimeTableColumn('revision.property.modified', 'modified'));
+        $table->addColumn(t('field.label', [], 'emsco-core'), 'revision_label');
+        $table->addColumnDefinition(new UserTableColumn(t('field.deleted_by', [], 'emsco-core'), 'deleted_by'));
+        $table->addColumnDefinition(new DatetimeTableColumn(t('field.modified', [], 'emsco-core'), 'modified'));
 
         $table->setLabelAttribute('revision_label');
 

@@ -4,9 +4,19 @@ field:
     deleted_by: 'Deleted by'
     label: Label
     modified: 'Last update'
+    modified_by: 'Updated by'
 revision:
     field:
         ouuid: Ouuid
+        locked: 'Locked until'
+        locked_by: 'Locked by'
+    draft:
+        edit: 'Edit draft'
+        view: 'View draft in progress'
+        delete: 'Delete this draft'
+        delete_confirm: 'Modifications made in this draft will be lost'
+        delete_selected: 'Delete selected drafts'
+        delete_selected_confirm: 'All modifications made on those drafts will lost'
     trash:
         delete_confirm: 'Remove trash "{label}" ?'
         put_back: 'Put back'

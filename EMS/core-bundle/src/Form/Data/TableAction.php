@@ -14,7 +14,7 @@ final class TableAction
         private readonly string $name,
         private readonly string $icon,
         private readonly TranslatableMessage $labelKey,
-        private readonly ?string $confirmationKey = null)
+        private readonly ?TranslatableMessage $confirmationKey = null)
     {
     }
 
@@ -28,7 +28,7 @@ final class TableAction
         return $this->labelKey;
     }
 
-    public function getConfirmationKey(): ?string
+    public function getConfirmationKey(): ?TranslatableMessage
     {
         return $this->confirmationKey;
     }

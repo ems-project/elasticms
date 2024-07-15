@@ -1076,20 +1076,6 @@ wysiwyg:
     invalid_config_format: 'Format not valid: %msg%'
 revision:
     draft-in-progress:
-        column:
-            label: Label
-            created: Created
-            modified: 'Last update'
-            auto-save-by: By
-            locked: 'Locked until'
-            locked-by: 'Locked by'
-            view-revision: 'View draft in progress'
-            edit-draft: 'Edit draft'
-            discard-draft: 'Delete this draft'
-            confirm-discard-draft: 'Modifications made in this draft will be lost'
-        action:
-            discard-selected-draft: 'Delete selected drafts'
-            discard-selected-confirm: 'All modifications made on those drafts will lost'
         title: '%contentType% in progress'
         breadcrumb: '%contentType% in progress'
     version_tag: 'Yes as %version_tag%'

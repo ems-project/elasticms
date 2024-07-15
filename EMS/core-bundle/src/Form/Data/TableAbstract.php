@@ -191,10 +191,13 @@ abstract class TableAbstract implements TableInterface
         return $this->itemActionCollection;
     }
 
-    public function addTableAction(string $name, string $icon, string|TranslatableMessage $labelKey, ?string $confirmationKey = null): TableAction
+    public function addTableAction(string $name, string $icon, string|TranslatableMessage $labelKey, null|string|TranslatableMessage $confirmationKey = null): TableAction
     {
         if (!$labelKey instanceof TranslatableMessage) {
             $labelKey = new TranslatableMessage($labelKey, [], EMSCoreBundle::TRANS_DOMAIN);
+        }
+        if (null !== $confirmationKey && !$confirmationKey instanceof TranslatableMessage) {
+            $confirmationKey = new TranslatableMessage($confirmationKey, [], EMSCoreBundle::TRANS_DOMAIN);
         }
 
         $action = new TableAction($name, $icon, $labelKey, $confirmationKey);

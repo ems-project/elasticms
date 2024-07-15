@@ -45,9 +45,9 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
             ->setLabelAttribute('label')
             ->setDefaultOrder('modified', 'desc');
 
+        $table->addColumnDefinition(new RevisionDisplayTableColumn(t('field.label', [], 'emsco-core'), 'label'))->setOrderField('labelField');
         $table->addColumnDefinition(new DatetimeTableColumn(t('field.modified', [], 'emsco-core'), 'draftSaveDate'));
         $table->addColumnDefinition(new UserTableColumn(t('field.modified_by', [], 'emsco-core'), 'autoSaveBy'));
-        $table->addColumnDefinition(new RevisionDisplayTableColumn(t('field.label', [], 'emsco-core'), 'label'))->setOrderField('labelField');
 
         $lockUntil = new DatetimeTableColumn(t('revision.field.locked', [], 'emsco-core'), 'lockUntil');
         $condition = new DateInFuture('lockUntil');

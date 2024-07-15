@@ -199,7 +199,10 @@ class RevisionService implements RevisionServiceInterface
      */
     public function findAllDraftsByContentTypeName(string $contentTypeName): iterable
     {
-        return $this->revisionRepository->findAllDraftsByContentTypeName($contentTypeName);
+        return yield from $this->revisionRepository
+            ->createQueryBuilderDrafts($contentTypeName)
+            ->getQuery()
+            ->toIterable();
     }
 
     public function give(string $ouuid, ?string $contentType = null, ?\DateTimeInterface $dateTime = null): Revision

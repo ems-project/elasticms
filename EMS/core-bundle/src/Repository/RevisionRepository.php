@@ -234,25 +234,13 @@ class RevisionRepository extends EntityRepository
      */
     public function draftCounterGroupedByContentType(array $circles, bool $isAdmin): array
     {
-        $qb = $this->createQueryBuilderDrafts($circles, $isAdmin);
+        $qb = $this->createQueryBuilderDrafts(circles: $circles, isAdmin: $isAdmin);
         $qb
-            ->select('c.id content_type_id', 'count(c.id) counter')
+            ->select('c.id content_type_id')
+            ->addSelect('count(c.id) counter')
             ->groupBy('c.id');
 
         return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * @return iterable|Revision[]
-     */
-    public function findAllDraftsByContentTypeName(string $contentTypeName): iterable
-    {
-        $qb = $this->createQueryBuilderDrafts();
-        $qb
-            ->andWhere($qb->expr()->eq('c.name', ':content_type_name'))
-            ->setParameter('content_type_name', $contentTypeName);
-
-        yield from $qb->getQuery()->toIterable();
     }
 
     /**
@@ -1037,7 +1025,7 @@ class RevisionRepository extends EntityRepository
     /**
      * @param string[] $circles
      */
-    public function createQueryBuilderDrafts(array $circles = [], bool $isAdmin = false, string $searchValue = ''): QueryBuilder
+    public function createQueryBuilderDrafts(string $contentTypeName = null, array $circles = [], bool $isAdmin = false, string $searchValue = ''): QueryBuilder
     {
         $qb = $this->createQueryBuilder('r');
         $qb
@@ -1047,6 +1035,12 @@ class RevisionRepository extends EntityRepository
                 $qb->expr()->eq('r.draft', $qb->expr()->literal(true)),
                 $qb->expr()->isNull('r.endTime')
             ));
+
+        if ($contentTypeName) {
+            $qb
+                ->andWhere($qb->expr()->eq('c.name', ':content_type_name'))
+                ->setParameter('content_type_name', $contentTypeName);
+        }
 
         if (!$isAdmin) {
             $inCircles = $qb->expr()->orX();

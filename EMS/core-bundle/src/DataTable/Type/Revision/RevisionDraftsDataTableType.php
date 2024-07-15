@@ -91,19 +91,12 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
 
     public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
-        if (null !== $context && !$context instanceof ContentType) {
+        if (!$context instanceof ContentType) {
             throw new \RuntimeException('Unexpected context');
         }
 
-        $qb = $this->createQueryBuilder($searchValue);
-        $qb
-            ->setFirstResult($from)
-            ->setMaxResults($size);
-
-        if (null !== $context) {
-            $qb->andWhere($qb->expr()->eq('c.id', ':content_type_id'));
-            $qb->setParameter('content_type_id', $context->getId());
-        }
+        $qb = $this->createQueryBuilder($context, $searchValue);
+        $qb->setFirstResult($from)->setMaxResults($size);
 
         if (null !== $orderField) {
             $qb->orderBy(\sprintf('r.%s', $orderField), $orderDirection);
@@ -114,24 +107,20 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
 
     public function countQuery(string $searchValue = '', mixed $context = null): int
     {
-        if (null !== $context && !$context instanceof ContentType) {
+        if (!$context instanceof ContentType) {
             throw new \RuntimeException('Unexpected context');
         }
 
-        $qb = $this->createQueryBuilder($searchValue);
-        $qb->select('count(r.id)');
-
-        if (null !== $context) {
-            $qb->andWhere($qb->expr()->eq('c.id', ':content_type_id'));
-            $qb->setParameter('content_type_id', $context->getId());
-        }
-
-        return (int) $qb->getQuery()->getSingleScalarResult();
+        return (int) $this->createQueryBuilder($context, $searchValue)
+            ->select('count(r.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
-    private function createQueryBuilder(string $searchValue = ''): QueryBuilder
+    private function createQueryBuilder(ContentType $contentType, string $searchValue = ''): QueryBuilder
     {
         return $this->revisionRepository->createQueryBuilderDrafts(
+            contentTypeName: $contentType->getName(),
             circles: $this->userService->getCurrentUser()->getCircles(),
             isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN'),
             searchValue: $searchValue

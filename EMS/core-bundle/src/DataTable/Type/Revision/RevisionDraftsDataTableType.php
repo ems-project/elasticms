@@ -142,10 +142,11 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
 
     private function createQueryBuilder(ContentType $contentType, string $searchValue = ''): QueryBuilder
     {
-        return $this->revisionRepository->createQueryBuilderDrafts(
+        return $this->revisionRepository->makeQueryBuilder(
             contentTypeName: $contentType->getName(),
-            circles: $this->userService->getCurrentUser()->getCircles(),
+            isDraft: true,
             isAdmin: $this->authorizationChecker->isGranted('ROLE_ADMIN'),
+            circles: $this->userService->getCurrentUser()->getCircles(),
             searchValue: $searchValue
         );
     }

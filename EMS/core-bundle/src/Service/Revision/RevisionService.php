@@ -209,7 +209,7 @@ class RevisionService implements RevisionServiceInterface
     public function findAllDraftsByContentTypeName(string $contentTypeName): iterable
     {
         return yield from $this->revisionRepository
-            ->createQueryBuilderDrafts($contentTypeName)
+            ->makeQueryBuilder(contentTypeName: $contentTypeName, isDraft: true)
             ->getQuery()
             ->toIterable();
     }

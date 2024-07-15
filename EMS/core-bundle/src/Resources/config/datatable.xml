@@ -65,8 +65,7 @@
             <tag name="emsco.datatable" />
         </service>
         <service id="emsco.data_table.revision_trash" class="EMS\CoreBundle\DataTable\Type\Revision\RevisionTrashDataTableType">
-            <argument type="service" id="doctrine" />
-            <argument type="service" id="ems.service.revision" />
+            <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
             <argument type="service" id="ems.service.user" />
             <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService" />
             <argument type="service" id="security.authorization_checker" />

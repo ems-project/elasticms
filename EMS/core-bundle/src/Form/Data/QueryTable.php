@@ -7,6 +7,7 @@ namespace EMS\CoreBundle\Form\Data;
 use EMS\CoreBundle\Entity\EntityInterface;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use EMS\CoreBundle\Service\QueryServiceInterface;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class QueryTable extends TableAbstract
 {
@@ -70,9 +71,13 @@ class QueryTable extends TableAbstract
      */
     public function getIterator(): \Traversable
     {
+        $idPropertyAccessor = new PropertyAccessor();
+
         foreach ($this->service->query($this->getFrom(), $this->getSize(), $this->getOrderField(), $this->getOrderDirection(), $this->getSearchValue(), $this->context) as $data) {
             if ($data instanceof EntityInterface) {
-                yield \strval($data->getId()) => new EntityRow($data);
+                $id = $idPropertyAccessor->getValue($data, $this->idField);
+
+                yield \strval($id) => new EntityRow($data);
                 continue;
             }
 

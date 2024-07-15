@@ -43,6 +43,7 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
 
         $table
             ->setLabelAttribute('label')
+            ->setExtraFrontendOption(['order' => [2, 'desc']])
             ->setDefaultOrder('modified', 'desc');
 
         $table->addColumnDefinition(new RevisionDisplayTableColumn(t('field.label', [], 'emsco-core'), 'label'))->setOrderField('labelField');

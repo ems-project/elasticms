@@ -78,8 +78,7 @@
 {% endblock emsco_form_table_column_data_value_revision_display %}
 
 {% block emsco_form_table_column_data_revision_display %}
-    {%- set value = attribute(line.data, column.attribute)|default(false) -%}
-    <td data-order="{% if value %}{{ value }}{% endif %}">
+    <td data-order="{{ line.data|emsco_display }}">
         {{- block(column.tableDataValueBlock()) -}}
     </td>
 {% endblock emsco_form_table_column_data_revision_display %}

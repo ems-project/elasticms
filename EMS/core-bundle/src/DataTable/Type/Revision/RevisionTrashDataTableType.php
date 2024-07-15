@@ -44,8 +44,11 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         /** @var ContentType $contentType */
         $contentType = $table->getContext()['content_type'];
 
-        $table->setIdField('ouuid');
-        $table->setExtraFrontendOption(['searching' => false]);
+        $table
+            ->setIdField('ouuid')
+            ->setLabelAttribute('label')
+            ->setExtraFrontendOption(['order' => [4, 'desc']])
+            ->setDefaultOrder('modified', 'desc');
 
         $table->addColumn(t('field.label', [], 'emsco-core'), 'revision_label');
         if ($this->userService->isSuper()) {

@@ -46,9 +46,11 @@ class QueryTable extends TableAbstract
         $this->massAction = $massAction;
     }
 
-    public function setIdField(string $idField): void
+    public function setIdField(string $idField): self
     {
         $this->idField = $idField;
+
+        return $this;
     }
 
     public function getIdField(): string

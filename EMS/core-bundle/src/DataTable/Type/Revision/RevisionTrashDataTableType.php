@@ -88,7 +88,8 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         $table->addTableAction(
             name: self::ACTION_EMPTY_TRASH,
             icon: 'fa fa-trash',
-            labelKey: t('table.delete_selected', [], 'emsco-core')
+            labelKey: t('table.delete_selected', [], 'emsco-core'),
+            confirmationKey: t('table.delete_selected_confirm', [], 'emsco-core'),
         )->setCssClass('btn btn-outline-danger');
     }
 

@@ -29,3 +29,4 @@ table:
     delete: Delete
     delete_selected: 'Delete selected'
     select_all: 'Select all'
+    delete_selected_confirm: 'Are you sure?'

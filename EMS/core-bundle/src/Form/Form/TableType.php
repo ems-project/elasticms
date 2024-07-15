@@ -83,14 +83,16 @@ final class TableType extends AbstractType
         if ($data->supportsTableActions()) {
             /** @var TableAction $action */
             foreach ($data->getTableActions() as $action) {
-                $builder
-                    ->add($action->getName(), SubmitEmsType::class, [
-                        'attr' => [
-                            'class' => $action->getCssClass(),
-                        ],
-                        'icon' => $action->getIcon(),
-                        'label' => $action->getLabelKey(),
-                    ]);
+                $submitOptions = ['icon' => $action->getIcon(), 'label' => $action->getLabelKey()];
+
+                if ($confirmationKey = $action->getConfirmationKey()) {
+                    $submitOptions['confirm'] = $confirmationKey;
+                    $submitOptions['confirm_class'] = $action->getCssClass();
+                } else {
+                    $submitOptions['attr'] = ['class' => $action->getCssClass()];
+                }
+
+                $builder->add($action->getName(), SubmitEmsType::class, $submitOptions);
             }
         }
     }

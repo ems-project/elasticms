@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Data\TableAction;
 use EMS\CoreBundle\Form\Data\TableInterface;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
@@ -91,7 +90,6 @@ final class TableType extends AbstractType
                         ],
                         'icon' => $action->getIcon(),
                         'label' => $action->getLabelKey(),
-                        'translation_domain' => $data->getTranslationDomain(),
                     ]);
             }
         }
@@ -101,7 +99,6 @@ final class TableType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TableInterface::class,
-            'translation_domain' => EMSCoreBundle::TRANS_DOMAIN,
             'reorder_label' => 'table.index.button.reorder',
             'add_label' => 'table.index.button.add',
             'title_label' => false,

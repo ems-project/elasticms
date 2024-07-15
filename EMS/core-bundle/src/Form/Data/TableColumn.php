@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Data;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Data\Condition\ConditionInterface;
 
 class TableColumn
@@ -27,7 +26,6 @@ class TableColumn
     private string $orderField;
     /** @var array<string, mixed> */
     private array $transLabelOptions = [];
-    private string $translationDomain = EMSCoreBundle::TRANS_DOMAIN;
 
     public function __construct(private readonly string $titleKey, string $attribute)
     {
@@ -261,15 +259,5 @@ class TableColumn
     public function getTransLabelOptions(): array
     {
         return $this->transLabelOptions;
-    }
-
-    public function setTranslationDomain(string $translationDomain): void
-    {
-        $this->translationDomain = $translationDomain;
-    }
-
-    public function getTranslationDomain(): string
-    {
-        return $this->translationDomain;
     }
 }

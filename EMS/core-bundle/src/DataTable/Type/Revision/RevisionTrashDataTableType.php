@@ -11,7 +11,6 @@ use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractTableType;
 use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\QueryTable;
@@ -93,9 +92,7 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
 
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
-        $optionsResolver
-            ->setDefault('translation_domain', EMSCoreBundle::TRANS_CORE)
-            ->setRequired(['content_type_name']);
+        $optionsResolver->setRequired(['content_type_name']);
     }
 
     /**

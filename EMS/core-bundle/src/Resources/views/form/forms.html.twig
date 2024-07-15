@@ -203,7 +203,7 @@
                         {% if action.icon|default(false) %}
                             <span class="{{ action.icon starts with 'glyphicon-' ? "glyphicon #{action.icon}" : "fa fa-#{action.icon}" }}"></span>&nbsp;
                         {% endif %}
-                        {% if action.label|default(false) %}{{ action.label|trans({}, table.translationDomain) }}{% endif %}
+                        {% if action.label|default(false) %}{{ action.label|trans }}{% endif %}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
@@ -246,8 +246,7 @@
                     'btnType': action.buttonType,
                     'itemLabel': attribute(line.data, table.labelAttribute),
                     'icon': action.icon,
-                    'group_class': loop.last ? 'pull-right' : '',
-                    'translationDomain': table.translationDomain
+                    'group_class': loop.last ? 'pull-right' : ''
                 }%}
             {% endif %}
         {% else %}
@@ -257,7 +256,6 @@
                 'itemLabel': attribute(line.data, table.labelAttribute),
                 'btnType': action.buttonType,
                 'icon': action.icon,
-                'translationDomain': table.translationDomain
             }%}
         {% endif %}
     {% endif %}
@@ -305,7 +303,7 @@
                                 {% endif %}
                                 {% for column in table.columns %}
                                     <th class="nowrap" data-orderable="{{ column.orderable ? 'true' : 'false' }}" data-name="{{  column.attribute }}">
-                                        {% set columnTitle = column.titleKey|trans(column.transLabelOptions, column.translationDomain) %}
+                                        {% set columnTitle = column.titleKey|trans(column.transLabelOptions) %}
                                         {% if column.iconClass %}
                                             <i class="{{ column.iconClass }}" aria-hidden="true" title="{{ columnTitle|e('html_attr') }}"></i>
                                             <span class="sr-only">{{ columnTitle }}</span>

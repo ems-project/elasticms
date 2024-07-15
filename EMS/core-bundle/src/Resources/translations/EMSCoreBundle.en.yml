@@ -419,9 +419,6 @@ form:
     wysiwyg_style_set:
         table_default_css:
             title: 'Default Table class attribute'
-    header:
-        checkbo:
-            select-all: 'Select all'
 ROLE_ADMIN: Administrator
 ROLE_ALLOW_ALIGN: 'Align Environment'
 ROLE_API: API
@@ -748,7 +745,6 @@ table:
             close: Close
             reorder: Reorder
         column:
-            actions: Actions
             loop_count: '#'
         empty: 'Nothing to show here'
 task:

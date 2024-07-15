@@ -15,5 +15,7 @@ revision:
         sub_title: '{pluralName} in trash'
         title: 'Trash for content type {name}'
 table:
+    actions: Actions
     delete: Delete
     delete_selected: 'Delete selected'
+    select_all: 'Select all'

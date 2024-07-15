@@ -30,6 +30,9 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function Symfony\Component\Translation\t;
 
 class RevisionService implements RevisionServiceInterface
 {
@@ -44,6 +47,7 @@ class RevisionService implements RevisionServiceInterface
         private readonly UserManager $userManager,
         private readonly ExpressionServiceInterface $expressionService,
         private readonly ElasticaService $elasticaService,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -164,6 +168,11 @@ class RevisionService implements RevisionServiceInterface
         }
 
         return match (true) {
+            ($object instanceof Revision && $object->getEnvironments()->isEmpty()) => t(
+                message: 'revision.new',
+                parameters: ['contentType' => $contentType->getSingularName()],
+                domain: 'emsco-core'
+            )->trans($this->translator),
             ($object instanceof Revision) => $object->giveOuuid(),
             ($object instanceof Document) => $object->getId()
         };

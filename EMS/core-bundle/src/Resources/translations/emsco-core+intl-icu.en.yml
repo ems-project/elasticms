@@ -10,6 +10,7 @@ revision:
         ouuid: Ouuid
         locked: 'Locked until'
         locked_by: 'Locked by'
+    new: 'New {contentType}'
     draft:
         edit: 'Edit draft'
         view: 'View draft in progress'

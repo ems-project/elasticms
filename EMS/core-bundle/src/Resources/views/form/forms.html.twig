@@ -69,6 +69,21 @@
     </td>
 {% endblock emsco_form_table_column_data_datetime %}
 
+{% block emsco_form_table_column_data_value_revision_display %}
+    {%- if column.valid(line.data)  -%}
+        {{- block('emsco_form_table_column_data_label_prefix') -}}
+        {{- line.data|emsco_display -}}
+        {{- block('emsco_form_table_column_data_label_suffix') -}}
+    {%- endif -%}
+{% endblock emsco_form_table_column_data_value_revision_display %}
+
+{% block emsco_form_table_column_data_revision_display %}
+    {%- set value = attribute(line.data, column.attribute)|default(false) -%}
+    <td data-order="{% if value %}{{ value }}{% endif %}">
+        {{- block(column.tableDataValueBlock()) -}}
+    </td>
+{% endblock emsco_form_table_column_data_revision_display %}
+
 {% block emsco_form_table_column_data_value_roles %}
     {%- set value = attribute(line.data, column.attribute)|default([]) -%}
     {%- if value is iterable and column.valid(line.data)  -%}

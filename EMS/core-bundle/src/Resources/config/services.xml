@@ -291,6 +291,7 @@
             <argument type="service" id="emsco.manager.user"/>
             <argument type="service" id="EMS\CommonBundle\Contracts\ExpressionServiceInterface"/>
             <argument type="service" id="ems_common.service.elastica" />
+            <argument type="service" id="translator" />
         </service>
         <service id="ems.service.alias" class="EMS\CoreBundle\Service\AliasService">
             <argument type="service" id="logger" />

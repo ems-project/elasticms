@@ -13,6 +13,7 @@ use EMS\CoreBundle\Form\Data\Condition\InMyCircles;
 use EMS\CoreBundle\Form\Data\Condition\NotEmpty;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\QueryTable;
+use EMS\CoreBundle\Form\Data\RevisionDisplayTableColumn;
 use EMS\CoreBundle\Form\Data\UserTableColumn;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Routes;
@@ -46,7 +47,7 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
 
         $table->addColumnDefinition(new DatetimeTableColumn(t('field.modified', [], 'emsco-core'), 'draftSaveDate'));
         $table->addColumnDefinition(new UserTableColumn(t('field.modified_by', [], 'emsco-core'), 'autoSaveBy'));
-        $table->addColumn(t('field.label', [], 'emsco-core'), 'label')->setOrderField('labelField');
+        $table->addColumnDefinition(new RevisionDisplayTableColumn(t('field.label', [], 'emsco-core'), 'label'))->setOrderField('labelField');
 
         $lockUntil = new DatetimeTableColumn(t('revision.field.locked', [], 'emsco-core'), 'lockUntil');
         $condition = new DateInFuture('lockUntil');

@@ -84,9 +84,11 @@ abstract class TableAbstract implements TableInterface
         return $this->labelAttribute;
     }
 
-    public function setLabelAttribute(string $labelAttribute): void
+    public function setLabelAttribute(string $labelAttribute): self
     {
         $this->labelAttribute = $labelAttribute;
+
+        return $this;
     }
 
     /**
@@ -209,10 +211,12 @@ abstract class TableAbstract implements TableInterface
         return $this->tableActions;
     }
 
-    public function setDefaultOrder(string $orderField, string $direction = 'asc'): void
+    public function setDefaultOrder(string $orderField, string $direction = 'asc'): self
     {
         $this->orderField = $orderField;
         $this->orderDirection = $direction;
+
+        return $this;
     }
 
     /**
@@ -387,8 +391,10 @@ abstract class TableAbstract implements TableInterface
         return $this->rowActionsClass;
     }
 
-    public function setRowActionsClass(string $rowActionsClass): void
+    public function setRowActionsClass(string $rowActionsClass): self
     {
         $this->rowActionsClass = $rowActionsClass;
+
+        return $this;
     }
 }

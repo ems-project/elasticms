@@ -38,9 +38,10 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
         /** @var ContentType $contentType */
         $contentType = $table->getContext();
 
-        $table->setRowActionsClass('pull-right');
-        $table->setLabelAttribute('label');
-        $table->setDefaultOrder('modified', 'desc');
+        $table
+            ->setLabelAttribute('label')
+            ->setDefaultOrder('modified', 'desc');
+
         $table->addColumnDefinition(new DatetimeTableColumn('revision.draft-in-progress.column.modified', 'draftSaveDate'));
         $table->addColumnDefinition(new UserTableColumn('revision.draft-in-progress.column.auto-save-by', 'autoSaveBy'));
         $table->addColumn('revision.draft-in-progress.column.label', 'label')->setOrderField('labelField');

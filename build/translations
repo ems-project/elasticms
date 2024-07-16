@@ -32,6 +32,8 @@ use Symfony\Component\Translation\Util\ArrayConverter;
 use Symfony\Component\Translation\Writer\TranslationWriter;
 use Symfony\Component\Yaml\Yaml;
 
+use function Symfony\Component\String\u;
+
 const IGNORE_PATHS = [
     'Command',
     'DependencyInjection',
@@ -194,7 +196,11 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         $allKeys = \array_diff(\array_keys($operation->getMessages($domain)), $domainNewKeys);
         \sort($allKeys);
         foreach ($allKeys as $key) {
-            $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $operation->getResult()->get($key, $domain)];
+            $message = u($operation->getResult()->get($key, $domain))
+                ->collapseWhitespace()
+                ->truncate(50, ' ...');
+
+            $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $message->toString()];
         }
     }
 

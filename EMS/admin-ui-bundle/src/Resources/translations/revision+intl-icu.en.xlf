@@ -5,13 +5,13 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="yc4el3L" resname="revision.trash.title">
-        <source>revision.trash.title</source>
-        <target>Trash for content type %name%</target>
-      </trans-unit>
       <trans-unit id="f4HRCvl" resname="revision.trash.sub_title">
         <source>revision.trash.sub_title</source>
         <target>%pluralName% in trash</target>
+      </trans-unit>
+      <trans-unit id="yc4el3L" resname="revision.trash.title">
+        <source>revision.trash.title</source>
+        <target>Trash for content type %name%</target>
       </trans-unit>
     </body>
   </file>

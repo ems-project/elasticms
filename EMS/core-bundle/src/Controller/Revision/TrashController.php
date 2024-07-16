@@ -14,14 +14,14 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\DataService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Button;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TrashController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly DataService $dataService,
         private readonly DataTableFactory $dataTableFactory,
@@ -43,13 +43,10 @@ class TrashController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
 
         $form->handleRequest($request);
-        if ($form instanceof Form && $form->isSubmitted() && $form->isValid()) {
-            $action = $form->getClickedButton() instanceof Button ? $form->getClickedButton()->getName() : null;
-            $selection = $table->getSelected();
-
-            return match ($action) {
-                RevisionTrashDataTableType::ACTION_PUT_BACK => $this->putBackSelection($contentType, ...$selection),
-                RevisionTrashDataTableType::ACTION_EMPTY_TRASH => $this->emptyTrashSelection($contentType, ...$selection),
+        if ($form->isSubmitted() && $form->isValid()) {
+            return match ($this->getClickedButtonName($form)) {
+                RevisionTrashDataTableType::ACTION_PUT_BACK => $this->putBackSelection($contentType, ...$table->getSelected()),
+                RevisionTrashDataTableType::ACTION_EMPTY_TRASH => $this->emptyTrashSelection($contentType, ...$table->getSelected()),
                 default => (function () use ($contentType) {
                     $this->logger->error('log.controller.channel.unknown_action');
 

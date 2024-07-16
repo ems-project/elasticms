@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -24,8 +25,10 @@ use Symfony\Component\Translation\Extractor\PhpAstExtractor;
 use Symfony\Component\Translation\Extractor\Visitor;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
+use Symfony\Component\Translation\Reader\TranslationReaderInterface;
+use Symfony\Component\Translation\Writer\TranslationWriterInterface;
 
-const IGRNORE_PATHS = [
+const IGNORE_PATHS = [
     'Command',
     'DependencyInjection',
     'Entity',
@@ -33,7 +36,7 @@ const IGRNORE_PATHS = [
     '/Resources\/(public|config|DoctrineMigrations)/',
 ];
 
-$command = function (InputInterface $input, OutputInterface $output): int {
+$command = static function (InputInterface $input, OutputInterface $output): int {
     $stopWatch = new Stopwatch();
     $stopWatch->start('build');
 
@@ -54,6 +57,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $adminKernel = new Kernel('test', true);
     $adminKernel->boot();
     $bundleDir = $adminKernel->getBundle($bundle)->getPath();
+    /** @var Container $container */
     $container = $adminKernel->getContainer()->get('test.service_container');
 
     $io->listing([
@@ -63,11 +67,12 @@ $command = function (InputInterface $input, OutputInterface $output): int {
 
     $io->writeln('Building current translations');
     $currentCatalogue = new MessageCatalogue($locale);
+    /** @var TranslationReaderInterface $reader */
     $reader = $container->get('translation.reader');
     $reader->read($bundleDir.'/Resources/translations', $currentCatalogue);
 
     $catalogueDomains = $currentCatalogue->getDomains();
-    \array_walk($domains, function (string $d) use ($catalogueDomains) {
+    \array_walk($domains, static function (string $d) use ($catalogueDomains) {
         if (!\in_array($d, $catalogueDomains, true)) {
             throw new \RuntimeException(\sprintf('Invalid domain: %s', $d));
         }
@@ -82,7 +87,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     $finder = (new Finder())
         ->ignoreUnreadableDirs()
         ->ignoreVCSIgnored(true)
-        ->notPath(IGRNORE_PATHS)
+        ->notPath(IGNORE_PATHS)
         ->in($bundleDir);
 
     $extractors = [
@@ -94,7 +99,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
        ['Parsing twig files', '*.twig', $container->get('twig.translation.extractor')],
     ];
 
-    foreach ($extractors as list($title, $name, $extractor)) {
+    foreach ($extractors as [$title, $name, $extractor]) {
         /* @var ExtractorInterface $extractor */
         $io->writeln($title);
         $files = (clone $finder)->name($name);
@@ -118,7 +123,7 @@ $command = function (InputInterface $input, OutputInterface $output): int {
             $filterCurrentCatalogue->add($intlMessages, $domainIntl); // add intl domain message
         }
         if ($messages = \array_diff($currentCatalogue->all($domain), $intlMessages)) {
-            $filterCurrentCatalogue->add($messages, $domainIntl); // add message from domain
+            $filterCurrentCatalogue->add($messages, $domainIntl); // add the message from domain
         }
 
         $filterExtractedCatalogue->add($extractedCatalogue->all($domain), $domainIntl);
@@ -132,11 +137,18 @@ $command = function (InputInterface $input, OutputInterface $output): int {
         throw new \RuntimeException('No translations found');
     }
 
+    $sortedMessages = new MessageCatalogue($result->getLocale());
+    foreach ($result->all() as $domain => $domainMessages) {
+        \ksort($domainMessages);
+        $sortedMessages->add($domainMessages, $domain.MessageCatalogueInterface::INTL_DOMAIN_SUFFIX);
+    }
+
     if (true === $input->getOption('write')) {
         $io->writeln('Writing translations');
 
+        /** @var TranslationWriterInterface $translationWriter */
         $translationWriter = $container->get('translation.writer');
-        $translationWriter->write($result, $format, match ($format) {
+        $translationWriter->write($sortedMessages, $format, match ($format) {
             'yml' => [
                 'path' => $bundleDir.'/Resources/translations',
                 'as_tree' => true,
@@ -172,8 +184,8 @@ $command = function (InputInterface $input, OutputInterface $output): int {
     }
 
     if (\count($rows) > 0) {
-        $rows = \array_reduce($rows, fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []);
-        $rows = \array_slice($rows, 0, -1); // remove last separtor
+        $rows = \array_reduce($rows, static fn ($carry, $item) => \array_merge($carry, $item, [new TableSeparator()]), []);
+        $rows = \array_slice($rows, 0, -1); // remove last separator
 
         $io->newLine();
         $io

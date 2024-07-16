@@ -5,19 +5,26 @@ field:
     label: Label
     modified: 'Last update'
     modified_by: 'Updated by'
+log:
+    error:
+        invalid_table_action: 'Unknown table action'
+    notice:
+        draft_deleted: 'Draft "{revision}" has been deleted'
+    warning:
+        draft_not_found: 'Draft not found with id "{revisionId}"'
 revision:
-    field:
-        ouuid: Ouuid
-        locked: 'Locked until'
-        locked_by: 'Locked by'
-    new: 'New {contentType}'
     draft:
-        edit: 'Edit draft'
-        view: 'View draft in progress'
         delete: 'Delete this draft'
         delete_confirm: 'Modifications made in this draft will be lost'
         delete_selected: 'Delete selected drafts'
         delete_selected_confirm: 'All modifications made on those drafts will lost'
+        edit: 'Edit draft'
+        view: 'View draft in progress'
+    field:
+        locked: 'Locked until'
+        locked_by: 'Locked by'
+        ouuid: Ouuid
+    new: 'New {contentType}'
     trash:
         delete_confirm: 'Remove trash "{label}" ?'
         put_back: 'Put back'
@@ -29,5 +36,5 @@ table:
     actions: Actions
     delete: Delete
     delete_selected: 'Delete selected'
-    select_all: 'Select all'
     delete_selected_confirm: 'Are you sure?'
+    select_all: 'Select all'

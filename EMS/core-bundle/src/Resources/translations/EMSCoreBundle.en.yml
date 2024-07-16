@@ -738,8 +738,6 @@ table:
     index:
         button:
             add: Add
-            close: Close
-            reorder: Reorder
         column:
             loop_count: '#'
         empty: 'Nothing to show here'

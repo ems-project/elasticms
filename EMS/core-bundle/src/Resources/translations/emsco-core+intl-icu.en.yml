@@ -2,6 +2,11 @@ content_type:
     plural: 'Content Types'
 core:
     version: 'Version {core} with Symfony {symfony}'
+button:
+    add: Add
+    delete: Delete
+    close: Close
+    reorder: Reorder
 field:
     deleted_by: 'Deleted by'
     label: Label
@@ -38,7 +43,6 @@ revision:
         title: '{pluralName} in trash'
 table:
     actions: Actions
-    delete: Delete
     delete_selected: 'Delete selected'
     delete_selected_confirm: 'Are you sure?'
     select_all: 'Select all'

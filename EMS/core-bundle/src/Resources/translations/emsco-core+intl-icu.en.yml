@@ -1,3 +1,5 @@
+content_type:
+    plural: 'Content Types'
 core:
     version: 'Version {core} with Symfony {symfony}'
 field:
@@ -19,6 +21,8 @@ revision:
         delete_selected: 'Delete selected drafts'
         delete_selected_confirm: 'All modifications made on those drafts will lost'
         edit: 'Edit draft'
+        label: 'Draft in progress'
+        title: '{pluralName} drafts in progress'
         view: 'View draft in progress'
     field:
         locked: 'Locked until'
@@ -27,11 +31,11 @@ revision:
     new: 'New {contentType}'
     trash:
         delete_confirm: 'Remove trash "{label}" ?'
+        label: Trash
         put_back: 'Put back'
         put_back_confirm: 'Put back "{label}" ?'
         put_back_selected: 'Put back selected'
-        sub_title: '{pluralName} in trash'
-        title: 'Trash for content type {name}'
+        title: '{pluralName} in trash'
 table:
     actions: Actions
     delete: Delete

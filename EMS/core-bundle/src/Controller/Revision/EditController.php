@@ -270,9 +270,15 @@ class EditController extends AbstractController
             return $this->redirectToRoute(Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentTypeId->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/data/draft-in-progress.html.twig", [
+        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
             'contentType' => $contentTypeId,
+            'icon' => 'fa fa-fire',
+            'title' => t('revision.draft.title', ['pluralName' => $contentTypeId->getPluralName()], 'emsco-core'),
+            'breadcrumb' => [
+                'contentType' => $contentTypeId,
+                'page' => t('revision.draft.label', [], 'emsco-core'),
+            ],
         ]);
     }
 

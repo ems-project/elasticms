@@ -42,7 +42,7 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         $table
             ->setIdField('ouuid')
             ->setLabelAttribute('label')
-            ->setExtraFrontendOption(['order' => [4, 'desc']])
+            ->setExtraFrontendOption(['order' => [$this->userService->isSuper() ? 3 : 4, 'desc']])
             ->setDefaultOrder('modified', 'desc');
 
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');

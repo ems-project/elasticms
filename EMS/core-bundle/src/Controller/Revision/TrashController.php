@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Revision;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
@@ -12,11 +13,12 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\DataService;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use function Symfony\Component\Translation\t;
 
 class TrashController extends AbstractController
 {
@@ -25,7 +27,7 @@ class TrashController extends AbstractController
     public function __construct(
         private readonly DataService $dataService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly string $templateNamespace
     ) {
     }
@@ -48,7 +50,7 @@ class TrashController extends AbstractController
                 RevisionTrashDataTableType::ACTION_PUT_BACK => $this->putBackSelection($contentType, ...$table->getSelected()),
                 RevisionTrashDataTableType::ACTION_EMPTY_TRASH => $this->emptyTrashSelection($contentType, ...$table->getSelected()),
                 default => (function () use ($contentType) {
-                    $this->logger->error('log.controller.channel.unknown_action');
+                    $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core'));
 
                     return $this->redirectToRoute(Routes::DATA_TRASH, ['contentType' => $contentType->getId()]);
                 })()

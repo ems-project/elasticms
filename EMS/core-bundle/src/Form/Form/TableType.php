@@ -16,6 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 final class TableType extends AbstractType
@@ -74,7 +75,7 @@ final class TableType extends AbstractType
                 'entry_options' => [],
                 'data' => $choices,
             ])->add(self::REORDER_ACTION, SubmitEmsType::class, [
-                'attr' => ['class' => 'btn btn-default',],
+                'attr' => ['class' => 'btn btn-default'],
                 'icon' => 'fa fa-reorder',
                 'label' => t('button.reorder', [], 'emsco-core'),
             ]);

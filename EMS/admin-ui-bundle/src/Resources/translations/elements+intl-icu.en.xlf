@@ -45,6 +45,14 @@
         <source>side_menu.anonymous-user</source>
         <target>Anonymous User</target>
       </trans-unit>
+      <trans-unit id="8ZArGEQ" resname="sidebar.tab.home.label">
+        <source>sidebar.tab.home.label</source>
+        <target>Recent Activities</target>
+      </trans-unit>
+      <trans-unit id="9VXm7JM" resname="sidebar.tab.jobs.label">
+        <source>sidebar.tab.jobs.label</source>
+        <target>Last commands</target>
+      </trans-unit>
       <trans-unit id="l_C57Fy" resname="toats.level.error">
         <source>toats.level.error</source>
         <target>Error</target>
@@ -56,14 +64,6 @@
       <trans-unit id="263Rpro" resname="toats.level.warning">
         <source>toats.level.warning</source>
         <target>Warning</target>
-      </trans-unit>
-      <trans-unit id="8ZArGEQ" resname="sidebar.tab.home.label">
-        <source>sidebar.tab.home.label</source>
-        <target>Recent Activities</target>
-      </trans-unit>
-      <trans-unit id="9VXm7JM" resname="sidebar.tab.jobs.label">
-        <source>sidebar.tab.jobs.label</source>
-        <target>Last commands</target>
       </trans-unit>
       <trans-unit id="fL.AXFq" resname="topbar.control_sidebar.toggle">
         <source>topbar.control_sidebar.toggle</source>

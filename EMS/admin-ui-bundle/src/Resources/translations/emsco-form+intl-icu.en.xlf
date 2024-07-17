@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="GiMO2QG" resname="form.data.bool_table_column.false_value">
+        <source>form.data.bool_table_column.false_value</source>
+        <target>Uncheck</target>
+      </trans-unit>
+      <trans-unit id="ZNFuBwV" resname="form.data.bool_table_column.true_value">
+        <source>form.data.bool_table_column.true_value</source>
+        <target>Check</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

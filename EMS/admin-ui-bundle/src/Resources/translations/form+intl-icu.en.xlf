@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="n9coxmy" resname="Add">
+        <source>Add</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="wyEi8qj" resname="Asset options">
+        <source>Asset options</source>
+        <target>Asset options</target>
+      </trans-unit>
+      <trans-unit id="g7EsIhb" resname="Clear">
+        <source>Clear</source>
+        <target>Clear</target>
+      </trans-unit>
+      <trans-unit id="tgbxuoe" resname="Extract content">
+        <source>Extract content</source>
+        <target>Extract content</target>
+      </trans-unit>
+      <trans-unit id="Ud8dhUH" resname="Hash signature">
+        <source>Hash signature</source>
+        <target>Hash signature</target>
+      </trans-unit>
+      <trans-unit id="FwMioy8" resname="Info">
+        <source>Info</source>
+        <target>Info</target>
+      </trans-unit>
+      <trans-unit id="3Mg5pAF" resname="View">
+        <source>View</source>
+        <target>View</target>
+      </trans-unit>
+      <trans-unit id="_uZzAWN" resname="edit_image.flip.group">
+        <source>edit_image.flip.group</source>
+        <target>Flip</target>
+      </trans-unit>
+      <trans-unit id="fSQDbPg" resname="edit_image.flip.horizontal">
+        <source>edit_image.flip.horizontal</source>
+        <target>Flip horizontal</target>
+      </trans-unit>
+      <trans-unit id="fslb05I" resname="edit_image.flip.vertical">
+        <source>edit_image.flip.vertical</source>
+        <target>Flip vertical</target>
+      </trans-unit>
+      <trans-unit id="fozGNYu" resname="edit_image.rotate.group">
+        <source>edit_image.rotate.group</source>
+        <target>Rotate</target>
+      </trans-unit>
+      <trans-unit id="cHFMZF5" resname="edit_image.rotate.left">
+        <source>edit_image.rotate.left</source>
+        <target>Rotate left</target>
+      </trans-unit>
+      <trans-unit id="it2a1FY" resname="edit_image.rotate.right">
+        <source>edit_image.rotate.right</source>
+        <target>Rotate right</target>
+      </trans-unit>
+      <trans-unit id="0XT9iTF" resname="edit_image.zoom.group">
+        <source>edit_image.zoom.group</source>
+        <target>Zoom</target>
+      </trans-unit>
+      <trans-unit id="V6nsSMH" resname="edit_image.zoom.minus">
+        <source>edit_image.zoom.minus</source>
+        <target>Zoom in</target>
+      </trans-unit>
+      <trans-unit id="4jqmsop" resname="edit_image.zoom.plus">
+        <source>edit_image.zoom.plus</source>
+        <target>Zoom out</target>
+      </trans-unit>
+      <trans-unit id="w1f4hmf" resname="edit_image.zoom.reset">
+        <source>edit_image.zoom.reset</source>
+        <target>Reset view</target>
+      </trans-unit>
+      <trans-unit id="wDdF7GW" resname="field_type.json_menu_editor.add">
+        <source>field_type.json_menu_editor.add</source>
+        <target>field_type.json_menu_editor.add</target>
+      </trans-unit>
+      <trans-unit id="skRDLm_" resname="field_type.json_menu_editor.add_item">
+        <source>field_type.json_menu_editor.add_item</source>
+        <target>field_type.json_menu_editor.add_item</target>
+      </trans-unit>
+      <trans-unit id="EKENjUy" resname="field_type.json_menu_editor.add_node">
+        <source>field_type.json_menu_editor.add_node</source>
+        <target>field_type.json_menu_editor.add_node</target>
+      </trans-unit>
+      <trans-unit id="Dj6I2I_" resname="field_type.json_menu_editor.collapse_all_button">
+        <source>field_type.json_menu_editor.collapse_all_button</source>
+        <target>field_type.json_menu_editor.collapse_all_button</target>
+      </trans-unit>
+      <trans-unit id="VbR_nKc" resname="field_type.json_menu_editor.collapse_button">
+        <source>field_type.json_menu_editor.collapse_button</source>
+        <target>field_type.json_menu_editor.collapse_button</target>
+      </trans-unit>
+      <trans-unit id="5xvMwVU" resname="field_type.json_menu_editor.delete_item">
+        <source>field_type.json_menu_editor.delete_item</source>
+        <target>field_type.json_menu_editor.delete_item</target>
+      </trans-unit>
+      <trans-unit id="D_arwZ2" resname="field_type.json_menu_editor.item_label_placeholder">
+        <source>field_type.json_menu_editor.item_label_placeholder</source>
+        <target>field_type.json_menu_editor.item_label_placeholder</target>
+      </trans-unit>
+      <trans-unit id="P_oPwK5" resname="field_type.json_menu_editor.move_item">
+        <source>field_type.json_menu_editor.move_item</source>
+        <target>field_type.json_menu_editor.move_item</target>
+      </trans-unit>
+      <trans-unit id="9JyP.RX" resname="field_type.reorder">
+        <source>field_type.reorder</source>
+        <target>field_type.reorder</target>
+      </trans-unit>
+      <trans-unit id="uF0WbpM" resname="field_type.textarea.counter">
+        <source>field_type.textarea.counter</source>
+        <target>%count% characters</target>
+      </trans-unit>
+      <trans-unit id="So_rVfA" resname="fields.asset.browse-server">
+        <source>fields.asset.browse-server</source>
+        <target>fields.asset.browse-server</target>
+      </trans-unit>
+      <trans-unit id="1Sm51wa" resname="fields.asset.clear-button">
+        <source>fields.asset.clear-button</source>
+        <target>fields.asset.clear-button</target>
+      </trans-unit>
+      <trans-unit id="3Bw7Yqa" resname="fields.asset.close-modal">
+        <source>fields.asset.close-modal</source>
+        <target>fields.asset.close-modal</target>
+      </trans-unit>
+      <trans-unit id="FXVMzX9" resname="fields.asset.drag-n-drop-file">
+        <source>fields.asset.drag-n-drop-file</source>
+        <target>fields.asset.drag-n-drop-file</target>
+      </trans-unit>
+      <trans-unit id="ElgZha5" resname="fields.asset.drag-n-drop-files">
+        <source>fields.asset.drag-n-drop-files</source>
+        <target>fields.asset.drag-n-drop-files</target>
+      </trans-unit>
+      <trans-unit id="MHBWkDg" resname="fields.asset.file-hash">
+        <source>fields.asset.file-hash</source>
+        <target>fields.asset.file-hash</target>
+      </trans-unit>
+      <trans-unit id="hjL9WGI" resname="fields.asset.file-info">
+        <source>fields.asset.file-info</source>
+        <target>fields.asset.file-info</target>
+      </trans-unit>
+      <trans-unit id="WYn8kNa" resname="fields.asset.info-modal-button">
+        <source>fields.asset.info-modal-button</source>
+        <target>fields.asset.info-modal-button</target>
+      </trans-unit>
+      <trans-unit id="f_QlR1Z" resname="fields.asset.init-upload">
+        <source>fields.asset.init-upload</source>
+        <target>fields.asset.init-upload</target>
+      </trans-unit>
+      <trans-unit id="UDO_Tdr" resname="fields.asset.move-button">
+        <source>fields.asset.move-button</source>
+        <target>fields.asset.move-button</target>
+      </trans-unit>
+      <trans-unit id="R.YjJTq" resname="fields.asset.preview">
+        <source>fields.asset.preview</source>
+        <target>fields.asset.preview</target>
+      </trans-unit>
+      <trans-unit id="f4znk1a" resname="fields.asset.remove-button">
+        <source>fields.asset.remove-button</source>
+        <target>fields.asset.remove-button</target>
+      </trans-unit>
+      <trans-unit id="sVSD7Ze" resname="fields.asset.upload-file">
+        <source>fields.asset.upload-file</source>
+        <target>fields.asset.upload-file</target>
+      </trans-unit>
+      <trans-unit id="7dmJhE0" resname="fields.asset.upload-files">
+        <source>fields.asset.upload-files</source>
+        <target>fields.asset.upload-files</target>
+      </trans-unit>
+      <trans-unit id="ukECZf7" resname="fields.asset.view-button">
+        <source>fields.asset.view-button</source>
+        <target>fields.asset.view-button</target>
+      </trans-unit>
+      <trans-unit id="dLDcuHS" resname="form.field-type-type.root">
+        <source>form.field-type-type.root</source>
+        <target>form.field-type-type.root</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

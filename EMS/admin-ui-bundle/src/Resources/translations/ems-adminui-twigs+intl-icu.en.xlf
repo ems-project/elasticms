@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="kXoX0or" resname="core.modal.close">
+        <source>core.modal.close</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="7L5_CWj" resname="core.modal.loading">
+        <source>core.modal.loading</source>
+        <target>Loading...</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -5,6 +5,14 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
+      <trans-unit id="lINeovz" resname="Inbox">
+        <source>Inbox</source>
+        <target>Inbox</target>
+      </trans-unit>
+      <trans-unit id="SWaK_pI" resname="Outbox">
+        <source>Outbox</source>
+        <target>Outbox</target>
+      </trans-unit>
       <trans-unit id="8euyyEz" resname="notification.dashboard.title">
         <source>notification.dashboard.title</source>
         <target>Notifications</target>

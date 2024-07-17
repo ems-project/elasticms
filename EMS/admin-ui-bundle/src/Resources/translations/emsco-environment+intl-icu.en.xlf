@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="KSe5YNi" resname="environment.edit.short_title">
+        <source>environment.edit.short_title</source>
+        <target>environment.edit.short_title</target>
+      </trans-unit>
+      <trans-unit id="LX.A_fY" resname="environment.edit.title">
+        <source>environment.edit.title</source>
+        <target>environment.edit.title</target>
+      </trans-unit>
+      <trans-unit id="xJM.NKH" resname="environment.index.title">
+        <source>environment.index.title</source>
+        <target>environment.index.title</target>
+      </trans-unit>
+      <trans-unit id="Up.x1lm" resname="environment.plural">
+        <source>environment.plural</source>
+        <target>environment.plural</target>
+      </trans-unit>
+      <trans-unit id="DLt736r" resname="view.environment.index.action_label">
+        <source>view.environment.index.action_label</source>
+        <target>Actions</target>
+      </trans-unit>
+      <trans-unit id="tzm0CuE" resname="view.environment.index.add_alias_button">
+        <source>view.environment.index.add_alias_button</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="012Ud3i" resname="view.environment.index.add_managed_alias_button">
+        <source>view.environment.index.add_managed_alias_button</source>
+        <target>Add a managed alias</target>
+      </trans-unit>
+      <trans-unit id="t173XtF" resname="view.environment.index.alias_label">
+        <source>view.environment.index.alias_label</source>
+        <target>Alias</target>
+      </trans-unit>
+      <trans-unit id="Y_N_YFY" resname="view.environment.index.all_indexes_are_referenced">
+        <source>view.environment.index.all_indexes_are_referenced</source>
+        <target>There is no other alias</target>
+      </trans-unit>
+      <trans-unit id="1gtnkUU" resname="view.environment.index.attach_alias_confirm">
+        <source>view.environment.index.attach_alias_confirm</source>
+        <target>Attach %name% ?</target>
+      </trans-unit>
+      <trans-unit id="KZC9ti_" resname="view.environment.index.attach_button">
+        <source>view.environment.index.attach_button</source>
+        <target>Attach</target>
+      </trans-unit>
+      <trans-unit id="L6mg4kW" resname="view.environment.index.confirm_dettach">
+        <source>view.environment.index.confirm_dettach</source>
+        <target>view.environment.index.confirm_dettach</target>
+      </trans-unit>
+      <trans-unit id="60tT9Qu" resname="view.environment.index.count_label">
+        <source>view.environment.index.count_label</source>
+        <target>#</target>
+      </trans-unit>
+      <trans-unit id="WdwR1Bp" resname="view.environment.index.delete_alias_confirm">
+        <source>view.environment.index.delete_alias_confirm</source>
+        <target>view.environment.index.delete_alias_confirm</target>
+      </trans-unit>
+      <trans-unit id="GPD7t08" resname="view.environment.index.delete_all_button">
+        <source>view.environment.index.delete_all_button</source>
+        <target>Delete all</target>
+      </trans-unit>
+      <trans-unit id="Bb9BMl9" resname="view.environment.index.delete_all_ophan_indexes_confirm">
+        <source>view.environment.index.delete_all_ophan_indexes_confirm</source>
+        <target>Delete all orphan indexes ?</target>
+      </trans-unit>
+      <trans-unit id="MgVaasI" resname="view.environment.index.delete_button">
+        <source>view.environment.index.delete_button</source>
+        <target>Delete</target>
+      </trans-unit>
+      <trans-unit id="fcUwylD" resname="view.environment.index.delete_index_button">
+        <source>view.environment.index.delete_index_button</source>
+        <target>view.environment.index.delete_index_button</target>
+      </trans-unit>
+      <trans-unit id="yLco.AA" resname="view.environment.index.delete_index_confirm">
+        <source>view.environment.index.delete_index_confirm</source>
+        <target>Delete %name% ?</target>
+      </trans-unit>
+      <trans-unit id="oQRS5qO" resname="view.environment.index.delete_managed_environemnt_button">
+        <source>view.environment.index.delete_managed_environemnt_button</source>
+        <target>Delete %name% ?</target>
+      </trans-unit>
+      <trans-unit id="5SxY7_U" resname="view.environment.index.dettach_button">
+        <source>view.environment.index.dettach_button</source>
+        <target>view.environment.index.dettach_button</target>
+      </trans-unit>
+      <trans-unit id="QsvigaX" resname="view.environment.index.edit_button">
+        <source>view.environment.index.edit_button</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="WB3lTs7" resname="view.environment.index.environment_breadcrumb">
+        <source>view.environment.index.environment_breadcrumb</source>
+        <target>Environments</target>
+      </trans-unit>
+      <trans-unit id="XqavUnU" resname="view.environment.index.environment_index_count">
+        <source>view.environment.index.environment_index_count</source>
+        <target>There is %count% indexes</target>
+      </trans-unit>
+      <trans-unit id="9IQgVQv" resname="view.environment.index.environment_indexes_modal_title">
+        <source>view.environment.index.environment_indexes_modal_title</source>
+        <target>Indexes in %name%</target>
+      </trans-unit>
+      <trans-unit id="eCMc69j" resname="view.environment.index.external_environments_title">
+        <source>view.environment.index.external_environments_title</source>
+        <target>External environments</target>
+      </trans-unit>
+      <trans-unit id="MsZkuNr" resname="view.environment.index.index_breadcrumb">
+        <source>view.environment.index.index_breadcrumb</source>
+        <target>Overview</target>
+      </trans-unit>
+      <trans-unit id="zaQfq6s" resname="view.environment.index.indexes_label">
+        <source>view.environment.index.indexes_label</source>
+        <target>Indexes</target>
+      </trans-unit>
+      <trans-unit id="CSiDUAP" resname="view.environment.index.label">
+        <source>view.environment.index.label</source>
+        <target>view.environment.index.label</target>
+      </trans-unit>
+      <trans-unit id="iFp9di6" resname="view.environment.index.managed_alias_title">
+        <source>view.environment.index.managed_alias_title</source>
+        <target>Managed aliases</target>
+      </trans-unit>
+      <trans-unit id="ZXW5Rj5" resname="view.environment.index.name_label">
+        <source>view.environment.index.name_label</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="iz1_jfg" resname="view.environment.index.no_external_environment_yet">
+        <source>view.environment.index.no_external_environment_yet</source>
+        <target>There is no external environment defined yet.</target>
+      </trans-unit>
+      <trans-unit id="KzxKmXz" resname="view.environment.index.orphan_index_title">
+        <source>view.environment.index.orphan_index_title</source>
+        <target>Orphan indexes</target>
+      </trans-unit>
+      <trans-unit id="tPzVszw" resname="view.environment.index.pagetitle">
+        <source>view.environment.index.pagetitle</source>
+        <target>Environments</target>
+      </trans-unit>
+      <trans-unit id="eY6u.dq" resname="view.environment.index.there_is_no_orphan_index">
+        <source>view.environment.index.there_is_no_orphan_index</source>
+        <target>view.environment.index.there_is_no_orphan_index</target>
+      </trans-unit>
+      <trans-unit id="8WsLmMR" resname="view.environment.index.title">
+        <source>view.environment.index.title</source>
+        <target>Environments</target>
+      </trans-unit>
+      <trans-unit id="CxBrR76" resname="view.environment.index.total_label">
+        <source>view.environment.index.total_label</source>
+        <target>Total</target>
+      </trans-unit>
+      <trans-unit id="tt_tzbW" resname="view.environment.index.unreferenced_aliases_title">
+        <source>view.environment.index.unreferenced_aliases_title</source>
+        <target>Other aliases</target>
+      </trans-unit>
+      <trans-unit id="YHch32e" resname="view.environment.index.view_button">
+        <source>view.environment.index.view_button</source>
+        <target>view.environment.index.view_button</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -5,12 +5,12 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="o2BwiOu" resname="notification.menu.link_title">
-        <source>notification.menu.link_title</source>
-        <target>Notifications</target>
-      </trans-unit>
       <trans-unit id="8euyyEz" resname="notification.dashboard.title">
         <source>notification.dashboard.title</source>
+        <target>Notifications</target>
+      </trans-unit>
+      <trans-unit id="o2BwiOu" resname="notification.menu.link_title">
+        <source>notification.menu.link_title</source>
         <target>Notifications</target>
       </trans-unit>
     </body>

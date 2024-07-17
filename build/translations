@@ -20,13 +20,19 @@ use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
+use Symfony\Component\Translation\Dumper\XliffFileDumper;
+use Symfony\Component\Translation\Dumper\YamlFileDumper;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\Extractor\PhpAstExtractor;
 use Symfony\Component\Translation\Extractor\Visitor;
 use Symfony\Component\Translation\MessageCatalogue;
 use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Translation\Reader\TranslationReaderInterface;
-use Symfony\Component\Translation\Writer\TranslationWriterInterface;
+use Symfony\Component\Translation\Util\ArrayConverter;
+use Symfony\Component\Translation\Writer\TranslationWriter;
+use Symfony\Component\Yaml\Yaml;
+
+use function Symfony\Component\String\u;
 
 const IGNORE_PATHS = [
     'Command',
@@ -146,8 +152,19 @@ $command = static function (InputInterface $input, OutputInterface $output): int
     if (true === $input->getOption('write')) {
         $io->writeln('Writing translations');
 
-        /** @var TranslationWriterInterface $translationWriter */
-        $translationWriter = $container->get('translation.writer');
+        $translationWriter = new TranslationWriter();
+        $translationWriter->addDumper('xlf', new XliffFileDumper());
+        $translationWriter->addDumper('yml', new class() extends YamlFileDumper {
+            public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = []): string
+            {
+                return Yaml::dump(
+                    input: ArrayConverter::expandToTree($messages->all($domain)),
+                    inline: 5,
+                    flags: Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK
+                );
+            }
+        });
+
         $translationWriter->write($sortedMessages, $format, match ($format) {
             'yml' => [
                 'path' => $bundleDir.'/Resources/translations',
@@ -179,7 +196,11 @@ $command = static function (InputInterface $input, OutputInterface $output): int
         $allKeys = \array_diff(\array_keys($operation->getMessages($domain)), $domainNewKeys);
         \sort($allKeys);
         foreach ($allKeys as $key) {
-            $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $operation->getResult()->get($key, $domain)];
+            $message = u($operation->getResult()->get($key, $domain))
+                ->collapseWhitespace()
+                ->truncate(50, ' ...');
+
+            $rows[$domain][] = ['<fg=green>used</>', $domain, $key, $message->toString()];
         }
     }
 

@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.18.1 (2024-07-18)
+### Bug Fixes
+* fix(common/storage): return 404 response on not found by @Davidmattei in https://github.com/ems-project/elasticms/pull/938
+* fix(demo): release search not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/943
+* fix(emsco/media-lib): rename/delete command username with space by @Davidmattei in https://github.com/ems-project/elasticms/pull/961
+
 ## 5.18.0 (2024-06-26)
 ### Features
 * feat(common/admin): update command dump file and onlyMissing option by @theus77 in https://github.com/ems-project/elasticms/pull/897

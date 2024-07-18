@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.17.3 (2024-07-18)
+### Bug Fixes
+* fix(emsco/media-lib): rename/delete command username with space by @Davidmattei in https://github.com/ems-project/elasticms/pull/961
+
 ## 5.17.2 (2024-06-26)
 ### Bug Fixes
 * fix(common/storage): S3StreamPromise read by @theus77 in https://github.com/ems-project/elasticms/pull/924

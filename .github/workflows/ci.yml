@@ -1,0 +1,70 @@
+name: 'CI'
+
+on:
+  pull_request:
+  push:
+
+env:
+  PHP_VERSION: 8.1
+  PHPUNIT_FLAGS: "-v"
+
+jobs:
+  code-quality:
+    name: "Code Quality"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+
+      - name: "Install PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+
+      - name: "Get Composer Info"
+        id: composer
+        run: |
+          echo "composer-lock-hash=${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
+
+      - name: "Restore cache results"
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache
+          key: ci-${{ github.ref_name }}
+
+      - name: "Restore Composer Cache"
+        uses: actions/cache/restore@v4
+        id: restore-composer
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ steps.composer.outputs.composer-lock-hash }}
+
+      - name: "Install Composer dependencies"
+        if: steps.restore-composer.outputs.cache-hit != 'true'
+        run: composer install --no-progress
+
+      - name: "Run PHPStan"
+        run: vendor/bin/phpstan analyse --error-format=github -vvv
+
+      - name: "Run PHP-CS-Fixer"
+        run: >-
+          vendor/bin/php-cs-fixer fix --diff --dry-run
+          --config=.php-cs-fixer.dist.php
+
+      - name: "Run PHPUnit"
+        run: vendor/bin/phpunit ${{ env.PHPUNIT_FLAGS }}
+
+      - name: "Save cache results"
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache
+          key: ci-${{ github.ref_name }}
+
+      - name: "Save vendor directory"
+        if: steps.restore-composer.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ steps.composer.outputs.composer-lock-hash }}

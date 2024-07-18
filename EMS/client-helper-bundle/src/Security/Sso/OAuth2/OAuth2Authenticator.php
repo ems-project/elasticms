@@ -36,11 +36,13 @@ class OAuth2Authenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $token = $this->oAuth2Service->getProvider()->getAccessToken($request);
-        $username = $this->oAuth2Service->getProvider()->getUsername($token);
+        $accessToken = $this->oAuth2Service->getProvider()->getAccessToken($request);
+        $username = $this->oAuth2Service->getProvider()->getUsername($accessToken);
 
         return new SelfValidatingPassport(
-            userBadge: new UserBadge($username, fn (string $userIdentifier) => new SsoUser($userIdentifier))
+            userBadge: new UserBadge($username, fn (string $userIdentifier) => new SsoUser(
+                identifier: $userIdentifier
+            ))
         );
     }
 

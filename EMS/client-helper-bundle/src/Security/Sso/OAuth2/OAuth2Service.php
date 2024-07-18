@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
 use EMS\ClientHelperBundle\Controller\Security\Sso\OAuth2Controller;
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\AzureProvider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\KeycloakProvider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\ProviderInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -69,6 +70,13 @@ class OAuth2Service
     private function createProvider(): ProviderInterface
     {
         return match ($this->property(OAuth2Property::PROVIDER)) {
+            'azure' => new AzureProvider(
+                tenant: $this->property(OAuth2Property::REALM),
+                clientId: $this->property(OAuth2Property::CLIENT_ID),
+                clientSecret: $this->property(OAuth2Property::CLIENT_SECRET),
+                redirectUri: $this->property(OAuth2Property::REDIRECT_URI),
+                version: $this->optionalProperty(OAuth2Property::VERSION),
+            ),
             'keycloak' => new KeycloakProvider(
                 authServerUrl: $this->property(OAuth2Property::AUTH_SERVER),
                 realm: $this->property(OAuth2Property::REALM),

@@ -23,6 +23,7 @@ parameters:
     env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
 
     env(EMSCH_OAUTH2):                      false
+    env(EMSCH_OAUTH2_PROVIDER):             'keycloak'
     env(EMSCH_OAUTH2_AUTH_SERVER):          ~
     env(EMSCH_OAUTH2_REALM):                ~
     env(EMSCH_OAUTH2_CLIENT_ID):            ~
@@ -70,6 +71,7 @@ ems_client_helper:
         sso:
             oauth2:
                 enabled: '%env(bool:EMSCH_OAUTH2)%'
+                provider: '%env(string:EMSCH_OAUTH2_PROVIDER)%'
                 auth_server: '%env(string:EMSCH_OAUTH2_AUTH_SERVER)%'
                 realm: '%env(string:EMSCH_OAUTH2_REALM)%'
                 client_id: '%env(string:EMSCH_OAUTH2_CLIENT_ID)%'

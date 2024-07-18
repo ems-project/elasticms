@@ -19,4 +19,9 @@ class OAuth2Controller
     {
         return $this->oAuth2Service->getProvider()->redirect($request);
     }
+
+    public function redirect(): RedirectResponse
+    {
+        throw new \RuntimeException('invalid redirect');
+    }
 }

@@ -4,53 +4,39 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider;
 
-use EMS\CommonBundle\Common\Standard\Base64;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
-use Stevenmaguire\OAuth2\Client\Provider\Keycloak;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use TheNetworg\OAuth2\Client\Provider\Azure;
 
-class KeycloakProvider implements ProviderInterface
+class AzureProvider implements ProviderInterface
 {
-    private Keycloak $keycloak;
-    private const SESSION_STATE = 'keycloak-state';
+    private Azure $azure;
+    private const SESSION_STATE = 'azure-state';
 
     public function __construct(
-        string $authServerUrl,
-        string $realm,
+        string $tenant,
         string $clientId,
         string $clientSecret,
         string $redirectUri,
-        ?string $version,
-        ?string $encryptionAlgorithm,
-        ?string $encryptionKey,
+        ?string $version = '2.0'
     ) {
-        $this->keycloak = new Keycloak([
-            'authServerUrl' => $authServerUrl,
-            'realm' => $realm,
+        $this->azure = new Azure([
+            'tenant' => $tenant,
             'clientId' => $clientId,
             'clientSecret' => $clientSecret,
             'redirectUri' => $redirectUri,
-            'encryptionAlgorithm' => $encryptionAlgorithm,
+            'defaultEndPointVersion' => $version,
         ]);
-
-        if ($version) {
-            $this->keycloak->setVersion($version);
-        }
-
-        if ($encryptionAlgorithm && $encryptionKey) {
-            $this->keycloak->setEncryptionAlgorithm($encryptionAlgorithm);
-            $this->keycloak->setEncryptionKey(Base64::decode($encryptionKey));
-        }
     }
 
     public function redirect(Request $request): RedirectResponse
     {
-        $url = $this->keycloak->getAuthorizationUrl(['scope' => ['openid', 'email']]);
+        $url = $this->azure->getAuthorizationUrl(['scope' => $this->azure->scope]);
 
-        $request->getSession()->set(self::SESSION_STATE, $this->keycloak->getState());
+        $request->getSession()->set(self::SESSION_STATE, $this->azure->getState());
 
         return new RedirectResponse($url);
     }
@@ -69,10 +55,10 @@ class KeycloakProvider implements ProviderInterface
             throw new AuthenticationException('Code missing');
         }
 
-        return $this->keycloak->getAccessToken(
-            grant: 'authorization_code',
-            options: ['code' => $code]
-        );
+        return $this->azure->getAccessToken('authorization_code', [
+           'scope' => $this->azure->scope,
+           'code' => $code,
+        ]);
     }
 
     /**
@@ -80,7 +66,8 @@ class KeycloakProvider implements ProviderInterface
      */
     public function getUsername(AccessTokenInterface $token): string
     {
-        $username = $this->keycloak->getResourceOwner($token)->getUsername();
+        $resourceOwner = $this->azure->getResourceOwner($token);
+        $username = $resourceOwner->toArray()['upn'] ?? null;
 
         if (null === $username) {
             throw new \RuntimeException('Could not retrieve username.');

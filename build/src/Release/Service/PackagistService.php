@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Build\Release\Service;
 
 use Build\Release\Config;
+use GuzzleHttp\Client as HttpClient;
 use Packagist\Api\Client;
 
 class PackagistService
@@ -13,7 +14,7 @@ class PackagistService
 
     public function __construct()
     {
-        $this->api = new Client();
+        $this->api = new Client(httpClient: new HttpClient(['verify' => false]));
     }
 
     public function getReference(GithubRelease $release): ?string

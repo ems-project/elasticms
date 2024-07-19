@@ -75,6 +75,13 @@ class KeycloakProvider implements ProviderInterface
         );
     }
 
+    public function refreshToken(AccessTokenInterface $token): AccessTokenInterface
+    {
+        return $this->keycloak->getAccessToken('refresh_token', [
+            'refresh_token' => $token->getRefreshToken(),
+        ]);
+    }
+
     /**
      * @param AccessToken $token
      */

@@ -41,6 +41,14 @@ class AzureProvider implements ProviderInterface
         return new RedirectResponse($url);
     }
 
+    public function refreshToken(AccessTokenInterface $token): AccessTokenInterface
+    {
+        return $this->azure->getAccessToken('refresh_token', [
+            'scope' => $this->azure->scope,
+            'refresh_token' => $token->getRefreshToken(),
+        ]);
+    }
+
     public function getAccessToken(Request $request): AccessTokenInterface
     {
         $expectedState = $request->getSession()->get(self::SESSION_STATE);

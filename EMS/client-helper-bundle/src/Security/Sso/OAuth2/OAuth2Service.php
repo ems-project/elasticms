@@ -92,6 +92,7 @@ class OAuth2Service
                 clientId: $this->property(OAuth2Property::CLIENT_ID),
                 clientSecret: $this->property(OAuth2Property::CLIENT_SECRET),
                 redirectUri: $this->property(OAuth2Property::REDIRECT_URI),
+                scopes: $this->config[OAuth2Property::SCOPES->value] ?? null,
                 version: $this->optionalProperty(OAuth2Property::VERSION),
             ),
             'keycloak' => new KeycloakOAuth2Provider(

@@ -13,19 +13,26 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
 {
     private Azure $azure;
 
+    public const DEFAULT_SCOPES = ['openid', 'profile', 'offline_access'];
+
+    /**
+     * @param string[] $scopes
+     */
     public function __construct(
         string $tenant,
         string $clientId,
         string $clientSecret,
         string $redirectUri,
-        ?string $version = '2.0'
+        ?array $scopes,
+        ?string $version
     ) {
         $this->azure = new Azure([
             'tenant' => $tenant,
             'clientId' => $clientId,
             'clientSecret' => $clientSecret,
             'redirectUri' => $redirectUri,
-            'defaultEndPointVersion' => $version,
+            'scopes' => $scopes ?? self::DEFAULT_SCOPES,
+            'defaultEndPointVersion' => $version ?? Azure::ENDPOINT_VERSION_2_0,
         ]);
     }
 

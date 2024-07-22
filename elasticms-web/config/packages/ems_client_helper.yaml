@@ -30,6 +30,7 @@ parameters:
     env(EMSCH_OAUTH2_CLIENT_SECRET):        ~
     env(EMSCH_OAUTH2_REDIRECT_URI):         ~
     env(EMSCH_OAUTH2_VERSION):              ~
+    env(EMSCH_OAUTH2_SCOPES):               ~
     env(EMSCH_OAUTH2_ENCRYPTION_ALGORITHM): ~
     env(EMSCH_OAUTH2_ENCRYPTION_KEY):       ~
 
@@ -78,6 +79,7 @@ ems_client_helper:
                 client_secret: '%env(string:EMSCH_OAUTH2_CLIENT_SECRET)%'
                 redirect_uri: '%env(string:EMSCH_OAUTH2_REDIRECT_URI)%'
                 version: '%env(string:EMSCH_OAUTH2_VERSION)%'
+                scopes: '%env(json:EMSCH_OAUTH2_SCOPES)%'
                 encryption_key: '%env(string:EMSCH_OAUTH2_ENCRYPTION_KEY)%'
                 encryption_algorithm: '%env(string:EMSCH_OAUTH2_ENCRYPTION_ALGORITHM)%'
             saml:

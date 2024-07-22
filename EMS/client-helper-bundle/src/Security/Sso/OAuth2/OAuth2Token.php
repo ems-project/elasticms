@@ -39,6 +39,11 @@ class OAuth2Token extends PostAuthenticationToken
         return $this->accessToken;
     }
 
+    public function getAccess(): string
+    {
+        return $this->accessToken->getToken();
+    }
+
     public function __serialize(): array
     {
         return [$this->accessToken, parent::__serialize()];

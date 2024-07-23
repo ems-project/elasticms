@@ -30,9 +30,6 @@ log:
 revision:
     draft:
         delete: 'Delete this draft'
-        delete_confirm: 'Modifications made in this draft will be lost'
-        delete_selected: 'Delete selected drafts'
-        delete_selected_confirm: 'All modifications made on those drafts will lost'
         edit: 'Edit draft'
         label: 'Draft in progress'
         title: '{pluralName} drafts in progress'
@@ -43,7 +40,6 @@ revision:
         ouuid: Ouuid
     new: 'New {contentType}'
     trash:
-        delete_confirm: 'Remove trash "{label}" ?'
         label: Trash
         put_back: 'Put back'
         put_back_confirm: 'Put back "{label}" ?'
@@ -51,19 +47,21 @@ revision:
         title: '{pluralName} in trash'
 table:
     actions: Actions
-    delete_selected: 'Delete selected'
-    delete_selected_confirm: 'Are you sure?'
     loop_count: '#'
     select_all: 'Select all'
 type:
     delete_confirm: |-
         {type, select,
             channel {Delete the "{label}" channel?}
+            draft   {Modifications made in this draft will be lost}
+            trash   {Delete trash "{label}" ?}
             other   {Are you sure?}    
         }
     delete_selected_confirm: |-
         {type, select,
             channel {Delete all selected channels?}
+            draft   {All modifications made on selected drafts will lost?}
+            trash   {Delete all selected trashes?}
             other   {Delete all selected?}    
         }
     reorder: |-

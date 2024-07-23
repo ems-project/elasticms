@@ -74,7 +74,7 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
             route: Routes::DATA_TRASH_EMPTY,
             labelKey: t('action.delete', [], 'emsco-core'),
             icon: 'trash',
-            messageKey: t('revision.trash.delete_confirm', [], 'emsco-core'),
+            messageKey: t('type.delete_confirm', ['type' => 'trash'], 'emsco-core'),
             routeParameters: [
                 'contentType' => 'content_type_id',
                 'ouuid' => 'ouuid',
@@ -83,8 +83,8 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         $table->addTableAction(
             name: self::ACTION_EMPTY_TRASH,
             icon: 'fa fa-trash',
-            labelKey: t('table.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('table.delete_selected_confirm', [], 'emsco-core'),
+            labelKey: t('action.delete_selected', [], 'emsco-core'),
+            confirmationKey: t('type.delete_selected_confirm', ['type' => 'trash'], 'emsco-core'),
         )->setCssClass('btn btn-outline-danger');
     }
 

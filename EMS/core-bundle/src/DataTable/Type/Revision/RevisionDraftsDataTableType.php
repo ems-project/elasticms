@@ -78,7 +78,7 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
             route: Routes::DISCARD_DRAFT,
             labelKey: t('revision.draft.delete', [], 'emsco-core'),
             icon: 'trash',
-            messageKey: t('revision.draft.delete_confirm', [], 'emsco-core'),
+            messageKey: t('type.delete_confirm', ['type' => 'draft'], 'emsco-core'),
             routeParameters: ['revisionId' => 'id']
         )->addCondition($inMyCircles)->setButtonType('outline-danger');
 
@@ -86,8 +86,8 @@ class RevisionDraftsDataTableType extends AbstractTableType implements QueryServ
             $table->addTableAction(
                 name: self::DISCARD_SELECTED_DRAFT,
                 icon: 'fa fa-trash',
-                labelKey: t('revision.draft.delete_selected', [], 'emsco-core'),
-                confirmationKey: t('revision.draft.delete_selected_confirm', [], 'emsco-core'),
+                labelKey: t('action.delete_selected', [], 'emsco-core'),
+                confirmationKey: t('type.delete_selected_confirm', ['type' => 'draft'], 'emsco-core'),
             )->setCssClass('btn btn-outline-danger');
         }
     }

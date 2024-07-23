@@ -126,6 +126,10 @@
             <argument type="service" id="ems.service.file"/>
             <tag name="console.command"/>
         </service>
+        <service id="ems.command.asset.resize_images" class="EMS\CoreBundle\Command\Asset\ResizeCommand">
+            <argument type="service" id="ems.service.revision"/>
+            <tag name="console.command"/>
+        </service>
 
         <service id="ems_core.command_user.abstract_user_command" class="EMS\CoreBundle\Command\User\AbstractUserCommand" abstract="true">
             <argument type="service" id="emsco.manager.user" />

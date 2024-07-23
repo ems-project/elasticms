@@ -302,7 +302,7 @@
                             {% endfor %}
                             {%  if table.sortable and table.supportsTableActions %}
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
-                                    <i class="fa fa-reorder"></i>&nbsp;{{ reorder_label|default(form.vars.reorder_label)|trans }}
+                                    <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
                                 </button>
                             {% endif %}
                         </div>

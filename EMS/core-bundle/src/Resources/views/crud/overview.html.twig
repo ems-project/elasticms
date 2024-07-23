@@ -14,6 +14,8 @@
 					</li>
 				{% elseif name == 'page' %}
 					<li>{% if icon is defined %}<i class="{{ icon }}"></i>{% endif %}&nbsp;{{ item|trans }}</li>
+				{% else %}
+					<li>{{ item|trans }}</li>
 				{% endif %}
 			{% endfor %}
 		</ol>

@@ -7,8 +7,11 @@ action:
     reorder: Reorder
 admin:
     channel:
+        plural: Channels
+        overview: 'List of channels'
         field:
             public: 'Public Access'
+    label: 'Admin'
 content_type:
     plural: 'Content Types'
 core:

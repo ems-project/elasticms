@@ -487,8 +487,6 @@ channel:
     edit:
         save: Save
         title: 'Edit a channel'
-    index:
-        title: 'List of channels'
     menu: Channels
 environment:
     index:

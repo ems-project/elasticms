@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\DataTable\Type\UploadedAsset;
 
+use Doctrine\ORM\QueryBuilder;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractTableType;
 use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
 use EMS\CoreBundle\Form\Data\BytesTableColumn;
@@ -68,11 +69,35 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
 
     public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
-        return $this->uploadedAssetRepository->query($from, $size, $orderField, $orderDirection, $searchValue);
+        $qb = $this->createQueryBuilder($searchValue);
+        $qb
+            ->select('ua.sha1 as id')
+            ->addSelect('max(ua.name) as name')
+            ->addSelect('max(ua.size) as size')
+            ->addSelect('max(ua.type) as type')
+            ->addSelect('min(ua.created) as created')
+            ->addSelect('max(ua.modified) as modified')
+            ->groupBy('ua.sha1')
+            ->setFirstResult($from)
+            ->setMaxResults($size);
+
+        if (null !== $orderField) {
+            $qb->orderBy($orderField, $orderDirection);
+        }
+
+        return $qb->getQuery()->getArrayResult();
     }
 
     public function countQuery(string $searchValue = '', mixed $context = null): int
     {
-        return $this->uploadedAssetRepository->countGroupByHashQuery($searchValue);
+        return (int) $this->createQueryBuilder($searchValue)
+            ->select('count(DISTINCT ua.sha1)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    private function createQueryBuilder(string $searchValue = ''): QueryBuilder
+    {
+        return $this->uploadedAssetRepository->makeQueryBuilder($searchValue);
     }
 }

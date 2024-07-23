@@ -147,7 +147,7 @@ abstract class TableAbstract implements TableInterface
         return $this->columns;
     }
 
-    public function addItemActionCollection(?string $labelKey = null, ?string $icon = null): TableItemActionCollection
+    public function addItemActionCollection(null|string|TranslatableMessage $labelKey = null, ?string $icon = null): TableItemActionCollection
     {
         $itemActionCollection = new TableItemActionCollection($labelKey, $icon);
         $this->itemActionCollection->addItemActionCollection($itemActionCollection);

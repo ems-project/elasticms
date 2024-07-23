@@ -1,6 +1,7 @@
 action:
     add: Add
     close: Close
+    define: Define
     delete: Delete
     delete_selected: 'Delete selected'
     edit: Edit
@@ -11,6 +12,30 @@ admin:
             public: 'Public Access'
         overview: 'List of channels'
         plural: Channels
+    dashboard:
+        define: |-
+            {define, select,
+                quick_search    {As quick search}
+                landing_page    {As landing page}
+                browser_image   {As image browser}
+                browser_object  {As object browser}
+                browser_file    {As file browser}
+                other           {Undefine}    
+            }
+        definition: |-
+            {value, select,
+                quick_search    {Quick search}
+                landing_page    {Landing page}
+                browser_image   {Image browser}
+                browser_object  {Object browser}
+                browser_file    {File browser}
+                other           {Unknown}    
+            }
+        field:
+            definition: Definition
+        overview: 'List of dashboards'
+        plural: Dashboards
+        sub_title: 'Customize the lobby'
     form:
         overview: 'List of forms'
         plural: Forms
@@ -30,6 +55,7 @@ field:
     modified: 'Last update'
     modified_by: 'Updated by'
     name: Name
+    type: Type
 log:
     error:
         invalid_table_action: 'Unknown table action'
@@ -63,6 +89,7 @@ type:
     delete_confirm: |-
         {type, select,
             channel      {Delete the "{label}" channel?}
+            dashboard    {Delete the "{label}" dashboard?}
             draft        {Modifications made in this draft will be lost}
             form         {Delete the "{label}" form?}
             trash        {Delete trash "{label}" ?}
@@ -72,6 +99,7 @@ type:
     delete_selected_confirm: |-
         {type, select,
             channel      {Delete all selected channels?}
+            dashboard    {Delete all selected dashboards?}
             draft        {All modifications made on selected drafts will lost?}
             form         {Delete all selected forms?}
             trash        {Delete all selected trashes?}
@@ -81,6 +109,7 @@ type:
     reorder: |-
         {type, select,
             channel      {Reorder channels}
+            dashboard    {Reorder dashboards}
             form         {Reorder forms}
             query_search {Reorder QuerySearch}
             other        {Reorder}

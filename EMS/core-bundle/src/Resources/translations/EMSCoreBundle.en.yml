@@ -70,8 +70,6 @@ log:
         unreferenced_not_found: 'Unreferenced content type not found'
         updated: 'The content type %contenttype% has been updated'
     controller:
-        channel:
-            unknown_action: 'Unknown action'
         release:
             unknown_action: 'Unknown action'
         uploaded-file-logs:
@@ -416,34 +414,6 @@ ROLE_SUPER_ADMIN: 'Super Admin'
 ROLE_SUPER_AUTHOR: 'Super Author'
 ROLE_SUPER_PUBLISHER: 'Super Publisher'
 ROLE_SUPER_USER: 'Super User'
-dashboard:
-    index:
-        reorder: Reorder
-        column:
-            name: Name
-            label: Label
-            type: Type
-            definition: Definition
-            public: Public
-    definition:
-        quick_search: 'Quick search'
-        landing_page: 'Landing page'
-        browser_image: 'Image browser'
-        browser_object: 'Object browser'
-        browser_file: 'File browser'
-    actions:
-        define:
-            title: 'Define'
-            quick_search: 'As quick search'
-            landing_page: 'As landing page'
-            browser_image: 'As image browser'
-            browser_object: 'As object browser'
-            browser_file: 'As file browser'
-        undefine: 'Undefine'
-        delete_selected: 'Deleted selected'
-        edit: Edit
-        delete: Delete
-        delete_confirm: 'Do you confirm'
 ROLE_SUPER_WEBMASTER: 'Super Webmaster'
 ROLE_TASK_MANAGER: 'Task Manager'
 ROLE_TRADUCTOR: Traductor

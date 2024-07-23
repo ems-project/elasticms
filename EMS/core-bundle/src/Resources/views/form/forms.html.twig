@@ -300,7 +300,7 @@
                                     <i class="{{ toolbarAction.icon }}"></i>&nbsp;{{ toolbarAction.labelKey|trans }}
                                 </a>
                             {% endfor %}
-                            {%  if table.sortable and table.supportsTableActions %}
+                            {%  if attribute(form, 'reorderAction') is defined %}
                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#{{ table.attributeName|e('html_attr') }}_modal_reorder">
                                     <i class="fa fa-reorder"></i>&nbsp;{{ form.reorderAction.vars.label|trans }}
                                 </button>

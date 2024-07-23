@@ -52,8 +52,6 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         $table->addColumnDefinition(new UserTableColumn(t('field.deleted_by', [], 'emsco-core'), 'deletedBy'));
         $table->addColumnDefinition(new DatetimeTableColumn(t('field.modified', [], 'emsco-core'), 'modified'));
 
-        $table->setLabelAttribute('label');
-
         if ($this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE))) {
             $table->addDynamicItemPostAction(
                 route: Routes::DATA_TRASH_PUT_BACK,
@@ -74,7 +72,7 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
 
         $table->addDynamicItemPostAction(
             route: Routes::DATA_TRASH_EMPTY,
-            labelKey: t('button.delete', [], 'emsco-core'),
+            labelKey: t('action.delete', [], 'emsco-core'),
             icon: 'trash',
             messageKey: t('revision.trash.delete_confirm', [], 'emsco-core'),
             routeParameters: [

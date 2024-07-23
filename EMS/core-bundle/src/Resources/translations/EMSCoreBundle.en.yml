@@ -481,12 +481,6 @@ action:
             type: Type
         reorder: Reorder
 channel:
-    actions:
-        delete: Delete
-        delete_confirm: 'Delete the "%label%" channel?'
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Delete all selected channels?'
-        edit: Edit
     add:
         save: Create
         title: 'Add a channel'
@@ -494,12 +488,6 @@ channel:
         save: Save
         title: 'Edit a channel'
     index:
-        column:
-            alias: Alias
-            label: Label
-            name: Name
-            public: 'Public access'
-        reorder: 'Reorder channels'
         title: 'List of channels'
     menu: Channels
 environment:

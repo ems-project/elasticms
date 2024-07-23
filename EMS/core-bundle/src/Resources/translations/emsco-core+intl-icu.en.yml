@@ -1,16 +1,25 @@
-button:
+action:
+    add: Add
     close: Close
     delete: Delete
+    delete_selected: 'Delete selected'
+    edit: Edit
     reorder: Reorder
+admin:
+    channel:
+        field:
+            public: 'Public Access'
 content_type:
     plural: 'Content Types'
 core:
     version: 'Version {core} with Symfony {symfony}'
 field:
+    alias: Alias
     deleted_by: 'Deleted by'
     label: Label
     modified: 'Last update'
     modified_by: 'Updated by'
+    name: Name
 log:
     error:
         invalid_table_action: 'Unknown table action'
@@ -44,4 +53,21 @@ table:
     actions: Actions
     delete_selected: 'Delete selected'
     delete_selected_confirm: 'Are you sure?'
+    loop_count: '#'
     select_all: 'Select all'
+type:
+    delete_confirm: |-
+        {type, select,
+            channel {Delete the "{label}" channel?}
+            other   {Are you sure?}    
+        }
+    delete_selected_confirm: |-
+        {type, select,
+            channel {Delete all selected channels?}
+            other   {Delete all selected?}    
+        }
+    reorder: |-
+        {type, select,
+            channel {Reorder channels}
+            other   {Reorder}
+        }

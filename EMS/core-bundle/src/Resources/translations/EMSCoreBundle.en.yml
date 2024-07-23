@@ -239,17 +239,6 @@ log:
 form:
     field-type-type:
         root: 'Form''s root'
-    actions:
-        reorder: 'Reorder'
-        delete_selected: 'Delete selected forms'
-        delete_confirm: 'Are you sure?'
-        delete: Delete
-        edit: Edit
-    index:
-        reorder: Reorder
-        column:
-            name: Name
-            label: Label
     analyzer:
         char_filter:
             html_strip: 'HTML Strip'

@@ -23,7 +23,7 @@ class ChannelDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->setDefaultOrder('orderKey');
+        $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
 
         $table->addColumn(t('table.loop_count', [], 'emsco-core'), 'orderKey');
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');

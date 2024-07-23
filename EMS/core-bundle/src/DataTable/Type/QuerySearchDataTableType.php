@@ -21,7 +21,7 @@ class QuerySearchDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->setDefaultOrder('label');
+        $table->setDefaultOrder('label')->setLabelAttribute('label');
 
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');

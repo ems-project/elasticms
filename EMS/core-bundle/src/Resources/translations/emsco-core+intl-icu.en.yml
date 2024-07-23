@@ -11,6 +11,10 @@ admin:
             public: 'Public Access'
         overview: 'List of channels'
         plural: Channels
+    form:
+        overview: 'List of forms'
+        plural: Forms
+        sub_title: 'Reusable components'
     label: Admin
     query_search:
         overview: 'List of QuerySearch'
@@ -60,6 +64,7 @@ type:
         {type, select,
             channel      {Delete the "{label}" channel?}
             draft        {Modifications made in this draft will be lost}
+            form         {Delete the "{label}" form?}
             trash        {Delete trash "{label}" ?}
             query_search {Delete the "{label}" QuerySearch?}
             other        {Are you sure?}    
@@ -68,6 +73,7 @@ type:
         {type, select,
             channel      {Delete all selected channels?}
             draft        {All modifications made on selected drafts will lost?}
+            form         {Delete all selected forms?}
             trash        {Delete all selected trashes?}
             query_search {Delete all selected QuerySearch?}
             other        {Delete all selected?}    
@@ -75,6 +81,7 @@ type:
     reorder: |-
         {type, select,
             channel      {Reorder channels}
+            form         {Reorder forms}
             query_search {Reorder QuerySearch}
             other        {Reorder}
         }

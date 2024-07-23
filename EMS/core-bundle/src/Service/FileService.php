@@ -25,10 +25,13 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use ZipStream\ZipStream;
 
-class FileService implements EntityServiceInterface, QueryServiceInterface
+class FileService implements EntityServiceInterface
 {
-    public function __construct(private readonly Registry $doctrine, private readonly StorageManager $storageManager, private readonly Processor $processor, private readonly UploadedAssetRepository $uploadedAssetRepository)
-    {
+    public function __construct(private readonly Registry $doctrine,
+     private readonly StorageManager $storageManager,
+     private readonly Processor $processor,
+     private readonly UploadedAssetRepository $uploadedAssetRepository
+    ) {
     }
 
     /**
@@ -363,21 +366,6 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
         foreach ($ids as $id) {
             $this->uploadedAssetRepository->toggleVisibility($id);
         }
-    }
-
-    public function isQuerySortable(): bool
-    {
-        return false;
-    }
-
-    public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
-    {
-        return $this->uploadedAssetRepository->query($from, $size, $orderField, $orderDirection, $searchValue);
-    }
-
-    public function countQuery(string $searchValue = '', mixed $context = null): int
-    {
-        return $this->uploadedAssetRepository->countGroupByHashQuery($searchValue);
     }
 
     /**

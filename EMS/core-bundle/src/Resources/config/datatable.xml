@@ -113,6 +113,10 @@
             <argument type="service" id="ems.service.query_search" />
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.uploaded_asset" class="EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetDataTableType">
+            <argument type="service" id="ems.repository.uploaded_asset_repository" />
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.data_table.uploaded_file_log" class="EMS\CoreBundle\DataTable\Type\UploadedFileLogDataTableType">
             <argument type="service" id="ems.service.file" />
             <tag name="emsco.datatable" />

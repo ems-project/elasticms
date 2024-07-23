@@ -8,10 +8,6 @@
            controller="EMS\CoreBundle\Controller\UploadedFileController::index"
            methods="GET|POST"/>
 
-    <route id="ems_core_uploaded_file_ajax" path="/datatable.json"
-           controller="EMS\CoreBundle\Controller\UploadedFileController::ajaxDataTableGroupedByHash"
-           methods="GET"/>
-
     <route id="ems_core_uploaded_file_hide_by_hash" path="/delete/{hash}"
            controller="EMS\CoreBundle\Controller\UploadedFileController::hideByHash"
            methods="POST"/>

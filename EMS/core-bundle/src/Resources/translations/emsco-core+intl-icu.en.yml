@@ -7,11 +7,14 @@ action:
     reorder: Reorder
 admin:
     channel:
-        plural: Channels
-        overview: 'List of channels'
         field:
             public: 'Public Access'
-    label: 'Admin'
+        overview: 'List of channels'
+        plural: Channels
+    label: Admin
+    query_search:
+        overview: 'List of QuerySearch'
+        plural: QuerySearch
 content_type:
     plural: 'Content Types'
 core:
@@ -55,20 +58,23 @@ table:
 type:
     delete_confirm: |-
         {type, select,
-            channel {Delete the "{label}" channel?}
-            draft   {Modifications made in this draft will be lost}
-            trash   {Delete trash "{label}" ?}
-            other   {Are you sure?}    
+            channel      {Delete the "{label}" channel?}
+            draft        {Modifications made in this draft will be lost}
+            trash        {Delete trash "{label}" ?}
+            query_search {Delete the "{label}" QuerySearch?}
+            other        {Are you sure?}    
         }
     delete_selected_confirm: |-
         {type, select,
-            channel {Delete all selected channels?}
-            draft   {All modifications made on selected drafts will lost?}
-            trash   {Delete all selected trashes?}
-            other   {Delete all selected?}    
+            channel      {Delete all selected channels?}
+            draft        {All modifications made on selected drafts will lost?}
+            trash        {Delete all selected trashes?}
+            query_search {Delete all selected QuerySearch?}
+            other        {Delete all selected?}    
         }
     reorder: |-
         {type, select,
-            channel {Reorder channels}
-            other   {Reorder}
+            channel      {Reorder channels}
+            query_search {Reorder QuerySearch}
+            other        {Reorder}
         }

@@ -72,8 +72,6 @@ log:
     controller:
         channel:
             unknown_action: 'Unknown action'
-        query_search:
-            unknown_action: 'Unknown action'
         release:
             unknown_action: 'Unknown action'
         uploaded-file-logs:
@@ -582,26 +580,12 @@ form_submissions:
         success: 'Form submission with id "%id%" has been deleted!'
     title: 'Form Submissions'
 query_search:
-    actions:
-        delete: Delete
-        delete_confirm: 'Delete the "%label%" QuerySearch?'
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Delete all selected QuerySearch?'
-        edit: Edit
     add:
         save: Create
         title: 'Add a QuerySearch'
     edit:
         save: Save
         title: 'Edit a QuerySearch'
-    index:
-        column:
-            alias: Alias
-            label: Label
-            name: Name
-            public: 'Public access'
-        reorder: 'Reorder QuerySearch'
-        title: 'List of QuerySearch'
     menu: QuerySearch
 release:
     actions:

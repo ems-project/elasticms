@@ -128,6 +128,8 @@
         </service>
         <service id="ems.command.asset.resize_images" class="EMS\CoreBundle\Command\Asset\ResizeCommand">
             <argument type="service" id="ems.service.revision"/>
+            <argument type="service" id="ems_common.storage.manager"/>
+            <argument type="service" id="ems_common.storage.processor"/>
             <tag name="console.command"/>
         </service>
 

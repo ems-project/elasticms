@@ -51,16 +51,18 @@ core:
     version: 'Version {core} with Symfony {symfony}'
 field:
     alias: Alias
-    created: 'Date creation'
-    deleted_by: 'Deleted by'
+    date_created: 'Date creation'
+    date_modified: 'Date modified'
+    date_upload: 'Date upload'
     file:
         size: Size
         type: Type
     label: Label
-    modified: 'Date modified'
-    modified_by: 'Modified by'
     name: Name
     type: Type
+    user_deleted: 'Deleted by'
+    user_modified: 'Modified by'
+    user_uploaded: 'Uploaded by'
 key:
     publishers: Publishers
     uploaded_files: 'Uploaded Files'

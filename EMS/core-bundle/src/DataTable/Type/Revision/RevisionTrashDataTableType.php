@@ -49,8 +49,8 @@ class RevisionTrashDataTableType extends AbstractTableType implements QueryServi
         if ($this->userService->isSuper()) {
             $table->addColumn(t('revision.field.ouuid', [], 'emsco-core'), 'ouuid');
         }
-        $table->addColumnDefinition(new UserTableColumn(t('field.deleted_by', [], 'emsco-core'), 'deletedBy'));
-        $table->addColumnDefinition(new DatetimeTableColumn(t('field.modified', [], 'emsco-core'), 'modified'));
+        $table->addColumnDefinition(new UserTableColumn(t('field.user_deleted', [], 'emsco-core'), 'deletedBy'));
+        $table->addColumnDefinition(new DatetimeTableColumn(t('field.date_modified', [], 'emsco-core'), 'modified'));
 
         if ($this->authorizationChecker->isGranted($contentType->role(ContentTypeRoles::CREATE))) {
             $table->addDynamicItemPostAction(

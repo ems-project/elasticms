@@ -8,6 +8,7 @@ use EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetDataTableType;
 use EMS\CoreBundle\DataTable\Type\UploadedFileLogDataTableType;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\TableType;
+use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\FileService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
@@ -37,7 +38,10 @@ class UploadedFileController extends AbstractController
 
     public function index(Request $request): Response
     {
-        $table = $this->dataTableFactory->create(UploadedAssetDataTableType::class);
+        $table = $this->dataTableFactory->create(UploadedAssetDataTableType::class, [
+            'location' => UploadedAssetDataTableType::LOCATION_PUBLISHER_OVERVIEW,
+            'roles' => [Roles::ROLE_PUBLISHER],
+        ]);
 
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);

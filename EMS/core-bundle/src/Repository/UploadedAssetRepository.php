@@ -112,28 +112,6 @@ class UploadedAssetRepository extends EntityRepository
     }
 
     /**
-     * @return array<UploadedAsset>
-     */
-    public function getAvailable(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue): array
-    {
-        $qb = $this->createQueryBuilder('ua');
-        $qb->where($qb->expr()->eq('ua.available', ':true'));
-        $qb->setFirstResult($from)
-        ->setMaxResults($size);
-        $qb->setParameters([
-            ':true' => true,
-        ]);
-
-        if (null !== $orderField) {
-            $qb->orderBy(\sprintf('ua.%s', $orderField), $orderDirection);
-        }
-
-        $this->addSearchFilters($qb, $searchValue);
-
-        return $qb->getQuery()->execute();
-    }
-
-    /**
      * @param array<string> $ids
      *
      * @return array<UploadedAsset>
@@ -283,11 +261,19 @@ class UploadedAssetRepository extends EntityRepository
         return \array_map(fn ($value): string => \strval($value['id'] ?? null), $qb->getQuery()->getScalarResult());
     }
 
-    public function makeQueryBuilder(string $searchValue = ''): QueryBuilder
-    {
+    public function makeQueryBuilder(
+        ?bool $hidden = null,
+        ?bool $available = null,
+        string $searchValue = ''
+    ): QueryBuilder {
         $qb = $this->createQueryBuilder('ua');
-        $qb->andWhere($qb->expr()->eq('ua.hidden', $qb->expr()->literal(false)));
-        $qb->andWhere($qb->expr()->eq('ua.available', $qb->expr()->literal(true)));
+
+        if (null !== $hidden) {
+            $qb->andWhere($qb->expr()->eq('ua.hidden', $qb->expr()->literal($hidden)));
+        }
+        if (null !== $available) {
+            $qb->andWhere($qb->expr()->eq('ua.available', $qb->expr()->literal($available)));
+        }
 
         if ('' !== $searchValue) {
             $qb

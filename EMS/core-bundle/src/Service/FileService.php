@@ -27,10 +27,11 @@ use ZipStream\ZipStream;
 
 class FileService implements EntityServiceInterface
 {
-    public function __construct(private readonly Registry $doctrine,
-     private readonly StorageManager $storageManager,
-     private readonly Processor $processor,
-     private readonly UploadedAssetRepository $uploadedAssetRepository
+    public function __construct(
+        private readonly Registry $doctrine,
+        private readonly StorageManager $storageManager,
+        private readonly Processor $processor,
+        private readonly UploadedAssetRepository $uploadedAssetRepository
     ) {
     }
 
@@ -333,10 +334,6 @@ class FileService implements EntityServiceInterface
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
     {
-        if (null !== $context && ($context['available'] ?? false)) {
-            return $this->uploadedAssetRepository->getAvailable($from, $size, $orderField, $orderDirection, $searchValue);
-        }
-
         return $this->uploadedAssetRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 

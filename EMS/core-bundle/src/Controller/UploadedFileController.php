@@ -5,7 +5,7 @@ namespace EMS\CoreBundle\Controller;
 use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetDataTableType;
-use EMS\CoreBundle\DataTable\Type\UploadedFileLogDataTableType;
+use EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetLogDataTableType;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Roles;
@@ -79,7 +79,7 @@ class UploadedFileController extends AbstractController
 
     public function logs(Request $request): Response
     {
-        $table = $this->dataTableFactory->create(UploadedFileLogDataTableType::class);
+        $table = $this->dataTableFactory->create(UploadedAssetLogDataTableType::class);
 
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);

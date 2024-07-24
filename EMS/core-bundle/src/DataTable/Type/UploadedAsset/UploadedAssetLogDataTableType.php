@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\DataTable\Type;
+namespace EMS\CoreBundle\DataTable\Type\UploadedAsset;
 
 use EMS\CoreBundle\Controller\UploadedFileController;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
@@ -16,7 +16,7 @@ use EMS\CoreBundle\Form\Data\UserTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\FileService;
 
-class UploadedFileLogDataTableType extends AbstractEntityTableType
+class UploadedAssetLogDataTableType extends AbstractEntityTableType
 {
     public function __construct(FileService $entityService)
     {

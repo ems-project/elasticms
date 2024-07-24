@@ -72,8 +72,6 @@ log:
     controller:
         release:
             unknown_action: 'Unknown action'
-        uploaded-file-logs:
-            unknown_action: 'Unknown action'
         schedule:
             unknown_action: 'Unknown action'
     crud:

@@ -4,6 +4,7 @@ action:
     define: Define
     delete: Delete
     delete_selected: 'Delete selected'
+    download_selected: 'Download selected'
     edit: Edit
     reorder: Reorder
 admin:
@@ -50,12 +51,19 @@ core:
     version: 'Version {core} with Symfony {symfony}'
 field:
     alias: Alias
+    created: 'Date creation'
     deleted_by: 'Deleted by'
+    file:
+        size: Size
+        type: Type
     label: Label
-    modified: 'Last update'
-    modified_by: 'Updated by'
+    modified: 'Date modified'
+    modified_by: 'Modified by'
     name: Name
     type: Type
+key:
+    publishers: Publishers
+    uploaded_files: 'Uploaded Files'
 log:
     error:
         invalid_table_action: 'Unknown table action'
@@ -88,23 +96,25 @@ table:
 type:
     delete_confirm: |-
         {type, select,
-            channel      {Delete the "{label}" channel?}
-            dashboard    {Delete the "{label}" dashboard?}
-            draft        {Modifications made in this draft will be lost}
-            form         {Delete the "{label}" form?}
-            trash        {Delete trash "{label}" ?}
-            query_search {Delete the "{label}" QuerySearch?}
-            other        {Are you sure?}    
+            channel       {Delete the "{label}" channel?}
+            dashboard     {Delete the "{label}" dashboard?}
+            draft         {Modifications made in this draft will be lost}
+            form          {Delete the "{label}" form?}
+            trash         {Delete trash "{label}" ?}
+            uploaded_file {Delete "{label}" ?}
+            query_search  {Delete the "{label}" QuerySearch?}
+            other         {Are you sure?}    
         }
     delete_selected_confirm: |-
         {type, select,
-            channel      {Delete all selected channels?}
-            dashboard    {Delete all selected dashboards?}
-            draft        {All modifications made on selected drafts will lost?}
-            form         {Delete all selected forms?}
-            trash        {Delete all selected trashes?}
-            query_search {Delete all selected QuerySearch?}
-            other        {Delete all selected?}    
+            channel       {Delete all selected channels?}
+            dashboard     {Delete all selected dashboards?}
+            draft         {All modifications made on selected drafts will lost?}
+            form          {Delete all selected forms?}
+            trash         {Delete all selected trashes?}
+            uploaded_file {Delete all selected uploaded files?}
+            query_search  {Delete all selected QuerySearch?}
+            other         {Delete all selected?}    
         }
     reorder: |-
         {type, select,

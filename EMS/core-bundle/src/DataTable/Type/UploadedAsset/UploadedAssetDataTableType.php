@@ -14,6 +14,9 @@ use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Data\TranslationTableColumn;
 use EMS\CoreBundle\Repository\UploadedAssetRepository;
 use EMS\CoreBundle\Roles;
+use EMS\Helpers\Standard\Type;
+
+use function Symfony\Component\Translation\t;
 
 class UploadedAssetDataTableType extends AbstractTableType implements QueryServiceTypeInterface
 {
@@ -26,30 +29,58 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
 
     public function build(QueryTable $table): void
     {
-        $table->addColumn('uploaded-file.index.column.name', 'name')
-            ->setRoute('ems_file_download', function (array $data) {
-                if (!\is_string($data['id'] ?? null) || !\is_string($data['type'] ?? null) || !\is_string($data['name'] ?? null)) {
-                    return null;
-                }
+        $table->setDefaultOrder('name')->setLabelAttribute('name');
 
+        $columnName = $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $columnName->setRoute('ems_file_download', function (array $data) {
+            try {
                 return [
-                    'sha1' => $data['id'],
-                    'type' => $data['type'],
-                    'name' => $data['name'],
+                    'sha1' => Type::string($data['id']),
+                    'type' => Type::string($data['type']),
+                    'name' => Type::string($data['name']),
                 ];
-            });
-        $table->addColumnDefinition(new BytesTableColumn('uploaded-file.index.column.size', 'size'))->setCellClass('text-right');
-        $table->addColumnDefinition(new TranslationTableColumn('uploaded-file.index.column.kind', 'type', 'emsco-mimetypes'));
-        $table->addColumnDefinition(new DatetimeTableColumn('uploaded-file.index.column.date-added', 'created'));
-        $table->addColumnDefinition(new DatetimeTableColumn('uploaded-file.index.column.date-modified', 'modified'));
-        $table->setDefaultOrder('name', 'asc');
+            } catch (\Throwable) {
+                return null;
+            }
+        });
 
-        $table->addTableAction(TableAbstract::DOWNLOAD_ACTION, 'fa fa-download', 'uploaded-file.uploaded-file.download_selected', 'uploaded-file.uploaded-file.download_selected_confirm');
+        $table->addColumnDefinition(new BytesTableColumn(
+            titleKey: t('field.file.size', [], 'emsco-core'),
+            attribute: 'size'
+        ))->setCellClass('text-right');
+        $table->addColumnDefinition(new TranslationTableColumn(
+            titleKey: t('field.file.type', [], 'emsco-core'),
+            attribute: 'type',
+            domain: 'emsco-mimetypes'
+        ));
+        $table->addColumnDefinition(new DatetimeTableColumn(
+            titleKey: t('field.created', [], 'emsco-core'),
+            attribute: 'created'
+        ));
+        $table->addColumnDefinition(new DatetimeTableColumn(
+            titleKey: t('field.modified', [], 'emsco-core'),
+            attribute: 'modified'
+        ));
 
-        $table->addDynamicItemPostAction('ems_core_uploaded_file_hide_by_hash', 'uploaded-file.action.delete', 'trash', 'uploaded-file.delete-confirm', ['hash' => 'id'])
-            ->setButtonType('outline-danger');
-        $table->addTableAction(self::HIDE_ACTION, 'fa fa-trash', 'uploaded-file.delete-all', 'uploaded-file.uploaded-file.delete-all_confirm')
-            ->setCssClass('btn btn-outline-danger');
+        $table->addDynamicItemPostAction(
+            route: 'ems_core_uploaded_file_hide_by_hash',
+            labelKey: t('action.delete', [], 'emsco-core'),
+            icon: 'trash',
+            messageKey: t('type.delete_confirm', ['type' => 'uploaded_file'], 'emsco-core'),
+            routeParameters: ['hash' => 'id']
+        )->setButtonType('outline-danger');
+
+        $table->addTableAction(
+            name: TableAbstract::DOWNLOAD_ACTION,
+            icon: 'fa fa-download',
+            labelKey: t('action.download_selected', [], 'emsco-core')
+        );
+        $table->addTableAction(
+            name: self::HIDE_ACTION,
+            icon: 'fa fa-trash',
+            labelKey: t('action.delete_selected', [], 'emsco-core'),
+            confirmationKey: t('type.delete_selected_confirm', ['type' => 'uploaded_file'], 'emsco-core'),
+        )->setCssClass('btn btn-outline-danger');
     }
 
     public function getQueryName(): string
@@ -64,7 +95,7 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
 
     public function isQuerySortable(): bool
     {
-        return true;
+        return false;
     }
 
     public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array

@@ -13,6 +13,7 @@ use EMS\CommonBundle\Storage\Processor\Image as ProcessorImage;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Entity\Revision;
+use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Service\FileService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Html\MimeTypes;
@@ -24,6 +25,7 @@ class RefreshFileFieldCommand extends AbstractCommand
 {
     private const USER = 'SYSTEM_REFRESH_FILE_FIELDS';
     protected static $defaultName = Commands::ASSET_REFRESH_FILE_FIELD;
+    private User $fakeUser;
 
     public function __construct(private readonly RevisionService $revisionService, private readonly StorageManager $storageManager, private readonly FileService $fileService, private readonly int $imageMaxSize)
     {
@@ -38,6 +40,8 @@ class RefreshFileFieldCommand extends AbstractCommand
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->fakeUser = new User();
+        $this->fakeUser->setUsername(self::USER);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -49,6 +53,8 @@ class RefreshFileFieldCommand extends AbstractCommand
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();
+        $this->io->note('All revision\'s file fields have been refreshed');
+        $this->io->warning('All environments should be rebuilt');
 
         return self::EXECUTE_SUCCESS;
     }
@@ -81,6 +87,8 @@ class RefreshFileFieldCommand extends AbstractCommand
             }
             $propertyAccessor->setValue($rawData, $propertyPath, $fileField);
         }
+        $this->revisionService->lock($revision, $this->fakeUser);
+        $this->revisionService->save($revision, $rawData);
     }
 
     private function refreshImageField(string $hash, string $filename, string $type): ?string

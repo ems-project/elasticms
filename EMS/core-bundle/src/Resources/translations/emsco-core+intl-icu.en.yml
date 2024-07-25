@@ -4,6 +4,7 @@ action:
     define: Define
     delete: Delete
     delete_selected: 'Delete selected'
+    details: Details
     download_selected: 'Download selected'
     edit: Edit
     reorder: Reorder
@@ -34,9 +35,13 @@ core:
 field:
     alias: Alias
     available: Available
+    channel: Channel
+    context: Context
+    date_created: 'Date creation'
     date_modified: 'Date modified'
     date_upload: 'Date upload'
     definition: Definition
+    extra: Extra
     file:
         size: Size
         type: Type
@@ -44,10 +49,14 @@ field:
     hidden: Hidden
     label: Label
     last_seen: 'Last seen'
+    message: Message
     name: Name
     public_access: 'Public Access'
+    severity: Severity
     type: Type
+    user: User
     user_deleted: 'Deleted by'
+    user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
 key:
@@ -57,6 +66,7 @@ key:
     content_types: 'Content Types'
     dashboards: Dashboards
     forms: Forms
+    logs: Logs
     loop_count: '#'
     publishers: Publishers
     query_searches: QuerySearch
@@ -94,6 +104,7 @@ type:
             dashboard     {Delete the "{label}" dashboard?}
             draft         {Modifications made in this draft will be lost}
             form          {Delete the "{label}" form?}
+            log           {Delete log?}  
             trash         {Delete trash "{label}" ?}
             uploaded_file {Delete "{label}" ?}
             query_search  {Delete the "{label}" QuerySearch?}
@@ -105,6 +116,7 @@ type:
             dashboard     {Delete all selected dashboards?}
             draft         {All modifications made on selected drafts will lost?}
             form          {Delete all selected forms?}
+            log           {Delete all selected logs?}  
             trash         {Delete all selected trashes?}
             uploaded_file {Delete all selected uploaded files?}
             query_search  {Delete all selected QuerySearch?}
@@ -123,12 +135,14 @@ type:
             channel       {List of channels}
             dashboard     {List of dashboards}
             form          {List of forms}
+            log           {Logs}  
             query_search  {List of QuerySearch}  
             other         {Overview}    
         }
     title_sub: |-
         {type, select,
             dashboard     {Customize the lobby}
-            form          {Reusable components}  
+            form          {Reusable components}
+            log           {Who did what}
             other         {}    
         }

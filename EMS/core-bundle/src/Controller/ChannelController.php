@@ -56,7 +56,7 @@ final class ChannelController extends AbstractController
             'icon' => 'fa fa-eye',
             'title' => t('admin.channel.overview', [], 'emsco-core'),
             'breadcrumb' => [
-                'admin' => t('admin.label', [], 'emsco-core'),
+                'admin' => t('key.admin', [], 'emsco-core'),
                 'page' => t('admin.channel.plural', [], 'emsco-core'),
             ],
         ]);

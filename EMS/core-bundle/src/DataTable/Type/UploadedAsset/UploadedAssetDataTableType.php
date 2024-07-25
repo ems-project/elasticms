@@ -18,6 +18,7 @@ use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Data\TranslationTableColumn;
 use EMS\CoreBundle\Form\Data\UserTableColumn;
 use EMS\CoreBundle\Repository\UploadedAssetRepository;
+use EMS\CoreBundle\Routes;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
@@ -123,7 +124,7 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
 
         if (self::LOCATION_PUBLISHER_OVERVIEW === $location) {
             $table->addDynamicItemPostAction(
-                route: 'ems_core_uploaded_file_hide_by_hash',
+                route: Routes::UPLOAD_ASSET_PUBLISHER_HIDE,
                 labelKey: t('action.delete', [], 'emsco-core'),
                 icon: 'trash',
                 messageKey: t('type.delete_confirm', ['type' => 'uploaded_file'], 'emsco-core'),

@@ -57,7 +57,7 @@ final class QuerySearchController extends AbstractController
             'icon' => 'fa fa-list-alt',
             'title' => t('admin.query_search.overview', [], 'emsco-core'),
             'breadcrumb' => [
-                'admin' => t('admin.label', [], 'emsco-core'),
+                'admin' => t('key.admin', [], 'emsco-core'),
                 'page' => t('admin.query_search.plural', [], 'emsco-core'),
             ],
         ]);

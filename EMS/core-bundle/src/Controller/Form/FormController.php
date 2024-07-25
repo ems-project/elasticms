@@ -64,7 +64,7 @@ class FormController extends AbstractController
             'title' => t('admin.form.overview', [], 'emsco-core'),
             'subTitle' => t('admin.form.sub_title', [], 'emsco-core'),
             'breadcrumb' => [
-                'admin' => t('admin.label', [], 'emsco-core'),
+                'admin' => t('key.admin', [], 'emsco-core'),
                 'page' => t('admin.form.plural', [], 'emsco-core'),
             ],
         ]);

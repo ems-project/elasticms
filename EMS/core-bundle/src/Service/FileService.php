@@ -80,9 +80,21 @@ class FileService implements EntityServiceInterface
         return $this->processor->getStreamedResponse($request, $config, $filename, true);
     }
 
-    public function removeFileEntity(string $hash): void
+    public function delete(UploadedAsset $uploadedAsset): void
     {
-        $this->uploadedAssetRepository->removeByHash($hash);
+        $this->uploadedAssetRepository->remove($uploadedAsset);
+    }
+
+    /**
+     * @param array<string> $ids
+     */
+    public function deleteByIds(array $ids): void
+    {
+        $uploadedAssets = $this->uploadedAssetRepository->findByIds($ids);
+
+        foreach ($uploadedAssets as $uploadedAsset) {
+            $this->uploadedAssetRepository->remove($uploadedAsset);
+        }
     }
 
     /**
@@ -122,16 +134,6 @@ class FileService implements EntityServiceInterface
         );
 
         return $response;
-    }
-
-    /**
-     * @param array<string> $ids
-     */
-    public function removeSingleFileEntity(array $ids): void
-    {
-        foreach ($ids as $id) {
-            $this->uploadedAssetRepository->removeById($id);
-        }
     }
 
     /**

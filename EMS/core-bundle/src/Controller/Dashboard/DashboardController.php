@@ -59,7 +59,7 @@ class DashboardController extends AbstractController
             'title' => t('admin.dashboard.overview', [], 'emsco-core'),
             'subTitle' => t('admin.dashboard.sub_title', [], 'emsco-core'),
             'breadcrumb' => [
-                'admin' => t('admin.label', [], 'emsco-core'),
+                'admin' => t('key.admin', [], 'emsco-core'),
                 'page' => t('admin.dashboard.plural', [], 'emsco-core'),
             ],
         ]);

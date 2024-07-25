@@ -777,38 +777,6 @@ task:
         version_next_tag: New versions
         submit: Search
         reset: Clear
-uploaded-file:
-    action:
-        download_selected: 'Download selected'
-        hide-show: Hide/Show
-        soft-delete: Delete
-        delete: Delete
-    hide-show-confirm: 'Toggle file visibility ?'
-    uploaded-file:
-        hide-show: 'Toggle visibility'
-        download_selected: 'Download selected'
-        soft_delete_selected: 'Delete selected'
-        delete-all_confirm: 'Selected files will be removed'
-    index:
-        column:
-            available: Available
-            created: 'Uploaded at'
-            head_last: 'Last seen'
-            hidden: Hidden
-            modified: 'Last modified'
-            name: Name
-            sha1: 'Hash signature'
-            size: Size
-            kind: Kind
-            date-modified: 'Date modified'
-            date-added: 'Date added'
-            type: 'Mime type'
-            username: By
-        title: 'Uploaded Files'
-    menu: 'Uploaded files'
-    soft-delete-confirm: 'Are you sure you want to delete this file?'
-    delete-all: 'Delete selected'
-    delete-confirm: 'This will be removed'
 user:
     action:
         delete: Delete

@@ -118,7 +118,7 @@
             <argument type="service" id="router" />
             <tag name="emsco.datatable" />
         </service>
-        <service id="emsco.data_table.uploaded_file_log" class="EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetLogDataTableType">
+        <service id="emsco.data_table.uploaded_asset.admin" class="EMS\CoreBundle\DataTable\Type\UploadedAsset\UploadedAssetAdminDataTableType">
             <argument type="service" id="ems.service.file" />
             <tag name="emsco.datatable" />
         </service>

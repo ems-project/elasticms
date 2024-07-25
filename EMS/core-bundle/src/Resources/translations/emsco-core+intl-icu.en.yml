@@ -7,14 +7,10 @@ action:
     download_selected: 'Download selected'
     edit: Edit
     reorder: Reorder
+    select_all: 'Select all'
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
-admin:
-    channel:
-        field:
-            public: 'Public Access'
-        overview: 'List of channels'
-        plural: Channels
+core:
     dashboard:
         define: |-
             {define, select,
@@ -34,43 +30,36 @@ admin:
                 browser_file    {File browser}
                 other           {Unknown}    
             }
-        field:
-            definition: Definition
-        overview: 'List of dashboards'
-        plural: Dashboards
-        sub_title: 'Customize the lobby'
-    form:
-        overview: 'List of forms'
-        plural: Forms
-        sub_title: 'Reusable components'
-    query_search:
-        overview: 'List of QuerySearch'
-        plural: QuerySearch
-content_type:
-    plural: 'Content Types'
-core:
     version: 'Version {core} with Symfony {symfony}'
 field:
-    available: Available
-    hidden: Hidden
-    hash: 'Hash signature'
-    last_seen: 'Last seen'
     alias: Alias
-    date_created: 'Date creation'
+    available: Available
     date_modified: 'Date modified'
     date_upload: 'Date upload'
+    definition: Definition
     file:
         size: Size
         type: Type
+    hash: 'Hash signature'
+    hidden: Hidden
     label: Label
+    last_seen: 'Last seen'
     name: Name
+    public_access: 'Public Access'
     type: Type
     user_deleted: 'Deleted by'
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
 key:
+    actions: Actions
     admin: Admin
+    channels: Channels
+    content_types: 'Content Types'
+    dashboards: Dashboards
+    forms: Forms
+    loop_count: '#'
     publishers: Publishers
+    query_searches: QuerySearch
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
 log:
@@ -98,10 +87,6 @@ revision:
         put_back_confirm: 'Put back "{label}" ?'
         put_back_selected: 'Put back selected'
         title: '{pluralName} in trash'
-table:
-    actions: Actions
-    loop_count: '#'
-    select_all: 'Select all'
 type:
     delete_confirm: |-
         {type, select,
@@ -132,4 +117,18 @@ type:
             form         {Reorder forms}
             query_search {Reorder QuerySearch}
             other        {Reorder}
+        }
+    title_overview: |-
+        {type, select,
+            channel       {List of channels}
+            dashboard     {List of dashboards}
+            form          {List of forms}
+            query_search  {List of QuerySearch}  
+            other         {Overview}    
+        }
+    title_sub: |-
+        {type, select,
+            dashboard     {Customize the lobby}
+            form          {Reusable components}  
+            other         {}    
         }

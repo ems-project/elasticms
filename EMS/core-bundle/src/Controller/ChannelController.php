@@ -54,10 +54,10 @@ final class ChannelController extends AbstractController
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
             'icon' => 'fa fa-eye',
-            'title' => t('admin.channel.overview', [], 'emsco-core'),
+            'title' => t('type.title_overview', ['type' => 'channel'], 'emsco-core'),
             'breadcrumb' => [
                 'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('admin.channel.plural', [], 'emsco-core'),
+                'page' => t('key.channels', [], 'emsco-core'),
             ],
         ]);
     }

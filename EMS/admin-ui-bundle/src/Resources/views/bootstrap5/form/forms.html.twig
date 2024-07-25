@@ -315,7 +315,7 @@
                             <tr role="row">
                                 {% if table.supportsTableActions %}
                                     <th class="fit" data-orderable="false" data-name="_checkbox">
-                                        <label class="sr-only" for="select-all">{{ 'table.select_all'|trans({}, 'emsco-core') }}</label>
+                                        <label class="sr-only" for="select-all">{{ 'action.select_all'|trans({}, 'emsco-core') }}</label>
                                         <input type="checkbox" value="" data-grouped-checkbox-target=".{{ table.attributeName|e('html_attr') }}-to-select" id="select-all">
                                     </th>
                                 {% endif %}
@@ -331,7 +331,7 @@
                                     </th>
                                 {% endfor %}
                                 {% if table.itemActions|length > 0 %}
-                                    <th class="nowrap" data-orderable="false">{{ 'table.actions'|trans({}, 'emsco-core') }}</th>
+                                    <th class="nowrap" data-orderable="false">{{ 'key.actions'|trans({}, 'emsco-core') }}</th>
                                 {% endif %}
                             </tr>
                             </thead>

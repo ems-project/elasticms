@@ -25,14 +25,14 @@ class ChannelDataTableType extends AbstractEntityTableType
     {
         $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
 
-        $table->addColumn(t('table.loop_count', [], 'emsco-core'), 'orderKey');
+        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
 
         $column = $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
         $column->setPathCallback(fn (Channel $channel, string $baseUrl = '') => $baseUrl.$channel->getEntryPath(), '_blank');
 
         $table->addColumn(t('field.alias', [], 'emsco-core'), 'alias');
-        $table->addColumnDefinition(new BoolTableColumn(t('admin.channel.field.public', [], 'emsco-core'), 'public'));
+        $table->addColumnDefinition(new BoolTableColumn(t('field.public_access', [], 'emsco-core'), 'public'));
 
         $table->addItemGetAction(
             route: 'ems_core_channel_edit',

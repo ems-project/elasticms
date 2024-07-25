@@ -56,11 +56,11 @@ class DashboardController extends AbstractController
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
             'icon' => 'fa fa-dashboard',
-            'title' => t('admin.dashboard.overview', [], 'emsco-core'),
-            'subTitle' => t('admin.dashboard.sub_title', [], 'emsco-core'),
+            'title' => t('type.title_overview', ['type' => 'dashboard'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'dashboard'], 'emsco-core'),
             'breadcrumb' => [
                 'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('admin.dashboard.plural', [], 'emsco-core'),
+                'page' => t('key.dashboards', [], 'emsco-core'),
             ],
         ]);
     }

@@ -24,7 +24,7 @@ class FormDataTableType extends AbstractEntityTableType
     {
         $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
 
-        $table->addColumn(t('table.loop_count', [], 'emsco-core'), 'orderKey');
+        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
 

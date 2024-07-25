@@ -55,10 +55,10 @@ final class QuerySearchController extends AbstractController
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
             'icon' => 'fa fa-list-alt',
-            'title' => t('admin.query_search.overview', [], 'emsco-core'),
+            'title' => t('type.title_overview', ['type' => 'query_search'], 'emsco-core'),
             'breadcrumb' => [
                 'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('admin.query_search.plural', [], 'emsco-core'),
+                'page' => t('key.query_searches', [], 'emsco-core'),
             ],
         ]);
     }

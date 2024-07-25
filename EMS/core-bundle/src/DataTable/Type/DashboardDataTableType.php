@@ -27,7 +27,7 @@ class DashboardDataTableType extends AbstractEntityTableType
     {
         $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
 
-        $table->addColumn(t('table.loop_count', [], 'emsco-core'), 'orderKey');
+        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
         $columnLabel = $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $columnLabel->setItemIconCallback(fn (Dashboard $dashboard) => $dashboard->getIcon());
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
@@ -38,7 +38,7 @@ class DashboardDataTableType extends AbstractEntityTableType
             template: "@$this->templateNamespace/dashboard/columns.html.twig")
         );
         $table->addColumnDefinition(new TemplateBlockTableColumn(
-            label: t('admin.dashboard.field.definition', [], 'emsco-core'),
+            label: t('field.definition', [], 'emsco-core'),
             blockName: 'definition',
             template: "@$this->templateNamespace/dashboard/columns.html.twig")
         );
@@ -53,14 +53,14 @@ class DashboardDataTableType extends AbstractEntityTableType
         foreach (DashboardDefinition::cases() as $dashboardDefinition) {
             $defineAction->addItemPostAction(
                 route: Routes::DASHBOARD_ADMIN_DEFINE,
-                labelKey: t('admin.dashboard.define', ['define' => $dashboardDefinition->value], 'emsco-core'),
+                labelKey: t('core.dashboard.define', ['define' => $dashboardDefinition->value], 'emsco-core'),
                 icon: $dashboardDefinition->getIcon(),
                 routeParameters: ['definition' => $dashboardDefinition->value]
             );
         }
         $defineAction->addItemPostAction(
             route: Routes::DASHBOARD_ADMIN_UNDEFINE,
-            labelKey: t('admin.dashboard.define', ['define' => null], 'emsco-core'),
+            labelKey: t('core.dashboard.define', ['define' => null], 'emsco-core'),
             icon: 'eraser'
         );
 

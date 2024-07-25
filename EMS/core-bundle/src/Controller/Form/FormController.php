@@ -61,11 +61,11 @@ class FormController extends AbstractController
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
             'icon' => 'fa fa-keyboard-o',
-            'title' => t('admin.form.overview', [], 'emsco-core'),
-            'subTitle' => t('admin.form.sub_title', [], 'emsco-core'),
+            'title' => t('type.title_overview', ['type' => 'form'], 'emsco-core'),
+            'subTitle' => t('type.title_sub', ['type' => 'form'], 'emsco-core'),
             'breadcrumb' => [
                 'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('admin.form.plural', [], 'emsco-core'),
+                'page' => t('key.forms', [], 'emsco-core'),
             ],
         ]);
     }

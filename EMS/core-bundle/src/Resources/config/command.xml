@@ -129,7 +129,8 @@
         <service id="ems.command.asset.resize_images" class="EMS\CoreBundle\Command\Asset\RefreshFileFieldCommand">
             <argument type="service" id="ems.service.revision"/>
             <argument type="service" id="ems_common.storage.manager"/>
-            <argument type="service" id="ems_common.storage.processor"/>
+            <argument type="service" id="ems.service.file"/>
+            <argument>%ems_core.image_max_size%</argument>
             <tag name="console.command"/>
         </service>
 

@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
 use EMS\ClientHelperBundle\Controller\Security\Sso\OAuth2Controller;
-use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\KeycloakProvider;
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\AzureOAuth2Provider;
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\KeycloakOAuth2Provider;
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\ProviderInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Loader\Configurator\CollectionConfigurator;
+use Symfony\Component\Security\Core\Authentication\Token\NullToken;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\HttpUtils;
 
 class OAuth2Service
@@ -24,7 +28,8 @@ class OAuth2Service
      */
     public function __construct(
         private readonly HttpUtils $httpUtils,
-        private readonly array $config
+        private readonly LoggerInterface $logger,
+        private readonly array $config,
     ) {
     }
 
@@ -45,6 +50,19 @@ class OAuth2Service
     public function login(Request $request): RedirectResponse
     {
         return $this->httpUtils->createRedirectResponse($request, self::ROUTE_LOGIN);
+    }
+
+    public function refreshToken(OAuth2Token $oAuth2Token): TokenInterface
+    {
+        try {
+            $freshAccessToken = $this->getProvider()->refreshToken($oAuth2Token->getAccessToken());
+
+            return OAuth2Token::refresh($freshAccessToken, $oAuth2Token);
+        } catch (\Throwable $e) {
+            $this->logger->error($e->getMessage());
+
+            return new NullToken();
+        }
     }
 
     public function registerRoutes(CollectionConfigurator $routes): void
@@ -69,7 +87,15 @@ class OAuth2Service
     private function createProvider(): ProviderInterface
     {
         return match ($this->property(OAuth2Property::PROVIDER)) {
-            'keycloak' => new KeycloakProvider(
+            'azure' => new AzureOAuth2Provider(
+                tenant: $this->property(OAuth2Property::REALM),
+                clientId: $this->property(OAuth2Property::CLIENT_ID),
+                clientSecret: $this->property(OAuth2Property::CLIENT_SECRET),
+                redirectUri: $this->property(OAuth2Property::REDIRECT_URI),
+                scopes: $this->config[OAuth2Property::SCOPES->value] ?? null,
+                version: $this->optionalProperty(OAuth2Property::VERSION),
+            ),
+            'keycloak' => new KeycloakOAuth2Provider(
                 authServerUrl: $this->property(OAuth2Property::AUTH_SERVER),
                 realm: $this->property(OAuth2Property::REALM),
                 clientId: $this->property(OAuth2Property::CLIENT_ID),

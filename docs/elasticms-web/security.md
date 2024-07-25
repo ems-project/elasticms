@@ -113,9 +113,14 @@ Note: the current SSO implementation does only support the login. The logout on 
 
 > OIDC is a simple identity layer built on top of OAuth 2.0, adding authentication capabilities.
 
-For the moment only keycloak is supported as auth server.
-We use the following library [stevenmaguire/oauth2-keycloak](https://github.com/stevenmaguire/oauth2-keycloak),
-which is using [thephpleague/oauth2-client](https://github.com/thephpleague/oauth2-client)
+Elasticms web has support for:
+
+- Keycloak [stevenmaguire/oauth2-keycloak](https://github.com/stevenmaguire/oauth2-keycloak)
+- Azure [TheNetworg/oauth2-azure](https://github.com/TheNetworg/oauth2-azure)
+
+These clients are just an implementation of [thephpleague/oauth2-client](https://github.com/thephpleague/oauth2-client)
+
+### Keycloak
 
 | Name                              | Description                    |
 |-----------------------------------|--------------------------------|
@@ -130,6 +135,31 @@ which is using [thephpleague/oauth2-client](https://github.com/thephpleague/oaut
 | EMSCH_OAUTH2_ENCRYPTION_KEY       | Optional: base64 encode        |
 
 > For encryption see [Identity provider (IDP) (Keycloak)](http://localhost:3000/#/getting-started/dev-env?id=identity-provider-idp-keycloak)
+
+### Azure
+
+| Name                       | Description                                           |
+|----------------------------|-------------------------------------------------------|
+| EMSCH_OAUTH2               | bool for enabling OAUTH2                              |
+| EMSCH_OAUTH2_PROVIDER      | 'azure' (default = 'keycloak')                        |
+| EMSCH_OAUTH2_REALM         | Tenant id                                             |
+| EMSCH_OAUTH2_CLIENT_ID     | Client id                                             |
+| EMSCH_OAUTH2_CLIENT_SECRET | Client secret value                                   |
+| EMSCH_OAUTH2_REDIRECT_URI  | https://mywebsite/callback-url                        |
+| EMSCH_OAUTH2_VERSION       | Default value = 2.0                                   |
+| EMSCH_OAUTH2_SCOPES        | Default value = ["openid","profile","offline_access"] |
+
+Create an app in the [Microsoft entra admin centrum](https://entra.microsoft.com) (Home > App registrations)
+
+Tenant id & client id you should find on the overview page of the newly created app.
+
+Client secret should be created (App registrations > my app > Certificates & secrets)
+
+Important:
+- for retrieving a `refresh_token`, scope offline_access is required
+- add optional claim for `upn` (App registrations > my app > Token configuration),
+  because elasticms uses the upn for the username
+
 
 ## SAML (Security Assertion Markup Language)
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\DependencyInjection;
 
 use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Property;
+use EMS\ClientHelperBundle\Security\Sso\OAuth2\Provider\AzureOAuth2Provider;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlProperty;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -179,10 +180,13 @@ final class Configuration implements ConfigurationInterface
 
         $oAuth2 = $sso->arrayNode('oauth2')->canBeEnabled()->children();
         foreach (OAuth2Property::cases() as $oAuth2Property) {
-            $oAuthConfig = $oAuth2->scalarNode($oAuth2Property->value);
-            if (OAuth2Property::PROVIDER === $oAuth2Property) {
-                $oAuthConfig->defaultValue('keycloak');
-            }
+            match ($oAuth2Property) {
+                OAuth2Property::PROVIDER => $oAuth2->scalarNode($oAuth2Property->value)->defaultValue('keycloak'),
+                OAuth2Property::SCOPES => $oAuth2
+                    ->variableNode($oAuth2Property->value)
+                    ->defaultValue(AzureOAuth2Provider::DEFAULT_SCOPES),
+                default => $oAuth2->scalarNode($oAuth2Property->value)
+            };
         }
 
         $saml = $sso->arrayNode('saml')->canBeEnabled()->children();

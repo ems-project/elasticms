@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
 use EMS\ClientHelperBundle\Security\Sso\User\SsoUser;
+use League\OAuth2\Client\Token\AccessTokenInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -36,12 +37,17 @@ class OAuth2Authenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $token = $this->oAuth2Service->getProvider()->getAccessToken($request);
-        $username = $this->oAuth2Service->getProvider()->getUsername($token);
+        $accessToken = $this->oAuth2Service->getProvider()->getAccessToken($request);
+        $username = $this->oAuth2Service->getProvider()->getUsername($accessToken);
 
-        return new SelfValidatingPassport(
-            userBadge: new UserBadge($username, fn (string $userIdentifier) => new SsoUser($userIdentifier))
+        $passport = new SelfValidatingPassport(
+            userBadge: new UserBadge($username, fn (string $userIdentifier) => new SsoUser(
+                identifier: $userIdentifier
+            ))
         );
+        $passport->setAttribute('access_token', $accessToken);
+
+        return $passport;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -59,5 +65,13 @@ class OAuth2Authenticator extends AbstractAuthenticator
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
 
         return $this->httpUtils->createRedirectResponse($request, OAuth2Service::ROUTE_LOGIN);
+    }
+
+    public function createToken(Passport $passport, string $firewallName): TokenInterface
+    {
+        /** @var AccessTokenInterface $accessToken */
+        $accessToken = $passport->getAttribute('access_token');
+
+        return new OAuth2Token($accessToken, $passport->getUser(), $firewallName, $passport->getUser()->getRoles());
     }
 }

@@ -93,9 +93,13 @@ class IndexedAssetFieldType extends DataFieldType
                     'type' => 'nested',
                     'properties' => [
                             EmsFields::CONTENT_MIME_TYPE_FIELD => $this->elasticsearchService->getKeywordMapping(),
+                            EmsFields::CONTENT_MIME_TYPE_FIELD_ => $this->elasticsearchService->getKeywordMapping(),
                             EmsFields::CONTENT_FILE_HASH_FIELD => $this->elasticsearchService->getKeywordMapping(),
+                            EmsFields::CONTENT_FILE_HASH_FIELD_ => $this->elasticsearchService->getKeywordMapping(),
                             EmsFields::CONTENT_FILE_NAME_FIELD => $this->elasticsearchService->getIndexedStringMapping(),
+                            EmsFields::CONTENT_FILE_NAME_FIELD_ => $this->elasticsearchService->getIndexedStringMapping(),
                             EmsFields::CONTENT_FILE_SIZE_FIELD => $this->elasticsearchService->getLongMapping(),
+                            EmsFields::CONTENT_FILE_SIZE_FIELD_ => $this->elasticsearchService->getLongMapping(),
                             EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD => $this->elasticsearchService->getKeywordMapping(),
                             '_content' => $mapping[$current->getName()],
                             '_author' => $mapping[$current->getName()],

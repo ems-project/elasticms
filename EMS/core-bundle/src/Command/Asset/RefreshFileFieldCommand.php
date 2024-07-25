@@ -16,9 +16,9 @@ use EMS\Helpers\Html\MimeTypes;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ResizeCommand extends AbstractCommand
+class RefreshFileFieldCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::ASSET_IMAGE_RESIZE;
+    protected static $defaultName = Commands::ASSET_REFRESH_FILE_FIELD;
 
     public function __construct(private RevisionService $revisionService, private StorageManager $storageManager, private Processor $processor)
     {
@@ -27,7 +27,7 @@ class ResizeCommand extends AbstractCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Generate resized images base on the EMSCO_IMAGE_MAX_SIZE environment variable.');
+        $this->setDescription('Refresh file field and regenerate resized images base on the EMSCO_IMAGE_MAX_SIZE environment variable.');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void

@@ -1,13 +1,11 @@
 {% extends '@EMSAdminUI/bootstrap5/base/html5.html.twig' %}
-{% trans_default_domain 'EMSCoreBundle' %}
+{% trans_default_domain 'emsco-core' %}
 
-{% block title %}{{ 'uploaded-file.index.title'|trans }}{% endblock %}
+{% block title %}{{ 'key.uploaded_files'|trans }}{% endblock %}
 
 {% block body %}
     {% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
-    {{ form(form, {
-        reorder_label: 'uploaded-file.index.reorder'
-    }) }}
+    {{ form(form) }}
 {% endblock %}
 
 {% block javascripts %}

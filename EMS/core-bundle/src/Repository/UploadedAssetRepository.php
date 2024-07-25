@@ -94,24 +94,6 @@ class UploadedAssetRepository extends EntityRepository
     }
 
     /**
-     * @return array<UploadedAsset>
-     */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue): array
-    {
-        $qb = $this->createQueryBuilder('ua');
-        $qb->setFirstResult($from)
-            ->setMaxResults($size);
-
-        if (null !== $orderField) {
-            $qb->orderBy(\sprintf('ua.%s', $orderField), $orderDirection);
-        }
-
-        $this->addSearchFilters($qb, $searchValue);
-
-        return $qb->getQuery()->execute();
-    }
-
-    /**
      * @param array<string> $ids
      *
      * @return array<UploadedAsset>
@@ -149,39 +131,6 @@ class UploadedAssetRepository extends EntityRepository
             return $uploadedAsset;
         }
         throw new \RuntimeException(\sprintf('Unexpected class object %s', UploadedAsset::class));
-    }
-
-    public function searchCount(string $searchValue = '', bool $availableOnly = false): int
-    {
-        $qb = $this->createQueryBuilder('ua');
-        $qb->select('count(ua.id)');
-        $this->addSearchFilters($qb, $searchValue);
-        if ($availableOnly) {
-            $qb->where($qb->expr()->eq('ua.available', ':true'));
-            $qb->setParameters([
-                ':true' => true,
-            ]);
-        }
-
-        try {
-            return \intval($qb->getQuery()->getSingleScalarResult());
-        } catch (NonUniqueResultException) {
-            return 0;
-        }
-    }
-
-    private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
-    {
-        if (\strlen($searchValue) > 0) {
-            $or = $qb->expr()->orX(
-                $qb->expr()->like('LOWER(ua.user)', ':term'),
-                $qb->expr()->like('LOWER(ua.sha1)', ':term'),
-                $qb->expr()->like('LOWER(ua.type)', ':term'),
-                $qb->expr()->like('LOWER(ua.name)', ':term')
-            );
-            $qb->andWhere($or)
-                ->setParameter(':term', '%'.\strtolower($searchValue).'%');
-        }
     }
 
     public function update(UploadedAsset $UploadedAsset): void

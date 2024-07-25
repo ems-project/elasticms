@@ -336,7 +336,14 @@ class FileService implements EntityServiceInterface
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
     {
-        return $this->uploadedAssetRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
+        $qb = $this->uploadedAssetRepository->makeQueryBuilder(searchValue: $searchValue);
+        $qb->setFirstResult($from)->setMaxResults($size);
+
+        if (null !== $orderField) {
+            $qb->orderBy(\sprintf('ua.%s', $orderField), $orderDirection);
+        }
+
+        return $qb->getQuery()->execute();
     }
 
     public function getEntityName(): string
@@ -354,7 +361,10 @@ class FileService implements EntityServiceInterface
 
     public function count(string $searchValue = '', $context = null): int
     {
-        return $this->uploadedAssetRepository->searchCount($searchValue, null !== $context && ($context['available'] ?? false));
+        return (int) $this->uploadedAssetRepository->makeQueryBuilder(searchValue: $searchValue)
+            ->select('count(ua.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**

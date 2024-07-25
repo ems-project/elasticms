@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CoreBundle\Entity\Filter;
 use EMS\CoreBundle\Form\Form\FilterType;
 use EMS\CoreBundle\Repository\FilterRepository;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\HelperService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,44 +26,6 @@ class FilterController extends AbstractController
     ) {
     }
 
-    public function indexAction(): Response
-    {
-        return $this->render("@$this->templateNamespace/filter/index.html.twig", [
-                'paging' => $this->helperService->getPagingTool(Filter::class, 'ems_filter_index', 'name'),
-        ]);
-    }
-
-    public function editAction(Filter $filter, Request $request): Response
-    {
-        $form = $this->createForm(FilterType::class, $filter);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $filter = $form->getData();
-            $this->filterRepository->update($filter);
-
-            return $this->redirectToRoute('ems_filter_index', [
-            ]);
-        }
-
-        return $this->render("@$this->templateNamespace/filter/edit.html.twig", [
-                'form' => $form->createView(),
-        ]);
-    }
-
-    public function deleteAction(Filter $filter): Response
-    {
-        $name = $filter->getName();
-        $this->filterRepository->delete($filter);
-        $this->logger->notice('log.filter.deleted', [
-            'filter_name' => $name,
-        ]);
-
-        return $this->redirectToRoute('ems_filter_index', [
-        ]);
-    }
-
     public function addAction(Request $request): Response
     {
         $filter = new Filter();
@@ -72,12 +37,37 @@ class FilterController extends AbstractController
             $filter = $form->getData();
             $this->filterRepository->update($filter);
 
-            return $this->redirectToRoute('ems_filter_index', [
-            ]);
+            return $this->redirectToRoute(Routes::FILTER_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/filter/add.html.twig", [
-                'form' => $form->createView(),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function deleteAction(Filter $filter): Response
+    {
+        $name = $filter->getName();
+        $this->filterRepository->delete($filter);
+        $this->logger->notice('log.filter.deleted', ['filter_name' => $name]);
+
+        return $this->redirectToRoute(Routes::FILTER_INDEX);
+    }
+
+    public function editAction(Filter $filter, Request $request): Response
+    {
+        $form = $this->createForm(FilterType::class, $filter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData();
+            $this->filterRepository->update($filter);
+
+            return $this->redirectToRoute(Routes::FILTER_INDEX);
+        }
+
+        return $this->render("@$this->templateNamespace/filter/edit.html.twig", [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -92,5 +82,12 @@ class FilterController extends AbstractController
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;
+    }
+
+    public function indexAction(): Response
+    {
+        return $this->render("@$this->templateNamespace/filter/index.html.twig", [
+            'paging' => $this->helperService->getPagingTool(Filter::class, Routes::FILTER_INDEX, 'name'),
+        ]);
     }
 }

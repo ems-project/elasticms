@@ -73,8 +73,8 @@
             prefix="/environment/managed-alias"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/indexes.xml"
             prefix="/indexes"/>
-    <import resource="@EMSCoreBundle/Resources/config/routing/filter.xml"
-            prefix="/filter"/>
+    <import resource="@EMSCoreBundle/Resources/config/routing/admin/filter.xml"
+            prefix="/admin/filter"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/content-type.xml"
             prefix="/content-type"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/elasticsearch.xml"

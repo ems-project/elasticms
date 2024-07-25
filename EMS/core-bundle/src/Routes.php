@@ -22,6 +22,11 @@ class Routes
     final public const DASHBOARD_ADMIN_UNDEFINE = 'emsco_dashboard_admin_undefine';
     final public const DASHBOARD = 'emsco_dashboard';
     final public const DASHBOARD_HOME = 'emsco_dashboard_home';
+    final public const FILTER_INDEX = 'emsco_filter_index';
+    final public const FILTER_EDIT = 'emsco_filter_edit';
+    final public const FILTER_DELETE = 'emsco_filter_delete';
+    final public const FILTER_ADD = 'emsco_filter_add';
+    final public const FILTER_EXPORT = 'emsco_filter_export';
     final public const FORM_ADMIN_INDEX = 'emsco_form_admin_index';
     final public const FORM_ADMIN_ADD = 'emsco_form_admin_add';
     final public const FORM_ADMIN_EDIT = 'emsco_form_admin_edit';

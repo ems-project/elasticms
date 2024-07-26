@@ -63,14 +63,10 @@ class LogDataTableType extends AbstractEntityTableType
             labelKey: t('action.details', [], 'emsco-core'),
             icon: 'eye'
         );
-        $table->addItemPostAction(
-            route: Routes::LOG_DELETE,
-            labelKey: t('action.delete', [], 'emsco-core'),
-            icon: 'trash',
-            messageKey: t('type.delete_confirm', ['type' => 'log'], 'emsco-core')
-        )->setButtonType('outline-danger');
 
-        $this->addTableActionDelete($table, 'log');
+        $this
+            ->addItemDelete($table, 'log', Routes::LOG_DELETE)
+            ->addTableActionDelete($table, 'log');
     }
 
     public function getRoles(): array

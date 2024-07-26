@@ -33,14 +33,9 @@ class AnalyzerDataTableType extends AbstractEntityTableType
             labelKey: t('action.export', [], 'emsco-core'),
             icon: 'sign-out'
         );
-        $table->addItemPostAction(
-            route: Routes::ANALYZER_DELETE,
-            labelKey: t('action.delete', [], 'emsco-core'),
-            icon: 'trash',
-            messageKey: t('type.delete_confirm', ['type' => 'analyzer'], 'emsco-core')
-        )->setButtonType('outline-danger');
 
         $this
+            ->addItemDelete($table, 'analyzer', Routes::ANALYZER_DELETE)
             ->addTableToolbarActionAdd($table, Routes::ANALYZER_ADD)
             ->addTableActionDelete($table, 'analyzer');
     }

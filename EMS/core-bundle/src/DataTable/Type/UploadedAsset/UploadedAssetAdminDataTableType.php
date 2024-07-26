@@ -91,12 +91,8 @@ class UploadedAssetAdminDataTableType extends AbstractEntityTableType
             icon: 'eye',
             routeParameters: ['assetId' => 'id']
         );
-        $table->addItemPostAction(
-            route: Routes::UPLOAD_ASSET_ADMIN_DELETE,
-            labelKey: t('action.delete', [], 'emsco-core'),
-            icon: 'trash',
-            messageKey: t('type.delete_confirm', ['type' => 'uploaded_file'], 'emsco-core')
-        )->setButtonType('outline-danger');
+
+        $this->addItemDelete($table, 'uploaded_file', Routes::UPLOAD_ASSET_ADMIN_DELETE);
 
         $table->addTableAction(
             name: TableAbstract::DOWNLOAD_ACTION,

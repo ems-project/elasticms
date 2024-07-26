@@ -32,6 +32,18 @@ trait DataTableTypeTrait
         return $this;
     }
 
+    public function addItemDelete(TableAbstract $table, string $type, string $route): self
+    {
+        $table->addItemPostAction(
+            route: $route,
+            labelKey: t('action.delete', [], 'emsco-core'),
+            icon: 'trash',
+            messageKey: t('type.delete_confirm', ['type' => $type], 'emsco-core')
+        )->setButtonType('outline-danger');
+
+        return $this;
+    }
+
     public function addTableToolbarActionAdd(TableAbstract $table, string $route): self
     {
         $table->addToolbarAction(

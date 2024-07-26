@@ -32,14 +32,9 @@ class FormDataTableType extends AbstractEntityTableType
             labelKey: t('action.reorder', [], 'emsco-core'),
             icon: 'reorder'
         );
-        $table->addItemPostAction(
-            route: Routes::FORM_ADMIN_DELETE,
-            labelKey: t('action.delete', [], 'emsco-core'),
-            icon: 'trash',
-            messageKey: t('type.delete_confirm', ['type' => 'form'], 'emsco-core')
-        )->setButtonType('outline-danger');
 
         $this
+            ->addItemDelete($table, 'form', Routes::FORM_ADMIN_DELETE)
             ->addTableToolbarActionAdd($table, Routes::FORM_ADMIN_ADD)
             ->addTableActionDelete($table, 'form');
     }

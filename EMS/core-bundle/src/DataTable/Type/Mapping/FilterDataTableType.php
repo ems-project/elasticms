@@ -33,14 +33,9 @@ class FilterDataTableType extends AbstractEntityTableType
             labelKey: t('action.export', [], 'emsco-core'),
             icon: 'sign-out'
         );
-        $table->addItemPostAction(
-            route: Routes::FILTER_DELETE,
-            labelKey: t('action.delete', [], 'emsco-core'),
-            icon: 'trash',
-            messageKey: t('type.delete_confirm', ['type' => 'filter'], 'emsco-core')
-        )->setButtonType('outline-danger');
 
         $this
+            ->addItemDelete($table, 'filter', Routes::FILTER_DELETE)
             ->addTableToolbarActionAdd($table, Routes::FILTER_ADD)
             ->addTableActionDelete($table, 'filter');
     }

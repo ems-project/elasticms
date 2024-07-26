@@ -57,14 +57,8 @@ class DashboardDataTableType extends AbstractEntityTableType
             icon: 'eraser'
         );
 
-        $table->addItemPostAction(
-            route: Routes::DASHBOARD_ADMIN_DELETE,
-            labelKey: t('action.delete', [], 'emsco-core'),
-            icon: 'trash',
-            messageKey: t('type.delete_confirm', ['type' => 'dashboard'], 'emsco-core')
-        )->setButtonType('outline-danger');
-
         $this
+            ->addItemDelete($table, 'dashboard', Routes::DASHBOARD_ADMIN_DELETE)
             ->addTableToolbarActionAdd($table, Routes::DASHBOARD_ADMIN_ADD)
             ->addTableActionDelete($table, 'dashboard');
     }

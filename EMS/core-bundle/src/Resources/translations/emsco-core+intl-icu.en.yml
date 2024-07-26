@@ -63,9 +63,11 @@ field:
 key:
     actions: Actions
     admin: Admin
+    analyzers: Analyzers
     channels: Channels
     content_types: 'Content Types'
     dashboards: Dashboards
+    filters: Filters
     forms: Forms
     logs: Logs
     loop_count: '#'
@@ -73,8 +75,6 @@ key:
     query_searches: QuerySearch
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
-    filters: Filters
-    analyzers: Analyzers
 log:
     error:
         invalid_table_action: 'Unknown table action'
@@ -117,7 +117,7 @@ type:
         }
     delete_selected_confirm: |-
         {type, select,
-            analyzer        {Delete all selected analyzers?}  
+            analyzer      {Delete all selected analyzers?}  
             channel       {Delete all selected channels?}
             dashboard     {Delete all selected dashboards?}
             draft         {All modifications made on selected drafts will lost?}

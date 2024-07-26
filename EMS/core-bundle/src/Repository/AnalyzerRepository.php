@@ -39,7 +39,7 @@ class AnalyzerRepository extends ServiceEntityRepository
     /**
      * @return Analyzer[]
      */
-    public function findAll()
+    public function findAll(): array
     {
         return $this->findBy([], ['orderKey' => 'asc']);
     }

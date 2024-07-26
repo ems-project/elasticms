@@ -8,6 +8,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Entity\Analyzer;
 use EMS\CoreBundle\Form\Form\AnalyzerType;
 use EMS\CoreBundle\Repository\AnalyzerRepository;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\HelperService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,8 +46,7 @@ class AnalyzerController extends AbstractController
                     EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
                 ]);
 
-                return $this->redirectToRoute('ems_analyzer_index', [
-                ]);
+                return $this->redirectToRoute(Routes::ANALYZER_INDEX);
             }
         }
 
@@ -67,18 +67,15 @@ class AnalyzerController extends AbstractController
             EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
         ]);
 
-        return $this->redirectToRoute('ems_analyzer_index', [
-        ]);
+        return $this->redirectToRoute(Routes::ANALYZER_INDEX);
     }
 
     public function edit(Analyzer $analyzer, Request $request): Response
     {
         $form = $this->createForm(AnalyzerType::class, $analyzer);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $analyzer = $form->getData();
             $this->analyzerRepository->update($analyzer);
 
             $this->logger->notice('log.analyzer.updated', [
@@ -87,8 +84,7 @@ class AnalyzerController extends AbstractController
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
             ]);
 
-            return $this->redirectToRoute('ems_analyzer_index', [
-            ]);
+            return $this->redirectToRoute(Routes::ANALYZER_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/analyzer/edit.html.twig", [
@@ -112,7 +108,7 @@ class AnalyzerController extends AbstractController
     public function index(): Response
     {
         return $this->render("@$this->templateNamespace/analyzer/index.html.twig", [
-            'paging' => $this->helperService->getPagingTool(Analyzer::class, 'ems_analyzer_index', 'name'),
+            'paging' => $this->helperService->getPagingTool(Analyzer::class, 'emsco_analyzer_index', 'name'),
         ]);
     }
 }

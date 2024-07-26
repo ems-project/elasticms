@@ -80,8 +80,8 @@ class FilterController extends AbstractController
         $response = new JsonResponse($filter);
         $response->setEncodingOptions(JSON_PRETTY_PRINT);
         $disposition = $response->headers->makeDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $filter->getName().'.json'
+            disposition: ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            filename: $filter->getName().'.json'
         );
         $response->headers->set('Content-Disposition', $disposition);
 

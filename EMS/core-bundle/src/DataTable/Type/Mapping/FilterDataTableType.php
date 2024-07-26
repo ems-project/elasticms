@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\DataTable\Type;
+namespace EMS\CoreBundle\DataTable\Type\Mapping;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\Mapping\FilterManager;
+use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
@@ -15,18 +16,16 @@ use function Symfony\Component\Translation\t;
 
 class FilterDataTableType extends AbstractEntityTableType
 {
-    public function __construct(FilterManager $filterManager)
+    use DataTableTypeTrait;
+
+    public function __construct(FilterManager $analyzerManager)
     {
-        parent::__construct($filterManager);
+        parent::__construct($analyzerManager);
     }
 
     public function build(EntityTable $table): void
     {
-        $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
-
-        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
-        $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
-        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $this->addColumnsOrderLabelName($table);
 
         $table->addItemGetAction(
             route: Routes::FILTER_EDIT,

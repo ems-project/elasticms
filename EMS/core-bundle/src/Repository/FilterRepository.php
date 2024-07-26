@@ -54,12 +54,6 @@ class FilterRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function update(Filter $filter): void
-    {
-        $this->getEntityManager()->persist($filter);
-        $this->getEntityManager()->flush();
-    }
-
     public function makeQueryBuilder(string $searchValue = ''): QueryBuilder
     {
         $qb = $this->createQueryBuilder('f');
@@ -74,5 +68,11 @@ class FilterRepository extends ServiceEntityRepository
         }
 
         return $qb;
+    }
+
+    public function update(Filter $filter): void
+    {
+        $this->getEntityManager()->persist($filter);
+        $this->getEntityManager()->flush();
     }
 }

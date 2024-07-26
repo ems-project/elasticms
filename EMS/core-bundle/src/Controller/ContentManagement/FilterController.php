@@ -8,7 +8,7 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Mapping\FilterManager;
-use EMS\CoreBundle\DataTable\Type\FilterDataTableType;
+use EMS\CoreBundle\DataTable\Type\Mapping\FilterDataTableType;
 use EMS\CoreBundle\Entity\Filter;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\FilterType;

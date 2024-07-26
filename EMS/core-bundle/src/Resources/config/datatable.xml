@@ -18,6 +18,14 @@
             <argument>%ems_core.template_namespace%</argument>
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.mapping.analyzer" class="EMS\CoreBundle\DataTable\Type\Mapping\AnalyzerDataTableType">
+            <argument type="service" id="emsco.helper.analyzer"/>
+            <tag name="emsco.datatable" />
+        </service>
+        <service id="emsco.data_table.mapping.filter" class="EMS\CoreBundle\DataTable\Type\Mapping\FilterDataTableType">
+            <argument type="service" id="emsco.helper.filter"/>
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.data_table.release.publish" class="EMS\CoreBundle\DataTable\Type\Release\ReleaseRevisionsPublishDataTableType">
             <argument type="service" id="ems.service.release_revision"/>
             <argument type="service" id="ems.service.release"/>
@@ -78,10 +86,6 @@
         <service id="emsco.data_table.environment" class="EMS\CoreBundle\DataTable\Type\EnvironmentDataTableType">
             <argument type="service" id="emsco.core.environment.managed_entity"/>
             <argument>%ems_core.template_namespace%</argument>
-            <tag name="emsco.datatable" />
-        </service>
-        <service id="emsco.data_table.filter" class="EMS\CoreBundle\DataTable\Type\FilterDataTableType">
-            <argument type="service" id="emsco.helper.filter"/>
             <tag name="emsco.datatable" />
         </service>
         <service id="emsco.data_table.wysiwygProfile" class="EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygProfileDataTableType">

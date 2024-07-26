@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
+use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\Mapping\AnalyzerManager;
+use EMS\CoreBundle\DataTable\Type\Mapping\AnalyzerDataTableType;
 use EMS\CoreBundle\Entity\Analyzer;
+use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\AnalyzerType;
-use EMS\CoreBundle\Repository\AnalyzerRepository;
+use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
-use EMS\CoreBundle\Service\HelperService;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,12 +22,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
+use function Symfony\Component\Translation\t;
+
 class AnalyzerController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly HelperService $helperService,
-        private readonly AnalyzerRepository $analyzerRepository,
+        private readonly AnalyzerManager $analyzerManager,
+        private readonly DataTableFactory $dataTableFactory,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly string $templateNamespace
     ) {
     }
@@ -31,23 +39,20 @@ class AnalyzerController extends AbstractController
     public function add(Request $request): Response
     {
         $analyzer = new Analyzer();
-        $form = $this->createForm(AnalyzerType::class, $analyzer);
 
+        $form = $this->createForm(AnalyzerType::class, $analyzer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $analyzer = $form->getData();
-            if ($analyzer instanceof Analyzer) {
-                $this->analyzerRepository->update($analyzer);
+            $this->analyzerManager->update($analyzer);
 
-                $this->logger->notice('log.analyzer.created', [
-                    'analyzer_name' => $analyzer->getName(),
-                    'analyzer_id' => $analyzer->getId(),
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
-                ]);
+            $this->logger->notice('log.analyzer.created', [
+                'analyzer_name' => $analyzer->getName(),
+                'analyzer_id' => $analyzer->getId(),
+                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
+            ]);
 
-                return $this->redirectToRoute(Routes::ANALYZER_INDEX);
-            }
+            return $this->redirectToRoute(Routes::ANALYZER_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/analyzer/add.html.twig", [
@@ -57,13 +62,11 @@ class AnalyzerController extends AbstractController
 
     public function delete(Analyzer $analyzer): RedirectResponse
     {
-        $id = $analyzer->getId();
-        $name = $analyzer->getName();
-        $this->analyzerRepository->delete($analyzer);
+        $this->analyzerManager->delete($analyzer);
 
         $this->logger->notice('log.analyzer.deleted', [
-            'analyzer_name' => $name,
-            'analyzer_id' => $id,
+            'analyzer_name' => $analyzer->getName(),
+            'analyzer_id' => $analyzer->getId(),
             EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
         ]);
 
@@ -76,7 +79,7 @@ class AnalyzerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->analyzerRepository->update($analyzer);
+            $this->analyzerManager->update($analyzer);
 
             $this->logger->notice('log.analyzer.updated', [
                 'analyzer_name' => $analyzer->getName(),
@@ -105,10 +108,35 @@ class AnalyzerController extends AbstractController
         return $response;
     }
 
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return $this->render("@$this->templateNamespace/analyzer/index.html.twig", [
-            'paging' => $this->helperService->getPagingTool(Analyzer::class, 'emsco_analyzer_index', 'name'),
+        $table = $this->dataTableFactory->create(AnalyzerDataTableType::class);
+
+        $form = $this->createForm(TableType::class, $table, [
+            'reorder_label' => t('type.reorder', ['type' => 'analyzer'], 'emsco-core'),
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            match ($this->getClickedButtonName($form)) {
+                TableAbstract::DELETE_ACTION => $this->analyzerManager->deleteByIds(...$table->getSelected()),
+                TableType::REORDER_ACTION => $this->analyzerManager->reorderByIds(
+                    ...TableType::getReorderedKeys($form->getName(), $request)
+                ),
+                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core'))
+            };
+
+            return $this->redirectToRoute(Routes::ANALYZER_INDEX);
+        }
+
+        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
+            'form' => $form->createView(),
+            'icon' => 'fa fa-signal',
+            'title' => t('type.title_overview', ['type' => 'analyzer'], 'emsco-core'),
+            'breadcrumb' => [
+                'admin' => t('key.admin', [], 'emsco-core'),
+                'page' => t('key.analyzers', [], 'emsco-core'),
+            ],
         ]);
     }
 }

@@ -6,7 +6,7 @@
 
     <route id="emsco_analyzer_index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\AnalyzerController::index"
-           methods="GET"/>
+           methods="GET|POST"/>
     <route id="emsco_analyzer_edit" path="/edit/{analyzer}"
            controller="EMS\CoreBundle\Controller\ContentManagement\AnalyzerController::edit"
            methods="GET|POST"/>

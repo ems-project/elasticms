@@ -74,6 +74,7 @@ key:
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
     filters: Filters
+    analyzers: Analyzers
 log:
     error:
         invalid_table_action: 'Unknown table action'
@@ -102,6 +103,7 @@ revision:
 type:
     delete_confirm: |-
         {type, select,
+            analyzer      {Delete the "{label}" analyzer?}
             channel       {Delete the "{label}" channel?}
             dashboard     {Delete the "{label}" dashboard?}
             draft         {Modifications made in this draft will be lost}
@@ -115,6 +117,7 @@ type:
         }
     delete_selected_confirm: |-
         {type, select,
+            analyzer        {Delete all selected analyzers?}  
             channel       {Delete all selected channels?}
             dashboard     {Delete all selected dashboards?}
             draft         {All modifications made on selected drafts will lost?}
@@ -128,6 +131,7 @@ type:
         }
     reorder: |-
         {type, select,
+            analyzer     {Reorder analyzers}
             channel      {Reorder channels}
             dashboard    {Reorder dashboards}
             filter       {Reorder filters}
@@ -137,6 +141,7 @@ type:
         }
     title_overview: |-
         {type, select,
+            analyzer      {List of analyzers}
             channel       {List of channels}
             dashboard     {List of dashboards}
             filter        {List of filters}
@@ -147,6 +152,7 @@ type:
         }
     title_sub: |-
         {type, select,
+            analyzer      {Expert mode}  
             dashboard     {Customize the lobby}
             filter        {Expert mode}  
             form          {Reusable components}

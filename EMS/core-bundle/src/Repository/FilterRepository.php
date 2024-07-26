@@ -60,7 +60,8 @@ class FilterRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function makeQueryBuilder(string $searchValue = ''): QueryBuilder {
+    public function makeQueryBuilder(string $searchValue = ''): QueryBuilder
+    {
         $qb = $this->createQueryBuilder('f');
 
         if ('' !== $searchValue) {

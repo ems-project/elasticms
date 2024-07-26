@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -19,14 +21,18 @@ class AnalyzerRepository extends ServiceEntityRepository
         parent::__construct($registry, Analyzer::class);
     }
 
-    public function findByName(string $name): ?Analyzer
+    public function counter(string $searchValue = ''): int
     {
-        return $this->findOneBy(['name' => $name]);
+        $qb = $this->createQueryBuilder('analyzer');
+        $qb->select('count(analyzer.id)');
+        $this->addSearchFilters($qb, $searchValue);
+
+        return \intval($qb->getQuery()->getSingleScalarResult());
     }
 
-    public function update(Analyzer $analyzer): void
+    public function delete(Analyzer $analyzer): void
     {
-        $this->getEntityManager()->persist($analyzer);
+        $this->getEntityManager()->remove($analyzer);
         $this->getEntityManager()->flush();
     }
 
@@ -36,6 +42,11 @@ class AnalyzerRepository extends ServiceEntityRepository
     public function findAll()
     {
         return $this->findBy([], ['orderKey' => 'asc']);
+    }
+
+    public function findByName(string $name): ?Analyzer
+    {
+        return $this->findOneBy(['name' => $name]);
     }
 
     /**
@@ -57,18 +68,9 @@ class AnalyzerRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
-    public function counter(string $searchValue = ''): int
+    public function update(Analyzer $analyzer): void
     {
-        $qb = $this->createQueryBuilder('analyzer');
-        $qb->select('count(analyzer.id)');
-        $this->addSearchFilters($qb, $searchValue);
-
-        return \intval($qb->getQuery()->getSingleScalarResult());
-    }
-
-    public function delete(Analyzer $analyzer): void
-    {
-        $this->getEntityManager()->remove($analyzer);
+        $this->getEntityManager()->persist($analyzer);
         $this->getEntityManager()->flush();
     }
 

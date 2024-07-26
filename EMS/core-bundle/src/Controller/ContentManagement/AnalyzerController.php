@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use EMS\CommonBundle\Helper\EmsFields;
@@ -23,54 +25,6 @@ class AnalyzerController extends AbstractController
         private readonly AnalyzerRepository $analyzerRepository,
         private readonly string $templateNamespace
     ) {
-    }
-
-    public function index(): Response
-    {
-        return $this->render("@$this->templateNamespace/analyzer/index.html.twig", [
-                'paging' => $this->helperService->getPagingTool(Analyzer::class, 'ems_analyzer_index', 'name'),
-        ]);
-    }
-
-    public function edit(Analyzer $analyzer, Request $request): Response
-    {
-        $form = $this->createForm(AnalyzerType::class, $analyzer);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $analyzer = $form->getData();
-            $this->analyzerRepository->update($analyzer);
-
-            $this->logger->notice('log.analyzer.updated', [
-                'analyzer_name' => $analyzer->getName(),
-                'analyzer_id' => $analyzer->getId(),
-                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-            ]);
-
-            return $this->redirectToRoute('ems_analyzer_index', [
-            ]);
-        }
-
-        return $this->render("@$this->templateNamespace/analyzer/edit.html.twig", [
-                'form' => $form->createView(),
-        ]);
-    }
-
-    public function delete(Analyzer $analyzer): RedirectResponse
-    {
-        $id = $analyzer->getId();
-        $name = $analyzer->getName();
-        $this->analyzerRepository->delete($analyzer);
-
-        $this->logger->notice('log.analyzer.deleted', [
-            'analyzer_name' => $name,
-            'analyzer_id' => $id,
-            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-        ]);
-
-        return $this->redirectToRoute('ems_analyzer_index', [
-        ]);
     }
 
     public function add(Request $request): Response
@@ -97,7 +51,48 @@ class AnalyzerController extends AbstractController
         }
 
         return $this->render("@$this->templateNamespace/analyzer/add.html.twig", [
-                'form' => $form->createView(),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function delete(Analyzer $analyzer): RedirectResponse
+    {
+        $id = $analyzer->getId();
+        $name = $analyzer->getName();
+        $this->analyzerRepository->delete($analyzer);
+
+        $this->logger->notice('log.analyzer.deleted', [
+            'analyzer_name' => $name,
+            'analyzer_id' => $id,
+            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
+        ]);
+
+        return $this->redirectToRoute('ems_analyzer_index', [
+        ]);
+    }
+
+    public function edit(Analyzer $analyzer, Request $request): Response
+    {
+        $form = $this->createForm(AnalyzerType::class, $analyzer);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $analyzer = $form->getData();
+            $this->analyzerRepository->update($analyzer);
+
+            $this->logger->notice('log.analyzer.updated', [
+                'analyzer_name' => $analyzer->getName(),
+                'analyzer_id' => $analyzer->getId(),
+                EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
+            ]);
+
+            return $this->redirectToRoute('ems_analyzer_index', [
+            ]);
+        }
+
+        return $this->render("@$this->templateNamespace/analyzer/edit.html.twig", [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -112,5 +107,12 @@ class AnalyzerController extends AbstractController
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;
+    }
+
+    public function index(): Response
+    {
+        return $this->render("@$this->templateNamespace/analyzer/index.html.twig", [
+            'paging' => $this->helperService->getPagingTool(Analyzer::class, 'ems_analyzer_index', 'name'),
+        ]);
     }
 }

@@ -33,11 +33,8 @@ class ChannelDataTableType extends AbstractEntityTableType
         $table->addColumn(t('field.alias', [], 'emsco-core'), 'alias');
         $table->addColumnDefinition(new BoolTableColumn(t('field.public_access', [], 'emsco-core'), 'public'));
 
-        $table->addItemGetAction(
-            route: 'ems_core_channel_edit',
-            labelKey: t('action.edit', [], 'emsco-core'),
-            icon: 'pencil'
-        );
+        $this->addItemEdit($table, 'ems_core_channel_edit');
+
         $table->addItemPostAction(
             route: 'ems_core_channel_delete',
             labelKey: t('action.delete', [], 'emsco-core'),

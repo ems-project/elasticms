@@ -27,11 +27,8 @@ class QuerySearchDataTableType extends AbstractEntityTableType
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
 
-        $table->addItemGetAction(
-            route: 'ems_core_query_search_edit',
-            labelKey: t('action.edit', [], 'emsco-core'),
-            icon: 'pencil'
-        );
+        $this->addItemEdit($table, 'ems_core_query_search_edit');
+
         $table->addItemPostAction(
             route: 'ems_core_query_search_delete',
             labelKey: t('action.delete', [], 'emsco-core'),

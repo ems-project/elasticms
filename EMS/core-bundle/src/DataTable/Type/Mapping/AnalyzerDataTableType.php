@@ -24,13 +24,10 @@ class AnalyzerDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $this->addColumnsOrderLabelName($table);
+        $this
+            ->addColumnsOrderLabelName($table)
+            ->addItemEdit($table, Routes::ANALYZER_EDIT);
 
-        $table->addItemGetAction(
-            route: Routes::ANALYZER_EDIT,
-            labelKey: t('action.edit', [], 'emsco-core'),
-            icon: 'pencil'
-        );
         $table->addItemGetAction(
             route: Routes::ANALYZER_EXPORT,
             labelKey: t('action.export', [], 'emsco-core'),

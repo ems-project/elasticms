@@ -23,13 +23,10 @@ class FormDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $this->addColumnsOrderLabelName($table);
+        $this
+            ->addColumnsOrderLabelName($table)
+            ->addItemEdit($table, Routes::FORM_ADMIN_EDIT);
 
-        $table->addItemGetAction(
-            route: Routes::FORM_ADMIN_EDIT,
-            labelKey: t('action.edit', [], 'emsco-core'),
-            icon: 'pencil'
-        );
         $table->addItemGetAction(
             route: Routes::FORM_ADMIN_REORDER,
             labelKey: t('action.reorder', [], 'emsco-core'),

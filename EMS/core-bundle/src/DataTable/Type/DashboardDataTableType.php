@@ -40,11 +40,7 @@ class DashboardDataTableType extends AbstractEntityTableType
             template: "@$this->templateNamespace/dashboard/columns.html.twig")
         );
 
-        $table->addItemGetAction(
-            route: Routes::DASHBOARD_ADMIN_EDIT,
-            labelKey: t('action.edit', [], 'emsco-core'),
-            icon: 'pencil'
-        );
+        $this->addItemEdit($table, Routes::DASHBOARD_ADMIN_EDIT);
 
         $defineAction = $table->addItemActionCollection(t('action.define', [], 'emsco-core'), 'gear');
         foreach (DashboardDefinition::cases() as $dashboardDefinition) {

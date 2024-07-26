@@ -21,6 +21,17 @@ trait DataTableTypeTrait
         return $this;
     }
 
+    public function addItemEdit(TableAbstract $table, string $route): self
+    {
+        $table->addItemGetAction(
+            route: $route,
+            labelKey: t('action.edit', [], 'emsco-core'),
+            icon: 'pencil'
+        );
+
+        return $this;
+    }
+
     public function addTableToolbarActionAdd(TableAbstract $table, string $route): self
     {
         $table->addToolbarAction(

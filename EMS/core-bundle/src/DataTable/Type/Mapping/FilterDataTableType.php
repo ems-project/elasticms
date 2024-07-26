@@ -24,13 +24,10 @@ class FilterDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $this->addColumnsOrderLabelName($table);
+        $this
+            ->addColumnsOrderLabelName($table)
+            ->addItemEdit($table, Routes::FILTER_EDIT);
 
-        $table->addItemGetAction(
-            route: Routes::FILTER_EDIT,
-            labelKey: t('action.edit', [], 'emsco-core'),
-            icon: 'pencil'
-        );
         $table->addItemGetAction(
             route: Routes::FILTER_EXPORT,
             labelKey: t('action.export', [], 'emsco-core'),

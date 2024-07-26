@@ -8,12 +8,15 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\Job\ScheduleManager;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 
+use function Symfony\Component\Translation\t;
+
 class JobScheduleDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(ScheduleManager $entityService)
     {
         parent::__construct($entityService);
@@ -21,19 +24,35 @@ class JobScheduleDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->addColumn('table.index.column.loop_count', 'orderKey');
-        $table->addColumn('schedule.index.column.name', 'name');
-        $table->addColumn('schedule.index.column.cron', 'cron');
-        $table->addColumn('schedule.index.column.command', 'command');
-        $table->addColumn('schedule.index.column.tag', 'tag');
-        $table->addColumnDefinition(new DatetimeTableColumn('schedule.index.column.previous-run', 'previousRun'));
-        $table->addColumnDefinition(new DatetimeTableColumn('schedule.index.column.next-run', 'nextRun'));
-        $table->addItemGetAction(Routes::SCHEDULE_EDIT, 'view.actions.edit', 'pencil');
-        $table->addItemPostAction(Routes::SCHEDULE_DUPLICATE, 'view.actions.duplicate', 'pencil', 'view.actions.duplicate_confirm');
-        $table->addItemPostAction(Routes::SCHEDULE_DELETE, 'view.actions.delete', 'trash', 'view.actions.delete_confirm')->setButtonType('outline-danger');
-        $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'schedule.actions.delete_selected', 'schedule.actions.delete_selected_confirm')
-            ->setCssClass('btn btn-outline-danger');
         $table->setDefaultOrder('orderKey');
+
+        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
+        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $table->addColumn(t('field.cron', [], 'emsco-core'), 'cron');
+        $table->addColumn(t('field.command', [], 'emsco-core'), 'command');
+        $table->addColumn(t('field.tag', [], 'emsco-core'), 'tag');
+
+        $table->addColumnDefinition(new DatetimeTableColumn(
+            titleKey: t('field.date_run_previous', [], 'emsco-core'),
+            attribute: 'previousRun'
+        ));
+        $table->addColumnDefinition(new DatetimeTableColumn(
+            titleKey: t('field.date_run_next', [], 'emsco-core'),
+            attribute: 'nextRun'
+        ));
+
+        $this->addItemEdit($table, Routes::SCHEDULE_EDIT);
+        $table->addItemPostAction(
+            route: Routes::SCHEDULE_DUPLICATE,
+            labelKey: t('action.duplicate', [], 'emsco-core'),
+            icon: 'files-o',
+            messageKey: t('action.confirmation', [], 'emsco-core')
+        );
+
+        $this
+            ->addItemDelete($table, 'job_schedule', Routes::SCHEDULE_DELETE)
+            ->addTableToolbarActionAdd($table, Routes::SCHEDULE_ADD)
+            ->addTableActionDelete($table, 'job_schedule');
     }
 
     public function getRoles(): array

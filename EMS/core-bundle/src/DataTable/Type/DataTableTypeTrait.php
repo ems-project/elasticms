@@ -50,7 +50,7 @@ trait DataTableTypeTrait
             label: t('action.add', [], 'emsco-core'),
             icon: 'fa fa-plus',
             routeName: $route
-        );
+        )->setCssClass('btn btn-sm btn-primary');
 
         return $this;
     }
@@ -62,7 +62,7 @@ trait DataTableTypeTrait
             icon: 'fa fa-trash',
             labelKey: t('action.delete_selected', [], 'emsco-core'),
             confirmationKey: t('type.delete_selected_confirm', ['type' => $type], 'emsco-core')
-        )->setCssClass('btn btn-outline-danger');
+        )->setCssClass('btn btn-sm btn-outline-danger');
 
         return $this;
     }

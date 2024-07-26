@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\DataTable\Type;
+namespace EMS\CoreBundle\DataTable\Type\Job;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\Job\ScheduleManager;
+use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Roles;
@@ -17,9 +18,9 @@ class JobScheduleDataTableType extends AbstractEntityTableType
 {
     use DataTableTypeTrait;
 
-    public function __construct(ScheduleManager $entityService)
+    public function __construct(ScheduleManager $scheduleManager)
     {
-        parent::__construct($entityService);
+        parent::__construct($scheduleManager);
     }
 
     public function build(EntityTable $table): void

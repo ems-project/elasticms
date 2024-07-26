@@ -17,9 +17,9 @@ class FilterDataTableType extends AbstractEntityTableType
 {
     use DataTableTypeTrait;
 
-    public function __construct(FilterManager $analyzerManager)
+    public function __construct(FilterManager $filterManager)
     {
-        parent::__construct($analyzerManager);
+        parent::__construct($filterManager);
     }
 
     public function build(EntityTable $table): void

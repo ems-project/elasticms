@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Job;
 
-use EMS\CommonBundle\Common\Log\LocalizedLogger;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Job\ScheduleManager;
-use EMS\CoreBundle\DataTable\Type\JobScheduleDataTableType;
+use EMS\CoreBundle\DataTable\Type\Job\JobScheduleDataTableType;
 use EMS\CoreBundle\Entity\Schedule;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\ScheduleType;
@@ -27,7 +27,7 @@ final class ScheduleController extends AbstractController
     public function __construct(
         private readonly ScheduleManager $scheduleManager,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LocalizedLogger $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly string $templateNamespace
     ) {
     }

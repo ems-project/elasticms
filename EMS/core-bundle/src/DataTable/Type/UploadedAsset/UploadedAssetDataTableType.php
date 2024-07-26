@@ -138,7 +138,7 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
                 name: TableAbstract::DOWNLOAD_ACTION,
                 icon: 'fa fa-download',
                 labelKey: t('action.download_selected', [], 'emsco-core')
-            );
+            )->setCssClass('btn btn-sm btn-default');
 
             $this->addTableActionDelete($table, 'uploaded_file', self::HIDE_ACTION);
         }

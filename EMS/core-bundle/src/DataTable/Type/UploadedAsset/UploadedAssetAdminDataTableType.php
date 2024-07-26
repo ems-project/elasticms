@@ -98,13 +98,13 @@ class UploadedAssetAdminDataTableType extends AbstractEntityTableType
             name: TableAbstract::DOWNLOAD_ACTION,
             icon: 'fa fa-download',
             labelKey: t('action.download_selected', [], 'emsco-core')
-        );
+        )->setCssClass('btn btn-sm btn-default');
 
         $table->addTableAction(
             name: self::TOGGLE_VISIBILITY_ACTION,
             icon: 'fa fa-eye',
             labelKey: t('action.toggle_visibility_selected', [], 'emsco-core'),
-        );
+        )->setCssClass('btn btn-sm btn-default');
 
         $this->addTableActionDelete($table, 'uploaded_file');
     }

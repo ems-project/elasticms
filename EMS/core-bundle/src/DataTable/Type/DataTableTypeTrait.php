@@ -10,12 +10,26 @@ use function Symfony\Component\Translation\t;
 
 trait DataTableTypeTrait
 {
-    public function addColumnsOrderLabelName(TableAbstract $table): void
+    public function addColumnsOrderLabelName(TableAbstract $table): self
     {
         $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
 
         $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
         $table->addColumn(t('field.label', [], 'emsco-core'), 'label', 'label');
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name', 'name');
+
+        return $this;
+    }
+
+    public function addTableActionDelete(TableAbstract $table, string $type, string $name = TableAbstract::DELETE_ACTION): self
+    {
+        $table->addTableAction(
+            name: $name,
+            icon: 'fa fa-trash',
+            labelKey: t('action.delete_selected', [], 'emsco-core'),
+            confirmationKey: t('type.delete_selected_confirm', ['type' => $type], 'emsco-core')
+        )->setCssClass('btn btn-outline-danger');
+
+        return $this;
     }
 }

@@ -9,7 +9,6 @@ use EMS\CoreBundle\Core\Log\LogEntityTableContext;
 use EMS\CoreBundle\Core\Log\LogManager;
 use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Data\UserTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
@@ -18,6 +17,8 @@ use function Symfony\Component\Translation\t;
 
 class LogDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(LogManager $logManager)
     {
         parent::__construct($logManager);
@@ -69,12 +70,7 @@ class LogDataTableType extends AbstractEntityTableType
             messageKey: t('type.delete_confirm', ['type' => 'log'], 'emsco-core')
         )->setButtonType('outline-danger');
 
-        $table->addTableAction(
-            name: TableAbstract::DELETE_ACTION,
-            icon: 'fa fa-trash',
-            labelKey: t('action.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('type.delete_selected_confirm', ['type' => 'log'], 'emsco-core')
-        )->setCssClass('btn btn-outline-danger');
+        $this->addTableActionDelete($table, 'log');
     }
 
     public function getRoles(): array

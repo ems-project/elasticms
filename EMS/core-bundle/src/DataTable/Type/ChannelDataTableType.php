@@ -8,7 +8,6 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Entity\Channel;
 use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\Channel\ChannelService;
 
@@ -51,12 +50,8 @@ class ChannelDataTableType extends AbstractEntityTableType
             icon: 'fa fa-plus',
             routeName: 'ems_core_channel_add'
         );
-        $table->addTableAction(
-            name: TableAbstract::DELETE_ACTION,
-            icon: 'fa fa-trash',
-            labelKey: t('action.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('type.delete_selected_confirm', ['type' => 'channel'], 'emsco-core')
-        )->setCssClass('btn btn-outline-danger');
+
+        $this->addTableActionDelete($table, 'channel');
     }
 
     public function getRoles(): array

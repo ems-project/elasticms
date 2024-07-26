@@ -8,7 +8,6 @@ use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\Mapping\FilterManager;
 use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 
@@ -49,12 +48,7 @@ class FilterDataTableType extends AbstractEntityTableType
             icon: 'fa fa-plus',
             routeName: Routes::FILTER_ADD
         );
-        $table->addTableAction(
-            name: TableAbstract::DELETE_ACTION,
-            icon: 'fa fa-trash',
-            labelKey: t('action.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('type.delete_selected_confirm', ['type' => 'filter'], 'emsco-core')
-        )->setCssClass('btn btn-outline-danger');
+        $this->addTableActionDelete($table, 'filter');
     }
 
     public function getRoles(): array

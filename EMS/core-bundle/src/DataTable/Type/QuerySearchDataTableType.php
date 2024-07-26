@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\QuerySearchService;
 
@@ -14,6 +13,8 @@ use function Symfony\Component\Translation\t;
 
 class QuerySearchDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(QuerySearchService $entityService)
     {
         parent::__construct($entityService);
@@ -43,12 +44,8 @@ class QuerySearchDataTableType extends AbstractEntityTableType
             icon: 'fa fa-plus',
             routeName: 'ems_core_query_search_add'
         );
-        $table->addTableAction(
-            name: TableAbstract::DELETE_ACTION,
-            icon: 'fa fa-trash',
-            labelKey: t('action.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('type.delete_selected_confirm', ['type' => 'query_search'], 'emsco-core')
-        )->setCssClass('btn btn-outline-danger');
+
+        $this->addTableActionDelete($table, 'query_search');
     }
 
     public function getRoles(): array

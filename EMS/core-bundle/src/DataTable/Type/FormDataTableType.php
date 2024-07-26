@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\DataTable\Type;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\Form\FormManager;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 
@@ -48,12 +47,8 @@ class FormDataTableType extends AbstractEntityTableType
             icon: 'fa fa-plus',
             routeName: Routes::FORM_ADMIN_ADD
         );
-        $table->addTableAction(
-            name: TableAbstract::DELETE_ACTION,
-            icon: 'fa fa-trash',
-            labelKey: t('action.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('type.delete_selected_confirm', ['type' => 'form'], 'emsco-core')
-        )->setCssClass('btn btn-outline-danger');
+
+        $this->addTableActionDelete($table, 'form');
     }
 
     public function getRoles(): array

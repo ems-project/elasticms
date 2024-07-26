@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\DataTable\Type\UploadedAsset;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
+use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\UploadedAsset;
 use EMS\CoreBundle\Form\Data\BoolTableColumn;
@@ -22,6 +23,8 @@ use function Symfony\Component\Translation\t;
 
 class UploadedAssetAdminDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public const TOGGLE_VISIBILITY_ACTION = 'action_toggle_visibility';
 
     public function __construct(FileService $entityService)
@@ -107,12 +110,7 @@ class UploadedAssetAdminDataTableType extends AbstractEntityTableType
             labelKey: t('action.toggle_visibility_selected', [], 'emsco-core'),
         );
 
-        $table->addTableAction(
-            name: TableAbstract::DELETE_ACTION,
-            icon: 'fa fa-trash',
-            labelKey: t('action.delete_selected', [], 'emsco-core'),
-            confirmationKey: t('type.delete_selected_confirm', ['type' => 'uploaded_file'], 'emsco-core')
-        )->setCssClass('btn btn-outline-danger');
+        $this->addTableActionDelete($table, 'uploaded_file');
     }
 
     public function getRoles(): array

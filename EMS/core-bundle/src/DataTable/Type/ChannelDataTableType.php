@@ -45,13 +45,9 @@ class ChannelDataTableType extends AbstractEntityTableType
             messageKey: t('type.delete_confirm', ['type' => 'channel'], 'emsco-core')
         )->setButtonType('outline-danger');
 
-        $table->addToolbarAction(
-            label: t('action.add', [], 'emsco-core'),
-            icon: 'fa fa-plus',
-            routeName: 'ems_core_channel_add'
-        );
-
-        $this->addTableActionDelete($table, 'channel');
+        $this
+            ->addTableToolbarActionAdd($table, 'ems_core_channel_add')
+            ->addTableActionDelete($table, 'channel');
     }
 
     public function getRoles(): array

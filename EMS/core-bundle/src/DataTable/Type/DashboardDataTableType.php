@@ -68,13 +68,9 @@ class DashboardDataTableType extends AbstractEntityTableType
             messageKey: t('type.delete_confirm', ['type' => 'dashboard'], 'emsco-core')
         )->setButtonType('outline-danger');
 
-        $table->addToolbarAction(
-            label: t('action.add', [], 'emsco-core'),
-            icon: 'fa fa-plus',
-            routeName: Routes::DASHBOARD_ADMIN_ADD,
-        );
-
-        $this->addTableActionDelete($table, 'dashboard');
+        $this
+            ->addTableToolbarActionAdd($table, Routes::DASHBOARD_ADMIN_ADD)
+            ->addTableActionDelete($table, 'dashboard');
     }
 
     public function getRoles(): array

@@ -42,13 +42,9 @@ class FormDataTableType extends AbstractEntityTableType
             messageKey: t('type.delete_confirm', ['type' => 'form'], 'emsco-core')
         )->setButtonType('outline-danger');
 
-        $table->addToolbarAction(
-            label: t('action.add', [], 'emsco-core'),
-            icon: 'fa fa-plus',
-            routeName: Routes::FORM_ADMIN_ADD
-        );
-
-        $this->addTableActionDelete($table, 'form');
+        $this
+            ->addTableToolbarActionAdd($table, Routes::FORM_ADMIN_ADD)
+            ->addTableActionDelete($table, 'form');
     }
 
     public function getRoles(): array

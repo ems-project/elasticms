@@ -21,6 +21,17 @@ trait DataTableTypeTrait
         return $this;
     }
 
+    public function addTableToolbarActionAdd(TableAbstract $table, string $route): self
+    {
+        $table->addToolbarAction(
+            label: t('action.add', [], 'emsco-core'),
+            icon: 'fa fa-plus',
+            routeName: $route
+        );
+
+        return $this;
+    }
+
     public function addTableActionDelete(TableAbstract $table, string $type, string $name = TableAbstract::DELETE_ACTION): self
     {
         $table->addTableAction(

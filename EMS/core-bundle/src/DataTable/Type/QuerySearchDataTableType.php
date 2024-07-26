@@ -39,13 +39,9 @@ class QuerySearchDataTableType extends AbstractEntityTableType
             messageKey: t('type.delete_confirm', ['type' => 'query_search'], 'emsco-core')
         )->setButtonType('outline-danger');
 
-        $table->addToolbarAction(
-            label: t('action.add', [], 'emsco-core'),
-            icon: 'fa fa-plus',
-            routeName: 'ems_core_query_search_add'
-        );
-
-        $this->addTableActionDelete($table, 'query_search');
+        $this
+            ->addTableToolbarActionAdd($table, 'ems_core_query_search_add')
+            ->addTableActionDelete($table, 'query_search');
     }
 
     public function getRoles(): array

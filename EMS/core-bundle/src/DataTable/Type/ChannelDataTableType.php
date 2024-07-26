@@ -16,6 +16,8 @@ use function Symfony\Component\Translation\t;
 
 class ChannelDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(ChannelService $entityService)
     {
         parent::__construct($entityService);
@@ -23,13 +25,11 @@ class ChannelDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
-
-        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
-        $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
-
-        $column = $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
-        $column->setPathCallback(fn (Channel $channel, string $baseUrl = '') => $baseUrl.$channel->getEntryPath(), '_blank');
+        $this->addColumnsOrderLabelName($table);
+        $table->getColumnByName('name')?->setPathCallback(
+            pathCallback: fn (Channel $channel, string $baseUrl = '') => $baseUrl.$channel->getEntryPath(),
+            target: '_blank'
+        );
 
         $table->addColumn(t('field.alias', [], 'emsco-core'), 'alias');
         $table->addColumnDefinition(new BoolTableColumn(t('field.public_access', [], 'emsco-core'), 'public'));

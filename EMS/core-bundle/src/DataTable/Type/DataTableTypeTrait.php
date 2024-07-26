@@ -12,12 +12,10 @@ trait DataTableTypeTrait
 {
     public function addColumnsOrderLabelName(TableAbstract $table): void
     {
-        $table
-            ->setDefaultOrder('orderKey')
-            ->setLabelAttribute('label');
+        $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
 
         $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
-        $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
-        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $table->addColumn(t('field.label', [], 'emsco-core'), 'label', 'label');
+        $table->addColumn(t('field.name', [], 'emsco-core'), 'name', 'name');
     }
 }

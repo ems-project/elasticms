@@ -15,6 +15,8 @@ use function Symfony\Component\Translation\t;
 
 class FormDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(FormManager $entityService)
     {
         parent::__construct($entityService);
@@ -22,11 +24,7 @@ class FormDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
-
-        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
-        $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
-        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $this->addColumnsOrderLabelName($table);
 
         $table->addItemGetAction(
             route: Routes::FORM_ADMIN_EDIT,

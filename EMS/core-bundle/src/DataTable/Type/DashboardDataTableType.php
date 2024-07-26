@@ -18,6 +18,8 @@ use function Symfony\Component\Translation\t;
 
 class DashboardDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(DashboardManager $entityService, private readonly string $templateNamespace)
     {
         parent::__construct($entityService);
@@ -25,12 +27,8 @@ class DashboardDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->setDefaultOrder('orderKey')->setLabelAttribute('label');
-
-        $table->addColumn(t('key.loop_count', [], 'emsco-core'), 'orderKey');
-        $columnLabel = $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
-        $columnLabel->setItemIconCallback(fn (Dashboard $dashboard) => $dashboard->getIcon());
-        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $this->addColumnsOrderLabelName($table);
+        $table->getColumnByName('label')?->setItemIconCallback(fn (Dashboard $dashboard) => $dashboard->getIcon());
 
         $table->addColumnDefinition(new TemplateBlockTableColumn(
             label: t('field.type', [], 'emsco-core'),

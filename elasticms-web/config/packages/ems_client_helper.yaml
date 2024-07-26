@@ -23,12 +23,14 @@ parameters:
     env(EMSCH_SECURITY_ROUTE_LOGIN):    'emsch_login'
 
     env(EMSCH_OAUTH2):                      false
+    env(EMSCH_OAUTH2_PROVIDER):             'keycloak'
     env(EMSCH_OAUTH2_AUTH_SERVER):          ~
     env(EMSCH_OAUTH2_REALM):                ~
     env(EMSCH_OAUTH2_CLIENT_ID):            ~
     env(EMSCH_OAUTH2_CLIENT_SECRET):        ~
     env(EMSCH_OAUTH2_REDIRECT_URI):         ~
     env(EMSCH_OAUTH2_VERSION):              ~
+    env(EMSCH_OAUTH2_SCOPES):               ~
     env(EMSCH_OAUTH2_ENCRYPTION_ALGORITHM): ~
     env(EMSCH_OAUTH2_ENCRYPTION_KEY):       ~
 
@@ -70,12 +72,14 @@ ems_client_helper:
         sso:
             oauth2:
                 enabled: '%env(bool:EMSCH_OAUTH2)%'
+                provider: '%env(string:EMSCH_OAUTH2_PROVIDER)%'
                 auth_server: '%env(string:EMSCH_OAUTH2_AUTH_SERVER)%'
                 realm: '%env(string:EMSCH_OAUTH2_REALM)%'
                 client_id: '%env(string:EMSCH_OAUTH2_CLIENT_ID)%'
                 client_secret: '%env(string:EMSCH_OAUTH2_CLIENT_SECRET)%'
                 redirect_uri: '%env(string:EMSCH_OAUTH2_REDIRECT_URI)%'
                 version: '%env(string:EMSCH_OAUTH2_VERSION)%'
+                scopes: '%env(json:EMSCH_OAUTH2_SCOPES)%'
                 encryption_key: '%env(string:EMSCH_OAUTH2_ENCRYPTION_KEY)%'
                 encryption_algorithm: '%env(string:EMSCH_OAUTH2_ENCRYPTION_ALGORITHM)%'
             saml:

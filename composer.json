@@ -101,6 +101,7 @@
     "symfony/var-exporter": "6.4.*",
     "symfony/web-link": "6.4.*",
     "symfony/yaml": "6.4.*",
+    "thenetworg/oauth2-azure": "^2.2",
     "twig/cache-extra": "^3.8",
     "twig/cssinliner-extra": "^3.8",
     "twig/extra-bundle": "^3.8",

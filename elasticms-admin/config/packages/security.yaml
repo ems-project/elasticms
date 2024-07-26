@@ -92,6 +92,6 @@ security:
         - { path: ^/user, roles: ROLE_USER_MANAGEMENT }
         - { path: ^/elasticsearch/delete-search, roles: ROLE_USER }
         - { path: ^/elasticsearch, roles: ROLE_ADMIN }
-        - { path: ^/publisher/align, roles: ROLE_PUBLISHER }
+        - { path: ^/publisher, roles: ROLE_PUBLISHER }
         - { path: ^/submissions, roles: ROLE_FORM_CRM }
         - { path: ^/, roles: ROLE_USER }

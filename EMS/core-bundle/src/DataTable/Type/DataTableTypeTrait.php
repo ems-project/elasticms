@@ -27,7 +27,7 @@ trait DataTableTypeTrait
             route: $route,
             labelKey: t('action.edit', [], 'emsco-core'),
             icon: 'pencil'
-        );
+        )->setButtonType('primary');
 
         return $this;
     }

@@ -80,6 +80,10 @@
             <argument>%ems_core.template_namespace%</argument>
             <tag name="emsco.datatable" />
         </service>
+        <service id="emsco.data_table.filter" class="EMS\CoreBundle\DataTable\Type\FilterDataTableType">
+            <argument type="service" id="emsco.helper.filter"/>
+            <tag name="emsco.datatable" />
+        </service>
         <service id="emsco.data_table.wysiwygProfile" class="EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygProfileDataTableType">
             <argument type="service" id="ems.service.wysiwyg_profile"/>
             <tag name="emsco.datatable" />

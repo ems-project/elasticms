@@ -7,6 +7,7 @@ action:
     details: Details
     download_selected: 'Download selected'
     edit: Edit
+    export: Export
     reorder: Reorder
     select_all: 'Select all'
     toggle_visibility: 'Toggle visibility'
@@ -72,6 +73,7 @@ key:
     query_searches: QuerySearch
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
+    filters: Filters
 log:
     error:
         invalid_table_action: 'Unknown table action'
@@ -103,6 +105,7 @@ type:
             channel       {Delete the "{label}" channel?}
             dashboard     {Delete the "{label}" dashboard?}
             draft         {Modifications made in this draft will be lost}
+            filter        {Delete the "{label}" filter?}
             form          {Delete the "{label}" form?}
             log           {Delete log?}  
             trash         {Delete trash "{label}" ?}
@@ -115,6 +118,7 @@ type:
             channel       {Delete all selected channels?}
             dashboard     {Delete all selected dashboards?}
             draft         {All modifications made on selected drafts will lost?}
+            filter        {Delete all selected filters?}  
             form          {Delete all selected forms?}
             log           {Delete all selected logs?}  
             trash         {Delete all selected trashes?}
@@ -126,6 +130,7 @@ type:
         {type, select,
             channel      {Reorder channels}
             dashboard    {Reorder dashboards}
+            filter       {Reorder filters}
             form         {Reorder forms}
             query_search {Reorder QuerySearch}
             other        {Reorder}
@@ -134,6 +139,7 @@ type:
         {type, select,
             channel       {List of channels}
             dashboard     {List of dashboards}
+            filter        {List of filters}
             form          {List of forms}
             log           {Logs}  
             query_search  {List of QuerySearch}  
@@ -142,6 +148,7 @@ type:
     title_sub: |-
         {type, select,
             dashboard     {Customize the lobby}
+            filter        {Expert mode}  
             form          {Reusable components}
             log           {Who did what}
             other         {}    

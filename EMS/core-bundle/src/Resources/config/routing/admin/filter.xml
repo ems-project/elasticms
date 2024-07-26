@@ -6,7 +6,7 @@
 
     <route id="emsco_filter_index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\FilterController::indexAction"
-           methods="GET"/>
+           methods="GET|POST"/>
     <route id="emsco_filter_edit" path="/edit/{filter}"
            controller="EMS\CoreBundle\Controller\ContentManagement\FilterController::editAction"
            methods="GET|POST"/>

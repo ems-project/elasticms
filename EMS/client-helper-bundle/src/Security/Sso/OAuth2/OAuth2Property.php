@@ -12,6 +12,7 @@ enum OAuth2Property: string
     case CLIENT_ID = 'client_id';
     case CLIENT_SECRET = 'client_secret';
     case REDIRECT_URI = 'redirect_uri';
+    case SCOPES = 'scopes';
     case VERSION = 'version';
     case ENCRYPTION_ALGORITHM = 'encryption_algorithm';
     case ENCRYPTION_KEY = 'encryption_key';

@@ -1069,8 +1069,8 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
         $this->getFieldType()->removeCircularReference();
 
         $json = new JsonClass(\get_object_vars($this), self::class);
+        $json->updateProperty('environment', null === $this->getEnvironment() ? null : $this->giveEnvironment()->getName());
         $json->removeProperty('id');
-        $json->removeProperty('environment');
         $json->removeProperty('created');
         $json->removeProperty('modified');
         $json->removeProperty('dirty');

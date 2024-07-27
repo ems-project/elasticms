@@ -517,6 +517,7 @@
         "editTwigWithWysiwyg": false,
         "webContent": true,
         "autoPublish": false,
+        "environment": "default",
         "templates": [],
         "views": [],
         "defaultValue": null,
@@ -554,6 +555,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

@@ -165,6 +165,17 @@ class AssetFieldType extends DataFieldType
      */
     public function reverseViewTransform($data, FieldType $fieldType): DataField
     {
+        $multiple = true === $fieldType->getDisplayOption('multiple', false);
+        if (\is_array($data) && $multiple) {
+            foreach ($data as &$file) {
+                if (!\is_array($data)) {
+                    throw new \RuntimeException('Unexpected non array item');
+                }
+                self::loadFromForm($file, $this->fileService->getAlgo());
+            }
+        } elseif (\is_array($data)) {
+            self::loadFromForm($data, $this->fileService->getAlgo());
+        }
         $dataField = parent::reverseViewTransform($data, $fieldType);
         $this->testDataField($dataField);
 
@@ -248,8 +259,28 @@ class AssetFieldType extends DataFieldType
     public function modelTransform($data, FieldType $fieldType): DataField
     {
         $out = parent::reverseViewTransform($data, $fieldType);
-        if (true === $fieldType->getDisplayOption('multiple')) {
-            $out->setRawData(['files' => $out->getRawData()]);
+        $data = $out->getRawData();
+        if (!\is_array($data)) {
+            $data = [];
+        }
+        $multiple = true === $fieldType->getDisplayOption('multiple');
+        if ($multiple && (isset($data[EmsFields::CONTENT_FILE_HASH_FIELD]) || isset($data[EmsFields::CONTENT_FILE_HASH_FIELD_]))) {
+            $data = [$data];
+        }
+        if (!$multiple && (isset($data[0][EmsFields::CONTENT_FILE_HASH_FIELD]) || isset($data[0][EmsFields::CONTENT_FILE_HASH_FIELD_]))) {
+            if (\count($data) > 1) {
+                $out->addMessage(\sprintf('An array of %d files has been converted into a single file field (with the first file)', \count($data)));
+            }
+            $data = $data[0];
+        }
+        if ($multiple) {
+            foreach ($data as &$file) {
+                self::loadFromDb($file);
+            }
+            $out->setRawData(['files' => $data]);
+        } else {
+            self::loadFromDb($data);
+            $out->setRawData($data);
         }
 
         return $out;

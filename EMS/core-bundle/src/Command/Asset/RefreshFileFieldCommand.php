@@ -63,7 +63,9 @@ class RefreshFileFieldCommand extends AbstractCommand
     {
         $propertyAccessor = PropertyAccessor::createPropertyAccessor();
         $rawData = $revision->getRawData();
+        $fieldsFound = false;
         foreach ($propertyAccessor->fileFields($revision->getRawData()) as $propertyPath => $fileField) {
+            $fieldsFound = true;
             $hash = $fileField[EmsFields::CONTENT_FILE_HASH_FIELD] ?? $fileField[EmsFields::CONTENT_FILE_HASH_FIELD_] ?? null;
             $filename = $fileField[EmsFields::CONTENT_FILE_NAME_FIELD] ?? $fileField[EmsFields::CONTENT_FILE_NAME_FIELD_] ?? null;
             if (!\is_string($hash) || !\is_string($filename)) {
@@ -88,6 +90,9 @@ class RefreshFileFieldCommand extends AbstractCommand
             }
             $fileField = \array_filter($fileField, fn ($value) => null !== $value);
             $propertyAccessor->setValue($rawData, $propertyPath, $fileField);
+        }
+        if (!$fieldsFound) {
+            return;
         }
         $this->revisionService->lock($revision, $this->fakeUser);
         $this->revisionService->save($revision, $rawData);

@@ -438,4 +438,9 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
     {
         return $this->storageManager->saveContents($contents, $filename, $mimetype, $usageType);
     }
+
+    public function getAlgo(): string
+    {
+        return $this->storageManager->getHashAlgo();
+    }
 }

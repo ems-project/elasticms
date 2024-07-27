@@ -41,10 +41,9 @@ class AssetFieldType extends DataFieldType
     }
 
     /**
-     * @param  mixed[] $data
-     * @return mixed[]
+     * @param mixed[] $data
      */
-    public static function loadFromDb(array $data): array
+    public static function loadFromDb(array &$data): void
     {
         foreach ([
                      EmsFields::CONTENT_FILE_HASH_FIELD_ => EmsFields::CONTENT_FILE_HASH_FIELD,
@@ -65,16 +64,14 @@ class AssetFieldType extends DataFieldType
                 unset($data[EmsFields::CONTENT_FILE_HASH_FIELD]);
             }
         }
-
-        return $data;
     }
 
     /**
-     * @param  mixed[] $data
-     * @return mixed[]
+     * @param mixed[] $data
      */
-    public static function loadFromForm(array $data): array
+    public static function loadFromForm(array &$data, string $algo): void
     {
+        $data[EmsFields::CONTENT_FILE_ALGO_FIELD_] = $data[EmsFields::CONTENT_FILE_ALGO_FIELD_] ?? $algo;
         foreach ([
                      EmsFields::CONTENT_FILE_HASH_FIELD_ => EmsFields::CONTENT_FILE_HASH_FIELD,
                      EmsFields::CONTENT_FILE_NAME_FIELD_ => EmsFields::CONTENT_FILE_NAME_FIELD,
@@ -86,8 +83,7 @@ class AssetFieldType extends DataFieldType
             }
             $data[$newField] = $data[$oldField];
         }
-
-        return $data;
+        $data = \array_filter($data, fn ($value) => null !== $value);
     }
 
     public function getLabel(): string

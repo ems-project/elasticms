@@ -117,7 +117,7 @@ class IndexedAssetFieldType extends DataFieldType
     public function reverseViewTransform($data, FieldType $fieldType): DataField
     {
         if (\is_array($data)) {
-            $data = AssetFieldType::loadFromForm($data);
+            AssetFieldType::loadFromForm($data, $this->fileService->getAlgo());
         }
         $dataField = parent::reverseViewTransform($data, $fieldType);
         $this->testDataField($dataField);
@@ -177,7 +177,7 @@ class IndexedAssetFieldType extends DataFieldType
         if (!\is_array($data)) {
             $data = [];
         }
-        $data = AssetFieldType::loadFromDb($data);
+        AssetFieldType::loadFromDb($data);
 
         return parent::reverseViewTransform($data, $fieldType);
     }

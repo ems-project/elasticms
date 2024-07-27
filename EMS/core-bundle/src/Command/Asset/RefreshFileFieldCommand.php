@@ -79,6 +79,7 @@ class RefreshFileFieldCommand extends AbstractCommand
             } else {
                 $fileField[EmsFields::CONTENT_FILE_SIZE_FIELD_] = \intval($size);
             }
+            $fileField[EmsFields::CONTENT_FILE_ALGO_FIELD_] ??= 'sha1';
             $resizedHash = $this->refreshImageField($hash, $filename, $type);
             if (null === $resizedHash) {
                 unset($fileField[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD]);

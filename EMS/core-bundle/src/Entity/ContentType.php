@@ -1052,8 +1052,12 @@ class ContentType extends JsonDeserializer implements \JsonSerializable, EntityI
 
     public function reset(int $nextOrderKey): void
     {
+        $dirty = true;
+        if (null !== $this->getEnvironment() && !$this->giveEnvironment()->getManaged()) {
+            $dirty = false;
+        }
         $this->setActive(false);
-        $this->setDirty(true);
+        $this->setDirty($dirty);
         $this->getFieldType()->updateAncestorReferences($this, null);
         if ($this->getOrderKey() < 1) {
             $this->setOrderKey($nextOrderKey);

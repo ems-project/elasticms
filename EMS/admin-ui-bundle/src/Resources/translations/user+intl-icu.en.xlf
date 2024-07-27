@@ -5,21 +5,21 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="Xcx6f8R" resname="user.login.title">
-        <source>user.login.title</source>
-        <target>Welcome</target>
-      </trans-unit>
       <trans-unit id="oypjthn" resname="user.login.alt_logo">
         <source>user.login.alt_logo</source>
         <target>elasticMS's logo</target>
+      </trans-unit>
+      <trans-unit id="f2auv9x" resname="user.login.forgot">
+        <source>user.login.forgot</source>
+        <target>I forgot my password</target>
       </trans-unit>
       <trans-unit id="FuBdSqc" resname="user.login.message">
         <source>user.login.message</source>
         <target>Sign in to start your session</target>
       </trans-unit>
-      <trans-unit id="hkwAg9o" resname="user.login.user_placeholder">
-        <source>user.login.user_placeholder</source>
-        <target>Email or Username</target>
+      <trans-unit id="6GSzGeY" resname="user.login.password1_aria_label">
+        <source>user.login.password1_aria_label</source>
+        <target>Password</target>
       </trans-unit>
       <trans-unit id="RJsVc0L" resname="user.login.password_placeholder">
         <source>user.login.password_placeholder</source>
@@ -33,25 +33,49 @@
         <source>user.login.submit</source>
         <target>Sign In</target>
       </trans-unit>
-      <trans-unit id="f2auv9x" resname="user.login.forgot">
-        <source>user.login.forgot</source>
-        <target>I forgot my password</target>
+      <trans-unit id="Xcx6f8R" resname="user.login.title">
+        <source>user.login.title</source>
+        <target>Welcome</target>
       </trans-unit>
       <trans-unit id="IsHtnX7" resname="user.login.user_aria_label">
         <source>user.login.user_aria_label</source>
         <target>Email or Username</target>
       </trans-unit>
-      <trans-unit id="6GSzGeY" resname="user.login.password1_aria_label">
-        <source>user.login.password1_aria_label</source>
-        <target>Password</target>
+      <trans-unit id="hkwAg9o" resname="user.login.user_placeholder">
+        <source>user.login.user_placeholder</source>
+        <target>Email or Username</target>
       </trans-unit>
-      <trans-unit id="HdsKVq_" resname="user.profile.title">
-        <source>user.profile.title</source>
-        <target>Your profile</target>
+      <trans-unit id="T_3w8O5" resname="user.option.simplified_ui">
+        <source>user.option.simplified_ui</source>
+        <target>Simplified UI</target>
       </trans-unit>
-      <trans-unit id="0WswaCk" resname="user.profile.show.username">
-        <source>user.profile.show.username</source>
-        <target>Username</target>
+      <trans-unit id="En5VEV." resname="user.profile.change_password.cancel">
+        <source>user.profile.change_password.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="8Wwyiot" resname="user.profile.change_password.submit">
+        <source>user.profile.change_password.submit</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="Uzm29Jz" resname="user.profile.change_password.title">
+        <source>user.profile.change_password.title</source>
+        <target>Change password</target>
+      </trans-unit>
+      <trans-unit id="ZWXcMxP" resname="user.profile.edit.breadcrumb_title">
+        <source>user.profile.edit.breadcrumb_title</source>
+        <target>Edit</target>
+      </trans-unit>
+      <trans-unit id="5yLxmZH" resname="user.profile.edit.title">
+        <source>user.profile.edit.title</source>
+        <target>Edit your profile</target>
+      </trans-unit>
+      <trans-unit id="QxXqqK_" resname="user.profile.show.action.cancel">
+        <source>user.profile.show.action.cancel</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="UqXqE.d" resname="user.profile.show.action.edit">
+        <source>user.profile.show.action.edit</source>
+        <target>Edit</target>
       </trans-unit>
       <trans-unit id="S0.jP35" resname="user.profile.show.display_name">
         <source>user.profile.show.display_name</source>
@@ -77,41 +101,17 @@
         <source>user.profile.show.roles</source>
         <target>Roles</target>
       </trans-unit>
+      <trans-unit id="0WswaCk" resname="user.profile.show.username">
+        <source>user.profile.show.username</source>
+        <target>Username</target>
+      </trans-unit>
       <trans-unit id="r60N1Qr" resname="user.profile.show.wysiwyg">
         <source>user.profile.show.wysiwyg</source>
         <target>WYSIWYG profile</target>
       </trans-unit>
-      <trans-unit id="UqXqE.d" resname="user.profile.show.action.edit">
-        <source>user.profile.show.action.edit</source>
-        <target>Edit</target>
-      </trans-unit>
-      <trans-unit id="QxXqqK_" resname="user.profile.show.action.cancel">
-        <source>user.profile.show.action.cancel</source>
-        <target>Cancel</target>
-      </trans-unit>
-      <trans-unit id="Uzm29Jz" resname="user.profile.change_password.title">
-        <source>user.profile.change_password.title</source>
-        <target>Change password</target>
-      </trans-unit>
-      <trans-unit id="8Wwyiot" resname="user.profile.change_password.submit">
-        <source>user.profile.change_password.submit</source>
-        <target>Change password</target>
-      </trans-unit>
-      <trans-unit id="En5VEV." resname="user.profile.change_password.cancel">
-        <source>user.profile.change_password.cancel</source>
-        <target>Cancel</target>
-      </trans-unit>
-      <trans-unit id="5yLxmZH" resname="user.profile.edit.title">
-        <source>user.profile.edit.title</source>
-        <target>Edit your profile</target>
-      </trans-unit>
-      <trans-unit id="ZWXcMxP" resname="user.profile.edit.breadcrumb_title">
-        <source>user.profile.edit.breadcrumb_title</source>
-        <target>Edit</target>
-      </trans-unit>
-      <trans-unit id="T_3w8O5" resname="user.option.simplified_ui">
-        <source>user.option.simplified_ui</source>
-        <target>Simplified UI</target>
+      <trans-unit id="HdsKVq_" resname="user.profile.title">
+        <source>user.profile.title</source>
+        <target>Your profile</target>
       </trans-unit>
     </body>
   </file>

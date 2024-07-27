@@ -14,5 +14,7 @@ interface ProviderInterface
 
     public function getAccessToken(Request $request): AccessTokenInterface;
 
+    public function refreshToken(AccessTokenInterface $token): AccessTokenInterface;
+
     public function getUsername(AccessTokenInterface $token): string;
 }

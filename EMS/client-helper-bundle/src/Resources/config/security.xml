@@ -53,6 +53,7 @@
 
         <service id="emsch.security.sso.oauth2" class="EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service">
             <argument type="service" id="security.http_utils"/>
+            <argument type="service" id="logger"/>
             <argument>%emsch.security.sso.oauth2%</argument>
         </service>
         <service id="EMS\ClientHelperBundle\Controller\Security\Sso\OAuth2Controller">

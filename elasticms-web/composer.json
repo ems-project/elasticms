@@ -37,8 +37,9 @@
     "symfony/runtime": "^5.4",
     "symfony/security-bundle": "^5.4",
     "symfony/twig-bundle": "^5.4",
-    "symfony/web-link": "^5.4",
     "symfony/var-exporter": "^5.4",
+    "symfony/web-link": "^5.4",
+    "thenetworg/oauth2-azure": "*",
     "twig/extra-bundle": "^3.4",
     "twig/intl-extra": "^3.4"
   },

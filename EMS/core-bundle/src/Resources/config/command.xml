@@ -126,7 +126,7 @@
             <argument type="service" id="ems.service.file"/>
             <tag name="console.command"/>
         </service>
-        <service id="ems.command.asset.resize_images" class="EMS\CoreBundle\Command\Asset\RefreshFileFieldCommand">
+        <service id="emsco.command.asset.refresh_file_field" class="EMS\CoreBundle\Command\Asset\RefreshFileFieldCommand">
             <argument type="service" id="ems.service.revision"/>
             <argument type="service" id="ems_common.storage.manager"/>
             <argument type="service" id="ems.service.file"/>

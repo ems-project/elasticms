@@ -33,22 +33,23 @@ export default class PickFileFromServer {
                             .then(res => res.blob())
                             .then(blob => {
                                 blob.name = data.filename
-                                resizeImage(hashAlgo, initUpload, blob).then((response) => {
-                                    if (null === response) {
-                                        return
-                                    }
-                                    data._image_resized_hash = response.hash
-                                    data.preview_url = response.url
-                                })
-                                .catch((errorMessage) => {
-                                    console.error(errorMessage)
-                                })
-                                .finally(() => {
-                                    const row = button.closest('.file-uploader-row');
-                                    row.dispatchEvent(new CustomEvent('updateAssetData', {detail: data}));
-                                    pickFileModal.close();
-                                    observer.disconnect();
-                                })
+                                return resizeImage(hashAlgo, initUpload, blob)
+                            })
+                            .then((response) => {
+                                if (null === response) {
+                                    return
+                                }
+                                data._image_resized_hash = response.hash
+                                data.preview_url = response.url
+                            })
+                            .catch((errorMessage) => {
+                                console.error(errorMessage)
+                            })
+                            .finally(() => {
+                                const row = button.closest('.file-uploader-row');
+                                row.dispatchEvent(new CustomEvent('updateAssetData', {detail: data}));
+                                pickFileModal.close();
+                                observer.disconnect();
                             })
                     };
                 }

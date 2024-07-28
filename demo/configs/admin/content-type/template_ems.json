@@ -172,6 +172,7 @@
         "editTwigWithWysiwyg": false,
         "webContent": false,
         "autoPublish": true,
+        "environment": "preview",
         "templates": [],
         "views": [
             {

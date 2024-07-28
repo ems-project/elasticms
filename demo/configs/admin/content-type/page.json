@@ -1371,6 +1371,7 @@
         "editTwigWithWysiwyg": true,
         "webContent": true,
         "autoPublish": false,
+        "environment": "preview",
         "templates": [
             {
                 "class": "EMS\\CoreBundle\\Entity\\Template",

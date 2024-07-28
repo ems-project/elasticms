@@ -203,7 +203,7 @@
     "phpcs": "php-cs-fixer fix",
     "phpstan": "phpstan analyse --memory-limit 1G",
     "phpunit": "phpunit",
-    "phpall": "phpunit && phpstan analyse --memory-limit 1G && php-cs-fixer fix"
+    "phpall": ["@phpunit", "@phpstan", "@phpcs"]
   },
   "extra": {
     "symfony": {

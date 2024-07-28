@@ -114,7 +114,6 @@ demo: ## make new demo
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_preview default
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live live
 	@$(RUN_ADMIN) ems:managed-alias:add-environment ma_live default
-	@$(RUN_ADMIN) emsco:contenttype:switch-default-env media_file default
 	@$(RUN_ADMIN) emsch:local:login demo demo
 	@$(RUN_ADMIN) emsch:local:push --force
 	@$(RUN_ADMIN) emsch:local:upload --filename=./demo/skeleton/template/asset_hash.twig

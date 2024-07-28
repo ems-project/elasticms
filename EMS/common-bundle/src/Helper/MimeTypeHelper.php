@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Helper;
 
+use EMS\Helpers\Html\MimeTypes as MimeTypeHeader;
 use Symfony\Component\Mime\MimeTypes;
 
 class MimeTypeHelper
 {
     public const TEXT_PLAIN = 'text/plain';
-    public const APPLICATION_OCTET_STREAM = 'application/octet-stream';
     private static ?self $instance = null;
     private MimeTypes $mimeTypes;
 
@@ -35,6 +35,6 @@ class MimeTypeHelper
             $mimeType = $this->mimeTypes->getMimeTypes($ext)[0] ?? $mimeType;
         }
 
-        return $mimeType ?? self::APPLICATION_OCTET_STREAM;
+        return $mimeType ?? MimeTypeHeader::APPLICATION_OCTET_STREAM->value;
     }
 }

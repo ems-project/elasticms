@@ -4,6 +4,7 @@
     "properties": {
         "name": "default",
         "label": null,
+        "alias": "ems_promo_v2_default",
         "color": "blue",
         "baseUrl": null,
         "managed": true,

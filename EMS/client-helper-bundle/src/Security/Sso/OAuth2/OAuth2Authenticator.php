@@ -72,6 +72,6 @@ class OAuth2Authenticator extends AbstractAuthenticator
         /** @var AccessTokenInterface $accessToken */
         $accessToken = $passport->getAttribute('access_token');
 
-        return new OAuth2Token($accessToken, $passport->getUser(), $firewallName, $passport->getUser()->getRoles());
+        return $this->oAuth2Service->getProvider()->createToken($accessToken, $passport, $firewallName);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller;
 
 use EMS\CommonBundle\Common\Standard\Type;
@@ -14,8 +16,46 @@ use Symfony\Component\HttpFoundation\Response;
 
 class I18nController extends AbstractController
 {
-    public function __construct(private readonly I18nService $i18nService, private readonly int $pagingSize, private readonly string $templateNamespace)
+    public function __construct(
+        private readonly I18nService $i18nService,
+        private readonly int $pagingSize,
+        private readonly string $templateNamespace
+    )
     {
+    }
+
+    public function deleteAction(I18n $i18n): Response
+    {
+        $this->i18nService->delete($i18n);
+
+        return $this->redirectToRoute('i18n_index');
+    }
+
+    public function editAction(Request $request, I18n $i18n): Response
+    {
+        if (empty($i18n->getContent())) {
+            $i18n->setContent([
+                [
+                    'locale' => '',
+                    'text' => '',
+                ],
+            ]);
+        }
+        $editForm = $this->createForm(I18nType::class, $i18n);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            // renumber array elements
+            $i18n->setContent(\array_values($i18n->getContent()));
+            $this->i18nService->save($i18n);
+
+            return $this->redirectToRoute('i18n_index');
+        }
+
+        return $this->render("@$this->templateNamespace/i18n/edit.html.twig", [
+            'i18n' => $i18n,
+            'edit_form' => $editForm->createView(),
+        ]);
     }
 
     public function indexAction(Request $request): Response
@@ -25,8 +65,8 @@ class I18nController extends AbstractController
         $i18nFilter = new I18nFilter();
 
         $form = $this->createForm(I18nFormType::class, $i18nFilter, [
-                 'method' => 'GET',
-         ]);
+            'method' => 'GET',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
@@ -68,39 +108,5 @@ class I18nController extends AbstractController
             'i18n' => $i18n,
             'form' => $form->createView(),
         ]);
-    }
-
-    public function editAction(Request $request, I18n $i18n): Response
-    {
-        if (empty($i18n->getContent())) {
-            $i18n->setContent([
-                [
-                    'locale' => '',
-                    'text' => '',
-                ],
-            ]);
-        }
-        $editForm = $this->createForm(I18nType::class, $i18n);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            // renumber array elements
-            $i18n->setContent(\array_values($i18n->getContent()));
-            $this->i18nService->save($i18n);
-
-            return $this->redirectToRoute('i18n_index');
-        }
-
-        return $this->render("@$this->templateNamespace/i18n/edit.html.twig", [
-            'i18n' => $i18n,
-            'edit_form' => $editForm->createView(),
-        ]);
-    }
-
-    public function deleteAction(I18n $i18n): Response
-    {
-        $this->i18nService->delete($i18n);
-
-        return $this->redirectToRoute('i18n_index');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -22,40 +24,23 @@ class I18nRepository extends ServiceEntityRepository
     public function countWithFilter(?string $identifier): int
     {
         $qb = $this->createQueryBuilder('i')
-        ->select('COUNT(i)');
+            ->select('COUNT(i)');
 
         if (null != $identifier) {
             $qb->where('i.identifier LIKE :identifier')
-            ->setParameter('identifier', '%'.$identifier.'%');
+                ->setParameter('identifier', '%' . $identifier . '%');
         }
 
-        return (int) $qb->getQuery()->getSingleScalarResult();
+        return (int)$qb->getQuery()->getSingleScalarResult();
     }
 
-    /**
-     * @return iterable|I18n[]
-     */
-    public function findByWithFilter(int $limit, int $from, ?string $identifier): iterable
+    public function counter(string $searchValue = ''): int
     {
-        $qb = $this->createQueryBuilder('i')
-        ->select('i');
+        $qb = $this->createQueryBuilder('i18n');
+        $qb->select('count(i18n.id)');
+        $this->addSearchFilters($qb, $searchValue);
 
-        if (null != $identifier) {
-            $qb->where('i.identifier LIKE :identifier')
-            ->setParameter('identifier', '%'.$identifier.'%');
-        }
-
-        $qb->orderBy('i.identifier', 'ASC')
-        ->setFirstResult($from)
-        ->setMaxResults($limit);
-
-        return $qb->getQuery()->getResult();
-    }
-
-    public function update(I18n $styleSet): void
-    {
-        $this->getEntityManager()->persist($styleSet);
-        $this->getEntityManager()->flush();
+        return \intval($qb->getQuery()->getSingleScalarResult());
     }
 
     public function delete(I18n $styleSet): void
@@ -67,6 +52,26 @@ class I18nRepository extends ServiceEntityRepository
     public function findByIdentifier(string $id): ?I18n
     {
         return $this->findOneBy(['identifier' => $id]);
+    }
+
+    /**
+     * @return iterable|I18n[]
+     */
+    public function findByWithFilter(int $limit, int $from, ?string $identifier): iterable
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->select('i');
+
+        if (null != $identifier) {
+            $qb->where('i.identifier LIKE :identifier')
+                ->setParameter('identifier', '%' . $identifier . '%');
+        }
+
+        $qb->orderBy('i.identifier', 'ASC')
+            ->setFirstResult($from)
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
@@ -83,6 +88,12 @@ class I18nRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function update(I18n $styleSet): void
+    {
+        $this->getEntityManager()->persist($styleSet);
+        $this->getEntityManager()->flush();
+    }
+
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
         if (\strlen($searchValue) > 0) {
@@ -91,16 +102,7 @@ class I18nRepository extends ServiceEntityRepository
                 $qb->expr()->like('i18n.content', ':term'),
             );
             $qb->andWhere($or)
-                ->setParameter(':term', '%'.$searchValue.'%');
+                ->setParameter(':term', '%' . $searchValue . '%');
         }
-    }
-
-    public function counter(string $searchValue = ''): int
-    {
-        $qb = $this->createQueryBuilder('i18n');
-        $qb->select('count(i18n.id)');
-        $this->addSearchFilters($qb, $searchValue);
-
-        return \intval($qb->getQuery()->getSingleScalarResult());
     }
 }

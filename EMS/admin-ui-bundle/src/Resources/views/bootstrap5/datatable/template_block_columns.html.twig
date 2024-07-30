@@ -1,3 +1,14 @@
+{% block dashboardType %}
+    <i class="{{ [line.data.type, 'icon']|join('.')|trans({}, 'emsco-twigs') }}"></i>&nbsp;&nbsp;
+    {{ [line.data.type, 'label']|join('.')|trans({}, 'emsco-twigs') }}
+{% endblock dashboardType %}
+
+{% block dashboardDefinition %}
+    {% if line.data.definition %}
+        {{ t('core.dashboard.definition', {'value': line.data.definition}, 'emsco-core')|trans }}
+    {% endif %}
+{% endblock dashboardDefinition %}
+
 {% block jobStatus %}
     {% set p = line.data.progress %}
     <div class="progress">
@@ -48,3 +59,4 @@
         </div>
     </div>
 {% endblock i18nTranslations %}
+

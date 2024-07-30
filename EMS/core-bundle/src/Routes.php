@@ -38,7 +38,7 @@ class Routes
     final public const FORM_ADMIN_REORDER = 'emsco_form_admin_reorder';
     final public const FORM_ADMIN_DELETE = 'emsco_form_admin_delete';
     final public const I18N_INDEX = 'emsco_i18n_index';
-    final public const I18N_NEW = 'emsco_i18n_new';
+    final public const I18N_ADD = 'emsco_i18n_add';
     final public const I18N_EDIT = 'emsco_i18n_edit';
     final public const I18N_DELETE = 'emsco_i18n_delete';
     final public const RELEASE_INDEX = 'emsco_release_index';

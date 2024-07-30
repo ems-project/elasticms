@@ -56,14 +56,18 @@ field:
         type: Type
     hash: 'Hash signature'
     hidden: Hidden
+    key: Key
     label: Label
     last_seen: 'Last seen'
+    locale: Locale
     message: Message
     name: Name
     public_access: 'Public Access'
     severity: Severity
     status: Status
     tag: Tag
+    text: Text
+    translations: Translations
     type: Type
     user: User
     user_deleted: 'Deleted by'
@@ -79,6 +83,7 @@ key:
     dashboards: Dashboards
     filters: Filters
     forms: Forms
+    i18n: I18N
     job_logs: 'Jobs logs'
     jobs: Jobs
     logs: Logs
@@ -122,6 +127,7 @@ type:
             draft         {Modifications made in this draft will be lost}
             filter        {Delete the "{label}" filter?}
             form          {Delete the "{label}" form?}
+            i18n          {Delete the "{label}" i18n key?}
             job           {Delete the job?}
             job_schedule  {Delete the "{label}" scheduled job?}
             log           {Delete log?}  
@@ -138,6 +144,7 @@ type:
             draft         {All modifications made on selected drafts will lost?}
             filter        {Delete all selected filters?}  
             form          {Delete all selected forms?}
+            i18n          {Delete all selected i18n keys?}
             job           {Delete all selected jobs?}
             job_schedule  {Delete all selected job schedules?}
             log           {Delete all selected logs?}  
@@ -159,16 +166,18 @@ type:
         }
     title_overview: |-
         {type, select,
-            analyzer      {List of analyzers}
-            channel       {List of channels}
-            dashboard     {List of dashboards}
-            filter        {List of filters}
-            form          {List of forms}
-            job           {Jobs list}
-            job_schedule  {Schedule}  
-            log           {Logs}  
-            query_search  {List of QuerySearch}  
-            other         {Overview}    
+            analyzer          {List of analyzers}
+            channel           {List of channels}
+            dashboard         {List of dashboards}
+            filter            {List of filters}
+            form              {List of forms}
+            i18n              {I18n list}
+            i18n_translations {Translations for key "{key}"}        
+            job               {Jobs list}
+            job_schedule      {Schedule}  
+            log               {Logs}  
+            query_search      {List of QuerySearch}  
+            other             {Overview}    
         }
     title_sub: |-
         {type, select,

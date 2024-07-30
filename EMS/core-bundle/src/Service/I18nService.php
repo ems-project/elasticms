@@ -16,25 +16,10 @@ class I18nService implements EntityServiceInterface
 
     public function count(string $searchValue = '', $context = null): int
     {
-        if (null !== $context) {
-            throw new \RuntimeException('Unexpected not null context');
-        }
-
-        return $this->repository->counter($searchValue);
-    }
-
-    /**
-     * @param array<string>|null $filters
-     */
-    public function counter(array $filters = null): int
-    {
-        $identifier = null;
-
-        if (null != $filters && isset($filters['identifier']) && !empty($filters['identifier'])) {
-            $identifier = $filters['identifier'];
-        }
-
-        return $this->repository->countWithFilter($identifier);
+        return (int) $this->repository->makeQueryBuilder(searchValue: $searchValue)
+            ->select('count(i.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
@@ -53,6 +38,14 @@ class I18nService implements EntityServiceInterface
         $this->repository->delete($i18n);
     }
 
+    public function deleteByIds(string ...$ids): void
+    {
+        $filters = $this->repository->getByIds(...$ids);
+        foreach ($filters as $filter) {
+            $this->delete($filter);
+        }
+    }
+
     public function deleteByItemName(string $name): string
     {
         $i18n = $this->repository->findByIdentifier($name);
@@ -65,29 +58,16 @@ class I18nService implements EntityServiceInterface
         return \strval($id);
     }
 
-    /**
-     * @param array<string>|null $filters
-     *
-     * @return iterable|I18n[]
-     */
-    public function findAll(int $from, int $limit, array $filters = null): iterable
-    {
-        $identifier = null;
-
-        if (null != $filters && isset($filters['identifier']) && !empty($filters['identifier'])) {
-            $identifier = $filters['identifier'];
-        }
-
-        return $this->repository->findByWithFilter($limit, $from, $identifier);
-    }
-
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
     {
-        if (null !== $context) {
-            throw new \RuntimeException('Unexpected not null context');
+        $qb = $this->repository->makeQueryBuilder(searchValue: $searchValue);
+        $qb->setFirstResult($from)->setMaxResults($size);
+
+        if (null !== $orderField) {
+            $qb->orderBy(\sprintf('i.%s', $orderField), $orderDirection);
         }
 
-        return $this->repository->get($from, $size, $orderField, $orderDirection, $searchValue);
+        return $qb->getQuery()->execute();
     }
 
     public function getAliasesName(): array
@@ -98,14 +78,6 @@ class I18nService implements EntityServiceInterface
             'Internationalization',
             'Internationalizations',
         ];
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function getAsChoiceList(string $name): array
-    {
-        return \array_flip($this->getAsList($name));
     }
 
     /**
@@ -140,7 +112,7 @@ class I18nService implements EntityServiceInterface
         return false;
     }
 
-    public function save(I18n $i18n): void
+    public function update(I18n $i18n): void
     {
         $this->repository->update($i18n);
     }

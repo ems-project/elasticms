@@ -48,7 +48,7 @@ class I18nDataTableType extends AbstractEntityTableType
 
     public function getLoadMaxRows(): int
     {
-        return 10;
+        return 50;
     }
 
     public function getRoles(): array

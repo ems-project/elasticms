@@ -22,21 +22,6 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
         parent::__construct($registry, WysiwygStylesSet::class);
     }
 
-    public function counter(string $searchValue = ''): int
-    {
-        $qb = $this->createQueryBuilder('styleset');
-        $qb->select('count(styleset.id)');
-        $this->addSearchFilters($qb, $searchValue);
-
-        return \intval($qb->getQuery()->getSingleScalarResult());
-    }
-
-    public function create(WysiwygStylesSet $wysiwygStylesSet): void
-    {
-        $this->getEntityManager()->persist($wysiwygStylesSet);
-        $this->getEntityManager()->flush();
-    }
-
     public function delete(WysiwygStylesSet $styleSet): void
     {
         $this->getEntityManager()->remove($styleSet);
@@ -56,25 +41,6 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
         return $this->find($id);
     }
 
-    /**
-     * @return WysiwygStylesSet[]
-     */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue): array
-    {
-        $qb = $this->createQueryBuilder('styleset')
-            ->setFirstResult($from)
-            ->setMaxResults($size);
-        $this->addSearchFilters($qb, $searchValue);
-
-        if (\in_array($orderField, ['name'])) {
-            $qb->orderBy(\sprintf('styleset.%s', $orderField), $orderDirection);
-        } else {
-            $qb->orderBy('styleset.orderKey', $orderDirection);
-        }
-
-        return $qb->getQuery()->execute();
-    }
-
     public function getById(string $id): WysiwygStylesSet
     {
         if (null === $wysiwygStylesSet = $this->find($id)) {
@@ -85,17 +51,16 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string[] $ids
-     *
      * @return WysiwygStylesSet[]
      */
-    public function getByIds(array $ids): array
+    public function getByIds(string ...$ids): array
     {
-        $queryBuilder = $this->createQueryBuilder('wysiwyg_styles_set');
-        $queryBuilder->where('wysiwyg_styles_set.id IN (:ids)')
+        $qb = $this->createQueryBuilder('s');
+        $qb
+            ->andWhere($qb->expr()->in('s.id', ':ids'))
             ->setParameter('ids', $ids);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $qb->getQuery()->getResult();
     }
 
     public function getByName(string $name): ?WysiwygStylesSet
@@ -103,20 +68,22 @@ class WysiwygStylesSetRepository extends ServiceEntityRepository
         return $this->findOneBy(['name' => $name]);
     }
 
+    public function makeQueryBuilder(string $searchValue = ''): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        if ('' !== $searchValue) {
+            $qb
+                ->andWhere($qb->expr()->like('s.name', ':term'))
+                ->setParameter(':term', '%'.\strtolower($searchValue).'%');
+        }
+
+        return $qb;
+    }
+
     public function update(WysiwygStylesSet $styleSet): void
     {
         $this->getEntityManager()->persist($styleSet);
         $this->getEntityManager()->flush();
-    }
-
-    private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
-    {
-        if (\strlen($searchValue) > 0) {
-            $or = $qb->expr()->orX(
-                $qb->expr()->like('styleset.name', ':term'),
-            );
-            $qb->andWhere($or)
-                ->setParameter(':term', '%'.$searchValue.'%');
-        }
     }
 }

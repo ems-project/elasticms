@@ -19,11 +19,10 @@ class WysiwygProfileService implements EntityServiceInterface
 
     public function count(string $searchValue = '', $context = null): int
     {
-        if (null !== $context) {
-            throw new \RuntimeException('Unexpected not null context');
-        }
-
-        return $this->wysiwygProfileRepository->counter($searchValue);
+        return (int) $this->wysiwygProfileRepository->makeQueryBuilder(searchValue: $searchValue)
+            ->select('count(p.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
@@ -39,20 +38,17 @@ class WysiwygProfileService implements EntityServiceInterface
 
     public function delete(WysiwygProfile $wysiwygProfile): void
     {
-        $name = $wysiwygProfile->getName();
         $this->wysiwygProfileRepository->delete($wysiwygProfile);
-        $this->logger->warning('log.service.wysiwyg_profile.delete', [
-            'name' => $name,
+        $this->logger->notice('service.wysiwyg_profile.deleted', [
+            'profile_name' => $wysiwygProfile->getName(),
         ]);
     }
 
-    /**
-     * @param string[] $ids
-     */
-    public function deleteByIds(array $ids): void
+    public function deleteByIds(string ...$ids): void
     {
-        foreach ($this->wysiwygProfileRepository->getByIds($ids) as $wysiwygProfile) {
-            $this->delete($wysiwygProfile);
+        $profiles = $this->wysiwygProfileRepository->getByIds(...$ids);
+        foreach ($profiles as $profile) {
+            $this->delete($profile);
         }
     }
 
@@ -70,11 +66,14 @@ class WysiwygProfileService implements EntityServiceInterface
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
     {
-        if (null !== $context) {
-            throw new \RuntimeException('Unexpected not null context');
+        $qb = $this->wysiwygProfileRepository->makeQueryBuilder(searchValue: $searchValue);
+        $qb->setFirstResult($from)->setMaxResults($size);
+
+        if (null !== $orderField) {
+            $qb->orderBy(\sprintf('p.%s', $orderField), $orderDirection);
         }
 
-        return $this->wysiwygProfileRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
+        return $qb->getQuery()->execute();
     }
 
     /**
@@ -104,47 +103,26 @@ class WysiwygProfileService implements EntityServiceInterface
         return 'wysiwyg-profile';
     }
 
-    /**
-     * @return WysiwygProfile[]
-     */
-    public function getProfiles(): array
-    {
-        $profiles = $this->wysiwygProfileRepository->findAll();
-
-        return $profiles;
-    }
-
     public function isSortable(): bool
     {
         return true;
     }
 
-    public function remove(WysiwygProfile $profile): void
-    {
-        $this->wysiwygProfileRepository->delete($profile);
-        $this->logger->notice('service.wysiwyg_profile.deleted', [
-            'profile_name' => $profile->getName(),
-        ]);
-    }
-
-    /**
-     * @param string[] $ids
-     */
-    public function reorderByIds(array $ids): void
+    public function reorderByIds(string ...$ids): void
     {
         $counter = 1;
         foreach ($ids as $id) {
-            $wysiwyg_profile = $this->wysiwygProfileRepository->getById($id);
-            $wysiwyg_profile->setOrderKey($counter++);
-            $this->wysiwygProfileRepository->create($wysiwyg_profile);
+            $wysiwygProfile = $this->wysiwygProfileRepository->getById($id);
+            $wysiwygProfile->setOrderKey($counter++);
+            $this->wysiwygProfileRepository->update($wysiwygProfile);
         }
     }
 
-    public function saveProfile(WysiwygProfile $profile): void
+    public function update(WysiwygProfile $wysiwygProfile): void
     {
-        $this->wysiwygProfileRepository->update($profile);
+        $this->wysiwygProfileRepository->update($wysiwygProfile);
         $this->logger->notice('service.wysiwyg_profile.updated', [
-            'profile_name' => $profile->getName(),
+            'profile_name' => $wysiwygProfile->getName(),
         ]);
     }
 

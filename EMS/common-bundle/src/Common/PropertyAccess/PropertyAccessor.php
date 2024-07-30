@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
 use EMS\Helpers\Standard\Base64;
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\Json;
+
+use function Symfony\Component\String\u;
 
 class PropertyAccessor
 {
@@ -114,6 +117,15 @@ class PropertyAccessor
         }
     }
 
+    /**
+     * @param  mixed[]                             $rawData
+     * @return iterable<array<string, int|string>>
+     */
+    public function fileFields(array $rawData): iterable
+    {
+        yield from $this->returnFileFields($rawData);
+    }
+
     private function getPropertyPath(PropertyPath|string $propertyPath): PropertyPath
     {
         if ($propertyPath instanceof PropertyPath) {
@@ -204,5 +216,27 @@ class PropertyAccessor
         }
 
         return $withIdAskey;
+    }
+
+    /**
+     * @param  mixed[]                             $rawData
+     * @return iterable<array<string, int|string>>
+     */
+    private function returnFileFields(array $rawData, string $propertyPath = ''): iterable
+    {
+        foreach ($rawData as $key => $value) {
+            if (\is_string($value) && u($value)->trim()->startsWith('{') && Json::isJson($value)) {
+                $this->returnFileFields(Json::decode($value), \sprintf('%s[json:%s]', $propertyPath, $key));
+                continue;
+            }
+            if (!\is_array($value)) {
+                continue;
+            }
+            if (isset($value[EmsFields::CONTENT_FILE_HASH_FIELD]) || isset($value[EmsFields::CONTENT_FILE_HASH_FIELD_])) {
+                yield \sprintf('%s[%s]', $propertyPath, $key) => $value;
+                continue;
+            }
+            $this->returnFileFields($value, \sprintf('%s[%s]', $propertyPath, $key));
+        }
     }
 }

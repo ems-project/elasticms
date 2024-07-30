@@ -4,6 +4,7 @@
     "properties": {
         "name": "live",
         "label": "Live",
+        "alias": "ems_promo_v2_live",
         "color": "green",
         "baseUrl": null,
         "managed": true,

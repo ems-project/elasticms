@@ -3,6 +3,8 @@
 <!-- TOC -->
 * [Commands](#commands)
   * [EMSCO (CoreBundle)](#emsco-corebundle)
+    * [Asset](#asset)
+      * [Refresh file fields](#refresh-file-fields)
     * [Content Type](#content-type)
       * [Content Type switch default environment](#content-type-switch-default-environment)
       * [Content Type transform](#content-type-transform)
@@ -33,6 +35,34 @@
 <!-- TOC -->
 
 ## EMSCO (CoreBundle)
+
+### Asset
+
+#### Refresh file fields
+
+This command ensure that all file fields, for all revisions, are using the last asset's fields:
+
+ * _hash
+ * _size
+ * _algo
+ * _type
+ * _name
+
+That will have to be launch at least once between August 2024 and the release 7.x. 
+By then the fields `filename`, `filesize`, `sha1` and `mimetype` are deprecated.
+
+This command regenerate resized images in order to avoid too much memory consumption on image generation.
+So you might consider to launch this commend if you adjust the `EMSCO_IMAGE_MAX_SIZE` environment variable.
+
+**Cautions**
+
+This command will mark all revision as updated by the `SYSTEM_REFRESH_FILE_FIELDS` user in the admin UI.
+
+```bash
+Usage:
+  emsco:asset:refresh-file-fields
+
+```
 
 ### Content Type
 

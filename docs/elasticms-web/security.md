@@ -159,7 +159,39 @@ Important:
 - for retrieving a `refresh_token`, scope offline_access is required
 - add optional claim for `upn` (App registrations > my app > Token configuration),
   because elasticms uses the upn for the username
+- Add yammer scopes will create a new service token:
+  EMSCH_OAUTH2_SCOPES='["openid","profile","offline_access","https://api.yammer.com/user_impersonation"]'
+  
+#### Azure twig example
 
+```twig
+{% set oauth2 = app.token %}
+
+{% set me = ems_http(
+   'https://graph.microsoft.com/v1.0/me', 
+   'GET',
+   {'headers': { 'Authorization': "Bearer #{oauth2.token}" } }
+).content|ems_json_decode %}
+
+{% set events = ems_http(
+   'https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location',
+   'GET',
+   { 'headers': { 'Authorization': "Bearer #{oauth2.token}" } }
+).content|ems_json_decode %}
+
+{# for yammer EMSCH_OAUTH2_SCOPES needs to contain https://api.yammer.com/user_impersonation #}
+{% set yammerUser = ems_http(
+   'https://www.yammer.com/api/v1/users/current.json',
+   'GET',
+   { 'headers': { 'Authorization': "Bearer #{oauth2.token('api.yammer.com')}" } }
+).content|ems_json_decode %}
+
+{% set yammerMessages = ems_http(
+   'https://www.yammer.com/api/v1/messages.json',
+   'GET',
+   { 'headers': { 'Authorization': "Bearer #{oauth2.token('api.yammer.com')}" } }
+).content|ems_json_decode %}
+```
 
 ## SAML (Security Assertion Markup Language)
 

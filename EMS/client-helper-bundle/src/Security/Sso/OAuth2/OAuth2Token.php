@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Security\Sso\OAuth2;
 
 use League\OAuth2\Client\Token\AccessTokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
 class OAuth2Token extends PostAuthenticationToken
 {
+    /** @var array<string, AccessTokenInterface> */
+    public array $serviceTokens = [];
+
     public function __construct(
         private readonly AccessTokenInterface $accessToken,
         UserInterface $user,
@@ -20,33 +22,19 @@ class OAuth2Token extends PostAuthenticationToken
         parent::__construct($user, $firewallName, $roles);
     }
 
-    public static function refresh(AccessTokenInterface $freshAccessToken, OAuth2Token $previous): self
+    public function getAccessToken(string $service = null): AccessTokenInterface
     {
-        if (null === $user = $previous->getUser()) {
-            throw new AuthenticationException('User not found');
-        }
-
-        return new self(
-            accessToken: $freshAccessToken,
-            user: $user,
-            firewallName: $previous->getFirewallName(),
-            roles: $previous->getRoleNames()
-        );
+        return $service ? $this->serviceTokens[$service] : $this->accessToken;
     }
 
-    public function getAccessToken(): AccessTokenInterface
+    public function getToken(string $service = null): string
     {
-        return $this->accessToken;
-    }
-
-    public function getAccess(): string
-    {
-        return $this->accessToken->getToken();
+        return $service ? $this->serviceTokens[$service]->getToken() : $this->accessToken->getToken();
     }
 
     public function __serialize(): array
     {
-        return [$this->accessToken, parent::__serialize()];
+        return [$this->accessToken, $this->serviceTokens, parent::__serialize()];
     }
 
     /**
@@ -54,7 +42,7 @@ class OAuth2Token extends PostAuthenticationToken
      */
     public function __unserialize(array $data): void
     {
-        [$this->accessToken, $parentData] = $data;
+        [$this->accessToken, $this->serviceTokens, $parentData] = $data;
         parent::__unserialize($parentData);
     }
 
@@ -65,6 +53,12 @@ class OAuth2Token extends PostAuthenticationToken
 
     public function isExpired(): bool
     {
+        foreach ($this->serviceTokens as $serviceToken) {
+            if ($serviceToken->hasExpired()) {
+                return true;
+            }
+        }
+
         return $this->accessToken->hasExpired();
     }
 }

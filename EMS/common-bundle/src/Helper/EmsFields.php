@@ -9,12 +9,11 @@ final class EmsFields
     public const CONTENT_FILE_SIZE_FIELD = 'filesize';
     public const CONTENT_FILE_NAME_FIELD = 'filename';
     public const CONTENT_IMAGE_RESIZED_HASH_FIELD = '_image_resized_hash';
-    public const CONTENT_MIME_TYPE_FIELD_ = '_mime_type';
+    public const CONTENT_MIME_TYPE_FIELD_ = '_type';
     public const CONTENT_FILE_HASH_FIELD_ = '_hash';
     public const CONTENT_FILE_ALGO_FIELD_ = '_algo';
-    public const CONTENT_FILE_SIZE_FIELD_ = '_file_size';
-    public const CONTENT_FILE_NAME_FIELD_ = '_filename';
-    public const CONTENT_FILE_NAMES = '_file_names';
+    public const CONTENT_FILE_SIZE_FIELD_ = '_size';
+    public const CONTENT_FILE_NAME_FIELD_ = '_name';
     public const CONTENT_FILE_CONTENT = '_content';
     public const CONTENT_FILE_LANGUAGE = '_language';
     public const CONTENT_FILE_DATE = '_date';

@@ -1,5 +1,42 @@
 # Changelog 5.x
 
+## 5.19.0 (2024-07-29)
+### Features
+* feat(admin/command): add emsco:asset:refresh-file-fields (activate new fields) by @theus77 in https://github.com/ems-project/elasticms/pull/963
+* feat(admin/command): contentType recompute new changed option by @Davidmattei in https://github.com/ems-project/elasticms/pull/941
+* feat(admin/command): ems:job:run execute releases by @Davidmattei in https://github.com/ems-project/elasticms/pull/952
+* feat(admin/image): add resize  with the client browser by @theus77 in https://github.com/ems-project/elasticms/pull/946
+* feat(admin/image): resize on image from server by @theus77 in https://github.com/ems-project/elasticms/pull/969
+* feat(admin/revision): improve datatable drafts and trash by @Davidmattei in https://github.com/ems-project/elasticms/pull/914
+* feat(common/command): ems:admin:(backup|restore) export environment contentType by @theus77 in https://github.com/ems-project/elasticms/pull/968
+* feat(common/twig): ems_file_from_archive twig function by @theus77 in https://github.com/ems-project/elasticms/pull/942
+* feat(demo): add dashboards media library browsing by @Davidmattei in https://github.com/ems-project/elasticms/pull/944
+* feat(web/azure): add service token functionality  by @Davidmattei in https://github.com/ems-project/elasticms/pull/973
+* feat(web/sso): add support azure oauth2 by @Davidmattei in https://github.com/ems-project/elasticms/pull/960
+### Bug Fixes
+* fix(admin): environment not existing thows 500 error by @Davidmattei in https://github.com/ems-project/elasticms/pull/935
+* fix(admin/command): emsco:contenttype:switch-default-env already switched return success by @Davidmattei in https://github.com/ems-project/elasticms/pull/972
+* fix(admin/revision): collection enter key triggers delete first item by @Davidmattei in https://github.com/ems-project/elasticms/pull/954
+* fix(admin/revision): duplicate ouuid put back deleted revision by @Davidmattei in https://github.com/ems-project/elasticms/pull/955
+* fix(admin/user): export users switch last login and expiration date by @Davidmattei in https://github.com/ems-project/elasticms/pull/951
+### Code Refactoring
+* refactor(admin): archives in cache storage by @theus77 in https://github.com/ems-project/elasticms/pull/939
+* refactor(admin): cache in storages by @theus77 in https://github.com/ems-project/elasticms/pull/930
+* refactor(admin): coreControllerTrait instead of abstract class by @Davidmattei in https://github.com/ems-project/elasticms/pull/956
+* refactor(admin): deprecate emsch_assets in favor of emsch_assets_version by @theus77 in https://github.com/ems-project/elasticms/pull/945
+* refactor(admin): sys_get_temp_dir centralized in Helper classes (TempFile & TempDirectory) by @theus77 in https://github.com/ems-project/elasticms/pull/929
+* refactor(admin/dataTable): filter & analyzer overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/966
+* refactor(admin/datatable): jobs and extend dataTableTrait by @Davidmattei in https://github.com/ems-project/elasticms/pull/967
+* refactor(admin/datatable): use correct translation keys and crud overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/962
+* refactor(common/log): use translateMessage in LocalizedLogger by @Davidmattei in https://github.com/ems-project/elasticms/pull/958
+* refactor(emsch/api): use common api by @Davidmattei in https://github.com/ems-project/elasticms/pull/940
+### Chores
+* chore(admin/web): improve dev logging (doctrine) by @Davidmattei in https://github.com/ems-project/elasticms/pull/947
+* chore(build): .cache folder for ci tools by @Davidmattei in https://github.com/ems-project/elasticms/pull/948
+* chore(build): disable http client verification by @Davidmattei in https://github.com/ems-project/elasticms/pull/949
+* chore(build): dump translations sort by keys by @Davidmattei in https://github.com/ems-project/elasticms/pull/957
+* chore(translations): support building multiline translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/959
+
 ## 5.18.1 (2024-07-18)
 ### Bug Fixes
 * fix(common/storage): return 404 response on not found by @Davidmattei in https://github.com/ems-project/elasticms/pull/938

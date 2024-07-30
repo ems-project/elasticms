@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Helper\EmsFields;
-use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\FileCollection;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Base64;
+use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\MimeType;
@@ -85,7 +85,7 @@ final class Config
 
     public function hasDefaultMimeType(): bool
     {
-        return \in_array($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? '', [MimeTypeHelper::APPLICATION_OCTET_STREAM, 'application/bin', '']);
+        return \in_array($this->options[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? '', [MimeTypes::APPLICATION_OCTET_STREAM->value, 'application/bin', '']);
     }
 
     /**
@@ -427,7 +427,7 @@ final class Config
             EmsFields::ASSET_CONFIG_COLOR => null,
             EmsFields::ASSET_CONFIG_WATERMARK_HASH => null,
             EmsFields::CONTENT_PUBLISHED_DATETIME_FIELD => '2018-02-05T16:08:56+01:00',
-            EmsFields::ASSET_CONFIG_MIME_TYPE => 'application/octet-stream',
+            EmsFields::ASSET_CONFIG_MIME_TYPE => MimeTypes::APPLICATION_OCTET_STREAM->value,
             EmsFields::ASSET_CONFIG_DISPOSITION => ResponseHeaderBag::DISPOSITION_INLINE,
             EmsFields::ASSET_CONFIG_GET_FILE_PATH => false,
             EmsFields::CONTENT_FILES => [],
@@ -480,7 +480,7 @@ final class Config
      */
     public static function extractMimetype(array $fileField, array $config, string $filename, string $mimeTypeField = EmsFields::CONTENT_MIME_TYPE_FIELD): string
     {
-        return $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? MimeTypeHelper::APPLICATION_OCTET_STREAM;
+        return $config[EmsFields::ASSET_CONFIG_MIME_TYPE] ?? $fileField[EmsFields::CONTENT_MIME_TYPE_FIELD_] ?? $fileField[$mimeTypeField] ?? MimeType::fromFilename($filename) ?? MimeTypes::APPLICATION_OCTET_STREAM->value;
     }
 
     /**

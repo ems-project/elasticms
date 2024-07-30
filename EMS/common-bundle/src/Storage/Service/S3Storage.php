@@ -6,10 +6,10 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
-use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
+use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Base64;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -310,7 +310,7 @@ class S3Storage extends AbstractUrlStorage
             return null;
         }
 
-        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypeHelper::APPLICATION_OCTET_STREAM, \intval($response['ContentLength']));
+        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value, \intval($response['ContentLength']));
     }
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool

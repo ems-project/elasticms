@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\File;
 
-use EMS\CommonBundle\Helper\MimeTypeHelper;
+use EMS\Helpers\Html\MimeTypes as MimeTypeHeader;
 use EMS\Helpers\Standard\Type;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
@@ -24,7 +24,7 @@ class File
         $this->name = $this->file->getFilename();
         $this->extension = $this->file->getExtension();
         $this->size = Type::integer($this->file->getSize());
-        $this->mimeType = MimeTypes::getDefault()->guessMimeType($file->getPathname()) ?? MimeTypeHelper::APPLICATION_OCTET_STREAM;
+        $this->mimeType = MimeTypes::getDefault()->guessMimeType($file->getPathname()) ?? MimeTypeHeader::APPLICATION_OCTET_STREAM->value;
     }
 
     public static function fromFilename(string $filename): self

@@ -9,6 +9,7 @@ use EMS\CoreBundle\Entity\Form\I18nFilter;
 use EMS\CoreBundle\Entity\I18n;
 use EMS\CoreBundle\Form\Form\I18nFormType;
 use EMS\CoreBundle\Form\Form\I18nType;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\I18nService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +29,7 @@ class I18nController extends AbstractController
     {
         $this->i18nService->delete($i18n);
 
-        return $this->redirectToRoute('i18n_index');
+        return $this->redirectToRoute(Routes::I18N_INDEX);
     }
 
     public function editAction(Request $request, I18n $i18n): Response
@@ -49,7 +50,7 @@ class I18nController extends AbstractController
             $i18n->setContent(\array_values($i18n->getContent()));
             $this->i18nService->save($i18n);
 
-            return $this->redirectToRoute('i18n_index');
+            return $this->redirectToRoute(Routes::I18N_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/i18n/edit.html.twig", [
@@ -83,7 +84,7 @@ class I18nController extends AbstractController
         return $this->render("@$this->templateNamespace/i18n/index.html.twig", [
             'i18nkeys' => $i18ns,
             'lastPage' => $lastPage,
-            'paginationPath' => 'i18n_index',
+            'paginationPath' => Routes::I18N_INDEX,
             'filterform' => $form->createView(),
             'page' => $page,
             'paging_size' => $paging_size,
@@ -101,7 +102,7 @@ class I18nController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->i18nService->save($i18n);
 
-            return $this->redirectToRoute('i18n_index', ['id' => $i18n->getId()]);
+            return $this->redirectToRoute(Routes::I18N_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/i18n/new.html.twig", [

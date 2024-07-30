@@ -66,10 +66,10 @@
 								<td>
 									<div class="btn-group">
 										<a class="btn btn-primary btn-sm"
-											href="{{ path('i18n_edit', { 'id': i18n.id }) }}"><i class="fa fa-pencil"></i> {{ 'Edit'|trans }}</a>
+											href="{{ path('emsco_i18n_edit', { 'id': i18n.id }) }}"><i class="fa fa-pencil"></i> {{ 'Edit'|trans }}</a>
 
                                         {% include '@EMSAdminUI/bootstrap5/elements/post-button.html.twig' with {
-											'url':  path('i18n_delete', { 'id': i18n.id }),
+											'url':  path('emsco_i18n_delete', { 'id': i18n.id }),
 											'message': 'Delete the translations for the key ' ~  i18n.identifier ~ ' ?',
 											'label': 'Delete',
 											'icon': 'trash'
@@ -84,7 +84,7 @@
 				</div>
 
 				<div class="box-footer with-border">
-					<a class="btn btn-primary btn-sm" href="{{ path('i18n_new') }}">
+					<a class="btn btn-primary btn-sm" href="{{ path('emsco_i18n_new') }}">
 						<i class="fa fa-plus"></i>
 						Create a new entry
 					</a>

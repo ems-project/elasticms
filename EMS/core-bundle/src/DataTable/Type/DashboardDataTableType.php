@@ -58,6 +58,7 @@ class DashboardDataTableType extends AbstractEntityTableType
         );
 
         $this
+            ->addColumnsCreatedModifiedDate($table)
             ->addItemDelete($table, 'dashboard', Routes::DASHBOARD_ADMIN_DELETE)
             ->addTableToolbarActionAdd($table, Routes::DASHBOARD_ADMIN_ADD)
             ->addTableActionDelete($table, 'dashboard');

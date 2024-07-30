@@ -40,6 +40,7 @@ class I18nDataTableType extends AbstractEntityTableType
         ));
 
         $this
+            ->addColumnsCreatedModifiedDate($table)
             ->addItemEdit($table, Routes::I18N_EDIT)
             ->addItemDelete($table, 'i18n', Routes::I18N_DELETE)
             ->addTableToolbarActionAdd($table, Routes::I18N_ADD)

@@ -18,6 +18,7 @@ use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\Translation\t;
 
 class ContentTypeViewDataTableType extends AbstractEntityTableType
 {
@@ -32,7 +33,7 @@ class ContentTypeViewDataTableType extends AbstractEntityTableType
     public function build(EntityTable $table): void
     {
         $table->addColumn('table.index.column.loop_count', 'orderKey');
-        $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.public', 'public', "@$this->templateNamespace/view/columns.html.twig"));
+        $table->addColumnDefinition(new TemplateBlockTableColumn(t('field.public_access', [], 'emsco-core'), 'public', "@$this->templateNamespace/view/columns.html.twig"));
         $table->addColumn('view.index.column.name', 'name');
         $table->addColumn('view.index.column.label', 'label')->setItemIconCallback(fn (View $view) => $view->getIcon() ?? '');
         $table->addColumnDefinition(new TranslationTableColumn('view.index.column.type', 'type', EMSCoreBundle::TRANS_FORM_DOMAIN));

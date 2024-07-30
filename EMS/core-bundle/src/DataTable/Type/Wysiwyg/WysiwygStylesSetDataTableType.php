@@ -21,7 +21,7 @@ class WysiwygStylesSetDataTableType extends AbstractEntityTableType
     {
         $table->addColumn('table.index.column.loop_count', 'orderKey');
         $table->addColumn('view.wysiwyg.index.column.stylesSetName', 'name');
-        $table->addItemGetAction('ems_wysiwyg_styles_set_edit', 'wysiwyg.actions.edit_button', 'edit', ['id' => 'id'])->setDynamic(true);
+        $table->addItemGetAction('emsco_wysiwyg_style_set_edit', 'wysiwyg.actions.edit_button', 'edit', ['id' => 'id'])->setDynamic(true);
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'view.wysiwyg.actions.delete_selected', 'view.wysiwyg.actions.delete_selected_confirm');
         $table->setDefaultOrder('orderKey');
     }

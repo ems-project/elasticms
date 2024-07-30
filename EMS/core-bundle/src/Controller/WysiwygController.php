@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Controller;
 
+use EMS\CommonBundle\Common\Log\LocalizedLogger;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygProfileDataTableType;
 use EMS\CoreBundle\DataTable\Type\Wysiwyg\WysiwygStylesSetDataTableType;
@@ -12,9 +13,9 @@ use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\WysiwygProfileType;
 use EMS\CoreBundle\Form\Form\WysiwygStylesSetType;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\WysiwygProfileService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Form;
@@ -32,73 +33,13 @@ class WysiwygController extends AbstractController
         private readonly WysiwygStylesSetService $wysiwygStylesSetService,
         private readonly DataTableFactory $dataTableFactory,
         private readonly FormFactoryInterface $formFactory,
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLogger $logger,
         private readonly TranslatorInterface $translator,
         private readonly string $templateNamespace,
     ) {
     }
 
-    public function editProfileAction(Request $request, WysiwygProfile $profile): Response
-    {
-        $form = $this->createForm(WysiwygProfileType::class, $profile);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $removeButton = $form->get('remove');
-            if ($removeButton instanceof ClickableInterface && $removeButton->isClicked()) {
-                $this->wysiwygProfileService->remove($profile);
-
-                return $this->redirectToRoute('ems_wysiwyg_index');
-            }
-
-            if ($form->isValid()) {
-                \json_decode($profile->getConfig() ?? '{}', true);
-                if (\json_last_error()) {
-                    $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => \json_last_error_msg()], 'EMSCoreBundle')));
-                } else {
-                    $this->wysiwygProfileService->saveProfile($profile);
-
-                    return $this->redirectToRoute('ems_wysiwyg_index');
-                }
-            }
-        }
-
-        return $this->render("@$this->templateNamespace/wysiwygprofile/edit.html.twig", [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    public function editStylesSetAction(Request $request, WysiwygStylesSet $stylesSet): Response
-    {
-        $form = $this->createForm(WysiwygStylesSetType::class, $stylesSet);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $removedButton = $form->get('remove');
-            if ($removedButton instanceof ClickableInterface && $removedButton->isClicked()) {
-                $this->wysiwygStylesSetService->remove($stylesSet);
-
-                return $this->redirectToRoute('ems_wysiwyg_index');
-            }
-
-            if ($form->isValid()) {
-                \json_decode($stylesSet->getConfig(), true);
-                if (\json_last_error()) {
-                    $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => \json_last_error_msg()], 'EMSCoreBundle')));
-                } else {
-                    $this->wysiwygStylesSetService->save($stylesSet);
-
-                    return $this->redirectToRoute('ems_wysiwyg_index');
-                }
-            }
-        }
-
-        return $this->render("@$this->templateNamespace/wysiwyg_styles_set/edit.html.twig", [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    public function indexAction(Request $request): Response
+    public function index(Request $request): Response
     {
         $tableProfile = $this->dataTableFactory->create(WysiwygProfileDataTableType::class);
         $formProfiles = $this->formFactory->createNamed('wysiwyg_profiles', TableType::class, $tableProfile, [
@@ -122,7 +63,7 @@ class WysiwygController extends AbstractController
                 $this->logger->error('log.controller.wysiwyg_profile.unknown_action');
             }
 
-            return $this->redirectToRoute('ems_wysiwyg_index');
+            return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
         }
 
         $tableStylesSet = $this->dataTableFactory->create(WysiwygStylesSetDataTableType::class);
@@ -148,7 +89,7 @@ class WysiwygController extends AbstractController
                 $this->logger->error('log.controller.wysiwyg_styles_set.unknown_action');
             }
 
-            return $this->redirectToRoute('ems_wysiwyg_index');
+            return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/wysiwygprofile/index.html.twig", [
@@ -159,7 +100,7 @@ class WysiwygController extends AbstractController
         ]);
     }
 
-    public function newProfileAction(Request $request): Response
+    public function profileAdd(Request $request): Response
     {
         $profile = new WysiwygProfile();
 
@@ -176,7 +117,7 @@ class WysiwygController extends AbstractController
                 $profile->setOrderKey(100 + \count($this->wysiwygProfileService->getProfiles()));
                 $this->wysiwygProfileService->saveProfile($profile);
 
-                return $this->redirectToRoute('ems_wysiwyg_index');
+                return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
             }
         }
 
@@ -185,7 +126,37 @@ class WysiwygController extends AbstractController
         ]);
     }
 
-    public function newStylesSetAction(Request $request): Response
+    public function profileEdit(Request $request, WysiwygProfile $profile): Response
+    {
+        $form = $this->createForm(WysiwygProfileType::class, $profile);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $removeButton = $form->get('remove');
+            if ($removeButton instanceof ClickableInterface && $removeButton->isClicked()) {
+                $this->wysiwygProfileService->remove($profile);
+
+                return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
+            }
+
+            if ($form->isValid()) {
+                \json_decode($profile->getConfig() ?? '{}', true);
+                if (\json_last_error()) {
+                    $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => \json_last_error_msg()], 'EMSCoreBundle')));
+                } else {
+                    $this->wysiwygProfileService->saveProfile($profile);
+
+                    return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
+                }
+            }
+        }
+
+        return $this->render("@$this->templateNamespace/wysiwygprofile/edit.html.twig", [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function styleSetAdd(Request $request): Response
     {
         $stylesSet = new WysiwygStylesSet();
 
@@ -202,11 +173,41 @@ class WysiwygController extends AbstractController
                 $stylesSet->setOrderKey(100 + \count($this->wysiwygStylesSetService->getStylesSets()));
                 $this->wysiwygStylesSetService->save($stylesSet);
 
-                return $this->redirectToRoute('ems_wysiwyg_index');
+                return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
             }
         }
 
         return $this->render("@$this->templateNamespace/wysiwyg_styles_set/new.html.twig", [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function styleSetEdit(Request $request, WysiwygStylesSet $stylesSet): Response
+    {
+        $form = $this->createForm(WysiwygStylesSetType::class, $stylesSet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $removedButton = $form->get('remove');
+            if ($removedButton instanceof ClickableInterface && $removedButton->isClicked()) {
+                $this->wysiwygStylesSetService->remove($stylesSet);
+
+                return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
+            }
+
+            if ($form->isValid()) {
+                \json_decode($stylesSet->getConfig(), true);
+                if (\json_last_error()) {
+                    $form->get('config')->addError(new FormError($this->translator->trans('wysiwyg.invalid_config_format', ['%msg%' => \json_last_error_msg()], 'EMSCoreBundle')));
+                } else {
+                    $this->wysiwygStylesSetService->save($stylesSet);
+
+                    return $this->redirectToRoute(Routes::WYSIWYG_INDEX);
+                }
+            }
+        }
+
+        return $this->render("@$this->templateNamespace/wysiwyg_styles_set/edit.html.twig", [
             'form' => $form->createView(),
         ]);
     }

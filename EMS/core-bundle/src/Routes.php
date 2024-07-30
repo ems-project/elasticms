@@ -92,4 +92,9 @@ class Routes
     final public const LOG_INDEX = 'emsco_log_index';
     final public const LOG_DELETE = 'emsco_log_delete';
     final public const LOG_VIEW = 'emsco_log_view';
+    final public const WYSIWYG_INDEX = 'emsco_wysiwyg_index';
+    final public const WYSIWYG_PROFILE_ADD = 'emsco_wysiwyg_profile_add';
+    final public const WYSIWYG_PROFILE_EDIT = 'emsco_wysiwyg_profile_edit';
+    final public const WYSIWYG_STYLE_SET_NEW = 'emsco_wysiwyg_style_set_new';
+    final public const WYSIWYG_STYLE_SET_EDIT = 'emsco_wysiwyg_style_set_edit';
 }

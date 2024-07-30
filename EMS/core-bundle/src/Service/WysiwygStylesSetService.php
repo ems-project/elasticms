@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Service;
 
 use EMS\CommonBundle\Entity\EntityInterface;
@@ -9,8 +11,10 @@ use Psr\Log\LoggerInterface;
 
 class WysiwygStylesSetService implements EntityServiceInterface
 {
-    public function __construct(private readonly WysiwygStylesSetRepository $wysiwygStylesSetRepository, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly WysiwygStylesSetRepository $wysiwygStylesSetRepository,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     /**

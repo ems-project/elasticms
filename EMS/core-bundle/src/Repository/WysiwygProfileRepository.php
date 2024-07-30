@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -20,17 +22,18 @@ class WysiwygProfileRepository extends ServiceEntityRepository
         parent::__construct($registry, WysiwygProfile::class);
     }
 
-    /**
-     * @return WysiwygProfile[]
-     */
-    public function findAll(): array
+    public function counter(string $searchValue = ''): int
     {
-        return parent::findBy([], ['orderKey' => 'asc']);
+        $qb = $this->createQueryBuilder('profile');
+        $qb->select('count(profile.id)');
+        $this->addSearchFilters($qb, $searchValue);
+
+        return \intval($qb->getQuery()->getSingleScalarResult());
     }
 
-    public function update(WysiwygProfile $profile): void
+    public function create(WysiwygProfile $wysiwygProfile): void
     {
-        $this->getEntityManager()->persist($profile);
+        $this->getEntityManager()->persist($wysiwygProfile);
         $this->getEntityManager()->flush();
     }
 
@@ -41,42 +44,16 @@ class WysiwygProfileRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string[] $ids
-     *
      * @return WysiwygProfile[]
      */
-    public function getByIds(array $ids): array
+    public function findAll(): array
     {
-        $queryBuilder = $this->createQueryBuilder('wysiwyg_profile');
-        $queryBuilder->where('wysiwyg_profile.id IN (:ids)')
-            ->setParameter('ids', $ids);
-
-        return $queryBuilder->getQuery()->getResult();
+        return parent::findBy([], ['orderKey' => 'asc']);
     }
 
     public function findById(int $id): ?WysiwygProfile
     {
         return $this->find($id);
-    }
-
-    public function getByName(string $name): ?WysiwygProfile
-    {
-        return $this->findOneBy(['name' => $name]);
-    }
-
-    public function getById(string $id): WysiwygProfile
-    {
-        if (null === $wysiwygProfile = $this->find($id)) {
-            throw new \RuntimeException('Unexpected WysiwygProfile type');
-        }
-
-        return $wysiwygProfile;
-    }
-
-    public function create(WysiwygProfile $wysiwygProfile): void
-    {
-        $this->getEntityManager()->persist($wysiwygProfile);
-        $this->getEntityManager()->flush();
     }
 
     /**
@@ -98,6 +75,40 @@ class WysiwygProfileRepository extends ServiceEntityRepository
         return $qb->getQuery()->execute();
     }
 
+    public function getById(string $id): WysiwygProfile
+    {
+        if (null === $wysiwygProfile = $this->find($id)) {
+            throw new \RuntimeException('Unexpected WysiwygProfile type');
+        }
+
+        return $wysiwygProfile;
+    }
+
+    /**
+     * @param string[] $ids
+     *
+     * @return WysiwygProfile[]
+     */
+    public function getByIds(array $ids): array
+    {
+        $queryBuilder = $this->createQueryBuilder('wysiwyg_profile');
+        $queryBuilder->where('wysiwyg_profile.id IN (:ids)')
+            ->setParameter('ids', $ids);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function getByName(string $name): ?WysiwygProfile
+    {
+        return $this->findOneBy(['name' => $name]);
+    }
+
+    public function update(WysiwygProfile $profile): void
+    {
+        $this->getEntityManager()->persist($profile);
+        $this->getEntityManager()->flush();
+    }
+
     private function addSearchFilters(QueryBuilder $qb, string $searchValue): void
     {
         if (\strlen($searchValue) > 0) {
@@ -107,14 +118,5 @@ class WysiwygProfileRepository extends ServiceEntityRepository
             $qb->andWhere($or)
                 ->setParameter(':term', '%'.$searchValue.'%');
         }
-    }
-
-    public function counter(string $searchValue = ''): int
-    {
-        $qb = $this->createQueryBuilder('profile');
-        $qb->select('count(profile.id)');
-        $this->addSearchFilters($qb, $searchValue);
-
-        return \intval($qb->getQuery()->getSingleScalarResult());
     }
 }

@@ -22,12 +22,12 @@ class OAuth2Token extends PostAuthenticationToken
         parent::__construct($user, $firewallName, $roles);
     }
 
-    public function getAccessToken(string $service = null): AccessTokenInterface
+    public function getAccessToken(?string $service = null): AccessTokenInterface
     {
         return $service ? $this->serviceTokens[$service] : $this->accessToken;
     }
 
-    public function getToken(string $service = null): string
+    public function getToken(?string $service = null): string
     {
         return $service ? $this->serviceTokens[$service]->getToken() : $this->accessToken->getToken();
     }

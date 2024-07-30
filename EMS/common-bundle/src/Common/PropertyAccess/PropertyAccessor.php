@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\PropertyAccess;
 
-use EMS\Helpers\Standard\Base64;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 
 use function Symfony\Component\String\u;

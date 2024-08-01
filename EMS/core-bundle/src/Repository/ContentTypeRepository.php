@@ -65,6 +65,28 @@ class ContentTypeRepository extends EntityRepository
          ->getSingleScalarResult();
     }
 
+    public function getById(string $id): ContentType
+    {
+        if (null === $contentType = $this->find($id)) {
+            throw new \RuntimeException('Content type not found');
+        }
+
+        return $contentType;
+    }
+
+    /**
+     * @return ContentType[]
+     */
+    public function getByIds(string ...$ids): array
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb
+            ->andWhere($qb->expr()->in('c.id', ':ids'))
+            ->setParameter('ids', $ids);
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function makeQueryBuilder(string $searchValue = ''): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c');

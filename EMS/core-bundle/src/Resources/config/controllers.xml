@@ -98,8 +98,9 @@
             <tag name="controller.service_arguments"/>
         </service>
         <service id="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController" public="true">
-            <argument type="service" id="emsco.logger" />
             <argument type="service" id="ems.service.contenttype" />
+            <argument type="service" id="emsco.data_table.factory" />
+            <argument type="service" id="emsco.logger" />
             <argument type="service" id="ems.service.mapping" />
             <argument type="service" id="ems.form.field-type.manager" />
             <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository" />

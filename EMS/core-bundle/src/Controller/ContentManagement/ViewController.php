@@ -36,7 +36,9 @@ class ViewController extends AbstractController
     {
         @\trigger_error(\sprintf('Route view.index is deprecated, use %s instead', Routes::VIEW_INDEX), E_USER_DEPRECATED);
 
-        return $this->index($type, $request);
+        $contentType = $this->contentTypeService->giveByName($type);
+
+        return $this->index($contentType, $request);
     }
 
     public function index(ContentType $contentType, Request $request): Response

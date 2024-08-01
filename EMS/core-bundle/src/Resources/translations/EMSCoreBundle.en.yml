@@ -62,7 +62,6 @@ log:
             not_found: 'Content type %contenttype%''s mapping not found'
         not_found: 'Content type %contenttype% not found'
         referenced: 'The content type %contenttype% has been referenced'
-        reordered: 'Content types have been reordered'
         subfield:
             added: 'A subfield %field_name% has been added'
             name_mandatory: 'The subfield name is mandatory'

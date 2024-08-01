@@ -46,6 +46,7 @@ class ContentTypeService implements EntityServiceInterface
     protected array $contentTypeArrayByName = [];
 
     public function __construct(
+        private readonly ContentTypeRepository $contentTypeRepository,
         protected Registry $doctrine,
         protected LoggerInterface $logger,
         private readonly Mapping $mappingService,
@@ -730,6 +731,29 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         return \array_unique($versionTags);
+    }
+
+    public function reorderByIds(string ...$ids): void
+    {
+        $counter = 1;
+        foreach ($ids as $id) {
+            $contentType = $this->contentTypeRepository->getById($id);
+            $contentType->setOrderKey($counter++);
+            $this->contentTypeRepository->save($contentType);
+        }
+    }
+
+    public function delete(ContentType $contentType): void
+    {
+        $this->contentTypeRepository->delete($contentType);
+    }
+
+    public function deleteByIds(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        foreach ($contentTypes as $contentType) {
+            $this->delete($contentType);
+        }
     }
 
     public function deleteByItemName(string $name): string

@@ -87,7 +87,7 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
         );
 
         $table->addItemPostAction(
-            route: Routes::EMSCO_ADMIN_CONTENT_TYPE_UPDATE_FROM_JSON,
+            route: Routes::EMSCO_ADMIN_CONTENT_TYPE_REFRESH_MAPPING,
             labelKey: t('action.update_mapping', [], 'emsco-core'),
             icon: 'refresh',
             messageKey: t('type.confirm', ['type' => 'update_mapping'], 'emsco-core')

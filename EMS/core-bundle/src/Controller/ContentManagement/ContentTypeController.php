@@ -4,22 +4,27 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use EMS\CommonBundle\Common\Log\LocalizedLogger;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
+use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
+use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Entity\Form\ContentTypeJsonUpdate;
 use EMS\CoreBundle\Entity\Form\EditFieldType;
 use EMS\CoreBundle\Exception\ElasticmsException;
+use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\DataField\SubfieldType;
 use EMS\CoreBundle\Form\Field\IconTextType;
-use EMS\CoreBundle\Form\Field\SubmitEmsType;
 use EMS\CoreBundle\Form\Form\ContentTypeStructureType;
 use EMS\CoreBundle\Form\Form\ContentTypeType;
 use EMS\CoreBundle\Form\Form\ContentTypeUpdateType;
 use EMS\CoreBundle\Form\Form\EditFieldTypeType;
 use EMS\CoreBundle\Form\Form\ReorderType;
+use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\FieldTypeRepository;
@@ -27,13 +32,10 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\Mapping;
 use EMS\Helpers\Standard\Json;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Button;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
@@ -45,11 +47,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use function Symfony\Component\Translation\t;
+
 class ContentTypeController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
-        private readonly LoggerInterface $logger,
         private readonly ContentTypeService $contentTypeService,
+        private readonly DataTableFactory $dataTableFactory,
+        private readonly LocalizedLogger $logger,
         private readonly Mapping $mappingService,
         private readonly FieldTypeManager $fieldTypeManager,
         private readonly ContentTypeRepository $contentTypeRepository,
@@ -234,56 +241,33 @@ class ContentTypeController extends AbstractController
 
     public function indexAction(Request $request): Response
     {
-        $contentTypes = $this->contentTypeRepository->findAll();
+        $table = $this->dataTableFactory->create(ContentTypeDataTableType::class);
 
-        $builder = $this->createFormBuilder([])
-            ->add('reorder', SubmitEmsType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary ',
-                ],
-                'icon' => 'fa fa-reorder',
-            ]);
-
-        $names = [];
-        foreach ($contentTypes as $contentType) {
-            $names[] = $contentType->getName();
-        }
-
-        $builder->add('contentTypeNames', CollectionType::class, [
-            // each entry in the array will be an "email" field
-            'entry_type' => HiddenType::class,
-            // these options are passed to each "email" type
-            'entry_options' => [],
-            'data' => $names,
+        $form = $this->createForm(TableType::class, $table, [
+            'reorder_label' => t('type.reorder', ['type' => 'content_type'], 'emsco-core'),
         ]);
+        $form->handleRequest($request);
 
-        $form = $builder->getForm();
-
-        if ($request->isMethod('POST')) {
-            $form = $request->get('form');
-            if (isset($form['contentTypeNames']) && \is_array($form['contentTypeNames'])) {
-                $counter = 1;
-                foreach ($form['contentTypeNames'] as $name) {
-                    /** @var ContentType $contentType */
-                    $contentType = $this->contentTypeRepository->findOneBy([
-                        'deleted' => false,
-                        'name' => $name,
-                    ]);
-                    $contentType->setOrderKey($counter);
-                    $this->contentTypeRepository->save($contentType);
-                    ++$counter;
-                }
-
-                $this->logger->notice('log.contenttype.reordered', [
-                    EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-                ]);
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            match ($this->getClickedButtonName($form)) {
+                TableAbstract::DELETE_ACTION => $this->contentTypeService->deleteByIds(...$table->getSelected()),
+                TableType::REORDER_ACTION => $this->contentTypeService->reorderByIds(
+                    ...TableType::getReorderedKeys($form->getName(), $request)
+                ),
+                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core'))
+            };
 
             return $this->redirectToRoute(Routes::EMSCO_ADMIN_CONTENT_TYPE_INDEX);
         }
 
-        return $this->render("@$this->templateNamespace/contenttype/index.html.twig", [
+        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
+            'icon' => 'fa fa-sitemap',
+            'title' => t('type.title_overview', ['type' => 'content_type'], 'emsco-core'),
+            'breadcrumb' => [
+                'admin' => t('key.admin', [], 'emsco-core'),
+                'page' => t('key.content_types', [], 'emsco-core'),
+            ],
         ]);
     }
 

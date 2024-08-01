@@ -12,8 +12,8 @@
 				<i class="fa fa-sitemap"></i>
 				<h3 class="box-title">Content types</h3>
 				<div class="btn-group  pull-right">
-					<a class="btn btn-xs btn-primary" href="{{ path('contenttype.add') }}"><i class="fa fa-plus"></i> Add content type</a>
-					<a class="btn btn-xs btn-primary" href="{{ path('contenttype.unreferenced') }}"><i class="fa fa-plus"></i> Add referenced</a>
+					<a class="btn btn-xs btn-primary" href="{{ path('emsco_admin_content_type_add') }}"><i class="fa fa-plus"></i> Add content type</a>
+					<a class="btn btn-xs btn-primary" href="{{ path('emsco_admin_content_type_unreferenced') }}"><i class="fa fa-plus"></i> Add referenced</a>
 					<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#content_type_modal_reorder">
 						<i class="fa fa-reorder"></i> {{ 'Reorder'|trans }}
 					</button>
@@ -83,12 +83,12 @@
 								
 									<div class="btn-group">
                                         {% include '@EMSCore/elements/get-button.html.twig' with {
-                                            'url':  path('contenttype.edit', {'id': contentType.id}),
+                                            'url':  path('emsco_admin_content_type_edit', {'id': contentType.id}),
                                             'label': 'Edit',
                                             'icon': 'pencil'
                                         }%}
                                         {% include '@EMSCore/elements/get-button.html.twig' with {
-                                            'url':  path('ems_contenttype_reorder', {'contentType': contentType.id}),
+                                            'url':  path('emsco_admin_content_type_reorder', {'contentType': contentType.id}),
                                             'label': 'Structure',
                                             'icon': 'sitemap'
                                         }%}
@@ -103,13 +103,13 @@
 					                      'icon': 'tv'
 					                    }%}
 										{% include '@EMSCore/elements/get-button.html.twig' with {
-											'url': path('contenttype.export', {'contentType': contentType.id}),
+											'url': path('emsco_admin_content_type_export', {'contentType': contentType.id}),
 											'label': 'Export',
 											'icon': 'sign-out'
 										}%}
 										{% if contentType.environment.managed %}
                                             {% include '@EMSCore/elements/post-button.html.twig' with {
-												'url':  path('contenttype.refreshmapping', {'id': contentType.id}),
+												'url':  path('emsco_admin_content_type_refresh_mapping', {'id': contentType.id}),
 												'message': 'Try to update the ' ~ contentType.singularName ~ ' mapping ?',
 												'label': 'Update mapping',
 												'icon': 'refresh'
@@ -117,21 +117,21 @@
 										{% endif %}
 										{% if not contentType.active %}
                                             {% include '@EMSCore/elements/post-button.html.twig' with {
-												'url':  path('contenttype.activate', {'contentType': contentType.id}),
+												'url':  path('emsco_admin_content_type_activate', {'contentType': contentType.id}),
 												'message': 'Are you ready to activate ' ~ contentType.singularName ~ ' ?',
 												'label': 'Activate',
 												'icon': 'warning'
 											}%}
 										{% else %}
                                             {% include '@EMSCore/elements/post-button.html.twig' with {
-												'url':  path('contenttype.desactivate', {'contentType': contentType.id}),
+												'url':  path('emsco_admin_content_type_deactivate', {'contentType': contentType.id}),
 												'message': 'Are you ready to desactivate ' ~ contentType.singularName ~ ' ?',
 												'label': 'Desactivate',
 												'icon': 'warning'
 											}%}
 										{% endif %}
                                         {% include '@EMSCore/elements/post-button.html.twig' with {
-											'url': path('contenttype.remove', {'id': contentType.id}),
+											'url': path('emsco_admin_content_type_remove', {'id': contentType.id}),
 											'message': 'Delete the content type ' ~ contentType.singularName ~ ' ?',
 											'label': 'Delete',
 											'icon': 'trash'

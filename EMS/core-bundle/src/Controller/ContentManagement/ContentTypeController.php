@@ -83,7 +83,7 @@ class ContentTypeController extends AbstractController
 
             $this->contentTypeService->updateFromJson($contentType, $json, $jsonUpdate->isDeleteExitingTemplates(), $jsonUpdate->isDeleteExitingViews());
 
-            return $this->redirectToRoute('contenttype.edit', [
+            return $this->redirectToRoute('emsco_admin_content_type_edit', [
                 'id' => $contentType->getId(),
             ]);
         }
@@ -111,7 +111,7 @@ class ContentTypeController extends AbstractController
             EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
         ]);
 
-        return $this->redirectToRoute('contenttype.index');
+        return $this->redirectToRoute('emsco_admin_content_type_index');
     }
 
     public function activateAction(ContentType $contentType): Response
@@ -122,13 +122,13 @@ class ContentTypeController extends AbstractController
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
             ]);
 
-            return $this->redirectToRoute('contenttype.index');
+            return $this->redirectToRoute('emsco_admin_content_type_index');
         }
 
         $contentType->setActive(true);
         $this->contentTypeRepository->save($contentType);
 
-        return $this->redirectToRoute('contenttype.index');
+        return $this->redirectToRoute('emsco_admin_content_type_index');
     }
 
     public function disableAction(ContentType $contentType): Response
@@ -136,7 +136,7 @@ class ContentTypeController extends AbstractController
         $contentType->setActive(false);
         $this->contentTypeRepository->save($contentType);
 
-        return $this->redirectToRoute('contenttype.index');
+        return $this->redirectToRoute('emsco_admin_content_type_index');
     }
 
     public function refreshMappingAction(ContentType $id): Response
@@ -144,7 +144,7 @@ class ContentTypeController extends AbstractController
         $this->contentTypeService->updateMapping($id);
         $this->contentTypeService->persist($id);
 
-        return $this->redirectToRoute('contenttype.index');
+        return $this->redirectToRoute('emsco_admin_content_type_index');
     }
 
     public function addAction(Request $request): Response
@@ -227,7 +227,7 @@ class ContentTypeController extends AbstractController
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
             ]);
 
-            return $this->redirectToRoute('contenttype.edit', [
+            return $this->redirectToRoute('emsco_admin_content_type_edit', [
                 'id' => $contentType->getId(),
             ]);
         }
@@ -284,7 +284,7 @@ class ContentTypeController extends AbstractController
                 ]);
             }
 
-            return $this->redirectToRoute('contenttype.index');
+            return $this->redirectToRoute('emsco_admin_content_type_index');
         }
 
         return $this->render("@$this->templateNamespace/contenttype/index.html.twig", [
@@ -313,7 +313,7 @@ class ContentTypeController extends AbstractController
                         EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
                     ]);
 
-                    return $this->redirectToRoute('contenttype.edit', [
+                    return $this->redirectToRoute('emsco_admin_content_type_edit', [
                         'id' => $contentType->getId(),
                     ]);
                 }
@@ -321,7 +321,7 @@ class ContentTypeController extends AbstractController
             $this->logger->warning('log.contenttype.unreferenced_not_found', [
             ]);
 
-            return $this->redirectToRoute('contenttype.unreferenced');
+            return $this->redirectToRoute('emsco_admin_content_type_unreferenced');
         }
 
         return $this->render("@$this->templateNamespace/contenttype/unreferenced.html.twig", [
@@ -370,7 +370,7 @@ class ContentTypeController extends AbstractController
             $structure = \json_decode((string) $data['items'], true, 512, JSON_THROW_ON_ERROR);
             $this->contentTypeService->reorderFields($contentType, $structure);
 
-            return $this->redirectToRoute('contenttype.edit', ['id' => $contentType->getId()]);
+            return $this->redirectToRoute('emsco_admin_content_type_edit', ['id' => $contentType->getId()]);
         }
 
         return $this->render("@$this->templateNamespace/contenttype/reorder.html.twig", [
@@ -389,7 +389,7 @@ class ContentTypeController extends AbstractController
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
             ]);
 
-            return $this->redirectToRoute('contenttype.index');
+            return $this->redirectToRoute('emsco_admin_content_type_index');
         }
 
         $environment = $contentType->getEnvironment();
@@ -430,18 +430,18 @@ class ContentTypeController extends AbstractController
                     ]);
                 }
                 if (\array_key_exists('saveAndClose', $inputContentType)) {
-                    return $this->redirectToRoute('contenttype.index');
+                    return $this->redirectToRoute('emsco_admin_content_type_index');
                 } elseif (\array_key_exists('saveAndEditStructure', $inputContentType)) {
-                    return $this->redirectToRoute('contenttype.structure', [
+                    return $this->redirectToRoute('emsco_admin_content_type_structure', [
                         'id' => $id,
                     ]);
                 } elseif (\array_key_exists('saveAndReorder', $inputContentType)) {
-                    return $this->redirectToRoute('ems_contenttype_reorder', [
+                    return $this->redirectToRoute('emsco_admin_content_type_reorder', [
                         'contentType' => $id,
                     ]);
                 }
 
-                return $this->redirectToRoute('contenttype.edit', [
+                return $this->redirectToRoute('emsco_admin_content_type_edit', [
                     'id' => $id,
                 ]);
             }
@@ -470,7 +470,7 @@ class ContentTypeController extends AbstractController
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_READ,
             ]);
 
-            return $this->redirectToRoute('contenttype.index');
+            return $this->redirectToRoute('emsco_admin_content_type_index');
         }
 
         $inputContentType = $request->request->all('content_type_structure');
@@ -504,17 +504,17 @@ class ContentTypeController extends AbstractController
                     ]);
                 }
                 if (\array_key_exists('saveAndClose', $inputContentType)) {
-                    return $this->redirectToRoute('contenttype.edit', [
+                    return $this->redirectToRoute('emsco_admin_content_type_edit', [
                         'id' => $id,
                     ]);
                 }
                 if (\array_key_exists('saveAndReorder', $inputContentType)) {
-                    return $this->redirectToRoute('ems_contenttype_reorder', [
+                    return $this->redirectToRoute('emsco_admin_content_type_reorder', [
                         'contentType' => $id,
                     ]);
                 }
 
-                return $this->redirectToRoute('contenttype.structure', [
+                return $this->redirectToRoute('emsco_admin_content_type_structure', [
                     'id' => $id,
                 ]);
             } else {
@@ -522,7 +522,7 @@ class ContentTypeController extends AbstractController
                 $contentType->getFieldType()->updateOrderKeys();
                 $this->contentTypeRepository->save($contentType);
 
-                return $this->redirectToRoute('contenttype.structure', \array_filter([
+                return $this->redirectToRoute('emsco_admin_content_type_structure', \array_filter([
                     'id' => $id,
                     'open' => $openModal,
                 ]));
@@ -568,7 +568,7 @@ class ContentTypeController extends AbstractController
             }
 
             if ('saveAndClose' === $action) {
-                return $this->redirectToRoute('ems_contenttype_reorder', [
+                return $this->redirectToRoute('emsco_admin_content_type_reorder', [
                     'contentType' => $contentType->getId(),
                 ]);
             }
@@ -604,7 +604,7 @@ class ContentTypeController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('ems_contenttype_field_edit', [
+        return $this->redirectToRoute('emsco_admin_content_type_edit', [
             'contentType' => $contentType->getId(),
             'field' => $field->getId(),
         ]);

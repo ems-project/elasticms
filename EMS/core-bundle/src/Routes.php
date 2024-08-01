@@ -6,6 +6,20 @@ namespace EMS\CoreBundle;
 
 class Routes
 {
+    final public const EMSCO_ADMIN_CONTENT_TYPE_UPDATE_FROM_JSON = 'emsco_contenttype_update_from_json';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_REMOVE = 'contenttype.remove';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_ACTIVATE = 'contenttype.activate';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_DESACTIVATE = 'contenttype.desactivate';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_REFRESHMAPPING = 'contenttype.refreshmapping';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_ADD = 'contenttype.add';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_INDEX = 'contenttype.index';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_UNREFERENCED = 'contenttype.unreferenced';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_FIELD_EDIT = 'ems_contenttype_field_edit';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_REORDER = 'ems_contenttype_reorder';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_EDIT = 'contenttype.edit';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_STRUCTURE = 'contenttype.structure';
+    final public const EMSCO_ADMIN_CONTENT_TYPE_EXPORT = 'contenttype.export';
+
     final public const AUTH_TOKEN_LOGIN = 'emsco_auth_token_login';
     final public const EDIT_REVISION = 'emsco_edit_revision';
     final public const VIEW_REVISIONS = 'emsco_view_revisions';

@@ -65,6 +65,26 @@ class ContentTypeRepository extends EntityRepository
          ->getSingleScalarResult();
     }
 
+    public function makeQueryBuilder(string $searchValue = ''): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->join('c.environment', 'e');
+
+        if ('' !== $searchValue) {
+            $qb
+                ->andWhere($qb->expr()->orX(
+                    $qb->expr()->like('LOWER(c.name)', ':term'),
+                    $qb->expr()->like('LOWER(c.singularName)', ':term'),
+                    $qb->expr()->like('LOWER(c.pluralName)', ':term'),
+                    $qb->expr()->like('LOWER(e.name)', ':term'),
+                    $qb->expr()->like('LOWER(e.label)', ':term'),
+                ))
+                ->setParameter(':term', '%'.\strtolower($searchValue).'%');
+        }
+
+        return $qb;
+    }
+
     /**
      * @throws NonUniqueResultException
      */

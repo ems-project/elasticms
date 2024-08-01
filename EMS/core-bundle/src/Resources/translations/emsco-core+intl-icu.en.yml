@@ -1,8 +1,11 @@
 action:
+    activate: Activate
     add: Add
+    add_referenced: 'Add referenced'
     clean: Clean
     close: Close
     confirmation: 'Do you confirm?'
+    deactivate: Deactivate
     define: Define
     delete: Delete
     delete_selected: 'Delete selected'
@@ -16,6 +19,7 @@ action:
     status: Status
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
+    update_mapping: 'Update mapping'
 core:
     dashboard:
         define: |-
@@ -50,20 +54,25 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     definition: Definition
+    environment_default: 'Default environment'
     extra: Extra
     file:
         size: Size
         type: Type
     hash: 'Hash signature'
     hidden: Hidden
+    is_active: Active
+    is_dirty: Dirty
     key: Key
     label: Label
     last_seen: 'Last seen'
     locale: Locale
     message: Message
     name: Name
+    plural: Plural
     public_access: 'Public Access'
     severity: Severity
+    singular: Singular
     status: Status
     tag: Tag
     text: Text
@@ -91,8 +100,10 @@ key:
     publishers: Publishers
     query_searches: QuerySearch
     schedule: Schedule
+    structure: Structure
     uploaded_files: 'Uploaded Files'
     uploaded_files_logs: 'Uploaded Files Logs'
+    views: Views
     wysiwyg: WYSIWYG
 log:
     error:
@@ -120,10 +131,16 @@ revision:
         put_back_selected: 'Put back selected'
         title: '{pluralName} in trash'
 type:
+    confirm: |-
+        {type, select,
+            update_mapping {Try to update the "{label}" mapping?}
+            other          {Are you sure?}  
+        }
     delete_confirm: |-
         {type, select,
             analyzer          {Delete the "{label}" analyzer?}
             channel           {Delete the "{label}" channel?}
+            content_type      {Delete the "{label}" content type?}
             dashboard         {Delete the "{label}" dashboard?}
             draft             {Modifications made in this draft will be lost}
             filter            {Delete the "{label}" filter?}
@@ -143,6 +160,7 @@ type:
         {type, select,
             analyzer          {Delete all selected analyzers?}  
             channel           {Delete all selected channels?}
+            content_type      {Delete all selected content types?}
             dashboard         {Delete all selected dashboards?}
             draft             {All modifications made on selected drafts will lost?}
             filter            {Delete all selected filters?}  
@@ -162,6 +180,7 @@ type:
         {type, select,
             analyzer          {Reorder analyzers}
             channel           {Reorder channels}
+            content_type      {Reorder content types}
             dashboard         {Reorder dashboards}
             filter            {Reorder filters}
             form              {Reorder forms}
@@ -175,6 +194,7 @@ type:
         {type, select,
             analyzer          {List of analyzers}
             channel           {List of channels}
+            content_type      {List all content types}  
             dashboard         {List of dashboards}
             filter            {List of filters}
             form              {List of forms}

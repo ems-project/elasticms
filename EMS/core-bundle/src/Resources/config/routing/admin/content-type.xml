@@ -8,7 +8,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::updateFromJsonAction"
            methods="GET|POST"
            format="html"/>
-    <route id="emsco_admin_content_type_remove" path="/remove/{id}"
+    <route id="emsco_admin_content_type_remove" path="/remove/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::removeAction"
            methods="POST"/>
     <route id="emsco_admin_content_type_activate" path="/activate/{contentType}"
@@ -17,7 +17,7 @@
     <route id="emsco_admin_content_type_deactivate" path="/disable/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::disableAction"
            methods="POST"/>
-    <route id="emsco_admin_content_type_refresh_mapping" path="/refresh-mapping/{id}"
+    <route id="emsco_admin_content_type_refresh_mapping" path="/refresh-mapping/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::refreshMappingAction"
            methods="POST"/>
     <route id="emsco_admin_content_type_add" path="/add"
@@ -35,7 +35,7 @@
     <route id="emsco_admin_content_type_reorder" path="/reorder/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::reorderAction"
            methods="GET|POST"/>
-    <route id="emsco_admin_content_type_edit" path="/{id}"
+    <route id="emsco_admin_content_type_edit" path="/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::editAction"
            methods="GET|POST"/>
     <route id="emsco_admin_content_type_structure" path="/structure/{id}"

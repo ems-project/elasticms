@@ -6,6 +6,7 @@ use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\View\ViewManager;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeViewDataTableType;
+use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\View;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Form\TableType;
@@ -38,9 +39,8 @@ class ViewController extends AbstractController
         return $this->index($type, $request);
     }
 
-    public function index(string $type, Request $request): Response
+    public function index(ContentType $contentType, Request $request): Response
     {
-        $contentType = $this->contentTypeService->giveByName($type);
         $table = $this->dataTableFactory->create(ContentTypeViewDataTableType::class, [
             'content_type_name' => $contentType->getName(),
         ]);

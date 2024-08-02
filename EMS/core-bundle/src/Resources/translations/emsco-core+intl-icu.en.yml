@@ -20,6 +20,7 @@ action:
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
     update_mapping: 'Update mapping'
+    update_mapping_selected: 'Update mapping selected'
 core:
     dashboard:
         define: |-
@@ -133,8 +134,9 @@ revision:
 type:
     confirm: |-
         {type, select,
-            update_mapping {Try to update the "{label}" mapping?}
-            other          {Are you sure?}  
+            content_type_mapping     {Try to update the "{label}" mapping?}
+            content_type_mapping_all {Update mapping for all selected content types?}
+            other                    {Are you sure?}  
         }
     delete_confirm: |-
         {type, select,

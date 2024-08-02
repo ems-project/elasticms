@@ -14,6 +14,7 @@ use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\ContentTypeService;
 
 use function Symfony\Component\Translation\t;
 
@@ -21,8 +22,11 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
 {
     use DataTableTypeTrait;
 
+    public const ACTION_UPDATE_MAPPING = 'action_update_mapping';
+
     public function __construct(
         private readonly ContentTypeRepository $contentTypeRepository,
+        private readonly ContentTypeService $contentTypeService,
         private readonly string $templateNamespace
     ) {
     }
@@ -86,12 +90,14 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
             icon: 'sign-out'
         );
 
-        $table->addItemPostAction(
+        $updateMapping = $table->addItemPostAction(
             route: Routes::ADMIN_CONTENT_TYPE_REFRESH_MAPPING,
             labelKey: t('action.update_mapping', [], 'emsco-core'),
             icon: 'refresh',
-            messageKey: t('type.confirm', ['type' => 'update_mapping'], 'emsco-core')
-        )->setButtonType('primary');
+            messageKey: t('type.confirm', ['type' => 'content_type_mapping'], 'emsco-core')
+        );
+        $updateMapping->setButtonType('primary');
+        $updateMapping->addCondition(new Equals('[dirty]', true));
 
         $activateAction = $table->addItemPostAction(
             route: Routes::ADMIN_CONTENT_TYPE_ACTIVATE,
@@ -120,6 +126,15 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
             icon: 'fa fa-plus',
             routeName: Routes::ADMIN_CONTENT_TYPE_UNREFERENCED,
         )->setCssClass('btn btn-sm btn-primary');
+
+        if ($this->contentTypeService->hasSearch(isDirty: true)) {
+            $table->addTableAction(
+                name: self::ACTION_UPDATE_MAPPING,
+                icon: 'fa fa-refresh',
+                labelKey: t('action.update_mapping_selected', [], 'emsco-core'),
+                confirmationKey: t('type.confirm', ['type' => 'content_type_mapping_all'], 'emsco-core')
+            )->setCssClass('btn btn-sm btn-primary');
+        }
 
         $this->addTableActionDelete($table, 'content_type');
     }

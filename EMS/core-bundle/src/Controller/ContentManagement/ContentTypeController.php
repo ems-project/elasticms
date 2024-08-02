@@ -144,7 +144,6 @@ class ContentTypeController extends AbstractController
     public function refreshMappingAction(ContentType $contentType): Response
     {
         $this->contentTypeService->updateMapping($contentType);
-        $this->contentTypeService->persist($contentType);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
     }
@@ -250,6 +249,9 @@ class ContentTypeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             match ($this->getClickedButtonName($form)) {
+                ContentTypeDataTableType::ACTION_UPDATE_MAPPING => $this->contentTypeService->updateMappingByIds(
+                    ...$table->getSelected()
+                ),
                 TableAbstract::DELETE_ACTION => $this->contentTypeService->deleteByIds(...$table->getSelected()),
                 TableType::REORDER_ACTION => $this->contentTypeService->reorderByIds(
                     ...TableType::getReorderedKeys($form->getName(), $request)

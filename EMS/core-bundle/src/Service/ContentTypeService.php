@@ -171,9 +171,7 @@ class ContentTypeService implements EntityServiceInterface
                 }
             }
 
-            $em = $this->doctrine->getManager();
-            $em->persist($contentType);
-            $em->flush();
+            $this->contentTypeRepository->save($contentType);
         } catch (ResponseException $e) {
             $contentType->setDirty(true);
             $message = $e->getMessage();
@@ -186,6 +184,16 @@ class ContentTypeService implements EntityServiceInterface
                 'environments' => $envs,
                 'elasticsearch_error' => $message,
             ]);
+        }
+    }
+
+    public function updateMappingByIds(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        $dirtyContentTypes = \array_filter($contentTypes, static fn (ContentType $c) => $c->getDirty());
+
+        foreach ($dirtyContentTypes as $dirtyContentType) {
+            $this->updateMapping($dirtyContentType);
         }
     }
 
@@ -731,6 +739,15 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         return \array_unique($versionTags);
+    }
+
+    public function hasSearch(?bool $isDirty = null): bool
+    {
+        $qb = $this->contentTypeRepository->makeQueryBuilder(
+            isDirty: $isDirty
+        );
+
+        return $qb->select('count(c.id)')->getQuery()->getSingleScalarResult() > 0;
     }
 
     public function reorderByIds(string ...$ids): void

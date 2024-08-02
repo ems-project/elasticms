@@ -6,19 +6,19 @@ namespace EMS\CoreBundle;
 
 class Routes
 {
-    final public const ADMIN_CONTENT_TYPE_UPDATE_FROM_JSON = 'emsco_admin_content_type_update_from_json';
-    final public const ADMIN_CONTENT_TYPE_REMOVE = 'emsco_admin_content_type_remove';
     final public const ADMIN_CONTENT_TYPE_ACTIVATE = 'emsco_admin_content_type_activate';
-    final public const ADMIN_CONTENT_TYPE_DEACTIVATE = 'emsco_admin_content_type_deactivate';
-    final public const ADMIN_CONTENT_TYPE_REFRESH_MAPPING = 'emsco_admin_content_type_refresh_mapping';
     final public const ADMIN_CONTENT_TYPE_ADD = 'emsco_admin_content_type_add';
-    final public const ADMIN_CONTENT_TYPE_INDEX = 'emsco_admin_content_type_index';
-    final public const ADMIN_CONTENT_TYPE_UNREFERENCED = 'emsco_admin_content_type_unreferenced';
-    final public const ADMIN_CONTENT_TYPE_REORDER = 'emsco_admin_content_type_reorder';
+    final public const ADMIN_CONTENT_TYPE_DEACTIVATE = 'emsco_admin_content_type_deactivate';
     final public const ADMIN_CONTENT_TYPE_EDIT = 'emsco_admin_content_type_edit';
     final public const ADMIN_CONTENT_TYPE_EDIT_FIELD_EDIT = 'emsco_admin_content_type_edit_field';
-    final public const ADMIN_CONTENT_TYPE_STRUCTURE = 'emsco_admin_content_type_structure';
     final public const ADMIN_CONTENT_TYPE_EXPORT = 'emsco_admin_content_type_export';
+    final public const ADMIN_CONTENT_TYPE_INDEX = 'emsco_admin_content_type_index';
+    final public const ADMIN_CONTENT_TYPE_REFRESH_MAPPING = 'emsco_admin_content_type_refresh_mapping';
+    final public const ADMIN_CONTENT_TYPE_REMOVE = 'emsco_admin_content_type_remove';
+    final public const ADMIN_CONTENT_TYPE_REORDER = 'emsco_admin_content_type_reorder';
+    final public const ADMIN_CONTENT_TYPE_STRUCTURE = 'emsco_admin_content_type_structure';
+    final public const ADMIN_CONTENT_TYPE_UNREFERENCED = 'emsco_admin_content_type_unreferenced';
+    final public const ADMIN_CONTENT_TYPE_UPDATE_FROM_JSON = 'emsco_admin_content_type_update_from_json';
 
     final public const AUTH_TOKEN_LOGIN = 'emsco_auth_token_login';
     final public const EDIT_REVISION = 'emsco_edit_revision';

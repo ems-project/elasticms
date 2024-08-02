@@ -4,6 +4,18 @@
     </span>
 {% endblock contentTypeEnvironment %}
 
+{% block contentTypeViewType %}
+    {% if line.data.type %}
+        {{ t('core.content_type.view_type', {'value': line.data.type|u.trimPrefix('ems.view.') }, 'emsco-core')|trans }}
+    {% endif %}
+{% endblock contentTypeViewType %}
+
+{% block contentTypeViewDefinition %}
+    {% if line.data.definition %}
+        {{ t('core.content_type.view_definition', {'value': line.data.definition}, 'emsco-core')|trans }}
+    {% endif %}
+{% endblock contentTypeViewDefinition %}
+
 {% block dashboardType %}
     <i class="{{ [line.data.type, 'icon']|join('.')|trans({}, 'emsco-twigs') }}"></i>&nbsp;&nbsp;
     {{ [line.data.type, 'label']|join('.')|trans({}, 'emsco-twigs') }}

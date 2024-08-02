@@ -915,25 +915,6 @@ view:
     user:
         index:
             title: 'User list'
-    index:
-        reorder: 'Reorder views'
-        column:
-            name: Name
-            label: Label
-            type: Type
-            definition: Definition
-    actions:
-        define:
-            title: 'Define'
-            default_overview: 'As default overview'
-        undefine: 'Undefine'
-        edit: Edit
-        duplicate: Duplicate
-        duplicate_confirm: 'Do you confirm?'
-        delete: Delete
-        delete_confirm: 'Do you confirm?'
-        delete_selected: 'Delete selected views'
-        view: Details
 views:
     elements:
         object-views-button:

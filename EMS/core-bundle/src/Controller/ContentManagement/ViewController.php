@@ -2,29 +2,32 @@
 
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\View\ViewManager;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeViewDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\View;
-use EMS\CoreBundle\Form\Data\EntityTable;
+use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\ViewType;
 use EMS\CoreBundle\Routes;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use function Symfony\Component\Translation\t;
+
 class ViewController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly ViewManager $viewManager,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly string $templateNamespace
     ) {
     }
@@ -35,33 +38,37 @@ class ViewController extends AbstractController
             'content_type_name' => $contentType->getName(),
         ]);
 
-        $form = $this->createForm(TableType::class, $table);
+        $form = $this->createForm(TableType::class, $table, [
+            'reorder_label' => t('type.reorder', ['type' => 'content_type_view'], 'emsco-core'),
+        ]);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
-                switch ($action->getName()) {
-                    case EntityTable::DELETE_ACTION:
-                        $this->viewManager->deleteByIds($table->getSelected());
-                        break;
-                    case TableType::REORDER_ACTION:
-                        $newOrder = TableType::getReorderedKeys($form->getName(), $request);
-                        $this->viewManager->reorderByIds($newOrder);
-                        break;
-                    default:
-                        $this->logger->error('log.controller.view.unknown_action');
-                }
-            } else {
-                $this->logger->error('log.controller.view.unknown_action');
-            }
+            match ($this->getClickedButtonName($form)) {
+                TableAbstract::DELETE_ACTION => $this->viewManager->deleteByIds(...$table->getSelected()),
+                TableType::REORDER_ACTION => $this->viewManager->reorderByIds(
+                    ...TableType::getReorderedKeys($form->getName(), $request)
+                ),
+                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core'))
+            };
 
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
                 'contentType' => $contentType->getId(),
             ]);
         }
 
-        return $this->render("@$this->templateNamespace/view/index.html.twig", [
-            'contentType' => $contentType,
+        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
+            'icon' => 'fa fa-filter',
+            'title' => t(
+                message: 'type.title_overview',
+                parameters: ['type' => 'content_type_view', 'contentType' => $contentType->getSingularName()],
+                domain: 'emsco-core'
+            ),
+            'breadcrumb' => [
+                'admin' => t('key.admin', [], 'emsco-core'),
+                'page' => t('key.content_types', [], 'emsco-core'),
+            ],
         ]);
     }
 
@@ -150,6 +157,7 @@ class ViewController extends AbstractController
     public function duplicate(View $view): Response
     {
         $newView = clone $view;
+        $newView->setDefinition(null);
         $this->viewManager->update($newView);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_EDIT, ['view' => $newView->getId()]);

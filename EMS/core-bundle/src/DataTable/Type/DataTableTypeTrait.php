@@ -59,12 +59,16 @@ trait DataTableTypeTrait
         return $this;
     }
 
-    public function addTableToolbarActionAdd(TableAbstract $table, string $route): self
+    /**
+     * @param array<mixed> $routeParams
+     */
+    public function addTableToolbarActionAdd(TableAbstract $table, string $route, array $routeParams = []): self
     {
         $table->addToolbarAction(
             label: t('action.add', [], 'emsco-core'),
             icon: 'fa fa-plus',
-            routeName: $route
+            routeName: $route,
+            routeParams: $routeParams
         )->setCssClass('btn btn-sm btn-primary');
 
         return $this;

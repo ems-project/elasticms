@@ -62,10 +62,10 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
             );
         }
 
-        $this->addItemEdit($table, Routes::EMSCO_ADMIN_CONTENT_TYPE_EDIT);
+        $this->addItemEdit($table, Routes::ADMIN_CONTENT_TYPE_EDIT);
 
         $table->addItemGetAction(
-            route: Routes::EMSCO_ADMIN_CONTENT_TYPE_REORDER,
+            route: Routes::ADMIN_CONTENT_TYPE_REORDER,
             labelKey: t('key.structure', [], 'emsco-core'),
             icon: 'sitemap'
         );
@@ -81,20 +81,20 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
         );
 
         $table->addItemGetAction(
-            route: Routes::EMSCO_ADMIN_CONTENT_TYPE_EXPORT,
+            route: Routes::ADMIN_CONTENT_TYPE_EXPORT,
             labelKey: t('action.export', [], 'emsco-core'),
             icon: 'sign-out'
         );
 
         $table->addItemPostAction(
-            route: Routes::EMSCO_ADMIN_CONTENT_TYPE_REFRESH_MAPPING,
+            route: Routes::ADMIN_CONTENT_TYPE_REFRESH_MAPPING,
             labelKey: t('action.update_mapping', [], 'emsco-core'),
             icon: 'refresh',
             messageKey: t('type.confirm', ['type' => 'update_mapping'], 'emsco-core')
         )->setButtonType('primary');
 
         $activateAction = $table->addItemPostAction(
-            route: Routes::EMSCO_ADMIN_CONTENT_TYPE_ACTIVATE,
+            route: Routes::ADMIN_CONTENT_TYPE_ACTIVATE,
             labelKey: t('action.activate', [], 'emsco-core'),
             icon: 'warning',
             messageKey: t('type.confirm', ['type' => 'activate'], 'emsco-core')
@@ -103,7 +103,7 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
         $activateAction->addCondition(new Equals('[active]', false));
 
         $deactivateAction = $table->addItemPostAction(
-            route: Routes::EMSCO_ADMIN_CONTENT_TYPE_DEACTIVATE,
+            route: Routes::ADMIN_CONTENT_TYPE_DEACTIVATE,
             labelKey: t('action.deactivate', [], 'emsco-core'),
             icon: 'warning',
             messageKey: t('type.confirm', ['type' => 'deactivate'], 'emsco-core')
@@ -112,13 +112,13 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
         $deactivateAction->addCondition(new Equals('[active]', true));
 
         $this
-            ->addItemDelete($table, 'content_type', Routes::EMSCO_ADMIN_CONTENT_TYPE_REMOVE)
-            ->addTableToolbarActionAdd($table, Routes::EMSCO_ADMIN_CONTENT_TYPE_ADD);
+            ->addItemDelete($table, 'content_type', Routes::ADMIN_CONTENT_TYPE_REMOVE)
+            ->addTableToolbarActionAdd($table, Routes::ADMIN_CONTENT_TYPE_ADD);
 
         $table->addToolbarAction(
             label: t('action.add_referenced', [], 'emsco-core'),
             icon: 'fa fa-plus',
-            routeName: Routes::EMSCO_ADMIN_CONTENT_TYPE_UNREFERENCED,
+            routeName: Routes::ADMIN_CONTENT_TYPE_UNREFERENCED,
         )->setCssClass('btn btn-sm btn-primary');
 
         $this->addTableActionDelete($table, 'content_type');

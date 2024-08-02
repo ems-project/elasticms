@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Elastica\Exception\ResponseException;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\EmsFields;
@@ -29,13 +30,14 @@ use EMS\CoreBundle\Repository\TemplateRepository;
 use EMS\CoreBundle\Repository\ViewRepository;
 use EMS\CoreBundle\Routes;
 use EMS\Helpers\Standard\Json;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function Symfony\Component\Translation\t;
 
 class ContentTypeService implements EntityServiceInterface
 {
@@ -48,7 +50,7 @@ class ContentTypeService implements EntityServiceInterface
     public function __construct(
         private readonly ContentTypeRepository $contentTypeRepository,
         protected Registry $doctrine,
-        protected LoggerInterface $logger,
+        protected LocalizedLoggerInterface $logger,
         private readonly Mapping $mappingService,
         private readonly ElasticaService $elasticaService,
         private readonly EnvironmentService $environmentService,
@@ -783,16 +785,23 @@ class ContentTypeService implements EntityServiceInterface
         }
     }
 
-    public function delete(ContentType $contentType): void
+    public function softDelete(ContentType $contentType): void
     {
-        $this->contentTypeRepository->delete($contentType);
+        if ($contentType->getDeleted()) {
+            return;
+        }
+
+        $contentType->setActive(false)->setDeleted(true);
+        $this->contentTypeRepository->save($contentType);
+
+        $this->logger->messageNotice(t('log.notice.content_type_deleted', ['contentType' => $contentType->getName()], 'emsco-core'));
     }
 
-    public function deleteByIds(string ...$ids): void
+    public function softDeleteById(string ...$ids): void
     {
         $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
         foreach ($contentTypes as $contentType) {
-            $this->delete($contentType);
+            $this->softDelete($contentType);
         }
     }
 

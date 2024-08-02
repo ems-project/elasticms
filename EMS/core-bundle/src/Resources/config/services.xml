@@ -336,7 +336,7 @@
         <service id="EMS\CoreBundle\Service\ContentTypeService">
             <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository"/>
             <argument type="service" id="doctrine" />
-            <argument type="service" id="logger" />
+            <argument type="service" id="emsco.logger" />
             <argument type="service" id="ems.service.mapping" />
             <argument type="service" id="ems_common.service.elastica" />
             <argument type="service" id="ems.service.environment" />

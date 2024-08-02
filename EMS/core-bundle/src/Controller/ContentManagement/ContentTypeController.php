@@ -104,14 +104,7 @@ class ContentTypeController extends AbstractController
 
     public function removeAction(ContentType $contentType): RedirectResponse
     {
-        // TODO test if there something published for this content type
-        $contentType->setActive(false)->setDeleted(true);
-        $this->contentTypeRepository->save($contentType);
-
-        $this->logger->warning('log.contenttype.deleted', [
-            EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-            EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_DELETE,
-        ]);
+        $this->contentTypeService->softDelete($contentType);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_INDEX);
     }
@@ -252,7 +245,7 @@ class ContentTypeController extends AbstractController
                 ContentTypeDataTableType::ACTION_ACTIVATE => $this->contentTypeService->activateByIds(...$table->getSelected()),
                 ContentTypeDataTableType::ACTION_DEACTIVATE => $this->contentTypeService->deactivateByIds(...$table->getSelected()),
                 ContentTypeDataTableType::ACTION_UPDATE_MAPPING => $this->contentTypeService->updateMappingByIds(...$table->getSelected()),
-                TableAbstract::DELETE_ACTION => $this->contentTypeService->deleteByIds(...$table->getSelected()),
+                TableAbstract::DELETE_ACTION => $this->contentTypeService->softDeleteById(...$table->getSelected()),
                 TableType::REORDER_ACTION => $this->contentTypeService->reorderByIds(
                     ...TableType::getReorderedKeys($form->getName(), $request)
                 ),

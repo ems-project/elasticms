@@ -110,6 +110,7 @@ log:
         invalid_table_action: 'Unknown table action'
     notice:
         draft_deleted: 'Draft "{revision}" has been deleted'
+        content_type_deleted: 'Content type "{contentType}" has been deleted'
     warning:
         draft_not_found: 'Draft not found with id "{revisionId}"'
 revision:

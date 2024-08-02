@@ -13,7 +13,6 @@ use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Form\ActionType;
 use EMS\CoreBundle\Form\Form\TableType;
-use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\TemplateRepository;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ActionService;
@@ -25,7 +24,6 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class ActionController extends AbstractController
 {
@@ -33,26 +31,9 @@ final class ActionController extends AbstractController
         private readonly LoggerInterface $logger,
         private readonly ActionService $actionService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly ContentTypeRepository $contentTypeRepository,
         private readonly TemplateRepository $templateRepository,
         private readonly string $templateNamespace
     ) {
-    }
-
-    /** @deprecated */
-    public function indexAction(string $type): Response
-    {
-        \trigger_error('Route template.index is now deprecated, use the route emsco_admin_content_type_action_index', E_USER_DEPRECATED);
-        $contentTypes = $this->contentTypeRepository->findBy([
-            'deleted' => false,
-            'name' => $type,
-        ]);
-
-        if (!$contentTypes || 1 != \count($contentTypes)) {
-            throw new NotFoundHttpException('Content type not found');
-        }
-
-        return $this->redirectToRoute('emsco_admin_content_type_action_index', ['contentType' => $contentTypes[0]->getId()]);
     }
 
     public function index(Request $request, ContentType $contentType): Response
@@ -93,22 +74,6 @@ final class ActionController extends AbstractController
         ]);
     }
 
-    /** @deprecated */
-    public function addAction(string $type, Request $request): Response
-    {
-        \trigger_error('Route template.add is now deprecated, use the route emsco_admin_content_type_action_add', E_USER_DEPRECATED);
-        $contentTypes = $this->contentTypeRepository->findBy([
-            'deleted' => false,
-            'name' => $type,
-        ]);
-
-        if (!$contentTypes || 1 != \count($contentTypes)) {
-            throw new NotFoundHttpException('Content type not found');
-        }
-
-        return $this->add($contentTypes[0], $request);
-    }
-
     public function add(ContentType $contentType, Request $request): Response
     {
         $action = new Template();
@@ -135,14 +100,6 @@ final class ActionController extends AbstractController
             'contentType' => $contentType,
             'form' => $form->createView(),
         ]);
-    }
-
-    /** @deprecated */
-    public function editAction(Template $id, Request $request, string $_format): Response
-    {
-        \trigger_error('Route template.edit is now deprecated, use the route emsco_admin_content_type_action_edit', E_USER_DEPRECATED);
-
-        return $this->edit($id, $request, $_format);
     }
 
     public function edit(Template $action, Request $request, string $_format): Response
@@ -189,19 +146,6 @@ final class ActionController extends AbstractController
             'action' => $action,
             'contentType' => $action->giveContentType(),
         ]);
-    }
-
-    /** @deprecated */
-    public function removeAction(string $id): RedirectResponse
-    {
-        \trigger_error('Route template.remove is now deprecated, use the route emsco_admin_content_type_action_delete', E_USER_DEPRECATED);
-        $action = $this->templateRepository->find($id);
-
-        if (!$action instanceof Template) {
-            throw new NotFoundHttpException('Template type not found');
-        }
-
-        return $this->delete($action);
     }
 
     public function delete(Template $action): RedirectResponse

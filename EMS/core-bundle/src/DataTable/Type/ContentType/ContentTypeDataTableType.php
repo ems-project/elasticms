@@ -23,6 +23,8 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
     use DataTableTypeTrait;
 
     public const ACTION_UPDATE_MAPPING = 'action_update_mapping';
+    public const ACTION_ACTIVATE = 'action_activate';
+    public const ACTION_DEACTIVATE = 'action_deactivate';
 
     public function __construct(
         private readonly ContentTypeRepository $contentTypeRepository,
@@ -102,8 +104,8 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
         $activateAction = $table->addItemPostAction(
             route: Routes::ADMIN_CONTENT_TYPE_ACTIVATE,
             labelKey: t('action.activate', [], 'emsco-core'),
-            icon: 'warning',
-            messageKey: t('type.confirm', ['type' => 'activate'], 'emsco-core')
+            icon: 'check',
+            messageKey: t('type.confirm', ['type' => 'content_type_activate'], 'emsco-core')
         );
         $activateAction->setButtonType('primary');
         $activateAction->addCondition(new Equals('[active]', false));
@@ -112,7 +114,7 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
             route: Routes::ADMIN_CONTENT_TYPE_DEACTIVATE,
             labelKey: t('action.deactivate', [], 'emsco-core'),
             icon: 'warning',
-            messageKey: t('type.confirm', ['type' => 'deactivate'], 'emsco-core')
+            messageKey: t('type.confirm', ['type' => 'content_type_deactivate'], 'emsco-core')
         );
         $deactivateAction->setButtonType('primary');
         $deactivateAction->addCondition(new Equals('[active]', true));
@@ -127,11 +129,29 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
             routeName: Routes::ADMIN_CONTENT_TYPE_UNREFERENCED,
         )->setCssClass('btn btn-sm btn-primary');
 
+        if ($this->contentTypeService->hasSearch(isActive: false)) {
+            $table->addTableAction(
+                name: self::ACTION_ACTIVATE,
+                icon: 'fa fa-check',
+                labelKey: t('type.selection', ['type' => 'content_type_activate'], 'emsco-core'),
+                confirmationKey: t('type.confirm', ['type' => 'content_type_activate_all'], 'emsco-core')
+            )->setCssClass('btn btn-sm btn-primary');
+        }
+
+        if ($this->contentTypeService->hasSearch(isActive: true)) {
+            $table->addTableAction(
+                name: self::ACTION_DEACTIVATE,
+                icon: 'fa fa-warning',
+                labelKey: t('type.selection', ['type' => 'content_type_deactivate'], 'emsco-core'),
+                confirmationKey: t('type.confirm', ['type' => 'content_type_deactivate_all'], 'emsco-core')
+            )->setCssClass('btn btn-sm btn-primary');
+        }
+
         if ($this->contentTypeService->hasSearch(isDirty: true)) {
             $table->addTableAction(
                 name: self::ACTION_UPDATE_MAPPING,
                 icon: 'fa fa-refresh',
-                labelKey: t('action.update_mapping_selected', [], 'emsco-core'),
+                labelKey: t('type.selection', ['type' => 'content_type_mapping'], 'emsco-core'),
                 confirmationKey: t('type.confirm', ['type' => 'content_type_mapping_all'], 'emsco-core')
             )->setCssClass('btn btn-sm btn-primary');
         }

@@ -249,9 +249,9 @@ class ContentTypeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             match ($this->getClickedButtonName($form)) {
-                ContentTypeDataTableType::ACTION_UPDATE_MAPPING => $this->contentTypeService->updateMappingByIds(
-                    ...$table->getSelected()
-                ),
+                ContentTypeDataTableType::ACTION_ACTIVATE => $this->contentTypeService->activateByIds(...$table->getSelected()),
+                ContentTypeDataTableType::ACTION_DEACTIVATE => $this->contentTypeService->deactivateByIds(...$table->getSelected()),
+                ContentTypeDataTableType::ACTION_UPDATE_MAPPING => $this->contentTypeService->updateMappingByIds(...$table->getSelected()),
                 TableAbstract::DELETE_ACTION => $this->contentTypeService->deleteByIds(...$table->getSelected()),
                 TableType::REORDER_ACTION => $this->contentTypeService->reorderByIds(
                     ...TableType::getReorderedKeys($form->getName(), $request)

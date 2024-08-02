@@ -197,6 +197,28 @@ class ContentTypeService implements EntityServiceInterface
         }
     }
 
+    public function activateByIds(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        $deactivatedContentTypes = \array_filter($contentTypes, static fn (ContentType $c) => !$c->isActive());
+
+        foreach ($deactivatedContentTypes as $deactivatedContentType) {
+            $deactivatedContentType->setActive(true);
+            $this->contentTypeRepository->save($deactivatedContentType);
+        }
+    }
+
+    public function deactivateByIds(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        $activeContentTypes = \array_filter($contentTypes, static fn (ContentType $c) => $c->isActive());
+
+        foreach ($activeContentTypes as $activeContentType) {
+            $activeContentType->setActive(false);
+            $this->contentTypeRepository->save($activeContentType);
+        }
+    }
+
     public function giveByName(string $name): ContentType
     {
         $this->loadEnvironment();
@@ -741,9 +763,10 @@ class ContentTypeService implements EntityServiceInterface
         return \array_unique($versionTags);
     }
 
-    public function hasSearch(?bool $isDirty = null): bool
+    public function hasSearch(?bool $isDirty = null, ?bool $isActive = null): bool
     {
         $qb = $this->contentTypeRepository->makeQueryBuilder(
+            isActive: $isActive,
             isDirty: $isDirty
         );
 

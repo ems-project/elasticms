@@ -88,12 +88,16 @@ class ContentTypeRepository extends EntityRepository
     }
 
     public function makeQueryBuilder(
+        ?bool $isActive = null,
         ?bool $isDirty = null,
         string $searchValue = ''
     ): QueryBuilder {
         $qb = $this->createQueryBuilder('c');
         $qb->join('c.environment', 'e');
 
+        if (null !== $isActive) {
+            $qb->andWhere($qb->expr()->eq('c.active', $qb->expr()->literal($isActive)));
+        }
         if (null !== $isDirty) {
             $qb->andWhere($qb->expr()->eq('c.dirty', $qb->expr()->literal($isDirty)));
         }

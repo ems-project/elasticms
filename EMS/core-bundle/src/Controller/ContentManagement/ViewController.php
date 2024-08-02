@@ -12,7 +12,6 @@ use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Form\Form\ViewType;
 use EMS\CoreBundle\Routes;
-use EMS\CoreBundle\Service\ContentTypeService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
@@ -23,7 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 class ViewController extends AbstractController
 {
     public function __construct(
-        private readonly ContentTypeService $contentTypeService,
         private readonly ViewManager $viewManager,
         private readonly DataTableFactory $dataTableFactory,
         private readonly LoggerInterface $logger,
@@ -57,7 +55,7 @@ class ViewController extends AbstractController
             }
 
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
-                'type' => $contentType->getName(),
+                'contentType' => $contentType->getId(),
             ]);
         }
 
@@ -71,19 +69,22 @@ class ViewController extends AbstractController
     {
         $this->viewManager->define($view, ViewDefinition::from($definition));
 
-        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, ['type' => $view->getContentType()->getName()]);
+        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
+            'contentType' => $view->getContentType()->getId(),
+        ]);
     }
 
     public function undefine(View $view): Response
     {
         $this->viewManager->undefine($view);
 
-        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, ['type' => $view->getContentType()->getName()]);
+        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
+            'contentType' => $view->getContentType()->getId(),
+        ]);
     }
 
-    public function add(string $type, Request $request): Response
+    public function add(ContentType $contentType, Request $request): Response
     {
-        $contentType = $this->contentTypeService->giveByName($type);
         $view = new View();
         $view->setContentType($contentType);
 
@@ -135,7 +136,7 @@ class ViewController extends AbstractController
             }
 
             return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
-                'type' => $view->getContentType()->getName(),
+                'contentType' => $view->getContentType()->getId(),
             ]);
         }
 
@@ -158,7 +159,6 @@ class ViewController extends AbstractController
     {
         $name = $view->getName();
         $label = $view->getLabel();
-        $contentType = $view->getContentType();
 
         $this->viewManager->delete($view);
         $this->logger->notice('log.view.deleted', [
@@ -167,7 +167,7 @@ class ViewController extends AbstractController
         ]);
 
         return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
-            'type' => $contentType->getName(),
+            'contentType' => $view->getContentType()->getId(),
         ]);
     }
 }

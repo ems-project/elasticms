@@ -8,7 +8,7 @@
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::index"
            methods="GET|POST"
            format="html"/>
-    <route id="emsco_admin_content_type_view_add" path="/add/{type}"
+    <route id="emsco_admin_content_type_view_add" path="/add/{contentType}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ViewController::add"
            methods="GET|POST"/>
     <route id="emsco_admin_content_type_view_edit" path="/edit/{view}.{_format}"

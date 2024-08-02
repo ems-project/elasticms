@@ -81,7 +81,7 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
             icon: 'file-text-o'
         );
         $table->addItemGetAction(
-            route: 'emsco_view_index',
+            route: Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX,
             labelKey: t('key.views', [], 'emsco-core'),
             icon: 'tv'
         );

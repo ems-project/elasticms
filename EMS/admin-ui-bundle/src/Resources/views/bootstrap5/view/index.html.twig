@@ -5,7 +5,7 @@
 
 {% block body %}
 	{%  set toolbar %}
-		<a class="btn btn-primary" href="{{ path('emsco_view_add', {type: contentType.name}) }}"><i class="fa fa-plus"></i> {{ 'view.index.add_button'|trans }}</a>
+		<a class="btn btn-primary" href="{{ path('emsco_admin_content_type_view_add', {type: contentType.name}) }}"><i class="fa fa-plus"></i> {{ 'view.index.add_button'|trans }}</a>
 	{%  endset %}
 
 	{% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}

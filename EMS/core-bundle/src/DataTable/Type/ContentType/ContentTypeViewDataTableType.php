@@ -43,14 +43,14 @@ class ContentTypeViewDataTableType extends AbstractEntityTableType
         $definitionColumn->setKeyPrefix('ems.view.definition');
         $table->addColumnDefinition($definitionColumn);
 
-        $table->addItemGetAction(Routes::VIEW_EDIT, 'view.actions.edit', 'pencil');
-        $table->addItemPostAction(Routes::VIEW_DUPLICATE, 'view.actions.duplicate', 'pencil', 'view.actions.duplicate_confirm');
+        $table->addItemGetAction(Routes::ADMIN_CONTENT_TYPE_VIEW_EDIT, 'view.actions.edit', 'pencil');
+        $table->addItemPostAction(Routes::ADMIN_CONTENT_TYPE_VIEW_DUPLICATE, 'view.actions.duplicate', 'pencil', 'view.actions.duplicate_confirm');
 
         $defineAction = $table->addItemActionCollection('view.actions.define.title', 'gear');
-        $defineAction->addItemPostAction(Routes::VIEW_DEFINE, 'view.actions.define.default_overview', 'list', null, ['definition' => ViewDefinition::DEFAULT_OVERVIEW->value]);
-        $defineAction->addItemPostAction(Routes::VIEW_UNDEFINE, 'view.actions.undefine', 'eraser', null);
+        $defineAction->addItemPostAction(Routes::ADMIN_CONTENT_TYPE_VIEW_DEFINE, 'view.actions.define.default_overview', 'list', null, ['definition' => ViewDefinition::DEFAULT_OVERVIEW->value]);
+        $defineAction->addItemPostAction(Routes::ADMIN_CONTENT_TYPE_VIEW_UNDEFINE, 'view.actions.undefine', 'eraser', null);
 
-        $table->addItemPostAction(Routes::VIEW_DELETE, 'view.actions.delete', 'trash', 'view.actions.delete_confirm')->setButtonType('outline-danger');
+        $table->addItemPostAction(Routes::ADMIN_CONTENT_TYPE_VIEW_DELETE, 'view.actions.delete', 'trash', 'view.actions.delete_confirm')->setButtonType('outline-danger');
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'view.actions.delete_selected', 'view.actions.delete_selected_confirm')
             ->setCssClass('btn btn-outline-danger');
         $table->setDefaultOrder('orderKey');

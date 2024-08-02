@@ -23,6 +23,13 @@ class Routes
     final public const ADMIN_CONTENT_TYPE_STRUCTURE = 'emsco_admin_content_type_structure';
     final public const ADMIN_CONTENT_TYPE_UNREFERENCED = 'emsco_admin_content_type_unreferenced';
     final public const ADMIN_CONTENT_TYPE_UPDATE_FROM_JSON = 'emsco_admin_content_type_update_from_json';
+    final public const ADMIN_CONTENT_TYPE_VIEW_ADD = 'emsco_admin_content_type_view_add';
+    final public const ADMIN_CONTENT_TYPE_VIEW_DEFINE = 'emsco_admin_content_type_view_define';
+    final public const ADMIN_CONTENT_TYPE_VIEW_DELETE = 'emsco_admin_content_type_view_delete';
+    final public const ADMIN_CONTENT_TYPE_VIEW_DUPLICATE = 'emsco_admin_content_type_view_duplicate';
+    final public const ADMIN_CONTENT_TYPE_VIEW_EDIT = 'emsco_admin_content_type_view_edit';
+    final public const ADMIN_CONTENT_TYPE_VIEW_INDEX = 'emsco_admin_content_type_view_index';
+    final public const ADMIN_CONTENT_TYPE_VIEW_UNDEFINE = 'emsco_admin_content_type_view_undefine';
 
     final public const AUTH_TOKEN_LOGIN = 'emsco_auth_token_login';
     final public const EDIT_REVISION = 'emsco_edit_revision';
@@ -69,13 +76,6 @@ class Routes
     final public const RELEASE_ADD_REVISION = 'emsco_release_add_revision';
     final public const RELEASE_ADD_REVISIONS = 'emsco_release_add_revisions';
     final public const RELEASE_NON_MEMBER_REVISION_AJAX = 'emsco_release_ajax_data_table_non_member_revision';
-    final public const VIEW_INDEX = 'emsco_view_index';
-    final public const VIEW_DEFINE = 'emsco_view_define';
-    final public const VIEW_UNDEFINE = 'emsco_view_undefine';
-    final public const VIEW_EDIT = 'emsco_view_edit';
-    final public const VIEW_ADD = 'emsco_view_add';
-    final public const VIEW_DELETE = 'emsco_view_delete';
-    final public const VIEW_DUPLICATE = 'emsco_view_duplicate';
     final public const DATA_DEFAULT_VIEW = 'emsco_data_default_view';
     final public const DATA_LINK = 'emsco_data_link';
     final public const DATA_IN_MY_CIRCLE_VIEW = 'emsco_data_in_my_circle_view';

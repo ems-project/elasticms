@@ -31,16 +31,6 @@ class ViewController extends AbstractController
     ) {
     }
 
-    /** @deprecated */
-    public function indexDeprecated(string $type, Request $request): Response
-    {
-        @\trigger_error(\sprintf('Route view.index is deprecated, use %s instead', Routes::VIEW_INDEX), E_USER_DEPRECATED);
-
-        $contentType = $this->contentTypeService->giveByName($type);
-
-        return $this->index($contentType, $request);
-    }
-
     public function index(ContentType $contentType, Request $request): Response
     {
         $table = $this->dataTableFactory->create(ContentTypeViewDataTableType::class, [
@@ -66,7 +56,7 @@ class ViewController extends AbstractController
                 $this->logger->error('log.controller.view.unknown_action');
             }
 
-            return $this->redirectToRoute(Routes::VIEW_INDEX, [
+            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
                 'type' => $contentType->getName(),
             ]);
         }
@@ -81,22 +71,14 @@ class ViewController extends AbstractController
     {
         $this->viewManager->define($view, ViewDefinition::from($definition));
 
-        return $this->redirectToRoute(Routes::VIEW_INDEX, ['type' => $view->getContentType()->getName()]);
+        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, ['type' => $view->getContentType()->getName()]);
     }
 
     public function undefine(View $view): Response
     {
         $this->viewManager->undefine($view);
 
-        return $this->redirectToRoute(Routes::VIEW_INDEX, ['type' => $view->getContentType()->getName()]);
-    }
-
-    /** @deprecated */
-    public function addDeprecated(string $type, Request $request): Response
-    {
-        @\trigger_error(\sprintf('Route view.add is deprecated, use %s instead', Routes::VIEW_ADD), E_USER_DEPRECATED);
-
-        return $this->add($type, $request);
+        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, ['type' => $view->getContentType()->getName()]);
     }
 
     public function add(string $type, Request $request): Response
@@ -118,7 +100,7 @@ class ViewController extends AbstractController
                 'view_label' => $view->getLabel(),
             ]);
 
-            return $this->redirectToRoute(Routes::VIEW_EDIT, [
+            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_EDIT, [
                 'view' => $view->getId(),
             ]);
         }
@@ -129,19 +111,11 @@ class ViewController extends AbstractController
         ]);
     }
 
-    /** @deprecated */
-    public function editDeprecated(View $view, string $_format, Request $request): Response
-    {
-        @\trigger_error(\sprintf('Route view.edit is deprecated, use %s instead', Routes::VIEW_EDIT), E_USER_DEPRECATED);
-
-        return $this->edit($view, $_format, $request);
-    }
-
     public function edit(View $view, string $_format, Request $request): Response
     {
         $form = $this->createForm(ViewType::class, $view, [
             'create' => false,
-            'ajax-save-url' => $this->generateUrl(Routes::VIEW_EDIT, ['view' => $view->getId(), '_format' => 'json']),
+            'ajax-save-url' => $this->generateUrl(Routes::ADMIN_CONTENT_TYPE_VIEW_EDIT, ['view' => $view->getId(), '_format' => 'json']),
         ]);
 
         $form->handleRequest($request);
@@ -160,7 +134,7 @@ class ViewController extends AbstractController
                 ]);
             }
 
-            return $this->redirectToRoute(Routes::VIEW_INDEX, [
+            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
                 'type' => $view->getContentType()->getName(),
             ]);
         }
@@ -177,15 +151,7 @@ class ViewController extends AbstractController
         $newView = clone $view;
         $this->viewManager->update($newView);
 
-        return $this->redirectToRoute(Routes::VIEW_EDIT, ['view' => $newView->getId()]);
-    }
-
-    /** @deprecated */
-    public function deleteDeprecated(View $view): Response
-    {
-        @\trigger_error(\sprintf('Route view.delete is deprecated, use %s instead', Routes::VIEW_DELETE), E_USER_DEPRECATED);
-
-        return $this->delete($view);
+        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_EDIT, ['view' => $newView->getId()]);
     }
 
     public function delete(View $view): Response
@@ -200,7 +166,7 @@ class ViewController extends AbstractController
             'view_label' => $label,
         ]);
 
-        return $this->redirectToRoute(Routes::VIEW_INDEX, [
+        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX, [
             'type' => $contentType->getName(),
         ]);
     }

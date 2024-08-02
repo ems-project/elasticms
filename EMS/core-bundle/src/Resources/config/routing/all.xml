@@ -36,8 +36,7 @@
             prefix="/data"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/search.xml"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/task.xml"/>
-    <import resource="@EMSCoreBundle/Resources/config/routing/admin/view.xml"
-            prefix="/admin/view"/>
+
     <import resource="@EMSCoreBundle/Resources/config/routing/views.xml"
             prefix="/views"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/admin/job.xml"
@@ -77,6 +76,8 @@
             prefix="/admin/content-type"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/admin/action.xml"
             prefix="/admin/content-type/action"/>
+    <import resource="@EMSCoreBundle/Resources/config/routing/admin/view.xml"
+            prefix="/admin/content-type/view"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/elasticsearch.xml"
             prefix="/elasticsearch"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/public-key.xml"/>

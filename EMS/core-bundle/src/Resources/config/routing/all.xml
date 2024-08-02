@@ -78,7 +78,7 @@
     <import resource="@EMSCoreBundle/Resources/config/routing/admin/i18n.xml"
             prefix="/admin/i18n"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/admin/content-type.xml"
-            prefix="/content-type"/>
+            prefix="/admin/content-type"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/elasticsearch.xml"
             prefix="/elasticsearch"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/public-key.xml"/>

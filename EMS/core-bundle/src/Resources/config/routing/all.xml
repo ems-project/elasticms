@@ -10,8 +10,6 @@
     <import resource="@EMSCoreBundle/Resources/config/routing/public.xml"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/dashboard.xml"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/form.xml"/>
-    <import resource="@EMSCoreBundle/Resources/config/routing/action.xml"
-            prefix="/action"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/channel.xml"
             prefix="/channel-admin"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/component.xml"
@@ -77,6 +75,8 @@
             prefix="/admin/i18n"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/admin/content-type.xml"
             prefix="/admin/content-type"/>
+    <import resource="@EMSCoreBundle/Resources/config/routing/admin/action.xml"
+            prefix="/admin/content-type/action"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/elasticsearch.xml"
             prefix="/elasticsearch"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/public-key.xml"/>

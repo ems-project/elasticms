@@ -14,7 +14,7 @@ class Routes
     final public const ADMIN_CONTENT_TYPE_ADD = 'emsco_admin_content_type_add';
     final public const ADMIN_CONTENT_TYPE_INDEX = 'emsco_admin_content_type_index';
     final public const ADMIN_CONTENT_TYPE_UNREFERENCED = 'emsco_admin_content_type_unreferenced';
-    final public const ADMIN_CONTENT_TYPE_FIELD_EDIT = 'emsco_admin_content_type_field_edit';
+    final public const ADMIN_CONTENT_TYPE_FIELD_EDIT = 'emsco_admin_content_type_edit_field';
     final public const ADMIN_CONTENT_TYPE_REORDER = 'emsco_admin_content_type_reorder';
     final public const ADMIN_CONTENT_TYPE_EDIT = 'emsco_admin_content_type_edit';
     final public const ADMIN_CONTENT_TYPE_STRUCTURE = 'emsco_admin_content_type_structure';

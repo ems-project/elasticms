@@ -11,6 +11,7 @@ use EMS\CoreBundle\Form\Data\BoolTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ActionService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,8 +36,8 @@ class ContentTypeActionDataTableType extends AbstractEntityTableType
         $table->addColumn('action.index.column.label', 'label')
             ->setItemIconCallback(fn (Template $action) => $action->getIcon());
         $table->addColumn('action.index.column.type', 'renderOption');
-        $table->addItemGetAction('ems_core_action_edit', 'action.actions.edit', 'pencil', ['contentType' => $contentType]);
-        $table->addItemPostAction('ems_core_action_delete', 'action.actions.delete', 'trash', 'action.actions.delete_confirm', ['contentType' => $contentType->getId()]);
+        $table->addItemGetAction(Routes::ADMIN_CONTENT_TYPE_ACTION_EDIT, 'action.actions.edit', 'pencil', ['contentType' => $contentType]);
+        $table->addItemPostAction(Routes::ADMIN_CONTENT_TYPE_ACTION_DELETE, 'action.actions.delete', 'trash', 'action.actions.delete_confirm', ['contentType' => $contentType->getId()]);
         $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'action.actions.delete_selected', 'action.actions.delete_selected_confirm');
     }
 

@@ -6,6 +6,10 @@ namespace EMS\CoreBundle;
 
 class Routes
 {
+    final public const ADMIN_CONTENT_TYPE_ACTION_ADD = 'emsco_admin_content_type_action_add';
+    final public const ADMIN_CONTENT_TYPE_ACTION_DELETE = 'emsco_admin_content_type_action_delete';
+    final public const ADMIN_CONTENT_TYPE_ACTION_EDIT = 'emsco_admin_content_type_action_edit';
+    final public const ADMIN_CONTENT_TYPE_ACTION_INDEX = 'emsco_admin_content_type_action_index';
     final public const ADMIN_CONTENT_TYPE_ACTIVATE = 'emsco_admin_content_type_activate';
     final public const ADMIN_CONTENT_TYPE_ADD = 'emsco_admin_content_type_add';
     final public const ADMIN_CONTENT_TYPE_DEACTIVATE = 'emsco_admin_content_type_deactivate';

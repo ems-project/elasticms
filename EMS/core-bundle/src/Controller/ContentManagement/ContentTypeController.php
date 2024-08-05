@@ -9,6 +9,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
@@ -259,10 +260,7 @@ class ContentTypeController extends AbstractController
             'form' => $form->createView(),
             'icon' => 'fa fa-sitemap',
             'title' => t('type.title_overview', ['type' => 'content_type'], 'emsco-core'),
-            'breadcrumb' => [
-                'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('key.content_types', [], 'emsco-core'),
-            ],
+            'breadcrumb' => Navigation::admin()->contentTypes(),
         ]);
     }
 

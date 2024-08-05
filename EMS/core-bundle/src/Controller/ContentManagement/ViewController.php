@@ -6,6 +6,7 @@ use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
+use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\Core\View\ViewManager;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeViewDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
@@ -65,10 +66,7 @@ class ViewController extends AbstractController
                 parameters: ['type' => 'content_type_view', 'contentType' => $contentType->getSingularName()],
                 domain: 'emsco-core'
             ),
-            'breadcrumb' => [
-                'admin' => t('key.admin', [], 'emsco-core'),
-                'page' => t('key.content_types', [], 'emsco-core'),
-            ],
+            'breadcrumb' => Navigation::admin()->contentType($contentType)->contentTypeViews($contentType),
         ]);
     }
 

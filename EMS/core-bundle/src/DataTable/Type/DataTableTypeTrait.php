@@ -36,24 +36,32 @@ trait DataTableTypeTrait
         return $this;
     }
 
-    public function addItemEdit(TableAbstract $table, string $route): self
+    /**
+     * @param array<mixed> $routeParams
+     */
+    public function addItemEdit(TableAbstract $table, string $route, array $routeParams = []): self
     {
         $table->addItemGetAction(
             route: $route,
             labelKey: t('action.edit', [], 'emsco-core'),
-            icon: 'pencil'
+            icon: 'pencil',
+            routeParameters: $routeParams
         )->setButtonType('primary');
 
         return $this;
     }
 
-    public function addItemDelete(TableAbstract $table, string $type, string $route): self
+    /**
+     * @param array<mixed> $routeParams
+     */
+    public function addItemDelete(TableAbstract $table, string $type, string $route, array $routeParams = []): self
     {
         $table->addItemPostAction(
             route: $route,
             labelKey: t('action.delete', [], 'emsco-core'),
             icon: 'trash',
-            messageKey: t('type.delete_confirm', ['type' => $type], 'emsco-core')
+            messageKey: t('type.delete_confirm', ['type' => $type], 'emsco-core'),
+            routeParameters: $routeParams
         )->setButtonType('outline-danger');
 
         return $this;

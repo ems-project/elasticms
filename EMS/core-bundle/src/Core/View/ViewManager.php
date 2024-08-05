@@ -106,7 +106,7 @@ class ViewManager implements EntityServiceInterface
 
     public function deleteByIds(string ...$ids): void
     {
-        $views = $this->viewRepository->getByIds($ids);
+        $views = $this->viewRepository->getByIds(...$ids);
 
         foreach ($views as $view) {
             $this->delete($view);

@@ -418,20 +418,6 @@ ROLE_USER: User
 ROLE_USER_MANAGEMENT: 'User Management'
 ROLE_USER_READ: 'User read'
 ROLE_WEBMASTER: Webmaster
-action:
-    actions:
-        delete: Delete
-        delete_confirm: 'Delete the "%label%" action?'
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Delete all selected actions?'
-        edit: Edit
-    index:
-        column:
-            name: Name
-            label: Label
-            public: Public
-            type: Type
-        reorder: Reorder
 channel:
     add:
         save: Create
@@ -511,6 +497,7 @@ form-submission:
         export_selected: 'Export selected'
         process: 'Delete Submission'
     index:
+        delete_selected: 'Delete selected'
         column:
             created: 'Created At'
             expire_date: 'Expire Date'

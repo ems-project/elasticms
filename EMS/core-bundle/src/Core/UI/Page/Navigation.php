@@ -32,6 +32,16 @@ class Navigation
         );
     }
 
+    public function contentTypeActions(ContentType $contentType): self
+    {
+        return $this->addItem(
+            label: t('key.actions', [], 'emsco-core'),
+            icon: 'fa fa-gear',
+            route: Routes::ADMIN_CONTENT_TYPE_ACTION_INDEX,
+            routeParams: ['contentType' => $contentType->getId()]
+        );
+    }
+
     public function contentTypeViews(ContentType $contentType): self
     {
         return $this->addItem(

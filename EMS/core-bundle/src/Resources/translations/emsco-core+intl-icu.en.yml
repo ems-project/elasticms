@@ -73,6 +73,7 @@ field:
     channel: Channel
     command: Command
     context: Context
+    count: Count
     cron: Cron
     date_created: 'Date creation'
     date_modified: 'Date modified'
@@ -80,8 +81,8 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     definition: Definition
-    environment_external: 'External environment'
     environment_default: 'Default environment'
+    environment_external: 'External environment'
     extra: Extra
     file:
         size: Size
@@ -110,7 +111,6 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
-    count: Count
 key:
     actions: Actions
     admin: Admin
@@ -135,8 +135,8 @@ key:
     wysiwyg: WYSIWYG
 log:
     error:
-        invalid_table_action: 'Unknown table action'
         content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
+        invalid_table_action: 'Unknown table action'
     notice:
         content_type_deleted: 'Content type "{contentType}" has been deleted'
         content_type_referenced: 'Referenced content type "{contentType}" from "{environment}" environment'

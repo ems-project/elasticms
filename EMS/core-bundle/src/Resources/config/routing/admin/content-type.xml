@@ -23,11 +23,14 @@
     <route id="emsco_admin_content_type_add" path="/add"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::addAction"
            methods="GET|POST"/>
+    <route id="emsco_admin_content_type_add_referenced_index" path="/add-referenced"
+           controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::addReferencedIndex"
+           methods="GET"/>
+    <route id="emsco_admin_content_type_add_referenced" path="/add-referenced/{environment}/{name}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::addReferenced"
+           methods="POST"/>
     <route id="emsco_admin_content_type_index" path="/"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::indexAction"
-           methods="GET|POST"/>
-    <route id="emsco_admin_content_type_unreferenced" path="/unreferenced"
-           controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::unreferencedAction"
            methods="GET|POST"/>
     <route id="emsco_admin_content_type_edit_field" path="/{contentType}/field/{field}"
            controller="EMS\CoreBundle\Controller\ContentManagement\ContentTypeController::editFieldAction"

@@ -11,6 +11,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\ContentTypeUnreferenced;
 use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Core\UI\MenuEntry;
@@ -457,19 +458,23 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @return array<array{name: string, alias: string, envId: int, count: int}>
+     * @return ContentTypeUnreferenced[]
      */
     public function getUnreferencedContentTypes(): array
     {
         $unreferencedContentTypes = [];
         foreach ($this->environmentService->getUnmanagedEnvironments() as $environment) {
             try {
-                $unreferencedContentTypes = \array_merge($unreferencedContentTypes, $this->getUnreferencedContentTypesPerEnvironment($environment));
+                $unreferencedContentTypes = [
+                    ...$unreferencedContentTypes,
+                    ...$this->getUnreferencedContentTypesPerEnvironment($environment),
+                ];
             } catch (\Throwable $e) {
-                $this->logger->error('log.service.content-type.get-unreferenced-content-type.unexpected-error', [
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                ]);
+                $this->logger->messageError(t(
+                    message: 'log.error.content_type_add_unreferenced',
+                    parameters: ['environment' => $environment->getName(), 'error' => $e->getMessage()],
+                    domain: 'emsco-core'
+                ));
             }
         }
 
@@ -477,7 +482,7 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @return array<array{name: string, alias: string, envId: int, count: int}>
+     * @return ContentTypeUnreferenced[]
      */
     private function getUnreferencedContentTypesPerEnvironment(Environment $environment): array
     {
@@ -485,18 +490,20 @@ class ContentTypeService implements EntityServiceInterface
         $search->setSize(0);
         $search->addTermsAggregation(self::CONTENT_TYPE_AGGREGATION_NAME, EMSSource::FIELD_CONTENT_TYPE, 30);
         $resultSet = $this->elasticaService->search($search);
-        $contentTypeNames = $resultSet->getAggregation(self::CONTENT_TYPE_AGGREGATION_NAME)['buckets'] ?? [];
+        $aggregationBuckets = $resultSet->getAggregation(self::CONTENT_TYPE_AGGREGATION_NAME)['buckets'] ?? [];
         $unreferencedContentTypes = [];
-        foreach ($contentTypeNames as $contentTypeName) {
-            $name = $contentTypeName['key'] ?? null;
-            if (null !== $name && false === $this->getByName($name)) {
-                $unreferencedContentTypes[] = [
-                    'name' => $name,
-                    'alias' => $environment->getAlias(),
-                    'envId' => $environment->getId(),
-                    'count' => \intval($contentTypeName['doc_count'] ?? 0),
-                ];
+        foreach ($aggregationBuckets as $aggregationBucket) {
+            $name = $aggregationBucket['key'] ?? null;
+
+            if (null === $name || false !== $this->getByName($name)) {
+                continue;
             }
+
+            $unreferencedContentTypes[] = new ContentTypeUnreferenced(
+                name: $name,
+                environment: $environment,
+                count: (int) ($aggregationBucket['doc_count'] ?? 0)
+            );
         }
 
         return $unreferencedContentTypes;

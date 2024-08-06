@@ -2,6 +2,7 @@ action:
     activate: Activate
     add: Add
     add_referenced: 'Add referenced'
+    add_referenced_content_type: 'Add a reference content type'
     clean: Clean
     close: Close
     confirmation: 'Do you confirm?'
@@ -79,6 +80,7 @@ field:
     date_run_previous: 'Date previous run'
     date_upload: 'Date upload'
     definition: Definition
+    environment_external: 'External environment'
     environment_default: 'Default environment'
     extra: Extra
     file:
@@ -108,6 +110,7 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
+    count: Count
 key:
     actions: Actions
     admin: Admin
@@ -133,8 +136,10 @@ key:
 log:
     error:
         invalid_table_action: 'Unknown table action'
+        content_type_add_unreferenced: 'Unexpected error while getting unreferenced content type(s) from external environment {environment}: {error}'
     notice:
         content_type_deleted: 'Content type "{contentType}" has been deleted'
+        content_type_referenced: 'Referenced content type "{contentType}" from "{environment}" environment'
         content_type_view_deleted: 'View "{view}" has been deleted'
         draft_deleted: 'Draft "{revision}" has been deleted'
     warning:
@@ -166,6 +171,7 @@ type:
             content_type_activate_all   {Activate all selected content types?}
             content_type_deactivate     {Deactivate "{label}" content type?}
             content_type_deactivate_all {Deactivate all selected content types?}
+            content_type_referenced_add {Add referenced "{label}" content type?}
             other                       {Are you sure?}  
         }
     delete_confirm: |-

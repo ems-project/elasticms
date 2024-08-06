@@ -12,9 +12,6 @@ log:
             delete: 'The environment %name% has been deleted'
         channel:
             delete: 'The channel %name% has been deleted'
-        content-type:
-            get-unreferenced-content-type:
-                unexpected-error: 'Unexpected error while get unreferenced content type from environment %environment%: %error_message%'
         release:
             delete: 'The Release %name% has been deleted'
             not:
@@ -61,12 +58,10 @@ log:
         mapping:
             not_found: 'Content type %contenttype%''s mapping not found'
         not_found: 'Content type %contenttype% not found'
-        referenced: 'The content type %contenttype% has been referenced'
         subfield:
             added: 'A subfield %field_name% has been added'
             name_mandatory: 'The subfield name is mandatory'
             name_not_valid: 'The subfield is not valid : (format: %field_format%)'
-        unreferenced_not_found: 'Unreferenced content type not found'
         updated: 'The content type %contenttype% has been updated'
     controller:
         release:

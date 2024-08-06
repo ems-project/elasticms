@@ -12,6 +12,8 @@ class Routes
     final public const ADMIN_CONTENT_TYPE_ACTION_INDEX = 'emsco_admin_content_type_action_index';
     final public const ADMIN_CONTENT_TYPE_ACTIVATE = 'emsco_admin_content_type_activate';
     final public const ADMIN_CONTENT_TYPE_ADD = 'emsco_admin_content_type_add';
+    final public const ADMIN_CONTENT_TYPE_ADD_REFERENCED = 'emsco_admin_content_type_add_referenced';
+    final public const ADMIN_CONTENT_TYPE_ADD_REFERENCED_INDEX = 'emsco_admin_content_type_add_referenced_index';
     final public const ADMIN_CONTENT_TYPE_DEACTIVATE = 'emsco_admin_content_type_deactivate';
     final public const ADMIN_CONTENT_TYPE_EDIT = 'emsco_admin_content_type_edit';
     final public const ADMIN_CONTENT_TYPE_EDIT_FIELD_EDIT = 'emsco_admin_content_type_edit_field';
@@ -21,7 +23,6 @@ class Routes
     final public const ADMIN_CONTENT_TYPE_REMOVE = 'emsco_admin_content_type_remove';
     final public const ADMIN_CONTENT_TYPE_REORDER = 'emsco_admin_content_type_reorder';
     final public const ADMIN_CONTENT_TYPE_STRUCTURE = 'emsco_admin_content_type_structure';
-    final public const ADMIN_CONTENT_TYPE_UNREFERENCED = 'emsco_admin_content_type_unreferenced';
     final public const ADMIN_CONTENT_TYPE_UPDATE_FROM_JSON = 'emsco_admin_content_type_update_from_json';
     final public const ADMIN_CONTENT_TYPE_VIEW_ADD = 'emsco_admin_content_type_view_add';
     final public const ADMIN_CONTENT_TYPE_VIEW_DEFINE = 'emsco_admin_content_type_view_define';

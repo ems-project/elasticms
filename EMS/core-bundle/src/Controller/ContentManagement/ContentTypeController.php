@@ -4,13 +4,14 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use EMS\CommonBundle\Common\Log\LocalizedLogger;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Form\FieldTypeManager;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeDataTableType;
+use EMS\CoreBundle\DataTable\Type\ContentType\ContentTypeUnreferencedDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\FieldType;
@@ -57,7 +58,7 @@ class ContentTypeController extends AbstractController
     public function __construct(
         private readonly ContentTypeService $contentTypeService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LocalizedLogger $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly Mapping $mappingService,
         private readonly FieldTypeManager $fieldTypeManager,
         private readonly ContentTypeRepository $contentTypeRepository,
@@ -264,40 +265,43 @@ class ContentTypeController extends AbstractController
         ]);
     }
 
-    public function unreferencedAction(Request $request): Response
+    public function addReferencedIndex(): Response
     {
-        if ($request->isMethod('POST')) {
-            if (null != $request->get('envId') && null != $request->get('name')) {
-                $defaultEnvironment = $this->environmentRepository->findOneById($request->get('envId'));
-                if ($defaultEnvironment instanceof Environment) {
-                    $contentType = new ContentType();
-                    $contentType->setName($request->get('name'));
-                    $contentType->setPluralName($contentType->getName());
-                    $contentType->setSingularName($contentType->getName());
-                    $contentType->setEnvironment($defaultEnvironment);
-                    $contentType->setActive(true);
-                    $contentType->setDirty(false);
-                    $contentType->setOrderKey($this->contentTypeRepository->countContentType());
-                    $this->contentTypeRepository->save($contentType);
+        $table = $this->dataTableFactory->create(ContentTypeUnreferencedDataTableType::class);
+        $form = $this->createForm(TableType::class, $table);
 
-                    $this->logger->warning('log.contenttype.referenced', [
-                        EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_UPDATE,
-                        EmsFields::LOG_CONTENTTYPE_FIELD => $contentType->getName(),
-                    ]);
+        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
+            'form' => $form->createView(),
+            'title' => t('action.add_referenced_content_type', [], 'emsco-core'),
+            'breadcrumb' => Navigation::admin()->contentTypes()->add(
+                label: t('action.add_referenced', [], 'emsco-core'),
+                icon: 'fa fa-plus',
+                route: Routes::ADMIN_CONTENT_TYPE_ADD_REFERENCED_INDEX,
+            ),
+        ]);
+    }
 
-                    return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
-                        'contentType' => $contentType->getId(),
-                    ]);
-                }
-            }
-            $this->logger->warning('log.contenttype.unreferenced_not_found', [
-            ]);
+    public function addReferenced(Environment $environment, string $name): RedirectResponse
+    {
+        $contentType = new ContentType();
+        $contentType->setName($name);
+        $contentType->setPluralName($name);
+        $contentType->setSingularName($name);
+        $contentType->setEnvironment($environment);
+        $contentType->setActive(true);
+        $contentType->setDirty(false);
+        $contentType->setOrderKey($this->contentTypeService->count());
 
-            return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_UNREFERENCED);
-        }
+        $this->contentTypeService->update($contentType);
 
-        return $this->render("@$this->templateNamespace/contenttype/unreferenced.html.twig", [
-            'referencedContentTypes' => $this->contentTypeService->getUnreferencedContentTypes(),
+        $this->logger->messageNotice(t(
+            message: 'log.notice.content_type_referenced',
+            parameters: ['contentType' => $contentType->getSingularName(), 'environment' => $environment->getLabel()],
+            domain: 'emsco-core'
+        ));
+
+        return $this->redirectToRoute(Routes::ADMIN_CONTENT_TYPE_EDIT, [
+            'contentType' => $contentType->getId(),
         ]);
     }
 

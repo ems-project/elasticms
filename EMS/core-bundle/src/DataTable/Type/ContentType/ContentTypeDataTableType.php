@@ -126,7 +126,7 @@ class ContentTypeDataTableType extends AbstractTableType implements QueryService
         $table->addToolbarAction(
             label: t('action.add_referenced', [], 'emsco-core'),
             icon: 'fa fa-plus',
-            routeName: Routes::ADMIN_CONTENT_TYPE_UNREFERENCED,
+            routeName: Routes::ADMIN_CONTENT_TYPE_ADD_REFERENCED_INDEX,
         )->setCssClass('btn btn-sm btn-primary');
 
         if ($this->contentTypeService->hasSearch(isActive: false)) {

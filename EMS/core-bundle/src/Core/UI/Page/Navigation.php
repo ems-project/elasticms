@@ -17,14 +17,14 @@ class Navigation
 
     public static function admin(): self
     {
-        return (new self())->addItem(label: t('key.admin', [], 'emsco-core'));
+        return (new self())->add(label: t('key.admin', [], 'emsco-core'));
     }
 
     public function contentType(ContentType $contentType): self
     {
         $this->contentTypes();
 
-        return $this->addItem(
+        return $this->add(
             text: $contentType->getSingularName(),
             icon: $contentType->getIcon(),
             route: Routes::ADMIN_CONTENT_TYPE_EDIT,
@@ -34,7 +34,7 @@ class Navigation
 
     public function contentTypeActions(ContentType $contentType): self
     {
-        return $this->addItem(
+        return $this->add(
             label: t('key.actions', [], 'emsco-core'),
             icon: 'fa fa-gear',
             route: Routes::ADMIN_CONTENT_TYPE_ACTION_INDEX,
@@ -44,7 +44,7 @@ class Navigation
 
     public function contentTypeViews(ContentType $contentType): self
     {
-        return $this->addItem(
+        return $this->add(
             label: t('key.views', [], 'emsco-core'),
             icon: 'fa fa-tv',
             route: Routes::ADMIN_CONTENT_TYPE_VIEW_INDEX,
@@ -54,7 +54,7 @@ class Navigation
 
     public function contentTypes(): self
     {
-        return $this->addItem(
+        return $this->add(
             label: t('key.content_types', [], 'emsco-core'),
             icon: 'fa fa-sitemap',
             route: Routes::ADMIN_CONTENT_TYPE_INDEX
@@ -64,7 +64,7 @@ class Navigation
     /**
      * @param array<mixed> $routeParams
      */
-    private function addItem(
+    public function add(
         ?TranslatableMessage $label = null,
         ?string $text = null,
         ?string $icon = null,

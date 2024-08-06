@@ -195,7 +195,6 @@
 {% block emsco_form_table_column_data %}
     {%- set data = block(column.tableDataValueBlock()) -%}
     {%- set dataClass = column.dataClass(line.data) -%}
-
     {%- if dataClass is not null -%}
         {%- set data -%}<span class="{{ dataClass }}">{{ data|raw }}</span>{%- endset -%}
     {%- endif -%}
@@ -354,7 +353,7 @@
                                         {{ block(column.tableDataBlock()) }}
                                     {% endfor %}
                                     {% if table.itemActions|length > 0 %}
-                                        <td data-search="">
+                                        <td>
                                             {{ block('emsco_form_table_column_row_actions') }}
                                         </td>
                                     {% endif %}

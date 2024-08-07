@@ -118,6 +118,7 @@ key:
     channels: Channels
     content_types: 'Content Types'
     dashboards: Dashboards
+    environments: Environments
     filters: Filters
     forms: Forms
     i18n: I18N

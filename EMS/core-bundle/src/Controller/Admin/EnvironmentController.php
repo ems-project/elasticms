@@ -7,7 +7,7 @@ use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
-use EMS\CoreBundle\DataTable\Type\EnvironmentDataTableType;
+use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;

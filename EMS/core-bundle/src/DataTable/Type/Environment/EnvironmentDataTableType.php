@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\DataTable\Type;
+namespace EMS\CoreBundle\DataTable\Type\Environment;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Core\Environment\EnvironmentManagedEntityService;

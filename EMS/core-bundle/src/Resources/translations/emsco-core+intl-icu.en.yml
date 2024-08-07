@@ -126,6 +126,8 @@ key:
     jobs: Jobs
     logs: Logs
     loop_count: '#'
+    orphan_indexes: 'Orphan indexes'
+    overview: Overview
     publishers: Publishers
     query_searches: QuerySearch
     schedule: Schedule

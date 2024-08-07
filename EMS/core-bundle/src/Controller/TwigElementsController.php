@@ -112,7 +112,15 @@ class TwigElementsController extends AbstractController
         }
         $menu->addChild(t('key.content_types', [], 'emsco-core'), 'fa fa-sitemap', Routes::ADMIN_CONTENT_TYPE_INDEX)->setTranslation([]);
         $menu->addChild(t('key.forms', [], 'emsco-core'), 'fa fa-keyboard-o', Routes::FORM_ADMIN_INDEX)->setTranslation([]);
-        $menu->addChild(t('key.environments', [], 'emsco-core'), 'fa fa-database', Routes::ADMIN_ENVIRONMENT_INDEX);
+
+        $environmentMenu = $menu->addChild(
+            label: t('key.environments', [], 'emsco-core'),
+            icon: 'fa fa-database',
+            route: Routes::ADMIN_ENVIRONMENT_INDEX
+        );
+        $environmentMenu->addChild(t('key.overview', [], 'emsco-core'), 'fa fa-list-ul', Routes::ADMIN_ENVIRONMENT_INDEX);
+        $environmentMenu->addChild(t('key.orphan_indexes', [], 'emsco-core'), 'fa fa-chain-broken', Routes::ADMIN_ENVIRONMENT_ORPHAN_INDEXES);
+
         $menu->addChild(t('key.channels', [], 'emsco-core'), 'fa fa-eye', 'ems_core_channel_index');
         $menu->addChild(t('key.dashboards', [], 'emsco-core'), 'fa fa-dashboard', Routes::DASHBOARD_ADMIN_INDEX);
         $menu->addChild(t('key.query_searches', [], 'emsco-core'), 'fa fa-list-alt', 'ems_core_query_search_index');

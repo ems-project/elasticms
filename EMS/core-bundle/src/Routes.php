@@ -36,6 +36,7 @@ class Routes
     final public const ADMIN_ENVIRONMENT_ALIAS_REMOVE = 'emsco_admin_environment_alias_remove';
     final public const ADMIN_ENVIRONMENT_EDIT = 'emsco_admin_environment_edit';
     final public const ADMIN_ENVIRONMENT_INDEX = 'emsco_admin_environment_index';
+    final public const ADMIN_ENVIRONMENT_ORPHAN_INDEXES = 'emsco_admin_environment_orphan_indexes';
     final public const ADMIN_ENVIRONMENT_REBUILD = 'emsco_admin_environment_rebuild';
     final public const ADMIN_ENVIRONMENT_REMOVE = 'emsco_admin_environment_remove';
     final public const ADMIN_ENVIRONMENT_VIEW = 'emsco_admin_environment_view';

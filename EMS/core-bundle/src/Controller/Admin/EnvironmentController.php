@@ -21,6 +21,7 @@ use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Repository\ContentTypeRepository;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
 use EMS\CoreBundle\Repository\FieldTypeRepository;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AliasService;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\EnvironmentService;
@@ -80,7 +81,7 @@ class EnvironmentController extends AbstractController
                         'alias' => $name,
                     ]);
 
-                    return $this->redirectToRoute('environment.edit', [
+                    return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_EDIT, [
                             'id' => $environment->getId(),
                     ]);
                 }
@@ -92,7 +93,7 @@ class EnvironmentController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 
     /**
@@ -106,7 +107,7 @@ class EnvironmentController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 
     public function removeAction(int $id): Response
@@ -119,7 +120,7 @@ class EnvironmentController extends AbstractController
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
         if ($environment->getManaged()) {
@@ -160,7 +161,7 @@ class EnvironmentController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 
     public static function isValidName(string $name): bool
@@ -221,7 +222,7 @@ class EnvironmentController extends AbstractController
                         EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
                     ]);
 
-                    return $this->redirectToRoute('environment.index');
+                    return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
                 }
             }
         }
@@ -251,7 +252,7 @@ class EnvironmentController extends AbstractController
                 EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/environment/edit.html.twig", [
@@ -363,7 +364,7 @@ class EnvironmentController extends AbstractController
                     $this->logger->error('log.controller.environment.unknown_action');
                 }
 
-                return $this->redirectToRoute('environment.index');
+                return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
             }
 
             $this->aliasService->build();

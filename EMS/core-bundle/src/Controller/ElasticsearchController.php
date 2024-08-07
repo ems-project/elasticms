@@ -101,7 +101,7 @@ class ElasticsearchController extends AbstractController
                 'index_name' => $name,
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/elasticsearch/add-alias.html.twig", [
@@ -284,7 +284,7 @@ class ElasticsearchController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 
     /** @deprecated */

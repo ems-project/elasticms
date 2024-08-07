@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Controller\ContentManagement;
 
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\IndexService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,6 +17,6 @@ class IndexController extends AbstractController
     {
         $this->indexService->deleteOrphanIndexes();
 
-        return $this->redirectToRoute('ems_environment_index');
+        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 }

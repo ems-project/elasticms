@@ -8,6 +8,7 @@ use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentDataTableType;
+use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentOrphanIndexDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;
@@ -394,7 +395,13 @@ class EnvironmentController extends AbstractController
 
     public function orphanIndexes(): Response
     {
+        $form = $this->createForm(
+            type: TableType::class,
+            data: $this->dataTableFactory->create(EnvironmentOrphanIndexDataTableType::class)
+        );
+
         return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
+            'form' => $form->createView(),
             'icon' => 'fa fa-chain-broken',
             'title' => t('key.orphan_indexes', [], 'emsco-core'),
             'breadcrumb' => Navigation::admin()->environments()->add(

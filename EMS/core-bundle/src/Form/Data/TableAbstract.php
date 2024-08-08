@@ -324,7 +324,7 @@ abstract class TableAbstract implements TableInterface
             $columnOptions[] = [
                 'cellType' => 'td',
                 'className' => '',
-                'targets' => \count($this->columns),
+                'targets' => $columnTarget,
                 'orderable' => false,
                 'searchable' => false,
             ];

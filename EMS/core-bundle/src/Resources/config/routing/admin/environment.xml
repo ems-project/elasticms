@@ -19,9 +19,6 @@
     <route id="emsco_admin_environment_edit" path="/edit/{id}"
            controller="EMS\CoreBundle\Controller\Admin\EnvironmentController::edit"
            methods="GET|POST"/>
-    <route id="emsco_admin_environment_orphan_indexes" path="/orphan-indexes"
-           controller="EMS\CoreBundle\Controller\Admin\EnvironmentController::orphanIndexes"
-           methods="GET|POST"/>
     <route id="emsco_admin_environment_view" path="/{id}"
            controller="EMS\CoreBundle\Controller\Admin\EnvironmentController::view"
            methods="GET|POST"/>

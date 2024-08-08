@@ -24,6 +24,14 @@
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
         </service>
+        <service id="EMS\CoreBundle\Controller\Admin\ElasticSearchController" public="true">
+            <argument type="service" id="ems.service.index" />
+            <argument type="service" id="emsco.data_table.factory" />
+            <argument type="service" id="emsco.logger" />
+            <argument>%ems_core.template_namespace%</argument>
+            <call method="setContainer"/>
+            <tag name="container.service_subscriber"/>
+        </service>
 
         <!-- Api\Admin -->
         <service id="EMS\CoreBundle\Controller\Api\Admin\EntitiesController">
@@ -202,11 +210,6 @@
             <call method="setContainer"/>
             <tag name="container.service_subscriber"/>
             <tag name="controller.service_arguments"/>
-        </service>
-        <service id="EMS\CoreBundle\Controller\ContentManagement\IndexController" public="true">
-            <argument type="service" id="ems.service.index" />
-            <call method="setContainer"/>
-            <tag name="container.service_subscriber"/>
         </service>
         <service id="EMS\CoreBundle\Controller\ContentManagement\JobController" public="true">
             <argument type="service" id="ems.service.job" />

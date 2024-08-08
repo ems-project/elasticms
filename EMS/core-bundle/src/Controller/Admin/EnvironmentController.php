@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CoreBundle\Controller\Admin;
 
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
-use EMS\CoreBundle\Core\UI\Page\Navigation;
 use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentDataTableType;
-use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentOrphanIndexDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;
@@ -30,7 +31,6 @@ use EMS\CoreBundle\Service\EnvironmentService;
 use EMS\CoreBundle\Service\IndexService;
 use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\Mapping;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
@@ -39,12 +39,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use function Symfony\Component\Translation\t;
-
 class EnvironmentController extends AbstractController
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly EnvironmentService $environmentService,
         private readonly ContentTypeService $contentTypeService,
         private readonly IndexService $indexService,
@@ -391,24 +389,5 @@ class EnvironmentController extends AbstractController
         } catch (NoNodesAvailableException) {
             return $this->redirectToRoute('elasticsearch.status');
         }
-    }
-
-    public function orphanIndexes(): Response
-    {
-        $form = $this->createForm(
-            type: TableType::class,
-            data: $this->dataTableFactory->create(EnvironmentOrphanIndexDataTableType::class)
-        );
-
-        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
-            'form' => $form->createView(),
-            'icon' => 'fa fa-chain-broken',
-            'title' => t('key.orphan_indexes', [], 'emsco-core'),
-            'breadcrumb' => Navigation::admin()->environments()->add(
-                label: t('key.orphan_indexes', [], 'emsco-core'),
-                icon: 'fa fa-chain-broken',
-                route: Routes::ADMIN_ENVIRONMENT_ORPHAN_INDEXES
-            ),
-        ]);
     }
 }

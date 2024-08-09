@@ -804,7 +804,6 @@ view:
         index:
             action_label: Action
             add_environment_button: 'Add Environment'
-            add_managed_alias_button: 'Add managed alias'
             alias_label: Alias
             attach_button: Atach
             close_modal_button: Close
@@ -812,7 +811,6 @@ view:
             confirm_dettach: 'Do you want to detach %name%?'
             count_label: '#'
             delete_button: Delete
-            delete_managed_environemnt_button: Delete
             dettach_button: Detach
             edit_button: Edit
             environment_breadcrumb: Environments
@@ -823,7 +821,6 @@ view:
             indexes_label: Indexes
             label: Label
             local_environment_label: 'Local Environments'
-            managed_alias_title: 'Managed alias'
             name_label: Name
             no_environment_yet: 'There is no environment defined yet.'
             no_external_environment_yet: 'There is no external environment defined yet.'

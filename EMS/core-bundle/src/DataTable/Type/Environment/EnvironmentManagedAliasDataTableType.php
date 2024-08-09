@@ -2,26 +2,27 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\DataTable\Type\ContentType;
+namespace EMS\CoreBundle\DataTable\Type\Environment;
 
 use EMS\CoreBundle\Core\DataTable\ArrayDataSource;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractTableType;
 use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
 use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
+use EMS\CoreBundle\Entity\ManagedAlias;
 use EMS\CoreBundle\Form\Data\QueryTable;
 use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
-use EMS\CoreBundle\Service\ContentTypeService;
+use EMS\CoreBundle\Service\AliasService;
 
 use function Symfony\Component\Translation\t;
 
-class ContentTypeUnreferencedDataTableType extends AbstractTableType implements QueryServiceTypeInterface
+class EnvironmentManagedAliasDataTableType extends AbstractTableType implements QueryServiceTypeInterface
 {
     use DataTableTypeTrait;
 
     public function __construct(
-        private readonly ContentTypeService $contentTypeService,
+        private readonly AliasService $aliasService,
         private readonly string $templateNamespace
     ) {
     }
@@ -30,24 +31,31 @@ class ContentTypeUnreferencedDataTableType extends AbstractTableType implements 
     {
         $table->setDefaultOrder('name')->setLabelAttribute('name');
 
-        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
-
         $table->addColumnDefinition(new TemplateBlockTableColumn(
-            label: t('field.environment_external', [], 'emsco-core'),
+            label: t('field.label', [], 'emsco-core'),
             blockName: 'environmentName',
             template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
             orderField: 'environmentLabel'
         ));
 
-        $table->addColumn(t('field.count', [], 'emsco-core'), 'count');
+        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+        $table->addColumn(t('field.alias', [], 'emsco-core'), 'alias');
+        $table->addColumn(t('field.indexes', [], 'emsco-core'), 'indexes');
+        $table->addColumn(t('field.total', [], 'emsco-core'), 'total');
+
+        $this
+            ->addTableToolbarActionAdd($table, Routes::ADMIN_MANAGED_ALIAS_ADD)
+            ->addItemEdit($table, Routes::ADMIN_MANAGED_ALIAS_EDIT);
 
         $table->addDynamicItemPostAction(
-            route: Routes::ADMIN_CONTENT_TYPE_ADD_REFERENCED,
-            labelKey: t('action.add_referenced', [], 'emsco-core'),
+            route: Routes::ADMIN_ELASTIC_ALIAS_ATTACH,
+            labelKey: t('action.attach', [], 'emsco-core'),
             icon: 'plus',
-            messageKey: t('type.confirm', ['type' => 'content_type_referenced_add'], 'emsco-core'),
-            routeParameters: ['environment' => 'environmentId', 'name' => 'name']
+            messageKey: t('type.confirm', ['type' => 'attach_alias'], 'emsco-core'),
+            routeParameters: ['name' => 'name']
         )->setButtonType('primary');
+
+        $this->addItemDelete($table, 'managed_alias', Routes::ADMIN_MANAGED_ALIAS_DELETE);
     }
 
     public function getRoles(): array
@@ -57,7 +65,7 @@ class ContentTypeUnreferencedDataTableType extends AbstractTableType implements 
 
     public function getQueryName(): string
     {
-        return 'contentTypeUnreferenced';
+        return 'managedAlias';
     }
 
     public function isSortable(): bool
@@ -70,7 +78,7 @@ class ContentTypeUnreferencedDataTableType extends AbstractTableType implements 
         $dataSource = $this->getDataSource($searchValue);
 
         if (null !== $orderField) {
-            return $dataSource->sort($orderField, $orderDirection)->getData($from, $size);
+            return $dataSource->sort(\sprintf('[%s]', $orderField), $orderDirection)->getData($from, $size);
         }
 
         return $dataSource->getData($from, $size);
@@ -86,7 +94,17 @@ class ContentTypeUnreferencedDataTableType extends AbstractTableType implements 
         static $dataSource = null;
 
         if (null === $dataSource) {
-            $dataSource = new ArrayDataSource($this->contentTypeService->getUnreferencedContentTypes());
+            $managedAliases = $this->aliasService->getManagedAliases();
+
+            $dataSource = new ArrayDataSource(\array_map(static fn (ManagedAlias $managedAlias) => [
+                'id' => $managedAlias->getId(),
+                'name' => $managedAlias->getName(),
+                'label' => $managedAlias->getLabel(),
+                'color' => $managedAlias->getColor(),
+                'alias' => $managedAlias->getAlias(),
+                'indexes' => \count($managedAlias->getIndexes()) + $managedAlias->getId(),
+                'total' => $managedAlias->getTotal(),
+            ], $managedAliases));
         }
 
         return $dataSource->search($searchValue);

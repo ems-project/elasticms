@@ -26,8 +26,13 @@ class AliasService
     /** @var array<string, int> */
     private array $counterIndexes = [];
 
-    public function __construct(private readonly LoggerInterface $logger, private readonly Client $elasticaClient, private readonly EnvironmentRepository $envRepo, private readonly ManagedAliasRepository $managedAliasRepo, private readonly ElasticaService $elasticaService)
-    {
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly Client $elasticaClient,
+        private readonly EnvironmentRepository $envRepo,
+        private readonly ManagedAliasRepository $managedAliasRepo,
+        private readonly ElasticaService $elasticaService
+    ) {
     }
 
     /**
@@ -145,6 +150,8 @@ class AliasService
      */
     public function getManagedAliases(): array
     {
+        $this->build();
+
         /** @var ManagedAlias[] $managedAliases */
         $managedAliases = $this->managedAliasRepo->findAll();
 

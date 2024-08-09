@@ -29,6 +29,10 @@ class ArrayDataSource implements \Countable
 
     public function search(string $term): self
     {
+        if ('' === $term) {
+            return $this;
+        }
+
         $filterData = \array_filter($this->data, static function (array|object $data) use ($term) {
             $pattern = '/'.\preg_quote($term, '/').'/i';
             $values = \is_object($data) ? \get_object_vars($data) : $data;

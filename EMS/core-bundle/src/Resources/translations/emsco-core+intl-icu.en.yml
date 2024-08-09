@@ -130,6 +130,7 @@ key:
     jobs: Jobs
     logs: Logs
     loop_count: '#'
+    managed_aliases: 'Managed aliases'
     orphan_indexes: 'Orphan indexes'
     overview: Overview
     publishers: Publishers
@@ -208,6 +209,7 @@ type:
             job                 {Delete the job?}
             job_schedule        {Delete the "{label}" scheduled job?}
             log                 {Delete log?}  
+            managed_alias       {Delete the "{label}" managed alias?}
             trash               {Delete trash "{label}" ?}
             uploaded_file       {Delete "{label}" ?}
             query_search        {Delete the "{label}" QuerySearch?}

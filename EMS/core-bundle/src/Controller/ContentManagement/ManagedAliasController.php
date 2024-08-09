@@ -12,7 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ManagedAliasController extends AbstractController
 {
@@ -47,14 +46,8 @@ class ManagedAliasController extends AbstractController
         ]);
     }
 
-    public function editAction(Request $request, int $id): Response
+    public function editAction(Request $request, ManagedAlias $managedAlias): Response
     {
-        $managedAlias = $this->aliasService->getManagedAlias($id);
-
-        if (!$managedAlias) {
-            throw new NotFoundHttpException('Unknow managed alias');
-        }
-
         $form = $this->createForm(ManagedAliasType::class, $managedAlias);
         $form->handleRequest($request);
 
@@ -73,18 +66,14 @@ class ManagedAliasController extends AbstractController
         ]);
     }
 
-    public function removeAction(int $id): Response
+    public function removeAction(ManagedAlias $managedAlias): Response
     {
-        $managedAlias = $this->aliasService->getManagedAlias($id);
-
-        if ($managedAlias) {
-            $name = $managedAlias->getName();
-            $this->aliasService->removeAlias($managedAlias->getAlias());
-            $this->managedAliasRepository->delete($managedAlias);
-            $this->logger->notice('log.managed_alias.deleted', [
-                'managed_alias_name' => $name,
-            ]);
-        }
+        $name = $managedAlias->getName();
+        $this->aliasService->removeAlias($managedAlias->getAlias());
+        $this->managedAliasRepository->delete($managedAlias);
+        $this->logger->notice('log.managed_alias.deleted', [
+            'managed_alias_name' => $name,
+        ]);
 
         return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }

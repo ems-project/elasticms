@@ -10,6 +10,7 @@ use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentDataTableType;
+use EMS\CoreBundle\DataTable\Type\Environment\EnvironmentManagedAliasDataTableType;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Form\RebuildIndex;
@@ -34,6 +35,8 @@ use EMS\CoreBundle\Service\Mapping;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,11 +55,12 @@ class EnvironmentController extends AbstractController
         private readonly EnvironmentRepository $environmentRepository,
         private readonly FieldTypeRepository $fieldTypeRepository,
         private readonly ContentTypeRepository $contentTypeRepository,
+        private readonly DataTableFactory $dataTableFactory,
+        private readonly FormFactory $formFactory,
         private readonly string $instanceId,
         private readonly ?string $circlesObject,
         private readonly string $templateNamespace,
-        private readonly DataTableFactory $dataTableFactory)
-    {
+    ) {
     }
 
     public function remove(int $id): Response
@@ -335,10 +339,18 @@ class EnvironmentController extends AbstractController
             return $this->render("@$this->templateNamespace/environment/index.html.twig", [
                 'environments' => $environments,
                 'managedAliases' => $this->aliasService->getManagedAliases(),
+                'datatableManagedAlias' => $this->dataTableManagedAlias()->createView(),
                 'form' => $form->createView(),
             ]);
         } catch (NoNodesAvailableException) {
             return $this->redirectToRoute('elasticsearch.status');
         }
+    }
+
+    private function dataTableManagedAlias(): FormInterface
+    {
+        $table = $this->dataTableFactory->create(EnvironmentManagedAliasDataTableType::class);
+
+        return $this->formFactory->createNamed('environment_managed_alias', TableType::class, $table);
     }
 }

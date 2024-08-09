@@ -7,7 +7,6 @@ namespace EMS\CoreBundle\DataTable\Type\Environment;
 use EMS\CoreBundle\Core\DataTable\ArrayDataSource;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractTableType;
 use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
-use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
 use EMS\CoreBundle\Form\Data\QueryTable;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
@@ -17,15 +16,8 @@ use function Symfony\Component\Translation\t;
 
 class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implements QueryServiceTypeInterface
 {
-    use DataTableTypeTrait;
-
     public function __construct(private readonly AliasService $aliasService)
     {
-    }
-
-    public function getLoadMaxRows(): int
-    {
-        return 10;
     }
 
     public function build(QueryTable $table): void

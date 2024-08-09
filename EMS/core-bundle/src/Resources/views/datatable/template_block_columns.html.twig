@@ -1,8 +1,9 @@
-{% block contentTypeEnvironment %}
-    <span class="badge {% if data.environmentColor is not null %}{{ "bg-#{data.environmentColor}" }}{% endif %}">
-        {{- data.environmentLabel -}}
+{% block environmentName %}
+    {% set color = data.environmentColor|default(data.color|default('')) %}
+    <span class="badge {% if color is not null %}{{ "bg-#{color}" }}{% endif %}">
+        {{- data.environmentLabel|default(data.label|default('')) -}}
     </span>
-{% endblock contentTypeEnvironment %}
+{% endblock environmentName %}
 
 {% block contentTypeViewType %}
     {% if line.data.type %}

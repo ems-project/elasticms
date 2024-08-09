@@ -4,7 +4,7 @@
 {% block pagetitle %}View the environment {{environment.name}}{% endblock %}
 {% block breadcrumb %}
 	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a href={{ path('environment.index') }}><i class="fa fa-database"></i> Environments</a></li>
+		<li class="breadcrumb-item"><a href={{ path('emsco_admin_environment_index') }}><i class="fa fa-database"></i> Environments</a></li>
     <li class="breadcrumb-item active">View environment</li>
   </ol>
 {% endblock %}
@@ -30,12 +30,12 @@
             <div class="card-footer text-end">
                 <div class="btn-group">
                     {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                        'url': path('environment.index'),
+                        'url': path('emsco_admin_environment_index'),
                         'label': 'Close',
                         'icon': 'close'
                     } %}
                     {% include '@EMSAdminUI/bootstrap5/elements/get-button.html.twig' with {
-                        'url': path('environment.edit', {'id': environment.id}),
+                        'url': path('emsco_admin_environment_edit', {'id': environment.id}),
                         'label': 'Edit',
                         'icon': 'pencil'
                     } %}

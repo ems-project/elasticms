@@ -10,7 +10,7 @@ class ArrayDataSource implements \Countable
 {
     /** @param array<int, array<string, mixed>|object> $data */
     public function __construct(
-        private readonly array $data
+        public readonly array $data
     ) {
     }
 

@@ -10,13 +10,21 @@ class ArrayDataSource implements \Countable
 {
     /** @param array<int, array<string, mixed>|object> $data */
     public function __construct(
-        public readonly array $data
+        private readonly array $data
     ) {
     }
 
     public function count(): int
     {
         return \count($this->data);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>|object>
+     */
+    public function getData(int $from, int $size): array
+    {
+        return \array_slice($this->data, $from, $size);
     }
 
     public function search(string $term): self
@@ -26,6 +34,10 @@ class ArrayDataSource implements \Countable
             $values = \is_object($data) ? \get_object_vars($data) : $data;
 
             foreach ($values as $value) {
+                if (\is_array($value)) {
+                    continue;
+                }
+
                 if (\preg_match($pattern, (string) $value)) {
                     return true;
                 }

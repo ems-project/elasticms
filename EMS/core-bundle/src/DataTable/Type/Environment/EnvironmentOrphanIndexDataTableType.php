@@ -77,10 +77,10 @@ class EnvironmentOrphanIndexDataTableType extends AbstractTableType implements Q
         $dataSource = $this->getDataSource($searchValue);
 
         if (null !== $orderField) {
-            return $dataSource->sort(\sprintf('[%s]', $orderField), $orderDirection)->data;
+            return $dataSource->sort(\sprintf('[%s]', $orderField), $orderDirection)->getData($from, $size);
         }
 
-        return $dataSource->data;
+        return $dataSource->getData($from, $size);
     }
 
     public function countQuery(string $searchValue = '', mixed $context = null): int

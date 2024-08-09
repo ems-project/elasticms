@@ -70,10 +70,10 @@ class ContentTypeUnreferencedDataTableType extends AbstractTableType implements 
         $dataSource = $this->getDataSource($searchValue);
 
         if (null !== $orderField) {
-            return $dataSource->sort($orderField, $orderDirection)->data;
+            return $dataSource->sort($orderField, $orderDirection)->getData($from, $size);
         }
 
-        return $dataSource->data;
+        return $dataSource->getData($from, $size);
     }
 
     public function countQuery(string $searchValue = '', mixed $context = null): int

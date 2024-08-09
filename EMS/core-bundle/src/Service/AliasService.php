@@ -357,12 +357,14 @@ class AliasService
     {
         if ($this->hasAlias($name)) {
             $this->aliases[$name]['indexes'][$index] = $this->getIndex($index);
+            $this->aliases[$name]['countIndexes'] = \count($this->aliases[$name]['indexes']);
 
             return;
         }
 
         $this->aliases[$name] = [
             'name' => $name,
+            'countIndexes' => 1,
             'indexes' => [$index => $this->getIndex($index)],
             'total' => $this->count($name),
             'environment' => $env['name'] ?? null,

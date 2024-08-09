@@ -34,7 +34,8 @@ class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implem
         $table->setDefaultOrder('name')->setLabelAttribute('name');
 
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
-        $table->addColumn(t('field.count', [], 'emsco-core'), 'total');
+        $table->addColumn(t('field.indexes', [], 'emsco-core'), 'countIndexes');
+        $table->addColumn(t('field.total', [], 'emsco-core'), 'total');
 
         $table->addDynamicItemPostAction(
             route: Routes::ADMIN_ELASTIC_ALIAS_ATTACH,

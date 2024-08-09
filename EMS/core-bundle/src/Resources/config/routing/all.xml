@@ -53,7 +53,7 @@
     <import resource="@EMSCoreBundle/Resources/config/routing/log.xml"
             prefix="/admin/log"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/admin/elasticsearch.xml"
-            prefix="/admin/elastic-search/"/>
+            prefix="/admin/elasticsearch/"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/admin/environment.xml"
             prefix="/admin/environment"/>
     <import resource="@EMSCoreBundle/Resources/config/routing/publisher.xml"

@@ -59,53 +59,6 @@ class EnvironmentController extends AbstractController
     {
     }
 
-    public function attach(string $name): Response
-    {
-        try {
-            if ($this->indexService->hasIndex($name)) {
-                $anotherObject = $this->environmentRepository->findBy([
-                        'name' => $name,
-                ]);
-
-                if (0 == \count($anotherObject)) {
-                    $environment = new Environment();
-                    $environment->setName($name);
-                    $environment->setAlias($name);
-                    // TODO: setCircles
-                    $environment->setManaged(false);
-
-                    $this->environmentRepository->save($environment);
-
-                    $this->logger->notice('log.environment.alias_attached', [
-                        'alias' => $name,
-                    ]);
-
-                    return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_EDIT, [
-                            'id' => $environment->getId(),
-                    ]);
-                }
-            }
-        } catch (NotFoundException $e) {
-            $this->logger->error('log.error', [
-                EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                EmsFields::LOG_EXCEPTION_FIELD => $e,
-            ]);
-        }
-
-        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
-    }
-
-    public function removeAlias(string $name): Response
-    {
-        if ($this->aliasService->removeAlias($name)) {
-            $this->logger->notice('log.environment.alias_removed', [
-                'alias' => $name,
-            ]);
-        }
-
-        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
-    }
-
     public function remove(int $id): Response
     {
         /** @var Environment $environment */
@@ -381,8 +334,6 @@ class EnvironmentController extends AbstractController
 
             return $this->render("@$this->templateNamespace/environment/index.html.twig", [
                 'environments' => $environments,
-                'orphanIndexes' => $this->aliasService->getOrphanIndexes(),
-                'unreferencedAliases' => $this->aliasService->getUnreferencedAliases(),
                 'managedAliases' => $this->aliasService->getManagedAliases(),
                 'form' => $form->createView(),
             ]);

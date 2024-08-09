@@ -26,6 +26,8 @@
         </service>
         <service id="EMS\CoreBundle\Controller\Admin\ElasticSearchController" public="true">
             <argument type="service" id="ems.service.index" />
+            <argument type="service" id="ems.service.alias" />
+            <argument type="service" id="EMS\CoreBundle\Service\EnvironmentService" />
             <argument type="service" id="emsco.data_table.factory" />
             <argument type="service" id="emsco.logger" />
             <argument>%ems_core.template_namespace%</argument>

@@ -221,6 +221,8 @@ class AliasService
      */
     public function getUnreferencedAliases(): array
     {
+        $this->build();
+
         $aliases = $this->getAliases();
 
         return \array_filter($aliases, fn (array $alias) => null === $alias['environment'] && false === $alias['managed']);

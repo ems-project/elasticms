@@ -129,7 +129,6 @@ log:
         too_many_document_result: 'Found %total% results for the document %contenttype%:%ouuid% in the environment %environment%'
     environment:
         alia_missing: 'The alias for the environment %environment% is missing, consider to rebuild a brand new alias'
-        alias_attached: 'The alias %alias% has been attached'
         alias_not_found: 'Alias %alias% not found'
         alias_removed: 'The alias %alias% has been removed'
         aligned: 'Environment %environment% and %with_environment% are aligned for those content types'
@@ -807,14 +806,11 @@ view:
             add_environment_button: 'Add Environment'
             add_managed_alias_button: 'Add managed alias'
             alias_label: Alias
-            all_indexes_are_referenced: 'All aliases are referenced'
-            attach_alias_confirm: 'Attache the alias %name%?'
             attach_button: Atach
             close_modal_button: Close
             confirm_delete: 'Do you want to delete %name%?'
             confirm_dettach: 'Do you want to detach %name%?'
             count_label: '#'
-            delete_alias_confirm: 'Do you want to delete the alias %name%?'
             delete_button: Delete
             delete_managed_environemnt_button: Delete
             dettach_button: Detach
@@ -840,7 +836,6 @@ view:
             total_indexed_label: 'Total in ES'
             total_label: Total
             total_mark_has_deleted: 'Total deleted'
-            unreferenced_aliases_title: 'Unreferenced aliases'
             view_button: View
     form:
         fields:

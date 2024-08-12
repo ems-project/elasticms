@@ -17,12 +17,14 @@ action:
     duplicate: Duplicate
     edit: Edit
     export: Export
+    rebuild: Rebuild
     reorder: Reorder
     select_all: 'Select all'
     status: Status
     toggle_visibility: 'Toggle visibility'
     toggle_visibility_selected: 'Toggle visibility selected'
     update_mapping: 'Update mapping'
+    view: View
 core:
     content_type:
         view_define: |-
@@ -68,6 +70,13 @@ core:
                 browser_file    {File browser}
                 other           {Unknown}    
             }
+    environment:
+        index_count: |-
+            {indexes, plural, 
+                =0      {There are no index}
+                =1      {There is one index}
+                other   {There are # indexes}
+            }
     version: 'Version {core} with Symfony {symfony}'
 field:
     alias: Alias
@@ -108,6 +117,9 @@ field:
     tag: Tag
     text: Text
     total: Total
+    total_deleted: 'Total deleted'
+    total_elastic: 'Total in ES'
+    total_ems: 'Total in EMS'
     translations: Translations
     type: Type
     user: User
@@ -123,6 +135,8 @@ key:
     content_types: 'Content Types'
     dashboards: Dashboards
     environments: Environments
+    environments_external: 'External environments'
+    environments_local: 'Local environments'
     filters: Filters
     forms: Forms
     i18n: I18N
@@ -194,28 +208,30 @@ type:
         }
     delete_confirm: |-
         {type, select,
-            analyzer            {Delete the "{label}" analyzer?}
-            alias               {Do you want to delete the alias "{label}"?}
-            channel             {Delete the "{label}" channel?}
-            content_type        {Delete the "{label}" content type?}
-            content_type_action {Delete the "{label}" action?}
-            content_type_view   {Delete the "{label}" view?}
-            dashboard           {Delete the "{label}" dashboard?}
-            draft               {Modifications made in this draft will be lost}
-            filter              {Delete the "{label}" filter?}
-            form                {Delete the "{label}" form?}
-            i18n                {Delete the "{label}" i18n key?}
-            orphan_index        {Delete the orphan index "{label}"?}
-            job                 {Delete the job?}
-            job_schedule        {Delete the "{label}" scheduled job?}
-            log                 {Delete log?}  
-            managed_alias       {Delete the "{label}" managed alias?}
-            trash               {Delete trash "{label}" ?}
-            uploaded_file       {Delete "{label}" ?}
-            query_search        {Delete the "{label}" QuerySearch?}
-            wysiwyg_profile     {Delete the "{label}" WYSIWYG profile?}
-            wysiwyg_style_set   {Delete the "{label}" WYSIWYG style set?}
-            other               {Are you sure?}    
+            analyzer             {Delete the "{label}" analyzer?}
+            alias                {Do you want to delete the alias "{label}"?}
+            channel              {Delete the "{label}" channel?}
+            content_type         {Delete the "{label}" content type?}
+            content_type_action  {Delete the "{label}" action?}
+            content_type_view    {Delete the "{label}" view?}
+            dashboard            {Delete the "{label}" dashboard?}
+            draft                {Modifications made in this draft will be lost}
+            environment          {Delete the "{label}" environment?}
+            environment_external {Delete the "{label}" external environment?}
+            filter               {Delete the "{label}" filter?}
+            form                 {Delete the "{label}" form?}
+            i18n                 {Delete the "{label}" i18n key?}
+            orphan_index         {Delete the orphan index "{label}"?}
+            job                  {Delete the job?}
+            job_schedule         {Delete the "{label}" scheduled job?}
+            log                  {Delete log?}  
+            managed_alias        {Delete the "{label}" managed alias?}
+            trash                {Delete trash "{label}" ?}
+            uploaded_file        {Delete "{label}" ?}
+            query_search         {Delete the "{label}" QuerySearch?}
+            wysiwyg_profile      {Delete the "{label}" WYSIWYG profile?}
+            wysiwyg_style_set    {Delete the "{label}" WYSIWYG style set?}
+            other                {Are you sure?}    
         }
     delete_selected_confirm: |-
         {type, select,
@@ -226,6 +242,7 @@ type:
             content_type_view   {Delete all selected views?}
             dashboard           {Delete all selected dashboards?}
             draft               {All modifications made on selected drafts will lost?}
+            environment         {Delete all selected environments?}
             filter              {Delete all selected filters?}  
             form                {Delete all selected forms?}
             i18n                {Delete all selected i18n keys?}
@@ -248,6 +265,7 @@ type:
             content_type_action {Reorder content types actions}
             content_type_view   {Reorder content types views}
             dashboard           {Reorder dashboards}
+            environment         {Reorder environments}
             filter              {Reorder filters}
             form                {Reorder forms}
             job_schedule        {Reorder job schedules} 
@@ -271,6 +289,7 @@ type:
             content_type_action {{contentType} actions}  
             content_type_view   {{contentType} views}  
             dashboard           {List of dashboards}
+            environment         {Overview}
             filter              {List of filters}
             form                {List of forms}
             i18n                {I18n list}

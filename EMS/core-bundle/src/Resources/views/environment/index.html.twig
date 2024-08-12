@@ -31,137 +31,155 @@
 
     <div class="row">
         <div class="col-md-12">
-                <div>
-                    {%  set toolbar %}
-                        <a class="btn btn-primary" href="{{ path('emsco_admin_environment_add') }}"><i class="fa fa-plus"></i> {{ add_label|default(form.vars.add_label)|trans }}</a>
-                    {%  endset %}
 
-                    {% form_theme form '@EMSCore/form/forms.html.twig' %}
-                    {{ form(form, {
-                        reorder_label: 'environment.index.reorder',
-                        toolbar: toolbar
-                    }) }}
-                </div>
+                {% form_theme datatableEnvironment '@EMSCore/form/forms.html.twig' %}
+                {{ form(datatableEnvironment, {
+                    'table_title': 'key.environments_local'|trans({}, 'emsco-core'),
+                    'table_title_icon': 'fa fa-database'
+                }) }}
 
+                {% form_theme datatableExternalEnvironment '@EMSCore/form/forms.html.twig' %}
+                {{ form(datatableExternalEnvironment, {
+                    'table_title': 'key.environments_external'|trans({}, 'emsco-core'),
+                    'table_title_icon': 'fa fa-plug'
+                }) }}
 
-            {% set found = false %}
-            {% for environment in environments %}
-                {% if not environment.managed %}
-                    {% set found = true %}
-                {% endif %}
-            {% endfor %}
-
-            <div class="box ">
-                <div class="box-header with-border">
-                    <i class="fa fa-database"></i>
-                    <h3 class="box-title">{{ 'view.environment.index.external_environments_title'|trans }}</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    {% if not found %}
-                        {{ 'view.environment.index.no_external_environment_yet'|trans }}
-                    {% else %}
-                        <div class="table-responsive">
-                            <table class="table table-condensed table-striped">
-                                <tbody>
-                                <tr>
-                                    <th class="text-center" style="width: 10px">
-                                        {{ 'view.environment.index.count_label'|trans }}#
-                                    </th>
-                                    <th>{{ 'view.environment.index.label'|trans }}</th>
-                                    <th>{{ 'view.environment.index.name_label'|trans }}</th>
-                                    <th>{{ 'view.environment.index.alias_label'|trans }}</th>
-                                    <th>{{ 'view.environment.index.indexes_label'|trans }}</th>
-                                    <th class="text-center">{{ 'view.environment.index.total_label'|trans }}</th>
-                                    <th>{{ 'view.environment.index.action_label'|trans }}</th>
-                                </tr>
-                                {% for environment in environments %}
-                                    {% if not environment.managed %}
-                                        <tr>
-                                            <td class="text-center">{{ loop.index }}.</td>
-                                            <td>
-                                                <span class="badge bg-{{ environment.color|raw }}">{{ environment.label }}</span>
-                                            </td>
-                                            <td>{{ environment.name }}</td>
-                                            <td>{{ environment.alias }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-default btn-sm" data-toggle="modal"
-                                                        data-target="#modal-environment-{{ environment.id }}">
-                                                    {{ 'view.environment.index.environment_index_count'|trans({'%count%': environment.indexes|length}) }}
-                                                </button>
-
-                                            </td>
-                                            <td class="text-center">{{ environment.total|number_format }}</td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    {% include '@EMSCore/elements/get-button.html.twig' with {
-                                                        'url': path('emsco_admin_environment_view', {'id': environment.id}),
-                                                        'label': 'view.environment.index.view_button'|trans,
-                                                        'icon': 'eye'
-                                                    } %}
-                                                    {% include '@EMSCore/elements/get-button.html.twig' with {
-                                                        'url': path('emsco_admin_environment_edit', {'id': environment.id}),
-                                                        'label': 'view.environment.index.edit_button'|trans,
-                                                        'icon': 'pencil'
-                                                    } %}
-                                                    {% include '@EMSCore/elements/post-button.html.twig' with {
-                                                        'url': path('emsco_admin_environment_remove', {'id': environment.id}),
-                                                        'message': 'view.environment.index.confirm_dettach'|trans({'%name%': environment.label }),
-                                                        'label': 'view.environment.index.dettach_button'|trans,
-                                                        'icon': 'trash'
-                                                    } %}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    {% endif %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% endif %}
-                </div>
-                <!-- /.box-body -->
-            </div>
+                {% form_theme datatableManagedAlias '@EMSCore/form/forms.html.twig' %}
+                {{ form(datatableManagedAlias, {
+                    'table_title': 'key.managed_aliases'|trans({}, 'emsco-core'),
+                    'table_title_icon': 'fa fa-code-fork'
+                }) }}
 
 
-            {% for environment in environments %}
-                <div class="modal fade" id="modal-environment-{{ environment.id }}">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span></button>
-                                <h4 class="modal-title">{{ 'view.environment.index.environment_indexes_modal_title'|trans({'%name%': environment.label}) }}</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>
-                                    <ul class="list-group">
-                                        {% for index in environment.indexes %}
-                                            <li class="list-group-item">
-                                                <span class="badge">{{ index.count }}</span>
-                                                {{ index.name }}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
-                                    Close
-                                </button>
-                            </div>
-                        </div>
-                        <!-- /.modal-content -->
-                    </div>
-                    <!-- /.modal-dialog -->
-                </div>
-            {% endfor %}
 
-            {% form_theme datatableManagedAlias '@EMSCore/form/forms.html.twig' %}
-            {{ form(datatableManagedAlias, {
-                'table_title': 'key.managed_aliases'|trans({}, 'emsco-core'),
-                'table_title_icon': 'fa fa-code-fork'
-            }) }}
-        </div>
+{#                <div>#}
+{#                    {%  set toolbar %}#}
+{#                        <a class="btn btn-primary" href="{{ path('emsco_admin_environment_add') }}"><i class="fa fa-plus"></i> {{ add_label|default(form.vars.add_label)|trans }}</a>#}
+{#                    {%  endset %}#}
+
+{#                    {% form_theme form '@EMSCore/form/forms.html.twig' %}#}
+{#                    {{ form(form, {#}
+{#                        reorder_label: 'environment.index.reorder',#}
+{#                        toolbar: toolbar#}
+{#                    }) }}#}
+{#                </div>#}
+
+
+{#            {% set found = false %}#}
+{#            {% for environment in environments %}#}
+{#                {% if not environment.managed %}#}
+{#                    {% set found = true %}#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+
+{#            <div class="box ">#}
+{#                <div class="box-header with-border">#}
+{#                    <i class="fa fa-database"></i>#}
+{#                    <h3 class="box-title">{{ 'view.environment.index.external_environments_title'|trans }}</h3>#}
+{#                </div>#}
+{#                <!-- /.box-header -->#}
+{#                <div class="box-body">#}
+{#                    {% if not found|default(false) %}#}
+{#                        {{ 'view.environment.index.no_external_environment_yet'|trans }}#}
+{#                    {% else %}#}
+{#                        <div class="table-responsive">#}
+{#                            <table class="table table-condensed table-striped">#}
+{#                                <tbody>#}
+{#                                <tr>#}
+{#                                    <th class="text-center" style="width: 10px">#}
+{#                                        {{ 'view.environment.index.count_label'|trans }}##}
+{#                                    </th>#}
+{#                                    <th>{{ 'view.environment.index.label'|trans }}</th>#}
+{#                                    <th>{{ 'view.environment.index.name_label'|trans }}</th>#}
+{#                                    <th>{{ 'view.environment.index.alias_label'|trans }}</th>#}
+{#                                    <th>{{ 'view.environment.index.indexes_label'|trans }}</th>#}
+{#                                    <th class="text-center">{{ 'view.environment.index.total_label'|trans }}</th>#}
+{#                                    <th>{{ 'view.environment.index.action_label'|trans }}</th>#}
+{#                                </tr>#}
+{#                                {% for environment in environments|default([]) %}#}
+{#                                    {% if not environment.managed %}#}
+{#                                        <tr>#}
+{#                                            <td class="text-center">{{ loop.index }}.</td>#}
+{#                                            <td>#}
+{#                                                <span class="badge bg-{{ environment.color|raw }}">{{ environment.label }}</span>#}
+{#                                            </td>#}
+{#                                            <td>{{ environment.name }}</td>#}
+{#                                            <td>{{ environment.alias }}</td>#}
+{#                                            <td>#}
+{#                                                <button type="button" class="btn btn-default btn-sm" data-toggle="modal"#}
+{#                                                        data-target="#modal-environment-{{ environment.id }}">#}
+{#                                                    {{ 'view.environment.index.environment_index_count'|trans({'%count%': environment.indexes|length}) }}#}
+{#                                                </button>#}
+
+{#                                            </td>#}
+{#                                            <td class="text-center">{{ environment.total|number_format }}</td>#}
+{#                                            <td>#}
+{#                                                <div class="btn-group">#}
+{#                                                    {% include '@EMSCore/elements/get-button.html.twig' with {#}
+{#                                                        'url': path('emsco_admin_environment_view', {'id': environment.id}),#}
+{#                                                        'label': 'view.environment.index.view_button'|trans,#}
+{#                                                        'icon': 'eye'#}
+{#                                                    } %}#}
+{#                                                    {% include '@EMSCore/elements/get-button.html.twig' with {#}
+{#                                                        'url': path('emsco_admin_environment_edit', {'id': environment.id}),#}
+{#                                                        'label': 'view.environment.index.edit_button'|trans,#}
+{#                                                        'icon': 'pencil'#}
+{#                                                    } %}#}
+{#                                                    {% include '@EMSCore/elements/post-button.html.twig' with {#}
+{#                                                        'url': path('emsco_admin_environment_remove', {'id': environment.id}),#}
+{#                                                        'message': 'view.environment.index.confirm_dettach'|trans({'%name%': environment.label }),#}
+{#                                                        'label': 'view.environment.index.dettach_button'|trans,#}
+{#                                                        'icon': 'trash'#}
+{#                                                    } %}#}
+{#                                                </div>#}
+{#                                            </td>#}
+{#                                        </tr>#}
+{#                                    {% endif %}#}
+{#                                {% endfor %}#}
+{#                                </tbody>#}
+{#                            </table>#}
+{#                        </div>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <!-- /.box-body -->#}
+{#            </div>#}
+
+
+{#            {% for environment in environments|default([]) %}#}
+{#                <div class="modal fade" id="modal-environment-{{ environment.id }}">#}
+{#                    <div class="modal-dialog">#}
+{#                        <div class="modal-content">#}
+{#                            <div class="modal-header">#}
+{#                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                                    <span aria-hidden="true">×</span></button>#}
+{#                                <h4 class="modal-title">{{ 'view.environment.index.environment_indexes_modal_title'|trans({'%name%': environment.label}) }}</h4>#}
+{#                            </div>#}
+{#                            <div class="modal-body">#}
+{#                                <p>#}
+{#                                    <ul class="list-group">#}
+{#                                        {% for index in environment.indexes %}#}
+{#                                            <li class="list-group-item">#}
+{#                                                <span class="badge">{{ index.count }}</span>#}
+{#                                                {{ index.name }}#}
+{#                                            </li>#}
+{#                                        {% endfor %}#}
+{#                                    </ul>#}
+{#                                </p>#}
+{#                            </div>#}
+{#                            <div class="modal-footer">#}
+{#                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">#}
+{#                                    Close#}
+{#                                </button>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <!-- /.modal-content -->#}
+{#                    </div>#}
+{#                    <!-- /.modal-dialog -->#}
+{#                </div>#}
+{#            {% endfor %}#}
+
+
+{#        </div>#}
+    </div>
     </div>
 {% endblock %}

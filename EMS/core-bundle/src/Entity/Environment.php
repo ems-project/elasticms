@@ -66,7 +66,7 @@ class Environment extends JsonDeserializer implements \JsonSerializable, EntityI
     protected $deletedRevision;
 
     /**
-     * @var string
+     * @var ?string
      *
      * @ORM\Column(name="color", type="string", length=50, nullable=true)
      */

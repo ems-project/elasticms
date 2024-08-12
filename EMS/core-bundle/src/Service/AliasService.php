@@ -90,9 +90,7 @@ class AliasService
      */
     public function getAlias(string $name): array
     {
-        if (!$this->isBuild) {
-            $this->build();
-        }
+        $this->build();
 
         return $this->aliases[$name];
     }
@@ -102,28 +100,9 @@ class AliasService
      */
     public function getAliases(): array
     {
-        if (!$this->isBuild) {
-            $this->build();
-        }
+        $this->build();
 
         return $this->aliases;
-    }
-
-    public function getManagedAlias(int $id): ?ManagedAlias
-    {
-        if (!$this->isBuild) {
-            $this->build();
-        }
-
-        /** @var ManagedAlias|null $managedAlias */
-        $managedAlias = $this->managedAliasRepo->find($id);
-
-        if (null !== $managedAlias && $this->hasAlias($managedAlias->getAlias())) {
-            $alias = $this->getAlias($managedAlias->getAlias());
-            $managedAlias->setIndexes($alias['indexes']);
-        }
-
-        return $managedAlias;
     }
 
     public function getManagedAliasByName(string $name): ManagedAlias

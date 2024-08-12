@@ -42,6 +42,10 @@ class ArrayDataSource implements \Countable
                     continue;
                 }
 
+                if ($value instanceof \DateTimeInterface) {
+                    $value = $value->format(\DateTimeInterface::ATOM);
+                }
+
                 if (\preg_match($pattern, (string) $value)) {
                     return true;
                 }

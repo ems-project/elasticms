@@ -13,8 +13,7 @@
 		{% endif  %}
 	{% endif %}
 	{% if label is defined %}
-		{{ label|trans({'%label%' : itemLabel|default('%label%')}) }}
+		{{ label|trans }}
 	{% endif %}
-
 </a>
 

@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\DataTable\Type\Environment;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\DataTable\Type\DataTableTypeTrait;
+use EMS\CoreBundle\Form\Data\DatetimeTableColumn;
 use EMS\CoreBundle\Form\Data\EntityTable;
 use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
 use EMS\CoreBundle\Roles;
@@ -52,6 +53,11 @@ class EnvironmentDataTableType extends AbstractEntityTableType
             blockName: 'environmentIndex',
             template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
             orderField: 'label'
+        ));
+
+        $table->addColumnDefinition(new DatetimeTableColumn(
+            titleKey: t('field.date_build', [], 'emsco-core'),
+            attribute: 'buildDate'
         ));
 
         $table->addColumn(t('field.total_elastic', [], 'emsco-core'), 'total');

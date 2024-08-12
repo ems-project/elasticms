@@ -44,6 +44,7 @@ class EnvironmentManagedAliasDataTableType extends AbstractTableType implements 
             label: t('field.indexes', [], 'emsco-core'),
             blockName: 'environmentIndexesModal',
             template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            orderField: 'countIndexes',
         ));
         $table->addColumn(t('field.total', [], 'emsco-core'), 'total');
 
@@ -107,6 +108,7 @@ class EnvironmentManagedAliasDataTableType extends AbstractTableType implements 
                 'color' => $managedAlias->getColor(),
                 'alias' => $managedAlias->getAlias(),
                 'indexes' => $managedAlias->getIndexes(),
+                'countIndexes' => \count($managedAlias->getIndexes()),
                 'total' => $managedAlias->getTotal(),
             ], $managedAliases));
         }

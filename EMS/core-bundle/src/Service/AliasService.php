@@ -9,6 +9,7 @@ use Elasticsearch\Endpoints\Indices\UpdateAliases;
 use EMS\CommonBundle\Elasticsearch\Client;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Core\Environment\Index;
 use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\ManagedAlias;
 use EMS\CoreBundle\Repository\EnvironmentRepository;
@@ -18,9 +19,9 @@ use Psr\Log\LoggerInterface;
 class AliasService
 {
     private const COUNTER_AGGREGATION = 'counter_aggregation';
-    /** @var array<string, array{name: string, total: int, indexes: array<mixed>, environment: string, managed: bool}> */
+    /** @var array<string, array{name: string, total: int, indexes: Index[], environment: string, managed: bool}> */
     private array $aliases = [];
-    /** @var array<array{name: string, count: int}> */
+    /** @var Index[] */
     private array $orphanIndexes = [];
     private bool $isBuild = false;
     /** @var array<string, int> */
@@ -86,7 +87,7 @@ class AliasService
     }
 
     /**
-     * @return array{name: string, total: int, indexes: array<mixed>, environment: string, managed: bool}
+     * @return array{name: string, total: int, indexes: Index[], environment: string, managed: bool}
      */
     public function getAlias(string $name): array
     {
@@ -213,7 +214,7 @@ class AliasService
 
         $aliases = $this->getAliases();
 
-        return \array_filter($aliases, fn (array $alias) => null === $alias['environment'] && false === $alias['managed']);
+        return \array_filter($aliases, static fn (array $alias) => null === $alias['environment'] && false === $alias['managed']);
     }
 
     /**
@@ -330,7 +331,7 @@ class AliasService
         $alias = $this->getAlias($name);
 
         foreach ($alias['indexes'] as $index) {
-            $indexesToRemove[] = $index['name'];
+            $indexesToRemove[] = $index->name;
         }
 
         $this->updateAlias($name, ['remove' => $indexesToRemove]);
@@ -365,12 +366,9 @@ class AliasService
         $this->orphanIndexes[] = $this->getIndex($name);
     }
 
-    /**
-     * @return array{name: string, count: int}
-     */
-    private function getIndex(string $name): array
+    private function getIndex(string $name): Index
     {
-        return ['name' => $name, 'count' => $this->count($name)];
+        return new Index(name: $name, count: $this->count($name));
     }
 
     private function count(string $name): int

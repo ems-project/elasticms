@@ -8,6 +8,7 @@ use EMS\CoreBundle\Core\DataTable\ArrayDataSource;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractTableType;
 use EMS\CoreBundle\Core\DataTable\Type\QueryServiceTypeInterface;
 use EMS\CoreBundle\Form\Data\QueryTable;
+use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AliasService;
@@ -16,8 +17,10 @@ use function Symfony\Component\Translation\t;
 
 class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implements QueryServiceTypeInterface
 {
-    public function __construct(private readonly AliasService $aliasService)
-    {
+    public function __construct(
+        private readonly AliasService $aliasService,
+        private readonly string $templateNamespace,
+    ) {
     }
 
     public function build(QueryTable $table): void
@@ -26,7 +29,12 @@ class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implem
         $table->setDefaultOrder('name')->setLabelAttribute('name');
 
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
-        $table->addColumn(t('field.indexes', [], 'emsco-core'), 'countIndexes');
+        $table->addColumnDefinition(new TemplateBlockTableColumn(
+            label: t('field.indexes', [], 'emsco-core'),
+            blockName: 'environmentIndexesModal',
+            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+            orderField: 'countIndexes'
+        ));
         $table->addColumn(t('field.total', [], 'emsco-core'), 'total');
 
         $table->addDynamicItemPostAction(
@@ -82,7 +90,12 @@ class EnvironmentUnreferencedAliasDataTableType extends AbstractTableType implem
         static $dataSource = null;
 
         if (null === $dataSource) {
-            $dataSource = new ArrayDataSource($this->aliasService->getUnreferencedAliases());
+            $dataSource = new ArrayDataSource(\array_map(static fn (array $alias) => [
+                'name' => $alias['name'],
+                'total' => $alias['total'],
+                'indexes' => $alias['indexes'],
+                'countIndexes' => \count($alias['indexes']),
+            ], $this->aliasService->getUnreferencedAliases()));
         }
 
         return $dataSource->search($searchValue);

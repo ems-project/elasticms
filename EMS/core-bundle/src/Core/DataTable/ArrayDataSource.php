@@ -65,6 +65,13 @@ class ArrayDataSource implements \Countable
             $aValue = $propertyAccessor->getValue($a, $propertyPath);
             $bValue = $propertyAccessor->getValue($b, $propertyPath);
 
+            if ($aValue instanceof \DateTimeInterface) {
+                $aValue = $aValue->getTimestamp();
+            }
+            if ($bValue instanceof \DateTimeInterface) {
+                $bValue = $bValue->getTimestamp();
+            }
+
             if (\is_int($aValue) && \is_int($bValue)) {
                 $result = $aValue <=> $bValue;
             } else {

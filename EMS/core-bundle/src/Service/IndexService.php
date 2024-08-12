@@ -26,7 +26,7 @@ final class IndexService
     {
         $this->aliasService->build();
         foreach ($this->aliasService->getOrphanIndexes() as $index) {
-            $this->deleteIndex($index['name']);
+            $this->deleteIndex($index->name);
         }
     }
 

@@ -10,7 +10,7 @@
 {% endblock environmentIndex %}
 
 {% block environmentIndexesModal %}
-    {% set modalId = "modal-environment-#{id}-#{data.id}" %}
+    {% set modalId = "modal-environment-#{table.attributeName}-#{data.id|default(data.name)}" %}
     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#{{ modalId }}">
         {{ 'core.environment.index_count'|trans({'indexes': data.indexes|length }, 'emsco-core') }}
     </button>
@@ -27,7 +27,9 @@
                     <ul class="list-group">
                         {% for index in data.indexes %}
                             <li class="list-group-item">
-                                <span class="badge">{{ index.count }}</span>{{ index.name }}
+                                <span class="badge">{{ index.buildDate|date(date_time_format) }}</span>
+                                <span class="badge">{{ index.count }}</span>
+                                {{ index.name }}
                             </li>
                         {% endfor %}
                     </ul>

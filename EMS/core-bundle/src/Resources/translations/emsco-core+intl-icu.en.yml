@@ -86,6 +86,7 @@ field:
     context: Context
     count: Count
     cron: Cron
+    date_build: 'Date build'
     date_created: 'Date creation'
     date_modified: 'Date modified'
     date_run_next: 'Date next run'
@@ -100,6 +101,7 @@ field:
         type: Type
     hash: 'Hash signature'
     hidden: Hidden
+    index: Index
     indexes: Indexes
     is_active: Active
     is_dirty: Dirty
@@ -127,7 +129,6 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
-    index: Index
 key:
     actions: Actions
     admin: Admin

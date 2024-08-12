@@ -116,6 +116,8 @@ class AliasService
             throw new \RuntimeException('Unexpected null managed alias');
         }
 
+        $this->build();
+
         if ($this->hasAlias($managedAlias->getAlias())) {
             $alias = $this->getAlias($managedAlias->getAlias());
             $managedAlias->setIndexes($alias['indexes']);

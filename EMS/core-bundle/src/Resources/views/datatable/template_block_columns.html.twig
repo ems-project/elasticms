@@ -5,8 +5,12 @@
     </span>
 {% endblock environmentName %}
 
-{% block environmentIndexes %}
-    {% set modalId = "modal-environment-#{data.id}" %}
+{% block environmentIndex %}
+    {{ data.indexes|map((i) => i.name)|join(', ') }}
+{% endblock environmentIndex %}
+
+{% block environmentIndexesModal %}
+    {% set modalId = "modal-environment-#{id}-#{data.id}" %}
     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#{{ modalId }}">
         {{ 'core.environment.index_count'|trans({'indexes': data.indexes|length }, 'emsco-core') }}
     </button>
@@ -36,8 +40,7 @@
             </div>
         </div>
     </div>
-{% endblock environmentIndexes %}
-
+{% endblock environmentIndexesModal %}
 
 {% block contentTypeViewType %}
     {% if line.data.type %}

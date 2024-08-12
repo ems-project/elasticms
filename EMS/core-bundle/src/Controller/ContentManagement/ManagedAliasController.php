@@ -48,6 +48,8 @@ class ManagedAliasController extends AbstractController
 
     public function editAction(Request $request, ManagedAlias $managedAlias): Response
     {
+        $managedAlias = $this->aliasService->getManagedAliasByName($managedAlias->getName());
+
         $form = $this->createForm(ManagedAliasType::class, $managedAlias);
         $form->handleRequest($request);
 
@@ -68,11 +70,12 @@ class ManagedAliasController extends AbstractController
 
     public function removeAction(ManagedAlias $managedAlias): Response
     {
-        $name = $managedAlias->getName();
+        $managedAlias = $this->aliasService->getManagedAliasByName($managedAlias->getAlias());
+
         $this->aliasService->removeAlias($managedAlias->getAlias());
         $this->managedAliasRepository->delete($managedAlias);
         $this->logger->notice('log.managed_alias.deleted', [
-            'managed_alias_name' => $name,
+            'managed_alias_name' => $managedAlias->getName(),
         ]);
 
         return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);

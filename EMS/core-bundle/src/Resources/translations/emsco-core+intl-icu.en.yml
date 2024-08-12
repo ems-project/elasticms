@@ -127,6 +127,7 @@ field:
     user_impersonator: Impersonator
     user_modified: 'Modified by'
     user_uploaded: 'Uploaded by'
+    index: Index
 key:
     actions: Actions
     admin: Admin

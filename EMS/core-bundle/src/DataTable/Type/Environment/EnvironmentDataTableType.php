@@ -48,8 +48,8 @@ class EnvironmentDataTableType extends AbstractEntityTableType
         $table->addColumn(t('field.alias', [], 'emsco-core'), 'alias');
 
         $table->addColumnDefinition(new TemplateBlockTableColumn(
-            label: t('field.indexes', [], 'emsco-core'),
-            blockName: 'environmentIndexes',
+            label: t('field.index', [], 'emsco-core'),
+            blockName: 'environmentIndex',
             template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
             orderField: 'label'
         ));

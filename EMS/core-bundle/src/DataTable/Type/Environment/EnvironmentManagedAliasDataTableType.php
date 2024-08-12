@@ -40,7 +40,11 @@ class EnvironmentManagedAliasDataTableType extends AbstractTableType implements 
 
         $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
         $table->addColumn(t('field.alias', [], 'emsco-core'), 'alias');
-        $table->addColumn(t('field.indexes', [], 'emsco-core'), 'indexes');
+        $table->addColumnDefinition(new TemplateBlockTableColumn(
+            label: t('field.indexes', [], 'emsco-core'),
+            blockName: 'environmentIndexesModal',
+            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig",
+        ));
         $table->addColumn(t('field.total', [], 'emsco-core'), 'total');
 
         $this
@@ -102,7 +106,7 @@ class EnvironmentManagedAliasDataTableType extends AbstractTableType implements 
                 'label' => $managedAlias->getLabel(),
                 'color' => $managedAlias->getColor(),
                 'alias' => $managedAlias->getAlias(),
-                'indexes' => \count($managedAlias->getIndexes()) + $managedAlias->getId(),
+                'indexes' => $managedAlias->getIndexes(),
                 'total' => $managedAlias->getTotal(),
             ], $managedAliases));
         }

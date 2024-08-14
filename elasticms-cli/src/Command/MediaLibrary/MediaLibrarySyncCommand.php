@@ -39,6 +39,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
     private const OPTION_TARGET_FOLDER = 'target-folder';
     private const OPTION_FORCE_EXTRACT = 'force-extract';
+    private const OPTION_EXTRACT_SIZE = 'max-extract-size';
 
     private bool $tika;
     private ?string $tikaBaseUrl;
@@ -76,6 +77,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_HASH_METADATA_FILE, null, InputOption::VALUE_NONE, 'Provide a hash for option metadata file (CSV or Excel)')
             ->addOption(self::OPTION_TARGET_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Base path to sync in the media library. Must start by a / and should ends also with a /', '/')
             ->addOption(self::OPTION_FORCE_EXTRACT, null, InputOption::VALUE_NONE, 'Force tika extraction')
+            ->addOption(self::OPTION_EXTRACT_SIZE, null, InputOption::VALUE_OPTIONAL, 'Max file size for extraction', 64 * 1024 * 1024)
         ;
     }
 
@@ -99,6 +101,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             hashMetaDataFile: $this->getOptionBool(self::OPTION_HASH_METADATA_FILE),
             forceExtract: $this->getOptionBool(self::OPTION_FORCE_EXTRACT),
             maxContentSize: $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE),
+            maxFileSizeExtract: $this->getOptionInt(self::OPTION_EXTRACT_SIZE),
         );
 
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);

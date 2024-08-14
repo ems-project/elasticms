@@ -227,6 +227,12 @@ final class MediaLibrarySync
             return $assetArray;
         }
 
+        if ($file->getSize() > $this->options->maxFileSizeExtract) {
+            $this->io->note(\sprintf('File "%s" to big for extraction (%d bytes)', $file->getFilename(), $file->getSize()));
+
+            return $assetArray;
+        }
+
         if ($this->io->isVerbose()) {
             $this->io->note('Tika extracting');
         }

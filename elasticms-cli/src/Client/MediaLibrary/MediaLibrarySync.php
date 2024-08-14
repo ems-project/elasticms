@@ -13,6 +13,7 @@ use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\Standard\Text;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
@@ -142,6 +143,10 @@ final class MediaLibrarySync
         }
 
         if (null !== $file) {
+            if ($this->io->isVerbose()) {
+                $this->io->note(sprintf('Upload media "%s" (%s)', $file->getFilename(), $file->getRealPath()));
+            }
+
             $mediaFile = $document ? $document->getSource()[$this->options->fileField] ?? null : null;
             $data = \array_merge($data, [
                 $this->options->fileField => $this->urlToAssetArray($file, $mediaFile),
@@ -222,6 +227,10 @@ final class MediaLibrarySync
             return $assetArray;
         }
 
+        if ($this->io->isVerbose()) {
+            $this->io->note('Tika extracting');
+        }
+
         $mimeType = $this->mimeTypes->guessMimeType($file->getRealPath());
         $promise = $this->tikaHelper->extract($stream, $mimeType);
         $promise->startText();
@@ -237,7 +246,8 @@ final class MediaLibrarySync
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
             $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();
             $assetArray[EmsFields::CONTENT_FILE_LANGUAGE] = $meta->getLocale();
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            $this->io->warning($e->getMessage());
         }
 
         return $assetArray;

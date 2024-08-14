@@ -144,7 +144,7 @@ final class MediaLibrarySync
 
         if (null !== $file) {
             if ($this->io->isVerbose()) {
-                $this->io->note(sprintf('Upload media "%s" (%s)', $file->getFilename(), $file->getRealPath()));
+                $this->io->note(\sprintf('Upload media "%s" (%s)', $file->getFilename(), $file->getRealPath()));
             }
 
             $mediaFile = $document ? $document->getSource()[$this->options->fileField] ?? null : null;

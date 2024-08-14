@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\CLI\Helper\Tika;
 
 use App\CLI\Helper\ProcessWrapper;
-use EMS\Helpers\Standard\Text;
 use Psr\Http\Message\StreamInterface;
 
 class TikaWrapper extends ProcessWrapper

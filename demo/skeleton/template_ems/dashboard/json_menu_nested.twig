@@ -1,4 +1,4 @@
-{% extends '@EMSCore/components/json_menu_nested/template.twig' %}
+{% extends '@EMSAdminUI/bootstrap5/components/json_menu_nested/template.twig' %}
 
 {% block build_context %}
     {% set environments = ['preview', 'live']|map(e => e|emsco_get_environment) %}
@@ -51,7 +51,7 @@
 {%- block jmn_button_add_menu -%}
     {{ parent() }}
     <li>
-        <button class="ems-add-existing-page" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page">
+        <button class="ems-add-existing-page dropdown-item" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page">
             <i class="fa fa-sign-in"></i>Existing content
         </button>
     </li>
@@ -62,7 +62,7 @@
     <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
     {%- if item.type == 'page' and pageInfo -%}
         <li>
-            <button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
+            <button class="btn-detach-page dropdown-item" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
         </li>
     {% elseif item.children|length == 0 %}
         <li>{{- template.block('jmn_button_item_delete', _context)|raw -}}</li>
@@ -110,14 +110,14 @@
         {% elseif itemPages|length == 1 %}
             {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) and attribute(item.object, locale).title is defined %}
                 <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-sm btn-default jmn-dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-eye"></i>&nbsp;View
                     </button>
-                    <ul class="dropdown-menu pull-right">
+                    <ul class="dropdown-menu">
                         {% set path = item.path|map(p => attribute(p.object, locale).title|ems_slug) %}
                         {% for env in environments|filter(e => pageInfo.published(e.name)) %}
                             <li>
-                                <a href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank">
+                                <a class="dropdown-item" href="/channel/{{ env.name }}/{{ locale }}/{{ path|join('/') }}" target="_blank">
                                     <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Show {{ env.name }}
                                 </a>
                             </li>

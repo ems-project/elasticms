@@ -99,7 +99,7 @@
               <a href="{{ docInfo.draft ? path("ems_revision_edit", {revisionId: revisionId}) : docInfo.aligned("live") ? path("revision.new-draft", {type: data.contentType, ouuid: data.id }) : path("revision.publish_to", {revisionId: revisionId, envId: liveId, redirectToUrl: path("data.customindexview", {viewId: '~view.id~'})}) }}" class="btn btn-default" style="width: 100px;">
                 {{ docInfo.draft ? "Edit draft" : docInfo.aligned("live") ? "Edit" : "Publish in live" }}
               </a>
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <button type="button" class="btn btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <span class="caret">
                 </span>
                 <span class="sr-only">Toggle Dropdown

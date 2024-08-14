@@ -150,15 +150,14 @@
 
     .jmn-btn-move {
         cursor: move;
-
-        @include icon-before("\f047");
+        @include icon-before($fa-var-arrows);
     }
 
     .jmn-btn-collapse {
         padding: 0;
         border: none;
-        &[aria-expanded="true"]::after { @include icon("\f077"); }
-        &[aria-expanded="false"]::after { @include icon("\f078"); }
+        &[aria-expanded="true"]::after { @include icon($fa-var-chevron-up); }
+        &[aria-expanded="false"]::after { @include icon($fa-var-chevron-down); }
     }
 
     .jmn-badge {

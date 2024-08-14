@@ -1,8 +1,9 @@
 @import "@fortawesome/fontawesome-free/scss/functions";
+@import "@fortawesome/fontawesome-free/scss/variables";
 
 @mixin icon($icon) {
   font-family: $fa-style-family;
-  font-weight: 400;
+  font-weight: $fa-style;
   content: fa-content($icon);
 }
 

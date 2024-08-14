@@ -149,17 +149,17 @@
         {% for env in environments %}
             {% if pageInfo.defaultEnvironment.name == env %}
                 {% if pageInfo.hasDraft %}
-                    <span class="jmn-badge label label-warning col-sm-12">Draft</span>
+                    <span class="jmn-badge label label-warning">Draft</span>
                 {% else %}
-                    <span class="jmn-badge label label-success col-sm-12">Published</span>
+                    <span class="jmn-badge label label-success">Published</span>
                 {% endif %}
             {% else %}
                 {% if pageInfo.aligned(env) %}
-                    <span class="jmn-badge label label-success col-sm-12">Published</span>
+                    <span class="jmn-badge label label-success">Published</span>
                 {% elseif pageInfo.published(env) %}
-                    <span class="jmn-badge label label-warning col-sm-12">Outdated</span>
+                    <span class="jmn-badge label label-warning">Outdated</span>
                 {% else %}
-                    <span class="jmn-badge label label-default col-sm-12">Unavailable</span>
+                    <span class="jmn-badge label label-default">Unavailable</span>
                 {% endif %}
             {% endif %}
         {% endfor %}

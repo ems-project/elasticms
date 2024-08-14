@@ -38,6 +38,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     private const OPTION_HASH_FOLDER = 'hash-folder';
     private const OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
     private const OPTION_TARGET_FOLDER = 'target-folder';
+    private const OPTION_FORCE_EXTRACT = 'force-extract';
 
     private bool $tika;
     private ?string $tikaBaseUrl;
@@ -74,6 +75,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
             ->addOption(self::OPTION_HASH_FOLDER, null, InputOption::VALUE_NONE, 'Provide a hash for folder argument (zip file)')
             ->addOption(self::OPTION_HASH_METADATA_FILE, null, InputOption::VALUE_NONE, 'Provide a hash for option metadata file (CSV or Excel)')
             ->addOption(self::OPTION_TARGET_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Base path to sync in the media library. Must start by a / and should ends also with a /', '/')
+            ->addOption(self::OPTION_FORCE_EXTRACT, null, InputOption::VALUE_NONE, 'Force tika extraction')
         ;
     }
 
@@ -82,20 +84,21 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         parent::initialize($input, $output);
 
         $this->options = new MediaLibrarySyncOptions(
-            $this->getArgumentString(self::ARGUMENT_FOLDER),
-            $this->getOptionString(self::OPTION_CONTENT_TYPE),
-            $this->getOptionString(self::OPTION_FOLDER_FIELD),
-            $this->getOptionString(self::OPTION_PATH_FIELD),
-            $this->getOptionString(self::OPTION_FILE_FIELD),
-            $this->getOptionStringNull(self::OPTION_METADATA_FILE),
-            $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION),
-            $this->getOptionString(self::OPTION_TARGET_FOLDER),
-            $this->getOptionBool(self::OPTION_DRY_RUN),
-            $this->getOptionBool(self::OPTION_ONLY_MISSING),
-            $this->getOptionBool(self::OPTION_ONLY_METADATA_FILE),
-            $this->getOptionBool(self::OPTION_HASH_FOLDER),
-            $this->getOptionBool(self::OPTION_HASH_METADATA_FILE),
-            $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE),
+            folder: $this->getArgumentString(self::ARGUMENT_FOLDER),
+            contentType: $this->getOptionString(self::OPTION_CONTENT_TYPE),
+            folderField: $this->getOptionString(self::OPTION_FOLDER_FIELD),
+            pathField: $this->getOptionString(self::OPTION_PATH_FIELD),
+            fileField: $this->getOptionString(self::OPTION_FILE_FIELD),
+            metaDataFile: $this->getOptionStringNull(self::OPTION_METADATA_FILE),
+            locateRowExpression: $this->getOptionString(self::OPTION_LOCATE_ROW_EXPRESSION),
+            targetFolder: $this->getOptionString(self::OPTION_TARGET_FOLDER),
+            dryRun: $this->getOptionBool(self::OPTION_DRY_RUN),
+            onlyMissingFile: $this->getOptionBool(self::OPTION_ONLY_MISSING),
+            onlyMetadataFile: $this->getOptionBool(self::OPTION_ONLY_METADATA_FILE),
+            hashFolder: $this->getOptionBool(self::OPTION_HASH_FOLDER),
+            hashMetaDataFile: $this->getOptionBool(self::OPTION_HASH_METADATA_FILE),
+            forceExtract: $this->getOptionBool(self::OPTION_FORCE_EXTRACT),
+            maxContentSize: $this->getOptionInt(self::OPTION_MAX_CONTENT_SIZE),
         );
 
         $this->tika = $this->getOptionBool(self::OPTION_TIKA);

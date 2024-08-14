@@ -20,6 +20,7 @@ final class MediaLibrarySyncOptions
         public readonly bool $onlyMetadataFile,
         public readonly bool $hashFolder,
         public readonly bool $hashMetaDataFile,
+        public readonly bool $forceExtract = false,
         public readonly int $maxContentSize = 5120,
     ) {
         if (!\str_starts_with($targetFolder, '/')) {

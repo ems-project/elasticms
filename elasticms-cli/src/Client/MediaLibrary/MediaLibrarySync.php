@@ -204,7 +204,11 @@ final class MediaLibrarySync
             }
         }
 
-        if (null !== $mediaFile && $mediaFile[EmsFields::CONTENT_FILE_HASH_FIELD] === $hash && !empty($mediaFile[EmsFields::CONTENT_FILE_CONTENT])) {
+        if (!$this->options->forceExtract
+            && null !== $mediaFile
+            && $mediaFile[EmsFields::CONTENT_FILE_HASH_FIELD] === $hash
+            && !empty($mediaFile[EmsFields::CONTENT_FILE_CONTENT])
+        ) {
             return $mediaFile;
         }
 

@@ -13,15 +13,15 @@ class TikaWrapper extends ProcessWrapper
     private const EMSCLI_TIKA_PATH = 'EMSCLI_TIKA_PATH';
     private readonly string $tikaJar;
 
-    private function __construct(StreamInterface $stream, string $option, private readonly bool $trimWhiteSpaces = false, float $timeout = 3 * 60.0)
+    private function __construct(StreamInterface $stream, string $option, float $timeout = 3 * 60.0)
     {
         $this->tikaJar = \getenv(self::EMSCLI_TIKA_PATH) ?: '/opt/bin/tika-app.jar';
         parent::__construct(['java', '-Djava.awt.headless=true', '-jar', $this->tikaJar, $option], $stream, $timeout);
     }
 
-    public static function getLanguage(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getLanguage(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--language', $trimWhiteSpaces);
+        return new self($stream, '--language');
     }
 
     public static function getHtml(StreamInterface $stream): TikaWrapper
@@ -29,19 +29,19 @@ class TikaWrapper extends ProcessWrapper
         return new self($stream, '--html');
     }
 
-    public static function getText(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getText(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--text', $trimWhiteSpaces);
+        return new self($stream, '--text');
     }
 
-    public static function getTextMain(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getTextMain(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--text-main', $trimWhiteSpaces);
+        return new self($stream, '--text-main');
     }
 
-    public static function getMetadata(StreamInterface $stream, bool $trimWhiteSpaces = true): TikaWrapper
+    public static function getMetadata(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--metadata', $trimWhiteSpaces);
+        return new self($stream, '--metadata');
     }
 
     public static function getJsonMetadata(StreamInterface $stream): TikaWrapper
@@ -51,16 +51,7 @@ class TikaWrapper extends ProcessWrapper
 
     public static function getDocumentType(StreamInterface $stream): TikaWrapper
     {
-        return new self($stream, '--detect', true);
-    }
-
-    public function getOutput(): string
-    {
-        if ($this->trimWhiteSpaces) {
-            return Text::superTrim(parent::getOutput());
-        }
-
-        return parent::getOutput();
+        return new self($stream, '--detect');
     }
 
     protected function initialize(): void

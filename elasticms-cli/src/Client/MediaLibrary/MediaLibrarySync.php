@@ -227,7 +227,10 @@ final class MediaLibrarySync
         $promise->startText();
         $promise->startMeta();
         try {
-            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \mb_substr($promise->getText(), 0, $this->options->maxContentSize, 'UTF-8');
+            $extractedContent = \mb_substr($promise->getText(), 0, $this->options->maxContentSize, 'UTF-8');
+            $extractedContent = Text::superTrim($extractedContent);
+
+            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = $extractedContent;
             $meta = $promise->getMeta();
             $createdDate = $meta->getCreated();
             $assetArray[EmsFields::CONTENT_FILE_DATE] = $createdDate?->format(\DATE_ATOM);

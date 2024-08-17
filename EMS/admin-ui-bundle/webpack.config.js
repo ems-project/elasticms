@@ -74,6 +74,12 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          test: /ace-builds\/src-noconflict\/(theme|mode|worker|keyboard|ext|snippets\/).*\.js$/i,
+          use: [
+            { loader: 'file-loader', options: { name: '[path][name][contenthash].[ext]', esModule: false }, }
+          ]
+        },
+        {
           test: /\.(sa|sc|c)ss$/,
           exclude: /ckeditor5-/,
           use: [

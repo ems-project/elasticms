@@ -1012,7 +1012,7 @@
 							<i class="fa fa-arrows"></i>
 							<span class="sr-only">{{ 'view.form.fields.asset.move-button'|trans }}</span>
 						</a>
-						<a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled"{% endif %}" title="{{ 'view.form.fields.asset.view-button'|trans }}" target="_blank">
+						<a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled{% endif %}" title="{{ 'view.form.fields.asset.view-button'|trans }}" target="_blank">
 							<i class="fa fa-eye"></i>
 							<span class="sr-only">{{ 'view.form.fields.asset.view-button'|trans }}</span>
 						</a>

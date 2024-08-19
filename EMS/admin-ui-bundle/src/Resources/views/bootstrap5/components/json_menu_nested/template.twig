@@ -2,7 +2,7 @@
 {# @var config      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
 {# @var column      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedColumn #}
 {# @var template    \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
-{# @var render      \EMS\CoreBundle\Core\Component\JsonMenuNested\JsonMenuNestedRenderContext #}
+{# @var render      \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedRenderContext #}
 {# @var menu        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var item        \EMS\CommonBundle\Json\JsonMenuNested #}
 {# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
@@ -96,25 +96,25 @@
 {%- endblock jmn_item_title -%}
 
 {%- block jmn_button_item_edit -%}
-    <button class="jmn-btn-edit dropdown-item" data-modal-size="md">{{ buttonLabel|default('Edit') }}</button>
+    <button class="jmn-btn-edit dropdown-item" data-modal-size="md">{{- buttonLabel|default('Edit') -}}</button>
 {%- endblock jmn_button_item_edit -%}
 
 {%- block jmn_button_item_delete -%}
-    <button class="jmn-btn-delete">{{ buttonLabel|default('Delete') }}</button>
+    <button class="jmn-btn-delete">{{- buttonLabel|default('Delete') -}}</button>
 {%- endblock jmn_button_item_delete -%}
 
 {%- block jmn_button_item_move -%}
-    <button class="btn btn-sm btn-default jmn-btn-move">{{ buttonLabel|default('Move') }}</button>
+    <button class="btn btn-sm btn-default jmn-btn-move">{{- buttonLabel|default('Move') -}}</button>
 {%- endblock jmn_button_item_move -%}
 
 {%- block jmn_button_item_view -%}
-    <button class="jmn-btn-view dropdown-item" data-modal-size="md">{{ buttonLabel|default('View') }}</button>
+    <button class="jmn-btn-view dropdown-item" data-modal-size="md">{{- buttonLabel|default('View') -}}</button>
 {%- endblock jmn_button_item_view -%}
 
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add dropdown-item" data-add="{{ addNode.id }}" data-modal-size="md">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
-        {{ buttonLabel|default("New #{addNode.type}") }}
+        {{- buttonLabel|default("New #{addNode.type}") -}}
     </button>
 {%- endblock jmn_button_item_add -%}
 
@@ -144,7 +144,7 @@
     {% if addNodes|length > 0 or addMenu|length > 0 %}
         <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-add" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ buttonLabel|default('Add') }}
+                {{- buttonLabel|default('Add') -}}
             </button>
             <ul class="dropdown-menu">
                 {{ addMenu|raw }}
@@ -162,7 +162,7 @@
 {%- block jmn_modal_title -%}
     {% set modalTitle = modalTitle|default("#{action|capitalize} #{node.type|default('')|capitalize}") %}
     {% if node.icon|default(false) %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
-    {{ modalTitle }}
+    {{- modalTitle -}}
 {%- endblock jmn_modal_title -%}
 
 {%- block jmn_modal_body -%}
@@ -188,7 +188,7 @@
 {%- block jmn_modal_view -%}
     {%- if dataFields -%}
         {%- import "@EMSAdminUI/bootstrap5/macros/data-field-type.html.twig" as macros -%}
-        {{ macros.renderDataField(dataFields, rawData, false, []) }}
+        {{ macros.renderDataField(dataFields, rawData, false, [], config.locale) }}
     {%- else -%}
         <p class="text-red">{{ 'view.data.json-menu-nested-json-preview.field-type-not-found'|trans }}</p>
         <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">

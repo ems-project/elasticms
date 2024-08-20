@@ -1,5 +1,16 @@
 # Changelog 5.x
 
+## 5.19.1 (2024-08-20)
+### Bug Fixes
+* fix(admin/asset): small images null string by @theus77 in https://github.com/ems-project/elasticms/pull/979
+* fix(admin/command): recompute changed closing revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/977
+* fix(admin/datatable): default sort job created desc by @Davidmattei in https://github.com/ems-project/elasticms/pull/975
+* fix(admin/job): escape job commands trigger from UI by @Davidmattei in https://github.com/ems-project/elasticms/pull/976
+* fix(admin/revision): is granted contentType edit role by @Davidmattei in https://github.com/ems-project/elasticms/pull/990
+* fix(admin/revision): put back revision table action url by @Davidmattei in https://github.com/ems-project/elasticms/pull/982
+* fix(admin/ui): modal blocking input fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/989
+* fix(cli/media-sync): add filesize limit and fix memory leak extraction by @Davidmattei in https://github.com/ems-project/elasticms/pull/983
+
 ## 5.19.0 (2024-07-29)
 ### Features
 * feat(admin/command): add emsco:asset:refresh-file-fields (activate new fields) by @theus77 in https://github.com/ems-project/elasticms/pull/963

@@ -2212,12 +2212,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ems-project/EMSCoreBundle.git",
-                "reference": "549b8fcdf4f1ac4148e8cc66a7c005235b35bca2"
+                "reference": "a0f9ad97d1c3fbf32e0119868adb1d071b2bd37e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/549b8fcdf4f1ac4148e8cc66a7c005235b35bca2",
-                "reference": "549b8fcdf4f1ac4148e8cc66a7c005235b35bca2",
+                "url": "https://api.github.com/repos/ems-project/EMSCoreBundle/zipball/a0f9ad97d1c3fbf32e0119868adb1d071b2bd37e",
+                "reference": "a0f9ad97d1c3fbf32e0119868adb1d071b2bd37e",
                 "shasum": ""
             },
             "require": {
@@ -2278,7 +2278,7 @@
             "support": {
                 "source": "https://github.com/ems-project/EMSCoreBundle/tree/5.19.1"
             },
-            "time": "2024-08-13T11:14:28+00:00"
+            "time": "2024-08-20T11:50:19+00:00"
         },
         {
             "name": "elasticms/form-bundle",

@@ -72,9 +72,9 @@ class Core {
 
   coreReady () {
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      setTimeout(this.load(document), 1)
+      setTimeout(() => this.load(document), 1)
     } else {
-      document.addEventListener('DOMContentLoaded', this.load(document))
+      document.addEventListener('DOMContentLoaded', () => this.load(document))
     }
     this.initStatusRefresh()
     this.initCtrlSaveEvent()

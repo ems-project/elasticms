@@ -1,20 +1,14 @@
-import $ from 'jquery'
 import { AddedDomEvent } from '../events/addedDomEvent'
 import { tooltipDataLinks } from './tooltip'
 
 class AjaxModal {
   constructor (selector) {
-    this.selector = selector
-    this.$modal = $(selector)
-    this.bsModal = new window.bootstrap.Modal(document.querySelector(selector))
+    this.modal = document.querySelector(selector)
+    this.bsModal = new window.bootstrap.Modal(this.modal)
 
-    this.modal = document.querySelector(this.selector)
     if (this.modal) {
       this.loadingElement = this.modal.querySelector('.modal-loading')
-      $(document).on('hide.bs.modal', '.core-modal', (e) => {
-        if (e.target.id === this.modal.id) {
-          this.reset()
-        }
+      this.modal.addEventListener('hide.bs.modal', (e) => {
         e.target.dispatchEvent(new Event('ajax-modal-close'))
       })
     }
@@ -26,8 +20,8 @@ class AjaxModal {
       const blockTargetElements = ['textarea', 'input', 'select', 'button', 'a']
 
       if (btnAjaxSubmit &&
-                !Array.from(blockTargetElements).includes(event.target.nodeName.toLowerCase()) &&
-                !event.target.classList.contains('select2-selection')
+          !Array.from(blockTargetElements).includes(event.target.nodeName.toLowerCase()) &&
+          !event.target.classList.contains('select2-selection')
       ) {
         event.preventDefault()
         btnAjaxSubmit.click()
@@ -43,7 +37,7 @@ class AjaxModal {
     this.loadingElement.style.display = 'block'
     document.removeEventListener('keydown', this.onKeyDown)
 
-    this.$modal.find('.ckeditor_ems').each(function () {
+    this.modal.querySelectorAll('.ckeditor_ems').each(() => {
       // TODO
       /* if (CKEDITOR.instances.hasOwnProperty($(this).attr('id'))) {
         CKEDITOR.instances[$(this).attr('id')].destroy()
@@ -140,20 +134,22 @@ class AjaxModal {
     }
 
     if (Object.prototype.hasOwnProperty.call(json, 'modalTitle')) {
-      this.$modal.find('.modal-title').html(json.modalTitle)
+      this.modal.querySelector('.modal-title').innerHTML = json.modalTitle
     }
+
     if (Object.prototype.hasOwnProperty.call(json, 'modalBody')) {
-      this.$modal.find('.ajax-modal-body').html(json.modalBody)
-      this.$modal.find(':input').each(function () {
-        $(this).addClass('ignore-ems-update')
+      this.modal.querySelector('.ajax-modal-body').innerHTML = json.modalBody
+
+      this.modal.querySelectorAll('input').forEach((input) => {
+        input.classList.add('ignore-ems-update')
       })
       const event = new AddedDomEvent(this.modal)
       event.dispatch()
     }
     if (Object.prototype.hasOwnProperty.call(json, 'modalFooter')) {
-      this.$modal.find('.ajax-modal-footer').html(json.modalFooter)
+      this.modal.querySelector('.ajax-modal-footer').innerHTML = json.modalFooter
     } else {
-      this.$modal.find('.ajax-modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>')
+      this.modal.querySelector('.ajax-modal-footer').innerHTML = '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
     }
 
     const messages = Object.prototype.hasOwnProperty.call(json, 'modalMessages') ? json.modalMessages : []

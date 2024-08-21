@@ -85,7 +85,7 @@ module.exports = (env, argv) => {
           use: [
             { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' } },
             { loader: 'css-loader', options: { sourceMap: (argv.mode !== 'production') } },
-            { loader: 'sass-loader', options: { sourceMap: (argv.mode !== 'production') } }
+            { loader: 'sass-loader', options: { sourceMap: (argv.mode !== 'production'), implementation: require('sass-embedded') } }
           ]
         }, {
           test: /\.(png|jpg|gif|svg)$/,

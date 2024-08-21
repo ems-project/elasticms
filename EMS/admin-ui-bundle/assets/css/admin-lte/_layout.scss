@@ -1,6 +1,7 @@
 // Core: Layout
 
 @use "sass:color";
+@use "sass:map";
 
 html {
   scroll-behavior: smooth;
@@ -209,7 +210,7 @@ body,
     }
   }
 
-  @each $breakpoint in map-keys($grid-breakpoints) {
+  @each $breakpoint in map.keys($grid-breakpoints) {
     @include media-breakpoint-up($breakpoint) {
       $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
@@ -374,7 +375,7 @@ body,
     }
   }
 
-  @each $breakpoint in map-keys($grid-breakpoints) {
+  @each $breakpoint in map.keys($grid-breakpoints) {
     @include media-breakpoint-up($breakpoint) {
       $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
       .layout#{$infix}-footer-fixed & {
@@ -683,7 +684,7 @@ body:not(.layout-fixed) {
       }
     }
 
-    @each $breakpoint in map-keys($grid-breakpoints) {
+    @each $breakpoint in map.keys($grid-breakpoints) {
       @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 

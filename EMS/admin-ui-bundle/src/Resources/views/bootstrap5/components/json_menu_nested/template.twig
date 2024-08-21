@@ -96,11 +96,11 @@
 {%- endblock jmn_item_title -%}
 
 {%- block jmn_button_item_edit -%}
-    <button class="jmn-btn-edit" data-modal-size="md">{{- buttonLabel|default('Edit') -}}</button>
+    <button class="jmn-btn-edit dropdown-item" data-modal-size="md">{{- buttonLabel|default('Edit') -}}</button>
 {%- endblock jmn_button_item_edit -%}
 
 {%- block jmn_button_item_delete -%}
-    <button class="jmn-btn-delete">{{- buttonLabel|default('Delete') -}}</button>
+    <button class="jmn-btn-delete dropdown-item">{{- buttonLabel|default('Delete') -}}</button>
 {%- endblock jmn_button_item_delete -%}
 
 {%- block jmn_button_item_move -%}
@@ -108,11 +108,11 @@
 {%- endblock jmn_button_item_move -%}
 
 {%- block jmn_button_item_view -%}
-    <button class="jmn-btn-view" data-modal-size="md">{{- buttonLabel|default('View') -}}</button>
+    <button class="jmn-btn-view dropdown-item" data-modal-size="md">{{- buttonLabel|default('View') -}}</button>
 {%- endblock jmn_button_item_view -%}
 
 {%- block jmn_button_item_add -%}
-    <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="md">
+    <button class="jmn-btn-add dropdown-item" data-add="{{ addNode.id }}" data-modal-size="md">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
         {{- buttonLabel|default("New #{addNode.type}") -}}
     </button>
@@ -143,10 +143,10 @@
 
     {% if addNodes|length > 0 or addMenu|length > 0 %}
         <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown jmn-dropdown-add" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-add" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{- buttonLabel|default('Add') -}}
             </button>
-            <ul class="dropdown-menu float-end">
+            <ul class="dropdown-menu">
                 {{ addMenu|raw }}
             </ul>
         </div>

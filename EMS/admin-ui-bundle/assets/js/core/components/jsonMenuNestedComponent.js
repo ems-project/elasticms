@@ -159,8 +159,8 @@ export default class JsonMenuNestedComponent {
     const dragged = event.dragged
     const targetList = event.to
 
-    if (!Object.prototype.hasOwnProperty.call(dragged, 'type') ||
-            !Object.prototype.hasOwnProperty.call(targetList, 'types')) return false
+    if (!Object.prototype.hasOwnProperty.call(dragged.dataset, 'type') ||
+            !Object.prototype.hasOwnProperty.call(targetList.dataset, 'types')) return false
 
     const types = JSON.parse(targetList.dataset.types)
 

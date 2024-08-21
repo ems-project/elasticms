@@ -28,7 +28,6 @@
       'jquery',
       'jquery-ui/ui/widgets/mouse',
       'jquery-ui/ui/data',
-      'jquery-ui/ui/ie',
       'jquery-ui/ui/scroll-parent',
       'jquery-ui/ui/version',
       'jquery-ui/ui/widget'

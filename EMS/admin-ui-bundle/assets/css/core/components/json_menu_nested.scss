@@ -145,6 +145,7 @@
     }
 
     .jmn-dropdown-add { @include icon-before($fa-var-plus); }
+
     .jmn-dropdown-more {
         @include icon-before($fa-var-ellipsis-v, 0);
         &::after { content: none; }
@@ -152,6 +153,7 @@
 
     .jmn-btn-move {
         cursor: move;
+
         @include icon-before($fa-var-arrows);
     }
 

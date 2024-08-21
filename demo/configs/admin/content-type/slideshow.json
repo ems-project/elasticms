@@ -5,7 +5,7 @@
         "name": "slideshow",
         "pluralName": "Slideshows",
         "singularName": "Slideshow",
-        "icon": "fa fa-slideshare",
+        "icon": "fab fa-slideshare",
         "description": null,
         "indexTwig": null,
         "extra": null,
@@ -651,6 +651,7 @@
             "show_link_search": "not-defined"
         },
         "fields": {
+            "display": null,
             "label": null,
             "color": null,
             "sort": null,
@@ -662,6 +663,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

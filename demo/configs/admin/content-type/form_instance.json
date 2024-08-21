@@ -5,7 +5,7 @@
         "name": "form_instance",
         "pluralName": "Forms",
         "singularName": "Form",
-        "icon": "fa fa-send-o",
+        "icon": "fa fa-paper-plane",
         "description": null,
         "indexTwig": null,
         "extra": null,

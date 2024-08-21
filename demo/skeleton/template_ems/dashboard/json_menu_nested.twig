@@ -52,7 +52,7 @@
     {{ parent() }}
     <li>
         <button class="ems-add-existing-page dropdown-item" data-modal-size="lg" data-jmn-modal-custom="modal_existing_page">
-            <i class="fa fa-sign-in"></i>Existing content
+            <i class="fa fa-sign-in" aria-hidden="true"></i>Existing content
         </button>
     </li>
 {%- endblock jmn_button_add_menu -%}
@@ -111,7 +111,7 @@
             {% if pageInfo and (pageInfo.published('preview') or pageInfo.published('live')) and attribute(item.object, locale).title is defined %}
                 <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-eye"></i>&nbsp;View
+                        <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;View
                     </button>
                     <ul class="dropdown-menu">
                         {% set path = item.path|map(p => attribute(p.object, locale).title|ems_slug) %}
@@ -128,7 +128,7 @@
             {% if is_granted(pageContentType.roles.edit) %}
                 {% set editPath = path('revision.new-draft', {'ouuid': page.id, 'type': pageContentType.name}) %}
                 <a class="btn btn-sm btn-primary" href="{{ editPath }}">
-                    <i class="fa fa-pencil-square-o"></i>&nbsp;Edit
+                    <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit
                 </a>
             {% endif %}
         {% else %}
@@ -173,7 +173,7 @@
     {{ parent() }}
 {% endblock jmn_modal_title %}
 
-{% block modal_existing_page_title %}<i class="fa fa-sign-in"></i>&nbsp;Existing content{% endblock modal_existing_page_title %}
+{% block modal_existing_page_title %}<i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Existing content{% endblock modal_existing_page_title %}
 
 {% block modal_existing_page_body %}
     {% set columns = [

@@ -149,17 +149,17 @@
         {% for env in environments %}
             {% if pageInfo.defaultEnvironment.name == env %}
                 {% if pageInfo.hasDraft %}
-                    <span class="jmn-badge label label-warning">Draft</span>
+                    <span class="jmn-badge badge bg-warning">Draft</span>
                 {% else %}
-                    <span class="jmn-badge label label-success">Published</span>
+                    <span class="jmn-badge badge bg-success">Published</span>
                 {% endif %}
             {% else %}
                 {% if pageInfo.aligned(env) %}
-                    <span class="jmn-badge label label-success">Published</span>
+                    <span class="jmn-badge badge bg-success">Published</span>
                 {% elseif pageInfo.published(env) %}
-                    <span class="jmn-badge label label-warning">Outdated</span>
+                    <span class="jmn-badge badge bg-warning">Outdated</span>
                 {% else %}
-                    <span class="jmn-badge label label-default">Unavailable</span>
+                    <span class="jmn-badge badge bg-default">Unavailable</span>
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -214,7 +214,7 @@
 {%- verbatim -%}
     <div style="width: 120px;">
         {% if docInfo.hasDraft %}
-            <span class="label label-default">In draft</span>
+            <span class="badge bg-default">In draft</span>
         {% else %}
             <button class="btn btn-sm btn-default btn-add-existing-page" data-page-id="{{ data.id }}">Select</button>
         {% endif %}

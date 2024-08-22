@@ -1,3 +1,5 @@
+@import "../helpers/mixins";
+
 div.media-lib {
   --color-active: #337AB7;
   --color-link: #337AB7;
@@ -87,8 +89,7 @@ div.media-lib {
       }
 
       li:not(:last-child)::after {
-        content: "\f101 ";
-        font-family: "FontAwesome", serif;
+        @include icon($fa-var-angle-double-right);
       }
     }
   }
@@ -117,10 +118,8 @@ div.media-lib {
   div.media-lib-folder {
     &:hover { background-color: var(--background-hover); }
     &::before {
-      content: "\f07b";
-      font-weight: normal;
+      @include icon($fa-var-folder);
       color: var(--color-icon);
-      font-family: "FontAwesome", serif;
       margin-right: 8px;
     }
     &.active {
@@ -170,13 +169,12 @@ div.media-lib {
             background-color: var(--background-white);
 
             &.has-children  > div.media-lib-container > div.media-lib-folder::after {
-              content: "\f104";
-              font-family: "FontAwesome", serif;
+              @include icon($fa-var-angle-left);
               float: right;
             }
             &.open {
-              & > div.media-lib-container > div.media-lib-folder::before { content: "\f07c"; }
-              & > div.media-lib-container > div.media-lib-folder::after { content: "\f107"; }
+              & > div.media-lib-container > div.media-lib-folder::before { @include icon($fa-var-folder-open); }
+              & > div.media-lib-container > div.media-lib-folder::after { @include icon($fa-var-angle-down); }
               & > ul { display: block; }
             }
 

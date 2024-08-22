@@ -31,16 +31,25 @@ export default class ProgressBar {
 
   status (status) {
     this.#divStatus.textContent = status
+
+    return this
   }
 
   style (style) {
     this.#styles.forEach((style) => this.#divBar.classList.remove(style))
     this.#divBar.classList.add('progress-bar-' + style)
+
+    return this
   }
 
   progress (value) {
-    this.#divBar.textContent = String(value).includes('%') ? value : value + '%'
+    if (this.#options.showPercentage) {
+      this.#divBar.textContent = String(value).includes('%') ? value : value + '%'
+    }
+
     this.#divBar.style.width = String(value).includes('%') ? value : value + '%'
+
+    return this
   }
 
   _createDivProgress (divBar) {

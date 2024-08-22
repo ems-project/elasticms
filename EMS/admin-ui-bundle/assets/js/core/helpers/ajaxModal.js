@@ -29,6 +29,10 @@ class AjaxModal {
     }
   }
 
+  getBodyElement () {
+    return this.modal.querySelector('.ajax-modal-body')
+  }
+
   close () {
     this.bsModal.hide()
   }
@@ -189,13 +193,16 @@ class AjaxModal {
       case 'error':
         messageClass = 'alert-danger'
         break
+      case 'info':
+        messageClass = 'alert-info'
+        break
       default:
         messageClass = 'alert-success'
     }
 
     this.modal.querySelector('.ajax-modal-body').insertAdjacentHTML(
       'afterbegin',
-      '<div class="alert ' + messageClass + '" role="alert">' + message + '</div>'
+      '<div class="alert ' + messageClass + '" role="alert">' + message.replace(/\n/g, '<br>') + '</div>'
     )
   }
 }

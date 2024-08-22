@@ -3,20 +3,19 @@ import Component from '../components/mediaLibrary'
 class MediaLibrary {
   constructor () {
     this.components = []
-    this.bodyData = document.querySelector('body').dataset
   }
 
   load (target) {
     const elements = target.getElementsByClassName('media-lib')
-    const self = this;
+    const body = document.querySelector('body')
 
-    [].forEach.call(elements, function (el) {
-      self.components.push(new Component(el, {
+    for (const el of elements) {
+      this.components.push(new Component(el, {
         urlMediaLib: '/component/media-lib',
-        urlInitUpload: this.bodyData.initUpload,
-        hashAlgo: this.bodyData.hashAlgo
+        urlInitUpload: body.dataset.initUpload,
+        hashAlgo: body.dataset.hashAlgo
       }))
-    })
+    }
   }
 }
 

@@ -54,16 +54,15 @@ class File
                 throw new \RuntimeException(\sprintf('Unexpected error while seeking the file pointer at position %s', $fromByte));
             }
         }
+        if ($chunkSize < 1) {
+            throw new \RuntimeException(\sprintf('Unexpected chunk size %d', $chunkSize));
+        }
 
         while (!\feof($handle)) {
-            $chunk = '';
-            while (!\feof($handle) && \strlen($chunk) < $chunkSize) {
-                $length = $chunkSize - \strlen($chunk);
-                if ($length > 0) {
-                    $chunk .= \fread($handle, $length);
-                }
+            $chunk = \fread($handle, $chunkSize);
+            if (false === $chunk) {
+                throw new \RuntimeException('Unexpected false chunk');
             }
-
             yield $chunk;
         }
         \fclose($handle);

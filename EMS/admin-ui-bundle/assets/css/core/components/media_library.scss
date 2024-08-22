@@ -1,4 +1,5 @@
 @import "../helpers/mixins";
+@import "../../admin-lte/_bootstrap-variables.scss";
 
 div.media-lib {
   --color-active: #337AB7;
@@ -32,6 +33,7 @@ div.media-lib {
     border-color: var(--color-border);
     & i { margin-right: 4px; color: var(--color-icon) }
     &.btn-default { background-color: var(--background-white); }
+    &.btn-file-upload { font-weight: normal; }
     &:focus, &:active:focus { outline: none; }
   }
 
@@ -81,7 +83,7 @@ div.media-lib {
         border: 0;
         padding: 5px 10px;
         line-height: 1.5;
-        font-size: 12px;
+        font-size: $font-size-sm;
         background-color: transparent;
         color: var(--color-link);
 
@@ -90,6 +92,7 @@ div.media-lib {
 
       li:not(:last-child)::after {
         @include icon($fa-var-angle-double-right);
+        font-size: $font-size-sm;
       }
     }
   }

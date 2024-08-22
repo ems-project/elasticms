@@ -196,11 +196,13 @@ export default class MediaLibrary {
 
   _onClickButtonFileRename (button) {
     const fileId = button.dataset.id
-    const fileRow = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
+    const rowElement = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
 
     ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/rename`, size: 'sm' }, (json) => {
       if (!Object.hasOwn(json, 'success') || json.success === false) return
-      if (Object.hasOwn(json, 'fileRow')) fileRow.closest('li').innerHTML = json.fileRow
+
+      const { fileRow = '' } = json
+      if (fileRow.length > 0) rowElement.closest('li').innerHTML = fileRow
 
       this._getHeader().then(() => {
         ajaxModal.close()
@@ -364,10 +366,10 @@ export default class MediaLibrary {
     const modalSize = button.dataset.modalSize ?? 'sm'
 
     ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/delete`, size: modalSize }, (json) => {
-      if (!Object.hasOwn(json, 'success') || json.success === false) return
-      if (!Object.hasOwn(json, 'jobId')) return
+      if (!Object.hasOwn(json, 'jobId') || !Object.hasOwn(json, 'success') || json.success === false) return
+      const { jobId } = json
 
-      const jobProgressBar = new ProgressBar('progress-' + json.jobId, {
+      const jobProgressBar = new ProgressBar('progress-' + jobId, {
         label: 'Deleting folder',
         value: 100,
         showPercentage: false
@@ -377,8 +379,8 @@ export default class MediaLibrary {
       this.loading(true)
 
       Promise.allSettled([
-        this._startJob(json.jobId),
-        this._jobPolling(json.jobId, jobProgressBar)
+        this._startJob(jobId),
+        this._jobPolling(jobId, jobProgressBar)
       ])
         .then(() => this._onClickButtonHome())
         .then(() => this._getFolders())
@@ -394,7 +396,9 @@ export default class MediaLibrary {
       if (!Object.hasOwn(json, 'success') || json.success === false) return
       if (!Object.hasOwn(json, 'jobId') || !Object.hasOwn(json, 'path')) return
 
-      const jobProgressBar = new ProgressBar('progress-' + json.jobId, {
+      const { jobId } = json
+
+      const jobProgressBar = new ProgressBar('progress-' + jobId, {
         label: 'Renaming',
         value: 100,
         showPercentage: false
@@ -404,8 +408,8 @@ export default class MediaLibrary {
       this.loading(true)
 
       Promise.allSettled([
-        this._startJob(json.jobId),
-        this._jobPolling(json.jobId, jobProgressBar)
+        this._startJob(jobId),
+        this._jobPolling(jobId, jobProgressBar)
       ])
         .then(() => this._getFolders(json.path))
         .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
@@ -499,11 +503,13 @@ export default class MediaLibrary {
       this._refreshHeader(json.header)
       this.#activeFolderHeader = json.header
     }
-    if (Object.hasOwn(json, 'rowHeader')) this.#elements.listFiles.innerHTML += json.rowHeader
-    if (Object.hasOwn(json, 'totalRows')) this.#loadedFiles += json.totalRows
-    if (Object.hasOwn(json, 'rows')) this.#elements.listFiles.innerHTML += json.rows
 
-    if (Object.hasOwn(json, 'remaining') && json.remaining) {
+    const { rowHeader, totalRows, rows, remaining = false } = json
+    if (rowHeader !== undefined) this.#elements.listFiles.innerHTML += rowHeader
+    if (totalRows !== undefined) this.#loadedFiles += totalRows
+    if (rows !== undefined) this.#elements.listFiles.innerHTML += rows
+
+    if (remaining) {
       this.#elements.loadMoreFiles.classList.add('show-load-more')
     } else {
       this.#elements.loadMoreFiles.classList.remove('show-load-more')
@@ -810,7 +816,7 @@ export default class MediaLibrary {
 
   async _post (path, data = {}, isFormData = false) {
     this.loading(true)
-    let options = {}
+    let options
 
     if (isFormData) {
       options = { method: 'POST', body: data }

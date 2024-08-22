@@ -26,7 +26,7 @@ export default class JsonMenuNestedComponent {
       load_parent_ids: this.#loadParentIds,
       load_children_id: loadChildrenId
     }).then((json) => {
-      if (!Object.prototype.hasOwnProperty.call(json, 'tree') || !Object.prototype.hasOwnProperty.call(json, 'load_parent_ids')) return
+      if (!Object.hasOwn(json, 'tree') || !Object.hasOwn(json, 'load_parent_ids')) return
 
       this.#loadParentIds = json.load_parent_ids
       this.#tree.innerHTML = json.tree
@@ -67,7 +67,7 @@ export default class JsonMenuNestedComponent {
       if (element.classList.contains('jmn-btn-view')) this._onClickButtonView(element, itemId)
       if (element.classList.contains('jmn-btn-delete')) this._onClickButtonDelete(itemId)
 
-      if (Object.prototype.hasOwnProperty.call(element, 'jmnModalCustom')) this._onClickModalCustom(element, itemId)
+      if (Object.hasOwn(element, 'jmnModalCustom')) this._onClickModalCustom(element, itemId)
     }, true)
   }
 
@@ -159,8 +159,8 @@ export default class JsonMenuNestedComponent {
     const dragged = event.dragged
     const targetList = event.to
 
-    if (!Object.prototype.hasOwnProperty.call(dragged.dataset, 'type') ||
-            !Object.prototype.hasOwnProperty.call(targetList.dataset, 'types')) return false
+    if (!Object.hasOwn(dragged.dataset, 'type') ||
+            !Object.hasOwn(targetList.dataset, 'types')) return false
 
     const types = JSON.parse(targetList.dataset.types)
 
@@ -185,11 +185,11 @@ export default class JsonMenuNestedComponent {
     } else {
       fromComponent.itemGet(itemId)
         .then((json) => {
-          if (!Object.prototype.hasOwnProperty.call(json, 'item')) throw new Error(JSON.stringify(json))
+          if (!Object.hasOwn(json, 'item')) throw new Error(JSON.stringify(json))
           return targetComponent.itemAdd(toParentId, json.item, position)
         })
         .then((response) => {
-          if (!Object.prototype.hasOwnProperty.call(response, 'success') || !response.success) throw new Error(JSON.stringify(response))
+          if (!Object.hasOwn(response, 'success') || !response.success) throw new Error(JSON.stringify(response))
           return fromComponent.itemDelete(itemId)
         })
         .catch(() => {})
@@ -215,9 +215,9 @@ export default class JsonMenuNestedComponent {
       if (eventCanceled) ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose)
 
       if (eventType === 'jmn-add' || eventType === 'jmn-edit') {
-        if (!Object.prototype.hasOwnProperty.call(json, 'success') || !json.success) return
-        if (Object.prototype.hasOwnProperty.call(json, 'load')) this.#loadParentIds.push(json.load)
-        if (Object.prototype.hasOwnProperty.call(json, 'item') && Object.prototype.hasOwnProperty.call(json, 'id')) activeItemId = json.item.id
+        if (!Object.hasOwn(json, 'success') || !json.success) return
+        if (Object.hasOwn(json, 'load')) this.#loadParentIds.push(json.load)
+        if (Object.hasOwn(json, 'item') && Object.hasOwn(json, 'id')) activeItemId = json.item.id
 
         ajaxModal.close()
       }

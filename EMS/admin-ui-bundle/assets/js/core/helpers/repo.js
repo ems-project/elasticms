@@ -9,7 +9,7 @@ export function formatRepo (repo) {
 
 export function formatRepoSelection (repo) {
   let tooltip
-  if (Object.prototype.hasOwnProperty.call(repo, 'element') && repo.element instanceof HTMLElement) {
+  if (Object.hasOwn(repo, 'element') && repo.element instanceof HTMLElement) {
     tooltip = repo.element.dataset.tooltip ?? null
   } else {
     tooltip = repo.tooltip ?? null

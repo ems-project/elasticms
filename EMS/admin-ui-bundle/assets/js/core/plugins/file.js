@@ -103,7 +103,7 @@ class File {
     listTab.attr('data-file-list-index', nextId + files.length)
 
     for (let i = 0; i < files.length; ++i) {
-      if (!Object.prototype.hasOwnProperty.call(files, i)) {
+      if (!Object.hasOwn(files, i)) {
         continue
       }
 

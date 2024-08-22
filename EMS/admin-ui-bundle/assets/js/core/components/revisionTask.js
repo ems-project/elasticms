@@ -26,7 +26,7 @@ export default class RevisionTask {
         ajaxModal.load(
           { url: e.target.dataset.url, title: e.target.dataset.title },
           (json) => {
-            if (Object.prototype.hasOwnProperty.call(json, 'modalSuccess') && json.modalSuccess === true) {
+            if (Object.hasOwn(json, 'modalSuccess') && json.modalSuccess === true) {
               window.location.reload()
             }
           }
@@ -42,7 +42,7 @@ export default class RevisionTask {
     })
       .then((response) => { return response.json() })
       .then((json) => {
-        if (Object.prototype.hasOwnProperty.call(json, 'tab')) this._updateTab(json.tab)
+        if (Object.hasOwn(json, 'tab')) this._updateTab(json.tab)
       })
   }
 
@@ -75,7 +75,7 @@ export default class RevisionTask {
 
   _onClickButtonTaskCreateOrUpdate (button) {
     ajaxModal.load({ url: button.dataset.url, title: button.dataset.title }, (json) => {
-      if (Object.prototype.hasOwnProperty.call(json, 'modalSuccess') && json.modalSuccess) {
+      if (Object.hasOwn(json, 'modalSuccess') && json.modalSuccess) {
         this.loadTasks()
       }
     })
@@ -83,7 +83,7 @@ export default class RevisionTask {
 
   _onClickButtonTaskDelete (button) {
     ajaxModal.load({ url: button.dataset.url, title: button.dataset.title }, (json) => {
-      if (Object.prototype.hasOwnProperty.call(json, 'modalSuccess') && json.modalSuccess) {
+      if (Object.hasOwn(json, 'modalSuccess') && json.modalSuccess) {
         this.loadTasks()
       }
     })
@@ -96,8 +96,8 @@ export default class RevisionTask {
     fetch(this.revisionTasks.dataset.url, { method: 'POST', body: formData })
       .then((response) => response.json())
       .then((json) => {
-        if (Object.prototype.hasOwnProperty.call(json, 'success') && json.success) this.loadTasks()
-        if (Object.prototype.hasOwnProperty.call(json, 'tab')) this._updateTab(json.tab)
+        if (Object.hasOwn(json, 'success') && json.success) this.loadTasks()
+        if (Object.hasOwn(json, 'tab')) this._updateTab(json.tab)
       })
   }
 

@@ -199,8 +199,8 @@ export default class MediaLibrary {
     const fileRow = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
 
     ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/rename`, size: 'sm' }, (json) => {
-      if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) return
-      if (Object.prototype.hasOwnProperty.call(json, 'fileRow')) fileRow.closest('li').innerHTML = json.fileRow
+      if (!Object.hasOwn(json, 'success') || json.success === false) return
+      if (Object.hasOwn(json, 'fileRow')) fileRow.closest('li').innerHTML = json.fileRow
 
       this._getHeader().then(() => {
         ajaxModal.close()
@@ -214,7 +214,7 @@ export default class MediaLibrary {
     const fileRow = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
 
     this._post(`/file/${fileId}/delete`).then((json) => {
-      if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) return
+      if (!Object.hasOwn(json, 'success') || json.success === false) return
 
       fileRow.closest('li').remove()
       this._selectFilesReset()
@@ -231,7 +231,7 @@ export default class MediaLibrary {
     const modalSize = button.dataset.modalSize ?? 'sm'
 
     ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
-      if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) return
+      if (!Object.hasOwn(json, 'success') || json.success === false) return
 
       let processed = 0
       const progressBar = new ProgressBar('progress-delete-files', {
@@ -246,7 +246,7 @@ export default class MediaLibrary {
       Promise
         .allSettled(Array.from(selection).map(fileRow => {
           return this._post(`/file/${fileRow.dataset.id}/delete`).then(() => {
-            if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) return
+            if (!Object.hasOwn(json, 'success') || json.success === false) return
 
             fileRow.closest('li').remove()
             progressBar
@@ -271,8 +271,8 @@ export default class MediaLibrary {
     const modalSize = button.dataset.modalSize ?? 'sm'
 
     ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
-      if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) return
-      if (!Object.prototype.hasOwnProperty.call(json, 'targetFolderId')) return
+      if (!Object.hasOwn(json, 'success') || json.success === false) return
+      if (!Object.hasOwn(json, 'targetFolderId')) return
 
       const targetFolderId = json.targetFolderId
 
@@ -299,7 +299,7 @@ export default class MediaLibrary {
           return new Promise((resolve, reject) => {
             this._post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
               .then((moveOk) => {
-                if (!Object.prototype.hasOwnProperty.call(moveOk, 'success') || moveOk.success === false) return
+                if (!Object.hasOwn(moveOk, 'success') || moveOk.success === false) return
                 fileRow.closest('li').remove()
                 resolve()
               })
@@ -352,7 +352,7 @@ export default class MediaLibrary {
     const path = this.#activeFolderId ? `/add-folder/${this.#activeFolderId}` : '/add-folder'
 
     ajaxModal.load({ url: this.#pathPrefix + path, size: 'sm' }, (json) => {
-      if (Object.prototype.hasOwnProperty.call(json, 'success') && json.success === true) {
+      if (Object.hasOwn(json, 'success') && json.success === true) {
         this.loading(true)
         this._getFolders(json.path).then(() => this.loading(false))
       }
@@ -364,8 +364,8 @@ export default class MediaLibrary {
     const modalSize = button.dataset.modalSize ?? 'sm'
 
     ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/delete`, size: modalSize }, (json) => {
-      if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) return
-      if (!Object.prototype.hasOwnProperty.call(json, 'jobId')) return
+      if (!Object.hasOwn(json, 'success') || json.success === false) return
+      if (!Object.hasOwn(json, 'jobId')) return
 
       const jobProgressBar = new ProgressBar('progress-' + json.jobId, {
         label: 'Deleting folder',
@@ -391,8 +391,8 @@ export default class MediaLibrary {
     const folderId = button.dataset.id
 
     ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/rename`, size: 'sm' }, (json) => {
-      if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) return
-      if (!Object.prototype.hasOwnProperty.call(json, 'jobId') || !Object.prototype.hasOwnProperty.call(json, 'path')) return
+      if (!Object.hasOwn(json, 'success') || json.success === false) return
+      if (!Object.hasOwn(json, 'jobId') || !Object.hasOwn(json, 'path')) return
 
       const jobProgressBar = new ProgressBar('progress-' + json.jobId, {
         label: 'Renaming',
@@ -450,7 +450,7 @@ export default class MediaLibrary {
     if (query.size > 0) path = path + '?' + query.toString()
 
     return this._get(path).then((json) => {
-      if (Object.prototype.hasOwnProperty.call(json, 'header')) this._refreshHeader(json.header)
+      if (Object.hasOwn(json, 'header')) this._refreshHeader(json.header)
     })
   }
 
@@ -495,15 +495,15 @@ export default class MediaLibrary {
   }
 
   _appendFiles (json) {
-    if (Object.prototype.hasOwnProperty.call(json, 'header')) {
+    if (Object.hasOwn(json, 'header')) {
       this._refreshHeader(json.header)
       this.#activeFolderHeader = json.header
     }
-    if (Object.prototype.hasOwnProperty.call(json, 'rowHeader')) this.#elements.listFiles.innerHTML += json.rowHeader
-    if (Object.prototype.hasOwnProperty.call(json, 'totalRows')) this.#loadedFiles += json.totalRows
-    if (Object.prototype.hasOwnProperty.call(json, 'rows')) this.#elements.listFiles.innerHTML += json.rows
+    if (Object.hasOwn(json, 'rowHeader')) this.#elements.listFiles.innerHTML += json.rowHeader
+    if (Object.hasOwn(json, 'totalRows')) this.#loadedFiles += json.totalRows
+    if (Object.hasOwn(json, 'rows')) this.#elements.listFiles.innerHTML += json.rows
 
-    if (Object.prototype.hasOwnProperty.call(json, 'remaining') && json.remaining) {
+    if (Object.hasOwn(json, 'remaining') && json.remaining) {
       this.#elements.loadMoreFiles.classList.add('show-load-more')
     } else {
       this.#elements.loadMoreFiles.classList.remove('show-load-more')

@@ -56,9 +56,9 @@ export default class Button {
         const button = e.target
         const postSettings = JSON.parse(button.dataset.postSettings)
         const url = button.href
-        const f = Object.prototype.hasOwnProperty.call(postSettings, 'form') ? document.getElementById(postSettings.form) : document.createElement('form')
+        const f = Object.hasOwn(postSettings, 'form') ? document.getElementById(postSettings.form) : document.createElement('form')
 
-        if (Object.prototype.hasOwnProperty.call(postSettings, 'form')) {
+        if (Object.hasOwn(postSettings, 'form')) {
           const inputField = document.createElement('INPUT')
           inputField.style.display = 'none'
           inputField.type = 'TEXT'
@@ -76,7 +76,7 @@ export default class Button {
           button.parentNode.appendChild(f)
         }
 
-        if (Object.prototype.hasOwnProperty.call(postSettings, 'value') && Object.prototype.hasOwnProperty.call(postSettings, 'name')) {
+        if (Object.hasOwn(postSettings, 'value') && Object.hasOwn(postSettings, 'name')) {
           const inputField = document.createElement('INPUT')
           inputField.style.display = 'none'
           inputField.type = 'TEXT'

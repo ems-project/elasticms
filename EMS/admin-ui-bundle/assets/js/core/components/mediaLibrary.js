@@ -1,239 +1,457 @@
 import ajaxModal from '../helpers/ajaxModal'
-import { ajaxJsonGet, ajaxJsonPost } from '../helpers/ajax'
 import ProgressBar from '../helpers/progressBar'
 import FileUploader from '@elasticms/file-uploader'
+import { resizeImage } from '../helpers/resizeImage'
 
 export default class MediaLibrary {
-  #el
-  #url
-  #activeFolder = ''
+  id
+  element
+  #pathPrefix
   #options = {}
-  #elements = {}
+  #elements = ''
+  #activeFolderId = null
+  #activeFolderHeader = ''
   #loadedFiles = 0
-  #fileUploaders = []
+  #selectionLastFile = null
+  #dragCounter = 0
+  #dragFiles = []
+  #debounceTimer = null
+  #searchValue = null
 
-  constructor (el, options) {
+  constructor (element, options) {
+    this.id = element.id
+    this.element = element
+    this.#pathPrefix = `${options.urlMediaLib}/${element.dataset.hash}`
     this.#options = options
-    this.#url = [options.urlMediaLib, el.dataset.hash].join('/')
 
-    this.#el = el
     this.#elements = {
-      header: el.querySelector('div.media-nav-bar'),
-      inputUpload: el.querySelector('input.file-uploader-input'),
-      files: el.querySelector('div.media-lib-files'),
-      loadMoreFiles: el.querySelector('div.media-lib-files > div.media-lib-load-more'),
-      listFiles: el.querySelector('ul.media-lib-list-files'),
-      listFolders: el.querySelector('ul.media-lib-list-folders'),
-      listUploads: el.querySelector('ul.media-lib-list-uploads'),
-      listBreadcrumb: el.querySelector('ul.media-lib-list-breadcrumb')
+      header: element.querySelector('div.media-nav-bar'),
+      inputUpload: element.querySelector('input.file-uploader-input'),
+      files: element.querySelector('div.media-lib-files'),
+      loadMoreFiles: element.querySelector('div.media-lib-files > div.media-lib-load-more'),
+      listFiles: element.querySelector('ul.media-lib-list-files'),
+      listFolders: element.querySelector('ul.media-lib-list-folders'),
+      listUploads: element.querySelector('ul.media-lib-list-uploads')
     }
 
     this._init()
   }
 
   _init () {
+    this.loading(true)
     this._addEventListeners()
-    this._initDropArea(this.#elements.files)
     this._initInfiniteScrollFiles(this.#elements.files, this.#elements.loadMoreFiles)
 
-    this._disableButtons()
     Promise
       .allSettled([this._getFolders(), this._getFiles()])
-      .then(() => this._enableButtons())
+      .then(() => this.loading(false))
   }
 
-  _disableButtons () {
-    this.#el.querySelectorAll('button').forEach(button => {
-      button.disabled = true
-    })
-    const uploadLabel = this.uploadLabel()
-    if (uploadLabel) uploadLabel.setAttribute('disabled', 'disabled')
+  isLoading () {
+    return this.element.classList.contains('loading')
   }
 
-  _enableButtons () {
-    this.#el.querySelectorAll('button').forEach(button => {
-      button.disabled = false
-    })
-    const uploadLabel = this.uploadLabel()
-    if (uploadLabel) uploadLabel.removeAttribute('disabled')
+  loading (flag) {
+    const buttons = this.element.querySelectorAll('button:not(.close-button)')
+    const uploadButton = (this.#elements.inputUpload)
+      ? this.#elements.header.querySelector(`label[for="${this.#elements.inputUpload.id}"]`)
+      : false
+
+    if (flag) {
+      this.element.classList.add('loading')
+      buttons.forEach(button => button.disabled = true)
+      if (uploadButton) uploadButton.setAttribute('disabled', 'disabled')
+    } else {
+      this.element.classList.remove('loading')
+      buttons.forEach(button => button.disabled = false)
+      if (uploadButton) uploadButton.removeAttribute('disabled')
+    }
   }
 
-  uploadInput () {
-    return this.#elements.header.querySelector('input.file-uploader-input')
+  getSearchBox () {
+    return this.#elements.header.querySelector('.media-lib-search')
   }
 
-  uploadLabel () {
-    const uploadInput = this.uploadInput()
-    if (!uploadInput) return null
+  getFolders () {
+    return this.#elements.listFolders.querySelectorAll('.media-lib-folder')
+  }
 
-    return this.#elements.header.querySelector(`label[for="${uploadInput.id}"]`)
+  getSelectionFile () {
+    const selection = this.getSelectionFiles()
+    return selection.length === 1 ? selection[0] : null
+  }
+
+  getSelectionFiles () {
+    return this.#elements.listFiles.querySelectorAll('.active')
   }
 
   _addEventListeners () {
-    this._addEventListenersHeader()
-    this.#el.onclick = (event) => {
+    this.element.onkeyup = (event) => {
+      if (event.shiftKey) this.#selectionLastFile = null
+      if (event.target.classList.contains('media-lib-search')) this._onSearchInput(event.target, 1000)
+    }
+
+    this.element.onclick = (event) => {
+      if (this.isLoading()) return
+
       const classList = event.target.classList
-      if (classList.contains('media-lib-link-folder')) this._clickButtonFolder(event.target)
-    }
-  }
 
-  _addEventListenersHeader () {
-    const elements = {
-      btnHome: this.#elements.header.querySelector('button.btn-home'),
-      btnAddFolder: this.#elements.header.querySelector('button.btn-add-folder'),
-      breadcrumb: this.#elements.header.querySelector('.media-lib-list-breadcrumb'),
-      inputUpload: this.uploadInput()
-    }
+      if (classList.contains('media-lib-search')) return
+      if (classList.contains('media-lib-file')) this._onClickFile(event.target, event)
+      if (classList.contains('media-lib-folder')) this._onClickFolder(event.target)
 
-    if (elements.btnAddFolder) elements.btnAddFolder.onclick = () => this._addFolder()
-    if (elements.btnHome) elements.btnHome.onclick = () => this._clickButtonHome()
-    if (elements.breadcrumb) elements.breadcrumb.onclick = (event) => this._clickBreadcrumb(event.target)
-    if (elements.inputUpload) elements.inputUpload.onchange = (event) => this._addFiles(Array.from(event.target.files))
-  }
+      if (classList.contains('btn-file-upload')) this.#elements.inputUpload.click()
+      if (classList.contains('btn-file-view')) this._onClickButtonFileView(event.target)
+      if (classList.contains('btn-file-rename')) this._onClickButtonFileRename(event.target)
+      if (classList.contains('btn-file-delete')) this._onClickButtonFileDelete(event.target)
+      if (classList.contains('btn-files-delete')) this._onClickButtonFilesDelete(event.target)
+      if (classList.contains('btn-files-move')) this._onClickButtonFilesMove(event.target)
 
-  _clickButtonHome () {
-    this._disableButtons()
-    this.#elements.listFolders.querySelectorAll('button')
-      .forEach((li) => li.classList.remove('active'))
+      if (classList.contains('btn-folder-add')) this._onClickButtonFolderAdd()
+      if (classList.contains('btn-folder-delete')) this._onClickButtonFolderDelete(event.target)
+      if (classList.contains('btn-folder-rename')) this._onClickButtonFolderRename(event.target)
 
-    this.#activeFolder = ''
-    this._getFiles().then(() => this._enableButtons())
-  }
+      if (classList.contains('btn-home')) this._onClickButtonHome(event.target)
+      if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target)
 
-  _clickButtonFolder (button) {
-    this._disableButtons()
-    this.#elements.listFolders.querySelectorAll('button')
-      .forEach((li) => li.classList.remove('active'))
-
-    button.classList.add('active')
-    const parentLi = button.parentNode
-    if (parentLi && parentLi.classList.contains('media-lib-folder-children')) {
-      parentLi.classList.toggle('open')
+      const keepSelection = ['media-lib-file', 'btn-file-rename', 'btn-file-delete', 'btn-files-delete', 'btn-files-move', 'btn-file-view']
+      if (!keepSelection.some(className => classList.contains(className))) {
+        this._selectFilesReset()
+      }
     }
 
-    this.#activeFolder = button.dataset.id
-    this._getFiles().then(() => this._enableButtons())
-  }
-
-  _clickBreadcrumb (target) {
-    if (!target.classList.contains('breadcrumb-item')) return
-    const id = target.dataset.id
-    if (id) {
-      const folderButton = this.#elements.listFolders.querySelector(`button[data-id="${id}"]`)
-      this._clickButtonFolder(folderButton)
-    } else {
-      this._clickButtonHome()
+    this.#elements.inputUpload.onchange = (event) => {
+      if (this.isLoading()) return
+      if (event.target.classList.contains('file-uploader-input')) {
+        this._uploadFiles(Array.from(event.target.files))
+        event.target.value = ''
+      }
     }
+
+    ['dragenter', 'dragover', 'dragleave', 'drop', 'dragend'].forEach((dragEvent) => {
+      this.#elements.files.addEventListener(dragEvent, (event) => this._onDragUpload(event))
+    })
   }
 
-  _addFiles (files) {
-    this._disableButtons()
+  _onClickFile (item, event) {
+    this.loading(true)
+    const selection = this._selectFiles(item, event)
+    const fileId = selection.length === 1 ? item.dataset.id : null
+    this._getHeader(fileId).then(() => { this.loading(false) })
+  }
 
-    Promise
-      .allSettled(files.map((file) => this._addFile(file)))
-      .then(() => {
-        this.#elements.inputUpload.value = ''
-        this._getFiles().then(() => this._enableButtons())
+  _onClickButtonFileView (button) {
+    const getSiblingFile = (fileId, sibling) => {
+      const row = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
+      const rowSibling = row.closest('li')[sibling]
+      return rowSibling ? rowSibling.querySelector('.media-lib-file') : null
+    }
+
+    const navigation = (action, sibling, fileId) => {
+      const button = ajaxModal.modal.querySelector(`.btn-preview-${action}`)
+      if (!button || getSiblingFile(fileId, sibling) === null) return
+
+      button.style.display = 'inline-block'
+      button.addEventListener('click', () => {
+        const file = getSiblingFile(fileId, sibling)
+        if (!file) return
+
+        const header = this.#elements.files.querySelector('.media-lib-file-header')
+        const headerHeight = header ? header.getBoundingClientRect().height : 0
+
+        this._selectFilesReset()
+        this._selectFile(file)
+        this.#elements.files.scrollTop = (file.offsetTop - this.#elements.files.offsetTop) - headerHeight
+        openModal(file.dataset.id)
       })
+    }
+
+    const onKeydown = (e) => {
+      const actions = { ArrowRight: 'next', ArrowLeft: 'prev' }
+      const action = actions[e.key] || false
+      if (!action) return
+
+      const button = ajaxModal.modal.querySelector(`.btn-preview-${action}`)
+      if (button) button.click()
+    }
+
+    const openModal = (fileId) => {
+      const onClose = () => {
+        ajaxModal.modal.removeEventListener('ajax-modal-close', onClose)
+        document.removeEventListener('keydown', onKeydown)
+        const selectionFile = this.getSelectionFile()
+        if (selectionFile) selectionFile.click()
+      }
+      ajaxModal.modal.addEventListener('ajax-modal-close', onClose)
+
+      ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/view`, size: 'auto-size', noLoading: true }, () => {
+        navigation('prev', 'previousSibling', fileId)
+        navigation('next', 'nextSibling', fileId)
+        document.addEventListener('keydown', onKeydown)
+      })
+    }
+
+    openModal(button.dataset.id)
   }
 
-  _addFile (file) {
-    return new Promise((resolve, reject) => {
-      const id = 'upload-' + Date.now()
-      const progressBar = new ProgressBar('progress-' + id, {
-        label: file.name
+  _onClickButtonFileRename (button) {
+    const fileId = button.dataset.id
+    const fileRow = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
+
+    ajaxModal.load({ url: `${this.#pathPrefix}/file/${fileId}/rename`, size: 'sm' }, (json) => {
+      if (!json.hasOwnProperty('success') || json.success === false) return
+      if (json.hasOwnProperty('fileRow')) fileRow.closest('li').innerHTML = json.fileRow
+
+      this._getHeader().then(() => {
+        ajaxModal.close()
+        this.loading(false)
+      })
+    })
+  }
+
+  _onClickButtonFileDelete (button) {
+    const fileId = button.dataset.id
+    const fileRow = this.#elements.listFiles.querySelector(`.media-lib-file[data-id='${fileId}']`)
+
+    this._post(`/file/${fileId}/delete`).then((json) => {
+      if (!json.hasOwnProperty('success') || json.success === false) return
+
+      fileRow.closest('li').remove()
+      this._selectFilesReset()
+      this.loading(false)
+    })
+  }
+
+  _onClickButtonFilesDelete (button) {
+    const selection = this.getSelectionFiles()
+    if (selection.length < 1) return
+
+    const path = this.#activeFolderId ? `/delete-files/${this.#activeFolderId}` : '/delete-files'
+    const query = new URLSearchParams({ selectionFiles: selection.length.toString() })
+    const modalSize = button.dataset.modalSize ?? 'sm'
+
+    ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
+      if (!json.hasOwnProperty('success') || json.success === false) return
+
+      let processed = 0
+      const progressBar = new ProgressBar('progress-delete-files', {
+        label: 'Deleting files',
+        value: 100,
+        showPercentage: true
       })
 
-      let fileHash = null
-      const mediaLib = this
-      const liUpload = document.createElement('li')
-      liUpload.append(progressBar.element())
-      this.#elements.listUploads.appendChild(liUpload)
+      ajaxModal.getBodyElement().append(progressBar.element())
+      this.loading(true)
 
-      this.#fileUploaders.push(new FileUploader({
-        file,
-        algo: this.#options.hashAlgo,
-        initUrl: this.#options.urlInitUpload,
-        onHashAvailable: function (hash) {
-          progressBar.status('Hash available')
-          progressBar.progress(0)
-          fileHash = hash
-        },
-        onProgress: function (status, progress, remaining) {
-          if (status === 'Computing hash') {
-            progressBar.status('Calculating ...')
-            progressBar.progress(remaining)
-          }
-          if (status === 'Uploading') {
-            progressBar.status('Uploading: ' + remaining)
-            progressBar.progress(Math.round(progress * 100))
-          }
-        },
-        onUploaded: function () {
-          progressBar.status('Uploaded')
-          progressBar.progress(100)
-          progressBar.style('success')
+      Promise
+        .allSettled(Array.from(selection).map(fileRow => {
+          return this._post(`/file/${fileRow.dataset.id}/delete`).then(() => {
+            if (!json.hasOwnProperty('success') || json.success === false) return
 
-          const data = {
-            filename: file.name,
-            filesize: file.size,
-            mimetype: file.type
-          }
-          data[mediaLib.#options.hashAlgo] = fileHash
+            fileRow.closest('li').remove()
+            progressBar
+              .progress(Math.round((++processed / selection.length) * 100))
+              .style('success')
+          })
+        }))
+        .then(() => this._selectFilesReset())
+        .then(() => this.loading(false))
+        .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+        .then(() => ajaxModal.close())
+    })
+  }
 
-          ajaxJsonPost(
-            [mediaLib.#url, 'add-file'].join('/') + (mediaLib.#activeFolder ? '/' + mediaLib.#activeFolder : ''),
-            JSON.stringify({ file: data }),
-            (json, request) => {
-              if (request.status === 201) {
+  _onClickButtonFilesMove (button, targetId) {
+    const selection = this.getSelectionFiles()
+    if (selection.length === 0) return
+
+    const path = this.#activeFolderId ? `/move-files/${this.#activeFolderId}` : '/move-files'
+    const query = new URLSearchParams({ selectionFiles: selection.length.toString() })
+    if (targetId) query.append('targetId', targetId)
+    const modalSize = button.dataset.modalSize ?? 'sm'
+
+    ajaxModal.load({ url: this.#pathPrefix + path + '?' + query.toString(), size: modalSize }, (json) => {
+      if (!json.hasOwnProperty('success') || json.success === false) return
+      if (!json.hasOwnProperty('targetFolderId')) return
+
+      const targetFolderId = json.targetFolderId
+
+      let processed = 0
+      const errorList = []
+      const progressBar = new ProgressBar('progress-move-files', {
+        label: (selection.length === 1 ? 'Moving file' : 'Moving files'),
+        value: 100,
+        showPercentage: true
+      })
+
+      const divAlert = document.createElement('div')
+      divAlert.id = 'move-errors'
+      divAlert.className = 'alert alert-danger'
+      divAlert.style.display = 'none'
+      divAlert.attributes.role = 'alert'
+
+      ajaxModal.getBodyElement().append(divAlert)
+      ajaxModal.getBodyElement().append(progressBar.element())
+      this.loading(true)
+
+      Promise
+        .allSettled(Array.from(selection).map(fileRow => {
+          return new Promise((resolve, reject) => {
+            this._post(`/file/${fileRow.dataset.id}/move`, { targetFolderId })
+              .then((moveOk) => {
+                if (!moveOk.hasOwnProperty('success') || moveOk.success === false) return
+                fileRow.closest('li').remove()
                 resolve()
-                mediaLib.#elements.listUploads.removeChild(liUpload)
-              } else {
-                reject(new Error('Unexpected status ' + request.status + ', 201 was expected'))
-                progressBar.status('Error: ' + request.statusText)
-                progressBar.progress(100)
-                progressBar.style('danger')
-              }
-            })
-        },
-        onError: function (message) {
-          progressBar.status('Error: ' + message)
-          progressBar.progress(100)
-          progressBar.style('danger')
-        }
-      }))
+              })
+              .catch((moveError) => moveError.json().then((moveError) => {
+                errorList[moveError.error] = (errorList[moveError.error] || 0) + 1
+
+                let content = ''
+                for (const e in errorList) { content += `<p>${e} : for ${errorList[e]} files</p>` }
+
+                divAlert.style.display = 'block'
+                divAlert.innerHTML = content
+
+                reject()
+              }))
+              .finally(() => {
+                progressBar
+                  .style('success')
+                  .progress(Math.round((++processed / selection.length) * 100))
+                  .status(`${processed} / ${selection.length}`)
+
+                const currentDivAlert = ajaxModal.getBodyElement().querySelector('div#move-errors')
+                if (currentDivAlert) ajaxModal.getBodyElement().replaceChild(divAlert, currentDivAlert)
+              })
+          })
+        }))
+        .then(() => this._selectFilesReset())
+        .then(() => this.loading(false))
+        .then(() => {
+          if (Object.keys(errorList).length === 0) setTimeout(() => { ajaxModal.close() }, 2000)
+        })
     })
   }
 
-  _addFolder () {
-    ajaxModal.load({
-      url: [this.#url, 'add-folder'].join('/') + (this.#activeFolder ? '/' + this.#activeFolder : ''),
-      size: 'sm'
-    }, (json) => {
-      if (Object.prototype.hasOwnProperty.call(json, 'success') && json.success === true) {
-        this._disableButtons()
-        this._getFolders(json.path).then(() => this._enableButtons())
-      }
-    })
-  }
+  _onClickFolder (folder) {
+    this.loading(true)
 
-  _openPath (path) {
-    let currentPath = ''
-    path.split('/').filter(f => f !== '').forEach((folderName) => {
-      currentPath += `/${folderName}`
+    this.getFolders().forEach((f) => f.classList.remove('active'))
+    folder.classList.add('active')
 
-      const parentButton = document.querySelector(`button[data-path="${currentPath}"]`)
-      const parentLi = parentButton ? parentButton.parentNode : null
-
-      if (parentLi && parentLi.classList.contains('media-lib-folder-children')) {
-        parentLi.classList.add('open')
-      }
-    })
-
-    if (currentPath !== '') {
-      const button = document.querySelector(`button[data-path="${currentPath}"]`)
-      if (button) button.classList.add('active')
+    const folderItem = folder.closest('li')
+    if (folderItem && folderItem.classList.contains('has-children')) {
+      folderItem.classList.toggle('open')
     }
+
+    this.#activeFolderId = folder.dataset.id
+    this._getFiles().then(() => this.loading(false))
+  }
+
+  _onClickButtonFolderAdd () {
+    const path = this.#activeFolderId ? `/add-folder/${this.#activeFolderId}` : '/add-folder'
+
+    ajaxModal.load({ url: this.#pathPrefix + path, size: 'sm' }, (json) => {
+      if (json.hasOwnProperty('success') && json.success === true) {
+        this.loading(true)
+        this._getFolders(json.path).then(() => this.loading(false))
+      }
+    })
+  }
+
+  _onClickButtonFolderDelete (button) {
+    const folderId = button.dataset.id
+    const modalSize = button.dataset.modalSize ?? 'sm'
+
+    ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/delete`, size: modalSize }, (json) => {
+      if (!json.hasOwnProperty('success') || json.success === false) return
+      if (!json.hasOwnProperty('jobId')) return
+
+      const jobProgressBar = new ProgressBar('progress-' + json.jobId, {
+        label: 'Deleting folder',
+        value: 100,
+        showPercentage: false
+      })
+
+      ajaxModal.getBodyElement().append(jobProgressBar.element())
+      this.loading(true)
+
+      Promise.allSettled([
+        this._startJob(json.jobId),
+        this._jobPolling(json.jobId, jobProgressBar)
+      ])
+        .then(() => this._onClickButtonHome())
+        .then(() => this._getFolders())
+        .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+        .then(() => ajaxModal.close())
+    })
+  }
+
+  _onClickButtonFolderRename (button) {
+    const folderId = button.dataset.id
+
+    ajaxModal.load({ url: `${this.#pathPrefix}/folder/${folderId}/rename`, size: 'sm' }, (json) => {
+      if (!json.hasOwnProperty('success') || json.success === false) return
+      if (!json.hasOwnProperty('jobId') || !json.hasOwnProperty('path')) return
+
+      const jobProgressBar = new ProgressBar('progress-' + json.jobId, {
+        label: 'Renaming',
+        value: 100,
+        showPercentage: false
+      })
+
+      ajaxModal.getBodyElement().append(jobProgressBar.element())
+      this.loading(true)
+
+      Promise.allSettled([
+        this._startJob(json.jobId),
+        this._jobPolling(json.jobId, jobProgressBar)
+      ])
+        .then(() => this._getFolders(json.path))
+        .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
+        .then(() => ajaxModal.close())
+    })
+  }
+
+  _onClickButtonHome () {
+    this.loading(true)
+    this.getFolders().forEach((f) => f.classList.remove('active'))
+    this.#activeFolderId = null
+    this._getFiles().then(() => this.loading(false))
+  }
+
+  _onClickBreadcrumbItem (item) {
+    const id = item.dataset.id
+    if (id) {
+      const folder = this.#elements.listFolders.querySelector(`.media-lib-folder[data-id="${id}"]`)
+      this._onClickFolder(folder)
+    } else {
+      this._onClickButtonHome()
+    }
+  }
+
+  _onSearchInput (input, delay) {
+    clearTimeout(this.#debounceTimer)
+    this.#debounceTimer = setTimeout(() => {
+      this.#searchValue = input.value
+      this._getFiles(0).then(() => this.loading(false))
+    }, delay)
+  }
+
+  _getHeader (fileId = null) {
+    let path = '/header'
+    const query = new URLSearchParams()
+
+    if (fileId) query.append('fileId', fileId)
+    if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString())
+    if (this.#activeFolderId) query.append('folderId', this.#activeFolderId)
+    if (this.#searchValue) query.append('search', this.#searchValue)
+
+    if (query.size > 0) path = path + '?' + query.toString()
+
+    return this._get(path).then((json) => {
+      if (json.hasOwnProperty('header')) this._refreshHeader(json.header)
+    })
   }
 
   _getFiles (from = 0) {
@@ -241,96 +459,253 @@ export default class MediaLibrary {
       this.#loadedFiles = 0
       this.#elements.loadMoreFiles.classList.remove('show-load-more')
       this.#elements.listFiles.innerHTML = ''
-      //  this._appendBreadcrumbItems(this.#elements.listBreadcrumb);
     }
 
-    const query = '?' + new URLSearchParams({ from: from.toString() }).toString()
+    const query = new URLSearchParams({ from: from.toString() })
+    if (this.#searchValue) query.append('search', this.#searchValue)
+    const path = this.#activeFolderId ? `/files/${this.#activeFolderId}` : '/files'
 
-    return fetch([this.#url, 'files'].join('/') + (this.#activeFolder ? '/' + this.#activeFolder : '') + query, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    }).then((response) => {
-      return response.ok ? response.json().then((json) => this._appendFiles(json)) : Promise.reject(response)
-    })
+    return this._get(`${path}?${query.toString()}`).then((files) => { this._appendFiles(files) })
   }
 
   _getFolders (openPath) {
-    return new Promise((resolve) => {
-      this.#elements.listFolders.innerHTML = ''
-      ajaxJsonGet([this.#url, 'folders'].join('/'), (folders) => {
-        this._appendFolderItems(folders, this.#elements.listFolders)
-        if (openPath) { this._openPath(openPath) }
-        resolve()
-      })
+    this.#elements.listFolders.innerHTML = ''
+    return this._get('/folders').then((json) => {
+      this._appendFolderItems(json)
+      if (openPath) { this._openPath(openPath) }
     })
   }
 
+  _openPath (path) {
+    let currentPath = ''
+    path.split('/').filter(f => f !== '').forEach((folderName) => {
+      currentPath += `/${folderName}`
+      const parentFolder = document.querySelector(`.media-lib-folder[data-path="${currentPath}"]`)
+      const parentLi = parentFolder ? parentFolder.closest('li') : null
+
+      if (parentLi && parentLi.classList.contains('has-children')) {
+        parentLi.classList.add('open')
+      }
+    })
+
+    if (currentPath !== '') {
+      const folder = document.querySelector(`.media-lib-folder[data-path="${currentPath}"]`)
+      if (folder) this._onClickFolder(folder)
+    }
+  }
+
   _appendFiles (json) {
-    if (Object.prototype.hasOwnProperty.call(json, 'header')) {
-      this.#elements.header.innerHTML = json.header
-      this._addEventListenersHeader()
+    if (json.hasOwnProperty('header')) {
+      this._refreshHeader(json.header)
+      this.#activeFolderHeader = json.header
     }
+    if (json.hasOwnProperty('rowHeader')) this.#elements.listFiles.innerHTML += json.rowHeader
+    if (json.hasOwnProperty('totalRows')) this.#loadedFiles += json.totalRows
+    if (json.hasOwnProperty('rows')) this.#elements.listFiles.innerHTML += json.rows
 
-    if (Object.prototype.hasOwnProperty.call(json, 'rowHeader')) {
-      this.#elements.listFiles.innerHTML += json.rowHeader
-    }
-
-    if (Object.prototype.hasOwnProperty.call(json, 'rows')) {
-      json.rows.forEach((row) => { this.#elements.listFiles.innerHTML += row })
-    }
-
-    if (Object.prototype.hasOwnProperty.call(json, 'totalRows')) {
-      this.#loadedFiles += json.totalRows
-    }
-
-    if (Object.prototype.hasOwnProperty.call(json, 'remaining') && json.remaining) {
+    if (json.hasOwnProperty('remaining') && json.remaining) {
       this.#elements.loadMoreFiles.classList.add('show-load-more')
     } else {
       this.#elements.loadMoreFiles.classList.remove('show-load-more')
     }
   }
 
-  _appendFolderItems (folders, list) {
-    Object.values(folders).forEach(folder => {
-      const buttonFolder = document.createElement('button')
-      buttonFolder.disabled = true
-      buttonFolder.textContent = folder.name
-      buttonFolder.dataset.id = folder.id
-      buttonFolder.dataset.path = folder.path
-      buttonFolder.classList.add('media-lib-link-folder')
+  _appendFolderItems (json) {
+    this.#elements.listFolders.innerHTML = json.folders
 
-      const liFolder = document.createElement('li')
-      liFolder.appendChild(buttonFolder)
-
-      if (Object.prototype.hasOwnProperty.call(folder, 'children')) {
-        const ulChildren = document.createElement('ul')
-        this._appendFolderItems(folder.children, ulChildren)
-        liFolder.appendChild(ulChildren)
-        liFolder.classList.add('media-lib-folder-children')
-      }
-
-      list.appendChild(liFolder)
+    this.getFolders().forEach((folder) => {
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((dragEvent) => {
+        folder.addEventListener(dragEvent, (event) => this._onDragFolder(event))
+      })
     })
   }
 
-  _initDropArea (dropArea) {
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-      }, false)
-    });
-    ['dragenter', 'dragover'].forEach(eventName => {
-      dropArea.addEventListener(eventName, () => dropArea.classList.add('media-lib-drop-area'), false)
-    });
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, () => dropArea.classList.remove('media-lib-drop-area'), false)
+  _refreshHeader (html) {
+    const searchBoxHasFocus = document.activeElement === this.getSearchBox()
+
+    this.#elements.header.innerHTML = html
+    if (searchBoxHasFocus) {
+      const searchBox = this.getSearchBox()
+      searchBox.focus()
+      const val = searchBox.value
+      searchBox.value = ''
+      searchBox.value = val
+    }
+  }
+
+  _onDragUpload (event) {
+    if (this.#dragFiles.length > 0) return
+
+    if (event.type === 'dragend') this.#dragCounter = 0
+    if (event.type === 'dragover') event.preventDefault()
+    if (event.type === 'dragenter') {
+      this.#dragCounter++
+      this.#elements.files.classList.add('media-lib-drop-area')
+      this._selectFilesReset()
+    }
+    if (event.type === 'dragleave') {
+      this.#dragCounter--
+      if (this.#dragCounter === 0) this.#elements.files.classList.remove('media-lib-drop-area')
+    }
+    if (event.type === 'drop') {
+      event.preventDefault()
+      this.#dragCounter = 0
+      this.#elements.files.classList.remove('media-lib-drop-area')
+
+      const files = event.target.files || event.dataTransfer.files
+      this._uploadFiles(Array.from(files))
+    }
+  }
+
+  _onDragFolder (event) {
+    if (this.#dragFiles.length === 0) return
+    if (event.target.dataset.id === this.#activeFolderId) return
+
+    if (event.type === 'dragover') event.preventDefault()
+    if (event.type === 'dragenter') {
+      this.getFolders().forEach((f) => f.classList.remove('media-lib-drop-area'))
+      event.target.classList.add('media-lib-drop-area')
+    }
+    if (event.type === 'dragleave') {
+      event.target.classList.remove('media-lib-drop-area')
+    }
+    if (event.type === 'drop') {
+      event.preventDefault()
+      event.target.classList.remove('media-lib-drop-area')
+      const folderId = event.target.dataset.id
+      const moveButton = this.#elements.header.querySelector('.btn-files-move')
+
+      this._onClickButtonFilesMove(moveButton, folderId)
+    }
+  }
+
+  _onDragFile (event) {
+    if (event.type === 'dragstart') {
+      this.#dragFiles = this.getSelectionFiles()
+    }
+    if (event.type === 'dragend') {
+      this.#dragFiles = []
+      this._selectFilesReset()
+    }
+  }
+
+  _uploadFiles (files) {
+    this.loading(true)
+
+    Promise
+      .allSettled(files.map((file) => this._uploadFile(file)))
+      .then(() => this._getFiles().then(() => this.loading(false)))
+  }
+
+  _uploadFile (file) {
+    return new Promise((resolve, reject) => {
+      const id = Date.now()
+      let liUpload = document.createElement('li')
+      liUpload.id = `upload-${id}`
+
+      const uploadDiv = document.createElement('div')
+      uploadDiv.className = 'upload-file'
+
+      const closeButton = document.createElement('button')
+      closeButton.type = 'button'
+      closeButton.className = 'close-button'
+      closeButton.addEventListener('click', () => {
+        this.#elements.listUploads.removeChild(liUpload)
+        liUpload = false
+        reject()
+      })
+
+      const closeIcon = document.createElement('i')
+      closeIcon.className = 'fa fa-times'
+      closeIcon.setAttribute('aria-hidden', 'true')
+      closeButton.appendChild(closeIcon)
+
+      const progressBar = new ProgressBar(`progress-${id}`, { label: file.name, value: 5 })
+
+      uploadDiv.append(progressBar.style('success').element())
+      uploadDiv.append(closeButton)
+
+      liUpload.appendChild(uploadDiv)
+      this.#elements.listUploads.appendChild(liUpload)
+
+      this._getFileHash(file, progressBar)
+        .then((fileHash) => this._resizeImage(file, fileHash))
+        .then(() => {
+          progressBar.status('Finished')
+          setTimeout(() => {
+            this.#elements.listUploads.removeChild(liUpload)
+            resolve()
+          }, 1000)
+        })
+        .catch((error) => {
+          uploadDiv.classList.add('upload-error')
+          progressBar.status(error.message).style('danger').progress(100)
+          setTimeout(() => {
+            if (liUpload === false) return
+            this.#elements.listUploads.removeChild(liUpload)
+            reject()
+          }, 3000)
+        })
+    })
+  }
+
+  async _resizeImage (file, fileHash) {
+    resizeImage(this.#options.hashAlgo, this.#options.urlInitUpload, file).then((response) => {
+      if (response === null) {
+        this._createFile(file, fileHash)
+      } else {
+        this._createFile(file, fileHash, response.hash)
+      }
+    }).catch(() => {
+      this._createFile(file, fileHash)
+    })
+  }
+
+  async _createFile (file, fileHash, resizedHash = null) {
+    const formData = new FormData()
+    formData.append('name', file.name)
+    formData.append('filesize', file.size)
+    formData.append('fileMimetype', file.type)
+    formData.append('fileHash', fileHash)
+    formData.append('fileResizedHash', resizedHash ?? '')
+
+    const path = this.#activeFolderId ? `/add-file/${this.#activeFolderId}` : '/add-file'
+    await this._post(path, formData, true)
+      .catch((response) => response.json().then((json) => {
+        throw new Error(json.error)
+      }))
+  }
+
+  async _getFileHash (file, progressBar) {
+    const hash = await new Promise((resolve, reject) => {
+      let fileHash = null
+      new FileUploader({
+        file,
+        algo: this.#options.hashAlgo,
+        initUrl: this.#options.urlInitUpload,
+        onHashAvailable: function (hash) {
+          progressBar.status('Hash available').progress(0)
+          fileHash = hash
+        },
+        onProgress: function (status, progress, remaining) {
+          if (status === 'Computing hash') {
+            progressBar.status('Calculating ...').progress(remaining)
+          }
+          if (status === 'Uploading') {
+            progressBar.status('Uploading: ' + remaining).progress(Math.round(progress * 100))
+          }
+        },
+        onUploaded: function () {
+          progressBar.status('Uploaded').progress(100)
+          resolve(fileHash)
+        },
+        onError: (message) => reject(message)
+      })
     })
 
-    dropArea.addEventListener('drop', () => {
-      const files = event.target.files || event.dataTransfer.files
-      this._addFiles(Array.from(files))
-    }, false)
+    if (typeof hash !== 'string') throw new Error('Invalid hash')
+
+    return hash
   }
 
   _initInfiniteScrollFiles (scrollArea, divLoadMore) {
@@ -343,12 +718,112 @@ export default class MediaLibrary {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this._disableButtons()
-          this._getFiles(this.#loadedFiles).then(() => this._enableButtons())
+          this.loading(true)
+          this._getFiles(this.#loadedFiles).then(() => this.loading(false))
         }
       })
     }, options)
 
     observer.observe(divLoadMore)
+  }
+
+  _selectFile (item) {
+    item.classList.add('active')
+    item.draggable = true;
+    ['dragstart', 'dragend'].forEach((dragEvent) => {
+      item.addEventListener(dragEvent, (event) => this._onDragFile(event))
+    })
+  }
+
+  _selectFiles (item, event) {
+    if (event.shiftKey && this.#selectionLastFile !== null) {
+      const files = this.#elements.listFiles.querySelectorAll('.media-lib-file')
+      let start = Array.from(files).indexOf(item)
+      let end = Array.from(files).indexOf(this.#selectionLastFile)
+      if (start > end) [start, end] = [end, start]
+
+      files.forEach((f, index) => {
+        if (index >= start && index <= end) this._selectFile(f)
+      })
+    } else if (event.ctrlKey) {
+      this._selectFile(item)
+    } else {
+      this._selectFilesReset(false)
+      this._selectFile(item)
+    }
+
+    this.#selectionLastFile = item
+
+    return this.getSelectionFiles()
+  }
+
+  _selectFilesReset (refreshHeader = true) {
+    if (refreshHeader === true) this._refreshHeader(this.#activeFolderHeader)
+    this.getSelectionFiles().forEach((file) => {
+      file.classList.remove('active')
+      file.draggable = false;
+      ['dragstart', 'dragend'].forEach((dragEvent) => {
+        file.removeEventListener(dragEvent, (event) => this._onDragFile(event))
+      })
+    })
+  }
+
+  async _jobPolling (jobId, jobProgressBar) {
+    const jobStatus = await this._getJobStatus(jobId)
+
+    if (jobStatus.started === true && jobStatus.progress > 0) {
+      jobProgressBar.status('Running ...').progress(jobStatus.progress).style('success')
+    }
+    if (jobStatus.done === true) {
+      jobProgressBar.status('Finished').progress(100)
+      return jobStatus
+    }
+
+    await new Promise((r) => setTimeout(r, 1500))
+    return await this._jobPolling(jobId, jobProgressBar)
+  }
+
+  async _startJob (jobId) {
+    const response = await fetch(`/job/start/${jobId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    return response.json()
+  }
+
+  async _getJobStatus (jobId) {
+    const response = await fetch(`/job/status/${jobId}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    return response.json()
+  }
+
+  async _get (path) {
+    this.loading(true)
+    const response = await fetch(`${this.#pathPrefix}${path}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    return response.json()
+  }
+
+  async _post (path, data = {}, isFormData = false) {
+    this.loading(true)
+    let options = {}
+
+    if (isFormData) {
+      options = { method: 'POST', body: data }
+    } else {
+      options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }
+    }
+
+    const response = await fetch(`${this.#pathPrefix}${path}`, options)
+
+    return response.ok ? response.json() : Promise.reject(response)
   }
 }

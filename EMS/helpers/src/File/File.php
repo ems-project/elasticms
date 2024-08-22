@@ -14,7 +14,7 @@ class File
     public string $mimeType;
     public int $size;
 
-    public const DEFAULT_CHUNK_SIZE = 4 * 1024 * 1024;
+    public const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024;
 
     public function __construct(private readonly \SplFileInfo $file)
     {

@@ -14,7 +14,7 @@ async function resizeImage (hashAlgo, initUpload, fileHandler) {
     const imageMaxSize = document.body.dataset.imageMaxSize
     reader.onload = function (e) {
       const image = new Image()
-      image.onload = function (imageEvent) {
+      image.onload = function () {
         const canvas = document.createElement('canvas')
         let width = image.width
         let height = image.height
@@ -45,7 +45,7 @@ async function resizeImage (hashAlgo, initUpload, fileHandler) {
         }
         resizedImage.name = `${basename}_${width}x${height}${extension}`
 
-        FileUploader({
+        const fileUpload = () => new FileUploader({
           file: resizedImage,
           algo: hashAlgo,
           initUrl: initUpload,
@@ -63,8 +63,13 @@ async function resizeImage (hashAlgo, initUpload, fileHandler) {
             reject(new Error(`Error ${code} during upload of resized image with message: ${message}`))
           }
         })
+
+        fileUpload()
       }
-      image.src = e.target.result
+
+      if (typeof e.target.result === 'string') {
+        image.src = e.target.result
+      }
     }
     reader.readAsDataURL(fileHandler)
   })

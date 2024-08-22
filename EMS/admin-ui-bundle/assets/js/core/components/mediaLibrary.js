@@ -685,7 +685,7 @@ export default class MediaLibrary {
   async _getFileHash (file, progressBar) {
     const hash = await new Promise((resolve, reject) => {
       let fileHash = null
-      FileUploader({
+      const fileUpload = () => new FileUploader({
         file,
         algo: this.#options.hashAlgo,
         initUrl: this.#options.urlInitUpload,
@@ -707,6 +707,7 @@ export default class MediaLibrary {
         },
         onError: (message) => reject(message)
       })
+      fileUpload()
     })
 
     if (typeof hash !== 'string') throw new Error('Invalid hash')

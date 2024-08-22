@@ -1,15 +1,15 @@
 @import "../helpers/mixins";
-@import "../../admin-lte/_bootstrap-variables.scss";
+@import "../../admin-lte/bootstrap-variables";
 
 div.media-lib {
   --color-active: #337AB7;
   --color-link: #337AB7;
-  --color-icon: #666666;
-  --color-text: #333333;
+  --color-icon: #666;
+  --color-text: #333;
   --color-border: #D7D7D7;
   --background-active: #E2F7FF;
   --background-hover: #F5F5F5;
-  --background-white: #FFFFFF;
+  --background-white: #FFF;
   --background-light: #F5F5F5;
   --background-dark: #D2D6DE;
 
@@ -21,7 +21,7 @@ div.media-lib {
   user-select: none;
 
   button[disabled], label[disabled] {
-    opacity: 100%;
+    opacity: 1;
   }
 
   &.loading {
@@ -31,7 +31,11 @@ div.media-lib {
   .btn {
     color: var(--color-text);
     border-color: var(--color-border);
-    & i { margin-right: 4px; color: var(--color-icon) }
+
+    & i {
+      margin-right: 4px;
+      color: var(--color-icon)
+    }
     &.btn-default { background-color: var(--background-white); }
     &.btn-file-upload { font-weight: normal; }
     &:focus, &:active:focus { outline: none; }
@@ -65,14 +69,17 @@ div.media-lib {
     input.media-lib-search {
       border-color: var(--color-border);
       user-select: auto;
-      &:focus { outline: none; border-color: var(--color-border); }
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-border);
+      }
       &.active { border: 1px solid var(--color-active); }
     }
 
     ul.media-lib-list-breadcrumb {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      flex-flow: row wrap;
       align-items: center;
       background-color: var(--background-white);
       border: 1px solid var(--color-border);
@@ -92,6 +99,7 @@ div.media-lib {
 
       li:not(:last-child)::after {
         @include icon($fa-var-angle-double-right);
+
         font-size: $font-size-sm;
       }
     }
@@ -111,6 +119,7 @@ div.media-lib {
 
   div.media-lib-file{
     &:hover { background-color: var(--background-hover); }
+
     &.active {
       border-color: var(--color-active);
       background-color: var(--background-active);
@@ -120,11 +129,14 @@ div.media-lib {
 
   div.media-lib-folder {
     &:hover { background-color: var(--background-hover); }
+
     &::before {
       @include icon($fa-var-folder);
+
       color: var(--color-icon);
       margin-right: 8px;
     }
+
     &.active {
       color: var(--color-active);
       &::before { color: var(--color-active); }
@@ -173,8 +185,10 @@ div.media-lib {
 
             &.has-children  > div.media-lib-container > div.media-lib-folder::after {
               @include icon($fa-var-angle-left);
+
               float: right;
             }
+
             &.open {
               & > div.media-lib-container > div.media-lib-folder::before { @include icon($fa-var-folder-open); }
               & > div.media-lib-container > div.media-lib-folder::after { @include icon($fa-var-angle-down); }
@@ -219,6 +233,7 @@ div.media-lib {
               column-gap: 8px;
 
               .core-js-progress {flex: 1}
+
               button {
                 display: none;
                 background: none;
@@ -239,6 +254,7 @@ div.media-lib {
           flex-direction: column;
 
           div.media-lib-file-header { font-weight: bold; }
+
           div.media-lib-container {
             border-bottom: 1px dashed var(--color-border);
           }
@@ -248,17 +264,19 @@ div.media-lib {
 
     div.media-lib-load-more {
       &.show-load-more { display: flex; }
+
       display: none;
       justify-content: center;
       align-items: center;
       column-gap: 8px;
-      padding: 16px 16px 64px 16px;
+      padding: 16px 16px 64px;
       font-weight: bold;
     }
   }
 
   div.media-lib-footer {
     flex-shrink: 0;
+
     & > div {
       border-top: 1px solid var(--color-border);
       padding: 8px;
@@ -291,8 +309,7 @@ div.media-lib-preview-modal {
       border-radius: 5px;
       padding: 16px;
       display: flex;
-      justify-content: center;
-      align-content: center;
+      place-content: center center;
 
       & > img {
         display: block;

@@ -141,6 +141,10 @@ class StorageManager
         $count = 0;
         foreach ($this->adapters as $adapter) {
             try {
+                if ($count > 0 && $usageType < StorageInterface::STORAGE_USAGE_ASSET) {
+                    break;
+                }
+
                 if (!$this->isUsageSupported($adapter, $usageType)) {
                     continue;
                 }

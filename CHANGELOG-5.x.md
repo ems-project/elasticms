@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.19.2 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
+
 ## 5.19.1 (2024-08-20)
 ### Bug Fixes
 * fix(admin/asset): small images null string by @theus77 in https://github.com/ems-project/elasticms/pull/979
@@ -48,6 +52,10 @@
 * chore(build): dump translations sort by keys by @Davidmattei in https://github.com/ems-project/elasticms/pull/957
 * chore(translations): support building multiline translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/959
 
+## 5.18.3 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
+
 ## 5.18.2 (2024-07-29)
 ### Bug Fixes
 * fix(admin/contentType): disable the choice field type if needed by @theus77 in https://github.com/ems-project/elasticms/pull/970
@@ -79,6 +87,10 @@
 ### Code Refactoring
 * refactor(core): extract translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/916
 * refactor: build translations with symfony 6 by @Davidmattei in https://github.com/ems-project/elasticms/pull/920
+
+## 5.17.4 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
 
 ## 5.17.3 (2024-07-18)
 ### Bug Fixes

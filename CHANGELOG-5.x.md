@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.17.4 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
+
 ## 5.17.3 (2024-07-18)
 ### Bug Fixes
 * fix(emsco/media-lib): rename/delete command username with space by @Davidmattei in https://github.com/ems-project/elasticms/pull/961

@@ -17,7 +17,7 @@ class File
     public string $mimeType;
     public int $size;
 
-    final public const DEFAULT_CHUNK_SIZE = 4 * 1024 * 1024;
+    final public const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024;
 
     public function __construct(private readonly \SplFileInfo $file)
     {
@@ -53,16 +53,15 @@ class File
                 throw new \RuntimeException(\sprintf('Unexpected error while seeking the file pointer at position %s', $fromByte));
             }
         }
+        if ($chunkSize < 1) {
+            throw new \RuntimeException(\sprintf('Unexpected chunk size %d', $chunkSize));
+        }
 
         while (!\feof($handle)) {
-            $chunk = '';
-            while (!\feof($handle) && \strlen($chunk) < $chunkSize) {
-                $length = $chunkSize - \strlen($chunk);
-                if ($length > 0) {
-                    $chunk .= \fread($handle, $length);
-                }
+            $chunk = \fread($handle, $chunkSize);
+            if (false === $chunk) {
+                throw new \RuntimeException('Unexpected false chunk');
             }
-
             yield $chunk;
         }
         \fclose($handle);

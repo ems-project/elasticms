@@ -43,8 +43,8 @@ class S3Storage extends AbstractUrlStorage
     {
         $s3 = $this->getS3Client();
 
-        $base64Hash = Base64::encode(\sha1($chunk, true));
         if ($this->multipartUpload) {
+            $base64Hash = Base64::encode(\sha1($chunk, true));
             $cache = $this->cache->getItem($this->uploadKey($hash));
             $args = $cache->get();
             $multipartUpload = $s3->uploadPart(\array_merge($args, [

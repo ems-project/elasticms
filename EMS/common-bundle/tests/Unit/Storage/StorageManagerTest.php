@@ -114,7 +114,7 @@ class StorageManagerTest extends WebTestCase
 
         $configHash = $this->storageManager->saveConfig($data);
         $this->assertEquals(\sha1(\json_encode($data)), $configHash);
-        $this->assertEquals(2, \count($this->storageManager->headIn($configHash)));
+        $this->assertEquals(1, \count($this->storageManager->headIn($configHash)));
         $this->assertEquals(3, $this->storageManager->remove($configHash));
     }
 

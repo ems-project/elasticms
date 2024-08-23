@@ -1,5 +1,15 @@
 # Changelog 5.x
 
+## 5.20.0 (2024-08-23)
+### Features
+* feat(admin/contentType): implement dataTables by @Davidmattei in https://github.com/ems-project/elasticms/pull/978
+* feat(admin/environment): implement dataTables (alias, managed, external and overview) by @Davidmattei in https://github.com/ems-project/elasticms/pull/981
+* feat(admin/environments): environment orphan index datatable + translate Menu by @Davidmattei in https://github.com/ems-project/elasticms/pull/980
+### Bug Fixes
+* fix(admin/twig): align core and admin templates by @Davidmattei in https://github.com/ems-project/elasticms/pull/988
+### Code Refactoring
+* refactor(admin/datatable): i18n & wysiwyg datatables by @Davidmattei in https://github.com/ems-project/elasticms/pull/974
+
 ## 5.19.2 (2024-08-23)
 ### Bug Fixes
 * fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994

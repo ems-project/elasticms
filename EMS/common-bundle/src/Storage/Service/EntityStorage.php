@@ -95,7 +95,9 @@ class EntityStorage implements StorageInterface, \Stringable
         if (false === $resource) {
             throw new NotFoundHttpException($hash);
         }
-        \fwrite($resource, $contents);
+        if (\is_string($contents)) {
+            \fwrite($resource, $contents);
+        }
 
         \rewind($resource);
 

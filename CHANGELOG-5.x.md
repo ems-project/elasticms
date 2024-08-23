@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.19.2 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
+
 ## 5.19.1 (2024-08-20)
 ### Bug Fixes
 * fix(admin/asset): small images null string by @theus77 in https://github.com/ems-project/elasticms/pull/979

@@ -16,7 +16,7 @@
 	],
 	"require" : {
 		"php": "^8.1",
-		"elasticms/core-bundle": "5.19.*"
+		"elasticms/core-bundle": "5.20.*"
 	},
 	"autoload" : {
 		"psr-4" : {

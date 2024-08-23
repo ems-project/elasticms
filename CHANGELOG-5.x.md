@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.18.3 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
+
 ## 5.18.2 (2024-07-29)
 ### Bug Fixes
 * fix(admin/contentType): disable the choice field type if needed by @theus77 in https://github.com/ems-project/elasticms/pull/970

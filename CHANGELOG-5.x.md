@@ -48,6 +48,11 @@
 * chore(build): dump translations sort by keys by @Davidmattei in https://github.com/ems-project/elasticms/pull/957
 * chore(translations): support building multiline translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/959
 
+## 5.18.2 (2024-07-29)
+### Bug Fixes
+* fix(admin/contentType): disable the choice field type if needed by @theus77 in https://github.com/ems-project/elasticms/pull/970
+* fix(admin/revision): skip the FormFieldType's options in a container by @theus77 in https://github.com/ems-project/elasticms/pull/971
+
 ## 5.18.1 (2024-07-18)
 ### Bug Fixes
 * fix(common/storage): return 404 response on not found by @Davidmattei in https://github.com/ems-project/elasticms/pull/938

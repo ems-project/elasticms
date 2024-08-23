@@ -27,7 +27,18 @@ class Select {
       allowClear: true,
       placeholder: '',
       escapeMarkup: function (markup) { return markup },
-      dropdownParent: targetQuery
+      dropdownParent: target === document ? $(target.body) : targetQuery,
+      templateResult: (state) => {
+        const text = state.text
+        const element = state.element
+        const dataset = element ? element.dataset : false
+
+        if (dataset && Object.hasOwn(dataset, 'icon')) {
+          return `<i class="${dataset.icon}"></i> ${text}`
+        }
+
+        return text
+      }
     })
   }
 }

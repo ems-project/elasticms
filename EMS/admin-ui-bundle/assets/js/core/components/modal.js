@@ -34,7 +34,7 @@ export default class Modal {
           url: event.target.dataset.ajaxModalUrl,
           size: event.target.dataset.ajaxModalSize
         }, (json) => {
-          if (Object.prototype.hasOwnProperty.call(json, 'success') && json.success === true) {
+          if (Object.hasOwn(json, 'success') && json.success === true) {
             location.reload()
           }
         })

@@ -18,10 +18,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                     <h4 class="modal-title">{{ 'field.indexes'|trans({}, 'emsco-core') }}</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                 </div>
                 <div class="modal-body">
                     <ul class="list-group">
@@ -35,7 +33,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                    <button type="button" class="btn btn-default pull-left" data-bs-dismiss="modal">
                         {{ 'action.close'|trans({}, 'emsco-core') }}
                     </button>
                 </div>
@@ -87,13 +85,11 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                     <h4 class="modal-title" id="{{ modalId }}-title">
                         <i class="fa fa-language"></i>
                         {{ 'type.title_overview'|trans({'type': 'i18n_translations', 'key': data.identifier }, 'emsco-core') }}
                     </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
                 </div>
                 <div class="modal-body">
                     <div class="table-responsive">

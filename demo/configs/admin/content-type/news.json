@@ -5,7 +5,7 @@
         "name": "news",
         "pluralName": "News",
         "singularName": "News",
-        "icon": "fa fa-newspaper-o",
+        "icon": "fa fa-newspaper",
         "description": null,
         "indexTwig": null,
         "extra": null,

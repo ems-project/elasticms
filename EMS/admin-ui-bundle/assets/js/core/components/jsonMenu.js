@@ -73,10 +73,10 @@ export default class JsonMenu {
     }
 
     const item = $(itemHtml)
-    if (Object.prototype.hasOwnProperty.call(data, 'object')) {
+    if (Object.hasOwn(data, 'object')) {
       item.data('object', data.object)
     }
-    if (Object.prototype.hasOwnProperty.call(data, 'node')) {
+    if (Object.hasOwn(data, 'node')) {
       item.data('node', data.node)
     }
 
@@ -122,7 +122,7 @@ export default class JsonMenu {
       Object.keys(obj).forEach(key => {
         const value = obj[key]
         const result = { id: value.id, label: value.label, contentType: value.contentType, type: value.type, object: value.object }
-        if (Object.prototype.hasOwnProperty.call(value, 'children')) {
+        if (Object.hasOwn(value, 'children')) {
           result.children = recursiveMapHierarchy(value.children)
         }
         r.push(result)

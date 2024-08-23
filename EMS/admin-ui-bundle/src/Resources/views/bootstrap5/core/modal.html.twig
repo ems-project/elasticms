@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"></h4>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close" tabindex="-1"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ 'action.close'|trans({}, 'emsco-core') }}"></button>
             </div>
             <div class="modal-body modal-loading">
                 <div class="progress" style="margin-bottom: 0;">
@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body ajax-modal-body" style="display:none;"></div>
             <div class="modal-footer ajax-modal-footer">
-                <button type="button" class="btn btn-sm btn-default" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm btn-default btn-close" data-bs-dismiss="modal">{{ 'action.close'|trans({}, 'emsco-core') }}</button>
             </div>
         </div>
     </div>

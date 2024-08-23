@@ -29,6 +29,10 @@ class AjaxModal {
     }
   }
 
+  getBodyElement () {
+    return this.modal.querySelector('.ajax-modal-body')
+  }
+
   close () {
     this.bsModal.hide()
   }
@@ -79,20 +83,20 @@ class AjaxModal {
   load (options, callback) {
     const dialog = this.modal.querySelector('.modal-dialog')
     dialog.classList.remove('modal-xs', 'modal-sm', 'modal-md', 'modal-lg')
-    if (Object.prototype.hasOwnProperty.call(options, 'size')) {
+    if (Object.hasOwn(options, 'size')) {
       dialog.classList.add('modal-' + options.size)
     } else {
       dialog.classList.add('modal-md')
     }
 
     this.stateLoading()
-    if (Object.prototype.hasOwnProperty.call(options, 'title')) {
+    if (Object.hasOwn(options, 'title')) {
       this.modal.querySelector('.modal-title').innerHTML = options.title
     }
     this.bsModal.show()
 
     const fetchOptions = { method: 'GET', headers: { 'Content-Type': 'application/json' } }
-    if (Object.prototype.hasOwnProperty.call(options, 'data')) {
+    if (Object.hasOwn(options, 'data')) {
       fetchOptions.method = 'POST'
       fetchOptions.body = options.data
     }
@@ -127,17 +131,17 @@ class AjaxModal {
   }
 
   ajaxReady (json, url, callback) {
-    if (Object.prototype.hasOwnProperty.call(json, 'modalClose') && json.modalClose === true) {
+    if (Object.hasOwn(json, 'modalClose') && json.modalClose === true) {
       if (typeof callback === 'function') { callback(json, this.modal) }
       this.bsModal.hide()
       return
     }
 
-    if (Object.prototype.hasOwnProperty.call(json, 'modalTitle')) {
+    if (Object.hasOwn(json, 'modalTitle')) {
       this.modal.querySelector('.modal-title').innerHTML = json.modalTitle
     }
 
-    if (Object.prototype.hasOwnProperty.call(json, 'modalBody')) {
+    if (Object.hasOwn(json, 'modalBody')) {
       this.modal.querySelector('.ajax-modal-body').innerHTML = json.modalBody
 
       this.modal.querySelectorAll('input').forEach((input) => {
@@ -146,13 +150,13 @@ class AjaxModal {
       const event = new AddedDomEvent(this.modal)
       event.dispatch()
     }
-    if (Object.prototype.hasOwnProperty.call(json, 'modalFooter')) {
+    if (Object.hasOwn(json, 'modalFooter')) {
       this.modal.querySelector('.ajax-modal-footer').innerHTML = json.modalFooter
     } else {
       this.modal.querySelector('.ajax-modal-footer').innerHTML = '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'
     }
 
-    const messages = Object.prototype.hasOwnProperty.call(json, 'modalMessages') ? json.modalMessages : []
+    const messages = Object.hasOwn(json, 'modalMessages') ? json.modalMessages : []
     messages.forEach((m) => {
       const messageType = Object.keys(m)[0]
       const message = m[messageType]
@@ -189,13 +193,16 @@ class AjaxModal {
       case 'error':
         messageClass = 'alert-danger'
         break
+      case 'info':
+        messageClass = 'alert-info'
+        break
       default:
         messageClass = 'alert-success'
     }
 
     this.modal.querySelector('.ajax-modal-body').insertAdjacentHTML(
       'afterbegin',
-      '<div class="alert ' + messageClass + '" role="alert">' + message + '</div>'
+      '<div class="alert ' + messageClass + '" role="alert">' + message.replace(/\n/g, '<br>') + '</div>'
     )
   }
 }

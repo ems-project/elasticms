@@ -163,7 +163,7 @@ export default class JsonMenuNested {
 
     collapse()
 
-    if (Object.prototype.hasOwnProperty.call(this, 'hiddenField') && this.hiddenField !== null) {
+    if (Object.hasOwn(this, 'hiddenField') && this.hiddenField !== null) {
       if (this.hiddenField.classList.contains('json-menu-nested-silent-publish')) {
         this.hiddenField.value = this.getStructureJson(true)
         this.hiddenField.dispatchEvent(new CustomEvent('silentPublish'))
@@ -183,7 +183,7 @@ export default class JsonMenuNested {
   }
 
   _getCopy () {
-    if (Object.prototype.hasOwnProperty.call(localStorage, this.copyName)) {
+    if (Object.hasOwn(localStorage, this.copyName)) {
       const loopJson = (json, callback, result = {}) => {
         for (const [key, value] of Object.entries(json)) {
           if (key === 'children') {
@@ -217,7 +217,7 @@ export default class JsonMenuNested {
         const nodeId = btnAdd.dataset.nodeId
         const level = btnAdd.dataset.level
 
-        if (!Object.prototype.hasOwnProperty.call(this.nodes, nodeId)) {
+        if (!Object.hasOwn(this.nodes, nodeId)) {
           return
         }
 
@@ -239,7 +239,7 @@ export default class JsonMenuNested {
           }),
           size: 'lg'
         }, (json) => {
-          if (Object.prototype.hasOwnProperty.call(json, 'success') && json.success === true) {
+          if (Object.hasOwn(json, 'success') && json.success === true) {
             this._appendHtml(itemId, json.html)
             this.selectItem(addItemId)
           }
@@ -258,14 +258,14 @@ export default class JsonMenuNested {
         const nodeId = btnEdit.dataset.nodeId
         const level = btnEdit.dataset.level
 
-        if (!Object.prototype.hasOwnProperty.call(this.nodes, nodeId)) {
+        if (!Object.hasOwn(this.nodes, nodeId)) {
           return
         }
 
         const node = this.nodes[nodeId]
 
         const callback = (json) => {
-          if (!Object.prototype.hasOwnProperty.call(json, 'success') || json.success === false) {
+          if (!Object.hasOwn(json, 'success') || json.success === false) {
             return
           }
 
@@ -428,11 +428,11 @@ export default class JsonMenuNested {
         JSON.stringify({ _data: { update: value, config: this.config } }),
         (json, response) => {
           if (response.status === 200) {
-            if (Object.prototype.hasOwnProperty.call(json, 'urls')) {
+            if (Object.hasOwn(json, 'urls')) {
               this.urls = json.urls
               this.target.setAttribute('data-urls', JSON.stringify(this.urls))
             };
-            if (Object.prototype.hasOwnProperty.call(json, 'nodes')) {
+            if (Object.hasOwn(json, 'nodes')) {
               this.nodes = json.nodes
               this.target.setAttribute('data-nodes', JSON.stringify(this.nodes))
             };
@@ -440,7 +440,7 @@ export default class JsonMenuNested {
             return
           }
 
-          if (Object.prototype.hasOwnProperty.call(json, 'alert')) {
+          if (Object.hasOwn(json, 'alert')) {
             document.getElementById(this.getId() + '-alerts').innerHTML = json.alert
           }
         })

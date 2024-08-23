@@ -5,7 +5,7 @@
         "name": "release",
         "pluralName": "Release versions",
         "singularName": "Release version",
-        "icon": "fa fa-dropbox",
+        "icon": "fab fa-dropbox",
         "description": null,
         "indexTwig": null,
         "extra": null,

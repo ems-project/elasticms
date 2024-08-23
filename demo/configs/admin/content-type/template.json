@@ -5,7 +5,7 @@
         "name": "template",
         "pluralName": "Templates",
         "singularName": "Template",
-        "icon": "fa fa-html5",
+        "icon": "fab fa-html5",
         "description": null,
         "indexTwig": null,
         "extra": null,
@@ -221,6 +221,7 @@
             "show_link_search": "not-defined"
         },
         "fields": {
+            "display": null,
             "label": "name",
             "color": null,
             "sort": null,
@@ -232,6 +233,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

@@ -179,7 +179,7 @@ class DataService
 
         $revision->setLockBy($lockerUsername);
 
-        $lockTime ??= $username ? new \DateTime('+30 seconds') : new \DateTime($this->lockTime);
+        $lockTime ??= new \DateTime($this->lockTime);
         $revision->setLockUntil($lockTime);
 
         $em->flush();
@@ -432,7 +432,7 @@ class DataService
     public function createData(?string $ouuid, array $rawdata, ContentType $contentType): Revision
     {
         $now = new \DateTime();
-        $until = $now->add(new \DateInterval('PT5M')); // +5 minutes
+        $until = new \DateTime($this->lockTime);
         $newRevision = new Revision();
         $newRevision->setContentType($contentType);
         if (null !== $ouuid) {
@@ -1474,7 +1474,7 @@ class DataService
     public function getEmptyRevision(ContentType $contentType, ?string $user = null): Revision
     {
         $now = new \DateTime();
-        $until = $now->add(new \DateInterval('PT5M')); // +5 minutes
+        $until = new \DateTime($this->lockTime);
         $newRevision = new Revision();
         $newRevision->setContentType($contentType);
         $newRevision->addEnvironment($contentType->giveEnvironment());

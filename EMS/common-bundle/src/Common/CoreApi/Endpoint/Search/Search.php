@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Search;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Search\Scroll;
+use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Search\SearchInterface;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -198,5 +199,14 @@ class Search implements SearchInterface
         }
 
         return $tokens;
+    }
+
+    public function hasIndex(string $index): bool
+    {
+        $response = $this->client->post('/api/search/has-index', [
+            'index' => $index,
+        ])->getData()['exist'] ?? null;
+
+        return Type::bool($response);
     }
 }

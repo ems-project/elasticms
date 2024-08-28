@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Data;
 
 use EMS\CommonBundle\Common\CoreApi\Result;
-use EMS\CommonBundle\Common\Standard\Type;
+use EMS\Helpers\Standard\Type;
 
 class Index
 {

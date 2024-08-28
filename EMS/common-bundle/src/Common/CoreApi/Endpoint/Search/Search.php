@@ -6,7 +6,6 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Search;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Search\Scroll;
-use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Search\SearchInterface;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -14,6 +13,7 @@ use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 use EMS\CommonBundle\Search\Search as SearchObject;
+use EMS\Helpers\Standard\Type;
 
 class Search implements SearchInterface
 {

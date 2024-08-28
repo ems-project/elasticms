@@ -23,13 +23,4 @@ final class Type
 
         return $value;
     }
-
-    public static function bool(mixed $value): bool
-    {
-        if (!\is_bool($value)) {
-            throw new \RuntimeException(\sprintf("Expect an boolean got '%s'", \gettype($value)));
-        }
-
-        return $value;
-    }
 }

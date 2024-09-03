@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.17.5 (2024-09-03)
+### Bug Fixes
+* fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995
+
 ## 5.17.4 (2024-08-23)
 ### Bug Fixes
 * fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994

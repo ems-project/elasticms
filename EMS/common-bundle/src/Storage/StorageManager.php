@@ -139,34 +139,44 @@ class StorageManager
     {
         $hash = $this->computeStringHash($contents);
         $count = 0;
-
         foreach ($this->adapters as $adapter) {
-            if (!$this->isUsageSupported($adapter, $usageType)) {
-                continue;
-            }
+            try {
+                if ($count > 0 && $usageType < StorageInterface::STORAGE_USAGE_ASSET) {
+                    break;
+                }
 
-            if ($adapter->head($hash)) {
-                ++$count;
-                continue;
-            }
+                if (!$this->isUsageSupported($adapter, $usageType)) {
+                    continue;
+                }
 
-            if (!$adapter->initUpload($hash, \strlen($contents), $filename, $mimetype)) {
-                continue;
-            }
+                if ($adapter->head($hash)) {
+                    ++$count;
+                    continue;
+                }
 
-            if (!$adapter->addChunk($hash, $contents)) {
-                continue;
-            }
+                if (!$adapter->initUpload($hash, \strlen($contents), $filename, $mimetype)) {
+                    continue;
+                }
 
-            $adapter->initFinalize($hash);
+                if (!$adapter->addChunk($hash, $contents)) {
+                    continue;
+                }
 
-            if ($adapter->finalizeUpload($hash)) {
-                ++$count;
+                $adapter->initFinalize($hash);
+
+                if ($adapter->finalizeUpload($hash)) {
+                    ++$count;
+                }
+            } catch (\Throwable $e) {
+                $this->logger->error(\sprintf('Not able to save %s in %s with message: %s', $hash, $adapter->__toString(), $e->getMessage()));
             }
         }
 
         if (0 === $count) {
-            throw new NotSavedException($hash);
+            $this->logger->error(\sprintf('The config %s was not able to be saved', $hash));
+            if ($usageType >= StorageInterface::STORAGE_USAGE_ASSET) {
+                throw new NotSavedException($hash);
+            }
         }
 
         return $hash;

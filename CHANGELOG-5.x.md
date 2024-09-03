@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.19.3 (2024-09-03)
+### Bug Fixes
+* fix(common/api): emsch get via the admin API (EMS_ELASTICSEARCH_PROXY_API) by @theus77 in https://github.com/ems-project/elasticms/pull/997
+* fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995
+
 ## 5.19.2 (2024-08-23)
 ### Bug Fixes
 * fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994

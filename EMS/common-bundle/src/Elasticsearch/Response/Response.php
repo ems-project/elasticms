@@ -151,11 +151,7 @@ final class Response implements ResponseInterface
             ],
         ], 200);
         $response->getData();
-        $results = [];
-        foreach ($this->hits as $hit) {
-            $results[] = new Result($hit);
-        }
 
-        return new ResultSet($response, $query, $results);
+        return new ResultSet($response, $query, \array_map(fn (array $p) => new Result($p), $this->hits));
     }
 }

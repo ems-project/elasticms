@@ -329,7 +329,12 @@ class ElasticaService
 
     public function hasIndex(string $index): bool
     {
-        if (!isset($this->existsIndex[$index])) {
+        if (isset($this->existsIndex[$index])) {
+            return $this->existsIndex[$index];
+        }
+        if ($this->useAdminProxy) {
+            $this->existsIndex[$index] = $this->adminHelper->getCoreApi()->search()->hasIndex($index);
+        } else {
             $this->existsIndex[$index] = $this->getIndex($index)->exists();
         }
 

@@ -122,6 +122,10 @@ Define (JSON format) a list of content type names to exclude from admin backup/r
 
 Specify replacement strings, per locale to symbols. E.g. if you want to replace the symbol `@` by the string `at` in your slug in English and French : `{"en":{"@":"at"},"fr":{"@":"at"}}`. Default value `~` ([rely on the default Symfony configuration](https://github.com/symfony/string/blob/f5832521b998b0bec40bee688ad5de98d4cf111b/Slugger/AsciiSlugger.php#L59C42-L61C6))
 
+### EMS_ELASTICSEARCH_PROXY_API
+
+Bollean variable, if specified to `true` all elasticsearch query will be delegated to the admin api. And then you'll need to login on an admin first via the `ems:admin:login` command. By default, this variable is set to `false`.
+
 ## CLI variables
 
 ### EMSCLI_TIKA_PATH

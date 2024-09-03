@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.20.1 (2024-09-03)
+### Bug Fixes
+* fix(common/api): emsch get via the admin API (EMS_ELASTICSEARCH_PROXY_API) by @theus77 in https://github.com/ems-project/elasticms/pull/997
+* fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995
+
 ## 5.20.0 (2024-08-23)
 ### Features
 * feat(admin/contentType): implement dataTables by @Davidmattei in https://github.com/ems-project/elasticms/pull/978

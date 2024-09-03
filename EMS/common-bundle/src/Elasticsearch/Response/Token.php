@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Elasticsearch\Response;
 
-use EMS\CommonBundle\Common\Standard\Type;
+use EMS\Helpers\Standard\Type;
 
 class Token
 {

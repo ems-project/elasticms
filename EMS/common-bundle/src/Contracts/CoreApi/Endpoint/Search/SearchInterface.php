@@ -52,4 +52,6 @@ interface SearchInterface
      * @return string[]
      */
     public function filterStopWords(string $index, string $analyzer, array $words): array;
+
+    public function hasIndex(string $index): bool;
 }

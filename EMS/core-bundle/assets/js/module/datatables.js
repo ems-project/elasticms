@@ -9,9 +9,9 @@ export default class datatables {
     }
 
     loadDatatables(datatables) {
-        [].forEach.call(datatables, function(datatable) {
-            jquery(datatable).DataTable(JSON.parse(datatable.dataset.datatable));
+        [].forEach.call(datatables, function(element) {
+            const datatable = jquery(element).DataTable(JSON.parse(element.dataset.datatable));
+            datatable.on('draw', () => new EmsListeners(element))
         });
-
     }
 }

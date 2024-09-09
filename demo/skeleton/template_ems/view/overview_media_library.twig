@@ -12,7 +12,10 @@
     {% set env = 'default'|emsco_get_environment %}
     {% set rowContext = "" %}
 
-    {% set dataTableOptions = { 'checkable': true } %}
+    {% set dataTableOptions = {
+        'frontendOptions': { 'pageLength': 10, 'order': [1, 'asc'] },
+        'checkable': true
+    } %}
 
     {{ block('renderDatatable') }}
 {% endblock %}

@@ -24,6 +24,7 @@ class ElasticaTable extends TableAbstract
     final public const SHEET_NAME = 'sheet_name';
     private const ROW_CONTEXT = 'row_context';
     public const PROTECTED = 'protected';
+    public const CHECKABLE = 'checkable';
     private ?int $count = null;
     private ?int $totalCount = null;
 
@@ -190,6 +191,7 @@ class ElasticaTable extends TableAbstract
                 self::ROW_CONTEXT => '',
                 self::PROTECTED => true,
                 self::DEFAULT_SORT => [],
+                self::CHECKABLE => false,
             ])
             ->setAllowedTypes(self::COLUMNS, ['array'])
             ->setAllowedTypes(self::QUERY, ['array', 'string'])
@@ -201,6 +203,7 @@ class ElasticaTable extends TableAbstract
             ->setAllowedTypes(self::ROW_CONTEXT, ['string'])
             ->setAllowedTypes(self::DEFAULT_SORT, ['array'])
             ->setAllowedTypes(self::PROTECTED, ['bool'])
+            ->setAllowedTypes(self::CHECKABLE, ['bool'])
             ->setAllowedValues(self::ASC_MISSING_VALUES_POSITION, ['_last', '_first'])
             ->setAllowedValues(self::DESC_MISSING_VALUES_POSITION, ['_last', '_first'])
             ->setNormalizer(self::QUERY, function (Options $options, $value) {

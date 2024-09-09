@@ -38,7 +38,7 @@
         'empty_query': {'bool': { 'must': emptyMust } },
         'row_context': rowContext,
         'columns': columns
-    }) }}
+    }|merge(dataTableOptions|default({}))) }}
 {%- endblock -%}
 
 {% block css %}{% endblock %}

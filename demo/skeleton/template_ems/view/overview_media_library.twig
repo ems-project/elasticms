@@ -12,6 +12,8 @@
     {% set env = 'default'|emsco_get_environment %}
     {% set rowContext = "" %}
 
+    {% set dataTableOptions = { 'checkable': true } %}
+
     {{ block('renderDatatable') }}
 {% endblock %}
 

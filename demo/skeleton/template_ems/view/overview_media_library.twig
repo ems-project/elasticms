@@ -1,0 +1,30 @@
+{% extends "@EMSCH/template_ems/view/base_overview.twig" %}
+
+{% block template %}
+    {% set columns = [] %}
+
+    {% set columns = [
+        { "label": "Path", "template": (block('columnMediaPath')),  "orderField": "media_path"},
+        { "label": "Folder", "template": "{{ data.source.media_folder }}",  "orderField": "media_folder"},
+        { "label": "Last Update", "template": (block('columnLastUpdate')), "orderField": "_finalization_datetime"},
+    ] %}
+
+    {% set env = 'default'|emsco_get_environment %}
+    {% set rowContext = "" %}
+
+    {{ block('renderDatatable') }}
+{% endblock %}
+
+{% block columnMediaPath %}
+{% verbatim %}
+<a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.media_path }}</a>
+{% endverbatim %}
+{% endblock %}
+
+{% block columnLastUpdate %}
+{% verbatim %}
+<div style="width: 130px;" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="By {{ data.source._finalized_by }}" >
+    {{ data.source._finalization_datetime|default ? data.source._finalization_datetime|date("d/m/Y (H:i)") : "N.A." }}
+</div>
+{% endverbatim %}
+{% endblock %}

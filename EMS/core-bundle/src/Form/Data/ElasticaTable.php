@@ -25,6 +25,7 @@ class ElasticaTable extends TableAbstract
     private const ROW_CONTEXT = 'row_context';
     public const PROTECTED = 'protected';
     public const CHECKABLE = 'checkable';
+    public const ACTIONS = 'actions';
     private ?int $count = null;
     private ?int $totalCount = null;
 
@@ -86,6 +87,14 @@ class ElasticaTable extends TableAbstract
         foreach ($options[self::COLUMNS] as $column) {
             $datatable->addColumnDefinition(new TemplateTableColumn($column));
         }
+
+        foreach ($options[self::ACTIONS] as $action) {
+            $massAction = $datatable->addMassAction($action['name'], $action['label'], $action['icon'], $action['confirm']);
+            if (isset($action['class'])) {
+                $massAction->setCssClass($action['class']);
+            }
+        }
+
         $datatable->setExtraFrontendOption($options[self::FRONTEND_OPTIONS]);
 
         return $datatable;
@@ -188,6 +197,7 @@ class ElasticaTable extends TableAbstract
      *
      * @return array{
      *     columns: array<mixed>,
+     *     actions: array<mixed>,
      *     query: string,
      *     empty_query: string,
      *     frontendOptions: array<mixed>,
@@ -208,6 +218,7 @@ class ElasticaTable extends TableAbstract
         $resolver
             ->setDefaults([
                 self::COLUMNS => [],
+                self::ACTIONS => [],
                 self::EMPTY_QUERY => [],
                 self::QUERY => [
                     'query_string' => [
@@ -226,6 +237,7 @@ class ElasticaTable extends TableAbstract
                 self::CHECKABLE => false,
             ])
             ->setAllowedTypes(self::COLUMNS, ['array'])
+            ->setAllowedTypes(self::ACTIONS, ['array'])
             ->setAllowedTypes(self::QUERY, ['array', 'string'])
             ->setAllowedTypes(self::ASC_MISSING_VALUES_POSITION, ['string'])
             ->setAllowedTypes(self::DESC_MISSING_VALUES_POSITION, ['string'])
@@ -274,7 +286,7 @@ class ElasticaTable extends TableAbstract
                 return $value;
             })
         ;
-        /** @var array{columns: array<mixed>, query: string, empty_query: string, frontendOptions: array<mixed>, asc_missing_values_position: string, desc_missing_values_position: string, filename: string, disposition: string, sheet_name: string, row_context: string, default_sort: array<string, string>, protected: bool, checkable: bool} $resolvedParameter */
+        /** @var array{columns: array<mixed>, actions: array<mixed>, query: string, empty_query: string, frontendOptions: array<mixed>, asc_missing_values_position: string, desc_missing_values_position: string, filename: string, disposition: string, sheet_name: string, row_context: string, default_sort: array<string, string>, protected: bool, checkable: bool} $resolvedParameter */
         $resolvedParameter = $resolver->resolve($options);
 
         return $resolvedParameter;

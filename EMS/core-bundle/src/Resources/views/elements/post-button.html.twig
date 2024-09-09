@@ -20,9 +20,13 @@
 	  </button>
 	  <ul class="dropdown-menu">
 		<li>
-			<a href="{{ url }}"
-			   data-post-settings="{{ settings|json_encode|escape('html_attr') }}"
-			   class="core-post-button">{{ message|trans }}</a>
+			{% if url is defined %}
+				<a href="{{ url }}"
+				   data-post-settings="{{ settings|json_encode|escape('html_attr') }}"
+				   class="core-post-button">{{ message|trans }}</a>
+			{% else %}
+				<button>{{ message|trans }}</button>
+			{% endif %}
 		</li>
 	  </ul>
 	</div>

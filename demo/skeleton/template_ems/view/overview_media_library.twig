@@ -14,7 +14,10 @@
 
     {% set dataTableOptions = {
         'frontendOptions': { 'pageLength': 10, 'order': [1, 'asc'] },
-        'checkable': true
+        'checkable': true,
+        'actions': [
+            { 'name': 'delete', 'label': 'Delete', 'class': 'outline-danger', 'icon': 'trash', 'confirm': 'Are you sure?' }
+        ]
     } %}
 
     {{ block('renderDatatable') }}

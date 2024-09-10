@@ -29,7 +29,10 @@ final class ReleaseType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => true,
                 'empty_data' => '',
-                'row_attr' => ['class' => 'col-md-3'],
+            ])
+            ->add('environmentTarget', EnvironmentPickerType::class, [
+                'userPublishEnvironments' => true,
+                'managedOnly' => true,
             ])
             ->add('execution_date', DateTimeType::class, [
                 'required' => false,
@@ -41,15 +44,8 @@ final class ReleaseType extends AbstractType
                     'data-date-days-of-week-disabled' => '',
                     'data-date-disabled-hours' => '',
                 ],
-                'row_attr' => ['class' => 'col-md-6'],
             ])
             ->add('environmentSource', EnvironmentPickerType::class, [
-                'row_attr' => ['class' => 'col-md-3'],
-                'userPublishEnvironments' => true,
-                'managedOnly' => true,
-            ])
-            ->add('environmentTarget', EnvironmentPickerType::class, [
-                'row_attr' => ['class' => 'col-md-3'],
                 'userPublishEnvironments' => true,
                 'managedOnly' => true,
             ])

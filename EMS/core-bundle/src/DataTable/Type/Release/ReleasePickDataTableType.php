@@ -14,6 +14,7 @@ use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ReleaseService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 class ReleasePickDataTableType extends AbstractEntityTableType

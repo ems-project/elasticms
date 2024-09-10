@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Form;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\Release;
 use EMS\CoreBundle\Form\Field\EnvironmentPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
@@ -13,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function Symfony\Component\Translation\t;
 
 final class ReleaseType extends AbstractType
@@ -30,12 +30,12 @@ final class ReleaseType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => true,
                 'empty_data' => '',
-                'label' => t('field.name', [], 'emsco-core')
+                'label' => t('field.name', [], 'emsco-core'),
             ])
             ->add('environmentTarget', EnvironmentPickerType::class, [
                 'userPublishEnvironments' => true,
                 'managedOnly' => true,
-                'label' => t('field.release_environment_target', [], 'emsco-core')
+                'label' => t('field.release_environment_target', [], 'emsco-core'),
             ])
             ->add('execution_date', DateTimeType::class, [
                 'required' => false,
@@ -52,7 +52,7 @@ final class ReleaseType extends AbstractType
             ->add('environmentSource', EnvironmentPickerType::class, [
                 'userPublishEnvironments' => true,
                 'managedOnly' => true,
-                'label' => t('field.release_environment_source', [], 'emsco-core')
+                'label' => t('field.release_environment_source', [], 'emsco-core'),
             ])
         ;
 

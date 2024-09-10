@@ -15,6 +15,7 @@ use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\ReleaseService;
+
 use function Symfony\Component\Translation\t;
 
 class ReleaseOverviewDataTableType extends AbstractEntityTableType
@@ -48,7 +49,7 @@ class ReleaseOverviewDataTableType extends AbstractEntityTableType
             template: "@$this->templateNamespace/release/columns/revisions.html.twig")
         );
         $table->addColumnDefinition(new TemplateBlockTableColumn(
-                label: t('field.release_environment_target', [], 'emsco-core'),
+            label: t('field.release_environment_target', [], 'emsco-core'),
             blockName: 'environmentTarget',
             template: "@$this->templateNamespace/release/columns/revisions.html.twig")
         );

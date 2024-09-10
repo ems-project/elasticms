@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Form\Form;
 
 use EMS\CoreBundle\EMSCoreBundle;
-use EMS\CoreBundle\Entity\Environment;
 use EMS\CoreBundle\Entity\Release;
+use EMS\CoreBundle\Form\Field\EnvironmentPickerType;
 use EMS\CoreBundle\Form\Field\SubmitEmsType;
-use EMS\CoreBundle\Service\EnvironmentService;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,10 +18,6 @@ final class ReleaseType extends AbstractType
 {
     public const BTN_SAVE = 'save';
     public const BTN_SAVE_CLOSE = 'saveAndClose';
-
-    public function __construct(private readonly EnvironmentService $environmentService)
-    {
-    }
 
     /**
      * @param FormBuilderInterface<FormBuilderInterface> $builder
@@ -49,22 +43,17 @@ final class ReleaseType extends AbstractType
                 ],
                 'row_attr' => ['class' => 'col-md-6'],
             ])
-            ->add('environmentSource', ChoiceType::class, [
-                'attr' => ['class' => 'select2'],
-                'choices' => $this->environmentService->getEnvironments(),
-                'required' => true,
-                'choice_label' => fn (Environment $value) => '<i class="fa fa-square text-'.$value->getColor().'"></i>&nbsp;&nbsp;'.$value->getLabel(),
+            ->add('environmentSource', EnvironmentPickerType::class, [
                 'row_attr' => ['class' => 'col-md-3'],
-                'choice_value' => static fn (?Environment $value) => $value?->getId(),
+                'userPublishEnvironments' => true,
+                'managedOnly' => true,
             ])
-            ->add('environmentTarget', ChoiceType::class, [
-                'attr' => ['class' => 'select2'],
-                'choices' => $this->environmentService->getEnvironments(),
-                'required' => true,
-                'choice_label' => fn (Environment $value) => '<i class="fa fa-square text-'.$value->getColor().'"></i>&nbsp;&nbsp;'.$value->getLabel(),
+            ->add('environmentTarget', EnvironmentPickerType::class, [
                 'row_attr' => ['class' => 'col-md-3'],
-                'choice_value' => static fn (?Environment $value) => $value?->getId(),
-            ]);
+                'userPublishEnvironments' => true,
+                'managedOnly' => true,
+            ])
+        ;
 
         if ($options['add'] ?? false) {
             $builder->add('create', SubmitEmsType::class, [

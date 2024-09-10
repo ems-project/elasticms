@@ -213,8 +213,8 @@
             {{ form_widget(chekbox) }}
         {% endfor %}
     {% else %}
-        <label for="emsco_form_table_type_selected_{{ id }}" class="{{ table.attributeName|e('html_attr') }}-to-select">
-            <input type="checkbox" id="emsco_form_table_type_selected_{{ id }}" name="{{ table.attributeName|e('html_attr') }}[]" value="{{ id }}" />
+        <label for="emsco_datatable_selected_{{ id }}" class="{{ (table.id ~ '-select')|e('html_attr') }}-to-select">
+            <input type="checkbox" id="emsco_datatable_selected_{{ id }}" name="{{ (table.id ~ '-select')|e('html_attr') }}[]" value="{{ id }}" />
         </label>
     {% endif %}
 {% endblock emsco_form_table_column_action_checkbox %}

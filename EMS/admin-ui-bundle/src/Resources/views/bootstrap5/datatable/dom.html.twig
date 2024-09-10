@@ -1,12 +1,12 @@
 {%- use '@EMSAdminUI/bootstrap5/form/forms.html.twig' -%}
 {% trans_default_domain 'EMSCoreBundle' %}
 
-<table class="table table-condensed table-striped" data-datatable="{{ datatable.frontendOptions|json_encode|e('html_attr') }}">
+<table id="{{ datatable.id }}" class="table table-condensed table-striped" data-datatable="{{ datatable.frontendOptions|json_encode|e('html_attr') }}">
     <thead>
     <tr role="row">
         {% if datatable.supportsTableActions %}
             <th class="fit" data-orderable="false" data-name="_checkbox">
-                <input type="checkbox" value="" data-grouped-checkbox-target=".{{ datatable.attributeName|e('html_attr') }}-to-select">
+                <input type="checkbox" value="" data-grouped-checkbox-target=".{{ (datatable.id ~ '-select')|e('html_attr') }}-to-select">
             </th>
         {% endif %}
         {% for column in datatable.columns %}
@@ -49,9 +49,13 @@
     <div class="btn-group">
         {% for action in datatable.tableMassActions %}
             {% include '@EMSCore/elements/post-button.html.twig' with {
-                'message': action.confirmationKey.message,
+                'message': action.confirmationKey ? action.confirmationKey.message : null,
                 'label': action.labelKey.message,
-                'btnType': action.cssClass,
+                'btnClass': action.cssClass,
+                'attributes': {
+                    'data-datatable-event': "action.#{action.name}",
+                    'data-datatable-target': datatable.id
+                },
                 'icon': action.icon,
             } %}
         {% endfor %}

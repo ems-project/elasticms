@@ -26,6 +26,7 @@ class ElasticaTable extends TableAbstract
     public const PROTECTED = 'protected';
     public const CHECKABLE = 'checkable';
     public const ACTIONS = 'actions';
+    public const ID = 'id';
     private ?int $count = null;
     private ?int $totalCount = null;
 
@@ -35,6 +36,7 @@ class ElasticaTable extends TableAbstract
      * @param array<string, string> $defaultSort
      */
     public function __construct(
+        public readonly string $id,
         private readonly string $templateNamespace,
         private readonly ElasticaService $elasticaService,
         string $ajaxUrl,
@@ -67,6 +69,7 @@ class ElasticaTable extends TableAbstract
     {
         $options = self::resolveOptions($options);
         $datatable = new self(
+            id: $options[self::ID],
             templateNamespace: $templateNamespace,
             elasticaService: $elasticaService,
             ajaxUrl: $ajaxUrl,
@@ -89,7 +92,7 @@ class ElasticaTable extends TableAbstract
         }
 
         foreach ($options[self::ACTIONS] as $action) {
-            $massAction = $datatable->addMassAction($action['name'], $action['label'], $action['icon'], $action['confirm']);
+            $massAction = $datatable->addMassAction($action['name'], $action['label'], $action['icon'], $action['confirm'] ?? null);
             if (isset($action['class'])) {
                 $massAction->setCssClass($action['class']);
             }
@@ -196,6 +199,7 @@ class ElasticaTable extends TableAbstract
      * @param array<string, mixed> $options
      *
      * @return array{
+     *     id: string,
      *     columns: array<mixed>,
      *     actions: array<mixed>,
      *     query: string,
@@ -217,6 +221,7 @@ class ElasticaTable extends TableAbstract
         $resolver = new OptionsResolver();
         $resolver
             ->setDefaults([
+                self::ID => 'elastica-datatable',
                 self::COLUMNS => [],
                 self::ACTIONS => [],
                 self::EMPTY_QUERY => [],
@@ -236,6 +241,7 @@ class ElasticaTable extends TableAbstract
                 self::PROTECTED => true,
                 self::CHECKABLE => false,
             ])
+            ->setAllowedTypes(self::ID, ['string'])
             ->setAllowedTypes(self::COLUMNS, ['array'])
             ->setAllowedTypes(self::ACTIONS, ['array'])
             ->setAllowedTypes(self::QUERY, ['array', 'string'])
@@ -286,7 +292,7 @@ class ElasticaTable extends TableAbstract
                 return $value;
             })
         ;
-        /** @var array{columns: array<mixed>, actions: array<mixed>, query: string, empty_query: string, frontendOptions: array<mixed>, asc_missing_values_position: string, desc_missing_values_position: string, filename: string, disposition: string, sheet_name: string, row_context: string, default_sort: array<string, string>, protected: bool, checkable: bool} $resolvedParameter */
+        /** @var array{id: string, columns: array<mixed>, actions: array<mixed>, query: string, empty_query: string, frontendOptions: array<mixed>, asc_missing_values_position: string, desc_missing_values_position: string, filename: string, disposition: string, sheet_name: string, row_context: string, default_sort: array<string, string>, protected: bool, checkable: bool} $resolvedParameter */
         $resolvedParameter = $resolver->resolve($options);
 
         return $resolvedParameter;

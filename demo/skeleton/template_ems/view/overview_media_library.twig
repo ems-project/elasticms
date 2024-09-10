@@ -14,14 +14,24 @@
 
     {% set dataTableOptions = {
         'frontendOptions': { 'pageLength': 10, 'order': [1, 'asc'] },
+        'id': 'media-lib-datatable',
         'checkable': true,
         'actions': [
-            { 'name': 'delete', 'label': 'Delete', 'class': 'outline-danger', 'icon': 'trash', 'confirm': 'Are you sure?' }
+            { 'name': 'delete', 'label': 'Delete', 'class': 'btn btn-sm btn-outline-danger', 'icon': 'trash', 'confirm': 'Are you sure?' },
         ]
     } %}
 
     {{ block('renderDatatable') }}
 {% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        document.getElementById('media-lib-datatable').addEventListener('action.delete', (e) => {
+            console.debug(e.detail.selection);
+        });
+    </script>
+{% endblock javascript %}
 
 {% block columnMediaPath %}
 {% verbatim %}

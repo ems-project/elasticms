@@ -240,7 +240,30 @@ div.media-lib {
           display: flex;
           flex-direction: column;
 
-          div.media-lib-file-header { font-weight: bold; }
+          div.media-lib-file-header {
+            font-weight: bold;
+
+            [data-sort-id] {
+              cursor: pointer;
+
+              &::after {
+                content: "\f0dc";
+                font-family: "FontAwesome", serif;
+                float: right;
+                padding-left: 7px;
+                color: var(--color-border);
+                font-weight: normal;
+              }
+              &[data-sort-order='asc']::after {
+                content: "\f0de";
+                color: var(--color-active);
+              }
+              &[data-sort-order='desc']::after {
+                content: "\f0dd";
+                color: var(--color-active);
+              }
+            }
+          }
           div.media-lib-container {
             border-bottom: 1px dashed var(--color-border);
           }

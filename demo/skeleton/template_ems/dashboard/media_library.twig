@@ -1,7 +1,7 @@
 {% block body %}
     {{ component('media_library', {
         'id': 'examaple-media-lib',
-        'template': _self,
+        'template': _self
     }) }}
 {% endblock body %}
 
@@ -10,10 +10,10 @@
 {% block css %}{% endblock css %}
 
 {%- block media_lib_file_header -%}
-    <div>Name</div>
-    <div>Type</div>
+    <div data-sort-id="name">Name</div>
+    <div data-sort-id="type">Type</div>
     <div>Revision</div>
-    <div class="text-right">Size</div>
+    <div data-sort-id="size" class="text-right">Size</div>
 {%- endblock media_lib_file_header -%}
 
 {%- block media_lib_file -%}

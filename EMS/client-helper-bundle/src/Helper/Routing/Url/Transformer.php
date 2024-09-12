@@ -79,8 +79,8 @@ final class Transformer
 
             $generation = $this->generate($cleanMatch, $config);
             $route = ($generation ?? $match[0]);
-            $srcAttribute = $match['src'] ?? false;
-            if ('asset' === ($match['link_type'] ?? null) && ($config['asset_file_path'] ?? false) && isset($match['src'])) {
+            $srcAttribute = '' !== $match['src'];
+            if ('asset' === $match['link_type'] && ($config['asset_file_path'] ?? false) && $srcAttribute) {
                 $baseUrl = '';
             } else {
                 $baseUrl = $config['baseUrl'] ?? '';

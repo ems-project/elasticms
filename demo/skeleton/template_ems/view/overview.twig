@@ -49,7 +49,7 @@
     }|json_encode %}
 
     {% set env = 'preview'|emsco_get_environment %}
-    {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = line.data.id|get_revision_id(line.data.contentType) %}{% set viewId = #{view.id} %}{% set infoEnv = #{infoEnv} %}" %}
+    {% set rowContext = "{% set docInfo = [line.data.contentType, line.data.id]|join(':')|emsco_document_info %}{% set revisionId = line.data.id|get_revision_id(line.data.contentType) %}{% set viewId = #{view.id} %}{% set liveId = 'live'|emsco_get_environment.id %}{% set previewId = 'preview'|get_environment.id %} {% set infoEnv = #{infoEnv} %}" %}
 
     {{ block('renderDatatable') }}
 {% endblock %}

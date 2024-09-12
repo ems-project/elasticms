@@ -28,6 +28,7 @@ export default class MediaLibrary {
 
         this.#elements = {
             header:  element.querySelector('div.media-nav-bar'),
+            footer:  element.querySelector('div.media-lib-footer'),
             inputUpload:  element.querySelector('input.file-uploader-input'),
             files: element.querySelector('div.media-lib-files'),
             loadMoreFiles: element.querySelector('div.media-lib-files > div.media-lib-load-more'),
@@ -137,7 +138,7 @@ export default class MediaLibrary {
         this.loading(true);
         const selection = this._selectFiles(item, event);
         const fileId = selection.length === 1 ? item.dataset.id : null;
-        this._getHeader(fileId).then(() => { this.loading(false); });
+        this._getLayout(fileId).then(() => { this.loading(false); });
     }
     _onClickFileSort(target) {
         this.#sortId = target.dataset.sortId;
@@ -209,7 +210,7 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (json.hasOwnProperty('fileRow')) fileRow.closest('li').innerHTML = json.fileRow;
 
-            this._getHeader().then(() => {
+            this._getLayout().then(() => {
                 ajaxModal.close();
                 this.loading(false);
             });
@@ -441,9 +442,9 @@ export default class MediaLibrary {
         }, delay);
     }
 
-    _getHeader(fileId = null) {
-        let path = '/header';
-        let query = new URLSearchParams();
+    _getLayout(fileId = null) {
+        let path = '/layout';
+        let query = new URLSearchParams({ loaded: this.#loadedFiles.toString() });
 
         if (fileId) query.append('fileId', fileId);
         if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString());
@@ -454,6 +455,7 @@ export default class MediaLibrary {
 
         return this._get(path).then((json) => {
             if (json.hasOwnProperty('header')) this._refreshHeader(json.header);
+            if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
         });
     }
     _getFiles(from = 0) {
@@ -501,6 +503,7 @@ export default class MediaLibrary {
             this._refreshHeader(json.header);
             this.#activeFolderHeader = json.header;
         }
+        if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
         if (json.hasOwnProperty('rowHeader')) {
             this.#elements.listFiles.innerHTML += json.rowHeader;
             if (json.hasOwnProperty('sort')) this._displaySort(json.sort.id, json.sort.order);
@@ -760,12 +763,13 @@ export default class MediaLibrary {
         return this.getSelectionFiles();
     }
     _selectAllFiles(event) {
+        if (event.target !== document.body) return;
         event.preventDefault();
 
         this.loading(true);
         let files = this.#elements.listFiles.querySelectorAll('.media-lib-file');
         files.forEach((f) => this._selectFile(f));
-        this._getHeader().then(() => { this.loading(false); });
+        this._getLayout().then(() => { this.loading(false); });
     }
     _selectFilesReset(refreshHeader = true) {
         if (true === refreshHeader) this._refreshHeader(this.#activeFolderHeader);

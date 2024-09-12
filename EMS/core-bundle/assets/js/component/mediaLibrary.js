@@ -81,6 +81,10 @@ export default class MediaLibrary {
     }
 
     _addEventListeners() {
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey && event.key === 'a') this._selectAllFiles(event);
+        });
+
         this.element.onkeyup = (event) => {
             if (event.shiftKey) this.#selectionLastFile = null;
             if (event.target.classList.contains('media-lib-search')) this._onSearchInput(event.target, 1000);
@@ -255,7 +259,7 @@ export default class MediaLibrary {
                             .style('success');
                     });
                 }))
-                .then(() => this._selectFilesReset())
+                .then(() => this._getFiles())
                 .then(() => this.loading(false))
                 .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
                 .then(() => ajaxModal.close())
@@ -326,7 +330,7 @@ export default class MediaLibrary {
                             });
                     });
                 }))
-                .then(() => this._selectFilesReset())
+                .then(() => this._getFiles())
                 .then(() => this.loading(false))
                 .then(() => {
                     if (Object.keys(errorList).length === 0) setTimeout(() => { ajaxModal.close() }, 2000);
@@ -754,6 +758,14 @@ export default class MediaLibrary {
         this.#selectionLastFile = item;
 
         return this.getSelectionFiles();
+    }
+    _selectAllFiles(event) {
+        event.preventDefault();
+
+        this.loading(true);
+        let files = this.#elements.listFiles.querySelectorAll('.media-lib-file');
+        files.forEach((f) => this._selectFile(f));
+        this._getHeader().then(() => { this.loading(false); });
     }
     _selectFilesReset(refreshHeader = true) {
         if (true === refreshHeader) this._refreshHeader(this.#activeFolderHeader);

@@ -630,7 +630,10 @@ export default class MediaLibrary {
             this.#elements.listUploads.appendChild(liUpload);
 
             this._getFileHash(file, progressBar)
-                .then((fileHash) => this._resizeImage(file, fileHash))
+                .then((fileHash) => {
+                    progressBar.status('Resizing');
+                    return this._resizeImage(file, fileHash)
+                })
                 .then(() => {
                     progressBar.status('Finished');
                     setTimeout(() => {
@@ -650,14 +653,14 @@ export default class MediaLibrary {
         });
     }
     async _resizeImage(file, fileHash) {
-        resizeImage(this.#options.hashAlgo, this.#options.urlInitUpload, file).then((response) => {
+        return await resizeImage(this.#options.hashAlgo, this.#options.urlInitUpload, file).then((response) => {
             if (null === response) {
-                this._createFile(file, fileHash)
+                return this._createFile(file, fileHash)
             } else {
-                this._createFile(file, fileHash, response.hash)
+                return this._createFile(file, fileHash, response.hash)
             }
         }).catch(() => {
-            this._createFile(file, fileHash)
+            return this._createFile(file, fileHash)
         })
     }
     async _createFile(file, fileHash, resizedHash = null) {

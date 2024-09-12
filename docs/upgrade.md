@@ -1,5 +1,6 @@
 # Upgrade
 
+  * [version 5.21.x](#version-521x)
   * [version 5.19.x](#version-519x)
   * [version 5.17.x](#version-517x)
   * [version 5.15.x](#version-515x)
@@ -9,6 +10,10 @@
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## version 5.21.x
+
+* Core twig component Media library: Removed the option `fieldPathOrder`, use new option `sort` (defining all possible sorts)
 
 ## version 5.19.x
 

@@ -153,23 +153,41 @@ For a more advanced implementation look into our [demo project](https://github.c
 }) }}
 ```
 
-| Property          | Default                | Description                                                |
-|-------------------|------------------------|------------------------------------------------------------|
-| `id`              |                        | **required** html id attribute                             |
-| `contentTypeName` | media_file             | **required** contentType name                              |
-| `fieldPath`       | media_path             | **required** Field name for path value                     |
-| `fieldPathOrder`  | media_path.alpha_order | Used for sorting folders and files.                        |
-| `fieldFolder`     | media_folder           | **required** Field name for folder value                   |
-| `fieldFile`       | media_file             | **required** Field name for asset                          |
-| `defaultValue`    |                        | Key/value array for defining default, example organization |
-| `searchSize`      | 100                    | Used for search and infinity scrolling                     |
-| `searchQuery`     | see config             | Example only load media files for an organization          |
-| `searchFileQuery` |                        | Define the search query used for searching file documents  |
-| `template`        |                        | see [templating](#templating-media-library)                |
-| `context`         |                        | see [templating](#templating-media-library)                |
+| Property          | Default      | Description                                                |
+|-------------------|--------------|------------------------------------------------------------|
+| `id`              |              | **required** html id attribute                             |
+| `contentTypeName` | media_file   | **required** contentType name                              |
+| `fieldPath`       | media_path   | **required** Field name for path value                     |
+| `fieldFolder`     | media_folder | **required** Field name for folder value                   |
+| `fieldFile`       | media_file   | **required** Field name for asset                          |
+| `sort`            |              | see [sorting](#sorting-media-library)                      |
+| `defaultValue`    |              | Key/value array for defining default, example organization |
+| `searchSize`      | 100          | Used for search and infinity scrolling                     |
+| `searchQuery`     | see config   | Example only load media files for an organization          |
+| `searchFileQuery` |              | Define the search query used for searching file documents  |
+| `template`        |              | see [templating](#templating-media-library)                |
+| `context`         |              | see [templating](#templating-media-library)                |
 
 - [config](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Core/Component/MediaLibrary/Config/MediaLibraryConfig.php)
 - [config factory](https://github.com/ems-project/elasticms/blob/HEAD/EMS/core-bundle/src/Core/Component/MediaLibrary/Config/MediaLibraryConfigFactory.php)
+
+## Sorting (media-library)
+
+Provide an array of objects, each object represents a sort. Required object properties are `id` and `field`, optional `defaultOrder` and `nestedPath`.
+
+The first sort with the property `defaultOrder` will be used as default sorting.
+See [templating](#templating-media-library) for implementation details.
+
+Default value:
+```json
+{
+  "sort": [
+    { "id": "name", "field": "media_path.alpha_order", "defaultOrder": "asc" },
+    { "id": "type", "field": "media_file.mimetype", "nested_path": "media_file" },
+    { "id": "size", "field": "media_file.filesize", "nested_path": "media_file" }
+  ]
+}
+```
 
 ### Templating (media-library)
 
@@ -197,10 +215,10 @@ Example add an extra 'go to revision' column.
 {% endblock body %}
 
 {%- block media_lib_file_header -%}
-    <div>Name</div>
-    <div>Type</div>
+    <div data-sort-id="name">Name</div>
+    <div data-sort-id="type">Type</div>
     <div>Revision</div>
-    <div class="text-right">Size</div>
+    <div data-sort-id="size" class="text-right">Size</div>
 {%- endblock media_lib_file_header -%}
 
 {%- block media_lib_file -%}

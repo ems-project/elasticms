@@ -1,0 +1,138 @@
+{%- block renderDatatable -%}
+    {% set requestQuery = app.request.query %}
+    {% set filterTerms = [] %}
+
+    {% for filterName, f in filters|default([]) %}
+        {% set field = f.field|default(filterName) %}
+        {% set fieldValue = requestQuery.get(filterName, f.defaultValue|default([])) %}
+
+        {% set current = attribute(filterTerms, field)|default([]) %}
+        {% if fieldValue|length > 0 %}
+            {% set filterTerms = filterTerms|merge({ (field) : (current|merge(fieldValue)) }) %}
+        {% endif %}
+    {% endfor %}
+
+    {% set emptyMust = [] %}
+    {% for field, terms in filterTerms|default([]) %}
+        {% set emptyMust = emptyMust|merge([{ 'terms': { (field) : (terms) } }]) %}
+    {% endfor %}
+
+    {% set queryMust = emptyMust|merge([ {
+        'multi_match': {
+            'fields': ['live_search', 'live_search._2gram', 'live_search._3gram'],
+            'query': '%query%',
+            'operator': 'and',
+            'type': 'bool_prefix'
+        }
+    }]) %}
+
+    {% if filters is defined %}
+        {% with { 'filters' : filters, 'filterTerms': filterTerms } %}
+            {{ block('filters') }}
+        {% endwith %}
+    {% endif %}
+
+    {{ emsco_datatable([env.name],[contentType.name], {
+        'frontendOptions': { 'pageLength': 100, 'order': [] },
+        'query': { 'bool': { 'must': queryMust } },
+        'empty_query': {'bool': { 'must': emptyMust } },
+        'row_context': rowContext,
+        'columns': columns
+    }|merge(dataTableOptions|default({}))) }}
+{%- endblock -%}
+
+{% block css %}{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    window.addEventListener('emsReady', function () {
+        let filterForm = document.getElementById('form-filters');
+
+        if (document.body.contains(filterForm)) {
+            filterForm.addEventListener('change', function () { filterForm.submit(); });
+        }
+
+        $('#DataTables_Table_0').on( 'draw.dt', function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    });
+</script>
+{% endblock %}
+
+{% block filters %}
+    {# handle search filters #}
+    {% for filterName, f in filters|filter(v => v.type|default(false) == 'search') %}
+        {% set query = {
+            'index': env.alias,
+            'size': 500,
+            '_source': [f.search_field],
+            'body': { 'query': { 'term': { '_contenttype': { 'value': (f.search_contentType) } } } } ,
+        } %}
+        {% if f.search_sort is defined %}{% set query = query|merge({ 'sort': [ { (f.search_sort) :{'order':'asc'} } ] }) %}{% endif %}
+
+        {% set search = query|search.hits.hits %}
+        {% set options = {} %}
+        {% for h in search %}
+            {% set options = options|merge({ (attribute(h._source, f.search_field)): ("#{h._source._contenttype}:#{h._id}") })  %}
+        {% endfor %}
+
+        {% set filters = filters|merge({ (filterName) : (f|merge({'options': options })) }) %}
+    {% endfor %}
+
+    {# handle aggs filters #}
+    {% for filterName, f in filters|filter(v => v.agg is defined) %}
+        {% set field = f.field|default(filterName) %}
+        {% set aggsMust = [{ 'term': {  '_contenttype': { 'value': (contentType.name) } } }] %}
+
+        {% for field, terms in filterTerms|filter((v,k) => k != field) %}
+            {% set aggsMust = aggsMust|merge([{ 'terms': { (field) : (terms) } }]) %}
+        {% endfor %}
+
+        {% set aggOrder = f.agg_sort is defined ? { '_term': (f.agg_sort|default('asc')) } : { '_count': 'desc' } %}
+
+        {% set aggSearch = {
+            'index': env.alias,
+            'size': 0,
+            'body': {
+                'query': {  'bool': { 'must' : (aggsMust) } },
+                'aggs': {  'count': { 'terms': { 'field': (f.agg), 'size': 500, 'order': (aggOrder) } } }
+            }
+        }|search.aggregations.count.buckets|default([]) %}
+
+        {% set aggOptions = {} %}
+
+        {% if f.search_sort is defined %}
+            {% for optionLabel, optionValue in f.options %}
+                {% set b = aggSearch|filter(v => v.key == optionValue)|first %}
+                {% if b %}
+                    {% set aggOptions = aggOptions|merge({ ("#{optionLabel} (#{b.doc_count})"): (b.key) })  %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            {% for b in aggSearch %}
+                {% set bucketKey = b.key_as_string|default(b.key) %}
+                {% set optionLabel = f.options|default([])|filter(v => v == bucketKey)|keys|first|default(bucketKey) %}
+                {% set aggOptions = aggOptions|merge({ ("#{optionLabel} (#{b.doc_count})"): (b.key_as_string|default(bucketKey)) })  %}
+            {% endfor %}
+        {% endif %}
+
+        {% set filters = filters|merge({ (filterName) : (f|merge({'options': aggOptions })) }) %}
+    {% endfor %}
+    <div class="row">
+        <div class="col-sm-12 pb-5">
+            <form method="GET" id="form-filters">
+                {% for filterName, f in filters %}
+                    {% set field = f.field|default(filterName) %}
+                    {% set filterSelection = attribute(filterTerms, field)|default([]) %}
+                    <div class="form-group col-md-2">
+                        <select name="{{ filterName }}[]" title="{{ f.label|default(filterName|capitalize) }}" id="filter-{{ filterName }}" class="selectpicker form-control input-sm" {{ f.multiple|default(true) ? 'multiple' }}>
+                            {% for optionsLabel,optionValue in f.options|default([]) %}
+                                <option value="{{ optionValue }}" {{ optionValue in filterSelection ? 'selected' }}>{{ optionsLabel }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

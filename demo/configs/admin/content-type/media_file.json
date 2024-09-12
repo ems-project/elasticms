@@ -159,7 +159,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 2,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -202,7 +202,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 3,
+                            "orderKey": 2,
                             "children": []
                         },
                         "replaced": []
@@ -235,7 +235,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 5,
+                            "orderKey": 3,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -500,6 +500,49 @@
                                     "postProcessing": null
                                 },
                                 "raw_data": []
+                            },
+                            "orderKey": 4,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\DateTimeFieldType",
+                            "name": "date_creation",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Date Creation",
+                                    "class": "col-md-12 hidden",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "displayFormat": null,
+                                    "parseFormat": null,
+                                    "daysOfWeekDisabled": null,
+                                    "hoursDisabled": null
+                                },
+                                "mappingOptions": {
+                                    "index": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": "{% if attribute(_source, 'date_creation') is not defined %}\r\n{{ 'now'|date(constant('\\DateTime::ATOM'))|json_encode|raw }}\r\n{% endif %}"
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
                             },
                             "orderKey": 6,
                             "children": []

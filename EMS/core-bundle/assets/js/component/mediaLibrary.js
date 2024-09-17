@@ -83,7 +83,7 @@ export default class MediaLibrary {
 
     _addEventListeners() {
         document.addEventListener('keydown', (event) => {
-            if (event.ctrlKey && event.key === 'a') this._selectAllFiles(event);
+            if ((event.ctrlKey || event.metaKey) && event.key === 'a') this._selectAllFiles(event);
         });
 
         this.element.onkeyup = (event) => {
@@ -768,7 +768,7 @@ export default class MediaLibrary {
             files.forEach((f, index) => {
                 if (index >= start && index <= end) this._selectFile(f);
             });
-        } else if (event.ctrlKey) {
+        } else if (event.ctrlKey || event.metaKey) {
             this._selectFile(item, true);
         } else {
             this._selectFilesReset(false);

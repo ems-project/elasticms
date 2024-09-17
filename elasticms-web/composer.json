@@ -1,107 +1,107 @@
 {
-  "name": "ems-project/elasticms-web",
-  "description": "A preconfigured elasticms website",
-  "authors": [
-    {
-      "name": "EMS Community",
-      "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
-    }
-  ],
-  "type": "project",
-  "license": "MIT",
-  "minimum-stability": "stable",
-  "prefer-stable": true,
-  "require": {
-    "php": "^8.3",
-    "ext-ctype": "*",
-    "ext-iconv": "*",
-    "ext-intl": "*",
-    "ext-json": "*",
-    "doctrine/doctrine-bundle": "^2.11",
-    "doctrine/doctrine-migrations-bundle": "^3.2",
-    "doctrine/orm": "^2.17",
-    "elasticms/client-helper-bundle": "6.0.*",
-    "elasticms/form-bundle": "6.0.*",
-    "elasticms/submission-bundle": "6.0.*",
-    "endroid/qr-code-bundle": "^4.3",
-    "symfony/console": "6.4.*",
-    "symfony/dotenv": "6.4.*",
-    "symfony/expression-language": "6.4.*",
-    "symfony/flex": "^2.4",
-    "symfony/form": "6.4.*",
-    "symfony/framework-bundle": "6.4.*",
-    "symfony/mailer": "6.4.*",
-    "symfony/monolog-bundle": "^3.8",
-    "symfony/runtime": "6.4.*",
-    "symfony/security-bundle": "6.4.*",
-    "symfony/twig-bundle": "6.4.*",
-    "symfony/var-exporter": "6.4.*",
-    "symfony/web-link": "6.4.*",
-    "thenetworg/oauth2-azure": "*",
-    "twig/extra-bundle": "^3.8",
-    "twig/intl-extra": "^3.8"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9.5",
-    "symfony/browser-kit": "6.4.*",
-    "symfony/css-selector": "6.4.*",
-    "symfony/debug-bundle": "6.4.*",
-    "symfony/phpunit-bridge": "6.4.*",
-    "symfony/web-profiler-bundle": "6.4.*"
-  },
-  "config": {
-    "allow-plugins": {
-      "endroid/installer": false,
-      "symfony/flex": true,
-      "symfony/runtime": true
-    },
-    "preferred-install": {
-      "*": "dist"
-    },
-    "optimize-autoloader": true,
-    "sort-packages": true
-  },
-  "autoload": {
-    "psr-4": {
-      "App\\Web\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "App\\Web\\Tests\\": "tests/"
-    }
-  },
-  "replace": {
-    "symfony/polyfill-ctype": "*",
-    "symfony/polyfill-iconv": "*",
-    "symfony/polyfill-php72": "*",
-    "symfony/polyfill-php73": "*",
-    "symfony/polyfill-php80": "*",
-    "symfony/polyfill-php81": "*"
-  },
-  "scripts": {
-    "auto-scripts": {
-      "cache:clear": "symfony-cmd",
-      "assets:install %PUBLIC_DIR%": "symfony-cmd"
-    },
-    "post-install-cmd": [
-      "@auto-scripts"
+    "name": "ems-project/elasticms-web",
+    "description": "A preconfigured elasticms website",
+    "authors": [
+        {
+            "name": "EMS Community",
+            "homepage": "https://github.com/ems-project/EMSClientHelperBundle/contributors"
+        }
     ],
-    "post-update-cmd": [
-      "@auto-scripts"
-    ],
-    "phpcs": "php-cs-fixer fix",
-    "phpstan": "phpstan analyse",
-    "phpunit": "phpunit",
-    "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
-  },
-  "conflict": {
-    "symfony/symfony": "*"
-  },
-  "extra": {
-    "symfony": {
-      "allow-contrib": false,
-      "require": "6.4.*"
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.3",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "doctrine/doctrine-bundle": "^2.11",
+        "doctrine/doctrine-migrations-bundle": "^3.2",
+        "doctrine/orm": "^2.17",
+        "elasticms/client-helper-bundle": "6.0.*",
+        "elasticms/form-bundle": "6.0.*",
+        "elasticms/submission-bundle": "6.0.*",
+        "endroid/qr-code-bundle": "^4.3",
+        "symfony/console": "6.4.*",
+        "symfony/dotenv": "6.4.*",
+        "symfony/expression-language": "6.4.*",
+        "symfony/flex": "^2.4",
+        "symfony/form": "6.4.*",
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/mailer": "6.4.*",
+        "symfony/monolog-bundle": "^3.8",
+        "symfony/runtime": "6.4.*",
+        "symfony/security-bundle": "6.4.*",
+        "symfony/twig-bundle": "6.4.*",
+        "symfony/var-exporter": "6.4.*",
+        "symfony/web-link": "6.4.*",
+        "thenetworg/oauth2-azure": "*",
+        "twig/extra-bundle": "^3.8",
+        "twig/intl-extra": "^3.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/browser-kit": "6.4.*",
+        "symfony/css-selector": "6.4.*",
+        "symfony/debug-bundle": "6.4.*",
+        "symfony/phpunit-bridge": "6.4.*",
+        "symfony/web-profiler-bundle": "6.4.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "endroid/installer": false,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "preferred-install": {
+            "*": "dist"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\Web\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Web\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "phpcs": "php-cs-fixer fix",
+        "phpstan": "phpstan analyse",
+        "phpunit": "phpunit",
+        "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.4.*"
+        }
     }
-  }
 }

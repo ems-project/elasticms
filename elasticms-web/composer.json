@@ -91,9 +91,9 @@
       "@auto-scripts"
     ],
     "phpcs": "php-cs-fixer fix",
-    "phpstan": "phpstan analyse --memory-limit 1G",
+    "phpstan": "phpstan analyse",
     "phpunit": "phpunit",
-    "phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
+    "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
   },
   "conflict": {
     "symfony/symfony": "*"

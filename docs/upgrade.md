@@ -2,6 +2,7 @@
 
   * [Switch to CK Editor 5](#switch-to-ck-editor-5)
   * [version 6.0.x](#version-60x)
+  * [version 5.21.x](#version-521x)
   * [version 5.19.x](#version-519x)
   * [version 5.17.x](#version-517x)
   * [version 5.15.x](#version-515x)
@@ -157,6 +158,10 @@ Before version 6 it was not possible to define elasticsearch dynamic mapping con
 Since version 6 the default dynamic mapping config has changed. New fields are ignored. These fields will not be indexed or searchable, but will still appear in the _source field of returned hits. These fields will not be added to the mapping, and new fields must be added explicitly into the content type.
 
 You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
+
+## version 5.21.x
+
+* Core twig component Media library: Removed the option `fieldPathOrder`, use new option `sort` (defining all possible sorts)
 
 ## version 5.19.x
 

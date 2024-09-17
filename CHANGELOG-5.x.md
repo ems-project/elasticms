@@ -1,5 +1,17 @@
 # Changelog 5.x
 
+## 5.21.0 (2024-09-12)
+### Features
+* feat(admin/datatable): checkable option and actions with events by @Davidmattei in https://github.com/ems-project/elasticms/pull/1000
+* feat(admin/media-lib): add sorting on file columns by @Davidmattei in https://github.com/ems-project/elasticms/pull/1002
+* feat(admin/media-lib): select all, footer rendering and fix multiple upload by @Davidmattei in https://github.com/ems-project/elasticms/pull/1003
+* feat(demo/media-lib): add date creation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1004
+### Bug Fixes
+* fix(admin/release): improve labels and environment selects by @Davidmattei in https://github.com/ems-project/elasticms/pull/1001
+* fix(common/api): api with large docs use EMSCO_LOCK_TIME by @theus77 in https://github.com/ems-project/elasticms/pull/996
+### Code Refactoring
+* refactor(common): use helper types and remove common types by @theus77 in https://github.com/ems-project/elasticms/pull/998
+
 ## 5.20.1 (2024-09-03)
 ### Bug Fixes
 * fix(common/api): emsch get via the admin API (EMS_ELASTICSEARCH_PROXY_API) by @theus77 in https://github.com/ems-project/elasticms/pull/997

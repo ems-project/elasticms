@@ -43,7 +43,7 @@
                     <div class="alert alert-warning" role="alert">{{ 'task.dashboard.search_warning'|trans({ '%count%': loadMaxRows }) }}</div>
                 {% endif %}
 
-                {% form_theme formTable '@EMSCore/form/forms.html.twig' %}
+                {% form_theme formTable '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
                 {{ form(formTable) }}
                 {% if table.count > 0 %}
                     <div class="btn-group">

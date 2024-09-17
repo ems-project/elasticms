@@ -466,6 +466,7 @@ export default class MediaLibrary {
         }
 
         const query = new URLSearchParams({ from: from.toString() });
+        if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString());
         if (this.#searchValue) query.append('search', this.#searchValue);
         if (this.#sortId) query.append('sortId', this.#sortId);
         if (this.#sortOrder) query.append('sortOrder', this.#sortOrder);

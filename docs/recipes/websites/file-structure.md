@@ -1,6 +1,8 @@
-# Synchronize a directory structure and publish into an S3 bucket
+# File structure
 
-First of all you must configure a [`directory`](directory.json) content type in an elasticms admin.
+Synchronize a directory structure and publish into an S3 bucket
+
+First of all you must configure a [`directory`](/recipes/websites/directory.json ':ignore') content type in an elasticms admin.
 
 Each document of that `directory` content type can contains a file structure.
 
@@ -33,4 +35,4 @@ php bin/console ems:file-structure:publish demo website_preview website --term-f
 
 ## Publish your bucket as website
 
-There is many way to do so. Please check this a [`docker-compose.yaml`](docker-compose.yaml) to give a try.
+There is many way to do so. Please check this a [`docker-compose.yaml`](/recipes/websites/docker-compose.yaml ':ignore') to give a try.

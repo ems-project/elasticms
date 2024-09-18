@@ -106,8 +106,7 @@ class FileStructurePublishCommand extends AbstractFileStructureCommand
         if (null === $this->s3Credential) {
             throw new \RuntimeException('Only S3 is currently implemented, --s3-credential must be defined');
         }
-        $s3Client = new S3Client(Json::decode($this->s3Credential), $this->target);
 
-        return $s3Client;
+        return new S3Client(Json::decode($this->s3Credential), $this->target);
     }
 }

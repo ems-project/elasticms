@@ -6,7 +6,6 @@ namespace EMS\CommonBundle\Command\FileStructure;
 
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Service\ElasticaService;
@@ -54,14 +53,11 @@ class FileStructurePullCommand extends AbstractFileStructureCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->collectExistingFiles();
-        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
-        $document = $this->getDocument($defaultAlias);
-        if (null === $document) {
-            return self::EXECUTE_ERROR;
-        }
-        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
-        $structureJson = Type::string($propertyAccessor->getValue($document->getData(), "[$this->structureField]"));
-        $structure = JsonMenuNested::fromStructure($structureJson);
+        $document = $this->getDocument(
+            index: $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType)
+        );
+        $structure = JsonMenuNested::fromStructure($document->getValue(\sprintf('[%s]', $this->structureField)));
+
         $this->io->progressStart($structure->count());
         $paths = [];
         foreach ($structure->getIterator() as $item) {
@@ -78,7 +74,7 @@ class FileStructurePullCommand extends AbstractFileStructureCommand
                     }
                     break;
                 default:
-                    $fileHash = Type::string($propertyAccessor->getValue($item->getObject(), '[file][sha1]'));
+                    $fileHash = Type::string($this->propertyAccessor->getValue($item->getObject(), '[file][sha1]'));
                     if (\is_file($relativePath) && $fileHash === \sha1_file($relativePath)) {
                         break;
                     }

@@ -7,7 +7,6 @@ namespace EMS\CommonBundle\Command\FileStructure;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\File\FileStructure\FileStructureClientInterface;
 use EMS\CommonBundle\Common\File\FileStructure\S3Client;
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Exception\FileStructureNotSyncException;
 use EMS\CommonBundle\Json\JsonMenuNested;
@@ -59,15 +58,11 @@ class FileStructurePublishCommand extends AbstractFileStructureCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('File Structure - Publish');
-        $document = $this->getDocument($this->index);
-        if (null === $document) {
-            return self::EXECUTE_ERROR;
-        }
 
-        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
-        $hash = Type::string($propertyAccessor->getValue($document->getData(), \sprintf('[%s]', EMSSource::FIELD_HASH)));
-        $structureJson = Type::string($propertyAccessor->getValue($document->getData(), "[$this->structureField]"));
-        $structure = JsonMenuNested::fromStructure($structureJson);
+        $document = $this->getDocument($this->index);
+        $structure = JsonMenuNested::fromStructure($document->getValue(\sprintf('[%s]', $this->structureField)));
+        $hash = Type::string($document->getValue(\sprintf('[%s]', EMSSource::FIELD_HASH)));
+
         $client = $this->getClient();
         $client->initSync($this->identifier, $hash);
         try {
@@ -90,8 +85,8 @@ class FileStructurePublishCommand extends AbstractFileStructureCommand
                     $client->createFolder($path, $item->getLabel());
                     break;
                 default:
-                    $stream = $this->storageManager->getStream(Type::string($propertyAccessor->getValue($item->getObject(), '[file][sha1]')));
-                    $client->createFile($path, $stream, Type::string($propertyAccessor->getValue($item->getObject(), '[file][mimetype]')));
+                    $stream = $this->storageManager->getStream(Type::string($this->propertyAccessor->getValue($item->getObject(), '[file][sha1]')));
+                    $client->createFile($path, $stream, Type::string($this->propertyAccessor->getValue($item->getObject(), '[file][mimetype]')));
             }
             $this->io->progressAdvance();
         }

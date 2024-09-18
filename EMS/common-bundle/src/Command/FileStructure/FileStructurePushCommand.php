@@ -6,14 +6,12 @@ namespace EMS\CommonBundle\Command\FileStructure;
 
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\Helpers\File\File as FileHelper;
 use EMS\Helpers\Standard\Json;
-use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -55,14 +53,12 @@ class FileStructurePushCommand extends AbstractFileStructureCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
-        $document = $this->getDocument($defaultAlias);
-        if (null === $document) {
-            return self::EXECUTE_ERROR;
-        }
-        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
-        $structureJson = Type::string($propertyAccessor->getValue($document->getData(), "[$this->structureField]"));
-        $structure = JsonMenuNested::fromStructure($structureJson);
+        $document = $this->getDocument(
+            index: $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType)
+        );
+
+        $structure = JsonMenuNested::fromStructure($document->getValue(\sprintf('[%s]', $this->structureField)));
+
         $filesystem = new Filesystem();
         foreach ($structure->getIterator() as $item) {
             $path = \implode('/', $item->getPath(fn (JsonMenuNested $item) => $item->getLabel()));

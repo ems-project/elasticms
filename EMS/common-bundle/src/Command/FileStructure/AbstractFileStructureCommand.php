@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Command\FileStructure;
 
-use Elastica\Result;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
+use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Service\ElasticaService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,6 +21,7 @@ class AbstractFileStructureCommand extends AbstractCommand
     protected string $identifier;
     protected string $termField;
     protected string $structureField;
+    protected PropertyAccessor $propertyAccessor;
 
     public function __construct(private readonly ElasticaService $elasticaService)
     {
@@ -42,27 +44,24 @@ class AbstractFileStructureCommand extends AbstractCommand
         $this->identifier = $this->getArgumentString(self::ARGUMENT_IDENTIFIER);
         $this->termField = $this->getOptionString(self::OPTION_TERM_FIELD);
         $this->structureField = $this->getOptionString(self::OPTION_STRUCTURE_FIELD);
+        $this->propertyAccessor = PropertyAccessor::createPropertyAccessor();
     }
 
-    protected function getDocument(string $index): ?Result
+    protected function getDocument(string $index): Document
     {
         $query = $this->elasticaService->getTermsQuery($this->termField, [$this->identifier]);
         $search = $this->elasticaService->generateSearch([$index], $query);
         $search->setSources([$this->structureField]);
-        $result = $this->elasticaService->search($search);
-        $result = $result->getResults();
-        if (0 === \count($result)) {
-            $this->io->warning(\sprintf('Document %s=%s not found in index %s', $this->termField, $this->identifier, $index));
+        $results = $this->elasticaService->search($search)->getResults();
 
-            return null;
+        if (0 === \count($results)) {
+            throw new \RuntimeException(\sprintf('Document %s=%s not found in index %s', $this->termField, $this->identifier, $index));
         }
 
-        if (\count($result) > 1) {
-            $this->io->warning(\sprintf('%d documents found for %s=%s in index %s', \count($result), $this->termField, $this->identifier, $index));
-
-            return null;
+        if (\count($results) > 1) {
+            throw new \RuntimeException(\sprintf('%d documents found for %s=%s in index %s', \count($results), $this->termField, $this->identifier, $index));
         }
 
-        return $result[0];
+        return Document::fromResult($results[0]);
     }
 }

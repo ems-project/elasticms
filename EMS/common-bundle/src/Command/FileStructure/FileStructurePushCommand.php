@@ -77,8 +77,8 @@ class FileStructurePushCommand extends AbstractFileStructureCommand
         foreach ($finder as $key => $file) {
             if (\is_file($key)) {
                 $fileHelper = FileHelper::fromFilename($key);
-                $mimeType ??= $fileHelper->mimeType;
-                $filename ??= $fileHelper->name;
+                $mimeType = $fileHelper->mimeType;
+                $filename = $fileHelper->name;
                 $hash = $this->coreApi->file()->uploadFile($key, $mimeType, $filename);
                 $type = 'file';
                 $data = [

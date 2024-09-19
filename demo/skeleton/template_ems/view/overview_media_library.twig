@@ -28,77 +28,81 @@
 {% block javascript %}
     {{ parent() }}
     <script>
-        const datatable = window.dataTables['media-lib-datatable']
-        let modalIsOpen = false;
-        const modalData = document.getElementById('modal-delete-media').dataset
-        const modalButtonDelete = document.getElementById('delete-button')
-        const modalProgress = document.getElementById('delete-progress');
-        const modalProgressBar = document.getElementById('delete-progress-bar');
+        document.addEventListener('DOMContentLoaded', () => {
+            const datatable = window.dataTables['media-lib-datatable']
+            let modalIsOpen = false;
+            const modal = document.getElementById('modal-delete-media')
+            const modalData = document.getElementById('modal-delete-media').dataset
+            const modalButtonDelete = document.getElementById('delete-button')
+            const modalProgress = document.getElementById('delete-progress');
+            const modalProgressBar = document.getElementById('delete-progress-bar');
 
-        document.getElementById('media-lib-datatable').addEventListener('action.delete', (e) => {
-            if (e.detail.selection.length === 0) {
-                document.getElementById('delete-warning').style.display = 'block'
-            } else {
-                modalData.selection = e.detail.selection
-                modalProgress.style.display = 'block'
-                modalButtonDelete.style.display = 'inline-block'
-            }
-            modalIsOpen = true;
-            $('#modal-delete-media').modal('show')
-        });
-        $('#modal-delete-media').on('hidden.bs.modal', () => {
-            modalIsOpen = false;
-            document.getElementById('delete-warning').style.display = 'none'
-            modalProgress.style.display = 'none'
-            modalButtonDelete.style.display = 'none'
-            delete modalData.selection
-            updateProgressBar(0);
-            datatable.ajax.reload();
-        })
-
-        modalButtonDelete.addEventListener('click', () => {
-            deleteSelection(modalData.selection.split(','))
-            modalButtonDelete.style.display = 'none'
-        })
-
-        function processId(id) {
-            return new Promise((resolve, reject) => {
-                if (!modalIsOpen) {
-                    reject('modal closed');
-                    return;
+            document.getElementById('media-lib-datatable').addEventListener('action.delete', (e) => {
+                if (e.detail.selection.length === 0) {
+                    document.getElementById('delete-warning').style.display = 'block'
+                } else {
+                    modalData.selection = e.detail.selection
+                    modalProgress.style.display = 'block'
+                    modalButtonDelete.style.display = 'inline-block'
                 }
+                modalIsOpen = true;
 
-                fetch(`/json/data/media_file/delete/${id}`, {
-                    'method': 'POST',
-                    'headers': { 'Content-Type': 'application/json' }
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('delete failed')
-                    return response.json()
-                })
-                .then(data =>  data.success ? resolve(id) : reject(new Error('Delete did not indicate success')))
-                .catch(error => reject(error))
+                new bootstrap.Modal(modal).show()
             });
-        }
+            modal.addEventListener('hidden.bs.modal', () => {
+                modalIsOpen = false;
+                document.getElementById('delete-warning').style.display = 'none'
+                modalProgress.style.display = 'none'
+                modalButtonDelete.style.display = 'none'
+                delete modalData.selection
+                updateProgressBar(0);
+                datatable.ajax.reload();
+            })
 
-        async function deleteSelection(ids) {
-            const total = ids.length;
+            modalButtonDelete.addEventListener('click', () => {
+                deleteSelection(modalData.selection.split(','))
+                modalButtonDelete.style.display = 'none'
+            })
 
-            for (let i = 0; i < total; i++) {
-                await processId(ids[i])
-                    .catch(() => { /* handle error */ })
-                    .finally(() => {
-                        const percentage = Math.round(((i + 1) / total) * 100)
-                        updateProgressBar(percentage)
-                    });
+            function processId(id) {
+                return new Promise((resolve, reject) => {
+                    if (!modalIsOpen) {
+                        reject('modal closed');
+                        return;
+                    }
+
+                    fetch(`/json/data/media_file/delete/${id}`, {
+                        'method': 'POST',
+                        'headers': { 'Content-Type': 'application/json' }
+                    })
+                    .then(response => {
+                        if (!response.ok) throw new Error('delete failed')
+                        return response.json()
+                    })
+                    .then(data =>  data.success ? resolve(id) : reject(new Error('Delete did not indicate success')))
+                    .catch(error => reject(error))
+                });
             }
-        }
 
-        function updateProgressBar(percentage) {
-            modalProgressBar.style.width = percentage + '%';
-            modalProgressBar.setAttribute('aria-valuenow', percentage.toString());
-            modalProgressBar.textContent = percentage + '%';
-        }
+            async function deleteSelection(ids) {
+                const total = ids.length;
+
+                for (let i = 0; i < total; i++) {
+                    await processId(ids[i])
+                        .catch(() => { /* handle error */ })
+                        .finally(() => {
+                            const percentage = Math.round(((i + 1) / total) * 100)
+                            updateProgressBar(percentage)
+                        });
+                }
+            }
+
+            function updateProgressBar(percentage) {
+                modalProgressBar.style.width = percentage + '%';
+                modalProgressBar.setAttribute('aria-valuenow', percentage.toString());
+                modalProgressBar.textContent = percentage + '%';
+            }
+        })
     </script>
 {% endblock javascript %}
 
@@ -121,10 +125,10 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h4 class="modal-title" id="modal-delete-media-title">Delete media library</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="modal-delete-media-title">Delete media library</h4>
                 </div>
                 <div class="modal-body">
                     <div id="delete-warning" class="alert alert-warning" role="alert" style="display:none">Please make a selection for delete</div>
@@ -135,7 +139,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
                     <button id="delete-button" type="button" class="btn btn-primary" style="display:none">Confirm</button>
                 </div>
             </div>

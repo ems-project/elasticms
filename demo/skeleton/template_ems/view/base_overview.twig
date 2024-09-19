@@ -46,15 +46,11 @@
 {% block javascript %}
 <script type="text/javascript">
     window.addEventListener('emsReady', function () {
-        let filterForm = document.getElementById('form-filters');
+        const filterForm = document.getElementById('form-filters');
 
         if (document.body.contains(filterForm)) {
             filterForm.addEventListener('change', function () { filterForm.submit(); });
         }
-
-        $('#DataTables_Table_0').on( 'draw.dt', function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
     });
 </script>
 {% endblock %}

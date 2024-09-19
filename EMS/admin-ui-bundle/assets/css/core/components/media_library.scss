@@ -112,9 +112,12 @@ div.media-lib {
   div.media-lib-folder, div.media-lib-file, div.media-lib-file-header {
     display: flex;
     flex-wrap: nowrap;
-    padding: 7px 8px;
     border: 1px solid transparent;
-    > * { flex: 1; }
+
+    > * {
+      flex: 1;
+      padding: 7px;
+    }
   }
 
   div.media-lib-file{
@@ -134,7 +137,7 @@ div.media-lib {
       @include icon($fa-var-folder);
 
       color: var(--color-icon);
-      margin-right: 8px;
+      padding: 7px 0 7px 7px;
     }
 
     &.active {
@@ -187,6 +190,7 @@ div.media-lib {
               @include icon($fa-var-angle-left);
 
               float: right;
+              padding: 7px;
             }
 
             &.open {
@@ -253,7 +257,33 @@ div.media-lib {
           display: flex;
           flex-direction: column;
 
-          div.media-lib-file-header { font-weight: bold; }
+          div.media-lib-file-header {
+            font-weight: bold;
+
+            [data-sort-id] {
+              cursor: pointer;
+
+              &::after {
+                @include icon($fa-var-sort);
+
+                float: right;
+                padding-left: 7px;
+                color: var(--color-border);
+              }
+
+              &[data-sort-order='asc']::after {
+                @include icon($fa-var-sort-up);
+
+                color: var(--color-active);
+              }
+
+              &[data-sort-order='desc']::after {
+                @include icon($fa-var-sort-down);
+
+                color: var(--color-active);
+              }
+            }
+          }
 
           div.media-lib-container {
             border-bottom: 1px dashed var(--color-border);

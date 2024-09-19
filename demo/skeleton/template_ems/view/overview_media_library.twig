@@ -5,7 +5,7 @@
 
     {% set columns = [
         { "label": "Path", "template": (block('columnMediaPath')),  "orderField": "media_path"},
-        { "label": "Folder", "template": "{{ data.source.media_folder }}",  "orderField": "media_folder"},
+        { "label": "Folder", "template": "{{ data.source.media_folder|default('???') }}",  "orderField": "media_folder"},
         { "label": "Last Update", "template": (block('columnLastUpdate')), "orderField": "_finalization_datetime"},
     ] %}
 
@@ -104,7 +104,7 @@
 
 {% block columnMediaPath %}
 {% verbatim %}
-<a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.media_path }}</a>
+<a href="{{ path('data.revisions', {ouuid: data.id, type: data.contentType} ) }}">{{ data.source.media_path|default('???') }}</a>
 {% endverbatim %}
 {% endblock %}
 

@@ -12,6 +12,8 @@ interface FileInterface
 
     public function downloadLink(string $hash): string;
 
+    public function getHashAlgo(): string;
+
     public function hashFile(string $filename): string;
 
     public function hashStream(StreamInterface $stream): string;

@@ -119,6 +119,11 @@ final class File implements FileInterface
         return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
     }
 
+    public function getHashAlgo(): string
+    {
+        return $this->client->get('/api/file/hash-algo')->getData()['hash_algo'];
+    }
+
     public function hashStream(StreamInterface $stream): string
     {
         return $this->storageManager->computeStreamHash($stream);

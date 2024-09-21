@@ -833,7 +833,7 @@ class DataController extends AbstractController
                 throw new NotFoundHttpException('Impossible to find this item : '.$ouuid);
             }
 
-            if ('asset' == $category) {
+            if (\in_array($category, ['asset', 'file'])) {
                 if (empty($contentType->getAssetField()) && empty($revision->getRawData()[$contentType->getAssetField()])) {
                     throw new NotFoundHttpException('Asset field not found for '.$revision);
                 }

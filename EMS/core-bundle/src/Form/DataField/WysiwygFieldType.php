@@ -10,6 +10,7 @@ use EMS\CoreBundle\Form\Field\AnalyzerPickerType;
 use EMS\CoreBundle\Form\Field\WysiwygStylesSetPickerType;
 use EMS\CoreBundle\Service\ElasticsearchService;
 use EMS\CoreBundle\Service\WysiwygStylesSetService;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -145,6 +146,12 @@ class WysiwygFieldType extends DataFieldType
             '/(ems:\/\/asset:)([^\n\r"\'\?]*)/i',
             fn ($matches) => $path.$matches[2],
             $out
+        );
+        $path = $this->router->generate('emsco_data_link', ['key' => '__KEY__'], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $out = \preg_replace_callback(
+            '/ems:\/\/(?P<key>file:([^\n\r"\'\?]*))/i',
+            fn ($matches) => \str_replace('__KEY__', $matches['key'], $path),
+            Type::string($out)
         );
 
         return $out;

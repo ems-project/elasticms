@@ -116,13 +116,20 @@ class WysiwygFieldType extends DataFieldType
     public function reverseViewTransform($data, FieldType $fieldType): DataField
     {
         $path = $this->router->generate('ems_file_view', ['sha1' => '__SHA1__'], UrlGeneratorInterface::ABSOLUTE_PATH);
-
         $out = \preg_replace_callback(
             '/('.\preg_quote(\substr($path, 0, \strlen($path) - 8), '/').')([^\n\r"\'\?]*)/i',
             fn ($matches) => 'ems://asset:'.$matches[2],
             $data
         );
-        if (empty($out)) {
+
+        $path = $this->router->generate('emsco_data_link', ['key' => '__KEY__'], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $out = \preg_replace_callback(
+            '/('.\preg_quote(\substr($path, 0, \strlen($path) - 7), '/').')(?P<key>[^\n\r"\'\?]*)/i',
+            fn ($matches) => 'ems://'.$matches['key'],
+            $data
+        );
+
+        if ('' === $out) {
             $out = null;
         }
 

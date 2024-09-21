@@ -18,10 +18,10 @@ final class File implements FileInterface
     {
     }
 
-    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType): string
+    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType, bool $head = true): string
     {
         $hash = $this->hashStream($stream);
-        if ($this->headHash($hash)) {
+        if ($head && $this->headHash($hash)) {
             return $hash;
         }
         $size = $stream->getSize();
@@ -166,6 +166,18 @@ final class File implements FileInterface
             return $this->client->head('/api/file/'.$hash);
         } catch (\Throwable) {
             return false;
+        }
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    public function heads(string ...$fileHashes): iterable
+    {
+        $chunkSize = 1000;
+
+        while ($chunk = array_splice($fileHashes, 0, $chunkSize)) {
+            yield $this->client->post('/api/file/heads', $chunk)->getData();
         }
     }
 }

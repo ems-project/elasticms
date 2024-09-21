@@ -18,6 +18,11 @@ interface FileInterface
 
     public function hashStream(StreamInterface $stream): string;
 
+    /**
+     * @return iterable<string>
+     */
+    public function heads(string ...$fileHashes): iterable;
+
     public function initUpload(string $hash, int $size, string $filename, string $mimetype): int;
 
     public function addChunk(string $hash, string $chunk): int;
@@ -26,7 +31,7 @@ interface FileInterface
 
     public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string;
 
-    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType): string;
+    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType, bool $head = true): string;
 
     public function headFile(string $realPath): bool;
 

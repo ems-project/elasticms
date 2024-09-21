@@ -14,6 +14,7 @@ use EMS\Helpers\Standard\Base64;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class S3Storage extends AbstractUrlStorage
 {
@@ -328,5 +329,21 @@ class S3Storage extends AbstractUrlStorage
         ]);
 
         return $result->hasKey('ETag');
+    }
+
+    public function heads(string ...$hashes): array
+    {
+        $client = $this->getS3Client();
+        $result = [];
+
+        foreach ($hashes as $hash) {
+            $key = implode('/', [\substr($hash, 0, 3), $hash]);
+
+            if (!$client->doesObjectExist($this->bucket, $key)) {
+                $result[] = $hash;
+            }
+        }
+
+        return $result;
     }
 }

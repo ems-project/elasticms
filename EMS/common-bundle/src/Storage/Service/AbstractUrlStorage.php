@@ -59,6 +59,11 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return \file_exists($this->getPath($hash));
     }
 
+    public function heads(string ...$hashes): array
+    {
+        return \array_filter($hashes, fn (string $hash) => $this->head($hash));
+    }
+
     public function create(string $hash, string $filename): bool
     {
         $path = $this->getPath($hash);

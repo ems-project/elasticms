@@ -157,6 +157,11 @@ class FileService implements EntityServiceInterface
         return $query->getResult();
     }
 
+    public function heads(string ...$hashes): array
+    {
+        return $this->storageManager->heads(...$hashes);
+    }
+
     public function uploadFile(string $name, string $type, string $filename, string $user): UploadedAsset
     {
         $hash = $this->storageManager->computeFileHash($filename);

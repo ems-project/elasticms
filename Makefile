@@ -55,6 +55,8 @@ status: ## status
 
 ## —— Symfony server ———————————————————————————————————————————————————————————————————————————————————————————————————
 server-start/%: ## server-start/(admin|web)
+	symfony server:start --dir=elasticms-${*} -d --no-tls --port=$(PORT_$(*))
+server-start-secure/%: ## server-start/(admin|web)
 	symfony server:start --dir=elasticms-${*} -d --port=$(PORT_$(*))
 server-stop/%:  ## server-stop/(admin|web)
 	symfony server:stop --dir=elasticms-${*}

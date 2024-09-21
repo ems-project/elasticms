@@ -23,15 +23,19 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class Client
 {
     /** @var array<string, string> */
-    private array $headers = [];
-    private readonly HttpClientInterface $client;
+    public array $headers = [];
+    public readonly HttpClientInterface $client;
     private LoggerInterface $logger;
 
     public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $verify, int $timeout)
     {
         $this->client = new CurlHttpClient([
             'base_uri' => $baseUrl,
-            'headers' => ['Content-Type' => 'application/json'],
+            'http_version' => '2.0',
+            'headers' => [
+                'Content-Type' => 'application/json',
+//                'Cookie' => 'XDEBUG_SESSION=PHPSTORM',
+            ],
             'verify_host' => $verify,
             'verify_peer' => $verify,
             'timeout' => $timeout,
@@ -159,6 +163,14 @@ class Client
             'body' => $body,
         ]);
     }
+
+//    public function requestPost(string $resource, string $body): Response
+//    {
+//        return $this->client->request('POST', $resource, [
+//            'headers' => $this->headers,
+//            'body' => $body,
+//        ]);
+//    }
 
     public function setLogger(LoggerInterface $logger): void
     {

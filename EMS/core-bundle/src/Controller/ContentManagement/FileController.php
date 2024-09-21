@@ -39,6 +39,13 @@ class FileController extends AbstractController
         return new JsonResponse(['hash_algo' => $this->fileService->getAlgo()]);
     }
 
+    public function heads(Request $request): JsonResponse
+    {
+        $hashes = Json::decode($request->getContent());
+
+        return new JsonResponse($this->fileService->heads(...$hashes));
+    }
+
     public function viewFileAction(string $sha1, Request $request): Response
     {
         return $this->fileService->getStreamResponse($sha1, ResponseHeaderBag::DISPOSITION_INLINE, $request);

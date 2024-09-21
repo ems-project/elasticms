@@ -823,7 +823,7 @@ class AppExtension extends AbstractExtension
             },
             $input
         );
-        $path = $this->router->generate('emsco_data_link', ['key' => '__KEY__'], UrlGeneratorInterface::ABSOLUTE_PATH);
+        $path = $this->router->generate(Routes::DATA_LINK, ['key' => '__KEY__'], UrlGeneratorInterface::ABSOLUTE_PATH);
         $out = \preg_replace_callback(
             '/ems:\/\/(?P<key>file:([^\n\r"\'\?]*))/i',
             fn ($matches) => \str_replace('__KEY__', $matches['key'], $path),

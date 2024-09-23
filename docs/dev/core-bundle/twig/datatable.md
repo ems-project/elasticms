@@ -28,6 +28,9 @@ The third parameter is an options array:
     - `orderField`: this value (string) will be used in the elasticsearch query, when the table is sorted by this column, in order to sort the result set. If not defined, or set to null, this column won't be sortable. If not defined the column wont't be sortable.
     - `cellType`: The HTML tag for the column's items. `td` or `th`. Default value `td`
     - `cellClass`: The class attribute for the column's items. The default value is an empty string.  
+ - `checkable`: Render a checkboxes in first column
+ - `id`: Provide a datatable id default `elastica-datatable`,
+ - `actions`: Array of object, object requires `name,label,icon`, optional provide `class, confirm`
    
 ## Optional options
 
@@ -205,6 +208,31 @@ If you want to give access to unauthenticated user you have to set this paramete
 
 This works the same way for the functions `emsco_datatable_excel_path` and `emsco_datatable_csv_path`.
 
+## actions
+
+Actions are rendered under the table and can be used in combination with `checkable` for handling user selections.
+See the demo project for more implementation details.
+
+```twig
+{{ emsco_datatable(['preview'],['page'], {
+    "frontendOptions": { "order": [[1, 'desc']]},
+    "checkable": true,
+    "id": "example-page-table",
+    "actions": [
+         { 'name': 'example_delete', 'label': 'Delete', 'class': 'btn btn-sm btn-outline-danger', 'icon': 'trash' },
+    ],
+    "columns": [{ "label": "Name", "template": "{{data.source.name}}", "orderField": "name.keyword" }],
+}) }}
+```
+
+```javascript
+const datatable = window.dataTables['example-page-table'] //jquery instance of the dataTable
+
+document.getElementById('example-page-table').addEventListener('action.example_delete', (event) => {
+    console.log(`You selected ${event.detail.selection}`)
+    datatable.ajax.reload()
+});
+```
 
 # emsco_datatable_excel_path
 

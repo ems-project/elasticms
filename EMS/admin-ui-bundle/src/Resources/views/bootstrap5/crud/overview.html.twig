@@ -1,0 +1,69 @@
+{% extends '@EMSAdminUI/bootstrap5/base/admin.html.twig' %}
+
+{% block title %}{{ title|trans }}{% endblock %}
+{% block pagetitle %}{{ pageTitle|default(title)|trans }}{% endblock %}
+{% block subtitle %}{% if subTitle is defined %}<small>{{ subTitle|trans }}</small>{% endif %}{% endblock %}
+
+{% block breadcrumb %}
+	{# @var item \EMS\CoreBundle\Core\UI\Page\BreadcrumbItem #}
+	<ol class="breadcrumb">
+		{% if breadcrumb is iterable %}
+			{% for name, item in breadcrumb %}
+				{% if name == 'contentType' %}
+					<li>{{ t('key.content_types', [], 'emsco-core')|trans }}</li>
+					<li>
+						<i class="{{ item.icon|default('fa fa-book') }}"></i>&nbsp;{{ item.pluralName }}
+					</li>
+				{% elseif name == 'page' %}
+					<li>{% if icon is defined %}<i class="{{ icon }}"></i>{% endif %}&nbsp;{{ item|trans }}</li>
+				{% else %}
+					<li>{{ item|trans }}</li>
+				{% endif %}
+			{% endfor %}
+		{% else %}
+			{% for item in breadcrumb.items %}
+				{%- set label -%}
+					{% if item.icon %}<i class="{{ item.icon }}"></i>&nbsp;{% endif %}
+					{{ item.label ? item.label|trans : item.text|default('...') }}
+				{%- endset -%}
+				<li class="{{ html_classes({ 'active': loop.last }) }}">
+					{% if item.route and loop.last == false %}
+						<a href="{{ path(item.route, item.routeParams) }}">{{ label|raw }}</a>
+					{% else %}
+						{{ label|raw }}
+					{% endif %}
+				</li>
+			{% endfor %}
+		{% endif %}
+	</ol>
+{% endblock %}
+
+{% block body %}
+	{% if datatables is defined %}
+		{{ block('renderDatatables') }}
+	{% elseif form is defined %}
+		{% set tableOptions = {} %}
+		{% if tableIcon is defined %}{% set tableOptions = tableOptions|merge({ 'table_title_icon': tableIcon }) %}{% endif %}
+		{% if tableTitle is defined %}{% set tableOptions = tableOptions|merge({ 'table_title': tableTitle|trans }) %}{% endif %}
+
+		{% form_theme form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+		{{ form(form, tableOptions) }}
+	{% endif %}
+{% endblock %}
+
+{% block renderDatatables %}
+<div class="row">
+	{% for datatable in datatables %}
+		<div class="{{ datatables|length == 2 ? 'col-md-6': 'col-md-12' }}">
+			<div>
+				{% set tableOptions = {} %}
+				{% if datatable.icon is defined %}{% set tableOptions = tableOptions|merge({ 'table_title_icon': datatable.icon }) %}{% endif %}
+				{% if datatable.title is defined %}{% set tableOptions = tableOptions|merge({ 'table_title': datatable.title|trans }) %}{% endif %}
+
+				{% form_theme datatable.form '@EMSAdminUI/bootstrap5/form/forms.html.twig' %}
+				{{ form(datatable.form, tableOptions) }}
+			</div>
+		</div>
+	{% endfor %}
+</div>
+{% endblock renderDatatables %}

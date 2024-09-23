@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Elasticsearch\Response;
 
 use Elastica\Query;
+use Elastica\Result;
 use Elastica\ResultSet;
 use EMS\CommonBundle\Elasticsearch\Aggregation\Aggregation;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
@@ -151,6 +152,6 @@ final class Response implements ResponseInterface
         ], 200);
         $response->getData();
 
-        return new ResultSet($response, $query, []);
+        return new ResultSet($response, $query, \array_map(fn (array $p) => new Result($p), $this->hits));
     }
 }

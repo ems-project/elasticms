@@ -5,7 +5,6 @@ namespace EMS\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Entity\CreatedModifiedTrait;
 use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Exception\LockedException;
@@ -13,6 +12,7 @@ use EMS\CoreBundle\Exception\NotLockedException;
 use EMS\CoreBundle\Service\Mapping;
 use EMS\Helpers\ArrayHelper\ArrayHelper;
 use EMS\Helpers\Standard\DateTime;
+use EMS\Helpers\Standard\Type;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -515,7 +515,7 @@ class Revision implements EntityInterface, \Stringable
     {
         $this->rawData[Mapping::FINALIZED_BY_FIELD] = $finalizedBy;
         $this->tryToFinalizeOn = new \DateTime();
-        $this->rawData[Mapping::FINALIZATION_DATETIME_FIELD] = $this->tryToFinalizeOn->format(\DateTime::ISO8601);
+        $this->rawData[Mapping::FINALIZATION_DATETIME_FIELD] = $this->tryToFinalizeOn->format(\DateTimeInterface::ATOM);
 
         return $this;
     }

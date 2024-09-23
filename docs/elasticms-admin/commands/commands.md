@@ -3,6 +3,8 @@
 <!-- TOC -->
 * [Commands](#commands)
   * [EMSCO (CoreBundle)](#emsco-corebundle)
+    * [Asset](#asset)
+      * [Refresh file fields](#refresh-file-fields)
     * [Content Type](#content-type)
       * [Content Type switch default environment](#content-type-switch-default-environment)
       * [Content Type transform](#content-type-transform)
@@ -33,6 +35,34 @@
 <!-- TOC -->
 
 ## EMSCO (CoreBundle)
+
+### Asset
+
+#### Refresh file fields
+
+This command ensure that all file fields, for all revisions, are using the last asset's fields:
+
+ * _hash
+ * _size
+ * _algo
+ * _type
+ * _name
+
+That will have to be launch at least once between August 2024 and the release 7.x. 
+By then the fields `filename`, `filesize`, `sha1` and `mimetype` are deprecated.
+
+This command regenerate resized images in order to avoid too much memory consumption on image generation.
+So you might consider to launch this commend if you adjust the `EMSCO_IMAGE_MAX_SIZE` environment variable.
+
+**Cautions**
+
+This command will mark all revision as updated by the `SYSTEM_REFRESH_FILE_FIELDS` user in the admin UI.
+
+```bash
+Usage:
+  emsco:asset:refresh-file-fields
+
+```
 
 ### Content Type
 
@@ -464,7 +494,7 @@ Options:
       --bulk-size=BULK-SIZE                      Size of the elasticsearch scroll request [default: 500]
       --target-environment[=TARGET-ENVIRONMENT]  Environment with the target documents
       --xliff-version[=XLIFF-VERSION]            XLIFF format version: 1.2 2.0 [default: "1.2"]
-      --filename[=FILENAME]                      Generate the XLIFF specified file
+      --basename[=BASENAME]                      XLIFF export file basename [default: "ems-extract.xlf"]
       --base-url[=BASE-URL]                      Base url, in order to generate a download link to the XLIFF file
       --locale-field[=LOCALE-FIELD]              Field containing the locale
       --encoding[=ENCODING]                      Encoding used to generate the XLIFF file [default: "UTF-8"]
@@ -507,7 +537,9 @@ Arguments:
 Options:
       --publish-to[=PUBLISH-TO]                If defined the revision will be published in the defined environment
       --archive                                If set another revision will be flagged as archived
-      --locale-field[=LOCALE-FIELD]            Field containing the locale [default: "locale"]
-      --translation-field[=TRANSLATION-FIELD]  Field containing the translation field [default: "translation_id"]
+      --locale-field[=LOCALE-FIELD]            Field containing the locale
+      --translation-field[=TRANSLATION-FIELD]  Field containing the translation field
       --dry-run                                If set nothing is saved in the database
+      --current-revision-only                  Translations will be updated only is the source revision is still a current revision
+      --base-url[=BASE-URL]                    Base url, in order to generate a download link to the error report
 ```

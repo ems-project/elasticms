@@ -11,7 +11,7 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/EMS/*/src')
     ->in(__DIR__.'/EMS/*/tests')
     ->exclude('/EMS/helpers/tmp')
-    ->name(['release'])
+    ->name(['release', 'translations'])
 ;
 
 $config = new PhpCsFixer\Config();

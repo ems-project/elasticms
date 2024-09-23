@@ -5,13 +5,12 @@ namespace EMS\CoreBundle\Controller;
 use Elasticsearch\Common\Exceptions\ElasticsearchException;
 use Elasticsearch\Common\Exceptions\NoNodesAvailableException;
 use EMS\CommonBundle\Common\EMSLink;
-use EMS\CommonBundle\Common\Standard\Type;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
-use EMS\CommonBundle\Elasticsearch\Exception\NotFoundException;
 use EMS\CommonBundle\Elasticsearch\Response\Response as CommonResponse;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search as CommonSearch;
 use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\Document\DataLinks;
 use EMS\CoreBundle\Entity\ContentType;
@@ -38,11 +37,11 @@ use EMS\CoreBundle\Service\JobService;
 use EMS\CoreBundle\Service\SearchService;
 use EMS\CoreBundle\Service\SortOptionService;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -100,7 +99,7 @@ class ElasticsearchController extends AbstractController
                 'index_name' => $name,
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/elasticsearch/add-alias.html.twig", [
@@ -270,22 +269,6 @@ class ElasticsearchController extends AbstractController
         return $this->redirectToRoute('elasticsearch.search', ['searchId' => $id]);
     }
 
-    public function deleteIndexAction(string $name): RedirectResponse
-    {
-        try {
-            $this->indexService->deleteIndex($name);
-            $this->logger->notice('log.elasticsearch.index_deleted', [
-                'index_name' => $name,
-            ]);
-        } catch (NotFoundException) {
-            $this->logger->warning('log.elasticsearch.index_not_found', [
-                'index_name' => $name,
-            ]);
-        }
-
-        return $this->redirectToRoute('environment.index');
-    }
-
     /** @deprecated */
     public function deprecatedSearchApiAction(Request $request, DataLinks $dataLinks): void
     {
@@ -354,7 +337,9 @@ class ElasticsearchController extends AbstractController
             $ouuids = [];
             foreach ($circles as $circle) {
                 \preg_match('/(?P<type>\w+):(?P<ouuid>\w+)/', $circle, $matches);
-                $ouuids[] = $matches['ouuid'];
+                if (isset($matches['ouuid'])) {
+                    $ouuids[] = $matches['ouuid'];
+                }
             }
             $query = $commonSearch->getQuery();
             $boolQuery = $this->elasticaService->getBoolQuery();
@@ -402,7 +387,8 @@ class ElasticsearchController extends AbstractController
         /** @var ExportDocuments */
         $exportDocuments = $form->getData();
         $command = \sprintf(
-            "ems:contenttype:export %s %s '%s'%s --environment=%s --baseUrl=%s",
+            "%s %s %s '%s'%s --environment=%s --baseUrl=%s",
+            Commands::CONTENT_TYPE_EXPORT,
             $contentType->getName(),
             $exportDocuments->getFormat(),
             $exportDocuments->getQuery(),

@@ -13,6 +13,7 @@ use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use EMS\CommonBundle\Elasticsearch\Response\ResponseInterface;
 use EMS\CommonBundle\Search\Search as SearchObject;
+use EMS\Helpers\Standard\Type;
 
 class Search implements SearchInterface
 {
@@ -198,5 +199,14 @@ class Search implements SearchInterface
         }
 
         return $tokens;
+    }
+
+    public function hasIndex(string $index): bool
+    {
+        $response = $this->client->post('/api/search/has-index', [
+            'index' => $index,
+        ])->getData()['exist'] ?? null;
+
+        return Type::bool($response);
     }
 }

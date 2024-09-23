@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Form\Data;
 
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Form\Data\Condition\ConditionInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 class TableColumn
 {
@@ -17,6 +18,7 @@ class TableColumn
     private ?\Closure $itemIconCallback = null;
     private string $cellType = 'td';
     private string $cellClass = '';
+    private ?\Closure $dataClassCallback = null;
     private bool $cellRender = true;
     /** @var array <string, \Closure> */
     private array $htmlAttributes = [];
@@ -27,9 +29,8 @@ class TableColumn
     private string $orderField;
     /** @var array<string, mixed> */
     private array $transLabelOptions = [];
-    private string $translationDomain = EMSCoreBundle::TRANS_DOMAIN;
 
-    public function __construct(private readonly string $titleKey, string $attribute)
+    public function __construct(private readonly string|TranslatableMessage $titleKey, string $attribute)
     {
         $this->orderField = $this->attribute = $attribute;
     }
@@ -47,9 +48,13 @@ class TableColumn
         return $this->conditions;
     }
 
-    public function getTitleKey(): string
+    public function getTitleKey(): TranslatableMessage
     {
-        return $this->titleKey;
+        if ($this->titleKey instanceof TranslatableMessage) {
+            return $this->titleKey;
+        }
+
+        return new TranslatableMessage($this->titleKey, $this->transLabelOptions, EMSCoreBundle::TRANS_DOMAIN);
     }
 
     public function getAttribute(): string
@@ -110,6 +115,16 @@ class TableColumn
         $this->cellClass = $cellClass;
 
         return $this;
+    }
+
+    public function setDataClassCallback(\Closure $callback): void
+    {
+        $this->dataClassCallback = $callback;
+    }
+
+    public function getDataClass(mixed $data): ?string
+    {
+        return $this->dataClassCallback?->call($this, $data);
     }
 
     /**
@@ -261,15 +276,5 @@ class TableColumn
     public function getTransLabelOptions(): array
     {
         return $this->transLabelOptions;
-    }
-
-    public function setTranslationDomain(string $translationDomain): void
-    {
-        $this->translationDomain = $translationDomain;
-    }
-
-    public function getTranslationDomain(): string
-    {
-        return $this->translationDomain;
     }
 }

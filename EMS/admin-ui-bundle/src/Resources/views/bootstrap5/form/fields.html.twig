@@ -137,12 +137,29 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
-    <button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>
-    	{%- if icon -%}
-			<span class="{{ icon }}"></span>&nbsp;
-		{% endif %}
-		{{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
-  	</button>
+	{% if confirm is defined and confirm != null %}
+		<div class="btn-group">
+			<button type="button" class="{{ confirm_class|default('btn btn-outline-danger') }} dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				{%- if icon -%}
+					<span class="{{ icon }}"></span>&nbsp;
+				{% endif %}
+				{{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu">
+				<li>
+					<button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>{{ confirm|trans }}</button>
+				</li>
+			</ul>
+		</div>
+	{% else %}
+		<button type="{{ type|default('submit') }}" {{ block('button_attributes') }}>
+			{%- if icon -%}
+				<span class="{{ icon }}"></span>&nbsp;
+			{% endif %}
+			{{ translation_domain is same as(false) ? label : label|trans(label_translation_parameters|default({}), translation_domain) }}
+		</button>
+	{% endif %}
 {%- endblock submitems_widget -%}
 
 
@@ -614,7 +631,9 @@
 		<div class="panel-heading ems-handle">
 			{{ form_label(form) }}
 	  		<div class="btn-group pull-right">
-	  			{{- form_widget(form.remove_collection_item) -}}
+				<button type="button" class="btn btn-danger btn-sm remove-content-button">
+					<span class="fa fa-trash"></span>&nbsp;Remove
+				</button>
                 {% if collapsible %}
                     <div class="pull-right">
                         <div class="btn-group toggle-group" role="group">
@@ -629,7 +648,7 @@
 
 	  	<div class="panel-body {% if collapsible %}collapse{% endif %}">
 	  		<div class="row">
-	  		{% for child in form.iterator|filter(c => c.vars.name not in ['remove_collection_item', '_ems_internal_deleted']) %}
+	  		{% for child in form.iterator|filter(c => c.vars.name not in ['_ems_internal_deleted']) %}
 				<div class="{% if child.vars.data.fieldType.options.displayOptions.class is defined %}{{ child.vars.data.fieldType.options.displayOptions.class }}{% endif %}">
     				{{- form_row(child) -}}
 				</div>
@@ -963,6 +982,7 @@
 								<label>{{ 'fields.asset.file-hash'|trans }}</label>
 								<div class="form-control asset-hash-signature">{% if fileItem.sha1.vars.value is defined %}{{ fileItem.sha1.vars.value }}{% endif %}</div>
 								{{- form_row(fileItem.sha1) -}}
+								{{- form_row(fileItem._image_resized_hash) -}}
 								{{- form_row(fileItem.mimetype) -}}
 							</div>
 						</div>
@@ -993,7 +1013,7 @@
 							<i class="fa fa-arrows"></i>
 							<span class="sr-only">{{ 'fields.asset.move-button'|trans }}</span>
 						</a>
-						<a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled"{% endif %}" title="{{ 'fields.asset.view-button'|trans }}" target="_blank">
+						<a href="{% if prototype %}#{% else %}{{ ems_asset_path(fileItem.vars.value) }}{% endif %}" type="button" class="btn btn-primary view-asset-button {% if prototype %}disabled{% endif %}" title="{{ 'fields.asset.view-button'|trans }}" target="_blank">
 							<i class="fa fa-eye"></i>
 							<span class="sr-only">{{ 'fields.asset.view-button'|trans }}</span>
 						</a>
@@ -1076,7 +1096,7 @@
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
             			src="{{ emsco_asset_path(form.vars.value, form.vars.data.fieldType.getDisplayOption('imageAssetConfigIdentifier', 'preview')) }}"
             		{% endif %}
-            		class="img-responsive center-block" alt="{{ 'fields.asset.preview'|trans({'%label%': form_label(form)|striptags }) }}"
+            		class="img-responsive center-block" alt="{{ 'view.form.fields.asset.preview'|trans({'%label%': form_label(form)|striptags }) }}"
             	>
 	        </div>
         </div>
@@ -1176,7 +1196,7 @@
             	<img
             		data-src="{{ path('ems_asset_processor', {'hash':'_asset_hash_', 'processor': 'preview', 'type':'_asset_mimetype_', 'name': '_asset_name_' }) }}"
             		{% if form.vars.value.sha1 is defined and form.vars.value.sha1 %}
-            			src="{{ path('ems_asset_processor', {'hash':form.vars.value.sha1, 'processor': 'preview', 'type':form.vars.value.mimetype, 'name':form.vars.value.filename }) }}"
+            			src="{{ path('ems_asset_processor', {'hash': form.vars.value._image_resized_hash ?? form.vars.value.sha1, 'processor': 'preview', 'type':form.vars.value.mimetype, 'name':form.vars.value.filename }) }}"
             		{% endif %}
             		class="img-responsive center-block" alt="Preview of the field {{ form_label(form)|striptags }}"
             	>

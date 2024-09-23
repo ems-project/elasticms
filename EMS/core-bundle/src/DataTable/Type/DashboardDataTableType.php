@@ -4,17 +4,21 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\DataTable\Type;
 
+use EMS\CoreBundle\Core\Dashboard\DashboardDefinition;
 use EMS\CoreBundle\Core\Dashboard\DashboardManager;
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Entity\Dashboard;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Form\Data\TemplateBlockTableColumn;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
 
+use function Symfony\Component\Translation\t;
+
 class DashboardDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(DashboardManager $entityService, private readonly string $templateNamespace)
     {
         parent::__construct($entityService);
@@ -22,25 +26,42 @@ class DashboardDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->addColumn('table.index.column.loop_count', 'orderKey');
-        $table->addColumn('dashboard.index.column.name', 'name');
-        $table->addColumn('dashboard.index.column.label', 'label')->setItemIconCallback(fn (Dashboard $dashboard) => $dashboard->getIcon());
-        $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.type', 'type', "@$this->templateNamespace/dashboard/columns.html.twig"));
-        $table->addColumnDefinition(new TemplateBlockTableColumn('dashboard.index.column.definition', 'definition', "@$this->templateNamespace/dashboard/columns.html.twig"));
-        $table->addItemGetAction(Routes::DASHBOARD_ADMIN_EDIT, 'dashboard.actions.edit', 'pencil');
+        $this->addColumnsOrderLabelName($table);
+        $table->getColumnByName('label')?->setItemIconCallback(fn (Dashboard $dashboard) => $dashboard->getIcon());
 
-        $defineAction = $table->addItemActionCollection('dashboard.actions.define.title', 'gear');
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.landing_page', 'dot-circle-o', null, ['definition' => Dashboard::DEFINITION_LANDING_PAGE]);
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.quick_search', 'search', null, ['definition' => Dashboard::DEFINITION_QUICK_SEARCH]);
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.browser_image', 'image', null, ['definition' => Dashboard::DEFINITION_BROWSER_IMAGE]);
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.browser_object', 'book', null, ['definition' => Dashboard::DEFINITION_BROWSER_OBJECT]);
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_DEFINE, 'dashboard.actions.define.browser_file', 'file-image-o', null, ['definition' => Dashboard::DEFINITION_BROWSER_FILE]);
-        $defineAction->addItemPostAction(Routes::DASHBOARD_ADMIN_UNDEFINE, 'dashboard.actions.undefine', 'eraser', null);
+        $table->addColumnDefinition(new TemplateBlockTableColumn(
+            label: t('field.type', [], 'emsco-core'),
+            blockName: 'dashboardType',
+            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig")
+        );
+        $table->addColumnDefinition(new TemplateBlockTableColumn(
+            label: t('field.definition', [], 'emsco-core'),
+            blockName: 'dashboardDefinition',
+            template: "@$this->templateNamespace/datatable/template_block_columns.html.twig")
+        );
 
-        $table->addItemPostAction(Routes::DASHBOARD_ADMIN_DELETE, 'dashboard.actions.delete', 'trash', 'dashboard.actions.delete_confirm')->setButtonType('outline-danger');
-        $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'dashboard.actions.delete_selected', 'dashboard.actions.delete_selected_confirm')
-            ->setCssClass('btn btn-outline-danger');
-        $table->setDefaultOrder('orderKey');
+        $this->addItemEdit($table, Routes::DASHBOARD_ADMIN_EDIT);
+
+        $defineAction = $table->addItemActionCollection(t('action.define', [], 'emsco-core'), 'gear');
+        foreach (DashboardDefinition::cases() as $dashboardDefinition) {
+            $defineAction->addItemPostAction(
+                route: Routes::DASHBOARD_ADMIN_DEFINE,
+                labelKey: t('core.dashboard.define', ['define' => $dashboardDefinition->value], 'emsco-core'),
+                icon: $dashboardDefinition->getIcon(),
+                routeParameters: ['definition' => $dashboardDefinition->value]
+            );
+        }
+        $defineAction->addItemPostAction(
+            route: Routes::DASHBOARD_ADMIN_UNDEFINE,
+            labelKey: t('core.dashboard.define', ['define' => null], 'emsco-core'),
+            icon: 'eraser'
+        );
+
+        $this
+            ->addColumnsCreatedModifiedDate($table)
+            ->addItemDelete($table, 'dashboard', Routes::DASHBOARD_ADMIN_DELETE)
+            ->addTableToolbarActionAdd($table, Routes::DASHBOARD_ADMIN_ADD)
+            ->addTableActionDelete($table, 'dashboard');
     }
 
     public function getRoles(): array

@@ -1,5 +1,137 @@
 # Changelog 5.x
 
+## 5.21.1 (2024-09-19)
+### Bug Fixes
+* fix(admin/asset-field): asset field remove 'sha1' and '_hash' field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1011
+* fix(admin/media-lib): fix invalid documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1008
+* fix(admin/media-lib): media library keep selection and shift on select all by @Davidmattei in https://github.com/ems-project/elasticms/pull/1006
+* fix(admin/media-lib): move file to home folder not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1009
+* fix(admin/release): layout issue, update labels and filter environments (default) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1007
+
+## 5.21.0 (2024-09-12)
+### Features
+* feat(admin/datatable): checkable option and actions with events by @Davidmattei in https://github.com/ems-project/elasticms/pull/1000
+* feat(admin/media-lib): add sorting on file columns by @Davidmattei in https://github.com/ems-project/elasticms/pull/1002
+* feat(admin/media-lib): select all, footer rendering and fix multiple upload by @Davidmattei in https://github.com/ems-project/elasticms/pull/1003
+* feat(demo/media-lib): add date creation by @Davidmattei in https://github.com/ems-project/elasticms/pull/1004
+### Bug Fixes
+* fix(admin/release): improve labels and environment selects by @Davidmattei in https://github.com/ems-project/elasticms/pull/1001
+* fix(common/api): api with large docs use EMSCO_LOCK_TIME by @theus77 in https://github.com/ems-project/elasticms/pull/996
+### Code Refactoring
+* refactor(common): use helper types and remove common types by @theus77 in https://github.com/ems-project/elasticms/pull/998
+
+## 5.20.1 (2024-09-03)
+### Bug Fixes
+* fix(common/api): emsch get via the admin API (EMS_ELASTICSEARCH_PROXY_API) by @theus77 in https://github.com/ems-project/elasticms/pull/997
+* fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995
+
+## 5.20.0 (2024-08-23)
+### Features
+* feat(admin/contentType): implement dataTables by @Davidmattei in https://github.com/ems-project/elasticms/pull/978
+* feat(admin/environment): implement dataTables (alias, managed, external and overview) by @Davidmattei in https://github.com/ems-project/elasticms/pull/981
+* feat(admin/environments): environment orphan index datatable + translate Menu by @Davidmattei in https://github.com/ems-project/elasticms/pull/980
+### Bug Fixes
+* fix(admin/twig): align core and admin templates by @Davidmattei in https://github.com/ems-project/elasticms/pull/988
+### Code Refactoring
+* refactor(admin/datatable): i18n & wysiwyg datatables by @Davidmattei in https://github.com/ems-project/elasticms/pull/974
+
+## 5.19.3 (2024-09-03)
+### Bug Fixes
+* fix(common/api): emsch get via the admin API (EMS_ELASTICSEARCH_PROXY_API) by @theus77 in https://github.com/ems-project/elasticms/pull/997
+* fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995
+
+## 5.19.2 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
+
+## 5.19.1 (2024-08-20)
+### Bug Fixes
+* fix(admin/asset): small images null string by @theus77 in https://github.com/ems-project/elasticms/pull/979
+* fix(admin/command): recompute changed closing revisions by @Davidmattei in https://github.com/ems-project/elasticms/pull/977
+* fix(admin/datatable): default sort job created desc by @Davidmattei in https://github.com/ems-project/elasticms/pull/975
+* fix(admin/job): escape job commands trigger from UI by @Davidmattei in https://github.com/ems-project/elasticms/pull/976
+* fix(admin/revision): is granted contentType edit role by @Davidmattei in https://github.com/ems-project/elasticms/pull/990
+* fix(admin/revision): put back revision table action url by @Davidmattei in https://github.com/ems-project/elasticms/pull/982
+* fix(admin/ui): modal blocking input fields by @Davidmattei in https://github.com/ems-project/elasticms/pull/989
+* fix(cli/media-sync): add filesize limit and fix memory leak extraction by @Davidmattei in https://github.com/ems-project/elasticms/pull/983
+
+## 5.19.0 (2024-07-29)
+### Features
+* feat(admin/command): add emsco:asset:refresh-file-fields (activate new fields) by @theus77 in https://github.com/ems-project/elasticms/pull/963
+* feat(admin/command): contentType recompute new changed option by @Davidmattei in https://github.com/ems-project/elasticms/pull/941
+* feat(admin/command): ems:job:run execute releases by @Davidmattei in https://github.com/ems-project/elasticms/pull/952
+* feat(admin/image): add resize  with the client browser by @theus77 in https://github.com/ems-project/elasticms/pull/946
+* feat(admin/image): resize on image from server by @theus77 in https://github.com/ems-project/elasticms/pull/969
+* feat(admin/revision): improve datatable drafts and trash by @Davidmattei in https://github.com/ems-project/elasticms/pull/914
+* feat(common/command): ems:admin:(backup|restore) export environment contentType by @theus77 in https://github.com/ems-project/elasticms/pull/968
+* feat(common/twig): ems_file_from_archive twig function by @theus77 in https://github.com/ems-project/elasticms/pull/942
+* feat(demo): add dashboards media library browsing by @Davidmattei in https://github.com/ems-project/elasticms/pull/944
+* feat(web/azure): add service token functionality  by @Davidmattei in https://github.com/ems-project/elasticms/pull/973
+* feat(web/sso): add support azure oauth2 by @Davidmattei in https://github.com/ems-project/elasticms/pull/960
+### Bug Fixes
+* fix(admin): environment not existing thows 500 error by @Davidmattei in https://github.com/ems-project/elasticms/pull/935
+* fix(admin/command): emsco:contenttype:switch-default-env already switched return success by @Davidmattei in https://github.com/ems-project/elasticms/pull/972
+* fix(admin/revision): collection enter key triggers delete first item by @Davidmattei in https://github.com/ems-project/elasticms/pull/954
+* fix(admin/revision): duplicate ouuid put back deleted revision by @Davidmattei in https://github.com/ems-project/elasticms/pull/955
+* fix(admin/user): export users switch last login and expiration date by @Davidmattei in https://github.com/ems-project/elasticms/pull/951
+### Code Refactoring
+* refactor(admin): archives in cache storage by @theus77 in https://github.com/ems-project/elasticms/pull/939
+* refactor(admin): cache in storages by @theus77 in https://github.com/ems-project/elasticms/pull/930
+* refactor(admin): coreControllerTrait instead of abstract class by @Davidmattei in https://github.com/ems-project/elasticms/pull/956
+* refactor(admin): deprecate emsch_assets in favor of emsch_assets_version by @theus77 in https://github.com/ems-project/elasticms/pull/945
+* refactor(admin): sys_get_temp_dir centralized in Helper classes (TempFile & TempDirectory) by @theus77 in https://github.com/ems-project/elasticms/pull/929
+* refactor(admin/dataTable): filter & analyzer overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/966
+* refactor(admin/datatable): jobs and extend dataTableTrait by @Davidmattei in https://github.com/ems-project/elasticms/pull/967
+* refactor(admin/datatable): use correct translation keys and crud overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/962
+* refactor(common/log): use translateMessage in LocalizedLogger by @Davidmattei in https://github.com/ems-project/elasticms/pull/958
+* refactor(emsch/api): use common api by @Davidmattei in https://github.com/ems-project/elasticms/pull/940
+### Chores
+* chore(admin/web): improve dev logging (doctrine) by @Davidmattei in https://github.com/ems-project/elasticms/pull/947
+* chore(build): .cache folder for ci tools by @Davidmattei in https://github.com/ems-project/elasticms/pull/948
+* chore(build): disable http client verification by @Davidmattei in https://github.com/ems-project/elasticms/pull/949
+* chore(build): dump translations sort by keys by @Davidmattei in https://github.com/ems-project/elasticms/pull/957
+* chore(translations): support building multiline translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/959
+
+## 5.18.4 (2024-09-03)
+### Bug Fixes
+* fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995
+
+## 5.18.3 (2024-08-23)
+### Bug Fixes
+* fix(common/storage): multipart upload (min 5mb) by @theus77 in https://github.com/ems-project/elasticms/pull/994
+
+## 5.18.2 (2024-07-29)
+### Bug Fixes
+* fix(admin/contentType): disable the choice field type if needed by @theus77 in https://github.com/ems-project/elasticms/pull/970
+* fix(admin/revision): skip the FormFieldType's options in a container by @theus77 in https://github.com/ems-project/elasticms/pull/971
+
+## 5.18.1 (2024-07-18)
+### Bug Fixes
+* fix(common/storage): return 404 response on not found by @Davidmattei in https://github.com/ems-project/elasticms/pull/938
+* fix(demo): release search not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/943
+* fix(emsco/media-lib): rename/delete command username with space by @Davidmattei in https://github.com/ems-project/elasticms/pull/961
+
+## 5.18.0 (2024-06-26)
+### Features
+* feat(common/admin): update command dump file and onlyMissing option by @theus77 in https://github.com/ems-project/elasticms/pull/897
+* feat(common/api): add EMS_BACKEND_API_TIMEOUT config by @theus77 in https://github.com/ems-project/elasticms/pull/900
+* feat(core/twig): add emsco_save_contents twig function by @theus77 in https://github.com/ems-project/elasticms/pull/901
+* feat(core/twig): add emsco_warning and emsco_notice functions by @theus77 in https://github.com/ems-project/elasticms/pull/905
+* feat(core/view): define contentType default overview by @Davidmattei in https://github.com/ems-project/elasticms/pull/910
+* feat(demo): add asset content type (documentation) by @Davidmattei in https://github.com/ems-project/elasticms/pull/907
+* feat(demo): implement emsco_display for content types by @Davidmattei in https://github.com/ems-project/elasticms/pull/913
+* feat(elasticms): add file structure commands for static websites by @theus77 in https://github.com/ems-project/elasticms/pull/917
+* feat(elasticms): add force option to file structure publish (target out of sync) by @theus77 in https://github.com/ems-project/elasticms/pull/919
+* feat(ems/command): add ems:batch command by @Davidmattei in https://github.com/ems-project/elasticms/pull/918
+### Bug Fixes
+* fix(cli): load twig bundle for (ems:batch) command by @Davidmattei in https://github.com/ems-project/elasticms/pull/927
+* fix(cli/import): trim import headers by @Davidmattei in https://github.com/ems-project/elasticms/pull/908
+* fix(core): translation key core.verion by @Davidmattei in https://github.com/ems-project/elasticms/pull/933
+* fix(core/release): rework publish and unpublish by @Davidmattei in https://github.com/ems-project/elasticms/pull/912
+### Code Refactoring
+* refactor(core): extract translations by @Davidmattei in https://github.com/ems-project/elasticms/pull/916
+* refactor: build translations with symfony 6 by @Davidmattei in https://github.com/ems-project/elasticms/pull/920
+
 ## 5.17.5 (2024-09-03)
 ### Bug Fixes
 * fix(common/storage): allow config or cache files to not be saved in any storage  by @theus77 in https://github.com/ems-project/elasticms/pull/995

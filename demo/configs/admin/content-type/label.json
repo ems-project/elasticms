@@ -413,20 +413,18 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
         "refererFieldName": null,
         "sortOrder": "asc",
-        "orderKey": 11,
+        "orderKey": 12,
         "rootContentType": false,
         "editTwigWithWysiwyg": true,
         "webContent": false,
         "autoPublish": false,
+        "environment": "preview",
         "templates": [],
         "views": [
             {
@@ -436,7 +434,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
-                    "icon": "fa fa-list",
+                    "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
                         "size": 0,
@@ -446,7 +444,8 @@
                     },
                     "orderKey": 2,
                     "public": false,
-                    "role": "ROLE_USER"
+                    "role": "ROLE_USER",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }

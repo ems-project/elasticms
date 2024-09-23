@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Revision;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\DataTable\Type\Revision\RevisionTrashDataTableType;
@@ -11,20 +13,21 @@ use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\DataService;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Button;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use function Symfony\Component\Translation\t;
+
 class TrashController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly DataService $dataService,
         private readonly DataTableFactory $dataTableFactory,
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly string $templateNamespace
     ) {
     }
@@ -42,25 +45,26 @@ class TrashController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
 
         $form->handleRequest($request);
-        if ($form instanceof Form && $form->isSubmitted() && $form->isValid()) {
-            $action = $form->getClickedButton() instanceof Button ? $form->getClickedButton()->getName() : null;
-            $selection = $table->getSelected();
-
-            return match ($action) {
-                RevisionTrashDataTableType::ACTION_PUT_BACK => $this->putBackSelection($contentType, ...$selection),
-                RevisionTrashDataTableType::ACTION_EMPTY_TRASH => $this->emptyTrashSelection($contentType, ...$selection),
+        if ($form->isSubmitted() && $form->isValid()) {
+            return match ($this->getClickedButtonName($form)) {
+                RevisionTrashDataTableType::ACTION_PUT_BACK => $this->putBackSelection($contentType, ...$table->getSelected()),
+                RevisionTrashDataTableType::ACTION_EMPTY_TRASH => $this->emptyTrashSelection($contentType, ...$table->getSelected()),
                 default => (function () use ($contentType) {
-                    $this->logger->error('log.controller.channel.unknown_action');
+                    $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core'));
 
                     return $this->redirectToRoute(Routes::DATA_TRASH, ['contentType' => $contentType->getId()]);
                 })()
             };
         }
 
-        return $this->render("@$this->templateNamespace/data/trash.html.twig", [
-            'contentType' => $contentType,
-            'revisions' => $this->dataService->getAllDeleted($contentType),
+        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
+            'icon' => 'fa fa-trash',
+            'title' => t('revision.trash.title', ['pluralName' => $contentType->getPluralName()], 'emsco-core'),
+            'breadcrumb' => [
+                'contentType' => $contentType,
+                'page' => t('revision.trash.label', [], 'emsco-core'),
+            ],
         ]);
     }
 
@@ -81,9 +85,13 @@ class TrashController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $revisionId = $this->dataService->trashPutBack($contentType, $ouuid);
+        $restoredRevision = $this->dataService->trashPutBackAsDraft($contentType, $ouuid);
 
-        return $this->redirectToRoute(Routes::EDIT_REVISION, ['revisionId' => $revisionId]);
+        if (!$restoredRevision) {
+            throw new \RuntimeException(\sprintf('Put back failed for ouuid "%s"', $ouuid));
+        }
+
+        return $this->redirectToRoute(Routes::EDIT_REVISION, ['revisionId' => $restoredRevision->getId()]);
     }
 
     private function emptyTrashSelection(ContentType $contentType, string ...$ouuids): Response
@@ -103,10 +111,10 @@ class TrashController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $revisionId = $this->dataService->trashPutBack($contentType, ...$ouuids);
+        $restoredRevision = $this->dataService->trashPutBackAsDraft($contentType, ...$ouuids);
 
-        if ($revisionId) {
-            return $this->redirectToRoute(Routes::EDIT_REVISION, ['revisionId' => $revisionId]);
+        if ($restoredRevision) {
+            return $this->redirectToRoute(Routes::EDIT_REVISION, ['revisionId' => $restoredRevision->getId()]);
         }
 
         return $this->redirectToRoute(Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentType->getId()]);

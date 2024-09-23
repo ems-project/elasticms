@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\StreamWrapper;
 use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 abstract class AbstractUrlStorage implements StorageInterface, \Stringable
@@ -215,4 +219,29 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
      * @return resource|null
      */
     abstract protected function getContext();
+
+    public function readCache(Config $config): ?StreamInterface
+    {
+        return null;
+    }
+
+    public function saveCache(Config $config, FileInterface $file): bool
+    {
+        return false;
+    }
+
+    public function clearCache(): bool
+    {
+        return false;
+    }
+
+    public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
+    {
+        return null;
+    }
+
+    public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        return false;
+    }
 }

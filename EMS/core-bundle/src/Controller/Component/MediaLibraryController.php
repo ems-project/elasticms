@@ -170,13 +170,23 @@ class MediaLibraryController
 
     public function getFiles(Request $request): JsonResponse
     {
+        $query = $request->query;
+
         $folderId = $request->get('folderId');
         $folder = $folderId ? $this->mediaLibraryService->getFolder($folderId) : null;
 
+        $sortOrder = $query->get('sortOrder');
+        if ($sortOrder && !\in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'asc';
+        }
+
         return new JsonResponse($this->mediaLibraryService->renderFiles(
-            from: $request->query->getInt('from'),
+            from: $query->getInt('from'),
             folder: $folder,
-            searchValue: $request->get('search')
+            sortId: $query->get('sortId'),
+            sortOrder: $sortOrder,
+            selectionFiles: $query->has('selectionFiles') ? $query->getInt('selectionFiles') : 0,
+            searchValue: $query->get('search')
         ));
     }
 
@@ -185,18 +195,17 @@ class MediaLibraryController
         return new JsonResponse(['folders' => $this->mediaLibraryService->renderFolders()]);
     }
 
-    public function getHeader(Request $request): JsonResponse
+    public function getLayout(Request $request): JsonResponse
     {
         $query = $request->query;
 
-        return new JsonResponse([
-            'header' => $this->mediaLibraryService->renderHeader(
-                folder: $query->has('folderId') ? $query->get('folderId') : null,
-                file: $query->has('fileId') ? $query->get('fileId') : null,
-                selectionFiles: $query->has('selectionFiles') ? $query->getInt('selectionFiles') : 0,
-                searchValue: $query->get('search')
-            ),
-        ]);
+        return new JsonResponse($this->mediaLibraryService->renderLayout(
+            loaded: $query->getInt('loaded'),
+            folder: $query->has('folderId') ? $query->get('folderId') : null,
+            file: $query->has('fileId') ? $query->get('fileId') : null,
+            selectionFiles: $query->has('selectionFiles') ? $query->getInt('selectionFiles') : 0,
+            searchValue: $query->get('search')
+        ));
     }
 
     public function moveFile(Request $request, string $fileId): JsonResponse
@@ -209,7 +218,7 @@ class MediaLibraryController
             throw new \RuntimeException('Missing target folder id');
         }
 
-        $folder = $targetFolderId ? $this->mediaLibraryService->getFolder($targetFolderId) : null;
+        $folder = 'home' !== $targetFolderId ? $this->mediaLibraryService->getFolder($targetFolderId) : null;
         $this->mediaLibraryService->moveFile($file, $folder);
 
         $form = $this->formFactory->create(MediaLibraryDocumentFormType::class, $file, ['csrf_protection' => false]);

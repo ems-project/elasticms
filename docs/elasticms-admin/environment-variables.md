@@ -274,6 +274,15 @@ Define the default bulk size for commands such as the `ems:environment:rebuild` 
 ```dotenv
 EMSCO_DEFAULT_BULK_SIZE=500
 ``` 
+ 
+### EMSCO_IMAGE_MAX_SIZE
+Define the limit where a resized image, with that max limit, will be generated on the client side in order to limit the memory consumption.
+The resized image's hash will be available in a `_image_resized_hash` attribute in the file field array (in case of a file field).
+In a WYSIWYG field, the master file won't be uploaded, a resized image will be uploaded and directly used as `src` attribute in the `IMG` tag.
+
+```dotenv
+EMSCO_IMAGE_MAX_SIZE=2048
+``` 
   
 ### EMS_BACKEND_URL
 Define the url use by the user to access elasticms (in order to generate links in emails).
@@ -391,6 +400,14 @@ Define backend elasticms url. CommonBundle provides a CoreApi instance.
 ### EMS_BACKEND_API_KEY
 
 Define backend authentication token. The commonBundle coreApi instance becomes authenticated.
+
+### EMS_BACKEND_API_TIMEOUT
+
+Adjust the API client's timeout. By default is set to `30` seconds, if you API request may take longueur (e.g. during migration) you can increase the timeout :
+
+```dotenv
+EMS_ELASTICSEARCH_HOSTS='300'
+```
 
 ### EMS_CACHE
 

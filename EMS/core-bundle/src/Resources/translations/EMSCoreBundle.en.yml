@@ -12,9 +12,6 @@ log:
             delete: 'The environment %name% has been deleted'
         channel:
             delete: 'The channel %name% has been deleted'
-        content-type:
-            get-unreferenced-content-type:
-                unexpected-error: 'Unexpected error while get unreferenced content type from environment %environment%: %error_message%'
         release:
             delete: 'The Release %name% has been deleted'
             not:
@@ -61,28 +58,13 @@ log:
         mapping:
             not_found: 'Content type %contenttype%''s mapping not found'
         not_found: 'Content type %contenttype% not found'
-        referenced: 'The content type %contenttype% has been referenced'
-        reordered: 'Content types have been reordered'
         subfield:
             added: 'A subfield %field_name% has been added'
             name_mandatory: 'The subfield name is mandatory'
             name_not_valid: 'The subfield is not valid : (format: %field_format%)'
-        unreferenced_not_found: 'Unreferenced content type not found'
         updated: 'The content type %contenttype% has been updated'
     controller:
-        channel:
-            unknown_action: 'Unknown action'
-        query_search:
-            unknown_action: 'Unknown action'
         release:
-            unknown_action: 'Unknown action'
-        uploaded-file-logs:
-            unknown_action: 'Unknown action'
-        draft-in-progress:
-            discard_draft: 'Draft "%revision%" has been deleted'
-            unknown_action: 'Unknown action'
-            draft-not-found: 'Draft (%revisionId%) not found'
-        schedule:
             unknown_action: 'Unknown action'
     crud:
         create_error: 'The revision for contenttype %contenttype% can not be created, reason: %error_message%'
@@ -137,8 +119,6 @@ log:
         cluster_yellow: 'There is something wrong with the cluster, status color: %color_status%'
         default_search: 'This search has been defined as default search'
         default_search_for_content_type: 'This search has been defined as default search form for the content type %contenttype%'
-        index_deleted: 'The index %index_name% has been deleted'
-        index_not_found: 'Index %index_name% not found'
         not_able_to_deserialize_filters: 'Error during the deserialization of the filters'
         paging_limit_exceeded: 'The paging is limited to the first %paging% items'
         search_deleted: 'A search has been deleted'
@@ -149,7 +129,6 @@ log:
         too_many_document_result: 'Found %total% results for the document %contenttype%:%ouuid% in the environment %environment%'
     environment:
         alia_missing: 'The alias for the environment %environment% is missing, consider to rebuild a brand new alias'
-        alias_attached: 'The alias %alias% has been attached'
         alias_not_found: 'Alias %alias% not found'
         alias_removed: 'The alias %alias% has been removed'
         aligned: 'Environment %environment% and %with_environment% are aligned for those content types'
@@ -170,9 +149,6 @@ log:
     filter:
         deleted: 'The filter %filter_name% has been deleted'
     index:
-        delete_orphan_index: 'Elasticsearch index %index_name% has been deleted'
-        index_with_aliases: 'The index %index_name% is referenced by %counter% aliases and can''t be deleted'
-        index_not_found: 'Elasticsearch index %index_name% not found'
         column:
             created: Created
             channel: Channel
@@ -245,17 +221,6 @@ log:
 form:
     field-type-type:
         root: 'Form''s root'
-    actions:
-        reorder: 'Reorder'
-        delete_selected: 'Delete selected forms'
-        delete_confirm: 'Are you sure?'
-        delete: Delete
-        edit: Edit
-    index:
-        reorder: Reorder
-        column:
-            name: Name
-            label: Label
     analyzer:
         char_filter:
             html_strip: 'HTML Strip'
@@ -382,11 +347,6 @@ form:
             environments: Environments
             label: Label
             name: Name
-        release:
-            environmentSource: 'Environment source'
-            environmentTarget: 'Environment target'
-            execution_date: 'Execution date'
-            name: Name
         revision-type:
             copy-label: Copy
             paste-label: Paste
@@ -419,9 +379,6 @@ form:
     wysiwyg_style_set:
         table_default_css:
             title: 'Default Table class attribute'
-    header:
-        checkbo:
-            select-all: 'Select all'
 ROLE_ADMIN: Administrator
 ROLE_ALLOW_ALIGN: 'Align Environment'
 ROLE_API: API
@@ -436,34 +393,6 @@ ROLE_SUPER_ADMIN: 'Super Admin'
 ROLE_SUPER_AUTHOR: 'Super Author'
 ROLE_SUPER_PUBLISHER: 'Super Publisher'
 ROLE_SUPER_USER: 'Super User'
-dashboard:
-    index:
-        reorder: Reorder
-        column:
-            name: Name
-            label: Label
-            type: Type
-            definition: Definition
-            public: Public
-    definition:
-        quick_search: 'Quick search'
-        landing_page: 'Landing page'
-        browser_image: 'Image browser'
-        browser_object: 'Object browser'
-        browser_file: 'File browser'
-    actions:
-        define:
-            title: 'Define'
-            quick_search: 'As quick search'
-            landing_page: 'As landing page'
-            browser_image: 'As image browser'
-            browser_object: 'As object browser'
-            browser_file: 'As file browser'
-        undefine: 'Undefine'
-        delete_selected: 'Deleted selected'
-        edit: Edit
-        delete: Delete
-        delete_confirm: 'Do you confirm'
 ROLE_SUPER_WEBMASTER: 'Super Webmaster'
 ROLE_TASK_MANAGER: 'Task Manager'
 ROLE_TRADUCTOR: Traductor
@@ -473,61 +402,14 @@ ROLE_USER: User
 ROLE_USER_MANAGEMENT: 'User Management'
 ROLE_USER_READ: 'User read'
 ROLE_WEBMASTER: Webmaster
-action:
-    actions:
-        delete: Delete
-        delete_confirm: 'Delete the "%label%" action?'
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Delete all selected actions?'
-        edit: Edit
-    index:
-        column:
-            name: Name
-            label: Label
-            public: Public
-            type: Type
-        reorder: Reorder
 channel:
-    actions:
-        delete: Delete
-        delete_confirm: 'Delete the "%label%" channel?'
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Delete all selected channels?'
-        edit: Edit
     add:
         save: Create
         title: 'Add a channel'
     edit:
         save: Save
         title: 'Edit a channel'
-    index:
-        column:
-            alias: Alias
-            label: Label
-            name: Name
-            public: 'Public access'
-        reorder: 'Reorder channels'
-        title: 'List of channels'
     menu: Channels
-environment:
-    index:
-        reorder: 'Reorder environments'
-        column:
-            label: Label
-            alias: Alias
-            name: Name
-            index: Index
-            total_indexed_label: "Total in ES"
-            total_in_ems: 'Total in ems'
-            total_mark_has_deleted: 'Total deleted'
-    actions:
-        rebuild_button: Rebuild
-        view_button: View
-        edit_button: Edit
-        delete: Delete
-        delete_confirm: 'Delete the "%label%" environment?'
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Delete all selected environments?'
 command:
     reindex:
         end: 'The content type %contenttype%''s documents have been reindexed in %environment% (index: %index%)'
@@ -580,6 +462,7 @@ form-submission:
         export_selected: 'Export selected'
         process: 'Delete Submission'
     index:
+        delete_selected: 'Delete selected'
         column:
             created: 'Created At'
             expire_date: 'Expire Date'
@@ -603,26 +486,12 @@ form_submissions:
         success: 'Form submission with id "%id%" has been deleted!'
     title: 'Form Submissions'
 query_search:
-    actions:
-        delete: Delete
-        delete_confirm: 'Delete the "%label%" QuerySearch?'
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Delete all selected QuerySearch?'
-        edit: Edit
     add:
         save: Create
         title: 'Add a QuerySearch'
     edit:
         save: Save
         title: 'Edit a QuerySearch'
-    index:
-        column:
-            alias: Alias
-            label: Label
-            name: Name
-            public: 'Public access'
-        reorder: 'Reorder QuerySearch'
-        title: 'List of QuerySearch'
     menu: QuerySearch
 release:
     actions:
@@ -640,19 +509,11 @@ release:
         set_status_wip: 'Rework release'
         show: View
     add:
-        save: Create
         title: 'Add a Release'
     edit:
-        save: Save
-        saveAndClose: 'Save and Close'
         title: 'Edit a Release'
     index:
         column:
-            env_source: 'Environment source'
-            env_target: 'Environment target'
-            execution_date: 'Execution date'
-            name: Name
-            status: Status
             docs_count: '# Documents'
         title: 'List of Releases'
     menu: Releases
@@ -745,10 +606,7 @@ table:
     index:
         button:
             add: Add
-            close: Close
-            reorder: Reorder
         column:
-            actions: Actions
             loop_count: '#'
         empty: 'Nothing to show here'
 task:
@@ -860,38 +718,6 @@ task:
         version_next_tag: New versions
         submit: Search
         reset: Clear
-uploaded-file:
-    action:
-        download_selected: 'Download selected'
-        hide-show: Hide/Show
-        soft-delete: Delete
-        delete: Delete
-    hide-show-confirm: 'Toggle file visibility ?'
-    uploaded-file:
-        hide-show: 'Toggle visibility'
-        download_selected: 'Download selected'
-        soft_delete_selected: 'Delete selected'
-        delete-all_confirm: 'Selected files will be removed'
-    index:
-        column:
-            available: Available
-            created: 'Uploaded at'
-            head_last: 'Last seen'
-            hidden: Hidden
-            modified: 'Last modified'
-            name: Name
-            sha1: 'Hash signature'
-            size: Size
-            kind: Kind
-            date-modified: 'Date modified'
-            date-added: 'Date added'
-            type: 'Mime type'
-            username: By
-        title: 'Uploaded Files'
-    menu: 'Uploaded files'
-    soft-delete-confirm: 'Are you sure you want to delete this file?'
-    delete-all: 'Delete selected'
-    delete-confirm: 'This will be removed'
 user:
     action:
         delete: Delete
@@ -942,54 +768,6 @@ view:
                 index-link: Releases
             query_search:
                 index-link: QuerySearch
-    environment:
-        index:
-            action_label: Action
-            add_alias_button: 'Add alias'
-            add_environment_button: 'Add Environment'
-            add_managed_alias_button: 'Add managed alias'
-            alias_label: Alias
-            all_indexes_are_referenced: 'All aliases are referenced'
-            attach_alias_confirm: 'Attache the alias %name%?'
-            attach_button: Atach
-            close_modal_button: Close
-            confirm_delete: 'Do you want to delete %name%?'
-            confirm_dettach: 'Do you want to detach %name%?'
-            count_label: '#'
-            delete_alias_confirm: 'Do you want to delete the alias %name%?'
-            delete_all_button: 'Delete all'
-            delete_all_ophan_indexes_confirm: 'Do you confirm?'
-            delete_button: Delete
-            delete_index_button: Delete
-            delete_index_confirm: 'Are you sure to delete the index %name%?'
-            delete_managed_environemnt_button: Delete
-            dettach_button: Detach
-            edit_button: Edit
-            environment_breadcrumb: Environments
-            environment_index_count: '{0} There are no index|{1} There is one index|]1,Inf[ There are %count% indexes'
-            environment_indexes_modal_title: Indexes
-            external_environments_title: 'External environments'
-            index_breadcrumb: List
-            indexes_label: Indexes
-            label: Label
-            local_environment_label: 'Local Environments'
-            managed_alias_title: 'Managed alias'
-            name_label: Name
-            no_environment_yet: 'There is no environment defined yet.'
-            no_external_environment_yet: 'There is no external environment defined yet.'
-            orphan_index_title: 'Orphan indexes'
-            pagetitle: 'All Environments'
-            rebuild_button: Rebuild
-            reorder_button: Reorder
-            reorder_title: Reorder
-            there_is_no_orphan_index: 'There is no orphan indexes'
-            title: 'All Environments'
-            total_in_ems: 'Total in ems'
-            total_indexed_label: 'Total in ES'
-            total_label: Total
-            total_mark_has_deleted: 'Total deleted'
-            unreferenced_aliases_title: 'Unreferenced aliases'
-            view_button: View
     form:
         fields:
             asset:
@@ -1033,29 +811,6 @@ view:
     user:
         index:
             title: 'User list'
-    wysiwyg:
-        actions:
-            delete_selected: 'Delete selected'
-        index:
-            reorder: Reorder
-            column:
-                profileName: Profiles
-                stylesSetName: 'Styles set'
-        wysiwyg_profiles_label: 'WYSIWYG profiles'
-        wysiwyg_styles_set_label: 'WYSIWYG styles set'
-    index:
-        reorder: 'Reorder views'
-        column:
-            name: Name
-            label: Label
-    actions:
-        edit: Edit
-        duplicate: Duplicate
-        duplicate_confirm: 'Do you confirm?'
-        delete: Delete
-        delete_confirm: 'Do you confirm?'
-        delete_selected: 'Delete selected views'
-        view: Details
 views:
     elements:
         object-views-button:
@@ -1074,20 +829,6 @@ wysiwyg:
     invalid_config_format: 'Format not valid: %msg%'
 revision:
     draft-in-progress:
-        column:
-            label: Label
-            created: Created
-            modified: 'Last update'
-            auto-save-by: By
-            locked: 'Locked until'
-            locked-by: 'Locked by'
-            view-revision: 'View draft in progress'
-            edit-draft: 'Edit draft'
-            discard-draft: 'Delete this draft'
-            confirm-discard-draft: 'Modifications made in this draft will be lost'
-        action:
-            discard-selected-draft: 'Delete selected drafts'
-            discard-selected-confirm: 'All modifications made on those drafts will lost'
         title: '%contentType% in progress'
         breadcrumb: '%contentType% in progress'
     version_tag: 'Yes as %version_tag%'
@@ -1222,18 +963,5 @@ Views: Views
 'no revision in %env%': 'no revision in %env%'
 'Unpublish in %env%': 'Unpublish in %env%'
 'replace by revision %date%': 'replace by revision %date%'
-schedule:
-    index:
-        column:
-            name: Name
-            command: Command
-            cron: Cron
-            previous-run: 'Previous run'
-            next-run: 'Next run'
-            tag: 'Tag'
-        reorder: Prioritize
-    actions:
-        delete_selected: 'Delete selected'
-        delete_selected_confirm: 'Do you confirm ?'
 pick-a-release:
     title: 'Pick a release for "%label%"'

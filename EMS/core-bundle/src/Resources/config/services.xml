@@ -184,15 +184,6 @@
             <argument type="service" id="EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface"/>
         </service>
         <service id="ems_core.service.uploaded-file" alias="EMS\CoreBundle\Service\DatatableService"/>
-        <service id="ems_core.core_revision.draft_in_progress" class="EMS\CoreBundle\Core\Revision\DraftInProgress">
-            <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository"/>
-            <argument type="service" id="emsco.manager.user" />
-            <argument type="service" id="security.authorization_checker" />
-        </service>
-        <service id="emsco.revision.query_service" class="EMS\CoreBundle\Core\Revision\RevisionQueryService">
-            <argument type="service" id="doctrine" />
-            <argument type="service" id="ems.service.revision" />
-        </service>
 
         <service id="ems_core.core_ui.flash_message_logger" class="EMS\CoreBundle\Core\UI\FlashMessageLogger">
             <argument type="service" id="request_stack" />
@@ -201,7 +192,7 @@
 
         <service id="ems.view.manager" class="EMS\CoreBundle\Core\View\ViewManager">
             <argument type="service" id="ems.repository.view"/>
-            <argument type="service" id="logger"/>
+            <argument type="service" id="emsco.logger"/>
         </service>
         <service id="ems.schedule.manager" class="EMS\CoreBundle\Core\Job\ScheduleManager">
             <argument type="service" id="ems.repository.schedule"/>
@@ -252,7 +243,6 @@
         <service id="ems.service.mapping" class="EMS\CoreBundle\Service\Mapping">
             <argument type="service" id="emsco.logger" />
             <argument type="service" id="ems_common.elastica.client" />
-            <argument type="service" id="ems.service.environment" />
             <argument type="service" id="ems.form.fieldtype.fieldtypetype" />
             <argument type="service" id="ems.service.elasticsearch" />
             <argument type="service" id="ems_common.service.elastica" />
@@ -300,6 +290,8 @@
             <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService"/>
             <argument type="service" id="emsco.manager.user"/>
             <argument type="service" id="EMS\CommonBundle\Contracts\ExpressionServiceInterface"/>
+            <argument type="service" id="ems_common.service.elastica" />
+            <argument type="service" id="translator" />
         </service>
         <service id="ems.service.alias" class="EMS\CoreBundle\Service\AliasService">
             <argument type="service" id="logger" />
@@ -312,7 +304,6 @@
             <argument type="service" id="ems.service.alias" />
             <argument type="service" id="ems_common.elastica.client" />
             <argument type="service" id="ems.service.contenttype" />
-            <argument type="service" id="logger" />
         </service>
         <service id="ems.elasticsearch.bulker" class="EMS\CoreBundle\Elasticsearch\Bulker">
             <argument type="service" id="ems_common.elastica.client" />
@@ -325,9 +316,6 @@
             <argument type="service" id="ems.service.mapping" />
             <argument type="service" id="ems.service.alias" />
         </service>
-        <service id="emsco.core.environment.managed_entity" class="EMS\CoreBundle\Core\Environment\EnvironmentManagedEntityService">
-            <argument type="service" id="EMS\CoreBundle\Repository\EnvironmentRepository"/>
-        </service>
         <service id="emsco.environment.publisher_factory" class="EMS\CoreBundle\Core\Environment\EnvironmentPublisherFactory">
             <argument type="service" id="twig" />
             <argument type="service" id="ems.service.search" />
@@ -338,12 +326,14 @@
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.service.elastica" />
+            <argument type="service" id="ems.service.alias" />
             <argument>%ems_core.instance_id%</argument>
             <tag name="emsco.entity.service" priority="80" />
         </service>
         <service id="EMS\CoreBundle\Service\ContentTypeService">
+            <argument type="service" id="EMS\CoreBundle\Repository\ContentTypeRepository"/>
             <argument type="service" id="doctrine" />
-            <argument type="service" id="logger" />
+            <argument type="service" id="emsco.logger" />
             <argument type="service" id="ems.service.mapping" />
             <argument type="service" id="ems_common.service.elastica" />
             <argument type="service" id="ems.service.environment" />
@@ -351,6 +341,7 @@
             <argument type="service" id="EMS\CoreBundle\Repository\RevisionRepository" />
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="translator" />
+            <argument type="service" id="router.default" />
             <argument>%ems_core.circles_object%</argument>
             <tag name="emsco.entity.service" priority="60" />
         </service>
@@ -452,11 +443,6 @@
             <argument type="service" id="ems_common.storage.processor"/>
             <argument type="service" id="ems.repository.uploaded_asset_repository"/>
         </service>
-        <service id="ems.service.helper" class="EMS\CoreBundle\Service\HelperService">
-            <argument type="service" id="doctrine"/>
-            <argument type="service" id="request_stack"/>
-            <argument>%ems_core.paging_size%</argument>
-        </service>
         <service id="ems.service.elasticsearch" class="EMS\CoreBundle\Service\ElasticsearchService">
             <argument type="service" id="ems_common.service.elastica"/>
         </service>
@@ -543,7 +529,6 @@
         <service id="EMS\CoreBundle\Service\SearchFieldOptionService" alias="ems.service.search_field_option" />
         <service id="EMS\CoreBundle\Service\WysiwygStylesSetService" alias="ems.service.wysiwyg_styles_set" />
         <service id="EMS\CoreBundle\Service\NotificationService" alias="ems.service.notification" />
-        <service id="EMS\CoreBundle\Service\HelperService" alias="ems.service.helper" />
         <service id="EMS\CoreBundle\Form\Factory\ObjectChoiceListFactory" alias="ems.form.factories.objectChoiceListFactory" />
         <service id="EMS\CoreBundle\Core\Revision\Task\TaskManager" alias="emsco.revision.task.manager" />
     </services>

@@ -5,16 +5,22 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage;
 
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\File\StorageFile;
+use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
+use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StorageManager
 {
@@ -410,7 +416,7 @@ class StorageManager
             return new LocalFile($filenameOrHash);
         }
         if (1 === \preg_match('/[0-9a-fA-F]/', $filenameOrHash)) {
-            return new StorageFile($filenameOrHash, $this->getStream($filenameOrHash));
+            return new StorageFile($this->getStream($filenameOrHash));
         }
 
         throw new \RuntimeException(\sprintf('File %s not found', $filenameOrHash));
@@ -465,5 +471,83 @@ class StorageManager
         } catch (\Throwable $e) {
             $this->logger->warning(\sprintf('It was not possible to hot synchronize the asset %s: %s', $hash, $e->getMessage()));
         }
+    }
+
+    public function clearCaches(): int
+    {
+        $count = 0;
+        foreach ($this->adapters as $adapter) {
+            $count += $adapter->clearCache() ? 1 : 0;
+        }
+
+        return $count;
+    }
+
+    public function readCache(Config $config): ?StreamInterface
+    {
+        foreach ($this->adapters as $adapter) {
+            $stream = $adapter->readCache($config);
+            if (null !== $stream) {
+                return $stream;
+            }
+        }
+
+        return null;
+    }
+
+    public function saveCache(Config $config, FileInterface $file): void
+    {
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->saveCache($config, $file)) {
+                return;
+            }
+        }
+    }
+
+    public function getStreamFromArchive(string $hash, string $path): StreamWrapper
+    {
+        foreach ($this->adapters as $adapter) {
+            $stream = $adapter->readFromArchiveInCache($hash, $path);
+            if (null !== $stream) {
+                return $stream;
+            }
+        }
+        $this->logger->debug(\sprintf('File %s from archive %s is not in cache', $path, $hash));
+
+        if (!$this->head($hash)) {
+            throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
+        }
+        $dir = TempDirectory::create();
+        $dir->loadFromArchive($this->getStream($hash));
+        $finder = new Finder();
+        $finder->in($dir->path)->files();
+        $counter = 0;
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            $mimeType = $mimeTypeHelper->guessMimeType($file->getPathname());
+            foreach ($this->adapters as $adapter) {
+                if ($adapter->addFileInArchiveCache($hash, $file, $mimeType)) {
+                    ++$counter;
+                    break;
+                }
+            }
+        }
+        if ($finder->count() === $counter) {
+            $this->logger->debug(\sprintf('%d files have been successfully saved in cache', $counter));
+        } elseif (0 === $counter) {
+            $this->logger->warning(\sprintf('None of the %d files have been successfully saved in cache', $finder->count()));
+        } else {
+            $this->logger->warning(\sprintf('%d files, on a total of %d, have been successfully saved in cache', $counter, $finder->count()));
+        }
+
+        $filename = \implode(DIRECTORY_SEPARATOR, [$dir->path, $path]);
+        if (!\file_exists($filename)) {
+            throw new NotFoundHttpException(\sprintf('File %s not found in archive %s', $path, $hash));
+        }
+        $file = File::fromFilename($filename);
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+
+        return new StreamWrapper($file->getStream(), $mimeTypeHelper->guessMimeType($filename), $file->getSize());
     }
 }

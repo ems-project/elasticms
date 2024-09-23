@@ -1,6 +1,7 @@
 import ajaxModal from "./../helper/ajaxModal";
 import ProgressBar from "../helper/progressBar";
 import FileUploader from "@elasticms/file-uploader";
+import {resizeImage} from "../helper/resizeImage";
 
 export default class MediaLibrary {
     id;
@@ -16,6 +17,8 @@ export default class MediaLibrary {
     #dragFiles = [];
     #debounceTimer = null;
     #searchValue = null;
+    #sortId = null;
+    #sortOrder = null;
 
     constructor (element, options) {
         this.id = element.id;
@@ -25,6 +28,7 @@ export default class MediaLibrary {
 
         this.#elements = {
             header:  element.querySelector('div.media-nav-bar'),
+            footer:  element.querySelector('div.media-lib-footer'),
             inputUpload:  element.querySelector('input.file-uploader-input'),
             files: element.querySelector('div.media-lib-files'),
             loadMoreFiles: element.querySelector('div.media-lib-files > div.media-lib-load-more'),
@@ -78,6 +82,10 @@ export default class MediaLibrary {
     }
 
     _addEventListeners() {
+        document.addEventListener('keydown', (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key === 'a') this._selectAllFiles(event);
+        });
+
         this.element.onkeyup = (event) => {
             if (event.shiftKey) this.#selectionLastFile = null;
             if (event.target.classList.contains('media-lib-search')) this._onSearchInput(event.target, 1000);
@@ -105,6 +113,7 @@ export default class MediaLibrary {
 
             if (classList.contains('btn-home')) this._onClickButtonHome(event.target);
             if (classList.contains('breadcrumb-item')) this._onClickBreadcrumbItem(event.target);
+            if (event.target.dataset.hasOwnProperty('sortId')) this._onClickFileSort(event.target);
 
             const keepSelection = ['media-lib-file', 'btn-file-rename', 'btn-file-delete', 'btn-files-delete', 'btn-files-move', 'btn-file-view'];
             if (!keepSelection.some(className => classList.contains(className))) {
@@ -129,7 +138,16 @@ export default class MediaLibrary {
         this.loading(true);
         const selection = this._selectFiles(item, event);
         const fileId = selection.length === 1 ? item.dataset.id : null;
-        this._getHeader(fileId).then(() => { this.loading(false); });
+        this._getLayout(fileId).then(() => { this.loading(false); });
+    }
+    _onClickFileSort(target) {
+        this.#sortId = target.dataset.sortId;
+        this.#sortOrder = 'asc';
+        if (target.dataset.hasOwnProperty('sortOrder')) {
+            this.#sortOrder = target.dataset.sortOrder === 'asc' ? 'desc' : 'asc';
+        }
+
+        this._getFiles().then(() => this.loading(false));
     }
     _onClickButtonFileView(button) {
         const getSiblingFile = (fileId, sibling) => {
@@ -192,7 +210,7 @@ export default class MediaLibrary {
             if (!json.hasOwnProperty('success') || json.success === false) return;
             if (json.hasOwnProperty('fileRow')) fileRow.closest('li').innerHTML = json.fileRow;
 
-            this._getHeader().then(() => {
+            this._getLayout().then(() => {
                 ajaxModal.close();
                 this.loading(false);
             });
@@ -242,7 +260,7 @@ export default class MediaLibrary {
                             .style('success');
                     });
                 }))
-                .then(() => this._selectFilesReset())
+                .then(() => this._getFiles())
                 .then(() => this.loading(false))
                 .then(() => new Promise(resolve => setTimeout(resolve, 2000)))
                 .then(() => ajaxModal.close())
@@ -313,7 +331,7 @@ export default class MediaLibrary {
                             });
                     });
                 }))
-                .then(() => this._selectFilesReset())
+                .then(() => this._getFiles())
                 .then(() => this.loading(false))
                 .then(() => {
                     if (Object.keys(errorList).length === 0) setTimeout(() => { ajaxModal.close() }, 2000);
@@ -424,9 +442,9 @@ export default class MediaLibrary {
         }, delay);
     }
 
-    _getHeader(fileId = null) {
-        let path = '/header';
-        let query = new URLSearchParams();
+    _getLayout(fileId = null) {
+        let path = '/layout';
+        let query = new URLSearchParams({ loaded: this.#loadedFiles.toString() });
 
         if (fileId) query.append('fileId', fileId);
         if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString());
@@ -437,6 +455,7 @@ export default class MediaLibrary {
 
         return this._get(path).then((json) => {
             if (json.hasOwnProperty('header')) this._refreshHeader(json.header);
+            if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
         });
     }
     _getFiles(from = 0) {
@@ -447,7 +466,10 @@ export default class MediaLibrary {
         }
 
         const query = new URLSearchParams({ from: from.toString() });
+        if (this.getSelectionFiles().length > 0) query.append('selectionFiles', this.getSelectionFiles().length.toString());
         if (this.#searchValue) query.append('search', this.#searchValue);
+        if (this.#sortId) query.append('sortId', this.#sortId);
+        if (this.#sortOrder) query.append('sortOrder', this.#sortOrder);
         const path = this.#activeFolderId ? `/files/${this.#activeFolderId}` : '/files';
 
         return this._get(`${path}?${query.toString()}`).then((files) => { this._appendFiles(files) });
@@ -482,7 +504,11 @@ export default class MediaLibrary {
             this._refreshHeader(json.header);
             this.#activeFolderHeader = json.header;
         }
-        if (json.hasOwnProperty('rowHeader'))  this.#elements.listFiles.innerHTML += json.rowHeader;
+        if (json.hasOwnProperty('footer')) this.#elements.footer.innerHTML = json.footer;
+        if (json.hasOwnProperty('rowHeader')) {
+            this.#elements.listFiles.innerHTML += json.rowHeader;
+            if (json.hasOwnProperty('sort')) this._displaySort(json.sort.id, json.sort.order);
+        }
         if (json.hasOwnProperty('totalRows'))  this.#loadedFiles += json.totalRows;
         if (json.hasOwnProperty('rows'))  this.#elements.listFiles.innerHTML += json.rows;
 
@@ -512,6 +538,11 @@ export default class MediaLibrary {
             searchBox.value = '';
             searchBox.value = val;
         }
+    }
+    _displaySort(sortId, sortOrder) {
+        const sortElement = this.#elements.listFiles.querySelector(`[data-sort-id="${sortId}"]`);
+        if (!sortElement) return;
+        sortElement.dataset.sortOrder = sortOrder;
     }
 
     _onDragUpload(event) {
@@ -607,7 +638,10 @@ export default class MediaLibrary {
             this.#elements.listUploads.appendChild(liUpload);
 
             this._getFileHash(file, progressBar)
-                .then((fileHash) => this._createFile(file, fileHash))
+                .then((fileHash) => {
+                    progressBar.status('Resizing');
+                    return this._resizeImage(file, fileHash)
+                })
                 .then(() => {
                     progressBar.status('Finished');
                     setTimeout(() => {
@@ -626,12 +660,24 @@ export default class MediaLibrary {
                 });
         });
     }
-    async _createFile(file, fileHash) {
+    async _resizeImage(file, fileHash) {
+        return await resizeImage(this.#options.hashAlgo, this.#options.urlInitUpload, file).then((response) => {
+            if (null === response) {
+                return this._createFile(file, fileHash)
+            } else {
+                return this._createFile(file, fileHash, response.hash)
+            }
+        }).catch(() => {
+            return this._createFile(file, fileHash)
+        })
+    }
+    async _createFile(file, fileHash, resizedHash = null) {
         const formData = new FormData();
         formData.append('name', file.name);
         formData.append('filesize', file.size);
         formData.append('fileMimetype', file.type);
         formData.append('fileHash', fileHash);
+        formData.append('fileResizedHash', resizedHash ?? '');
 
         const path = this.#activeFolderId ? `/add-file/${this.#activeFolderId}` : '/add-file';
         await this._post(path, formData, true)
@@ -689,12 +735,28 @@ export default class MediaLibrary {
         observer.observe(divLoadMore);
     }
 
-    _selectFile(item) {
-        item.classList.add('active');
-        item.draggable = true;
-        ['dragstart', 'dragend'].forEach((dragEvent) => {
-            item.addEventListener(dragEvent, (event) => this._onDragFile(event));
-        });
+    _selectFile(item, deselect = false) {
+        if (!item._dragEventHandlers) item._dragEventHandlers = {};
+
+        if (!item.classList.contains('active')) {
+            item.classList.add('active');
+            item.draggable = true;
+            ['dragstart', 'dragend'].forEach((dragEvent) => {
+                if (!item._dragEventHandlers[dragEvent]) {
+                    item._dragEventHandlers[dragEvent] = (event) => this._onDragFile(event);
+                    item.addEventListener(dragEvent, item._dragEventHandlers[dragEvent]);
+                }
+            });
+        } else if (deselect) {
+            item.classList.remove('active');
+            item.draggable = false;
+            ['dragstart', 'dragend'].forEach((dragEvent) => {
+                if (item._dragEventHandlers[dragEvent]) {
+                    item.removeEventListener(dragEvent, item._dragEventHandlers[dragEvent]);
+                    delete item._dragEventHandlers[dragEvent];
+                }
+            });
+        }
     }
     _selectFiles(item, event) {
         if (event.shiftKey && this.#selectionLastFile !== null) {
@@ -706,8 +768,8 @@ export default class MediaLibrary {
             files.forEach((f, index) => {
                 if (index >= start && index <= end) this._selectFile(f);
             });
-        } else if (event.ctrlKey) {
-            this._selectFile(item);
+        } else if (event.ctrlKey || event.metaKey) {
+            this._selectFile(item, true);
         } else {
             this._selectFilesReset(false);
             this._selectFile(item);
@@ -716,6 +778,15 @@ export default class MediaLibrary {
         this.#selectionLastFile = item;
 
         return this.getSelectionFiles();
+    }
+    _selectAllFiles(event) {
+        if (event.target !== document.body) return;
+        event.preventDefault();
+
+        this.loading(true);
+        let files = this.#elements.listFiles.querySelectorAll('.media-lib-file');
+        files.forEach((f) => this._selectFile(f));
+        this._getLayout().then(() => { this.loading(false); });
     }
     _selectFilesReset(refreshHeader = true) {
         if (true === refreshHeader) this._refreshHeader(this.#activeFolderHeader);

@@ -993,12 +993,6 @@ orientation:
     orientation: Orientation
     portrait: Portrait
     landscape: Landscape
-ems:
-    view:
-        data_link: 'Custom data link'
-        report: 'Report view'
-        hierarchical: 'Hierarchical view'
-        sorter: 'Sorter view'
 schedule:
     name: Name
     cron: Cron

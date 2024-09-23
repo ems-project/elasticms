@@ -75,6 +75,7 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('ems_core.url_user', $config['url_user']);
         $container->setParameter('ems_core.custom_user_options_form', $config['custom_user_options_form']);
         $container->setParameter('ems_core.template_namespace', $config['template_namespace']);
+        $container->setParameter('ems_core.image_max_size', $config['image_max_size']);
 
         $container->setParameter('ems_core.security.firewall.core', $config['security']['firewall']['core']);
         $container->setParameter('ems_core.security.firewall.api', $config['security']['firewall']['api']);
@@ -102,6 +103,7 @@ class EMSCoreExtension extends Extension implements PrependExtensionInterface
             'time_format' => $configs[0]['time_format'] ?? Configuration::TIME_FORMAT,
             'trigger_job_from_web' => $configs[0]['trigger_job_from_web'] ?? Configuration::TRIGGER_JOB_FROM_WEB,
             'routes' => (new \ReflectionClass(Routes::class))->getConstants(),
+            'image_max_size' => $configs[0]['image_max_size'] ?? Configuration::IMAGE_MAX_SIZE,
         ];
 
         if (!empty($configs[0]['template_options'])) {

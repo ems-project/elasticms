@@ -2,6 +2,7 @@
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
 use EMS\CoreBundle\Form\Field\AssetType;
@@ -37,6 +38,57 @@ class AssetFieldType extends DataFieldType
     public static function getIcon(): string
     {
         return 'fa fa-file-o';
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    public static function loadFromDb(array &$data): void
+    {
+        foreach ([
+                     EmsFields::CONTENT_FILE_HASH_FIELD_ => EmsFields::CONTENT_FILE_HASH_FIELD,
+                     EmsFields::CONTENT_FILE_NAME_FIELD_ => EmsFields::CONTENT_FILE_NAME_FIELD,
+                     EmsFields::CONTENT_FILE_SIZE_FIELD_ => EmsFields::CONTENT_FILE_SIZE_FIELD,
+                     EmsFields::CONTENT_MIME_TYPE_FIELD_ => EmsFields::CONTENT_MIME_TYPE_FIELD,
+                 ] as $newField => $oldField) {
+            if (!isset($data[$newField]) && isset($data[$oldField])) {
+                $data[$newField] = $data[$oldField];
+            }
+            if (!isset($data[$newField])) {
+                continue;
+            }
+            $data[$oldField] = $data[$newField];
+        }
+        foreach ($data as $id => $content) {
+            if (!\in_array($id, [EmsFields::CONTENT_FILE_HASH_FIELD_, EmsFields::CONTENT_FILE_NAME_FIELD_, EmsFields::CONTENT_FILE_SIZE_FIELD_, EmsFields::CONTENT_MIME_TYPE_FIELD_,  EmsFields::CONTENT_FILE_HASH_FIELD, EmsFields::CONTENT_FILE_NAME_FIELD, EmsFields::CONTENT_FILE_SIZE_FIELD, EmsFields::CONTENT_MIME_TYPE_FIELD,  EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD, EmsFields::CONTENT_FILE_DATE, EmsFields::CONTENT_FILE_AUTHOR, EmsFields::CONTENT_FILE_LANGUAGE, EmsFields::CONTENT_FILE_CONTENT, EmsFields::CONTENT_FILE_TITLE], true)) {
+                unset($data[$id]);
+            }
+        }
+
+        if (empty($data[EmsFields::CONTENT_FILE_HASH_FIELD_])) {
+            unset($data[EmsFields::CONTENT_FILE_HASH_FIELD_]);
+            unset($data[EmsFields::CONTENT_FILE_HASH_FIELD]);
+        }
+    }
+
+    /**
+     * @param mixed[] $data
+     */
+    public static function loadFromForm(array &$data, string $algo): void
+    {
+        $data[EmsFields::CONTENT_FILE_ALGO_FIELD_] = $data[EmsFields::CONTENT_FILE_ALGO_FIELD_] ?? $algo;
+        foreach ([
+                     EmsFields::CONTENT_FILE_HASH_FIELD_ => EmsFields::CONTENT_FILE_HASH_FIELD,
+                     EmsFields::CONTENT_FILE_NAME_FIELD_ => EmsFields::CONTENT_FILE_NAME_FIELD,
+                     EmsFields::CONTENT_FILE_SIZE_FIELD_ => EmsFields::CONTENT_FILE_SIZE_FIELD,
+                     EmsFields::CONTENT_MIME_TYPE_FIELD_ => EmsFields::CONTENT_MIME_TYPE_FIELD,
+                 ] as $newField => $oldField) {
+            if (!isset($data[$oldField])) {
+                continue;
+            }
+            $data[$newField] = $data[$oldField];
+        }
+        $data = \array_filter($data, fn ($value) => null !== $value);
     }
 
     public function getLabel(): string
@@ -99,10 +151,15 @@ class AssetFieldType extends DataFieldType
             $current->getName() => \array_merge([
                     'type' => 'nested',
                     'properties' => [
-                        'mimetype' => $this->elasticsearchService->getKeywordMapping(),
-                        'sha1' => $this->elasticsearchService->getKeywordMapping(),
-                        'filename' => $this->elasticsearchService->getIndexedStringMapping(),
-                        'filesize' => $this->elasticsearchService->getLongMapping(),
+                        EmsFields::CONTENT_MIME_TYPE_FIELD => $this->elasticsearchService->getKeywordMapping(),
+                        EmsFields::CONTENT_MIME_TYPE_FIELD_ => $this->elasticsearchService->getKeywordMapping(),
+                        EmsFields::CONTENT_FILE_HASH_FIELD => $this->elasticsearchService->getKeywordMapping(),
+                        EmsFields::CONTENT_FILE_HASH_FIELD_ => $this->elasticsearchService->getKeywordMapping(),
+                        EmsFields::CONTENT_FILE_NAME_FIELD => $this->elasticsearchService->getIndexedStringMapping(),
+                        EmsFields::CONTENT_FILE_NAME_FIELD_ => $this->elasticsearchService->getIndexedStringMapping(),
+                        EmsFields::CONTENT_FILE_SIZE_FIELD => $this->elasticsearchService->getLongMapping(),
+                        EmsFields::CONTENT_FILE_SIZE_FIELD_ => $this->elasticsearchService->getLongMapping(),
+                        EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD => $this->elasticsearchService->getKeywordMapping(),
                     ],
             ], \array_filter($current->getMappingOptions())),
         ];
@@ -113,6 +170,17 @@ class AssetFieldType extends DataFieldType
      */
     public function reverseViewTransform($data, FieldType $fieldType): DataField
     {
+        $multiple = true === $fieldType->getDisplayOption('multiple', false);
+        if (\is_array($data) && $multiple) {
+            foreach ($data as &$file) {
+                if (!\is_array($data)) {
+                    throw new \RuntimeException('Unexpected non array item');
+                }
+                self::loadFromForm($file, $this->fileService->getAlgo());
+            }
+        } elseif (\is_array($data)) {
+            self::loadFromForm($data, $this->fileService->getAlgo());
+        }
         $dataField = parent::reverseViewTransform($data, $fieldType);
         $this->testDataField($dataField);
 
@@ -158,6 +226,9 @@ class AssetFieldType extends DataFieldType
                 $fileInfo['filesize'] = $this->fileService->getSize($fileInfo['sha1']);
                 $rawData[] = $fileInfo;
             }
+            if (!empty($fileInfo[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD]) && !$this->fileService->head($fileInfo[EmsFields::CONTENT_IMAGE_RESIZED_HASH_FIELD])) {
+                $dataField->addMessage(\sprintf('Resized image of %s not found on the server try to re-upload the source image', $fileInfo['filename']));
+            }
         }
 
         if ($isMultiple) {
@@ -193,8 +264,28 @@ class AssetFieldType extends DataFieldType
     public function modelTransform($data, FieldType $fieldType): DataField
     {
         $out = parent::reverseViewTransform($data, $fieldType);
-        if (true === $fieldType->getDisplayOption('multiple')) {
-            $out->setRawData(['files' => $out->getRawData()]);
+        $data = $out->getRawData();
+        if (!\is_array($data)) {
+            $data = [];
+        }
+        $multiple = true === $fieldType->getDisplayOption('multiple');
+        if ($multiple && (isset($data[EmsFields::CONTENT_FILE_HASH_FIELD]) || isset($data[EmsFields::CONTENT_FILE_HASH_FIELD_]))) {
+            $data = [$data];
+        }
+        if (!$multiple && (isset($data[0][EmsFields::CONTENT_FILE_HASH_FIELD]) || isset($data[0][EmsFields::CONTENT_FILE_HASH_FIELD_]))) {
+            if (\count($data) > 1) {
+                $out->addMessage(\sprintf('An array of %d files has been converted into a single file field (with the first file)', \count($data)));
+            }
+            $data = $data[0];
+        }
+        if ($multiple) {
+            foreach ($data as &$file) {
+                self::loadFromDb($file);
+            }
+            $out->setRawData(['files' => $data]);
+        } else {
+            self::loadFromDb($data);
+            $out->setRawData($data);
         }
 
         return $out;

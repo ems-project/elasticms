@@ -6,6 +6,8 @@ namespace EMS\CommonBundle\Storage\Processor;
 
 use EMS\CommonBundle\Helper\Cache;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\File\LocalFile;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
@@ -28,7 +30,6 @@ class Processor
         private readonly StorageManager $storageManager,
         private readonly LoggerInterface $logger,
         private readonly Cache $cacheHelper,
-        private readonly string $projectDir,
         private readonly FileLocator $fileLocator,
     ) {
     }
@@ -39,7 +40,7 @@ class Processor
      */
     public function resolveAndGetResponse(Request $request, array $fileField, array $configArray = [], bool $immutableRoute = false): Response
     {
-        $hash = Config::extractHash($fileField);
+        $hash = Config::extractHash($fileField, EmsFields::CONTENT_FILE_HASH_FIELD, \strval($configArray[EmsFields::ASSET_CONFIG_TYPE] ?? 'none'));
         $filename = Config::extractFilename($fileField, $configArray);
         $mimetype = Config::extractMimetype($fileField, $configArray, $filename);
         $mimeType = $this->overwriteMimeType($mimetype, $configArray);
@@ -80,9 +81,12 @@ class Processor
             return $cacheResponse;
         }
 
-        $stream = $this->getStream($config, $filename);
-
-        $response = $this->getResponseFromStreamInterface($stream, $request);
+        try {
+            $stream = $this->getStream($config, $filename);
+            $response = $this->getResponseFromStreamInterface($stream, $request);
+        } catch (NotFoundException) {
+            return new Response(null, Response::HTTP_NOT_FOUND);
+        }
 
         $response->headers->add([
             Headers::CONTENT_DISPOSITION => $config->getDisposition().'; '.HeaderUtils::toString(['filename' => $filename], ';'),
@@ -110,7 +114,7 @@ class Processor
         return new Config($this->storageManager, $hash, $configHash, $configArray);
     }
 
-    private function generateStream(Config $config, string $cacheFilename): StreamInterface
+    private function generateStream(Config $config): StreamInterface
     {
         $file = null;
         if (!$config->isCacheableResult()) {
@@ -119,10 +123,12 @@ class Processor
             $file = $config->getFilename();
         }
         if ('image' === $config->getConfigType()) {
-            $resource = \fopen($this->generateImage($config, $file, $cacheFilename), 'r');
+            $file = $this->generateImage($config, $file);
+            $resource = \fopen($file->getFilename(), 'r');
             if (false === $resource) {
                 throw new \Exception('It was not able to open the generated image');
             }
+            $this->storageManager->saveCache($config, $file);
 
             return new Stream($resource);
         }
@@ -139,30 +145,22 @@ class Processor
         throw new \Exception(\sprintf('not able to generate file for the config %s', $config->getConfigHash()));
     }
 
-    private function hashToFilename(string $hash): string
-    {
-        $filename = (string) \tempnam(\sys_get_temp_dir(), 'EMS');
-        \file_put_contents($filename, $this->storageManager->getContents($hash));
-
-        return $filename;
-    }
-
-    private function generateImage(Config $config, string $filename = null, string $cacheFilename = null): string
+    private function generateImage(Config $config, string $filename = null): FileInterface
     {
         $image = new Image($config, $this->logger);
 
         $watermark = $config->getWatermark();
         if (null !== $watermark && $this->storageManager->head($watermark)) {
-            $image->setWatermark($this->hashToFilename($watermark));
+            $image->setWatermark($this->storageManager->getFile($watermark)->getFilename());
         }
 
         try {
             if ($filename) {
-                $file = $filename;
+                $file = new LocalFile($filename);
             } else {
-                $file = $this->hashToFilename($config->getAssetHash());
+                $file = $this->storageManager->getFile($config->getAssetHash());
             }
-            $generatedImage = $config->isSvg() ? $file : $image->generate($file, $cacheFilename);
+            $generatedImage = $config->isSvg() ? $file : $image->generate($file->getFilename());
         } catch (\InvalidArgumentException) {
             $generatedImage = $image->generate($this->storageManager->getPublicImage('big-logo.png'));
         }
@@ -200,32 +198,20 @@ class Processor
         }
     }
 
-    private function getCacheFilename(Config $config, string $filename): string
-    {
-        return \join(DIRECTORY_SEPARATOR, [
-            $this->projectDir,
-            'public',
-            'bundles',
-            'emscache',
-            $config->getCacheKey(),
-        ]);
-    }
-
     public function getStream(Config $config, string $filename, bool $noCache = false): StreamInterface
     {
         if (null === $config->getCacheContext() && 'processor' !== $config->getAssetHash()) {
             return $this->getStreamFromAsset($config);
         }
 
-        $cacheFilename = $this->getCacheFilename($config, $filename);
-        if (!$noCache && \file_exists($cacheFilename)) {
-            $fp = \fopen($cacheFilename, 'r');
-            if (false !== $fp) {
-                return new Stream($fp);
-            }
+        if (!$noCache) {
+            $cache = $this->storageManager->readCache($config);
+        }
+        if (isset($cache)) {
+            return $cache;
         }
 
-        return $this->generateStream($config, $cacheFilename);
+        return $this->generateStream($config);
     }
 
     private function getResponseFromStreamInterface(StreamInterface $stream, Request $request): StreamedResponse
@@ -315,18 +301,59 @@ class Processor
     /**
      * @param mixed[] $config
      */
-    public function generateLocalImage(string $filename, array $config, bool $noCache = false): string
+    public function generateLocalImage(string $filename, array $config, bool $noCache = false): StreamInterface
+    {
+        $path = $this->locate($filename);
+        $config = $this->localFileConfig($filename, $config);
+        $stream = $this->storageManager->readCache($config);
+        if (null !== $stream) {
+            return $stream;
+        }
+
+        $file = $this->generateImage($config, $path);
+        $resource = \fopen($file->getFilename(), 'r');
+        if (false === $resource) {
+            throw new \RuntimeException('It was not able to open the generated image');
+        }
+
+        return new Stream($resource);
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    public function localFileConfig(string $filename, array $config): Config
+    {
+        $path = $this->locate($filename);
+
+        return Config::forFile($this->storageManager, $path, $config);
+    }
+
+    private function locate(string $filename): string
     {
         $path = $this->fileLocator->locate($filename);
         if (!\is_string($path)) {
             throw new \RuntimeException(\sprintf('Unexpected multiple location to the file %s', $filename));
         }
-        $config = Config::forFile($this->storageManager, $path, $config);
-        $cacheFilename = $this->getCacheFilename($config, $filename);
-        if (!$noCache && \file_exists($cacheFilename)) {
-            return $cacheFilename;
-        }
 
-        return $this->generateImage($config, $path, $cacheFilename);
+        return $path;
+    }
+
+    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge): Response
+    {
+        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path);
+        $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
+        $response->headers->add([
+            Headers::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_INLINE.'; '.HeaderUtils::toString(['filename' => \basename($path)], ';'),
+            Headers::CONTENT_TYPE => $streamWrapper->getMimetype(),
+        ]);
+        $response->setCache([
+            'etag' => \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path)),
+            'max_age' => $maxAge,
+            'public' => true,
+            'private' => false,
+        ]);
+
+        return $response;
     }
 }

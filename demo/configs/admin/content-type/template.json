@@ -161,20 +161,18 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
         "refererFieldName": null,
         "sortOrder": null,
-        "orderKey": 13,
+        "orderKey": 14,
         "rootContentType": false,
         "editTwigWithWysiwyg": true,
         "webContent": false,
         "autoPublish": true,
+        "environment": "preview",
         "templates": [],
         "views": [
             {
@@ -194,7 +192,8 @@
                     },
                     "orderKey": 3,
                     "public": false,
-                    "role": "ROLE_PUBLISHER"
+                    "role": "ROLE_PUBLISHER",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }

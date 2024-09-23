@@ -591,10 +591,7 @@
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
@@ -605,6 +602,7 @@
         "editTwigWithWysiwyg": true,
         "webContent": true,
         "autoPublish": false,
+        "environment": "preview",
         "templates": [],
         "views": [
             {
@@ -614,7 +612,7 @@
                     "name": "overview",
                     "type": "ems.view.report",
                     "label": "Overview",
-                    "icon": "fa fa-list",
+                    "icon": "fa fa-list-ul",
                     "options": {
                         "body": "{}",
                         "size": 0,
@@ -624,7 +622,8 @@
                     },
                     "orderKey": 1,
                     "public": false,
-                    "role": "ROLE_USER"
+                    "role": "ROLE_USER",
+                    "definition": "default_overview"
                 },
                 "replaced": []
             }

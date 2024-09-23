@@ -85,15 +85,10 @@ security:
         - { path: ^/api, roles: ROLE_API }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/i18n-type, roles: ROLE_ADMIN }
-        - { path: ^/action, roles: ROLE_ADMIN }
-        - { path: ^/wysiwyg-profile, roles: ROLE_ADMIN }
-        - { path: ^/content-type, roles: ROLE_ADMIN }
-        - { path: ^/environment, roles: ROLE_ADMIN }
         - { path: ^/channel-admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER_MANAGEMENT }
         - { path: ^/elasticsearch/delete-search, roles: ROLE_USER }
         - { path: ^/elasticsearch, roles: ROLE_ADMIN }
-        - { path: ^/publisher/align, roles: ROLE_PUBLISHER }
+        - { path: ^/publisher, roles: ROLE_PUBLISHER }
         - { path: ^/submissions, roles: ROLE_FORM_CRM }
         - { path: ^/, roles: ROLE_USER }

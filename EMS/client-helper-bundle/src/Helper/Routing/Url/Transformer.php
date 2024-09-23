@@ -9,6 +9,7 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\Helpers\Html\MimeTypes;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
@@ -78,8 +79,8 @@ final class Transformer
 
             $generation = $this->generate($cleanMatch, $config);
             $route = ($generation ?? $match[0]);
-            $srcAttribute = $match['src'] ?? false;
-            if ('asset' === ($match['link_type'] ?? null) && ($config['asset_file_path'] ?? false) && isset($match['src'])) {
+            $srcAttribute = '' !== $match['src'];
+            if ('asset' === $match['link_type'] && ($config['asset_file_path'] ?? false) && $srcAttribute) {
                 $baseUrl = '';
             } else {
                 $baseUrl = $config['baseUrl'] ?? '';
@@ -110,7 +111,7 @@ final class Transformer
         return $this->assetRuntime->assetPath([
             EmsFields::CONTENT_FILE_HASH_FIELD => $emsLink->getOuuid(),
             EmsFields::CONTENT_FILE_NAME_FIELD => $emsLink->getQuery()['name'] ?? 'asset',
-            EmsFields::CONTENT_MIME_TYPE_FIELD => $emsLink->getQuery()['type'] ?? 'application/octet-stream',
+            EmsFields::CONTENT_MIME_TYPE_FIELD => $emsLink->getQuery()['type'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value,
         ], $assetConfig);
     }
 

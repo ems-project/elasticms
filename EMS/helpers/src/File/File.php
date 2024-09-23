@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\File;
 
+use EMS\Helpers\Html\MimeTypes as MimeTypeHeader;
 use EMS\Helpers\Standard\Type;
+use GuzzleHttp\Psr7\Stream;
+use Psr\Http\Message\StreamInterface;
 use Symfony\Component\Mime\MimeTypes;
 
 class File
@@ -21,7 +24,7 @@ class File
         $this->name = $this->file->getFilename();
         $this->extension = $this->file->getExtension();
         $this->size = Type::integer($this->file->getSize());
-        $this->mimeType = MimeTypes::getDefault()->guessMimeType($file->getPathname()) ?? 'application/octet-stream';
+        $this->mimeType = MimeTypes::getDefault()->guessMimeType($file->getPathname()) ?? MimeTypeHeader::APPLICATION_OCTET_STREAM->value;
     }
 
     public static function fromFilename(string $filename): self
@@ -43,11 +46,7 @@ class File
      */
     public function chunk(int $fromByte, int $chunkSize = self::DEFAULT_CHUNK_SIZE): iterable
     {
-        $realPath = $this->file->getRealPath();
-
-        if (false === $handle = \fopen($realPath, 'r')) {
-            throw new \RuntimeException(\sprintf('Unexpected error while opening file %s', $realPath));
-        }
+        $handle = $this->getHandler();
 
         if ($fromByte > 0) {
             if (0 !== \fseek($handle, $fromByte)) {
@@ -66,5 +65,31 @@ class File
             yield $chunk;
         }
         \fclose($handle);
+    }
+
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+
+    public function getStream(): StreamInterface
+    {
+        $handle = $this->getHandler();
+
+        return new Stream($handle);
+    }
+
+    /**
+     * @return resource
+     */
+    private function getHandler()
+    {
+        $realPath = $this->file->getRealPath();
+
+        if (false === $handle = \fopen($realPath, 'r')) {
+            throw new \RuntimeException(\sprintf('Unexpected error while opening file %s', $realPath));
+        }
+
+        return $handle;
     }
 }

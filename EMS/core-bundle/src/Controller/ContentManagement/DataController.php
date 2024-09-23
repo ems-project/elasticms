@@ -4,6 +4,7 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 
 use Doctrine\ORM\NoResultException;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\ContentType\ViewTypes;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
@@ -222,7 +223,7 @@ class DataController extends AbstractController
     public function publicKey(): Response
     {
         $response = new Response();
-        $response->headers->set('Content-Type', 'text/plain');
+        $response->headers->set('Content-Type', MimeTypeHelper::TEXT_PLAIN);
         $response->setContent($this->dataService->getPublicKey());
 
         return $response;
@@ -303,6 +304,11 @@ class DataController extends AbstractController
 
     public function newDraftAction(Request $request, string $type, string $ouuid): RedirectResponse
     {
+        $contentType = $this->contentTypeService->giveByName($type);
+        if (!$this->isGranted($contentType->role(ContentTypeRoles::EDIT))) {
+            throw $this->createAccessDeniedException('Edit role not granted!');
+        }
+
         return $this->redirectToRoute(Routes::EDIT_REVISION, [
             'revisionId' => $this->dataService->initNewDraft($type, $ouuid)->getId(),
             'item' => $request->get('item'),
@@ -343,9 +349,7 @@ class DataController extends AbstractController
 
         $this->dataService->delete($type, $ouuid);
 
-        return $this->redirectToRoute('data.root', [
-            'name' => $type,
-        ]);
+        return $this->contentTypeService->redirectOverview($contentType);
     }
 
     public function discardDraft(Revision $revision): ?int
@@ -696,9 +700,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_OPERATION_FIELD => EmsFields::LOG_OPERATION_CREATE,
             ]);
 
-            return $this->redirectToRoute('data.root', [
-                'name' => $contentType->getName(),
-            ]);
+            return $this->contentTypeService->redirectOverview($contentType);
         }
 
         return $this->intNewDocumentFromArray($contentType, $jsonContent);
@@ -725,9 +727,7 @@ class DataController extends AbstractController
                 EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
             ]);
 
-            return $this->redirectToRoute('data.root', [
-                'name' => $contentType->getName(),
-            ]);
+            return $this->contentTypeService->redirectOverview($contentType);
         }
     }
 

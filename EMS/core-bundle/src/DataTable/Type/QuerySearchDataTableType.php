@@ -6,12 +6,15 @@ namespace EMS\CoreBundle\DataTable\Type;
 
 use EMS\CoreBundle\Core\DataTable\Type\AbstractEntityTableType;
 use EMS\CoreBundle\Form\Data\EntityTable;
-use EMS\CoreBundle\Form\Data\TableAbstract;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Service\QuerySearchService;
 
+use function Symfony\Component\Translation\t;
+
 class QuerySearchDataTableType extends AbstractEntityTableType
 {
+    use DataTableTypeTrait;
+
     public function __construct(QuerySearchService $entityService)
     {
         parent::__construct($entityService);
@@ -19,12 +22,17 @@ class QuerySearchDataTableType extends AbstractEntityTableType
 
     public function build(EntityTable $table): void
     {
-        $table->addColumn('query_search.index.column.label', 'label');
-        $table->addColumn('query_search.index.column.name', 'name');
-        $table->addItemGetAction('ems_core_query_search_edit', 'query_search.actions.edit', 'pencil');
-        $table->addItemPostAction('ems_core_query_search_delete', 'query_search.actions.delete', 'trash', 'query_search.actions.delete_confirm');
-        $table->addTableAction(TableAbstract::DELETE_ACTION, 'fa fa-trash', 'query_search.actions.delete_selected', 'query_search.actions.delete_selected_confirm');
-        $table->setDefaultOrder('label');
+        $table->setDefaultOrder('label')->setLabelAttribute('label');
+
+        $table->addColumn(t('field.label', [], 'emsco-core'), 'label');
+        $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
+
+        $this
+            ->addColumnsCreatedModifiedDate($table)
+            ->addItemEdit($table, 'ems_core_query_search_edit')
+            ->addItemDelete($table, 'query_search', 'ems_core_query_search_delete')
+            ->addTableToolbarActionAdd($table, 'ems_core_query_search_add')
+            ->addTableActionDelete($table, 'query_search');
     }
 
     public function getRoles(): array

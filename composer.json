@@ -94,7 +94,7 @@
     "symfony/serializer": "^5.4",
     "symfony/stopwatch": "^5.4",
     "symfony/string": "^5.4",
-    "symfony/translation": "^5.4",
+    "symfony/translation": "^6.4",
     "symfony/twig-bridge": "^5.4",
     "symfony/twig-bundle": "^5.4",
     "symfony/ux-twig-component": "^2.6",
@@ -103,6 +103,7 @@
     "symfony/var-exporter": "^5.4",
     "symfony/web-link": "^5.4",
     "symfony/yaml": "^5.4",
+    "thenetworg/oauth2-azure": "^2.2",
     "twig/cache-extra": "^3.4",
     "twig/cssinliner-extra": "^3.4",
     "twig/extra-bundle": "^3.4",
@@ -202,7 +203,7 @@
     "phpcs": "php-cs-fixer fix",
     "phpstan": "phpstan analyse --memory-limit 1G",
     "phpunit": "phpunit",
-    "phpall": "php-cs-fixer fix && phpunit && phpstan analyse --memory-limit 1G"
+    "phpall": ["@phpunit", "@phpstan", "@phpcs"]
   },
   "extra": {
     "symfony": {

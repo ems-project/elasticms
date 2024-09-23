@@ -9,6 +9,7 @@ use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Elasticsearch\Document\Document;
 use EMS\CommonBundle\Elasticsearch\Document\DocumentInterface;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Common\DocumentInfo;
 use EMS\CoreBundle\Contracts\Revision\RevisionServiceInterface;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
@@ -29,6 +30,9 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function Symfony\Component\Translation\t;
 
 class RevisionService implements RevisionServiceInterface
 {
@@ -41,7 +45,9 @@ class RevisionService implements RevisionServiceInterface
         private readonly PublishService $publishService,
         private readonly ContentTypeService $contentTypeService,
         private readonly UserManager $userManager,
-        private readonly ExpressionServiceInterface $expressionService
+        private readonly ExpressionServiceInterface $expressionService,
+        private readonly ElasticaService $elasticaService,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -55,6 +61,7 @@ class RevisionService implements RevisionServiceInterface
 
         if ($flush) {
             $this->revisionRepository->save($revision);
+            $this->elasticaService->refresh($revision->giveContentType()->giveEnvironment()->getAlias());
         }
 
         return true;
@@ -161,6 +168,11 @@ class RevisionService implements RevisionServiceInterface
         }
 
         return match (true) {
+            ($object instanceof Revision && null === $object->getOuuid() && $object->getEnvironments()->isEmpty()) => t(
+                message: 'revision.new',
+                parameters: ['contentType' => $contentType->getSingularName()],
+                domain: 'emsco-core'
+            )->trans($this->translator),
             ($object instanceof Revision) => $object->giveOuuid(),
             ($object instanceof Document) => $object->getId()
         };
@@ -196,7 +208,10 @@ class RevisionService implements RevisionServiceInterface
      */
     public function findAllDraftsByContentTypeName(string $contentTypeName): iterable
     {
-        return $this->revisionRepository->findAllDraftsByContentTypeName($contentTypeName);
+        return yield from $this->revisionRepository
+            ->makeQueryBuilder(contentTypeName: $contentTypeName, isDraft: true)
+            ->getQuery()
+            ->toIterable();
     }
 
     public function give(string $ouuid, ?string $contentType = null, ?\DateTimeInterface $dateTime = null): Revision

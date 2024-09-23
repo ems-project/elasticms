@@ -15,6 +15,7 @@ use EMS\ClientHelperBundle\Helper\Local\Status\Status;
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
+use EMS\Helpers\File\TempFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -179,20 +180,17 @@ final class LocalHelper
         $this->logger = $logger;
     }
 
-    public function makeAssetsArchives(string $baseUrl): string
+    public function makeAssetsArchives(string $baseUrl): TempFile
     {
         $directory = \implode(DIRECTORY_SEPARATOR, [$this->projectDir, 'public', $baseUrl]);
         if (!\is_dir($directory)) {
             throw new \RuntimeException(\sprintf('Directory not found %s', $baseUrl));
         }
 
-        $zipFile = \tempnam(\sys_get_temp_dir(), 'zip');
-        if (!\is_string($zipFile)) {
-            throw new \RuntimeException('Error while generating a temporary zip file');
-        }
+        $tempFile = TempFile::create();
 
         $zip = new \ZipArchive();
-        $zip->open($zipFile, \ZipArchive::OVERWRITE);
+        $zip->open($tempFile->path, \ZipArchive::OVERWRITE);
 
         $finder = new Finder();
         $finder->files()->in($directory);
@@ -213,6 +211,6 @@ final class LocalHelper
         $zip->addPattern('/.*/', $directory);
         $zip->close();
 
-        return $zipFile;
+        return $tempFile;
     }
 }

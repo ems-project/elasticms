@@ -57,3 +57,7 @@
     {% endif %}
 {% endblock show %}
 
+{% block asset_download_link %}
+    {{ "/channel/#{environment.name}/_emsch/go-to/nl/#{contentType.name}/#{object._id}" }}
+{% endblock asset_download_link %}
+

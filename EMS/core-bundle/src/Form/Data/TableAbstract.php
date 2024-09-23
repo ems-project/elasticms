@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Data;
 
-use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Helper\DataTableRequest;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Translation\TranslatableMessage;
 
 abstract class TableAbstract implements TableInterface
 {
@@ -32,6 +32,10 @@ abstract class TableAbstract implements TableInterface
     private TableItemActionCollection $itemActionCollection;
     /** @var TableAction[] */
     private array $tableActions = [];
+    /** @var TableAction[] */
+    private array $toolbarActions = [];
+    /** @var TableAction[] */
+    private array $massActions = [];
     private ?string $orderField = null;
     private string $orderDirection = 'asc';
     private string $searchValue = '';
@@ -47,7 +51,6 @@ abstract class TableAbstract implements TableInterface
     private string $exportDisposition = 'attachment';
     private string $labelAttribute = 'name';
     private string $rowActionsClass = '';
-    private string $translationDomain = EMSCoreBundle::TRANS_DOMAIN;
 
     public function __construct(private readonly ?string $ajaxUrl, private int $from, private int $size)
     {
@@ -84,9 +87,11 @@ abstract class TableAbstract implements TableInterface
         return $this->labelAttribute;
     }
 
-    public function setLabelAttribute(string $labelAttribute): void
+    public function setLabelAttribute(string $labelAttribute): self
     {
         $this->labelAttribute = $labelAttribute;
+
+        return $this;
     }
 
     /**
@@ -121,18 +126,26 @@ abstract class TableAbstract implements TableInterface
         $this->reordered = $reordered;
     }
 
-    public function addColumn(string $titleKey, string $attribute): TableColumn
+    public function getColumnByName(string $name): ?TableColumn
+    {
+        return $this->columns[$name] ?? null;
+    }
+
+    public function addColumn(string|TranslatableMessage $titleKey, string $attribute, ?string $name = null): TableColumn
     {
         $column = new TableColumn($titleKey, $attribute);
-        $column->setTranslationDomain($this->translationDomain);
-        $this->columns[] = $column;
+
+        if ($name) {
+            $this->columns[$name] = $column;
+        } else {
+            $this->columns[] = $column;
+        }
 
         return $column;
     }
 
     public function addColumnDefinition(TableColumn $column): TableColumn
     {
-        $column->setTranslationDomain($this->translationDomain);
         $this->columns[] = $column;
 
         return $column;
@@ -146,7 +159,7 @@ abstract class TableAbstract implements TableInterface
         return $this->columns;
     }
 
-    public function addItemActionCollection(?string $labelKey = null, ?string $icon = null): TableItemActionCollection
+    public function addItemActionCollection(null|string|TranslatableMessage $labelKey = null, ?string $icon = null): TableItemActionCollection
     {
         $itemActionCollection = new TableItemActionCollection($labelKey, $icon);
         $this->itemActionCollection->addItemActionCollection($itemActionCollection);
@@ -157,7 +170,7 @@ abstract class TableAbstract implements TableInterface
     /**
      * @param array<mixed> $routeParameters
      */
-    public function addItemGetAction(string $route, string $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public function addItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
     {
         return $this->itemActionCollection->addItemGetAction($route, $labelKey, $icon, $routeParameters);
     }
@@ -165,15 +178,15 @@ abstract class TableAbstract implements TableInterface
     /**
      * @param array<string, mixed> $routeParameters
      */
-    public function addItemPostAction(string $route, string $labelKey, string $icon, string $messageKey, array $routeParameters = []): TableItemAction
+    public function addItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, string|TranslatableMessage $messageKey, array $routeParameters = []): TableItemAction
     {
         return $this->itemActionCollection->addItemPostAction($route, $labelKey, $icon, $messageKey, $routeParameters);
     }
 
     /**
-     * @param array<string, string> $routeParameters
+     * @param array<string, string|int> $routeParameters
      */
-    public function addDynamicItemPostAction(string $route, string $labelKey, string $icon, string $messageKey, array $routeParameters = []): TableItemAction
+    public function addDynamicItemPostAction(string $route, string|TranslatableMessage $labelKey, string $icon, null|string|TranslatableMessage $messageKey = null, array $routeParameters = []): TableItemAction
     {
         return $this->itemActionCollection->addDynamicItemPostAction($route, $labelKey, $icon, $messageKey, $routeParameters);
     }
@@ -181,7 +194,7 @@ abstract class TableAbstract implements TableInterface
     /**
      * @param array<string, string> $routeParameters
      */
-    public function addDynamicItemGetAction(string $route, string $labelKey, string $icon, array $routeParameters = []): TableItemAction
+    public function addDynamicItemGetAction(string $route, string|TranslatableMessage $labelKey, string $icon, array $routeParameters = []): TableItemAction
     {
         return $this->itemActionCollection->addDynamicItemGetAction($route, $labelKey, $icon, $routeParameters);
     }
@@ -191,12 +204,41 @@ abstract class TableAbstract implements TableInterface
         return $this->itemActionCollection;
     }
 
-    public function addTableAction(string $name, string $icon, string $labelKey, ?string $confirmationKey = null): TableAction
+    public function addTableAction(string $name, string $icon, string|TranslatableMessage $labelKey, null|string|TranslatableMessage $confirmationKey = null): TableAction
     {
-        $action = new TableAction($name, $icon, $labelKey, $confirmationKey);
+        $action = TableAction::create($name, $icon, $labelKey, $confirmationKey);
         $this->tableActions[] = $action;
 
         return $action;
+    }
+
+    /**
+     * @param array<string, string> $routeParams
+     */
+    public function addToolbarAction(TranslatableMessage $label, string $icon, string $routeName, array $routeParams = []): TableAction
+    {
+        $toolbarAction = TableAction::create($label->getMessage(), $icon, $label);
+        $toolbarAction->setRoute($routeName, $routeParams);
+        $toolbarAction->setCssClass('btn btn-sm btn-primary');
+
+        $this->toolbarActions[] = $toolbarAction;
+
+        return $toolbarAction;
+    }
+
+    public function addMassAction(string $name, TranslatableMessage|string $label, string $icon, null|string|TranslatableMessage $confirmationKey = null): TableAction
+    {
+        $massAction = TableAction::create($name, $icon, $label, $confirmationKey);
+        $massAction->setCssClass('btn btn-sm btn-outline-danger');
+
+        $this->massActions[] = $massAction;
+
+        return $massAction;
+    }
+
+    public function getTableMassActions(): iterable
+    {
+        return $this->massActions;
     }
 
     /**
@@ -207,10 +249,20 @@ abstract class TableAbstract implements TableInterface
         return $this->tableActions;
     }
 
-    public function setDefaultOrder(string $orderField, string $direction = 'asc'): void
+    /**
+     * @return TableAction[]
+     */
+    public function getToolbarActions(): array
+    {
+        return $this->toolbarActions;
+    }
+
+    public function setDefaultOrder(string $orderField, string $direction = 'asc'): self
     {
         $this->orderField = $orderField;
         $this->orderDirection = $direction;
+
+        return $this;
     }
 
     /**
@@ -267,6 +319,17 @@ abstract class TableAbstract implements TableInterface
         foreach ($this->getColumns() as $column) {
             $columnOptions[] = \array_merge($column->getFrontendOptions(), ['targets' => $columnTarget++]);
         }
+
+        if ($this->itemActionCollection->count() > 0) {
+            $columnOptions[] = [
+                'cellType' => 'td',
+                'className' => '',
+                'targets' => $columnTarget,
+                'orderable' => false,
+                'searchable' => false,
+            ];
+        }
+
         $options['columnDefs'] = $columnOptions;
 
         $options = \array_merge($options, $this->extraFrontendOption);
@@ -385,20 +448,10 @@ abstract class TableAbstract implements TableInterface
         return $this->rowActionsClass;
     }
 
-    public function setRowActionsClass(string $rowActionsClass): void
+    public function setRowActionsClass(string $rowActionsClass): self
     {
         $this->rowActionsClass = $rowActionsClass;
-    }
-
-    public function setTranslationDomain(string $translationDomain): self
-    {
-        $this->translationDomain = $translationDomain;
 
         return $this;
-    }
-
-    public function getTranslationDomain(): string
-    {
-        return $this->translationDomain;
     }
 }

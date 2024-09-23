@@ -7,16 +7,18 @@ use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Service\AssetExtractorService;
 use EMS\CoreBundle\Service\FileService;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Html\Headers;
+use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -39,16 +41,6 @@ class FileController extends AbstractController
     public function downloadFileAction(string $sha1, Request $request): Response
     {
         return $this->fileService->getStreamResponse($sha1, ResponseHeaderBag::DISPOSITION_ATTACHMENT, $request);
-    }
-
-    public function softDeleteFileAction(Request $request, string $id): Response
-    {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException($request->getPathInfo());
-        }
-        $this->fileService->removeSingleFileEntity([$id]);
-
-        return $this->redirectToRoute('ems_core_uploaded_file_logs');
     }
 
     public function extractFileContentForced(Request $request, string $sha1): Response
@@ -181,33 +173,48 @@ class FileController extends AbstractController
         $this->closeSession($request);
 
         if ($width > 128) {
-            $image = $this->fileService->generateImage('@EMSCommonBundle/Resources/public/images/ems-logo.png', [
+            $config = [
                 EmsFields::ASSET_CONFIG_WIDTH => $width,
                 EmsFields::ASSET_CONFIG_HEIGHT => $height,
                 EmsFields::ASSET_CONFIG_QUALITY => 0,
                 EmsFields::ASSET_CONFIG_BACKGROUND => $background ?? "ems-$this->themeColor",
                 EmsFields::ASSET_CONFIG_RADIUS => $width / 6,
                 EmsFields::ASSET_CONFIG_BORDER_COLOR => '#000000FF',
-            ]);
+            ];
         } else {
-            $image = $this->fileService->generateImage('@EMSCommonBundle/Resources/public/images/ems-logo.png', [
+            $config = [
                 EmsFields::ASSET_CONFIG_WIDTH => $width,
                 EmsFields::ASSET_CONFIG_HEIGHT => $height,
                 EmsFields::ASSET_CONFIG_QUALITY => 0,
                 EmsFields::ASSET_CONFIG_COLOR => "ems-$this->themeColor",
-            ]);
+            ];
         }
+        $image = $this->fileService->generateImage('@EMSCommonBundle/Resources/public/images/ems-logo.png', $config);
 
-        $response = new BinaryFileResponse($image);
+        $response = new StreamedResponse(function () use ($image) {
+            if ($image->isSeekable() && $image->tell() > 0) {
+                $image->rewind();
+            }
+
+            while (!$image->eof()) {
+                echo $image->read(File::DEFAULT_CHUNK_SIZE);
+            }
+            $image->close();
+        });
+        $configObject = $this->fileService->localFileConfig('@EMSCommonBundle/Resources/public/images/ems-logo.png', $config);
+        $response->headers->add([
+            Headers::CONTENT_DISPOSITION => $configObject->getDisposition().'; '.HeaderUtils::toString(['filename' => 'ems-logo.png'], ';'),
+            Headers::CONTENT_TYPE => $configObject->getMimeType(),
+        ]);
         $response->setCache([
-            'etag' => \hash_file('sha1', $image),
+            'etag' => \hash('sha1', \sprintf('Icon Config: %s', Json::encode($config))),
             'max_age' => 3600,
             's_maxage' => 36000,
             'public' => true,
             'private' => false,
         ]);
 
-        return new BinaryFileResponse($image);
+        return $response;
     }
 
     public function uploadFileAction(Request $request): Response

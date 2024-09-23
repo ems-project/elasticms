@@ -24,7 +24,6 @@ use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Event\RevisionFinalizeDraftEvent;
 use EMS\CoreBundle\Event\RevisionNewDraftEvent;
 use EMS\CoreBundle\Event\UpdateRevisionReferersEvent;
-use EMS\CoreBundle\Exception\CantBeFinalizedException;
 use EMS\CoreBundle\Exception\DataStateException;
 use EMS\CoreBundle\Exception\DuplicateOuuidException;
 use EMS\CoreBundle\Exception\HasNotCircleException;
@@ -50,7 +49,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -181,7 +179,7 @@ class DataService
 
         $revision->setLockBy($lockerUsername);
 
-        $lockTime ??= $username ? new \DateTime('+30 seconds') : new \DateTime($this->lockTime);
+        $lockTime ??= new \DateTime($this->lockTime);
         $revision->setLockUntil($lockTime);
 
         $em->flush();
@@ -406,7 +404,7 @@ class DataService
 
     public static function isInternalField(string $fieldName): bool
     {
-        return \in_array($fieldName, ['_ems_internal_deleted', 'remove_collection_item']);
+        return '_ems_internal_deleted' === $fieldName;
     }
 
     public function generateInputValues(DataField $dataField): void
@@ -431,10 +429,10 @@ class DataService
      *
      * @throws \Exception
      */
-    public function createData(?string $ouuid, array $rawdata, ContentType $contentType, bool $byARealUser = true): Revision
+    public function createData(?string $ouuid, array $rawdata, ContentType $contentType): Revision
     {
         $now = new \DateTime();
-        $until = $now->add(new \DateInterval($byARealUser ? 'PT5M' : 'PT1M')); // +5 minutes
+        $until = new \DateTime($this->lockTime);
         $newRevision = new Revision();
         $newRevision->setContentType($contentType);
         if (null !== $ouuid) {
@@ -444,36 +442,13 @@ class DataService
         $newRevision->setEndTime(null);
         $newRevision->setDeleted(false);
         $newRevision->setDraft(true);
-        if ($byARealUser) {
-            $token = $this->tokenStorage->getToken();
-            if (null === $token) {
-                throw new \RuntimeException('Unexpected null token');
-            }
-            $newRevision->setLockBy($token->getUserIdentifier());
-        } else {
-            $newRevision->setLockBy('DATA_SERVICE');
-        }
+        $lockBy = $this->userService->getCurrentUser()->getUserIdentifier();
+        $newRevision->setLockBy($lockBy);
+
         $newRevision->setLockUntil($until);
         $newRevision->setRawData($rawdata);
 
-        $em = $this->doctrine->getManager();
-        if (!empty($ouuid)) {
-            $revisionRepository = $em->getRepository(Revision::class);
-            $anotherObject = $revisionRepository->findOneBy([
-                    'contentType' => $contentType,
-                    'ouuid' => $newRevision->getOuuid(),
-                    'endTime' => null,
-            ]);
-
-            if (!empty($anotherObject)) {
-                throw new ConflictHttpException('Duplicate OUUID '.$ouuid.' for this content type');
-            }
-        }
-
-        $em->persist($newRevision);
-        $em->flush();
-
-        return $newRevision;
+        return $this->createNewRevision($newRevision);
     }
 
     /**
@@ -754,15 +729,10 @@ class DataService
         $objectArray = $revision->getRawData();
 
         $this->updateDataStructure($revision->giveContentType()->getFieldType(), $form->get('data')->getNormData());
-        $this->setCircles($revision);
-        try {
-            if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
-                $revision->setRawData($objectArray);
-            }
-            $this->setCircles($revision);
-        } catch (CantBeFinalizedException $e) {
-            $form->addError(new FormError($e->getMessage()));
+        if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
+            $revision->setRawData($objectArray);
         }
+        $this->setCircles($revision);
 
         $previousObjectArray = null;
 
@@ -822,7 +792,7 @@ class DataService
      */
     private function logFormErrors(FormInterface $form): void
     {
-        $formErrors = $form->getErrors(true, true);
+        $formErrors = $form->getErrors(true);
         /** @var FormError $formError */
         foreach ($formErrors as $formError) {
             $fieldForm = $formError->getOrigin();
@@ -940,14 +910,8 @@ class DataService
     public function newDocument(ContentType $contentType, ?string $ouuid = null, ?array $rawData = null, ?string $username = null): Revision
     {
         $this->hasCreateRights($contentType);
-        /** @var RevisionRepository $revisionRepository */
-        $revisionRepository = $this->em->getRepository(Revision::class);
 
         $revision = new Revision();
-
-        if (null !== $ouuid && $revisionRepository->countRevisions($ouuid, $contentType)) {
-            throw new DuplicateOuuidException();
-        }
 
         if (!empty($contentType->getDefaultValue())) {
             try {
@@ -1032,10 +996,7 @@ class DataService
         }
         $this->setMetaFields($revision);
 
-        $this->em->persist($revision);
-        $this->em->flush();
-
-        return $revision;
+        return $this->createNewRevision($revision);
     }
 
     /**
@@ -1223,27 +1184,14 @@ class DataService
 
     public function delete(string $type, string $ouuid, ?string $username = null): void
     {
+        $contentType = $this->contentTypeService->giveByName($type);
+
         /** @var EntityManager $em */
         $em = $this->doctrine->getManager();
-
-        /** @var ContentTypeRepository $contentTypeRepo */
-        $contentTypeRepo = $em->getRepository(ContentType::class);
-
-        $contentTypes = $contentTypeRepo->findBy([
-                'deleted' => false,
-                'name' => $type,
-        ]);
-        if (!$contentTypes || 1 != \count($contentTypes)) {
-            throw new NotFoundHttpException('Content Type not found');
-        }
-
         /** @var RevisionRepository $repository */
         $repository = $em->getRepository(Revision::class);
 
-        $revisions = $repository->findBy([
-                'ouuid' => $ouuid,
-                'contentType' => $contentTypes[0],
-        ]);
+        $revisions = $repository->findBy(['ouuid' => $ouuid, 'contentType' => $contentType]);
 
         $username ??= $this->userService->getCurrentUser()->getUsername();
 
@@ -1281,6 +1229,8 @@ class DataService
             $em->persist($revision);
         }
         $em->flush();
+
+        $this->elasticaService->refresh($contentType->giveEnvironment()->getAlias());
     }
 
     public function trashEmpty(ContentType $contentType, string ...$ouuids): void
@@ -1294,25 +1244,23 @@ class DataService
         $this->em->flush();
     }
 
-    public function trashPutBack(ContentType $contentType, string ...$ouuids): null|int
+    public function trashPutBackAsDraft(ContentType $contentType, string ...$ouuids): null|Revision
     {
-        $revisionIds = [];
         $revisions = $this->revRepository->findTrashRevisions($contentType, ...$ouuids);
 
         foreach ($revisions as $revision) {
-            $this->lockRevision($revision);
             $revision->setDeleted(false);
             $revision->setDeletedBy(null);
             if (null === $revision->getEndTime()) {
+                $this->lockRevision($revision);
                 $revision->setDraft(true);
-                $revisionIds[] = $revision->getId();
                 $this->auditLogger->notice('log.revision.restored', LogRevisionContext::update($revision));
             }
             $this->em->persist($revision);
         }
         $this->em->flush();
 
-        return 1 === \count($ouuids) ? \array_shift($revisionIds) : null;
+        return 1 === \count($ouuids) ? \array_shift($revisions) : null;
     }
 
     /**
@@ -1526,7 +1474,7 @@ class DataService
     public function getEmptyRevision(ContentType $contentType, ?string $user = null): Revision
     {
         $now = new \DateTime();
-        $until = $now->add(new \DateInterval('PT5M')); // +5 minutes
+        $until = new \DateTime($this->lockTime);
         $newRevision = new Revision();
         $newRevision->setContentType($contentType);
         $newRevision->addEnvironment($contentType->giveEnvironment());
@@ -2001,5 +1949,37 @@ class DataService
     public function getAllDrafts(): array
     {
         return $this->revRepository->findAllDrafts();
+    }
+
+    private function createNewRevision(Revision $revision): Revision
+    {
+        $ouuid = $revision->getOuuid();
+        $contentType = $revision->giveContentType();
+
+        $currentRevision = $ouuid ? $this->revRepository->getCurrentRevision($contentType, $ouuid) : null;
+        if ($ouuid && $currentRevision && !$currentRevision->getDeleted()) {
+            throw new DuplicateOuuidException($ouuid, $contentType->getName());
+        }
+
+        $this->em->getConnection()->beginTransaction();
+
+        try {
+            $restoredDraft = $currentRevision ? $this->trashPutBackAsDraft($contentType, $currentRevision->giveOuuid()) : null;
+
+            if ($restoredDraft) {
+                $restoredDraft->setDraft(false);
+                $restoredDraft->setEndTime($revision->getStartTime());
+                $this->unlockRevision($restoredDraft);
+            }
+
+            $this->em->persist($revision);
+            $this->em->flush();
+            $this->em->getConnection()->commit();
+        } catch (\Throwable $e) {
+            $this->em->getConnection()->rollBack();
+            throw $e;
+        }
+
+        return $revision;
     }
 }

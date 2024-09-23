@@ -6,9 +6,14 @@ namespace EMS\CommonBundle\Storage\Service;
 
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\Processor\Config;
+use EMS\CommonBundle\Storage\StreamWrapper;
+use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Base64;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Finder\SplFileInfo;
 
 class S3Storage extends AbstractUrlStorage
 {
@@ -233,5 +238,95 @@ class S3Storage extends AbstractUrlStorage
         $folder = \substr($hash, 0, 3);
 
         return "$folder/$hash";
+    }
+
+    public function readCache(Config $config): ?StreamInterface
+    {
+        try {
+            $stream = $this->getS3Client()->getObject([
+                'Bucket' => $this->bucket,
+                'Key' => $this->getCacheKey($config),
+            ])['Body'] ?? null;
+            if ($stream instanceof StreamInterface) {
+                return $stream;
+            }
+        } catch (\RuntimeException) {
+        }
+
+        return null;
+    }
+
+    public function saveCache(Config $config, FileInterface $file): bool
+    {
+        try {
+            $this->getS3Client()->putObject([
+                'Bucket' => $this->bucket,
+                'Key' => $this->getCacheKey($config),
+                'SourceFile' => $file->getFilename(),
+            ]);
+        } catch (\RuntimeException) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function clearCache(): bool
+    {
+        $this->getS3Client()->deleteMatchingObjects($this->bucket, 'cache/');
+
+        return true;
+    }
+
+    private function getCacheKey(Config $config): string
+    {
+        return \implode('/', [
+            'cache',
+            \substr($config->getAssetHash(), 0, 3),
+            \substr($config->getAssetHash(), 3),
+            \substr($config->getConfigHash(), 0, 3),
+            \substr($config->getConfigHash(), 3),
+        ]);
+    }
+
+    public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
+    {
+        $cacheKey = \implode('/', [
+            'cache',
+            \substr($hash, 0, 3),
+            \substr($hash, 3),
+            $path,
+        ]);
+        try {
+            $response = $this->getS3Client()->getObject([
+                'Bucket' => $this->bucket,
+                'Key' => $cacheKey,
+            ]);
+        } catch (\RuntimeException) {
+            return null;
+        }
+        $stream = $response['Body'] ?? null;
+        if (!$stream instanceof StreamInterface) {
+            return null;
+        }
+
+        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value, \intval($response['ContentLength']));
+    }
+
+    public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        $result = $this->getS3Client()->putObject([
+            'Bucket' => $this->bucket,
+            'ContentType' => $mimeType,
+            'Key' => \implode('/', [
+                'cache',
+                \substr($hash, 0, 3),
+                \substr($hash, 3),
+                $file->getRelativePathname(),
+            ]),
+            'SourceFile' => $file->getPathname(),
+        ]);
+
+        return $result->hasKey('ETag');
     }
 }

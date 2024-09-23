@@ -7,10 +7,12 @@ namespace EMS\CoreBundle\Service;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use EMS\CommonBundle\Common\Converter;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CoreBundle\Entity\CacheAssetExtractor;
 use EMS\CoreBundle\Helper\AssetExtractor\ExtractedData;
 use EMS\CoreBundle\Tika\TikaWrapper;
+use EMS\Helpers\File\TempFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
@@ -73,15 +75,12 @@ class AssetExtractorService implements CacheWarmerInterface
                 'content' => $result->getBody()->__toString(),
             ];
         } else {
-            $temporaryName = \tempnam(\sys_get_temp_dir(), 'TikaWrapperTest');
-            if (false === $temporaryName) {
-                throw new \RuntimeException('It was possible to generate a temporary filename');
-            }
-            \file_put_contents($temporaryName, "elasticms's built in TikaWrapper : àêïôú");
+            $tempFile = TempFile::create();
+            \file_put_contents($tempFile->path, "elasticms's built in TikaWrapper : àêïôú");
 
             return [
                 'code' => 200,
-                'content' => self::cleanString($this->getTikaWrapper()->getText($temporaryName)),
+                'content' => self::cleanString($this->getTikaWrapper()->getText($tempFile->path)),
             ];
         }
     }
@@ -147,7 +146,7 @@ class AssetExtractorService implements CacheWarmerInterface
                 $result = $client->put(self::CONTENT_EP, [
                     'body' => $body,
                     'headers' => [
-                        'Accept' => 'text/plain',
+                        'Accept' => MimeTypeHelper::TEXT_PLAIN,
                     ],
                 ]);
                 $out->setContent($result->getBody()->__toString());
@@ -245,14 +244,11 @@ class AssetExtractorService implements CacheWarmerInterface
             ]);
             $meta = ExtractedData::fromJsonString($result->getBody()->__toString(), $this->tikaMaxContent);
         } else {
-            $filename = \tempnam(\sys_get_temp_dir(), 'guess_locale');
-            if (false === $filename) {
-                throw new \RuntimeException('Unexpected false temporary filename');
-            }
-            if (false === \file_put_contents($filename, $text)) {
+            $tempFile = TempFile::create();
+            if (false === \file_put_contents($tempFile->path, $text)) {
                 throw new \RuntimeException('Unexpected false result on file_put_contents');
             }
-            $meta = ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($filename), $this->tikaMaxContent);
+            $meta = ExtractedData::fromMetaString($this->getTikaWrapper()->getMetadata($tempFile->path), $this->tikaMaxContent);
         }
 
         return $meta;

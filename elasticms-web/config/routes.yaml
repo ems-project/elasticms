@@ -1,6 +1,9 @@
 files:
   resource: '@EMSCommonBundle/Resources/config/routing/file.xml'
 
+assets:
+  resource: '@EMSCommonBundle/Resources/config/routing/assets.xml'
+
 probe:
   resource: '@EMSCommonBundle/Resources/config/routing/probe.xml'
 

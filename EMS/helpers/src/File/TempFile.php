@@ -4,28 +4,40 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\File;
 
+use EMS\Helpers\Standard\Type;
 use Psr\Http\Message\StreamInterface;
 
 class TempFile
 {
     private const PREFIX = 'EMS_temp_file_';
+    /** @var self[] */
+    private static array $collector = [];
 
     private function __construct(public readonly string $path)
     {
+        self::$collector[] = $this;
     }
 
-    public static function create(?string $cacheFolder = null): self
+    /**
+     * @return self[]
+     */
+    public static function getIterator(): array
     {
-        if (!$path = \tempnam($cacheFolder ?? \sys_get_temp_dir(), self::PREFIX)) {
+        return self::$collector;
+    }
+
+    public function __destruct()
+    {
+        $this->clean();
+    }
+
+    public static function create(): self
+    {
+        if (!$path = \tempnam(\sys_get_temp_dir(), self::PREFIX)) {
             throw new \RuntimeException(\sprintf('Could not create temp file in "%s"', \sys_get_temp_dir()));
         }
 
         return new self($path);
-    }
-
-    public static function createNamed(string $name, ?string $cacheFolder = null): self
-    {
-        return new self(\implode(\DIRECTORY_SEPARATOR, [$cacheFolder ?? \sys_get_temp_dir(), self::PREFIX.$name]));
     }
 
     public function exists(): bool
@@ -61,5 +73,20 @@ class TempFile
             @\unlink($this->path);
         } catch (\Throwable) {
         }
+    }
+
+    public function getContents(): string
+    {
+        $contents = \file_get_contents($this->path);
+        if (false === $contents) {
+            throw new \RuntimeException('File contents not found');
+        }
+
+        return $contents;
+    }
+
+    public function getSize(): int
+    {
+        return Type::integer(\filesize($this->path));
     }
 }

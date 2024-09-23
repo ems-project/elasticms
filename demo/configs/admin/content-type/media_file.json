@@ -159,7 +159,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 2,
+                            "orderKey": 1,
                             "children": []
                         },
                         "replaced": []
@@ -202,7 +202,7 @@
                                     "protected": false
                                 }
                             },
-                            "orderKey": 3,
+                            "orderKey": 2,
                             "children": []
                         },
                         "replaced": []
@@ -235,7 +235,7 @@
                                 },
                                 "raw_data": []
                             },
-                            "orderKey": 5,
+                            "orderKey": 3,
                             "children": [
                                 {
                                     "class": "EMS\\CoreBundle\\Entity\\FieldType",
@@ -501,15 +501,55 @@
                                 },
                                 "raw_data": []
                             },
+                            "orderKey": 4,
+                            "children": []
+                        },
+                        "replaced": []
+                    },
+                    {
+                        "class": "EMS\\CoreBundle\\Entity\\FieldType",
+                        "arguments": [],
+                        "properties": {
+                            "type": "EMS\\CoreBundle\\Form\\DataField\\DateTimeFieldType",
+                            "name": "date_creation",
+                            "contentType": null,
+                            "deleted": false,
+                            "description": null,
+                            "options": {
+                                "displayOptions": {
+                                    "label": "Date Creation",
+                                    "class": "col-md-12 hidden",
+                                    "lastOfRow": false,
+                                    "helptext": null,
+                                    "displayFormat": null,
+                                    "parseFormat": null,
+                                    "daysOfWeekDisabled": null,
+                                    "hoursDisabled": null
+                                },
+                                "mappingOptions": {
+                                    "index": null
+                                },
+                                "restrictionOptions": {
+                                    "mandatory": false,
+                                    "mandatory_if": null,
+                                    "minimum_role": null
+                                },
+                                "extraOptions": {
+                                    "extra": null,
+                                    "clear_on_copy": false,
+                                    "postProcessing": "{% if attribute(_source, 'date_creation') is not defined %}\r\n{{ 'now'|date(constant('\\DateTime::ATOM'))|json_encode|raw }}\r\n{% endif %}"
+                                },
+                                "raw_data": [],
+                                "migrationOptions": {
+                                    "protected": false
+                                }
+                            },
                             "orderKey": 6,
                             "children": []
                         },
                         "replaced": []
                     }
-                ],
-                "__initializer__": null,
-                "__cloner__": null,
-                "__isInitialized__": true
+                ]
             },
             "replaced": []
         },
@@ -520,8 +560,32 @@
         "editTwigWithWysiwyg": false,
         "webContent": true,
         "autoPublish": false,
+        "environment": "default",
         "templates": [],
-        "views": [],
+        "views": [
+            {
+                "class": "EMS\\CoreBundle\\Entity\\View",
+                "arguments": [],
+                "properties": {
+                    "name": "overview",
+                    "type": "ems.view.report",
+                    "label": "Overview",
+                    "icon": "fa fa-list",
+                    "options": {
+                        "body": "{}",
+                        "size": 0,
+                        "template": "{{ block(\"template\", \"@EMSCH/template_ems/view/overview_media_library.twig\") }}",
+                        "header": "{{ block(\"css\", \"@EMSCH/template_ems/view/overview_media_library.twig\") }}",
+                        "javascript": "{{ block(\"javascript\", \"@EMSCH/template_ems/view/overview_media_library.twig\") }}"
+                    },
+                    "orderKey": 1,
+                    "public": false,
+                    "role": "ROLE_AUTHOR",
+                    "definition": "default_overview"
+                },
+                "replaced": []
+            }
+        ],
         "defaultValue": null,
         "versionTags": [],
         "versionOptions": {
@@ -534,15 +598,15 @@
             "version_tag": null
         },
         "roles": {
-            "view": "ROLE_SUPER_ADMIN",
+            "view": "ROLE_PUBLISHER",
             "create": "ROLE_SUPER_ADMIN",
-            "edit": "ROLE_SUPER_ADMIN",
-            "publish": "ROLE_SUPER_ADMIN",
-            "delete": "ROLE_SUPER_ADMIN",
-            "trash": "not-defined",
+            "edit": "ROLE_PUBLISHER",
+            "publish": "not-defined",
+            "delete": "ROLE_PUBLISHER",
+            "trash": "ROLE_PUBLISHER",
             "archive": "not-defined",
-            "show_link_create": "ROLE_SUPER_ADMIN",
-            "show_link_search": "ROLE_SUPER_ADMIN"
+            "show_link_create": "ROLE_PUBLISHER",
+            "show_link_search": "not-defined"
         },
         "fields": {
             "display": null,
@@ -557,6 +621,7 @@
         },
         "settings": {
             "tasks_enabled": false,
+            "tasks_titles": [],
             "hide_revision_sidebar": false
         }
     },

@@ -4,29 +4,29 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Controller\Revision;
 
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
+use EMS\CoreBundle\Controller\CoreControllerTrait;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
 use EMS\CoreBundle\Core\DataTable\DataTableFactory;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
-use EMS\CoreBundle\Core\Revision\DraftInProgress;
 use EMS\CoreBundle\DataTable\Type\Revision\RevisionDraftsDataTableType;
 use EMS\CoreBundle\EMSCoreBundle;
 use EMS\CoreBundle\Entity\ContentType;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Entity\UserInterface;
 use EMS\CoreBundle\Exception\ElasticmsException;
+use EMS\CoreBundle\Form\Data\TableInterface;
 use EMS\CoreBundle\Form\Form\RevisionJsonType;
 use EMS\CoreBundle\Form\Form\RevisionType;
 use EMS\CoreBundle\Form\Form\TableType;
 use EMS\CoreBundle\Roles;
 use EMS\CoreBundle\Routes;
+use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\PublishService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\Helpers\Standard\Json;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,15 +34,20 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+use function Symfony\Component\Translation\t;
+
 class EditController extends AbstractController
 {
+    use CoreControllerTrait;
+
     public function __construct(
         private readonly DataService $dataService,
-        private readonly LoggerInterface $logger,
+        private readonly LocalizedLoggerInterface $logger,
         private readonly PublishService $publishService,
         private readonly RevisionService $revisionService,
         private readonly TranslatorInterface $translator,
         private readonly DataTableFactory $dataTableFactory,
+        private readonly ContentTypeService $contentTypeService,
         private readonly string $templateNamespace
     ) {
     }
@@ -257,36 +262,22 @@ class EditController extends AbstractController
         $form = $this->createForm(TableType::class, $table);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form instanceof Form && ($action = $form->getClickedButton()) instanceof SubmitButton) {
-                switch ($action->getName()) {
-                    case DraftInProgress::DISCARD_SELECTED_DRAFT:
-                        foreach ($table->getSelected() as $revisionId) {
-                            try {
-                                $revision = $this->dataService->getRevisionById(\intval($revisionId), $contentTypeId);
-                                if (!$revision->getDraft()) {
-                                    continue;
-                                }
-                                $label = $revision->getLabel();
-                                $this->dataService->discardDraft($revision);
-                                $this->logger->notice('log.controller.draft-in-progress.discard_draft', ['revision' => $label]);
-                            } catch (NotFoundHttpException) {
-                                $this->logger->warning('log.controller.draft-in-progress.draft-not-found', ['revisionId' => $revisionId]);
-                            }
-                        }
-                        break;
-                    default:
-                        $this->logger->error('log.controller.draft-in-progress.unknown_action');
-                }
-            } else {
-                $this->logger->error('log.controller.draft-in-progress.unknown_action');
-            }
+            match ($this->getClickedButtonName($form)) {
+                RevisionDraftsDataTableType::DISCARD_SELECTED_DRAFT => $this->discardRevisions($table, $contentTypeId),
+                default => $this->logger->messageError(t('log.error.invalid_table_action', [], 'emsco-core'))
+            };
 
             return $this->redirectToRoute(Routes::DRAFT_IN_PROGRESS, ['contentTypeId' => $contentTypeId->getId()]);
         }
 
-        return $this->render("@$this->templateNamespace/data/draft-in-progress.html.twig", [
+        return $this->render("@$this->templateNamespace/crud/overview.html.twig", [
             'form' => $form->createView(),
-            'contentType' => $contentTypeId,
+            'icon' => 'fa fa-fire',
+            'title' => t('revision.draft.title', ['pluralName' => $contentTypeId->getPluralName()], 'emsco-core'),
+            'breadcrumb' => [
+                'contentType' => $contentTypeId,
+                'page' => t('revision.draft.label', [], 'emsco-core'),
+            ],
         ]);
     }
 
@@ -311,9 +302,7 @@ class EditController extends AbstractController
         $this->dataService->lockRevision($revision);
         $this->revisionService->archive($revision, $user->getUsername());
 
-        return $this->redirectToRoute('data.root', [
-            'name' => $contentType->getName(),
-        ]);
+        return $this->contentTypeService->redirectOverview($contentType);
     }
 
     private function reorderCollection(mixed &$input): void
@@ -335,6 +324,24 @@ class EditController extends AbstractController
         }
         foreach ($input as &$elem) {
             $this->reorderCollection($elem);
+        }
+    }
+
+    private function discardRevisions(TableInterface $table, ContentType $contentType): void
+    {
+        foreach ($table->getSelected() as $revisionId) {
+            try {
+                $revision = $this->dataService->getRevisionById(\intval($revisionId), $contentType);
+                if (!$revision->getDraft()) {
+                    continue;
+                }
+                $label = $this->revisionService->display($revision);
+                $this->dataService->discardDraft($revision);
+
+                $this->logger->messageNotice(t('log.notice.draft_deleted', ['revision' => $label], 'emsco-core'));
+            } catch (NotFoundHttpException) {
+                $this->logger->messageWarning(t('log.warning.draft_not_found', ['revisionId' => $revisionId], 'emsco-core'));
+            }
         }
     }
 }

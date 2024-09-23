@@ -8,6 +8,7 @@ use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\HashMismatchException;
 use EMS\CommonBundle\Storage\NotFoundException;
+use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\CommonBundle\Storage\SizeMismatchException;
@@ -15,6 +16,7 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Storage\StorageServiceMissingException;
 use EMS\CoreBundle\Entity\UploadedAsset;
 use EMS\CoreBundle\Repository\UploadedAssetRepository;
+use EMS\Helpers\Html\MimeTypes;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,15 +25,14 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use ZipStream\ZipStream;
 
-class FileService implements EntityServiceInterface, QueryServiceInterface
+class FileService implements EntityServiceInterface
 {
-    public function __construct(private readonly Registry $doctrine, private readonly StorageManager $storageManager, private readonly Processor $processor, private readonly UploadedAssetRepository $uploadedAssetRepository)
-    {
-    }
-
-    public function getBase64(string $hash): ?string
-    {
-        return $this->storageManager->getBase64($hash);
+    public function __construct(
+        private readonly Registry $doctrine,
+        private readonly StorageManager $storageManager,
+        private readonly Processor $processor,
+        private readonly UploadedAssetRepository $uploadedAssetRepository
+    ) {
     }
 
     /**
@@ -44,31 +45,14 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
 
     public function getFile(string $hash): ?string
     {
-        $filename = \sprintf('%s%sEMS_cached_%s', \sys_get_temp_dir(), DIRECTORY_SEPARATOR, $hash);
-        if (\file_exists($filename) && $this->storageManager->computeFileHash($filename) === $hash) {
-            return $filename;
-        }
-        $stream = $this->getResource($hash);
-
-        if (null === $stream) {
+        if (!$this->storageManager->head($hash)) {
             return null;
         }
-
-        if (!$handle = \fopen($filename, 'w')) {
-            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $filename));
+        try {
+            return $this->storageManager->getFile($hash)->getFilename();
+        } catch (NotFoundException) {
+            return null;
         }
-
-        while (!$stream->eof()) {
-            if (false === \fwrite($handle, $stream->read(8192))) {
-                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $filename));
-            }
-        }
-
-        if (false === \fclose($handle)) {
-            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $filename));
-        }
-
-        return $filename;
     }
 
     public function getResource(string $hash): ?StreamInterface
@@ -88,7 +72,7 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
             $lastUploaded = $this->uploadedAssetRepository->getLastUploadedByHash($hash);
         }
         $config = $this->processor->configFactory($hash, [
-            EmsFields::ASSET_CONFIG_MIME_TYPE => $request->query->get('type', null !== $lastUploaded ? $lastUploaded->getType() : 'application/octet-stream'),
+            EmsFields::ASSET_CONFIG_MIME_TYPE => $request->query->get('type', null !== $lastUploaded ? $lastUploaded->getType() : MimeTypes::APPLICATION_OCTET_STREAM->value),
             EmsFields::ASSET_CONFIG_DISPOSITION => $disposition,
         ]);
         $filename = $request->query->get('name', null !== $lastUploaded ? $lastUploaded->getName() : 'filename');
@@ -96,9 +80,21 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
         return $this->processor->getStreamedResponse($request, $config, $filename, true);
     }
 
-    public function removeFileEntity(string $hash): void
+    public function delete(UploadedAsset $uploadedAsset): void
     {
-        $this->uploadedAssetRepository->removeByHash($hash);
+        $this->uploadedAssetRepository->remove($uploadedAsset);
+    }
+
+    /**
+     * @param array<string> $ids
+     */
+    public function deleteByIds(array $ids): void
+    {
+        $uploadedAssets = $this->uploadedAssetRepository->findByIds($ids);
+
+        foreach ($uploadedAssets as $uploadedAsset) {
+            $this->uploadedAssetRepository->remove($uploadedAsset);
+        }
     }
 
     /**
@@ -138,16 +134,6 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
         );
 
         return $response;
-    }
-
-    /**
-     * @param array<string> $ids
-     */
-    public function removeSingleFileEntity(array $ids): void
-    {
-        foreach ($ids as $id) {
-            $this->uploadedAssetRepository->removeById($id);
-        }
     }
 
     /**
@@ -315,11 +301,6 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
         return $uploadedAsset;
     }
 
-    public function temporaryFilename(string $hash): string
-    {
-        return \sys_get_temp_dir().DIRECTORY_SEPARATOR.$hash;
-    }
-
     private function saveFile(string $filename, UploadedAsset $uploadedAsset): UploadedAsset
     {
         $hash = $this->storageManager->saveFile($filename, StorageInterface::STORAGE_USAGE_ASSET);
@@ -355,11 +336,14 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
 
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
     {
-        if (null !== $context && ($context['available'] ?? false)) {
-            return $this->uploadedAssetRepository->getAvailable($from, $size, $orderField, $orderDirection, $searchValue);
+        $qb = $this->uploadedAssetRepository->makeQueryBuilder(searchValue: $searchValue);
+        $qb->setFirstResult($from)->setMaxResults($size);
+
+        if (null !== $orderField) {
+            $qb->orderBy(\sprintf('ua.%s', $orderField), $orderDirection);
         }
 
-        return $this->uploadedAssetRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
+        return $qb->getQuery()->execute();
     }
 
     public function getEntityName(): string
@@ -377,7 +361,10 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
 
     public function count(string $searchValue = '', $context = null): int
     {
-        return $this->uploadedAssetRepository->searchCount($searchValue, null !== $context && ($context['available'] ?? false));
+        return (int) $this->uploadedAssetRepository->makeQueryBuilder(searchValue: $searchValue)
+            ->select('count(ua.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
     /**
@@ -388,21 +375,6 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
         foreach ($ids as $id) {
             $this->uploadedAssetRepository->toggleVisibility($id);
         }
-    }
-
-    public function isQuerySortable(): bool
-    {
-        return false;
-    }
-
-    public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
-    {
-        return $this->uploadedAssetRepository->query($from, $size, $orderField, $orderDirection, $searchValue);
-    }
-
-    public function countQuery(string $searchValue = '', mixed $context = null): int
-    {
-        return $this->uploadedAssetRepository->countGroupByHashQuery($searchValue);
     }
 
     /**
@@ -446,8 +418,26 @@ class FileService implements EntityServiceInterface, QueryServiceInterface
     /**
      * @param mixed[] $config
      */
-    public function generateImage(string $filename, array $config): string
+    public function generateImage(string $filename, array $config): StreamInterface
     {
         return $this->processor->generateLocalImage($filename, $config);
+    }
+
+    /**
+     * @param mixed[] $config
+     */
+    public function localFileConfig(string $filename, array $config): Config
+    {
+        return $this->processor->localFileConfig($filename, $config);
+    }
+
+    public function saveContents(string $contents, string $filename, string $mimetype, int $usageType): string
+    {
+        return $this->storageManager->saveContents($contents, $filename, $mimetype, $usageType);
+    }
+
+    public function getAlgo(): string
+    {
+        return $this->storageManager->getHashAlgo();
     }
 }

@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\CoreBundle\Form\Data;
 
+use Symfony\Component\Translation\TranslatableMessage;
+
 final class TranslationTableColumn extends TableColumn
 {
-    public function __construct(string $titleKey, string $attribute, private readonly string $domain)
+    private ?string $keyPrefix = null;
+
+    public function __construct(string|TranslatableMessage $titleKey, string $attribute, private readonly string $domain)
     {
         parent::__construct($titleKey, $attribute);
     }
@@ -24,5 +28,15 @@ final class TranslationTableColumn extends TableColumn
     public function getDomain(): string
     {
         return $this->domain;
+    }
+
+    public function getKeyPrefix(): ?string
+    {
+        return $this->keyPrefix;
+    }
+
+    public function setKeyPrefix(?string $keyPrefix): void
+    {
+        $this->keyPrefix = $keyPrefix ? $keyPrefix.'.' : '';
     }
 }

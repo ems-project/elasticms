@@ -16,18 +16,11 @@ view:
         class.channel: 'fa fa-eye'
         class.release: 'fa fa-cube'
         class.query_search: 'fa fa-list-alt'
-        class.uploaded-file: 'fa fa-upload'
         class.dashboard: 'fa fa-dashboard'
     elements:
         side-menu:
-            chanel-admin:
-                index-link: Channels
             release-admin:
                 index-link: Releases
-            query_search:
-                index-link: QuerySearch
-            dashboard-admin:
-                index-link: Dashboards
             user:
                 searches: Searches
                 name: '%name%'
@@ -50,9 +43,6 @@ view:
         menu: Views
     edit:
         title: 'Edit view "%name%" for %type%'
-    index:
-        title: '%type%''s views'
-        add_button: 'Add a View'
     profile:
         show:
             alt:
@@ -69,9 +59,6 @@ view:
                 profile:
                     title: 'Your profile'
                 cancel: Cancel
-    actions:
-        delete: __view.actions.delete
-        delete_confirm: __view.actions.delete_confirm
 views:
     data:
         edit-revision-html:
@@ -146,23 +133,11 @@ views:
             user-management: 'User management'
             users: Users
             admin: Admin
-            content-types: 'Content types'
-            environments: Environments
-            forms: Forms
             search: Search
-            i18n: I18N
-            jobs: Jobs
             create-job: 'New job'
-            analyzers: Analyzers
-            filters: Filters
             other: Other
             status: Status
             documentation: Documentation
-            wysiwyg: WYSIWYG
-            uploaded-files-logs: 'Uploaded file logs'
-            audit-logs: Logs
-            logs: 'Job''s logs'
-            schedule: Schedule
         object-toolbar-html:
             view-draft-in-progress: 'View draft in progress'
             view-current-revision: 'View current revision'
@@ -199,15 +174,9 @@ form_submissions:
 not-applicable: N/A
 task:
     tab_tasks: Tasks
-uploaded-file-logs:
-    index:
-        title: 'Uploaded file logs'
-    menu: 'Uploaded file logs'
 dashboard:
     menu: Dashboards
     tagline: 'Customize the lobby'
-    index:
-        title: 'List of dashboards'
     add:
         title: 'Add a dashboard'
     edit:
@@ -227,6 +196,7 @@ ems_core:
             icon: 'glyphicon glyphicon-export'
             label: Export
         revision_task:
+            icon: 'fa fa-sticky-note'
             label: 'Revision tasks'
 release:
     release-revisison:
@@ -260,10 +230,6 @@ schedule:
     list:
         menu: Schedule
     tagline: 'When you are not at work'
-    index:
-        reorder: Reorder
-        title: Schedule
-        add_button: 'Add a schedule'
     add:
         title: 'Add a schedule'
     edit:

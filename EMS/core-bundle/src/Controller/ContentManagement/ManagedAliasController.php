@@ -5,13 +5,13 @@ namespace EMS\CoreBundle\Controller\ContentManagement;
 use EMS\CoreBundle\Entity\ManagedAlias;
 use EMS\CoreBundle\Form\Form\ManagedAliasType;
 use EMS\CoreBundle\Repository\ManagedAliasRepository;
+use EMS\CoreBundle\Routes;
 use EMS\CoreBundle\Service\AliasService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ManagedAliasController extends AbstractController
 {
@@ -37,7 +37,7 @@ class ManagedAliasController extends AbstractController
                 'managed_alias_name' => $managedAlias->getName(),
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/environment/managed_alias.html.twig", [
@@ -46,13 +46,9 @@ class ManagedAliasController extends AbstractController
         ]);
     }
 
-    public function editAction(Request $request, int $id): Response
+    public function editAction(Request $request, ManagedAlias $managedAlias): Response
     {
-        $managedAlias = $this->aliasService->getManagedAlias($id);
-
-        if (!$managedAlias) {
-            throw new NotFoundHttpException('Unknow managed alias');
-        }
+        $managedAlias = $this->aliasService->getManagedAliasByName($managedAlias->getName());
 
         $form = $this->createForm(ManagedAliasType::class, $managedAlias);
         $form->handleRequest($request);
@@ -63,7 +59,7 @@ class ManagedAliasController extends AbstractController
                 'managed_alias_name' => $managedAlias->getName(),
             ]);
 
-            return $this->redirectToRoute('environment.index');
+            return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
         }
 
         return $this->render("@$this->templateNamespace/environment/managed_alias.html.twig", [
@@ -72,20 +68,17 @@ class ManagedAliasController extends AbstractController
         ]);
     }
 
-    public function removeAction(int $id): Response
+    public function removeAction(ManagedAlias $managedAlias): Response
     {
-        $managedAlias = $this->aliasService->getManagedAlias($id);
+        $managedAlias = $this->aliasService->getManagedAliasByName($managedAlias->getAlias());
 
-        if ($managedAlias) {
-            $name = $managedAlias->getName();
-            $this->aliasService->removeAlias($managedAlias->getAlias());
-            $this->managedAliasRepository->delete($managedAlias);
-            $this->logger->notice('log.managed_alias.deleted', [
-                'managed_alias_name' => $name,
-            ]);
-        }
+        $this->aliasService->removeAlias($managedAlias->getAlias());
+        $this->managedAliasRepository->delete($managedAlias);
+        $this->logger->notice('log.managed_alias.deleted', [
+            'managed_alias_name' => $managedAlias->getName(),
+        ]);
 
-        return $this->redirectToRoute('environment.index');
+        return $this->redirectToRoute(Routes::ADMIN_ENVIRONMENT_INDEX);
     }
 
     /**

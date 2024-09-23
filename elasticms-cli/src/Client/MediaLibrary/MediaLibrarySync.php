@@ -13,6 +13,7 @@ use EMS\CommonBundle\Contracts\ExpressionServiceInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\Standard\Text;
 use GuzzleHttp\Psr7\Stream;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
@@ -142,6 +143,10 @@ final class MediaLibrarySync
         }
 
         if (null !== $file) {
+            if ($this->io->isVerbose()) {
+                $this->io->note(\sprintf('Upload media "%s" (%s)', $file->getFilename(), $file->getRealPath()));
+            }
+
             $mediaFile = $document ? $document->getSource()[$this->options->fileField] ?? null : null;
             $data = \array_merge($data, [
                 $this->options->fileField => $this->urlToAssetArray($file, $mediaFile),
@@ -204,7 +209,11 @@ final class MediaLibrarySync
             }
         }
 
-        if (null !== $mediaFile && $mediaFile[EmsFields::CONTENT_FILE_HASH_FIELD] === $hash && !empty($mediaFile[EmsFields::CONTENT_FILE_CONTENT])) {
+        if (!$this->options->forceExtract
+            && null !== $mediaFile
+            && $mediaFile[EmsFields::CONTENT_FILE_HASH_FIELD] === $hash
+            && !empty($mediaFile[EmsFields::CONTENT_FILE_CONTENT])
+        ) {
             return $mediaFile;
         }
 
@@ -212,10 +221,20 @@ final class MediaLibrarySync
             EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
             EmsFields::CONTENT_FILE_NAME_FIELD => $filename,
             EmsFields::CONTENT_MIME_TYPE_FIELD => $mimeType,
-            EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ? $file->getSize() : null,
+            EmsFields::CONTENT_FILE_SIZE_FIELD => $file->getSize() ?: null,
         ];
         if (null === $this->tikaHelper) {
             return $assetArray;
+        }
+
+        if ($file->getSize() > $this->options->maxFileSizeExtract) {
+            $this->io->note(\sprintf('File "%s" to big for extraction (%d bytes)', $file->getFilename(), $file->getSize()));
+
+            return $assetArray;
+        }
+
+        if ($this->io->isVerbose()) {
+            $this->io->note('Tika extracting');
         }
 
         $mimeType = $this->mimeTypes->guessMimeType($file->getRealPath());
@@ -223,14 +242,18 @@ final class MediaLibrarySync
         $promise->startText();
         $promise->startMeta();
         try {
-            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = \mb_substr($promise->getText(), 0, $this->options->maxContentSize, 'UTF-8');
+            $extractedContent = \mb_substr($promise->getText(), 0, $this->options->maxContentSize, 'UTF-8');
+            $extractedContent = Text::superTrim($extractedContent);
+
+            $assetArray[EmsFields::CONTENT_FILE_CONTENT] = $extractedContent;
             $meta = $promise->getMeta();
             $createdDate = $meta->getCreated();
-            $assetArray[EmsFields::CONTENT_FILE_DATE] = null !== $createdDate ? $createdDate->format(\DATE_ATOM) : null;
+            $assetArray[EmsFields::CONTENT_FILE_DATE] = $createdDate?->format(\DATE_ATOM);
             $assetArray[EmsFields::CONTENT_FILE_AUTHOR] = $meta->getCreator();
             $assetArray[EmsFields::CONTENT_FILE_TITLE] = $meta->getTitle();
             $assetArray[EmsFields::CONTENT_FILE_LANGUAGE] = $meta->getLocale();
-        } catch (\Throwable) {
+        } catch (\Throwable $e) {
+            $this->io->warning($e->getMessage());
         }
 
         return $assetArray;
@@ -241,7 +264,7 @@ final class MediaLibrarySync
         $metadataFilePath = $this->options->hashMetaDataFile ? $this->getFileByHash($metadataFile) : $metadataFile;
 
         $rows = $this->fileReader->getData($metadataFilePath);
-        $header = $rows[0] ?? [];
+        $header = \array_map('trim', $rows[0] ?? []);
         $this->metadatas = [];
         foreach ($rows as $rowIndex => $value) {
             if (0 === $rowIndex) {

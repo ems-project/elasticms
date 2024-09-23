@@ -1,12 +1,12 @@
 {% extends '@EMSCore/base.html.twig' %}{% trans_default_domain 'EMSCoreBundle' %}
 
 {% block title %}Edit "{{ contentType.singularName }}"  structure{% endblock %}
-{% block pagetitle %}Edit "{{ contentType.singularName }}" structure{% endblock %} 
+{% block pagetitle %}Edit "{{ contentType.singularName }}" structure{% endblock %}
 
 {% block breadcrumb %}
 	<ol class="breadcrumb">
-		<li><a href="{{ path("contenttype.index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
-		<li><a href="{{ path("contenttype.edit", {id: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Edit {{ contentType.singularName }}</a></li>
+		<li><a href="{{ path("emsco_admin_content_type_index") }}"><i class="fa fa-cubes"></i> Content Types</a></li>
+		<li><a href="{{ path("emsco_admin_content_type_edit", {contentType: contentType.id}) }}"><i class="{{ contentType.icon }}"></i> Edit {{ contentType.singularName }}</a></li>
    		<li class="active">Structure</li>
    	</ol>
 {% endblock %}
@@ -14,10 +14,10 @@
 {% block body %}
 
 	{{ form_start(form) }}
-	
+
 	<div class="row">
 		<div class="col-md-12">
-		
+
 			<div class="box ">
 				<div class="box-header with-border">
 					<i class="fa fa-sitemap"></i>
@@ -31,9 +31,9 @@
 				</div>
 
 
-										
+
 				</div>
-				<!-- /.box-body -->		
+				<!-- /.box-body -->
 				<div class="box-footer">
 					<div class="btn-group pull-right">
 						{{ form_widget(form.save) }}

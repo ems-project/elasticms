@@ -4,12 +4,15 @@ namespace EMS\CoreBundle\Service;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Elastica\Exception\ResponseException;
+use EMS\CommonBundle\Contracts\Log\LocalizedLoggerInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Entity\EntityInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Service\ElasticaService;
 use EMS\CoreBundle\Core\ContentType\ContentTypeRoles;
+use EMS\CoreBundle\Core\ContentType\ContentTypeUnreferenced;
+use EMS\CoreBundle\Core\ContentType\ViewDefinition;
 use EMS\CoreBundle\Core\UI\Menu;
 use EMS\CoreBundle\Core\UI\MenuEntry;
 use EMS\CoreBundle\EMSCoreBundle;
@@ -27,11 +30,15 @@ use EMS\CoreBundle\Repository\RevisionRepository;
 use EMS\CoreBundle\Repository\TemplateRepository;
 use EMS\CoreBundle\Repository\ViewRepository;
 use EMS\CoreBundle\Routes;
-use Psr\Log\LoggerInterface;
+use EMS\Helpers\Standard\Json;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
+use function Symfony\Component\Translation\t;
 
 class ContentTypeService implements EntityServiceInterface
 {
@@ -42,8 +49,9 @@ class ContentTypeService implements EntityServiceInterface
     protected array $contentTypeArrayByName = [];
 
     public function __construct(
+        private readonly ContentTypeRepository $contentTypeRepository,
         protected Registry $doctrine,
-        protected LoggerInterface $logger,
+        protected LocalizedLoggerInterface $logger,
         private readonly Mapping $mappingService,
         private readonly ElasticaService $elasticaService,
         private readonly EnvironmentService $environmentService,
@@ -51,6 +59,7 @@ class ContentTypeService implements EntityServiceInterface
         private readonly RevisionRepository $revisionRepository,
         private readonly TokenStorageInterface $tokenStorage,
         private readonly TranslatorInterface $translator,
+        private readonly RouterInterface $router,
         private readonly ?string $circleContentTypeName)
     {
     }
@@ -165,9 +174,7 @@ class ContentTypeService implements EntityServiceInterface
                 }
             }
 
-            $em = $this->doctrine->getManager();
-            $em->persist($contentType);
-            $em->flush();
+            $this->contentTypeRepository->save($contentType);
         } catch (ResponseException $e) {
             $contentType->setDirty(true);
             $message = $e->getMessage();
@@ -180,6 +187,38 @@ class ContentTypeService implements EntityServiceInterface
                 'environments' => $envs,
                 'elasticsearch_error' => $message,
             ]);
+        }
+    }
+
+    public function updateMappingByIds(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        $dirtyContentTypes = \array_filter($contentTypes, static fn (ContentType $c) => $c->getDirty());
+
+        foreach ($dirtyContentTypes as $dirtyContentType) {
+            $this->updateMapping($dirtyContentType);
+        }
+    }
+
+    public function activateByIds(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        $deactivatedContentTypes = \array_filter($contentTypes, static fn (ContentType $c) => !$c->isActive());
+
+        foreach ($deactivatedContentTypes as $deactivatedContentType) {
+            $deactivatedContentType->setActive(true);
+            $this->contentTypeRepository->save($deactivatedContentType);
+        }
+    }
+
+    public function deactivateByIds(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        $activeContentTypes = \array_filter($contentTypes, static fn (ContentType $c) => $c->isActive());
+
+        foreach ($activeContentTypes as $activeContentType) {
+            $activeContentType->setActive(false);
+            $this->contentTypeRepository->save($activeContentType);
         }
     }
 
@@ -325,12 +364,25 @@ class ContentTypeService implements EntityServiceInterface
         return $this->importContentType($updatedContentType);
     }
 
-    public function contentTypeFromJson(string $json, Environment $environment, ContentType $contentType = null): ContentType
+    public function contentTypeFromJson(string $json, Environment $environment = null, ContentType $contentType = null): ContentType
     {
         $meta = JsonClass::fromJsonString($json);
         $contentType = $meta->jsonDeserialize($contentType);
         if (!$contentType instanceof ContentType) {
             throw new \Exception(\sprintf('ContentType expected for import, got %s', $meta->getClass()));
+        }
+
+        if (null !== $environment) {
+            $contentType->setEnvironment($environment);
+
+            return $contentType;
+        }
+
+        $environmentName = Json::decode($json)['properties']['environment'] ?? null;
+        if (\is_string($environmentName)) {
+            $environment = $this->environmentService->giveByName($environmentName);
+        } else {
+            $environment = $this->getFirstEnvironment();
         }
         $contentType->setEnvironment($environment);
 
@@ -406,19 +458,23 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @return array<array{name: string, alias: string, envId: int, count: int}>
+     * @return ContentTypeUnreferenced[]
      */
     public function getUnreferencedContentTypes(): array
     {
         $unreferencedContentTypes = [];
         foreach ($this->environmentService->getUnmanagedEnvironments() as $environment) {
             try {
-                $unreferencedContentTypes = \array_merge($unreferencedContentTypes, $this->getUnreferencedContentTypesPerEnvironment($environment));
+                $unreferencedContentTypes = [
+                    ...$unreferencedContentTypes,
+                    ...$this->getUnreferencedContentTypesPerEnvironment($environment),
+                ];
             } catch (\Throwable $e) {
-                $this->logger->error('log.service.content-type.get-unreferenced-content-type.unexpected-error', [
-                    EmsFields::LOG_ENVIRONMENT_FIELD => $environment->getName(),
-                    EmsFields::LOG_ERROR_MESSAGE_FIELD => $e->getMessage(),
-                ]);
+                $this->logger->messageError(t(
+                    message: 'log.error.content_type_add_unreferenced',
+                    parameters: ['environment' => $environment->getName(), 'error' => $e->getMessage()],
+                    domain: 'emsco-core'
+                ));
             }
         }
 
@@ -426,7 +482,7 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @return array<array{name: string, alias: string, envId: int, count: int}>
+     * @return ContentTypeUnreferenced[]
      */
     private function getUnreferencedContentTypesPerEnvironment(Environment $environment): array
     {
@@ -434,18 +490,20 @@ class ContentTypeService implements EntityServiceInterface
         $search->setSize(0);
         $search->addTermsAggregation(self::CONTENT_TYPE_AGGREGATION_NAME, EMSSource::FIELD_CONTENT_TYPE, 30);
         $resultSet = $this->elasticaService->search($search);
-        $contentTypeNames = $resultSet->getAggregation(self::CONTENT_TYPE_AGGREGATION_NAME)['buckets'] ?? [];
+        $aggregationBuckets = $resultSet->getAggregation(self::CONTENT_TYPE_AGGREGATION_NAME)['buckets'] ?? [];
         $unreferencedContentTypes = [];
-        foreach ($contentTypeNames as $contentTypeName) {
-            $name = $contentTypeName['key'] ?? null;
-            if (null !== $name && false === $this->getByName($name)) {
-                $unreferencedContentTypes[] = [
-                    'name' => $name,
-                    'alias' => $environment->getAlias(),
-                    'envId' => $environment->getId(),
-                    'count' => \intval($contentTypeName['doc_count'] ?? 0),
-                ];
+        foreach ($aggregationBuckets as $aggregationBucket) {
+            $name = $aggregationBucket['key'] ?? null;
+
+            if (null === $name || false !== $this->getByName($name)) {
+                continue;
             }
+
+            $unreferencedContentTypes[] = new ContentTypeUnreferenced(
+                name: $name,
+                environment: $environment,
+                count: (int) ($aggregationBucket['doc_count'] ?? 0)
+            );
         }
 
         return $unreferencedContentTypes;
@@ -496,7 +554,15 @@ class ContentTypeService implements EntityServiceInterface
                 || (!$this->authorizationChecker->isGranted($roles[ContentTypeRoles::VIEW])) && !$contentType->getRootContentType()) {
                 continue;
             }
-            $menuEntry = new MenuEntry($contentType->getPluralName(), $contentType->getIcon() ?? 'fa fa-book', Routes::DATA_DEFAULT_VIEW, ['type' => $contentType->getName()], $contentType->getColor());
+
+            [$routeOverview, $routeOverviewParams] = $this->getRedirectOverviewRoute($contentType);
+            $menuEntry = new MenuEntry(
+                label: $contentType->getPluralName(),
+                icon: $contentType->getIcon() ?? 'fa fa-book',
+                route: $routeOverview,
+                routeParameters: $routeOverviewParams,
+                color: $contentType->getColor()
+            );
             if (isset($counters[$contentType->getId()])) {
                 $menuEntry->setBadge(\strval($counters[$contentType->getId()]));
             }
@@ -635,18 +701,7 @@ class ContentTypeService implements EntityServiceInterface
 
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
-        $firstEnvironment = null;
-        foreach ($this->environmentService->getEnvironments() as $environment) {
-            if (!$environment->getManaged() || $environment->getSnapshot()) {
-                continue;
-            }
-            $firstEnvironment = $environment;
-            break;
-        }
-        if (null === $firstEnvironment) {
-            throw new \RuntimeException('At least one managed environment is required');
-        }
-        $contentType = $this->contentTypeFromJson($json, $firstEnvironment);
+        $contentType = $this->contentTypeFromJson($json);
         if (null !== $name && $contentType->getName() !== $name) {
             throw new \RuntimeException(\sprintf('Unexpected mismatched content type name : %s vs %s', $name, $contentType->getName()));
         }
@@ -723,6 +778,46 @@ class ContentTypeService implements EntityServiceInterface
         return \array_unique($versionTags);
     }
 
+    public function hasSearch(?bool $isDirty = null, ?bool $isActive = null): bool
+    {
+        $qb = $this->contentTypeRepository->makeQueryBuilder(
+            isActive: $isActive,
+            isDirty: $isDirty
+        );
+
+        return $qb->select('count(c.id)')->getQuery()->getSingleScalarResult() > 0;
+    }
+
+    public function reorderByIds(string ...$ids): void
+    {
+        $counter = 1;
+        foreach ($ids as $id) {
+            $contentType = $this->contentTypeRepository->getById($id);
+            $contentType->setOrderKey($counter++);
+            $this->contentTypeRepository->save($contentType);
+        }
+    }
+
+    public function softDelete(ContentType $contentType): void
+    {
+        if ($contentType->getDeleted()) {
+            return;
+        }
+
+        $contentType->setActive(false)->setDeleted(true);
+        $this->contentTypeRepository->save($contentType);
+
+        $this->logger->messageNotice(t('log.notice.content_type_deleted', ['contentType' => $contentType->getName()], 'emsco-core'));
+    }
+
+    public function softDeleteById(string ...$ids): void
+    {
+        $contentTypes = $this->contentTypeRepository->getByIds(...$ids);
+        foreach ($contentTypes as $contentType) {
+            $this->softDelete($contentType);
+        }
+    }
+
     public function deleteByItemName(string $name): string
     {
         $contentTypeRepository = $this->getContentTypeRepository();
@@ -744,5 +839,46 @@ class ContentTypeService implements EntityServiceInterface
         $this->revisionRepository->switchEnvironments($contentType, $target, $username);
         $contentType->setEnvironment($target);
         $this->persist($contentType);
+    }
+
+    /**
+     * @return array{0: string, 1: array<string, string|int>}
+     */
+    public function getRedirectOverviewRoute(ContentType $contentType): array
+    {
+        $defaultOverviewView = $contentType->getViewByDefinition(ViewDefinition::DEFAULT_OVERVIEW);
+
+        if ($defaultOverviewView) {
+            return [
+                $defaultOverviewView->isPublic() ? Routes::DATA_PUBLIC_VIEW : Routes::DATA_PRIVATE_VIEW,
+                ['viewId' => $defaultOverviewView->getId()],
+            ];
+        }
+
+        return [Routes::DATA_DEFAULT_VIEW, ['type' => $contentType->getName()]];
+    }
+
+    public function redirectOverview(ContentType $contentType): RedirectResponse
+    {
+        [$routeName, $routeParams] = $this->getRedirectOverviewRoute($contentType);
+
+        return new RedirectResponse($this->router->generate($routeName, $routeParams));
+    }
+
+    private function getFirstEnvironment(): Environment
+    {
+        $firstEnvironment = null;
+        foreach ($this->environmentService->getEnvironments() as $environment) {
+            if (!$environment->getManaged() || $environment->getSnapshot()) {
+                continue;
+            }
+            $firstEnvironment = $environment;
+            break;
+        }
+        if (null === $firstEnvironment) {
+            throw new \RuntimeException('At least one managed environment is required');
+        }
+
+        return $firstEnvironment;
     }
 }

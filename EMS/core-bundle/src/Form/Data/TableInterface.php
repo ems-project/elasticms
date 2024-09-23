@@ -26,6 +26,11 @@ interface TableInterface extends \Countable, \IteratorAggregate
     public function getTableActions(): iterable;
 
     /**
+     * @return iterable<TableAction>
+     */
+    public function getTableMassActions(): iterable;
+
+    /**
      * @return string[]
      */
     public function getSelected(): array;
@@ -65,6 +70,4 @@ interface TableInterface extends \Countable, \IteratorAggregate
     public function getExportFileName(): string;
 
     public function getExportDisposition(): string;
-
-    public function getTranslationDomain(): string;
 }

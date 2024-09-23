@@ -1,0 +1,21 @@
+{% extends '@EMSCH/template/base/base.html.twig' %}
+{% trans_default_domain trans_default_domain %}
+
+{% block headtitle %}EMS{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <div class="w-25">
+            <div class="card">
+                <div class="card-header">
+                    EMS
+                </div>
+                <div class="card-body">
+                    <p>Welcome {{ app.user.userIdentifier }}</p>
+                    <a href="{{ path('ems_versions') }}" class="btn btn-primary">Versions</a>
+                    <a href="{{ path('emsch_logout') }}" class="btn btn-secondary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

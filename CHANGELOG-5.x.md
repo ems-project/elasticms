@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.21.2 (2024-09-24)
+### Bug Fixes
+* fix(admin/environment): picker default name value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1020
+* fix(admin/wysiwyg): file links in fields (edit and revision view) by @theus77 in https://github.com/ems-project/elasticms/pull/1013
+
 ## 5.21.1 (2024-09-19)
 ### Bug Fixes
 * fix(admin/asset-field): asset field remove 'sha1' and '_hash' field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1011

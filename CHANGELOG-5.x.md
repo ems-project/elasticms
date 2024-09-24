@@ -1,5 +1,13 @@
 # Changelog 5.x
 
+## 5.21.1 (2024-09-19)
+### Bug Fixes
+* fix(admin/asset-field): asset field remove 'sha1' and '_hash' field by @Davidmattei in https://github.com/ems-project/elasticms/pull/1011
+* fix(admin/media-lib): fix invalid documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1008
+* fix(admin/media-lib): media library keep selection and shift on select all by @Davidmattei in https://github.com/ems-project/elasticms/pull/1006
+* fix(admin/media-lib): move file to home folder not working by @Davidmattei in https://github.com/ems-project/elasticms/pull/1009
+* fix(admin/release): layout issue, update labels and filter environments (default) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1007
+
 ## 5.21.0 (2024-09-12)
 ### Features
 * feat(admin/datatable): checkable option and actions with events by @Davidmattei in https://github.com/ems-project/elasticms/pull/1000

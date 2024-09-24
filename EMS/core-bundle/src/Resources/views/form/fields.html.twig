@@ -1471,3 +1471,10 @@
     {{ parent() }}
     <span class="pull-right text-counter" data-counter-label="{{ 'field_type.textarea.counter'|trans|e('html_attr') }}"></span>
 {% endblock textarea_widget %}
+
+{% block _filter_options_synonyms_entry_widget %}
+    {{ block('form_widget') }}
+    <span class="input-group-btn">
+        <button type="button" class="btn btn-danger remove-filter">X</button>
+    </span>
+{% endblock _filter_options_synonyms_entry_widget %}

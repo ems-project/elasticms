@@ -15,7 +15,7 @@
             "type": "custom",
             "tokenizer": "standard"
         },
-        "orderKey": 6
+        "orderKey": 10
     },
     "replaced": []
 }

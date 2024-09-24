@@ -11,8 +11,7 @@
                 "lowercase",
                 "french_elision",
                 "french_stop",
-                "french_stemmer",
-                "french_stop"
+                "french_stemmer"
             ],
             "char_filter": [
                 "html_strip"

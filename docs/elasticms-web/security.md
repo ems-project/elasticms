@@ -69,7 +69,7 @@ On submit the application will preform a coreApi login to the environment api.
      <li>{{ app.user.displayName }}</li>
      <li>{{ app.user.circles|join(' | ') }}</li>
      <li>{{ app.user.roles|join(' | ') }}</li>
-     {% if is_granted('ROLE_TASK_MANAGER') %}<li>Task manager</li>{% endif %}
+     {% if is_granted('ROLE_TASK_MANAGER') %}<li>Task admin</li>{% endif %}
    </ul>
    <a href="{{ path("emsch_logout") }}">Logout</a>
 {% endif %}

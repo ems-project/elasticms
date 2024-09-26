@@ -209,21 +209,4 @@ class ReindexCommand extends AbstractCommand
             $output->writeln('WARNING: Environment named '.$name.' not found');
         }
     }
-
-    /**
-     * @param array<mixed> $response
-     */
-    public function treatBulkResponse(array $response): void
-    {
-        foreach ($response['items'] as $item) {
-            if (isset($item['index']['error'])) {
-                ++$this->error;
-                $this->logger->warning('log.reindex.revision.error', [
-                    EmsFields::LOG_OUUID_FIELD => $item['index']['_id'],
-                ]);
-            } else {
-                ++$this->count;
-            }
-        }
-    }
 }

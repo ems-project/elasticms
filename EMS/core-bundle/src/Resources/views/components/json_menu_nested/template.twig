@@ -97,7 +97,7 @@
 {%- endblock jmn_item_title -%}
 
 {%- block jmn_button_item_edit -%}
-    <button class="jmn-btn-edit" data-modal-size="md">{{- buttonLabel|default('Edit') -}}</button>
+    <button class="jmn-btn-edit" data-modal-size="{{- buttonModalSize|default('md') -}}">{{- buttonLabel|default('Edit') -}}</button>
 {%- endblock jmn_button_item_edit -%}
 
 {%- block jmn_button_item_delete -%}
@@ -109,11 +109,11 @@
 {%- endblock jmn_button_item_move -%}
 
 {%- block jmn_button_item_view -%}
-    <button class="jmn-btn-view" data-modal-size="md">{{- buttonLabel|default('View') -}}</button>
+    <button class="jmn-btn-view" data-modal-size="{{- buttonModalSize|default('md') -}}">{{- buttonLabel|default('View') -}}</button>
 {%- endblock jmn_button_item_view -%}
 
 {%- block jmn_button_item_add -%}
-    <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="md">
+    <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
         {{- buttonLabel|default("New #{addNode.type}") -}}
     </button>

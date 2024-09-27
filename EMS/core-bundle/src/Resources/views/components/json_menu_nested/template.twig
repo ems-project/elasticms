@@ -115,7 +115,7 @@
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
-        {{- buttonLabel|default("New #{addNode.type}") -}}
+        {{- buttonLabel|default("New #{addNode.label}") -}}
     </button>
 {%- endblock jmn_button_item_add -%}
 
@@ -160,7 +160,7 @@
 {%- endblock jmn_button_add_menu -%}
 
 {%- block jmn_modal_title -%}
-    {% set modalTitle = modalTitle|default("#{action|capitalize} #{node.type|default('')|capitalize}") %}
+    {% set modalTitle = modalTitle|default("#{action|capitalize} #{node.label|default}") %}
     {% if node.icon|default(false) %}<i class="{{ node.icon }}"></i>&nbsp;{% endif %}
     {{- modalTitle -}}
 {%- endblock jmn_modal_title -%}

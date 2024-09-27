@@ -19,6 +19,7 @@
 {%- block jmn_title -%}{%- endblock jmn_title -%}
 
 {%- block jmn_actions -%}
+    {% set dropDown = 'left' %}
     {{ template.block('jmn_button_add', _context)|raw }}
 {%- endblock jmn_actions -%}
 
@@ -146,7 +147,7 @@
             <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown jmn-dropdown-add" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 {{- buttonLabel|default('Add') -}}
             </button>
-            <ul class="dropdown-menu pull-right">
+            <ul class="{{ html_classes('dropdown-menu', { 'pull-right': (dropDown|default('right') == 'right') }) }}">
                 {{ addMenu|raw }}
             </ul>
         </div>

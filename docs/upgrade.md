@@ -11,6 +11,20 @@
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
 
+## version 5.22.x
+
+* Removed environment variable: `EMSCO_FALLBACK_LOCALE`
+* Add new method `getLanguage` on user object
+
+  preferred locale 'nl_FR' returns 'nl'
+  ```twig
+  {% set language = app.user.localePreferred[0:2] %} //before 
+  {% set language = app.user.language %} //now
+  
+  {# sort based on user language #}
+  {% set languages = ['fr', 'nl']|sort((a, b) => a == app.user.language ? -1 : b == app.user.language ? 1 : 0) %}
+  ```
+
 ## version 5.21.x
 
 * Core twig component Media library: Removed the option `fieldPathOrder`, use new option `sort` (defining all possible sorts)

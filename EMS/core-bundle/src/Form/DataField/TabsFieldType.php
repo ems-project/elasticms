@@ -2,11 +2,16 @@
 
 namespace EMS\CoreBundle\Form\DataField;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\DataField;
 use EMS\CoreBundle\Entity\FieldType;
+use EMS\CoreBundle\Service\ElasticsearchService;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Defined a Container content type.
@@ -17,6 +22,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TabsFieldType extends DataFieldType
 {
     private const LOCALE_PREFERRED_FIRST_DISPLAY_OPTION = 'localePreferredFirst';
+
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormRegistryInterface $formRegistry,
+        ElasticsearchService $elasticsearchService,
+        private readonly UserManager $userManager)
+    {
+        parent::__construct($authorizationChecker, $formRegistry, $elasticsearchService);
+    }
 
     public function getLabel(): string
     {
@@ -50,12 +64,25 @@ class TabsFieldType extends DataFieldType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        /* get the metadata associate */
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
 
-        /** @var FieldType $fieldType */
-        foreach ($fieldType->getChildren() as $fieldType) {
+        /** @var ArrayCollection<FieldType> $children */
+        $children = $fieldType->getChildren();
+
+        if ($fieldType->getDisplayBoolOption(self::LOCALE_PREFERRED_FIRST_DISPLAY_OPTION, false)) {
+            $userLanguage = $this->userManager->getUserLanguage();
+
+            $iterator = $children->getIterator();
+            $iterator->uasort(fn (FieldType $a, FieldType $b) => match(true) {
+                $a->getName() === $userLanguage => -1,
+                $b->getName() === $userLanguage => 1,
+                default => 0
+            });
+            $children = new ArrayCollection(iterator_to_array($iterator));
+        }
+
+        foreach ($children as $fieldType) {
             $this->buildChildForm($fieldType, $options, $builder);
         }
     }

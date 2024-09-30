@@ -21,7 +21,7 @@ class I18nRuntime implements RuntimeExtensionInterface
         $i18n = $this->i18nService->getAsList($key);
         $locale = $locale ?? $this->userManager->getUserLanguage();
 
-        return $i18n[$locale] ?? $i18n[User::DEFAULT_LANGUAGE] ?? $key;
+        return $i18n[$locale] ?? $i18n[User::DEFAULT_LOCALE] ?? $key;
     }
 
     /**

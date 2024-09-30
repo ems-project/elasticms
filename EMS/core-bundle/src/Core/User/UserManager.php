@@ -53,7 +53,7 @@ class UserManager
 
     public function getUserLanguage(): string
     {
-        return $this->getUser()?->getLanguage() ?? User::DEFAULT_LANGUAGE;
+        return $this->getUser()?->getLanguage() ?? User::DEFAULT_LOCALE;
     }
 
     /**

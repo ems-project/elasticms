@@ -73,7 +73,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     /**
      * @ORM\Column(name="locale", type="string", nullable=false, options={"default":"en"})
      */
-    private string $locale = self::DEFAULT_LANGUAGE;
+    private string $locale = self::DEFAULT_LOCALE;
     /**
      * @ORM\Column(name="locale_preferred", type="string", nullable=true)
      */
@@ -135,7 +135,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
      * @ORM\Column(name="user_options", type="json", nullable=true)
      */
     protected ?array $userOptions = [];
-    public const DEFAULT_LANGUAGE = 'en';
+    public const DEFAULT_LOCALE = 'en';
 
     public function __construct()
     {
@@ -187,7 +187,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
         if ($this->localePreferred) {
             $preferredLanguage = \strstr($this->localePreferred, '_', true);
 
-            return $preferredLanguage ?: self::DEFAULT_LANGUAGE;
+            return $preferredLanguage ?: self::DEFAULT_LOCALE;
         }
 
         return $this->getLocale();

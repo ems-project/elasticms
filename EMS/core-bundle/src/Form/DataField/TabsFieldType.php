@@ -67,19 +67,19 @@ class TabsFieldType extends DataFieldType
         /** @var FieldType $fieldType */
         $fieldType = $builder->getOptions()['metadata'];
 
-        /** @var ArrayCollection<FieldType> $children */
+        /** @var ArrayCollection<int, FieldType> $children */
         $children = $fieldType->getChildren();
 
         if ($fieldType->getDisplayBoolOption(self::LOCALE_PREFERRED_FIRST_DISPLAY_OPTION, false)) {
             $userLanguage = $this->userManager->getUserLanguage();
-
+            /** @var \ArrayIterator<int, FieldType> $iterator */
             $iterator = $children->getIterator();
-            $iterator->uasort(fn (FieldType $a, FieldType $b) => match(true) {
+            $iterator->uasort(fn (FieldType $a, FieldType $b) => match (true) {
                 $a->getName() === $userLanguage => -1,
                 $b->getName() === $userLanguage => 1,
                 default => 0
             });
-            $children = new ArrayCollection(iterator_to_array($iterator));
+            $children = new ArrayCollection(\iterator_to_array($iterator));
         }
 
         foreach ($children as $fieldType) {

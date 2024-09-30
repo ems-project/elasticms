@@ -186,6 +186,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     {
         if ($this->localePreferred) {
             $preferredLanguage = \strstr($this->localePreferred, '_', true);
+
             return $preferredLanguage ?: self::DEFAULT_LANGUAGE;
         }
 

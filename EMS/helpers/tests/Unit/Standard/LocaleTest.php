@@ -15,6 +15,12 @@ class LocaleTest extends TestCase
     public function testShortLocale(?string $input, ?string $default, string $expected): void
     {
         $this->assertEquals($expected, Locale::short($input, $default));
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Invalid locale passed "toto"');
+
+        Locale::short('toto', 'tada');
+        Locale::short(null, 'toto');
     }
 
     /**
@@ -28,7 +34,6 @@ class LocaleTest extends TestCase
             ['FR', 'en', 'fr'],
             ['nl_BE', null, 'nl'],
             ['FR_BE', null, 'fr'],
-            ['french', 'en', 'en'],
             [null, 'en', 'en'],
             [null, null, 'en'],
         ];

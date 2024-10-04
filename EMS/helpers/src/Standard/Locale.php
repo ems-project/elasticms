@@ -14,6 +14,10 @@ class Locale
 
         $result = \array_shift($explode);
 
-        return 2 === \strlen($result) ? $result : $default;
+        if (2 !== \strlen($result)) {
+            throw new \RuntimeException(\sprintf('Invalid locale passed "%s"', $result));
+        }
+
+        return $result;
     }
 }

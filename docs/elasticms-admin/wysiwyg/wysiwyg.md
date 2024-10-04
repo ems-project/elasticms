@@ -93,7 +93,7 @@ Using the style on a **WysiwygFieldType** you can enable `Styles set preview`.
 It will load the CSS and JS files when using the WYSIWYG field.
 In revision detail the text content will be rendered inside an iframe including the CSS and JS files.
 
-Since version 5.22.0 the iframe body tag contains data attributes `field` and `document-url`.
+Since version 5.22.0 the iframe body tag contains data attributes `field`, `field-path`, and `document-url`.
 Needed if we want to enable javascript code based on other document fields.
 
 Example generate table of content in preview

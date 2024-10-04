@@ -26,6 +26,7 @@ class StylesetController extends AbstractController
             'styleSet' => $this->wysiwygStylesSetService->getByName($name),
             'language' => $language,
             'field' => $request->get('field'),
+            'fieldPath' => $request->get('fieldPath'),
             'emsLink' => $emsLink ? EMSLink::fromText($emsLink) : null,
         ]);
     }

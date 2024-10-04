@@ -734,7 +734,8 @@
 						'name': displayOptions.styles_set|default('default'),
 						'language': dataField.formOptions.locale|default('en'),
 						'emsLink': dataField.formOptions.referredEmsId|default(null),
-						'field': dataField.fieldType.name
+						'field': dataField.fieldType.name,
+						'fieldPath': dataField.fieldType.path
 					}) %}
 					<iframe src="{{ iframeUrl }}" class="styleset-preview panel-body" data-iframe-body="{{ panelBody|e('html_attr') }}"></iframe>
 				{% else %}

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\Html;
 
+use EMS\Helpers\Standard\Type;
+
 class HtmlHelper
 {
     /**
@@ -42,5 +44,14 @@ class HtmlHelper
         $source ??= '';
 
         return $source !== \strip_tags($source);
+    }
+
+    public static function stripZeroWidthCharacters(?string $sourceHtml): ?string
+    {
+        if (null === $sourceHtml) {
+            return null;
+        }
+
+        return Type::string(\str_replace(['​', '­'], ['', ''], $sourceHtml));
     }
 }

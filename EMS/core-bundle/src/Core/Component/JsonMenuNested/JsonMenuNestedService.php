@@ -119,13 +119,17 @@ class JsonMenuNestedService
         $this->saveStructure($config);
     }
 
-    public function itemCopy(JsonMenuNested $item): void
+    public function itemCopy(JsonMenuNestedConfig $config, JsonMenuNested $item): void
     {
+        $item->changeIds();
+
+        foreach ($config->nodes->getClearPathsByType() as $type => $paths) {
+            $items = \array_filter($item->toArray(), static fn (JsonMenuNested $item) => $item->getType() === $type);
+            \array_walk($items, static fn (JsonMenuNested $item) => $item->clear($paths));
+        }
+
         $session = $this->requestStack->getSession();
-        $session->set(self::SESSION_COPY_KEY, Json::encode($item
-            ->changeIds()
-            ->toArrayStructure(true)
-        ));
+        $session->set(self::SESSION_COPY_KEY, Json::encode($item->toArrayStructure(true)));
     }
 
     public function itemPaste(JsonMenuNestedConfig $config, JsonMenuNested $item): JsonMenuNested
@@ -137,7 +141,7 @@ class JsonMenuNestedService
         $node = $config->nodes->getByType($item->getType());
         $children = $config->nodes->getChildren($node);
 
-        if (!array_key_exists($copiedItem->getType(), $children)) {
+        if (!\array_key_exists($copiedItem->getType(), $children)) {
             throw new \RuntimeException('Copy item not allowed');
         }
 

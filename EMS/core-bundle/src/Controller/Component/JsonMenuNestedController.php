@@ -210,7 +210,7 @@ class JsonMenuNestedController
     {
         try {
             $copyItem = $config->jsonMenuNested->giveItemById($itemId);
-            $this->jsonMenuNestedService->itemCopy($copyItem);
+            $this->jsonMenuNestedService->itemCopy($config, $copyItem);
 
             return $this->responseSuccess(['copyId' => $copyItem->getId()]);
         } catch (JsonMenuNestedException $e) {

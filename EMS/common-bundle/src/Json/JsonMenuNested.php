@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Json;
 
+use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
@@ -420,6 +421,20 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     public function breadcrumb(string $uid, bool $reverseOrder = false): iterable
     {
         yield from $this->yieldBreadcrumb($uid, $this->children, $reverseOrder);
+    }
+
+    /**
+     * @param string[] $paths
+     */
+    public function clear(array $paths): void
+    {
+        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
+
+        foreach ($paths as $path) {
+            $propertyAccessor->setValue($this->object, $path, null);
+        }
+
+        $this->object = \array_filter($this->object);
     }
 
     /**

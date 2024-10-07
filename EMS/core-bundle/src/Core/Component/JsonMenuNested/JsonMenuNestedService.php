@@ -194,6 +194,6 @@ class JsonMenuNestedService
         $session = $this->requestStack->getSession();
         $copiedJson = $session->get(self::SESSION_COPY_KEY);
 
-        return $copiedJson ? JsonMenuNested::fromStructure(Json::decode($copiedJson)) : null;
+        return $copiedJson ? new JsonMenuNested(Json::decode($copiedJson)) : null;
     }
 }

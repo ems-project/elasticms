@@ -28,10 +28,6 @@ class JsonMenuNestedRenderContext
             $this->loadPath($this->activeItem);
         }
 
-        if ($this->copyItem) {
-            $this->loadPath($this->copyItem);
-        }
-
         $loadChildren = $loadChildrenId ? $this->menu->getItemById($loadChildrenId) : null;
         if ($loadChildren) {
             $this->loadAllChildren($loadChildren);

@@ -29,18 +29,26 @@ class JsonMenuNestedService
     }
 
     /**
-     * @return array{ load_parent_ids: string[], tree: string }
+     * @return array{ loadParentIds: string[], tree: string, top: string, footer: string }
      */
-    public function render(JsonMenuNestedConfig $config, ?string $activeItemId, ?string $loadChildrenId, string ...$loadParentIds): array
+    public function render(JsonMenuNestedConfig $config, ?string $activeItemId, ?string $copyItemId, ?string $loadChildrenId, string ...$loadParentIds): array
     {
         $menu = $config->jsonMenuNested;
-        $renderContext = new JsonMenuNestedRenderContext($menu, $activeItemId, $loadChildrenId, ...$loadParentIds);
+        $renderContext = new JsonMenuNestedRenderContext(
+            menu: $menu,
+            activeItemId: $activeItemId,
+            copyItemId: $copyItemId,
+            loadChildrenId: $loadChildrenId
+        );
+        $renderContext->loadParents(...$loadParentIds);
 
         $template = $this->jsonMenuNestedTemplateFactory->create($config, ['render' => $renderContext]);
 
         return [
-            'load_parent_ids' => $renderContext->getParentIds(),
+            'loadParentIds' => $renderContext->getParentIds(),
             'tree' => $template->block('jmn_render'),
+            'top' => $template->block('jmn_layout_top'),
+            'footer' => $template->block('jmn_layout_footer'),
         ];
     }
 

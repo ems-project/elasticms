@@ -1,4 +1,4 @@
-{% trans_default_domain 'EMSCoreBundle' %}
+{%- trans_default_domain 'EMSCoreBundle' -%}
 {# @var config      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedConfig #}
 {# @var column      \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedColumn #}
 {# @var template    \EMS\CoreBundle\Core\Component\JsonMenuNested\Template\JsonMenuNestedTemplate #}
@@ -8,10 +8,8 @@
 {# @var node        \EMS\CoreBundle\Core\Component\JsonMenuNested\Config\JsonMenuNestedNode #}
 
 {%- block jmn_layout_top -%}
-    <div class="jmn-top">
-        {{ template.block('jmn_title', _context)|raw }}
-        {{ template.block('jmn_actions', _context)|raw }}
-    </div>
+    {{ template.block('jmn_title', _context)|raw }}
+    {{ template.block('jmn_actions', _context)|raw }}
 {%- endblock jmn_layout_top -%}
 
 {%- block jmn_layout_footer -%}{% endblock jmn_layout_footer %}
@@ -23,17 +21,15 @@
     {{ template.block('jmn_button_add', _context)|raw }}
 {%- endblock jmn_actions -%}
 
-{%- block _jmn_columns  -%}
-    <div class="jmn-header">
-        {% for column in config.columns %}
-            <div class="jmn-column {{ "jmn-column-#{column.name}" }}" style="{{ column.width ? "width:#{column.width}px;" }}" >
-                {%- if template.hasBlock("jmn_column_#{column.name}") -%}
-                    {{ template.block("jmn_column_#{column.name}", _context)|raw }}
-                {%- endif -%}
-            </div>
-        {% endfor %}
-    </div>
-{%- endblock _jmn_columns -%}
+{%- block jmn_columns  -%}
+    {% for column in config.columns %}
+        <div class="jmn-column {{ "jmn-column-#{column.name}" }}" style="{{ column.width ? "width:#{column.width}px;" }}" >
+            {%- if template.hasBlock("jmn_column_#{column.name}") -%}
+                {{ template.block("jmn_column_#{column.name}", _context)|raw }}
+            {%- endif -%}
+        </div>
+    {% endfor %}
+{%- endblock jmn_columns -%}
 
 {% block jmn_render %}
     {% with { 'menu': menu } %}{{ template.block('jmn_items', _context)|raw }}{% endwith %}
@@ -48,7 +44,7 @@
 
 {%- block jmn_item -%}
     {%- apply spaceless -%}
-        <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
+        <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': render.isActive(item) }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
             {{ template.block('jmn_item_row', _context)|raw }}
             {%- if node.leaf == false -%}
                 <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">
@@ -112,6 +108,10 @@
     <button class="jmn-btn-view" data-modal-size="{{- buttonModalSize|default('md') -}}">{{- buttonLabel|default('View') -}}</button>
 {%- endblock jmn_button_item_view -%}
 
+{%- block jmn_button_item_copy -%}
+    <button class="jmn-btn-copy">{{- buttonLabel|default('Copy') -}}</button>
+{%- endblock jmn_button_item_copy -%}
+
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
@@ -132,9 +132,13 @@
 {%- endblock jmn_button_item_more -%}
 
 {%- block jmn_button_item_more_menu -%}
-    <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
-    <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
-    <li>{{ template.block('jmn_button_item_delete', _context)|raw }}</li>
+    {%- set menuMoreItems = menuMoreItems|default(['jmn_button_item_view', 'jmn_button_item_edit', 'jmn_button_item_copy', 'jmn_button_item_delete']) -%}
+    {%- for menuMoreItem in menuMoreItems -%}
+        {%- set blockMenuMoreItem = template.block(menuMoreItem, _context)|raw -%}
+        {%- if blockMenuMoreItem|length > 0 -%}
+            <li>{{ blockMenuMoreItem|raw }}</li>
+        {%- endif -%}
+    {%- endfor -%}
 {%- endblock jmn_button_item_more_menu -%}
 
 {%- block jmn_button_add -%}

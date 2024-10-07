@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\Collection;
 
 interface UserInterface extends \Symfony\Component\Security\Core\User\UserInterface
 {
+    public function getId(): int;
+
     public function getCreated(): \DateTimeInterface;
 
     public function getModified(): \DateTimeInterface;

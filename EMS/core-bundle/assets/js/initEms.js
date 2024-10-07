@@ -259,7 +259,7 @@ import JsonMenuNestedComponent from "./component/jsonMenuNestedComponent";
         });
 
         document.addEventListener('jmn.copy', (e) => {
-            Object.values(jsonMenuNestedComponents).forEach((component) => component.onCopy(e.detail.itemId))
+            Object.values(jsonMenuNestedComponents).forEach((component) => component.onCopy(e.detail))
         })
 
         window.jsonMenuNestedComponents = jsonMenuNestedComponents

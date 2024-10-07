@@ -9,7 +9,6 @@ use EMS\CommonBundle\Json\JsonMenuNested;
 class JsonMenuNestedRenderContext
 {
     public ?JsonMenuNested $activeItem;
-    public ?JsonMenuNested $copyItem;
 
     /** @var array<string, JsonMenuNested> */
     public array $loadParents = [];
@@ -18,9 +17,9 @@ class JsonMenuNestedRenderContext
 
     public function __construct(
         private readonly JsonMenuNested $menu,
-        ?string $activeItemId,
-        ?string $copyItemId,
-        ?string $loadChildrenId
+        ?string $activeItemId = null,
+        public ?JsonMenuNested $copyItem = null,
+        ?string $loadChildrenId = null
     ) {
         $this->addActiveItem($menu);
 
@@ -29,7 +28,6 @@ class JsonMenuNestedRenderContext
             $this->loadPath($this->activeItem);
         }
 
-        $this->copyItem = $copyItemId ? $menu->getItemById($copyItemId) : null;
         if ($this->copyItem) {
             $this->loadPath($this->copyItem);
         }
@@ -38,11 +36,6 @@ class JsonMenuNestedRenderContext
         if ($loadChildren) {
             $this->loadAllChildren($loadChildren);
         }
-    }
-
-    public function isActive(JsonMenuNested $item): bool
-    {
-        return $this->activeItem === $item || $this->copyItem === $item;
     }
 
     public function loadPath(JsonMenuNested $item): void

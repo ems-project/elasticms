@@ -209,6 +209,17 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         return $this;
     }
 
+    public function changeIds(): JsonMenuNested
+    {
+        $this->changeId();
+
+        foreach ($this->getIterator() as $child) {
+            $child->changeId();
+        }
+
+        return $this;
+    }
+
     public function getItemById(string $id): ?JsonMenuNested
     {
         foreach ($this->getIterator() as $child) {

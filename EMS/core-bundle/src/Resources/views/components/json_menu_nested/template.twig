@@ -44,7 +44,7 @@
 
 {%- block jmn_item -%}
     {%- apply spaceless -%}
-        <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': render.isActive(item) }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
+        <div class="{{ html_classes('jmn-node', { 'jmn-collapsible': item.hasChildren, 'jmn-node-active': item == render.activeItem }) }}" data-id="{{ item.id }}" data-type="{{ item.type }}">
             {{ template.block('jmn_item_row', _context)|raw }}
             {%- if node.leaf == false -%}
                 <div id="{{ "children-#{item.id}" }}" class="jmn-children jmn-sortable" data-types="{{ config.nodes.types(item.type)|json_encode|e('html_attr') }}">

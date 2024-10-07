@@ -15,29 +15,33 @@ use EMS\CoreBundle\Core\UI\Modal\Modal;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 class JsonMenuNestedService
 {
+    private const SESSION_COPY_KEY = 'jmn_copy';
+
     public function __construct(
         private readonly JsonMenuNestedTemplateFactory $jsonMenuNestedTemplateFactory,
         private readonly RevisionService $revisionService,
         private readonly UserService $userService,
-        private readonly ElasticaService $elasticaService
+        private readonly ElasticaService $elasticaService,
+        private readonly RequestStack $requestStack
     ) {
     }
 
     /**
      * @return array{ loadParentIds: string[], tree: string, top: string, footer: string }
      */
-    public function render(JsonMenuNestedConfig $config, ?string $activeItemId, ?string $copyItemId, ?string $loadChildrenId, string ...$loadParentIds): array
+    public function render(JsonMenuNestedConfig $config, ?string $activeItemId, ?string $loadChildrenId, string ...$loadParentIds): array
     {
         $menu = $config->jsonMenuNested;
         $renderContext = new JsonMenuNestedRenderContext(
             menu: $menu,
             activeItemId: $activeItemId,
-            copyItemId: $copyItemId,
+            copyItem: $this->getCopiedItem(),
             loadChildrenId: $loadChildrenId
         );
         $renderContext->loadParents(...$loadParentIds);
@@ -115,6 +119,15 @@ class JsonMenuNestedService
         $this->saveStructure($config);
     }
 
+    public function itemCopy(JsonMenuNested $item): void
+    {
+        $session = $this->requestStack->getSession();
+        $session->set(self::SESSION_COPY_KEY, Json::encode($item
+            ->changeIds()
+            ->toArrayStructure(true)
+        ));
+    }
+
     /**
      * @param array<string, mixed> $context
      */
@@ -174,5 +187,13 @@ class JsonMenuNestedService
 
         $this->revisionService->updateRawData($config->revision, $rawData, $username);
         $this->elasticaService->refresh($config->revision->giveContentType()->giveEnvironment()->getAlias());
+    }
+
+    private function getCopiedItem(): ?JsonMenuNested
+    {
+        $session = $this->requestStack->getSession();
+        $copiedJson = $session->get(self::SESSION_COPY_KEY);
+
+        return $copiedJson ? JsonMenuNested::fromStructure(Json::decode($copiedJson)) : null;
     }
 }

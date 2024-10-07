@@ -59,9 +59,9 @@ export default class JsonMenuNestedComponent {
     itemAdd(itemId, add, position = null) {
         return this._post(`/item/${itemId}/add`, { 'position': position, 'add': add });
     }
-    itemDelete(nodeId) {
-        this._post(`/item/${nodeId}/delete`).then((json) => {
-            let eventCanceled = this._dispatchEvent('jmn-delete', { data: json, nodeId: nodeId  });
+    itemDelete(itemId) {
+        this._post(`/item/${itemId}/delete`).then((json) => {
+            let eventCanceled = this._dispatchEvent('jmn-delete', { data: json, itemId: itemId  });
             if (!eventCanceled) this.load();
         });
     }
@@ -98,13 +98,17 @@ export default class JsonMenuNestedComponent {
         this.itemDelete(itemId);
     }
     _onClickButtonCopy(itemId) {
-        document.dispatchEvent(new CustomEvent('jmn.copy', {
-            cancelable: true,
-            detail: { itemId: itemId }
-        }))
+        this._post(`/item/${itemId}/copy`).then((json) => {
+            const {success, copyId} = json
+            if (!success) return
+            document.dispatchEvent(new CustomEvent('jmn.copy', {
+                cancelable: true,
+                detail: { copyId: copyId, originalId: itemId }
+            }))
+        })
     }
-    onCopy(itemId) {
-        this.load({ copyItemId: itemId });
+    onCopy({ originalId } = event) {
+        this.load({ activeItemId: originalId });
     }
     _onClickModalCustom(element, itemId) {
         const modalCustomName = element.dataset.jmnModalCustom;

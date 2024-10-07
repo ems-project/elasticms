@@ -218,6 +218,18 @@ class JsonMenuNestedController
         }
     }
 
+    public function itemPaste(JsonMenuNestedConfig $config, string $itemId): JsonResponse
+    {
+        try {
+            $item = $config->jsonMenuNested->giveItemById($itemId);
+            $pasteItem = $this->jsonMenuNestedService->itemPaste($config, $item);
+
+            return $this->responseSuccess(['pasteId' => $pasteItem->getId()]);
+        } catch (JsonMenuNestedException $e) {
+            return $this->responseWarning($e->getMessage());
+        }
+    }
+
     private function clearFlashes(Request $request): void
     {
         /** @var Session $session */

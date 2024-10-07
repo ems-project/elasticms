@@ -128,6 +128,25 @@ class JsonMenuNestedService
         ));
     }
 
+    public function itemPaste(JsonMenuNestedConfig $config, JsonMenuNested $item): JsonMenuNested
+    {
+        if (null === $copiedItem = $this->getCopiedItem()) {
+            throw new \RuntimeException('No item copied');
+        }
+
+        $node = $config->nodes->getByType($item->getType());
+        $children = $config->nodes->getChildren($node);
+
+        if (!array_key_exists($copiedItem->getType(), $children)) {
+            throw new \RuntimeException('Copy item not allowed');
+        }
+
+        $item->addChild($copiedItem);
+        $this->saveStructure($config);
+
+        return $copiedItem;
+    }
+
     /**
      * @param array<string, mixed> $context
      */

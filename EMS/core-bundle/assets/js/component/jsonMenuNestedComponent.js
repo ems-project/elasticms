@@ -81,6 +81,7 @@ export default class JsonMenuNestedComponent {
             if (element.classList.contains('jmn-btn-view')) this._onClickButtonView(element, itemId);
             if (element.classList.contains('jmn-btn-delete')) this._onClickButtonDelete(itemId);
             if (element.classList.contains('jmn-btn-copy')) this._onClickButtonCopy(itemId);
+            if (element.classList.contains('jmn-btn-paste')) this._onClickButtonPaste(itemId);
 
             if (element.dataset.hasOwnProperty('jmnModalCustom')) this._onClickModalCustom(element, itemId);
         }, true);
@@ -107,6 +108,15 @@ export default class JsonMenuNestedComponent {
             }))
         })
     }
+    _onClickButtonPaste(itemId) {
+        this._post(`/item/${itemId}/paste`).then((json) => {
+            const { success, pasteId } = json
+            if (!success) return
+
+            this.load({ activeItemId: json.pasteId })
+        })
+    }
+
     onCopy({ originalId } = event) {
         this.load({ activeItemId: originalId });
     }

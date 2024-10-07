@@ -112,6 +112,14 @@
     <button class="jmn-btn-copy">{{- buttonLabel|default('Copy') -}}</button>
 {%- endblock jmn_button_item_copy -%}
 
+{%- block jmn_button_item_paste -%}
+    {%- set node = node|default(config.nodes.root) -%}
+    {%- set allowTypes = config.nodes.children(node)|keys -%}
+    {%- if render.copyItem and render.copyItem.type|default(null) in allowTypes -%}
+        <button class="jmn-btn-paste">{{- buttonLabel|default('Paste') -}}</button>
+    {%- endif -%}
+{%- endblock jmn_button_item_paste -%}
+
 {%- block jmn_button_item_add -%}
     <button class="jmn-btn-add" data-add="{{ addNode.id }}" data-modal-size="{{- buttonModalSize|default('md') -}}">
         {% if addNode.icon %}<i class="{{ addNode.icon }}"></i>{% endif %}
@@ -132,7 +140,13 @@
 {%- endblock jmn_button_item_more -%}
 
 {%- block jmn_button_item_more_menu -%}
-    {%- set menuMoreItems = menuMoreItems|default(['jmn_button_item_view', 'jmn_button_item_edit', 'jmn_button_item_copy', 'jmn_button_item_delete']) -%}
+    {%- set menuMoreItems = menuMoreItems|default([
+        'jmn_button_item_view',
+        'jmn_button_item_edit',
+        'jmn_button_item_copy',
+        'jmn_button_item_paste',
+        'jmn_button_item_delete'
+    ]) -%}
     {%- for menuMoreItem in menuMoreItems -%}
         {%- set blockMenuMoreItem = template.block(menuMoreItem, _context)|raw -%}
         {%- if blockMenuMoreItem|length > 0 -%}

@@ -186,7 +186,7 @@ class User implements UserInterface, EntityInterface, PasswordAuthenticatedUserI
     public function getLanguage(): string
     {
         if ($this->localePreferred) {
-            return Locale::short($this->localePreferred, self::DEFAULT_LOCALE);
+            return Locale::getLanguage($this->localePreferred, self::DEFAULT_LOCALE);
         }
 
         return $this->getLocale();

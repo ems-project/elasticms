@@ -84,7 +84,7 @@ class WysiwygFieldType extends DataFieldType
         }
 
         if (isset($options['language'])) {
-            $attr['data-lang'] = Locale::short($options['language']);
+            $attr['data-lang'] = Locale::getLanguage($options['language']);
         }
 
         $attr['data-referrer-ems-id'] = $options['referrer-ems-id'] ?? false;

@@ -21,7 +21,7 @@ class LocaleFormExtension extends AbstractTypeExtension
             ->setNormalizer('locale', function (Options $options, ?string $value) {
                 $language = $options['language'] ?? null;
 
-                return ($language) ? Locale::short($language) : $value;
+                return ($language) ? Locale::getLanguage($language) : $value;
             });
     }
 

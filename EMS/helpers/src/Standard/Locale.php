@@ -6,7 +6,7 @@ namespace EMS\Helpers\Standard;
 
 class Locale
 {
-    public static function short(?string $locale = null, ?string $default = 'en'): string
+    public static function getLanguage(?string $locale = null, ?string $default = 'en'): string
     {
         $default ??= 'en';
         $result = null !== $locale ? \strtolower($locale) : $default;

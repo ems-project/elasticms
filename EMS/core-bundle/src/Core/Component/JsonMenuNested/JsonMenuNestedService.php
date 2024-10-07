@@ -138,14 +138,21 @@ class JsonMenuNestedService
             throw new \RuntimeException('No item copied');
         }
 
-        $node = $config->nodes->getByType($item->getType());
-        $children = $config->nodes->getChildren($node);
+        if ($item->getType() === $config->nodes->root->type && $copiedItem->getType() === $item->getType()) {
+            foreach ($copiedItem->getChildren() as $copiedChild) {
+                $item->addChild($copiedChild);
+            }
+        } else {
+            $node = $config->nodes->getByType($item->getType());
+            $children = $config->nodes->getChildren($node);
 
-        if (!\array_key_exists($copiedItem->getType(), $children)) {
-            throw new \RuntimeException('Copy item not allowed');
+            if (!\array_key_exists($copiedItem->getType(), $children)) {
+                throw new \RuntimeException('Copy item not allowed');
+            }
+
+            $item->addChild($copiedItem);
         }
 
-        $item->addChild($copiedItem);
         $this->saveStructure($config);
 
         return $copiedItem;

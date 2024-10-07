@@ -63,7 +63,7 @@ class JsonMenuNestedNodes
 
     public function getByType(string $type): JsonMenuNestedNode
     {
-        if ('_root' === $type) {
+        if ('_root' === $type || $type === $this->root->type) {
             return $this->root;
         }
 

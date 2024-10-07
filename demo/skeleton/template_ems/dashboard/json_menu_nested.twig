@@ -57,17 +57,17 @@
     </li>
 {%- endblock jmn_button_add_menu -%}
 
-{%- block jmn_button_item_more_menu -%}
+{%- block jmn_button_item_more -%}
     {%- set menuMoreItems = menuMoreItems|default([
         'jmn_button_item_view',
         'jmn_button_item_edit',
         'button_detach',
-        'jmn_button_item_copy',
-        'jmn_button_item_paste',
+        'jmn_button_copy',
+        'jmn_button_paste',
         'jmn_button_item_delete'
     ]) -%}
     {{ parent() }}
-{%- endblock jmn_button_item_more_menu -%}
+{%- endblock jmn_button_item_more -%}
 
 {%- block jmn_button_item_add -%}
     {%- set buttonLabel = "Create #{addNode.type}" -%}

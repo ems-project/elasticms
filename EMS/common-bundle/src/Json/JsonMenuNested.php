@@ -16,7 +16,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringable
 {
     private string $id;
-    private readonly string $type;
+    private string $type;
     private string $label;
     /** @var array<mixed> */
     private array $object;
@@ -205,7 +205,9 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
 
     public function changeId(): JsonMenuNested
     {
-        $this->id = Uuid::uuid4()->toString();
+        if ('_root' !== $this->id) {
+            $this->id = Uuid::uuid4()->toString();
+        }
 
         return $this;
     }
@@ -256,6 +258,11 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 
     public function getLabel(): string

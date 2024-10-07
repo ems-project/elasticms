@@ -84,7 +84,7 @@ This filter replaces the filter `|data_label`.
 
 Context for the expression: 
 - rawData: array containing the rawData from document or revision
-- userLocale: the preferred locale of the user, fallback environment variable `EMSCO_FALLBACK_LOCALE`
+- userLocale: the preferred language of the user, default 'en'
 
 ```twig
 {# Print the label in the users preferred locale, fallback to label_fr #}

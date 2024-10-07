@@ -9,7 +9,7 @@
             "type": "stemmer",
             "name": "english"
         },
-        "orderKey": 4
+        "orderKey": 5
     },
     "replaced": []
 }

@@ -1,0 +1,18 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Filter",
+    "arguments": [],
+    "properties": {
+        "name": "business_synonyms",
+        "dirty": true,
+        "label": "business_synonyms",
+        "options": {
+            "type": "synonym",
+            "synonyms": [
+                "ipod, i-pod, i pod",
+                "ElasticMS, Elastic MS"
+            ]
+        },
+        "orderKey": 1
+    },
+    "replaced": []
+}

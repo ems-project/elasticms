@@ -2,24 +2,23 @@
     "class": "EMS\\CoreBundle\\Entity\\Analyzer",
     "arguments": [],
     "properties": {
-        "name": "english_for_highlighting",
+        "name": "english_with_synonyms",
         "dirty": true,
-        "label": "English for highlighting",
+        "label": "English (synonyms)",
         "options": {
             "filter": [
                 "standard",
                 "lowercase",
                 "empty_elision",
                 "english_stemmer",
-                "english_stop"
+                "english_stop",
+                "business_synonyms"
             ],
-            "char_filter": [
-                "html_strip"
-            ],
+            "char_filter": [],
             "type": "custom",
             "tokenizer": "standard"
         },
-        "orderKey": 5
+        "orderKey": 4
     },
     "replaced": []
 }

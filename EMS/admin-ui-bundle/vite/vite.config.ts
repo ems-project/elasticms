@@ -5,8 +5,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: [
-        resolve(__dirname, 'src/app.ts'),
-        resolve(__dirname, 'src/i18n.ts'),
+        resolve(__dirname, 'src/test.ts'),
+        resolve(__dirname, 'src/app.js'),
       ],
       name: 'admin-ui',
     },

@@ -1,1 +1,0 @@
-console.log('a18n entry')

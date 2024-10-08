@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import a2lixLib from '@a2lix/symfony-collection/dist/a2lix_sf_collection.min'
+import a2lixLib from '@a2lix/symfony-collection/src/a2lix_sf_collection.ts'
 
 export default class SymfonyCollection {
   load (target) {

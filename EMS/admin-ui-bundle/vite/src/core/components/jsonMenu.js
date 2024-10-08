@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { ChangeEvent } from '../events/changeEvent'
 import { v4 } from 'uuid'
 
-require('../librairies/nestedSortable')
+import '../librairies/nestedSortable'
 
 export default class JsonMenu {
   constructor (target) {

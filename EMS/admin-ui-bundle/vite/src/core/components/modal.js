@@ -1,7 +1,7 @@
 'use strict'
 import $ from 'jquery'
 import queryString from '../helpers/queryString'
-import ajaxModal from '../../../js/core/helpers/ajaxModal'
+import ajaxModal from '../helpers/ajaxModal'
 
 export default class Modal {
   constructor () {

@@ -1,10 +1,12 @@
-require('../css/adminlte.scss')
-require('../css/fontawsome.scss')
-require('../css/plugins.scss')
+import '../css/adminlte.scss'
+import '../css/fontawsome.scss'
+import '../css/plugins.scss'
 
-require('@popperjs/core')
-window.bootstrap = require('bootstrap')
-require('./admin-lte/AdminLTE')
-require('./core/core')
+import '@popperjs/core'
+import * as bootstrap from 'bootstrap'
+import './admin-lte/AdminLTE'
+import './core/core'
+
+window.bootstrap = bootstrap
 
 console.log('Bootstrap 5 UI loaded')

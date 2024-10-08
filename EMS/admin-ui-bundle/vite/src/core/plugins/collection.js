@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import { AddedDomEvent } from '../events/addedDomEvent'
 import { ChangeEvent } from '../events/changeEvent'
-require('jquery-ui')
-require('jquery-ui/ui/widgets/sortable')
+import 'jquery-ui'
+import 'jquery-ui/ui/widgets/sortable'
 
 class Collection {
   load (target) {

@@ -1,4 +1,4 @@
-import ajaxModal from '../../../js/core/helpers/ajaxModal'
+import ajaxModal from '../helpers/ajaxModal'
 import Sortable from 'sortablejs'
 
 export default class RevisionTask {

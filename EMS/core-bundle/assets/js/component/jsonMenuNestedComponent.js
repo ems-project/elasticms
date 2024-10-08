@@ -12,6 +12,7 @@ export default class JsonMenuNestedComponent {
     #loadParentIds = [];
     #sortableLists = {};
     modalSize = 'md';
+    #dragBlocked = false;
 
     constructor (element) {
         this.id = element.id;
@@ -192,10 +193,28 @@ export default class JsonMenuNestedComponent {
             || !targetList.dataset.hasOwnProperty('types')) return false;
 
         const types = JSON.parse(targetList.dataset.types);
+        const allowedMove = types.includes(dragged.dataset.type);
 
-        return types.includes(dragged.dataset.type);
+        let eventCanceled = this._dispatchEvent('jmn-move', {
+            dragged: dragged,
+            from: event.from,
+            to: event.to,
+            allowed: allowedMove
+        });
+
+        if (eventCanceled) {
+            this.#dragBlocked = true;
+            return false;
+        }
+
+        return allowedMove;
     }
     _onMoveEnd(event) {
+        if (this.#dragBlocked) {
+            this.#dragBlocked = false;
+            return;
+        }
+
         const itemId = event.item.dataset.id;
         const targetComponent =  window.jsonMenuNestedComponents[event.to.closest('.json-menu-nested-component').id];
         const fromComponent =  window.jsonMenuNestedComponents[event.from.closest('.json-menu-nested-component').id];

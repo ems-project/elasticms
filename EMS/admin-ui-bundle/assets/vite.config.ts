@@ -22,8 +22,7 @@ export default defineConfig({
     copyPublicDir: true,
     rollupOptions: {
       input: {
-        app: 'src/app.js',
-        style: 'css/style.scss'
+        app: 'src/app.js'
       }
     }
   },

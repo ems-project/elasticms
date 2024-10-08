@@ -38,8 +38,11 @@ final class AssetVersionStrategy implements VersionStrategyInterface
             if (!\is_file($manifestPath)) {
                 throw new RuntimeException(\sprintf('Asset manifest file "%s" does not exist. Did you forget to build the assets with npm or yarn?', $manifestPath));
             }
-
             $this->manifestData = Json::decode(Type::string(\file_get_contents($manifestPath)));
+        }
+
+        if (\preg_match('/(?<path>.*\.(js|ts|cjs))(\.(?<index>[0-9]+))?\.css$/', $path, $matches) > 0 && isset($this->manifestData[$matches['path']]['css'][$matches['index'] ?? 0])) {
+            return $this->basePath.$this->manifestData[$matches['path']]['css'][$matches['index'] ?? 0];
         }
 
         if (isset($this->manifestData[$path]['file'])) {

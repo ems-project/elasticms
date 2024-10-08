@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [
     inject({
       jQuery: 'jquery',
+      $: 'jquery',
     }),
   ],
   resolve: {
@@ -16,6 +17,7 @@ export default defineConfig({
   build: {
     manifest: true,
     outDir: '../src/Resources/public',
+    sourcemap: true,
     emptyOutDir: true,
     copyPublicDir: true,
     rollupOptions: {

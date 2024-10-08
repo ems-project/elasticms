@@ -11,8 +11,8 @@
  * http://www.opensource.org/licenses/mit-license.php
  */
 /* eslint-disable */
-import 'jquery-ui';
-import 'jquery-ui/ui/widgets/sortable';
+
+import 'jquery-ui-bundle/jquery-ui.js'
 
 (function (factory) {
   'use strict'

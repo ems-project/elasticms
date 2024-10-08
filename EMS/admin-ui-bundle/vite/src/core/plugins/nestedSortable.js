@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import 'jquery-ui'
+import 'jquery-ui-bundle/jquery-ui.js'
 import '../librairies/sortable'
 import '../librairies/nestedSortable'
 import '../../../css/core/plugins/sortable.scss'

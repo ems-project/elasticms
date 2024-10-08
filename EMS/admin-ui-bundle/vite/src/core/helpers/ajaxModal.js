@@ -1,10 +1,11 @@
 import { AddedDomEvent } from '../events/addedDomEvent'
 import { tooltipDataLinks } from './tooltip'
+import { Modal } from 'bootstrap'
 
 class AjaxModal {
   constructor (selector) {
     this.modal = document.querySelector(selector)
-    this.bsModal = new window.bootstrap.Modal(this.modal)
+    this.bsModal = new Modal(this.modal)
 
     if (this.modal) {
       this.loadingElement = this.modal.querySelector('.modal-loading')

@@ -54,8 +54,12 @@ class JsonMenuNestedTest extends TestCase
     public function testChangeId()
     {
         $this->assertEquals('_root', $this->jsonMenuNested1->getId());
-        $this->jsonMenuNested1->changeId();
-        $this->assertNotEquals('_root', $this->jsonMenuNested1->getId());
+        $player1 = $this->jsonMenuNested1->getItemById('c7b74edf-5cd1-4af8-a5f0-2ae8fdcc1540');
+
+        $this->jsonMenuNested1->changeIds();
+
+        $this->assertEquals('_root', $this->jsonMenuNested1->getId());
+        $this->assertNotEquals('c7b74edf-5cd1-4af8-a5f0-2ae8fdcc1540', $player1->getId());
     }
 
     public function testPathMap()

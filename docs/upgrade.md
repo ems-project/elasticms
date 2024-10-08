@@ -13,6 +13,7 @@
 
 ## version 5.22.x
 
+* Updates on json menu nested template (copy/paste functionality)
 * Removed environment variable: `EMSCO_FALLBACK_LOCALE`
 * Add new method `getLanguage` on user object
 

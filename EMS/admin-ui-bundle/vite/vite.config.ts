@@ -8,10 +8,12 @@ export default defineConfig({
         resolve(__dirname, 'src/app.ts'),
         resolve(__dirname, 'src/i18n.ts'),
       ],
-      name: 'core-app',
+      name: 'admin-ui',
     },
-    manifest: 'manifest.json',
+    manifest: true,
+    assetsInlineLimit: 0,
     outDir: '../src/Resources/public',
     emptyOutDir: true,
+    copyPublicDir: true
   }
 })

@@ -1,5 +1,27 @@
 # Changelog 5.x
 
+## 5.22.0 (2024-10-08)
+### Features
+* feat(admin/contentType): dataLinks support display expression by @Davidmattei in https://github.com/ems-project/elasticms/pull/1032
+* feat(admin/mapping): add synonym filter and implement into demo by @theus77 in https://github.com/ems-project/elasticms/pull/1016
+* feat(admin/tasks): rename task manager to task admin by @Davidmattei in https://github.com/ems-project/elasticms/pull/1021
+* feat(admin/twig): json menu nested copy/paste functionality by @Davidmattei in https://github.com/ems-project/elasticms/pull/1033
+* feat(admin/user): new get user language and sort tabs by @Davidmattei in https://github.com/ems-project/elasticms/pull/1026
+* feat(admin/wysiwyg): add data attributes in iframe preview by @Davidmattei in https://github.com/ems-project/elasticms/pull/1029
+* feat(common/twig): add new filter ems_link by @Davidmattei in https://github.com/ems-project/elasticms/pull/1028
+### Bug Fixes
+* fix(admin/datatable): revert remove table-responsive by @Davidmattei in https://github.com/ems-project/elasticms/pull/1023
+* fix(admin/filter): remove btn with a2lix_lib by @theus77 in https://github.com/ems-project/elasticms/pull/1017
+* fix(admin/revision): trash view only working for super user (sorting) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1031
+* fix(admin/twig-component):  update json menu nested template by @Davidmattei in https://github.com/ems-project/elasticms/pull/1025
+* fix(xliff): drop ZWSP or SHY characters by @theus77 in https://github.com/ems-project/elasticms/pull/1014
+### Documentation
+* docs(admin): describe type of field (content types) by @theus77 in https://github.com/ems-project/elasticms/pull/1019
+### Code Refactoring
+* refactor(admin/cli): replace EmsCommand.php by AbstractCommand from c…   …ommon by @Davidmattei in https://github.com/ems-project/elasticms/pull/1022
+### Chores
+* chore(demo): remove double 'french_stop' from backup. by @theus77 in https://github.com/ems-project/elasticms/pull/1018
+
 ## 5.21.2 (2024-09-24)
 ### Bug Fixes
 * fix(admin/environment): picker default name value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1020

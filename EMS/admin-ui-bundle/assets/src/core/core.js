@@ -20,7 +20,7 @@ import SortableList from "./plugins/sortableList";
 import SymfonyCollection from "./plugins/symfonyCollection";
 import Text from "./plugins/text";
 import Tooltip from "./plugins/tooltip";
-import WYSIWYG from "./plugins/wysiwyg";
+import WYSIWYG from "./plugins/wysiwyg.ts";
 
 import RevisionTask from "./components/revisionTask";
 import Modal from "./components/modal";

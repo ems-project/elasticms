@@ -24,6 +24,7 @@ module.exports = {
     sourceType: 'module'
   },
   env: {
-    browser: true
+    browser: true,
+    es6: true
   }
 }

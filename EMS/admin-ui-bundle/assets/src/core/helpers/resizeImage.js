@@ -1,6 +1,7 @@
 "use strict";
 
 import FileUploader from "@elasticms/file-uploader";
+import Promise from "promise";
 
 async function resizeImage(hashAlgo, initUpload, fileHandler) {
     return new Promise((resolve, reject) => {

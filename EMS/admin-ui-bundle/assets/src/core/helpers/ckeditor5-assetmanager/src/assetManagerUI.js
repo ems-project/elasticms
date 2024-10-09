@@ -71,7 +71,7 @@ export default class AssetManagerUI extends Plugin {
                 // isEnabled: true,
             });
             view.bind("isEnabled").to(command);
-            this.listenTo(view, "execute", (event) => {
+            this.listenTo(view, "execute", () => {
                 const selectedElement = selection.getSelectedElement();
                 let currentPath = null;
                 if (imageUtils.isImage(selectedElement)) {

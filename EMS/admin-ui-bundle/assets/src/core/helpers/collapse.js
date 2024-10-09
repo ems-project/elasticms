@@ -20,7 +20,7 @@ export default function collapse() {
 
         if (!hasContent) {
             button.style.display = "none";
-            button.onclick = (event) => {};
+            button.onclick = () => {};
         } else {
             button.style.display = "inline-block";
             button.onclick = (event) => {

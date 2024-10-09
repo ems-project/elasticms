@@ -2,7 +2,7 @@
 import $ from "jquery";
 import queryString from "../helpers/queryString";
 import ajaxModal from "../helpers/ajaxModal";
-import { Modal } from "bootstrap";
+import { Modal as BootstrapModal } from "bootstrap";
 
 export default class Modal {
     constructor() {
@@ -17,7 +17,7 @@ export default class Modal {
             const modalElement = document.getElementById(
                 `content_type_structure_fieldType${queryStringObject.open}`,
             );
-            const modal = Modal.getOrCreateInstance(modalElement);
+            const modal = BootstrapModal.getOrCreateInstance(modalElement);
             modal.show();
         }
     }

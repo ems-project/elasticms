@@ -506,7 +506,7 @@ export default class JsonMenuNested {
             return;
         }
 
-        this.hiddenField.addEventListener("silentPublish", (e) => {
+        this.hiddenField.addEventListener("silentPublish", () => {
             const value = this.hiddenField.value;
             this.loading(true);
 

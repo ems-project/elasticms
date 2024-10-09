@@ -1,4 +1,5 @@
 import FileUploader from "@elasticms/file-uploader";
+import Promise from "promise";
 
 export class UploadAdapter {
     constructor(loader) {
@@ -39,7 +40,7 @@ export class UploadAdapter {
         });
     }
 
-    _hash(hash, type, name) {
+    _hash() {
         this.loader.uploadTotal = this.total;
         this.loader.uploaded = 0;
     }
@@ -49,7 +50,7 @@ export class UploadAdapter {
         this.loader.uploaded = this.total - remaining;
     }
 
-    _uploaded(assetUrl, previewUrl) {
+    _uploaded(assetUrl) {
         this.resolve({
             default: assetUrl,
         });

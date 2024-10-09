@@ -43,7 +43,7 @@ const Default = {
     onLoadDone(response) {
         return response;
     },
-    onLoadFail(_jqXHR, _textStatus, _errorThrown) {},
+    onLoadFail() {},
 };
 
 class CardRefresh {

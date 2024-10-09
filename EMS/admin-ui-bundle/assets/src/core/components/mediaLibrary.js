@@ -2,6 +2,7 @@ import ajaxModal from "../helpers/ajaxModal";
 import ProgressBar from "../helpers/progressBar";
 import FileUploader from "@elasticms/file-uploader";
 import { resizeImage } from "../helpers/resizeImage";
+import Promise from "promise";
 
 export default class MediaLibrary {
     id;

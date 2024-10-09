@@ -61,7 +61,7 @@ export default class JsonMenu {
         });
     }
 
-    updateLabel(target, event) {
+    updateLabel(target) {
         $(target).closest("li").data("label", $(target).val());
         this.relocate();
     }

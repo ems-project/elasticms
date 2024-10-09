@@ -1,6 +1,7 @@
 import { AddedDomEvent } from "../events/addedDomEvent";
 import { tooltipDataLinks } from "./tooltip";
 import { Modal } from "bootstrap";
+import Promise from "promise";
 
 class AjaxModal {
     constructor(selector) {

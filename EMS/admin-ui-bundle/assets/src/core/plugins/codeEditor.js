@@ -53,7 +53,7 @@ export default class CodeEditor {
                 theme,
             });
 
-            editor.on("change", function (e) {
+            editor.on("change", function () {
                 hiddenField.val(editor.getValue());
                 if (typeof self.onChangeCallback === "function") {
                     self.onChangeCallback();

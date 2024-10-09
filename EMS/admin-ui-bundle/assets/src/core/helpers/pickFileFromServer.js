@@ -7,7 +7,7 @@ export default class PickFileFromServer {
         const self = this;
 
         [].forEach.call(buttons, function (button) {
-            button.addEventListener("click", function (event) {
+            button.addEventListener("click", function () {
                 self.onClick(button);
             });
         });

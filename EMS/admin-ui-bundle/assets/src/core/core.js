@@ -101,7 +101,7 @@ class Core {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", this._statusUpdateUrl, true);
 
-        xhr.onreadystatechange = function (event) {
+        xhr.onreadystatechange = function () {
             if (this.readyState !== 4) {
                 return;
             }

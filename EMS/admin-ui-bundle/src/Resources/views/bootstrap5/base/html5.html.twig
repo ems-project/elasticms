@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="title" content="{{ block('title') }}" />
         <meta name="author" content="https://github.com/ems-project" />
-        <link rel="stylesheet" href="{{ asset('app.css', 'emsadminui') }}">
+        <link rel="stylesheet" href="{{ asset('src/app.js.css', 'emsadminui') }}">
         {%- block stylesheets %}{% endblock %}
         <link rel="icon" sizes="128x128" type="image/png" href="{{ path('core-favicon') }}" />
         <link rel="apple-touch-icon" sizes="128x128" type="image/png" href="{{ path('core-apple-touch-icon') }}">
@@ -27,7 +27,7 @@
         {% embed '@EMSAdminUI/bootstrap5/core/cke-modal.html.twig' %}{% endembed %}
         {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'pick-file-server-modal'} %}{% endembed %}
         {% include '@EMSAdminUI/bootstrap5/core/out-of-sync.html.twig' %}
-        <script src="{{ asset('app.js', 'emsadminui') }}"></script>
+        <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

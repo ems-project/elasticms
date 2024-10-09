@@ -1,1 +1,1 @@
-export { default as AssetManager } from "./assetManager.js";
+export { default as AssetManager } from './assetManager.js'

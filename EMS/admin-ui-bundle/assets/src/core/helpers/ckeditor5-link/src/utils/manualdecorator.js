@@ -5,14 +5,14 @@
 /**
  * @module link/utils/manualdecorator
  */
-import { ObservableMixin } from 'ckeditor5/src/utils.js'
+import { ObservableMixin } from "ckeditor5/src/utils.js";
 /**
  * Helper class that stores manual decorators with observable {@link module:link/utils/manualdecorator~ManualDecorator#value}
  * to support integration with the UI state. An instance of this class is a model with the state of individual manual decorators.
  * These decorators are kept as collections in {@link module:link/linkcommand~LinkCommand#manualDecorators}.
  */
 export default class ManualDecorator extends ObservableMixin() {
-  /**
+    /**
      * Creates a new instance of {@link module:link/utils/manualdecorator~ManualDecorator}.
      *
      * @param config.id The name of the attribute used in the model that represents a given manual decorator.
@@ -22,27 +22,27 @@ export default class ManualDecorator extends ObservableMixin() {
      * Attributes should keep the format of attributes defined in {@link module:engine/view/elementdefinition~ElementDefinition}.
      * @param [config.defaultValue] Controls whether the decorator is "on" by default.
      */
-  constructor ({ id, label, attributes, classes, styles, defaultValue }) {
-    super()
-    this.id = id
-    this.set('value', undefined)
-    this.defaultValue = defaultValue
-    this.label = label
-    this.attributes = attributes
-    this.classes = classes
-    this.styles = styles
-  }
+    constructor({ id, label, attributes, classes, styles, defaultValue }) {
+        super();
+        this.id = id;
+        this.set("value", undefined);
+        this.defaultValue = defaultValue;
+        this.label = label;
+        this.attributes = attributes;
+        this.classes = classes;
+        this.styles = styles;
+    }
 
-  /**
+    /**
      * Returns {@link module:engine/view/matcher~MatcherPattern} with decorator attributes.
      *
      * @internal
      */
-  _createPattern () {
-    return {
-      attributes: this.attributes,
-      classes: this.classes,
-      styles: this.styles
+    _createPattern() {
+        return {
+            attributes: this.attributes,
+            classes: this.classes,
+            styles: this.styles,
+        };
     }
-  }
 }

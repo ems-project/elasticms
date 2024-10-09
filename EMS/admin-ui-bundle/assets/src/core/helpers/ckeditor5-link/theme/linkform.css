@@ -6,23 +6,23 @@
 @import "@ckeditor/ckeditor5-ui/theme/mixins/_rwd.css";
 
 .ck.ck-link-form {
-	display: flex;
+  display: flex;
 
-	& .ck-label {
-		display: none;
-	}
+  & .ck-label {
+    display: none;
+  }
 
-	@mixin ck-media-phone {
-		flex-wrap: wrap;
+  @mixin ck-media-phone {
+    flex-wrap: wrap;
 
-		& .ck-labeled-field-view {
-			flex-basis: 100%;
-		}
+    & .ck-labeled-field-view {
+      flex-basis: 100%;
+    }
 
-		& .ck-button {
-			flex-basis: 50%;
-		}
-	}
+    & .ck-button {
+      flex-basis: 50%;
+    }
+  }
 }
 
 /*
@@ -30,16 +30,16 @@
  * See: https://github.com/ckeditor/ckeditor5-link/issues/186.
  */
 .ck.ck-link-form_layout-vertical {
-	display: block;
+  display: block;
 
-	/*
+  /*
 	 * Whether the form is in the responsive mode or not, if there are decorator buttons
 	 * keep the top margin of action buttons medium.
 	 */
-	& .ck-button {
-		&.ck-button-save,
-		&.ck-button-cancel {
-			margin-top: var(--ck-spacing-medium);
-		}
-	}
+  & .ck-button {
+    &.ck-button-save,
+    &.ck-button-cancel {
+      margin-top: var(--ck-spacing-medium);
+    }
+  }
 }

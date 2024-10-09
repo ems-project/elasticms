@@ -1,7 +1,7 @@
-import $ from 'jquery'
+import $ from "jquery";
 
 export default class SortableList {
-  load (target) {
-    $(target).find('ul.sortable').sortable()
-  }
+    load(target) {
+        $(target).find("ul.sortable").sortable();
+    }
 }

@@ -1,1 +1,1 @@
-console.log('TS is supported')
+console.log("TS is supported");

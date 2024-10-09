@@ -4,13 +4,12 @@
  */
 
 .ck.ck-editor__editable {
-	/* Linked image indicator */
-	& figure.image > a,
-	& a span.image-inline {
-		&::after {
-			display: block;
-			position: absolute;
-		}
-	}
+  /* Linked image indicator */
+  & figure.image > a,
+  & a span.image-inline {
+    &::after {
+      display: block;
+      position: absolute;
+    }
+  }
 }
-

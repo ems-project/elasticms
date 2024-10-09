@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build --base='./'",
-    "watch": "tsc && vite build --watch --base='./'",
-    "preview": "vite preview"
+      "build": "tsc && vite build --base='./'",
+      "dev": "vite",
+      "format": "prettier --write src/",
+      "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+      "preview": "vite preview",
+      "watch": "tsc && vite build --watch --base='./'"
   },
   "devDependencies": {
     "@ckeditor/ckeditor5-core": "^43.2.0",
@@ -15,6 +17,13 @@
     "@ckeditor/ckeditor5-dev-utils": "^43.0.0",
     "@ckeditor/ckeditor5-theme-lark": "^43.2.0",
     "@rollup/plugin-inject": "^5.0.5",
+    "@rushstack/eslint-patch": "^1.10.4",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "cypress": "^13.12.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-cypress": "^3.3.0",
+    "prettier": "^3.2.5",
     "sass": "^1.79.4",
     "typescript": "^5.5.3",
     "vite": "^5.4.1"

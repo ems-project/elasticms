@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import ace from 'ace-builds/src-noconflict/ace'
-import './ace-resolver'
+import './ace-resolver.ts'
 export default class CodeEditor {
   load(target) {
     this.loadEditors(target)

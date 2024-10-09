@@ -4,13 +4,14 @@ import SelectLinkEvent from '../events/selectLinkEvent'
 import EditImageEvent from '../events/editImageEvent'
 import { EMS_FORM_RESPONSE_EVENT_EVENT } from '../events/formResponseEvent'
 import { EMS_FORM_FAIL_EVENT_EVENT } from '../events/formFailEvent'
+import { Modal } from 'bootstrap'
 
 export default class CkeModal {
   constructor (initDatasetAttr, title) {
     this.title = title
     this.modalElement = document.getElementById('cke-modal')
     this.postUrl = this.modalElement.dataset[initDatasetAttr]
-    this.modal = new window.bootstrap.Modal(this.modalElement, {
+    this.modal = new Modal(this.modalElement, {
       keyboard: false,
       backdrop: 'static'
     })

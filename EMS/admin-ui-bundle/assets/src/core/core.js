@@ -1,6 +1,6 @@
 import Button from './plugins/button'
 import Choice from './plugins/choice'
-import CodeEditor from './plugins/codeEditor'
+import CodeEditor from './plugins/codeEditor.ts'
 import Collection from './plugins/collection'
 import Datatable from './plugins/datatable'
 import Datetime from './plugins/datetime'

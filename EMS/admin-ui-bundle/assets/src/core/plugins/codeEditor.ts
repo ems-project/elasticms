@@ -1,6 +1,4 @@
-// inspired by ace-builds/webpack-resolver.js
-import { config } from 'ace-builds'
-
+// import $ from 'jquery'
 import extBeautify from 'ace-builds/src-noconflict/ext-beautify.js?url'
 import extCode_lens from 'ace-builds/src-noconflict/ext-code_lens.js?url'
 import extCommand_bar from 'ace-builds/src-noconflict/ext-command_bar.js?url'
@@ -466,467 +464,1091 @@ import snippetsXquery from 'ace-builds/src-noconflict/snippets/xquery.js?url'
 import snippetsYaml from 'ace-builds/src-noconflict/snippets/yaml.js?url'
 import snippetsZeek from 'ace-builds/src-noconflict/snippets/zeek.js?url'
 
-config.setModuleUrl('ace/ext/beautify', extBeautify)
-config.setModuleUrl('ace/ext/code_lens', extCode_lens)
-config.setModuleUrl('ace/ext/command_bar', extCommand_bar)
-config.setModuleUrl('ace/ext/elastic_tabstops_lite', extElastic_tabstops_lite)
-config.setModuleUrl('ace/ext/emmet', extEmmet)
-config.setModuleUrl('ace/ext/error_marker', extError_marker)
-config.setModuleUrl('ace/ext/hardwrap', extHardwrap)
-config.setModuleUrl('ace/ext/inline_autocomplete', extInline_autocomplete)
-config.setModuleUrl('ace/ext/keyboard_menu', extKeyboard_menu)
-config.setModuleUrl('ace/ext/language_tools', extLanguage_tools)
-config.setModuleUrl('ace/ext/linking', extLinking)
-config.setModuleUrl('ace/ext/modelist', extModelist)
-config.setModuleUrl('ace/ext/options', extOptions)
-config.setModuleUrl('ace/ext/prompt', extPrompt)
-config.setModuleUrl('ace/ext/rtl', extRtl)
-config.setModuleUrl('ace/ext/searchbox', extSearchbox)
-config.setModuleUrl('ace/ext/settings_menu', extSettings_menu)
-config.setModuleUrl('ace/ext/simple_tokenizer', extSimple_tokenizer)
-config.setModuleUrl('ace/ext/spellcheck', extSpellcheck)
-config.setModuleUrl('ace/ext/split', extSplit)
-config.setModuleUrl('ace/ext/static_highlight', extStatic_highlight)
-config.setModuleUrl('ace/ext/statusbar', extStatusbar)
-config.setModuleUrl('ace/ext/textarea', extTextarea)
-config.setModuleUrl('ace/ext/themelist', extThemelist)
-config.setModuleUrl('ace/ext/whitespace', extWhitespace)
-config.setModuleUrl('ace/keyboard/emacs', keyboardEmacs)
-config.setModuleUrl('ace/keyboard/sublime', keyboardSublime)
-config.setModuleUrl('ace/keyboard/vim', keyboardVim)
-config.setModuleUrl('ace/keyboard/vscode', keyboardVscode)
-config.setModuleUrl('ace/mode/abap', modeAbap)
-config.setModuleUrl('ace/mode/abc', modeAbc)
-config.setModuleUrl('ace/mode/actionscript', modeActionscript)
-config.setModuleUrl('ace/mode/ada', modeAda)
-config.setModuleUrl('ace/mode/alda', modeAlda)
-config.setModuleUrl('ace/mode/apache_conf', modeApache_conf)
-config.setModuleUrl('ace/mode/apex', modeApex)
-config.setModuleUrl('ace/mode/applescript', modeApplescript)
-config.setModuleUrl('ace/mode/aql', modeAql)
-config.setModuleUrl('ace/mode/asciidoc', modeAsciidoc)
-config.setModuleUrl('ace/mode/asl', modeAsl)
-config.setModuleUrl('ace/mode/assembly_x86', modeAssembly_x86)
-config.setModuleUrl('ace/mode/astro', modeAstro)
-config.setModuleUrl('ace/mode/autohotkey', modeAutohotkey)
-config.setModuleUrl('ace/mode/batchfile', modeBatchfile)
-config.setModuleUrl('ace/mode/bibtex', modeBibtex)
-config.setModuleUrl('ace/mode/c9search', modeC9search)
-config.setModuleUrl('ace/mode/c_cpp', modeC_cpp)
-config.setModuleUrl('ace/mode/cirru', modeCirru)
-config.setModuleUrl('ace/mode/clojure', modeClojure)
-config.setModuleUrl('ace/mode/cobol', modeCobol)
-config.setModuleUrl('ace/mode/coffee', modeCoffee)
-config.setModuleUrl('ace/mode/coldfusion', modeColdfusion)
-config.setModuleUrl('ace/mode/crystal', modeCrystal)
-config.setModuleUrl('ace/mode/csharp', modeCsharp)
-config.setModuleUrl('ace/mode/csound_document', modeCsound_document)
-config.setModuleUrl('ace/mode/csound_orchestra', modeCsound_orchestra)
-config.setModuleUrl('ace/mode/csound_score', modeCsound_score)
-config.setModuleUrl('ace/mode/csp', modeCsp)
-config.setModuleUrl('ace/mode/css', modeCss)
-config.setModuleUrl('ace/mode/curly', modeCurly)
-config.setModuleUrl('ace/mode/cuttlefish', modeCuttlefish)
-config.setModuleUrl('ace/mode/d', modeD)
-config.setModuleUrl('ace/mode/dart', modeDart)
-config.setModuleUrl('ace/mode/diff', modeDiff)
-config.setModuleUrl('ace/mode/django', modeDjango)
-config.setModuleUrl('ace/mode/dockerfile', modeDockerfile)
-config.setModuleUrl('ace/mode/dot', modeDot)
-config.setModuleUrl('ace/mode/drools', modeDrools)
-config.setModuleUrl('ace/mode/edifact', modeEdifact)
-config.setModuleUrl('ace/mode/eiffel', modeEiffel)
-config.setModuleUrl('ace/mode/ejs', modeEjs)
-config.setModuleUrl('ace/mode/elixir', modeElixir)
-config.setModuleUrl('ace/mode/elm', modeElm)
-config.setModuleUrl('ace/mode/erlang', modeErlang)
-config.setModuleUrl('ace/mode/flix', modeFlix)
-config.setModuleUrl('ace/mode/forth', modeForth)
-config.setModuleUrl('ace/mode/fortran', modeFortran)
-config.setModuleUrl('ace/mode/fsharp', modeFsharp)
-config.setModuleUrl('ace/mode/fsl', modeFsl)
-config.setModuleUrl('ace/mode/ftl', modeFtl)
-config.setModuleUrl('ace/mode/gcode', modeGcode)
-config.setModuleUrl('ace/mode/gherkin', modeGherkin)
-config.setModuleUrl('ace/mode/gitignore', modeGitignore)
-config.setModuleUrl('ace/mode/glsl', modeGlsl)
-config.setModuleUrl('ace/mode/gobstones', modeGobstones)
-config.setModuleUrl('ace/mode/golang', modeGolang)
-config.setModuleUrl('ace/mode/graphqlschema', modeGraphqlschema)
-config.setModuleUrl('ace/mode/groovy', modeGroovy)
-config.setModuleUrl('ace/mode/haml', modeHaml)
-config.setModuleUrl('ace/mode/handlebars', modeHandlebars)
-config.setModuleUrl('ace/mode/haskell', modeHaskell)
-config.setModuleUrl('ace/mode/haskell_cabal', modeHaskell_cabal)
-config.setModuleUrl('ace/mode/haxe', modeHaxe)
-config.setModuleUrl('ace/mode/hjson', modeHjson)
-config.setModuleUrl('ace/mode/html', modeHtml)
-config.setModuleUrl('ace/mode/html_elixir', modeHtml_elixir)
-config.setModuleUrl('ace/mode/html_ruby', modeHtml_ruby)
-config.setModuleUrl('ace/mode/ini', modeIni)
-config.setModuleUrl('ace/mode/io', modeIo)
-config.setModuleUrl('ace/mode/ion', modeIon)
-config.setModuleUrl('ace/mode/jack', modeJack)
-config.setModuleUrl('ace/mode/jade', modeJade)
-config.setModuleUrl('ace/mode/java', modeJava)
-config.setModuleUrl('ace/mode/javascript', modeJavascript)
-config.setModuleUrl('ace/mode/jexl', modeJexl)
-config.setModuleUrl('ace/mode/json', modeJson)
-config.setModuleUrl('ace/mode/json5', modeJson5)
-config.setModuleUrl('ace/mode/jsoniq', modeJsoniq)
-config.setModuleUrl('ace/mode/jsp', modeJsp)
-config.setModuleUrl('ace/mode/jssm', modeJssm)
-config.setModuleUrl('ace/mode/jsx', modeJsx)
-config.setModuleUrl('ace/mode/julia', modeJulia)
-config.setModuleUrl('ace/mode/kotlin', modeKotlin)
-config.setModuleUrl('ace/mode/latex', modeLatex)
-config.setModuleUrl('ace/mode/latte', modeLatte)
-config.setModuleUrl('ace/mode/less', modeLess)
-config.setModuleUrl('ace/mode/liquid', modeLiquid)
-config.setModuleUrl('ace/mode/lisp', modeLisp)
-config.setModuleUrl('ace/mode/livescript', modeLivescript)
-config.setModuleUrl('ace/mode/logiql', modeLogiql)
-config.setModuleUrl('ace/mode/logtalk', modeLogtalk)
-config.setModuleUrl('ace/mode/lsl', modeLsl)
-config.setModuleUrl('ace/mode/lua', modeLua)
-config.setModuleUrl('ace/mode/luapage', modeLuapage)
-config.setModuleUrl('ace/mode/lucene', modeLucene)
-config.setModuleUrl('ace/mode/makefile', modeMakefile)
-config.setModuleUrl('ace/mode/markdown', modeMarkdown)
-config.setModuleUrl('ace/mode/mask', modeMask)
-config.setModuleUrl('ace/mode/matlab', modeMatlab)
-config.setModuleUrl('ace/mode/maze', modeMaze)
-config.setModuleUrl('ace/mode/mediawiki', modeMediawiki)
-config.setModuleUrl('ace/mode/mel', modeMel)
-config.setModuleUrl('ace/mode/mips', modeMips)
-config.setModuleUrl('ace/mode/mixal', modeMixal)
-config.setModuleUrl('ace/mode/mushcode', modeMushcode)
-config.setModuleUrl('ace/mode/mysql', modeMysql)
-config.setModuleUrl('ace/mode/nasal', modeNasal)
-config.setModuleUrl('ace/mode/nginx', modeNginx)
-config.setModuleUrl('ace/mode/nim', modeNim)
-config.setModuleUrl('ace/mode/nix', modeNix)
-config.setModuleUrl('ace/mode/nsis', modeNsis)
-config.setModuleUrl('ace/mode/nunjucks', modeNunjucks)
-config.setModuleUrl('ace/mode/objectivec', modeObjectivec)
-config.setModuleUrl('ace/mode/ocaml', modeOcaml)
-config.setModuleUrl('ace/mode/odin', modeOdin)
-config.setModuleUrl('ace/mode/partiql', modePartiql)
-config.setModuleUrl('ace/mode/pascal', modePascal)
-config.setModuleUrl('ace/mode/perl', modePerl)
-config.setModuleUrl('ace/mode/pgsql', modePgsql)
-config.setModuleUrl('ace/mode/php', modePhp)
-config.setModuleUrl('ace/mode/php_laravel_blade', modePhp_laravel_blade)
-config.setModuleUrl('ace/mode/pig', modePig)
-config.setModuleUrl('ace/mode/plain_text', modePlain_text)
-config.setModuleUrl('ace/mode/plsql', modePlsql)
-config.setModuleUrl('ace/mode/powershell', modePowershell)
-config.setModuleUrl('ace/mode/praat', modePraat)
-config.setModuleUrl('ace/mode/prisma', modePrisma)
-config.setModuleUrl('ace/mode/prolog', modeProlog)
-config.setModuleUrl('ace/mode/properties', modeProperties)
-config.setModuleUrl('ace/mode/protobuf', modeProtobuf)
-config.setModuleUrl('ace/mode/prql', modePrql)
-config.setModuleUrl('ace/mode/puppet', modePuppet)
-config.setModuleUrl('ace/mode/python', modePython)
-config.setModuleUrl('ace/mode/qml', modeQml)
-config.setModuleUrl('ace/mode/r', modeR)
-config.setModuleUrl('ace/mode/raku', modeRaku)
-config.setModuleUrl('ace/mode/razor', modeRazor)
-config.setModuleUrl('ace/mode/rdoc', modeRdoc)
-config.setModuleUrl('ace/mode/red', modeRed)
-config.setModuleUrl('ace/mode/redshift', modeRedshift)
-config.setModuleUrl('ace/mode/rhtml', modeRhtml)
-config.setModuleUrl('ace/mode/robot', modeRobot)
-config.setModuleUrl('ace/mode/rst', modeRst)
-config.setModuleUrl('ace/mode/ruby', modeRuby)
-config.setModuleUrl('ace/mode/rust', modeRust)
-config.setModuleUrl('ace/mode/sac', modeSac)
-config.setModuleUrl('ace/mode/sass', modeSass)
-config.setModuleUrl('ace/mode/scad', modeScad)
-config.setModuleUrl('ace/mode/scala', modeScala)
-config.setModuleUrl('ace/mode/scheme', modeScheme)
-config.setModuleUrl('ace/mode/scrypt', modeScrypt)
-config.setModuleUrl('ace/mode/scss', modeScss)
-config.setModuleUrl('ace/mode/sh', modeSh)
-config.setModuleUrl('ace/mode/sjs', modeSjs)
-config.setModuleUrl('ace/mode/slim', modeSlim)
-config.setModuleUrl('ace/mode/smarty', modeSmarty)
-config.setModuleUrl('ace/mode/smithy', modeSmithy)
-config.setModuleUrl('ace/mode/snippets', modeSnippets)
-config.setModuleUrl('ace/mode/soy_template', modeSoy_template)
-config.setModuleUrl('ace/mode/space', modeSpace)
-config.setModuleUrl('ace/mode/sparql', modeSparql)
-config.setModuleUrl('ace/mode/sql', modeSql)
-config.setModuleUrl('ace/mode/sqlserver', modeSqlserver)
-config.setModuleUrl('ace/mode/stylus', modeStylus)
-config.setModuleUrl('ace/mode/svg', modeSvg)
-config.setModuleUrl('ace/mode/swift', modeSwift)
-config.setModuleUrl('ace/mode/tcl', modeTcl)
-config.setModuleUrl('ace/mode/terraform', modeTerraform)
-config.setModuleUrl('ace/mode/tex', modeTex)
-config.setModuleUrl('ace/mode/text', modeText)
-config.setModuleUrl('ace/mode/textile', modeTextile)
-config.setModuleUrl('ace/mode/toml', modeToml)
-config.setModuleUrl('ace/mode/tsx', modeTsx)
-config.setModuleUrl('ace/mode/turtle', modeTurtle)
-config.setModuleUrl('ace/mode/twig', modeTwig)
-config.setModuleUrl('ace/mode/typescript', modeTypescript)
-config.setModuleUrl('ace/mode/vala', modeVala)
-config.setModuleUrl('ace/mode/vbscript', modeVbscript)
-config.setModuleUrl('ace/mode/velocity', modeVelocity)
-config.setModuleUrl('ace/mode/verilog', modeVerilog)
-config.setModuleUrl('ace/mode/vhdl', modeVhdl)
-config.setModuleUrl('ace/mode/visualforce', modeVisualforce)
-config.setModuleUrl('ace/mode/wollok', modeWollok)
-config.setModuleUrl('ace/mode/xml', modeXml)
-config.setModuleUrl('ace/mode/xquery', modeXquery)
-config.setModuleUrl('ace/mode/yaml', modeYaml)
-config.setModuleUrl('ace/mode/zeek', modeZeek)
+export default class CodeEditor {
+  load(target: HTMLElement) {
+    this.loadEditors(target)
+    // this.loadAceThemePickers(target)
+    // this.loadAceModePickers(target)
+  }
 
-config.setModuleUrl('ace/theme/ambiance', themeAmbiance)
-config.setModuleUrl('ace/theme/chaos', themeChaos)
-config.setModuleUrl('ace/theme/chrome', themeChrome)
-config.setModuleUrl('ace/theme/cloud9_day', themeCloud9_day)
-config.setModuleUrl('ace/theme/cloud9_night', themeCloud9_night)
-config.setModuleUrl('ace/theme/cloud9_night_low_color', themeCloud9_night_low_color)
-config.setModuleUrl('ace/theme/cloud_editor', themeCloud_editor)
-config.setModuleUrl('ace/theme/cloud_editor_dark', themeCloud_editor_dark)
-config.setModuleUrl('ace/theme/clouds', themeClouds)
-config.setModuleUrl('ace/theme/clouds_midnight', themeClouds_midnight)
-config.setModuleUrl('ace/theme/cobalt', themeCobalt)
-config.setModuleUrl('ace/theme/crimson_editor', themeCrimson_editor)
-config.setModuleUrl('ace/theme/dawn', themeDawn)
-config.setModuleUrl('ace/theme/dracula', themeDracula)
-config.setModuleUrl('ace/theme/dreamweaver', themeDreamweaver)
-config.setModuleUrl('ace/theme/eclipse', themeEclipse)
-config.setModuleUrl('ace/theme/github', themeGithub)
-config.setModuleUrl('ace/theme/github_dark', themeGithub_dark)
-config.setModuleUrl('ace/theme/gob', themeGob)
-config.setModuleUrl('ace/theme/gruvbox', themeGruvbox)
-config.setModuleUrl('ace/theme/gruvbox_dark_hard', themeGruvbox_dark_hard)
-config.setModuleUrl('ace/theme/gruvbox_light_hard', themeGruvbox_light_hard)
-config.setModuleUrl('ace/theme/idle_fingers', themeIdle_fingers)
-config.setModuleUrl('ace/theme/iplastic', themeIplastic)
-config.setModuleUrl('ace/theme/katzenmilch', themeKatzenmilch)
-config.setModuleUrl('ace/theme/kr_theme', themeKr_theme)
-config.setModuleUrl('ace/theme/kuroir', themeKuroir)
-config.setModuleUrl('ace/theme/merbivore', themeMerbivore)
-config.setModuleUrl('ace/theme/merbivore_soft', themeMerbivore_soft)
-config.setModuleUrl('ace/theme/mono_industrial', themeMono_industrial)
-config.setModuleUrl('ace/theme/monokai', themeMonokai)
-config.setModuleUrl('ace/theme/nord_dark', themeNord_dark)
-config.setModuleUrl('ace/theme/one_dark', themeOne_dark)
-config.setModuleUrl('ace/theme/pastel_on_dark', themePastel_on_dark)
-config.setModuleUrl('ace/theme/solarized_dark', themeSolarized_dark)
-config.setModuleUrl('ace/theme/solarized_light', themeSolarized_light)
-config.setModuleUrl('ace/theme/sqlserver', themeSqlserver)
-config.setModuleUrl('ace/theme/terminal', themeTerminal)
-config.setModuleUrl('ace/theme/textmate', themeTextmate)
-config.setModuleUrl('ace/theme/tomorrow', themeTomorrow)
-config.setModuleUrl('ace/theme/tomorrow_night', themeTomorrow_night)
-config.setModuleUrl('ace/theme/tomorrow_night_blue', themeTomorrow_night_blue)
-config.setModuleUrl('ace/theme/tomorrow_night_bright', themeTomorrow_night_bright)
-config.setModuleUrl('ace/theme/tomorrow_night_eighties', themeTomorrow_night_eighties)
-config.setModuleUrl('ace/theme/twilight', themeTwilight)
-config.setModuleUrl('ace/theme/vibrant_ink', themeVibrant_ink)
-config.setModuleUrl('ace/theme/xcode', themeXcode)
-config.setModuleUrl('ace/mode/base_worker', modeBase_worker)
-config.setModuleUrl('ace/mode/coffee_worker', modeCoffee_worker)
-config.setModuleUrl('ace/mode/css_worker', modeCss_worker)
-config.setModuleUrl('ace/mode/html_worker', modeHtml_worker)
-config.setModuleUrl('ace/mode/javascript_worker', modeJavascript_worker)
-config.setModuleUrl('ace/mode/json_worker', modeJson_worker)
-config.setModuleUrl('ace/mode/lua_worker', modeLua_worker)
-config.setModuleUrl('ace/mode/php_worker', modePhp_worker)
-config.setModuleUrl('ace/mode/xml_worker', modeXml_worker)
-config.setModuleUrl('ace/mode/xquery_worker', modeXquery_worker)
-config.setModuleUrl('ace/mode/yaml_worker', modeYaml_worker)
-config.setModuleUrl('ace/snippets/abap', snippetsAbap)
-config.setModuleUrl('ace/snippets/abc', snippetsAbc)
-config.setModuleUrl('ace/snippets/actionscript', snippetsActionscript)
-config.setModuleUrl('ace/snippets/ada', snippetsAda)
-config.setModuleUrl('ace/snippets/alda', snippetsAlda)
-config.setModuleUrl('ace/snippets/apache_conf', snippetsApache_conf)
-config.setModuleUrl('ace/snippets/apex', snippetsApex)
-config.setModuleUrl('ace/snippets/applescript', snippetsApplescript)
-config.setModuleUrl('ace/snippets/aql', snippetsAql)
-config.setModuleUrl('ace/snippets/asciidoc', snippetsAsciidoc)
-config.setModuleUrl('ace/snippets/asl', snippetsAsl)
-config.setModuleUrl('ace/snippets/assembly_x86', snippetsAssembly_x86)
-config.setModuleUrl('ace/snippets/astro', snippetsAstro)
-config.setModuleUrl('ace/snippets/autohotkey', snippetsAutohotkey)
-config.setModuleUrl('ace/snippets/batchfile', snippetsBatchfile)
-config.setModuleUrl('ace/snippets/bibtex', snippetsBibtex)
-config.setModuleUrl('ace/snippets/c9search', snippetsC9search)
-config.setModuleUrl('ace/snippets/c_cpp', snippetsC_cpp)
-config.setModuleUrl('ace/snippets/cirru', snippetsCirru)
-config.setModuleUrl('ace/snippets/clojure', snippetsClojure)
-config.setModuleUrl('ace/snippets/cobol', snippetsCobol)
-config.setModuleUrl('ace/snippets/coffee', snippetsCoffee)
-config.setModuleUrl('ace/snippets/coldfusion', snippetsColdfusion)
-config.setModuleUrl('ace/snippets/crystal', snippetsCrystal)
-config.setModuleUrl('ace/snippets/csharp', snippetsCsharp)
-config.setModuleUrl('ace/snippets/csound_document', snippetsCsound_document)
-config.setModuleUrl('ace/snippets/csound_orchestra', snippetsCsound_orchestra)
-config.setModuleUrl('ace/snippets/csound_score', snippetsCsound_score)
-config.setModuleUrl('ace/snippets/csp', snippetsCsp)
-config.setModuleUrl('ace/snippets/css', snippetsCss)
-config.setModuleUrl('ace/snippets/curly', snippetsCurly)
-config.setModuleUrl('ace/snippets/cuttlefish', snippetsCuttlefish)
-config.setModuleUrl('ace/snippets/d', snippetsD)
-config.setModuleUrl('ace/snippets/dart', snippetsDart)
-config.setModuleUrl('ace/snippets/diff', snippetsDiff)
-config.setModuleUrl('ace/snippets/django', snippetsDjango)
-config.setModuleUrl('ace/snippets/dockerfile', snippetsDockerfile)
-config.setModuleUrl('ace/snippets/dot', snippetsDot)
-config.setModuleUrl('ace/snippets/drools', snippetsDrools)
-config.setModuleUrl('ace/snippets/edifact', snippetsEdifact)
-config.setModuleUrl('ace/snippets/eiffel', snippetsEiffel)
-config.setModuleUrl('ace/snippets/ejs', snippetsEjs)
-config.setModuleUrl('ace/snippets/elixir', snippetsElixir)
-config.setModuleUrl('ace/snippets/elm', snippetsElm)
-config.setModuleUrl('ace/snippets/erlang', snippetsErlang)
-config.setModuleUrl('ace/snippets/flix', snippetsFlix)
-config.setModuleUrl('ace/snippets/forth', snippetsForth)
-config.setModuleUrl('ace/snippets/fortran', snippetsFortran)
-config.setModuleUrl('ace/snippets/fsharp', snippetsFsharp)
-config.setModuleUrl('ace/snippets/fsl', snippetsFsl)
-config.setModuleUrl('ace/snippets/ftl', snippetsFtl)
-config.setModuleUrl('ace/snippets/gcode', snippetsGcode)
-config.setModuleUrl('ace/snippets/gherkin', snippetsGherkin)
-config.setModuleUrl('ace/snippets/gitignore', snippetsGitignore)
-config.setModuleUrl('ace/snippets/glsl', snippetsGlsl)
-config.setModuleUrl('ace/snippets/gobstones', snippetsGobstones)
-config.setModuleUrl('ace/snippets/golang', snippetsGolang)
-config.setModuleUrl('ace/snippets/graphqlschema', snippetsGraphqlschema)
-config.setModuleUrl('ace/snippets/groovy', snippetsGroovy)
-config.setModuleUrl('ace/snippets/haml', snippetsHaml)
-config.setModuleUrl('ace/snippets/handlebars', snippetsHandlebars)
-config.setModuleUrl('ace/snippets/haskell', snippetsHaskell)
-config.setModuleUrl('ace/snippets/haskell_cabal', snippetsHaskell_cabal)
-config.setModuleUrl('ace/snippets/haxe', snippetsHaxe)
-config.setModuleUrl('ace/snippets/hjson', snippetsHjson)
-config.setModuleUrl('ace/snippets/html', snippetsHtml)
-config.setModuleUrl('ace/snippets/html_elixir', snippetsHtml_elixir)
-config.setModuleUrl('ace/snippets/html_ruby', snippetsHtml_ruby)
-config.setModuleUrl('ace/snippets/ini', snippetsIni)
-config.setModuleUrl('ace/snippets/io', snippetsIo)
-config.setModuleUrl('ace/snippets/ion', snippetsIon)
-config.setModuleUrl('ace/snippets/jack', snippetsJack)
-config.setModuleUrl('ace/snippets/jade', snippetsJade)
-config.setModuleUrl('ace/snippets/java', snippetsJava)
-config.setModuleUrl('ace/snippets/javascript', snippetsJavascript)
-config.setModuleUrl('ace/snippets/jexl', snippetsJexl)
-config.setModuleUrl('ace/snippets/json', snippetsJson)
-config.setModuleUrl('ace/snippets/json5', snippetsJson5)
-config.setModuleUrl('ace/snippets/jsoniq', snippetsJsoniq)
-config.setModuleUrl('ace/snippets/jsp', snippetsJsp)
-config.setModuleUrl('ace/snippets/jssm', snippetsJssm)
-config.setModuleUrl('ace/snippets/jsx', snippetsJsx)
-config.setModuleUrl('ace/snippets/julia', snippetsJulia)
-config.setModuleUrl('ace/snippets/kotlin', snippetsKotlin)
-config.setModuleUrl('ace/snippets/latex', snippetsLatex)
-config.setModuleUrl('ace/snippets/latte', snippetsLatte)
-config.setModuleUrl('ace/snippets/less', snippetsLess)
-config.setModuleUrl('ace/snippets/liquid', snippetsLiquid)
-config.setModuleUrl('ace/snippets/lisp', snippetsLisp)
-config.setModuleUrl('ace/snippets/livescript', snippetsLivescript)
-config.setModuleUrl('ace/snippets/logiql', snippetsLogiql)
-config.setModuleUrl('ace/snippets/logtalk', snippetsLogtalk)
-config.setModuleUrl('ace/snippets/lsl', snippetsLsl)
-config.setModuleUrl('ace/snippets/lua', snippetsLua)
-config.setModuleUrl('ace/snippets/luapage', snippetsLuapage)
-config.setModuleUrl('ace/snippets/lucene', snippetsLucene)
-config.setModuleUrl('ace/snippets/makefile', snippetsMakefile)
-config.setModuleUrl('ace/snippets/markdown', snippetsMarkdown)
-config.setModuleUrl('ace/snippets/mask', snippetsMask)
-config.setModuleUrl('ace/snippets/matlab', snippetsMatlab)
-config.setModuleUrl('ace/snippets/maze', snippetsMaze)
-config.setModuleUrl('ace/snippets/mediawiki', snippetsMediawiki)
-config.setModuleUrl('ace/snippets/mel', snippetsMel)
-config.setModuleUrl('ace/snippets/mips', snippetsMips)
-config.setModuleUrl('ace/snippets/mixal', snippetsMixal)
-config.setModuleUrl('ace/snippets/mushcode', snippetsMushcode)
-config.setModuleUrl('ace/snippets/mysql', snippetsMysql)
-config.setModuleUrl('ace/snippets/nasal', snippetsNasal)
-config.setModuleUrl('ace/snippets/nginx', snippetsNginx)
-config.setModuleUrl('ace/snippets/nim', snippetsNim)
-config.setModuleUrl('ace/snippets/nix', snippetsNix)
-config.setModuleUrl('ace/snippets/nsis', snippetsNsis)
-config.setModuleUrl('ace/snippets/nunjucks', snippetsNunjucks)
-config.setModuleUrl('ace/snippets/objectivec', snippetsObjectivec)
-config.setModuleUrl('ace/snippets/ocaml', snippetsOcaml)
-config.setModuleUrl('ace/snippets/odin', snippetsOdin)
-config.setModuleUrl('ace/snippets/partiql', snippetsPartiql)
-config.setModuleUrl('ace/snippets/pascal', snippetsPascal)
-config.setModuleUrl('ace/snippets/perl', snippetsPerl)
-config.setModuleUrl('ace/snippets/pgsql', snippetsPgsql)
-config.setModuleUrl('ace/snippets/php', snippetsPhp)
-config.setModuleUrl('ace/snippets/php_laravel_blade', snippetsPhp_laravel_blade)
-config.setModuleUrl('ace/snippets/pig', snippetsPig)
-config.setModuleUrl('ace/snippets/plain_text', snippetsPlain_text)
-config.setModuleUrl('ace/snippets/plsql', snippetsPlsql)
-config.setModuleUrl('ace/snippets/powershell', snippetsPowershell)
-config.setModuleUrl('ace/snippets/praat', snippetsPraat)
-config.setModuleUrl('ace/snippets/prisma', snippetsPrisma)
-config.setModuleUrl('ace/snippets/prolog', snippetsProlog)
-config.setModuleUrl('ace/snippets/properties', snippetsProperties)
-config.setModuleUrl('ace/snippets/protobuf', snippetsProtobuf)
-config.setModuleUrl('ace/snippets/prql', snippetsPrql)
-config.setModuleUrl('ace/snippets/puppet', snippetsPuppet)
-config.setModuleUrl('ace/snippets/python', snippetsPython)
-config.setModuleUrl('ace/snippets/qml', snippetsQml)
-config.setModuleUrl('ace/snippets/r', snippetsR)
-config.setModuleUrl('ace/snippets/raku', snippetsRaku)
-config.setModuleUrl('ace/snippets/razor', snippetsRazor)
-config.setModuleUrl('ace/snippets/rdoc', snippetsRdoc)
-config.setModuleUrl('ace/snippets/red', snippetsRed)
-config.setModuleUrl('ace/snippets/redshift', snippetsRedshift)
-config.setModuleUrl('ace/snippets/rhtml', snippetsRhtml)
-config.setModuleUrl('ace/snippets/robot', snippetsRobot)
-config.setModuleUrl('ace/snippets/rst', snippetsRst)
-config.setModuleUrl('ace/snippets/ruby', snippetsRuby)
-config.setModuleUrl('ace/snippets/rust', snippetsRust)
-config.setModuleUrl('ace/snippets/sac', snippetsSac)
-config.setModuleUrl('ace/snippets/sass', snippetsSass)
-config.setModuleUrl('ace/snippets/scad', snippetsScad)
-config.setModuleUrl('ace/snippets/scala', snippetsScala)
-config.setModuleUrl('ace/snippets/scheme', snippetsScheme)
-config.setModuleUrl('ace/snippets/scrypt', snippetsScrypt)
-config.setModuleUrl('ace/snippets/scss', snippetsScss)
-config.setModuleUrl('ace/snippets/sh', snippetsSh)
-config.setModuleUrl('ace/snippets/sjs', snippetsSjs)
-config.setModuleUrl('ace/snippets/slim', snippetsSlim)
-config.setModuleUrl('ace/snippets/smarty', snippetsSmarty)
-config.setModuleUrl('ace/snippets/smithy', snippetsSmithy)
-config.setModuleUrl('ace/snippets/snippets', snippetsSnippets)
-config.setModuleUrl('ace/snippets/soy_template', snippetsSoy_template)
-config.setModuleUrl('ace/snippets/space', snippetsSpace)
-config.setModuleUrl('ace/snippets/sparql', snippetsSparql)
-config.setModuleUrl('ace/snippets/sql', snippetsSql)
-config.setModuleUrl('ace/snippets/sqlserver', snippetsSqlserver)
-config.setModuleUrl('ace/snippets/stylus', snippetsStylus)
-config.setModuleUrl('ace/snippets/svg', snippetsSvg)
-config.setModuleUrl('ace/snippets/swift', snippetsSwift)
-config.setModuleUrl('ace/snippets/tcl', snippetsTcl)
-config.setModuleUrl('ace/snippets/terraform', snippetsTerraform)
-config.setModuleUrl('ace/snippets/tex', snippetsTex)
-config.setModuleUrl('ace/snippets/text', snippetsText)
-config.setModuleUrl('ace/snippets/textile', snippetsTextile)
-config.setModuleUrl('ace/snippets/toml', snippetsToml)
-config.setModuleUrl('ace/snippets/tsx', snippetsTsx)
-config.setModuleUrl('ace/snippets/turtle', snippetsTurtle)
-config.setModuleUrl('ace/snippets/twig', snippetsTwig)
-config.setModuleUrl('ace/snippets/typescript', snippetsTypescript)
-config.setModuleUrl('ace/snippets/vala', snippetsVala)
-config.setModuleUrl('ace/snippets/vbscript', snippetsVbscript)
-config.setModuleUrl('ace/snippets/velocity', snippetsVelocity)
-config.setModuleUrl('ace/snippets/verilog', snippetsVerilog)
-config.setModuleUrl('ace/snippets/vhdl', snippetsVhdl)
-config.setModuleUrl('ace/snippets/visualforce', snippetsVisualforce)
-config.setModuleUrl('ace/snippets/wollok', snippetsWollok)
-config.setModuleUrl('ace/snippets/xml', snippetsXml)
-config.setModuleUrl('ace/snippets/xquery', snippetsXquery)
-config.setModuleUrl('ace/snippets/yaml', snippetsYaml)
-config.setModuleUrl('ace/snippets/zeek', snippetsZeek)
+  async loadEditors(target: HTMLElement) {
+    const codeEditors = target.getElementsByClassName('ems-code-editor')
+    for (let i = 0; i < codeEditors.length; i++) {
+      const container = codeEditors.item(i)
+      if (!container) {
+        continue
+      }
+      let pre: Element | null = container
+      if (pre.tagName === 'DIV') {
+        pre = container.querySelector('PRE')
+      }
+      if (!(pre instanceof HTMLElement)) {
+        console.warn('PRE tag not found')
+        continue
+      }
+      //     const codeDiv = $(codeEditors[i])
+      //     let pre = codeEditors[i]
+      //     let hiddenField = codeDiv
+      let disabled = true
+      //
+      //     if (pre.tagName === 'DIV') {
+      //       pre = codeDiv.find('pre').get(0)
+      //       hiddenField = codeDiv.find('input')
+      //       disabled = hiddenField.data('disabled')
+      //     }
+      //
+      let language = 'ace/mode/twig'
+      //     let language = hiddenField.data('language')
+      //     language = language || 'ace/mode/twig'
+      //
+      let theme = 'ace/theme/chrome'
+      //     let theme = hiddenField.data('theme')
+      //     theme = theme || 'ace/theme/chrome'
+      //
+      let maxLines = 15
+      //     if (hiddenField.data('max-lines') && hiddenField.data('max-lines') > 0) {
+      //       maxLines = hiddenField.data('max-lines')
+      //     }
+      //
+      let minLines = 1
+      //     if (hiddenField.data('min-lines') && hiddenField.data('min-lines') > 0) {
+      //       minLines = hiddenField.data('min-lines')
+      //     }
+
+      const ace = await import('ace-builds')
+
+      ace.config.setModuleUrl(language, this.getModuleUrl(language))
+      ace.config.setModuleUrl(theme, this.getModuleUrl(theme))
+
+      const editor = ace.edit(pre, {
+        mode: language,
+        readOnly: disabled,
+        maxLines,
+        minLines,
+        theme
+      })
+
+      console.log(editor)
+      //
+      //     editor.on('change', function () {
+      //       hiddenField.val(editor.getValue())
+      //       if (typeof self.onChangeCallback === 'function') {
+      //         self.onChangeCallback()
+      //       }
+      //     })
+      //
+      //     editor.commands.addCommands([
+      //       {
+      //         name: 'fullscreen',
+      //         bindKey: { win: 'F11', mac: 'Esc' },
+      //         exec: function (editor) {
+      //           if (codeDiv.hasClass('panel-fullscreen')) {
+      //             editor.setOption('maxLines', maxLines)
+      //             codeDiv.removeClass('panel-fullscreen')
+      //             editor.setAutoScrollEditorIntoView(false)
+      //           } else {
+      //             editor.setOption('maxLines', Infinity)
+      //             codeDiv.addClass('panel-fullscreen')
+      //             editor.setAutoScrollEditorIntoView(true)
+      //           }
+      //
+      //           editor.resize()
+      //         }
+      //       },
+      //       {
+      //         name: 'showKeyboardShortcuts',
+      //         bindKey: { win: 'Ctrl-Alt-h', mac: 'Command-Alt-h' },
+      //         exec: function (editor) {
+      //           self.getAceConfig().loadModule('ace/ext/keybinding_menu', function (module) {
+      //             module.init(editor)
+      //             editor.showKeyboardShortcuts()
+      //           })
+      //         }
+      //       }
+      //     ])
+    }
+  }
+
+  // static getAceConfig() {
+  //   if (!this.aceConfig) {
+  //     this.aceConfig = ace.require('ace/config')
+  //     this.aceConfig.init()
+  //   }
+  //   console.log(this.aceConfig)
+  //   return this.aceConfig
+  // }
+  //
+  // getModules(startingWith) {
+  //   const filteredModule = []
+  //   const modules = ace.config.all().$moduleUrls
+  //   for (const [key] of Object.entries(modules)) {
+  //     if (!key.startsWith(startingWith)) {
+  //       continue
+  //     }
+  //     let caption = key.substring(startingWith.length).replaceAll('_', ' ')
+  //     caption = caption.charAt(0).toUpperCase() + caption.slice(1)
+  //     filteredModule.push({
+  //       id: key,
+  //       text: caption
+  //     })
+  //   }
+  //   return filteredModule
+  // }
+  //
+  // loadAceThemePickers(target) {
+  //   const codeEditorThemeField = $(target).find('.code_editor_theme_ems')
+  //   if (codeEditorThemeField.length === 0) {
+  //     return
+  //   }
+  //   const modes = this.getModules('ace/theme/')
+  //   codeEditorThemeField.select2({
+  //     data: modes,
+  //     placeholder: 'Select a theme'
+  //   })
+  // }
+  //
+  // loadAceModePickers(target) {
+  //   const codeEditorModeField = $(target).find('.code_editor_mode_ems')
+  //   if (codeEditorModeField.length === 0) {
+  //     return
+  //   }
+  //   const modes = this.getModules('ace/mode/')
+  //   codeEditorModeField.select2({
+  //     data: modes,
+  //     placeholder: 'Select a language'
+  //   })
+  // }
+  private getModuleUrl(moduleName: string): string {
+    switch (moduleName) {
+      case 'ace/ext/beautify':
+        return extBeautify
+      case 'ace/ext/code_lens':
+        return extCode_lens
+      case 'ace/ext/command_bar':
+        return extCommand_bar
+      case 'ace/ext/elastic_tabstops_lite':
+        return extElastic_tabstops_lite
+      case 'ace/ext/emmet':
+        return extEmmet
+      case 'ace/ext/error_marker':
+        return extError_marker
+      case 'ace/ext/hardwrap':
+        return extHardwrap
+      case 'ace/ext/inline_autocomplete':
+        return extInline_autocomplete
+      case 'ace/ext/keyboard_menu':
+        return extKeyboard_menu
+      case 'ace/ext/language_tools':
+        return extLanguage_tools
+      case 'ace/ext/linking':
+        return extLinking
+      case 'ace/ext/modelist':
+        return extModelist
+      case 'ace/ext/options':
+        return extOptions
+      case 'ace/ext/prompt':
+        return extPrompt
+      case 'ace/ext/rtl':
+        return extRtl
+      case 'ace/ext/searchbox':
+        return extSearchbox
+      case 'ace/ext/settings_menu':
+        return extSettings_menu
+      case 'ace/ext/simple_tokenizer':
+        return extSimple_tokenizer
+      case 'ace/ext/spellcheck':
+        return extSpellcheck
+      case 'ace/ext/split':
+        return extSplit
+      case 'ace/ext/static_highlight':
+        return extStatic_highlight
+      case 'ace/ext/statusbar':
+        return extStatusbar
+      case 'ace/ext/textarea':
+        return extTextarea
+      case 'ace/ext/themelist':
+        return extThemelist
+      case 'ace/ext/whitespace':
+        return extWhitespace
+      case 'ace/keyboard/emacs':
+        return keyboardEmacs
+      case 'ace/keyboard/sublime':
+        return keyboardSublime
+      case 'ace/keyboard/vim':
+        return keyboardVim
+      case 'ace/keyboard/vscode':
+        return keyboardVscode
+      case 'ace/mode/abap':
+        return modeAbap
+      case 'ace/mode/abc':
+        return modeAbc
+      case 'ace/mode/actionscript':
+        return modeActionscript
+      case 'ace/mode/ada':
+        return modeAda
+      case 'ace/mode/alda':
+        return modeAlda
+      case 'ace/mode/apache_conf':
+        return modeApache_conf
+      case 'ace/mode/apex':
+        return modeApex
+      case 'ace/mode/applescript':
+        return modeApplescript
+      case 'ace/mode/aql':
+        return modeAql
+      case 'ace/mode/asciidoc':
+        return modeAsciidoc
+      case 'ace/mode/asl':
+        return modeAsl
+      case 'ace/mode/assembly_x86':
+        return modeAssembly_x86
+      case 'ace/mode/astro':
+        return modeAstro
+      case 'ace/mode/autohotkey':
+        return modeAutohotkey
+      case 'ace/mode/batchfile':
+        return modeBatchfile
+      case 'ace/mode/bibtex':
+        return modeBibtex
+      case 'ace/mode/c9search':
+        return modeC9search
+      case 'ace/mode/c_cpp':
+        return modeC_cpp
+      case 'ace/mode/cirru':
+        return modeCirru
+      case 'ace/mode/clojure':
+        return modeClojure
+      case 'ace/mode/cobol':
+        return modeCobol
+      case 'ace/mode/coffee':
+        return modeCoffee
+      case 'ace/mode/coldfusion':
+        return modeColdfusion
+      case 'ace/mode/crystal':
+        return modeCrystal
+      case 'ace/mode/csharp':
+        return modeCsharp
+      case 'ace/mode/csound_document':
+        return modeCsound_document
+      case 'ace/mode/csound_orchestra':
+        return modeCsound_orchestra
+      case 'ace/mode/csound_score':
+        return modeCsound_score
+      case 'ace/mode/csp':
+        return modeCsp
+      case 'ace/mode/css':
+        return modeCss
+      case 'ace/mode/curly':
+        return modeCurly
+      case 'ace/mode/cuttlefish':
+        return modeCuttlefish
+      case 'ace/mode/d':
+        return modeD
+      case 'ace/mode/dart':
+        return modeDart
+      case 'ace/mode/diff':
+        return modeDiff
+      case 'ace/mode/django':
+        return modeDjango
+      case 'ace/mode/dockerfile':
+        return modeDockerfile
+      case 'ace/mode/dot':
+        return modeDot
+      case 'ace/mode/drools':
+        return modeDrools
+      case 'ace/mode/edifact':
+        return modeEdifact
+      case 'ace/mode/eiffel':
+        return modeEiffel
+      case 'ace/mode/ejs':
+        return modeEjs
+      case 'ace/mode/elixir':
+        return modeElixir
+      case 'ace/mode/elm':
+        return modeElm
+      case 'ace/mode/erlang':
+        return modeErlang
+      case 'ace/mode/flix':
+        return modeFlix
+      case 'ace/mode/forth':
+        return modeForth
+      case 'ace/mode/fortran':
+        return modeFortran
+      case 'ace/mode/fsharp':
+        return modeFsharp
+      case 'ace/mode/fsl':
+        return modeFsl
+      case 'ace/mode/ftl':
+        return modeFtl
+      case 'ace/mode/gcode':
+        return modeGcode
+      case 'ace/mode/gherkin':
+        return modeGherkin
+      case 'ace/mode/gitignore':
+        return modeGitignore
+      case 'ace/mode/glsl':
+        return modeGlsl
+      case 'ace/mode/gobstones':
+        return modeGobstones
+      case 'ace/mode/golang':
+        return modeGolang
+      case 'ace/mode/graphqlschema':
+        return modeGraphqlschema
+      case 'ace/mode/groovy':
+        return modeGroovy
+      case 'ace/mode/haml':
+        return modeHaml
+      case 'ace/mode/handlebars':
+        return modeHandlebars
+      case 'ace/mode/haskell':
+        return modeHaskell
+      case 'ace/mode/haskell_cabal':
+        return modeHaskell_cabal
+      case 'ace/mode/haxe':
+        return modeHaxe
+      case 'ace/mode/hjson':
+        return modeHjson
+      case 'ace/mode/html':
+        return modeHtml
+      case 'ace/mode/html_elixir':
+        return modeHtml_elixir
+      case 'ace/mode/html_ruby':
+        return modeHtml_ruby
+      case 'ace/mode/ini':
+        return modeIni
+      case 'ace/mode/io':
+        return modeIo
+      case 'ace/mode/ion':
+        return modeIon
+      case 'ace/mode/jack':
+        return modeJack
+      case 'ace/mode/jade':
+        return modeJade
+      case 'ace/mode/java':
+        return modeJava
+      case 'ace/mode/javascript':
+        return modeJavascript
+      case 'ace/mode/jexl':
+        return modeJexl
+      case 'ace/mode/json':
+        return modeJson
+      case 'ace/mode/json5':
+        return modeJson5
+      case 'ace/mode/jsoniq':
+        return modeJsoniq
+      case 'ace/mode/jsp':
+        return modeJsp
+      case 'ace/mode/jssm':
+        return modeJssm
+      case 'ace/mode/jsx':
+        return modeJsx
+      case 'ace/mode/julia':
+        return modeJulia
+      case 'ace/mode/kotlin':
+        return modeKotlin
+      case 'ace/mode/latex':
+        return modeLatex
+      case 'ace/mode/latte':
+        return modeLatte
+      case 'ace/mode/less':
+        return modeLess
+      case 'ace/mode/liquid':
+        return modeLiquid
+      case 'ace/mode/lisp':
+        return modeLisp
+      case 'ace/mode/livescript':
+        return modeLivescript
+      case 'ace/mode/logiql':
+        return modeLogiql
+      case 'ace/mode/logtalk':
+        return modeLogtalk
+      case 'ace/mode/lsl':
+        return modeLsl
+      case 'ace/mode/lua':
+        return modeLua
+      case 'ace/mode/luapage':
+        return modeLuapage
+      case 'ace/mode/lucene':
+        return modeLucene
+      case 'ace/mode/makefile':
+        return modeMakefile
+      case 'ace/mode/markdown':
+        return modeMarkdown
+      case 'ace/mode/mask':
+        return modeMask
+      case 'ace/mode/matlab':
+        return modeMatlab
+      case 'ace/mode/maze':
+        return modeMaze
+      case 'ace/mode/mediawiki':
+        return modeMediawiki
+      case 'ace/mode/mel':
+        return modeMel
+      case 'ace/mode/mips':
+        return modeMips
+      case 'ace/mode/mixal':
+        return modeMixal
+      case 'ace/mode/mushcode':
+        return modeMushcode
+      case 'ace/mode/mysql':
+        return modeMysql
+      case 'ace/mode/nasal':
+        return modeNasal
+      case 'ace/mode/nginx':
+        return modeNginx
+      case 'ace/mode/nim':
+        return modeNim
+      case 'ace/mode/nix':
+        return modeNix
+      case 'ace/mode/nsis':
+        return modeNsis
+      case 'ace/mode/nunjucks':
+        return modeNunjucks
+      case 'ace/mode/objectivec':
+        return modeObjectivec
+      case 'ace/mode/ocaml':
+        return modeOcaml
+      case 'ace/mode/odin':
+        return modeOdin
+      case 'ace/mode/partiql':
+        return modePartiql
+      case 'ace/mode/pascal':
+        return modePascal
+      case 'ace/mode/perl':
+        return modePerl
+      case 'ace/mode/pgsql':
+        return modePgsql
+      case 'ace/mode/php':
+        return modePhp
+      case 'ace/mode/php_laravel_blade':
+        return modePhp_laravel_blade
+      case 'ace/mode/pig':
+        return modePig
+      case 'ace/mode/plain_text':
+        return modePlain_text
+      case 'ace/mode/plsql':
+        return modePlsql
+      case 'ace/mode/powershell':
+        return modePowershell
+      case 'ace/mode/praat':
+        return modePraat
+      case 'ace/mode/prisma':
+        return modePrisma
+      case 'ace/mode/prolog':
+        return modeProlog
+      case 'ace/mode/properties':
+        return modeProperties
+      case 'ace/mode/protobuf':
+        return modeProtobuf
+      case 'ace/mode/prql':
+        return modePrql
+      case 'ace/mode/puppet':
+        return modePuppet
+      case 'ace/mode/python':
+        return modePython
+      case 'ace/mode/qml':
+        return modeQml
+      case 'ace/mode/r':
+        return modeR
+      case 'ace/mode/raku':
+        return modeRaku
+      case 'ace/mode/razor':
+        return modeRazor
+      case 'ace/mode/rdoc':
+        return modeRdoc
+      case 'ace/mode/red':
+        return modeRed
+      case 'ace/mode/redshift':
+        return modeRedshift
+      case 'ace/mode/rhtml':
+        return modeRhtml
+      case 'ace/mode/robot':
+        return modeRobot
+      case 'ace/mode/rst':
+        return modeRst
+      case 'ace/mode/ruby':
+        return modeRuby
+      case 'ace/mode/rust':
+        return modeRust
+      case 'ace/mode/sac':
+        return modeSac
+      case 'ace/mode/sass':
+        return modeSass
+      case 'ace/mode/scad':
+        return modeScad
+      case 'ace/mode/scala':
+        return modeScala
+      case 'ace/mode/scheme':
+        return modeScheme
+      case 'ace/mode/scrypt':
+        return modeScrypt
+      case 'ace/mode/scss':
+        return modeScss
+      case 'ace/mode/sh':
+        return modeSh
+      case 'ace/mode/sjs':
+        return modeSjs
+      case 'ace/mode/slim':
+        return modeSlim
+      case 'ace/mode/smarty':
+        return modeSmarty
+      case 'ace/mode/smithy':
+        return modeSmithy
+      case 'ace/mode/snippets':
+        return modeSnippets
+      case 'ace/mode/soy_template':
+        return modeSoy_template
+      case 'ace/mode/space':
+        return modeSpace
+      case 'ace/mode/sparql':
+        return modeSparql
+      case 'ace/mode/sql':
+        return modeSql
+      case 'ace/mode/sqlserver':
+        return modeSqlserver
+      case 'ace/mode/stylus':
+        return modeStylus
+      case 'ace/mode/svg':
+        return modeSvg
+      case 'ace/mode/swift':
+        return modeSwift
+      case 'ace/mode/tcl':
+        return modeTcl
+      case 'ace/mode/terraform':
+        return modeTerraform
+      case 'ace/mode/tex':
+        return modeTex
+      case 'ace/mode/text':
+        return modeText
+      case 'ace/mode/textile':
+        return modeTextile
+      case 'ace/mode/toml':
+        return modeToml
+      case 'ace/mode/tsx':
+        return modeTsx
+      case 'ace/mode/turtle':
+        return modeTurtle
+      case 'ace/mode/twig':
+        return modeTwig
+      case 'ace/mode/typescript':
+        return modeTypescript
+      case 'ace/mode/vala':
+        return modeVala
+      case 'ace/mode/vbscript':
+        return modeVbscript
+      case 'ace/mode/velocity':
+        return modeVelocity
+      case 'ace/mode/verilog':
+        return modeVerilog
+      case 'ace/mode/vhdl':
+        return modeVhdl
+      case 'ace/mode/visualforce':
+        return modeVisualforce
+      case 'ace/mode/wollok':
+        return modeWollok
+      case 'ace/mode/xml':
+        return modeXml
+      case 'ace/mode/xquery':
+        return modeXquery
+      case 'ace/mode/yaml':
+        return modeYaml
+      case 'ace/mode/zeek':
+        return modeZeek
+
+      case 'ace/theme/ambiance':
+        return themeAmbiance
+      case 'ace/theme/chaos':
+        return themeChaos
+      case 'ace/theme/chrome':
+        return themeChrome
+      case 'ace/theme/cloud9_day':
+        return themeCloud9_day
+      case 'ace/theme/cloud9_night':
+        return themeCloud9_night
+      case 'ace/theme/cloud9_night_low_color':
+        return themeCloud9_night_low_color
+      case 'ace/theme/cloud_editor':
+        return themeCloud_editor
+      case 'ace/theme/cloud_editor_dark':
+        return themeCloud_editor_dark
+      case 'ace/theme/clouds':
+        return themeClouds
+      case 'ace/theme/clouds_midnight':
+        return themeClouds_midnight
+      case 'ace/theme/cobalt':
+        return themeCobalt
+      case 'ace/theme/crimson_editor':
+        return themeCrimson_editor
+      case 'ace/theme/dawn':
+        return themeDawn
+      case 'ace/theme/dracula':
+        return themeDracula
+      case 'ace/theme/dreamweaver':
+        return themeDreamweaver
+      case 'ace/theme/eclipse':
+        return themeEclipse
+      case 'ace/theme/github':
+        return themeGithub
+      case 'ace/theme/github_dark':
+        return themeGithub_dark
+      case 'ace/theme/gob':
+        return themeGob
+      case 'ace/theme/gruvbox':
+        return themeGruvbox
+      case 'ace/theme/gruvbox_dark_hard':
+        return themeGruvbox_dark_hard
+      case 'ace/theme/gruvbox_light_hard':
+        return themeGruvbox_light_hard
+      case 'ace/theme/idle_fingers':
+        return themeIdle_fingers
+      case 'ace/theme/iplastic':
+        return themeIplastic
+      case 'ace/theme/katzenmilch':
+        return themeKatzenmilch
+      case 'ace/theme/kr_theme':
+        return themeKr_theme
+      case 'ace/theme/kuroir':
+        return themeKuroir
+      case 'ace/theme/merbivore':
+        return themeMerbivore
+      case 'ace/theme/merbivore_soft':
+        return themeMerbivore_soft
+      case 'ace/theme/mono_industrial':
+        return themeMono_industrial
+      case 'ace/theme/monokai':
+        return themeMonokai
+      case 'ace/theme/nord_dark':
+        return themeNord_dark
+      case 'ace/theme/one_dark':
+        return themeOne_dark
+      case 'ace/theme/pastel_on_dark':
+        return themePastel_on_dark
+      case 'ace/theme/solarized_dark':
+        return themeSolarized_dark
+      case 'ace/theme/solarized_light':
+        return themeSolarized_light
+      case 'ace/theme/sqlserver':
+        return themeSqlserver
+      case 'ace/theme/terminal':
+        return themeTerminal
+      case 'ace/theme/textmate':
+        return themeTextmate
+      case 'ace/theme/tomorrow':
+        return themeTomorrow
+      case 'ace/theme/tomorrow_night':
+        return themeTomorrow_night
+      case 'ace/theme/tomorrow_night_blue':
+        return themeTomorrow_night_blue
+      case 'ace/theme/tomorrow_night_bright':
+        return themeTomorrow_night_bright
+      case 'ace/theme/tomorrow_night_eighties':
+        return themeTomorrow_night_eighties
+      case 'ace/theme/twilight':
+        return themeTwilight
+      case 'ace/theme/vibrant_ink':
+        return themeVibrant_ink
+      case 'ace/theme/xcode':
+        return themeXcode
+      case 'ace/mode/base_worker':
+        return modeBase_worker
+      case 'ace/mode/coffee_worker':
+        return modeCoffee_worker
+      case 'ace/mode/css_worker':
+        return modeCss_worker
+      case 'ace/mode/html_worker':
+        return modeHtml_worker
+      case 'ace/mode/javascript_worker':
+        return modeJavascript_worker
+      case 'ace/mode/json_worker':
+        return modeJson_worker
+      case 'ace/mode/lua_worker':
+        return modeLua_worker
+      case 'ace/mode/php_worker':
+        return modePhp_worker
+      case 'ace/mode/xml_worker':
+        return modeXml_worker
+      case 'ace/mode/xquery_worker':
+        return modeXquery_worker
+      case 'ace/mode/yaml_worker':
+        return modeYaml_worker
+      case 'ace/snippets/abap':
+        return snippetsAbap
+      case 'ace/snippets/abc':
+        return snippetsAbc
+      case 'ace/snippets/actionscript':
+        return snippetsActionscript
+      case 'ace/snippets/ada':
+        return snippetsAda
+      case 'ace/snippets/alda':
+        return snippetsAlda
+      case 'ace/snippets/apache_conf':
+        return snippetsApache_conf
+      case 'ace/snippets/apex':
+        return snippetsApex
+      case 'ace/snippets/applescript':
+        return snippetsApplescript
+      case 'ace/snippets/aql':
+        return snippetsAql
+      case 'ace/snippets/asciidoc':
+        return snippetsAsciidoc
+      case 'ace/snippets/asl':
+        return snippetsAsl
+      case 'ace/snippets/assembly_x86':
+        return snippetsAssembly_x86
+      case 'ace/snippets/astro':
+        return snippetsAstro
+      case 'ace/snippets/autohotkey':
+        return snippetsAutohotkey
+      case 'ace/snippets/batchfile':
+        return snippetsBatchfile
+      case 'ace/snippets/bibtex':
+        return snippetsBibtex
+      case 'ace/snippets/c9search':
+        return snippetsC9search
+      case 'ace/snippets/c_cpp':
+        return snippetsC_cpp
+      case 'ace/snippets/cirru':
+        return snippetsCirru
+      case 'ace/snippets/clojure':
+        return snippetsClojure
+      case 'ace/snippets/cobol':
+        return snippetsCobol
+      case 'ace/snippets/coffee':
+        return snippetsCoffee
+      case 'ace/snippets/coldfusion':
+        return snippetsColdfusion
+      case 'ace/snippets/crystal':
+        return snippetsCrystal
+      case 'ace/snippets/csharp':
+        return snippetsCsharp
+      case 'ace/snippets/csound_document':
+        return snippetsCsound_document
+      case 'ace/snippets/csound_orchestra':
+        return snippetsCsound_orchestra
+      case 'ace/snippets/csound_score':
+        return snippetsCsound_score
+      case 'ace/snippets/csp':
+        return snippetsCsp
+      case 'ace/snippets/css':
+        return snippetsCss
+      case 'ace/snippets/curly':
+        return snippetsCurly
+      case 'ace/snippets/cuttlefish':
+        return snippetsCuttlefish
+      case 'ace/snippets/d':
+        return snippetsD
+      case 'ace/snippets/dart':
+        return snippetsDart
+      case 'ace/snippets/diff':
+        return snippetsDiff
+      case 'ace/snippets/django':
+        return snippetsDjango
+      case 'ace/snippets/dockerfile':
+        return snippetsDockerfile
+      case 'ace/snippets/dot':
+        return snippetsDot
+      case 'ace/snippets/drools':
+        return snippetsDrools
+      case 'ace/snippets/edifact':
+        return snippetsEdifact
+      case 'ace/snippets/eiffel':
+        return snippetsEiffel
+      case 'ace/snippets/ejs':
+        return snippetsEjs
+      case 'ace/snippets/elixir':
+        return snippetsElixir
+      case 'ace/snippets/elm':
+        return snippetsElm
+      case 'ace/snippets/erlang':
+        return snippetsErlang
+      case 'ace/snippets/flix':
+        return snippetsFlix
+      case 'ace/snippets/forth':
+        return snippetsForth
+      case 'ace/snippets/fortran':
+        return snippetsFortran
+      case 'ace/snippets/fsharp':
+        return snippetsFsharp
+      case 'ace/snippets/fsl':
+        return snippetsFsl
+      case 'ace/snippets/ftl':
+        return snippetsFtl
+      case 'ace/snippets/gcode':
+        return snippetsGcode
+      case 'ace/snippets/gherkin':
+        return snippetsGherkin
+      case 'ace/snippets/gitignore':
+        return snippetsGitignore
+      case 'ace/snippets/glsl':
+        return snippetsGlsl
+      case 'ace/snippets/gobstones':
+        return snippetsGobstones
+      case 'ace/snippets/golang':
+        return snippetsGolang
+      case 'ace/snippets/graphqlschema':
+        return snippetsGraphqlschema
+      case 'ace/snippets/groovy':
+        return snippetsGroovy
+      case 'ace/snippets/haml':
+        return snippetsHaml
+      case 'ace/snippets/handlebars':
+        return snippetsHandlebars
+      case 'ace/snippets/haskell':
+        return snippetsHaskell
+      case 'ace/snippets/haskell_cabal':
+        return snippetsHaskell_cabal
+      case 'ace/snippets/haxe':
+        return snippetsHaxe
+      case 'ace/snippets/hjson':
+        return snippetsHjson
+      case 'ace/snippets/html':
+        return snippetsHtml
+      case 'ace/snippets/html_elixir':
+        return snippetsHtml_elixir
+      case 'ace/snippets/html_ruby':
+        return snippetsHtml_ruby
+      case 'ace/snippets/ini':
+        return snippetsIni
+      case 'ace/snippets/io':
+        return snippetsIo
+      case 'ace/snippets/ion':
+        return snippetsIon
+      case 'ace/snippets/jack':
+        return snippetsJack
+      case 'ace/snippets/jade':
+        return snippetsJade
+      case 'ace/snippets/java':
+        return snippetsJava
+      case 'ace/snippets/javascript':
+        return snippetsJavascript
+      case 'ace/snippets/jexl':
+        return snippetsJexl
+      case 'ace/snippets/json':
+        return snippetsJson
+      case 'ace/snippets/json5':
+        return snippetsJson5
+      case 'ace/snippets/jsoniq':
+        return snippetsJsoniq
+      case 'ace/snippets/jsp':
+        return snippetsJsp
+      case 'ace/snippets/jssm':
+        return snippetsJssm
+      case 'ace/snippets/jsx':
+        return snippetsJsx
+      case 'ace/snippets/julia':
+        return snippetsJulia
+      case 'ace/snippets/kotlin':
+        return snippetsKotlin
+      case 'ace/snippets/latex':
+        return snippetsLatex
+      case 'ace/snippets/latte':
+        return snippetsLatte
+      case 'ace/snippets/less':
+        return snippetsLess
+      case 'ace/snippets/liquid':
+        return snippetsLiquid
+      case 'ace/snippets/lisp':
+        return snippetsLisp
+      case 'ace/snippets/livescript':
+        return snippetsLivescript
+      case 'ace/snippets/logiql':
+        return snippetsLogiql
+      case 'ace/snippets/logtalk':
+        return snippetsLogtalk
+      case 'ace/snippets/lsl':
+        return snippetsLsl
+      case 'ace/snippets/lua':
+        return snippetsLua
+      case 'ace/snippets/luapage':
+        return snippetsLuapage
+      case 'ace/snippets/lucene':
+        return snippetsLucene
+      case 'ace/snippets/makefile':
+        return snippetsMakefile
+      case 'ace/snippets/markdown':
+        return snippetsMarkdown
+      case 'ace/snippets/mask':
+        return snippetsMask
+      case 'ace/snippets/matlab':
+        return snippetsMatlab
+      case 'ace/snippets/maze':
+        return snippetsMaze
+      case 'ace/snippets/mediawiki':
+        return snippetsMediawiki
+      case 'ace/snippets/mel':
+        return snippetsMel
+      case 'ace/snippets/mips':
+        return snippetsMips
+      case 'ace/snippets/mixal':
+        return snippetsMixal
+      case 'ace/snippets/mushcode':
+        return snippetsMushcode
+      case 'ace/snippets/mysql':
+        return snippetsMysql
+      case 'ace/snippets/nasal':
+        return snippetsNasal
+      case 'ace/snippets/nginx':
+        return snippetsNginx
+      case 'ace/snippets/nim':
+        return snippetsNim
+      case 'ace/snippets/nix':
+        return snippetsNix
+      case 'ace/snippets/nsis':
+        return snippetsNsis
+      case 'ace/snippets/nunjucks':
+        return snippetsNunjucks
+      case 'ace/snippets/objectivec':
+        return snippetsObjectivec
+      case 'ace/snippets/ocaml':
+        return snippetsOcaml
+      case 'ace/snippets/odin':
+        return snippetsOdin
+      case 'ace/snippets/partiql':
+        return snippetsPartiql
+      case 'ace/snippets/pascal':
+        return snippetsPascal
+      case 'ace/snippets/perl':
+        return snippetsPerl
+      case 'ace/snippets/pgsql':
+        return snippetsPgsql
+      case 'ace/snippets/php':
+        return snippetsPhp
+      case 'ace/snippets/php_laravel_blade':
+        return snippetsPhp_laravel_blade
+      case 'ace/snippets/pig':
+        return snippetsPig
+      case 'ace/snippets/plain_text':
+        return snippetsPlain_text
+      case 'ace/snippets/plsql':
+        return snippetsPlsql
+      case 'ace/snippets/powershell':
+        return snippetsPowershell
+      case 'ace/snippets/praat':
+        return snippetsPraat
+      case 'ace/snippets/prisma':
+        return snippetsPrisma
+      case 'ace/snippets/prolog':
+        return snippetsProlog
+      case 'ace/snippets/properties':
+        return snippetsProperties
+      case 'ace/snippets/protobuf':
+        return snippetsProtobuf
+      case 'ace/snippets/prql':
+        return snippetsPrql
+      case 'ace/snippets/puppet':
+        return snippetsPuppet
+      case 'ace/snippets/python':
+        return snippetsPython
+      case 'ace/snippets/qml':
+        return snippetsQml
+      case 'ace/snippets/r':
+        return snippetsR
+      case 'ace/snippets/raku':
+        return snippetsRaku
+      case 'ace/snippets/razor':
+        return snippetsRazor
+      case 'ace/snippets/rdoc':
+        return snippetsRdoc
+      case 'ace/snippets/red':
+        return snippetsRed
+      case 'ace/snippets/redshift':
+        return snippetsRedshift
+      case 'ace/snippets/rhtml':
+        return snippetsRhtml
+      case 'ace/snippets/robot':
+        return snippetsRobot
+      case 'ace/snippets/rst':
+        return snippetsRst
+      case 'ace/snippets/ruby':
+        return snippetsRuby
+      case 'ace/snippets/rust':
+        return snippetsRust
+      case 'ace/snippets/sac':
+        return snippetsSac
+      case 'ace/snippets/sass':
+        return snippetsSass
+      case 'ace/snippets/scad':
+        return snippetsScad
+      case 'ace/snippets/scala':
+        return snippetsScala
+      case 'ace/snippets/scheme':
+        return snippetsScheme
+      case 'ace/snippets/scrypt':
+        return snippetsScrypt
+      case 'ace/snippets/scss':
+        return snippetsScss
+      case 'ace/snippets/sh':
+        return snippetsSh
+      case 'ace/snippets/sjs':
+        return snippetsSjs
+      case 'ace/snippets/slim':
+        return snippetsSlim
+      case 'ace/snippets/smarty':
+        return snippetsSmarty
+      case 'ace/snippets/smithy':
+        return snippetsSmithy
+      case 'ace/snippets/snippets':
+        return snippetsSnippets
+      case 'ace/snippets/soy_template':
+        return snippetsSoy_template
+      case 'ace/snippets/space':
+        return snippetsSpace
+      case 'ace/snippets/sparql':
+        return snippetsSparql
+      case 'ace/snippets/sql':
+        return snippetsSql
+      case 'ace/snippets/sqlserver':
+        return snippetsSqlserver
+      case 'ace/snippets/stylus':
+        return snippetsStylus
+      case 'ace/snippets/svg':
+        return snippetsSvg
+      case 'ace/snippets/swift':
+        return snippetsSwift
+      case 'ace/snippets/tcl':
+        return snippetsTcl
+      case 'ace/snippets/terraform':
+        return snippetsTerraform
+      case 'ace/snippets/tex':
+        return snippetsTex
+      case 'ace/snippets/text':
+        return snippetsText
+      case 'ace/snippets/textile':
+        return snippetsTextile
+      case 'ace/snippets/toml':
+        return snippetsToml
+      case 'ace/snippets/tsx':
+        return snippetsTsx
+      case 'ace/snippets/turtle':
+        return snippetsTurtle
+      case 'ace/snippets/twig':
+        return snippetsTwig
+      case 'ace/snippets/typescript':
+        return snippetsTypescript
+      case 'ace/snippets/vala':
+        return snippetsVala
+      case 'ace/snippets/vbscript':
+        return snippetsVbscript
+      case 'ace/snippets/velocity':
+        return snippetsVelocity
+      case 'ace/snippets/verilog':
+        return snippetsVerilog
+      case 'ace/snippets/vhdl':
+        return snippetsVhdl
+      case 'ace/snippets/visualforce':
+        return snippetsVisualforce
+      case 'ace/snippets/wollok':
+        return snippetsWollok
+      case 'ace/snippets/xml':
+        return snippetsXml
+      case 'ace/snippets/xquery':
+        return snippetsXquery
+      case 'ace/snippets/yaml':
+        return snippetsYaml
+      case 'ace/snippets/zeek':
+        return snippetsZeek
+      default:
+        throw new Error(`Module path not found for ${moduleName}`)
+    }
+  }
+}

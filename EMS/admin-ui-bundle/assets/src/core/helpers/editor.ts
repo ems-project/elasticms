@@ -42,6 +42,7 @@ import {
 } from 'ckeditor5'
 import 'ckeditor5/ckeditor5.css'
 import { EditorOptions } from './editorOptions.ts'
+import { EditorRevisionOptions } from './editorRevisionOptions.ts'
 
 // import { Link } from './ckeditor5-link/src/index'
 // import { AssetManager } from './ckeditor5-assetmanager/src/index'
@@ -58,7 +59,8 @@ import { EditorOptions } from './editorOptions.ts'
 // }
 
 export default class Editor {
-  constructor(element: HTMLElement) {
+  constructor(element: HTMLElement, options: EditorRevisionOptions | null) {
+    console.log(options)
     ClassicEditor.create(element, this.buildCke5Options())
       // .then((editor) => {
       //   self._init(editor)

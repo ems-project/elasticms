@@ -4,10 +4,9 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 module.exports = {
   root: true,
   'extends': [
-    'eslint:recommended',
-    '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier/skip-formatting'
+    'eslint:recommended'
   ],
+  parser: '@typescript-eslint/parser',
   overrides: [
     {
       files: [

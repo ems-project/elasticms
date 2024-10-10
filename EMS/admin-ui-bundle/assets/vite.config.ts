@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
-import { resolve } from 'path'
 import inject from '@rollup/plugin-inject'
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
   plugins: [
@@ -11,7 +11,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '~bootstrap': resolve(__dirname, 'node_modules/bootstrap')
+      '~bootstrap': fileURLToPath(new URL('./node_modules/bootstrap', import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
   build: {

@@ -14,8 +14,7 @@
   "devDependencies": {
     "@rollup/plugin-inject": "^5.0.5",
     "@rushstack/eslint-patch": "^1.10.4",
-    "@vue/eslint-config-prettier": "^9.0.0",
-    "@vue/eslint-config-typescript": "^13.0.0",
+    "@typescript-eslint/parser": "^8.8.1",
     "cypress": "^13.12.0",
     "eslint": "^8.57.1",
     "eslint-plugin-cypress": "^3.3.0",

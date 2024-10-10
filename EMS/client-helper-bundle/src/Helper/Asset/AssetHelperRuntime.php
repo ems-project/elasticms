@@ -20,8 +20,11 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
     public function __construct(
         private readonly StorageManager $storageManager,
-        private readonly ClientRequestManager $manager, private readonly AssetRuntime $commonAssetRuntime, string $projectDir, private readonly ?string $localFolder)
-    {
+        private readonly ClientRequestManager $manager,
+        private readonly AssetRuntime $commonAssetRuntime,
+        string $projectDir,
+        private readonly ?string $localFolder
+    ) {
         $this->publicDir = $projectDir.'/public';
 
         $this->filesystem = new Filesystem();

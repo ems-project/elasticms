@@ -99,7 +99,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
             return \sprintf('%s/%s', $this->localFolder, $path);
         }
         if (null === $this->versionSaveDir) {
-            return \sprintf('bundle/%s/%s', $this->getVersionHash(), $path);
+            return \sprintf('bundles/%s/%s', $this->getVersionHash(), $path);
         }
 
         return \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $this->getVersionHash(), $path);

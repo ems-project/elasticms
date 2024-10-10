@@ -18,19 +18,14 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
     private ?string $versionHash = null;
     private ?string $versionSaveDir = null;
 
-    public function __construct(
-        private readonly StorageManager $storageManager,
-        private readonly ClientRequestManager $manager,
-        private readonly AssetRuntime $commonAssetRuntime,
-        string $projectDir,
-        private readonly ?string $localFolder
-    ) {
+    public function __construct(private readonly StorageManager $storageManager, private readonly ClientRequestManager $manager, private readonly AssetRuntime $commonAssetRuntime, string $projectDir, private readonly ?string $localFolder)
+    {
         $this->publicDir = $projectDir.'/public';
 
         $this->filesystem = new Filesystem();
     }
 
-    public function setVersion(string $hash, ?string $saveDir = null): ?string
+    public function setVersion(string $hash, ?string $saveDir = 'bundles'): ?string
     {
         if (null !== $this->versionHash && $this->versionHash !== $hash) {
             throw new \RuntimeException('Another hash version has been already defined');

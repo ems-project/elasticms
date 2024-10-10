@@ -1,4 +1,4 @@
-import Editor from '../helpers/editor'
+import Editor from '../helpers/editor.ts'
 
 class WYSIWYG {
   editors = []

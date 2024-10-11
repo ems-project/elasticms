@@ -8,6 +8,7 @@ use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\ClientHelperBundle\Helper\Local\LocalHelper;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigTypes;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Storage\Archive;
 use EMS\Helpers\Html\MimeTypes;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -135,6 +136,17 @@ final class UploadAssetsCommand extends AbstractLocalCommand
 
     private function uploadEmsArchive(): int
     {
+        $directory = $this->localHelper->getDirectory($this->baseUrl);
+        $algo = $this->coreApi->file()->getHashAlgo();
+        $archive = Archive::fromDirectory($directory, $algo);
+        foreach ($this->coreApi->file()->heads(...$archive->getHashes()) as $hash) {
+            $file = $archive->getFirstFileByHash($hash);
+            $uploadHash = $this->coreApi->file()->uploadFile($directory.DIRECTORY_SEPARATOR.$file->getFilename());
+            if ($uploadHash !== $hash) {
+                throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->getFilename()));
+            }
+        }
+
         return self::EXECUTE_SUCCESS;
     }
 }

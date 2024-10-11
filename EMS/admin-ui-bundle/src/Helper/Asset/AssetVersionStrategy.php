@@ -34,7 +34,14 @@ final class AssetVersionStrategy implements VersionStrategyInterface
     private function getManifestPath(string $path): string
     {
         if (!isset($this->manifestData)) {
-            $manifestPath = $this->fileLocator->locate('@EMSAdminUIBundle/Resources/public/.vite/manifest.json');
+            try {
+                $manifestPath = $this->fileLocator->locate('@EMSAdminUIBundle/Resources/public/.vite/manifest.json');
+            } catch (\Throwable) {
+                if (\preg_match('/(?<path>.*\.(js|ts|cjs))(\.(?<index>[0-9]+))?\.css$/', $path)) {
+                    return 'css/empty.css';
+                }
+                return $path;
+            }
             if (!\is_file($manifestPath)) {
                 throw new RuntimeException(\sprintf('Asset manifest file "%s" does not exist. Did you forget to build the assets with npm or yarn?', $manifestPath));
             }

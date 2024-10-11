@@ -3,6 +3,22 @@ import { resolve } from 'path'
 import inject from '@rollup/plugin-inject'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/index.php': {
+        target: 'http://127.0.0.1:8881',
+        changeOrigin: false,
+        secure: false,
+        xfwd: true,
+      },
+      '/bundles': {
+        target: 'http://127.0.0.1:8881',
+        changeOrigin: false,
+        secure: false,
+        xfwd: true,
+      },
+    },
+  },
   plugins: [
     inject({
       jQuery: 'jquery',

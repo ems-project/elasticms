@@ -38,6 +38,7 @@ export default defineConfig({
     copyPublicDir: true,
     rollupOptions: {
       input: {
+        index: 'index.html',
         action: 'src/action.js',
         app: 'src/app.js',
         calendar: 'src/calendar.js',

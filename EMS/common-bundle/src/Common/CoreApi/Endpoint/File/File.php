@@ -54,6 +54,9 @@ final class File implements FileInterface
     public function uploadContents(string $contents, string $filename, string $mimeType): string
     {
         $hash = $this->storageManager->computeStringHash($contents);
+        if ($this->headHash($hash)) {
+            return $hash;
+        }
         $size = \strlen($contents);
         $fromByte = $this->initUpload($hash, $size, $filename, $mimeType);
         $uploaded = $this->addChunk($hash, $fromByte > 0 ? \substr($contents, $fromByte) : $contents);

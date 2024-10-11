@@ -44,6 +44,11 @@ interface StorageInterface
 
     public function head(string $hash): bool;
 
+    /**
+     * @return string[]
+     */
+    public function heads(string ...$hashes): array;
+
     public function health(): bool;
 
     public function __toString(): string;

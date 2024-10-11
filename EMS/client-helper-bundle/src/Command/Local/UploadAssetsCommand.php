@@ -10,6 +10,7 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigTypes;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Archive;
 use EMS\Helpers\Html\MimeTypes;
+use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -149,6 +150,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             $progressBar->advance();
         }
         $progressBar->finish();
+        $archiveHash = $this->coreApi->file()->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
 
         return self::EXECUTE_SUCCESS;
     }

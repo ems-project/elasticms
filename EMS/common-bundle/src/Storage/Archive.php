@@ -9,7 +9,7 @@ use EMS\Helpers\Standard\Type;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class Archive
+class Archive implements \JsonSerializable
 {
     /** @var array<string, ArchiveItem> */
     private array $files = [];
@@ -65,5 +65,15 @@ class Archive
     public function getSize(): int
     {
         return \count($this->files);
+    }
+
+    /**
+     * @return ArchiveItem[]
+     */
+    public function jsonSerialize(): array
+    {
+        \ksort($this->files);
+
+        return $this->files;
     }
 }

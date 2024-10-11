@@ -1,5 +1,12 @@
 # Changelog 5.x
 
+## 5.21.3 (2024-10-11)
+### Bug Fixes
+* fix(admin/datatable): revert remove table-responsive by @Davidmattei in https://github.com/ems-project/elasticms/pull/1023
+* fix(admin/revision): trash view only working for super user (sorting) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1031
+* fix(admin/twig-component):  update json menu nested template by @Davidmattei in https://github.com/ems-project/elasticms/pull/1025
+* fix(ems/asset): unzip assets in admin (both in edit and view revision) by @theus77 in https://github.com/ems-project/elasticms/pull/1039
+
 ## 5.21.2 (2024-09-24)
 ### Bug Fixes
 * fix(admin/environment): picker default name value by @Davidmattei in https://github.com/ems-project/elasticms/pull/1020

@@ -9,4 +9,4 @@ import './core/core'
 
 window.bootstrap = bootstrap
 
-console.log('Bootstrap 5 UI loaded')
+console.log('Admin UI loaded')

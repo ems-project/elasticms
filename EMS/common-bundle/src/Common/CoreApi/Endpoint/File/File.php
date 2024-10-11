@@ -10,11 +10,12 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File as FileHelper;
-use EMS\Helpers\Standard\Type;
 use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface
 {
+    private const HEADS_CHUNK_SIZE = 1000;
+
     public function __construct(private readonly Client $client, private readonly StorageManager $storageManager)
     {
     }
@@ -175,11 +176,10 @@ final class File implements FileInterface
      */
     public function heads(string ...$fileHashes): iterable
     {
-        $chunkSize = 1000;
-
-        while ($chunk = \array_splice($fileHashes, 0, $chunkSize)) {
-            foreach ($this->client->post('/api/file/heads', $chunk)->getData() as $hash) {
-                yield Type::string($hash);
+        $pagedHashes = \array_chunk($fileHashes, self::HEADS_CHUNK_SIZE, true);
+        foreach ($pagedHashes as $hashes) {
+            foreach ($this->client->post('/api/file/heads', $hashes)->getData() as $hash) {
+                yield $hash;
             }
         }
     }

@@ -88,6 +88,20 @@ class StorageManager
     /**
      * @return string[]
      */
+    public function heads(string ...$hashes): array
+    {
+        $heads = $hashes;
+
+        foreach ($this->adapters as $adapter) {
+            $heads = $adapter->heads(...$heads);
+        }
+
+        return $heads;
+    }
+
+    /**
+     * @return string[]
+     */
     public function headIn(string $hash): array
     {
         $storages = [];

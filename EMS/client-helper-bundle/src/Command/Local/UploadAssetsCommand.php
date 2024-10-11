@@ -19,9 +19,13 @@ final class UploadAssetsCommand extends AbstractLocalCommand
     private const ARG_BASE_URL = 'base_url';
     private const OPTION_FILENAME = 'filename';
     private const OPTION_AS_STYLE_SET_ASSETS = 'as-style-set-assets';
+    private const OPTION_ARCHIVE_TYPE = 'archive';
+    private const ARCHIVE_ZIP = 'zip';
+    private const ARCHIVE_EMS = 'ems';
     private ?string $filename;
     private bool $updateStyleSets;
     private string $baseUrl;
+    private string $archiveType;
 
     public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper, private readonly ?string $assetLocalFolder)
     {
@@ -35,15 +39,17 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             ->addArgument(self::ARG_BASE_URL, InputArgument::OPTIONAL, 'Base url where the assets are located')
             ->addOption(self::OPTION_FILENAME, null, InputOption::VALUE_OPTIONAL, 'Save the asset\'s hash within the given file')
             ->addOption(self::OPTION_AS_STYLE_SET_ASSETS, null, InputOption::VALUE_NONE, 'Also update all style set\'s assets with this upload')
+            ->addOption(self::OPTION_ARCHIVE_TYPE, null, InputOption::VALUE_OPTIONAL, \sprintf('The assets will be uploaded as an %s archive or a %s archive', self::ARCHIVE_EMS, self::ARCHIVE_ZIP), self::ARCHIVE_EMS)
         ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->baseUrl = $this->getArgumentStringNull(self::ARG_BASE_URL) ?? $this->assetLocalFolder ?? $this->environment->getAlias();
         $this->filename = $this->getOptionStringNull(self::OPTION_FILENAME);
         $this->updateStyleSets = $this->getOptionBool(self::OPTION_AS_STYLE_SET_ASSETS);
-        $this->baseUrl = $this->getArgumentStringNull(self::ARG_BASE_URL) ?? $this->assetLocalFolder ?? $this->environment->getAlias();
+        $this->archiveType = $this->getOptionString(self::OPTION_ARCHIVE_TYPE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -56,7 +62,15 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             return self::EXECUTE_ERROR;
         }
 
-        return $this->uploadZipArchive();
+        switch ($this->archiveType) {
+            case self::ARCHIVE_ZIP:
+                return $this->uploadZipArchive();
+            case self::ARCHIVE_EMS:
+                return $this->uploadEmsArchive();
+        }
+        $this->io->error(\sprintf('Archive format %s not supported', $this->archiveType));
+
+        return self::EXECUTE_ERROR;
     }
 
     private function updateStyleSets(string $hash): void
@@ -117,5 +131,10 @@ final class UploadAssetsCommand extends AbstractLocalCommand
 
             return self::EXECUTE_ERROR;
         }
+    }
+
+    private function uploadEmsArchive(): int
+    {
+        return self::EXECUTE_SUCCESS;
     }
 }

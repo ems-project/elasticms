@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.22.1 (2024-10-11)
+### Bug Fixes
+* fix(admin/cli): reindex skip lock and with_warnings false by @Davidmattei in https://github.com/ems-project/elasticms/pull/1035
+* fix(admin/document): display external content by @Davidmattei in https://github.com/ems-project/elasticms/pull/1037
+* fix(ems/asset): unzip assets in admin (both in edit and view revision) by @theus77 in https://github.com/ems-project/elasticms/pull/1039
+
 ## 5.22.0 (2024-10-08)
 ### Features
 * feat(admin/contentType): dataLinks support display expression by @Davidmattei in https://github.com/ems-project/elasticms/pull/1032

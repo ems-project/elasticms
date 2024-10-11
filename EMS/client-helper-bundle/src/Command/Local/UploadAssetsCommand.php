@@ -98,7 +98,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
     private function uploadZipArchive(): int
     {
         try {
-            $assetsArchive = $this->localHelper->makeAssetsArchives($this->baseUrl);
+            $assetsArchive = $this->localHelper->makeAssetsZipArchive($this->baseUrl);
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
 

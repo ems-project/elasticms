@@ -180,7 +180,7 @@ final class LocalHelper
         $this->logger = $logger;
     }
 
-    public function makeAssetsArchives(string $baseUrl): TempFile
+    public function makeAssetsZipArchive(string $baseUrl): TempFile
     {
         $directory = $this->getDirectory($baseUrl);
 

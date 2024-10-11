@@ -56,6 +56,33 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             return self::EXECUTE_ERROR;
         }
 
+        return $this->uploadZipArchive();
+    }
+
+    private function updateStyleSets(string $hash): void
+    {
+        if (!$this->updateStyleSets) {
+            return;
+        }
+        $styleSetClient = $this->coreApi->admin()->getConfig(ConfigTypes::WYSIWYG_STYLE_SET->value);
+        $styleSetNames = $styleSetClient->index();
+        if (empty($styleSetNames)) {
+            return;
+        }
+        foreach ($styleSetNames as $name) {
+            $styleSet = $styleSetClient->get($name);
+            $styleSet['properties']['assets'] = [
+                EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
+                EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_ZIP,
+                EmsFields::CONTENT_FILE_NAME_FIELD => 'bundle.zip',
+            ];
+            $styleSetClient->update($name, $styleSet);
+        }
+        $this->io->success(\sprintf('%d style sets have been updated', \count($styleSetNames)));
+    }
+
+    private function uploadZipArchive(): int
+    {
         try {
             $assetsArchive = $this->localHelper->makeAssetsArchives($this->baseUrl);
         } catch (\Throwable $e) {
@@ -90,27 +117,5 @@ final class UploadAssetsCommand extends AbstractLocalCommand
 
             return self::EXECUTE_ERROR;
         }
-    }
-
-    private function updateStyleSets(string $hash): void
-    {
-        if (!$this->updateStyleSets) {
-            return;
-        }
-        $styleSetClient = $this->coreApi->admin()->getConfig(ConfigTypes::WYSIWYG_STYLE_SET->value);
-        $styleSetNames = $styleSetClient->index();
-        if (empty($styleSetNames)) {
-            return;
-        }
-        foreach ($styleSetNames as $name) {
-            $styleSet = $styleSetClient->get($name);
-            $styleSet['properties']['assets'] = [
-                EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
-                EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_ZIP,
-                EmsFields::CONTENT_FILE_NAME_FIELD => 'bundle.zip',
-            ];
-            $styleSetClient->update($name, $styleSet);
-        }
-        $this->io->success(\sprintf('%d style sets have been updated', \count($styleSetNames)));
     }
 }

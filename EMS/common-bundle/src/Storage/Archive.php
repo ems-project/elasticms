@@ -45,14 +45,6 @@ class Archive
         }
     }
 
-    /**
-     * @return iterable<string, string>
-     */
-    public function getStucture(): iterable
-    {
-        return \array_map(fn (ArchiveItem $file) => $file->getHash(), $this->files);
-    }
-
     private function addFile(SplFileInfo $file): void
     {
         $hash = Type::string(\hash_file($this->hashAlgo, $file->getPathname()));

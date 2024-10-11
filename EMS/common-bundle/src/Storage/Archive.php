@@ -61,4 +61,9 @@ class Archive
         }
         throw new \RuntimeException(\sprintf('File with hash %s not found', $hash));
     }
+
+    public function getSize(): int
+    {
+        return \count($this->files);
+    }
 }

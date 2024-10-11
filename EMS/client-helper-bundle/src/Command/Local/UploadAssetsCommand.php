@@ -139,13 +139,16 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         $directory = $this->localHelper->getDirectory($this->baseUrl);
         $algo = $this->coreApi->file()->getHashAlgo();
         $archive = Archive::fromDirectory($directory, $algo);
+        $progressBar = $this->io->createProgressBar($archive->getSize());
         foreach ($this->coreApi->file()->heads(...$archive->getHashes()) as $hash) {
             $file = $archive->getFirstFileByHash($hash);
             $uploadHash = $this->coreApi->file()->uploadFile($directory.DIRECTORY_SEPARATOR.$file->getFilename());
             if ($uploadHash !== $hash) {
                 throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->getFilename()));
             }
+            $progressBar->advance();
         }
+        $progressBar->finish();
 
         return self::EXECUTE_SUCCESS;
     }

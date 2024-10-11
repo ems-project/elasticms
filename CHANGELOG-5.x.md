@@ -1,5 +1,9 @@
 # Changelog 5.x
 
+## 5.19.4 (2024-10-11)
+### Bug Fixes
+* fix(ems/asset): unzip assets in admin (both in edit and view revision) by @theus77 in https://github.com/ems-project/elasticms/pull/1039
+
 ## 5.19.3 (2024-09-03)
 ### Bug Fixes
 * fix(common/api): emsch get via the admin API (EMS_ELASTICSEARCH_PROXY_API) by @theus77 in https://github.com/ems-project/elasticms/pull/997

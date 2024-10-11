@@ -21,6 +21,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
     private const OPTION_AS_STYLE_SET_ASSETS = 'as-style-set-assets';
     private ?string $filename;
     private bool $updateStyleSets;
+    private string $baseUrl;
 
     public function __construct(EnvironmentHelper $environmentHelper, LocalHelper $localHelper, private readonly ?string $assetLocalFolder)
     {
@@ -42,18 +43,12 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         parent::initialize($input, $output);
         $this->filename = $this->getOptionStringNull(self::OPTION_FILENAME);
         $this->updateStyleSets = $this->getOptionBool(self::OPTION_AS_STYLE_SET_ASSETS);
+        $this->baseUrl = $this->getArgumentStringNull(self::ARG_BASE_URL) ?? $this->assetLocalFolder ?? $this->environment->getAlias();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Local development - Upload assets');
-        $baseUrl = $input->getArgument(self::ARG_BASE_URL);
-        if (!\is_string($baseUrl)) {
-            $baseUrl = $this->assetLocalFolder;
-        }
-        if (!\is_string($baseUrl)) {
-            $baseUrl = $this->environment->getAlias();
-        }
 
         if (!$this->coreApi->isAuthenticated()) {
             $this->io->error(\sprintf('Not authenticated for %s, run emsch:local:login', $this->coreApi->getBaseUrl()));
@@ -62,7 +57,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         }
 
         try {
-            $assetsArchive = $this->localHelper->makeAssetsArchives($baseUrl);
+            $assetsArchive = $this->localHelper->makeAssetsArchives($this->baseUrl);
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
 

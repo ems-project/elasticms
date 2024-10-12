@@ -41,7 +41,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             ->addArgument(self::ARG_BASE_URL, InputArgument::OPTIONAL, 'Base url where the assets are located')
             ->addOption(self::OPTION_FILENAME, null, InputOption::VALUE_OPTIONAL, 'Save the asset\'s hash within the given file')
             ->addOption(self::OPTION_AS_STYLE_SET_ASSETS, null, InputOption::VALUE_NONE, 'Also update all style set\'s assets with this upload')
-            ->addOption(self::OPTION_ARCHIVE_TYPE, null, InputOption::VALUE_OPTIONAL, \sprintf('The assets will be uploaded as an %s archive or a %s archive', self::ARCHIVE_EMS, self::ARCHIVE_ZIP), self::ARCHIVE_EMS)
+            ->addOption(self::OPTION_ARCHIVE_TYPE, null, InputOption::VALUE_OPTIONAL, \sprintf('The assets will be uploaded as an "%s" archive or a "%s" archive', self::ARCHIVE_EMS, self::ARCHIVE_ZIP), self::ARCHIVE_EMS)
         ;
     }
 
@@ -73,7 +73,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
                     $hash = $this->uploadEmsArchive();
                     break;
                 default:
-                    $this->io->error(\sprintf('Archive format %s not supported', $this->archiveType));
+                    $this->io->error(\sprintf('Archive format %s not supported. Supported formats are "%s" and "%s"', $this->archiveType, self::ARCHIVE_EMS, self::ARCHIVE_ZIP));
 
                     return self::EXECUTE_ERROR;
             }

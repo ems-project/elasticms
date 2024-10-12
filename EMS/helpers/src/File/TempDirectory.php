@@ -48,19 +48,18 @@ class TempDirectory
         return \is_dir($this->path);
     }
 
-    public static function createFromZipArchive(TempFile $zipFile): self
+    public static function createFromZipArchive(string $zipFile): self
     {
         $tempDir = self::create();
         $zip = new \ZipArchive();
-        if (true !== $open = $zip->open($zipFile->path)) {
-            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $zipFile->path, $open));
+        if (true !== $open = $zip->open($zipFile)) {
+            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $zipFile, $open));
         }
 
         if (!$zip->extractTo($tempDir->path)) {
             throw new \RuntimeException(\sprintf('Extracting of zip file failed (%s)', $tempDir->path));
         }
         $zip->close();
-        $zipFile->clean();
 
         return $tempDir;
     }

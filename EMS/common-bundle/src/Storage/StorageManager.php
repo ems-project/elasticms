@@ -547,7 +547,8 @@ class StorageManager
 
     private function getStreamFromZipArchive(string $hash, string $path, TempFile $zipFile): StreamWrapper
     {
-        $dir = TempDirectory::createFromZipArchive($zipFile);
+        $dir = TempDirectory::createFromZipArchive($zipFile->path);
+        $zipFile->clean();
         $finder = new Finder();
         $finder->in($dir->path)->files();
         $counter = 0;

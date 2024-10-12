@@ -64,15 +64,35 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             return self::EXECUTE_ERROR;
         }
 
-        switch ($this->archiveType) {
-            case self::ARCHIVE_ZIP:
-                return $this->uploadZipArchive();
-            case self::ARCHIVE_EMS:
-                return $this->uploadEmsArchive();
-        }
-        $this->io->error(\sprintf('Archive format %s not supported', $this->archiveType));
+        try {
+            switch ($this->archiveType) {
+                case self::ARCHIVE_ZIP:
+                    $hash = $this->uploadZipArchive();
+                    break;
+                case self::ARCHIVE_EMS:
+                    $hash = $this->uploadEmsArchive();
+                    break;
+                default:
+                    $this->io->error(\sprintf('Archive format %s not supported', $this->archiveType));
 
-        return self::EXECUTE_ERROR;
+                    return self::EXECUTE_ERROR;
+            }
+
+            $this->io->newLine();
+            $this->io->success(\sprintf('Assets %s have been uploaded', $hash));
+
+            if (null !== $this->filename) {
+                \file_put_contents($this->filename, $hash);
+            }
+
+            $this->updateStyleSets($hash);
+
+            return self::EXECUTE_SUCCESS;
+        } catch (\Throwable $e) {
+            $this->io->error($e->getMessage());
+
+            return self::EXECUTE_ERROR;
+        }
     }
 
     private function updateStyleSets(string $hash): void
@@ -97,45 +117,23 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         $this->io->success(\sprintf('%d style sets have been updated', \count($styleSetNames)));
     }
 
-    private function uploadZipArchive(): int
+    private function uploadZipArchive(): string
     {
-        try {
-            $assetsArchive = $this->localHelper->makeAssetsZipArchive($this->baseUrl);
-        } catch (\Throwable $e) {
-            $this->io->error($e->getMessage());
+        $assetsArchive = $this->localHelper->makeAssetsZipArchive($this->baseUrl);
 
-            return self::EXECUTE_ERROR;
-        }
+        $progressBar = $this->io->createProgressBar($assetsArchive->getSize());
+        $hash = $this->coreApi->file()->uploadFile(
+            $assetsArchive->path,
+            'application/zip',
+            'bundle.zip',
+            fn (string $chunk) => $progressBar->advance(\strlen($chunk))
+        );
+        $progressBar->finish();
 
-        try {
-            $progressBar = $this->io->createProgressBar($assetsArchive->getSize());
-            $hash = $this->coreApi->file()->uploadFile(
-                $assetsArchive->path,
-                'application/zip',
-                'bundle.zip',
-                fn (string $chunk) => $progressBar->advance(\strlen($chunk))
-            );
-
-            $progressBar->finish();
-
-            $this->io->newLine();
-            $this->io->success(\sprintf('Assets %s have been uploaded', $hash));
-
-            if (null !== $this->filename) {
-                \file_put_contents($this->filename, $hash);
-            }
-
-            $this->updateStyleSets($hash);
-
-            return self::EXECUTE_SUCCESS;
-        } catch (\Throwable $e) {
-            $this->io->error($e->getMessage());
-
-            return self::EXECUTE_ERROR;
-        }
+        return $hash;
     }
 
-    private function uploadEmsArchive(): int
+    private function uploadEmsArchive(): string
     {
         $directory = $this->localHelper->getDirectory($this->baseUrl);
         $algo = $this->coreApi->file()->getHashAlgo();
@@ -150,8 +148,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             $progressBar->advance();
         }
         $progressBar->finish();
-        $archiveHash = $this->coreApi->file()->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
 
-        return self::EXECUTE_SUCCESS;
+        return $this->coreApi->file()->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
     }
 }

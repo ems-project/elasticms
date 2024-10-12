@@ -93,6 +93,11 @@ class Archive implements \JsonSerializable
         return \array_values($this->files);
     }
 
+    public function getByPath(string $path): ?ArchiveItem
+    {
+        return $this->files[$path] ?? null;
+    }
+
     /**
      * @param mixed[] $file
      */

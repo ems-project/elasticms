@@ -64,7 +64,8 @@ class Archive implements \JsonSerializable
     {
         $hash = Type::string(\hash_file($this->hashAlgo, $file->getPathname()));
         $type = MimeTypeHelper::getInstance()->guessMimeType($file->getPathname());
-        $this->files[$file->getRelativePathname()] = new ArchiveItem($file->getRelativePathname(), $type, $hash);
+        $size = Type::integer($file->getSize());
+        $this->files[$file->getRelativePathname()] = new ArchiveItem($file->getRelativePathname(), $type, $size, $hash);
     }
 
     public function getFirstFileByHash(mixed $hash): ArchiveItem
@@ -102,25 +103,27 @@ class Archive implements \JsonSerializable
         return new ArchiveItem(
             $resolved[ArchiveItem::FILENAME],
             $resolved[ArchiveItem::TYPE],
+            $resolved[ArchiveItem::SIZE],
             $resolved[ArchiveItem::HASH],
         );
     }
 
     /**
-     * @param  mixed[]                                             $file
-     * @return array{filename: string, hash: string, type: string}
+     * @param  mixed[]                                                        $file
+     * @return array{filename: string, hash: string, type: string, size: int}
      */
     private function resolveFile(array $file): array
     {
         if (null === $this->itemResolver) {
             $this->itemResolver = new OptionsResolver();
             $this->itemResolver
-                ->setRequired([ArchiveItem::FILENAME, ArchiveItem::HASH, ArchiveItem::TYPE])
+                ->setRequired([ArchiveItem::FILENAME, ArchiveItem::HASH, ArchiveItem::TYPE, ArchiveItem::SIZE])
                 ->setAllowedTypes(ArchiveItem::FILENAME, 'string')
                 ->setAllowedTypes(ArchiveItem::HASH, 'string')
-                ->setAllowedTypes(ArchiveItem::TYPE, 'string');
+                ->setAllowedTypes(ArchiveItem::TYPE, 'string')
+                ->setAllowedTypes(ArchiveItem::SIZE, 'int');
         }
-        /** @var array{filename: string, hash: string, type: string} $resolved */
+        /** @var array{filename: string, hash: string, type: string, size: int} $resolved */
         $resolved = $this->itemResolver->resolve($file);
 
         return $resolved;

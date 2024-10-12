@@ -48,8 +48,6 @@ stop: ## stop docker, admin server, web server
 cache-clear: ## cache clear
 	@$(RUN_ADMIN) c:cl
 	@$(RUN_WEB) c:cl
-docs: ## serve docs
-	@docsify serve ./docs
 status: ## status
 	@$(DOCKER_COMPOSE) ps
 
@@ -60,6 +58,12 @@ server-stop/%:  ## server-stop/(admin|web)
 	symfony server:stop --dir=elasticms-${*}
 server-log/%:  ## server-log/(admin|web)
 	symfony server:log --dir=elasticms-${*}
+
+## —— Doc ——————————————————————————————————————————————————————————————————————————————————————————————————————————————
+docs: ## serve docs
+	npm run --prefix ./doc docs:dev
+docs-init: ## init docs
+	npm install --prefix ./doc
 
 ## —— Build ————————————————————————————————————————————————————————————————————————————————————————————————————————————
 build-translations: ## build translations

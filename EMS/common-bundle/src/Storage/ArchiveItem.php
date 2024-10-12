@@ -6,6 +6,10 @@ namespace EMS\CommonBundle\Storage;
 
 class ArchiveItem implements \JsonSerializable
 {
+    public const FILENAME = 'filename';
+    public const HASH = 'hash';
+    public const TYPE = 'type';
+
     public function __construct(private readonly string $filename, private readonly string $type, private readonly string $hash)
     {
     }
@@ -31,9 +35,9 @@ class ArchiveItem implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'filename' => $this->filename,
-            'hash' => $this->hash,
-            'type' => $this->type,
+            self::FILENAME => $this->filename,
+            self::HASH => $this->hash,
+            self::TYPE => $this->type,
         ];
     }
 }

@@ -11,6 +11,7 @@ use EMS\CommonBundle\Storage\NotSavedException;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
@@ -35,17 +36,17 @@ class AssetRuntime
     {
         @\trigger_error(\sprintf('The function emsch_unzip is deprecated and should not be used anymore. use the function ems_file_from_archive or the route EMS\CommonBundle\Controller\FileController::assetInArchive instead"'), E_USER_DEPRECATED);
         try {
-            $checkFilename = $saveDir.\DIRECTORY_SEPARATOR.$this->storageManager->computeStringHash($saveDir);
-            $checkHash = \file_exists($checkFilename) ? \file_get_contents($checkFilename) : false;
+            $checkFilename = $saveDir.\DIRECTORY_SEPARATOR.$hash;
 
-            if ($checkHash !== $hash) {
+            if (!\file_exists($checkFilename)) {
                 if (!$mergeContent && $this->filesystem->exists($saveDir)) {
                     $this->filesystem->remove($saveDir);
                 }
 
                 $tempFile = TempFile::create()->loadFromStream($this->storageManager->getStream($hash));
-                self::extractZip($tempFile, $saveDir);
-                \file_put_contents($checkFilename, $hash);
+                $tempDir = TempDirectory::createFromZipArchive($tempFile->path);
+                $tempDir->moveTo($saveDir);
+                $tempDir->touch($hash);
             }
 
             $excludeCheckFile = fn (SplFileInfo $f) => $f->getPathname() !== $checkFilename;
@@ -67,23 +68,6 @@ class AssetRuntime
         return TempFile::create()
             ->loadFromStream($this->storageManager->getStream($hash))
             ->path;
-    }
-
-    public static function extractZip(TempFile $tempFile, string $destination): bool
-    {
-        $zip = new \ZipArchive();
-        if (true !== $open = $zip->open($tempFile->path)) {
-            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $tempFile->path, $open));
-        }
-
-        if (!$zip->extractTo($destination)) {
-            throw new \RuntimeException(\sprintf('Extracting of zip file failed (%s)', $destination));
-        }
-
-        $zip->close();
-        $tempFile->clean();
-
-        return true;
     }
 
     /**

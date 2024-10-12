@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\File;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class TempDirectory
 {
@@ -62,5 +63,19 @@ class TempDirectory
         $zip->close();
 
         return $tempDir;
+    }
+
+    public function touch(string $hash): void
+    {
+        $this->filesystem->touch($this->path.\DIRECTORY_SEPARATOR.$hash);
+    }
+
+    public function moveTo(string $directory): void
+    {
+        $this->filesystem->mkdir($directory);
+        $finder = Finder::create();
+        foreach ($finder->in($this->path)->depth('< 1') as $file) {
+            $this->filesystem->rename($file->getPathname(), $directory.\DIRECTORY_SEPARATOR.$file->getRelativePathname());
+        }
     }
 }

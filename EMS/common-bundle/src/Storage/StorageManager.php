@@ -545,6 +545,23 @@ class StorageManager
         throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType));
     }
 
+    public function extractFromArchive(string $hash): TempDirectory
+    {
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        switch ($type) {
+            case MimeTypes::APPLICATION_ZIP->value:
+                $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
+                break;
+            default:
+                throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
+        }
+        $tempDir->touch($hash);
+        $archiveFile->clean();
+
+        return $tempDir;
+    }
+
     private function getStreamFromZipArchive(string $hash, string $path, TempFile $zipFile): StreamWrapper
     {
         $dir = TempDirectory::createFromZipArchive($zipFile->path);

@@ -6,11 +6,8 @@ namespace EMS\ClientHelperBundle\Helper\Asset;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Helper\EmsFields;
-use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
-use EMS\Helpers\File\TempFile;
-use EMS\Helpers\Html\MimeTypes;
 use Symfony\Component\Filesystem\Filesystem;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -53,17 +50,10 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         $directory = $basePath.$hash;
 
         try {
-            if (!$this->filesystem->exists($directory)) {
-                $archiveFile = TempFile::create()->loadFromStream($this->storageManager->getStream($hash));
-                $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
-                switch ($type) {
-                    case MimeTypes::APPLICATION_ZIP->value:
-                        AssetRuntime::extractZip($archiveFile, $directory);
-                        break;
-                    default:
-                        throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
-                }
-                $this->filesystem->touch($directory.\DIRECTORY_SEPARATOR.$hash);
+            if (!$this->filesystem->exists($directory.\DIRECTORY_SEPARATOR.$hash)) {
+                $tempDir = $this->storageManager->extractFromArchive($hash);
+                $tempDir->touch($hash);
+                $tempDir->moveTo($directory);
             }
             if (!$addEnvironmentSymlink) {
                 return $directory;

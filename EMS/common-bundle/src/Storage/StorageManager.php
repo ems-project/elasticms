@@ -15,6 +15,7 @@ use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -533,9 +534,13 @@ class StorageManager
             throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
         }
 
-        $zipFile = TempFile::create()->loadFromStream($this->getStream($hash));
-
-        return $this->getStreamFromZipArchive($hash, $path, $zipFile);
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        switch ($mimeType) {
+            case MimeTypes::APPLICATION_ZIP->value:
+                return $this->getStreamFromZipArchive($hash, $path, $archiveFile);
+        }
+        throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType));
     }
 
     private function getStreamFromZipArchive(string $hash, string $path, TempFile $zipFile): StreamWrapper

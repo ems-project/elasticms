@@ -621,12 +621,12 @@ class StorageManager
                 }
             }
         }
-        if ($archive->getSize() === $counter) {
+        if ($archive->getCount() === $counter) {
             $this->logger->debug(\sprintf('%d files have been successfully saved in cache', $counter));
         } elseif (0 === $counter) {
-            $this->logger->warning(\sprintf('None of the %d files have been successfully saved in cache', $archive->getSize()));
+            $this->logger->warning(\sprintf('None of the %d files have been successfully saved in cache', $archive->getCount()));
         } else {
-            $this->logger->warning(\sprintf('%d files, on a total of %d, have been successfully saved in cache', $counter, $archive->getSize()));
+            $this->logger->warning(\sprintf('%d files, on a total of %d, have been successfully saved in cache', $counter, $archive->getCount()));
         }
 
         return new StreamWrapper($this->getStream($file->getHash()), $file->getType(), $file->getSize());

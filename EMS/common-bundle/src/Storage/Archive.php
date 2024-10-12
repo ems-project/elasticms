@@ -78,7 +78,7 @@ class Archive implements \JsonSerializable
         throw new \RuntimeException(\sprintf('File with hash %s not found', $hash));
     }
 
-    public function getSize(): int
+    public function getCount(): int
     {
         return \count($this->files);
     }

@@ -14,6 +14,7 @@ use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempDirectory;
+use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -531,8 +532,16 @@ class StorageManager
         if (!$this->head($hash)) {
             throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
         }
+
+        $zipFile = TempFile::create()->loadFromStream($this->getStream($hash));
+
+        return $this->getStreamFromZipArchive($hash, $path, $zipFile);
+    }
+
+    private function getStreamFromZipArchive(string $hash, string $path, TempFile $zipFile): StreamWrapper
+    {
         $dir = TempDirectory::create();
-        $dir->loadFromArchive($this->getStream($hash));
+        $dir->loadFromZipArchive($zipFile);
         $finder = new Finder();
         $finder->in($dir->path)->files();
         $counter = 0;

@@ -89,7 +89,7 @@ class Archive implements \JsonSerializable
     {
         \ksort($this->files);
 
-        return $this->files;
+        return \array_values($this->files);
     }
 
     /**

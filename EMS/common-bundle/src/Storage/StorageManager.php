@@ -539,6 +539,8 @@ class StorageManager
         switch ($mimeType) {
             case MimeTypes::APPLICATION_ZIP->value:
                 return $this->getStreamFromZipArchive($hash, $path, $archiveFile);
+            case MimeTypes::APPLICATION_JSON->value:
+                return $this->getStreamFromJsonArchive($hash, $path, $archiveFile);
         }
         throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType));
     }
@@ -577,5 +579,15 @@ class StorageManager
         $mimeTypeHelper = MimeTypeHelper::getInstance();
 
         return new StreamWrapper($file->getStream(), $mimeTypeHelper->guessMimeType($filename), $file->getSize());
+    }
+
+    private function getStreamFromJsonArchive(string $hash, string $path, TempFile $archiveFile): StreamWrapper
+    {
+        $file = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo)->getByPath($path);
+        if (null === $file) {
+            throw new NotFoundHttpException(\sprintf('File %s not found in archive %s', $path, $hash));
+        }
+
+        return new StreamWrapper($this->getStream($file->getHash()), $file->getType(), $file->getSize());
     }
 }

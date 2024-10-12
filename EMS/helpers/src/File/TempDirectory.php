@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\Helpers\File;
 
+use Psr\Http\Message\StreamInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -76,6 +77,26 @@ class TempDirectory
         $finder = Finder::create();
         foreach ($finder->in($this->path)->depth('< 1') as $file) {
             $this->filesystem->rename($file->getPathname(), $directory.\DIRECTORY_SEPARATOR.$file->getRelativePathname());
+        }
+    }
+
+    public function add(StreamInterface $stream, string $filename): void
+    {
+        $explodedPath = \explode(\DIRECTORY_SEPARATOR, $this->path.\DIRECTORY_SEPARATOR.$filename);
+        \array_pop($explodedPath);
+        $this->filesystem->mkdir(\implode(\DIRECTORY_SEPARATOR, $explodedPath));
+        if (!$handle = \fopen($this->path.\DIRECTORY_SEPARATOR.$filename, 'w')) {
+            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
+        }
+
+        while (!$stream->eof()) {
+            if (false === \fwrite($handle, $stream->read(File::DEFAULT_CHUNK_SIZE))) {
+                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
+            }
+        }
+
+        if (false === \fclose($handle)) {
+            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
         }
     }
 }

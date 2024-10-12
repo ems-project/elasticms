@@ -553,6 +553,13 @@ class StorageManager
             case MimeTypes::APPLICATION_ZIP->value:
                 $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
                 break;
+            case MimeTypes::APPLICATION_JSON->value:
+                $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+                $tempDir = TempDirectory::create();
+                foreach ($archive->iterator() as $file) {
+                    $tempDir->add($this->getStream($file->getHash()), $file->getFilename());
+                }
+                break;
             default:
                 throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
         }

@@ -8,6 +8,7 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\Helpers\File\TempFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -51,7 +52,8 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
 
         try {
             if (!$this->filesystem->exists($directory)) {
-                AssetRuntime::extract($this->storageManager->getStream($hash), $directory);
+                $tempFile = TempFile::create()->loadFromStream($this->storageManager->getStream($hash));
+                AssetRuntime::extractZip($tempFile, $directory);
                 $this->filesystem->touch($directory.\DIRECTORY_SEPARATOR.$hash);
             }
             if (!$addEnvironmentSymlink) {

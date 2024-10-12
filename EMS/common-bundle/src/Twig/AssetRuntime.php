@@ -13,7 +13,6 @@ use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
-use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -44,7 +43,8 @@ class AssetRuntime
                     $this->filesystem->remove($saveDir);
                 }
 
-                $this::extract($this->storageManager->getStream($hash), $saveDir);
+                $tempFile = TempFile::create()->loadFromStream($this->storageManager->getStream($hash));
+                self::extractZip($tempFile, $saveDir);
                 \file_put_contents($checkFilename, $hash);
             }
 
@@ -69,10 +69,8 @@ class AssetRuntime
             ->path;
     }
 
-    public static function extract(StreamInterface $stream, string $destination): bool
+    public static function extractZip(TempFile $tempFile, string $destination): bool
     {
-        $tempFile = TempFile::create()->loadFromStream($stream);
-
         $zip = new \ZipArchive();
         if (true !== $open = $zip->open($tempFile->path)) {
             throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $tempFile->path, $open));

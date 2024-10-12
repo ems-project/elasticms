@@ -84,4 +84,6 @@ interface StorageInterface
     public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper;
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool;
+
+    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool;
 }

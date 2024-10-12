@@ -114,6 +114,16 @@ class Archive implements \JsonSerializable
     }
 
     /**
+     * @return iterable<ArchiveItem>
+     */
+    public function iterator(): iterable
+    {
+        foreach ($this->files as $path => $file) {
+            yield $path => $file;
+        }
+    }
+
+    /**
      * @param  mixed[]                                                        $file
      * @return array{filename: string, hash: string, type: string, size: int}
      */

@@ -583,9 +583,26 @@ class StorageManager
 
     private function getStreamFromJsonArchive(string $hash, string $path, TempFile $archiveFile): StreamWrapper
     {
-        $file = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo)->getByPath($path);
+        $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+        $file = $archive->getByPath($path);
         if (null === $file) {
             throw new NotFoundHttpException(\sprintf('File %s not found in archive %s', $path, $hash));
+        }
+        $counter = 0;
+        foreach ($archive->iterator() as $item) {
+            foreach ($this->adapters as $adapter) {
+                if ($adapter->copyFileInArchiveCache($hash, $item->getHash(), $item->getFilename(), $item->getType())) {
+                    ++$counter;
+                    break;
+                }
+            }
+        }
+        if ($archive->getSize() === $counter) {
+            $this->logger->debug(\sprintf('%d files have been successfully saved in cache', $counter));
+        } elseif (0 === $counter) {
+            $this->logger->warning(\sprintf('None of the %d files have been successfully saved in cache', $archive->getSize()));
+        } else {
+            $this->logger->warning(\sprintf('%d files, on a total of %d, have been successfully saved in cache', $counter, $archive->getSize()));
         }
 
         return new StreamWrapper($this->getStream($file->getHash()), $file->getType(), $file->getSize());

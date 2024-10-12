@@ -245,4 +245,9 @@ class EntityStorage implements StorageInterface, \Stringable
     {
         return false;
     }
+
+    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
+    {
+        return false;
+    }
 }

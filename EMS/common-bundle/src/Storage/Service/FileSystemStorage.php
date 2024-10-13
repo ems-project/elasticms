@@ -108,6 +108,11 @@ class FileSystemStorage extends AbstractUrlStorage
         return \copy($file->getPathname(), $filename);
     }
 
+    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
+    {
+        return false;
+    }
+
     protected function getCachePath(Config $config): string
     {
         return \join(DIRECTORY_SEPARATOR, [

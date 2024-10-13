@@ -59,6 +59,11 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return \file_exists($this->getPath($hash));
     }
 
+    public function heads(string ...$hashes): array
+    {
+        return \array_filter($hashes, fn (string $hash) => !$this->head($hash));
+    }
+
     public function create(string $hash, string $filename): bool
     {
         $path = $this->getPath($hash);
@@ -241,6 +246,11 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
     }
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        return false;
+    }
+
+    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
     {
         return false;
     }

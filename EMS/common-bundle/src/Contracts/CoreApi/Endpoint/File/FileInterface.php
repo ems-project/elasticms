@@ -10,11 +10,18 @@ interface FileInterface
 {
     public function downloadFile(string $hash): string;
 
+    public function getHashAlgo(): string;
+
     public function downloadLink(string $hash): string;
 
     public function hashFile(string $filename): string;
 
     public function hashStream(StreamInterface $stream): string;
+
+    /**
+     * @return iterable<string>
+     */
+    public function heads(string ...$fileHashes): iterable;
 
     public function initUpload(string $hash, int $size, string $filename, string $mimetype): int;
 
@@ -24,7 +31,7 @@ interface FileInterface
 
     public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string;
 
-    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType): string;
+    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType, bool $head = true): string;
 
     public function headFile(string $realPath): bool;
 

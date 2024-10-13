@@ -39,6 +39,11 @@ class EntityStorage implements StorageInterface, \Stringable
         return $this->repository->head($hash);
     }
 
+    public function heads(string ...$hashes): array
+    {
+        return \array_filter($hashes, fn (string $hash) => !$this->head($hash));
+    }
+
     public function getSize(string $hash): int
     {
         $size = $this->repository->getSize($hash);
@@ -237,6 +242,11 @@ class EntityStorage implements StorageInterface, \Stringable
     }
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        return false;
+    }
+
+    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
     {
         return false;
     }

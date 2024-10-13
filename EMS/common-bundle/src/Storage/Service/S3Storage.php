@@ -329,4 +329,39 @@ class S3Storage extends AbstractUrlStorage
 
         return $result->hasKey('ETag');
     }
+
+    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
+    {
+        $sourceKey = $this->key($fileHash);
+        $result = $this->getS3Client()->copyObject([
+            'Bucket' => $this->bucket,
+            'ContentType' => $mimeType,
+            'Key' => \implode('/', [
+                'cache',
+                \substr($archiveHash, 0, 3),
+                \substr($archiveHash, 3),
+                $path,
+            ]),
+            'CopySource' => "$this->bucket/$sourceKey",
+            'MetadataDirective' => 'REPLACE',
+        ]);
+
+        return $result->hasKey('ETag');
+    }
+
+    public function heads(string ...$hashes): array
+    {
+        $client = $this->getS3Client();
+        $result = [];
+
+        foreach ($hashes as $hash) {
+            $key = \implode('/', [\substr($hash, 0, 3), $hash]);
+
+            if (!$client->doesObjectExist($this->bucket, $key)) {
+                $result[] = $hash;
+            }
+        }
+
+        return $result;
+    }
 }

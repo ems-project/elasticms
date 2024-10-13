@@ -6,6 +6,7 @@ namespace EMS\Helpers\File;
 
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class TempDirectory
 {
@@ -49,18 +50,53 @@ class TempDirectory
         return \is_dir($this->path);
     }
 
-    public function loadFromArchive(StreamInterface $stream): void
+    public static function createFromZipArchive(string $zipFile): self
     {
-        $tempFile = TempFile::create()->loadFromStream($stream);
+        $tempDir = self::create();
         $zip = new \ZipArchive();
-        if (true !== $open = $zip->open($tempFile->path)) {
-            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $tempFile->path, $open));
+        if (true !== $open = $zip->open($zipFile)) {
+            throw new \RuntimeException(\sprintf('Failed opening zip %s (ZipArchive %s)', $zipFile, $open));
         }
 
-        if (!$zip->extractTo($this->path)) {
-            throw new \RuntimeException(\sprintf('Extracting of zip file failed (%s)', $this->path));
+        if (!$zip->extractTo($tempDir->path)) {
+            throw new \RuntimeException(\sprintf('Extracting of zip file failed (%s)', $tempDir->path));
         }
         $zip->close();
-        $tempFile->clean();
+
+        return $tempDir;
+    }
+
+    public function touch(string $hash): void
+    {
+        $this->filesystem->touch($this->path.\DIRECTORY_SEPARATOR.$hash);
+    }
+
+    public function moveTo(string $directory): void
+    {
+        $this->filesystem->mkdir($directory);
+        $finder = Finder::create();
+        foreach ($finder->in($this->path)->depth('< 1') as $file) {
+            $this->filesystem->rename($file->getPathname(), $directory.\DIRECTORY_SEPARATOR.$file->getRelativePathname());
+        }
+    }
+
+    public function add(StreamInterface $stream, string $filename): void
+    {
+        $explodedPath = \explode(\DIRECTORY_SEPARATOR, $this->path.\DIRECTORY_SEPARATOR.$filename);
+        \array_pop($explodedPath);
+        $this->filesystem->mkdir(\implode(\DIRECTORY_SEPARATOR, $explodedPath));
+        if (!$handle = \fopen($this->path.\DIRECTORY_SEPARATOR.$filename, 'w')) {
+            throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
+        }
+
+        while (!$stream->eof()) {
+            if (false === \fwrite($handle, $stream->read(File::DEFAULT_CHUNK_SIZE))) {
+                throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
+            }
+        }
+
+        if (false === \fclose($handle)) {
+            throw new \RuntimeException(\sprintf('Can\'t close the temporary file %s', $this->path));
+        }
     }
 }

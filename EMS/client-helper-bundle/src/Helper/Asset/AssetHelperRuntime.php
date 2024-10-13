@@ -50,9 +50,10 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         $directory = $basePath.$hash;
 
         try {
-            if (!$this->filesystem->exists($directory)) {
-                AssetRuntime::extract($this->storageManager->getStream($hash), $directory);
-                $this->filesystem->touch($directory.\DIRECTORY_SEPARATOR.$hash);
+            if (!$this->filesystem->exists($directory.\DIRECTORY_SEPARATOR.$hash)) {
+                $tempDir = $this->storageManager->extractFromArchive($hash);
+                $tempDir->touch($hash);
+                $tempDir->moveTo($directory);
             }
             if (!$addEnvironmentSymlink) {
                 return $directory;

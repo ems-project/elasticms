@@ -536,13 +536,12 @@ class StorageManager
 
         $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
-        switch ($mimeType) {
-            case MimeTypes::APPLICATION_ZIP->value:
-                return $this->getStreamFromZipArchive($hash, $path, $archiveFile);
-            case MimeTypes::APPLICATION_JSON->value:
-                return $this->getStreamFromJsonArchive($hash, $path, $archiveFile);
-        }
-        throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType));
+
+        return match ($mimeType) {
+            MimeTypes::APPLICATION_ZIP->value => $this->getStreamFromZipArchive($hash, $path, $archiveFile),
+            MimeTypes::APPLICATION_JSON->value => $this->getStreamFromJsonArchive($hash, $path, $archiveFile),
+            default => throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType)),
+        };
     }
 
     public function extractFromArchive(string $hash): TempDirectory
@@ -557,7 +556,7 @@ class StorageManager
                 $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
                 $tempDir = TempDirectory::create();
                 foreach ($archive->iterator() as $file) {
-                    $tempDir->add($this->getStream($file->getHash()), $file->getFilename());
+                    $tempDir->add($this->getStream($file->hash), $file->filename);
                 }
                 break;
             default:
@@ -615,7 +614,7 @@ class StorageManager
         $counter = 0;
         foreach ($archive->iterator() as $item) {
             foreach ($this->adapters as $adapter) {
-                if ($adapter->copyFileInArchiveCache($hash, $item->getHash(), $item->getFilename(), $item->getType())) {
+                if ($adapter->copyFileInArchiveCache($hash, $item->hash, $item->filename, $item->type)) {
                     ++$counter;
                     break;
                 }
@@ -629,6 +628,6 @@ class StorageManager
             $this->logger->warning(\sprintf('%d files, on a total of %d, have been successfully saved in cache', $counter, $archive->getCount()));
         }
 
-        return new StreamWrapper($this->getStream($file->getHash()), $file->getType(), $file->getSize());
+        return new StreamWrapper($this->getStream($file->hash), $file->type, $file->size);
     }
 }

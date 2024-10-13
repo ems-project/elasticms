@@ -12,31 +12,11 @@ class ArchiveItem implements \JsonSerializable
     public const SIZE = 'size';
 
     public function __construct(
-        private readonly string $filename,
-        private readonly string $type,
-        private readonly int $size,
-        private readonly string $hash
+        public readonly string $filename,
+        public readonly string $type,
+        public readonly int $size,
+        public readonly string $hash
     ) {
-    }
-
-    public function getFilename(): string
-    {
-        return $this->filename;
-    }
-
-    public function getType(): string
-    {
-        return $this->type;
-    }
-
-    public function getHash(): string
-    {
-        return $this->hash;
-    }
-
-    public function getSize(): int
-    {
-        return $this->size;
     }
 
     /**
@@ -45,10 +25,10 @@ class ArchiveItem implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            self::FILENAME => $this->filename,
-            self::HASH => $this->hash,
-            self::TYPE => $this->type,
-            self::SIZE => $this->size,
+            ArchiveItem::FILENAME => $this->filename,
+            ArchiveItem::HASH => $this->hash,
+            ArchiveItem::TYPE => $this->type,
+            ArchiveItem::SIZE => $this->size,
         ];
     }
 }

@@ -44,7 +44,7 @@ class Archive implements \JsonSerializable
         $files = Json::decode($structure);
         foreach ($files as $file) {
             $item = $archive->parseFile($file);
-            $archive->files[$item->getFilename()] = $item;
+            $archive->files[$item->filename] = $item;
         }
 
         return $archive;
@@ -56,7 +56,7 @@ class Archive implements \JsonSerializable
     public function getHashes(): iterable
     {
         foreach ($this->files as $file) {
-            yield $file->getHash();
+            yield $file->hash;
         }
     }
 
@@ -71,7 +71,7 @@ class Archive implements \JsonSerializable
     public function getFirstFileByHash(mixed $hash): ArchiveItem
     {
         foreach ($this->files as $file) {
-            if ($hash === $file->getHash()) {
+            if ($hash === $file->hash) {
                 return $file;
             }
         }

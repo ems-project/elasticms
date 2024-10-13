@@ -65,17 +65,16 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         }
 
         try {
-            switch ($this->archiveType) {
-                case self::ARCHIVE_ZIP:
-                    $hash = $this->uploadZipArchive();
-                    break;
-                case self::ARCHIVE_EMS:
-                    $hash = $this->uploadEmsArchive();
-                    break;
-                default:
-                    $this->io->error(\sprintf('Archive format %s not supported. Supported formats are "%s" and "%s"', $this->archiveType, self::ARCHIVE_EMS, self::ARCHIVE_ZIP));
+            $hash = match ($this->archiveType) {
+                self::ARCHIVE_ZIP => $this->uploadZipArchive(),
+                self::ARCHIVE_EMS => $this->uploadEmsArchive(),
+                default => false
+            };
 
-                    return self::EXECUTE_ERROR;
+            if (!$hash) {
+                $this->io->error(\sprintf('Archive format %s not supported. Supported formats are "%s" and "%s"', $this->archiveType, self::ARCHIVE_EMS, self::ARCHIVE_ZIP));
+
+                return self::EXECUTE_ERROR;
             }
 
             $this->io->newLine();
@@ -141,9 +140,9 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         $progressBar = $this->io->createProgressBar($archive->getCount());
         foreach ($this->coreApi->file()->heads(...$archive->getHashes()) as $hash) {
             $file = $archive->getFirstFileByHash($hash);
-            $uploadHash = $this->coreApi->file()->uploadFile($directory.DIRECTORY_SEPARATOR.$file->getFilename());
+            $uploadHash = $this->coreApi->file()->uploadFile($directory.DIRECTORY_SEPARATOR.$file->filename);
             if ($uploadHash !== $hash) {
-                throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->getFilename()));
+                throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->filename));
             }
             $progressBar->advance();
         }

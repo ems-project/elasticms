@@ -1,4 +1,4 @@
-# Available environment variables
+# Environment variables
 
 The environment variables have been grouped by bundles and for the Symfony framework itself.
 
@@ -22,7 +22,7 @@ Format described at https://www.doctrine-project.org/projects/doctrine-dbal/en/l
 
 IMPORTANT: You MUST configure your server version, either here or in config/packages/doctrine.yaml
 
-Examples: 
+Examples:
 - `DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"`
 - `DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7&charset=utf8mb4"`
 - `DATABASE_URL="postgresql://symfony:ChangeMe@127.0.0.1:5432/app?serverVersion=13&charset=utf8"`
@@ -35,10 +35,10 @@ Examples:
 Define the [elasticsearch sniffing strategy](https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html:
 - Default value: EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the EMS_ELASTICSEARCH_HOSTS contains one and only one host configuration; in order to avoid sniffing requests on a cluster that is more likely behind a reverse proxy. Else it contains EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'.
 - Possible values:
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticNoPingConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticNoPingConnectionPool'
 
 ### EMS_ELASTICSEARCH_HOSTS
 

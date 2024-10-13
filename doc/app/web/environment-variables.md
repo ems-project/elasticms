@@ -1,4 +1,4 @@
-# Available environment variables
+# Environment variables
 
 The environment variables have been grouped by bundles and for the Symfony framework itself.
 
@@ -7,18 +7,18 @@ The environment variables have been grouped by bundles and for the Symfony frame
 ### APP_ENV
 
 [Possible values](https://symfony.com/doc/current/configuration.html#selecting-the-active-environment): `dev`, `prod`, `redis`, `dev`, `test`
- - Example `APP_ENV=dev`
- 
+- Example `APP_ENV=dev`
+
 But there is 2 more possible values, specific to elasticms:
 
- - `db` : It's equivalent to a `prod` environment, but PHP sessions are persisted in the RDBMS (does not work with SQLite databases).
- - `redis` : It's equivalent to a `prod` environment, but PHP sessions are saved in a Redis server.
+- `db` : It's equivalent to a `prod` environment, but PHP sessions are persisted in the RDBMS (does not work with SQLite databases).
+- `redis` : It's equivalent to a `prod` environment, but PHP sessions are saved in a Redis server.
 - `store_data` : It's equivalent to a `prod` environment, but PHP sessions are saved in [Store Data services](../recipes/store-data.md).
 
 ### APP_SECRET
 
 A secret seed.
- - Example `APP_SECRET=7b19a4a6e37b9303e4f6bca1dc6691ed`
+- Example `APP_SECRET=7b19a4a6e37b9303e4f6bca1dc6691ed`
 
 ### Behind a Load Balancer or a Reverse Proxy
 
@@ -50,7 +50,7 @@ Configure [Swift Mailer](https://symfony.com/doc/current/email.html#configuratio
 
 ## Doctrine variables
 
-Default values (sqlite): 
+Default values (sqlite):
 ```dotenv
 DB_DRIVER='sqlite'
 DB_USER='user'
@@ -61,49 +61,49 @@ DB_NAME='app.db'
 
 ### DB_HOST
 
-DB's host. 
- - Default value: `127.0.0.1`
- - Example: `DB_DRIVER='db-server.tl'`
- 
+DB's host.
+- Default value: `127.0.0.1`
+- Example: `DB_DRIVER='db-server.tl'`
+
 ### DB_DRIVER
 
 Driver (Type of the DB server). Accepted values are `mysql`, `pgsql` and `sqlite`
- - Default value: `mysql`
- - Example: `DB_DRIVER='pgsql'`
-  
+- Default value: `mysql`
+- Example: `DB_DRIVER='pgsql'`
+
 ### DB_USER
 
- - Default value `user`
- - Example: `DB_USER='demo'`
-  
+- Default value `user`
+- Example: `DB_USER='demo'`
+
 ### DB_PASSWORD
 
- - Default value `user`
- - Example: `DB_PASSWORD='password'`
-  
+- Default value `user`
+- Example: `DB_PASSWORD='password'`
+
 ### DB_PORT
 
 For information the default mysql/mariadb port is 3306 and 5432 for Postgres
- - Default value `3306`
- - Example: `DB_PORT='5432'`
-  
+- Default value `3306`
+- Example: `DB_PORT='5432'`
+
 ### DB_NAME
 
- - Default value `elasticms`
- - Example: `DB_NAME='demo'`
-  
+- Default value `elasticms`
+- Example: `DB_NAME='demo'`
+
 ### DB_SCHEMA
 
-This variable is not used by Doctrine but by the dump script with postgres in the docker image of elasticms. 
- - Default value: not defined
- - Example: `DB_SCEMA='schema_demo_adm'`
- 
+This variable is not used by Doctrine but by the dump script with postgres in the docker image of elasticms.
+- Default value: not defined
+- Example: `DB_SCEMA='schema_demo_adm'`
+
 ### DB_CONNECTION_TIMEOUT
 
 Usefull when connecting to a string of multiple hosts. To reduce timeout when checking a second host if the first host fails.
 The minimum value is 2 https://pracucci.com/php-pdo-pgsql-connection-timeout.html
- - Default value `30`
- - Example: `DB_CONNECTION_TIMEOUT=30`
+- Default value `30`
+- Example: `DB_CONNECTION_TIMEOUT=30`
 
 
 ## Redis
@@ -148,7 +148,7 @@ Example base template.
 Overwrite the destination of the local files, by default `emsch:local:*` commands will search in `local/%environment_alias%` folder.
 
 Example for locally loading the demo inside local elasticms-web.
-```.dotenv
+```dotenv
 EMSCH_LOCAL_PATH='../demo/skeleton'
 ```
 
@@ -188,14 +188,14 @@ Another example with an extra HTTP header.
 Define the [elasticsearch sniffing strategy](https://www.elastic.co/guide/en/elasticsearch/client/php-api/7.17/connection_pool.html:
 - Default value: EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool' if the EMS_ELASTICSEARCH_HOSTS contains one and only one host configuration; in order to avoid sniffing requests on a cluster that is more likely behind a reverse proxy. Else it contains EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'.
 - Possible values:
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticConnectionPool'
-    - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticNoPingConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SimpleConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\SniffingConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticConnectionPool'
+  - EMS_ELASTICSEARCH_CONNECTION_POOL='Elasticsearch\\ConnectionPool\\StaticNoPingConnectionPool'
 
 ### EMS_STORAGES
 
-Used to define storage services. Elasticms supports [multiple types of storage services](https://github.com/ems-project/EMSCommonBundle/blob/master/src/Resources/doc/storages.md). 
+Used to define storage services. Elasticms supports [multiple types of storage services](https://github.com/ems-project/EMSCommonBundle/blob/master/src/Resources/doc/storages.md).
 - Default value: `EMS_STORAGES='[{"type":"fs","path":".\/var\/assets"},{"type":"s3","credentials":[],"bucket":""},{"type":"db","activate":false},{"type":"http","base-url":"","auth-key":""},{"type":"sftp","host":"","path":"","username":"","public-key-file":"","private-key-file":""}]'`
 - Example: `EMS_STORAGES='[{"type":"fs","path":"./var/assets"},{"type":"fs","path":"/var/lib/elasticms"}]'`
 
@@ -222,12 +222,12 @@ EMS_ELASTICSEARCH_HOSTS='300'
 
 ### EMS_CACHE
 
-Define the ems cache type. Default value `file_system`. 
-Allowed values: `file_system`, `apc` and `redis`. 
+Define the ems cache type. Default value `file_system`.
+Allowed values: `file_system`, `apc` and `redis`.
 
 ### EMS_CACHE_PREFIX
 
-Unique required value per project, otherwise wipe storage will clear all cached values. 
+Unique required value per project, otherwise wipe storage will clear all cached values.
 
 ### EMS_REDIS_HOST
 

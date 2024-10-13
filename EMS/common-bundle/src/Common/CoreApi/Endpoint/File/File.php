@@ -14,14 +14,16 @@ use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface
 {
+    private const HEADS_CHUNK_SIZE = 1000;
+
     public function __construct(private readonly Client $client, private readonly StorageManager $storageManager)
     {
     }
 
-    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType): string
+    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType, bool $head = true): string
     {
         $hash = $this->hashStream($stream);
-        if ($this->headHash($hash)) {
+        if ($head && $this->headHash($hash)) {
             return $hash;
         }
         $size = $stream->getSize();
@@ -52,6 +54,9 @@ final class File implements FileInterface
     public function uploadContents(string $contents, string $filename, string $mimeType): string
     {
         $hash = $this->storageManager->computeStringHash($contents);
+        if ($this->headHash($hash)) {
+            return $hash;
+        }
         $size = \strlen($contents);
         $fromByte = $this->initUpload($hash, $size, $filename, $mimeType);
         $uploaded = $this->addChunk($hash, $fromByte > 0 ? \substr($contents, $fromByte) : $contents);
@@ -119,6 +124,11 @@ final class File implements FileInterface
         return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
     }
 
+    public function getHashAlgo(): string
+    {
+        return $this->client->get('/api/file/hash-algo')->getData()['hash_algo'];
+    }
+
     public function hashStream(StreamInterface $stream): string
     {
         return $this->storageManager->computeStreamHash($stream);
@@ -161,6 +171,19 @@ final class File implements FileInterface
             return $this->client->head('/api/file/'.$hash);
         } catch (\Throwable) {
             return false;
+        }
+    }
+
+    /**
+     * @return iterable<string>
+     */
+    public function heads(string ...$fileHashes): iterable
+    {
+        $pagedHashes = \array_chunk($fileHashes, self::HEADS_CHUNK_SIZE, true);
+        foreach ($pagedHashes as $hashes) {
+            foreach ($this->client->post('/api/file/heads', $hashes)->getData() as $hash) {
+                yield $hash;
+            }
         }
     }
 }

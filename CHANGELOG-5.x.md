@@ -1,5 +1,11 @@
 # Changelog 5.x
 
+## 5.22.1 (2024-10-11)
+### Bug Fixes
+* fix(admin/cli): reindex skip lock and with_warnings false by @Davidmattei in https://github.com/ems-project/elasticms/pull/1035
+* fix(admin/document): display external content by @Davidmattei in https://github.com/ems-project/elasticms/pull/1037
+* fix(ems/asset): unzip assets in admin (both in edit and view revision) by @theus77 in https://github.com/ems-project/elasticms/pull/1039
+
 ## 5.22.0 (2024-10-08)
 ### Features
 * feat(admin/contentType): dataLinks support display expression by @Davidmattei in https://github.com/ems-project/elasticms/pull/1032
@@ -21,6 +27,13 @@
 * refactor(admin/cli): replace EmsCommand.php by AbstractCommand from c…   …ommon by @Davidmattei in https://github.com/ems-project/elasticms/pull/1022
 ### Chores
 * chore(demo): remove double 'french_stop' from backup. by @theus77 in https://github.com/ems-project/elasticms/pull/1018
+
+## 5.21.3 (2024-10-11)
+### Bug Fixes
+* fix(admin/datatable): revert remove table-responsive by @Davidmattei in https://github.com/ems-project/elasticms/pull/1023
+* fix(admin/revision): trash view only working for super user (sorting) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1031
+* fix(admin/twig-component):  update json menu nested template by @Davidmattei in https://github.com/ems-project/elasticms/pull/1025
+* fix(ems/asset): unzip assets in admin (both in edit and view revision) by @theus77 in https://github.com/ems-project/elasticms/pull/1039
 
 ## 5.21.2 (2024-09-24)
 ### Bug Fixes
@@ -47,6 +60,10 @@
 ### Code Refactoring
 * refactor(common): use helper types and remove common types by @theus77 in https://github.com/ems-project/elasticms/pull/998
 
+## 5.20.2 (2024-10-11)
+### Bug Fixes
+* fix(ems/asset): unzip assets in admin (both in edit and view revision) by @theus77 in https://github.com/ems-project/elasticms/pull/1039
+
 ## 5.20.1 (2024-09-03)
 ### Bug Fixes
 * fix(common/api): emsch get via the admin API (EMS_ELASTICSEARCH_PROXY_API) by @theus77 in https://github.com/ems-project/elasticms/pull/997
@@ -61,6 +78,10 @@
 * fix(admin/twig): align core and admin templates by @Davidmattei in https://github.com/ems-project/elasticms/pull/988
 ### Code Refactoring
 * refactor(admin/datatable): i18n & wysiwyg datatables by @Davidmattei in https://github.com/ems-project/elasticms/pull/974
+
+## 5.19.4 (2024-10-11)
+### Bug Fixes
+* fix(ems/asset): unzip assets in admin (both in edit and view revision) by @theus77 in https://github.com/ems-project/elasticms/pull/1039
 
 ## 5.19.3 (2024-09-03)
 ### Bug Fixes

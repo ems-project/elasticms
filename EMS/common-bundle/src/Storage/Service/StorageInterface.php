@@ -44,6 +44,11 @@ interface StorageInterface
 
     public function head(string $hash): bool;
 
+    /**
+     * @return string[]
+     */
+    public function heads(string ...$hashes): array;
+
     public function health(): bool;
 
     public function __toString(): string;
@@ -79,4 +84,6 @@ interface StorageInterface
     public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper;
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool;
+
+    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool;
 }

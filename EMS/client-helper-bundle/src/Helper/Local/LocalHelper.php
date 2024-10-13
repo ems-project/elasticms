@@ -180,12 +180,9 @@ final class LocalHelper
         $this->logger = $logger;
     }
 
-    public function makeAssetsArchives(string $baseUrl): TempFile
+    public function makeAssetsZipArchive(string $baseUrl): TempFile
     {
-        $directory = \implode(DIRECTORY_SEPARATOR, [$this->projectDir, 'public', $baseUrl]);
-        if (!\is_dir($directory)) {
-            throw new \RuntimeException(\sprintf('Directory not found %s', $baseUrl));
-        }
+        $directory = $this->getDirectory($baseUrl);
 
         $tempFile = TempFile::create();
 
@@ -212,5 +209,15 @@ final class LocalHelper
         $zip->close();
 
         return $tempFile;
+    }
+
+    public function getDirectory(string $baseUrl): string
+    {
+        $directory = \implode(DIRECTORY_SEPARATOR, [$this->projectDir, 'public', $baseUrl]);
+        if (!\is_dir($directory)) {
+            throw new \RuntimeException(\sprintf('Directory not found %s', $baseUrl));
+        }
+
+        return $directory;
     }
 }

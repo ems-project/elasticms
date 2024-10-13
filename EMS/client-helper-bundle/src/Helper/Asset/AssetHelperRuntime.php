@@ -50,9 +50,10 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
         $directory = $basePath.$hash;
 
         try {
-            if (!$this->filesystem->exists($directory)) {
-                AssetRuntime::extract($this->storageManager->getStream($hash), $directory);
-                $this->filesystem->touch($directory.\DIRECTORY_SEPARATOR.$hash);
+            if (!$this->filesystem->exists($directory.\DIRECTORY_SEPARATOR.$hash)) {
+                $tempDir = $this->storageManager->extractFromArchive($hash);
+                $tempDir->touch($hash);
+                $tempDir->moveTo($directory);
             }
             if (!$addEnvironmentSymlink) {
                 return $directory;
@@ -99,7 +100,7 @@ final class AssetHelperRuntime implements RuntimeExtensionInterface
             return \sprintf('%s/%s', $this->localFolder, $path);
         }
         if (null === $this->versionSaveDir) {
-            return \sprintf('bundle/%s/%s', $this->getVersionHash(), $path);
+            return \sprintf('bundles/%s/%s', $this->getVersionHash(), $path);
         }
 
         return \sprintf('%s/%s/%s', $this->getVersionSaveDir(), $this->getVersionHash(), $path);

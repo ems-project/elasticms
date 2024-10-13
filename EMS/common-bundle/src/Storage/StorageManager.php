@@ -14,6 +14,8 @@ use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
 use EMS\Helpers\File\TempDirectory;
+use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -83,6 +85,20 @@ class StorageManager
         }
 
         return false;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function heads(string ...$hashes): array
+    {
+        $heads = $hashes;
+
+        foreach ($this->adapters as $adapter) {
+            $heads = $adapter->heads(...$heads);
+        }
+
+        return $heads;
     }
 
     /**
@@ -517,8 +533,45 @@ class StorageManager
         if (!$this->head($hash)) {
             throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
         }
-        $dir = TempDirectory::create();
-        $dir->loadFromArchive($this->getStream($hash));
+
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+
+        return match ($mimeType) {
+            MimeTypes::APPLICATION_ZIP->value => $this->getStreamFromZipArchive($hash, $path, $archiveFile),
+            MimeTypes::APPLICATION_JSON->value => $this->getStreamFromJsonArchive($hash, $path, $archiveFile),
+            default => throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType)),
+        };
+    }
+
+    public function extractFromArchive(string $hash): TempDirectory
+    {
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        switch ($type) {
+            case MimeTypes::APPLICATION_ZIP->value:
+                $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
+                break;
+            case MimeTypes::APPLICATION_JSON->value:
+                $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+                $tempDir = TempDirectory::create();
+                foreach ($archive->iterator() as $file) {
+                    $tempDir->add($this->getStream($file->hash), $file->filename);
+                }
+                break;
+            default:
+                throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
+        }
+        $tempDir->touch($hash);
+        $archiveFile->clean();
+
+        return $tempDir;
+    }
+
+    private function getStreamFromZipArchive(string $hash, string $path, TempFile $zipFile): StreamWrapper
+    {
+        $dir = TempDirectory::createFromZipArchive($zipFile->path);
+        $zipFile->clean();
         $finder = new Finder();
         $finder->in($dir->path)->files();
         $counter = 0;
@@ -549,5 +602,32 @@ class StorageManager
         $mimeTypeHelper = MimeTypeHelper::getInstance();
 
         return new StreamWrapper($file->getStream(), $mimeTypeHelper->guessMimeType($filename), $file->getSize());
+    }
+
+    private function getStreamFromJsonArchive(string $hash, string $path, TempFile $archiveFile): StreamWrapper
+    {
+        $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+        $file = $archive->getByPath($path);
+        if (null === $file) {
+            throw new NotFoundHttpException(\sprintf('File %s not found in archive %s', $path, $hash));
+        }
+        $counter = 0;
+        foreach ($archive->iterator() as $item) {
+            foreach ($this->adapters as $adapter) {
+                if ($adapter->copyFileInArchiveCache($hash, $item->hash, $item->filename, $item->type)) {
+                    ++$counter;
+                    break;
+                }
+            }
+        }
+        if ($archive->getCount() === $counter) {
+            $this->logger->debug(\sprintf('%d files have been successfully saved in cache', $counter));
+        } elseif (0 === $counter) {
+            $this->logger->warning(\sprintf('None of the %d files have been successfully saved in cache', $archive->getCount()));
+        } else {
+            $this->logger->warning(\sprintf('%d files, on a total of %d, have been successfully saved in cache', $counter, $archive->getCount()));
+        }
+
+        return new StreamWrapper($this->getStream($file->hash), $file->type, $file->size);
     }
 }

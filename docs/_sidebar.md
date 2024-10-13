@@ -85,6 +85,7 @@
       - [Zip](/dev/submission-bundle/handlers/zip.md)
 - Recipes
   - [Export as word](/recipes/export-as-word.md)
+  - [File structure](/recipes/websites/file-structure.md)
   - [Hierarchy to JSON Netsed](/recipes/hierarchy-to-json-netsed.md)
   - [Store Data](/recipes/store-data.md)
   - [Postprocessing](/recipes/postprocessing.md)

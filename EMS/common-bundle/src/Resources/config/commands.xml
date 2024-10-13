@@ -91,7 +91,6 @@
             <tag name="console.command" command="ems:version"/>
         </service>
         <service id="ems.command.file_structure.publish" class="EMS\CommonBundle\Command\FileStructure\FileStructurePublishCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>
             <tag name="console.command" />
         </service>

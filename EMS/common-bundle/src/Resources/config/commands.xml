@@ -96,7 +96,6 @@
             <tag name="console.command" />
         </service>
         <service id="ems.command.file_structure.pull" class="EMS\CommonBundle\Command\FileStructure\FileStructurePullCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command" />
         </service>

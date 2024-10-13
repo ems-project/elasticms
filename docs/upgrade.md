@@ -1,5 +1,7 @@
 # Upgrade
 
+  * [version 5.23.x](#version-523x)
+  * [version 5.22.x](#version-522x)
   * [version 5.21.x](#version-521x)
   * [version 5.19.x](#version-519x)
   * [version 5.17.x](#version-517x)
@@ -10,6 +12,55 @@
   * [version 4.2.x](#version-42x)
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
+
+## version 5.23.x
+
+From this version, the upload of web's assets via the command `emsch:local:upload-assets` wont upload a zip anymore but each assets independently.
+The hash provided at the end of the command, is the hash of a JSON containing the structure of the assets within the asset folder, we called those JSON an ElasticMS archive or EMS Archive. E.g.:
+
+```json
+[
+  {
+    "filename": "css/index.css",
+    "hash": "9408821ad2bd8f65b7cd7d3913c01218532fc6b2",
+    "type": "text/css",
+    "size": 244030
+  },
+  {
+    "filename": "img/head/icon.png",
+    "hash": "cf4effd785abdb6b58e560c7645cedda5c9fda16",
+    "type": "image/png",
+    "size": 74640
+  },
+  {
+    "filename": "img/logos/ems-logo.svg",
+    "hash": "10b8fa0d6c1e1b1a21b713341424820d379b0a6b",
+    "type": "image/svg+xml",
+    "size": 24638
+  },
+  {
+    "filename": "img/logos/full-logo.svg",
+    "hash": "1f59b7246eb4f6856d42128ad17c4fb59d15f038",
+    "type": "image/svg+xml",
+    "size": 17415
+  },
+  {
+    "filename": "js/index.js",
+    "hash": "010a2066374e5980be0b68d628acd1b624602ab5",
+    "type": "text/javascript",
+    "size": 190044
+  }
+]
+```
+Using those EMS Archive has a huge impact on the performances. Especially at the website warming up.
+You can use that EMS Archive's hash where ever you want instead of the old ZIP's hash. E.g. in the Twig function `emsch_assets_version`: 
+```twig
+{% do emsch_assets_version(include('@EMSCH/template/asset_hash.twig'), null) %}
+```
+
+If, for some reason you want, you can continue to use ZIP archives. Or by active the option `--archive=zip` int the `emsch:local:upload-assets` command. Or by manually uploading the ZIP file in the Admin UI. ElasticMS detects if it's a EMR archive or a zip archive. 
+
+It's not required, but warmly recommended to re-upload your assets and update the asset's hash in the website templates.
 
 ## version 5.22.x
 

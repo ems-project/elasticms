@@ -1,8 +1,3 @@
----
-editLink: true
-lang: en-US
----
-
 # Upgrade 5.x
 
 ## version 5.22.x
@@ -97,7 +92,7 @@ emsch_demo_asset_in_archive:
 
 ## version 5.3.x
 
-### Deprecated emsch_add_environment
+Deprecated emsch_add_environment
 
 In dashboards/views and action, we call `emsch_add_environment` for rendering a template from emsch.
 If elasticms-admin defines `EMSCH_ENV` and `EMSCH_ENVS`, this is not needed anymore.

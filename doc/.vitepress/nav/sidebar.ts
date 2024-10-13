@@ -22,8 +22,9 @@ const sidebar: DefaultTheme.SidebarItem[] = {
       text: 'Develop',
       collapsed: true,
       items: [
+        {text: 'Monorepo', link: '/guide/develop/monorepo' },
+        {text: 'Contributing', link: '/guide/develop/contributing'},
         {text: 'Setup environment', link: '/guide/develop/environment' },
-        {text: 'Contributing', link: '/guide/develop/contributing'}
       ]
     }
   ]

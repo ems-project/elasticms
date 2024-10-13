@@ -1,13 +1,8 @@
----
-editLink: true
-lang: en-US
----
-
 # Upgrade 4.x
 
 ## version 4.2.x
 
-### Content type roles in twig
+Content type roles in twig
 
 ```twig
 {% if is_granted(contentType.createRole) %} // [!code --]
@@ -16,7 +11,7 @@ lang: en-US
 
 ## version 4.x
 
-### Deprecated twig functions
+Deprecated twig functions
 
 ```twig
 {% spaceless %} // [!code --]

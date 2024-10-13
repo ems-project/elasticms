@@ -26,3 +26,35 @@ the [symplify/monorepo-builder](https://github.com/symplify/monorepo-builder).
 ```
 vendor/bin/monorepo-builder validate
 ```
+
+## Migration
+
+Steps for migrating a repository into the monorepo.
+
+1. Add the code
+    ```bash
+    git remote add elasticms-admin git@github.com:ems-project/EMSCoreBundle.git
+    git fetch elasticms-admin
+    git read-tree --prefix=elasticms-admin -u elasticms-admin/4.x
+    git commit -m "Migrate elasticms-admin repo to EMS/elasticms-admin"
+    ```
+2. Merge composer
+    ```bash
+    vendor/bin/monorepo-builder merge
+    ```
+3. Resolve composer conflicts
+4. Composer update
+    ```bash
+    composer update
+    ```
+5. Update tools
+   * Add the repo's `src` and `tests` folders to `.php-cs-fixer.dist.php`
+   * Add the repo's `src` folder to `phpstan.neon.dist`
+   * Add the repo's `src` and `tests` folders to `phpunit.xml.dist`
+6. Run tools
+    ```bash
+    composer phpcs
+    composer phpstan
+    composer phpunit
+    composer rector
+    ```

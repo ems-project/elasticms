@@ -8,7 +8,7 @@ The following command is available in all ElacticMS applications (Admin, Web and
 php bin/console ems:file-structure:push ../../demo
 ```
 This command will upload all files present in the ../../demo folder an give you an hash as output.
-That hash identify an ElasticMS Archive, it's a JSON containing the all files structure (with hash, filename, size and mimetype).
+That hash identify an ElasticMS Archive, it's a JSON containing the all files structure (with hash, filename, size and mimetype of all files).
 
 ## Update a local folder from ElasticMS
 

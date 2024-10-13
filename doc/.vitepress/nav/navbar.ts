@@ -12,7 +12,7 @@ const navbar: DefaultTheme.NavItem[] = [
     text: 'Releases',
     items: [
       {text: 'Upgrade 5.x', link: '/release/upgrade-5x'},
-      {text: 'Notes 5.x~', link: 'https://github.com/ems-project/elasticms/blob/5.x/CHANGELOG-5.x.md'},
+      {text: 'Notes 5.x', link: 'https://github.com/ems-project/elasticms/blob/5.x/CHANGELOG-5.x.md'},
     ]
   },
 ]

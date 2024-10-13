@@ -16,7 +16,7 @@ const sidebar: DefaultTheme.SidebarItem[] = {
       items: [
         {text: 'Upgrade 5.x', link: '/release/upgrade-5x'},
         {text: 'Upgrade 4.x', link: '/release/upgrade-4x'},
-        {text: 'Upgrade', link: '/release/upgrade'},
+        {text: 'Upgrade', link: '/release/upgrade'}
       ]
     },
     {

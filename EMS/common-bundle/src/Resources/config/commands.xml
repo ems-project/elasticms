@@ -91,17 +91,14 @@
             <tag name="console.command" command="ems:version"/>
         </service>
         <service id="ems.command.file_structure.publish" class="EMS\CommonBundle\Command\FileStructure\FileStructurePublishCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>
             <tag name="console.command" />
         </service>
         <service id="ems.command.file_structure.pull" class="EMS\CommonBundle\Command\FileStructure\FileStructurePullCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command" />
         </service>
         <service id="ems.command.file_structure.push" class="EMS\CommonBundle\Command\FileStructure\FileStructurePushCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command" />
         </service>

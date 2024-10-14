@@ -174,7 +174,8 @@ final class File implements FileInterface
 
     public function heads(string ...$fileHashes): \Traversable
     {
-        $pagedHashes = \array_chunk($fileHashes, self::HEADS_CHUNK_SIZE, true);
+        $uniqueFileHashes = \array_unique($fileHashes);
+        $pagedHashes = \array_chunk($uniqueFileHashes, self::HEADS_CHUNK_SIZE, true);
         foreach ($pagedHashes as $hashes) {
             foreach ($this->client->post('/api/file/heads', $hashes)->getData() as $hash) {
                 yield $hash;

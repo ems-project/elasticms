@@ -24,6 +24,7 @@ const sidebar: DefaultTheme.SidebarItem[] = {
             collapsed: true,
             items: [
                 {text: 'Environment variables', link: '/app/admin/environment-variables'},
+                {text: 'Commands', link: '/app/admin/commands'},
             ]
         },
         {
@@ -31,6 +32,7 @@ const sidebar: DefaultTheme.SidebarItem[] = {
             collapsed: true,
             items: [
                 {text: 'Environment variables', link: '/app/web/environment-variables'},
+                {text: 'Commands', link: '/app/web/commands'},
             ]
         },
         {
@@ -38,6 +40,14 @@ const sidebar: DefaultTheme.SidebarItem[] = {
             collapsed: true,
             items: [
                 {text: 'Environment variables', link: '/app/cli/environment-variables'},
+                {text: 'Commands', link: '/app/cli/commands'},
+            ]
+        },
+        {
+            text: 'EMS - Common',
+            collapsed: true,
+            items: [
+                {text: 'Commands', link: '/app/common/commands'},
             ]
         },
         {

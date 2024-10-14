@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage;
 
+use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
@@ -13,6 +14,7 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
+use EMS\Helpers\File\File as FileHelper;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
@@ -24,7 +26,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class StorageManager
+class StorageManager implements FileManagerInterface
 {
     /** @var StorageInterface[] */
     private array $adapters = [];
@@ -629,5 +631,52 @@ class StorageManager
         }
 
         return new StreamWrapper($this->getStream($file->hash), $file->type, $file->size);
+    }
+
+    public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
+    {
+        $fileHash = $this->computeFileHash($realPath);
+
+        if ($this->head($fileHash)) {
+            return $fileHash;
+        }
+
+        $file = FileHelper::fromFilename($realPath);
+        $mimeType ??= $file->mimeType;
+        $filename ??= $file->name;
+
+        $this->initUploadFile(
+            fileHash: $fileHash,
+            fileSize: $file->size,
+            fileName: $filename,
+            mimeType: $mimeType,
+            usageType: StorageInterface::STORAGE_USAGE_ASSET
+        );
+
+        foreach ($file->chunk(0) as $chunk) {
+            $this->addChunk($fileHash, $chunk, StorageInterface::STORAGE_USAGE_ASSET);
+            if (null !== $callback) {
+                $callback($chunk);
+            }
+        }
+
+        $this->finalizeUpload($fileHash, $file->size, StorageInterface::STORAGE_USAGE_ASSET);
+
+        return $fileHash;
+    }
+
+    public function uploadContents(string $contents, string $filename, string $mimeType): string
+    {
+        return $this->saveContents(
+            contents: $contents,
+            filename: $filename,
+            mimetype: $mimeType,
+            usageType: StorageInterface::STORAGE_USAGE_ASSET
+        );
+    }
+
+    public function downloadFile(string $hash): string
+    {
+        return $this->getFile($hash)->getFilename();
     }
 }

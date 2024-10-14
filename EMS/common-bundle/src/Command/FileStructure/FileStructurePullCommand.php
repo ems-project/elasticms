@@ -60,6 +60,8 @@ class FileStructurePullCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io->title('EMS - File structure - Pull');
+
         $algo = $this->fileManager->getHashAlgo();
         $archiveFile = $this->fileManager->downloadFile($this->archiveHash);
         $archive = Archive::fromStructure(Type::string(\file_get_contents($archiveFile)), $algo);

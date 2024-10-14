@@ -14,8 +14,6 @@ use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface
 {
-    private const HEADS_CHUNK_SIZE = 1000;
-
     public function __construct(private readonly Client $client, private readonly StorageManager $storageManager)
     {
     }
@@ -174,10 +172,7 @@ final class File implements FileInterface
         }
     }
 
-    /**
-     * @return iterable<string>
-     */
-    public function heads(string ...$fileHashes): iterable
+    public function heads(string ...$fileHashes): \Traversable
     {
         $pagedHashes = \array_chunk($fileHashes, self::HEADS_CHUNK_SIZE, true);
         foreach ($pagedHashes as $hashes) {

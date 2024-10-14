@@ -89,18 +89,15 @@ class StorageManager implements FileManagerInterface
         return false;
     }
 
-    /**
-     * @return string[]
-     */
-    public function heads(string ...$hashes): array
+    public function heads(string ...$fileHashes): \Traversable
     {
-        $heads = $hashes;
+        $pagedHashes = \array_chunk($fileHashes, self::HEADS_CHUNK_SIZE, true);
 
-        foreach ($this->adapters as $adapter) {
-            $heads = $adapter->heads(...$heads);
+        foreach ($pagedHashes as $hashes) {
+            foreach ($this->adapters as $adapter) {
+                yield from $adapter->heads(...$hashes);
+            }
         }
-
-        return $heads;
     }
 
     /**

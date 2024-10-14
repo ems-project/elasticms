@@ -54,8 +54,13 @@ class FileStructurePushCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->io->title('EMS - File structure - Push');
         $algo = $this->fileManager->getHashAlgo();
+
+        $this->io->section('Building archive');
         $archive = Archive::fromDirectory($this->folderPath, $algo);
+
+        $this->io->section('Pushing archive');
         $progressBar = $this->io->createProgressBar($archive->getCount());
         foreach ($this->fileManager->heads(...$archive->getHashes()) as $hash) {
             $file = $archive->getFirstFileByHash($hash);

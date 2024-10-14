@@ -1,54 +1,18 @@
 # Commands
 
-<!-- TOC -->
-* [Commands](#commands)
-  * [EMSCO (CoreBundle)](#emsco-corebundle)
-    * [Asset](#asset)
-      * [Refresh file fields](#refresh-file-fields)
-    * [Content Type](#content-type)
-      * [Content Type switch default environment](#content-type-switch-default-environment)
-      * [Content Type transform](#content-type-transform)
-    * [Environment](#environment)
-      * [Environment align](#environment-align)
-      * [Environment unpublish](#environment-unpublish)
-    * [Release](#release)
-      * [Release create](#release-create)
-      * [Release publish](#release-publish)
-    * [Revision](#revision)
-      * [Revision archive](#revision-archive)
-      * [Revision copy](#revision-copy)
-      * [Revision delete](#revision-delete)
-      * [Revision discard](#revision-discard)
-      * [Revision task create](#revision-task-create)
-      * [Revision task notification mail](#revision-task-notification-mail)
-    * [User](#user)
-      * [User activate](#user-activate)
-      * [User change](#user-change)
-      * [User create](#user-create)
-      * [User deactivate](#user-deactivate)
-      * [User demote](#user-demote)
-      * [User promote](#user-promote)
-      * [User update option](#user-update-option)
-    * [XLIFF](#xliff-)
-      * [XLIFF extract](#xliff-extract)
-      * [XLIFF update](#xliff-update)
-<!-- TOC -->
+## Asset
 
-## EMSCO (CoreBundle)
-
-### Asset
-
-#### Refresh file fields
+### Refresh file fields
 
 This command ensure that all file fields, for all revisions, are using the last asset's fields:
 
- * _hash
- * _size
- * _algo
- * _type
- * _name
+* _hash
+* _size
+* _algo
+* _type
+* _name
 
-That will have to be launch at least once between August 2024 and the release 7.x. 
+That will have to be launch at least once between August 2024 and the release 7.x.
 By then the fields `filename`, `filesize`, `sha1` and `mimetype` are deprecated.
 
 This command regenerate resized images in order to avoid too much memory consumption on image generation.
@@ -64,21 +28,20 @@ Usage:
 
 ```
 
-### Content Type
+## Content Type
 
-#### Content Type switch default environment
+### Switch default environment
 
 Switch the default environment for a given content type.
 Each revision published in the default environment will be marked as published in the provided environment.
 Each revision published in the provided environment will be mark as published in the default environment.
-The content type's environment by default will be set to the provided environment. 
+The content type's environment by default will be set to the provided environment.
 
 **Cautions**
 
 * This command should never be run in a production environment without a good backup.
-* Affected environments must be rebuilded just after. As many content types might be switched, the command doesn't automatically rebuilding them. After this command affected indexes will be inconsistent.
-
-
+* Affected environments must be rebuilded just after. As many content types might be switched, the command doesn't
+  automatically rebuilding them. After this command affected indexes will be inconsistent.
 
 ```bash
 Usage:
@@ -90,7 +53,7 @@ Arguments:
 
 ```
 
-#### Content Type transform
+### Transform
 
 Apply defined field transformers in the migration mapping.
 
@@ -111,9 +74,112 @@ Options:
       --user=USER                      Lock user [default: "SYSTEM_CONTENT_TRANSFORM"]
 ```
 
-### Environment
+### Activate
 
-#### Environment align
+Activate a content type
+
+* **--all** : Make all contenttypes: [ticket]
+* **--deactivate** : Deactivate contenttypes
+* **--force** : Activate the contenttypes even if the mapping is not up to date (flagged as draft)
+
+### Clean
+
+Clean all deleted content types
+
+```bash
+php bin/console ems:contenttype:clean
+```
+
+### Delete
+
+Delete all instances of a content type
+
+```bash
+php bin/console ems:contenttype:delete <name>
+```
+
+### Export
+
+Export a search result of a content type to a specific format
+
+```bash
+php bin/console ems:contenttype:export [options] [--] <contentTypeName> [<format> [<query> [<outputFile>]]]
+```
+
+* **--environment=ENVIRONMENT** : The environment to use for the query, it will use the default environment if not
+  defined
+* **--withBusinessId** : Replace internal OUUIDs by business values
+* **--scrollSize=SCROLLSIZE** : Size of the elasticsearch scroll request [default: 100]
+* **--scrollTimeout=SCROLLTIMEOUT** : Time to migrate "scrollSize" items i.e. 30s or 2m [default: "1m"]
+* **--baseUrl=BASEURL** : Base url of the application (in order to generate a link)
+
+### Import
+
+Import json files from a zip file as content type's documents
+
+```bash
+php bin/console ems:contenttype:import [options] [--] <contentTypeName> <archive>
+```
+
+* **--bulkSize[=BULKSIZE]** : Size of the elasticsearch bulk request [default: 500]
+* **--raw** : The content will be imported as is. Without any field validation, data stripping or field protection
+* **--dont-sign-data** : The content will not be signed during the import process
+* **--force** : Also treat document in draft mode
+* **--dont-finalize** : Don't finalize document
+* **--businessKey** : Try to identify documents by their business keys
+
+### Lock
+
+Lock a content type
+
+```bash
+php bin/console ems:contenttype:lock [options] [--] <contentType> <time>
+```
+
+* **--query[=QUERY]** : ES query [default: "{}"]
+* **--user=USER** : lock username [default: "EMS_COMMAND"]
+* **--force** : do not check for already locked revisions
+* **--if-empty** : lock if there are no pending locks for the same user
+* **--ouuid[=OUUID]** : lock a specific ouuid
+
+### Migrate
+
+Migrate a content type from an elasticsearch index
+
+```bash
+php bin/console ems:contenttype:migrate [options] [--] <elasticsearchIndex> <contentTypeNameFrom> [<contentTypeNameTo> [<scrollSize> [<scrollTimeout>]]]
+```
+
+* **--bulkSize[=BULKSIZE]** : Size of the elasticsearch bulk request [default: "500"]
+* **--force** : Allow to import from the default environment and to draft revision
+* **--raw** : The content will be imported as is. Without any field validation, data stripping or field protection
+* **--sign-data** : The content will be (re)signed during the reindexing process
+* **--searchQuery[=SEARCHQUERY]** : Query used to find elasticsearch records to
+  import [default: "{\"sort\":{\"_uid\":{\"order\":\"asc\"}}}"]
+* **--dont-finalize** : Don't finalize document
+
+### Recompute
+
+Recompute a content type
+
+```bash
+php bin/console ems:contenttype:recompute [options] [--] <contentType>
+```
+
+* **--changed** : only create new revision if the hash changed after recompute
+* **--force** : do not check for already locked revisions
+* **--missing** : will recompute the objects that are missing in their default environment only
+* **--continue** : continue a recompute
+* **--no-align** : don't keep the revisions aligned to all already aligned environments
+* **--cron** : optimized for automated recurring recompute calls, tries --continue, when no locks are found for user
+  runs command without --continue
+* **--ouuid[=OUUID]** : recompute a specific revision ouuid
+* **--deep** : deep recompute form will be submitted and transformers triggered
+* **--query[=QUERY]** : ES query [default: "{}"]
+
+## Environment
+
+### Align
 
 Align an environment from another one
 
@@ -136,14 +202,14 @@ Options:
       --dry-run                        Dry run
 ```
 
-#### Environment unpublish
+### Unpublish
 
 Unpublish revision from an environment
 
 You cannot unpublish:
+
 - revisions from their default environment, you should use '**emsco:revision:archive**' for this.
 - revisions with only one environment. This can happen when the revision is archived in the default environment.
-
 
 ```bash
 Usage:
@@ -161,9 +227,9 @@ Options:
       --dry-run                        Dry run
 ```
 
-### Release
+## Release
 
-#### Release create
+### Create
 
 Add documents for a given contenttype in a release
 
@@ -179,7 +245,7 @@ Options:
       --query[=QUERY]   ES query [default: "{}"]
 ```
 
-#### Release publish
+### Publish
 
 Publish scheduled releases
 
@@ -188,9 +254,9 @@ Usage:
   emsco:release:publish
 ```
 
-### Revision
+## Revision
 
-#### Revision archive
+### Archive
 
 ```bash
 Usage:
@@ -206,7 +272,7 @@ Options:
       --search-query[=SEARCH-QUERY]      Query used to find elasticsearch records to import [default: "{}"]
 ```
 
-#### Revision copy
+### Copy
 
 Copy revisions from search query
 
@@ -226,7 +292,7 @@ Options:
       --scroll-timeout=SCROLL-TIMEOUT  Timeout "scrollSize" items i.e. 30s or 2m
 ```
 
-#### Revision delete
+### Delete
 
 Delete all/oldest revisions for content type(s).
 
@@ -241,13 +307,13 @@ emsco:revision:delete all # Removing all revisions
 emsco:revision:delete all --mode=oldest # Removing all oldest revisions
 ```
 
-It's also possible to delete revision by passing a query. In this case the provided elasticsearch query is run all all OUUIDs are collected.
+It's also possible to delete revision by passing a query. In this case the provided elasticsearch query is run all all
+OUUIDs are collected.
 Base on those OUUIDs all revisions in the database and all documents in all managed indexes are deleted.
 
 ```bash
  php bin/console ems:rev:dele --mode=by-query --query='{"index":"ems_default","body":{"query":{"bool":{"must":[{"term":{"host":{"value":"domain.tld","boost":1}}},{"terms":{"_contenttype":["audit"]}}]}}}}'
 ```
-
 
 ```bash
 Usage:
@@ -262,7 +328,7 @@ Options:
       --query[=QUERY]   query to use in by-query mode
 ```
 
-#### Revision discard
+### Discard
 
 Discard drafts for content types
 
@@ -278,11 +344,12 @@ Options:
       --older=OLDER     Discard revision that are older than this  (time format) [default: "-5minutes"]
 ```
 
-#### Revision task create
+### Task create
 
 Create revision task based on ES query
 
 The command will not create tasks:
+
 * if tasks are not enabled `@todo task documentation`
 * if the revision has a current task or planned tasks
 
@@ -304,14 +371,15 @@ Options:
       --search-query[=SEARCH-QUERY]    Query used to find elasticsearch records to import [default: "{}"]
 ```
 
-#### Revision task notification mail
+### Task notification mail
 
 Send a notification mail to assignees, creators and task managers.
 
-Creates a list of all active tasks, ordered by the deadline. 
+Creates a list of all active tasks, ordered by the deadline.
 You can define the deadline start and end with the deadline options.
 
 Loops over all tasks and checks:
+
 - If the task is in progress, add to the list of tasks for the assignee
 - If the task is completed, add to the list of tasks for the creator
 - If include-task-managers is true, add to the list of tasks for the manager
@@ -331,9 +399,9 @@ Options:
       --limit=LIMIT                    limit the results inside mail [default: 10]
 ```
 
-### User
+## User
 
-#### User activate
+### Activate
 
 Activate a user
 
@@ -345,7 +413,7 @@ Arguments:
   username              The username
 ```
 
-#### User change
+### Change
 
 Change the password of a user
 
@@ -358,7 +426,7 @@ Arguments:
   password              The password
 ```
 
-#### User create
+### Create
 
 Create a user
 
@@ -372,7 +440,7 @@ Arguments:
   password              The password
 ```
 
-#### User deactivate
+### Deactivate
 
 Deactivate a user
 
@@ -384,7 +452,7 @@ Arguments:
   username              The username
 ```
 
-#### User demote
+### Demote
 
 Demote a user by removing a role
 
@@ -400,7 +468,7 @@ Options:
       --super           Instead specifying role, use this to quickly add the super administrator role
 ```
 
-#### User promote
+### Promote
 
 Promotes a user by adding a role
 
@@ -416,7 +484,7 @@ Options:
       --super           Instead specifying role, use this to quickly add the super administrator role
 ```
 
-#### User update option
+### Update option
 
 ```
 Description:
@@ -445,35 +513,61 @@ Help:
     php bin/console emsco:user:update-option custom_options '{"country":"Belgium"}' --email='%.be'
 ```
 
-### XLIFF 
+## Notification
+
+### Send
+> Send all notifications and notification's responses emails
+* **--dry-run**
+
+```bash
+php bin/console ems:notification:send --dry-run
+```
+
+### Bulk-action
+> Bulk all notifications actions for the passed query
+
+* **actionId** : notification id ems content type notification action
+* **query** : json escaped elasticsearch query
+* **--username** : this username will be the created by on the notification, default is ems
+* **--environment** : environment for executing the passed query, default is the notification contentType environment
+* **--force** : will only create notifications if force is true
+
+```bash
+php bin/console ems:notification:bulk-action 72 {\"query\":{\"bool\":{\"must\":[{\"range\":{\"expiration_date\":{\"gte\":\"now\",\"lte\":\"now+1M\"}}}]}}} --force --username="bulker" --environment=live
+```
+
+## XLIFF
 
 The core supports XLIFF exports and imports to have some content translated by a translation office.
 
 > **LIMITATIONS**
-> 
-> At this point elasticms only supports XLIFF translation in separated documents. In other words a document is associated to one and only one language. Those documents needs:
-> 
+>
+> At this point elasticms only supports XLIFF translation in separated documents. In other words a document is
+> associated to one and only one language. Those documents needs:
+>
 > - A keyword field to identify the document's locale i.e. a `locale` field contains values like `'fr'`, `'en'`
-> - A keyword field to link documents that are translation of each other. It can be a `menu_uid` referring to a JSON Menu entry or a data link
-> 
+> - A keyword field to link documents that are translation of each other. It can be a `menu_uid` referring to a JSON
+    Menu entry or a data link
+>
 > So the couple of those two fields must be unique by environment.
-> 
+>
 > A support where fields such as `title_fr` and `title_nl` are in the same document is feasible but is not yet supported
 
-
-#### XLIFF extract
+### Extract
 
 This command generates an XML in a [XLIFF format 1.2](http://docs.oasis-open.org/xliff/xliff-core/xliff-core.html).
 
 This command will
+
 - extract the fields `description`, `title_short` and `title`
 - for the document with the OUUID `db27a1da21b8d9c556abe67451007cd0ad80c54b` if it exists in the `next` environment
 - The expected locale of this document should be `nl`
 - It will try to identify a `de` document having the same `translation_id`  in the `latest`
-  - The translatable fields of this document will be used as default target value
-- It will check if something has changed for the current revision of the document, for the translatable fields, of the revision
-  - in the `latest` environment with the same OUUID
-  - If nothing changed, and if a target is defined it will mark the target's state as `final`
+    - The translatable fields of this document will be used as default target value
+- It will check if something has changed for the current revision of the document, for the translatable fields, of the
+  revision
+    - in the `latest` environment with the same OUUID
+    - If nothing changed, and if a target is defined it will mark the target's state as `final`
 
 ```
 emsco:xliff:extract next '{"query":{"bool":{"must":[{"term":{"_id":{"value":"db27a1da21b8d9c556abe67451007cd0ad80c54b"}}},{"terms":{"_contenttype":["page","template"]}}]}}}' nl de description title_short title --base-url=http://example.localhost --target-environment=latest
@@ -506,22 +600,27 @@ Options:
       --mail-reply-to[=MAIL-REPLY-TO]            A comma seperated list of emails where to reply
 ```
 
-#### XLIFF update
+### Update
 
-If a `publish-to` is specified in the options, the command will check if something as changed in source fields between the default environment and the `publish-to` one. If nothing changed and if the target fields are defined those target's sate will be marked as `'final'`
+If a `publish-to` is specified in the options, the command will check if something as changed in source fields between
+the default environment and the `publish-to` one. If nothing changed and if the target fields are defined those target's
+sate will be marked as `'final'`
 
 This command will:
-- Load the XLIFF file passed as argument
-- Each source document's revisions are identified in the XLIFF file. That exact revision will be used to generate a new revision for the target locale (defined in the XLIFF file)
-- The target OUUID will be identified via an elasticsearch query looking for a single document
-  - In the `latest` environment (as it's specified in the `publish-to` option, otherwise it will look in the default environment of the revision)
-  - Having the same `translation_id` field value
-  - Having the locale field value set to target locale
-  - If not found a new document with a brand new OUUID will be generate
-- As a `publish-to` environment is defined, translated revisions will be directly published in that environment
-- As the archive option is set the translated revisions will be unpublished from there default environment and mark as archived
-  - This option is available only if a `publish-to` environment is defined
 
+- Load the XLIFF file passed as argument
+- Each source document's revisions are identified in the XLIFF file. That exact revision will be used to generate a new
+  revision for the target locale (defined in the XLIFF file)
+- The target OUUID will be identified via an elasticsearch query looking for a single document
+    - In the `latest` environment (as it's specified in the `publish-to` option, otherwise it will look in the default
+      environment of the revision)
+    - Having the same `translation_id` field value
+    - Having the locale field value set to target locale
+    - If not found a new document with a brand new OUUID will be generate
+- As a `publish-to` environment is defined, translated revisions will be directly published in that environment
+- As the archive option is set the translated revisions will be unpublished from there default environment and mark as
+  archived
+    - This option is available only if a `publish-to` environment is defined
 
  ```
 emsco:xliff:update /tmp/ems-extract-BfHeoa.xlf --publish-to=latest --archive

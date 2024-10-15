@@ -91,6 +91,7 @@
             <tag name="console.command" command="ems:version"/>
         </service>
         <service id="ems.command.file_structure.publish" class="EMS\CommonBundle\Command\FileStructure\FileStructurePublishCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
             <argument type="service" id="ems_common.storage.manager"/>
             <tag name="console.command" />
         </service>

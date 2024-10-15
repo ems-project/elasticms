@@ -112,9 +112,8 @@ final class File implements FileInterface
             throw new \RuntimeException(\sprintf('Could not download file with hash %s', $hash));
         }
         $stream = $this->client->download($this->downloadLink($hash));
-        $storageFile = new StorageFile($stream);
 
-        return $storageFile->getFilename();
+        return (new StorageFile($stream))->getFilename();
     }
 
     public function downloadLink(string $hash): string
@@ -181,5 +180,15 @@ final class File implements FileInterface
                 yield $hash;
             }
         }
+    }
+
+    public function getContents(string $hash): string
+    {
+        return $this->getStream($hash)->getContents();
+    }
+
+    public function getStream(string $hash): StreamInterface
+    {
+        return $this->client->download($this->downloadLink($hash));
     }
 }

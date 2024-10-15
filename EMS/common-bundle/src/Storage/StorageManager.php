@@ -538,7 +538,7 @@ class StorageManager implements FileManagerInterface
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
 
         return match ($mimeType) {
-            MimeTypes::APPLICATION_ZIP->value => $this->getStreamFromZipArchive($hash, $path, $archiveFile),
+            MimeTypes::APPLICATION_ZIP->value, MimeTypes::APPLICATION_GZIP->value => $this->getStreamFromZipArchive($hash, $path, $archiveFile),
             MimeTypes::APPLICATION_JSON->value => $this->getStreamFromJsonArchive($hash, $path, $archiveFile),
             default => throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType)),
         };
@@ -550,6 +550,7 @@ class StorageManager implements FileManagerInterface
         $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
         switch ($type) {
             case MimeTypes::APPLICATION_ZIP->value:
+            case MimeTypes::APPLICATION_GZIP->value:
                 $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
                 break;
             case MimeTypes::APPLICATION_JSON->value:

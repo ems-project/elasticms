@@ -36,8 +36,7 @@ class FileStructurePublishCommand extends AbstractCommand
     public function __construct(
         private readonly AdminHelper $adminHelper,
         private readonly StorageManager $storageManager
-    )
-    {
+    ) {
         parent::__construct();
     }
 

@@ -369,7 +369,7 @@ class S3Storage extends AbstractUrlStorage
             }
         };
 
-        $promise = Each::ofLimit(iterable: $promiseGenerator(), concurrency: 10);
+        $promise = Each::ofLimit(iterable: $promiseGenerator(), concurrency: 500);
         $promise->wait();
 
         return $notFound;

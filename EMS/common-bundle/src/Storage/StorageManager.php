@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage;
 
+use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
@@ -13,6 +14,7 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
+use EMS\Helpers\File\File as FileHelper;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Html\MimeTypes;
@@ -24,7 +26,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class StorageManager
+class StorageManager implements FileManagerInterface
 {
     /** @var StorageInterface[] */
     private array $adapters = [];
@@ -87,18 +89,16 @@ class StorageManager
         return false;
     }
 
-    /**
-     * @return string[]
-     */
-    public function heads(string ...$hashes): array
+    public function heads(string ...$fileHashes): \Traversable
     {
-        $heads = $hashes;
+        $uniqueFileHashes = \array_unique($fileHashes);
+        $pagedHashes = \array_chunk($uniqueFileHashes, self::HEADS_CHUNK_SIZE, true);
 
-        foreach ($this->adapters as $adapter) {
-            $heads = $adapter->heads(...$heads);
+        foreach ($pagedHashes as $hashes) {
+            foreach ($this->adapters as $adapter) {
+                yield from $adapter->heads(...$hashes);
+            }
         }
-
-        return $heads;
     }
 
     /**
@@ -538,7 +538,7 @@ class StorageManager
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
 
         return match ($mimeType) {
-            MimeTypes::APPLICATION_ZIP->value => $this->getStreamFromZipArchive($hash, $path, $archiveFile),
+            MimeTypes::APPLICATION_ZIP->value, MimeTypes::APPLICATION_GZIP->value => $this->getStreamFromZipArchive($hash, $path, $archiveFile),
             MimeTypes::APPLICATION_JSON->value => $this->getStreamFromJsonArchive($hash, $path, $archiveFile),
             default => throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType)),
         };
@@ -550,6 +550,7 @@ class StorageManager
         $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
         switch ($type) {
             case MimeTypes::APPLICATION_ZIP->value:
+            case MimeTypes::APPLICATION_GZIP->value:
                 $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
                 break;
             case MimeTypes::APPLICATION_JSON->value:
@@ -629,5 +630,52 @@ class StorageManager
         }
 
         return new StreamWrapper($this->getStream($file->hash), $file->type, $file->size);
+    }
+
+    public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
+    {
+        $fileHash = $this->computeFileHash($realPath);
+
+        if ($this->head($fileHash)) {
+            return $fileHash;
+        }
+
+        $file = FileHelper::fromFilename($realPath);
+        $mimeType ??= $file->mimeType;
+        $filename ??= $file->name;
+
+        $this->initUploadFile(
+            fileHash: $fileHash,
+            fileSize: $file->size,
+            fileName: $filename,
+            mimeType: $mimeType,
+            usageType: StorageInterface::STORAGE_USAGE_ASSET
+        );
+
+        foreach ($file->chunk(0) as $chunk) {
+            $this->addChunk($fileHash, $chunk, StorageInterface::STORAGE_USAGE_ASSET);
+            if (null !== $callback) {
+                $callback($chunk);
+            }
+        }
+
+        $this->finalizeUpload($fileHash, $file->size, StorageInterface::STORAGE_USAGE_ASSET);
+
+        return $fileHash;
+    }
+
+    public function uploadContents(string $contents, string $filename, string $mimeType): string
+    {
+        return $this->saveContents(
+            contents: $contents,
+            filename: $filename,
+            mimetype: $mimeType,
+            usageType: StorageInterface::STORAGE_USAGE_ASSET
+        );
+    }
+
+    public function downloadFile(string $hash): string
+    {
+        return $this->getFile($hash)->getFilename();
     }
 }

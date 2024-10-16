@@ -7,11 +7,13 @@ namespace EMS\CommonBundle\Command\FileStructure;
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
-use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use EMS\CommonBundle\Storage\Archive;
+use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -21,21 +23,28 @@ class FileStructurePullCommand extends AbstractCommand
     protected static $defaultName = Commands::FILE_STRUCTURE_PULL;
     private const ARGUMENT_ARCHIVE_HASH = 'hash';
     private const ARGUMENT_FOLDER = 'folder';
-    private string $folderPath;
-    private CoreApiInterface $coreApi;
-    private string $archiveHash;
+    private const OPTION_ADMIN = 'admin';
 
-    public function __construct(private readonly AdminHelper $adminHelper)
-    {
+    private string $folderPath;
+    private string $archiveHash;
+    private FileManagerInterface $fileManager;
+
+    public function __construct(
+        private readonly AdminHelper $adminHelper,
+        private readonly StorageManager $storageManager,
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Pull an EMS archive into a local folder (and overwrite it)');
-        $this->addArgument(self::ARGUMENT_ARCHIVE_HASH, InputArgument::REQUIRED, 'Hash of the ElasticMS Archive');
-        $this->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Target folder');
+        $this
+            ->setDescription('Pull an EMS archive into a local folder (and overwrite it)')
+            ->addArgument(self::ARGUMENT_ARCHIVE_HASH, InputArgument::REQUIRED, 'Hash of the ElasticMS Archive')
+            ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Target folder')
+            ->addOption(self::OPTION_ADMIN, null, InputOption::VALUE_NONE, 'Pull from admin')
+        ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -43,13 +52,18 @@ class FileStructurePullCommand extends AbstractCommand
         parent::initialize($input, $output);
         $this->archiveHash = $this->getArgumentString(self::ARGUMENT_ARCHIVE_HASH);
         $this->folderPath = $this->getArgumentString(self::ARGUMENT_FOLDER);
-        $this->coreApi = $this->adminHelper->getCoreApi();
+        $this->fileManager = match ($this->getOptionBool(self::OPTION_ADMIN)) {
+            true => $this->adminHelper->getCoreApi()->file(),
+            false => $this->storageManager,
+        };
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $algo = $this->coreApi->file()->getHashAlgo();
-        $archiveFile = $this->coreApi->file()->downloadFile($this->archiveHash);
+        $this->io->title('EMS - File structure - Pull');
+
+        $algo = $this->fileManager->getHashAlgo();
+        $archiveFile = $this->fileManager->downloadFile($this->archiveHash);
         $archive = Archive::fromStructure(Type::string(\file_get_contents($archiveFile)), $algo);
 
         $done = [];
@@ -73,7 +87,7 @@ class FileStructurePullCommand extends AbstractCommand
                 $progressBar->advance();
                 continue;
             }
-            $tempFile = $this->coreApi->file()->downloadFile($item->hash);
+            $tempFile = $this->fileManager->downloadFile($item->hash);
             $explodedPath = \explode(\DIRECTORY_SEPARATOR, $this->folderPath.\DIRECTORY_SEPARATOR.$item->filename);
             \array_pop($explodedPath);
             $filesystem->mkdir(\implode(\DIRECTORY_SEPARATOR, $explodedPath));

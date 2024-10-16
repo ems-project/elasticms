@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
 use EMS\CommonBundle\Storage\File\FileInterface;
@@ -11,6 +12,7 @@ use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Base64;
+use GuzzleHttp\Promise\Each;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\SplFileInfo;
@@ -352,16 +354,24 @@ class S3Storage extends AbstractUrlStorage
     public function heads(string ...$hashes): array
     {
         $client = $this->getS3Client();
-        $result = [];
+        $notFound = [];
 
-        foreach ($hashes as $hash) {
-            $key = \implode('/', [\substr($hash, 0, 3), $hash]);
-
-            if (!$client->doesObjectExist($this->bucket, $key)) {
-                $result[] = $hash;
+        $promiseGenerator = function () use ($hashes, $client, &$notFound) {
+            foreach ($hashes as $hash) {
+                yield $client->headObjectAsync([
+                    'Bucket' => $this->bucket,
+                    'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
+                ])->then(onRejected: function (AwsException $exception) use (&$notFound, $hash) {
+                    if ('NotFound' === $exception->getAwsErrorCode()) {
+                        $notFound[] = $hash;
+                    }
+                });
             }
-        }
+        };
 
-        return $result;
+        $promise = Each::ofLimit(iterable: $promiseGenerator(), concurrency: 500);
+        $promise->wait();
+
+        return $notFound;
     }
 }

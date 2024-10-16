@@ -14,8 +14,6 @@ use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface
 {
-    private const HEADS_CHUNK_SIZE = 1000;
-
     public function __construct(private readonly Client $client, private readonly StorageManager $storageManager)
     {
     }
@@ -114,9 +112,8 @@ final class File implements FileInterface
             throw new \RuntimeException(\sprintf('Could not download file with hash %s', $hash));
         }
         $stream = $this->client->download($this->downloadLink($hash));
-        $storageFile = new StorageFile($stream);
 
-        return $storageFile->getFilename();
+        return (new StorageFile($stream))->getFilename();
     }
 
     public function downloadLink(string $hash): string
@@ -174,16 +171,24 @@ final class File implements FileInterface
         }
     }
 
-    /**
-     * @return iterable<string>
-     */
-    public function heads(string ...$fileHashes): iterable
+    public function heads(string ...$fileHashes): \Traversable
     {
-        $pagedHashes = \array_chunk($fileHashes, self::HEADS_CHUNK_SIZE, true);
+        $uniqueFileHashes = \array_unique($fileHashes);
+        $pagedHashes = \array_chunk($uniqueFileHashes, self::HEADS_CHUNK_SIZE, true);
         foreach ($pagedHashes as $hashes) {
             foreach ($this->client->post('/api/file/heads', $hashes)->getData() as $hash) {
                 yield $hash;
             }
         }
+    }
+
+    public function getContents(string $hash): string
+    {
+        return $this->getStream($hash)->getContents();
+    }
+
+    public function getStream(string $hash): StreamInterface
+    {
+        return $this->client->download($this->downloadLink($hash));
     }
 }

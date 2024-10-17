@@ -56,10 +56,12 @@ class StorageManager
         foreach ($this->storageConfigs as $storageConfig) {
             $type = $storageConfig['type'] ?? null;
             if (null === $type) {
+                $this->logger->error('Storage type not defined.');
                 continue;
             }
             $factory = $this->factories[$type] ?? null;
             if (null === $factory) {
+                $this->logger->error(\sprintf('Storage factory "%s" was not found.', $factory));
                 continue;
             }
             $storage = $factory->createService($storageConfig);

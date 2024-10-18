@@ -383,10 +383,7 @@ abstract class DataFieldType extends AbstractType
         return 0 === \count($dataField->getMessages()) && $this->isMandatory($dataField, $parent, $masterRawData);
     }
 
-    /**
-     * Test if the requirment of the field is reached.
-     */
-    public function isMandatory(DataField &$dataField, DataField $parent = null, mixed &$masterRawData = null): bool
+    public function isMandatory(DataField $dataField, DataField $parent = null, mixed &$masterRawData = null): bool
     {
         $isValidMandatory = true;
         $restrictionOptions = $dataField->giveFieldType()->getRestrictionOptions();

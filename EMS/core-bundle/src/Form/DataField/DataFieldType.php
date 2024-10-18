@@ -395,11 +395,10 @@ abstract class DataFieldType extends AbstractType
         $parentRawData = $parent ? $parent->getRawData() : [];
         $parentRawDataArray = \is_array($parentRawData) ? $parentRawData : [];
 
-        if (null === $parent || false === $mandatoryIf || null === $parent->getRawData()
-            || !empty($this->resolve($masterRawData ?? [], $parentRawDataArray, $mandatoryIf))) {
+        $checkMandatoryIf = $this->checkMandatoryIf($masterRawData ?? [], $parentRawDataArray, $mandatoryIf);
 
+        if (!$checkMandatoryIf || null === $parent || null === $parent->getRawData()) {
             $dataField->addMessage('Empty field');
-
             return false;
         }
 
@@ -410,7 +409,7 @@ abstract class DataFieldType extends AbstractType
      * @param array<mixed> $rawData
      * @param array<mixed> $parentRawData
      */
-    private function resolve(array $rawData, array $parentRawData, string $path, ?string $default = null): mixed
+    private function checkMandatoryIf(array $rawData, array $parentRawData, string $path): bool
     {
         $current = $rawData;
         if ('' !== $path && \str_starts_with($path, '.')) {
@@ -420,13 +419,13 @@ abstract class DataFieldType extends AbstractType
         $p = \strtok($path, '.');
         while (false !== $p) {
             if (!isset($current[$p])) {
-                return $default;
+                return false;
             }
             $current = $current[$p];
             $p = \strtok('.');
         }
 
-        return $current;
+        return empty($current);
     }
 
     public function hasDeletedParent(DataField $parent = null): bool

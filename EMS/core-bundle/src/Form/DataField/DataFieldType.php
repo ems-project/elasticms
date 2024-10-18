@@ -389,7 +389,6 @@ abstract class DataFieldType extends AbstractType
     public function isMandatory(DataField &$dataField, DataField $parent = null, mixed &$masterRawData = null): bool
     {
         $isValidMandatory = true;
-        // Get FieldType mandatory option
         $restrictionOptions = $dataField->giveFieldType()->getRestrictionOptions();
         if (isset($restrictionOptions['mandatory']) && true == $restrictionOptions['mandatory']) {
             $parentRawData = $parent ? $parent->getRawData() : [];
@@ -397,10 +396,8 @@ abstract class DataFieldType extends AbstractType
 
             if (null === $parent || !isset($restrictionOptions['mandatory_if'])
                 || null === $parent->getRawData()
-                || !empty(static::resolve($masterRawData ?? [], $parentRawDataArray, $restrictionOptions['mandatory_if']))) {
-                // Get rawData
-                $rawData = $dataField->getRawData();
-                if (null === $rawData || (\is_string($rawData) && '' === $rawData) || (\is_array($rawData) && 0 === \count($rawData))) {
+                || !empty($this->resolve($masterRawData ?? [], $parentRawDataArray, $restrictionOptions['mandatory_if']))) {
+                if (!$dataField->hasRawData()) {
                     $isValidMandatory = false;
                     $dataField->addMessage('Empty field');
                 }
@@ -414,10 +411,10 @@ abstract class DataFieldType extends AbstractType
      * @param array<mixed> $rawData
      * @param array<mixed> $parentRawData
      */
-    public static function resolve(array $rawData, array $parentRawData, string $path, ?string $default = null): ?string
+    private function resolve(array $rawData, array $parentRawData, string $path, ?string $default = null): mixed
     {
         $current = $rawData;
-        if (\strlen($path) && \str_starts_with($path, '.')) {
+        if ('' !== $path && \str_starts_with($path, '.')) {
             $current = $parentRawData;
         }
 

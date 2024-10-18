@@ -690,6 +690,18 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
         return $this->rawData;
     }
 
+    public function hasRawData(): bool
+    {
+        if (\is_string($this->rawData) && '' !== $this->rawData) {
+            return true;
+        }
+        if (\is_array($this->rawData) && \count($this->rawData) > 0) {
+            return true;
+        }
+
+        return null !== $this->rawData;
+    }
+
     /**
      * @return DataField
      */

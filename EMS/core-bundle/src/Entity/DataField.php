@@ -398,7 +398,7 @@ class DataField implements \ArrayAccess, \IteratorAggregate, \Stringable
 
     public function addMessage(string $message): void
     {
-        if (!\in_array($message, $this->messages)) {
+        if (!\in_array($message, $this->messages, true)) {
             $this->messages[] = $message;
         }
     }

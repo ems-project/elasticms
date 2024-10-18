@@ -371,10 +371,7 @@ abstract class DataFieldType extends AbstractType
         return true;
     }
 
-    /**
-     * Test if the field is valid.
-     */
-    public function isValid(DataField &$dataField, DataField $parent = null, mixed &$masterRawData = null): bool
+    public function isValid(DataField $dataField, DataField $parent = null, mixed &$masterRawData = null): bool
     {
         if ($this->hasDeletedParent($parent)) {
             return true;

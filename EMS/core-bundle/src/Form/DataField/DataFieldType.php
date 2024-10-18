@@ -388,7 +388,7 @@ abstract class DataFieldType extends AbstractType
         $mandatory = $dataField->giveFieldType()->getRestrictionOption('mandatory', false);
         $mandatoryIf = $dataField->giveFieldType()->getRestrictionOption('mandatory_if', false);
 
-        if (!$mandatory) {
+        if (!$mandatory || $dataField->hasRawData()) {
             return true;
         }
 
@@ -397,10 +397,10 @@ abstract class DataFieldType extends AbstractType
 
         if (null === $parent || false === $mandatoryIf || null === $parent->getRawData()
             || !empty($this->resolve($masterRawData ?? [], $parentRawDataArray, $mandatoryIf))) {
-            if (!$dataField->hasRawData()) {
-                $dataField->addMessage('Empty field');
-                return false;
-            }
+
+            $dataField->addMessage('Empty field');
+
+            return false;
         }
 
         return true;

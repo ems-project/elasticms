@@ -380,28 +380,30 @@ abstract class DataFieldType extends AbstractType
             return true;
         }
 
-        return 0 === \count($dataField->getMessages()) && $this->isMandatory($dataField, $parent, $masterRawData);
+        return 0 === \count($dataField->getMessages()) && $this->isValidMandatory($dataField, $parent, $masterRawData);
     }
 
-    public function isMandatory(DataField $dataField, DataField $parent = null, mixed &$masterRawData = null): bool
+    public function isValidMandatory(DataField $dataField, DataField $parent = null, mixed &$masterRawData = null): bool
     {
-        $isValidMandatory = true;
-        $restrictionOptions = $dataField->giveFieldType()->getRestrictionOptions();
-        if (isset($restrictionOptions['mandatory']) && true == $restrictionOptions['mandatory']) {
-            $parentRawData = $parent ? $parent->getRawData() : [];
-            $parentRawDataArray = \is_array($parentRawData) ? $parentRawData : [];
+        $mandatory = $dataField->giveFieldType()->getRestrictionOption('mandatory', false);
+        $mandatoryIf = $dataField->giveFieldType()->getRestrictionOption('mandatory_if', false);
 
-            if (null === $parent || !isset($restrictionOptions['mandatory_if'])
-                || null === $parent->getRawData()
-                || !empty($this->resolve($masterRawData ?? [], $parentRawDataArray, $restrictionOptions['mandatory_if']))) {
-                if (!$dataField->hasRawData()) {
-                    $isValidMandatory = false;
-                    $dataField->addMessage('Empty field');
-                }
+        if (!$mandatory) {
+            return true;
+        }
+
+        $parentRawData = $parent ? $parent->getRawData() : [];
+        $parentRawDataArray = \is_array($parentRawData) ? $parentRawData : [];
+
+        if (null === $parent || false === $mandatoryIf || null === $parent->getRawData()
+            || !empty($this->resolve($masterRawData ?? [], $parentRawDataArray, $mandatoryIf))) {
+            if (!$dataField->hasRawData()) {
+                $dataField->addMessage('Empty field');
+                return false;
             }
         }
 
-        return $isValidMandatory;
+        return true;
     }
 
     /**

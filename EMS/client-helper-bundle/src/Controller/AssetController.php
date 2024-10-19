@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller;
 
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Twig\AssetRuntime;
+use EMS\Helpers\Html\Headers;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,24 +59,9 @@ final class AssetController extends AbstractController
             throw new NotFoundHttpException(\sprintf('File %s not found', $file));
         }
         $response = new BinaryFileResponse($file);
-        $this->fixGuessedMimeType($response, $file);
+        $response->headers->set(Headers::CONTENT_TYPE, MimeTypeHelper::getInstance()->guessMimeType($file));
         $response->headers->set('X-Proxy-Target-Base-Url', $target);
 
         return $response;
-    }
-
-    private function fixGuessedMimeType(BinaryFileResponse $response, string $file): void
-    {
-        $exploded = \explode('.', $file);
-        $extension = \end($exploded);
-
-        switch ($extension) {
-            case 'css':
-                $response->headers->set('Content-Type', 'text/css');
-                break;
-            case 'svg':
-                $response->headers->set('Content-Type', 'image/svg+xml');
-                break;
-        }
     }
 }

@@ -20,6 +20,7 @@ final class AssetController extends AbstractController
 
     public function proxyToEnvironmentAlias(string $requestPath, string $alias): Response
     {
+        @\trigger_error(\sprintf('The route entry %s::proxyToEnvironmentAlias is deprecated, please use EMS\CommonBundle\Controller\FileController::assetInArchive', self::class), E_USER_DEPRECATED);
         $target = \implode(DIRECTORY_SEPARATOR, [
             'bundles',
             $alias,
@@ -30,6 +31,7 @@ final class AssetController extends AbstractController
 
     public function proxyToZipArchive(string $requestPath, string $hash): Response
     {
+        @\trigger_error(\sprintf('The route entry %s::proxyToZipArchive is deprecated, please use EMS\CommonBundle\Controller\FileController::assetInArchive', self::class), E_USER_DEPRECATED);
         $saveDir = \implode(DIRECTORY_SEPARATOR, [
             $this->projectDir,
             'public',
@@ -48,6 +50,7 @@ final class AssetController extends AbstractController
 
     public function proxy(string $requestPath, string $target): Response
     {
+        @\trigger_error(\sprintf('The route entry %s::proxy is deprecated, please use EMS\CommonBundle\Controller\FileController::assetInArchive', self::class), E_USER_DEPRECATED);
         $file = \implode(DIRECTORY_SEPARATOR, [
             $this->projectDir,
             'public',

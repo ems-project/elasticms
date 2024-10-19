@@ -8,7 +8,6 @@
            controller="EMS\ClientHelperBundle\Controller\AssetController::proxyToEnvironmentAlias"
            methods="GET">
         <requirement key="requestPath">.+</requirement>
-        <deprecated package="elasticms/client-helper-bundle" version="5.23"/>
     </route>
 
 </routes>

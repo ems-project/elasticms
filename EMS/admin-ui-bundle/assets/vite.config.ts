@@ -3,6 +3,22 @@ import inject from '@rollup/plugin-inject'
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/index.php': {
+        target: 'http://127.0.0.1:8881',
+        changeOrigin: false,
+        secure: false,
+        xfwd: true,
+      },
+      '/bundles': {
+        target: 'http://127.0.0.1:8881',
+        changeOrigin: false,
+        secure: false,
+        xfwd: true,
+      },
+    },
+  },
   plugins: [
     inject({
       jQuery: 'jquery',
@@ -31,6 +47,7 @@ export default defineConfig({
         'edit-revision': 'src/edit-revision.js',
         hierarchical: 'src/hierarchical.js',
         i18n: 'src/i18n.js',
+        index: 'index.html',
         'managed-alias': 'src/managed-alias.js'
       }
     }

@@ -66,6 +66,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_preg_match', [Encoder::class, 'pregMatch']),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
             new TwigFilter('ems_link', fn ($emsLink) => EMSLink::fromText($emsLink)),
+            new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
         ];
     }
 

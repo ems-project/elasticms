@@ -48,6 +48,7 @@ class ReleaseRevisionsUnpublishDataTableType extends AbstractTableType implement
         $template = "@$this->templateNamespace/datatable/template_block_columns.html.twig";
 
         $table->setLabelAttribute('documentEmsId');
+        $table->setIdField('documentEmsId');
         $table->setDefaultOrder(Mapping::FINALIZATION_DATETIME_FIELD, 'desc');
 
         $table->addColumnDefinition(new TemplateBlockTableColumn(

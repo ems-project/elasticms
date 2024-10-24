@@ -82,7 +82,7 @@ class QueryTable extends TableAbstract
                 continue;
             }
             if ($data instanceof DocumentInterface) {
-                yield $data->getOuuid() => new ElasticaRow($data);
+                yield $data->getDocumentEmsId() => new ElasticaRow($data);
                 continue;
             }
 

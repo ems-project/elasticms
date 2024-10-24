@@ -188,7 +188,7 @@ class ElasticaTable extends TableAbstract
                     'order' => $this->getOrderDirection(),
                 ],
             ]);
-        } else {
+        } elseif ($this->defaultSort) {
             $search->setSort($this->defaultSort);
         }
 

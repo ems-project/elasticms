@@ -177,13 +177,17 @@ class Revision implements EntityInterface, \Stringable
     private Collection $releases;
     private bool $selfUpdate = false;
 
-    public function enableSelfUpdate(): void
+    public const VERSION_BLANK = 'silent';
+
+    public function enableSelfUpdate(): self
     {
         if ($this->getDraft()) {
             throw new LockedException($this);
         }
 
         $this->selfUpdate = true;
+
+        return $this;
     }
 
     /**
@@ -678,12 +682,14 @@ class Revision implements EntityInterface, \Stringable
         return $rawData;
     }
 
-    public function removeFromRawData(string $property): void
+    public function removeFromRawData(string $property): self
     {
         $rawData = $this->rawData ?? [];
         unset($rawData[$property]);
 
         $this->rawData = $rawData;
+
+        return $this;
     }
 
     public function getHash(): string

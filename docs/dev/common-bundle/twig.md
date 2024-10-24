@@ -23,6 +23,7 @@
   * [ems_slug](#ems_slug)
   * [ems_file_from_archive](#ems_file_from_archive)
   * [ems_link](#ems_link)
+  * [ems_valid_mail](#ems_valid_mail)
 <!-- TOC -->
 
 # Twig Functions
@@ -388,3 +389,12 @@ Return the [EMSLink](https://github.com/ems-project/elasticms/blob/HEAD/EMS/comm
 ```twig
 {% set emsLink = 'page:064efcc7751ee8b0915416a717e2db46d15c77eb'|ems_link %}
 ```
+
+## ems_valid_mail
+
+Returns true if the input is a valid email
+
+```twig
+{%- if _source.email|ems_valid_mail -%}{% endif %}
+```
+

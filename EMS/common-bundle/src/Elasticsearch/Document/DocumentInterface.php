@@ -8,6 +8,8 @@ interface DocumentInterface
 {
     public function getId(): string;
 
+    public function getDocumentEmsId(): string;
+
     public function getOuuid(): string;
 
     public function getContentType(): string;

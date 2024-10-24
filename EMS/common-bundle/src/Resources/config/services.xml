@@ -100,6 +100,7 @@
         <service id="ems_common.twig.runtime.text" class="EMS\CommonBundle\Twig\TextRuntime">
             <argument type="service" id="ems_common.text.encoder" />
             <argument type="service" id="ems_common.json.decoder" />
+            <argument type="service" id="validator" />
             <argument type="service" id="logger" />
             <tag name="twig.runtime" />
         </service>

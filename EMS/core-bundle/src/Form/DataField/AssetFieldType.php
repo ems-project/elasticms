@@ -148,6 +148,7 @@ class AssetFieldType extends DataFieldType
     public function generateMapping(FieldType $current): array
     {
         $mapping = parent::generateMapping($current);
+
         return [
             $current->getName() => \array_merge([
                     'type' => 'nested',

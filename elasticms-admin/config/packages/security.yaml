@@ -58,7 +58,6 @@ security:
     access_control:
         - { path: ^/$, role: PUBLIC_ACCESS }
         - { path: ^/metrics$, role: PUBLIC_ACCESS }
-        - { path: ^/bundle, role: PUBLIC_ACCESS }
         - { path: ^/favicon.ico$, role: PUBLIC_ACCESS }
         - { path: ^/apple\-touch\-icon\.png$, role: PUBLIC_ACCESS }
         - { path: ^/favicon\-(16|32|48|64|128|256)x(16|32|48|64|128|256)\.png$, role: PUBLIC_ACCESS }

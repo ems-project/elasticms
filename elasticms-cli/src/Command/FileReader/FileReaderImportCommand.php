@@ -9,6 +9,7 @@ use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Search\Search;
+use EMS\CommonBundle\Storage\StorageManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,7 +26,6 @@ final class FileReaderImportCommand extends AbstractCommand
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_GENERATE_HASH = 'generate-hash';
     private const OPTION_DELETE_MISSING_DOCUMENTS = 'delete-missing-document';
-    private const OPTION_HASH_FILE = 'hash-file';
     private const OPTION_ENCODING = 'encoding';
     private string $ouuidExpression;
     private string $contentType;
@@ -33,11 +33,13 @@ final class FileReaderImportCommand extends AbstractCommand
     private bool $dryRun;
     private bool $hashOuuid;
     private bool $deleteMissingDocuments;
-    private bool $hashFile;
     private ?string $encoding;
 
-    public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
-    {
+    public function __construct(
+        private readonly AdminHelper $adminHelper,
+        private readonly StorageManager $storageManager,
+        private readonly FileReaderInterface $fileReader
+    ) {
         parent::__construct();
     }
 
@@ -51,7 +53,6 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addOption(self::OPTION_GENERATE_HASH, null, InputOption::VALUE_NONE, 'Use the OUUID column and the content type name in order to generate a "better" ouuid')
             ->addOption(self::OPTION_DELETE_MISSING_DOCUMENTS, null, InputOption::VALUE_NONE, 'The command will delete content type document that are missing in the import file')
             ->addOption(self::OPTION_OUUID_EXPRESSION, null, InputOption::VALUE_OPTIONAL, 'Expression language apply to excel rows in order to identify the document by its ouuid. If equal to null new document will be created', "row['ouuid']")
-            ->addOption(self::OPTION_HASH_FILE, null, InputOption::VALUE_NONE, 'Specify that the file argument is a file hash not a file path.')
             ->addOption(self::OPTION_ENCODING, null, InputOption::VALUE_OPTIONAL, 'Specify the file\'s encoding for csv, html and Slk file')
         ;
     }
@@ -65,7 +66,6 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->hashOuuid = $this->getOptionBool(self::OPTION_GENERATE_HASH);
         $this->deleteMissingDocuments = $this->getOptionBool(self::OPTION_DELETE_MISSING_DOCUMENTS);
-        $this->hashFile = $this->getOptionBool(self::OPTION_HASH_FILE);
         $this->encoding = $this->getOptionStringNull(self::OPTION_ENCODING);
     }
 
@@ -80,10 +80,10 @@ final class FileReaderImportCommand extends AbstractCommand
 
             return self::EXECUTE_ERROR;
         }
-        $file = $this->hashFile ? $this->getFileByHash($this->file) : $this->file;
+        $file = $this->storageManager->getFile($this->file);
 
         $expressionLanguage = new ExpressionLanguage();
-        $rows = $this->fileReader->getData($file, false, $this->encoding);
+        $rows = $this->fileReader->getData($file->getFilename(), false, $this->encoding);
         $header = \array_map('trim', $rows[0] ?? []);
 
         $ouuids = [];
@@ -164,14 +164,5 @@ final class FileReaderImportCommand extends AbstractCommand
         }
 
         return self::EXECUTE_SUCCESS;
-    }
-
-    private function getFileByHash(string $hash): string
-    {
-        if (!$this->adminHelper->getCoreApi()->file()->headHash($hash)) {
-            throw new \RuntimeException(\sprintf('File with hash "%s" not found', $hash));
-        }
-
-        return $this->adminHelper->getCoreApi()->file()->downloadFile($hash);
     }
 }

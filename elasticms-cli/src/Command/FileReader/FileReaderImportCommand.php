@@ -87,7 +87,10 @@ final class FileReaderImportCommand extends AbstractCommand
 
             foreach ($this->createSyncMetaData($rows) as $syncMetaData) {
                 $ouuid = $this->createOuuid($config, $syncMetaData);
-                $rawData = ['_sync_metadata' => $syncMetaData];
+
+                $rawData = $config->defaultData;
+                $rawData['_sync_metadata'] = $syncMetaData;
+
                 $action = $ouuid && $contentTypeApi->head($ouuid) ? 'update' : 'create';
 
                 if ($ouuid) {

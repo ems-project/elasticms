@@ -8,11 +8,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FileReaderImportConfig
 {
+    /**
+     * @param array<string, mixed> $defaultData
+     */
     private function __construct(
         public bool $generateHash = false,
         public bool $deleteMissingDocuments = false,
+        public ?string $delimiter = null,
+        public array $defaultData = [],
         public ?string $ouuidExpression = "row['ouuid']",
-        public ?string $encoding = null
+        public ?string $encoding = null,
     ) {
     }
 
@@ -24,23 +29,27 @@ class FileReaderImportConfig
         $optionsResolver = new OptionsResolver();
         $optionsResolver
             ->setDefaults([
-                'generateHash' => false,
-                'deleteMissingDocuments' => false,
-                'ouuidExpression' => 'row[\'ouuid\']',
+                'delimiter' => null,
+                'default_data' => [],
+                'delete_missing_documents' => false,
                 'encoding' => null,
+                'generate_hash' => false,
+                'ouuid_expression' => 'row[\'ouuid\']',
             ])
-            ->setAllowedTypes('generateHash', 'bool')
-            ->setAllowedTypes('deleteMissingDocuments', 'bool')
-            ->setAllowedTypes('ouuidExpression', ['string', 'null'])
+            ->setAllowedTypes('delete_missing_documents', 'bool')
+            ->setAllowedTypes('generate_hash', 'bool')
+            ->setAllowedTypes('ouuid_expression', ['string', 'null'])
         ;
 
-        $config = $optionsResolver->resolve($config);
+        $options = $optionsResolver->resolve($config);
 
         return new self(
-            generateHash: $config['generateHash'],
-            deleteMissingDocuments: $config['deleteMissingDocuments'],
-            ouuidExpression: $config['ouuidExpression'],
-            encoding: $config['encoding'],
+            generateHash: $options['generate_hash'],
+            deleteMissingDocuments: $options['delete_missing_documents'],
+            delimiter: $options['delimiter'],
+            defaultData: $options['default_data'],
+            ouuidExpression: $options['ouuid_expression'],
+            encoding: $options['encoding'],
         );
     }
 }

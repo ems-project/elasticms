@@ -80,7 +80,10 @@ final class FileReaderImportCommand extends AbstractCommand
         }
 
         $expressionLanguage = new ExpressionLanguage();
-        $rows = $this->fileReader->getData($file->getFilename(), false, $config->encoding);
+        $rows = $this->fileReader->getData($file->getFilename(), [
+            'delimiter' => $config->delimiter,
+            'encoding' => $config->encoding,
+        ]);
         $header = \array_map('trim', $rows[0] ?? []);
 
         $ouuids = [];

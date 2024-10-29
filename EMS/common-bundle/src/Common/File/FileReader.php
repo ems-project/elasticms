@@ -15,11 +15,18 @@ final class FileReader implements FileReaderInterface
     /**
      * {@inheritDoc}
      */
-    public function getData(string $filename, bool $skipFirstRow = false, string $encoding = null): array
+    public function getData(string $filename, array $options = []): array
     {
+        $skipFirstRow = true === ($options['skipFirstRow'] ?? false);
+        $encoding = $options['encoding'] ?? null;
+
         $reader = IOFactory::createReaderForFile($filename);
         if (($reader instanceof Csv || $reader instanceof Html || $reader instanceof Slk) && null !== $encoding) {
             $reader->setInputEncoding($encoding);
+        }
+
+        if ($reader instanceof Csv && isset($options['delimiter'])) {
+            $reader->setDelimiter($options['delimiter']);
         }
 
         $data = $reader->load($filename)->getActiveSheet()->toArray();

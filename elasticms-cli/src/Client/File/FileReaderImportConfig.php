@@ -10,14 +10,16 @@ class FileReaderImportConfig
 {
     /**
      * @param array<string, mixed> $defaultData
+     * @param int[]                $excludeRows
      */
     private function __construct(
-        public bool $generateHash = false,
+        public array $defaultData = [],
         public bool $deleteMissingDocuments = false,
         public ?string $delimiter = null,
-        public array $defaultData = [],
-        public ?string $ouuidExpression = "row['ouuid']",
         public ?string $encoding = null,
+        public array $excludeRows = [],
+        public bool $generateHash = false,
+        public ?string $ouuidExpression = "row['ouuid']",
     ) {
     }
 
@@ -29,10 +31,11 @@ class FileReaderImportConfig
         $optionsResolver = new OptionsResolver();
         $optionsResolver
             ->setDefaults([
-                'delimiter' => null,
                 'default_data' => [],
                 'delete_missing_documents' => false,
+                'delimiter' => null,
                 'encoding' => null,
+                'exclude_rows' => [],
                 'generate_hash' => false,
                 'ouuid_expression' => 'row[\'ouuid\']',
             ])
@@ -44,12 +47,13 @@ class FileReaderImportConfig
         $options = $optionsResolver->resolve($config);
 
         return new self(
-            generateHash: $options['generate_hash'],
+            defaultData: $options['default_data'],
             deleteMissingDocuments: $options['delete_missing_documents'],
             delimiter: $options['delimiter'],
-            defaultData: $options['default_data'],
-            ouuidExpression: $options['ouuid_expression'],
             encoding: $options['encoding'],
+            excludeRows: $options['exclude_rows'],
+            generateHash: $options['generate_hash'],
+            ouuidExpression: $options['ouuid_expression'],
         );
     }
 }

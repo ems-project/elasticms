@@ -8,12 +8,12 @@ interface FileReaderInterface
 {
     /**
      * @param array{
-     *     skipFirstRow?: bool,
      *     encoding?: ?string,
+     *     exclude_rows?: int[],
      *     delimiter?: ?string,
      * } $options
      *
-     * @return array<mixed>
+     * @return array<int, array<mixed>>
      */
     public function getData(string $filename, array $options = []): array;
 }

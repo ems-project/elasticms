@@ -92,6 +92,8 @@ php bin/console emscli:file-reader:import pages.csv page \
   * The command will delete content type document that are missing in the import file
 * `encoding`: string (default=null)
   * Define the input file encoding
+* `exclude_rows`: int[] (default=[])
+  * Pass an array of row positions to exclude (0 is first row, -1 is last row)
 * `generate_hash`: bool (default=false)
   * Use the OUUID column and the content type name in order to generate a "better" ouuid
 * `ouuid_expression`: string (default="row['ouuid']")

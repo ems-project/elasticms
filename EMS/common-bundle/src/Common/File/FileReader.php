@@ -17,10 +17,9 @@ final class FileReader implements FileReaderInterface
      */
     public function getData(string $filename, array $options = []): array
     {
-        $skipFirstRow = true === ($options['skipFirstRow'] ?? false);
-        $encoding = $options['encoding'] ?? null;
-
         $reader = IOFactory::createReaderForFile($filename);
+
+        $encoding = $options['encoding'] ?? null;
         if (($reader instanceof Csv || $reader instanceof Html || $reader instanceof Slk) && null !== $encoding) {
             $reader->setInputEncoding($encoding);
         }
@@ -31,10 +30,24 @@ final class FileReader implements FileReaderInterface
 
         $data = $reader->load($filename)->getActiveSheet()->toArray();
 
-        if ($skipFirstRow) {
-            unset($data[0]);
+        $excludeRows = ($options['exclude_rows'] ?? []);
+        if (\count($excludeRows)) {
+            $data = $this->excludeRows($data, ...$excludeRows);
         }
 
         return $data;
+    }
+
+    /**
+     * @param array<int, array<mixed>> $data
+     *
+     * @return array<int, array<mixed>>
+     */
+    private function excludeRows(array $data, int ...$positions): array
+    {
+        $indexesToRemove = \array_map(static fn (int $i) => $i < 0 ? \count($data) + $i : $i, $positions);
+        $removeCallback = static fn ($key) => !\in_array($key, $indexesToRemove, true);
+
+        return \array_values(\array_filter($data, $removeCallback, ARRAY_FILTER_USE_KEY));
     }
 }

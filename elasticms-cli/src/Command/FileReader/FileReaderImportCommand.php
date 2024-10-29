@@ -30,6 +30,7 @@ final class FileReaderImportCommand extends AbstractCommand
     private string $file;
     private string $contentType;
     private bool $dryRun;
+    private ExpressionLanguage $expressionLanguage;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -56,12 +57,13 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->file = $this->getArgumentString(self::ARGUMENT_FILE);
         $this->contentType = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
+        $this->expressionLanguage = new ExpressionLanguage();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
-            $this->io->title('EMS Client - File reader importer');
+            $this->io->title('EMS CLI - File reader - Import');
             $coreApi = $this->adminHelper->getCoreApi();
             $contentTypeApi = $coreApi->data($this->contentType);
 
@@ -72,10 +74,10 @@ final class FileReaderImportCommand extends AbstractCommand
             $file = $this->storageManager->getFile($this->file);
             $config = $this->createConfig(...$this->getOptionStringArray(self::OPTION_CONFIG, false));
 
-            $expressionLanguage = new ExpressionLanguage();
             $rows = $this->fileReader->getData($file->getFilename(), [
                 'delimiter' => $config->delimiter,
                 'encoding' => $config->encoding,
+                'exclude_rows' => $config->excludeRows,
             ]);
             $header = \array_map('trim', $rows[0] ?? []);
 
@@ -98,7 +100,7 @@ final class FileReaderImportCommand extends AbstractCommand
                     continue;
                 }
 
-                $ouuid = null === $config->ouuidExpression ? null : $expressionLanguage->evaluate($config->ouuidExpression, [
+                $ouuid = null === $config->ouuidExpression ? null : $this->expressionLanguage->evaluate($config->ouuidExpression, [
                     'row' => $row,
                 ]);
                 if ('null' !== $config->ouuidExpression && $config->generateHash) {

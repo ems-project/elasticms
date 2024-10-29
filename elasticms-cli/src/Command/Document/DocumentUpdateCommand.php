@@ -81,7 +81,7 @@ final class DocumentUpdateCommand extends AbstractCommand
         $this->io->section('Reading data');
         $dataArray = $this->fileReader->getData(
             filename: $this->dataFilePath,
-            options: ['skipFirstRow' => $this->dataSkipFirstRow]
+            options: ['exclude_rows' => $this->dataSkipFirstRow ? [0] : []]
         );
 
         $data = new Data($dataArray);

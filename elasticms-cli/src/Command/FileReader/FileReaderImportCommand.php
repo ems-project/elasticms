@@ -79,17 +79,7 @@ final class FileReaderImportCommand extends AbstractCommand
             ]);
             $header = \array_map('trim', $rows[0] ?? []);
 
-            $ouuids = [];
-            if ($config->deleteMissingDocuments) {
-                $defaultAlias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
-                $search = new Search([$defaultAlias]);
-                $search->setSources(['_id']);
-                $search->setContentTypes([$this->contentType]);
-
-                foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
-                    $ouuids[$hit->getOuuid()] = true;
-                }
-            }
+            $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
             $counter = 0;
             $progressBar = $this->io->createProgressBar(\count($rows) - 1);
@@ -174,5 +164,24 @@ final class FileReaderImportCommand extends AbstractCommand
         return FileReaderImportConfig::createFromArray(
             config: \array_merge_recursive(...$configs)
         );
+    }
+
+    /**
+     * @return array<string, bool>
+     */
+    private function searchExistingOuuids(): array
+    {
+        $ouuids = [];
+        $search = new Search([
+            $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType),
+        ]);
+        $search->setSources(['_id']);
+        $search->setContentTypes([$this->contentType]);
+
+        foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+            $ouuids[$hit->getOuuid()] = true;
+        }
+
+        return $ouuids;
     }
 }

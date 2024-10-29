@@ -8,6 +8,7 @@ use App\CLI\Client\File\FileReaderImportConfig;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -81,46 +82,40 @@ final class FileReaderImportCommand extends AbstractCommand
                 'exclude_rows' => $config->excludeRows,
             ]);
 
-            $counter = 0;
+            $results = ['create' => 0, 'update' => 0, 'delete' => 0];
             $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
             foreach ($this->createSyncMetaData($rows) as $syncMetaData) {
                 $ouuid = $this->createOuuid($config, $syncMetaData);
+                $rawData = ['_sync_metadata' => $syncMetaData];
+                $action = $ouuid && $contentTypeApi->head($ouuid) ? 'update' : 'create';
+
                 if ($ouuid) {
                     unset($ouuids[$ouuid]);
                 }
 
-                if ($this->dryRun) {
-                    continue;
+                if (!$this->dryRun) {
+                    $draft = 'update' === $action ? $contentTypeApi->update($ouuid, $rawData) : $contentTypeApi->create($rawData, $ouuid);
+                    $contentTypeApi->finalize($draft->getRevisionId());
                 }
 
-                $rawData = ['_sync_metadata' => $syncMetaData];
-                $draft = match (true) {
-                    null === $ouuid => $contentTypeApi->create($rawData),
-                    $contentTypeApi->head($ouuid) => $contentTypeApi->update($ouuid, $rawData),
-                    default => $contentTypeApi->create($rawData, $ouuid)
-                };
+                ++$results[$action];
+            }
 
-                $contentTypeApi->finalize($draft->getRevisionId());
-                ++$counter;
+            if ($config->deleteMissingDocuments && \count($ouuids) > 0) {
+                $results['delete'] = \count($ouuids);
+
+                if (!$this->dryRun) {
+                    $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
+                }
             }
 
             $this->io->newLine(2);
-            $this->io->text(\sprintf('%d lines have been imported', $counter));
-
-            if ($this->dryRun && \count($ouuids) > 0) {
-                $this->io->newLine(2);
-                $this->io->warning(\sprintf('%d documents are missing in the source file and will be deleted without the %s option', \count($ouuids), self::OPTION_DRY_RUN));
-            } elseif (\count($ouuids) > 0) {
-                $this->io->newLine(2);
-                $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
-                $progressBar = $this->io->createProgressBar(\count($ouuids));
-                foreach ($ouuids as $ouuid => $data) {
-                    $contentTypeApi->delete($ouuid);
-                    $progressBar->advance();
-                }
-                $progressBar->finish();
-            }
+            $this->io->definitionList('Summary',
+                ['Create' => $results['create']],
+                ['Update' => $results['update']],
+                ['Delete' => $results['delete']]
+            );
 
             return self::EXECUTE_SUCCESS;
         } catch (\Throwable $e) {
@@ -185,6 +180,18 @@ final class FileReaderImportCommand extends AbstractCommand
         }
 
         return $ouuid;
+    }
+
+    private function deleteMissingDocuments(DataInterface $api, string ...$ouuids): void
+    {
+        $this->io->newLine(2);
+        $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
+        $progressBar = $this->io->createProgressBar(\count($ouuids));
+        foreach ($ouuids as $ouuid) {
+            $api->delete($ouuid);
+            $progressBar->advance();
+        }
+        $progressBar->finish();
     }
 
     /**

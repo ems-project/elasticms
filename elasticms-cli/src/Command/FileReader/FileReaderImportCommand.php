@@ -11,6 +11,7 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\Standard\Hash;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -64,9 +65,9 @@ final class FileReaderImportCommand extends AbstractCommand
     {
         try {
             $this->io->title('EMS CLI - File reader - Import');
+
             $coreApi = $this->adminHelper->getCoreApi();
             $contentTypeApi = $coreApi->data($this->contentType);
-
             if (!$coreApi->isAuthenticated()) {
                 throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
             }
@@ -83,21 +84,19 @@ final class FileReaderImportCommand extends AbstractCommand
             $counter = 0;
             $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
-            foreach ($this->getData($rows) as $data) {
-                $ouuid = $config->ouuidExpression ? $this->expressionLanguage->evaluate($config->ouuidExpression, ['row' => $data]) : null;
-
-                if ('null' !== $config->ouuidExpression && $config->generateHash) {
-                    $ouuid = \sha1(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
+            foreach ($this->createSyncMetaData($rows) as $syncMetaData) {
+                $ouuid = $this->createOuuid($config, $syncMetaData);
+                if ($ouuid) {
+                    unset($ouuids[$ouuid]);
                 }
-                unset($ouuids[$ouuid]);
 
                 if ($this->dryRun) {
                     continue;
                 }
 
-                $rawData = ['_sync_metadata' => $data];
+                $rawData = ['_sync_metadata' => $syncMetaData];
                 $draft = match (true) {
-                    null === $config->ouuidExpression => $contentTypeApi->create($rawData),
+                    null === $ouuid => $contentTypeApi->create($rawData),
                     $contentTypeApi->head($ouuid) => $contentTypeApi->update($ouuid, $rawData),
                     default => $contentTypeApi->create($rawData, $ouuid)
                 };
@@ -148,7 +147,7 @@ final class FileReaderImportCommand extends AbstractCommand
      *
      * @return \Traversable<int, array<mixed>>
      */
-    private function getData(array $rows): \Traversable
+    private function createSyncMetaData(array $rows): \Traversable
     {
         $progressBar = $this->io->createProgressBar(\count($rows) - 1);
         $header = \array_map('trim', \array_shift($rows) ?? []);
@@ -168,6 +167,24 @@ final class FileReaderImportCommand extends AbstractCommand
         }
 
         $progressBar->finish();
+    }
+
+    /**
+     * @param array<int, array<mixed>> $syncMetaData
+     */
+    private function createOuuid(FileReaderImportConfig $config, array $syncMetaData): ?string
+    {
+        if (null === $config->ouuidExpression) {
+            return null;
+        }
+
+        $ouuid = $this->expressionLanguage->evaluate($config->ouuidExpression, ['row' => $syncMetaData]);
+
+        if ($config->generateHash) {
+            return Hash::string(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
+        }
+
+        return $ouuid;
     }
 
     /**

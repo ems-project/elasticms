@@ -20,6 +20,7 @@ class FileReaderImportConfig
         public array $excludeRows = [],
         public bool $generateHash = false,
         public ?string $ouuidExpression = "row['ouuid']",
+        public ?string $ouuidPrefix = null,
     ) {
     }
 
@@ -38,10 +39,12 @@ class FileReaderImportConfig
                 'exclude_rows' => [],
                 'generate_hash' => false,
                 'ouuid_expression' => 'row[\'ouuid\']',
+                'ouuid_prefix' => null,
             ])
             ->setAllowedTypes('delete_missing_documents', 'bool')
             ->setAllowedTypes('generate_hash', 'bool')
             ->setAllowedTypes('ouuid_expression', ['string', 'null'])
+            ->setAllowedTypes('ouuid_prefix', ['string', 'null'])
         ;
 
         $options = $optionsResolver->resolve($config);
@@ -54,6 +57,7 @@ class FileReaderImportConfig
             excludeRows: $options['exclude_rows'],
             generateHash: $options['generate_hash'],
             ouuidExpression: $options['ouuid_expression'],
+            ouuidPrefix: $options['ouuid_prefix'],
         );
     }
 }

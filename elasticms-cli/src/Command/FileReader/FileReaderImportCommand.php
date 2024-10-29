@@ -174,12 +174,13 @@ final class FileReaderImportCommand extends AbstractCommand
         }
 
         $ouuid = $this->expressionLanguage->evaluate($config->ouuidExpression, ['row' => $syncMetaData]);
+        $prefix = $config->ouuidPrefix;
 
-        if ($config->generateHash) {
-            return Hash::string(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
-        }
-
-        return $ouuid;
+        return match (true) {
+            null !== $prefix => Hash::string($prefix.$ouuid),
+            $config->generateHash => Hash::string(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid)),
+            default => $ouuid
+        };
     }
 
     private function deleteMissingDocuments(DataInterface $api, string ...$ouuids): void

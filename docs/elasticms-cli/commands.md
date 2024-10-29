@@ -84,21 +84,23 @@ php bin/console emscli:file-reader:import pages.csv page \
 --config='./var/files/config.json'
 ```
 
-* `delimiter`: string (default=null) 
+* `delimiter`: ?string (default=null) 
   * Define the csv delimiter, default 
 * `default_data`: array (default=[])
   * Data array will be merged with row data
 * `delete_missing_documents`: bool (default=false)
   * The command will delete content type document that are missing in the import file
-* `encoding`: string (default=null)
+* `encoding`: ?string (default=null)
   * Define the input file encoding
 * `exclude_rows`: int[] (default=[])
   * Pass an array of row positions to exclude (0 is first row, -1 is last row)
 * `generate_hash`: bool (default=false)
   * Use the OUUID column and the content type name in order to generate a "better" ouuid
-* `ouuid_expression`: string (default="row['ouuid']")
+* `ouuid_expression`: ?string (default="row['ouuid']")
   * Expression language apply to excel rows in order to identify the document by its ouuid. If equal to
     null new document will be created
+* `ouuid_prefix`: ?string (default=null)
+  * The ouuid will prefix with this value before hashing
 
 ### Example
 

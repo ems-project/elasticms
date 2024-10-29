@@ -79,58 +79,33 @@ final class FileReaderImportCommand extends AbstractCommand
                 'encoding' => $config->encoding,
                 'exclude_rows' => $config->excludeRows,
             ]);
-            $header = \array_map('trim', $rows[0] ?? []);
-
-            $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
             $counter = 0;
-            $progressBar = $this->io->createProgressBar(\count($rows) - 1);
-            foreach ($rows as $key => $rowValues) {
-                if (0 === $key) {
-                    continue;
-                }
-                $row = [];
-                $empty = true;
-                foreach ($rowValues as $cellKey => $cell) {
-                    $row[$header[$cellKey] ?? $cellKey] = $cell;
-                    $empty = $empty && (null === $cell);
-                }
-                if ($empty) {
-                    $progressBar->advance();
-                    continue;
-                }
+            $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
-                $ouuid = null === $config->ouuidExpression ? null : $this->expressionLanguage->evaluate($config->ouuidExpression, [
-                    'row' => $row,
-                ]);
+            foreach ($this->getData($rows) as $data) {
+                $ouuid = $config->ouuidExpression ? $this->expressionLanguage->evaluate($config->ouuidExpression, ['row' => $data]) : null;
+
                 if ('null' !== $config->ouuidExpression && $config->generateHash) {
                     $ouuid = \sha1(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
                 }
                 unset($ouuids[$ouuid]);
 
                 if ($this->dryRun) {
-                    $progressBar->advance();
                     continue;
                 }
 
-                if ('null' === $config->ouuidExpression) {
-                    $draft = $contentTypeApi->create([
-                        '_sync_metadata' => $row,
-                    ]);
-                } elseif ($contentTypeApi->head($ouuid)) {
-                    $draft = $contentTypeApi->update($ouuid, [
-                        '_sync_metadata' => $row,
-                    ]);
-                } else {
-                    $draft = $contentTypeApi->create([
-                        '_sync_metadata' => $row,
-                    ], $ouuid);
-                }
+                $rawData = ['_sync_metadata' => $data];
+                $draft = match (true) {
+                    null === $config->ouuidExpression => $contentTypeApi->create($rawData),
+                    $contentTypeApi->head($ouuid) => $contentTypeApi->update($ouuid, $rawData),
+                    default => $contentTypeApi->create($rawData, $ouuid)
+                };
+
                 $contentTypeApi->finalize($draft->getRevisionId());
-                $progressBar->advance();
                 ++$counter;
             }
-            $progressBar->finish();
+
             $this->io->newLine(2);
             $this->io->text(\sprintf('%d lines have been imported', $counter));
 
@@ -166,6 +141,33 @@ final class FileReaderImportCommand extends AbstractCommand
         return FileReaderImportConfig::createFromArray(
             config: \array_merge_recursive(...$configs)
         );
+    }
+
+    /**
+     * @param array<int, array<mixed>> $rows
+     *
+     * @return \Traversable<int, array<mixed>>
+     */
+    private function getData(array $rows): \Traversable
+    {
+        $progressBar = $this->io->createProgressBar(\count($rows) - 1);
+        $header = \array_map('trim', \array_shift($rows) ?? []);
+
+        foreach ($rows as $rowValues) {
+            $rawData = [];
+            foreach ($rowValues as $cellKey => $cell) {
+                $rawData[$header[$cellKey] ?? $cellKey] = $cell;
+            }
+
+            $rawData = \array_filter($rawData);
+            if (\count($rawData) > 0) {
+                yield $rawData;
+            }
+
+            $progressBar->advance();
+        }
+
+        $progressBar->finish();
     }
 
     /**

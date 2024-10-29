@@ -79,24 +79,28 @@ They will be merged together.
 
 ```bash
 php bin/console emscli:file-reader:import pages.csv page \
---config='{"generateHash": true}' \
+--config='{"generate_hash": true}' \
 --config='e509a485f786583351cb81911f49ed6a78e28262' \
 --config='./var/files/config.json'
 ```
 
-* `generateHash`: Use the OUUID column and the content type name in order to generate a "better" ouuid
-    * bool (default = false)
-* `deleteMissingDocuments`: The command will delete content type document that are missing in the import file
-    * bool (default = false)
-* `ouuidExpression`: Expression language apply to excel rows in order to identify the document by its ouuid. If equal to
-  null new document will be created
-    * null or string (default "row['ouuid']")
-* `encoding`: Define the input file encoding
-    * null or string (default = null)
+* `delimiter`: string (default=null) 
+  * Define the csv delimiter, default 
+* `default_data`: array (default=[])
+  * Data array will be merged with row data
+* `delete_missing_documents`: bool (default=false)
+  * The command will delete content type document that are missing in the import file
+* `encoding`: string (default=null)
+  * Define the input file encoding
+* `generate_hash`: bool (default=false)
+  * Use the OUUID column and the content type name in order to generate a "better" ouuid
+* `ouuid_expression`: string (default="row['ouuid']")
+  * Expression language apply to excel rows in order to identify the document by its ouuid. If equal to
+    null new document will be created
 
 ### Example
 
-I.e.: `ems:file:impo --config='{"ouuidExpression":null}' /home/dockerce/documents/promo/features.xlsx feature`
+I.e.: `ems:file:impo --config='{"ouuid_expression":null}' /home/dockerce/documents/promo/features.xlsx feature`
 
 During the import an associate array containing the Excel row is available in the source `_sync_metadata`.
 

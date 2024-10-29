@@ -60,110 +60,108 @@ final class FileReaderImportCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('EMS Client - File reader importer');
-        $coreApi = $this->adminHelper->getCoreApi();
-        $contentTypeApi = $coreApi->data($this->contentType);
-
-        if (!$coreApi->isAuthenticated()) {
-            $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
-
-            return self::EXECUTE_ERROR;
-        }
-
         try {
+            $this->io->title('EMS Client - File reader importer');
+            $coreApi = $this->adminHelper->getCoreApi();
+            $contentTypeApi = $coreApi->data($this->contentType);
+
+            if (!$coreApi->isAuthenticated()) {
+                throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
+            }
+
             $file = $this->storageManager->getFile($this->file);
             $config = $this->createConfig(...$this->getOptionStringArray(self::OPTION_CONFIG, false));
+
+            $expressionLanguage = new ExpressionLanguage();
+            $rows = $this->fileReader->getData($file->getFilename(), [
+                'delimiter' => $config->delimiter,
+                'encoding' => $config->encoding,
+            ]);
+            $header = \array_map('trim', $rows[0] ?? []);
+
+            $ouuids = [];
+            if ($config->deleteMissingDocuments) {
+                $defaultAlias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
+                $search = new Search([$defaultAlias]);
+                $search->setSources(['_id']);
+                $search->setContentTypes([$this->contentType]);
+
+                foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
+                    $ouuids[$hit->getOuuid()] = true;
+                }
+            }
+
+            $counter = 0;
+            $progressBar = $this->io->createProgressBar(\count($rows) - 1);
+            foreach ($rows as $key => $rowValues) {
+                if (0 === $key) {
+                    continue;
+                }
+                $row = [];
+                $empty = true;
+                foreach ($rowValues as $cellKey => $cell) {
+                    $row[$header[$cellKey] ?? $cellKey] = $cell;
+                    $empty = $empty && (null === $cell);
+                }
+                if ($empty) {
+                    $progressBar->advance();
+                    continue;
+                }
+
+                $ouuid = null === $config->ouuidExpression ? null : $expressionLanguage->evaluate($config->ouuidExpression, [
+                    'row' => $row,
+                ]);
+                if ('null' !== $config->ouuidExpression && $config->generateHash) {
+                    $ouuid = \sha1(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
+                }
+                unset($ouuids[$ouuid]);
+
+                if ($this->dryRun) {
+                    $progressBar->advance();
+                    continue;
+                }
+
+                if ('null' === $config->ouuidExpression) {
+                    $draft = $contentTypeApi->create([
+                        '_sync_metadata' => $row,
+                    ]);
+                } elseif ($contentTypeApi->head($ouuid)) {
+                    $draft = $contentTypeApi->update($ouuid, [
+                        '_sync_metadata' => $row,
+                    ]);
+                } else {
+                    $draft = $contentTypeApi->create([
+                        '_sync_metadata' => $row,
+                    ], $ouuid);
+                }
+                $contentTypeApi->finalize($draft->getRevisionId());
+                $progressBar->advance();
+                ++$counter;
+            }
+            $progressBar->finish();
+            $this->io->newLine(2);
+            $this->io->text(\sprintf('%d lines have been imported', $counter));
+
+            if ($this->dryRun && \count($ouuids) > 0) {
+                $this->io->newLine(2);
+                $this->io->warning(\sprintf('%d documents are missing in the source file and will be deleted without the %s option', \count($ouuids), self::OPTION_DRY_RUN));
+            } elseif (\count($ouuids) > 0) {
+                $this->io->newLine(2);
+                $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
+                $progressBar = $this->io->createProgressBar(\count($ouuids));
+                foreach ($ouuids as $ouuid => $data) {
+                    $contentTypeApi->delete($ouuid);
+                    $progressBar->advance();
+                }
+                $progressBar->finish();
+            }
+
+            return self::EXECUTE_SUCCESS;
         } catch (\Throwable $e) {
             $this->io->error($e->getMessage());
 
             return self::EXECUTE_ERROR;
         }
-
-        $expressionLanguage = new ExpressionLanguage();
-        $rows = $this->fileReader->getData($file->getFilename(), [
-            'delimiter' => $config->delimiter,
-            'encoding' => $config->encoding,
-        ]);
-        $header = \array_map('trim', $rows[0] ?? []);
-
-        $ouuids = [];
-        if ($config->deleteMissingDocuments) {
-            $defaultAlias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
-            $search = new Search([$defaultAlias]);
-            $search->setSources(['_id']);
-            $search->setContentTypes([$this->contentType]);
-
-            foreach ($this->adminHelper->getCoreApi()->search()->scroll($search) as $hit) {
-                $ouuids[$hit->getOuuid()] = true;
-            }
-        }
-
-        $counter = 0;
-        $progressBar = $this->io->createProgressBar(\count($rows) - 1);
-        foreach ($rows as $key => $rowValues) {
-            if (0 === $key) {
-                continue;
-            }
-            $row = [];
-            $empty = true;
-            foreach ($rowValues as $cellKey => $cell) {
-                $row[$header[$cellKey] ?? $cellKey] = $cell;
-                $empty = $empty && (null === $cell);
-            }
-            if ($empty) {
-                $progressBar->advance();
-                continue;
-            }
-
-            $ouuid = null === $config->ouuidExpression ? null : $expressionLanguage->evaluate($config->ouuidExpression, [
-                'row' => $row,
-            ]);
-            if ('null' !== $config->ouuidExpression && $config->generateHash) {
-                $ouuid = \sha1(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid));
-            }
-            unset($ouuids[$ouuid]);
-
-            if ($this->dryRun) {
-                $progressBar->advance();
-                continue;
-            }
-
-            if ('null' === $config->ouuidExpression) {
-                $draft = $contentTypeApi->create([
-                    '_sync_metadata' => $row,
-                ]);
-            } elseif ($contentTypeApi->head($ouuid)) {
-                $draft = $contentTypeApi->update($ouuid, [
-                    '_sync_metadata' => $row,
-                ]);
-            } else {
-                $draft = $contentTypeApi->create([
-                    '_sync_metadata' => $row,
-                ], $ouuid);
-            }
-            $contentTypeApi->finalize($draft->getRevisionId());
-            $progressBar->advance();
-            ++$counter;
-        }
-        $progressBar->finish();
-        $this->io->newLine(2);
-        $this->io->text(\sprintf('%d lines have been imported', $counter));
-
-        if ($this->dryRun && \count($ouuids) > 0) {
-            $this->io->newLine(2);
-            $this->io->warning(\sprintf('%d documents are missing in the source file and will be deleted without the %s option', \count($ouuids), self::OPTION_DRY_RUN));
-        } elseif (\count($ouuids) > 0) {
-            $this->io->newLine(2);
-            $this->io->section(\sprintf('%d documents have not been updated and will be deleted', \count($ouuids)));
-            $progressBar = $this->io->createProgressBar(\count($ouuids));
-            foreach ($ouuids as $ouuid => $data) {
-                $contentTypeApi->delete($ouuid);
-                $progressBar->advance();
-            }
-            $progressBar->finish();
-        }
-
-        return self::EXECUTE_SUCCESS;
     }
 
     private function createConfig(string ...$inputs): FileReaderImportConfig

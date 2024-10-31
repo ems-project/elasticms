@@ -9,7 +9,7 @@ use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
 
 /**
- * @ORM\Table(name="log_message")
+ * @ORM\Table(name="log_message",indexes={@Index(name="channel_ouuid_idx", columns={"channel", "ouuid"})})
  *
  * @ORM\Entity
  *

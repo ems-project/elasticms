@@ -76,7 +76,7 @@ final class FileReaderImportCommand extends AbstractCommand
             $file = $this->storageManager->getFile($this->file);
             $config = $this->createConfig(...$this->getOptionStringArray(self::OPTION_CONFIG, false));
 
-            $rows = $this->fileReader->getData($file->getFilename(), [
+            $cells = $this->fileReader->readCells($file->getFilename(), [
                 'delimiter' => $config->delimiter,
                 'encoding' => $config->encoding,
                 'exclude_rows' => $config->excludeRows,
@@ -85,7 +85,8 @@ final class FileReaderImportCommand extends AbstractCommand
             $results = ['create' => 0, 'update' => 0, 'delete' => 0];
             $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
-            foreach ($this->createSyncMetaData($rows) as $syncMetaData) {
+            $progressBar = $this->io->createProgressBar();
+            foreach ($cells as $syncMetaData) {
                 $ouuid = $this->createOuuid($config, $syncMetaData);
 
                 $rawData = $config->defaultData;
@@ -103,6 +104,14 @@ final class FileReaderImportCommand extends AbstractCommand
                 }
 
                 ++$results[$action];
+                $progressBar->advance();
+            }
+            $progressBar->finish();
+            $this->io->newLine();
+
+            $notReadable = \count($cells->getReturn());
+            if ($notReadable > 0) {
+                $this->io->warning(\sprintf('Could not read %d records', $notReadable));
             }
 
             if ($config->deleteMissingDocuments && \count($ouuids) > 0) {
@@ -113,7 +122,6 @@ final class FileReaderImportCommand extends AbstractCommand
                 }
             }
 
-            $this->io->newLine(2);
             $this->io->definitionList('Summary',
                 ['Create' => $results['create']],
                 ['Update' => $results['update']],
@@ -138,33 +146,6 @@ final class FileReaderImportCommand extends AbstractCommand
         return FileReaderImportConfig::createFromArray(
             config: \array_merge_recursive(...$configs)
         );
-    }
-
-    /**
-     * @param array<int, array<mixed>> $rows
-     *
-     * @return \Traversable<int, array<mixed>>
-     */
-    private function createSyncMetaData(array $rows): \Traversable
-    {
-        $progressBar = $this->io->createProgressBar(\count($rows) - 1);
-        $header = \array_map('trim', \array_shift($rows) ?? []);
-
-        foreach ($rows as $rowValues) {
-            $rawData = [];
-            foreach ($rowValues as $cellKey => $cell) {
-                $rawData[$header[$cellKey] ?? $cellKey] = $cell;
-            }
-
-            $rawData = \array_filter($rawData);
-            if (\count($rawData) > 0) {
-                yield $rawData;
-            }
-
-            $progressBar->advance();
-        }
-
-        $progressBar->finish();
     }
 
     /**

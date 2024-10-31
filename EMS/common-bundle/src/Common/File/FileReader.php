@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\File;
 
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
+use EMS\Helpers\File\CsvFile;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
@@ -28,26 +29,55 @@ final class FileReader implements FileReaderInterface
             $reader->setDelimiter($options['delimiter']);
         }
 
-        $data = $reader->load($filename)->getActiveSheet()->toArray();
-
-        $excludeRows = ($options['exclude_rows'] ?? []);
-        if (\count($excludeRows)) {
-            $data = $this->excludeRows($data, ...$excludeRows);
-        }
-
-        return $data;
+        return $reader->load($filename)->getActiveSheet()->toArray();
     }
 
     /**
-     * @param array<int, array<mixed>> $data
-     *
-     * @return array<int, array<mixed>>
+     * {@inheritDoc}
      */
-    private function excludeRows(array $data, int ...$positions): array
+    public function readCells(string $filename, array $options = []): \Generator
     {
-        $indexesToRemove = \array_map(static fn (int $i) => $i < 0 ? \count($data) + $i : $i, $positions);
-        $removeCallback = static fn ($key) => !\in_array($key, $indexesToRemove, true);
+        $isCsv = 0 === \strcasecmp(\pathinfo($filename, PATHINFO_EXTENSION), 'csv');
 
-        return \array_values(\array_filter($data, $removeCallback, ARRAY_FILTER_USE_KEY));
+        if ($isCsv) {
+            $csv = new CsvFile(
+                filename: $filename,
+                delimiter: ($options['delimiter'] ?? null),
+                encoding: ($options['encoding'] ?? null)
+            );
+            $total = \count($csv);
+            $data = $csv;
+        } else {
+            $data = $this->getData($filename, $options);
+            $total = \count($data);
+        }
+
+        $excludeRows = ($options['exclude_rows'] ?? []);
+        $excludeIndexes = \array_map(static fn (int $i) => $i < 0 ? $total + $i : $i, $excludeRows);
+        $headings = false;
+        $invalid = [];
+
+        foreach ($data as $index => $row) {
+            if (\in_array($index, $excludeIndexes, true)) {
+                continue;
+            }
+
+            if (!$headings) {
+                $headings = \array_map('trim', $row);
+                continue;
+            }
+
+            if (\count($headings) !== \count($row)) {
+                $invalid[] = $row;
+                continue;
+            }
+
+            $rowData = \array_filter(\array_combine($headings, $row));
+            if (\count($rowData) > 0) {
+                yield $rowData;
+            }
+        }
+
+        return $invalid;
     }
 }

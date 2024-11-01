@@ -12,11 +12,13 @@ use Symfony\Component\HttpClient\CurlHttpClient;
 
 final class CoreApiFactory implements CoreApiFactoryInterface
 {
+    /**
+     * @param array{ verify: bool, timeout: int } $options
+     */
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly StorageManager $storageManager,
-        private readonly bool $verify = true,
-        private readonly int $timeout = 30,
+        private readonly array $options,
     ) {
     }
 
@@ -27,9 +29,9 @@ final class CoreApiFactory implements CoreApiFactoryInterface
             'headers' => [
                 'Content-Type' => 'application/json',
             ],
-            'verify_host' => $this->verify,
-            'verify_peer' => $this->verify,
-            'timeout' => $this->timeout,
+            'verify_host' => $this->options['verify'],
+            'verify_peer' => $this->options['verify'],
+            'timeout' => $this->options['timeout'],
         ]);
 
         $coreApiClient = new Client($httpClient, $baseUrl, $this->logger);

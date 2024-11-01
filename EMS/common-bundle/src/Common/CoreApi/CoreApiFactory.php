@@ -8,6 +8,7 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpClient\CurlHttpClient;
 
 final class CoreApiFactory implements CoreApiFactoryInterface
 {
@@ -21,8 +22,18 @@ final class CoreApiFactory implements CoreApiFactoryInterface
 
     public function create(string $baseUrl): CoreApiInterface
     {
-        $client = new Client($baseUrl, $this->logger, $this->verify, $this->timeout);
+        $httpClient = new CurlHttpClient([
+            'base_uri' => $baseUrl,
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'verify_host' => $this->verify,
+            'verify_peer' => $this->verify,
+            'timeout' => $this->timeout,
+        ]);
 
-        return new CoreApi($client, $this->storageManager);
+        $coreApiClient = new Client($httpClient, $baseUrl, $this->logger);
+
+        return new CoreApi($coreApiClient, $this->storageManager);
     }
 }

@@ -70,6 +70,7 @@ Arguments:
 Options:
       --config=CONFIG   Config(s) json, file path or hash (multiple values allowed)
       --dry-run         Just do a dry run
+      --limit=LIMIT     Limit the rows
 ```
 
 ### Config

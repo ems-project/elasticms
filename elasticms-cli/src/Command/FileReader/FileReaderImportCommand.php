@@ -28,10 +28,12 @@ final class FileReaderImportCommand extends AbstractCommand
     private const ARGUMENT_CONTENT_TYPE = 'content-type';
     private const OPTION_CONFIG = 'config';
     private const OPTION_DRY_RUN = 'dry-run';
+    private const OPTION_LIMIT = 'limit';
 
     private string $file;
     private string $contentType;
     private bool $dryRun;
+    private ?int $limit;
     private ExpressionLanguage $expressionLanguage;
 
     public function __construct(
@@ -50,6 +52,7 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type target')
             ->addOption(self::OPTION_CONFIG, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Config(s) json, file path or hash', [])
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
+            ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
         ;
     }
 
@@ -59,6 +62,7 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->file = $this->getArgumentString(self::ARGUMENT_FILE);
         $this->contentType = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
+        $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
         $this->expressionLanguage = new ExpressionLanguage();
     }
 
@@ -80,6 +84,7 @@ final class FileReaderImportCommand extends AbstractCommand
                 'delimiter' => $config->delimiter,
                 'encoding' => $config->encoding,
                 'exclude_rows' => $config->excludeRows,
+                'limit' => $this->limit,
             ]);
 
             $results = ['create' => 0, 'update' => 0, 'delete' => 0];

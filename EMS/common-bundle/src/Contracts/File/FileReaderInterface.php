@@ -21,6 +21,7 @@ interface FileReaderInterface
      *      delimiter?: ?string,
      *      encoding?: ?string,
      *      exclude_rows?: int[],
+     *      limit?: ?int,
      *  } $options
      *
      * @return \Generator<mixed>

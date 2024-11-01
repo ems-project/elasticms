@@ -56,6 +56,7 @@ final class FileReader implements FileReaderInterface
         $excludeIndexes = \array_map(static fn (int $i) => $i < 0 ? $total + $i : $i, $excludeRows);
         $headings = false;
         $invalid = [];
+        $limit = $options['limit'] ?? false;
 
         foreach ($data as $index => $row) {
             if (\in_array($index, $excludeIndexes, true)) {
@@ -75,6 +76,10 @@ final class FileReader implements FileReaderInterface
             $rowData = \array_filter(\array_combine($headings, $row));
             if (\count($rowData) > 0) {
                 yield $rowData;
+            }
+
+            if ($limit && 0 === --$limit) {
+                break;
             }
         }
 

@@ -36,6 +36,8 @@ final class ConfigurationAiTest extends TestCase
             'log_level' => Logger::NOTICE,
             'excluded_content_types' => [],
             'core_api' => [
+                'headers' => [],
+                'max_connections' => 6,
                 'verify' => true,
                 'timeout' => 30,
             ],

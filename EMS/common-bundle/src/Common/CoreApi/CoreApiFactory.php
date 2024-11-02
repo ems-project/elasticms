@@ -13,7 +13,7 @@ use Symfony\Component\HttpClient\CurlHttpClient;
 final class CoreApiFactory implements CoreApiFactoryInterface
 {
     /**
-     * @param array{ verify: bool, timeout: int } $options
+     * @param array{ headers: array<string, string>, max_connections: int, verify: bool, timeout: int } $options
      */
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -24,15 +24,19 @@ final class CoreApiFactory implements CoreApiFactoryInterface
 
     public function create(string $baseUrl): CoreApiInterface
     {
-        $httpClient = new CurlHttpClient([
-            'base_uri' => $baseUrl,
-            'headers' => [
-                'Content-Type' => 'application/json',
+        $httpClient = new CurlHttpClient(
+            defaultOptions: [
+                'base_uri' => $baseUrl,
+                'headers' => [
+                    ...$this->options['headers'],
+                    ...['Content-Type' => 'application/json'],
+                ],
+                'verify_host' => $this->options['verify'],
+                'verify_peer' => $this->options['verify'],
+                'timeout' => $this->options['timeout'],
             ],
-            'verify_host' => $this->options['verify'],
-            'verify_peer' => $this->options['verify'],
-            'timeout' => $this->options['timeout'],
-        ]);
+            maxHostConnections: $this->options['max_connections']
+        );
 
         $coreApiClient = new Client($httpClient, $baseUrl, $this->logger);
 

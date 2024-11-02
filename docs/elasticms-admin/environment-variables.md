@@ -401,13 +401,25 @@ Define backend elasticms url. CommonBundle provides a CoreApi instance.
 
 Define backend authentication token. The commonBundle coreApi instance becomes authenticated.
 
+### EMS_CORE_API_HEADERS
+
+Define extra headers for the API client, helpful for adding cookie header for xdebug.
+
+```dotenv
+EMS_CORE_API_HEADERS='{"Cookie":"XDEBUG_SESSION=PHPSTORM"}'
+```
+
+### EMS_CORE_API_MAX_CONNECTIONS
+
+Define the max connections to the API client, when using async calls. By default it is set to `6`.
+
 ### EMS_BACKEND_API_TIMEOUT
 
 Adjust the API client's timeout. By default is set to `30` seconds, if you API request may take longueur (e.g. during migration) you can increase the timeout :
 
-```dotenv
-EMS_ELASTICSEARCH_HOSTS='300'
-```
+### EMS_BACKEND_API_VERIFY
+
+Define the `verify_host` and `verify_peer` for the api client, by default it is set to `true`.
 
 ### EMS_CACHE
 

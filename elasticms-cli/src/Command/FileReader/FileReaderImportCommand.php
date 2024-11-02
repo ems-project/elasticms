@@ -29,10 +29,12 @@ final class FileReaderImportCommand extends AbstractCommand
     private const OPTION_CONFIG = 'config';
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_LIMIT = 'limit';
+    private const OPTION_MERGE = 'merge';
 
     private string $file;
     private string $contentType;
     private bool $dryRun;
+    private bool $merge;
     private ?int $limit;
     private ExpressionLanguage $expressionLanguage;
 
@@ -52,6 +54,7 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_CONTENT_TYPE, InputArgument::REQUIRED, 'Content type target')
             ->addOption(self::OPTION_CONFIG, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Config(s) json, file path or hash', [])
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
+            ->addOption(self::OPTION_MERGE, null, InputOption::VALUE_REQUIRED, 'Perform a merge or replace', true)
             ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
         ;
     }
@@ -63,6 +66,7 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->contentType = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
         $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
+        $this->merge = $this->getOptionBool(self::OPTION_MERGE);
         $this->expressionLanguage = new ExpressionLanguage();
     }
 
@@ -87,7 +91,7 @@ final class FileReaderImportCommand extends AbstractCommand
                 'limit' => $this->limit,
             ]);
 
-            $results = ['create' => 0, 'update' => 0, 'delete' => 0];
+            $indexCounter = 0;
             $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
             $progressBar = $this->io->createProgressBar();
@@ -97,18 +101,15 @@ final class FileReaderImportCommand extends AbstractCommand
                 $rawData = $config->defaultData;
                 $rawData['_sync_metadata'] = $syncMetaData;
 
-                $action = $ouuid && $contentTypeApi->head($ouuid) ? 'update' : 'create';
-
                 if ($ouuid) {
                     unset($ouuids[$ouuid]);
                 }
 
                 if (!$this->dryRun) {
-                    $draft = 'update' === $action ? $contentTypeApi->update($ouuid, $rawData) : $contentTypeApi->create($rawData, $ouuid);
-                    $contentTypeApi->finalize($draft->getRevisionId());
+                    $contentTypeApi->index(ouuid: $ouuid, rawData: $rawData, merge: $this->merge);
                 }
 
-                ++$results[$action];
+                ++$indexCounter;
                 $progressBar->advance();
             }
             $progressBar->finish();
@@ -119,18 +120,13 @@ final class FileReaderImportCommand extends AbstractCommand
                 $this->io->warning(\sprintf('Could not read %d records', $notReadable));
             }
 
-            if ($config->deleteMissingDocuments && \count($ouuids) > 0) {
-                $results['delete'] = \count($ouuids);
-
-                if (!$this->dryRun) {
-                    $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
-                }
+            if (!$this->dryRun && $config->deleteMissingDocuments && \count($ouuids) > 0) {
+                $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
             }
 
             $this->io->definitionList('Summary',
-                ['Create' => $results['create']],
-                ['Update' => $results['update']],
-                ['Delete' => $results['delete']]
+                ['Index' => $indexCounter],
+                ['Delete' => \count($ouuids)]
             );
 
             return self::EXECUTE_SUCCESS;
@@ -182,6 +178,7 @@ final class FileReaderImportCommand extends AbstractCommand
             $progressBar->advance();
         }
         $progressBar->finish();
+        $this->io->newLine();
     }
 
     /**

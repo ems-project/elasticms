@@ -55,6 +55,7 @@ php bin/console ems:admin:command 'ems:env:rebuild preview'
 ### Import
 
 With this command you can upload a folder to a content-type.
+If the merge options is set to `false`, the rawData will be replaced.
 
 ```bash
 Description:
@@ -70,6 +71,7 @@ Arguments:
 Options:
       --config=CONFIG   Config(s) json, file path or hash (multiple values allowed)
       --dry-run         Just do a dry run
+      --merge=MERGE     Perform a merge or replace [default: true]
       --limit=LIMIT     Limit the rows
 ```
 

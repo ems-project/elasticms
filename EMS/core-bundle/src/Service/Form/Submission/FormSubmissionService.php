@@ -148,7 +148,7 @@ final class FormSubmissionService implements EntityServiceInterface
         foreach ($sheets as $key => $value) {
             $config['sheets'][] = [
               'name' => $key,
-              'rows' => $value,
+              'rows' => $this->normalizeRows($value),
             ];
         }
 
@@ -289,5 +289,22 @@ final class FormSubmissionService implements EntityServiceInterface
     public function deleteByItemName(string $name): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');
+    }
+
+    /**
+     * @param  mixed[][] $rows
+     * @return mixed[][]
+     */
+    private function normalizeRows(array $rows): array
+    {
+        if (\count($rows) < 2) {
+            return $rows;
+        }
+        $titles = $rows[0];
+        for ($i = 1; $i < \count($rows); ++$i) {
+            $rows[$i] = \array_map(fn (string $key) => $rows[$i][$key] ?? null, $titles);
+        }
+
+        return $rows;
     }
 }

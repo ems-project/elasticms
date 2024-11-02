@@ -138,13 +138,9 @@ final class FormSubmissionService implements EntityServiceInterface
             $data['deadline'] = null === $expireDate ? '' : $expireDate->format('Y-m-d');
 
             $sheetName = $formSubmission->getName();
-            if (!\key_exists($sheetName, $sheets)) {
-                $titles = [];
-                foreach ($data as $key => $value) {
-                    $titles[] = $key;
-                }
-                $sheets[$sheetName] = [$titles];
-            }
+            $titles = $sheets[$sheetName][0] ?? [];
+            $titles = \array_unique(\array_merge($titles, \array_keys($data)));
+            $sheets[$sheetName][0] = $titles;
             $sheets[$sheetName] = \array_merge($sheets[$sheetName], [$data]);
         }
 

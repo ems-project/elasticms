@@ -56,6 +56,7 @@ php bin/console ems:admin:command 'ems:env:rebuild preview'
 
 With this command you can upload a folder to a content-type.
 If the merge options is set to `false`, the rawData will be replaced.
+It will send async index requests, the responses are parsed when the flush-size is reached (default 100).
 
 ```bash
 Description:
@@ -69,10 +70,11 @@ Arguments:
   content-type          Content type target
 
 Options:
-      --config=CONFIG   Config(s) json, file path or hash (multiple values allowed)
-      --dry-run         Just do a dry run
-      --merge=MERGE     Perform a merge or replace [default: true]
-      --limit=LIMIT     Limit the rows
+      --config=CONFIG          Config(s) json, file path or hash (multiple values allowed)
+      --dry-run                Just do a dry run
+      --merge=MERGE            Perform a merge or replace [default: true]
+      --flush-size=FLUSH-SIZE  Flush size for the queue [default: 100]
+      --limit=LIMIT            Limit the rows
 ```
 
 ### Config

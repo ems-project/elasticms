@@ -26,15 +26,18 @@ final class FileReaderImportCommand extends AbstractCommand
 
     private const ARGUMENT_FILE = 'file';
     private const ARGUMENT_CONTENT_TYPE = 'content-type';
+
     private const OPTION_CONFIG = 'config';
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_LIMIT = 'limit';
+    private const OPTION_FLUSH_SIZE = 'flush-size';
     private const OPTION_MERGE = 'merge';
 
     private string $file;
     private string $contentType;
     private bool $dryRun;
     private bool $merge;
+    private int $flushSize;
     private ?int $limit;
     private ExpressionLanguage $expressionLanguage;
 
@@ -55,6 +58,7 @@ final class FileReaderImportCommand extends AbstractCommand
             ->addOption(self::OPTION_CONFIG, null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Config(s) json, file path or hash', [])
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'Just do a dry run')
             ->addOption(self::OPTION_MERGE, null, InputOption::VALUE_REQUIRED, 'Perform a merge or replace', true)
+            ->addOption(self::OPTION_FLUSH_SIZE, null, InputOption::VALUE_REQUIRED, 'Flush size for the queue', 100)
             ->addOption(self::OPTION_LIMIT, null, InputOption::VALUE_REQUIRED, 'Limit the rows')
         ;
     }
@@ -65,8 +69,10 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->file = $this->getArgumentString(self::ARGUMENT_FILE);
         $this->contentType = $this->getArgumentString(self::ARGUMENT_CONTENT_TYPE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
-        $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
         $this->merge = $this->getOptionBool(self::OPTION_MERGE);
+        $this->flushSize = $this->getOptionInt(self::OPTION_FLUSH_SIZE);
+        $this->limit = $this->getOptionIntNull(self::OPTION_LIMIT);
+
         $this->expressionLanguage = new ExpressionLanguage();
     }
 
@@ -91,10 +97,11 @@ final class FileReaderImportCommand extends AbstractCommand
                 'limit' => $this->limit,
             ]);
 
-            $indexCounter = 0;
             $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
             $progressBar = $this->io->createProgressBar();
+            $queue = $coreApi->queue($this->flushSize)->addFlushCallback(fn () => $progressBar->advance());
+
             foreach ($cells as $syncMetaData) {
                 $ouuid = $this->createOuuid($config, $syncMetaData);
 
@@ -106,12 +113,11 @@ final class FileReaderImportCommand extends AbstractCommand
                 }
 
                 if (!$this->dryRun) {
-                    $contentTypeApi->index(ouuid: $ouuid, rawData: $rawData, merge: $this->merge);
+                    $queue->add($contentTypeApi->indexAsync(ouuid: $ouuid, rawData: $rawData, merge: $this->merge));
                 }
-
-                ++$indexCounter;
-                $progressBar->advance();
             }
+
+            $queue->flush();
             $progressBar->finish();
             $this->io->newLine();
 
@@ -125,7 +131,7 @@ final class FileReaderImportCommand extends AbstractCommand
             }
 
             $this->io->definitionList('Summary',
-                ['Index' => $indexCounter],
+                ['Index' => \count($queue)],
                 ['Delete' => \count($ouuids)]
             );
 

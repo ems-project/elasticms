@@ -9,6 +9,8 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DraftInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class Data implements DataInterface
 {
@@ -130,6 +132,17 @@ final class Data implements DataInterface
         }
 
         return new Index($this->client->post($resource, $rawData));
+    }
+
+    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): ResponseInterface
+    {
+        $resource = $this->makeResource($merge && $ouuid ? 'update' : 'index', $ouuid);
+
+        if ($refresh) {
+            $resource .= '?refresh=true';
+        }
+
+        return $this->client->asyncRequest(Request::METHOD_POST, $resource, ['json' => $rawData]);
     }
 
     private function makeResource(?string ...$path): string

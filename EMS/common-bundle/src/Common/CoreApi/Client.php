@@ -58,6 +58,17 @@ class Client
     }
 
     /**
+     * @param array<mixed> $options
+     */
+    public function asyncRequest(string $method, string $resource, array $options = []): ResponseInterface
+    {
+        return $this->httpClient->request($method, $resource, [
+            ...['headers' => $this->headers],
+            ...$options,
+        ]);
+    }
+
+    /**
      * @param array<mixed> $query
      */
     public function get(string $resource, array $query = []): Result

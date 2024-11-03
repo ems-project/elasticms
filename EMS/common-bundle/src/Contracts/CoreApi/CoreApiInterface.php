@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Contracts\CoreApi;
 
 use EMS\CommonBundle\Common\CoreApi\Endpoint\File\DataExtract;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Search\Search;
+use EMS\CommonBundle\Common\CoreApi\ResponseQueue;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\AdminInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\MetaInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
@@ -25,6 +26,8 @@ interface CoreApiInterface
      * @throws NotAuthenticatedExceptionInterface
      */
     public function authenticate(string $username, string $password): CoreApiInterface;
+
+    public function queue(int $flushSize): ResponseQueue;
 
     public function data(string $contentType): DataInterface;
 

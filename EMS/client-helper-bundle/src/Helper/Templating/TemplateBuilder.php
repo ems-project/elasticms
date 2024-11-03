@@ -71,4 +71,11 @@ final class TemplateBuilder extends AbstractBuilder
 
         return $contentType->isLastPublishedAfterTime($time);
     }
+
+    public function exists(Environment $environment, TemplateName $templateName): bool
+    {
+        $settings = $this->settings($environment);
+
+        return null !== $environment->getLocal()->getTemplates($settings)->find($templateName->getSearchName());
+    }
 }

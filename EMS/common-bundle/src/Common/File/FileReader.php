@@ -42,7 +42,7 @@ final class FileReader implements FileReaderInterface
         if ($isCsv) {
             $csv = new CsvFile(
                 filename: $filename,
-                delimiter: ($options['delimiter'] ?? null),
+                delimiter: ($options['delimiter'] ?? CsvFile::DEFAULT_DELIMITER),
                 encoding: ($options['encoding'] ?? null)
             );
             $total = \count($csv);

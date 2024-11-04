@@ -26,7 +26,6 @@ final class FileReaderImportCommand extends AbstractCommand
 
     private const ARGUMENT_FILE = 'file';
     private const ARGUMENT_CONTENT_TYPE = 'content-type';
-
     private const OPTION_CONFIG = 'config';
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_LIMIT = 'limit';

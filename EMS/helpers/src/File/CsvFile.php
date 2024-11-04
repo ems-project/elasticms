@@ -9,11 +9,11 @@ namespace EMS\Helpers\File;
  */
 class CsvFile implements \Countable, \IteratorAggregate
 {
-    private const DEFAULT_DELIMITER = ',';
+    public const DEFAULT_DELIMITER = ',';
 
     public function __construct(
         private readonly string $filename,
-        private readonly ?string $delimiter = null,
+        private readonly string $delimiter,
         private readonly ?string $encoding = null,
     ) {
     }
@@ -24,7 +24,7 @@ class CsvFile implements \Countable, \IteratorAggregate
     public function getIterator(): \Generator
     {
         $handle = $this->getHandle();
-        while (($row = \fgetcsv($handle, 2000, $this->getDelimiter())) !== false) {
+        while (($row = \fgetcsv($handle, 2000, $this->delimiter)) !== false) {
             if ($this->encoding) {
                 $row = \array_map([$this, 'convertEncoding'], $row);
             }
@@ -37,7 +37,7 @@ class CsvFile implements \Countable, \IteratorAggregate
     {
         $count = 0;
         $handle = $this->getHandle();
-        while (false !== \fgetcsv($handle, 2000, $this->getDelimiter())) {
+        while (false !== \fgetcsv($handle, 2000, $this->delimiter)) {
             ++$count;
         }
         \fclose($handle);
@@ -55,11 +55,6 @@ class CsvFile implements \Countable, \IteratorAggregate
         }
 
         return $handle;
-    }
-
-    private function getDelimiter(): string
-    {
-        return $this->delimiter ?? self::DEFAULT_DELIMITER;
     }
 
     private function convertEncoding(mixed $value): mixed

@@ -14,7 +14,7 @@ class ResponseQueue implements \Countable
     /** @var callable */
     private $flushCallback;
 
-    public function __construct(private readonly ?int $flushSize = 10)
+    public function __construct(private readonly int $flushSize)
     {
     }
 
@@ -35,7 +35,7 @@ class ResponseQueue implements \Countable
         $this->responses[] = $response;
         ++$this->count;
 
-        if ($this->flushSize && \count($this->responses) === $this->flushSize) {
+        if ($this->flushSize > 0 && \count($this->responses) === $this->flushSize) {
             $this->flush();
         }
 

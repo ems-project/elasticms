@@ -14,6 +14,7 @@ use EMS\CommonBundle\Search\Search;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Hash;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\UuidGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -167,6 +168,7 @@ final class FileReaderImportCommand extends AbstractCommand
         $prefix = $config->ouuidPrefix;
 
         return match (true) {
+            $config->generateOuuid => (string) UuidGenerator::fromValue(($prefix ?? '').$ouuid),
             null !== $prefix => Hash::string($prefix.$ouuid),
             $config->generateHash => Hash::string(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid)),
             default => $ouuid

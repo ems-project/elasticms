@@ -7,7 +7,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\Helpers\Standard\Color;
-use Ramsey\Uuid\Uuid;
+use EMS\Helpers\Standard\UuidGenerator;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -27,7 +27,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_analyze', [SearchRuntime::class, 'analyze']),
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
             new TwigFunction('ems_version', [InfoRuntime::class, 'version']),
-            new TwigFunction('ems_uuid', [Uuid::class, 'uuid4']),
+            new TwigFunction('ems_uuid', [UuidGenerator::class, 'random']),
             new TwigFunction('ems_store_read', [StoreDataRuntime::class, 'read']),
             new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),
             new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
@@ -67,6 +67,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
             new TwigFilter('ems_link', fn ($emsLink) => EMSLink::fromText($emsLink)),
             new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
+            new TwigFilter('ems_uuid', [UuidGenerator::class, 'fromValue']),
         ];
     }
 

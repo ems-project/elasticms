@@ -24,6 +24,7 @@
   * [ems_file_from_archive](#ems_file_from_archive)
   * [ems_link](#ems_link)
   * [ems_valid_mail](#ems_valid_mail)
+  * [ems_uuid](#ems_uuid-1)
 <!-- TOC -->
 
 # Twig Functions
@@ -97,7 +98,7 @@ Where _'4ef5796bb14ce4b711737dc44aa20bff82193cf5'_ is the hash of a jpg
 Generate a version 4 (random) UUID. [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version4.html).
 
 ````twig
-{{ ems_uuid() }} {# displays: 21.16 KB #}
+{{ ems_uuid() }}
 ````
 
 ## ems_store_read
@@ -397,4 +398,13 @@ Returns true if the input is a valid email
 ```twig
 {%- if _source.email|ems_valid_mail -%}{% endif %}
 ```
+
+## ems_uuid
+
+Generate a version 5 UUID from a value. [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version5.html).
+
+```twig
+{{ 'my_unique_id_value'|ems_uuid }} 
+```
+
 

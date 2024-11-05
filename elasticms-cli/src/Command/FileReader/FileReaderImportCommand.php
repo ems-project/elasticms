@@ -150,7 +150,7 @@ final class FileReaderImportCommand extends AbstractCommand
         }, $inputs);
 
         return FileReaderImportConfig::createFromArray(
-            config: \array_merge_recursive(...$configs)
+            config: \array_merge(...$configs)
         );
     }
 

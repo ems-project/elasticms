@@ -99,6 +99,7 @@ final class FileReaderImportCommand extends AbstractCommand
             $ouuids = $config->deleteMissingDocuments ? $this->searchExistingOuuids() : [];
 
             $progressBar = $this->io->createProgressBar();
+            $count = 0;
             $queue = $coreApi->queue($this->flushSize)->addFlushCallback(fn () => $progressBar->advance());
 
             foreach ($cells as $syncMetaData) {
@@ -114,6 +115,8 @@ final class FileReaderImportCommand extends AbstractCommand
                 if (!$this->dryRun) {
                     $queue->add($contentTypeApi->indexAsync(ouuid: $ouuid, rawData: $rawData, merge: $this->merge));
                 }
+
+                ++$count;
             }
 
             $queue->flush();
@@ -130,7 +133,7 @@ final class FileReaderImportCommand extends AbstractCommand
             }
 
             $this->io->definitionList('Summary',
-                ['Index' => \count($queue)],
+                ['Index' => $count],
                 ['Delete' => \count($ouuids)]
             );
 

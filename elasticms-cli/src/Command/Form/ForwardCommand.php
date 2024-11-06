@@ -72,7 +72,7 @@ class ForwardCommand extends AbstractCommand
                 'Accept' => '*/*',
                 'Content-Type' => 'application/json',
             ],
-            'body' => Json::encode($submission['data'] ?? []),
+            'body' => Json::encode($data),
         ]);
         $response = Json::decode($request->getContent());
         $submitUrl = \str_replace('init-form/', 'form/', $this->toUrl->getUrl($locale));

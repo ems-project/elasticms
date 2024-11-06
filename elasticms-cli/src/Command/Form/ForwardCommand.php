@@ -99,24 +99,23 @@ class ForwardCommand extends AbstractCommand
     private function computeHashcash(string $token, int $difficulty): string
     {
         $hashcashLevel = \intval(\floor(\log($difficulty, 2) / 4.0));
-        $algo = 'sha256';
         $regex = \sprintf('/^0{%d}/', $hashcashLevel);
 
         do {
-            $random = $this->generateRandomString(13);
-            $hash = \hash($algo, \implode('|', [$difficulty, $token, $random]));
+            $random = $this->generateRandomString();
+            $hash = \hash('sha256', \implode('|', [$difficulty, $token, $random]));
         } while (!\preg_match($regex, $hash));
 
         return \implode('|', [$hash, $random, $token]);
     }
 
-    private function generateRandomString(int $length): string
+    private function generateRandomString(): string
     {
         $characters = '0123456789';
         $charactersLength = \strlen($characters);
         $randomString = '';
 
-        for ($i = 0; $i < $length; ++$i) {
+        for ($i = 0; $i < 13; ++$i) {
             $randomString .= $characters[\random_int(0, $charactersLength - 1)];
         }
 

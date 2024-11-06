@@ -103,11 +103,17 @@ final class FileReaderImportCommand extends AbstractCommand
             $count = 0;
             $queue = $coreApi->queue($this->flushSize)->addFlushCallback(fn () => $progressBar->advance());
 
-            foreach ($cells as $syncMetaData) {
-                $ouuid = $this->createOuuid($config, $syncMetaData);
+            foreach ($cells as $row) {
+                $ouuid = $this->createOuuid($config, $row);
 
                 $rawData = $config->defaultData;
-                $rawData['_sync_metadata'] = $syncMetaData;
+                $rawData['_sync_metadata'] = $row;
+
+                if (null !== $ouuidVersionExpression = $config->ouuidVersionExpression) {
+                    $rawData['_version_uuid'] = UuidGenerator::fromValue(
+                        value: $this->expressionLanguage->evaluate($ouuidVersionExpression, ['row' => $row])
+                    );
+                }
 
                 if ($ouuid) {
                     unset($ouuids[$ouuid]);

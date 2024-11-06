@@ -104,6 +104,8 @@ php bin/console emscli:file-reader:import pages.csv page \
 * `ouuid_expression`: ?string (default="row['ouuid']")
   * Expression language apply to excel rows in order to identify the document by its ouuid. If equal to
     null new document will be created
+* `ouuid_version_expression`: ?string (default=null)
+  * Expression language apply to excel rows for generating a version uuid saved in `_version_uuid` 
 * `ouuid_prefix`: ?string (default=null)
   * The ouuid will prefix with this value before hashing
 

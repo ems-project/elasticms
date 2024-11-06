@@ -2,12 +2,20 @@
 
 namespace App\CLI\Command\Form;
 
+use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\Helpers\Html\Headers;
+use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
 class ForwardCommand extends AbstractCommand
 {
@@ -16,7 +24,7 @@ class ForwardCommand extends AbstractCommand
     public const ARG_FORM_UUID_FROM = 'form-uuid';
     public const ARG_FORM_URL_TO = 'post-url';
     private string $fromUuid;
-    private string $toUrl;
+    private Url $toUrl;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -34,7 +42,7 @@ class ForwardCommand extends AbstractCommand
             )->addArgument(
                 self::ARG_FORM_URL_TO,
                 InputArgument::REQUIRED,
-                'Destination POST URL'
+                'Init form POST URL'
             );
     }
 
@@ -42,7 +50,7 @@ class ForwardCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->fromUuid = $this->getArgumentString(self::ARG_FORM_UUID_FROM);
-        $this->toUrl = $this->getArgumentString(self::ARG_FORM_URL_TO);
+        $this->toUrl = new Url($this->getArgumentString(self::ARG_FORM_URL_TO));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -53,8 +61,39 @@ class ForwardCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        $this->io->section(\sprintf('Forward the form %s to %s', $this->fromUuid, $this->toUrl));
+        $this->io->section(\sprintf('Forward the form %s to %s', $this->fromUuid, $this->toUrl->getUrl()));
+        $submission = $this->adminHelper->getCoreApi()->form()->getSubmission($this->fromUuid);
+        $locale = Type::string($submission['locale'] ?? null);
+        $client = new CurlHttpClient();
+        $request = $client->request('POST', $this->toUrl->getUrl($locale), [
+            'headers' => [
+                'Accept' => '*/*',
+                'Content-Type' => 'application/json',
+            ],
+            'body' => Json::encode($submission['data'] ?? []),
+        ]);
+        $response = Json::decode($request->getContent());
+        $submitUrl = \str_replace('init-form/', 'form/', $this->toUrl->getUrl($locale));
+        $crawler = new Crawler($response['response'], $submitUrl);
+        $form = $crawler->filter('form')->form();
+        $formData = new FormDataPart($form->getValues());
+        $headers = $formData->getPreparedHeaders();
+        foreach (($request->getHeaders()[Headers::SET_COOKIE] ?? []) as $setCookie) {
+            $cookie = Cookie::fromString(Type::string($setCookie));
+            $headers->addHeader(Headers::COOKIE, \sprintf('%s=%s', $cookie->getName(), \rawurlencode($cookie->getValue() ?? '')));
+        }
+        $headers->addHeader(Headers::X_HASHCASH, $this->computeHashcash(Type::string($form->getValues()['form[_token]'] ?? null)));
+        $httpResponse = $client->request('POST', $form->getUri(), [
+            'headers' => $headers->toArray(),
+            'body' => $formData->bodyToString(),
+        ]);
+        \dump($formData->bodyToIterable());
 
         return self::EXECUTE_SUCCESS;
+    }
+
+    private function computeHashcash(string $token): string
+    {
+        return $token;
     }
 }

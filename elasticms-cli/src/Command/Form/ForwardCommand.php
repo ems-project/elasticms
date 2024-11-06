@@ -63,6 +63,8 @@ class ForwardCommand extends AbstractCommand
 
         $this->io->section(\sprintf('Forward the form %s to %s', $this->fromUuid, $this->toUrl->getUrl()));
         $submission = $this->adminHelper->getCoreApi()->form()->getSubmission($this->fromUuid);
+        $data = $submission['data'] ?? [];
+        $data = \array_filter($data, fn ($field) => !\is_array($field) || !empty($field));
         $locale = Type::string($submission['locale'] ?? null);
         $client = new CurlHttpClient();
         $request = $client->request('POST', $this->toUrl->getUrl($locale), [

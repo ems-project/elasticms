@@ -82,18 +82,44 @@ class ForwardCommand extends AbstractCommand
             $cookie = Cookie::fromString(Type::string($setCookie));
             $headers->addHeader(Headers::COOKIE, \sprintf('%s=%s', $cookie->getName(), \rawurlencode($cookie->getValue() ?? '')));
         }
-        $headers->addHeader(Headers::X_HASHCASH, $this->computeHashcash(Type::string($form->getValues()['form[_token]'] ?? null)));
+        $headers->addHeader(Headers::X_HASHCASH, $this->computeHashcash(Type::string($form->getValues()['form[_token]'] ?? null), Type::integer($response['difficulty'])));
         $httpResponse = $client->request('POST', $form->getUri(), [
             'headers' => $headers->toArray(),
             'body' => $formData->bodyToString(),
         ]);
-        \dump($formData->bodyToIterable());
+        if (200 !== $httpResponse->getStatusCode()) {
+            $this->io->error(\sprintf('Unexpected %d return code', $httpResponse->getStatusCode()));
+
+            return self::EXECUTE_ERROR;
+        }
 
         return self::EXECUTE_SUCCESS;
     }
 
-    private function computeHashcash(string $token): string
+    private function computeHashcash(string $token, int $difficulty): string
     {
-        return $token;
+        $hashcashLevel = \intval(\floor(\log($difficulty, 2) / 4.0));
+        $algo = 'sha256';
+        $regex = \sprintf('/^0{%d}/', $hashcashLevel);
+
+        do {
+            $random = $this->generateRandomString(13);
+            $hash = \hash($algo, \implode('|', [$difficulty, $token, $random]));
+        } while (!\preg_match($regex, $hash));
+
+        return \implode('|', [$hash, $random, $token]);
+    }
+
+    private function generateRandomString(int $length): string
+    {
+        $characters = '0123456789';
+        $charactersLength = \strlen($characters);
+        $randomString = '';
+
+        for ($i = 0; $i < $length; ++$i) {
+            $randomString .= $characters[\random_int(0, $charactersLength - 1)];
+        }
+
+        return $randomString;
     }
 }

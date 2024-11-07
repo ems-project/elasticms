@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Helper;
 
-use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
+use EMS\CommonBundle\Exception\NotParsableUrlException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;

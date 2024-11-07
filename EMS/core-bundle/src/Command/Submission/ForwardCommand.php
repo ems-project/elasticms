@@ -2,10 +2,10 @@
 
 namespace EMS\CoreBundle\Command\Submission;
 
-use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\Url;
 use EMS\CoreBundle\Commands;
+use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
@@ -27,7 +27,7 @@ class ForwardCommand extends AbstractCommand
     private string $fromUuid;
     private Url $toUrl;
 
-    public function __construct(private readonly AdminHelper $adminHelper)
+    public function __construct(private readonly FormSubmissionService $formSubmissionService)
     {
         parent::__construct();
     }
@@ -56,17 +56,11 @@ class ForwardCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$this->adminHelper->getCoreApi()->isAuthenticated()) {
-            $this->io->error(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
-
-            return self::EXECUTE_ERROR;
-        }
-
         $this->io->section(\sprintf('Forward the form %s to %s', $this->fromUuid, $this->toUrl->getUrl()));
-        $submission = $this->adminHelper->getCoreApi()->form()->getSubmission($this->fromUuid);
-        $data = $submission['data'] ?? [];
+        $submission = $this->formSubmissionService->getById($this->fromUuid);
+        $data = $submission->getData() ?? [];
         $data = \array_filter($data, fn ($field) => !\is_array($field) || !empty($field));
-        $locale = Type::string($submission['locale'] ?? null);
+        $locale = Type::string($submission->getLocale());
         $client = new CurlHttpClient();
         $request = $client->request('POST', $this->toUrl->getUrl($locale), [
             'headers' => [

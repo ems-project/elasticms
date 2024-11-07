@@ -58,6 +58,12 @@ class ForwardCommand extends AbstractCommand
     {
         $this->io->section(\sprintf('Forward the form %s to %s', $this->fromUuid, $this->toUrl->getUrl()));
         $submission = $this->formSubmissionService->getById($this->fromUuid);
+        if ($submission->hasBeenProcessed()) {
+            $this->io->error(\sprintf('Submission %s has been already processed by %s', $this->fromUuid, $submission->getProcessBy()));
+
+            return self::EXECUTE_ERROR;
+        }
+
         $data = $submission->getData() ?? [];
         $data = \array_filter($data, fn ($field) => !\is_array($field) || !empty($field));
         $locale = Type::string($submission->getLocale());

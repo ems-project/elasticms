@@ -6,10 +6,10 @@ namespace App\CLI\Client\Audit;
 
 use App\CLI\Client\HttpClient\UrlReport;
 use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
-use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\StringStream;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
+use EMS\CommonBundle\Helper\Url;
 
 class AuditResult
 {

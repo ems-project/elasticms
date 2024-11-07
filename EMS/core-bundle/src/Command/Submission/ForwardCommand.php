@@ -1,11 +1,11 @@
 <?php
 
-namespace App\CLI\Command\Form;
+namespace EMS\CoreBundle\Command\Submission;
 
-use App\CLI\Client\WebToElasticms\Helper\Url;
-use App\CLI\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Helper\Url;
+use EMS\CoreBundle\Commands;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
@@ -20,7 +20,7 @@ use Symfony\Component\String\ByteString;
 
 class ForwardCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::FORM_FORWARD;
+    protected static $defaultName = Commands::SUBMISSION_FORWARD;
 
     public const ARG_FORM_UUID_FROM = 'form-uuid';
     public const ARG_FORM_URL_TO = 'post-url';

@@ -19,8 +19,8 @@ use App\CLI\Client\WebToElasticms\Filter\Html\Striptag;
 use App\CLI\Client\WebToElasticms\Filter\Html\StyleCleaner;
 use App\CLI\Client\WebToElasticms\Filter\Html\TagCleaner;
 use App\CLI\Client\WebToElasticms\Helper\NotParsableUrlException;
-use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
+use EMS\CommonBundle\Helper\Url;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 

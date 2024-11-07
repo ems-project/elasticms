@@ -6,6 +6,7 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Helper\Url;
 use EMS\CoreBundle\Commands;
 use EMS\CoreBundle\Service\Form\Submission\FormSubmissionService;
+use EMS\FormBundle\Security\HashcashToken;
 use EMS\Helpers\Html\Headers;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
@@ -17,7 +18,6 @@ use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
-use Symfony\Component\String\ByteString;
 
 class ForwardCommand extends AbstractCommand
 {
@@ -95,7 +95,7 @@ class ForwardCommand extends AbstractCommand
             $cookie = Cookie::fromString(Type::string($setCookie));
             $headers->addHeader(Headers::COOKIE, \sprintf('%s=%s', $cookie->getName(), \rawurlencode($cookie->getValue() ?? '')));
         }
-        $headers->addHeader(Headers::X_HASHCASH, $this->computeHashcash(Type::string($form->getValues()['form[_token]'] ?? null), Type::integer($response['difficulty'])));
+        $headers->addHeader(Headers::X_HASHCASH, HashcashToken::generate(Type::string($form->getValues()['form[_token]'] ?? null), Type::integer($response['difficulty']))->getHeader());
         $httpResponse = $client->request('POST', $form->getUri(), [
             'headers' => $headers->toArray(),
             'body' => $formData->bodyToString(),
@@ -111,18 +111,5 @@ class ForwardCommand extends AbstractCommand
         }
 
         return self::EXECUTE_SUCCESS;
-    }
-
-    private function computeHashcash(string $token, int $difficulty): string
-    {
-        $hashcashLevel = \intval(\floor(\log($difficulty, 2) / 4.0));
-        $regex = \sprintf('/^0{%d}/', $hashcashLevel);
-
-        do {
-            $random = ByteString::fromRandom(13, '0123456789');
-            $hash = \hash('sha256', \implode('|', [$difficulty, $token, $random]));
-        } while (!\preg_match($regex, $hash));
-
-        return \implode('|', [$hash, $random, $token]);
     }
 }

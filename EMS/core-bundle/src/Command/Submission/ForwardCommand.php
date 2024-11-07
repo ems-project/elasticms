@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Component\String\ByteString;
 
@@ -79,7 +80,16 @@ class ForwardCommand extends AbstractCommand
         $submitUrl = \str_replace('init-form/', 'form/', $this->toUrl->getUrl($locale));
         $crawler = new Crawler($response['response'], $submitUrl);
         $form = $crawler->filter('form')->form();
-        $formData = new FormDataPart($form->getValues());
+        $data = $form->getValues();
+        foreach ($submission->getFiles() as $file) {
+            $resource = $file->getFile();
+            if (null === $resource) {
+                continue;
+            }
+            $data[\sprintf('form[%s]', $file->getFormField())] = new DataPart($resource, $file->getFilename(), $file->getMimeType());
+        }
+        $formData = new FormDataPart($data);
+
         $headers = $formData->getPreparedHeaders();
         foreach (($request->getHeaders()[Headers::SET_COOKIE] ?? []) as $setCookie) {
             $cookie = Cookie::fromString(Type::string($setCookie));

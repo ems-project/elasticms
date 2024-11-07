@@ -16,6 +16,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
+use Symfony\Component\String\ByteString;
 
 class ForwardCommand extends AbstractCommand
 {
@@ -108,23 +109,10 @@ class ForwardCommand extends AbstractCommand
         $regex = \sprintf('/^0{%d}/', $hashcashLevel);
 
         do {
-            $random = $this->generateRandomString();
+            $random = ByteString::fromRandom(13, '0123456789');
             $hash = \hash('sha256', \implode('|', [$difficulty, $token, $random]));
         } while (!\preg_match($regex, $hash));
 
         return \implode('|', [$hash, $random, $token]);
-    }
-
-    private function generateRandomString(): string
-    {
-        $characters = '0123456789';
-        $charactersLength = \strlen($characters);
-        $randomString = '';
-
-        for ($i = 0; $i < 13; ++$i) {
-            $randomString .= $characters[\random_int(0, $charactersLength - 1)];
-        }
-
-        return $randomString;
     }
 }

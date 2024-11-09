@@ -61,26 +61,26 @@ final class TemplateFiles implements \IteratorAggregate, \Countable
         return new \ArrayIterator($this->templateFiles);
     }
 
-    public function get(string $search): TemplateFile
+    public function get(TemplateName $templateName): TemplateFile
     {
-        if (null === $template = $this->find($search)) {
-            throw new \RuntimeException(\sprintf('Could not find template "%s"', $search));
+        if (null === $template = $this->find($templateName)) {
+            throw new \RuntimeException(\sprintf('Could not find template "%s"', $templateName->getSearchName()));
         }
 
         return $template;
     }
 
-    public function getByTemplateName(TemplateName $templateName): TemplateFile
-    {
-        return $this->get($templateName->getSearchName());
-    }
-
-    public function find(string $search): ?TemplateFile
+    public function find(TemplateName $templateName): ?TemplateFile
     {
         foreach ($this->templateFiles as $templateFile) {
-            if ($search === $templateFile->getPathOuuid() || $search === $templateFile->getPathName()) {
-                return $templateFile;
+            if ($templateFile->getContentTypeName() !== $templateName->getContentType()) {
+                continue;
             }
+            if ($templateName->getSearchName() !== $templateFile->getPathOuuid() && $templateName->getSearchName() !== $templateFile->getPathName()) {
+                continue;
+            }
+
+            return $templateFile;
         }
 
         return null;

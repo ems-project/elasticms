@@ -8,9 +8,9 @@ use App\CLI\Client\HttpClient\CacheManager;
 use App\CLI\Client\WebToElasticms\Config\Document;
 use App\CLI\Client\WebToElasticms\Config\Extractor;
 use App\CLI\Client\WebToElasticms\Config\WebResource;
-use App\CLI\Client\WebToElasticms\Helper\Url;
 use EMS\CommonBundle\Common\SpreadsheetGeneratorService;
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
+use EMS\CommonBundle\Helper\Url;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 
 class Rapport

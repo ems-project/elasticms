@@ -1,5 +1,12 @@
 # Changelog 5.x
 
+## 5.23.1 (2024-11-04)
+### Bug Fixes
+* fix(admin/contentType): locale option array on dateRange by @Davidmattei in https://github.com/ems-project/elasticms/pull/1059
+* fix(admin/dataTable): ajaxData is in export format (links are just text) by @Davidmattei in https://github.com/ems-project/elasticms/pull/1058
+* fix(admin/submission): non required in submisssion by @theus77 in https://github.com/ems-project/elasticms/pull/1061
+* fix(common/log): add channel_ouuid_idx for performance by @theus77 in https://github.com/ems-project/elasticms/pull/1060
+
 ## 5.23.0 (2024-10-28)
 ### Features
 * feat(admin-web/assets): new archive ems by @theus77 in https://github.com/ems-project/elasticms/pull/1041
@@ -16,6 +23,10 @@
 * refactor(common/cli): file structure use new ems archive by @theus77 in https://github.com/ems-project/elasticms/pull/1043
 ### Chores
 * chore(doc): add example ems_dom_crawler twig filter by @Davidmattei in https://github.com/ems-project/elasticms/pull/1047
+
+## 5.22.3 (2024-11-04)
+### Bug Fixes
+* fix(admin/contentType): locale option array on dateRange by @Davidmattei in https://github.com/ems-project/elasticms/pull/1059
 
 ## 5.22.2 (2024-10-28)
 ### Bug Fixes

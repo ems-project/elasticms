@@ -22,8 +22,6 @@
         <service id="ems_common.core_api.factory" class="EMS\CommonBundle\Common\CoreApi\CoreApiFactory">
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.storage.manager" />
-            <argument>%ems_common.backend_api_verify%</argument>
-            <argument>%ems_common.backend_api_timeout%</argument>
         </service>
 
         <!-- use this factory services, it will set the tracer to common.ems.logger -->

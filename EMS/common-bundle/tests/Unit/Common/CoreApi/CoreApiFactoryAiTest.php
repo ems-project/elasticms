@@ -21,7 +21,12 @@ final class CoreApiFactoryAiTest extends TestCase
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->storageManager = $this->createMock(StorageManager::class);
-        $this->factory = new CoreApiFactory($this->logger, $this->storageManager);
+        $this->factory = new CoreApiFactory($this->logger, $this->storageManager, [
+            'headers' => [],
+            'max_connections' => 6,
+            'verify' => true,
+            'timeout' => 30,
+        ]);
     }
 
     public function testCreate(): void

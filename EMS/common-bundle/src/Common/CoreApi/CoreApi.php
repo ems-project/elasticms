@@ -50,6 +50,11 @@ final class CoreApi implements CoreApiInterface
         return $this;
     }
 
+    public function queue(int $flushSize): ResponseQueue
+    {
+        return new ResponseQueue($flushSize);
+    }
+
     public function data(string $contentType): DataInterface
     {
         $versions = $this->admin()->getVersions();

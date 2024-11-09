@@ -40,8 +40,6 @@ class EMSCommonExtension extends Extension
         $container->setParameter('ems_common.hash_algo', $config['hash_algo']);
         $container->setParameter('ems_common.backend_url', $config['backend_url']);
         $container->setParameter('ems_common.backend_api_key', $config['backend_api_key']);
-        $container->setParameter('ems_common.backend_api_verify', $config['backend_api_verify']);
-        $container->setParameter('ems_common.backend_api_timeout', $config['backend_api_timeout']);
         $container->setParameter('ems_common.elasticsearch_proxy_api', $config['elasticsearch_proxy_api']);
         $container->setParameter('ems_common.elasticsearch_hosts', $config['elasticsearch_hosts']);
         $container->setParameter('ems_common.elasticsearch_connection_pool', $config['elasticsearch_connection_pool']);
@@ -73,6 +71,8 @@ class EMSCommonExtension extends Extension
      */
     private function defineCoreApi(ContainerBuilder $container, array $config): void
     {
+        $container->getDefinition('ems_common.core_api.factory')->setArgument(2, $config['core_api']);
+
         if (!isset($config['backend_url'])) {
             return;
         }

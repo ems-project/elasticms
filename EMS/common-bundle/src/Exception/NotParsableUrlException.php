@@ -1,6 +1,6 @@
 <?php
 
-namespace App\CLI\Client\WebToElasticms\Helper;
+namespace EMS\CommonBundle\Exception;
 
 class NotParsableUrlException extends \Exception
 {

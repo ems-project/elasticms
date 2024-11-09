@@ -12,7 +12,6 @@ use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpClient\Response\StreamableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,19 +23,13 @@ class Client
 {
     /** @var array<string, string> */
     private array $headers = [];
-    private readonly HttpClientInterface $client;
     private LoggerInterface $logger;
 
-    public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $verify, int $timeout)
-    {
-        $this->client = new CurlHttpClient([
-            'base_uri' => $baseUrl,
-            'headers' => ['Content-Type' => 'application/json'],
-            'verify_host' => $verify,
-            'verify_peer' => $verify,
-            'timeout' => $timeout,
-        ]);
-
+    public function __construct(
+        private readonly HttpClientInterface $httpClient,
+        private readonly string $baseUrl,
+        LoggerInterface $logger,
+    ) {
         $this->setLogger($logger);
     }
 
@@ -62,6 +55,17 @@ class Client
     public function getHeader(string $name): string
     {
         return $this->headers[$name];
+    }
+
+    /**
+     * @param array<mixed> $options
+     */
+    public function asyncRequest(string $method, string $resource, array $options = []): ResponseInterface
+    {
+        return $this->httpClient->request($method, $resource, [
+            ...['headers' => $this->headers],
+            ...$options,
+        ]);
     }
 
     /**
@@ -145,7 +149,7 @@ class Client
 
     public function head(string $resource): bool
     {
-        $response = $this->client->request(Request::METHOD_HEAD, $resource, [
+        $response = $this->httpClient->request(Request::METHOD_HEAD, $resource, [
             'headers' => $this->headers,
         ]);
 
@@ -164,8 +168,8 @@ class Client
     {
         $this->logger = $logger;
 
-        if ($this->client instanceof LoggerAwareInterface) {
-            $this->client->setLogger($logger);
+        if ($this->httpClient instanceof LoggerAwareInterface) {
+            $this->httpClient->setLogger($logger);
         }
     }
 
@@ -178,7 +182,7 @@ class Client
             throw new BaseUrlNotDefinedException();
         }
 
-        $response = $this->client->request($method, $resource, $options);
+        $response = $this->httpClient->request($method, $resource, $options);
 
         if (Response::HTTP_UNAUTHORIZED === $response->getStatusCode()) {
             throw new NotAuthenticatedException($response);

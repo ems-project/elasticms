@@ -17,11 +17,20 @@
 
 {% block http_admin_api_form_request_body %}
     {% apply spaceless %}
+        {% set files = formData.allFiles|default([])|map(v => v.toArray|merge({ 'base64': v.base64() }) )|map(f => {
+            'filename': ('attachment '~f.filename)|ems_webalize,
+            'mimeType': f.mimeType,
+            'size': f.size,
+            'form_field': f.form_field,
+            'base64': f.base64
+        })|filter(v => v.size > 0) %}
+
         {% set message = {
             'form_name': config.name,
             'instance': config.translationDomain,
             'locale': config.locale,
             'data': formData.raw,
+            'files': files,
             'label': "User group",
             'expire_date': '+1 month'|date('Y-m-d')
         } %}

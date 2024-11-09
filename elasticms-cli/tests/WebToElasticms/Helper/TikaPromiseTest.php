@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\CLI\Tests\WebToElasticms\Helper;
 
-use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\Tika\TikaJarPromise;
+use EMS\CommonBundle\Helper\Url;
 use GuzzleHttp\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
 

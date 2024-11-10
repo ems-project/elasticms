@@ -1,6 +1,6 @@
 import type {DefaultTheme} from 'vitepress'
 
-const sidebar: DefaultTheme.SidebarItem[] = {
+const sidebar: DefaultTheme.SidebarMulti = {
     '/': [
         {
             text: 'Guide',
@@ -20,34 +20,34 @@ const sidebar: DefaultTheme.SidebarItem[] = {
             ]
         },
         {
-            text: 'EMS - Admin',
+            text: 'Admin',
             collapsed: true,
             items: [
-                {text: 'Environment variables', link: '/app/admin/environment-variables'},
-                {text: 'Commands', link: '/app/admin/commands'},
+                {text: 'Environment variables', link: '/ems/admin/environment-variables'},
+                {text: 'Commands', link: '/ems/admin/commands'},
             ]
         },
         {
-            text: 'EMS - Web',
+            text: 'Web',
             collapsed: true,
             items: [
-                {text: 'Environment variables', link: '/app/web/environment-variables'},
-                {text: 'Commands', link: '/app/web/commands'},
+                {text: 'Environment variables', link: '/ems/web/environment-variables'},
+                {text: 'Commands', link: '/ems/web/commands'},
             ]
         },
         {
-            text: 'EMS - CLI',
+            text: 'CLI',
             collapsed: true,
             items: [
-                {text: 'Environment variables', link: '/app/cli/environment-variables'},
-                {text: 'Commands', link: '/app/cli/commands'},
+                {text: 'Environment variables', link: '/ems/cli/environment-variables'},
+                {text: 'Commands', link: '/ems/cli/commands'},
             ]
         },
         {
-            text: 'EMS - Common',
+            text: 'Common',
             collapsed: true,
             items: [
-                {text: 'Commands', link: '/app/common/commands'},
+                {text: 'Commands', link: '/ems/common/commands'},
             ]
         },
         {

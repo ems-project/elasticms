@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Build\Doc\Application;
+use Build\Doc\Command;
+
+$application = new Application();
+$application->add(new Command\DocCommandsCommand());
+
+$application->run();

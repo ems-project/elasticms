@@ -35,7 +35,7 @@ class StatusCommand extends AbstractCommand
         $this
             ->addOption(
                 self::OPTION_SILENT,
-                'ss',
+                null,
                 InputOption::VALUE_NONE,
                 'Shows only warning and error messages'
             )

@@ -515,7 +515,7 @@ ems:status [options]
 
 **Options**
 
-* ```-ss``` ```--silent```
+* ```--silent```
   > Shows only warning and error messages
 * ```--wait-for-status```
   > One of green, yellow or red. Will wait (until the timeout provided) until the status of the cluster changes to the one provided or better, i.e. green > yellow > red.

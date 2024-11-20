@@ -7,12 +7,11 @@ namespace Build\Doc\Command;
 use App\Admin\Kernel;
 use Build\Doc\Markdown\Content;
 use Build\Doc\Markdown\MarkdownFile;
-use EMS\Helpers\Standard\Json;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DescriptorHelper;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Dotenv\Dotenv;
@@ -22,18 +21,16 @@ class DocCommandsCommand extends Command
     protected static $defaultName = 'commands';
 
     private Application $application;
-    private BufferedOutput $output;
-    private DescriptorHelper $descriptorHelper;
 
     private const CONFIG = [
         ['EMS\CommonBundle\Command\\', __DIR__.'/../../../../doc/ems/common/commands.md'],
     ];
 
+    private const EXCLUDE_OPTIONS = ['help', 'quiet', 'verbose', 'version', 'ansi', 'no-interaction', 'env', 'no-debug'];
+
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->application = $this->getAdminApplication();
-        $this->output = new BufferedOutput();
-        $this->descriptorHelper = new DescriptorHelper();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -102,13 +99,90 @@ class DocCommandsCommand extends Command
 
     private function writeCommand(Command $command, Content $content): void
     {
-        $this->descriptorHelper->describe($this->output, $command, ['format' => 'json']);
-        $json = Json::decode($this->output->fetch());
+        $arguments = $command->getDefinition()->getArguments();
+        $options = \array_filter(
+            array: $command->getDefinition()->getOptions(),
+            callback: fn (InputOption $option) => !\in_array($option->getName(), self::EXCLUDE_OPTIONS)
+        );
 
-        $content->newLine();
-        $content->startStopAutoGeneration('command');
-        $content->write('...');
-        $content->startStopAutoGeneration('command');
-        $content->newLine();
+        $content
+            ->newLine()
+            ->startStopAutoGeneration('command')
+                ->write($command->getDescription())
+                ->writeCode('bash', $command->getSynopsis(true))
+                ->write(\count($arguments) > 0 ? '**Arguments**' : '')
+                ->list(\array_map([$this, 'parseArgument'], $arguments))
+                ->write(\count($options) > 0 ? '**Options**' : '')
+                ->list(\array_map([$this, 'parseOption'], $options))
+            ->startStopAutoGeneration('command')
+            ->newLine();
+    }
+
+    /**
+     * @return array{'title': string, 'content': string[]}
+     */
+    private function parseArgument(InputArgument $argument): array
+    {
+        $extra = [];
+
+        if ($argument->isRequired()) {
+            $extra[] = 'required';
+        }
+
+        if (null !== $argument->getDefault()) {
+            $default = match (\gettype($argument->getDefault())) {
+                'boolean' => true === $argument->getDefault() ? 'true' : 'false',
+                'array' => \sprintf('["%s"]', \implode('", "', $argument->getDefault())),
+                'string' => \sprintf('"%s"', $argument->getDefault()),
+                default => (string) $argument->getDefault()
+            };
+
+            $extra[] = \sprintf('default: %s', $default);
+        }
+        if ($argument->isArray()) {
+            $extra[] = 'multiple values allowed';
+        }
+
+        return [
+            'title' => \sprintf('```%s``` %s', $argument->getName(), \implode(', ', $extra)),
+            'content' => [
+                \sprintf('> %s', $argument->getDescription()),
+            ],
+        ];
+    }
+
+    /**
+     * @return array{'title': string, 'content': string[]}
+     */
+    private function parseOption(InputOption $option): array
+    {
+        $extra = [];
+
+        $shortcut = $option->getShortcut();
+
+        if (\is_string($shortcut)) {
+            $extra[] = \sprintf('```-%s```', $shortcut);
+        }
+
+        if (null !== $option->getDefault() && $option->acceptValue()) {
+            $default = match (\gettype($option->getDefault())) {
+                'boolean' => true === $option->getDefault() ? 'true' : 'false',
+                'array' => \sprintf('["%s"]', \implode('", "', $option->getDefault())),
+                'string' => \sprintf('"%s"', $option->getDefault()),
+                default => (string) $option->getDefault()
+            };
+            $extra[] = \sprintf('default: %s', $default);
+        }
+
+        if ($option->isArray()) {
+            $extra[] = 'multiple values allowed';
+        }
+
+        return [
+            'title' => \sprintf('```--%s``` %s', $option->getName(), \implode(', ', $extra)),
+            'content' => [
+                \sprintf('> %s', $option->getDescription()),
+            ],
+        ];
     }
 }

@@ -48,6 +48,7 @@ const sidebar: DefaultTheme.SidebarMulti = {
             collapsed: true,
             items: [
                 {text: 'Commands', link: '/ems/common/commands'},
+                {text: 'Commands old', link: '/ems/common/commands-old'},
             ]
         },
         {

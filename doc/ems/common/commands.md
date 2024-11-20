@@ -303,10 +303,12 @@ ems:logs:clear [options]
 [//]: auto-generated-command
 
 ::: code-group
+
 ```bash [Example]
 # Remove all logs created before now for the channels `app` and `core`
 ems:logs:clear --before=now --channel=app --channel=core
 ```
+
 :::
 
 ## Clear-cache
@@ -365,6 +367,7 @@ ems:curl [options] [--] <url> <filename>
 [//]: auto-generated-command
 
 ::: code-group
+
 ```bash [Example]
 # This command allows you to save request to a file. 
 
@@ -375,6 +378,7 @@ ems:curl [options] [--] <url> <filename>
 
 ems:curl /public/view/54 /opt/samples/test.pdf --save --base-url=http://demo-admin-dev.localhost
 ```
+
 :::
 
 ## Document

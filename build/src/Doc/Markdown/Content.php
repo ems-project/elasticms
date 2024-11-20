@@ -52,12 +52,22 @@ class Content
         return $this;
     }
 
-    public function write(string $line): self
+    public function write(?string $line, bool $newLine = false): self
     {
+        if (null === $line) {
+            return $this;
+        }
+
         if ($this->autoGeneration && \is_array($this->lines[$this->autoGeneration])) {
             $this->lines[$this->autoGeneration][] = $line;
+            if ($newLine) {
+                $this->lines[$this->autoGeneration][] = '';
+            }
         } else {
             $this->lines[] = $line;
+            if ($newLine) {
+                $this->newLine();
+            }
         }
 
         return $this;
@@ -69,7 +79,7 @@ class Content
         foreach ($lines as $line) {
             $this->write($line);
         }
-        $this->write('```');
+        $this->write('```')->newLine();
 
         return $this;
     }
@@ -100,7 +110,7 @@ class Content
         $result = [];
 
         foreach ($lines as $key => $line) {
-            if ('' !== $line || '' !== \end($result)) {
+            if ('' !== $line || ('' !== \end($result))) {
                 $result[$key] = $line;
             }
         }
@@ -147,6 +157,10 @@ class Content
      */
     public function list(array $items): self
     {
+        if (0 === \count($items)) {
+            return $this;
+        }
+
         foreach ($items as $item) {
             if (\is_string($item)) {
                 $this->write('* '.$item);

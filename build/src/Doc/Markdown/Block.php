@@ -40,8 +40,12 @@ class Block
     {
         $block = new self($title, $level);
 
+        $flagInCodeBlock = false;
         foreach ($lines as $i => $line) {
-            if (\str_starts_with($line, '#')) {
+            if (\str_starts_with(\ltrim($line), '```')) {
+                $flagInCodeBlock = !$flagInCodeBlock;
+            }
+            if (\str_starts_with($line, '#') && !$flagInCodeBlock) {
                 break;
             }
             if (\str_starts_with($line, Content::AUTO_GENERATED)) {
@@ -56,8 +60,12 @@ class Block
         $currentChild = false;
         $groupChildren = [];
 
+        $flagInCodeBlock = false;
         foreach ($lines as $line) {
-            if (\str_starts_with($line, $childrenPrefix)) {
+            if (\str_starts_with(\ltrim($line), '```')) {
+                $flagInCodeBlock = !$flagInCodeBlock;
+            }
+            if (\str_starts_with($line, $childrenPrefix) && !$flagInCodeBlock) {
                 $title = u($line)->trimPrefix($childrenPrefix)->toString();
                 $groupChildren[$title] = [];
                 $currentChild = $title;

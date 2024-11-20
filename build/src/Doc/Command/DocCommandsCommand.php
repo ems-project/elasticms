@@ -108,12 +108,12 @@ class DocCommandsCommand extends Command
         $content
             ->newLine()
             ->startStopAutoGeneration('command')
-                ->write($command->getDescription())
+                ->write('' !== $command->getDescription() ? $command->getDescription() : null, true)
                 ->writeCode('bash', $command->getSynopsis(true))
-                ->write(\count($arguments) > 0 ? '**Arguments**' : '')
-                ->list(\array_map([$this, 'parseArgument'], $arguments))
-                ->write(\count($options) > 0 ? '**Options**' : '')
-                ->list(\array_map([$this, 'parseOption'], $options))
+                ->write(\count($arguments) > 0 ? '**Arguments**' : null, true)
+                ->list(\array_map([$this, 'parseInput'], $arguments))
+                ->write(\count($options) > 0 ? '**Options**' : null, true)
+                ->list(\array_map([$this, 'parseInput'], $options))
             ->startStopAutoGeneration('command')
             ->newLine();
     }
@@ -121,67 +121,38 @@ class DocCommandsCommand extends Command
     /**
      * @return array{'title': string, 'content': string[]}
      */
-    private function parseArgument(InputArgument $argument): array
+    private function parseInput(InputArgument|InputOption $input): array
     {
-        $extra = [];
+        $name = $input instanceof InputOption ? '--'.$input->getName() : $input->getName();
+        $shortcut = $input instanceof InputOption && \is_string($input->getShortcut())
+            ? \sprintf('```-%s``` ', $input->getShortcut())
+            : '';
 
-        if ($argument->isRequired()) {
+        $extra = [];
+        if ($input instanceof InputArgument && $input->isRequired()) {
             $extra[] = 'required';
         }
 
-        if (null !== $argument->getDefault()) {
-            $default = match (\gettype($argument->getDefault())) {
-                'boolean' => true === $argument->getDefault() ? 'true' : 'false',
-                'array' => \sprintf('["%s"]', \implode('", "', $argument->getDefault())),
-                'string' => \sprintf('"%s"', $argument->getDefault()),
-                default => (string) $argument->getDefault()
-            };
-
-            $extra[] = \sprintf('default: %s', $default);
-        }
-        if ($argument->isArray()) {
-            $extra[] = 'multiple values allowed';
-        }
-
-        return [
-            'title' => \sprintf('```%s``` %s', $argument->getName(), \implode(', ', $extra)),
-            'content' => [
-                \sprintf('> %s', $argument->getDescription()),
-            ],
-        ];
-    }
-
-    /**
-     * @return array{'title': string, 'content': string[]}
-     */
-    private function parseOption(InputOption $option): array
-    {
-        $extra = [];
-
-        $shortcut = $option->getShortcut();
-
-        if (\is_string($shortcut)) {
-            $extra[] = \sprintf('```-%s```', $shortcut);
-        }
-
-        if (null !== $option->getDefault() && $option->acceptValue()) {
-            $default = match (\gettype($option->getDefault())) {
-                'boolean' => true === $option->getDefault() ? 'true' : 'false',
-                'array' => \sprintf('["%s"]', \implode('", "', $option->getDefault())),
-                'string' => \sprintf('"%s"', $option->getDefault()),
-                default => (string) $option->getDefault()
+        if (null !== $input->getDefault() && (!$input instanceof InputOption || $input->acceptValue())) {
+            $default = match (\gettype($input->getDefault())) {
+                'boolean' => true === $input->getDefault() ? 'true' : 'false',
+                'array' => \sprintf('["%s"]', \implode('", "', $input->getDefault())),
+                'string' => \sprintf('"%s"', $input->getDefault()),
+                default => (string) $input->getDefault()
             };
             $extra[] = \sprintf('default: %s', $default);
         }
 
-        if ($option->isArray()) {
+        if ($input->isArray()) {
             $extra[] = 'multiple values allowed';
         }
 
+        $extraString = \count($extra) ? ' '.\implode(' ', $extra) : '';
+
         return [
-            'title' => \sprintf('```--%s``` %s', $option->getName(), \implode(', ', $extra)),
+            'title' => \sprintf('%s```%s```%s', $shortcut, $name, $extraString),
             'content' => [
-                \sprintf('> %s', $option->getDescription()),
+                \sprintf('> %s', $input->getDescription()),
             ],
         ];
     }

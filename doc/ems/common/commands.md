@@ -155,9 +155,9 @@ ems:admin:login [options] [--] [<base-url>]
 
 **Options**
 
-* ```--username``` ```-u```
+* ```-u``` ```--username```
   > username
-* ```--password``` ```-p```
+* ```-p``` ```--password```
   > password
 
 [//]: auto-generated-command
@@ -166,8 +166,7 @@ ems:admin:login [options] [--] [<base-url>]
 
 [//]: auto-generated-command
 
-Contact the admin to check if a job is planned for the given tag and run it
-locally
+Contact the admin to check if a job is planned for the given tag and run it locally
 
 ```bash
 ems:admin:next-job [options] [--] <tag>
@@ -238,7 +237,7 @@ ems:admin:update [options] [--] <config-type> <entity-name> [<json-path>]
 
 [//]: auto-generated-command
 
-Run commands defined in twig.
+Run commands defined in twig
 
 ```bash
 ems:batch [options] [--] <template>
@@ -298,7 +297,7 @@ ems:logs:clear [options]
 
 * ```--before``` default: "-1week"
   > CLear logs older than the strtotime (-1day, -5min, now)
-* ```--channel``` default: ["app"], multiple values allowed
+* ```--channel``` default: ["app"] multiple values allowed
   > Define channels default [app]
 
 [//]: auto-generated-command
@@ -418,8 +417,7 @@ ems:document:upload [options] [--] <content-type>
 * ```--folder```
   > Folder to scan for JSON files
 * ```--dump-file```
-  > Will upload the specified elasticdump file instead of the JSON files in the
-  folder
+  > Will upload the specified elasticdump file instead of the JSON files in the folder
 * ```--only-missing```
   > Only create missing documents
 
@@ -449,8 +447,7 @@ ems:file-structure:publish [options] [--] <hash> <target>
 * ```--s3-credential```
   > S3 credential in a JSON format
 * ```--force```
-  > The target is synchronize even if the target looks already synchronized or
-  if the target looks out of sync
+  > The target is synchronize even if the target looks already synchronized or if the target looks out of sync
 * ```--admin```
   > Use admin api
 
@@ -484,8 +481,7 @@ ems:file-structure:pull [options] [--] <hash> <folder>
 
 [//]: auto-generated-command
 
-Push an EMS Archive file structure into a EMS Admin storage services (via the
-API)
+Push an EMS Archive file structure into a EMS Admin storage services (via the API)
 
 ```bash
 ems:file-structure:push [options] [--] <folder>
@@ -507,8 +503,7 @@ ems:file-structure:push [options] [--] <folder>
 
 [//]: auto-generated-command
 
-Returns the health status of the elasticsearch cluster and of the different
-storage services.
+Returns the health status of the elasticsearch cluster and of the different storage services.
 
 ```bash
 ems:status [options]
@@ -516,16 +511,12 @@ ems:status [options]
 
 **Options**
 
-* ```--silent``` ```-ss```
+* ```-ss``` ```--silent```
   > Shows only warning and error messages
 * ```--wait-for-status```
-  > One of green, yellow or red. Will wait (until the timeout provided) until
-  the status of the cluster changes to the one provided or better, i.e. green >
-  yellow > red.
+  > One of green, yellow or red. Will wait (until the timeout provided) until the status of the cluster changes to the one provided or better, i.e. green > yellow > red.
 * ```--timeout``` default: "10s"
-  > Time units. Specifies the period of time to wait for a response. If no
-  response is received before the timeout expires, the request will returns the
-  status red.
+  > Time units. Specifies the period of time to wait for a response. If no response is received before the timeout expires, the request will returns the status red.
 
 [//]: auto-generated-command
 
@@ -543,3 +534,4 @@ ems:version [<short-name>]
   > Package composer short name
 
 [//]: auto-generated-command
+

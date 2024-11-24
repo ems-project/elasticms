@@ -75,6 +75,10 @@ class FileStructurePushCommand extends AbstractCommand
         $progressBar = $this->io->createProgressBar($archive->getCount());
         $failedCount = 0;
         foreach ($this->fileManager->heads(...$archive->getHashes()) as $hash) {
+            if (true === $hash) {
+                $progressBar->advance();
+                continue;
+            }
             $file = $archive->getFirstFileByHash($hash);
             try {
                 $uploadHash = $this->fileManager->uploadFile($this->folderPath.DIRECTORY_SEPARATOR.$file->filename);

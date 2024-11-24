@@ -41,7 +41,7 @@ class EntityStorage implements StorageInterface, \Stringable
 
     public function heads(string ...$hashes): array
     {
-        return \array_filter($hashes, fn (string $hash) => !$this->head($hash));
+        return \array_values(\array_map(fn (string $hash) => $this->head($hash) ? true : $hash, $hashes));
     }
 
     public function getSize(string $hash): int

@@ -45,7 +45,7 @@ interface StorageInterface
     public function head(string $hash): bool;
 
     /**
-     * @return string[]
+     * @return array<int, string|true>
      */
     public function heads(string ...$hashes): array;
 

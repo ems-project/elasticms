@@ -361,7 +361,9 @@ class S3Storage extends AbstractUrlStorage
                 yield $client->headObjectAsync([
                     'Bucket' => $this->bucket,
                     'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
-                ])->then(onRejected: function (AwsException $exception) use (&$notFound, $hash) {
+                ])->then(onFulfilled: function () use (&$notFound) {
+                    $notFound[] = true;
+                }, onRejected: function (AwsException $exception) use (&$notFound, $hash) {
                     if ('NotFound' === $exception->getAwsErrorCode()) {
                         $notFound[] = $hash;
                     }

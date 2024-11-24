@@ -19,7 +19,7 @@ interface FileManagerInterface
     public function getStream(string $hash): StreamInterface;
 
     /**
-     * @return \Traversable<int, string>
+     * @return \Traversable<int, string|true>
      */
     public function heads(string ...$fileHashes): \Traversable;
 

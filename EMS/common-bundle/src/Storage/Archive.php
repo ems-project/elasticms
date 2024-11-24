@@ -53,9 +53,12 @@ class Archive implements \JsonSerializable
     /**
      * @return iterable<string>
      */
-    public function getHashes(): iterable
+    public function getHashes(Archive $previousArchive = null): iterable
     {
         foreach ($this->files as $file) {
+            if (null !== $previousArchive && $previousArchive->containsByHash($file->hash)) {
+                continue;
+            }
             yield $file->hash;
         }
     }
@@ -142,5 +145,16 @@ class Archive implements \JsonSerializable
         $resolved = $this->itemResolver->resolve($file);
 
         return $resolved;
+    }
+
+    private function containsByHash(string $hash): bool
+    {
+        foreach ($this->files as $file) {
+            if ($hash === $file->hash) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

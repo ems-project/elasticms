@@ -64,13 +64,14 @@ class FileStructurePushCommand extends AbstractCommand
         $progressBar = $this->io->createProgressBar($archive->getCount());
         $failedCount = 0;
         foreach ($this->fileManager->heads(...$archive->getHashes()) as $hash) {
+            $file = $archive->getFirstFileByHash($hash);
             try {
-                $file = $archive->getFirstFileByHash($hash);
                 $uploadHash = $this->fileManager->uploadFile($this->folderPath.DIRECTORY_SEPARATOR.$file->filename);
                 if ($uploadHash !== $hash) {
                     throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->filename));
                 }
             } catch (\Throwable) {
+                $this->io->error(\sprintf('Error while saving the file %s', $file->filename));
                 ++$failedCount;
             }
             $progressBar->advance();

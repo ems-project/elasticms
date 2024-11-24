@@ -32,6 +32,10 @@ class StorageManager implements FileManagerInterface
     private array $adapters = [];
     /** @var StorageFactoryInterface[] */
     private array $factories = [];
+    /**
+     * @var int<1, max>
+     */
+    private int $headChunkSize = FileManagerInterface::HEADS_CHUNK_SIZE;
 
     /**
      * @param iterable<StorageFactoryInterface>                                            $factories
@@ -94,7 +98,7 @@ class StorageManager implements FileManagerInterface
     public function heads(string ...$fileHashes): \Traversable
     {
         $uniqueFileHashes = \array_unique($fileHashes);
-        $pagedHashes = \array_chunk($uniqueFileHashes, self::HEADS_CHUNK_SIZE, true);
+        $pagedHashes = \array_chunk($uniqueFileHashes, $this->headChunkSize, true);
 
         foreach ($pagedHashes as $hashes) {
             foreach ($this->adapters as $adapter) {
@@ -679,5 +683,13 @@ class StorageManager implements FileManagerInterface
     public function downloadFile(string $hash): string
     {
         return $this->getFile($hash)->getFilename();
+    }
+
+    /**
+     * @param int<1, max> $chunkSize
+     */
+    public function setHeadChunkSize(int $chunkSize): void
+    {
+        $this->headChunkSize = $chunkSize;
     }
 }

@@ -23,10 +23,12 @@ class FileStructurePushCommand extends AbstractCommand
     private const ARGUMENT_FOLDER = 'folder';
     private const OPTION_ADMIN = 'admin';
     private const OPTION_QUIET = 'quiet';
+    private const OPTION_CHUNK_SIZE = 'chunk-size';
     private const OPTION_QUIET_SHORTCUT = 'q';
     private string $folderPath;
     private FileManagerInterface $fileManager;
     private bool $quiet;
+    private int $chunkSize;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -43,6 +45,7 @@ class FileStructurePushCommand extends AbstractCommand
             ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Source folder')
             ->addOption(self::OPTION_ADMIN, null, InputOption::VALUE_NONE, 'Push to admin')
             ->addOption(self::OPTION_QUIET, self::OPTION_QUIET_SHORTCUT, InputOption::VALUE_NONE, 'only displays the archive hash (if succeed)')
+            ->addOption(self::OPTION_CHUNK_SIZE, null, InputOption::VALUE_OPTIONAL, 'Set the heads method chunk size', FileManagerInterface::HEADS_CHUNK_SIZE)
         ;
     }
 
@@ -55,6 +58,7 @@ class FileStructurePushCommand extends AbstractCommand
             false => $this->storageManager,
         };
         $this->quiet = $this->getOptionBool(self::OPTION_QUIET);
+        $this->chunkSize = $this->getOptionInt(self::OPTION_CHUNK_SIZE);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -74,6 +78,10 @@ class FileStructurePushCommand extends AbstractCommand
         }
         $progressBar = $this->io->createProgressBar($archive->getCount());
         $failedCount = 0;
+        if ($this->chunkSize < 1) {
+            throw new \RuntimeException(\sprintf('Chunk size must greater than 0, %d given', $this->chunkSize));
+        }
+        $this->fileManager->setHeadChunkSize($this->chunkSize);
         foreach ($this->fileManager->heads(...$archive->getHashes()) as $hash) {
             if (true === $hash) {
                 $progressBar->advance();

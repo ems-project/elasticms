@@ -14,6 +14,11 @@ use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface
 {
+    /**
+     * @var int<1, max>
+     */
+    private int $headChunkSize = self::HEADS_CHUNK_SIZE;
+
     public function __construct(private readonly Client $client, private readonly StorageManager $storageManager)
     {
     }
@@ -174,7 +179,7 @@ final class File implements FileInterface
     public function heads(string ...$fileHashes): \Traversable
     {
         $uniqueFileHashes = \array_unique($fileHashes);
-        $pagedHashes = \array_chunk($uniqueFileHashes, self::HEADS_CHUNK_SIZE, true);
+        $pagedHashes = \array_chunk($uniqueFileHashes, $this->headChunkSize, true);
         foreach ($pagedHashes as $hashes) {
             foreach ($this->client->post('/api/file/heads', $hashes)->getData() as $hash) {
                 yield $hash;
@@ -190,5 +195,13 @@ final class File implements FileInterface
     public function getStream(string $hash): StreamInterface
     {
         return $this->client->download($this->downloadLink($hash));
+    }
+
+    /**
+     * @param int<1, max> $chunkSize
+     */
+    public function setHeadChunkSize(int $chunkSize): void
+    {
+        $this->headChunkSize = $chunkSize;
     }
 }

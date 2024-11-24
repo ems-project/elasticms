@@ -26,4 +26,9 @@ interface FileManagerInterface
     public function uploadContents(string $contents, string $filename, string $mimeType): string;
 
     public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string;
+
+    /**
+     * @param int<1, max> $chunkSize
+     */
+    public function setHeadChunkSize(int $chunkSize): void;
 }

@@ -8,7 +8,7 @@ use Psr\Http\Message\StreamInterface;
 
 interface FileManagerInterface
 {
-    public const HEADS_CHUNK_SIZE = 1000;
+    public const HEADS_CHUNK_SIZE = 512;
 
     public function downloadFile(string $hash): string;
 

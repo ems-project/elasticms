@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\CLI\Client\WebToElasticms\Config;
 
 use App\CLI\Client\HttpClient\CacheManager;
-use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 use App\CLI\ExpressionLanguage\Functions;
 use Elastica\Query\Terms;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Helper\EmsFields;
+use EMS\CommonBundle\Helper\Url;
 use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;

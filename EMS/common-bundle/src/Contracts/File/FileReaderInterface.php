@@ -7,7 +7,24 @@ namespace EMS\CommonBundle\Contracts\File;
 interface FileReaderInterface
 {
     /**
-     * @return array<mixed>
+     * @param array{
+     *     delimiter?: ?string,
+     *     encoding?: ?string,
+     * } $options
+     *
+     * @return array<int, array<mixed>>
      */
-    public function getData(string $filename, bool $skipFirstRow = false, string $encoding = null): array;
+    public function getData(string $filename, array $options = []): array;
+
+    /**
+     * @param array{
+     *      delimiter?: ?string,
+     *      encoding?: ?string,
+     *      exclude_rows?: int[],
+     *      limit?: ?int,
+     *  } $options
+     *
+     * @return \Generator<mixed>
+     */
+    public function readCells(string $filename, array $options = []): \Generator;
 }

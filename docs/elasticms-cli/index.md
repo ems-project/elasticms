@@ -10,4 +10,3 @@ This is a command client to interact with and ElasticMS Admin with some helper c
 | [emscli:documents:update](/elasticms-cli/documents.md)    | Update documents form excel or csv with custom configuration |   
 | [emscli:web:audit](/elasticms-cli/audit.md)               | Audit a website                                              |
 | [emscli:media-library:sync](/elasticms-cli/media-file.md) | Sync a folder to a media-file content typ                    |
-| [emscli:file-reader:import](/elasticms-cli/file-reader.md) | Sync a folder to a media-file content typ                    |

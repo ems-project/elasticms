@@ -2,8 +2,8 @@
 
 namespace App\CLI\Helper\Tika;
 
-use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Helper\AsyncResponse;
+use EMS\CommonBundle\Helper\Url;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\HttpClient\CurlHttpClient;
 

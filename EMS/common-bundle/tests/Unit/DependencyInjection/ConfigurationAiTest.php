@@ -30,12 +30,17 @@ final class ConfigurationAiTest extends TestCase
             'hash_algo' => 'sha1',
             'backend_url' => null,
             'backend_api_key' => null,
-            'backend_api_verify' => true,
             'elasticsearch_proxy_api' => false,
             'elasticsearch_connection_pool' => null,
             'elasticsearch_hosts' => ['http://localhost:9200'],
             'log_level' => Logger::NOTICE,
             'excluded_content_types' => [],
+            'core_api' => [
+                'headers' => [],
+                'max_connections' => 6,
+                'verify' => true,
+                'timeout' => 30,
+            ],
             'cache' => [
                 'type' => 'file_system',
                 'prefix' => 'ems_cache',
@@ -53,7 +58,6 @@ final class ConfigurationAiTest extends TestCase
             'request' => [
                 'trusted_ips' => [],
             ],
-            'backend_api_timeout' => 30,
         ];
 
         $this->assertEquals($expected, $config);

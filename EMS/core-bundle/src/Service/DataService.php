@@ -732,7 +732,7 @@ class DataService
         if ($computeFields && $this->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid())) {
             $revision->setRawData($objectArray);
         }
-        $this->setCircles($revision);
+        $this->setMetaFields($revision);
 
         $previousObjectArray = null;
 
@@ -1266,7 +1266,7 @@ class DataService
     /**
      * @throws \Exception
      */
-    public function updateDataStructure(FieldType $meta, DataField $dataField, int $parentKey = 0): void
+    public function updateDataStructure(FieldType $meta, DataField $dataField): void
     {
         if (null === $fieldType = $dataField->getFieldType()) {
             return;
@@ -1283,7 +1283,7 @@ class DataService
             return;
         }
 
-        foreach ($meta->getChildren() as $key => $field) {
+        foreach ($meta->getChildren() as $field) {
             if ($field->getDeleted() || null !== $dataField->__get('ems_'.$field->getName())) {
                 continue;
             }
@@ -1293,7 +1293,7 @@ class DataService
                 $formFieldType = $this->formRegistry->getType($field->getType())->getInnerType();
                 $formMeta = $formFieldType->getReferredFieldType($field);
 
-                $this->updateDataStructure($formMeta, $dataField, $key);
+                $this->updateDataStructure($formMeta, $dataField);
                 continue;
             }
 
@@ -1301,7 +1301,7 @@ class DataService
             $child->setFieldType($field);
             $child->setOrderKey($field->getOrderKey());
             $child->setParent($dataField);
-            $dataField->addChild($child, $parentKey + $key);
+            $dataField->addChild($child);
 
             if (isset($field->getDisplayOptions()['defaultValue'])) {
                 $child->setEncodedText($field->getDisplayOptions()['defaultValue']);
@@ -1370,12 +1370,13 @@ class DataService
         $this->updateDataStructure($revision->giveContentType()->getFieldType(), $data);
         $object = $revision->getRawData();
         $this->updateDataValue($data, $object);
-        unset($object[Mapping::CONTENT_TYPE_FIELD]);
-        unset($object[Mapping::HASH_FIELD]);
-        unset($object[Mapping::FINALIZED_BY_FIELD]);
-        unset($object[Mapping::FINALIZATION_DATETIME_FIELD]);
-        unset($object[Mapping::VERSION_TAG]);
-        unset($object[Mapping::VERSION_UUID]);
+
+        foreach (\array_keys($object) as $key) {
+            if (\is_string($key) && \str_starts_with($key, '_')) {
+                unset($object[$key]);
+            }
+        }
+
         if ($ignoreNotConsumed) {
             return;
         }

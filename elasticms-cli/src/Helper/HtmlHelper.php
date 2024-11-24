@@ -3,7 +3,7 @@
 namespace App\CLI\Helper;
 
 use App\CLI\Client\Audit\Report;
-use App\CLI\Client\WebToElasticms\Helper\Url;
+use EMS\CommonBundle\Helper\Url;
 use Symfony\Component\DomCrawler\Crawler;
 
 class HtmlHelper

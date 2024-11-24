@@ -6,7 +6,7 @@ namespace App\CLI\Client\Audit;
 
 use App\CLI\Client\HttpClient\UrlReport;
 use App\CLI\Client\Report\AbstractReport;
-use App\CLI\Client\WebToElasticms\Helper\Url;
+use EMS\CommonBundle\Helper\Url;
 
 class Report extends AbstractReport
 {

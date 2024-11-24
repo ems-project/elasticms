@@ -8,21 +8,38 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpClient\CurlHttpClient;
 
 final class CoreApiFactory implements CoreApiFactoryInterface
 {
+    /**
+     * @param array{ headers: array<string, string>, max_connections: int, verify: bool, timeout: int } $options
+     */
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly StorageManager $storageManager,
-        private readonly bool $verify = true,
-        private readonly int $timeout = 30,
+        private readonly array $options,
     ) {
     }
 
     public function create(string $baseUrl): CoreApiInterface
     {
-        $client = new Client($baseUrl, $this->logger, $this->verify, $this->timeout);
+        $httpClient = new CurlHttpClient(
+            defaultOptions: [
+                'base_uri' => $baseUrl,
+                'headers' => [
+                    ...$this->options['headers'],
+                    ...['Content-Type' => 'application/json'],
+                ],
+                'verify_host' => $this->options['verify'],
+                'verify_peer' => $this->options['verify'],
+                'timeout' => $this->options['timeout'],
+            ],
+            maxHostConnections: $this->options['max_connections']
+        );
 
-        return new CoreApi($client, $this->storageManager);
+        $coreApiClient = new Client($httpClient, $baseUrl, $this->logger);
+
+        return new CoreApi($coreApiClient, $this->storageManager);
     }
 }

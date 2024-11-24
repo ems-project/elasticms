@@ -62,17 +62,27 @@ class FileStructurePushCommand extends AbstractCommand
 
         $this->io->section('Pushing archive');
         $progressBar = $this->io->createProgressBar($archive->getCount());
+        $failedCount = 0;
         foreach ($this->fileManager->heads(...$archive->getHashes()) as $hash) {
-            $file = $archive->getFirstFileByHash($hash);
-            $uploadHash = $this->fileManager->uploadFile($this->folderPath.DIRECTORY_SEPARATOR.$file->filename);
-            if ($uploadHash !== $hash) {
-                throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->filename));
+            try {
+                $file = $archive->getFirstFileByHash($hash);
+                $uploadHash = $this->fileManager->uploadFile($this->folderPath.DIRECTORY_SEPARATOR.$file->filename);
+                if ($uploadHash !== $hash) {
+                    throw new \RuntimeException(\sprintf('Mismatched between the computed hash (%s) and the hash of the uploaded file (%s) for the file %s', $hash, $uploadHash, $file->filename));
+                }
+            } catch (\Throwable) {
+                ++$failedCount;
             }
             $progressBar->advance();
         }
         $progressBar->finish();
         $hash = $this->fileManager->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
         $this->io->newLine();
+        if (0 !== $failedCount) {
+            $this->io->error(\sprintf('%d files faced an issue while uploading, please retry.', $failedCount));
+
+            return self::EXECUTE_ERROR;
+        }
         $this->io->success(\sprintf('Archive %s have been uploaded with the directory content of %s', $hash, $this->folderPath));
 
         return self::EXECUTE_SUCCESS;

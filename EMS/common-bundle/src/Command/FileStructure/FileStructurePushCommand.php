@@ -22,8 +22,11 @@ class FileStructurePushCommand extends AbstractCommand
     protected static $defaultName = Commands::FILE_STRUCTURE_PUSH;
     private const ARGUMENT_FOLDER = 'folder';
     private const OPTION_ADMIN = 'admin';
+    private const OPTION_QUIET = 'quiet';
+    private const OPTION_QUIET_SHORTCUT = 'q';
     private string $folderPath;
     private FileManagerInterface $fileManager;
+    private bool $quiet;
 
     public function __construct(
         private readonly AdminHelper $adminHelper,
@@ -39,6 +42,7 @@ class FileStructurePushCommand extends AbstractCommand
             ->setDescription('Push an EMS Archive file structure into a EMS Admin storage services (via the API)')
             ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Source folder')
             ->addOption(self::OPTION_ADMIN, null, InputOption::VALUE_NONE, 'Push to admin')
+            ->addOption(self::OPTION_QUIET, self::OPTION_QUIET_SHORTCUT, InputOption::VALUE_NONE, 'only displays the archive hash (if succeed)')
         ;
     }
 
@@ -50,17 +54,24 @@ class FileStructurePushCommand extends AbstractCommand
             true => $this->adminHelper->getCoreApi()->file(),
             false => $this->storageManager,
         };
+        $this->quiet = $this->getOptionBool(self::OPTION_QUIET);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->io->title('EMS - File structure - Push');
+        if (!$this->quiet) {
+            $this->io->title('EMS - File structure - Push');
+        }
         $algo = $this->fileManager->getHashAlgo();
 
-        $this->io->section('Building archive');
+        if (!$this->quiet) {
+            $this->io->section('Building archive');
+        }
         $archive = Archive::fromDirectory($this->folderPath, $algo);
 
-        $this->io->section('Pushing archive');
+        if (!$this->quiet) {
+            $this->io->section('Pushing archive');
+        }
         $progressBar = $this->io->createProgressBar($archive->getCount());
         $failedCount = 0;
         foreach ($this->fileManager->heads(...$archive->getHashes()) as $hash) {
@@ -84,7 +95,12 @@ class FileStructurePushCommand extends AbstractCommand
 
             return self::EXECUTE_ERROR;
         }
-        $this->io->success(\sprintf('Archive %s have been uploaded with the directory content of %s', $hash, $this->folderPath));
+
+        if ($this->quiet) {
+            $this->io->write($hash);
+        } else {
+            $this->io->success(\sprintf('Archive %s have been uploaded with the directory content of %s', $hash, $this->folderPath));
+        }
 
         return self::EXECUTE_SUCCESS;
     }

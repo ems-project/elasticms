@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\CoreApi\Endpoint\File;
 
+use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\CoreApi\Client;
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
+use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -203,5 +206,12 @@ final class File implements FileInterface
     public function setHeadChunkSize(int $chunkSize): void
     {
         $this->headChunkSize = $chunkSize;
+    }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): void
+    {
+        $admin = new Admin($this->client);
+        $command = \sprintf('%s %s', Commands::LOAD_ARCHIVE_IN_CACHE, $archiveHash);
+        $admin->runCommand($command);
     }
 }

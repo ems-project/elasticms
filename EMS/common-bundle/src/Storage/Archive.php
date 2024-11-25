@@ -180,4 +180,21 @@ class Archive implements \JsonSerializable
     {
         $this->files[$file->filename] = $file;
     }
+
+    public function skip(int $skip): self
+    {
+        if ($skip <= 0) {
+            return $this;
+        }
+        $newArchive = new self($this->hashAlgo);
+        $counter = 0;
+        foreach ($this->files as $file) {
+            if ($counter++ < $skip) {
+                continue;
+            }
+            $newArchive->addArchiveItem($file);
+        }
+
+        return $newArchive;
+    }
 }

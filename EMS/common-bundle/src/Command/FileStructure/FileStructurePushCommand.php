@@ -121,7 +121,7 @@ class FileStructurePushCommand extends AbstractCommand
 
         $this->io->section('Building cache');
         $progressBar = $this->io->createProgressBar($archive->getCount());
-        $this->fileManager->loadArchiveItemsInCache($hash, $diffArchive, $this->output->isQuiet() ? null : function () use ($progressBar) {
+        $this->fileManager->loadArchiveItemsInCache($hash, $archive, $this->output->isQuiet() ? null : function () use ($progressBar) {
             $progressBar->advance();
         });
         $progressBar->finish();

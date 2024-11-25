@@ -77,11 +77,14 @@ class FileStructurePushCommand extends AbstractCommand
         });
         $progressBar->finish();
         $this->io->newLine();
+
+        $this->io->section('Comparing with previous archive');
         $previousArchive = null;
         $hashFilename = \implode(DIRECTORY_SEPARATOR, [$this->folderPath, $this->saveHashFilename]);
         if (\file_exists($hashFilename)) {
             $previousArchive = Archive::fromStructure($this->fileManager->getContents(File::fromFilename($hashFilename)->getContents()), $algo);
         }
+        $diffArchive = $archive->diff($previousArchive);
 
         $this->io->section('Pushing archive');
         $progressBar = $this->io->createProgressBar($archive->getCount());
@@ -90,7 +93,7 @@ class FileStructurePushCommand extends AbstractCommand
             throw new \RuntimeException(\sprintf('Chunk size must greater than 0, %d given', $this->chunkSize));
         }
         $this->fileManager->setHeadChunkSize($this->chunkSize);
-        foreach ($this->fileManager->heads(...$archive->getHashes($previousArchive)) as $hash) {
+        foreach ($this->fileManager->heads(...$diffArchive->getHashes()) as $hash) {
             if (true === $hash) {
                 $progressBar->advance();
                 continue;
@@ -118,7 +121,7 @@ class FileStructurePushCommand extends AbstractCommand
 
         $this->io->section('Building cache');
         $progressBar = $this->io->createProgressBar($archive->getCount());
-        $this->fileManager->loadArchiveItemsInCache($hash, $archive, $this->output->isQuiet() ? null : function () use ($progressBar) {
+        $this->fileManager->loadArchiveItemsInCache($hash, $diffArchive, $this->output->isQuiet() ? null : function () use ($progressBar) {
             $progressBar->advance();
         });
         $progressBar->finish();

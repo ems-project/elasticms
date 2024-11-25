@@ -58,12 +58,9 @@ class Archive implements \JsonSerializable
     /**
      * @return iterable<string>
      */
-    public function getHashes(Archive $previousArchive = null): iterable
+    public function getHashes(): iterable
     {
         foreach ($this->files as $file) {
-            if (null !== $previousArchive && $previousArchive->containsByHash($file->hash)) {
-                continue;
-            }
             yield $file->hash;
         }
     }
@@ -161,5 +158,26 @@ class Archive implements \JsonSerializable
         }
 
         return false;
+    }
+
+    public function diff(?Archive $otherArchive): self
+    {
+        if (null === $otherArchive) {
+            return $this;
+        }
+        $newArchive = new self($this->hashAlgo);
+        foreach ($this->files as $file) {
+            if (null !== $otherArchive && $otherArchive->containsByHash($file->hash)) {
+                continue;
+            }
+            $newArchive->addArchiveItem($file);
+        }
+
+        return $newArchive;
+    }
+
+    private function addArchiveItem(ArchiveItem $file): void
+    {
+        $this->files[$file->filename] = $file;
     }
 }

@@ -88,11 +88,11 @@ class FileController extends AbstractController
         return $response;
     }
 
-    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true): Response
+    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, string $indexResource = null): Response
     {
         $this->closeSession($request);
 
-        return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract);
+        return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
     }
 
     private function getFile(Request $request, string $hash, string $disposition): Response

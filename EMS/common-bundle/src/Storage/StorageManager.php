@@ -527,8 +527,11 @@ class StorageManager implements FileManagerInterface
         }
     }
 
-    public function getStreamFromArchive(string $hash, string $path, bool $extract = true): StreamWrapper
+    public function getStreamFromArchive(string $hash, string $path, bool $extract = true, string $indexResource = null): StreamWrapper
     {
+        if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
+            $path .= $indexResource;
+        }
         foreach ($this->adapters as $adapter) {
             $stream = $adapter->readFromArchiveInCache($hash, $path);
             if (null !== $stream) {

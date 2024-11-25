@@ -339,9 +339,9 @@ class Processor
         return $path;
     }
 
-    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge, bool $extract): Response
+    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge, bool $extract, ?string $indexResource): Response
     {
-        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract);
+        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract, $indexResource);
         $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
         $response->headers->add([
             Headers::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_INLINE.'; '.HeaderUtils::toString(['filename' => \basename($path)], ';'),

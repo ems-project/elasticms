@@ -68,7 +68,15 @@ class FileStructurePushCommand extends AbstractCommand
         $algo = $this->fileManager->getHashAlgo();
 
         $this->io->section('Building archive');
-        $archive = Archive::fromDirectory($this->folderPath, $algo);
+        $progressBar = $this->io->createProgressBar();
+        $archive = Archive::fromDirectory($this->folderPath, $algo, $this->output->isQuiet() ? null : function ($maxSteps, $progress) use ($progressBar) {
+            if ($maxSteps !== $progressBar->getMaxSteps()) {
+                $progressBar->setMaxSteps($maxSteps);
+            }
+            $progressBar->setProgress($progress);
+        });
+        $progressBar->finish();
+        $this->io->newLine();
         $previousArchive = null;
         $hashFilename = \implode(DIRECTORY_SEPARATOR, [$this->folderPath, $this->saveHashFilename]);
         if (\file_exists($hashFilename)) {

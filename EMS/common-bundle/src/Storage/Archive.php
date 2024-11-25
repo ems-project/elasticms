@@ -21,7 +21,7 @@ class Archive implements \JsonSerializable
     {
     }
 
-    public static function fromDirectory(string $directory, string $hashAlgo): self
+    public static function fromDirectory(string $directory, string $hashAlgo, callable $callback = null): self
     {
         $archive = new self($hashAlgo);
         $finder = new Finder();
@@ -31,8 +31,13 @@ class Archive implements \JsonSerializable
             throw new \RuntimeException('The directory is empty');
         }
 
+        $maxSteps = $finder->count();
+        $counter = 0;
         foreach ($finder as $file) {
             $archive->addFile($file);
+            if (null !== $callback) {
+                $callback($maxSteps, ++$counter);
+            }
         }
 
         return $archive;

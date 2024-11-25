@@ -620,12 +620,10 @@ class StorageManager implements FileManagerInterface
             throw new NotFoundHttpException(\sprintf('File %s not found in archive %s', $path, $hash));
         }
         $counter = 0;
-        foreach ($archive->iterator() as $item) {
-            foreach ($this->adapters as $adapter) {
-                if ($adapter->copyFileInArchiveCache($hash, $item->hash, $item->filename, $item->type)) {
-                    ++$counter;
-                    break;
-                }
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->loadArchiveItemsInCache($hash, $archive)) {
+                ++$counter;
+                break;
             }
         }
         if ($archive->getCount() === $counter) {
@@ -696,14 +694,9 @@ class StorageManager implements FileManagerInterface
 
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): void
     {
-        foreach ($archive->iterator() as $archiveItem) {
-            foreach ($this->adapters as $adapter) {
-                if ($adapter->copyFileInArchiveCache($archiveHash, $archiveItem->hash, $archiveItem->filename, $archiveItem->type)) {
-                    if (null !== $callback) {
-                        $callback();
-                    }
-                    break;
-                }
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->loadArchiveItemsInCache($archiveHash, $archive, $callback)) {
+                break;
             }
         }
     }

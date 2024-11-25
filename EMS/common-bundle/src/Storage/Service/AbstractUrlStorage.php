@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
@@ -250,7 +251,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return false;
     }
 
-    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): bool
     {
         return false;
     }

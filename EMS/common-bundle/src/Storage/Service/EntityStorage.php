@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
 use EMS\CommonBundle\Entity\AssetStorage;
 use EMS\CommonBundle\Repository\AssetStorageRepository;
+use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
@@ -246,7 +247,7 @@ class EntityStorage implements StorageInterface, \Stringable
         return false;
     }
 
-    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): bool
     {
         return false;
     }

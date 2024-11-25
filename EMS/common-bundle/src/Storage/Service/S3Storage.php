@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use Aws\CommandPool;
 use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
@@ -332,24 +334,34 @@ class S3Storage extends AbstractUrlStorage
         return $result->hasKey('ETag');
     }
 
-    public function copyFileInArchiveCache(string $archiveHash, string $fileHash, string $path, string $mimeType): bool
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): bool
     {
-        $sourceKey = $this->key($fileHash);
-        $result = $this->getS3Client()->copyObject([
-            'Bucket' => $this->bucket,
-            'ContentType' => $mimeType,
-            'Key' => \implode('/', [
-                'cache',
-                \substr($archiveHash, 0, 3),
-                \substr($archiveHash, 3),
-                $path,
-            ]),
-            'CopySource' => "$this->bucket/$sourceKey",
-            'MetadataDirective' => 'REPLACE',
+        $batch = [];
+        $client = $this->getS3Client();
+        foreach ($archive->iterator() as $item) {
+            $sourceKey = $this->key($item->hash);
+            $batch[] = $client->getCommand('CopyObject', [
+                'Bucket' => $this->bucket,
+                'ContentType' => $item->type,
+                'Key' => \implode('/', [
+                    'cache',
+                    \substr($archiveHash, 0, 3),
+                    \substr($archiveHash, 3),
+                    $item->filename,
+                ]),
+                'CopySource' => "$this->bucket/$sourceKey",
+                'MetadataDirective' => 'REPLACE',
+            ]);
+        }
+        $pool = new CommandPool($client, $batch, [
+            'concurrency' => 250,
+            'fulfilled' => $callback,
+            'rejected' => $callback,
         ]);
-        $result = $result->get('CopyObjectResult');
+        $promise = $pool->promise();
+        $promise->wait();
 
-        return \is_string($result['ETag'] ?? null);
+        return true;
     }
 
     public function heads(string ...$hashes): array

@@ -109,5 +109,9 @@
             <argument type="service" id="ems_common.storage.manager"/>
             <tag name="console.command" />
         </service>
+        <service id="ems.command.storage.load_archive_times_in_cache" class="EMS\CommonBundle\Command\Storage\LoadArchiveItemsInCacheCommand">
+            <argument type="service" id="ems_common.storage.manager"/>
+            <tag name="console.command" />
+        </service>
     </services>
 </container>

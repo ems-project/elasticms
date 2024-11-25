@@ -692,4 +692,18 @@ class StorageManager implements FileManagerInterface
     {
         $this->headChunkSize = $chunkSize;
     }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): void
+    {
+        foreach ($archive->iterator() as $archiveItem) {
+            foreach ($this->adapters as $adapter) {
+                if ($adapter->copyFileInArchiveCache($archiveHash, $archiveItem->hash, $archiveItem->filename, $archiveItem->type)) {
+                    if (null !== $callback) {
+                        $callback();
+                    }
+                    break;
+                }
+            }
+        }
+    }
 }

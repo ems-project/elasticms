@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\File;
 
+use EMS\CommonBundle\Storage\Archive;
 use Psr\Http\Message\StreamInterface;
 
 interface FileManagerInterface
@@ -31,4 +32,6 @@ interface FileManagerInterface
      * @param int<1, max> $chunkSize
      */
     public function setHeadChunkSize(int $chunkSize): void;
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): void;
 }

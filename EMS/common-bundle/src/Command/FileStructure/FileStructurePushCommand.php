@@ -30,7 +30,6 @@ class FileStructurePushCommand extends AbstractCommand
     private const DEFAULT_SAVE_HASH_FILE = '.hash';
     private string $folderPath;
     private FileManagerInterface $fileManager;
-    private bool $quiet;
     private int $chunkSize;
     private string $saveHashFilename;
 
@@ -62,21 +61,16 @@ class FileStructurePushCommand extends AbstractCommand
             true => $this->adminHelper->getCoreApi()->file(),
             false => $this->storageManager,
         };
-        $this->quiet = $this->getOptionBool(self::OPTION_QUIET);
         $this->chunkSize = $this->getOptionInt(self::OPTION_CHUNK_SIZE);
         $this->saveHashFilename = $this->getOptionString(self::OPTION_SAVE_HASH_FILENAME);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!$this->quiet) {
-            $this->io->title('EMS - File structure - Push');
-        }
+        $this->io->title('EMS - File structure - Push');
         $algo = $this->fileManager->getHashAlgo();
 
-        if (!$this->quiet) {
-            $this->io->section('Building archive');
-        }
+        $this->io->section('Building archive');
         $archive = Archive::fromDirectory($this->folderPath, $algo);
         $previousArchive = null;
         $hashFilename = \implode(DIRECTORY_SEPARATOR, [$this->folderPath, $this->saveHashFilename]);
@@ -84,9 +78,7 @@ class FileStructurePushCommand extends AbstractCommand
             $previousArchive = Archive::fromStructure($this->fileManager->getContents(File::fromFilename($hashFilename)->getContents()), $algo);
         }
 
-        if (!$this->quiet) {
-            $this->io->section('Pushing archive');
-        }
+        $this->io->section('Pushing archive');
         $progressBar = $this->io->createProgressBar($archive->getCount());
         $failedCount = 0;
         if ($this->chunkSize < 1) {
@@ -134,8 +126,8 @@ class FileStructurePushCommand extends AbstractCommand
 
         \file_put_contents($hashFilename, $hash);
 
-        if ($this->quiet) {
-            $this->io->write($hash);
+        if ($this->output->isQuiet()) {
+            echo $hash;
         } else {
             $this->io->success(\sprintf('Archive %s have been uploaded with the directory content of %s', $hash, $this->folderPath));
         }

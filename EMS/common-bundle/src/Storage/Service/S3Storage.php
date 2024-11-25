@@ -314,7 +314,7 @@ class S3Storage extends AbstractUrlStorage
         if (\is_string($hash)) {
             $masterResponse = $this->getS3Client()->getObject([
                 'Bucket' => $this->bucket,
-                'Key' => $this->key($hash)
+                'Key' => $this->key($hash),
             ]);
             $stream = $masterResponse['Body'] ?? null;
             $size = \intval($masterResponse['ContentLength']);

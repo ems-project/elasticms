@@ -23,9 +23,7 @@ class FileStructurePushCommand extends AbstractCommand
     protected static $defaultName = Commands::FILE_STRUCTURE_PUSH;
     private const ARGUMENT_FOLDER = 'folder';
     private const OPTION_ADMIN = 'admin';
-    private const OPTION_QUIET = 'quiet';
     private const OPTION_CHUNK_SIZE = 'chunk-size';
-    private const OPTION_QUIET_SHORTCUT = 'q';
     private const OPTION_SAVE_HASH_FILENAME = 'save-hash-filename';
     private const DEFAULT_SAVE_HASH_FILE = '.hash';
     private string $folderPath;
@@ -47,7 +45,6 @@ class FileStructurePushCommand extends AbstractCommand
             ->setDescription('Push an EMS Archive file structure into a EMS Admin storage services (via the API)')
             ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Source folder')
             ->addOption(self::OPTION_ADMIN, null, InputOption::VALUE_NONE, 'Push to admin')
-            ->addOption(self::OPTION_QUIET, self::OPTION_QUIET_SHORTCUT, InputOption::VALUE_NONE, 'only displays the archive hash (if succeed)')
             ->addOption(self::OPTION_CHUNK_SIZE, null, InputOption::VALUE_OPTIONAL, 'Set the heads method chunk size', FileManagerInterface::HEADS_CHUNK_SIZE)
             ->addOption(self::OPTION_SAVE_HASH_FILENAME, null, InputOption::VALUE_OPTIONAL, 'File where to save the structure hash within the source folder (used to avoid head request). Delete the file to force recheck all files.', self::DEFAULT_SAVE_HASH_FILE)
         ;
@@ -111,18 +108,18 @@ class FileStructurePushCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-        if (!$this->quiet) {
-            $this->io->section('Building cache');
-        }
-        $progressBar = $this->io->createProgressBar($archive->getCount());
-
-        $this->fileManager->loadArchiveItemsInCache($hash, $archive, $this->quiet ? null : function () use ($progressBar) {
-            $progressBar->advance();
-        });
-        if (!$this->quiet) {
-            $progressBar->finish();
-            $this->io->newLine();
-        }
+//        if (!$this->quiet) {
+//            $this->io->section('Building cache');
+//        }
+//        $progressBar = $this->io->createProgressBar($archive->getCount());
+//
+//        $this->fileManager->loadArchiveItemsInCache($hash, $archive, $this->quiet ? null : function () use ($progressBar) {
+//            $progressBar->advance();
+//        });
+//        if (!$this->quiet) {
+//            $progressBar->finish();
+//            $this->io->newLine();
+//        }
 
         \file_put_contents($hashFilename, $hash);
 

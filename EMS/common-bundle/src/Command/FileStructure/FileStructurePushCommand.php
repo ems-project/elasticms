@@ -108,18 +108,13 @@ class FileStructurePushCommand extends AbstractCommand
             return self::EXECUTE_ERROR;
         }
 
-//        if (!$this->quiet) {
-//            $this->io->section('Building cache');
-//        }
-//        $progressBar = $this->io->createProgressBar($archive->getCount());
-//
-//        $this->fileManager->loadArchiveItemsInCache($hash, $archive, $this->quiet ? null : function () use ($progressBar) {
-//            $progressBar->advance();
-//        });
-//        if (!$this->quiet) {
-//            $progressBar->finish();
-//            $this->io->newLine();
-//        }
+        $this->io->section('Building cache');
+        $progressBar = $this->io->createProgressBar($archive->getCount());
+        $this->fileManager->loadArchiveItemsInCache($hash, $archive, $this->output->isQuiet() ? null : function () use ($progressBar) {
+            $progressBar->advance();
+        });
+        $progressBar->finish();
+        $this->io->newLine();
 
         \file_put_contents($hashFilename, $hash);
 

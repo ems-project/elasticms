@@ -527,13 +527,16 @@ class StorageManager implements FileManagerInterface
         }
     }
 
-    public function getStreamFromArchive(string $hash, string $path): StreamWrapper
+    public function getStreamFromArchive(string $hash, string $path, bool $extract = true): StreamWrapper
     {
         foreach ($this->adapters as $adapter) {
             $stream = $adapter->readFromArchiveInCache($hash, $path);
             if (null !== $stream) {
                 return $stream;
             }
+        }
+        if (!$extract) {
+            throw new NotFoundHttpException(\sprintf('File %s not found in cache for archive %s', $path, $hash));
         }
         $this->logger->debug(\sprintf('File %s from archive %s is not in cache', $path, $hash));
 

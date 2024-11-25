@@ -539,7 +539,7 @@ class StorageManager implements FileManagerInterface
             }
         }
         if (!$extract) {
-            throw new NotFoundHttpException(\sprintf('File %s not found in cache for archive %s', $path, $hash));
+            throw new NotFoundHttpException(\sprintf('File %s not found', $path));
         }
         $this->logger->debug(\sprintf('File %s from archive %s is not in cache', $path, $hash));
 

@@ -347,8 +347,9 @@ class S3Storage extends AbstractUrlStorage
             'CopySource' => "$this->bucket/$sourceKey",
             'MetadataDirective' => 'REPLACE',
         ]);
+        $result = $result->get('CopyObjectResult');
 
-        return $result->hasKey('ETag');
+        return \is_string($result['ETag'] ?? null);
     }
 
     public function heads(string ...$hashes): array

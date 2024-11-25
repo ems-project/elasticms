@@ -103,6 +103,7 @@ class StorageManager implements FileManagerInterface
         foreach ($pagedHashes as $hashes) {
             foreach ($this->adapters as $adapter) {
                 yield from $adapter->heads(...$hashes);
+                break;
             }
         }
     }

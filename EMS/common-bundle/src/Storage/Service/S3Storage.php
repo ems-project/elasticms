@@ -309,12 +309,25 @@ class S3Storage extends AbstractUrlStorage
         } catch (\RuntimeException) {
             return null;
         }
-        $stream = $response['Body'] ?? null;
+
+        $hash = $response->get('Metadata')['hash'] ?? null;
+        if (\is_string($hash)) {
+            $masterResponse = $this->getS3Client()->getObject([
+                'Bucket' => $this->bucket,
+                'Key' => $this->key($hash)
+            ]);
+            $stream = $masterResponse['Body'] ?? null;
+            $size = \intval($masterResponse['ContentLength']);
+        } else {
+            $stream = $response['Body'] ?? null;
+            $size = \intval($response['ContentLength']);
+        }
+
         if (!$stream instanceof StreamInterface) {
             return null;
         }
 
-        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value, \intval($response['ContentLength']));
+        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value, $size);
     }
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
@@ -339,8 +352,7 @@ class S3Storage extends AbstractUrlStorage
         $batch = [];
         $client = $this->getS3Client();
         foreach ($archive->iterator() as $item) {
-            $sourceKey = $this->key($item->hash);
-            $batch[] = $client->getCommand('CopyObject', [
+            $batch[] = $client->getCommand('PutObject', [
                 'Bucket' => $this->bucket,
                 'ContentType' => $item->type,
                 'Key' => \implode('/', [
@@ -349,8 +361,10 @@ class S3Storage extends AbstractUrlStorage
                     \substr($archiveHash, 3),
                     $item->filename,
                 ]),
-                'CopySource' => "$this->bucket/$sourceKey",
                 'MetadataDirective' => 'REPLACE',
+                'Metadata' => [
+                    'hash' => $item->hash,
+                ],
             ]);
         }
         $pool = new CommandPool($client, $batch, [

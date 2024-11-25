@@ -108,8 +108,8 @@ class FileStructurePushCommand extends AbstractCommand
             $progressBar->advance();
         }
         $progressBar->finish();
-        $hash = $this->fileManager->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
         $this->io->newLine();
+        $hash = $this->fileManager->uploadContents(Json::encode($archive), 'archive.json', MimeTypes::APPLICATION_JSON->value);
         if (0 !== $failedCount) {
             $this->io->error(\sprintf('%d files faced an issue while uploading, please retry.', $failedCount));
 

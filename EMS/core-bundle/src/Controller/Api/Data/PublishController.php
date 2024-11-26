@@ -26,10 +26,7 @@ class PublishController
     public function publish(string $contentTypeName, string $ouuid, string $targetEnvironmentName, Revision $revision = null): JsonResponse
     {
         if (null === $revision) {
-            $contentType = $this->contentTypeService->getByName($contentTypeName);
-            if (false === $contentType) {
-                throw new \RuntimeException(\sprintf('Content type %s not found', $contentTypeName));
-            }
+            $contentType = $this->contentTypeService->giveByName($contentTypeName);
             $revision = $this->revisionService->getCurrentRevisionForEnvironment($ouuid, $contentType, $contentType->giveEnvironment());
         } elseif ($revision->giveContentType()->getName() !== $contentTypeName) {
             throw new \RuntimeException(\sprintf('Content type mismatch for revision %d: Expected %s is in fact of type %s', $revision->getId(), $contentTypeName, $revision->giveContentType()->getName()));
@@ -38,10 +35,7 @@ class PublishController
             throw new \RuntimeException(\sprintf('Revision not found for OUUID %s and Content type %s', $ouuid, $contentTypeName));
         }
 
-        $targetEnvironment = $this->environmentService->getByName($targetEnvironmentName);
-        if (false === $targetEnvironment) {
-            throw new \RuntimeException(\sprintf('Target environment %s not found', $targetEnvironmentName));
-        }
+        $targetEnvironment = $this->environmentService->giveByName($targetEnvironmentName);
 
         try {
             $publishedCounter = $this->publishService->publish($revision, $targetEnvironment);

@@ -343,6 +343,9 @@
     "symfony/css-selector": {
         "version": "v5.4.3"
     },
+    "symfony/debug-bundle": {
+        "version": "v5.4.45"
+    },
     "symfony/dependency-injection": {
         "version": "v5.4.3"
     },

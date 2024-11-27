@@ -11,6 +11,8 @@ use PhpOffice\PhpSpreadsheet\Reader\Csv;
 use PhpOffice\PhpSpreadsheet\Reader\Html;
 use PhpOffice\PhpSpreadsheet\Reader\Slk;
 
+use function Symfony\Component\String\u;
+
 final class FileReader implements FileReaderInterface
 {
     /**
@@ -64,7 +66,7 @@ final class FileReader implements FileReaderInterface
             }
 
             if (!$headings) {
-                $headings = \array_map('trim', $row);
+                $headings = \array_map(static fn ($v) => u($v)->trim()->toString(), $row);
                 continue;
             }
 
@@ -73,7 +75,7 @@ final class FileReader implements FileReaderInterface
                 continue;
             }
 
-            $rowData = \array_filter(\array_combine($headings, $row));
+            $rowData = \array_filter(\array_combine($headings, $row), static fn ($v) => '' !== $v and null !== $v);
             if (\count($rowData) > 0) {
                 yield $rowData;
             }

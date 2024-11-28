@@ -343,7 +343,7 @@ class Processor
     {
         $etag = \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path));
         $cacheResponse = new Response();
-        $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $etag, null, false);
+        $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $etag, null, false, $maxAge);
         if ($cacheResponse->isNotModified($request)) {
             return $cacheResponse;
         }

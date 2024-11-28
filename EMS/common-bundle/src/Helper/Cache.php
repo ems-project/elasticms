@@ -25,8 +25,8 @@ class Cache
     public function makeResponseCacheable(Request $request, Response $response, string $etag, ?\DateTime $lastUpdateDate, bool $immutableRoute): void
     {
         $rewritedEtags = [];
-        foreach ($request->getETags() as $etag) {
-            $rewritedEtags[] = \preg_replace('/\-gzip"$/i', '', $etag);
+        foreach ($request->getETags() as $requestEtag) {
+            $rewritedEtags[] = \preg_replace('/\-gzip"$/i', '"', $requestEtag);
         }
         $request->headers->replace([Headers::IF_NONE_MATCH => $rewritedEtags]);
         $response->setCache([

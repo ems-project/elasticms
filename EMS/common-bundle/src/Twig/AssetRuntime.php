@@ -14,10 +14,12 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\TempDirectory;
 use EMS\Helpers\File\TempFile;
 use EMS\Helpers\Standard\Json;
+use EMS\Helpers\Standard\Type;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AssetRuntime
@@ -197,12 +199,25 @@ class AssetRuntime
         return $this->storageManager->computeStringHash($input, $hashAlgo, $binary);
     }
 
-    public function fileFromArchive(string $hash, string $path): string
+    /**
+     * @param mixed[] $options
+     */
+    public function fileFromArchive(string $hash, string $path, array $options = []): null|string|TempFile
     {
-        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path);
-        $tempFile = TempFile::create();
-        $tempFile->loadFromStream($streamWrapper->getStream());
+        $extract = Type::bool($options['extract'] ?? true);
+        $asTempFile = Type::bool($options['asTempFile'] ?? false);
+        try {
+            $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract);
+            $tempFile = TempFile::create();
+            $tempFile->loadFromStream($streamWrapper->getStream());
+        } catch (NotFoundHttpException $e) {
+            if ($extract) {
+                throw $e;
+            }
 
-        return $tempFile->path;
+            return null;
+        }
+
+        return $asTempFile ? $tempFile : $tempFile->path;
     }
 }

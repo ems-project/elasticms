@@ -341,6 +341,13 @@ class Processor
 
     public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge, bool $extract, ?string $indexResource): Response
     {
+        $etag = \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path));
+        $cacheResponse = new Response();
+        $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $etag, null, false);
+        if ($cacheResponse->isNotModified($request)) {
+            return $cacheResponse;
+        }
+
         $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract, $indexResource);
         $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
         $response->headers->add([
@@ -348,7 +355,7 @@ class Processor
             Headers::CONTENT_TYPE => $streamWrapper->getMimetype(),
         ]);
         $response->setCache([
-            'etag' => \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path)),
+            'etag' => $etag,
             'max_age' => $maxAge,
             'public' => true,
             'private' => false,

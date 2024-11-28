@@ -350,16 +350,10 @@ class Processor
 
         $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract, $indexResource);
         $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
-        $response->headers->add([
+        $response->headers->replace(\array_merge($cacheResponse->headers->all(), [
             Headers::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_INLINE.'; '.HeaderUtils::toString(['filename' => \basename($path)], ';'),
             Headers::CONTENT_TYPE => $streamWrapper->getMimetype(),
-        ]);
-        $response->setCache([
-            'etag' => $etag,
-            'max_age' => $maxAge,
-            'public' => true,
-            'private' => false,
-        ]);
+        ]));
 
         return $response;
     }

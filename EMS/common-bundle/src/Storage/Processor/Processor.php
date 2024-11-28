@@ -76,7 +76,7 @@ class Processor
         $cacheKey = $config->getCacheKey();
 
         $cacheResponse = new Response();
-        $this->cacheHelper->makeResponseCacheable($cacheResponse, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
+        $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
         if ($cacheResponse->isNotModified($request)) {
             return $cacheResponse;
         }
@@ -98,7 +98,7 @@ class Processor
             ]);
         }
 
-        $this->cacheHelper->makeResponseCacheable($response, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
+        $this->cacheHelper->makeResponseCacheable($request, $response, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
 
         return $response;
     }

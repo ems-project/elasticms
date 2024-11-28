@@ -2,6 +2,8 @@
 
 namespace EMS\CommonBundle\Helper;
 
+use EMS\Helpers\Html\Headers;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Cache
@@ -20,8 +22,13 @@ class Cache
         return \hash($this->hashAlgo, $content);
     }
 
-    public function makeResponseCacheable(Response $response, string $etag, ?\DateTime $lastUpdateDate, bool $immutableRoute): void
+    public function makeResponseCacheable(Request $request, Response $response, string $etag, ?\DateTime $lastUpdateDate, bool $immutableRoute): void
     {
+        $rewritedEtags = [];
+        foreach ($request->getETags() as $etag) {
+            $rewritedEtags[] = \preg_replace('/\-gzip"$/i', '', $etag);
+        }
+        $request->headers->replace([Headers::IF_NONE_MATCH => $rewritedEtags]);
         $response->setCache([
             'etag' => $etag,
             'max_age' => $immutableRoute ? 604800 : 600,

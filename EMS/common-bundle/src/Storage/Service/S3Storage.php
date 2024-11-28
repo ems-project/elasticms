@@ -22,6 +22,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class S3Storage extends AbstractUrlStorage
 {
     private ?S3Client $s3Client = null;
+    private bool $streamWrapperRegistered = false;
 
     /**
      * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
@@ -33,7 +34,10 @@ class S3Storage extends AbstractUrlStorage
 
     protected function getBaseUrl(): string
     {
-        $this->getS3Client();
+        if (!$this->streamWrapperRegistered) {
+            $this->getS3Client()->registerStreamWrapper();
+            $this->streamWrapperRegistered = true;
+        }
 
         return "s3://$this->bucket";
     }
@@ -222,7 +226,6 @@ class S3Storage extends AbstractUrlStorage
     {
         if (null === $this->s3Client) {
             $this->s3Client = new S3Client($this->credentials);
-            $this->s3Client->registerStreamWrapper();
         }
 
         return $this->s3Client;

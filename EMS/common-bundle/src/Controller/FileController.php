@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileController extends AbstractController
@@ -99,7 +100,9 @@ class FileController extends AbstractController
             if (null === $notFoundTemplate) {
                 throw $e;
             }
+        }
 
+        try {
             return $this->render($notFoundTemplate, [
                 'error' => $e,
                 'hash' => $hash,
@@ -108,6 +111,8 @@ class FileController extends AbstractController
                 'extract' => $extract,
                 'indexResource' => $indexResource,
             ]);
+        } catch (\Throwable $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
     }
 

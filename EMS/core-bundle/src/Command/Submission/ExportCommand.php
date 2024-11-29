@@ -16,12 +16,13 @@ class ExportCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::SUBMISSION_EXPORT;
     public const ARG_FIELDS = 'fields';
-    public const OPTIONS_FILTER = 'filter';
-    public const OPTIONS_FORMAT = 'format';
+    public const OPTION_FILTER = 'filter';
+    public const OPTION_FILENAME = 'filename';
+
     /** @var string[] */
     private array $fields;
     private ?string $filter;
-    private string  $format;
+    private ?string  $filename;
 
     public function __construct(
         private readonly FormSubmissionService $formSubmissionService,
@@ -40,16 +41,15 @@ class ExportCommand extends AbstractCommand
                 InputArgument::IS_ARRAY,
                 'Fields to export'
             )->addOption(
-                self::OPTIONS_FILTER,
+                self::OPTION_FILTER,
                 null,
                 InputOption::VALUE_OPTIONAL,
                 'Expression to filter submissions'
             )->addOption(
-                self::OPTIONS_FORMAT,
+                self::OPTION_FILENAME,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'File format of the export, xlsx or csv are supported',
-                'xlsx'
+                'Export filename, xlsx or csv formats are supported',
             );
     }
 
@@ -57,14 +57,14 @@ class ExportCommand extends AbstractCommand
     {
         parent::initialize($input, $output);
         $this->fields = $this->getArgumentStringArray(self::ARG_FIELDS);
-        $this->filter = $this->getOptionStringNull(self::OPTIONS_FILTER);
-        $this->format = $this->getOptionString(self::OPTIONS_FORMAT);
+        $this->filter = $this->getOptionStringNull(self::OPTION_FILTER);
+        $this->filename = $this->getOptionStringNull(self::OPTION_FILENAME);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->section('Export the form submissions');
-        $sheet = [[...$this->fields]];
+        $sheet = [];
 
         foreach ($this->formSubmissionService->getUnprocessed() as $submission) {
             $data = \array_merge([
@@ -83,15 +83,27 @@ class ExportCommand extends AbstractCommand
             $sheet[] = $line;
         }
 
+        if (null === $this->filename) {
+            $this->io->table([...$this->fields], $sheet);
+
+            return self::EXECUTE_SUCCESS;
+        }
+
+        $extension = \pathinfo($this->filename)['extension'] ?? '';
+        if (!\in_array($extension, SpreadsheetGeneratorServiceInterface::FORMAT_WRITERS)) {
+            $this->io->error(\sprintf('File format %s is not supported', $extension));
+        }
+
         $config = [
             SpreadsheetGeneratorServiceInterface::SHEETS => [[
-                'rows' => $sheet,
+                'rows' => [[...$this->fields], ...$sheet],
                 'name' => 'submissions',
             ]],
             SpreadsheetGeneratorServiceInterface::CONTENT_FILENAME => 'submissions',
-            SpreadsheetGeneratorServiceInterface::WRITER => $this->format,
+            SpreadsheetGeneratorServiceInterface::WRITER => $extension,
         ];
-        $this->spreadsheetGeneratorService->generateSpreadsheetFile($config, 'submission.xlsx');
+        $this->spreadsheetGeneratorService->generateSpreadsheetFile($config, $this->filename);
+        $this->io->success(\sprintf('The file %s has been successfully generated', $this->filename));
 
         return self::EXECUTE_SUCCESS;
     }

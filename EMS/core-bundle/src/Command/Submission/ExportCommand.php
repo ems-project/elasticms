@@ -44,7 +44,7 @@ class ExportCommand extends AbstractCommand
                 self::OPTION_FILTER,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Expression to filter submissions'
+                'Expression to filter submissions, e.g. "locale==\'en\'"'
             )->addOption(
                 self::OPTION_FILENAME,
                 null,

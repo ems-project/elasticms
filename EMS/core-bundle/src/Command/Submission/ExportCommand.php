@@ -66,6 +66,7 @@ class ExportCommand extends AbstractCommand
         $this->io->section('Export the form submissions');
         $sheet = [];
 
+        $this->io->progressStart($this->formSubmissionService->count());
         foreach ($this->formSubmissionService->getUnprocessed() as $submission) {
             $data = \array_merge([
                 'instance' => $submission->getInstance(),
@@ -74,6 +75,7 @@ class ExportCommand extends AbstractCommand
                 'submission_date' => $submission->getCreated()->format('c'),
             ], $submission->getData() ?? []);
             if (null !== $this->filter && !$this->expressionService->evaluateToBool($this->filter, $data)) {
+                $this->io->progressAdvance();
                 continue;
             }
             $line = [];
@@ -81,7 +83,9 @@ class ExportCommand extends AbstractCommand
                 $line[] = $data[$field] ?? '';
             }
             $sheet[] = $line;
+            $this->io->progressAdvance();
         }
+        $this->io->progressFinish();
 
         if (null === $this->filename) {
             $this->io->table([...$this->fields], $sheet);

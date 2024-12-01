@@ -44,7 +44,7 @@ class ExportCommand extends AbstractCommand
                 self::OPTION_FILTER,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Expression to filter submissions, e.g. "\'true\' == (data[\'recontact-optin\'] ?? \'false\')"'
+                'Expression to filter submissions, e.g. "\'true\' == (data[\'recontact-optin\'] ?? \'false\')". The following variables are available: data (array), instance (string), name (string), locale (string), submission_date (date in the ISO 8601 format)'
             )->addOption(
                 self::OPTION_FILENAME,
                 null,

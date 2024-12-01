@@ -44,7 +44,7 @@ class ExportCommand extends AbstractCommand
                 self::OPTION_FILTER,
                 null,
                 InputOption::VALUE_OPTIONAL,
-                'Expression to filter submissions, e.g. "locale==\'en\'"'
+                'Expression to filter submissions, e.g. "\'true\' == (data[\'recontact-optin\'] ?? \'false\')"'
             )->addOption(
                 self::OPTION_FILENAME,
                 null,
@@ -68,19 +68,20 @@ class ExportCommand extends AbstractCommand
 
         $this->io->progressStart($this->formSubmissionService->count());
         foreach ($this->formSubmissionService->getUnprocessed() as $submission) {
-            $data = \array_merge([
+            $data = [
                 'instance' => $submission->getInstance(),
                 'name' => $submission->getName(),
                 'locale' => $submission->getLocale(),
                 'submission_date' => $submission->getCreated()->format('c'),
-            ], $submission->getData() ?? []);
+                'data' => $submission->getData() ?? [],
+            ];
             if (null !== $this->filter && !$this->expressionService->evaluateToBool($this->filter, $data)) {
                 $this->io->progressAdvance();
                 continue;
             }
             $line = [];
             foreach ($this->fields as $field) {
-                $line[] = $data[$field] ?? '';
+                $line[] = $data['data'][$field] ?? $data[$field] ?? '';
             }
             $sheet[] = $line;
             $this->io->progressAdvance();

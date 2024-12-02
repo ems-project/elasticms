@@ -1,5 +1,12 @@
 # Changelog 5.x
 
+## 5.24.1 (2024-12-02)
+### Features
+* feat(common/file-reader): correct trimming white spaces and keep "0" values by @Davidmattei in https://github.com/ems-project/elasticms/pull/1082
+### Bug Fixes
+* fix(common): perf issues with etag behoind apache with deflate mod by @theus77 in https://github.com/ems-project/elasticms/pull/1084
+* fix(common/helper): the mimetype guesser is not good at recognize text  file by @theus77 in https://github.com/ems-project/elasticms/pull/1083
+
 ## 5.24.0 (2024-11-26)
 ### Features
 * feat(admin/cli): forward form submissions by @theus77 in https://github.com/ems-project/elasticms/pull/1070

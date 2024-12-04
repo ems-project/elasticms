@@ -13,6 +13,10 @@
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
 
+## version 5.25.x
+
+- The `emsco:environment:align` will after publication also unpublish documents that are not aligned.
+
 ## version 5.23.x
 
 From this version, the upload of web's assets via the command `emsch:local:upload-assets` wont upload a zip anymore but each assets independently.

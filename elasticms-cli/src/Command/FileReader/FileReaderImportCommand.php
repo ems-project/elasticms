@@ -107,6 +107,9 @@ final class FileReaderImportCommand extends AbstractCommand
             $row = [];
             $empty = true;
             foreach ($rowValues as $cellKey => $cell) {
+                if (null === ($header[$cellKey] ?? null) && null === $cell) {
+                    continue;
+                }
                 $row[$header[$cellKey] ?? $cellKey] = $cell;
                 $empty = $empty && (null === $cell);
             }

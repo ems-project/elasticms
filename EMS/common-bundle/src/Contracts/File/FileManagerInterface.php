@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Contracts\File;
 
 use EMS\CommonBundle\Storage\Archive;
+use EMS\CommonBundle\Storage\File\FileInterface;
 use Psr\Http\Message\StreamInterface;
 
 interface FileManagerInterface
@@ -12,6 +13,8 @@ interface FileManagerInterface
     public const HEADS_CHUNK_SIZE = 256;
 
     public function downloadFile(string $hash): string;
+
+    public function getFile(string $hash): FileInterface;
 
     public function getContents(string $hash): string;
 

@@ -9,6 +9,7 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 use EMS\CommonBundle\Storage\Archive;
+use EMS\CommonBundle\Storage\File\FileInterface as StorageFileInterface;
 use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -213,5 +214,10 @@ final class File implements FileInterface
         $admin = new Admin($this->client);
         $command = \sprintf('%s %s', Commands::LOAD_ARCHIVE_IN_CACHE, $archiveHash);
         $admin->runCommand($command);
+    }
+
+    public function getFile(string $hash): StorageFileInterface
+    {
+        return new StorageFile($this->getStream($hash));
     }
 }

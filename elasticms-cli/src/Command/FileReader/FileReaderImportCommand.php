@@ -157,7 +157,7 @@ final class FileReaderImportCommand extends AbstractCommand
     {
         $configs = \array_map(fn (string $input) => match (true) {
             Json::isJson($input) => Json::decode($input),
-            default => Json::decode($this->storageManager->getFile($input)->getContent())
+            default => Json::decode($this->getFile($input)->getContent())
         }, $inputs);
 
         return FileReaderImportConfig::createFromArray(

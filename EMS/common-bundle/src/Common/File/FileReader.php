@@ -75,7 +75,7 @@ final class FileReader implements FileReaderInterface
                 continue;
             }
 
-            $rowData = \array_filter(\array_combine($headings, $row), static fn ($v) => '' !== $v and null !== $v);
+            $rowData = \array_filter(\array_combine($headings, $row), static fn ($v) => '' !== $v && null !== $v);
             if (\count($rowData) > 0) {
                 yield $rowData;
             }

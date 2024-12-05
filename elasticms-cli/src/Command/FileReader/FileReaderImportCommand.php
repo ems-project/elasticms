@@ -11,6 +11,7 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Search\Search;
+use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Hash;
@@ -88,14 +89,9 @@ final class FileReaderImportCommand extends AbstractCommand
                 throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
             }
 
-            try {
-                $filename = $this->storageManager->getFile($this->file)->getFilename();
-            } catch (NotFoundException) {
-                $filename = $this->adminHelper->getCoreApi()->file()->downloadFile($this->file);
-            }
             $config = $this->createConfig(...$this->getOptionStringArray(self::OPTION_CONFIG, false));
 
-            $cells = $this->fileReader->readCells($filename, [
+            $cells = $this->fileReader->readCells($this->getFile($this->file)->getFilename(), [
                 'delimiter' => $config->delimiter,
                 'encoding' => $config->encoding,
                 'exclude_rows' => $config->excludeRows,
@@ -219,5 +215,14 @@ final class FileReaderImportCommand extends AbstractCommand
         }
 
         return $ouuids;
+    }
+
+    private function getFile(string $fileIdentifier): FileInterface
+    {
+        try {
+            return $this->storageManager->getFile($fileIdentifier);
+        } catch (NotFoundException) {
+            return $this->adminHelper->getCoreApi()->file()->getFile($this->file);
+        }
     }
 }

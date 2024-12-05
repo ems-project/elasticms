@@ -222,7 +222,7 @@ final class FileReaderImportCommand extends AbstractCommand
         try {
             return $this->storageManager->getFile($fileIdentifier);
         } catch (NotFoundException) {
-            return $this->adminHelper->getCoreApi()->file()->getFile($this->file);
+            return $this->adminHelper->getCoreApi()->file()->getFile($fileIdentifier);
         }
     }
 }

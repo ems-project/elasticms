@@ -104,14 +104,22 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         if (empty($styleSetNames)) {
             return;
         }
-        foreach ($styleSetNames as $name) {
-            $styleSet = $styleSetClient->get($name);
-            $styleSet['properties']['assets'] = [
+        $archive = match ($this->archiveType) {
+            self::ARCHIVE_ZIP => [
                 EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
                 EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_ZIP,
                 EmsFields::CONTENT_FILE_NAME_FIELD => 'bundle.zip',
-            ];
-            $styleSetClient->update($name, $styleSet);
+            ],
+            self::ARCHIVE_EMS => [
+                EmsFields::CONTENT_FILE_HASH_FIELD => $hash,
+                EmsFields::CONTENT_MIME_TYPE_FIELD => MimeTypes::APPLICATION_JSON,
+                EmsFields::CONTENT_FILE_NAME_FIELD => 'bundle.json',
+            ],
+            default => throw new \RuntimeException(\sprintf('Unknown archive type "%s"', $this->archiveType)),
+        };
+        foreach ($styleSetNames as $name) {
+            $styleSet = $styleSetClient->get($name);
+            $styleSet['properties']['assets'] = $archive;
         }
         $this->io->success(\sprintf('%d style sets have been updated', \count($styleSetNames)));
     }

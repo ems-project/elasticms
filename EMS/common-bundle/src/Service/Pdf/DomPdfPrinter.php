@@ -21,7 +21,7 @@ final class DomPdfPrinter implements PdfPrinterInterface
         }
         $sysCacheDir = \sys_get_temp_dir();
         if (!\str_starts_with($sysCacheDir, $projectDir) && !\str_starts_with($sysCacheDir, $cacheDir)) {
-            $this->domPdfRootDirectories[] = $cacheDir;
+            $this->domPdfRootDirectories[] = $sysCacheDir;
         }
     }
 

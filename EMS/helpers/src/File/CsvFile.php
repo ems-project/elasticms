@@ -10,6 +10,7 @@ namespace EMS\Helpers\File;
 class CsvFile implements \Countable, \IteratorAggregate
 {
     public const DEFAULT_DELIMITER = ',';
+    private const UTF8_BOM = "\xEF\xBB\xBF";
 
     public function __construct(
         private readonly string $filename,
@@ -23,14 +24,12 @@ class CsvFile implements \Countable, \IteratorAggregate
      */
     public function getIterator(): \Generator
     {
-        $handle = $this->getHandle();
-        while (($row = \fgetcsv($handle, 2000, $this->delimiter)) !== false) {
+        foreach ($this->getRows() as $row) {
             if ($this->encoding) {
                 $row = \array_map([$this, 'convertEncoding'], $row);
             }
             yield $row;
         }
-        \fclose($handle);
     }
 
     public function count(): int
@@ -60,5 +59,26 @@ class CsvFile implements \Countable, \IteratorAggregate
     private function convertEncoding(mixed $value): mixed
     {
         return \is_string($value) ? \mb_convert_encoding($value, 'UTF-8', $this->encoding) : $value;
+    }
+
+    /**
+     * @yield array<int, mixed>
+     */
+    private function getRows(): \Generator
+    {
+        $handle = $this->getHandle();
+
+        $firstRow = \fgets($handle);
+        if (false !== $firstRow) {
+            if (0 === \strncmp($firstRow, self::UTF8_BOM, 3)) {
+                $firstRow = \substr($firstRow, 3);
+            }
+            yield \str_getcsv($firstRow, $this->delimiter);
+        }
+
+        while (($row = \fgetcsv($handle, 2000, $this->delimiter)) !== false) {
+            yield $row;
+        }
+        \fclose($handle);
     }
 }

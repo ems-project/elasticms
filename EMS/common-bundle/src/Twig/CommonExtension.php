@@ -7,6 +7,7 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Common\Standard\Base64;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\Helpers\Standard\Color;
+use EMS\Helpers\Standard\DateTime;
 use EMS\Helpers\Standard\UuidGenerator;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -68,6 +69,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_link', fn ($emsLink) => EMSLink::fromText($emsLink)),
             new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
             new TwigFilter('ems_uuid', [UuidGenerator::class, 'fromValue']),
+            new TwigFilter('ems_date', DateTime::createFromFormat(...)),
         ];
     }
 

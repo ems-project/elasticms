@@ -25,6 +25,7 @@
   * [ems_link](#ems_link)
   * [ems_valid_mail](#ems_valid_mail)
   * [ems_uuid](#ems_uuid-1)
+  * [ems_date](#ems_date)
 <!-- TOC -->
 
 # Twig Functions
@@ -421,4 +422,14 @@ Generate a version 5 UUID from a value. [More info](https://uuid.ramsey.dev/en/s
 {{ 'my_unique_id_value'|ems_uuid }} 
 ```
 
+## ems_date
+
+Generate a \DateTimeImmutable object from a value.
+
+```twig
+{% set date = '31/12/1998 0:00:00'|ems_date('j/m/Y H:i:s') %}
+
+{{ date.format('d-m-Y') }}
+{{ date.timezone }}
+```
 

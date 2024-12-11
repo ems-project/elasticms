@@ -147,6 +147,11 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         $archive = Archive::fromDirectory($directory, $algo);
         $progressBar = $this->io->createProgressBar($archive->getCount());
         foreach ($this->coreApi->file()->heads(...$archive->getHashes()) as $hash) {
+            if (true === $hash) {
+                $progressBar->advance();
+                continue;
+            }
+
             $file = $archive->getFirstFileByHash($hash);
             $uploadHash = $this->coreApi->file()->uploadFile($directory.DIRECTORY_SEPARATOR.$file->filename);
             if ($uploadHash !== $hash) {

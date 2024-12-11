@@ -1,6 +1,6 @@
 <?php
 
-namespace EMS\FormBundle\Security;
+namespace EMS\Helpers\Security;
 
 use Symfony\Component\String\ByteString;
 

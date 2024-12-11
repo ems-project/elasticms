@@ -84,7 +84,7 @@ class Client
      */
     public function download(string $resource, array $query = []): StreamInterface
     {
-        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+        $response = $this->request(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
@@ -101,7 +101,7 @@ class Client
      */
     public function streamResponse(string $resource, array $query = []): StreamedResponse
     {
-        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+        $response = $this->request(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
@@ -176,7 +176,7 @@ class Client
     /**
      * @param array<string, mixed> $options
      */
-    private function getResponse(string $method, string $resource, array $options): ResponseInterface
+    private function request(string $method, string $resource, array $options): ResponseInterface
     {
         if ('' === $this->baseUrl) {
             throw new BaseUrlNotDefinedException();
@@ -196,7 +196,7 @@ class Client
      */
     private function getResult(string $method, string $resource, array $options): Result
     {
-        $response = $this->getResponse($method, $resource, $options);
+        $response = $this->request($method, $resource, $options);
         $result = new Result($response, $this->logger);
 
         if (!$result->isSuccess()) {

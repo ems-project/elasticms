@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Form;
 
 use EMS\CommonBundle\Common\CoreApi\Client;
-use EMS\CommonBundle\Common\CoreApi\Result;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form\FormInterface;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 final class Form implements FormInterface
 {
@@ -33,11 +33,11 @@ final class Form implements FormInterface
         return $this->client->get($resource, $query)->getData();
     }
 
-    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): Result
+    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): ResponseInterface
     {
         $resource = $this->makeResource(\sprintf('submissions/%s/files/%s', $submissionId, $submissionFileId));
 
-        return $this->client->get($resource);
+        return $this->client->getResponse($resource);
     }
 
     public function getSubmissionFileAsStreamResponse(string $submissionId, ?string $submissionFileId): StreamedResponse

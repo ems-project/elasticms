@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Form;
 
-use EMS\CommonBundle\Common\CoreApi\Result;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 interface FormInterface
 {
@@ -29,7 +29,7 @@ interface FormInterface
      */
     public function getSubmission(string $submissionId, ?string $property = null): array;
 
-    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): Result;
+    public function getSubmissionFile(string $submissionId, ?string $submissionFileId): ResponseInterface;
 
     public function getSubmissionFileAsStreamResponse(string $submissionId, ?string $submissionFileId): StreamedResponse;
 

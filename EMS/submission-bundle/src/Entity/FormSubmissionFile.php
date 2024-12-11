@@ -107,6 +107,7 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
             'filename' => $this->getFilename(),
             'mimeType' => $this->getMimeType(),
             'size' => $this->getSize(),
+            'formField' => $this->getFormField(),
         ];
     }
 

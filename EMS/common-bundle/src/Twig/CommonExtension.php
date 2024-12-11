@@ -70,6 +70,7 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
             new TwigFilter('ems_uuid', [UuidGenerator::class, 'fromValue']),
             new TwigFilter('ems_date', DateTime::createFromFormat(...)),
+            new TwigFilter('ems_int', intval(...)),
         ];
     }
 

@@ -26,6 +26,7 @@
   * [ems_valid_mail](#ems_valid_mail)
   * [ems_uuid](#ems_uuid-1)
   * [ems_date](#ems_date)
+  * [ems_int](#ems_int)
 <!-- TOC -->
 
 # Twig Functions
@@ -433,3 +434,10 @@ Generate a \DateTimeImmutable object from a value.
 {{ date.timezone }}
 ```
 
+## ems_int
+
+Use php \intval function on input
+
+```twig
+{% set size = app.request.query.get('size', 0)|ems_int %}
+```

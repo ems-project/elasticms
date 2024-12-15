@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import 'select2'
+import select2 from 'select2'
 
 class Select {
   load(target) {
@@ -23,8 +23,8 @@ class Select {
   select2(target) {
     const targetQuery = $(target)
     if (undefined === targetQuery.select2) {
-        console.log('Select 2 is not available probably beaause you are in vite dev mode')
-        return
+        console.warn('Select 2 is not yet available, probably because you are in vite dev mode')
+        select2()
     }
     targetQuery.find('select.select2').select2({
       theme: 'bootstrap-5',

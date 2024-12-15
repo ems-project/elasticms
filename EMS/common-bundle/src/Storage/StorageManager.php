@@ -32,6 +32,10 @@ class StorageManager implements FileManagerInterface
     private array $adapters = [];
     /** @var StorageFactoryInterface[] */
     private array $factories = [];
+    /**
+     * @var int<1, max>
+     */
+    private int $headChunkSize = FileManagerInterface::HEADS_CHUNK_SIZE;
 
     /**
      * @param iterable<StorageFactoryInterface>                                            $factories
@@ -94,11 +98,12 @@ class StorageManager implements FileManagerInterface
     public function heads(string ...$fileHashes): \Traversable
     {
         $uniqueFileHashes = \array_unique($fileHashes);
-        $pagedHashes = \array_chunk($uniqueFileHashes, self::HEADS_CHUNK_SIZE, true);
+        $pagedHashes = \array_chunk($uniqueFileHashes, $this->headChunkSize, true);
 
         foreach ($pagedHashes as $hashes) {
             foreach ($this->adapters as $adapter) {
                 yield from $adapter->heads(...$hashes);
+                break;
             }
         }
     }
@@ -522,13 +527,19 @@ class StorageManager implements FileManagerInterface
         }
     }
 
-    public function getStreamFromArchive(string $hash, string $path): StreamWrapper
+    public function getStreamFromArchive(string $hash, string $path, bool $extract = true, string $indexResource = null): StreamWrapper
     {
+        if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
+            $path .= $indexResource;
+        }
         foreach ($this->adapters as $adapter) {
             $stream = $adapter->readFromArchiveInCache($hash, $path);
             if (null !== $stream) {
                 return $stream;
             }
+        }
+        if (!$extract) {
+            throw new NotFoundHttpException(\sprintf('File %s not found', $path));
         }
         $this->logger->debug(\sprintf('File %s from archive %s is not in cache', $path, $hash));
 
@@ -615,12 +626,10 @@ class StorageManager implements FileManagerInterface
             throw new NotFoundHttpException(\sprintf('File %s not found in archive %s', $path, $hash));
         }
         $counter = 0;
-        foreach ($archive->iterator() as $item) {
-            foreach ($this->adapters as $adapter) {
-                if ($adapter->copyFileInArchiveCache($hash, $item->hash, $item->filename, $item->type)) {
-                    ++$counter;
-                    break;
-                }
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->loadArchiveItemsInCache($hash, $archive)) {
+                ++$counter;
+                break;
             }
         }
         if ($archive->getCount() === $counter) {
@@ -679,5 +688,22 @@ class StorageManager implements FileManagerInterface
     public function downloadFile(string $hash): string
     {
         return $this->getFile($hash)->getFilename();
+    }
+
+    /**
+     * @param int<1, max> $chunkSize
+     */
+    public function setHeadChunkSize(int $chunkSize): void
+    {
+        $this->headChunkSize = $chunkSize;
+    }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, callable $callback = null): void
+    {
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->loadArchiveItemsInCache($archiveHash, $archive, $callback)) {
+                break;
+            }
+        }
     }
 }

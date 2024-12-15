@@ -566,6 +566,8 @@ final class Config
             'application/vnd.ms-excel' => 'xls',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
             'application/xml' => 'xml',
+            'application/x-xliff+xml' => 'xlf',
+            'application/xliff+xml' => 'xlf',
             'image/x-xpixmap' => 'xpm',
             'image/x-xwindowdump' => 'xwd',
             'text/yaml' => 'yml',

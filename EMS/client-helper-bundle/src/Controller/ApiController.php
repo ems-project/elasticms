@@ -41,7 +41,7 @@ final class ApiController
         $coreApi = $this->service->getApiClient($apiName)->coreApi;
 
         try {
-            return $coreApi->form()->getSubmissionFile($submissionId, $submissionFileId);
+            return $coreApi->form()->getSubmissionFileAsStreamResponse($submissionId, $submissionFileId);
         } catch (ClientException $e) {
             return throw new HttpException($e->getCode());
         }

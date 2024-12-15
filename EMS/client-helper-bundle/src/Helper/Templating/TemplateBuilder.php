@@ -33,7 +33,7 @@ final class TemplateBuilder extends AbstractBuilder
     {
         $settings = $this->settings($environment);
 
-        return $environment->getLocal()->getTemplates($settings)->getByTemplateName($templateName);
+        return $environment->getLocal()->getTemplates($settings)->get($templateName);
     }
 
     public function buildFiles(Environment $environment, string $directory): TemplateFiles
@@ -64,7 +64,7 @@ final class TemplateBuilder extends AbstractBuilder
         $settings = $this->clientRequest->getSettings($environment);
 
         if ($environment->isLocalPulled()) {
-            return $environment->getLocal()->getTemplates($settings)->getByTemplateName($templateName)->isFresh($time);
+            return $environment->getLocal()->getTemplates($settings)->get($templateName)->isFresh($time);
         }
 
         $contentType = $settings->getTemplateContentType($templateName->getContentType());

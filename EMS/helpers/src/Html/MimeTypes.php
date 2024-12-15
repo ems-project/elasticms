@@ -8,6 +8,8 @@ enum MimeTypes: string
 {
     case APPLICATION_ZIP = 'application/zip';
     case APPLICATION_GZIP = 'application/x-gzip-compressed';
+    case APPLICATION_XLIFF_LEGACY = 'application/x-xliff+xml';
+    case APPLICATION_XLIFF = 'application/xliff+xml';
     case APPLICATION_XML = 'application/xml';
     case APPLICATION_JSON = 'application/json';
     case APPLICATION_OCTET_STREAM = 'application/octet-stream';

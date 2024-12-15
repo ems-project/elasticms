@@ -15,4 +15,5 @@ class Headers
     public const WWW_AUTHENTICATE = 'WWW-Authenticate';
     public const SET_COOKIE = 'set-cookie';
     public const COOKIE = 'cookie';
+    public const IF_NONE_MATCH = 'if-none-match';
 }

@@ -84,7 +84,7 @@ class Client
      */
     public function download(string $resource, array $query = []): StreamInterface
     {
-        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+        $response = $this->request(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
@@ -99,28 +99,36 @@ class Client
     /**
      * @param array<mixed> $query
      */
-    public function streamResponse(string $resource, array $query = []): StreamedResponse
+    public function getResponse(string $resource, array $query = []): ResponseInterface
     {
-        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+        $response = $this->request(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
 
+        return $response;
+    }
+
+    /**
+     * @param array<mixed> $query
+     */
+    public function forwardResponse(string $resource, array $query = []): StreamedResponse
+    {
+        $request = $this->get($resource, $query);
+        $response = $request->response;
         if (!$response instanceof StreamableInterface) {
             throw new \RuntimeException('no stream response');
         }
-
         $stream = $response->toStream();
-
         $streamResponse = new StreamedResponse(function () use ($stream) {
             while (!\feof($stream)) {
                 echo \fread($stream, File::DEFAULT_CHUNK_SIZE);
                 \flush();
             }
             \fclose($stream);
-        }, $response->getStatusCode());
+        }, $request->response->getStatusCode());
 
-        $headers = $response->getHeaders();
+        $headers = $request->response->getHeaders();
 
         $streamResponse->headers->set('Content-Type', $headers['content-type']);
         $streamResponse->headers->set('Content-Disposition', $headers['content-disposition']);
@@ -176,7 +184,7 @@ class Client
     /**
      * @param array<string, mixed> $options
      */
-    private function getResponse(string $method, string $resource, array $options): ResponseInterface
+    private function request(string $method, string $resource, array $options): ResponseInterface
     {
         if ('' === $this->baseUrl) {
             throw new BaseUrlNotDefinedException();
@@ -196,7 +204,7 @@ class Client
      */
     private function getResult(string $method, string $resource, array $options): Result
     {
-        $response = $this->getResponse($method, $resource, $options);
+        $response = $this->request($method, $resource, $options);
         $result = new Result($response, $this->logger);
 
         if (!$result->isSuccess()) {

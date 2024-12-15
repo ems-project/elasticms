@@ -21,7 +21,7 @@ class Archive implements \JsonSerializable
     {
     }
 
-    public static function fromDirectory(string $directory, string $hashAlgo): self
+    public static function fromDirectory(string $directory, string $hashAlgo, callable $callback = null): self
     {
         $archive = new self($hashAlgo);
         $finder = new Finder();
@@ -31,8 +31,13 @@ class Archive implements \JsonSerializable
             throw new \RuntimeException('The directory is empty');
         }
 
+        $maxSteps = $finder->count();
+        $counter = 0;
         foreach ($finder as $file) {
             $archive->addFile($file);
+            if (null !== $callback) {
+                $callback($maxSteps, ++$counter);
+            }
         }
 
         return $archive;
@@ -142,5 +147,54 @@ class Archive implements \JsonSerializable
         $resolved = $this->itemResolver->resolve($file);
 
         return $resolved;
+    }
+
+    private function containsByHash(string $hash): bool
+    {
+        foreach ($this->files as $file) {
+            if ($hash === $file->hash) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function diff(?Archive $otherArchive): self
+    {
+        if (null === $otherArchive) {
+            return $this;
+        }
+        $newArchive = new self($this->hashAlgo);
+        foreach ($this->files as $file) {
+            if (null !== $otherArchive && $otherArchive->containsByHash($file->hash)) {
+                continue;
+            }
+            $newArchive->addArchiveItem($file);
+        }
+
+        return $newArchive;
+    }
+
+    private function addArchiveItem(ArchiveItem $file): void
+    {
+        $this->files[$file->filename] = $file;
+    }
+
+    public function skip(int $skip): self
+    {
+        if ($skip <= 0) {
+            return $this;
+        }
+        $newArchive = new self($this->hashAlgo);
+        $counter = 0;
+        foreach ($this->files as $file) {
+            if ($counter++ < $skip) {
+                continue;
+            }
+            $newArchive->addArchiveItem($file);
+        }
+
+        return $newArchive;
     }
 }

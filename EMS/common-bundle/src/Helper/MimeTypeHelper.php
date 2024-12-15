@@ -30,7 +30,7 @@ class MimeTypeHelper
     public function guessMimeType(string $filename): string
     {
         $mimeType = $this->mimeTypes->guessMimeType($filename);
-        if (self::TEXT_PLAIN === $mimeType) {
+        if (\str_starts_with($mimeType ?? '', 'text/')) {
             $ext = \pathinfo($filename, PATHINFO_EXTENSION);
             $mimeType = $this->mimeTypes->getMimeTypes($ext)[0] ?? $mimeType;
         }

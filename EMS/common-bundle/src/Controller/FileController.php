@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class FileController extends AbstractController
 {
@@ -88,11 +90,30 @@ class FileController extends AbstractController
         return $response;
     }
 
-    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800): Response
+    public function assetInArchive(Request $request, string $hash, string $path, int $maxAge = 604800, bool $extract = true, string $indexResource = null, string $notFoundTemplate = null): Response
     {
         $this->closeSession($request);
 
-        return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge);
+        try {
+            return $this->processor->getResponseFromArchive($request, $hash, $path, $maxAge, $extract, $indexResource);
+        } catch (NotFoundHttpException $e) {
+            if (null === $notFoundTemplate) {
+                throw $e;
+            }
+        }
+
+        try {
+            return $this->render($notFoundTemplate, [
+                'error' => $e,
+                'hash' => $hash,
+                'path' => $path,
+                'maxAge' => $maxAge,
+                'extract' => $extract,
+                'indexResource' => $indexResource,
+            ]);
+        } catch (\Throwable $e) {
+            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
+        }
     }
 
     private function getFile(Request $request, string $hash, string $disposition): Response

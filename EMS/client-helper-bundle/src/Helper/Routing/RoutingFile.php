@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Routing;
 
 use EMS\ClientHelperBundle\Helper\Templating\TemplateFiles;
+use EMS\ClientHelperBundle\Helper\Templating\TemplateName;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
@@ -43,7 +44,7 @@ final class RoutingFile implements \Countable
         foreach ($documents as $document) {
             $data = $document->getDataSource();
             if (isset($data['template_static'])) {
-                $templateFile = $templateFiles->find($data['template_static']);
+                $templateFile = $templateFiles->find(new TemplateName($data['template_static']));
                 $data['template_static'] = $templateFile ? $templateFile->getPathName() : $data['template_static'];
             }
 
@@ -73,7 +74,7 @@ final class RoutingFile implements \Countable
 
         foreach ($this->routes as $name => $route) {
             if (isset($route['template_static'])) {
-                $template = $this->templateFiles->find($route['template_static']);
+                $template = $this->templateFiles->find(new TemplateName($route['template_static']));
                 if ($template) {
                     $route['template_static'] = $template->getPathOuuid();
                 }
@@ -100,7 +101,7 @@ final class RoutingFile implements \Countable
 
         foreach ($this->routes as $name => $data) {
             if (isset($data['template_static'])) {
-                $template = $this->templateFiles->find($data['template_static']);
+                $template = $this->templateFiles->find(new TemplateName($data['template_static']));
                 $data['template_static'] = $template ? $template->getPathName() : $data['template_static'];
             }
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace EMS\FormBundle\Tests\Unit\Security;
+namespace EMS\Helpers\Tests\Unit\Security;
 
-use EMS\FormBundle\Security\HashcashToken;
+use EMS\Helpers\Security\HashcashToken;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\String\ByteString;
 

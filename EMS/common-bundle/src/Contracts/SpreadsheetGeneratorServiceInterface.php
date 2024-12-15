@@ -12,6 +12,7 @@ interface SpreadsheetGeneratorServiceInterface
     public const WRITER = 'writer';
     public const XLSX_WRITER = 'xlsx';
     public const CSV_WRITER = 'csv';
+    public const FORMAT_WRITERS = [self::CSV_WRITER, self::XLSX_WRITER];
     public const CSV_SEPARATOR = 'csv_separator';
     public const SHEETS = 'sheets';
     public const CONTENT_FILENAME = 'filename';

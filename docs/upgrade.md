@@ -13,6 +13,21 @@
   * [version 4.x](#version-4x)
   * [Tips and tricks](#tips-and-tricks)
 
+## version 5.25.x
+
+- The `emsco:environment:align` will after publication also unpublish documents that are not aligned.
+
+## version 5.24.x
+
+There is breaking changes in the options of the [File Reader Import](elasticms-cli/commands?id=file-reader) command. 
+Command's options must be defined in a json format now, and that JSON can be passed to the `--config` option as:
+ * a JSON string
+ * a path to a JSON file
+ * the hash of a JSON file in the storage services
+
+Please update your worker's jobs.
+
+
 ## version 5.23.x
 
 From this version, the upload of web's assets via the command `emsch:local:upload-assets` wont upload a zip anymore but each assets independently.

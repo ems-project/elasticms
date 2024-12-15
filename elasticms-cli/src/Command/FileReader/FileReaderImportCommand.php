@@ -11,6 +11,8 @@ use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\CommonBundle\Search\Search;
+use EMS\CommonBundle\Storage\File\FileInterface;
+use EMS\CommonBundle\Storage\NotFoundException;
 use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Hash;
 use EMS\Helpers\Standard\Json;
@@ -87,10 +89,9 @@ final class FileReaderImportCommand extends AbstractCommand
                 throw new \RuntimeException(\sprintf('Not authenticated for %s, run ems:admin:login', $this->adminHelper->getCoreApi()->getBaseUrl()));
             }
 
-            $file = $this->storageManager->getFile($this->file);
             $config = $this->createConfig(...$this->getOptionStringArray(self::OPTION_CONFIG, false));
 
-            $cells = $this->fileReader->readCells($file->getFilename(), [
+            $cells = $this->fileReader->readCells($this->getFile($this->file)->getFilename(), [
                 'delimiter' => $config->delimiter,
                 'encoding' => $config->encoding,
                 'exclude_rows' => $config->excludeRows,
@@ -156,7 +157,7 @@ final class FileReaderImportCommand extends AbstractCommand
     {
         $configs = \array_map(fn (string $input) => match (true) {
             Json::isJson($input) => Json::decode($input),
-            default => Json::decode($this->storageManager->getFile($input)->getContent())
+            default => Json::decode($this->getFile($input)->getContent())
         }, $inputs);
 
         return FileReaderImportConfig::createFromArray(
@@ -214,5 +215,14 @@ final class FileReaderImportCommand extends AbstractCommand
         }
 
         return $ouuids;
+    }
+
+    private function getFile(string $fileIdentifier): FileInterface
+    {
+        try {
+            return $this->storageManager->getFile($fileIdentifier);
+        } catch (NotFoundException) {
+            return $this->adminHelper->getCoreApi()->file()->getFile($fileIdentifier);
+        }
     }
 }

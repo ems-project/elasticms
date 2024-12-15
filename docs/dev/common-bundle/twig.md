@@ -25,6 +25,8 @@
   * [ems_link](#ems_link)
   * [ems_valid_mail](#ems_valid_mail)
   * [ems_uuid](#ems_uuid-1)
+  * [ems_date](#ems_date)
+  * [ems_int](#ems_int)
 <!-- TOC -->
 
 # Twig Functions
@@ -383,6 +385,20 @@ Returns a path to a temporary asset extracted from an archive (a zip file). Usef
     {% set path = ems_file_from_archive('253b903b1fb3ac30975ae9844a0352a65cdcfa3d', 'img/logos/full-logo.svg') %}
 ````
 
+This function also accept extra options:
+
+ * `extract`: Specify that the function can not try to re-extract the archive if the searched path is missing. If disabled the function won't throw an error but `null`.  Default value: `true`.
+ * `asTempFile`: Returns a [EMS\Helpers\File\TempFile](https://github.com/ems-project/elasticms/blob/5.x/EMS/helpers/src/File/TempFile.php) object when activated, a path to the temporary file instead. A TempFile is useful to get file's contents with the member function `getContents()`. Default value `false`
+
+Example: 
+
+```twig
+{% set tempFile = ems_file_from_archive(hash, "#{path}/index.php", {
+    extract: false,
+    asTempFile: true,
+}) %}
+```
+
 ## ems_link
 
 Return the [EMSLink](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Common/EMSLink.php) object
@@ -407,4 +423,21 @@ Generate a version 5 UUID from a value. [More info](https://uuid.ramsey.dev/en/s
 {{ 'my_unique_id_value'|ems_uuid }} 
 ```
 
+## ems_date
 
+Generate a \DateTimeImmutable object from a value.
+
+```twig
+{% set date = '31/12/1998 0:00:00'|ems_date('j/m/Y H:i:s') %}
+
+{{ date.format('d-m-Y') }}
+{{ date.timezone }}
+```
+
+## ems_int
+
+Use php \intval function on input
+
+```twig
+{% set size = app.request.query.get('size', 0)|ems_int %}
+```

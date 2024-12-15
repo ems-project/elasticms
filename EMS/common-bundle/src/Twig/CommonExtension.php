@@ -7,7 +7,8 @@ use EMS\CommonBundle\Common\EMSLink;
 use EMS\CommonBundle\Helper\Text\Encoder;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Color;
-use Ramsey\Uuid\Uuid;
+use EMS\Helpers\Standard\DateTime;
+use EMS\Helpers\Standard\UuidGenerator;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -27,7 +28,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_analyze', [SearchRuntime::class, 'analyze']),
             new TwigFunction('ems_image_info', [AssetRuntime::class, 'imageInfo']),
             new TwigFunction('ems_version', [InfoRuntime::class, 'version']),
-            new TwigFunction('ems_uuid', [Uuid::class, 'uuid4']),
+            new TwigFunction('ems_uuid', [UuidGenerator::class, 'random']),
             new TwigFunction('ems_store_read', [StoreDataRuntime::class, 'read']),
             new TwigFunction('ems_store_save', [StoreDataRuntime::class, 'save']),
             new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
@@ -65,6 +66,11 @@ class CommonExtension extends AbstractExtension
             new TwigFilter('ems_hash', [AssetRuntime::class, 'hash']),
             new TwigFilter('ems_preg_match', Encoder::pregMatch(...)),
             new TwigFilter('ems_color', fn ($color) => new Color($color)),
+            new TwigFilter('ems_link', fn ($emsLink) => EMSLink::fromText($emsLink)),
+            new TwigFilter('ems_valid_mail', [TextRuntime::class, 'isValidEmail']),
+            new TwigFilter('ems_uuid', [UuidGenerator::class, 'fromValue']),
+            new TwigFilter('ems_date', DateTime::createFromFormat(...)),
+            new TwigFilter('ems_int', intval(...)),
             new TwigFilter('ems_array_intersect', $this->arrayIntersect(...)),
             new TwigFilter('ems_array_merge_recursive', $this->arrayMergeRecursive(...)),
             new TwigFilter('ems_in_array', $this->inArray(...)),

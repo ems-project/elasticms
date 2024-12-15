@@ -15,7 +15,6 @@ class Configuration implements ConfigurationInterface
     private const LOG_LEVEL = Logger::NOTICE;
     final public const WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9_| \-.'\/])|(\.$)/";
     final public const WEBALIZE_DASHABLE_REGEX = "/[\/| ']+/";
-    private const API_DEFAULT_TIMEOUT = 30;
 
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -31,8 +30,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('hash_algo')->defaultValue('sha1')->end()
                 ->scalarNode('backend_url')->defaultValue(null)->end()
                 ->scalarNode('backend_api_key')->defaultValue(null)->end()
-                ->scalarNode('backend_api_verify')->defaultValue(true)->end()
-                ->scalarNode('backend_api_timeout')->defaultValue(self::API_DEFAULT_TIMEOUT)->end()
                 ->scalarNode('elasticsearch_proxy_api')->defaultValue(false)->end()
                 ->scalarNode('elasticsearch_connection_pool')->defaultValue(null)->end()
                 ->variableNode('elasticsearch_hosts')->defaultValue(self::ELASTICSEARCH_DEFAULT_HOSTS)->end()
@@ -43,6 +40,7 @@ class Configuration implements ConfigurationInterface
         ;
 
         $this->addCacheSection($rootNode);
+        $this->addCoreApiSection($rootNode);
         $this->addMetricSection($rootNode);
         $this->addWebalizeSection($rootNode);
         $this->addRequestSection($rootNode);
@@ -65,6 +63,24 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('host')->cannotBeEmpty()->end()
                                 ->scalarNode('port')->cannotBeEmpty()->end()
                             ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
+    }
+
+    private function addCoreApiSection(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('core_api')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                            ->variableNode('headers')->defaultValue([])->end()
+                            ->scalarNode('max_connections')->defaultValue(6)->end()
+                            ->scalarNode('timeout')->defaultValue(30)->end()
+                            ->scalarNode('verify')->defaultValue(true)->end()
                         ->end()
                     ->end()
                 ->end()

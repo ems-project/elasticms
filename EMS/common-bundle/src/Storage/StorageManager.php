@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage;
 
+use EMS\CommonBundle\Contracts\File\FileManagerInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Factory\StorageFactoryInterface;
@@ -13,7 +14,10 @@ use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\Service\StorageInterface;
 use EMS\Helpers\File\File;
+use EMS\Helpers\File\File as FileHelper;
 use EMS\Helpers\File\TempDirectory;
+use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
@@ -22,12 +26,16 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class StorageManager
+class StorageManager implements FileManagerInterface
 {
     /** @var StorageInterface[] */
     private array $adapters = [];
     /** @var StorageFactoryInterface[] */
     private array $factories = [];
+    /**
+     * @var int<1, max>
+     */
+    private int $headChunkSize = FileManagerInterface::HEADS_CHUNK_SIZE;
 
     /**
      * @param iterable<StorageFactoryInterface>                                            $factories
@@ -54,10 +62,12 @@ class StorageManager
         foreach ($this->storageConfigs as $storageConfig) {
             $type = $storageConfig['type'] ?? null;
             if (null === $type) {
+                $this->logger->error('Storage type not defined.');
                 continue;
             }
             $factory = $this->factories[$type] ?? null;
             if (null === $factory) {
+                $this->logger->error(\sprintf('Storage factory "%s" was not found.', $factory));
                 continue;
             }
             $storage = $factory->createService($storageConfig);
@@ -83,6 +93,19 @@ class StorageManager
         }
 
         return false;
+    }
+
+    public function heads(string ...$fileHashes): \Traversable
+    {
+        $uniqueFileHashes = \array_unique($fileHashes);
+        $pagedHashes = \array_chunk($uniqueFileHashes, $this->headChunkSize, true);
+
+        foreach ($pagedHashes as $hashes) {
+            foreach ($this->adapters as $adapter) {
+                yield from $adapter->heads(...$hashes);
+                break;
+            }
+        }
     }
 
     /**
@@ -507,21 +530,65 @@ class StorageManager
         }
     }
 
-    public function getStreamFromArchive(string $hash, string $path): StreamWrapper
+    public function getStreamFromArchive(string $hash, string $path, bool $extract = true, ?string $indexResource = null): StreamWrapper
     {
+        if (null !== $indexResource && ('' === $path || \str_ends_with($path, '/'))) {
+            $path .= $indexResource;
+        }
         foreach ($this->adapters as $adapter) {
             $stream = $adapter->readFromArchiveInCache($hash, $path);
             if (null !== $stream) {
                 return $stream;
             }
         }
+        if (!$extract) {
+            throw new NotFoundHttpException(\sprintf('File %s not found', $path));
+        }
         $this->logger->debug(\sprintf('File %s from archive %s is not in cache', $path, $hash));
 
         if (!$this->head($hash)) {
             throw new NotFoundHttpException(\sprintf('Archive %s not found', $hash));
         }
-        $dir = TempDirectory::create();
-        $dir->loadFromArchive($this->getStream($hash));
+
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+
+        return match ($mimeType) {
+            MimeTypes::APPLICATION_ZIP->value, MimeTypes::APPLICATION_GZIP->value => $this->getStreamFromZipArchive($hash, $path, $archiveFile),
+            MimeTypes::APPLICATION_JSON->value => $this->getStreamFromJsonArchive($hash, $path, $archiveFile),
+            default => throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType)),
+        };
+    }
+
+    public function extractFromArchive(string $hash): TempDirectory
+    {
+        $archiveFile = TempFile::create()->loadFromStream($this->getStream($hash));
+        $type = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        switch ($type) {
+            case MimeTypes::APPLICATION_ZIP->value:
+            case MimeTypes::APPLICATION_GZIP->value:
+                $tempDir = TempDirectory::createFromZipArchive($archiveFile->path);
+                break;
+            case MimeTypes::APPLICATION_JSON->value:
+                $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+                $tempDir = TempDirectory::create();
+                foreach ($archive->iterator() as $file) {
+                    $tempDir->add($this->getStream($file->hash), $file->filename);
+                }
+                break;
+            default:
+                throw new \RuntimeException(\sprintf('Archive format %s not supported', $type));
+        }
+        $tempDir->touch($hash);
+        $archiveFile->clean();
+
+        return $tempDir;
+    }
+
+    private function getStreamFromZipArchive(string $hash, string $path, TempFile $zipFile): StreamWrapper
+    {
+        $dir = TempDirectory::createFromZipArchive($zipFile->path);
+        $zipFile->clean();
         $finder = new Finder();
         $finder->in($dir->path)->files();
         $counter = 0;
@@ -552,5 +619,94 @@ class StorageManager
         $mimeTypeHelper = MimeTypeHelper::getInstance();
 
         return new StreamWrapper($file->getStream(), $mimeTypeHelper->guessMimeType($filename), $file->getSize());
+    }
+
+    private function getStreamFromJsonArchive(string $hash, string $path, TempFile $archiveFile): StreamWrapper
+    {
+        $archive = Archive::fromStructure($archiveFile->getContents(), $this->hashAlgo);
+        $file = $archive->getByPath($path);
+        if (null === $file) {
+            throw new NotFoundHttpException(\sprintf('File %s not found in archive %s', $path, $hash));
+        }
+        $counter = 0;
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->loadArchiveItemsInCache($hash, $archive)) {
+                ++$counter;
+                break;
+            }
+        }
+        if ($archive->getCount() === $counter) {
+            $this->logger->debug(\sprintf('%d files have been successfully saved in cache', $counter));
+        } elseif (0 === $counter) {
+            $this->logger->warning(\sprintf('None of the %d files have been successfully saved in cache', $archive->getCount()));
+        } else {
+            $this->logger->warning(\sprintf('%d files, on a total of %d, have been successfully saved in cache', $counter, $archive->getCount()));
+        }
+
+        return new StreamWrapper($this->getStream($file->hash), $file->type, $file->size);
+    }
+
+    public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
+    {
+        $fileHash = $this->computeFileHash($realPath);
+
+        if ($this->head($fileHash)) {
+            return $fileHash;
+        }
+
+        $file = FileHelper::fromFilename($realPath);
+        $mimeType ??= $file->mimeType;
+        $filename ??= $file->name;
+
+        $this->initUploadFile(
+            fileHash: $fileHash,
+            fileSize: $file->size,
+            fileName: $filename,
+            mimeType: $mimeType,
+            usageType: StorageInterface::STORAGE_USAGE_ASSET
+        );
+
+        foreach ($file->chunk(0) as $chunk) {
+            $this->addChunk($fileHash, $chunk, StorageInterface::STORAGE_USAGE_ASSET);
+            if (null !== $callback) {
+                $callback($chunk);
+            }
+        }
+
+        $this->finalizeUpload($fileHash, $file->size, StorageInterface::STORAGE_USAGE_ASSET);
+
+        return $fileHash;
+    }
+
+    public function uploadContents(string $contents, string $filename, string $mimeType): string
+    {
+        return $this->saveContents(
+            contents: $contents,
+            filename: $filename,
+            mimetype: $mimeType,
+            usageType: StorageInterface::STORAGE_USAGE_ASSET
+        );
+    }
+
+    public function downloadFile(string $hash): string
+    {
+        return $this->getFile($hash)->getFilename();
+    }
+
+    /**
+     * @param int<1, max> $chunkSize
+     */
+    public function setHeadChunkSize(int $chunkSize): void
+    {
+        $this->headChunkSize = $chunkSize;
+    }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): void
+    {
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->loadArchiveItemsInCache($archiveHash, $archive, $callback)) {
+                break;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace EMS\FormBundle\Security;
 
+use EMS\Helpers\Security\HashcashToken;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 

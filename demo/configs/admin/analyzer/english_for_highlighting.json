@@ -19,7 +19,7 @@
             "type": "custom",
             "tokenizer": "standard"
         },
-        "orderKey": 3
+        "orderKey": 5
     },
     "replaced": []
 }

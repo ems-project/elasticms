@@ -89,11 +89,40 @@ Can be used to overwrite CKEditor settings and user profiles.
 
 ### Styles set preview
 
-Using the style on a **WysiwygFieldType** you can enable `Styles set preview`. 
-
-It will load the CSS and JS files when using the WYSIWYG field. 
-
+Using the style on a **WysiwygFieldType** you can enable `Styles set preview`.
+It will load the CSS and JS files when using the WYSIWYG field.
 In revision detail the text content will be rendered inside an iframe including the CSS and JS files.
+
+Since version 5.22.0 the iframe body tag contains data attributes `field`, `field-path`, and `document-url`.
+Needed if we want to enable javascript code based on other document fields.
+
+Example generate table of content in preview
+
+```javascript
+window.addEventListener("load", () => {
+  const lang = document.documentElement.lang
+  const { documentUrl: url, field } = document.body.dataset
+
+  if (!url || !lang || !['content_fr', 'content_nl'].includes(field)) return
+
+  async function getDocument(url) {
+    const response = await fetch(url)
+    return response.ok ? response.json() : null
+  }
+
+  getDocument(url).then((json) => {
+    const { success, revision } = json
+    if (!success || !revision) return
+
+    const generateToc = revision[`generate_toc_${lang}`]
+    if (!generateToc) return
+
+    createToc(document.body, options);
+    window.parent.postMessage("resize"); // resize the iframe because createToc() will inject new html tags 
+    
+  }).catch((error) => console.error('Error fetching document:', error));
+});
+```
 
 > **TIP** 
 > 

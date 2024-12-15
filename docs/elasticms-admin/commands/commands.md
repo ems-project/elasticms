@@ -327,7 +327,7 @@ Options:
       --subject=SUBJECT                Set mail subject [default: "notification tasks"]
       --deadline-start=DEADLINE-START  Start deadline from now "-1 days"
       --deadline-end=DEADLINE-END      End deadline from now "+1 days"
-      --include-task-managers          Include task managers
+      --include-task-managers          Include task admins/managers
       --limit=LIMIT                    limit the results inside mail [default: 10]
 ```
 

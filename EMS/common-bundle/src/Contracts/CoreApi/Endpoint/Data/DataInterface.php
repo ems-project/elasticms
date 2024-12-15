@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data;
 
 use EMS\CommonBundle\Common\CoreApi\Endpoint\Data\Index;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiExceptionInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 interface DataInterface
 {
@@ -42,6 +43,11 @@ interface DataInterface
     public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index;
 
     /**
+     * @param array<string, mixed> $rawData
+     */
+    public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): ResponseInterface;
+
+    /**
      * @throws CoreApiExceptionInterface
      */
     public function get(string $ouuid): RevisionInterface;
@@ -71,4 +77,6 @@ interface DataInterface
      * @throws CoreApiExceptionInterface
      */
     public function save(string $ouuid, array $rawData, int $mode = self::MODE_UPDATE, bool $discardDraft = true): int;
+
+    public function publish(string $ouuid, string $environment, ?string $revisionId = null): bool;
 }

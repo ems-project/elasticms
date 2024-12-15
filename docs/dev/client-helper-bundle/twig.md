@@ -159,3 +159,23 @@ Some repetitive computes can also be cached. For that you may call the `cacheabl
 ```
 
 The `cacheType` parameter is the content type's name used to invalidate the response in cache (if something has been updated) 
+
+
+## emsch_http_error
+
+Cancel the curent rendering an return the specified HTTP return code. Useful to redirect to another URL.
+
+Return a 404:
+
+```twig
+{% do emsch_http_error(404, 'Page not found') %}
+```
+
+Redirect to Symfony:
+
+```twig
+  {% do emsch_http_error(307, "Temporary Redirect to #{url}", {
+      location: url,
+  }) %}
+  ```
+

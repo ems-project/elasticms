@@ -82,7 +82,10 @@ final class DocumentUpdateCommand extends AbstractCommand
         $config = DocumentUpdateConfig::fromFile($this->configFile);
 
         $this->io->section('Reading data');
-        $dataArray = $this->fileReader->getData($this->dataFilePath, $this->dataSkipFirstRow);
+        $dataArray = $this->fileReader->getData(
+            filename: $this->dataFilePath,
+            options: ['exclude_rows' => $this->dataSkipFirstRow ? [0] : []]
+        );
 
         $data = new Data($dataArray);
         $this->io->writeln(\sprintf('Loaded data in memory: %d rows', \count($data)));

@@ -617,7 +617,7 @@
             "circles": null,
             "business_id": null,
             "category": null,
-            "asset": null
+            "asset": "media_file"
         },
         "settings": {
             "tasks_enabled": false,

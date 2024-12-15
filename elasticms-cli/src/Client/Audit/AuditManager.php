@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\CLI\Client\Audit;
 
 use App\CLI\Client\HttpClient\HttpResult;
-use App\CLI\Client\WebToElasticms\Helper\Url;
 use App\CLI\Helper\HtmlHelper;
 use App\CLI\Helper\LighthouseWrapper;
 use App\CLI\Helper\Pa11yWrapper;
 use App\CLI\Helper\Tika\TikaHelper;
 use App\CLI\Helper\Tika\TikaPromiseInterface;
 use EMS\CommonBundle\Common\Converter;
+use EMS\CommonBundle\Helper\Url;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 

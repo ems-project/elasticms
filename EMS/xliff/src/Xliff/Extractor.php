@@ -206,9 +206,9 @@ class Extractor
 
     public function addHtmlField(\DOMElement $document, string $fieldPath, ?string $sourceHtml, ?string $targetHtml = null, ?string $baselineHtml = null, bool $isFinal = false): void
     {
-        $sourceCrawler = new Crawler(HtmlHelper::prettyPrint($sourceHtml));
-        $targetCrawler = new Crawler(HtmlHelper::prettyPrint($targetHtml));
-        $baselineCrawler = new Crawler(HtmlHelper::prettyPrint($baselineHtml));
+        $sourceCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($sourceHtml)));
+        $targetCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($targetHtml)));
+        $baselineCrawler = new Crawler(HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($baselineHtml)));
         $added = false;
         $group = new \DOMElement('group');
         $document->appendChild($group);

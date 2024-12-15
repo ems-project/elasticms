@@ -58,7 +58,6 @@ parameters:
     env(EMSCO_DEFAULT_BULK_SIZE): 500
     env(EMSCO_URL_USER): ~
     env(EMSCO_CUSTOM_USER_OPTIONS_FORM): ~
-    env(EMSCO_FALLBACK_LOCALE): 'en'
     env(EMSCO_TEMPLATE_NAMESPACE): 'EMSCore'
     env(EMSCO_DYNAMIC_MAPPING): 'false'
     env(EMSCO_LOCK_TIME): '+1 minutes'
@@ -105,7 +104,6 @@ ems_core:
     default_bulk_size: '%env(int:EMSCO_DEFAULT_BULK_SIZE)%'
     url_user: '%env(string:EMSCO_URL_USER)%'
     custom_user_options_form: '%env(string:EMSCO_CUSTOM_USER_OPTIONS_FORM)%'
-    fallback_locale: '%env(string:EMSCO_FALLBACK_LOCALE)%'
     template_namespace: '%env(string:EMSCO_TEMPLATE_NAMESPACE)%'
     dynamic_mapping: '%env(string:EMSCO_DYNAMIC_MAPPING)%'
     lock_time: '%env(string:EMSCO_LOCK_TIME)%'

@@ -102,6 +102,11 @@ class Document implements DocumentInterface
         return EMSLink::fromContentTypeOuuid($this->contentType, $id);
     }
 
+    public function getDocumentEmsId(): string
+    {
+        return EMSLink::fromContentTypeOuuid($this->contentType, $this->id)->getEmsId();
+    }
+
     /**
      * @return array<mixed>
      */

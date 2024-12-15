@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HttpStorage extends AbstractUrlStorage
@@ -125,9 +126,12 @@ class HttpStorage extends AbstractUrlStorage
     public function head(string $hash): bool
     {
         try {
-            return 200 === $this->getClient()->head($this->getUrl.$hash)->getStatusCode();
-        } catch (\Throwable) {
-            throw new NotFoundHttpException($hash);
+            return Response::HTTP_OK === $this->getClient()->head($this->getUrl.$hash)->getStatusCode();
+        } catch (\Throwable $e) {
+            if (Response::HTTP_NOT_FOUND === $e->getCode()) {
+                return false;
+            }
+            throw $e;
         }
     }
 

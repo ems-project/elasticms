@@ -6,10 +6,10 @@ namespace EMS\CommonBundle\Command\FileStructure;
 
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
-use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
-use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
-use EMS\CommonBundle\Json\JsonMenuNested;
-use EMS\CommonBundle\Service\ElasticaService;
+use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Contracts\File\FileManagerInterface;
+use EMS\CommonBundle\Storage\Archive;
+use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,87 +18,84 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class FileStructurePullCommand extends AbstractFileStructureCommand
+class FileStructurePullCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::FILE_STRUCTURE_PULL;
+    private const ARGUMENT_ARCHIVE_HASH = 'hash';
     private const ARGUMENT_FOLDER = 'folder';
-    private const OPTION_CONTENT_TYPE = 'content-type';
-    private string $folderPath;
-    private string $contentType;
-    private CoreApiInterface $coreApi;
-    private Finder $finder;
+    private const OPTION_ADMIN = 'admin';
 
-    public function __construct(ElasticaService $elasticaService, private readonly AdminHelper $adminHelper)
-    {
-        parent::__construct($elasticaService);
+    private string $folderPath;
+    private string $archiveHash;
+    private FileManagerInterface $fileManager;
+
+    public function __construct(
+        private readonly AdminHelper $adminHelper,
+        private readonly StorageManager $storageManager,
+    ) {
+        parent::__construct();
     }
 
     protected function configure(): void
     {
         parent::configure();
-        $this->setDescription('Push a JSON encoded file structure into a folder (and overwrite it)');
-        $this->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Target folder');
         $this
-            ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Content type name', 'directory')
+            ->setDescription('Pull an EMS archive into a local folder (and overwrite it)')
+            ->addArgument(self::ARGUMENT_ARCHIVE_HASH, InputArgument::REQUIRED, 'Hash of the ElasticMS Archive')
+            ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Target folder')
+            ->addOption(self::OPTION_ADMIN, null, InputOption::VALUE_NONE, 'Pull from admin')
         ;
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
+        $this->archiveHash = $this->getArgumentString(self::ARGUMENT_ARCHIVE_HASH);
         $this->folderPath = $this->getArgumentString(self::ARGUMENT_FOLDER);
-        $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
-        $this->coreApi = $this->adminHelper->getCoreApi();
+        $this->fileManager = match ($this->getOptionBool(self::OPTION_ADMIN)) {
+            true => $this->adminHelper->getCoreApi()->file(),
+            false => $this->storageManager,
+        };
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->collectExistingFiles();
-        $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
-        $document = $this->getDocument($defaultAlias);
-        if (null === $document) {
-            return self::EXECUTE_ERROR;
-        }
-        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
-        $structureJson = Type::string($propertyAccessor->getValue($document->getData(), "[$this->structureField]"));
-        $structure = JsonMenuNested::fromStructure($structureJson);
-        $this->io->progressStart($structure->count());
-        $paths = [];
-        foreach ($structure->getIterator() as $item) {
-            $path = \implode('/', $item->getPath(fn (JsonMenuNested $item) => $item->getLabel()));
-            $relativePath = \implode('/', [$this->folderPath, $path]);
-            $paths[$path] = $path;
-            switch ($item->getType()) {
-                case 'folder':
-                    if (\is_file($relativePath) && !\is_dir($relativePath)) {
-                        \unlink($relativePath);
-                    }
-                    if (!\is_dir($relativePath)) {
-                        \mkdir($relativePath);
-                    }
-                    break;
-                default:
-                    $fileHash = Type::string($propertyAccessor->getValue($item->getObject(), '[file][sha1]'));
-                    if (\is_file($relativePath) && $fileHash === \sha1_file($relativePath)) {
-                        break;
-                    }
-                    $file = $this->coreApi->file()->downloadFile($fileHash);
-                    \rename($file, $relativePath);
-            }
-            $this->io->progressAdvance();
-        }
-        $this->io->progressFinish();
+        $this->io->title('EMS - File structure - Pull');
 
+        $algo = $this->fileManager->getHashAlgo();
+        $archiveFile = $this->fileManager->downloadFile($this->archiveHash);
+        $archive = Archive::fromStructure(Type::string(\file_get_contents($archiveFile)), $algo);
+
+        $done = [];
         $filesystem = new Filesystem();
-        $toBeDelete = \array_filter(\array_map(fn ($file) => $file->getRelativePathname(), \iterator_to_array($this->finder)), fn (string $path) => !isset($paths[$path]));
-        $filesystem->remove(\array_keys($toBeDelete));
+        $filesystem->mkdir($this->folderPath);
+
+        $finder = new Finder();
+        $finder->in($this->folderPath)->files();
+        foreach ($finder as $file) {
+            $item = $archive->getByPath($file->getRelativePathname());
+            if (null !== $item && $item->hash === \hash_file($algo, $file->getPathname())) {
+                $done[] = $file->getRelativePathname();
+                continue;
+            }
+            $filesystem->remove($file->getPathname());
+        }
+
+        $progressBar = $this->io->createProgressBar($archive->getCount());
+        foreach ($archive->iterator() as $item) {
+            if (\in_array($item->filename, $done, true)) {
+                $progressBar->advance();
+                continue;
+            }
+            $tempFile = $this->fileManager->downloadFile($item->hash);
+            $explodedPath = \explode(\DIRECTORY_SEPARATOR, $this->folderPath.\DIRECTORY_SEPARATOR.$item->filename);
+            \array_pop($explodedPath);
+            $filesystem->mkdir(\implode(\DIRECTORY_SEPARATOR, $explodedPath));
+            $filesystem->rename($tempFile, $this->folderPath.\DIRECTORY_SEPARATOR.$item->filename);
+            $progressBar->advance();
+        }
+        $progressBar->finish();
 
         return self::EXECUTE_SUCCESS;
-    }
-
-    private function collectExistingFiles(): void
-    {
-        $this->finder = new Finder();
-        $this->finder->in($this->folderPath);
     }
 }

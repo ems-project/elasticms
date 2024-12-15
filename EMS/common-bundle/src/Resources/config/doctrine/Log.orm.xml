@@ -4,6 +4,10 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
   <entity name="EMS\CommonBundle\Entity\Log" table="log_message">
 
+    <indexes>
+      <index name="channel_ouuid_idx" columns="channel,ouuid" />
+    </indexes>
+
     <id name="id" type="uuid" column="id">
       <generator strategy="CUSTOM"/>
       <custom-id-generator class="Ramsey\Uuid\Doctrine\UuidGenerator"/>

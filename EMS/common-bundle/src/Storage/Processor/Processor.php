@@ -76,7 +76,7 @@ class Processor
         $cacheKey = $config->getCacheKey();
 
         $cacheResponse = new Response();
-        $this->cacheHelper->makeResponseCacheable($cacheResponse, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
+        $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
         //        if ($cacheResponse->isNotModified($request)) {
         //            return $cacheResponse;
         //        }
@@ -98,7 +98,7 @@ class Processor
             ]);
         }
 
-        $this->cacheHelper->makeResponseCacheable($response, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
+        $this->cacheHelper->makeResponseCacheable($request, $response, $cacheKey, $config->getLastUpdateDate(), $immutableRoute);
 
         return $response;
     }
@@ -339,20 +339,21 @@ class Processor
         return $path;
     }
 
-    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge): Response
+    public function getResponseFromArchive(Request $request, string $hash, string $path, int $maxAge, bool $extract, ?string $indexResource): Response
     {
-        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path);
+        $etag = \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path));
+        $cacheResponse = new Response();
+        $this->cacheHelper->makeResponseCacheable($request, $cacheResponse, $etag, null, false, $maxAge);
+        if ($cacheResponse->isNotModified($request)) {
+            return $cacheResponse;
+        }
+
+        $streamWrapper = $this->storageManager->getStreamFromArchive($hash, $path, $extract, $indexResource);
         $response = $this->getResponseFromStreamInterface($streamWrapper->getStream(), $request);
-        $response->headers->add([
+        $response->headers->replace(\array_merge($cacheResponse->headers->all(), [
             Headers::CONTENT_DISPOSITION => HeaderUtils::DISPOSITION_INLINE.'; '.HeaderUtils::toString(['filename' => \basename($path)], ';'),
             Headers::CONTENT_TYPE => $streamWrapper->getMimetype(),
-        ]);
-        $response->setCache([
-            'etag' => \hash('sha1', \sprintf('Asset in archive: %s:%s', $hash, $path)),
-            'max_age' => $maxAge,
-            'public' => true,
-            'private' => false,
-        ]);
+        ]));
 
         return $response;
     }

@@ -9,12 +9,18 @@ use EMS\CommonBundle\Json\JsonMenu;
 use EMS\CommonBundle\Json\JsonMenuNested;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class TextRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly Encoder $encoder, private readonly Decoder $decoder, private readonly LoggerInterface $logger)
-    {
+    public function __construct(
+        private readonly Encoder $encoder,
+        private readonly Decoder $decoder,
+        private readonly ValidatorInterface $validator,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     public function emsHtml(string $html): EmsHtml
@@ -82,5 +88,13 @@ class TextRuntime implements RuntimeExtensionInterface
     public function domCrawler($node, ?string $uri = null, ?string $baseHref = null): Crawler
     {
         return new Crawler($node, $uri, $baseHref);
+    }
+
+    public function isValidEmail(string $email): bool
+    {
+        $constraint = new Email();
+        $violations = $this->validator->validate($email, $constraint);
+
+        return 0 === \count($violations);
     }
 }

@@ -173,4 +173,9 @@ class FormSubmission implements EntityInterface, \JsonSerializable
 
         return $this->processBy;
     }
+
+    public function hasBeenProcessed(): bool
+    {
+        return null !== $this->processBy;
+    }
 }

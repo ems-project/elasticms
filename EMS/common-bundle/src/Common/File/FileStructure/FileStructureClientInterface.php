@@ -8,7 +8,7 @@ use Psr\Http\Message\StreamInterface;
 
 interface FileStructureClientInterface
 {
-    public function initSync(string $identifier, string $hash): void;
+    public function initSync(string $hash): void;
 
     public function createFolder(string $path, string $getLabel): void;
 

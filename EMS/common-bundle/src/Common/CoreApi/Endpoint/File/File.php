@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\CoreApi\Endpoint\File;
 
+use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\CoreApi\Client;
+use EMS\CommonBundle\Common\CoreApi\Endpoint\Admin\Admin;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
+use EMS\CommonBundle\Storage\Archive;
+use EMS\CommonBundle\Storage\File\FileInterface as StorageFileInterface;
 use EMS\CommonBundle\Storage\File\StorageFile;
 use EMS\CommonBundle\Storage\Service\HttpStorage;
 use EMS\CommonBundle\Storage\StorageManager;
@@ -14,14 +18,19 @@ use Psr\Http\Message\StreamInterface;
 
 final class File implements FileInterface
 {
+    /**
+     * @var int<1, max>
+     */
+    private int $headChunkSize = self::HEADS_CHUNK_SIZE;
+
     public function __construct(private readonly Client $client, private readonly StorageManager $storageManager)
     {
     }
 
-    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType): string
+    public function uploadStream(StreamInterface $stream, string $filename, string $mimeType, bool $head = true): string
     {
         $hash = $this->hashStream($stream);
-        if ($this->headHash($hash)) {
+        if ($head && $this->headHash($hash)) {
             return $hash;
         }
         $size = $stream->getSize();
@@ -52,6 +61,9 @@ final class File implements FileInterface
     public function uploadContents(string $contents, string $filename, string $mimeType): string
     {
         $hash = $this->storageManager->computeStringHash($contents);
+        if ($this->headHash($hash)) {
+            return $hash;
+        }
         $size = \strlen($contents);
         $fromByte = $this->initUpload($hash, $size, $filename, $mimeType);
         $uploaded = $this->addChunk($hash, $fromByte > 0 ? \substr($contents, $fromByte) : $contents);
@@ -109,14 +121,18 @@ final class File implements FileInterface
             throw new \RuntimeException(\sprintf('Could not download file with hash %s', $hash));
         }
         $stream = $this->client->download($this->downloadLink($hash));
-        $storageFile = new StorageFile($stream);
 
-        return $storageFile->getFilename();
+        return (new StorageFile($stream))->getFilename();
     }
 
     public function downloadLink(string $hash): string
     {
         return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
+    }
+
+    public function getHashAlgo(): string
+    {
+        return $this->client->get('/api/file/hash-algo')->getData()['hash_algo'];
     }
 
     public function hashStream(StreamInterface $stream): string
@@ -162,5 +178,46 @@ final class File implements FileInterface
         } catch (\Throwable) {
             return false;
         }
+    }
+
+    public function heads(string ...$fileHashes): \Traversable
+    {
+        $uniqueFileHashes = \array_unique($fileHashes);
+        $pagedHashes = \array_chunk($uniqueFileHashes, $this->headChunkSize, true);
+        foreach ($pagedHashes as $hashes) {
+            foreach ($this->client->post('/api/file/heads', $hashes)->getData() as $hash) {
+                yield $hash;
+            }
+        }
+    }
+
+    public function getContents(string $hash): string
+    {
+        return $this->getStream($hash)->getContents();
+    }
+
+    public function getStream(string $hash): StreamInterface
+    {
+        return $this->client->download($this->downloadLink($hash));
+    }
+
+    /**
+     * @param int<1, max> $chunkSize
+     */
+    public function setHeadChunkSize(int $chunkSize): void
+    {
+        $this->headChunkSize = $chunkSize;
+    }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): void
+    {
+        $admin = new Admin($this->client);
+        $command = \sprintf('%s %s', Commands::LOAD_ARCHIVE_IN_CACHE, $archiveHash);
+        $admin->runCommand($command);
+    }
+
+    public function getFile(string $hash): StorageFileInterface
+    {
+        return new StorageFile($this->getStream($hash));
     }
 }

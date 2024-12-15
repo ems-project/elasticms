@@ -9,6 +9,7 @@ use EMS\CommonBundle\Json\Decoder;
 use EMS\CommonBundle\Twig\TextRuntime;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TextRuntimeTest extends TestCase
 {
@@ -17,6 +18,7 @@ class TextRuntimeTest extends TestCase
     public function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->validator = $this->createMock(ValidatorInterface::class);
     }
 
     public function testReplaceInDom()
@@ -24,6 +26,7 @@ class TextRuntimeTest extends TestCase
         $textRuntime = new TextRuntime(
             new Encoder(),
             new Decoder(),
+            $this->validator,
             $this->logger);
 
         $source = <<<'HTML'

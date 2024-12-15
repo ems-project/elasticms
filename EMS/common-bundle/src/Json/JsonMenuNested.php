@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Json;
 
+use EMS\CommonBundle\Common\PropertyAccess\PropertyAccessor;
 use EMS\Helpers\Standard\Base64;
 use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
@@ -15,7 +16,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringable
 {
     private string $id;
-    private readonly string $type;
+    private string $type;
     private string $label;
     /** @var array<mixed> */
     private array $object;
@@ -204,7 +205,20 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
 
     public function changeId(): JsonMenuNested
     {
-        $this->id = Uuid::uuid4()->toString();
+        if ('_root' !== $this->id) {
+            $this->id = Uuid::uuid4()->toString();
+        }
+
+        return $this;
+    }
+
+    public function changeIds(): JsonMenuNested
+    {
+        $this->changeId();
+
+        foreach ($this->getIterator() as $child) {
+            $child->changeId();
+        }
 
         return $this;
     }
@@ -244,6 +258,11 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
     }
 
     public function getLabel(): string
@@ -409,6 +428,20 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     public function breadcrumb(string $uid, bool $reverseOrder = false): iterable
     {
         yield from $this->yieldBreadcrumb($uid, $this->children, $reverseOrder);
+    }
+
+    /**
+     * @param string[] $paths
+     */
+    public function clear(array $paths): void
+    {
+        $propertyAccessor = PropertyAccessor::createPropertyAccessor();
+
+        foreach ($paths as $path) {
+            $propertyAccessor->setValue($this->object, $path, null);
+        }
+
+        $this->object = \array_filter($this->object);
     }
 
     /**

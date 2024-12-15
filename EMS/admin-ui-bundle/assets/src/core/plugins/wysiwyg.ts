@@ -5,24 +5,25 @@ class WYSIWYG {
 
   load(target: HTMLElement) {
     this.loadInAdminUI(target)
-    // this.loadInRevision(target)
+    this.loadInRevision(target)
   }
 
-  // loadInRevision(target) {
-  //   const wysiwygs = target.querySelectorAll('.ckeditor_ems')
-  //   for (let i = 0; i < wysiwygs.length; ++i) {
-  //     this.createEditor(wysiwygs[i], {
-  //       onChangeEvent: 'keyup',
-  //       styleSet: wysiwygs[i].dataset.stylesSet,
-  //       formatTags: wysiwygs[i].dataset.formatTags,
-  //       contentCss: wysiwygs[i].dataset.contentCss,
-  //       height: wysiwygs[i].dataset.height,
-  //       referrerEmsId: wysiwygs[i].dataset.referrerEmsId,
-  //       tableDefaultCss: wysiwygs[i].dataset.tableDefaultCss,
-  //       lang: wysiwygs[i].dataset.lang
-  //     })
-  //   }
-  // }
+  loadInRevision(target: HTMLElement) {
+    const wysiwygs = target.querySelectorAll('.ckeditor_ems')
+    for (let i = 0; i < wysiwygs.length; ++i) {
+      const element = wysiwygs.item(i)
+      this.createEditor(element as HTMLElement, {
+        onChangeEvent: 'keyup',
+        styleSet: element.getAttribute('data-styles-set'),
+        formatTags: element.getAttribute('data-format-tags'),
+        contentCss: element.getAttribute('data-content-css'),
+        height: element.getAttribute('data-height'),
+        referrerEmsId: element.getAttribute('data-referrer-ems-id'),
+        tableDefaultCss: element.getAttribute('data-table-default-css'),
+        lang: element.getAttribute('data-lang')
+      })
+    }
+  }
 
   loadInAdminUI(target: HTMLElement): void {
     const wysiwygs = target.querySelectorAll('.ckeditor')

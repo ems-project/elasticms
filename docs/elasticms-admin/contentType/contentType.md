@@ -116,13 +116,13 @@ When tasks are enabled, every user can create, handle, validate tasks inside a r
 
 If a user completes a task, he can **only** validate the task if he is the requester.
 
-Only the requester and task managers can delete the tasks
+Only the requester and task admins can delete the tasks
 
 On all tasks steps the assignee and/or requester will receive **emails**.
 
 Users who have the role `TASK_MANAGER` can see all current tasks in their dashboard overview.
 
-Task manager can also delete tasks, but the requester will receive an email.
+Task admins can also delete tasks, but the requester will receive an email.
 
 ## Roles
 

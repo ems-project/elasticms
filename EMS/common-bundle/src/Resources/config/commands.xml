@@ -81,6 +81,10 @@
             <argument type="string">%kernel.project_dir%</argument>
             <tag name="console.command" command="ems:document:download"/>
         </service>
+        <service id="ems.command.document.publish" class="EMS\CommonBundle\Command\Document\PublishCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command" command="ems:document:publish"/>
+        </service>
         <service id="ems.command.document.update" class="EMS\CommonBundle\Command\Document\UpdateCommand">
             <argument type="service" id="ems.helper.admin_api"/>
             <argument type="string">%kernel.project_dir%</argument>
@@ -91,22 +95,30 @@
             <tag name="console.command" command="ems:version"/>
         </service>
         <service id="ems.command.file_structure.publish" class="EMS\CommonBundle\Command\FileStructure\FileStructurePublishCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
-            <argument type="service" id="EMS\CommonBundle\Storage\StorageManager"/>
+            <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="service" id="ems_common.storage.manager"/>
             <tag name="console.command" />
         </service>
         <service id="ems.command.file_structure.pull" class="EMS\CommonBundle\Command\FileStructure\FileStructurePullCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="service" id="ems_common.storage.manager"/>
             <tag name="console.command" />
         </service>
         <service id="ems.command.file_structure.push" class="EMS\CommonBundle\Command\FileStructure\FileStructurePushCommand">
-            <argument type="service" id="EMS\CommonBundle\Service\ElasticaService"/>
             <argument type="service" id="ems.helper.admin_api"/>
+            <argument type="service" id="ems_common.storage.manager"/>
             <tag name="console.command" />
         </service>
         <service id="ems.command.storage.clear_cache" class="EMS\CommonBundle\Command\Storage\ClearCacheCommand">
             <argument type="service" id="ems_common.storage.manager"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.storage.load_archive_times_in_cache" class="EMS\CommonBundle\Command\Storage\LoadArchiveItemsInCacheCommand">
+            <argument type="service" id="ems_common.storage.manager"/>
+            <tag name="console.command" />
+        </service>
+        <service id="ems.command.submission.forward" class="EMS\CommonBundle\Command\Submission\ForwardCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
             <tag name="console.command" />
         </service>
     </services>

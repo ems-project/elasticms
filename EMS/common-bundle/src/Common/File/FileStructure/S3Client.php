@@ -13,9 +13,9 @@ use Psr\Http\Message\StreamInterface;
 
 class S3Client implements FileStructureClientInterface
 {
+    private const EMS_ARCHIVE_IDENTIFIER_FILE = '.ems_archive_digest';
     private AwsS3Client $client;
     private string $hash;
-    private string $identifier;
     /** @var mixed[] */
     private array $batch;
     /** @var string[] */
@@ -29,10 +29,9 @@ class S3Client implements FileStructureClientInterface
         $this->client = new AwsS3Client($credential);
     }
 
-    public function initSync(string $identifier, string $hash): void
+    public function initSync(string $hash): void
     {
         $this->hash = $hash;
-        $this->identifier = $identifier;
         $this->batch = [];
         $this->existingFiles = [];
 
@@ -69,7 +68,7 @@ class S3Client implements FileStructureClientInterface
 
     public function finalize(): void
     {
-        $key = "$this->hash/$this->identifier";
+        $key = "$this->hash/".self::EMS_ARCHIVE_IDENTIFIER_FILE;
         $result = $this->client->putObject([
             'Bucket' => $this->bucket,
             'Key' => $key,
@@ -79,10 +78,10 @@ class S3Client implements FileStructureClientInterface
         $this->existingFiles[$key] = $key;
         $this->batch[] = $this->client->getCommand('CopyObject', [
             'Bucket' => $this->bucket,
-            'Key' => $this->identifier,
+            'Key' => self::EMS_ARCHIVE_IDENTIFIER_FILE,
             'CopySource' => \urlencode("$this->bucket/$key"),
         ]);
-        unset($this->existingFiles[$this->identifier]);
+        unset($this->existingFiles[self::EMS_ARCHIVE_IDENTIFIER_FILE]);
         foreach ($this->existingFiles as $key => $object) {
             $this->batch[] = $this->client->getCommand('DeleteObject', [
                 'Bucket' => $this->bucket,
@@ -97,7 +96,7 @@ class S3Client implements FileStructureClientInterface
         try {
             $hash = $this->client->getObject([
                 'Bucket' => $this->bucket,
-                'Key' => $this->identifier,
+                'Key' => self::EMS_ARCHIVE_IDENTIFIER_FILE,
             ])['Body']->__toString();
         } catch (\RuntimeException) {
             throw new FileStructureNotSyncException('It was not possible to get the current hash value');

@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Storage\Service;
 
+use Aws\CommandPool;
+use Aws\Exception\AwsException;
 use Aws\S3\S3Client;
 use EMS\CommonBundle\Common\Cache\Cache;
+use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Base64;
+use GuzzleHttp\Promise\Each;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Finder\SplFileInfo;
@@ -18,6 +22,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class S3Storage extends AbstractUrlStorage
 {
     private ?S3Client $s3Client = null;
+    private bool $streamWrapperRegistered = false;
 
     /**
      * @param array{version?: string, credentials?: array{key: string, secret: string}, region?: string} $credentials
@@ -29,7 +34,10 @@ class S3Storage extends AbstractUrlStorage
 
     protected function getBaseUrl(): string
     {
-        $this->getS3Client();
+        if (!$this->streamWrapperRegistered) {
+            $this->getS3Client()->registerStreamWrapper();
+            $this->streamWrapperRegistered = true;
+        }
 
         return "s3://$this->bucket";
     }
@@ -218,7 +226,6 @@ class S3Storage extends AbstractUrlStorage
     {
         if (null === $this->s3Client) {
             $this->s3Client = new S3Client($this->credentials);
-            $this->s3Client->registerStreamWrapper();
         }
 
         return $this->s3Client;
@@ -227,7 +234,7 @@ class S3Storage extends AbstractUrlStorage
     private function uploadKey(string $hash): string
     {
         if ($this->multipartUpload) {
-            return "uploads_$hash";
+            return \sprintf('uploads_%s_%s', $this->bucket, $hash);
         }
 
         return "uploads/$hash";
@@ -305,12 +312,25 @@ class S3Storage extends AbstractUrlStorage
         } catch (\RuntimeException) {
             return null;
         }
-        $stream = $response['Body'] ?? null;
+
+        $hash = $response->get('Metadata')['hash'] ?? null;
+        if (\is_string($hash)) {
+            $masterResponse = $this->getS3Client()->getObject([
+                'Bucket' => $this->bucket,
+                'Key' => $this->key($hash),
+            ]);
+            $stream = $masterResponse['Body'] ?? null;
+            $size = \intval($masterResponse['ContentLength']);
+        } else {
+            $stream = $response['Body'] ?? null;
+            $size = \intval($response['ContentLength']);
+        }
+
         if (!$stream instanceof StreamInterface) {
             return null;
         }
 
-        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value, \intval($response['ContentLength']));
+        return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value, $size);
     }
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
@@ -328,5 +348,62 @@ class S3Storage extends AbstractUrlStorage
         ]);
 
         return $result->hasKey('ETag');
+    }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
+    {
+        $batch = [];
+        $client = $this->getS3Client();
+        foreach ($archive->iterator() as $item) {
+            $batch[] = $client->getCommand('PutObject', [
+                'Bucket' => $this->bucket,
+                'ContentType' => $item->type,
+                'Key' => \implode('/', [
+                    'cache',
+                    \substr($archiveHash, 0, 3),
+                    \substr($archiveHash, 3),
+                    $item->filename,
+                ]),
+                'MetadataDirective' => 'REPLACE',
+                'Metadata' => [
+                    'hash' => $item->hash,
+                ],
+            ]);
+        }
+        $pool = new CommandPool($client, $batch, [
+            'concurrency' => 250,
+            'fulfilled' => $callback,
+            'rejected' => $callback,
+        ]);
+        $promise = $pool->promise();
+        $promise->wait();
+
+        return true;
+    }
+
+    public function heads(string ...$hashes): array
+    {
+        $client = $this->getS3Client();
+        $notFound = [];
+
+        $promiseGenerator = function () use ($hashes, $client, &$notFound) {
+            foreach ($hashes as $hash) {
+                yield $client->headObjectAsync([
+                    'Bucket' => $this->bucket,
+                    'Key' => \implode('/', [\substr($hash, 0, 3), $hash]),
+                ])->then(onFulfilled: function () use (&$notFound) {
+                    $notFound[] = true;
+                }, onRejected: function (AwsException $exception) use (&$notFound, $hash) {
+                    if ('NotFound' === $exception->getAwsErrorCode()) {
+                        $notFound[] = $hash;
+                    }
+                });
+            }
+        };
+
+        $promise = Each::ofLimit(iterable: $promiseGenerator(), concurrency: 500);
+        $promise->wait();
+
+        return $notFound;
     }
 }

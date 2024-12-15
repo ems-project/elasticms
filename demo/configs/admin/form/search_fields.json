@@ -81,7 +81,7 @@
                                             },
                                             "mappingOptions": {
                                                 "index": null,
-                                                "analyzer": "french",
+                                                "analyzer": "french_with_synonyms",
                                                 "copy_to": "live_search_fr"
                                             },
                                             "restrictionOptions": {
@@ -156,7 +156,7 @@
                                             },
                                             "mappingOptions": {
                                                 "index": null,
-                                                "analyzer": "dutch",
+                                                "analyzer": "dutch_with_synonyms",
                                                 "copy_to": "live_search_nl"
                                             },
                                             "restrictionOptions": {
@@ -227,7 +227,7 @@
                                                 "displayTemplate": null
                                             },
                                             "mappingOptions": {
-                                                "mappingOptions": "{\r\n    \"type\": \"text\",\r\n    \"analyzer\": \"french\",\r\n    \"copy_to\": [\r\n        \"live_search_fr\"\r\n    ]\r\n}",
+                                                "mappingOptions": "{\r\n    \"type\": \"text\",\r\n    \"analyzer\": \"french_with_synonyms\",\r\n    \"copy_to\": [\r\n        \"live_search_fr\"\r\n    ]\r\n}",
                                                 "copy_to": null
                                             },
                                             "restrictionOptions": [],
@@ -263,7 +263,7 @@
                                                 "displayTemplate": null
                                             },
                                             "mappingOptions": {
-                                                "mappingOptions": "{\r\n    \"type\": \"text\",\r\n    \"analyzer\": \"dutch\",\r\n    \"copy_to\": [\r\n        \"live_search_nl\"\r\n    ]\r\n}",
+                                                "mappingOptions": "{\r\n    \"type\": \"text\",\r\n    \"analyzer\": \"dutch_with_synonyms\",\r\n    \"copy_to\": [\r\n        \"live_search_nl\"\r\n    ]\r\n}",
                                                 "copy_to": null
                                             },
                                             "restrictionOptions": [],
@@ -299,7 +299,7 @@
                                                 "displayTemplate": null
                                             },
                                             "mappingOptions": {
-                                                "mappingOptions": "{\r\n    \"type\": \"search_as_you_type\",\r\n    \"analyzer\": \"standard\"\r\n}",
+                                                "mappingOptions": "{\r\n    \"type\": \"search_as_you_type\",\r\n    \"analyzer\": \"standard_with_synonyms\"\r\n}",
                                                 "copy_to": null
                                             },
                                             "restrictionOptions": [],
@@ -335,7 +335,7 @@
                                                 "displayTemplate": null
                                             },
                                             "mappingOptions": {
-                                                "mappingOptions": "{\r\n    \"type\": \"search_as_you_type\",\r\n    \"analyzer\": \"french\"\r\n}",
+                                                "mappingOptions": "{\r\n    \"type\": \"search_as_you_type\",\r\n    \"analyzer\": \"french_with_synonyms\"\r\n}",
                                                 "copy_to": null
                                             },
                                             "restrictionOptions": [],
@@ -371,7 +371,7 @@
                                                 "displayTemplate": null
                                             },
                                             "mappingOptions": {
-                                                "mappingOptions": "{\r\n    \"type\": \"search_as_you_type\",\r\n    \"analyzer\": \"dutch\"\r\n}",
+                                                "mappingOptions": "{\r\n    \"type\": \"search_as_you_type\",\r\n    \"analyzer\": \"dutch_with_synonyms\"\r\n}",
                                                 "copy_to": null
                                             },
                                             "restrictionOptions": [],

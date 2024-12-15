@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Helper;
 
 use EMS\CommonBundle\Helper\Cache;
+use EMS\Helpers\Html\Headers;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CacheTest extends TestCase
@@ -36,31 +38,56 @@ class CacheTest extends TestCase
 
     public function testMakeResponseCacheableReturnSameEtag(): void
     {
-        $this->cache->makeResponseCacheable($this->response, 'test', null, false);
+        $request = new Request();
+        $this->cache->makeResponseCacheable($request, $this->response, 'test', null, false);
         self::assertSame('"test"', $this->response->getEtag());
     }
 
     public function testMakeResponseCacheableReturnSameMaxAgeFalse(): void
     {
-        $this->cache->makeResponseCacheable($this->response, 'test', null, false);
+        $request = new Request();
+        $this->cache->makeResponseCacheable($request, $this->response, 'test', null, false);
         self::assertSame(3600, $this->response->getMaxAge());
     }
 
     public function testMakeResponseCacheableReturnSameMaxAgeTrue(): void
     {
-        $this->cache->makeResponseCacheable($this->response, 'test', null, true);
+        $request = new Request();
+        $this->cache->makeResponseCacheable($request, $this->response, 'test', null, true);
         self::assertSame(2_678_400, $this->response->getMaxAge());
     }
 
     public function testMakeResponseCacheableReturnSameLastUpdateDateNotNull(): void
     {
-        $this->cache->makeResponseCacheable($this->response, 'test', null, false);
+        $request = new Request();
+        $this->cache->makeResponseCacheable($request, $this->response, 'test', null, false);
         self::assertSame(null, $this->response->getLastModified());
     }
 
     public function testMakeResponseCacheableReturnSameImmutableRoute(): void
     {
-        $this->cache->makeResponseCacheable($this->response, 'test', null, false);
+        $request = new Request();
+        $this->cache->makeResponseCacheable($request, $this->response, 'test', null, false);
         self::assertSame(true, !$this->response->isImmutable());
+    }
+
+    public function testEtagIsNotModified(): void
+    {
+        $request = new Request();
+        $request->headers->replace([
+            Headers::IF_NONE_MATCH => '"test"',
+        ]);
+        $this->cache->makeResponseCacheable($request, $this->response, 'test', null, false);
+        self::assertTrue($this->response->isNotModified($request));
+    }
+
+    public function testEtagIsNotModifiedBehindApacheWithDeflateMod(): void
+    {
+        $request = new Request();
+        $request->headers->replace([
+            Headers::IF_NONE_MATCH => '"test-gzip"',
+        ]);
+        $this->cache->makeResponseCacheable($request, $this->response, 'test', null, false);
+        self::assertTrue($this->response->isNotModified($request));
     }
 }

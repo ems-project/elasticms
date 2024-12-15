@@ -1,0 +1,24 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "french_with_synonyms",
+        "dirty": true,
+        "label": "French (synonyms)",
+        "options": {
+            "filter": [
+                "standard",
+                "lowercase",
+                "french_elision",
+                "french_stop",
+                "french_stemmer",
+                "business_synonyms"
+            ],
+            "char_filter": [],
+            "type": "custom",
+            "tokenizer": "standard"
+        },
+        "orderKey": 6
+    },
+    "replaced": []
+}

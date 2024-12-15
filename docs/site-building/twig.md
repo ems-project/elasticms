@@ -93,6 +93,17 @@ This filter parses a string and returns a [Symfony DomCrawler](https://symfony.c
 
 Useful to extract content from a html string: `{% set firstP = data.body_fr|ems_dom_crawler.filter('p').first.text %}`
 
+Another example for adding the class `img-fluid` to all img tags:
+```twig
+{% set crawler = body|emsch_routing|ems_dom_crawler %}
+{% for img in crawler.filter('img') %}
+    {% if img.getAttribute('class') == '' %}
+        {% do img.setAttribute('class', 'img-fluid') %}
+    {% endif %}
+{% endfor %}
+{{ crawler.filter('body').html()|raw }}
+```
+
 ### Function
 
 #### ems_template_exists

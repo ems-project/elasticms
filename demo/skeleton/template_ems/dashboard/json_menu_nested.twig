@@ -57,31 +57,43 @@
     </li>
 {%- endblock jmn_button_add_menu -%}
 
-{%- block jmn_button_item_more_menu -%}
-    <li>{{ template.block('jmn_button_item_view', _context)|raw }}</li>
-    <li>{{ template.block('jmn_button_item_edit', _context)|raw }}</li>
-    {%- if item.type == 'page' and pageInfo -%}
-        <li>
-            <button class="btn-detach-page dropdown-item" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
-        </li>
-    {% elseif item.children|length == 0 %}
-        <li>{{- template.block('jmn_button_item_delete', _context)|raw -}}</li>
-    {% endif %}
-{%- endblock jmn_button_item_more_menu -%}
+{%- block jmn_button_item_more -%}
+    {%- set menuMoreItems = menuMoreItems|default([
+        'jmn_button_item_view',
+        'jmn_button_item_edit',
+        'button_detach',
+        'jmn_button_copy',
+        'jmn_button_paste',
+        'jmn_button_item_delete'
+    ]) -%}
+    {{ parent() }}
+{%- endblock jmn_button_item_more -%}
 
 {%- block jmn_button_item_add -%}
-    {% set buttonLabel = "Create #{addNode.type}" %}
+    {%- set buttonLabel = "Create #{addNode.type}" -%}
     {{ parent() }}
 {%- endblock -%}
 
 {%- block jmn_button_item_edit -%}
-    {% if node.type|default('') == 'page' %}{% set buttonLabel = 'Edit item' %}{% endif %}
+    {%- if node.type|default('') == 'page' -%}{%- set buttonLabel = 'Edit item' -%}{% endif -%}
     {{ parent() }}
 {%- endblock -%}
 
 {%- block jmn_button_item_view -%}
-    {% if node.type|default('') == 'page' %}{% set buttonLabel = 'View item' %}{% endif %}
+    {%- if node.type|default('') == 'page' -%}{%- set buttonLabel = 'View item' -%}{%- endif -%}
     {{ parent() }}
+{%- endblock -%}
+
+{%- block button_detach -%}
+    {%- if item.type == 'page' and pageInfo -%}
+        <button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
+    {%- endif -%}
+{%- endblock button_detach -%}
+
+{%- block jmn_button_item_delete -%}
+    {%- if item.children|length == 0 and (item.type != 'page' or pageInfo == false) -%}
+        {{ parent() }}
+    {%- endif -%}
 {%- endblock -%}
 
 {%- block jmn_item_title -%}

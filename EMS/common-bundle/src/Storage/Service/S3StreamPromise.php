@@ -135,8 +135,7 @@ class S3StreamPromise implements StreamInterface
         return $this->read($this->getSize() - $this->offset);
     }
 
-    public function getMetadata(?string $key = null): never
+    public function getMetadata(?string $key = null): void
     {
-        throw new \RuntimeException('Metadata are not supported in ElasticMS storage services');
     }
 }

@@ -338,8 +338,8 @@ class InsertionRevision
         $expectedSourceValue = $propertyAccessor->getValue($extractedRawData, $sourcePropertyPath);
 
         if ('html' === $format) {
-            $expectedSourceValue = HtmlHelper::prettyPrint($expectedSourceValue);
-            $sourceValue = HtmlHelper::prettyPrint($sourceValue);
+            $expectedSourceValue = HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($expectedSourceValue));
+            $sourceValue = HtmlHelper::prettyPrint(HtmlHelper::stripZeroWidthCharacters($sourceValue));
         } elseif (null !== $format) {
             throw new \RuntimeException(\sprintf('Unexpected %s field format', $format));
         }

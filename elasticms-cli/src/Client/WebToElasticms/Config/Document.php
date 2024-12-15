@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\CLI\Client\WebToElasticms\Config;
 
-use App\CLI\Client\WebToElasticms\Helper\Url;
+use EMS\CommonBundle\Helper\Url;
 
 class Document
 {

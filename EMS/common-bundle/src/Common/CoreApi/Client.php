@@ -12,7 +12,6 @@ use GuzzleHttp\Psr7\Stream;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpClient\CurlHttpClient;
 use Symfony\Component\HttpClient\Response\StreamableInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,19 +23,13 @@ class Client
 {
     /** @var array<string, string> */
     private array $headers = [];
-    private readonly HttpClientInterface $client;
     private LoggerInterface $logger;
 
-    public function __construct(private readonly string $baseUrl, LoggerInterface $logger, bool $verify, int $timeout)
-    {
-        $this->client = new CurlHttpClient([
-            'base_uri' => $baseUrl,
-            'headers' => ['Content-Type' => 'application/json'],
-            'verify_host' => $verify,
-            'verify_peer' => $verify,
-            'timeout' => $timeout,
-        ]);
-
+    public function __construct(
+        private readonly HttpClientInterface $httpClient,
+        private readonly string $baseUrl,
+        LoggerInterface $logger,
+    ) {
         $this->setLogger($logger);
     }
 
@@ -65,6 +58,17 @@ class Client
     }
 
     /**
+     * @param array<mixed> $options
+     */
+    public function asyncRequest(string $method, string $resource, array $options = []): ResponseInterface
+    {
+        return $this->httpClient->request($method, $resource, [
+            ...['headers' => $this->headers],
+            ...$options,
+        ]);
+    }
+
+    /**
      * @param array<mixed> $query
      */
     public function get(string $resource, array $query = []): Result
@@ -80,7 +84,7 @@ class Client
      */
     public function download(string $resource, array $query = []): StreamInterface
     {
-        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+        $response = $this->request(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
@@ -95,28 +99,36 @@ class Client
     /**
      * @param array<mixed> $query
      */
-    public function streamResponse(string $resource, array $query = []): StreamedResponse
+    public function getResponse(string $resource, array $query = []): ResponseInterface
     {
-        $response = $this->getResponse(Request::METHOD_GET, $resource, [
+        $response = $this->request(Request::METHOD_GET, $resource, [
             'headers' => $this->headers,
             'query' => $query,
         ]);
 
+        return $response;
+    }
+
+    /**
+     * @param array<mixed> $query
+     */
+    public function forwardResponse(string $resource, array $query = []): StreamedResponse
+    {
+        $request = $this->get($resource, $query);
+        $response = $request->response;
         if (!$response instanceof StreamableInterface) {
             throw new \RuntimeException('no stream response');
         }
-
         $stream = $response->toStream();
-
         $streamResponse = new StreamedResponse(function () use ($stream) {
             while (!\feof($stream)) {
                 echo \fread($stream, File::DEFAULT_CHUNK_SIZE);
                 \flush();
             }
             \fclose($stream);
-        }, $response->getStatusCode());
+        }, $request->response->getStatusCode());
 
-        $headers = $response->getHeaders();
+        $headers = $request->response->getHeaders();
 
         $streamResponse->headers->set('Content-Type', $headers['content-type']);
         $streamResponse->headers->set('Content-Disposition', $headers['content-disposition']);
@@ -125,8 +137,8 @@ class Client
     }
 
     /**
-     * @param array<string, mixed> $body
-     * @param array<string, mixed> $options
+     * @param array<string|int, mixed> $body
+     * @param array<string, mixed>     $options
      */
     public function post(string $resource, array $body = [], array $options = []): Result
     {
@@ -145,7 +157,7 @@ class Client
 
     public function head(string $resource): bool
     {
-        $response = $this->client->request(Request::METHOD_HEAD, $resource, [
+        $response = $this->httpClient->request(Request::METHOD_HEAD, $resource, [
             'headers' => $this->headers,
         ]);
 
@@ -164,21 +176,21 @@ class Client
     {
         $this->logger = $logger;
 
-        if ($this->client instanceof LoggerAwareInterface) {
-            $this->client->setLogger($logger);
+        if ($this->httpClient instanceof LoggerAwareInterface) {
+            $this->httpClient->setLogger($logger);
         }
     }
 
     /**
      * @param array<string, mixed> $options
      */
-    private function getResponse(string $method, string $resource, array $options): ResponseInterface
+    private function request(string $method, string $resource, array $options): ResponseInterface
     {
         if ('' === $this->baseUrl) {
             throw new BaseUrlNotDefinedException();
         }
 
-        $response = $this->client->request($method, $resource, $options);
+        $response = $this->httpClient->request($method, $resource, $options);
 
         if (Response::HTTP_UNAUTHORIZED === $response->getStatusCode()) {
             throw new NotAuthenticatedException($response);
@@ -192,7 +204,7 @@ class Client
      */
     private function getResult(string $method, string $resource, array $options): Result
     {
-        $response = $this->getResponse($method, $resource, $options);
+        $response = $this->request($method, $resource, $options);
         $result = new Result($response, $this->logger);
 
         if (!$result->isSuccess()) {

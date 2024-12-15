@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Storage\Service;
 
 use EMS\CommonBundle\Helper\MimeTypeHelper;
+use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
@@ -106,6 +107,11 @@ class FileSystemStorage extends AbstractUrlStorage
         $this->initDirectory($filename);
 
         return \copy($file->getPathname(), $filename);
+    }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
+    {
+        return false;
     }
 
     protected function getCachePath(Config $config): string

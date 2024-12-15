@@ -1,5 +1,4 @@
-# TOC
-
+<!-- TOC -->
 * [Twig Functions](#twig-functions)
   * [ems_html](#ems_html)
   * [ems_nested_search](#ems_nested_search)
@@ -20,9 +19,15 @@
   * [format_bytes](#format_bytes)
   * [ems_ascii_folding](#ems_ascii_folding)
   * [ems_template_exists](#ems_template_exists)
+  * [ems_analyze](#ems_analyze)
   * [ems_slug](#ems_slug)
-
-
+  * [ems_file_from_archive](#ems_file_from_archive)
+  * [ems_link](#ems_link)
+  * [ems_valid_mail](#ems_valid_mail)
+  * [ems_uuid](#ems_uuid-1)
+  * [ems_date](#ems_date)
+  * [ems_int](#ems_int)
+<!-- TOC -->
 
 # Twig Functions
 
@@ -31,7 +36,7 @@
 Will return a instance of [EmsHtml](https://github.com/ems-project/elasticms/tree/4.x/EMS/common-bundle/src/Common/Text/EmsHtml.php) which is an extension of Twig\Markup.
 You can easyly replace text, remove html tags, printUrls.
 
-### Example
+Example
 > This example is usefull for generating pdf's.
 - This wil replace 'example' by 'EXAMPLE' and 'searchX' by 'replaceX'
 - Remove all a tags if the attribute text contains 'mywebsite.com' and will keep the content
@@ -51,13 +56,13 @@ You can easyly replace text, remove html tags, printUrls.
 
 Search all choices of a nested field, and this function will runtime cache the result.
 
-### Arguments
+Arguments
 - **alias**: name of the elasticsearch alias
 - **contentTypeNames**: string or array of contentType names
 - **nestedFieldName**: namem of the nestedField
 - **search**: key/value array, key is nested property name, value is search value
 
-### Example
+Example
 
 The following example will build 3 variables by using the *ems_nested_search*, the choices will only build once and cached.
 
@@ -71,7 +76,7 @@ The following example will build 3 variables by using the *ems_nested_search*, t
 Retrieve information (size, resolution, mime type and extension) about an image, based on its hash.
 If the hash can not be recognized as an image or does not exist, **_null_** is returned.
 
-### Arguments
+Arguments
 - **hash**: hash(sha1) of the image
 
 Where _'4ef5796bb14ce4b711737dc44aa20bff82193cf5'_ is the hash of a jpg
@@ -95,7 +100,7 @@ Where _'4ef5796bb14ce4b711737dc44aa20bff82193cf5'_ is the hash of a jpg
 Generate a version 4 (random) UUID. [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version4.html).
 
 ````twig
-{{ ems_uuid() }} {# displays: 21.16 KB #}
+{{ ems_uuid() }}
 ````
 
 ## ems_store_read
@@ -277,7 +282,7 @@ The following example will generate a `è` :
 {{ '&grave;'|ems_html_decode|json_encode|raw }}
 ```
 
-### Other parameters:
+Other parameters:
 
  - flags: [refers to html_entity_decode's flags paramter](https://www.php.net/manual/en/function.html-entity-decode.php), default value `ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML5`
  - encoding: [defining the encoding used when converting characters](https://www.php.net/manual/en/function.html-entity-decode.php), default value `"UTF-8""`
@@ -292,8 +297,7 @@ Generate a hash value from the message. See the [PHP hash function](https://php.
 {{ 'foobar'|ems_hash('sha1') }} {# outputs 8843d7f92416211de9ebb963ff4ce28125932878 #}
 ```
 
-### Other parameters:
-
+Other parameters:
 - algo: [refers to the hash's algo parameter](https://php.net/manual/en/function.hash.php), default value `null` which means that the `ems_common.hash_algo` will be used
 - binary: [refers to the hash's binary parameter](https://php.net/manual/en/function.hash.php), default value `false`. When set to `true`, outputs raw binary data
 
@@ -443,3 +447,60 @@ Returns a path to a temporary asset extracted from an archive (a zip file). Usef
 ````twig
     {% set path = ems_file_from_archive('253b903b1fb3ac30975ae9844a0352a65cdcfa3d', 'img/logos/full-logo.svg') %}
 ````
+
+This function also accept extra options:
+
+ * `extract`: Specify that the function can not try to re-extract the archive if the searched path is missing. If disabled the function won't throw an error but `null`.  Default value: `true`.
+ * `asTempFile`: Returns a [EMS\Helpers\File\TempFile](https://github.com/ems-project/elasticms/blob/5.x/EMS/helpers/src/File/TempFile.php) object when activated, a path to the temporary file instead. A TempFile is useful to get file's contents with the member function `getContents()`. Default value `false`
+
+Example: 
+
+```twig
+{% set tempFile = ems_file_from_archive(hash, "#{path}/index.php", {
+    extract: false,
+    asTempFile: true,
+}) %}
+```
+
+## ems_link
+
+Return the [EMSLink](https://github.com/ems-project/elasticms/blob/HEAD/EMS/common-bundle/src/Common/EMSLink.php) object
+
+```twig
+{% set emsLink = 'page:064efcc7751ee8b0915416a717e2db46d15c77eb'|ems_link %}
+```
+
+## ems_valid_mail
+
+Returns true if the input is a valid email
+
+```twig
+{%- if _source.email|ems_valid_mail -%}{% endif %}
+```
+
+## ems_uuid
+
+Generate a version 5 UUID from a value. [More info](https://uuid.ramsey.dev/en/stable/rfc4122/version5.html).
+
+```twig
+{{ 'my_unique_id_value'|ems_uuid }} 
+```
+
+## ems_date
+
+Generate a \DateTimeImmutable object from a value.
+
+```twig
+{% set date = '31/12/1998 0:00:00'|ems_date('j/m/Y H:i:s') %}
+
+{{ date.format('d-m-Y') }}
+{{ date.timezone }}
+```
+
+## ems_int
+
+Use php \intval function on input
+
+```twig
+{% set size = app.request.query.get('size', 0)|ems_int %}
+```

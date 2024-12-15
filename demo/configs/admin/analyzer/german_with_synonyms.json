@@ -1,0 +1,24 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "german_with_synonyms",
+        "dirty": true,
+        "label": "German (synonyms)",
+        "options": {
+            "filter": [
+                "standard",
+                "lowercase",
+                "empty_elision",
+                "german_stemmer",
+                "german_stop",
+                "business_synonyms"
+            ],
+            "char_filter": [],
+            "type": "custom",
+            "tokenizer": "standard"
+        },
+        "orderKey": 8
+    },
+    "replaced": []
+}

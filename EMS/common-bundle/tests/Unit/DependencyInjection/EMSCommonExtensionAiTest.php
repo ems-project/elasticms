@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Tests\CommonBundle\Unit\DependencyInjection;
 
 use EMS\CommonBundle\Common\CoreApi\CoreApi;
+use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\DependencyInjection\EMSCommonExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -28,7 +29,6 @@ final class EMSCommonExtensionAiTest extends TestCase
             [
                 'backend_url' => 'http://example.com',
                 'backend_api_key' => 'test_key',
-                'backend_api_verify' => true,
                 'elasticsearch_proxy_api' => true,
                 'elasticsearch_hosts' => ['http://localhost:9200'],
                 'elasticsearch_connection_pool' => 'static',
@@ -36,6 +36,10 @@ final class EMSCommonExtensionAiTest extends TestCase
                 'store_data_services' => ['file_system'],
                 'log_level' => 200,
                 'excluded_content_types' => ['test'],
+                'core_api' => [
+                    'verify' => true,
+                    'timeout' => 30,
+                ],
                 'cache' => [
                     'type' => 'file_system',
                     'prefix' => 'ems_cache',
@@ -60,7 +64,6 @@ final class EMSCommonExtensionAiTest extends TestCase
 
         $this->assertEquals('http://example.com', $this->container->getParameter('ems_common.backend_url'));
         $this->assertEquals('test_key', $this->container->getParameter('ems_common.backend_api_key'));
-        $this->assertTrue($this->container->getParameter('ems_common.backend_api_verify'));
         $this->assertTrue($this->container->getParameter('ems_common.elasticsearch_proxy_api'));
         $this->assertEquals(['http://localhost:9200'], $this->container->getParameter('ems_common.elasticsearch_hosts'));
         $this->assertEquals('static', $this->container->getParameter('ems_common.elasticsearch_connection_pool'));
@@ -80,7 +83,14 @@ final class EMSCommonExtensionAiTest extends TestCase
         $config = [
             'backend_url' => 'http://example.com',
             'backend_api_key' => 'test_key',
+            'core_api' => [
+                'verify' => true,
+                'timeout' => 30,
+            ],
         ];
+
+        $definitionFactory = new Definition(CoreApiFactory::class);
+        $this->container->setDefinition('ems_common.core_api.factory', $definitionFactory);
 
         $method = $this->getPrivateMethod('defineCoreApi');
         $method->invokeArgs($this->extension, [$this->container, $config]);

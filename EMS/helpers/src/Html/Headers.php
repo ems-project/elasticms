@@ -11,5 +11,9 @@ class Headers
     final public const CONTENT_TYPE = 'Content-Type';
     final public const X_ROBOTS_TAG = 'X-Robots-Tag';
     final public const X_ROBOTS_TAG_NOINDEX = 'noindex';
-    final public const WWW_AUTHENTICATE = 'WWW-Authenticate';
+    final public const X_HASHCASH = 'x-hashcash';
+    public const WWW_AUTHENTICATE = 'WWW-Authenticate';
+    public const SET_COOKIE = 'set-cookie';
+    public const COOKIE = 'cookie';
+    public const IF_NONE_MATCH = 'if-none-match';
 }

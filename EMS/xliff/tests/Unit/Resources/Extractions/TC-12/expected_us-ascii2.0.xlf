@@ -1,0 +1,1967 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en" trgLang="fr">
+  <file id="contentType:ouuid_1:revisionId_1">
+    <unit id="[title_%locale%]">
+      <segment>
+        <source>Foo</source>
+        <target>Bar</target>
+      </segment>
+    </unit>
+  </file>
+  <file id="contentType:ouuid_2:revisionId_2">
+    <unit id="[title_%locale%]">
+      <segment>
+        <source>Hello</source>
+        <target>Bonjour</target>
+      </segment>
+    </unit>
+    <unit id="[keywords_%locale%]">
+      <segment>
+        <source>test xliff</source>
+        <target/>
+      </segment>
+    </unit>
+    <unit id="[empty]">
+      <segment>
+        <source/>
+        <target/>
+      </segment>
+    </unit>
+    <group id="[%locale%][body]">
+      <unit id="/html/body/p[1]">
+        <segment id="/html/body/p[1]">
+          <source> Het gaat om de werknemers van de priv&#233;sector en van de openbare sector die een werknemersbijdrage van 13,07 % verschuldigd zijn. De werknemersbijdragevermindering is onafhankelijk van eventuele werkgeversbijdrageverminderingen. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[2]">
+        <segment id="/html/body/p[2]">
+          <source> Voor de <g ctype="x-html-strong">priv&#233;sector</g> komen dus onder andere niet in aanmerking: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[1]">
+        <unit id="/html/body/ul[1]/li[1]">
+          <segment id="/html/body/ul[1]/li[1]">
+            <source>de geneesheren in opleiding tot specialist; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[1]/li[2]">
+          <segment id="/html/body/ul[1]/li[2]">
+            <source>de leerlingen, stagiairs en de andere jongeren tijdens de periode van gedeeltelijke onderwerping aan de sociale zekerheid (periode die eindigt op 31 december van het kalenderjaar waarin ze 18 jaar worden). </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[3]">
+        <segment id="/html/body/p[3]">
+          <source> Voor de <g ctype="x-html-strong">openbare sector</g> komen de meeste statutaire personeelsleden evenmin voor de vermindering in aanmerking. Contractuele werknemers daarentegen komen w&#233;l in aanmeking (dus ook gesubsidieerde contractuelen, artikel 60, &#167; 7 van de organieke OCMW- wet, ...). </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h2[1]">
+        <segment id="/html/body/h2[1]">
+          <source> Praktische toepassing van de vermindering </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[4]">
+        <segment id="/html/body/p[4]">
+          <source> De vermindering bestaat uit een forfaitair bedrag dat geleidelijk vermindert naarmate het loon hoger wordt. De werkgever brengt het bedrag <g ctype="x-html-strong">in mindering</g> van de normale werknemersbijdragen (13,07% van het brutoloon) bij de betaling van het loon. De werkbonus compenseert de volledige werknemersbijdrage voor een referteloon tot ongeveer <g ctype="x-html-span">2.000,00 EUR</g> bruto per maand. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[5]">
+        <segment id="/html/body/p[5]">
+          <source> Indien het loon wordt betaald volgens een andere periodiciteit dan de maandelijkse (per week, per twee weken, per vier weken,...) berekent de werkgever de vermindering bij de laatste betaling die op de kalendermaand betrekking heeft. In dat geval is de berekening gebaseerd op de dagen en de lonen die op die kalendermaand betrekking hebben en moet het uitbetaalde bedrag en de ermee samenhangende periode opgesplitst worden per kalendermaand. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[6]">
+        <segment id="/html/body/p[6]">
+          <source> Voor werknemers die binnen de maand met opeenvolgende overeenkomsten werken, wordt het verminderingsbedrag verrekend aan het einde van iedere overeenkomst of bij iedere betaling die betrekking heeft op die overeenkomsten. </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[1]">
+        <unit id="/html/body/div[1]/text()[1]">
+          <segment id="/html/body/div[1]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[1]/div">
+          <unit id="/html/body/div[1]/div/p">
+            <segment id="/html/body/div[1]/div/p">
+              <source> Vanaf 1 april 2024 wordt&#160;de berekening van de werkbonus opgesplitst in 2 componenten om een aangepaste berekening van de fiscale werkbonus mogelijk te maken. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <unit id="/html/body/h2[2]">
+        <segment id="/html/body/h2[2]">
+          <source> Berekening van de vermindering </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[7]">
+        <segment id="/html/body/p[7]">
+          <source> Men berekent de vermindering voor iedere werknemer apart. Deze berekening omvat drie stappen. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/ul[2]">
+        <segment id="/html/body/ul[2]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ol">
+        <unit id="/html/body/ol/li[1]">
+          <segment id="/html/body/ol/li[1]">
+            <source>- Eerst bepaalt men het <g ctype="x-html-strong">refertemaandloon</g> van de werknemer. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ol/li[2]">
+          <segment id="/html/body/ol/li[2]">
+            <source>- Op basis van dat refertemaandloon bepaalt men het <g ctype="x-html-strong">basisbedrag van de vermindering</g>. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ol/li[3]">
+          <segment id="/html/body/ol/li[3]">
+            <source>- Ten slotte stelt men het <g ctype="x-html-strong">verminderingsbedrag</g> vast door het basisbedrag te corrigeren bij onvolledige prestaties en bij deeltijdse werknemers. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/ul[3]">
+        <segment id="/html/body/ul[3]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h3[1]">
+        <segment id="/html/body/h3[1]">
+          <source> 1. - Vaststelling van het refertemaandloon (S) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[8]">
+        <segment id="/html/body/p[8]">
+          <source> Het <g ctype="x-html-strong">refertemaandloon (S)</g> kunt u rechtstreeks afleiden uit het <g ctype="x-html-strong">brutoloon (W)</g> van de werknemer dat op de kalendermaand betrekking heeft. Hierbij houdt u geen rekening met: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[4]">
+        <unit id="/html/body/ul[4]/li[1]">
+          <segment id="/html/body/ul[4]/li[1]">
+            <source>vergoedingen wegens onrechtmatige be&#235;indiging van de arbeidsovereenkomsten (looncode 3 DmfA ) en de erdoor gedekte dagen; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[2]">
+          <segment id="/html/body/ul[4]/li[2]">
+            <source>flexi-loon (looncode 22 en 23 DmfA) en overuren horeca (looncode 13 DmfA) en de erdoor gedekte dagen/uren; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[3]">
+          <segment id="/html/body/ul[4]/li[3]">
+            <source>vergoedingen voor uren die geen arbeidstijd zijn in de zin van de arbeidswetgeving (looncode 6 DmfA); </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[4]">
+          <segment id="/html/body/ul[4]/li[4]">
+            <source>de eindejaarspremies (13<g ctype="x-html-sup">de</g> maand, attractiviteitspremie ziekenhuizen, ...)&#160; tot beloop van het bedrag van het refertemaandloon (S) dat in aanmerking wordt genomen om de vermindering te berekenen voor de maand waarin die eindejaarspremie normaal wordt uitbetaald </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[5]">
+          <segment id="/html/body/ul[4]/li[5]">
+            <source>het enkel vertrekvakantiegeld (in de vakantieregeling priv&#233;sector) uitbetaald door de werkgever aan zijn (ex-)werknemer </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[6]">
+          <segment id="/html/body/ul[4]/li[6]">
+            <source> <g ctype="x-html-span">het positief saldo aangegeven bij de eindafrekening na verrekening van het vertrekvakantiegeld (looncode 14)</g>. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[9]">
+        <segment id="/html/body/p[9]">
+          <source> Bij het bepalen van het refertemaandloon (S) van een werknemer aan wie een gedeelte van het vakantiegeld dat (in de vakantieregeling priv&#233;sector) overeenstemt met het normale loon voor de vakantiedagen vervroegd werd uitbetaald, wordt rekening gehouden met het gedeelte van het vertrekvakantiegeld dat de werkgever in mindering brengt van het uit te betalen loon. <g ctype="x-html-a" html:href="%%7BBASE_URL_CURRENT%7D%/instructions/salary/particularcases/holidaypay.html" html:target="_parent">Bekijk de voorbeelden</g>. </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[2]">
+        <unit id="/html/body/div[2]/text()[1]">
+          <segment id="/html/body/div[2]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/div[2]/p">
+          <segment id="/html/body/div[2]/p">
+            <source> Zowel voor arbeiders als voor bedienden berekent men het refertemaandloon op basis van de aangegeven brutolonen aan 100%. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[10]">
+        <segment id="/html/body/p[10]">
+          <source> <g ctype="x-html-strong">a) Definities en formules</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[11]">
+        <segment id="/html/body/p[11]">
+          <source> <g ctype="x-html-strong">Voltijdse werknemers</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[12]">
+        <segment id="/html/body/p[12]">
+          <source> met <g ctype="x-html-strong">volledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[13]">
+        <segment id="/html/body/p[13]">
+          <source> <g ctype="x-html-strong">S = W</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[14]">
+        <segment id="/html/body/p[14]">
+          <source> Onder een voltijdse werknemer met volledige prestaties wordt verstaan de werknemer voor wie J = D, waarbij: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[5]">
+        <unit id="/html/body/ul[5]/li[1]">
+          <segment id="/html/body/ul[5]/li[1]">
+            <source>J = het aantal dagen van de werknemer aangegeven met de prestatiecodes 1,3,4, 5 en 20. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[5]/li[2]">
+          <segment id="/html/body/ul[5]/li[2]">
+            <source>D = het maximum aantal dagen prestaties voor de betrokken maand in het betrokken arbeidsstelsel. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[15]">
+        <segment id="/html/body/p[15]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[16]">
+        <segment id="/html/body/p[16]">
+          <source> met <g ctype="x-html-strong">onvolledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[17]">
+        <segment id="/html/body/p[17]">
+          <source> <g ctype="x-html-strong">S = (W/J) x D</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[18]">
+        <segment id="/html/body/p[18]">
+          <source> Onder een voltijdse werknemer met onvolledige prestaties wordt verstaan de werknemer voor wie J &lt; D </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[19]">
+        <segment id="/html/body/p[19]">
+          <source> De breuk W/J wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[20]">
+        <segment id="/html/body/p[20]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[21]">
+        <segment id="/html/body/p[21]">
+          <source> <g ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[22]">
+        <segment id="/html/body/p[22]">
+          <source> <g ctype="x-html-strong">S = (W/H) x U</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[23]">
+        <segment id="/html/body/p[23]">
+          <source> Waarbij: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[6]">
+        <unit id="/html/body/ul[6]/li[1]">
+          <segment id="/html/body/ul[6]/li[1]">
+            <source>H = het aantal aangegeven uren met de prestatiecodes 1, 3, 4, 5 en 20; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[6]/li[2]">
+          <segment id="/html/body/ul[6]/li[2]">
+            <source>U = het aantal uren op maandbasis dat overeenstemt met D. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[24]">
+        <segment id="/html/body/p[24]">
+          <source> Deze berekening geldt zowel voor: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[7]">
+        <unit id="/html/body/ul[7]/li[1]">
+          <segment id="/html/body/ul[7]/li[1]">
+            <source>werknemers die uitsluitend deeltijdse prestaties leveren; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[7]/li[2]">
+          <segment id="/html/body/ul[7]/li[2]">
+            <source>werknemers die in de loop van de maand bij de werkgever voltijds en deeltijds werken; </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/ul[7]/li[3]">
+          <unit id="/html/body/ul[7]/li[3]/text()[1]">
+            <segment id="/html/body/ul[7]/li[3]/text()[1]">
+              <source>voltijdse werknemers die met uren moeten worden aangegeven. Het betreft werknemers: </source>
+              <target/>
+            </segment>
+          </unit>
+          <group id="/html/body/ul[7]/li[3]/ul">
+            <unit id="/html/body/ul[7]/li[3]/ul/li[1]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[1]">
+                <source> <g ctype="x-html-span">van de provinciale en plaatselijke overheidsdiensten</g>, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[2]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[2]">
+                <source>in de horeca, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[3]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[3]">
+                <source>met gedeeltelijke werkhervatting na ziekte of (arbeids)ongeval, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[4]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[4]">
+                <source>met al dan niet gedeeltelijke (gereglementeerde) onderbreking van de loopbaan, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[5]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[5]">
+                <source>met halftijds brugpensioen, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[6]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[6]">
+                <source>werknemers bij tussenpozen (uitzendkrachten, tijdelijke arbeid, thuisarbeid), </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[7]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[7]">
+                <source>met gelimiteerde prestaties (met een contract van korte duur en voor een tewerkstelling die per dag niet de gewoonlijke dagduur bereikt), </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[8]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[8]">
+                <source>seizoenarbeiders en </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[9]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[9]">
+                <source>werknemers bezoldigd met dienstencheques. </source>
+                <target/>
+              </segment>
+            </unit>
+          </group>
+        </group>
+      </group>
+      <unit id="/html/body/p[25]">
+        <segment id="/html/body/p[25]">
+          <source> De breuk W/H wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[3]">
+        <unit id="/html/body/div[3]/text()[1]">
+          <segment id="/html/body/div[3]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/div[3]/p">
+          <segment id="/html/body/div[3]/p">
+            <source> De prestaties van de flexi-jobs&#160; en de overuren horeca blijven volledig buiten de berekening. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[26]">
+        <segment id="/html/body/p[26]">
+          <source> &#160;<g ctype="x-html-strong">b) Opmerkingen</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[8]">
+        <unit id="/html/body/ul[8]/li[1]">
+          <segment id="/html/body/ul[8]/li[1]">
+            <source>Voor werknemers tewerkgesteld bij een beperkte groep van werkgevers die v&#243;&#243;r 1 oktober 2001 de arbeidsduur verminderden of de vierdagenweek invoerden en van wie de werknemers een tussenkomst krijgen om het loonverlies gedeeltelijk te compenseren (looncode 5), wordt S forfaitair verminderd met 80,57 EUR per maand. Het handelt hier om werknemers die in aanmerking komen voor een doelgroepvermindering op basis van artikel 367, 369 of 370 van de Programmawet van 24 december 2002. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[8]/li[2]">
+          <segment id="/html/body/ul[8]/li[2]">
+            <source>Voor voltijdse werknemers die in de loop van de maand in verschillende arbeidsregelingen werken moet u, uitsluitend voor de toepassing van deze vermindering, alle prestaties omrekenen naar &#233;&#233;n van de regimes. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[27]">
+        <segment id="/html/body/p[27]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h3[2]">
+        <segment id="/html/body/h3[2]">
+          <source> 2. - Berekening van het basisbedrag van de vermindering (R) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[28]">
+        <segment id="/html/body/p[28]">
+          <source> Het basisbedrag van de vermindering (R) wordt vastgesteld in functie van de hoogte van het refertemaandloon (S). </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[29]">
+        <segment id="/html/body/p[29]">
+          <source> <g ctype="x-html-span">Het koninklijk besluit van 27 maart 2023 versterkt de werkbonus voor de zeer lage lonen vanaf 1 juli 2023.&#160;Ingevolge deze versterking van de werkbonus, wordt een extra loongrens ingevoerd en de maximale vermindering voor de laagste lonen verhoogd.</g>&#160;&#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[4]">
+        <unit id="/html/body/div[4]/p[1]">
+          <segment id="/html/body/div[4]/p[1]">
+            <source> Ingevolge de verhoging van het gewaarborgd gemiddeld minimum maandinkomen (GGMMI) overeenkomstig CAO nr. 43-17 is er voor de berekening van de werkbonus, naast de opsplitsing in 2 luiken, een aanpassing van de loongrenzen, de hellingsco&#235;ffici&#235;nten en van de maximale verminderingsbedragen nodig.&#160;De&#160;uiteindelijke sociale werkbonus is de som van de 2 componenten. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/div[4]/p[2]">
+          <segment id="/html/body/div[4]/p[2]">
+            <source> &#160; </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[30]">
+        <segment id="/html/body/p[30]">
+          <source> Loonschijven en verminderingsbedragen die gelden vanaf <g ctype="x-html-strong">1 mei&#160;2024</g>: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[5]">
+        <unit id="/html/body/div[5]/p[1]">
+          <segment id="/html/body/div[5]/p[1]">
+            <source> <g ctype="x-html-strong">Bedienden (*)</g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[5]/table[1]">
+          <group id="/html/body/div[5]/table[1]/thead">
+            <group id="/html/body/div[5]/table[1]/thead/tr[1]">
+              <unit id="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
+                <segment id="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
+                  <source> LUIK A (lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
+                <segment id="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
+                  <source> LUIK B (zeer lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[1]/thead/tr[2]">
+              <group id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]">
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
+                    <source> S (refertemaandloon </source>
+                    <target/>
+                  </segment>
+                </unit>
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
+                    <source> aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[1]/thead/tr[2]/th[2]">
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
+                    <source> R (basisbedrag in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]">
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
+                    <source> S (refertemaandloon </source>
+                    <target/>
+                  </segment>
+                </unit>
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
+                    <source> aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
+                <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
+                  <source> R (basisbedrag in EUR) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+          <group id="/html/body/div[5]/table[1]/tbody">
+            <group id="/html/body/div[5]/table[1]/tbody/tr[1]">
+              <group id="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
+                    <source> &#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
+                    <source> 118,22 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
+                  <source> &#8804;&#160;2.132,59 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
+                  <source> 159,43 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[1]/tbody/tr[2]">
+              <group id="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
+                    <source> &gt;&#160;2.723,36&#160;en&#160;&#8804;&#160;3.207,40 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
+                  <source> 118,22 - (&#160;0,2442&#160;x (S -&#160;2.723,36)) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <group id="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
+                    <source> &gt;&#160;2.132,59&#160;en&#160;&#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
+                  <source> 159,43 - (&#160;0,2699&#160;x (S -&#160;2.132,59)) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[1]/tbody/tr[3]">
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
+                  <source> &gt;&#160;3.207,40 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
+                  <source> &gt;&#160;2.723,36 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+        </group>
+        <unit id="/html/body/div[5]/p[2]">
+          <segment id="/html/body/div[5]/p[2]">
+            <source> <g ctype="x-html-strong">Arbeiders (**)</g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[5]/table[2]">
+          <group id="/html/body/div[5]/table[2]/thead">
+            <group id="/html/body/div[5]/table[2]/thead/tr[1]">
+              <unit id="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
+                <segment id="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
+                  <source> LUIK A (lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
+                <segment id="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
+                  <source> LUIK B (zeer lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[2]/thead/tr[2]">
+              <group id="/html/body/div[5]/table[2]/thead/tr[2]/th[1]">
+                <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
+                  <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
+                    <source> S (refertemaandloon aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[2]/thead/tr[2]/th[2]">
+                <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
+                  <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
+                    <source> R (basisbedrag&#160;in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[2]/thead/tr[2]/th[3]">
+                <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
+                  <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
+                    <source> S (refertemaandloon aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
+                <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
+                  <source> R (basisbedrag&#160;in EUR) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+          <group id="/html/body/div[5]/table[2]/tbody">
+            <group id="/html/body/div[5]/table[2]/tbody/tr[1]">
+              <group id="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
+                    <source> &#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
+                    <source> 127,68 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
+                  <source> &#8804;&#160;2.132,59 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
+                  <source> 172,18 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[2]/tbody/tr[2]">
+              <group id="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
+                    <source> &gt;&#160;2.723,36&#160;en&#160;&#8804;&#160;3.207,40 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
+                  <source> 127,68 - ( 0,2638&#160;x (S -&#160;2.723,36)) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <group id="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
+                    <source> &gt;&#160;2.132,59&#160;en&#160;&#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
+                  <source> 172,18 - (&#160;0,2915&#160;x (S -&#160;2.132,59)) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[2]/tbody/tr[3]">
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
+                  <source> &gt;&#160;3.207,40 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
+                  <source> &gt;&#160;2.723,36 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+        </group>
+      </group>
+      <unit id="/html/body/p[31]">
+        <segment id="/html/body/p[31]">
+          <source> (*) Onder bedienden moet worden verstaan: de werknemers die moeten worden aangegeven aan 100 %, dus ook bijvoorbeeld arbeiders in de openbare sector.<g ctype="lb"/> (**) Onder arbeiders moet worden verstaan: de werknemers die moeten worden aangegeven aan 108 %, dus ook bijvoorbeeld kunstenaars. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[32]">
+        <segment id="/html/body/p[32]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[33]">
+        <segment id="/html/body/p[33]">
+          <source> R wordt rekenkundig afgerond op de dichtstbijzijnde eenheid (Eurocent). </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h3[3]">
+        <segment id="/html/body/h3[3]">
+          <source> 3. - Vaststelling van het verminderingsbedrag (P) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[34]">
+        <segment id="/html/body/p[34]">
+          <source> <g ctype="x-html-strong">Voltijdse werknemers</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[35]">
+        <segment id="/html/body/p[35]">
+          <source> met <g ctype="x-html-strong">volledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[36]">
+        <segment id="/html/body/p[36]">
+          <source> <g ctype="x-html-strong">P = R</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[37]">
+        <segment id="/html/body/p[37]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[38]">
+        <segment id="/html/body/p[38]">
+          <source> met <g ctype="x-html-strong">onvolledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[39]">
+        <segment id="/html/body/p[39]">
+          <source> <g ctype="x-html-strong">P= (J/D) x R</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[40]">
+        <segment id="/html/body/p[40]">
+          <source> De breuk J/D wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[41]">
+        <segment id="/html/body/p[41]">
+          <source> <g ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[42]">
+        <segment id="/html/body/p[42]">
+          <source> <g ctype="x-html-strong">P= (H/U) x R</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[43]">
+        <segment id="/html/body/p[43]">
+          <source> De breuk H/U wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/ul[9]">
+        <segment id="/html/body/ul[9]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[6]">
+        <unit id="/html/body/div[6]/p">
+          <segment id="/html/body/div[6]/p">
+            <source> De vermindering kan toegepast worden zowel op de gewone lonen als op uitbetaalde premies, maar niet op enkel vertrekvakantiegeld bedienden (looncode 7) en/of verbrekingsvergoedingen (looncode 3) verschuldigd gedurende deze periode.&#160;<g ctype="x-html-span">De vermindering kan wel worden toegepast op de looncodes 6 en 14.</g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[6]/div">
+          <unit id="/html/body/div[6]/div/text()[1]">
+            <segment id="/html/body/div[6]/div/text()[1]">
+              <source> <g ctype="x-html-span">Opgelet</g></source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[6]/div/p">
+            <segment id="/html/body/div[6]/div/p">
+              <source> De werkbonus (P) mag de verschuldigde persoonlijke socialezekerheidsbijdragen niet overschrijden.&#160;De sociale werkbonus = de vermindering berekend <g ctype="x-html-span" html:class="newWord">op basis van</g> Luik A <g ctype="x-html-span" html:class="newWord">(P<g ctype="x-html-sub">A</g>)</g> + de vermindering berekend <g ctype="x-html-span" html:class="newWord">op basis van</g> Luik B <g ctype="x-html-span" html:class="newWord">(P<g ctype="x-html-sub">B</g>)</g>.&#160;De eventuele aftopping bij een tekort aan werknemersbijdragen gebeurt op <g ctype="x-html-span" html:class="newWord">de berekening op basis van</g> Luik B en vervolgens op <g ctype="x-html-span" html:class="newWord">de berekening op basis van</g> Luik A. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <unit id="/html/body/p[44]">
+        <segment id="/html/body/p[44]">
+          <source> Wanneer een werknemer vakantie neemt die gedekt wordt door enkel vertrekvakantiegeld, is het mogelijk dat de werknemersbijdrage niet volstaat om de werkbonus volledig in rekening te brengen. <g ctype="x-html-strong">De werkgever mag dan het resterende deel van de werkbonus aftrekken van de werknemersbijdrage van de volgende maand</g>. <g ctype="x-html-span" html:class="newWord">Vanaf het 2<g ctype="x-html-sup">de</g> kwartaal 2024 is dit niet meer beperkt tot</g> <g ctype="x-html-span" html:class="deletedWord">Dit kan echter enkel binnen</g> <g ctype="x-html-span" html:class="newWord">hetzelfde kwartaal</g>. </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[7]">
+        <unit id="/html/body/div[7]/p">
+          <segment id="/html/body/div[7]/p">
+            <source> <g ctype="x-html-strong" html:class="readMore readMoreOff"><g ctype="x-html-a" html:href="javascript:void(0)" html:class="toggleLinkOff readMore">Voorbeelden</g></g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[7]/div">
+          <unit id="/html/body/div[7]/div/p[1]">
+            <segment id="/html/body/div[7]/div/p[1]">
+              <source> De onderstaande voorbeelden zijn gebaseerd op de cijfers die gelden vanaf 1 juni 2001. </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[2]">
+            <segment id="/html/body/div[7]/div/p[2]">
+              <source> Voorbeeld 1:<g ctype="lb"/> Voor een bepaalde maand heeft een <g ctype="x-html-strong">bediende</g> een brutoloon van <g ctype="x-html-span"><g ctype="x-html-strong">2.015,00 EUR</g></g>. Die maand telt normaal 22 prestatiedagen. Hij wordt aangegeven met 19 dagen gewaarborgd maandloon (code 1), en drie niet door de werkgever betaalde ziektedagen (code 50). </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[3]">
+            <segment id="/html/body/div[7]/div/p[3]">
+              <source> <g ctype="x-html-span">Zijn refertemaandloon (S) is&#160;<g ctype="x-html-strong">2.333,10&#160;EUR</g>, nl. 106,05 EUR (=2.015,00/19 afgerond op twee decimalen) vermenigvuldigd met 22.<g ctype="lb"/> Het basisbedrag van de vermindering (R) is&#160;<g ctype="x-html-strong">179,77 EUR</g>, nl. 262,16 - (0,2579 x (2.333,10 &#8211; 2.013,64)).<g ctype="lb"/> Het verminderingsbedrag (P) is&#160;<g ctype="x-html-strong">154,60 EUR</g>, nl. 0,86 (=19/22 afgerond op twee decimalen) x 179,77. Dit betekent dat de werkgever bij de loonbetaling niet 263,36 EUR (=13,07% van 2.015) werknemersbijdrage inhoudt, maar 108,76 EUR (= 263,36 &#8211; 154,60)</g>. </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[4]">
+            <segment id="/html/body/div[7]/div/p[4]">
+              <source> Voorbeeld 2:<g ctype="lb"/> Voor een bepaalde maand heeft een <g ctype="x-html-strong">arbeider</g> een brutoloon van <g ctype="x-html-span"><g ctype="x-html-strong">1336,00 EUR</g></g> (aan 100%). Tijdens die maand, die normaal 22 prestatiedagen telt, heeft hij 15 dagen normale werkelijke arbeid (code 1) en 7 wettelijke vakantiedagen (code 2). </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[5]">
+            <segment id="/html/body/div[7]/div/p[5]">
+              <source> <g ctype="x-html-span">Zijn refertemaandloon (S) is&#160;<g ctype="x-html-strong">1.959,54 EUR</g>, nl. 89,07 (=1336,00/15) vermenigvuldigd met 22.<g ctype="lb"/> Het basisbedrag van de vermindering (R) is&#160;<g ctype="x-html-strong">283,13 EUR</g>&#160;(zijn referteloon is kleiner dan 2.013,64 EUR).<g ctype="lb"/> Het verminderingsbedrag (P) is&#160;<g ctype="x-html-strong">192,53 EUR</g>, nl. 0,68 (=15/22 afgerond op twee decimalen) x 283,13. Dit betekent dat de werkgever bij de loonbetaling niet 188,58 EUR, nl. 13,07% van 1442,88 (= 1336,00 + 8%) werknemersbijdrage inhoudt, maar 0 EUR (188,58 &#8211; 192,53 resulteert in een negatief bedrag, maar aangezien de werkbonus de verschuldigde persoonlijke socialezekerheidsbijdragen niet mag overschrijden is de uitkomst 0)</g>. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <group id="/html/body/div[8]">
+        <unit id="/html/body/div[8]/text()[1]">
+          <segment id="/html/body/div[8]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[8]/div">
+          <unit id="/html/body/div[8]/div/p">
+            <segment id="/html/body/div[8]/div/p">
+              <source> Vanaf 1 mei 2024 mag het totaal van de vermindering per werknemer niet meer bedragen dan <g ctype="x-html-span">3.331,80 EUR</g> per kalenderjaar. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <unit id="/html/body/h2[3]">
+        <segment id="/html/body/h2[3]">
+          <source> Te vervullen formaliteiten </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[45]">
+        <segment id="/html/body/p[45]">
+          <source> In de <g ctype="x-html-a" html:href="https://www.socialsecurity.be/site_nl/employer/general/techlib.htm#dmfa" html:target="_blank">technische bibliotheek (techlib)</g> vindt u tevens een downloadbaar programma (macro) waarmee u deze vermindering kunt berekenen. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[46]">
+        <segment id="/html/body/p[46]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[47]">
+        <segment id="/html/body/p[47]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+    </group>
+    <group id="[%locale%][body2]">
+      <unit id="/html/body/p[1]">
+        <segment id="/html/body/p[1]">
+          <source> Het gaat om de werknemers van de priv&#233;sector en van de openbare sector die een werknemersbijdrage van 13,07 % verschuldigd zijn. De werknemersbijdragevermindering is onafhankelijk van eventuele werkgeversbijdrageverminderingen. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[2]">
+        <segment id="/html/body/p[2]">
+          <source> Voor de <g ctype="x-html-strong">priv&#233;sector</g> komen dus onder andere niet in aanmerking: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[1]">
+        <unit id="/html/body/ul[1]/li[1]">
+          <segment id="/html/body/ul[1]/li[1]">
+            <source>de geneesheren in opleiding tot specialist; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[1]/li[2]">
+          <segment id="/html/body/ul[1]/li[2]">
+            <source>de leerlingen, stagiairs en de andere jongeren tijdens de periode van gedeeltelijke onderwerping aan de sociale zekerheid (periode die eindigt op 31 december van het kalenderjaar waarin ze 18 jaar worden). </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[3]">
+        <segment id="/html/body/p[3]">
+          <source> Voor de <g ctype="x-html-strong">openbare sector</g> komen de meeste statutaire personeelsleden evenmin voor de vermindering in aanmerking. Contractuele werknemers daarentegen komen w&#233;l in aanmeking (dus ook gesubsidieerde contractuelen, artikel 60, &#167; 7 van de organieke OCMW- wet, ...). </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h2[1]">
+        <segment id="/html/body/h2[1]">
+          <source> Praktische toepassing van de vermindering </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[4]">
+        <segment id="/html/body/p[4]">
+          <source> De vermindering bestaat uit een forfaitair bedrag dat geleidelijk vermindert naarmate het loon hoger wordt. De werkgever brengt het bedrag <g ctype="x-html-strong">in mindering</g> van de normale werknemersbijdragen (13,07% van het brutoloon) bij de betaling van het loon. De werkbonus compenseert de volledige werknemersbijdrage voor een referteloon tot ongeveer <g ctype="x-html-span">2.000,00 EUR</g> bruto per maand. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[5]">
+        <segment id="/html/body/p[5]">
+          <source> Indien het loon wordt betaald volgens een andere periodiciteit dan de maandelijkse (per week, per twee weken, per vier weken,...) berekent de werkgever de vermindering bij de laatste betaling die op de kalendermaand betrekking heeft. In dat geval is de berekening gebaseerd op de dagen en de lonen die op die kalendermaand betrekking hebben en moet het uitbetaalde bedrag en de ermee samenhangende periode opgesplitst worden per kalendermaand. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[6]">
+        <segment id="/html/body/p[6]">
+          <source> Voor werknemers die binnen de maand met opeenvolgende overeenkomsten werken, wordt het verminderingsbedrag verrekend aan het einde van iedere overeenkomst of bij iedere betaling die betrekking heeft op die overeenkomsten. </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[1]">
+        <unit id="/html/body/div[1]/text()[1]">
+          <segment id="/html/body/div[1]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[1]/div">
+          <unit id="/html/body/div[1]/div/p">
+            <segment id="/html/body/div[1]/div/p">
+              <source> Vanaf 1 april 2024 wordt&#160;de berekening van de werkbonus opgesplitst in 2 componenten om een aangepaste berekening van de fiscale werkbonus mogelijk te maken. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <unit id="/html/body/h2[2]">
+        <segment id="/html/body/h2[2]">
+          <source> Berekening van de vermindering </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[7]">
+        <segment id="/html/body/p[7]">
+          <source> Men berekent de vermindering voor iedere werknemer apart. Deze berekening omvat drie stappen. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/ul[2]">
+        <segment id="/html/body/ul[2]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ol">
+        <unit id="/html/body/ol/li[1]">
+          <segment id="/html/body/ol/li[1]">
+            <source>- Eerst bepaalt men het <g ctype="x-html-strong">refertemaandloon</g> van de werknemer. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ol/li[2]">
+          <segment id="/html/body/ol/li[2]">
+            <source>- Op basis van dat refertemaandloon bepaalt men het <g ctype="x-html-strong">basisbedrag van de vermindering</g>. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ol/li[3]">
+          <segment id="/html/body/ol/li[3]">
+            <source>- Ten slotte stelt men het <g ctype="x-html-strong">verminderingsbedrag</g> vast door het basisbedrag te corrigeren bij onvolledige prestaties en bij deeltijdse werknemers. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/ul[3]">
+        <segment id="/html/body/ul[3]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h3[1]">
+        <segment id="/html/body/h3[1]">
+          <source> 1. - Vaststelling van het refertemaandloon (S) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[8]">
+        <segment id="/html/body/p[8]">
+          <source> Het <g ctype="x-html-strong">refertemaandloon (S)</g> kunt u rechtstreeks afleiden uit het <g ctype="x-html-strong">brutoloon (W)</g> van de werknemer dat op de kalendermaand betrekking heeft. Hierbij houdt u geen rekening met: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[4]">
+        <unit id="/html/body/ul[4]/li[1]">
+          <segment id="/html/body/ul[4]/li[1]">
+            <source>vergoedingen wegens onrechtmatige be&#235;indiging van de arbeidsovereenkomsten (looncode 3 DmfA ) en de erdoor gedekte dagen; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[2]">
+          <segment id="/html/body/ul[4]/li[2]">
+            <source>flexi-loon (looncode 22 en 23 DmfA) en overuren horeca (looncode 13 DmfA) en de erdoor gedekte dagen/uren; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[3]">
+          <segment id="/html/body/ul[4]/li[3]">
+            <source>vergoedingen voor uren die geen arbeidstijd zijn in de zin van de arbeidswetgeving (looncode 6 DmfA); </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[4]">
+          <segment id="/html/body/ul[4]/li[4]">
+            <source>de eindejaarspremies (13<g ctype="x-html-sup">de</g> maand, attractiviteitspremie ziekenhuizen, ...)&#160; tot beloop van het bedrag van het refertemaandloon (S) dat in aanmerking wordt genomen om de vermindering te berekenen voor de maand waarin die eindejaarspremie normaal wordt uitbetaald </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[5]">
+          <segment id="/html/body/ul[4]/li[5]">
+            <source>het enkel vertrekvakantiegeld (in de vakantieregeling priv&#233;sector) uitbetaald door de werkgever aan zijn (ex-)werknemer </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[4]/li[6]">
+          <segment id="/html/body/ul[4]/li[6]">
+            <source> <g ctype="x-html-span">het positief saldo aangegeven bij de eindafrekening na verrekening van het vertrekvakantiegeld (looncode 14)</g>. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[9]">
+        <segment id="/html/body/p[9]">
+          <source> Bij het bepalen van het refertemaandloon (S) van een werknemer aan wie een gedeelte van het vakantiegeld dat (in de vakantieregeling priv&#233;sector) overeenstemt met het normale loon voor de vakantiedagen vervroegd werd uitbetaald, wordt rekening gehouden met het gedeelte van het vertrekvakantiegeld dat de werkgever in mindering brengt van het uit te betalen loon. <g ctype="x-html-a" html:href="%%7BBASE_URL_CURRENT%7D%/instructions/salary/particularcases/holidaypay.html" html:target="_parent">Bekijk de voorbeelden</g>. </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[2]">
+        <unit id="/html/body/div[2]/text()[1]">
+          <segment id="/html/body/div[2]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/div[2]/p">
+          <segment id="/html/body/div[2]/p">
+            <source> Zowel voor arbeiders als voor bedienden berekent men het refertemaandloon op basis van de aangegeven brutolonen aan 100%. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[10]">
+        <segment id="/html/body/p[10]">
+          <source> <g ctype="x-html-strong">a) Definities en formules</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[11]">
+        <segment id="/html/body/p[11]">
+          <source> <g ctype="x-html-strong">Voltijdse werknemers</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[12]">
+        <segment id="/html/body/p[12]">
+          <source> met <g ctype="x-html-strong">volledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[13]">
+        <segment id="/html/body/p[13]">
+          <source> <g ctype="x-html-strong">S = W</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[14]">
+        <segment id="/html/body/p[14]">
+          <source> Onder een voltijdse werknemer met volledige prestaties wordt verstaan de werknemer voor wie J = D, waarbij: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[5]">
+        <unit id="/html/body/ul[5]/li[1]">
+          <segment id="/html/body/ul[5]/li[1]">
+            <source>J = het aantal dagen van de werknemer aangegeven met de prestatiecodes 1,3,4, 5 en 20. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[5]/li[2]">
+          <segment id="/html/body/ul[5]/li[2]">
+            <source>D = het maximum aantal dagen prestaties voor de betrokken maand in het betrokken arbeidsstelsel. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[15]">
+        <segment id="/html/body/p[15]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[16]">
+        <segment id="/html/body/p[16]">
+          <source> met <g ctype="x-html-strong">onvolledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[17]">
+        <segment id="/html/body/p[17]">
+          <source> <g ctype="x-html-strong">S = (W/J) x D</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[18]">
+        <segment id="/html/body/p[18]">
+          <source> Onder een voltijdse werknemer met onvolledige prestaties wordt verstaan de werknemer voor wie J &lt; D </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[19]">
+        <segment id="/html/body/p[19]">
+          <source> De breuk W/J wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[20]">
+        <segment id="/html/body/p[20]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[21]">
+        <segment id="/html/body/p[21]">
+          <source> <g ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[22]">
+        <segment id="/html/body/p[22]">
+          <source> <g ctype="x-html-strong">S = (W/H) x U</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[23]">
+        <segment id="/html/body/p[23]">
+          <source> Waarbij: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[6]">
+        <unit id="/html/body/ul[6]/li[1]">
+          <segment id="/html/body/ul[6]/li[1]">
+            <source>H = het aantal aangegeven uren met de prestatiecodes 1, 3, 4, 5 en 20; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[6]/li[2]">
+          <segment id="/html/body/ul[6]/li[2]">
+            <source>U = het aantal uren op maandbasis dat overeenstemt met D. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[24]">
+        <segment id="/html/body/p[24]">
+          <source> Deze berekening geldt zowel voor: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[7]">
+        <unit id="/html/body/ul[7]/li[1]">
+          <segment id="/html/body/ul[7]/li[1]">
+            <source>werknemers die uitsluitend deeltijdse prestaties leveren; </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[7]/li[2]">
+          <segment id="/html/body/ul[7]/li[2]">
+            <source>werknemers die in de loop van de maand bij de werkgever voltijds en deeltijds werken; </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/ul[7]/li[3]">
+          <unit id="/html/body/ul[7]/li[3]/text()[1]">
+            <segment id="/html/body/ul[7]/li[3]/text()[1]">
+              <source>voltijdse werknemers die met uren moeten worden aangegeven. Het betreft werknemers: </source>
+              <target/>
+            </segment>
+          </unit>
+          <group id="/html/body/ul[7]/li[3]/ul">
+            <unit id="/html/body/ul[7]/li[3]/ul/li[1]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[1]">
+                <source> <g ctype="x-html-span">van de provinciale en plaatselijke overheidsdiensten</g>, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[2]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[2]">
+                <source>in de horeca, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[3]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[3]">
+                <source>met gedeeltelijke werkhervatting na ziekte of (arbeids)ongeval, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[4]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[4]">
+                <source>met al dan niet gedeeltelijke (gereglementeerde) onderbreking van de loopbaan, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[5]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[5]">
+                <source>met halftijds brugpensioen, </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[6]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[6]">
+                <source>werknemers bij tussenpozen (uitzendkrachten, tijdelijke arbeid, thuisarbeid), </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[7]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[7]">
+                <source>met gelimiteerde prestaties (met een contract van korte duur en voor een tewerkstelling die per dag niet de gewoonlijke dagduur bereikt), </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[8]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[8]">
+                <source>seizoenarbeiders en </source>
+                <target/>
+              </segment>
+            </unit>
+            <unit id="/html/body/ul[7]/li[3]/ul/li[9]">
+              <segment id="/html/body/ul[7]/li[3]/ul/li[9]">
+                <source>werknemers bezoldigd met dienstencheques. </source>
+                <target/>
+              </segment>
+            </unit>
+          </group>
+        </group>
+      </group>
+      <unit id="/html/body/p[25]">
+        <segment id="/html/body/p[25]">
+          <source> De breuk W/H wordt afgerond naar de dichtstbijzijnde eurocent (0,005 EUR wordt 0,01 EUR) </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[3]">
+        <unit id="/html/body/div[3]/text()[1]">
+          <segment id="/html/body/div[3]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/div[3]/p">
+          <segment id="/html/body/div[3]/p">
+            <source> De prestaties van de flexi-jobs&#160; en de overuren horeca blijven volledig buiten de berekening. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[26]">
+        <segment id="/html/body/p[26]">
+          <source> &#160;<g ctype="x-html-strong">b) Opmerkingen</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/ul[8]">
+        <unit id="/html/body/ul[8]/li[1]">
+          <segment id="/html/body/ul[8]/li[1]">
+            <source>Voor werknemers tewerkgesteld bij een beperkte groep van werkgevers die v&#243;&#243;r 1 oktober 2001 de arbeidsduur verminderden of de vierdagenweek invoerden en van wie de werknemers een tussenkomst krijgen om het loonverlies gedeeltelijk te compenseren (looncode 5), wordt S forfaitair verminderd met 80,57 EUR per maand. Het handelt hier om werknemers die in aanmerking komen voor een doelgroepvermindering op basis van artikel 367, 369 of 370 van de Programmawet van 24 december 2002. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/ul[8]/li[2]">
+          <segment id="/html/body/ul[8]/li[2]">
+            <source>Voor voltijdse werknemers die in de loop van de maand in verschillende arbeidsregelingen werken moet u, uitsluitend voor de toepassing van deze vermindering, alle prestaties omrekenen naar &#233;&#233;n van de regimes. </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[27]">
+        <segment id="/html/body/p[27]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h3[2]">
+        <segment id="/html/body/h3[2]">
+          <source> 2. - Berekening van het basisbedrag van de vermindering (R) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[28]">
+        <segment id="/html/body/p[28]">
+          <source> Het basisbedrag van de vermindering (R) wordt vastgesteld in functie van de hoogte van het refertemaandloon (S). </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[29]">
+        <segment id="/html/body/p[29]">
+          <source> <g ctype="x-html-span">Het koninklijk besluit van 27 maart 2023 versterkt de werkbonus voor de zeer lage lonen vanaf 1 juli 2023.&#160;Ingevolge deze versterking van de werkbonus, wordt een extra loongrens ingevoerd en de maximale vermindering voor de laagste lonen verhoogd.</g>&#160;&#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[4]">
+        <unit id="/html/body/div[4]/p[1]">
+          <segment id="/html/body/div[4]/p[1]">
+            <source> Ingevolge de verhoging van het gewaarborgd gemiddeld minimum maandinkomen (GGMMI) overeenkomstig CAO nr. 43-17 is er voor de berekening van de werkbonus, naast de opsplitsing in 2 luiken, een aanpassing van de loongrenzen, de hellingsco&#235;ffici&#235;nten en van de maximale verminderingsbedragen nodig.&#160;De&#160;uiteindelijke sociale werkbonus is de som van de 2 componenten. </source>
+            <target/>
+          </segment>
+        </unit>
+        <unit id="/html/body/div[4]/p[2]">
+          <segment id="/html/body/div[4]/p[2]">
+            <source> &#160; </source>
+            <target/>
+          </segment>
+        </unit>
+      </group>
+      <unit id="/html/body/p[30]">
+        <segment id="/html/body/p[30]">
+          <source> Loonschijven en verminderingsbedragen die gelden vanaf <g ctype="x-html-strong">1 mei&#160;2024</g>: </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[5]">
+        <unit id="/html/body/div[5]/p[1]">
+          <segment id="/html/body/div[5]/p[1]">
+            <source> <g ctype="x-html-strong">Bedienden (*)</g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[5]/table[1]">
+          <group id="/html/body/div[5]/table[1]/thead">
+            <group id="/html/body/div[5]/table[1]/thead/tr[1]">
+              <unit id="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
+                <segment id="/html/body/div[5]/table[1]/thead/tr[1]/th[1]">
+                  <source> LUIK A (lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
+                <segment id="/html/body/div[5]/table[1]/thead/tr[1]/th[2]">
+                  <source> LUIK B (zeer lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[1]/thead/tr[2]">
+              <group id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]">
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[1]">
+                    <source> S (refertemaandloon </source>
+                    <target/>
+                  </segment>
+                </unit>
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[1]/p[2]">
+                    <source> aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[1]/thead/tr[2]/th[2]">
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[2]/p">
+                    <source> R (basisbedrag in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]">
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[1]">
+                    <source> S (refertemaandloon </source>
+                    <target/>
+                  </segment>
+                </unit>
+                <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
+                  <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[3]/p[2]">
+                    <source> aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
+                <segment id="/html/body/div[5]/table[1]/thead/tr[2]/th[4]">
+                  <source> R (basisbedrag in EUR) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+          <group id="/html/body/div[5]/table[1]/tbody">
+            <group id="/html/body/div[5]/table[1]/tbody/tr[1]">
+              <group id="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[1]/p">
+                    <source> &#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[2]/p">
+                    <source> 118,22 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[3]">
+                  <source> &#8804;&#160;2.132,59 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[1]/td[4]">
+                  <source> 159,43 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[1]/tbody/tr[2]">
+              <group id="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[1]/p">
+                    <source> &gt;&#160;2.723,36&#160;en&#160;&#8804;&#160;3.207,40 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[2]">
+                  <source> 118,22 - (&#160;0,2442&#160;x (S -&#160;2.723,36)) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <group id="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]">
+                <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
+                  <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[3]/p">
+                    <source> &gt;&#160;2.132,59&#160;en&#160;&#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[2]/td[4]">
+                  <source> 159,43 - (&#160;0,2699&#160;x (S -&#160;2.132,59)) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[1]/tbody/tr[3]">
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[1]">
+                  <source> &gt;&#160;3.207,40 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[2]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[3]">
+                  <source> &gt;&#160;2.723,36 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
+                <segment id="/html/body/div[5]/table[1]/tbody/tr[3]/td[4]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+        </group>
+        <unit id="/html/body/div[5]/p[2]">
+          <segment id="/html/body/div[5]/p[2]">
+            <source> <g ctype="x-html-strong">Arbeiders (**)</g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[5]/table[2]">
+          <group id="/html/body/div[5]/table[2]/thead">
+            <group id="/html/body/div[5]/table[2]/thead/tr[1]">
+              <unit id="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
+                <segment id="/html/body/div[5]/table[2]/thead/tr[1]/th[1]">
+                  <source> LUIK A (lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
+                <segment id="/html/body/div[5]/table[2]/thead/tr[1]/th[2]">
+                  <source> LUIK B (zeer lage lonen) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[2]/thead/tr[2]">
+              <group id="/html/body/div[5]/table[2]/thead/tr[2]/th[1]">
+                <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
+                  <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[1]/p">
+                    <source> S (refertemaandloon aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[2]/thead/tr[2]/th[2]">
+                <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
+                  <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[2]/p">
+                    <source> R (basisbedrag&#160;in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[2]/thead/tr[2]/th[3]">
+                <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
+                  <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[3]/p">
+                    <source> S (refertemaandloon aan 100% in EUR) </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
+                <segment id="/html/body/div[5]/table[2]/thead/tr[2]/th[4]">
+                  <source> R (basisbedrag&#160;in EUR) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+          <group id="/html/body/div[5]/table[2]/tbody">
+            <group id="/html/body/div[5]/table[2]/tbody/tr[1]">
+              <group id="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[1]/p">
+                    <source> &#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <group id="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[2]/p">
+                    <source> 127,68 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[3]">
+                  <source> &#8804;&#160;2.132,59 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[1]/td[4]">
+                  <source> 172,18 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[2]/tbody/tr[2]">
+              <group id="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[1]/p">
+                    <source> &gt;&#160;2.723,36&#160;en&#160;&#8804;&#160;3.207,40 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[2]">
+                  <source> 127,68 - ( 0,2638&#160;x (S -&#160;2.723,36)) </source>
+                  <target/>
+                </segment>
+              </unit>
+              <group id="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]">
+                <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
+                  <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[3]/p">
+                    <source> &gt;&#160;2.132,59&#160;en&#160;&#8804;&#160;2.723,36 </source>
+                    <target/>
+                  </segment>
+                </unit>
+              </group>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[2]/td[4]">
+                  <source> 172,18 - (&#160;0,2915&#160;x (S -&#160;2.132,59)) </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+            <group id="/html/body/div[5]/table[2]/tbody/tr[3]">
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[1]">
+                  <source> &gt;&#160;3.207,40 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[2]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[3]">
+                  <source> &gt;&#160;2.723,36 </source>
+                  <target/>
+                </segment>
+              </unit>
+              <unit id="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
+                <segment id="/html/body/div[5]/table[2]/tbody/tr[3]/td[4]">
+                  <source> 0,00 </source>
+                  <target/>
+                </segment>
+              </unit>
+            </group>
+          </group>
+        </group>
+      </group>
+      <unit id="/html/body/p[31]">
+        <segment id="/html/body/p[31]">
+          <source> (*) Onder bedienden moet worden verstaan: de werknemers die moeten worden aangegeven aan 100 %, dus ook bijvoorbeeld arbeiders in de openbare sector.<g ctype="lb"/> (**) Onder arbeiders moet worden verstaan: de werknemers die moeten worden aangegeven aan 108 %, dus ook bijvoorbeeld kunstenaars. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[32]">
+        <segment id="/html/body/p[32]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[33]">
+        <segment id="/html/body/p[33]">
+          <source> R wordt rekenkundig afgerond op de dichtstbijzijnde eenheid (Eurocent). </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/h3[3]">
+        <segment id="/html/body/h3[3]">
+          <source> 3. - Vaststelling van het verminderingsbedrag (P) </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[34]">
+        <segment id="/html/body/p[34]">
+          <source> <g ctype="x-html-strong">Voltijdse werknemers</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[35]">
+        <segment id="/html/body/p[35]">
+          <source> met <g ctype="x-html-strong">volledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[36]">
+        <segment id="/html/body/p[36]">
+          <source> <g ctype="x-html-strong">P = R</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[37]">
+        <segment id="/html/body/p[37]">
+          <source> &#160; </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[38]">
+        <segment id="/html/body/p[38]">
+          <source> met <g ctype="x-html-strong">onvolledige</g> prestaties: </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[39]">
+        <segment id="/html/body/p[39]">
+          <source> <g ctype="x-html-strong">P= (J/D) x R</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[40]">
+        <segment id="/html/body/p[40]">
+          <source> De breuk J/D wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[41]">
+        <segment id="/html/body/p[41]">
+          <source> <g ctype="x-html-strong">Deeltijdse werknemers en gelijkgestelden</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[42]">
+        <segment id="/html/body/p[42]">
+          <source> <g ctype="x-html-strong">P= (H/U) x R</g> </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[43]">
+        <segment id="/html/body/p[43]">
+          <source> De breuk H/U wordt afgerond op twee decimalen (0,005 wordt 0,01) en het resultaat van die breuk mag nooit groter zijn dan 1. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/ul[9]">
+        <segment id="/html/body/ul[9]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[6]">
+        <unit id="/html/body/div[6]/p">
+          <segment id="/html/body/div[6]/p">
+            <source> De vermindering kan toegepast worden zowel op de gewone lonen als op uitbetaalde premies, maar niet op enkel vertrekvakantiegeld bedienden (looncode 7) en/of verbrekingsvergoedingen (looncode 3) verschuldigd gedurende deze periode.&#160;<g ctype="x-html-span">De vermindering kan wel worden toegepast op de looncodes 6 en 14.</g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[6]/div">
+          <unit id="/html/body/div[6]/div/text()[1]">
+            <segment id="/html/body/div[6]/div/text()[1]">
+              <source> <g ctype="x-html-span">Opgelet</g></source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[6]/div/p">
+            <segment id="/html/body/div[6]/div/p">
+              <source> De werkbonus (P) mag de verschuldigde persoonlijke socialezekerheidsbijdragen niet overschrijden.&#160;De sociale werkbonus = de vermindering berekend <g ctype="x-html-span" html:class="newWord">op basis van</g> Luik A <g ctype="x-html-span" html:class="newWord">(P<g ctype="x-html-sub">A</g>)</g> + de vermindering berekend <g ctype="x-html-span" html:class="newWord">op basis van</g> Luik B <g ctype="x-html-span" html:class="newWord">(P<g ctype="x-html-sub">B</g>)</g>.&#160;De eventuele aftopping bij een tekort aan werknemersbijdragen gebeurt op <g ctype="x-html-span" html:class="newWord">de berekening op basis van</g> Luik B en vervolgens op <g ctype="x-html-span" html:class="newWord">de berekening op basis van</g> Luik A. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <unit id="/html/body/p[44]">
+        <segment id="/html/body/p[44]">
+          <source> Wanneer een werknemer vakantie neemt die gedekt wordt door enkel vertrekvakantiegeld, is het mogelijk dat de werknemersbijdrage niet volstaat om de werkbonus volledig in rekening te brengen. <g ctype="x-html-strong">De werkgever mag dan het resterende deel van de werkbonus aftrekken van de werknemersbijdrage van de volgende maand</g>. <g ctype="x-html-span" html:class="newWord">Vanaf het 2<g ctype="x-html-sup">de</g> kwartaal 2024 is dit niet meer beperkt tot</g> <g ctype="x-html-span" html:class="deletedWord">Dit kan echter enkel binnen</g> <g ctype="x-html-span" html:class="newWord">hetzelfde kwartaal</g>. </source>
+          <target/>
+        </segment>
+      </unit>
+      <group id="/html/body/div[7]">
+        <unit id="/html/body/div[7]/p">
+          <segment id="/html/body/div[7]/p">
+            <source> <g ctype="x-html-strong" html:class="readMore readMoreOff"><g ctype="x-html-a" html:href="javascript:void(0)" html:class="toggleLinkOff readMore">Voorbeelden</g></g> </source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[7]/div">
+          <unit id="/html/body/div[7]/div/p[1]">
+            <segment id="/html/body/div[7]/div/p[1]">
+              <source> De onderstaande voorbeelden zijn gebaseerd op de cijfers die gelden vanaf 1 juni 2001. </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[2]">
+            <segment id="/html/body/div[7]/div/p[2]">
+              <source> Voorbeeld 1:<g ctype="lb"/> Voor een bepaalde maand heeft een <g ctype="x-html-strong">bediende</g> een brutoloon van <g ctype="x-html-span"><g ctype="x-html-strong">2.015,00 EUR</g></g>. Die maand telt normaal 22 prestatiedagen. Hij wordt aangegeven met 19 dagen gewaarborgd maandloon (code 1), en drie niet door de werkgever betaalde ziektedagen (code 50). </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[3]">
+            <segment id="/html/body/div[7]/div/p[3]">
+              <source> <g ctype="x-html-span">Zijn refertemaandloon (S) is&#160;<g ctype="x-html-strong">2.333,10&#160;EUR</g>, nl. 106,05 EUR (=2.015,00/19 afgerond op twee decimalen) vermenigvuldigd met 22.<g ctype="lb"/> Het basisbedrag van de vermindering (R) is&#160;<g ctype="x-html-strong">179,77 EUR</g>, nl. 262,16 - (0,2579 x (2.333,10 &#8211; 2.013,64)).<g ctype="lb"/> Het verminderingsbedrag (P) is&#160;<g ctype="x-html-strong">154,60 EUR</g>, nl. 0,86 (=19/22 afgerond op twee decimalen) x 179,77. Dit betekent dat de werkgever bij de loonbetaling niet 263,36 EUR (=13,07% van 2.015) werknemersbijdrage inhoudt, maar 108,76 EUR (= 263,36 &#8211; 154,60)</g>. </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[4]">
+            <segment id="/html/body/div[7]/div/p[4]">
+              <source> Voorbeeld 2:<g ctype="lb"/> Voor een bepaalde maand heeft een <g ctype="x-html-strong">arbeider</g> een brutoloon van <g ctype="x-html-span"><g ctype="x-html-strong">1336,00 EUR</g></g> (aan 100%). Tijdens die maand, die normaal 22 prestatiedagen telt, heeft hij 15 dagen normale werkelijke arbeid (code 1) en 7 wettelijke vakantiedagen (code 2). </source>
+              <target/>
+            </segment>
+          </unit>
+          <unit id="/html/body/div[7]/div/p[5]">
+            <segment id="/html/body/div[7]/div/p[5]">
+              <source> <g ctype="x-html-span">Zijn refertemaandloon (S) is&#160;<g ctype="x-html-strong">1.959,54 EUR</g>, nl. 89,07 (=1336,00/15) vermenigvuldigd met 22.<g ctype="lb"/> Het basisbedrag van de vermindering (R) is&#160;<g ctype="x-html-strong">283,13 EUR</g>&#160;(zijn referteloon is kleiner dan 2.013,64 EUR).<g ctype="lb"/> Het verminderingsbedrag (P) is&#160;<g ctype="x-html-strong">192,53 EUR</g>, nl. 0,68 (=15/22 afgerond op twee decimalen) x 283,13. Dit betekent dat de werkgever bij de loonbetaling niet 188,58 EUR, nl. 13,07% van 1442,88 (= 1336,00 + 8%) werknemersbijdrage inhoudt, maar 0 EUR (188,58 &#8211; 192,53 resulteert in een negatief bedrag, maar aangezien de werkbonus de verschuldigde persoonlijke socialezekerheidsbijdragen niet mag overschrijden is de uitkomst 0)</g>. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <group id="/html/body/div[8]">
+        <unit id="/html/body/div[8]/text()[1]">
+          <segment id="/html/body/div[8]/text()[1]">
+            <source> <g ctype="x-html-span">Opgelet</g></source>
+            <target/>
+          </segment>
+        </unit>
+        <group id="/html/body/div[8]/div">
+          <unit id="/html/body/div[8]/div/p">
+            <segment id="/html/body/div[8]/div/p">
+              <source> Vanaf 1 mei 2024 mag het totaal van de vermindering per werknemer niet meer bedragen dan <g ctype="x-html-span">3.331,80 EUR</g> per kalenderjaar. </source>
+              <target/>
+            </segment>
+          </unit>
+        </group>
+      </group>
+      <unit id="/html/body/h2[3]">
+        <segment id="/html/body/h2[3]">
+          <source> Te vervullen formaliteiten </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[45]">
+        <segment id="/html/body/p[45]">
+          <source> In de <g ctype="x-html-a" html:href="https://www.socialsecurity.be/site_nl/employer/general/techlib.htm#dmfa" html:target="_blank">technische bibliotheek (techlib)</g> vindt u tevens een downloadbaar programma (macro) waarmee u deze vermindering kunt berekenen. </source>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[46]">
+        <segment id="/html/body/p[46]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+      <unit id="/html/body/p[47]">
+        <segment id="/html/body/p[47]">
+          <source/>
+          <target/>
+        </segment>
+      </unit>
+    </group>
+  </file>
+</xliff>

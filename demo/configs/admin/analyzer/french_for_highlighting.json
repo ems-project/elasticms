@@ -8,11 +8,10 @@
         "options": {
             "filter": [
                 "standard",
-                "asciifolding",
                 "lowercase",
                 "french_elision",
-                "french_stemmer",
-                "french_stop"
+                "french_stop",
+                "french_stemmer"
             ],
             "char_filter": [
                 "html_strip"
@@ -20,7 +19,7 @@
             "type": "custom",
             "tokenizer": "standard"
         },
-        "orderKey": 4
+        "orderKey": 7
     },
     "replaced": []
 }

@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Tests\Unit\Helper;
 
 use EMS\CommonBundle\Helper\Cache;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CacheAiTest extends TestCase
@@ -37,12 +38,13 @@ class CacheAiTest extends TestCase
 
     public function testMakeResponseCacheable(): void
     {
+        $request = new Request();
         $response = new Response();
         $etag = '"test-etag"';
         $lastUpdateDate = new \DateTime('2023-01-01');
         $immutableRoute = true;
 
-        $this->cache->makeResponseCacheable($response, $etag, $lastUpdateDate, $immutableRoute);
+        $this->cache->makeResponseCacheable($request, $response, $etag, $lastUpdateDate, $immutableRoute);
 
         $this->assertEquals($etag, $response->getEtag());
         $this->assertEquals(2_678_400, $response->getMaxAge());
@@ -52,11 +54,12 @@ class CacheAiTest extends TestCase
 
     public function testMakeResponseCacheableWithoutLastUpdateDate(): void
     {
+        $request = new Request();
         $response = new Response();
         $etag = '"test-etag"';
         $immutableRoute = false;
 
-        $this->cache->makeResponseCacheable($response, $etag, null, $immutableRoute);
+        $this->cache->makeResponseCacheable($request, $response, $etag, null, $immutableRoute);
 
         $this->assertEquals($etag, $response->getEtag());
         $this->assertEquals(3600, $response->getMaxAge());

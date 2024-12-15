@@ -1,0 +1,24 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "dutch_with_synonyms",
+        "dirty": true,
+        "label": "Dutch (synonyms)",
+        "options": {
+            "filter": [
+                "standard",
+                "lowercase",
+                "dutch_stemmer",
+                "dutch_stop",
+                "empty_elision",
+                "business_synonyms"
+            ],
+            "char_filter": [],
+            "type": "custom",
+            "tokenizer": "standard"
+        },
+        "orderKey": 2
+    },
+    "replaced": []
+}

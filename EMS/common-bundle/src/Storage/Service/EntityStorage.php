@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Persistence\ObjectManager;
 use EMS\CommonBundle\Entity\AssetStorage;
 use EMS\CommonBundle\Repository\AssetStorageRepository;
+use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\File\FileInterface;
 use EMS\CommonBundle\Storage\Processor\Config;
 use EMS\CommonBundle\Storage\StreamWrapper;
@@ -37,6 +38,11 @@ class EntityStorage implements StorageInterface, \Stringable
     public function head(string $hash): bool
     {
         return $this->repository->head($hash);
+    }
+
+    public function heads(string ...$hashes): array
+    {
+        return \array_values(\array_map(fn (string $hash) => $this->head($hash) ? true : $hash, $hashes));
     }
 
     public function getSize(string $hash): int
@@ -237,6 +243,11 @@ class EntityStorage implements StorageInterface, \Stringable
     }
 
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        return false;
+    }
+
+    public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
     {
         return false;
     }

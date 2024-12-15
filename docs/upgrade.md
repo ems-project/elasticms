@@ -2,6 +2,8 @@
 
   * [Switch to CK Editor 5](#switch-to-ck-editor-5)
   * [version 6.0.x](#version-60x)
+  * [version 5.23.x](#version-523x)
+  * [version 5.22.x](#version-522x)
   * [version 5.21.x](#version-521x)
   * [version 5.19.x](#version-519x)
   * [version 5.17.x](#version-517x)
@@ -159,6 +161,85 @@ Since version 6 the default dynamic mapping config has changed. New fields are i
 
 You can reactivate the dynamic mapping with this environment variable:  `EMSCO_DYNAMIC_MAPPING='true'`. But it's not recommended. Check the [EMSCO_DYNAMIC_MAPPING documentation](elasticms-admin/environment-variables.md#emscodynamicmapping)
 
+## version 5.25.x
+
+- The `emsco:environment:align` will after publication also unpublish documents that are not aligned.
+
+## version 5.24.x
+
+There is breaking changes in the options of the [File Reader Import](elasticms-cli/commands?id=file-reader) command. 
+Command's options must be defined in a json format now, and that JSON can be passed to the `--config` option as:
+ * a JSON string
+ * a path to a JSON file
+ * the hash of a JSON file in the storage services
+
+Please update your worker's jobs.
+
+
+## version 5.23.x
+
+From this version, the upload of web's assets via the command `emsch:local:upload-assets` wont upload a zip anymore but each assets independently.
+The hash provided at the end of the command, is the hash of a JSON containing the structure of the assets within the asset folder, we called those JSON an ElasticMS archive or EMS Archive. E.g.:
+
+```json
+[
+  {
+    "filename": "css/index.css",
+    "hash": "9408821ad2bd8f65b7cd7d3913c01218532fc6b2",
+    "type": "text/css",
+    "size": 244030
+  },
+  {
+    "filename": "img/head/icon.png",
+    "hash": "cf4effd785abdb6b58e560c7645cedda5c9fda16",
+    "type": "image/png",
+    "size": 74640
+  },
+  {
+    "filename": "img/logos/ems-logo.svg",
+    "hash": "10b8fa0d6c1e1b1a21b713341424820d379b0a6b",
+    "type": "image/svg+xml",
+    "size": 24638
+  },
+  {
+    "filename": "img/logos/full-logo.svg",
+    "hash": "1f59b7246eb4f6856d42128ad17c4fb59d15f038",
+    "type": "image/svg+xml",
+    "size": 17415
+  },
+  {
+    "filename": "js/index.js",
+    "hash": "010a2066374e5980be0b68d628acd1b624602ab5",
+    "type": "text/javascript",
+    "size": 190044
+  }
+]
+```
+Using those EMS Archive has a huge impact on the performances. Especially at the website warming up.
+You can use that EMS Archive's hash where ever you want instead of the old ZIP's hash. E.g. in the Twig function `emsch_assets_version`: 
+```twig
+{% do emsch_assets_version(include('@EMSCH/template/asset_hash.twig'), null) %}
+```
+
+If, for some reason you want, you can continue to use ZIP archives. Or by active the option `--archive=zip` int the `emsch:local:upload-assets` command. Or by manually uploading the ZIP file in the Admin UI. ElasticMS detects if it's a EMR archive or a zip archive. 
+
+It's not required, but warmly recommended to re-upload your assets and update the asset's hash in the website templates.
+
+## version 5.22.x
+
+* Updates on json menu nested template (copy/paste functionality)
+* Removed environment variable: `EMSCO_FALLBACK_LOCALE`
+* Add new method `getLanguage` on user object
+
+  preferred locale 'nl_FR' returns 'nl'
+  ```twig
+  {% set language = app.user.localePreferred[0:2] %} //before 
+  {% set language = app.user.language %} //now
+  
+  {# sort based on user language #}
+  {% set languages = ['fr', 'nl']|sort((a, b) => a == app.user.language ? -1 : b == app.user.language ? 1 : 0) %}
+  ```
+
 ## version 5.21.x
 
 * Core twig component Media library: Removed the option `fieldPathOrder`, use new option `sort` (defining all possible sorts)
@@ -179,7 +260,7 @@ You can reactivate the dynamic mapping with this environment variable:  `EMSCO_D
 
     Example ```emsco:xliff:update /tmp/pages-nl-to-de.xlf --base-url=https://my-admin.my-project.tld```
 * You should not specify a folder where to expand website assets in the `emsch_assets_version` twig function, in this case the function returns `null`.
-  * By default, if you specify `null` (e.g. `{% do emsch_assets_version(include('@EMSCH/template/asset_hash.twig'), null) %}`) as second arguments, the `emsch` assets will have a an url like `/bundle/253b903b1fb3ac30975ae9844a0352a65cdcfa3d/site.css` which urls will be resolved by the route `EMS\CommonBundle\Controller\FileController::assetInArchive`
+  * By default, if you specify `null` (e.g. `{% do emsch_assets_version(include('@EMSCH/template/asset_hash.twig'), null) %}`) as second arguments, the `emsch` assets will have a an url like `/bundles/253b903b1fb3ac30975ae9844a0352a65cdcfa3d/site.css` which urls will be resolved by the route `EMS\CommonBundle\Controller\FileController::assetInArchive`
   * It's also possible the defined you own route for assets in archive, if the route is not immutable (does not contain the archive hash) you must specify the `maxAge` argument (by default it's set to one week): 
 ```yaml
 emsch_demo_asset_in_archive:

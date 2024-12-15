@@ -1,0 +1,21 @@
+{
+    "class": "EMS\\CoreBundle\\Entity\\Analyzer",
+    "arguments": [],
+    "properties": {
+        "name": "standard_with_synonyms",
+        "dirty": true,
+        "label": "Standard (with synonyms)",
+        "options": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "char_filter": [],
+            "filter": [
+                "standard",
+                "lowercase",
+                "business_synonyms"
+            ]
+        },
+        "orderKey": 11
+    },
+    "replaced": []
+}

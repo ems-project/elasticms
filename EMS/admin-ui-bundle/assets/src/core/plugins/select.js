@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import select2 from 'select2'
+import 'select2'
 
 class Select {
   load(target) {
@@ -21,7 +21,6 @@ class Select {
   }
 
   select2(target) {
-    select2()
     const targetQuery = $(target)
     targetQuery.find('select.select2').select2({
       theme: 'bootstrap-5',

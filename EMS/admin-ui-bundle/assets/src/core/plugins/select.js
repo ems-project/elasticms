@@ -22,6 +22,10 @@ class Select {
 
   select2(target) {
     const targetQuery = $(target)
+    if (undefined === targetQuery.select2) {
+        console.log('Select 2 is not available probably beaause you are in vite dev mode')
+        return
+    }
     targetQuery.find('select.select2').select2({
       theme: 'bootstrap-5',
       allowClear: true,

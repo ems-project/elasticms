@@ -10,6 +10,9 @@ export default defineConfig({
         changeOrigin: false,
         secure: false,
         xfwd: true,
+        headers: {
+          'x-ems-debug': 'debug'
+        },
       },
       '/bundles': {
         target: 'http://127.0.0.1:8881',

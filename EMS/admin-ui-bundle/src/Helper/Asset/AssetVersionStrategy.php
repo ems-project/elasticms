@@ -8,6 +8,7 @@ use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Asset\Exception\RuntimeException;
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
 final class AssetVersionStrategy implements VersionStrategyInterface
@@ -17,7 +18,7 @@ final class AssetVersionStrategy implements VersionStrategyInterface
      */
     private array $manifestData;
 
-    public function __construct(private readonly FileLocator $fileLocator, private readonly string $basePath = 'bundles/emsadminui/')
+    public function __construct(private readonly FileLocator $fileLocator, private readonly RequestStack $requestStack, private readonly string $basePath = 'bundles/emsadminui/')
     {
     }
 
@@ -33,15 +34,17 @@ final class AssetVersionStrategy implements VersionStrategyInterface
 
     private function getManifestPath(string $path): string
     {
-        if (!isset($this->manifestData)) {
-            try {
-                $manifestPath = $this->fileLocator->locate('@EMSAdminUIBundle/Resources/public/.vite/manifest.json');
-            } catch (\Throwable) {
-                if (\preg_match('/(?<path>.*\.(js|ts|cjs))(\.(?<index>[0-9]+))?\.css$/', $path)) {
-                    return 'css/empty.css';
-                }
-                return $path;
+        $request = $this->requestStack->getCurrentRequest();
+        if (null !== $request && 'debug' === $request->headers->get('X-Ems-Debug')) {
+            if (\preg_match('/(?<path>.*\.(js|ts|cjs))(\.(?<index>[0-9]+))?\.css$/', $path)) {
+                return 'css/empty.css';
             }
+
+            return $path;
+        }
+
+        if (!isset($this->manifestData)) {
+            $manifestPath = $this->fileLocator->locate('@EMSAdminUIBundle/Resources/public/.vite/manifest.json');
             if (!\is_file($manifestPath)) {
                 throw new RuntimeException(\sprintf('Asset manifest file "%s" does not exist. Did you forget to build the assets with npm or yarn?', $manifestPath));
             }

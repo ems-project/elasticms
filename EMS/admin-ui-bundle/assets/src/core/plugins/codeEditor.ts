@@ -463,6 +463,8 @@ import snippetsXquery from 'ace-builds/src-noconflict/snippets/xquery.js?url'
 import snippetsYaml from 'ace-builds/src-noconflict/snippets/yaml.js?url'
 import snippetsZeek from 'ace-builds/src-noconflict/snippets/zeek.js?url'
 
+import keybindingMenu from 'ace-builds/src-noconflict/ext-keybinding_menu.js?url'
+
 import { ChangeEvent } from '../events/changeEvent'
 import '../../../css/core/plugins/codeEditor.scss'
 
@@ -498,6 +500,7 @@ export default class CodeEditor {
 
       ace.config.setModuleUrl(language, this.getModuleUrl(language))
       ace.config.setModuleUrl(theme, this.getModuleUrl(theme))
+      ace.config.setModuleUrl('ace/ext/keybinding_menu', keybindingMenu)
 
       const editor = ace.edit(pre, {
         mode: language,
@@ -532,29 +535,20 @@ export default class CodeEditor {
                 }
                 editor.resize()
               }
-      //       },
-      //       {
-      //         name: 'showKeyboardShortcuts',
-      //         bindKey: { win: 'Ctrl-Alt-h', mac: 'Command-Alt-h' },
-      //         exec: function (editor) {
-      //           self.getAceConfig().loadModule('ace/ext/keybinding_menu', function (module) {
-      //             module.init(editor)
-      //             editor.showKeyboardShortcuts()
-      //           })
-      //         }
+            },
+            {
+              name: 'showKeyboardShortcuts',
+              bindKey: { win: 'Ctrl-Alt-h', mac: 'Command-Alt-h' },
+              exec: function (editor) {
+                ace.config.loadModule('ace/ext/keybinding_menu', function (module) {
+                  module.init(editor)
+                  (editor as any).showKeyboardShortcuts?.()
+                })
+              }
             }
         ])
     }
   }
-
-  // static getAceConfig() {
-  //   if (!this.aceConfig) {
-  //     this.aceConfig = ace.require('ace/config')
-  //     this.aceConfig.init()
-  //   }
-  //   console.log(this.aceConfig)
-  //   return this.aceConfig
-  // }
 
   private getModuleUrl(moduleName: string): string {
     switch (moduleName) {

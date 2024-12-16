@@ -485,34 +485,13 @@ export default class CodeEditor {
         console.warn('PRE tag not found')
         continue
       }
-      //     const codeDiv = $(codeEditors[i])
-      //     let pre = codeEditors[i]
-      //     let hiddenField = codeDiv
-      let disabled = true
-      //
-      //     if (pre.tagName === 'DIV') {
-      //       pre = codeDiv.find('pre').get(0)
-      //       hiddenField = codeDiv.find('input')
-      //       disabled = hiddenField.data('disabled')
-      //     }
-      //
-      let language = 'ace/mode/twig'
-      //     let language = hiddenField.data('language')
-      //     language = language || 'ace/mode/twig'
-      //
-      let theme = 'ace/theme/chrome'
-      //     let theme = hiddenField.data('theme')
-      //     theme = theme || 'ace/theme/chrome'
-      //
-      let maxLines = 15
-      //     if (hiddenField.data('max-lines') && hiddenField.data('max-lines') > 0) {
-      //       maxLines = hiddenField.data('max-lines')
-      //     }
-      //
-      let minLines = 1
-      //     if (hiddenField.data('min-lines') && hiddenField.data('min-lines') > 0) {
-      //       minLines = hiddenField.data('min-lines')
-      //     }
+
+      const inputField = container.querySelector('input')
+      const disabled = null === inputField
+      const language = container.getAttribute('data-language') || 'ace/mode/twig'
+      let theme = container.getAttribute('data-theme') || 'ace/theme/chrome'
+      const maxLines = Number.parseInt(container.getAttribute('data-max-lines') || '15')
+      const minLines = Number.parseInt(container.getAttribute('data-min-lines') || '1')
 
       const ace = await import('ace-builds')
 

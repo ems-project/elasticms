@@ -1,4 +1,3 @@
-// import $ from 'jquery'
 import extBeautify from 'ace-builds/src-noconflict/ext-beautify.js?url'
 import extCode_lens from 'ace-builds/src-noconflict/ext-code_lens.js?url'
 import extCommand_bar from 'ace-builds/src-noconflict/ext-command_bar.js?url'
@@ -467,8 +466,6 @@ import snippetsZeek from 'ace-builds/src-noconflict/snippets/zeek.js?url'
 export default class CodeEditor {
   load(target: HTMLElement) {
     this.loadEditors(target)
-    // this.loadAceThemePickers(target)
-    // this.loadAceModePickers(target)
   }
 
   async loadEditors(target: HTMLElement) {
@@ -577,47 +574,7 @@ export default class CodeEditor {
   //   console.log(this.aceConfig)
   //   return this.aceConfig
   // }
-  //
-  // getModules(startingWith) {
-  //   const filteredModule = []
-  //   const modules = ace.config.all().$moduleUrls
-  //   for (const [key] of Object.entries(modules)) {
-  //     if (!key.startsWith(startingWith)) {
-  //       continue
-  //     }
-  //     let caption = key.substring(startingWith.length).replaceAll('_', ' ')
-  //     caption = caption.charAt(0).toUpperCase() + caption.slice(1)
-  //     filteredModule.push({
-  //       id: key,
-  //       text: caption
-  //     })
-  //   }
-  //   return filteredModule
-  // }
-  //
-  // loadAceThemePickers(target) {
-  //   const codeEditorThemeField = $(target).find('.code_editor_theme_ems')
-  //   if (codeEditorThemeField.length === 0) {
-  //     return
-  //   }
-  //   const modes = this.getModules('ace/theme/')
-  //   codeEditorThemeField.select2({
-  //     data: modes,
-  //     placeholder: 'Select a theme'
-  //   })
-  // }
-  //
-  // loadAceModePickers(target) {
-  //   const codeEditorModeField = $(target).find('.code_editor_mode_ems')
-  //   if (codeEditorModeField.length === 0) {
-  //     return
-  //   }
-  //   const modes = this.getModules('ace/mode/')
-  //   codeEditorModeField.select2({
-  //     data: modes,
-  //     placeholder: 'Select a language'
-  //   })
-  // }
+
   private getModuleUrl(moduleName: string): string {
     switch (moduleName) {
       case 'ace/ext/beautify':

@@ -463,6 +463,8 @@ import snippetsXquery from 'ace-builds/src-noconflict/snippets/xquery.js?url'
 import snippetsYaml from 'ace-builds/src-noconflict/snippets/yaml.js?url'
 import snippetsZeek from 'ace-builds/src-noconflict/snippets/zeek.js?url'
 
+import { ChangeEvent } from '../events/changeEvent'
+
 export default class CodeEditor {
   load(target: HTMLElement) {
     this.loadEditors(target)
@@ -525,15 +527,15 @@ export default class CodeEditor {
         theme
       })
 
-      console.log(editor)
-      //
-      //     editor.on('change', function () {
-      //       hiddenField.val(editor.getValue())
-      //       if (typeof self.onChangeCallback === 'function') {
-      //         self.onChangeCallback()
-      //       }
-      //     })
-      //
+      editor.on('change', function () {
+        if (null ===  inputField) {
+          return
+        }
+        inputField.value = editor.getValue()
+        const changeEvent = new ChangeEvent(inputField)
+        changeEvent.dispatch()
+      })
+
       //     editor.commands.addCommands([
       //       {
       //         name: 'fullscreen',

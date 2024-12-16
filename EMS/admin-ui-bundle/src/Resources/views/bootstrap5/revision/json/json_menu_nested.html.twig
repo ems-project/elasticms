@@ -234,7 +234,7 @@
         {{ macros.renderDataField(dataFields, rawData, false, []) }}
     {%- else -%}
         <p class="text-red">{{ 'view.data.json-menu-nested-json-preview.field-type-not-found'|trans }}</p>
-        <pre class="ems-code-editor" data-language="ace/mode/json" data-them="ace/theme/chrome">
+        <pre class="ems-code-editor" data-language="ace/mode/json" data-theme="ace/theme/chrome">
             {{- rawData|json_encode(constant('JSON_PRETTY_PRINT')) -}}
         </pre>
     {%- endif -%}

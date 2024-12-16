@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Config\FileLocator;
 final class AssetVersionStrategy implements VersionStrategyInterface
 {
     /**
-     * @var array<string, array{string: type}>
+     * @var array<string, array{file: string, name: string, css: ?string[]}>
      */
     private array $manifestData;
 

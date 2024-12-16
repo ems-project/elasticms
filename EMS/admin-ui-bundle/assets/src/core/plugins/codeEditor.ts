@@ -464,6 +464,7 @@ import snippetsYaml from 'ace-builds/src-noconflict/snippets/yaml.js?url'
 import snippetsZeek from 'ace-builds/src-noconflict/snippets/zeek.js?url'
 
 import { ChangeEvent } from '../events/changeEvent'
+import '../../../css/core/plugins/codeEditor.scss'
 
 export default class CodeEditor {
   load(target: HTMLElement) {

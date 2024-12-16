@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Security;
 class OAuth2Controller
 {
     public function __construct(
-        private readonly OAuth2Service $oAuth2Service
+        private readonly OAuth2Service $oAuth2Service,
     ) {
     }
 

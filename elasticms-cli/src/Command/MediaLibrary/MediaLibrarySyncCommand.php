@@ -54,7 +54,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
     public function __construct(
         private readonly AdminHelper $adminHelper,
         private readonly FileReaderInterface $fileReader,
-        private readonly ExpressionServiceInterface $expressionService
+        private readonly ExpressionServiceInterface $expressionService,
     ) {
         parent::__construct();
     }

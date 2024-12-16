@@ -88,7 +88,7 @@ class HtmlSanitizerConfigBuilder
                 'drop_elements' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, string $item) => $config->dropElement($item)
                 ),
-                default => throw new \Exception(\sprintf('Unknown settings %s', $setting))
+                default => throw new \Exception(\sprintf('Unknown settings %s', $setting)),
             };
         }
 

@@ -17,7 +17,7 @@ class CoreApiUser implements UserInterface
 
     public function __construct(
         public readonly ProfileInterface $profile,
-        private readonly string $token
+        private readonly string $token,
     ) {
         $this->displayName = $this->profile->getDisplayName();
         $this->username = $this->profile->getUsername();

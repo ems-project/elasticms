@@ -103,7 +103,7 @@ class OAuth2Service
                 encryptionAlgorithm: $this->optionalProperty(OAuth2Property::ENCRYPTION_ALGORITHM),
                 encryptionKey: $this->optionalProperty(OAuth2Property::ENCRYPTION_KEY)
             ),
-            default => throw new \RuntimeException('invalid provider type')
+            default => throw new \RuntimeException('invalid provider type'),
         };
     }
 

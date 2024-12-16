@@ -30,7 +30,7 @@ final class LocalHelper
         private readonly Builders $builders,
         private readonly EnvironmentApi $environmentApi,
         private LoggerInterface $logger,
-        private readonly string $projectDir
+        private readonly string $projectDir,
     ) {
         $this->clientRequest = $clientRequestManager->getDefault();
     }

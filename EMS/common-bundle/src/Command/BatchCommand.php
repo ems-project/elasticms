@@ -79,7 +79,7 @@ class BatchCommand extends AbstractCommand
         $source = match (true) {
             u($name)->startsWith('@EMSCH') => $this->twig->getLoader()->getSourceContext($name)->getCode(),
             \file_exists($name) => File::fromFilename($name)->getContents(),
-            default => $name
+            default => $name,
         };
 
         return $this->twig->createTemplate($source);

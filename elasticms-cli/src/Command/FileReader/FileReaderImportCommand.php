@@ -50,7 +50,7 @@ final class FileReaderImportCommand extends AbstractCommand
     public function __construct(
         private readonly AdminHelper $adminHelper,
         private readonly StorageManager $storageManager,
-        private readonly FileReaderInterface $fileReader
+        private readonly FileReaderInterface $fileReader,
     ) {
         parent::__construct();
     }
@@ -160,7 +160,7 @@ final class FileReaderImportCommand extends AbstractCommand
     {
         $configs = \array_map(fn (string $input) => match (true) {
             Json::isJson($input) => Json::decode($input),
-            default => Json::decode($this->getFile($input)->getContent())
+            default => Json::decode($this->getFile($input)->getContent()),
         }, $inputs);
 
         return FileReaderImportConfig::createFromArray(
@@ -184,7 +184,7 @@ final class FileReaderImportCommand extends AbstractCommand
             $config->generateOuuid => (string) UuidGenerator::fromValue(($prefix ?? '').$ouuid),
             null !== $prefix => Hash::string($prefix.$ouuid),
             $config->generateHash => Hash::string(\sprintf('FileReaderImport:%s:%s', $this->contentType, $ouuid)),
-            default => $ouuid
+            default => $ouuid,
         };
     }
 

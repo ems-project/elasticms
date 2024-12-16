@@ -17,7 +17,7 @@ class OAuth2Token extends PostAuthenticationToken
         private readonly AccessTokenInterface $accessToken,
         UserInterface $user,
         string $firewallName,
-        array $roles
+        array $roles,
     ) {
         parent::__construct($user, $firewallName, $roles);
     }

@@ -28,7 +28,7 @@ class FormConfigFactory
         private readonly AdapterInterface $cache,
         private readonly LoggerInterface $logger,
         private readonly TextRuntime $textRuntime,
-        array $emsConfig
+        array $emsConfig,
     ) {
         $this->client = $manager->getDefault();
         $this->loadFromJson = $emsConfig[Configuration::LOAD_FROM_JSON];

@@ -21,7 +21,7 @@ class LoginController
     public function __construct(
         private readonly Handler $handler,
         private readonly Environment $templating,
-        private readonly FormFactory $formFactory
+        private readonly FormFactory $formFactory,
     ) {
     }
 

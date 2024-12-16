@@ -9,7 +9,7 @@ class Deploy
     public function __construct(
         public readonly Version $version,
         public readonly Version $previousVersion,
-        public readonly string $branch
+        public readonly string $branch,
     ) {
     }
 }

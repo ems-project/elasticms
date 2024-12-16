@@ -21,7 +21,7 @@ final class LocalEnvironment
 
     public function __construct(
         private readonly Environment $environment,
-        private readonly string $directory
+        private readonly string $directory,
     ) {
         $this->fileSystem = new Filesystem();
     }

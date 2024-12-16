@@ -27,7 +27,7 @@ final class HealthCheckCommand extends AbstractCommand
     public function __construct(
         private readonly EnvironmentHelper $environmentHelper,
         private readonly ElasticaService $elasticaService,
-        private readonly ?StorageManager $storageManager = null
+        private readonly ?StorageManager $storageManager = null,
     ) {
         parent::__construct();
     }

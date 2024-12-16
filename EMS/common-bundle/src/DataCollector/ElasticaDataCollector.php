@@ -14,7 +14,7 @@ class ElasticaDataCollector extends DataCollector
 {
     public function __construct(
         private readonly ElasticaLogger $logger,
-        private readonly ElasticaService $elasticaService
+        private readonly ElasticaService $elasticaService,
     ) {
     }
 

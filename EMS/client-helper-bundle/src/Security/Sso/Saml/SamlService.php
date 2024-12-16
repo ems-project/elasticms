@@ -49,7 +49,7 @@ class SamlService
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly HttpUtils $httpUtils,
-        private readonly array $config
+        private readonly array $config,
     ) {
     }
 

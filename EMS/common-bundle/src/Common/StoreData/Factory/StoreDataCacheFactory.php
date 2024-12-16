@@ -13,7 +13,7 @@ class StoreDataCacheFactory implements StoreDataFactoryInterface
     public const TTL = 'ttl';
 
     public function __construct(
-        private readonly Cache $cache
+        private readonly Cache $cache,
     ) {
     }
 

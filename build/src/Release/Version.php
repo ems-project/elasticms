@@ -11,7 +11,7 @@ class Version
     public function __construct(
         public int $major,
         public int $minor,
-        public int $patch
+        public int $patch,
     ) {
     }
 

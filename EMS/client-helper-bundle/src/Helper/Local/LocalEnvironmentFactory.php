@@ -10,7 +10,7 @@ final class LocalEnvironmentFactory
 {
     public function __construct(
         private readonly string $projectDir,
-        private readonly ?string $localPath = null
+        private readonly ?string $localPath = null,
     ) {
     }
 

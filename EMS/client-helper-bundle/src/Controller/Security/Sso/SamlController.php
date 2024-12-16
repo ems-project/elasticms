@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Security;
 class SamlController
 {
     public function __construct(
-        private readonly SamlService $samlService
+        private readonly SamlService $samlService,
     ) {
     }
 

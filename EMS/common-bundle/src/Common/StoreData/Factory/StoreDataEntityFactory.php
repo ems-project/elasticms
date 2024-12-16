@@ -13,7 +13,7 @@ class StoreDataEntityFactory implements StoreDataFactoryInterface
     private const TTL = 'ttl';
 
     public function __construct(
-        private readonly StoreDataRepository $repository
+        private readonly StoreDataRepository $repository,
     ) {
     }
 

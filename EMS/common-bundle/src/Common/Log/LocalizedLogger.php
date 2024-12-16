@@ -17,7 +17,7 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly TranslatorInterface $translator,
-        private readonly string $translationDomain
+        private readonly string $translationDomain,
     ) {
     }
 

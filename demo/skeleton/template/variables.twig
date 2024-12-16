@@ -6,7 +6,7 @@
     {% set wyiwygReplaces = {
         'src="https://www.youtube.com/': 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/',
     } %}
-    {% do emsch_assets_version(include('@EMSCH/template/asset_hash.twig'), null) %}
+    {% do emsch_assets_version(ems_template_exists('@EMSCH/template/asset_hash.twig') ? include('@EMSCH/template/asset_hash.twig') : 'demo', null) %}
     {% set baseUrl = '/' %}
     {% if app.user %}
         {% set baseUrl = "/channel/#{trans_default_domain}" %}

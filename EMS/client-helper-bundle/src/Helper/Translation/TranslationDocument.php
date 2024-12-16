@@ -42,15 +42,7 @@ final class TranslationDocument implements BuilderDocumentInterface
      */
     public function getDataSource(): array
     {
-        $source = ['key' => $this->source['key']];
-
-        foreach ($this->locales as $locale) {
-            if (isset($this->source['label_'.$locale])) {
-                $source['label_'.$locale] = $this->source['label_'.$locale];
-            }
-        }
-
-        return $source;
+        return \array_filter($this->source, fn ($key) => 'key' === $key || \str_starts_with($key, 'label_'), ARRAY_FILTER_USE_KEY);
     }
 
     /**

@@ -22,7 +22,6 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     private array $object;
     /** @var JsonMenuNested[] */
     private array $children = [];
-    /** @var ?JsonMenuNested */
     private ?JsonMenuNested $parent = null;
     /** @var string[] */
     private array $descendantIds = [];

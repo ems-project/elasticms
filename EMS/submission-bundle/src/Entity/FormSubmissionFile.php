@@ -28,7 +28,7 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
      */
     public function __construct(
         private readonly FormSubmission $formSubmission,
-        array $file
+        array $file,
     ) {
         $this->id = Uuid::uuid4();
         $this->created = DateTime::create('now');

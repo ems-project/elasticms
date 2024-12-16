@@ -20,7 +20,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
 
     public function __construct(
         private readonly ?LoggerInterface $logger = null,
-        private readonly bool $debug = false
+        private readonly bool $debug = false,
     ) {
     }
 
@@ -52,10 +52,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
         return $this->queries;
     }
 
-    /**
-     * @param array<mixed> $context
-     */
-    public function log($level, $message, array $context = []): void
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
         if (null !== $this->logger && $this->isEnabled()) {
             $this->logger->log($level, $message, $context);

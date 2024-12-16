@@ -18,7 +18,7 @@ class CoreApiUserProvider implements UserProviderInterface
 {
     public function __construct(
         private readonly CoreApiFactory $coreApiFactory,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 

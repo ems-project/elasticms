@@ -18,7 +18,7 @@ class AuthenticatedListener implements EventSubscriberInterface
     public function __construct(
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly TokenStorageInterface $tokenStorage,
-        private readonly OAuth2Service $oAuth2Service
+        private readonly OAuth2Service $oAuth2Service,
     ) {
     }
 

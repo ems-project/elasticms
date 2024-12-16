@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Templating;
 
+use EMS\ClientHelperBundle\Exception\SingleResultException;
 use EMS\ClientHelperBundle\Helper\Builder\AbstractBuilder;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 
@@ -70,5 +71,24 @@ final class TemplateBuilder extends AbstractBuilder
         $contentType = $settings->getTemplateContentType($templateName->getContentType());
 
         return $contentType->isLastPublishedAfterTime($time);
+    }
+
+    public function exists(Environment $environment, TemplateName $templateName): bool
+    {
+        $settings = $this->settings($environment);
+        if ($environment->isLocalPulled()) {
+            return null !== $environment->getLocal()->getTemplates($settings)->find($templateName);
+        }
+        if (!$settings->hasTemplateContentType($templateName->getContentType())) {
+            return false;
+        }
+
+        try {
+            $this->buildTemplate($environment, $templateName);
+        } catch (SingleResultException) {
+            return false;
+        }
+
+        return true;
     }
 }

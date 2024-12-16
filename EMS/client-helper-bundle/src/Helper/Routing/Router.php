@@ -11,7 +11,7 @@ final class Router extends BaseRouter
 {
     public function __construct(
         private readonly EnvironmentHelper $environmentHelper,
-        private readonly RoutingBuilder $builder
+        private readonly RoutingBuilder $builder,
     ) {
     }
 

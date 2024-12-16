@@ -15,7 +15,7 @@ class IpAddressListener implements EventSubscriberInterface
 {
     public function __construct(
         private readonly RequestMatcherInterface $requestMatcher,
-        private readonly bool $metricEnabled
+        private readonly bool $metricEnabled,
     ) {
     }
 

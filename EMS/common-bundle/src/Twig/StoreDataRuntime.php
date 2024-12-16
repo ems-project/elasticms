@@ -13,7 +13,7 @@ final class StoreDataRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private readonly RequestStack $requestStack,
-        private readonly StoreDataManager $storeDataManager
+        private readonly StoreDataManager $storeDataManager,
     ) {
     }
 

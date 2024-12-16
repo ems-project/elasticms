@@ -185,7 +185,7 @@ final class Configuration implements ConfigurationInterface
                 OAuth2Property::SCOPES => $oAuth2
                     ->variableNode($oAuth2Property->value)
                     ->defaultValue(AzureOAuth2Provider::DEFAULT_SCOPES),
-                default => $oAuth2->scalarNode($oAuth2Property->value)
+                default => $oAuth2->scalarNode($oAuth2Property->value),
             };
         }
 
@@ -193,7 +193,7 @@ final class Configuration implements ConfigurationInterface
         foreach (SamlProperty::cases() as $samlProperty) {
             match ($samlProperty) {
                 SamlProperty::SECURITY => $saml->variableNode($samlProperty->value)->end(),
-                default => $saml->scalarNode($samlProperty->value)->end()
+                default => $saml->scalarNode($samlProperty->value)->end(),
             };
         }
     }

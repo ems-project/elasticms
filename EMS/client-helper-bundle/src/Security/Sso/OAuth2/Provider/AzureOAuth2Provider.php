@@ -32,7 +32,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         string $clientSecret,
         string $redirectUri,
         ?array $scopes,
-        ?string $version
+        ?string $version,
     ) {
         $scopes = $scopes ?? self::DEFAULT_SCOPES;
         $serviceScopes = \array_filter($scopes, static fn (string $s) => u($s)->startsWith('http'));

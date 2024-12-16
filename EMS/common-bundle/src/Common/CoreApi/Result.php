@@ -17,7 +17,7 @@ class Result
 
     public function __construct(
         public readonly ResponseInterface $response,
-        LoggerInterface $logger
+        LoggerInterface $logger,
     ) {
         $data = Json::decode($response->getContent());
         $this->data = $data;
@@ -39,7 +39,7 @@ class Result
         return match (true) {
             (\count($errors) > 0) => \array_shift($errors),
             (\count($warnings) > 0) => \array_shift($warnings),
-            default => null
+            default => null,
         };
     }
 

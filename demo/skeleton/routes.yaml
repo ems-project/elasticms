@@ -121,7 +121,7 @@ emsch_login:
     config:
         controller: emsch.controller.security.login
         path: /login
-        method: [ POST, GET ]
+        method: [POST, GET]
     template_static: template/security/login.html.twig
 ems:
     config:
@@ -135,29 +135,28 @@ ems_versions:
     template_static: template/security/versions.html.twig
 ems_version_new:
     config:
-        method: [ GET ]
+        method: [GET]
         path: /ems/versions/new
         defaults: { _authenticated: true }
     template_static: template/security/version.html.twig
 ems_version_detail:
     config:
-        method: [ GET ]
-        path: /ems/versions/{ouuid}
+        method: [GET]
+        path: '/ems/versions/{ouuid}'
         defaults: { _authenticated: true }
     query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%ouuid%"}}}]}}}'
     template_static: template/security/version.html.twig
 ems_version_create:
     config:
-        method: [ POST ]
+        method: [POST]
         path: /ems/versions/create
         controller: 'EMS\ClientHelperBundle\Controller\ApiController::createDocumentFromForm'
-        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: '/ems/versions/%ouuid%', validationTemplate: '@EMSCH/template/security/version_validate.twig' }
+        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: /ems/versions/%ouuid%, validationTemplate: '@EMSCH/template/security/version_validate.twig' }
     query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%id%"}}}]}}}'
 ems_version_update:
     config:
-        method: [ POST ]
-        path: /ems/versions/{ouuid}
+        method: [POST]
+        path: '/ems/versions/{ouuid}'
         controller: 'EMS\ClientHelperBundle\Controller\ApiController::updateDocumentFromForm'
-        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: '/ems/versions/%ouuid%', validationTemplate: '@EMSCH/template/security/version_validate.twig' }
+        defaults: { _authenticated: true, apiName: backend, contentType: release, redirectUrl: /ems/versions/%ouuid%, validationTemplate: '@EMSCH/template/security/version_validate.twig' }
     query: '{"query":{"bool":{"must":[{"term":{"_contenttype":{"value":"release"}}},{"term":{"_id":{"value":"%id%"}}}]}}}'
-

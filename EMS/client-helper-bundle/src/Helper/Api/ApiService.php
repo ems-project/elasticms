@@ -32,7 +32,7 @@ final class ApiService
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly Security $security,
         private readonly iterable $clientRequests = [],
-        private readonly iterable $apiClients = []
+        private readonly iterable $apiClients = [],
     ) {
     }
 

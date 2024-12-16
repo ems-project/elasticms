@@ -17,7 +17,7 @@ final class ApiController
 {
     public function __construct(
         private readonly ApiService $service,
-        private readonly HashcashHelper $hashcashHelper
+        private readonly HashcashHelper $hashcashHelper,
     ) {
     }
 

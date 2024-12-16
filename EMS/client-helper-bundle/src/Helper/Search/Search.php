@@ -158,9 +158,6 @@ final class Search
         return $this->fields;
     }
 
-    /**
-     * @return ?BoolQuery
-     */
     public function getQuerySearch(string $queryString): ?BoolQuery
     {
         if (null === $this->querySearch) {

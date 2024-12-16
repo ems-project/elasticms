@@ -22,7 +22,7 @@ final class QueryBuilder
 {
     public function __construct(
         private readonly ClientRequest $clientRequest,
-        private readonly Search $search
+        private readonly Search $search,
     ) {
     }
 

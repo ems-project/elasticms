@@ -21,7 +21,7 @@ class DebugController extends AbstractFormController
         private readonly Client $client,
         private readonly Environment $twig,
         private readonly RouterInterface $router,
-        private readonly array $locales
+        private readonly array $locales,
     ) {
     }
 

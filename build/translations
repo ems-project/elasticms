@@ -154,7 +154,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
 
         $translationWriter = new TranslationWriter();
         $translationWriter->addDumper('xlf', new XliffFileDumper());
-        $translationWriter->addDumper('yml', new class() extends YamlFileDumper {
+        $translationWriter->addDumper('yml', new class extends YamlFileDumper {
             public function formatCatalogue(MessageCatalogue $messages, string $domain, array $options = []): string
             {
                 return Yaml::dump(
@@ -175,7 +175,7 @@ $command = static function (InputInterface $input, OutputInterface $output): int
                 'path' => $bundleDir.'/Resources/translations',
                 'version' => '1.2',
                 'default_locale' => 'en',
-            ]
+            ],
         });
     }
 

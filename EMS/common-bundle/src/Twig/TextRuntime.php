@@ -19,7 +19,7 @@ class TextRuntime implements RuntimeExtensionInterface
         private readonly Encoder $encoder,
         private readonly Decoder $decoder,
         private readonly ValidatorInterface $validator,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 

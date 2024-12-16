@@ -19,7 +19,7 @@ class FirewallEntryPoint implements AuthenticationEntryPointInterface
         private readonly HttpUtils $httpUtils,
         private readonly RouterInterface $router,
         private readonly SsoService $ssoService,
-        private readonly string $routeLoginName
+        private readonly string $routeLoginName,
     ) {
     }
 
@@ -30,7 +30,7 @@ class FirewallEntryPoint implements AuthenticationEntryPointInterface
         return match (true) {
             null !== $routeLogin => $this->httpUtils->createRedirectResponse($request, $this->routeLoginName),
             $this->ssoService->enabled() => $this->ssoService->start($request),
-            default => throw new NotAnEntryPointException()
+            default => throw new NotAnEntryPointException(),
         };
     }
 }

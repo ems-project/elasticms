@@ -68,7 +68,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             $hash = match ($this->archiveType) {
                 self::ARCHIVE_ZIP => $this->uploadZipArchive(),
                 self::ARCHIVE_EMS => $this->uploadEmsArchive(),
-                default => false
+                default => false,
             };
 
             if (!$hash) {

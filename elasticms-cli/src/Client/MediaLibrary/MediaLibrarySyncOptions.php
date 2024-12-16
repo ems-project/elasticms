@@ -22,7 +22,7 @@ final class MediaLibrarySyncOptions
         public readonly bool $hashMetaDataFile,
         public readonly bool $forceExtract = false,
         public readonly int $maxContentSize = 5120,
-        public readonly int $maxFileSizeExtract = (64 * 1024 * 1024)
+        public readonly int $maxFileSizeExtract = (64 * 1024 * 1024),
     ) {
         if (!\str_starts_with($targetFolder, '/')) {
             throw new \RuntimeException('The target-folder options must start with a /');

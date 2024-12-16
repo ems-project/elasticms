@@ -12,7 +12,7 @@ class CoreApiFactory
 {
     public function __construct(
         private readonly ClientRequestManager $clientRequestManager,
-        private readonly EnvironmentApi $environmentApi
+        private readonly EnvironmentApi $environmentApi,
     ) {
     }
 

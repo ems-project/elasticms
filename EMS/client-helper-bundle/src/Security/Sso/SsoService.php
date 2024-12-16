@@ -28,7 +28,7 @@ class SsoService
         return match (true) {
             $this->oAuth2Service->isEnabled() => $this->oAuth2Service->login($request),
             $this->samlService->isEnabled() => $this->samlService->login($request),
-            default => throw new \RuntimeException('Could not start sso, nothing enabled')
+            default => throw new \RuntimeException('Could not start sso, nothing enabled'),
         };
     }
 

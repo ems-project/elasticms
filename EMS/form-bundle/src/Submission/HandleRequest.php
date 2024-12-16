@@ -18,7 +18,7 @@ final class HandleRequest implements HandleRequestInterface
         private readonly FormConfig $formConfig,
         private readonly FormData $formData,
         private readonly HandleResponseCollector $responseCollector,
-        private readonly SubmissionConfig $submissionConfig
+        private readonly SubmissionConfig $submissionConfig,
     ) {
     }
 

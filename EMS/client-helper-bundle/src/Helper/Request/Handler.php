@@ -26,7 +26,7 @@ final class Handler implements HandlerInterface
     public function __construct(
         ClientRequestManager $manager,
         private readonly RouterInterface $router,
-        private readonly ?Profiler $profiler
+        private readonly ?Profiler $profiler,
     ) {
         $this->clientRequest = $manager->getDefault();
     }

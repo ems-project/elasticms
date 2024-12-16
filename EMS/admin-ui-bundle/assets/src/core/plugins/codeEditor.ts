@@ -515,23 +515,22 @@ export default class CodeEditor {
         changeEvent.dispatch()
       })
 
-      //     editor.commands.addCommands([
-      //       {
-      //         name: 'fullscreen',
-      //         bindKey: { win: 'F11', mac: 'Esc' },
-      //         exec: function (editor) {
-      //           if (codeDiv.hasClass('panel-fullscreen')) {
-      //             editor.setOption('maxLines', maxLines)
-      //             codeDiv.removeClass('panel-fullscreen')
-      //             editor.setAutoScrollEditorIntoView(false)
-      //           } else {
-      //             editor.setOption('maxLines', Infinity)
-      //             codeDiv.addClass('panel-fullscreen')
-      //             editor.setAutoScrollEditorIntoView(true)
-      //           }
-      //
-      //           editor.resize()
-      //         }
+      editor.commands.addCommands([
+            {
+              name: 'fullscreen',
+              bindKey: { win: 'F11', mac: 'Esc' },
+              exec: function (editor) {
+                if (pre.classList.contains('panel-fullscreen')) {
+                  editor.setOption('maxLines', maxLines)
+                  pre.classList.remove('panel-fullscreen')
+                  editor.setAutoScrollEditorIntoView(false)
+                } else {
+                  editor.setOption('maxLines', Infinity)
+                  pre.classList.add('panel-fullscreen')
+                  editor.setAutoScrollEditorIntoView(true)
+                }
+                editor.resize()
+              }
       //       },
       //       {
       //         name: 'showKeyboardShortcuts',
@@ -542,8 +541,8 @@ export default class CodeEditor {
       //             editor.showKeyboardShortcuts()
       //           })
       //         }
-      //       }
-      //     ])
+            }
+        ])
     }
   }
 

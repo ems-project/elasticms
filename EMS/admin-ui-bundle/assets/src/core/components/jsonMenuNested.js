@@ -3,7 +3,6 @@ import { ajaxJsonPost } from '../helpers/ajax'
 import collapse from '../helpers/collapse'
 import $ from 'jquery'
 import { v4 } from 'uuid'
-import '../librairies/nestedSortable'
 
 export default class JsonMenuNested {
   copyName = 'json_menu_nested_copy'
@@ -91,27 +90,27 @@ export default class JsonMenuNested {
     this._parseAttributes()
 
     if (this.target.classList.contains('json-menu-nested-sortable')) {
-      this.nestedSortable = $(this.target)
-        .find('ol.json-menu-nested-root')
-        .nestedSortable({
-          handle: 'a.btn-json-menu-nested-move',
-          items: 'li.json-menu-nested-sortable',
-          isTree: true,
-          expression: /.*/,
-          toleranceElement: '> div',
-          update: function () {
-            self._relocate()
-          },
-          isAllowed: function (placeholder, parent, current) {
-            const li = $(current).data()
-            const parentData = parent ? $(parent).data() : $(self.target).data()
-
-            const draggingNode = self.nodes[li.nodeId]
-            const targetNode = self.nodes[parentData.nodeId]
-
-            return targetNode.addNodes.includes(draggingNode.name)
-          }
-        })
+      // this.nestedSortable = $(this.target)
+      //   .find('ol.json-menu-nested-root')
+      //   .nestedSortable({
+      //     handle: 'a.btn-json-menu-nested-move',
+      //     items: 'li.json-menu-nested-sortable',
+      //     isTree: true,
+      //     expression: /.*/,
+      //     toleranceElement: '> div',
+      //     update: function () {
+      //       self._relocate()
+      //     },
+      //     isAllowed: function (placeholder, parent, current) {
+      //       const li = $(current).data()
+      //       const parentData = parent ? $(parent).data() : $(self.target).data()
+      //
+      //       const draggingNode = self.nodes[li.nodeId]
+      //       const targetNode = self.nodes[parentData.nodeId]
+      //
+      //       return targetNode.addNodes.includes(draggingNode.name)
+      //     }
+      //   })
     }
 
     this._addEventListeners(this.target)

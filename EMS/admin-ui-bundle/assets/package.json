@@ -15,7 +15,6 @@
     "@rollup/plugin-inject": "^5.0.5",
     "@rushstack/eslint-patch": "^1.10.4",
     "@typescript-eslint/parser": "^8.8.1",
-    "cypress": "^13.12.0",
     "eslint": "^8.57.1",
     "eslint-plugin-cypress": "^3.3.0",
     "prettier": "^3.2.5",

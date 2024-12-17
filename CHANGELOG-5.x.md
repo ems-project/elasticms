@@ -1,5 +1,10 @@
 # Changelog 5.x
 
+## 5.24.3 (2024-12-17)
+### Bug Fixes
+* fix(common/pdf): dom pdf correct set $sysCacheDir by @theus77 in https://github.com/ems-project/elasticms/pull/1103
+* fix(web/local): upload assets heads returns true by @Davidmattei in https://github.com/ems-project/elasticms/pull/1105
+
 ## 5.24.2 (2024-12-09)
 ### Bug Fixes
 * fix(admin/asset): extractor test the filesize before downloading it by @theus77 in https://github.com/ems-project/elasticms/pull/1096
@@ -41,6 +46,10 @@
 * fix(cli/file-structure): improve push command (save_hash_file, chunk size) by @theus77 in https://github.com/ems-project/elasticms/pull/1076
 ### Code Refactoring
 * refactor(web): routing and templating match the content type name by @theus77 in https://github.com/ems-project/elasticms/pull/1073
+
+## 5.23.5 (2024-12-17)
+### Bug Fixes
+* fix(common/pdf): dom pdf correct set $sysCacheDir by @theus77 in https://github.com/ems-project/elasticms/pull/1103
 
 ## 5.23.4 (2024-12-09)
 ### Bug Fixes

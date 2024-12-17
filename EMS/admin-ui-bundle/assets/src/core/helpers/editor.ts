@@ -7,39 +7,45 @@ import { EditorRevisionOptions } from './editorRevisionOptions.ts'
 // import { UploadAdapter } from './ck5/uploadAdapter'
 // import { PasteAjax } from './ck5/pasteAjax'
 // import { LinkTarget } from './ck5/linkTarget'
-//
-// import ChangeEvent from '../events/changeEvent'
-//
-// function initUploadAdaptor(editor) {
+
+import ChangeEvent from '../events/changeEvent'
+import {ClassicEditor} from "ckeditor5";
+
+// function initUploadAdaptor(editor: ClassicEditor) {
 //   editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
 //     return new UploadAdapter(loader)
 //   }
 // }
 
 export default class Editor {
+  private options: EditorRevisionOptions;
+  private editor: ClassicEditor | null;
+  private element: HTMLElement;
   constructor(element: HTMLElement, options: EditorRevisionOptions | null) {
-    console.log(options)
+    this.options = options ?? {} as EditorRevisionOptions
+    this.element = element
+    this.editor = null
     this.create(element)
   }
 
   async create(element: HTMLElement) {
     const ckeditor5 = await import('ckeditor5')
+    const self = this
     ckeditor5.ClassicEditor.create(element, await this.buildCke5Options())
-      // .then((editor) => {
-      //   self._init(editor)
-      // })
+      .then((editor: ClassicEditor) => {
+        self._init(editor)
+      })
       .catch((error) => {
         console.error(error)
       })
   }
 
   async buildCke5Options(): Promise<EditorOptions> {
-    const options = await this.getDefaultOptions()
-    console.log(options)
-    // options = this._applyProfile(options)
-    // options = this._applyStyleSet(options)
-    // options = this._applyHeadings(options)
-    // options = this._applyLang(options)
+    let options = await this.getDefaultOptions()
+    options = this._applyProfile(options)
+    options = this._applyStyleSet(options)
+    options = this._applyHeadings(options)
+    options = this._applyLang(options)
 
     return options
   }
@@ -174,113 +180,121 @@ export default class Editor {
           'tableCellProperties'
         ]
       }
+    } as EditorOptions
+  }
+
+  _init(editor: ClassicEditor) {
+    this.editor = editor
+    const self = this
+    if (null !== this.options.styleSet && this.options.styleSet.length > 0) {
+      editor.ui.element?.classList?.add(`ems-styleset-${this.options.styleSet}`)
+    }
+    if (null !== this.options.onChangeEvent && this.options.onChangeEvent.length > 0) {
+      editor.editing.view.document.on(this.options.onChangeEvent, () => {
+        self._change()
+      })
+    }
+    if (null !== this.options.height && this.options.height > 0) {
+      editor.editing.view.change((writer) => {
+        const root = editor.editing.view.document.getRoot()
+        if (null === root) {
+          return
+        }
+        writer.setStyle(
+          'height',
+          `${this.options.height}px`,
+          root
+        )
+      })
     }
   }
 
-  // _init(editor) {
-  //   this.editor = editor
-  //   const self = this
-  //   if (undefined !== this.options.styleSet && this.options.styleSet.length > 0) {
-  //     editor.ui.element.classList.add(`ems-styleset-${this.options.styleSet}`)
-  //   }
-  //   if (undefined !== this.options.onChangeEvent && this.options.onChangeEvent.length > 0) {
-  //     editor.editing.view.document.on(this.options.onChangeEvent, () => {
-  //       self._change()
-  //     })
-  //   }
-  //   if (undefined !== this.options.height && this.options.height > 0) {
-  //     editor.editing.view.change((writer) => {
-  //       writer.setStyle(
-  //         'height',
-  //         `${this.options.height}px`,
-  //         editor.editing.view.document.getRoot()
-  //       )
-  //     })
-  //   }
-  // }
-  //
-  // _change() {
-  //   this.editor.updateSourceElement()
-  //   const event = new ChangeEvent(this.element)
-  //   event.dispatch()
-  // }
-  //
-  // _applyStyleSet(options) {
-  //   if (undefined === this.options.styleSet || this.options.styleSet === 0) {
-  //     options.toolbar.items = options.toolbar.items.filter((e) => e !== 'style')
-  //     return options
-  //   }
-  //   const styleSet = this.options.styleSet
-  //   if (
-  //     undefined === document.body.dataset.wysiwygInfo ||
-  //     document.body.dataset.wysiwygInfo.length === 0
-  //   ) {
-  //     options.toolbar.items = options.toolbar.items.filter((e) => e !== 'style')
-  //     return options
-  //   }
-  //   const config = JSON.parse(document.body.dataset.wysiwygInfo)
-  //   if (undefined === config.styles || config.styles.length === 0) {
-  //     options.toolbar.items = options.toolbar.items.filter((e) => e !== 'style')
-  //     return options
-  //   }
-  //   for (let i = 0; i < config.styles.length; ++i) {
-  //     if (config.styles[i].name !== styleSet || undefined === config.styles[i].config) {
-  //       continue
-  //     }
-  //     if (!options.toolbar.items.includes('style')) {
-  //       options.toolbar.items.unshift('style')
-  //     }
-  //     options.style = {
-  //       definitions: config.styles[i].config
-  //     }
-  //     break
-  //   }
-  //   return options
-  // }
-  //
-  // _applyHeadings(options) {
-  //   if (undefined === this.options.formatTags || this.options.formatTags.length === 0) {
-  //     return options
-  //   }
-  //
-  //   try {
-  //     const formatTags = JSON.parse(this.options.formatTags)
-  //     options.heading.options = formatTags
-  //   } catch (e) {
-  //     console.error(
-  //       `The format tags option expect an JSON, did you migrated it? Got: ${this.options.formatTags}`
-  //     )
-  //   }
-  //
-  //   return options
-  // }
-  //
-  // _applyLang(options) {
-  //   if (undefined !== this.options.lang && this.options.lang.length > 0) {
-  //     options.language.content = this.options.lang
-  //   }
-  //   return options
-  // }
-  //
-  // _applyProfile(options) {
-  //   if (
-  //     undefined === document.body.dataset.wysiwygInfo ||
-  //     (document.body.dataset.wysiwygInfo === 0) | length
-  //   ) {
-  //     return options
-  //   }
-  //
-  //   try {
-  //     const profile = JSON.parse(document.body.dataset.wysiwygInfo)
-  //     if (typeof profile.config !== 'object') {
-  //       return options
-  //     }
-  //
-  //     return { ...options, ...profile.config }
-  //   } catch (e) {
-  //     console.error(`Impossible to apply the WYSIWYG profile: ${e}`)
-  //   }
-  //
-  //   return options
-  // }
+  _getEditor(): ClassicEditor {
+    if (null === this.editor) {
+      throw new Error('Unexpected null editor')
+    }
+    return this.editor
+  }
+
+  _change() {
+    this._getEditor().updateSourceElement()
+    const event = new ChangeEvent(this.element)
+    event.dispatch()
+  }
+
+  _applyStyleSet(options: EditorOptions): EditorOptions {
+    if (null === this.options.styleSet || this.options.styleSet.length === 0) {
+      options.toolbar.items = options.toolbar.items.filter((e: any): boolean => e !== 'style')
+      return options
+    }
+    const styleSet = this.options.styleSet
+    if (
+      undefined === document.body.dataset.wysiwygInfo ||
+      document.body.dataset.wysiwygInfo.length === 0
+    ) {
+      options.toolbar.items = options.toolbar.items.filter((e: any): boolean => e !== 'style')
+      return options
+    }
+    const config = JSON.parse(document.body.dataset.wysiwygInfo)
+    if (undefined === config.styles || config.styles.length === 0) {
+      options.toolbar.items = options.toolbar.items.filter((e: any): boolean => e !== 'style')
+      return options
+    }
+    for (let i = 0; i < config.styles.length; ++i) {
+      if (config.styles[i].name !== styleSet || undefined === config.styles[i].config) {
+        continue
+      }
+      if (!options.toolbar.items.includes('style')) {
+        options.toolbar.items.unshift('style')
+      }
+      options.style = {
+        definitions: config.styles[i].config
+      }
+      break
+    }
+    return options
+  }
+
+  _applyHeadings(options: EditorOptions): EditorOptions {
+    if (null === this.options.formatTags || this.options.formatTags.length === 0) {
+      return options
+    }
+
+    try {
+      const formatTags = JSON.parse(this.options.formatTags)
+      options.heading.options = formatTags
+    } catch (e) {
+      console.error(
+        `The format tags option expect an JSON, did you migrated it? Got: ${this.options.formatTags}`
+      )
+    }
+
+    return options
+  }
+
+  _applyLang(options: EditorOptions): EditorOptions {
+    if (null !== this.options.lang && this.options.lang.length > 0) {
+      options.language.content = this.options.lang
+    }
+    return options
+  }
+
+  _applyProfile(options: EditorOptions): EditorOptions {
+    if (undefined === document.body.dataset.wysiwygInfo || document.body.dataset.wysiwygInfo.length === 0) {
+      return options
+    }
+
+    try {
+      const profile = JSON.parse(document.body.dataset.wysiwygInfo)
+      if (typeof profile.config !== 'object') {
+        return options
+      }
+
+      return { ...options, ...profile.config }
+    } catch (e) {
+      console.error(`Impossible to apply the WYSIWYG profile: ${e}`)
+    }
+
+    return options
+  }
 }

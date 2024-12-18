@@ -706,4 +706,15 @@ class StorageManager implements FileManagerInterface
             }
         }
     }
+
+    public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
+    {
+        foreach ($this->adapters as $adapter) {
+            if ($adapter->addFileInArchiveCache($hash, $file, $mimeType)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

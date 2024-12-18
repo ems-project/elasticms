@@ -6,12 +6,18 @@ namespace EMS\CommonBundle\Command\Storage;
 
 use EMS\CommonBundle\Commands;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
+use EMS\CommonBundle\Helper\MimeTypeHelper;
 use EMS\CommonBundle\Storage\Archive;
 use EMS\CommonBundle\Storage\StorageManager;
+use EMS\Helpers\File\TempDirectory;
+use EMS\Helpers\File\TempFile;
+use EMS\Helpers\Html\MimeTypes;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class LoadArchiveItemsInCacheCommand extends AbstractCommand
 {
@@ -47,7 +53,30 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
     {
         $this->io->title('Load archive\'s items in storage cache');
 
-        $archive = Archive::fromStructure($this->storageManager->getContents($this->archiveHash), $this->storageManager->getHashAlgo());
+        $this->io->section('Downloading archive');
+        $archiveFile = TempFile::create()->loadFromStream($this->storageManager->getStream($this->archiveHash));
+        $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
+        $this->io->newLine();
+        $this->io->writeln(\sprintf('It\'s an %s', $mimeType));
+
+        switch ($mimeType) {
+            case MimeTypes::APPLICATION_ZIP->value:
+            case MimeTypes::APPLICATION_GZIP->value:
+                $this->loadZipArchive($archiveFile);
+                break;
+            case MimeTypes::APPLICATION_JSON->value:
+                $this->loadEmsArchive($archiveFile);
+                break;
+            default:
+                throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType));
+        }
+
+        return self::EXECUTE_SUCCESS;
+    }
+
+    private function loadEmsArchive(TempFile $tempFile): void
+    {
+        $archive = Archive::fromStructure($tempFile->getContents(), $this->storageManager->getHashAlgo());
         $progressBar = $this->io->createProgressBar($archive->getCount());
         $this->storageManager->loadArchiveItemsInCache($this->archiveHash, $archive->skip($this->continue), $this->output->isQuiet() ? null : function () use ($progressBar) {
             $progressBar->advance();
@@ -55,7 +84,25 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
         $progressBar->finish();
         $this->io->newLine();
         $this->io->writeln(\sprintf('%d files have been pushed in cache', $archive->getCount()));
+    }
 
-        return self::EXECUTE_SUCCESS;
+    private function loadZipArchive(TempFile $archiveFile): void
+    {
+        $dir = TempDirectory::createFromZipArchive($archiveFile->path);
+        $archiveFile->clean();
+        $finder = new Finder();
+        $finder->in($dir->path)->files();
+        $this->io->progressStart($finder->count());
+        $mimeTypeHelper = MimeTypeHelper::getInstance();
+        $counter = 0;
+        /** @var SplFileInfo $file */
+        foreach ($finder as $file) {
+            $mimeType = $mimeTypeHelper->guessMimeType($file->getPathname());
+            $counter += $this->storageManager->addFileInArchiveCache($this->archiveHash, $file, $mimeType) ? 1 : 0;
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
+        $this->io->newLine();
+        $this->io->writeln(\sprintf('%d files have been pushed in cache', $counter));
     }
 }

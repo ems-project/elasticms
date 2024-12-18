@@ -62,7 +62,6 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
         });
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
         $this->io->newLine();
-        $this->io->writeln(\sprintf('It\'s an %s', $mimeType));
 
         switch ($mimeType) {
             case MimeTypes::APPLICATION_ZIP->value:

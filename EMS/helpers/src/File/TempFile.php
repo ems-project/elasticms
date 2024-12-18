@@ -52,7 +52,7 @@ class TempFile
         }
 
         while (!$stream->eof()) {
-            $size = \fwrite($handle, $stream->read(8192));
+            $size = \fwrite($handle, $stream->read(File::DEFAULT_CHUNK_SIZE));
             if (false === $size) {
                 throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
             }

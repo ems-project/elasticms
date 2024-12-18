@@ -45,15 +45,19 @@ class TempFile
         return \file_exists($this->path);
     }
 
-    public function loadFromStream(StreamInterface $stream): self
+    public function loadFromStream(StreamInterface $stream, callable $callback = null): self
     {
         if (!$handle = \fopen($this->path, 'w')) {
             throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));
         }
 
         while (!$stream->eof()) {
-            if (false === \fwrite($handle, $stream->read(8192))) {
+            $size = \fwrite($handle, $stream->read(8192));
+            if (false === $size) {
                 throw new \RuntimeException(\sprintf('Can\'t write in temporary file %s', $this->path));
+            }
+            if (null !== $callback) {
+                $callback($size);
             }
         }
 

@@ -54,7 +54,12 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
         $this->io->title('Load archive\'s items in storage cache');
 
         $this->io->section('Downloading archive');
-        $archiveFile = TempFile::create()->loadFromStream($this->storageManager->getStream($this->archiveHash));
+
+        $progressBar = $this->io->createProgressBar($this->storageManager->getSize($this->archiveHash));
+
+        $archiveFile = TempFile::create()->loadFromStream($this->storageManager->getStream($this->archiveHash), $this->output->isQuiet() ? null : function ($size) use ($progressBar): void {
+            $progressBar->advance($size);
+        });
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
         $this->io->newLine();
         $this->io->writeln(\sprintf('It\'s an %s', $mimeType));

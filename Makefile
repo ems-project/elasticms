@@ -104,6 +104,8 @@ demo: ## make new demo
 	@$(RUN_ADMIN) emsco:user:promote demo ROLE_FORM_CRM
 	@$(MAKE) -s demo-npm/"install"
 	@$(MAKE) -s demo-npm/"run prod"
+	@$(RUN_ADMIN) assets:install --symlink
+	@$(RUN_WEB) assets:install --symlink
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-web/public/bundles/demo
 	@ln -sf ${PWD}/demo/dist ${PWD}/elasticms-admin/public/bundles/demo
 	@$(RUN_ADMIN) ems:admin:login --username=demo --password=demo

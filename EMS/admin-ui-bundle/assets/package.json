@@ -14,6 +14,7 @@
   "devDependencies": {
     "@rollup/plugin-inject": "^5.0.5",
     "@rushstack/eslint-patch": "^1.10.4",
+    "@types/sortablejs": "^1.15.8",
     "@typescript-eslint/parser": "^8.8.1",
     "eslint": "^8.57.1",
     "eslint-plugin-cypress": "^3.3.0",

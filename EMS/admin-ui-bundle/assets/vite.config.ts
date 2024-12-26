@@ -4,23 +4,10 @@ import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
   server: {
-    proxy: {
-      '/index.php': {
-        target: 'http://127.0.0.1:8881',
-        changeOrigin: false,
-        secure: false,
-        xfwd: true,
-        headers: {
-          'x-ems-debug': 'debug'
-        },
-      },
-      '/bundles': {
-        target: 'http://127.0.0.1:8881',
-        changeOrigin: false,
-        secure: false,
-        xfwd: true,
-      },
-    },
+    host: 'localhost',
+    port: 5173,
+    strictPort: true,
+    hmr: true,
   },
   plugins: [
     inject({

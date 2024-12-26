@@ -6,6 +6,6 @@ framework:
             emscore:
                 json_manifest_path: '%kernel.project_dir%/public/bundles/emscore/manifest.json'
             emsadminui:
-                version_strategy: 'emsadminui.twig.runtime.asset_version_strategy'
+                version_strategy: 'emsadminui.helper.asset_version_strategy'
             emsch:
                 version_strategy: 'emsch.twig.runtime.asset_vserion_strategy'

@@ -9,7 +9,7 @@
 
     <services>
         <defaults public="false" />
-        <service id="emsadminui.twig.runtime.asset_version_strategy" class="EMS\AdminUIBundle\Helper\Asset\AssetVersionStrategy">
+        <service id="emsadminui.helper.asset_version_strategy" class="EMS\AdminUIBundle\Helper\Asset\AssetVersionStrategy">
             <argument type="service" id="file_locator" />
             <argument type="service" id="request_stack" />
             <tag name="twig.runtime" />

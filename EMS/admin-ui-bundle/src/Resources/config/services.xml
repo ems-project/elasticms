@@ -9,9 +9,14 @@
 
     <services>
         <defaults public="false" />
+        <service id="emsadminui.helper.dev_server" class="EMS\AdminUIBundle\Helper\Asset\DevServer">
+            <argument type="service" id="http_client"/>
+            <argument>%emsui.dev_server_url%</argument>
+        </service>
         <service id="emsadminui.helper.asset_version_strategy" class="EMS\AdminUIBundle\Helper\Asset\AssetVersionStrategy">
             <argument type="service" id="file_locator" />
             <argument type="service" id="request_stack" />
+            <argument type="service" id="emsadminui.helper.dev_server" />
             <tag name="twig.runtime" />
         </service>
     </services>

@@ -27,6 +27,9 @@
         {% embed '@EMSAdminUI/bootstrap5/core/cke-modal.html.twig' %}{% endembed %}
         {% embed '@EMSAdminUI/bootstrap5/core/modal.html.twig' with {'id': 'pick-file-server-modal'} %}{% endembed %}
         {% include '@EMSAdminUI/bootstrap5/core/out-of-sync.html.twig' %}
+        {%- if devServer.isRunning -%}
+            <script type="module" src="{{- devServer.getPath('@vite/client') -}}"></script>
+        {%- endif -%}
         <script src="{{ asset('src/app.js', 'emsadminui') }}" type="module"></script>
         {% block javascripts %}{% endblock %}
     </body>

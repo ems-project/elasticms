@@ -18,8 +18,12 @@ final class AssetVersionStrategy implements VersionStrategyInterface
      */
     private array $manifestData;
 
-    public function __construct(private readonly FileLocator $fileLocator, private readonly RequestStack $requestStack, private readonly string $basePath = 'bundles/emsadminui/')
-    {
+    public function __construct(
+        private readonly FileLocator $fileLocator,
+        private readonly RequestStack $requestStack,
+        private readonly DevServer $devServer,
+        private readonly string $basePath = 'bundles/emsadminui/',
+    ) {
     }
 
     public function getVersion(string $path): string
@@ -35,12 +39,9 @@ final class AssetVersionStrategy implements VersionStrategyInterface
     private function getManifestPath(string $path): string
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (null !== $request && 'debug' === $request->headers->get('X-Ems-Debug')) {
-            if (\preg_match('/(?<path>.*\.(js|ts|cjs))(\.(?<index>[0-9]+))?\.css$/', $path)) {
-                return 'css/empty.css';
-            }
 
-            return $path;
+        if ($this->devServer->isRunning()) {
+            return $this->devServer->getPath($path);
         }
 
         if (!isset($this->manifestData)) {

@@ -16,6 +16,11 @@ class EMSAdminUIExtension extends Extension implements PrependExtensionInterface
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        $container->setParameter('emsui.dev_server_url', $config['dev_server_url']);
     }
 
     public function prepend(ContainerBuilder $container): void
@@ -23,7 +28,9 @@ class EMSAdminUIExtension extends Extension implements PrependExtensionInterface
         $bundles = $container->getParameter('kernel.bundles');
         if (\is_array($bundles) && isset($bundles['TwigBundle'])) {
             $container->prependExtensionConfig('twig', [
-                'globals' => [],
+                'globals' => [
+                    'devServer' => '@emsadminui.helper.dev_server',
+                ],
             ]);
         }
     }

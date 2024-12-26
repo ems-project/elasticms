@@ -37,7 +37,6 @@ export default defineConfig({
         'edit-revision': 'src/edit-revision.js',
         hierarchical: 'src/hierarchical.js',
         i18n: 'src/i18n.js',
-        index: 'index.html',
         'managed-alias': 'src/managed-alias.js'
       }
     }

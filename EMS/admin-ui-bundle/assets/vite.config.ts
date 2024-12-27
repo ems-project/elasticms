@@ -1,26 +1,24 @@
 import { defineConfig } from 'vite'
 import inject from '@rollup/plugin-inject'
-import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
   server: {
-    host: 'localhost',
+    host: '0.0.0.0',
+    origin: 'http://localhost:5173',
     port: 5173,
     strictPort: true,
     hmr: true,
+    watch: {
+      usePolling: true,
+    },
   },
+  base: './',
   plugins: [
     inject({
       jQuery: 'jquery',
       $: 'jquery'
     })
   ],
-  resolve: {
-    alias: {
-      '~bootstrap': fileURLToPath(new URL('./node_modules/bootstrap', import.meta.url)),
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  },
   build: {
     manifest: true,
     outDir: '../src/Resources/public',

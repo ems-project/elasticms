@@ -20,6 +20,9 @@ export default defineConfig({
       exclude: ['**/*.scss', '**/*.css']
     })
   ],
+  resolve: {
+    extensions: ['.js', '.ts']
+  },
   build: {
     manifest: true,
     outDir: '../src/Resources/public',

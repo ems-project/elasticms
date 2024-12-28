@@ -16,7 +16,8 @@ export default defineConfig({
   plugins: [
     inject({
       jQuery: 'jquery',
-      $: 'jquery'
+      $: 'jquery',
+      exclude: ['**/*.scss', '**/*.css']
     })
   ],
   build: {

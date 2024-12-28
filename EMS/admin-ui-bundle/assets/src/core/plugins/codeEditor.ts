@@ -1,5 +1,3 @@
-import keybindingMenu from 'ace-builds/src-noconflict/ext-keybinding_menu.js?url'
-
 import { ChangeEvent } from '../events/changeEvent'
 import '../../../css/core/plugins/codeEditor.scss'
 
@@ -499,14 +497,15 @@ export default class CodeEditor {
 
       const ace = await import('ace-builds')
 
-      const [languageUrl, themeUrl] = await Promise.all([
+      const [languageUrl, themeUrl, keybindingMenuUrl] = await Promise.all([
         this.getModuleUrl(language),
         this.getModuleUrl(theme),
+        this.getModuleUrl('ace/ext/keybinding_menu'),
       ]);
 
       ace.config.setModuleUrl(language, languageUrl)
       ace.config.setModuleUrl(theme, themeUrl)
-      ace.config.setModuleUrl('ace/ext/keybinding_menu', keybindingMenu)
+      ace.config.setModuleUrl('ace/ext/keybinding_menu', keybindingMenuUrl)
 
       const editor = ace.edit(pre, {
         mode: language,

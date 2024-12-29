@@ -42,13 +42,7 @@ class AuditCommand extends AbstractCommand
     private const OPTION_SAVE_FOLDER = 'save-folder';
     private const OPTION_MAX_UPDATES = 'max-updates';
     private const OPTION_IGNORE_REGEX = 'ignore-regex';
-    private const OPTION_TIKA_BASE_URL = 'tika-base-url';
-    private const OPTION_TIKA_MAX_SIZE = 'tika-max-size';
     private const OPTION_DRY_RUN = 'dry-run';
-    private const OPTION_PA11Y = 'pa11y';
-    private const OPTION_TIKA = 'tika';
-    private const OPTION_ALL = 'all';
-    private const OPTION_LIGHTHOUSE = 'lighthouse';
     private const OPTION_CONTENT_TYPE = 'content-type';
     private const OPTION_BASE_URL = 'base-url';
     private ConsoleLogger $logger;
@@ -61,13 +55,7 @@ class AuditCommand extends AbstractCommand
     private Cache $auditCache;
     private string $contentType;
     private CacheManager $cacheManager;
-    private bool $lighthouse;
-    private bool $pa11y;
-    private bool $tika;
-    private bool $all;
     private ?string $ignoreRegex = null;
-    private ?string $tikaBaseUrl = null;
-    private float $tikaMaxSize;
     private ?string $saveFolder = null;
     /** @var string[] */
     private array $audited = [];
@@ -93,18 +81,12 @@ class AuditCommand extends AbstractCommand
                 'Continue import from last know updated document'
             )
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'don\'t update elasticms')
-            ->addOption(self::OPTION_PA11Y, null, InputOption::VALUE_NONE, 'Add a pa11y accessibility audit')
-            ->addOption(self::OPTION_LIGHTHOUSE, null, InputOption::VALUE_NONE, 'Add a Lighthouse audit')
-            ->addOption(self::OPTION_TIKA, null, InputOption::VALUE_NONE, 'Add a Tika audit')
-            ->addOption(self::OPTION_ALL, null, InputOption::VALUE_NONE, 'Add all audits (Tika, pa11y, lighthouse')
             ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']))
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
-            ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Only scans urls starting with this base url', '/')
-            ->addOption(self::OPTION_TIKA_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Tika\'s server base url. If not defined a JVM will be instantiated')
-            ->addOption(self::OPTION_TIKA_MAX_SIZE, null, InputOption::VALUE_OPTIONAL, 'File bigger than this limit are not send to Tika [in MB]', 5);
+            ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Only scans urls starting with this base url', '/');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -116,16 +98,10 @@ class AuditCommand extends AbstractCommand
         $this->jsonPath = \sprintf('%s/%s.json', $this->cacheFolder, $this->startingUrl->getHost());
         $this->continue = $this->getOptionBool(self::OPTION_CONTINUE);
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
-        $this->lighthouse = $this->getOptionBool(self::OPTION_LIGHTHOUSE);
-        $this->pa11y = $this->getOptionBool(self::OPTION_PA11Y);
-        $this->tika = $this->getOptionBool(self::OPTION_TIKA);
-        $this->all = $this->getOptionBool(self::OPTION_ALL);
         $this->contentType = $this->getOptionString(self::OPTION_CONTENT_TYPE);
         $this->maxUpdate = $this->getOptionInt(self::OPTION_MAX_UPDATES);
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
         $this->saveFolder = $this->getOptionStringNull(self::OPTION_SAVE_FOLDER);
-        $this->tikaBaseUrl = $this->getOptionStringNull(self::OPTION_TIKA_BASE_URL);
-        $this->tikaMaxSize = $this->getOptionFloat(self::OPTION_TIKA_MAX_SIZE);
         $this->baseUrl = $this->getOptionString(self::OPTION_BASE_URL);
     }
 
@@ -150,7 +126,7 @@ class AuditCommand extends AbstractCommand
         }
         $report = $this->auditCache->getReport();
 
-        $auditManager = new AuditManager($this->logger, $this->all, $this->pa11y, $this->lighthouse, $this->tika, $this->tikaBaseUrl, \intval($this->tikaMaxSize * 1024 * 1024), $this->baseUrl);
+        $auditManager = new AuditManager($this->logger, $this->baseUrl);
         $this->io->title(\sprintf('Starting auditing %s', $this->startingUrl->getUrl()));
         $counter = 0;
         $finish = true;
@@ -210,10 +186,6 @@ class AuditCommand extends AbstractCommand
                 $report->addBrokenLink($auditResult->getUrlReport());
                 $this->logger->notice('Broken links added');
             }
-            if (\count($auditResult->getPa11y()) > 0) {
-                $report->addAccessibilityError($url->getUrl(), \count($auditResult->getPa11y()), $auditResult->getAccessibility());
-                $this->logger->notice('Accessibility report added');
-            }
             if (\count($auditResult->getSecurityWarnings()) > 0) {
                 $report->addSecurityError($url->getUrl(), \count($auditResult->getSecurityWarnings()));
                 $this->logger->notice('Security warnings added');
@@ -224,11 +196,7 @@ class AuditCommand extends AbstractCommand
             }
             $this->logger->notice('Ready');
             if (!$this->dryRun) {
-                $assets = $auditResult->uploadAssets($this->adminHelper->getCoreApi()->file());
-                $rawData = $auditResult->getRawData($assets);
-                if ($this->pa11y && !isset($rawData['pa11y'])) {
-                    $rawData['pa11y'] = [];
-                }
+                $rawData = $auditResult->getRawData();
                 if (!isset($rawData['security'])) {
                     $rawData['security'] = [];
                 }
@@ -244,12 +212,12 @@ class AuditCommand extends AbstractCommand
                     $this->logger->error(\sprintf('Has try to upload the audit result for %s 10 times', $auditResult->getUrl()->getUrl(null, false, false)));
                 }
             } else {
-                $this->logger->debug(Json::encode($auditResult->getRawData([]), true));
+                $this->logger->debug(Json::encode($auditResult->getRawData(), true));
             }
 
             $this->audited[] = $urlHash;
             if (null != $this->saveFolder) {
-                \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData([]), true));
+                \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData(), true));
             }
             $this->auditCache->setReport($report);
             $this->auditCache->save($this->jsonPath);

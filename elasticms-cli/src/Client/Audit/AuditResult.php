@@ -6,8 +6,6 @@ namespace App\CLI\Client\Audit;
 
 use App\CLI\Client\HttpClient\UrlReport;
 use App\CLI\Helper\HtmlHelper;
-use App\CLI\Helper\StringStream;
-use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\FileInterface;
 use EMS\CommonBundle\Exception\NotParsableUrlException;
 use EMS\CommonBundle\Helper\Url;
 
@@ -24,22 +22,10 @@ class AuditResult
     private array $securityWarnings = [];
     private int $statusCode = 0;
     private ?string $errorMessage = null;
-    /** @var mixed[] */
-    private array $pa11y = [];
     /** @var string[] */
     private array $warnings = [];
-    private ?string $lighthouseScreenshotBase64 = null;
-    private ?string $lighthouseScreenshotMimetype = null;
-    private ?float $performance = null;
-    private ?float $seo = null;
-    private ?string $lighthouseReport = null;
-    private ?float $accessibility = null;
-    private ?float $bestPractices = null;
     private ?string $mimetype = null;
     private readonly \DateTimeImmutable $datetime;
-    private ?\DateTimeImmutable $tikaDatetime = null;
-    private ?\DateTimeImmutable $lighthouseDatetime = null;
-    private ?\DateTimeImmutable $pa11yDatetime = null;
     private ?string $locale = null;
     private ?string $content = null;
     private bool $valid = true;
@@ -98,84 +84,9 @@ class AuditResult
         $this->securityWarnings[] = new SecurityWarning($type, $value);
     }
 
-    /**
-     * @param mixed[] $pa11y
-     *
-     * @return void
-     */
-    public function setPa11y(array $pa11y)
-    {
-        $this->pa11y = $pa11y;
-        $this->pa11yDatetime = new \DateTimeImmutable();
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function getPa11y(): array
-    {
-        return $this->pa11y;
-    }
-
-    public function setLighthouseScreenshot(string $data): void
-    {
-        $output_array = [];
-        \preg_match('/data:(?P<mimetype>[a-z\/\-\+]+\/[a-z\/\-\+]+);base64,(?P<base64>.+)/', $data, $output_array);
-        if (isset($output_array['mimetype']) && isset($output_array['base64'])) {
-            $this->lighthouseScreenshotBase64 = $output_array['base64'];
-            $this->lighthouseScreenshotMimetype = $output_array['mimetype'];
-        }
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public function uploadAssets(FileInterface $fileApi): array
-    {
-        if (null === $this->lighthouseScreenshotMimetype || null === $this->lighthouseScreenshotBase64) {
-            return [];
-        }
-        $stream = new StringStream(\base64_decode($this->lighthouseScreenshotBase64));
-        $hash = $fileApi->uploadStream($stream, 'lighthouse-screenshot', $this->lighthouseScreenshotMimetype);
-
-        return [
-            'screenshot' => [
-                'sha1' => $hash,
-                'filename' => 'lighthouse-screenshot',
-                'mimetype' => $this->lighthouseScreenshotMimetype,
-            ],
-        ];
-    }
-
     public function addWarning(string $warning): void
     {
         $this->warnings[] = $warning;
-    }
-
-    public function setPerformance(float $score): void
-    {
-        $this->performance = $score;
-    }
-
-    public function setAccessibility(float $score): void
-    {
-        $this->accessibility = $score;
-    }
-
-    public function setBestPractices(float $score): void
-    {
-        $this->bestPractices = $score;
-    }
-
-    public function setSeo(float $score): void
-    {
-        $this->seo = $score;
-    }
-
-    public function setLighthouseReport(string $report): void
-    {
-        $this->lighthouseReport = $report;
-        $this->lighthouseDatetime = new \DateTimeImmutable();
     }
 
     /**
@@ -212,11 +123,9 @@ class AuditResult
     }
 
     /**
-     * @param mixed[] $init
-     *
      * @return mixed[]
      */
-    public function getRawData(array $init): array
+    public function getRawData(): array
     {
         $security = [];
         foreach ($this->securityWarnings as $securityWarning) {
@@ -234,24 +143,17 @@ class AuditResult
             ];
         }
 
-        return \array_filter(\array_merge($init, [
+        return \array_filter([
             'url' => $this->url->getUrl(null, false, false),
             'base_url' => $this->baseUrl,
             'referer' => $this->url->getReferer(),
             'referer_label' => $this->url->getRefererLabel(),
-            'pa11y' => $this->pa11y,
             'import_hash_resources' => $this->hash,
             'security' => $security,
             'status_code' => $this->statusCode,
             'warning' => $this->warnings[0] ?? null,
             'mimetype' => $this->mimetype,
             'error' => $this->errorMessage,
-            'lighthouse_accessibility' => $this->accessibility,
-            'lighthouse_performance' => $this->performance,
-            'lighthouse_best-practices' => $this->bestPractices,
-            'lighthouse_seo' => $this->seo,
-            'lighthouse_report' => $this->lighthouseReport,
-            'lighthouse_best-lighthouse_seo' => $this->bestPractices,
             'host' => $this->url->getHost(),
             'links' => $links,
             'locale' => $this->locale,
@@ -263,10 +165,7 @@ class AuditResult
             'size' => $this->size,
             'author' => $this->author,
             'timestamp' => $this->datetime->format('c'),
-            'lighthouse_timestamp' => null === $this->lighthouseDatetime ? null : $this->lighthouseDatetime->format('c'),
-            'tika_timestamp' => null === $this->tikaDatetime ? null : $this->tikaDatetime->format('c'),
-            'pa11y_timestamp' => null === $this->pa11yDatetime ? null : $this->pa11yDatetime->format('c'),
-        ]), fn ($k) => null !== $k);
+        ], fn ($k) => null !== $k);
     }
 
     public function addInternalLink(Url $link): void
@@ -308,21 +207,6 @@ class AuditResult
     public function getSecurityWarnings(): array
     {
         return $this->securityWarnings;
-    }
-
-    public function getAccessibility(): ?float
-    {
-        return $this->accessibility;
-    }
-
-    public function getBestPractices(): ?float
-    {
-        return $this->bestPractices;
-    }
-
-    public function setTikaDatetime(): void
-    {
-        $this->tikaDatetime = new \DateTimeImmutable();
     }
 
     public function setMetaTitle(?string $metaTitle): void

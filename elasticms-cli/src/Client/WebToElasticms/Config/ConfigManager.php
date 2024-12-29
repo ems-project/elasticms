@@ -443,11 +443,6 @@ class ConfigManager
             fn ($arguments, $html, $tag, $fieldName, $typeName, $labelField) => (null === $html || null === $tag || null === $fieldName || null === $typeName || null === $labelField) ? null : Functions::domToJsonMenu($html, $tag, $fieldName, $typeName, $labelField)
         );
 
-        $this->expressionLanguage->register('pa11y',
-            fn ($url) => \sprintf('((null === %1$s) ? null : \\App\\ExpressionLanguage\\Functions::pa11y(%1$s))', $url),
-            fn ($arguments, $url) => (null === $url) ? null : Functions::pa11y($url)
-        );
-
         $this->expressionLanguage->register('split',
             fn ($pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => \sprintf('((null === %1$s || null === %2$s) ? null : \\preg_split(%1$s, %2$s, %3$d, %4$d))', $pattern, $str, $limit, $flags),
             fn ($arguments, $pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => (null === $pattern || null === $str) ? null : \preg_split($pattern, (string) $str, $limit, $flags)

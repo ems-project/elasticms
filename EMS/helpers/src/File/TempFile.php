@@ -45,7 +45,7 @@ class TempFile
         return \file_exists($this->path);
     }
 
-    public function loadFromStream(StreamInterface $stream, callable $callback = null): self
+    public function loadFromStream(StreamInterface $stream, ?callable $callback = null): self
     {
         if (!$handle = \fopen($this->path, 'w')) {
             throw new \RuntimeException(\sprintf('Can\'t open a temporary file %s', $this->path));

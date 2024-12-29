@@ -245,7 +245,7 @@ class AuditCommand extends AbstractCommand
     private function saveAudit(DataInterface $api, string $urlHash, array $rawData, string $url): bool
     {
         try {
-            $api->save($urlHash, $rawData);
+            $api->index($urlHash, $rawData, true);
             $this->logger->notice('Document saved');
 
             return true;

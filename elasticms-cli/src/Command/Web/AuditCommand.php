@@ -45,6 +45,7 @@ class AuditCommand extends AbstractCommand
     private const OPTION_DRY_RUN = 'dry-run';
     private const OPTION_CONTENT_TYPE = 'content-type';
     private const OPTION_BASE_URL = 'base-url';
+    private const OPTION_LABELS = 'labels';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
@@ -60,6 +61,10 @@ class AuditCommand extends AbstractCommand
     /** @var string[] */
     private array $audited = [];
     private string $baseUrl;
+    /**
+     * @var string[]
+     */
+    private array $labels;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
@@ -69,24 +74,16 @@ class AuditCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->addArgument(
-                self::ARG_URL,
-                InputArgument::REQUIRED,
-                'Website landing page\'s URL'
-            )
-            ->addOption(
-                self::OPTION_CONTINUE,
-                null,
-                InputOption::VALUE_NONE,
-                'Continue import from last know updated document'
-            )
+            ->addArgument(self::ARG_URL, InputArgument::REQUIRED, 'Website landing page\'s URL')
+            ->addOption(self::OPTION_CONTINUE, null, InputOption::VALUE_NONE, 'Continue import from last know updated document')
             ->addOption(self::OPTION_DRY_RUN, null, InputOption::VALUE_NONE, 'don\'t update elasticms')
             ->addOption(self::OPTION_CONTENT_TYPE, null, InputOption::VALUE_OPTIONAL, 'Audit\'s content type', 'audit')
             ->addOption(self::OPTION_CACHE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'Path to a folder where cache will stored', \implode(DIRECTORY_SEPARATOR, [\getcwd(), 'var']))
             ->addOption(self::OPTION_SAVE_FOLDER, null, InputOption::VALUE_OPTIONAL, 'If defined, the audit document will be also saved as JSON in the specified folder')
             ->addOption(self::OPTION_MAX_UPDATES, null, InputOption::VALUE_OPTIONAL, 'Maximum number of document that can be updated in 1 batch (if the continue option is activated)', 500)
             ->addOption(self::OPTION_IGNORE_REGEX, null, InputOption::VALUE_OPTIONAL, 'Regex that will defined paths \'(^\/path_pattern|^\/second_pattern\' to ignore')
-            ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Only scans urls starting with this base url', '/');
+            ->addOption(self::OPTION_BASE_URL, null, InputOption::VALUE_OPTIONAL, 'Only scans urls starting with this base url', '/')
+            ->addOption(self::OPTION_LABELS, null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Labels for this audit (e.g. "internet")');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
@@ -103,6 +100,7 @@ class AuditCommand extends AbstractCommand
         $this->ignoreRegex = $this->getOptionStringNull(self::OPTION_IGNORE_REGEX);
         $this->saveFolder = $this->getOptionStringNull(self::OPTION_SAVE_FOLDER);
         $this->baseUrl = $this->getOptionString(self::OPTION_BASE_URL);
+        $this->labels = $this->getOptionStringArray(self::OPTION_LABELS);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -126,7 +124,7 @@ class AuditCommand extends AbstractCommand
         }
         $report = $this->auditCache->getReport();
 
-        $auditManager = new AuditManager($this->logger, $this->baseUrl);
+        $auditManager = new AuditManager($this->logger, $this->baseUrl, $this->labels);
         $this->io->title(\sprintf('Starting auditing %s', $this->startingUrl->getUrl()));
         $counter = 0;
         $finish = true;

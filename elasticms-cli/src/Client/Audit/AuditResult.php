@@ -36,7 +36,10 @@ class AuditResult
     private int $size = 0;
     private ?string $description = null;
 
-    public function __construct(private readonly Url $url, private readonly string $baseUrl)
+    /**
+     * @param string[] $labels
+     */
+    public function __construct(private readonly Url $url, private readonly string $baseUrl, private readonly array $labels)
     {
         $this->datetime = new \DateTimeImmutable();
     }
@@ -165,6 +168,7 @@ class AuditResult
             'size' => $this->size,
             'author' => $this->author,
             'timestamp' => $this->datetime->format('c'),
+            'labels' => $this->labels,
         ], fn ($k) => null !== $k);
     }
 

@@ -11,16 +11,20 @@ use Psr\Log\LoggerInterface;
 
 class AuditManager
 {
+    /**
+     * @param string[] $labels
+     */
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly string $baseUrl,
+        private readonly array $labels,
     ) {
     }
 
     public function analyze(Url $url, HttpResult $result, Report $report, bool $alreadyAudited): AuditResult
     {
         $this->logger->notice($url->getUrl());
-        $audit = new AuditResult($url, $this->baseUrl);
+        $audit = new AuditResult($url, $this->baseUrl, $this->labels);
         $this->addRequestAudit($audit, $result);
         if (!$result->isValid()) {
             return $audit;

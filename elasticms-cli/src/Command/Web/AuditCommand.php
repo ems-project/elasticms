@@ -21,6 +21,7 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\DataInterface;
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 use EMS\CommonBundle\Exception\NotParsableUrlException;
 use EMS\CommonBundle\Helper\Url;
+use EMS\CommonBundle\Search\Search;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -130,96 +131,8 @@ class AuditCommand extends AbstractCommand
         $finish = true;
         while ($this->auditCache->hasNext()) {
             $url = $this->auditCache->next();
-            if (!\str_starts_with($url->getPath(), $this->baseUrl)) {
-                $this->logger->notice('Ignored as not in the base URL');
-                $report->addIgnoredUrl($url, 'Ignored as not in the base URL');
-                continue;
-            }
-            if (null !== $this->ignoreRegex && \preg_match(\sprintf('/%s/', $this->ignoreRegex), $url->getPath())) {
-                $this->logger->notice('Ignored by regex');
-                $report->addIgnoredUrl($url, 'Ignored by regex');
-                continue;
-            }
-            $result = $this->cacheManager->get($url->getUrl());
-            if (!$result->hasResponse()) {
-                $this->logger->notice('Broken link');
-                $report->addBrokenLink(new UrlReport($url, 0, $result->getErrorMessage()));
-                continue;
-            }
-            if (\in_array($result->getResponse()->getStatusCode(), [301, 302, 303, 307, 308])) {
-                $this->logger->notice('Redirect');
-                if (!$result->getResponse()->hasHeader('Location')) {
-                    $report->addBrokenLink(new UrlReport($url, $result->getResponse()->getStatusCode(), 'Redirect without Location header'));
-                    continue;
-                }
-                $location = $result->getResponse()->getHeader('Location')[0] ?? null;
-                if (null === $location) {
-                    throw new \RuntimeException('Unexpected missing Location');
-                }
-                try {
-                    $link = new Url($location, $url->getUrl());
-                    if ($this->auditCache->inHosts($link->getHost())) {
-                        $this->auditCache->addUrl($link);
-                        $report->addWarning($url, [\sprintf('Redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
-                    } else {
-                        $report->addWarning($url, [\sprintf('External redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
-                    }
-                } catch (NotParsableUrlException $e) {
-                    $report->addWarning($url, [\sprintf('Redirect to %s', $e->getMessage())]);
-                }
-                continue;
-            }
-            if ($result->getResponse()->getStatusCode() >= 300) {
-                $report->addWarning($url, [\sprintf('Return code %d', $result->getResponse()->getStatusCode())]);
-            }
-            $urlHash = $this->auditCache->getUrlHash($url);
-            $auditResult = $auditManager->analyze($url, $result, $report, \in_array($urlHash, $this->audited, true));
-            $this->logger->notice('Analyzed');
-            $this->treatLinks($auditResult, $report);
-            if (\in_array($urlHash, $this->audited)) {
-                continue;
-            }
+            $this->auditUrl($url, $auditManager, $report, $api);
 
-            if (!$auditResult->isValid()) {
-                $report->addBrokenLink($auditResult->getUrlReport());
-                $this->logger->notice('Broken links added');
-            }
-            if (\count($auditResult->getSecurityWarnings()) > 0) {
-                $report->addSecurityError($url->getUrl(), \count($auditResult->getSecurityWarnings()));
-                $this->logger->notice('Security warnings added');
-            }
-            if (\count($auditResult->getWarnings()) > 0) {
-                $report->addWarning($url, $auditResult->getWarnings());
-                $this->logger->notice('Warnings added');
-            }
-            $this->logger->notice('Ready');
-            if (!$this->dryRun) {
-                $rawData = $auditResult->getRawData();
-                if (!isset($rawData['security'])) {
-                    $rawData['security'] = [];
-                }
-                if (!isset($rawData['links'])) {
-                    $rawData['links'] = [];
-                }
-                $this->logger->debug(Json::encode($rawData, true));
-                $retry = 0;
-                while (!$this->saveAudit($api, $urlHash, $rawData, $auditResult->getUrl()->getUrl(null, false, false))) {
-                    if ($retry++ < 10) {
-                        continue;
-                    }
-                    $this->logger->error(\sprintf('Has try to upload the audit result for %s 10 times', $auditResult->getUrl()->getUrl(null, false, false)));
-                }
-            } else {
-                $this->logger->debug(Json::encode($auditResult->getRawData(), true));
-            }
-
-            $this->audited[] = $urlHash;
-            if (null != $this->saveFolder) {
-                \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData(), true));
-            }
-            $this->auditCache->setReport($report);
-            $this->auditCache->save($this->jsonPath);
-            $this->logger->notice('Cache saved');
             if (++$counter >= $this->maxUpdate && $this->continue) {
                 $finish = false;
                 break;
@@ -230,11 +143,7 @@ class AuditCommand extends AbstractCommand
         $this->auditCache->progressFinish($output, $counter);
 
         if (!$this->auditCache->hasNext() && !$this->dryRun) {
-            try {
-                $this->deleteNonUpdated();
-            } catch (\Throwable $e) {
-                $this->io->warning(\sprintf('The command was not able to delete old documents: %s', $e->getMessage()));
-            }
+            $this->auditNonUpdated($auditManager, $report, $api);
         }
 
         $this->io->section('Save cache and report');
@@ -289,7 +198,7 @@ class AuditCommand extends AbstractCommand
         }
     }
 
-    private function deleteNonUpdated(): void
+    private function auditNonUpdated(AuditManager $auditManager, Report $report, DataInterface $api): void
     {
         $alias = $this->adminHelper->getCoreApi()->meta()->getDefaultContentTypeEnvironmentAlias($this->contentType);
         $boolQuery = new BoolQuery();
@@ -313,15 +222,21 @@ class AuditCommand extends AbstractCommand
         $boolMustNotBase = new BoolQuery();
         $boolMustNotBase->addMustNot(new Exists('base_url'));
         $boolQuery->addShould(new Terms('base_url', [$this->baseUrl]));
+        $search = new Search([$alias], $boolQuery->toArray());
+        $search->setSources(['url', 'referer', 'referer_label']);
+        $searchApi = $this->adminHelper->getCoreApi()->search();
 
-        $body = Json::encode([
-            'index' => [$alias],
-            'body' => ['query' => $boolQuery->toArray()],
-            'size' => 50,
-        ]);
-
-        $command = \sprintf('emsco:revision:delete  --mode=by-query --query=\'%s\'', $body);
-        $this->adminHelper->getCoreApi()->admin()->runCommand($command, $this->output);
+        $this->io->section('Audit already know URLs');
+        $this->io->progressStart($searchApi->count($search));
+        foreach ($searchApi->scroll($search) as $hit) {
+            $url = $hit->getValue('url');
+            $referer = $hit->getValue('referer');
+            $refererLabel = $hit->getValue('referer_label');
+            $url = new Url($url, $referer, $refererLabel);
+            $this->auditUrl($url, $auditManager, $report, $api);
+            $this->io->progressAdvance();
+        }
+        $this->io->progressFinish();
     }
 
     /**
@@ -340,5 +255,104 @@ class AuditCommand extends AbstractCommand
 
             return false;
         }
+    }
+
+    private function auditUrl(Url $url, AuditManager $auditManager, Report $report, DataInterface $api): void
+    {
+        if (!\str_starts_with($url->getPath(), $this->baseUrl)) {
+            $this->logger->notice('Ignored as not in the base URL');
+            $report->addIgnoredUrl($url, 'Ignored as not in the base URL');
+
+            return;
+        }
+        if (null !== $this->ignoreRegex && \preg_match(\sprintf('/%s/', $this->ignoreRegex), $url->getPath())) {
+            $this->logger->notice('Ignored by regex');
+            $report->addIgnoredUrl($url, 'Ignored by regex');
+
+            return;
+        }
+        $result = $this->cacheManager->get($url->getUrl());
+        if (!$result->hasResponse()) {
+            $this->logger->notice('Broken link');
+            $report->addBrokenLink(new UrlReport($url, 0, $result->getErrorMessage()));
+
+            return;
+        }
+        if (\in_array($result->getResponse()->getStatusCode(), [301, 302, 303, 307, 308])) {
+            $this->logger->notice('Redirect');
+            if (!$result->getResponse()->hasHeader('Location')) {
+                $report->addBrokenLink(new UrlReport($url, $result->getResponse()->getStatusCode(), 'Redirect without Location header'));
+
+                return;
+            }
+            $location = $result->getResponse()->getHeader('Location')[0] ?? null;
+            if (null === $location) {
+                throw new \RuntimeException('Unexpected missing Location');
+            }
+            try {
+                $link = new Url($location, $url->getUrl());
+                if ($this->auditCache->inHosts($link->getHost())) {
+                    $this->auditCache->addUrl($link);
+                    $report->addWarning($url, [\sprintf('Redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
+                } else {
+                    $report->addWarning($url, [\sprintf('External redirect (%d) to %s', $result->getResponse()->getStatusCode(), $location)]);
+                }
+            } catch (NotParsableUrlException $e) {
+                $report->addWarning($url, [\sprintf('Redirect to %s', $e->getMessage())]);
+            }
+
+            return;
+        }
+        if ($result->getResponse()->getStatusCode() >= 300) {
+            $report->addWarning($url, [\sprintf('Return code %d', $result->getResponse()->getStatusCode())]);
+        }
+        $urlHash = $this->auditCache->getUrlHash($url);
+        $auditResult = $auditManager->analyze($url, $result, $report, \in_array($urlHash, $this->audited, true));
+        $this->logger->notice('Analyzed');
+        $this->treatLinks($auditResult, $report);
+        if (\in_array($urlHash, $this->audited)) {
+            return;
+        }
+
+        if (!$auditResult->isValid()) {
+            $report->addBrokenLink($auditResult->getUrlReport());
+            $this->logger->notice('Broken links added');
+        }
+        if (\count($auditResult->getSecurityWarnings()) > 0) {
+            $report->addSecurityError($url->getUrl(), \count($auditResult->getSecurityWarnings()));
+            $this->logger->notice('Security warnings added');
+        }
+        if (\count($auditResult->getWarnings()) > 0) {
+            $report->addWarning($url, $auditResult->getWarnings());
+            $this->logger->notice('Warnings added');
+        }
+        $this->logger->notice('Ready');
+        if (!$this->dryRun) {
+            $rawData = $auditResult->getRawData();
+            if (!isset($rawData['security'])) {
+                $rawData['security'] = [];
+            }
+            if (!isset($rawData['links'])) {
+                $rawData['links'] = [];
+            }
+            $this->logger->debug(Json::encode($rawData, true));
+            $retry = 0;
+            while (!$this->saveAudit($api, $urlHash, $rawData, $auditResult->getUrl()->getUrl(null, false, false))) {
+                if ($retry++ < 10) {
+                    continue;
+                }
+                $this->logger->error(\sprintf('Has try to upload the audit result for %s 10 times', $auditResult->getUrl()->getUrl(null, false, false)));
+            }
+        } else {
+            $this->logger->debug(Json::encode($auditResult->getRawData(), true));
+        }
+
+        $this->audited[] = $urlHash;
+        if (null != $this->saveFolder) {
+            \file_put_contents(\sprintf('%s/%s.json', $this->saveFolder, $this->auditCache->getUrlHash($auditResult->getUrl())), Json::encode($auditResult->getRawData(), true));
+        }
+        $this->auditCache->setReport($report);
+        $this->auditCache->save($this->jsonPath);
+        $this->logger->notice('Cache saved');
     }
 }

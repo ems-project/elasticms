@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: Commands::WEB_AUDIT,
-    description: 'Audit (security headers, content, locale, accessibility) website.',
+    description: 'HTTP audit & basic HTML audit for website.',
     hidden: false
 )]
 class AuditCommand extends AbstractCommand

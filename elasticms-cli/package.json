@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "lighthouse": "^9.6.8",
-    "pa11y": "^6.2.3"
-  }
-}

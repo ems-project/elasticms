@@ -19,7 +19,6 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-/node_modules/
 /admin/
 /document/
 Audit-*

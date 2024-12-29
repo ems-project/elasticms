@@ -215,7 +215,7 @@ class AuditCommand extends AbstractCommand
                 $this->logger->notice('Accessibility report added');
             }
             if (\count($auditResult->getSecurityWarnings()) > 0) {
-                $report->addSecurityError($url->getUrl(), \count($auditResult->getSecurityWarnings()), $auditResult->getBestPractices());
+                $report->addSecurityError($url->getUrl(), \count($auditResult->getSecurityWarnings()));
                 $this->logger->notice('Security warnings added');
             }
             if (\count($auditResult->getWarnings()) > 0) {

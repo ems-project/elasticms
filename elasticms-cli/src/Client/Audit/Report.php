@@ -13,7 +13,7 @@ class Report extends AbstractReport
     /** @var string[][] */
     private array $accessibilityErrors = [['URL', 'WCAG2AA', 'Accessibility\'s score']];
     /** @var string[][] */
-    private array $securityErrors = [['URL', 'Missing headers', 'Best practice\'s score']];
+    private array $securityErrors = [['URL', 'Missing headers']];
     /** @var string[][] */
     private array $brokenLinks = [['URL', 'Status Code', 'Error message', 'Referers']];
     /** @var string[][] */
@@ -26,9 +26,9 @@ class Report extends AbstractReport
         $this->accessibilityErrors[] = [$url, \strval($errorCount), null === $score ? '' : \strval($score)];
     }
 
-    public function addSecurityError(string $url, int $count, ?float $score): void
+    public function addSecurityError(string $url, int $count): void
     {
-        $this->securityErrors[] = [$url, \strval($count), null === $score ? '' : \strval($score)];
+        $this->securityErrors[] = [$url, \strval($count)];
     }
 
     public function addBrokenLink(UrlReport $urlReport): void

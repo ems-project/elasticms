@@ -13,7 +13,7 @@
             {{ form_start(form) }}
 			<ol class="nested-sortable vertical">
 				{% for entity in entities %}
-					<li id="{{ entity.id }}" class="mjs-nested-sortable-no-nesting mjs-nestedSortable-leaf">
+					<li id="{{ entity.id }}" data-id="{{ entity.id }}">
         				<div class="box-header ui-sortable-handle">
 							<div class="float-end box-tools ui-sortable-handle">
 								<div class="btn-group">

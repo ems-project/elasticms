@@ -1,5 +1,5 @@
 {% trans_default_domain 'EMSCoreBundle' %}
-<li id="{{ child }}" class="collapsible-container {% if contentType.name != view.contentType.name %}mjs-nested-sortable-no-nesting{%  else %}mjs-nestedSortable{% endif %}">
+<li id="{{ child }}" data-id="{{ child }}" class="collapsible-container">
 	<div class="box-header">
 		<div class="float-end box-tools">
 			<div class="btn-group">
@@ -25,7 +25,7 @@
         </h3>
 	</div>
 	{% if contentType.name == view.contentType.name %}
-		<ol style="display:none;">
+		<ol data-parent-id="{{ child }}">
             {% include "@EMSAdminUI/bootstrap5/view/custom/hierarchical_item.html.twig" with {
         		parent: data,
             	view: view,

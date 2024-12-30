@@ -90,6 +90,10 @@
             <argument type="string">%kernel.project_dir%</argument>
             <tag name="console.command" command="ems:document:upload"/>
         </service>
+        <service id="ems.command.document.merge" class="EMS\CommonBundle\Command\Document\MergeCommand">
+            <argument type="service" id="ems.helper.admin_api"/>
+            <tag name="console.command" command="ems:document:merge"/>
+        </service>
         <service id="ems.command.info.version" class="EMS\CommonBundle\Command\Info\VersionCommand">
             <argument type="service" id="ems_common.composer.info"/>
             <tag name="console.command" command="ems:version"/>

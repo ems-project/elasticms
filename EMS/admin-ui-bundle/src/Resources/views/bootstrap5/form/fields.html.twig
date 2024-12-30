@@ -838,7 +838,7 @@
 				contentType: contentType.name
 			}) %}
 		{% endif %}
-		<li id="{{ item.id }}" data-type="{{ item.type|default('node') }}" data-label="{{ item.label|default('') }}" data-content-type="{{ item.contentType|default('node') }}" class="collapsible-container nestedSortable mjs-nestedSortable{% if item.type|default('node') != 'node' %}-no-nesting{% endif %}">
+		<li id="{{ item.id }}" data-id="{{ item.id }}" data-type="{{ item.type|default('node') }}" data-label="{{ item.label|default('') }}" data-content-type="{{ item.contentType|default('node') }}" class="collapsible-container nestedSortable">
 			<div class="nestedSortable">
 				<span class="input-group">
 					{% if item.type|default('node') == 'node' %}
@@ -867,7 +867,7 @@
 
 			</div>
 			{% if item.type|default('node') == 'node' and item.children|default({})|length > 0 %}
-				<ol>
+				<ol data-parent-id="{{ item.id }}">
 					{% set children = item.children %}
 					{{ block('json_menu_editor_fieldtype_node') }}
 				</ol>

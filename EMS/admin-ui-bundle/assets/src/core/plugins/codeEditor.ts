@@ -523,7 +523,7 @@ export default class CodeEditor {
       const [languageUrl, themeUrl, keybindingMenuUrl] = await Promise.all([
         this.getModuleUrl(language),
         this.getModuleUrl(theme),
-        this.getModuleUrl('ace/ext/keybinding_menu')
+        this.getModuleUrl('ace/ext/keyboard_menu')
       ])
 
       ace.config.setModuleUrl(language, languageUrl)
@@ -535,7 +535,8 @@ export default class CodeEditor {
         readOnly: disabled,
         maxLines,
         minLines,
-        theme
+        theme,
+        useWorker: false,
       })
 
       editor.on('change', function () {

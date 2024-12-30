@@ -1,6 +1,6 @@
 {% trans_default_domain 'EMSCoreBundle' %}
 {% for child in parent.children|filter(child => not child.deleted) %}
-	<li id="{{ child.id }}" class="{% if not (child.type~'::isContainer')|emsco_call_user_func %}mjs-nested-sortable-no-nesting{% endif %}">
+	<li id="{{ child.id }}" data-id="{{ child.id }}">
 		<div class="card-header">
 			<strong>{{ child.name }}</strong> {{ child.type }}
 			<div class="btn-group float-end">
@@ -12,11 +12,13 @@
 				{% endif %}
 			</div>
 		</div>
-		{% if (child.type~'::isContainer')|emsco_call_user_func and child.children|length > 0 %}
-			<ol>
-				{% include "@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig" with {
-					parent: child
-				} %}
+		{% if (child.type~'::isContainer')|emsco_call_user_func %}
+			<ol data-parent-id="{{ child.id }}">
+                {% if child.children|length > 0 %}
+                    {% include "@EMSAdminUI/bootstrap5/contenttype/reorder_item.html.twig" with {
+                        parent: child
+                    } %}
+                {% endif %}
 			</ol>
 		{% endif %}
 	</li>

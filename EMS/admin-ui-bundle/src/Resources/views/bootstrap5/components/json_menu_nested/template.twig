@@ -160,7 +160,7 @@
     {% set menuMore = template.block('jmn_button_more_menu', _context)|raw  %}
     {% if menuMore|length > 0 %}
         <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle jmn-dropdown-more" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
             <ul class="{{ html_classes('dropdown-menu', { 'pull-right': (dropDown|default('right') == 'right') }) }}">
                 {{ menuMore|raw }}
             </ul>

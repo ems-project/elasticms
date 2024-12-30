@@ -23,6 +23,13 @@ export default defineConfig({
   resolve: {
     extensions: ['.js', '.ts']
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+      }
+    }
+  },
   build: {
     manifest: true,
     outDir: '../src/Resources/public',

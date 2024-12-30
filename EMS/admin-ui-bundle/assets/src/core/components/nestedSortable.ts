@@ -1,5 +1,5 @@
 import '../../../css/core/plugins/sortable.scss'
-import Sortable from 'sortablejs/modular/sortable.core.esm.js'
+import Sortable from "sortablejs";
 
 export class NestedSortableOptions {
   handle: string
@@ -41,7 +41,7 @@ export class NestedSortable {
     return this.sortable.toArray().map(this.buildStructure.bind(this))
   }
 
-  buildStructure(itemId: number) {
+  buildStructure(itemId: any): any {
     if (undefined === this.childrenList[itemId]) {
       return {
         id: itemId

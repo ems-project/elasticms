@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import inject from '@rollup/plugin-inject'
+import liveReload from 'vite-plugin-live-reload'
 
 export default defineConfig({
   server: {
@@ -10,10 +11,12 @@ export default defineConfig({
     hmr: true,
     watch: {
       usePolling: true,
-    },
+    }
   },
   base: './',
   plugins: [
+    liveReload('../src/Resources/views/**/*.twig'),
+    liveReload('../../core-bundle/src/Resources/views/**/*.twig'),
     inject({
       jQuery: 'jquery',
       $: 'jquery',

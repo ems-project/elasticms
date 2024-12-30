@@ -40,7 +40,7 @@ final class AssetVersionStrategy implements VersionStrategyInterface
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if ($this->devServer->isRunning()) {
+        if ($this->devServer->isRunning() && !str_ends_with($path, '.css')) {
             return $this->devServer->getPath($path);
         }
 

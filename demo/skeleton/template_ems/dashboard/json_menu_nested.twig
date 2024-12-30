@@ -86,7 +86,7 @@
 
 {%- block button_detach -%}
     {%- if item.type == 'page' and pageInfo -%}
-        <button class="btn-detach-page" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
+        <button class="btn-detach-page dropdown-item" data-item-id="{{ item.id }}" data-page-id="{{ pageInfo.id.ouuid }}">Detach page</button>
     {%- endif -%}
 {%- endblock button_detach -%}
 

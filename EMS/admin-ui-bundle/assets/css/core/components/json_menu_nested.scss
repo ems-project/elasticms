@@ -11,7 +11,6 @@
     --jmn-gap: 10px;
     --jmn-icon-size: 30px;
     --jmn-collapse-icon-size: calc(var(--jmn-gap) + var(--jmn-icon-size));
-
     position: relative;
     margin-bottom: 50px;
 
@@ -33,6 +32,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding-bottom: var(--jmn-gap);
     }
 
     .jmn-wrapper {
@@ -65,7 +65,7 @@
                 position: relative;
                 padding-left: calc(var(--jmn-gap) * 2);
 
-                &::before {
+                &:before {
                     content: '';
                     width: var(--jmn-gap);
                     height: calc(var(--jmn-gap) * 1.5);
@@ -92,13 +92,8 @@
         padding: var(--jmn-gap);
         column-gap: var(--jmn-gap);
         flex-shrink: 0;
-
-        &:first-child {
-          justify-content: flex-start;
-          flex-shrink: 1;
-        }
+        &:first-child { justify-content: flex-start; flex-shrink: 1; }
     }
-
     .jmn-column {
         align-items: center;
         justify-content: center;
@@ -107,7 +102,6 @@
         font-weight: bold;
         text-align: center;
     }
-
     .jmn-cell {
         justify-content: flex-end;
         align-items: center;
@@ -132,39 +126,30 @@
         border-radius: 50%;
         background-color: var(--jmn-color-bg);
     }
-
     .jmn-column-title {
         padding-left: var(--jmn-collapse-icon-size);
     }
-
     .jmn-cell-title {
         align-items: baseline;
     }
-
     .jmn-btn-more {
         background-color: white;
     }
 
+    .jmn-dropdown { @include icon-after($fa-var-caret-down); }
     .jmn-dropdown-add { @include icon-before($fa-var-plus); }
-
-    .jmn-dropdown-more {
-        @include icon-before($fa-var-ellipsis-v, 0);
-        &::after { content: none; }
-    }
+    .jmn-dropdown-more { @include icon-before($fa-var-ellipsis-vertical, 0); }
 
     .jmn-btn-move {
         cursor: move;
-
         @include icon-before($fa-var-arrows);
     }
-
     .jmn-btn-collapse {
         padding: 0;
         border: none;
         &[aria-expanded="true"]::after { @include icon($fa-var-chevron-up); }
         &[aria-expanded="false"]::after { @include icon($fa-var-chevron-down); }
     }
-
     .jmn-badge {
         padding: 5px 10px;
         border-radius: 10px;

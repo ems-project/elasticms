@@ -93,7 +93,8 @@ export default class JsonMenuNestedComponent {
         if (element.classList.contains('jmn-btn-copy')) this._onClickButtonCopy(itemId)
         if (element.classList.contains('jmn-btn-paste')) this._onClickButtonPaste(itemId)
 
-        if (Object.hasOwn(element, 'jmnModalCustom')) this._onClickModalCustom(element, itemId)
+        if (Object.hasOwn(element.dataset, 'jmnModalCustom'))
+          this._onClickModalCustom(element, itemId)
       },
       true
     )
@@ -260,6 +261,8 @@ export default class JsonMenuNestedComponent {
       window.jsonMenuNestedComponents[
         event.from.closest('.json-menu-nested-component')?.id as string
       ]
+
+    console.debug(targetComponent, fromComponent, window.jsonMenuNestedComponents)
 
     const position = event.newIndex
     const toParentId = (event.to.closest('.jmn-node') as HTMLElement)?.dataset.id as string

@@ -68,6 +68,8 @@ class Core {
       return
     }
     this._domListeners.forEach((element) => element.load(target))
+
+    window.dispatchEvent(new CustomEvent('emsReady'))
   }
 
   coreReady() {

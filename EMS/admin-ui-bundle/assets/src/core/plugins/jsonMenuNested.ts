@@ -2,10 +2,10 @@ import JsonMenuNestedComponent from '../components/jsonMenuNestedComponent'
 
 class JsonMenuNested {
   constructor() {
-    window.jsonMenuNestedComponents = []
+    window.jsonMenuNestedComponents = {};
   }
 
-  load(target) {
+  load(target: HTMLElement) {
     const elements = target.getElementsByClassName('json-menu-nested-component')
     ;[].forEach.call(elements, function (element) {
       const component = new JsonMenuNestedComponent(element)

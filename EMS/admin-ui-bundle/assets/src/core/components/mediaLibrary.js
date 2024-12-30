@@ -614,7 +614,7 @@ export default class MediaLibrary {
     this.#elements.listFolders.innerHTML = json.folders
 
     this.getFolders().forEach((folder) => {
-      ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach((dragEvent) => {
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach((dragEvent) => {
         folder.addEventListener(dragEvent, (event) => this._onDragFolder(event))
       })
     })

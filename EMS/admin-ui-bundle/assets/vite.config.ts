@@ -36,7 +36,7 @@ export default defineConfig({
   build: {
     manifest: true,
     outDir: '../src/Resources/public',
-    sourcemap: true,
+    sourcemap: false,
     emptyOutDir: true,
     copyPublicDir: true,
     rollupOptions: {

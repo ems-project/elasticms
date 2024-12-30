@@ -259,7 +259,7 @@ export default class Editor {
     try {
       const formatTags = JSON.parse(this.options.formatTags)
       options.heading.options = formatTags
-    } catch (e) {
+    } catch {
       console.error(
         `The format tags option expect an JSON, did you migrated it? Got: ${this.options.formatTags}`
       )

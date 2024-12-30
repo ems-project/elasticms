@@ -3,9 +3,14 @@ require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
-  'extends': [
+  extends: [
     'eslint:recommended'
   ],
+  plugins: ["@typescript-eslint"],
+  rules: {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
+  },
   parser: '@typescript-eslint/parser',
   overrides: [
     {

@@ -3,18 +3,18 @@ import ajaxModal from '../helpers/ajaxModal'
 
 export default class JsonMenuNestedComponent {
   id
-  #tree
-  #top
-  #header
-  #footer
+  #tree: HTMLElement | null
+  #top: HTMLElement | null
+  #header: HTMLElement | null
+  #footer: HTMLElement | null
   element
   #pathPrefix
-  #loadParentIds = []
-  #sortableLists = {}
+  #loadParentIds: string[] = []
+  #sortableLists: { [key: string]: Sortable } = {}
   modalSize = 'md'
   #dragBlocked = false
 
-  constructor(element) {
+  constructor(element: HTMLElement) {
     this.id = element.id
     this.element = element
     this.#tree = element.querySelector('.jmn-tree')
@@ -29,7 +29,15 @@ export default class JsonMenuNestedComponent {
     })
   }
 
-  load({ activeItemId = null, copyItemId = null, loadChildrenId = null } = {}) {
+  load({
+    activeItemId = null,
+    copyItemId = null,
+    loadChildrenId = null
+  }: {
+    activeItemId?: string | null
+    copyItemId?: string | null
+    loadChildrenId?: string | null
+  } = {}) {
     this._post('/render', {
       active_item_id: activeItemId,
       copy_item_id: copyItemId,
@@ -38,13 +46,13 @@ export default class JsonMenuNestedComponent {
     }).then((json) => {
       const { tree, loadParentIds, top, header, footer } = json
 
-      if (top) this.#top.innerHTML = top
-      if (header) this.#header.innerHTML = header
-      if (footer) this.#footer.innerHTML = footer
+      if (top) this.#top!.innerHTML = top
+      if (header) this.#header!.innerHTML = header
+      if (footer) this.#footer!.innerHTML = footer
 
       if (!tree || !loadParentIds) return
       this.#loadParentIds = loadParentIds
-      this.#tree.innerHTML = tree
+      this.#tree!.innerHTML = tree
 
       let eventCanceled = this._dispatchEvent('jmn-load', {
         data: json,
@@ -53,20 +61,20 @@ export default class JsonMenuNestedComponent {
       if (!eventCanceled) this.loading(false)
     })
   }
-  itemGet(itemId) {
+  itemGet(itemId: string) {
     return this._get(`/item/${itemId}`)
   }
-  itemAdd(itemId, add, position = null) {
+  itemAdd(itemId: string, add: string, position: number | null = null) {
     return this._post(`/item/${itemId}/add`, { position: position, add: add })
   }
-  itemDelete(itemId) {
+  itemDelete(itemId: string) {
     this._post(`/item/${itemId}/delete`).then((json) => {
       let eventCanceled = this._dispatchEvent('jmn-delete', { data: json, itemId: itemId })
       if (!eventCanceled) this.load()
     })
   }
-  loading(flag) {
-    const element = this.element.querySelector('.jmn-node-loading')
+  loading(flag: boolean) {
+    const element = this.element.querySelector('.jmn-node-loading') as HTMLElement
     element.style.display = flag ? 'flex' : 'none'
   }
 
@@ -74,9 +82,9 @@ export default class JsonMenuNestedComponent {
     this.element.addEventListener(
       'click',
       (event) => {
-        const element = event.target
-        const node = element.parentElement.closest('.jmn-node')
-        const itemId = node ? node.dataset.id : '_root'
+        const element = event.target as HTMLElement
+        const node = element.parentElement?.closest('.jmn-node') as HTMLElement
+        const itemId = node ? (node.dataset.id as string) : '_root'
 
         if (element.classList.contains('jmn-btn-add')) this._onClickButtonAdd(element, itemId)
         if (element.classList.contains('jmn-btn-edit')) this._onClickButtonEdit(element, itemId)
@@ -90,19 +98,19 @@ export default class JsonMenuNestedComponent {
       true
     )
   }
-  _onClickButtonAdd(element, itemId) {
+  _onClickButtonAdd(element: HTMLElement, itemId: string) {
     this._ajaxModal(element, `/item/${itemId}/modal-add/${element.dataset.add}`, 'jmn-add')
   }
-  _onClickButtonEdit(element, itemId) {
+  _onClickButtonEdit(element: HTMLElement, itemId: string) {
     this._ajaxModal(element, `/item/${itemId}/modal-edit`, 'jmn-edit')
   }
-  _onClickButtonView(element, itemId) {
+  _onClickButtonView(element: HTMLElement, itemId: string) {
     this._ajaxModal(element, `/item/${itemId}/modal-view`, 'jmn-view')
   }
-  _onClickButtonDelete(itemId) {
+  _onClickButtonDelete(itemId: string) {
     this.itemDelete(itemId)
   }
-  _onClickButtonCopy(itemId) {
+  _onClickButtonCopy(itemId: string) {
     this._post(`/item/${itemId}/copy`).then((json) => {
       const { success, copyId } = json
       if (!success) return
@@ -114,7 +122,7 @@ export default class JsonMenuNestedComponent {
       )
     })
   }
-  _onClickButtonPaste(itemId) {
+  _onClickButtonPaste(itemId: string) {
     this._post(`/item/${itemId}/paste`).then((json) => {
       const { success, pasteId } = json
       if (!success) return
@@ -123,23 +131,24 @@ export default class JsonMenuNestedComponent {
     })
   }
 
-  onCopy({ originalId } = event) {
+  onCopy(event: { originalId: string }) {
+    const { originalId } = event
     this.load({ activeItemId: originalId })
   }
-  _onClickModalCustom(element, itemId) {
+  _onClickModalCustom(element: HTMLElement, itemId: string) {
     const modalCustomName = element.dataset.jmnModalCustom
     this._ajaxModal(element, `/item/${itemId}/modal-custom/${modalCustomName}`, 'jmn-modal-custom')
   }
-  _onClickButtonCollapse(button, longPressed = false) {
+  _onClickButtonCollapse(button: HTMLElement, longPressed = false) {
     const expanded = button.getAttribute('aria-expanded')
-    const node = event.target.parentElement.closest('.jmn-node')
-    const nodeId = node.dataset.id
+    const node = button?.parentElement?.closest('.jmn-node') as HTMLElement
+    const nodeId = node?.dataset.id as string
 
     if ('true' === expanded) {
       button.setAttribute('aria-expanded', 'false')
 
-      const childNodes = node.querySelectorAll(`.jmn-node`)
-      const childIds = Array.from(childNodes).map((child) => child.dataset.id)
+      const childNodes = node?.querySelectorAll(`.jmn-node`) ?? []
+      const childIds = Array.from(childNodes).map((child) => (child as HTMLElement).dataset.id)
       childNodes.forEach((child) => child.remove())
 
       this.#loadParentIds = this.#loadParentIds.filter(
@@ -152,15 +161,17 @@ export default class JsonMenuNestedComponent {
       this.load({ loadChildrenId: longPressed ? nodeId : null })
     }
   }
-  _addClickLongPressListeners() {
-    let delay
+  _addClickLongPressListeners(): void {
+    let delay: ReturnType<typeof setTimeout>
     let longPressed = false
     let longPressTime = 300
 
     this.element.addEventListener(
       'mousedown',
       (event) => {
-        if (event.target.classList.contains('jmn-btn-collapse')) {
+        const target = event.target as HTMLElement
+
+        if (target.classList.contains('jmn-btn-collapse')) {
           delay = setTimeout(() => {
             longPressed = true
           }, longPressTime)
@@ -169,8 +180,10 @@ export default class JsonMenuNestedComponent {
       true
     )
     this.element.addEventListener('mouseup', (event) => {
-      if (event.target.classList.contains('jmn-btn-collapse')) {
-        this._onClickButtonCollapse(event.target, longPressed)
+      const target = event.target as HTMLElement
+
+      if (target.classList.contains('jmn-btn-collapse')) {
+        this._onClickButtonCollapse(target, longPressed)
         clearTimeout(delay)
         longPressed = false
       }
@@ -188,29 +201,30 @@ export default class JsonMenuNestedComponent {
       animation: 10,
       fallbackOnBody: true,
       swapThreshold: 0.5,
-      onMove: (event) => {
+      onMove: (event: any) => {
         return this._onMove(event)
       },
-      onEnd: (event) => {
+      onEnd: (event: any) => {
         return this._onMoveEnd(event)
       }
     }
 
     const sortables = this.element.querySelectorAll('.jmn-sortable')
     sortables.forEach((element) => {
-      this.#sortableLists[element.id] = Sortable.create(element, options)
+      this.#sortableLists[element.id] = Sortable.create(element as HTMLElement, options)
     })
     return sortables
   }
-  _onMove(event) {
+  _onMove(event: { dragged: HTMLElement; to: HTMLElement; from: HTMLElement }) {
     const dragged = event.dragged
     const targetList = event.to
 
-    if (!Object.hasOwn(dragged.dataset, 'type') || !Object.hasOwn(targetList.dataset, 'types'))
-      return false
+    const types = targetList.dataset.types
+    const type = dragged.dataset.type
 
-    const types = JSON.parse(targetList.dataset.types)
-    const allowedMove = types.includes(dragged.dataset.type)
+    if (!types || !type) return false
+
+    const allowedMove = types.includes(type)
 
     let eventCanceled = this._dispatchEvent('jmn-move', {
       dragged: dragged,
@@ -226,21 +240,30 @@ export default class JsonMenuNestedComponent {
 
     return allowedMove
   }
-  _onMoveEnd(event) {
+  _onMoveEnd(event: {
+    item: HTMLElement
+    to: HTMLElement
+    from: HTMLElement
+    newIndex: number
+  }): void {
     if (this.#dragBlocked) {
       this.#dragBlocked = false
       return
     }
 
     const itemId = event.item.dataset.id
+    if (!itemId) return
+
     const targetComponent =
-      window.jsonMenuNestedComponents[event.to.closest('.json-menu-nested-component').id]
+      window.jsonMenuNestedComponents[event.to.closest('.json-menu-nested-component')?.id as string]
     const fromComponent =
-      window.jsonMenuNestedComponents[event.from.closest('.json-menu-nested-component').id]
+      window.jsonMenuNestedComponents[
+        event.from.closest('.json-menu-nested-component')?.id as string
+      ]
 
     const position = event.newIndex
-    const toParentId = event.to.closest('.jmn-node').dataset.id
-    const fromParentId = event.from.closest('.jmn-node').dataset.id
+    const toParentId = (event.to.closest('.jmn-node') as HTMLElement)?.dataset.id as string
+    const fromParentId = (event.from.closest('.jmn-node') as HTMLElement)?.dataset.id
 
     if (targetComponent.id === fromComponent.id) {
       this._post(`/item/${itemId}/move`, {
@@ -251,11 +274,11 @@ export default class JsonMenuNestedComponent {
     } else {
       fromComponent
         .itemGet(itemId)
-        .then((json) => {
+        .then((json: any) => {
           if (!Object.hasOwn(json, 'item')) throw new Error(JSON.stringify(json))
           return targetComponent.itemAdd(toParentId, json.item, position)
         })
-        .then((response) => {
+        .then((response: any) => {
           if (!Object.hasOwn(response, 'success') || !response.success)
             throw new Error(JSON.stringify(response))
           return fromComponent.itemDelete(itemId)
@@ -267,8 +290,8 @@ export default class JsonMenuNestedComponent {
         })
     }
   }
-  _ajaxModal(element, path, eventType) {
-    let activeItemId = null
+  _ajaxModal(element: HTMLElement, path: string, eventType: string) {
+    let activeItemId: string | null = null
     const modalSize = element.dataset.modalSize ?? this.modalSize
 
     let handlerClose = () => {
@@ -277,7 +300,7 @@ export default class JsonMenuNestedComponent {
     }
 
     ajaxModal.modal.addEventListener('ajax-modal-close', handlerClose)
-    ajaxModal.load({ url: `${this.#pathPrefix}${path}`, size: modalSize }, (json) => {
+    ajaxModal.load({ url: `${this.#pathPrefix}${path}`, size: modalSize }, (json: any) => {
       let eventCanceled = this._dispatchEvent(eventType, { data: json, ajaxModal: ajaxModal })
       if (eventCanceled) ajaxModal.modal.removeEventListener('ajax-modal-close', handlerClose)
 
@@ -291,7 +314,7 @@ export default class JsonMenuNestedComponent {
       }
     })
   }
-  _dispatchEvent(eventType, detail) {
+  _dispatchEvent(eventType: string, detail: any) {
     detail.jmn = this
     return !this.element.dispatchEvent(
       new CustomEvent(eventType, {
@@ -301,7 +324,7 @@ export default class JsonMenuNestedComponent {
       })
     )
   }
-  async _get(path) {
+  async _get(path: string) {
     this.loading(true)
     const response = await fetch(`${this.#pathPrefix}${path}`, {
       method: 'GET',
@@ -309,7 +332,7 @@ export default class JsonMenuNestedComponent {
     })
     return response.json()
   }
-  async _post(path, data = {}) {
+  async _post(path: string, data = {}) {
     this.loading(true)
     const response = await fetch(`${this.#pathPrefix}${path}`, {
       method: 'POST',

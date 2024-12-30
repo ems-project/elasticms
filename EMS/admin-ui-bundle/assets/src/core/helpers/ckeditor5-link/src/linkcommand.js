@@ -209,7 +209,7 @@ export default class LinkCommand extends Command {
         }
         // Remove the `linkHref` attribute and all link decorators from the selection.
         // It stops adding a new content into the link element.
-        ;['linkHref', ...truthyManualDecorators, ...falsyManualDecorators].forEach((item) => {
+        ['linkHref', ...truthyManualDecorators, ...falsyManualDecorators].forEach((item) => {
           writer.removeSelectionAttribute(item)
         })
       } else {

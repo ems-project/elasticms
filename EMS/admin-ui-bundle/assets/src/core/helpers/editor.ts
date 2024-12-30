@@ -9,7 +9,7 @@ import { EditorRevisionOptions } from './editorRevisionOptions.ts'
 // import { LinkTarget } from './ck5/linkTarget'
 
 import ChangeEvent from '../events/changeEvent'
-import {ClassicEditor} from "ckeditor5";
+import { ClassicEditor } from 'ckeditor5'
 
 // function initUploadAdaptor(editor: ClassicEditor) {
 //   editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
@@ -18,11 +18,11 @@ import {ClassicEditor} from "ckeditor5";
 // }
 
 export default class Editor {
-  private options: EditorRevisionOptions;
-  private editor: ClassicEditor | null;
-  private element: HTMLElement;
+  private options: EditorRevisionOptions
+  private editor: ClassicEditor | null
+  private element: HTMLElement
   constructor(element: HTMLElement, options: EditorRevisionOptions | null) {
-    this.options = options ?? {} as EditorRevisionOptions
+    this.options = options ?? ({} as EditorRevisionOptions)
     this.element = element
     this.editor = null
     this.create(element)
@@ -200,11 +200,7 @@ export default class Editor {
         if (null === root) {
           return
         }
-        writer.setStyle(
-          'height',
-          `${this.options.height}px`,
-          root
-        )
+        writer.setStyle('height', `${this.options.height}px`, root)
       })
     }
   }
@@ -280,7 +276,10 @@ export default class Editor {
   }
 
   _applyProfile(options: EditorOptions): EditorOptions {
-    if (undefined === document.body.dataset.wysiwygInfo || document.body.dataset.wysiwygInfo.length === 0) {
+    if (
+      undefined === document.body.dataset.wysiwygInfo ||
+      document.body.dataset.wysiwygInfo.length === 0
+    ) {
       return options
     }
 

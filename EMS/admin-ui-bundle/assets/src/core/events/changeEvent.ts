@@ -1,4 +1,4 @@
-export const EMS_CHANGE_EVENT = 'emsChangeEvent';
+export const EMS_CHANGE_EVENT = 'emsChangeEvent'
 
 export class ChangeEvent {
   private _form: HTMLFormElement | null
@@ -9,8 +9,8 @@ export class ChangeEvent {
     this._event = new CustomEvent(EMS_CHANGE_EVENT, {
       detail: {
         form: this._form,
-        input,
-      },
+        input
+      }
     })
   }
 

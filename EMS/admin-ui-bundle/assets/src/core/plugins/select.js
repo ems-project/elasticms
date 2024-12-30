@@ -23,8 +23,8 @@ class Select {
   async select2(target) {
     const targetQuery = $(target)
     if (undefined === targetQuery.select2) {
-        console.warn('Select 2 is not yet available, probably because you are in vite dev mode')
-        select2.default()
+      console.warn('Select 2 is not yet available, probably because you are in vite dev mode')
+      select2.default()
     }
     targetQuery.find('select.select2').select2({
       theme: 'bootstrap-5',

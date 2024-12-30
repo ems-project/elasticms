@@ -55,7 +55,7 @@ class Core {
       new SortableList(),
       new SymfonyCollection(),
       new Text(),
-      new Tooltip(),
+      new Tooltip()
       //new WYSIWYG()
     ]
     document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.detail.target))

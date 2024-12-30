@@ -96,6 +96,26 @@ To make a dump:
 make db-dump/"db_example" SCHEMA="schema_example_adm"
 ```
 
+## Admin UI
+
+The Admin UI bundles uses vite for building the assets, while the core bundle uses webpack.
+Vite comes with a great dev server, which will automatic reload pages on js/css and twig changes.
+
+1) Installation
+```bash
+cd EMS/admin-ui-bundle
+npm install
+npm run build
+```
+
+2) Running dev server
+```bash
+npm run dev
+npm run dev -- --debug # debug mode
+```
+
+> Make sure you set **EMSUI_DEV_SERVER_URL**='http://localhost:5173'
+
 ## Identity provider (IDP) (Keycloak)
 
 Elasticms-web has a build in OAuth2 and SAML authenticator. see [elasticms-web/security](/elasticms-web/security.md).

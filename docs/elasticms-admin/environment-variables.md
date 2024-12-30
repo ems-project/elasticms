@@ -120,6 +120,16 @@ REDIS_HOST=localhost
 REDIS_PORT=6379
 ```
 
+## Elasticms Admin Bundle variables
+
+### EMSUI_DEV_SERVER_URL
+
+Only use this variable for local development with vite dev server.
+
+```dotenv 
+EMSUI_DEV_SERVER_URL=http://localhost:5173
+```
+
 ## Elasticms Core Bundle variables
  
 ### EMSCO_TIKA_SERVER

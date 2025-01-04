@@ -19,7 +19,7 @@ class ItemsType extends AbstractType
         $result = $options['result'];
 
         foreach ($result['hits']['hits'] as $hit) {
-            $builder->add(\join("", [self::PREFIX, $hit['_id']]), HiddenType::class, [
+            $builder->add(\join('', [self::PREFIX, $hit['_id']]), HiddenType::class, [
                     'attr' => [
                     ],
             ]);

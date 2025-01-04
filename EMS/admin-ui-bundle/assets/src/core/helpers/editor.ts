@@ -1,4 +1,45 @@
-import 'ckeditor5/ckeditor5.css'
+import {
+  Alignment,
+  Autoformat,
+  BlockQuote,
+  Bold,
+  ClassicEditor,
+  Essentials,
+  FindAndReplace,
+  FontColor,
+  FontFamily,
+  FontSize,
+  GeneralHtmlSupport,
+  Heading,
+  Image,
+  ImageCaption,
+  ImageInsertViaUrl,
+  ImageStyle,
+  ImageToolbar,
+  ImageResizeEditing,
+  ImageResizeHandles,
+  ImageUpload,
+  Indent,
+  Italic,
+  Link,
+  List,
+  MediaEmbed,
+  Paragraph,
+  PictureEditing,
+  RemoveFormat,
+  SourceEditing,
+  SpecialCharacters,
+  SpecialCharactersEssentials,
+  Style,
+  Table,
+  TableCaption,
+  TableCellProperties,
+  TableColumnResize,
+  TableProperties,
+  TableToolbar,
+  TextTransformation,
+  Undo
+} from 'ckeditor5'
 import { EditorOptions } from './editorOptions.ts'
 import { EditorRevisionOptions } from './editorRevisionOptions.ts'
 
@@ -6,16 +47,16 @@ import { EditorRevisionOptions } from './editorRevisionOptions.ts'
 // import { AssetManager } from './ckeditor5-assetmanager/src/index'
 // import { UploadAdapter } from './ck5/uploadAdapter'
 // import { PasteAjax } from './ck5/pasteAjax'
-// import { LinkTarget } from './ck5/linkTarget'
+import { LinkTarget } from './ck5/linkTarget'
 
 import ChangeEvent from '../events/changeEvent'
-import { ClassicEditor } from 'ckeditor5'
 
 // function initUploadAdaptor(editor: ClassicEditor) {
 //   editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
 //     return new UploadAdapter(loader)
 //   }
 // }
+import 'ckeditor5/ckeditor5.css'
 
 export default class Editor {
   private options: EditorRevisionOptions
@@ -29,9 +70,8 @@ export default class Editor {
   }
 
   async create(element: HTMLElement) {
-    const ckeditor5 = await import('ckeditor5')
     const self = this
-    ckeditor5.ClassicEditor.create(element, await this.buildCke5Options())
+    ClassicEditor.create(element, await this.buildCke5Options())
       .then((editor: ClassicEditor) => {
         self._init(editor)
       })
@@ -51,7 +91,6 @@ export default class Editor {
   }
 
   async getDefaultOptions(): Promise<EditorOptions> {
-    const ckeditor5 = await import('ckeditor5')
     return {
       heading: {
         options: [
@@ -82,48 +121,48 @@ export default class Editor {
       },
       // extraPlugins: [initUploadAdaptor],
       plugins: [
-        ckeditor5.Alignment,
-        ckeditor5.Autoformat,
+        Alignment,
+        Autoformat,
         // AssetManager,
-        ckeditor5.BlockQuote,
-        ckeditor5.Bold,
-        ckeditor5.Essentials,
-        ckeditor5.FindAndReplace,
-        ckeditor5.FontColor,
-        ckeditor5.FontFamily,
-        ckeditor5.FontSize,
-        ckeditor5.GeneralHtmlSupport,
-        ckeditor5.Heading,
-        ckeditor5.Image,
-        ckeditor5.ImageCaption,
-        ckeditor5.ImageInsertViaUrl,
-        ckeditor5.ImageStyle,
-        ckeditor5.ImageToolbar,
-        ckeditor5.ImageResizeEditing,
-        ckeditor5.ImageResizeHandles,
-        ckeditor5.ImageUpload,
-        ckeditor5.Indent,
-        ckeditor5.Italic,
-        ckeditor5.Link,
-        // LinkTarget,
-        ckeditor5.List,
-        ckeditor5.MediaEmbed,
-        ckeditor5.Paragraph,
+        BlockQuote,
+        Bold,
+        Essentials,
+        FindAndReplace,
+        FontColor,
+        FontFamily,
+        FontSize,
+        GeneralHtmlSupport,
+        Heading,
+        Image,
+        ImageCaption,
+        ImageInsertViaUrl,
+        ImageStyle,
+        ImageToolbar,
+        ImageResizeEditing,
+        ImageResizeHandles,
+        ImageUpload,
+        Indent,
+        Italic,
+        Link,
+        LinkTarget,
+        List,
+        MediaEmbed,
+        Paragraph,
         // PasteAjax,
-        ckeditor5.PictureEditing,
-        ckeditor5.RemoveFormat,
-        ckeditor5.SourceEditing,
-        ckeditor5.SpecialCharacters,
-        ckeditor5.SpecialCharactersEssentials,
-        ckeditor5.Style,
-        ckeditor5.Table,
-        ckeditor5.TableCaption,
-        ckeditor5.TableCellProperties,
-        ckeditor5.TableColumnResize,
-        ckeditor5.TableProperties,
-        ckeditor5.TableToolbar,
-        ckeditor5.TextTransformation,
-        ckeditor5.Undo
+        PictureEditing,
+        RemoveFormat,
+        SourceEditing,
+        SpecialCharacters,
+        SpecialCharactersEssentials,
+        Style,
+        Table,
+        TableCaption,
+        TableCellProperties,
+        TableColumnResize,
+        TableProperties,
+        TableToolbar,
+        TextTransformation,
+        Undo
       ],
       toolbar: {
         items: [

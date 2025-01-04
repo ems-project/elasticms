@@ -20,7 +20,7 @@ import SortableList from './plugins/sortableList'
 import SymfonyCollection from './plugins/symfonyCollection'
 import Text from './plugins/text'
 import Tooltip from './plugins/tooltip'
-// import WYSIWYG from './plugins/wysiwyg.ts'
+import WYSIWYG from './plugins/wysiwyg.ts'
 
 import RevisionTask from './components/revisionTask'
 import Modal from './components/modal'
@@ -55,8 +55,8 @@ class Core {
       new SortableList(),
       new SymfonyCollection(),
       new Text(),
-      new Tooltip()
-      //new WYSIWYG()
+      new Tooltip(),
+      new WYSIWYG()
     ]
     document.addEventListener(EMS_ADDED_DOM_EVENT, (event) => this.load(event.detail.target))
     this.coreReady()

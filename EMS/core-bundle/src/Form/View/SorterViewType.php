@@ -159,7 +159,7 @@ class SorterViewType extends ViewType
 
             foreach ($items as $itemKey => $value) {
                 if (!\str_starts_with($itemKey, ItemsType::PREFIX)) {
-                    throw new \RuntimeException('Invalid item key: ' . $itemKey);
+                    throw new \RuntimeException('Invalid item key: '.$itemKey);
                 }
                 $itemKey = \substr($itemKey, \strlen(ItemsType::PREFIX));
                 try {

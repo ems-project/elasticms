@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ItemsType extends AbstractType
 {
     public const PREFIX = 'item-';
+
     /**
      * @param FormBuilderInterface<FormBuilderInterface> $builder
      * @param array<string, mixed>                       $options

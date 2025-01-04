@@ -34,7 +34,7 @@
     "@popperjs/core": "^2.11.8",
     "ace-builds": "^1.36.2",
     "bootstrap": "^5.3.3",
-    "ckeditor5": "^43.2.0",
+    "ckeditor5": "^44.1.0",
     "cropperjs": "^1.6.2",
     "datatables.net": "^2.1.8",
     "datatables.net-bs": "^2.1.8",

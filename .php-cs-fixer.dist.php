@@ -14,9 +14,8 @@ $finder = PhpCsFixer\Finder::create()
     ->name(['release', 'translations'])
 ;
 
-$config = new PhpCsFixer\Config();
-
-return $config
+return new PhpCsFixer\Config()
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRules([
         '@Symfony' => true,
         'phpdoc_separation' => ['skip_unlisted_annotations' => true],

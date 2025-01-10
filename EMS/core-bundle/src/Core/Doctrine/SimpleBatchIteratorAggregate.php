@@ -7,12 +7,7 @@ namespace EMS\CoreBundle\Core\Doctrine;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use IteratorAggregate;
-use Throwable;
-use Traversable;
 
-use function get_class;
-use function is_array;
-use function is_object;
 use function key;
 
 /**
@@ -20,7 +15,7 @@ use function key;
  * @template TValue
  * @implements IteratorAggregate<TKey, TValue>
  */
-final class SimpleBatchIteratorAggregate implements IteratorAggregate
+final class SimpleBatchIteratorAggregate implements \IteratorAggregate
 {
     /** @var iterable<TKey, TValue> */
     private iterable $resultSet;
@@ -49,12 +44,12 @@ final class SimpleBatchIteratorAggregate implements IteratorAggregate
     }
 
     /**
-     * @return Traversable<TKey, TValue>
+     * @return \Traversable<TKey, TValue>
      *
      * @psalm-suppress InvalidReturnType psalm can't infer the correct key/value pairs here, but we've carefully
      *                                   tested this signature.
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \Traversable
     {
         $iteration = 0;
 
@@ -64,9 +59,9 @@ final class SimpleBatchIteratorAggregate implements IteratorAggregate
             foreach ($this->resultSet as $key => $value) {
                 ++$iteration;
 
-                if (is_array($value)) {
-                    $firstKey = key($value);
-                    if ($firstKey !== null && is_object($value[$firstKey]) && $value === [$firstKey => $value[$firstKey]]) {
+                if (\is_array($value)) {
+                    $firstKey = \key($value);
+                    if (null !== $firstKey && \is_object($value[$firstKey]) && $value === [$firstKey => $value[$firstKey]]) {
                         yield $key => $this->reFetchObject($value[$firstKey]);
 
                         $this->flushAndClearBatch($iteration);
@@ -74,7 +69,7 @@ final class SimpleBatchIteratorAggregate implements IteratorAggregate
                     }
                 }
 
-                if (! is_object($value)) {
+                if (!\is_object($value)) {
                     yield $key => $value;
 
                     $this->flushAndClearBatch($iteration);
@@ -85,7 +80,7 @@ final class SimpleBatchIteratorAggregate implements IteratorAggregate
 
                 $this->flushAndClearBatch($iteration);
             }
-        } catch (Throwable $exception) {
+        } catch (\Throwable $exception) {
             $this->entityManager->rollback();
 
             throw $exception;
@@ -103,9 +98,9 @@ final class SimpleBatchIteratorAggregate implements IteratorAggregate
      */
     private function __construct(iterable $resultSet, EntityManagerInterface $entityManager, int $batchSize)
     {
-        $this->resultSet     = $resultSet;
+        $this->resultSet = $resultSet;
         $this->entityManager = $entityManager;
-        $this->batchSize     = $batchSize;
+        $this->batchSize = $batchSize;
     }
 
     /**
@@ -117,18 +112,12 @@ final class SimpleBatchIteratorAggregate implements IteratorAggregate
      */
     private function reFetchObject(object $object): object
     {
-        $className  = get_class($object);
-        $metadata   = $this->entityManager->getClassMetadata($className);
+        $className = \get_class($object);
+        $metadata = $this->entityManager->getClassMetadata($className);
         $freshValue = $this->entityManager->find($className, $metadata->getIdentifierValues($object));
 
-        if (! $freshValue) {
-            throw new \UnexpectedValueException(sprintf(
-                'Requested batch item %s, hash %s (of type %s) with the identifier "%s" could not be found',
-                get_class($object),
-                spl_object_hash($object),
-                $metadata->getName(),
-                json_encode($metadata->getIdentifierValues($object), JSON_THROW_ON_ERROR),
-            ));
+        if (!$freshValue) {
+            throw new \UnexpectedValueException(\sprintf('Requested batch item %s, hash %s (of type %s) with the identifier "%s" could not be found', \get_class($object), \spl_object_hash($object), $metadata->getName(), \json_encode($metadata->getIdentifierValues($object), JSON_THROW_ON_ERROR)));
         }
 
         return $freshValue;

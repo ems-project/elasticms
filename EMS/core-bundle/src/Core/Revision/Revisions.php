@@ -47,10 +47,13 @@ final class Revisions implements \IteratorAggregate
      */
     public function getIterator(): \Traversable
     {
-        return SimpleBatchIteratorAggregate::fromQuery(
+        /** @var \Traversable<int, Revision> $iterator */
+        $iterator = SimpleBatchIteratorAggregate::fromQuery(
             $this->qb->getQuery(),
             $this->batchSize
         );
+
+        return $iterator;
     }
 
     public function batch(callable $batch): void

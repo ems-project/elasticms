@@ -6,48 +6,36 @@ namespace EMS\CoreBundle\Core\Doctrine;
 
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
+use EMS\CoreBundle\Entity\EntityInterface;
 use IteratorAggregate;
 
-use function key;
-
 /**
- * @template TKey
- * @template TValue
- * @implements IteratorAggregate<TKey, TValue>
+ * @implements IteratorAggregate<string|int, EntityInterface>
  */
 final class SimpleBatchIteratorAggregate implements \IteratorAggregate
 {
-    /** @var iterable<TKey, TValue> */
+    /** @var iterable<string|int, EntityInterface> */
     private iterable $resultSet;
     private EntityManagerInterface $entityManager;
-    /** @psalm-var positive-int */
     private int $batchSize;
 
-    /** @psalm-param positive-int $batchSize */
     public static function fromQuery(AbstractQuery $query, int $batchSize): self
     {
         return new self($query->toIterable(), $query->getEntityManager(), $batchSize);
     }
 
     /**
-     * @param array<C, D> $results
-     * @psalm-param positive-int $batchSize
+     * @param array<string|int, EntityInterface> $results
      *
-     * @return self<C, D>
-     *
-     * @template C
-     * @template D
+     * @return \Traversable<string|int, EntityInterface>
      */
-    public static function fromArrayResult(array $results, EntityManagerInterface $entityManager, int $batchSize): self
+    public static function fromArrayResult(array $results, EntityManagerInterface $entityManager, int $batchSize): iterable
     {
         return new self($results, $entityManager, $batchSize);
     }
 
     /**
-     * @return \Traversable<TKey, TValue>
-     *
-     * @psalm-suppress InvalidReturnType psalm can't infer the correct key/value pairs here, but we've carefully
-     *                                   tested this signature.
+     * @return \Traversable<string|int, EntityInterface>
      */
     public function getIterator(): \Traversable
     {
@@ -93,8 +81,7 @@ final class SimpleBatchIteratorAggregate implements \IteratorAggregate
     /**
      * BatchIteratorAggregate constructor (private by design: use a named constructor instead).
      *
-     * @param iterable<TKey, TValue> $resultSet
-     * @psalm-param positive-int $batchSize
+     * @param iterable<string|int, EntityInterface> $resultSet
      */
     private function __construct(iterable $resultSet, EntityManagerInterface $entityManager, int $batchSize)
     {
@@ -103,20 +90,13 @@ final class SimpleBatchIteratorAggregate implements \IteratorAggregate
         $this->batchSize = $batchSize;
     }
 
-    /**
-     * @psalm-param TReFetched $object
-     *
-     * @psalm-return TReFetched
-     *
-     * @template TReFetched of object
-     */
-    private function reFetchObject(object $object): object
+    private function reFetchObject(object $object): EntityInterface
     {
         $className = \get_class($object);
         $metadata = $this->entityManager->getClassMetadata($className);
         $freshValue = $this->entityManager->find($className, $metadata->getIdentifierValues($object));
 
-        if (!$freshValue) {
+        if (!$freshValue instanceof EntityInterface) {
             throw new \UnexpectedValueException(\sprintf('Requested batch item %s, hash %s (of type %s) with the identifier "%s" could not be found', \get_class($object), \spl_object_hash($object), $metadata->getName(), \json_encode($metadata->getIdentifierValues($object), JSON_THROW_ON_ERROR)));
         }
 

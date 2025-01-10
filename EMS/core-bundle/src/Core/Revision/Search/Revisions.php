@@ -62,10 +62,13 @@ final class Revisions implements \IteratorAggregate
         /** @var Revision[] $results */
         $results = $this->qb->getQuery()->getResult();
 
-        return SimpleBatchIteratorAggregate::fromArrayResult(
+        /** @var \Traversable<string|int, Revision> $iterator */
+        $iterator = SimpleBatchIteratorAggregate::fromArrayResult(
             $results,
             $this->qb->getEntityManager(),
             $this->batchSize
         );
+
+        return $iterator;
     }
 }

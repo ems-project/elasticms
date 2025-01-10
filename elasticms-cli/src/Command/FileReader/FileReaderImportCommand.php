@@ -44,7 +44,7 @@ final class FileReaderImportCommand extends AbstractCommand
     private bool $dryRun;
     private bool $merge;
     private int $flushSize;
-    private ?int $limit;
+    private ?int $limit = null;
     private ExpressionLanguage $expressionLanguage;
 
     public function __construct(

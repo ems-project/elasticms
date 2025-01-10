@@ -73,7 +73,7 @@ class AssetFieldType extends DataFieldType
      */
     public static function loadFromForm(array &$data, string $algo): void
     {
-        $data[EmsFields::CONTENT_FILE_ALGO_FIELD_] = $data[EmsFields::CONTENT_FILE_ALGO_FIELD_] ?? $algo;
+        $data[EmsFields::CONTENT_FILE_ALGO_FIELD_] ??= $algo;
         foreach ([
             EmsFields::CONTENT_FILE_HASH_FIELD_ => EmsFields::CONTENT_FILE_HASH_FIELD,
             EmsFields::CONTENT_FILE_NAME_FIELD_ => EmsFields::CONTENT_FILE_NAME_FIELD,

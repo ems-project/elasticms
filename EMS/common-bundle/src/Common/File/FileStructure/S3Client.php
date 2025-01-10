@@ -14,7 +14,7 @@ use Psr\Http\Message\StreamInterface;
 class S3Client implements FileStructureClientInterface
 {
     private const EMS_ARCHIVE_IDENTIFIER_FILE = '.ems_archive_digest';
-    private AwsS3Client $client;
+    private readonly AwsS3Client $client;
     private string $hash;
     /** @var mixed[] */
     private array $batch;

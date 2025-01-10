@@ -17,7 +17,7 @@ class JsonMenuNestedConfig implements ConfigInterface
     public ?string $contextBlock = null;
     /** @var JsonMenuNestedColumn[] */
     public array $columns = [];
-    public ?string $activeItemId;
+    public ?string $activeItemId = null;
 
     public function __construct(
         private readonly string $hash,

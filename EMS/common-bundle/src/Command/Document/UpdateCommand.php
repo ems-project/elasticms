@@ -26,7 +26,7 @@ class UpdateCommand extends AbstractCommand
     private const ONLY_MISSING = 'only-missing';
     private string $contentType;
     private string $folder;
-    private ?string $dumpFile;
+    private ?string $dumpFile = null;
     private bool $onlyMissing;
 
     public function __construct(private readonly AdminHelper $adminHelper, string $projectFolder)

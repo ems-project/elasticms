@@ -63,17 +63,11 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
         $mimeType = MimeTypeHelper::getInstance()->guessMimeType($archiveFile->path);
         $this->io->newLine();
 
-        switch ($mimeType) {
-            case MimeTypes::APPLICATION_ZIP->value:
-            case MimeTypes::APPLICATION_GZIP->value:
-                $this->loadZipArchive($archiveFile);
-                break;
-            case MimeTypes::APPLICATION_JSON->value:
-                $this->loadEmsArchive($archiveFile);
-                break;
-            default:
-                throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType));
-        }
+        match ($mimeType) {
+            MimeTypes::APPLICATION_ZIP->value, MimeTypes::APPLICATION_GZIP->value => $this->loadZipArchive($archiveFile),
+            MimeTypes::APPLICATION_JSON->value => $this->loadEmsArchive($archiveFile),
+            default => throw new \RuntimeException(\sprintf('Archive format %s not supported', $mimeType)),
+        };
 
         return self::EXECUTE_SUCCESS;
     }

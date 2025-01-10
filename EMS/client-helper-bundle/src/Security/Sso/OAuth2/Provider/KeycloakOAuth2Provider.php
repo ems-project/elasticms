@@ -12,7 +12,7 @@ use Stevenmaguire\OAuth2\Client\Provider\KeycloakResourceOwner;
 
 class KeycloakOAuth2Provider extends AbstractOAuth2Provider
 {
-    private Keycloak $keycloak;
+    private readonly Keycloak $keycloak;
 
     public function __construct(
         string $authServerUrl,

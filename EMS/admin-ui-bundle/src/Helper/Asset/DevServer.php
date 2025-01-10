@@ -43,7 +43,7 @@ class DevServer
             $statusCode = $response->getStatusCode();
 
             return 200 === $statusCode || 404 === $statusCode;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

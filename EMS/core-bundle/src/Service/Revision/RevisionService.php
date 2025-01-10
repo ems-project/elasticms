@@ -164,7 +164,7 @@ class RevisionService implements RevisionServiceInterface
         }
 
         if ($contentType->hasLabelField() && isset($rawData[$contentType->giveLabelField()])) {
-            return \htmlspecialchars($rawData[$contentType->giveLabelField()]);
+            return \htmlspecialchars((string) $rawData[$contentType->giveLabelField()]);
         }
 
         return match (true) {

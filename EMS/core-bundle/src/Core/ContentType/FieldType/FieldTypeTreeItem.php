@@ -12,9 +12,9 @@ use EMS\CoreBundle\Entity\FieldType;
  */
 class FieldTypeTreeItem implements \IteratorAggregate, \Stringable
 {
-    private FieldTypeTreeItemCollection $children;
+    private readonly FieldTypeTreeItemCollection $children;
     private ?FieldTypeTreeItem $parent = null;
-    private string $name;
+    private readonly string $name;
 
     /**
      * @param ArrayCollection<int, FieldType> $fieldTypes

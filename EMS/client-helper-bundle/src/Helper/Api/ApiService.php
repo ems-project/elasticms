@@ -44,7 +44,7 @@ final class ApiService
         $dataEndpoint = $this->getApiClient($apiName)->coreApi->data($contentType);
 
         try {
-            $ouuid = $ouuid ?? Uuid::uuid4()->toString();
+            $ouuid ??= Uuid::uuid4()->toString();
 
             return $dataEndpoint->index($ouuid, $rawData, $merge, true)->getOuuid();
         } catch (NotSuccessfulException $e) {

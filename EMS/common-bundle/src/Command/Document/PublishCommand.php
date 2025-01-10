@@ -20,7 +20,7 @@ class PublishCommand extends AbstractCommand
     private string $contentTypeName;
     private string $ouuid;
     private string $targetEnvironmentName;
-    private ?string $revisionId;
+    private ?string $revisionId = null;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {

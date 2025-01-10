@@ -11,7 +11,7 @@ use Symfony\Component\Finder\Finder;
 class TempDirectory
 {
     private const PREFIX = 'EMS_temp_dir_';
-    private Filesystem $filesystem;
+    private readonly Filesystem $filesystem;
     /** @var self[] */
     private static array $collector = [];
 

@@ -162,10 +162,10 @@ class SorterViewType extends ViewType
             $items = $reorder['items'];
 
             foreach ($items as $itemKey => $value) {
-                if (!\str_starts_with($itemKey, ItemsType::PREFIX)) {
+                if (!\str_starts_with((string) $itemKey, ItemsType::PREFIX)) {
                     throw new \RuntimeException('Invalid item key: '.$itemKey);
                 }
-                $itemKey = \substr($itemKey, \strlen(ItemsType::PREFIX));
+                $itemKey = \substr((string) $itemKey, \strlen(ItemsType::PREFIX));
                 try {
                     $revision = $this->dataService->initNewDraft($view->getContentType()->getName(), $itemKey);
                     $data = $revision->getRawData();

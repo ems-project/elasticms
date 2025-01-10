@@ -14,11 +14,6 @@ use IteratorAggregate;
  */
 final class SimpleBatchIteratorAggregate implements \IteratorAggregate
 {
-    /** @var iterable<string|int, EntityInterface> */
-    private iterable $resultSet;
-    private EntityManagerInterface $entityManager;
-    private int $batchSize;
-
     public static function fromQuery(AbstractQuery $query, int $batchSize): self
     {
         return new self($query->toIterable(), $query->getEntityManager(), $batchSize);
@@ -83,21 +78,18 @@ final class SimpleBatchIteratorAggregate implements \IteratorAggregate
      *
      * @param iterable<string|int, EntityInterface> $resultSet
      */
-    private function __construct(iterable $resultSet, EntityManagerInterface $entityManager, int $batchSize)
+    private function __construct(private readonly iterable $resultSet, private readonly EntityManagerInterface $entityManager, private readonly int $batchSize)
     {
-        $this->resultSet = $resultSet;
-        $this->entityManager = $entityManager;
-        $this->batchSize = $batchSize;
     }
 
     private function reFetchObject(object $object): EntityInterface
     {
-        $className = \get_class($object);
+        $className = $object::class;
         $metadata = $this->entityManager->getClassMetadata($className);
         $freshValue = $this->entityManager->find($className, $metadata->getIdentifierValues($object));
 
         if (!$freshValue instanceof EntityInterface) {
-            throw new \UnexpectedValueException(\sprintf('Requested batch item %s, hash %s (of type %s) with the identifier "%s" could not be found', \get_class($object), \spl_object_hash($object), $metadata->getName(), \json_encode($metadata->getIdentifierValues($object), JSON_THROW_ON_ERROR)));
+            throw new \UnexpectedValueException(\sprintf('Requested batch item %s, hash %s (of type %s) with the identifier "%s" could not be found', $object::class, \spl_object_hash($object), $metadata->getName(), \json_encode($metadata->getIdentifierValues($object), JSON_THROW_ON_ERROR)));
         }
 
         return $freshValue;

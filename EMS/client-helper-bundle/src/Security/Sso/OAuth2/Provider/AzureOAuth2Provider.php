@@ -17,7 +17,7 @@ use function Symfony\Component\String\u;
 
 class AzureOAuth2Provider extends AbstractOAuth2Provider
 {
-    private Azure $azure;
+    private readonly Azure $azure;
     /** @var array<string, string[]> */
     private array $serviceScopes = [];
 
@@ -34,7 +34,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         ?array $scopes,
         ?string $version,
     ) {
-        $scopes = $scopes ?? self::DEFAULT_SCOPES;
+        $scopes ??= self::DEFAULT_SCOPES;
         $serviceScopes = \array_filter($scopes, static fn (string $s) => u($s)->startsWith('http'));
         $defaultScopes = \array_diff($scopes, $serviceScopes);
 

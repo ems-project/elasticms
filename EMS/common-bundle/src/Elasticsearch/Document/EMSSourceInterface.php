@@ -7,11 +7,9 @@ namespace EMS\CommonBundle\Elasticsearch\Document;
 interface EMSSourceInterface
 {
     /**
-     * @param mixed $default
-     *
      * @return mixed
      */
-    public function get(string $field, $default = null);
+    public function get(string $field, mixed $default = null);
 
     public function getContentType(): string;
 

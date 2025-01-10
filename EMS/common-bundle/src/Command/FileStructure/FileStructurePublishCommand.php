@@ -28,7 +28,7 @@ class FileStructurePublishCommand extends AbstractCommand
     public const OPTION_FORCE = 'force';
     public const OPTION_ADMIN = 'admin';
     private string $target;
-    private ?string $s3Credential;
+    private ?string $s3Credential = null;
     private string $archiveHash;
     private bool $force;
     private FileManagerInterface $fileManager;

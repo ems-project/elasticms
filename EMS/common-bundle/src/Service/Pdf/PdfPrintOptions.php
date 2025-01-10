@@ -25,7 +25,7 @@ class PdfPrintOptions
     final public const ORIENTATION = 'orientation';
     final public const SIZE = 'size';
     final public const CHROOT = 'chroot';
-    private TempDirectory $tempDirectory;
+    private readonly TempDirectory $tempDirectory;
 
     /**
      * @param array<string, mixed> $options

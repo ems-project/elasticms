@@ -750,13 +750,11 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         $versionTags = $contentType->getVersionTags();
-        $versionTagsLabels = \array_map(function (string $versionTag) {
-            return $this->translator->trans(
-                'field.revision_version_tag',
-                ['%version_tag%' => $versionTag],
-                'emsco-core'
-            );
-        }, $versionTags);
+        $versionTagsLabels = \array_map(fn(string $versionTag) => $this->translator->trans(
+            'field.revision_version_tag',
+            ['%version_tag%' => $versionTag],
+            'emsco-core'
+        ), $versionTags);
 
         $emptyLabel = $this->translator->trans('field.revision_version_tag_empty', [], 'emsco-core');
         $emptyValue = ($notBlankNewVersion ? Revision::VERSION_BLANK : null);

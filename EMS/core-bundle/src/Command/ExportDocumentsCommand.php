@@ -48,13 +48,13 @@ class ExportDocumentsCommand extends AbstractCommand
     private int $scrollSize;
     private string $scrollTimeout;
     private bool $withBusinessId;
-    private ?string $baseUrl;
-    private ?string $environmentName;
+    private ?string $baseUrl = null;
+    private ?string $environmentName = null;
     /**
      * @var mixed[]
      */
     private array $query;
-    private ?string $zipFilename;
+    private ?string $zipFilename = null;
 
     public function __construct(
         protected readonly LoggerInterface $logger,

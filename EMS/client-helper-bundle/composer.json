@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "composer/ca-bundle": "^1.4",
         "elasticms/common-bundle": "6.0.*",
         "onelogin/php-saml": "^4.1",

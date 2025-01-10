@@ -20,8 +20,9 @@ final class HelperExtension extends AbstractExtension
             new TwigFilter('emsch_routing', [RoutingRuntime::class, 'transform'], ['is_safe' => ['html']]),
             new TwigFilter('emsch_routing_config', [RoutingRuntime::class, 'transformConfig'], ['is_safe' => ['html']]),
             new TwigFilter('emsch_get', [ClientRequestRuntime::class, 'get']),
-            // deprecated
-            new TwigFilter('emsch_data', [ClientRequestRuntime::class, 'data'], ['deprecated' => true, 'alternative' => 'emsch_get']),
+            new TwigFilter('emsch_data', [ClientRequestRuntime::class, 'data'], [
+                'deprecation_info' => new DeprecatedCallableInfo('elasticms/client-helper-bundle', '6.0.0', 'emsch_get'),
+            ]),
         ];
     }
 
@@ -36,10 +37,10 @@ final class HelperExtension extends AbstractExtension
             new TwigFunction('emsch_search_config', [ClientRequestRuntime::class, 'searchConfig']),
             new TwigFunction('emsch_http_error', [ClientRequestRuntime::class, 'httpException']),
             new TwigFunction('emsch_asset', [AssetHelperRuntime::class, 'asset'], ['is_safe' => ['html']]),
+            new TwigFunction('emsch_assets_version', [AssetHelperRuntime::class, 'setVersion']),
             new TwigFunction('emsch_assets', [AssetHelperRuntime::class, 'assets'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/client-helper-bundle', '5.19.0', 'emsch_assets_version'),
             ]),
-            new TwigFunction('emsch_assets_version', [AssetHelperRuntime::class, 'setVersion']),
             new TwigFunction('emsch_unzip', [AssetRuntime::class, 'unzip'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/client-helper-bundle', '5.19.0', 'ems_unzip', 'elasticms/common-bundle', '5.19.0'),
             ]),

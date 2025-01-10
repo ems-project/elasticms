@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Revision\Search;
 
 use Doctrine\ORM\QueryBuilder;
-use DoctrineBatchUtils\BatchProcessing\SimpleBatchIteratorAggregate;
 use Elastica\Document;
 use Elastica\ResultSet;
+use EMS\CoreBundle\Core\Doctrine\SimpleBatchIteratorAggregate;
 use EMS\CoreBundle\Entity\Revision;
 
 /**

@@ -44,7 +44,6 @@
         "league/flysystem-memory": "^3.19",
         "league/flysystem-sftp-v3": "^3.22",
         "maennchen/zipstream-php": "^3.0",
-        "ocramius/doctrine-batch-utils": "^2.5",
         "onelogin/php-saml": "^4.1",
         "phpoffice/phpspreadsheet": "^1.29",
         "promphp/prometheus_client_php": "^2.9",

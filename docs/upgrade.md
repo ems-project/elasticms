@@ -97,7 +97,7 @@ Here is an example.
 ### Postgres 17
 
 The `demo/docker-compose.yml` and the `docker/docker-compose.yml` files have been upgraded to use Postgres 17 insterad of Postgres 12.
-Unfortunately, you will have to dump your schema, delete the Postgres's docker volume with the command `docker volume rm ems-mono_postgres`.
+Unfortunately, you will have to dump your schemas, delete the Postgres's docker volume with the command `docker volume rm ems-mono_postgres`.
 And finally, recreate Postgres schemas and reload you dumps.
 
 ### Symfony request inputBag

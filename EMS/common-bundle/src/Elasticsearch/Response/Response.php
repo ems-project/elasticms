@@ -138,7 +138,7 @@ final class Response implements ResponseInterface
     }
 
     #[\Override]
-    public function buildResultSet(Query $query, string $version): ResultSet
+    public function buildResultSet(Query $query): ResultSet
     {
         $response = new \Elastica\Response([
             'timed_out' => false,
@@ -152,7 +152,7 @@ final class Response implements ResponseInterface
             'aggregations' => $this->aggregations,
             'hits' => [
                 'hits' => $this->hits,
-                'total' => \version_compare($version, '6') < 0 ? $this->total : [
+                'total' => [
                     'value' => $this->total,
                     'relation' => 'eq',
                 ],

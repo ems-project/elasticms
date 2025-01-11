@@ -39,7 +39,7 @@ class ElasticsearchService
         }
 
         if ('string' === $mapping['type']) {
-            if ('keyword' === ($mapping['analyzer'] ?? null) || (empty($mapping['analyzer']) && 'not_analyzed' === ($mapping['index'] ?? null))) {
+            if ('keyword' === ($mapping['analyzer'] ?? null) || (empty($mapping['analyzer']))) {
                 $mapping['type'] = 'keyword';
                 unset($mapping['analyzer']);
             } elseif ('version' === ($mapping['analyzer'] ?? null)) {

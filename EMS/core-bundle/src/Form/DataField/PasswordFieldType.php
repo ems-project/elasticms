@@ -75,14 +75,6 @@ class PasswordFieldType extends DataFieldType
             ],
             'empty_data' => 'sha1',
         ]);
-
-        if ($optionsForm->has('mappingOptions')) {
-            $optionsForm->get('mappingOptions')->add('index', ChoiceType::class, [
-                'required' => false,
-                'choices' => ['No' => 'no'],
-                'empty_data' => 'no',
-            ]);
-        }
     }
 
     #[\Override]

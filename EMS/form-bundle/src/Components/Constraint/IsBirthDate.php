@@ -13,6 +13,7 @@ final class IsBirthDate extends Constraint
     public string $messageAge = 'The date must be earlier than "{{age}}".';
 
     /** @return string[] */
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['age'];

@@ -22,6 +22,7 @@ class ElasticaAggregation extends AbstractAggregation
         $this->setParams($param);
     }
 
+    #[\Override]
     public function toArray(): array
     {
         $array = parent::toArray();
@@ -34,6 +35,7 @@ class ElasticaAggregation extends AbstractAggregation
     }
 
     // phpcs:disable
+    #[\Override]
     protected function _getBaseName(): string
     {
         if (null === $this->basename) {

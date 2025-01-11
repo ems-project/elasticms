@@ -32,6 +32,7 @@ class S3Storage extends AbstractUrlStorage
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
     }
 
+    #[\Override]
     protected function getBaseUrl(): string
     {
         if (!$this->streamWrapperRegistered) {
@@ -42,11 +43,13 @@ class S3Storage extends AbstractUrlStorage
         return "s3://$this->bucket";
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return S3Storage::class." ($this->bucket)";
     }
 
+    #[\Override]
     public function addChunk(string $hash, string $chunk): bool
     {
         $s3 = $this->getS3Client();
@@ -127,6 +130,7 @@ class S3Storage extends AbstractUrlStorage
         return \is_string($completeMultipartUpload['ETag'] ?? null);
     }
 
+    #[\Override]
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $s3 = $this->getS3Client();
@@ -164,6 +168,7 @@ class S3Storage extends AbstractUrlStorage
         return $result->hasKey('ETag');
     }
 
+    #[\Override]
     public function finalizeUpload(string $hash): bool
     {
         if ($this->multipartUpload) {
@@ -179,6 +184,7 @@ class S3Storage extends AbstractUrlStorage
         return $result;
     }
 
+    #[\Override]
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         if (!$confirmed && $this->multipartUpload) {
@@ -188,6 +194,7 @@ class S3Storage extends AbstractUrlStorage
         return new S3StreamPromise($this->getS3Client(), $this->bucket, $confirmed ? $this->key($hash) : $this->uploadKey($hash));
     }
 
+    #[\Override]
     public function initFinalize(string $hash): void
     {
         if (!$this->multipartUpload) {
@@ -204,6 +211,7 @@ class S3Storage extends AbstractUrlStorage
         $this->cache->delete($uploadKey);
     }
 
+    #[\Override]
     public function removeUpload(string $hash): void
     {
         $this->getS3Client()->deleteObject([
@@ -215,6 +223,7 @@ class S3Storage extends AbstractUrlStorage
     /**
      * @return resource
      */
+    #[\Override]
     protected function getContext()
     {
         return \stream_context_create([
@@ -247,6 +256,7 @@ class S3Storage extends AbstractUrlStorage
         return "$folder/$hash";
     }
 
+    #[\Override]
     public function readCache(Config $config): ?StreamInterface
     {
         try {
@@ -263,6 +273,7 @@ class S3Storage extends AbstractUrlStorage
         return null;
     }
 
+    #[\Override]
     public function saveCache(Config $config, FileInterface $file): bool
     {
         try {
@@ -278,6 +289,7 @@ class S3Storage extends AbstractUrlStorage
         return true;
     }
 
+    #[\Override]
     public function clearCache(): bool
     {
         $this->getS3Client()->deleteMatchingObjects($this->bucket, 'cache/');
@@ -296,6 +308,7 @@ class S3Storage extends AbstractUrlStorage
         ]);
     }
 
+    #[\Override]
     public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
     {
         $cacheKey = \implode('/', [
@@ -333,6 +346,7 @@ class S3Storage extends AbstractUrlStorage
         return new StreamWrapper($stream, $response['ContentType'] ?? MimeTypes::APPLICATION_OCTET_STREAM->value, $size);
     }
 
+    #[\Override]
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
     {
         $result = $this->getS3Client()->putObject([
@@ -350,6 +364,7 @@ class S3Storage extends AbstractUrlStorage
         return $result->hasKey('ETag');
     }
 
+    #[\Override]
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
     {
         $batch = [];
@@ -381,6 +396,7 @@ class S3Storage extends AbstractUrlStorage
         return true;
     }
 
+    #[\Override]
     public function heads(string ...$hashes): array
     {
         $client = $this->getS3Client();

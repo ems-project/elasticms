@@ -32,6 +32,7 @@ class OAuth2Token extends PostAuthenticationToken
         return $service ? $this->serviceTokens[$service]->getToken() : $this->accessToken->getToken();
     }
 
+    #[\Override]
     public function __serialize(): array
     {
         return [$this->accessToken, $this->serviceTokens, parent::__serialize()];
@@ -40,6 +41,7 @@ class OAuth2Token extends PostAuthenticationToken
     /**
      * @param array<mixed> $data
      */
+    #[\Override]
     public function __unserialize(array $data): void
     {
         [$this->accessToken, $this->serviceTokens, $parentData] = $data;

@@ -80,6 +80,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return true;
@@ -96,6 +97,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
     /**
      * @return QuerySearch[]
      */
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (null !== $context) {
@@ -105,6 +107,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
         return $this->querySearchRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'query-search';
@@ -113,6 +116,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [
@@ -125,6 +129,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
         ];
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         if (null !== $context) {
@@ -204,11 +209,13 @@ final readonly class QuerySearchService implements EntityServiceInterface
         return $aliases;
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->getOneByName($name);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         $querySearch = $this->buildQuerySearch($json, $entity);
@@ -217,6 +224,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
         return $querySearch;
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         $querySearch = $this->buildQuerySearch($json);
@@ -228,6 +236,7 @@ final readonly class QuerySearchService implements EntityServiceInterface
         return $querySearch;
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         $querySearch = $this->getOneByName($name);

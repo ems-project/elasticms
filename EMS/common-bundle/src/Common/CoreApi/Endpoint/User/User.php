@@ -17,6 +17,7 @@ final readonly class User implements UserInterface
     /**
      * @return ProfileInterface[]
      */
+    #[\Override]
     public function getProfiles(): array
     {
         $result = $this->client->get('/api/user-profiles');
@@ -24,6 +25,7 @@ final readonly class User implements UserInterface
         return \array_map(fn (array $data) => new Profile($data), $result->getData());
     }
 
+    #[\Override]
     public function getProfileAuthenticated(): ProfileInterface
     {
         return new Profile($this->client->get('/api/user-profile')->getData());

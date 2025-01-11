@@ -16,9 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DownloadCommand extends AbstractCommand
 {
-    private const CONTENT_TYPE = 'content-type';
-    private const FOLDER = 'folder';
-    final public const DEFAULT_FOLDER = 'document';
+    private const string CONTENT_TYPE = 'content-type';
+    private const string FOLDER = 'folder';
+    final public const string DEFAULT_FOLDER = 'document';
     private string $contentType;
     private string $folder;
 
@@ -28,6 +28,7 @@ class DownloadCommand extends AbstractCommand
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.self::DEFAULT_FOLDER;
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -39,6 +40,7 @@ class DownloadCommand extends AbstractCommand
         }
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -46,6 +48,7 @@ class DownloadCommand extends AbstractCommand
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export folder');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $coreApi = $this->adminHelper->getCoreApi();

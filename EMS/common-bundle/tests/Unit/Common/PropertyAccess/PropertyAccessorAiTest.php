@@ -11,6 +11,7 @@ class PropertyAccessorAiTest extends TestCase
 {
     private PropertyAccessor $propertyAccessor;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->propertyAccessor = PropertyAccessor::createPropertyAccessor();

@@ -71,6 +71,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         ]);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->label;
@@ -129,6 +130,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
     /**
      * @return \Traversable<JsonMenuNested>
      */
+    #[\Override]
     public function getIterator(): \Traversable
     {
         foreach ($this->children as $child) {
@@ -140,6 +142,7 @@ final class JsonMenuNested implements \IteratorAggregate, \Countable, \Stringabl
         }
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->children);

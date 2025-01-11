@@ -14,7 +14,7 @@ final readonly class ResponseTransformer
      * Twig block inside the message template,
      * containing a json that will merged into the response data.
      */
-    private const BLOCK_EXTRA = 'handleResponseExtra';
+    private const string BLOCK_EXTRA = 'handleResponseExtra';
 
     public function __construct(private TwigRenderer $twigRenderer)
     {

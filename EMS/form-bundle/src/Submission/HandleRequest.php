@@ -22,42 +22,50 @@ final readonly class HandleRequest implements HandleRequestInterface
     ) {
     }
 
+    #[\Override]
     public function addResponse(HandleResponseInterface $response): void
     {
         $this->responseCollector->addResponse($response);
     }
 
+    #[\Override]
     public function getClass(): string
     {
         return $this->submissionConfig->getClass();
     }
 
     /** @return FormInterface<FormInterface> */
+    #[\Override]
     public function getForm(): FormInterface
     {
         return $this->form;
     }
 
+    #[\Override]
     public function getFormData(): FormData
     {
         return $this->formData;
     }
 
+    #[\Override]
     public function getFormConfig(): FormConfig
     {
         return $this->formConfig;
     }
 
+    #[\Override]
     public function getEndPoint(): string
     {
         return $this->submissionConfig->getEndpoint();
     }
 
+    #[\Override]
     public function getMessage(): string
     {
         return $this->submissionConfig->getMessage();
     }
 
+    #[\Override]
     public function getResponses(): array
     {
         return $this->responseCollector->getResponses();

@@ -17,6 +17,7 @@ final class ElasticaDataCollectorAiTest extends TestCase
     private ElasticaService $elasticaService;
     private ElasticaDataCollector $collector;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(ElasticaLogger::class);

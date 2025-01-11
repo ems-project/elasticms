@@ -17,6 +17,7 @@ class Config implements ConfigInterface
         $this->endPoint = ['api', 'admin', $configType];
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->configType;
@@ -25,6 +26,7 @@ class Config implements ConfigInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function index(): array
     {
         return $this->client->get(\implode('/', $this->endPoint))->getData();
@@ -33,11 +35,13 @@ class Config implements ConfigInterface
     /**
      * @return mixed[]
      */
+    #[\Override]
     public function get(string $name): array
     {
         return $this->client->get(\implode('/', \array_merge($this->endPoint, [$name])))->getData();
     }
 
+    #[\Override]
     public function update(string $name, array $data): string
     {
         $result = $this->client->post(\implode('/', \array_merge($this->endPoint, [$name])), $data);
@@ -49,6 +53,7 @@ class Config implements ConfigInterface
         return $id;
     }
 
+    #[\Override]
     public function delete(string $name): string
     {
         $result = $this->client->delete(\implode('/', \array_merge($this->endPoint, [$name])));
@@ -60,6 +65,7 @@ class Config implements ConfigInterface
         return $id;
     }
 
+    #[\Override]
     public function create(array $data): string
     {
         $result = $this->client->post(\implode('/', $this->endPoint), $data);

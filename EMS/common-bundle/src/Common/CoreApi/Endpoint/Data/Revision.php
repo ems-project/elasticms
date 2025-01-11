@@ -23,11 +23,13 @@ final readonly class Revision implements RevisionInterface
         $this->rawData = $data['revision'];
     }
 
+    #[\Override]
     public function getRevisionId(): int
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getOuuid(): string
     {
         return $this->ouuid;
@@ -36,6 +38,7 @@ final readonly class Revision implements RevisionInterface
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function getRawData(): array
     {
         return $this->rawData;

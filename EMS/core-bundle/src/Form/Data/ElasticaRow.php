@@ -12,6 +12,7 @@ final readonly class ElasticaRow implements TableRowInterface
     {
     }
 
+    #[\Override]
     public function getData(): DocumentInterface
     {
         return $this->document;

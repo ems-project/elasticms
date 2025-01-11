@@ -37,6 +37,7 @@ class FieldTypeTreeItem implements \IteratorAggregate, \Stringable
         $this->children = new FieldTypeTreeItemCollection($children);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->name;
@@ -67,6 +68,7 @@ class FieldTypeTreeItem implements \IteratorAggregate, \Stringable
     /**
      * @return \Traversable<FieldTypeTreeItem>
      */
+    #[\Override]
     public function getIterator(): \Traversable
     {
         return new \RecursiveArrayIterator($this->toArray());

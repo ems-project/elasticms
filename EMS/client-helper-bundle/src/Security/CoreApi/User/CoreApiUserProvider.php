@@ -22,6 +22,7 @@ class CoreApiUserProvider implements UserProviderInterface
     ) {
     }
 
+    #[\Override]
     public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof CoreApiUser) {
@@ -31,6 +32,7 @@ class CoreApiUserProvider implements UserProviderInterface
         return $user;
     }
 
+    #[\Override]
     public function supportsClass(string $class): bool
     {
         return CoreApiUser::class === $class;
@@ -41,6 +43,7 @@ class CoreApiUserProvider implements UserProviderInterface
         return $this->loadUserByIdentifier($username);
     }
 
+    #[\Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         $coreApi = $this->coreApiFactory->create();

@@ -14,6 +14,7 @@ final class ProbeControllerAiTest extends TestCase
     private ElasticaService $elasticaService;
     private ProbeController $controller;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->elasticaService = $this->createMock(ElasticaService::class);

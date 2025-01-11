@@ -27,7 +27,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
-    final public const CSRF_ID = 'login';
+    final public const string CSRF_ID = 'login';
 
     public function __construct(
         private readonly HttpUtils $httpUtils,
@@ -39,11 +39,13 @@ class CoreApiAuthenticator extends AbstractAuthenticator
     ) {
     }
 
+    #[\Override]
     public function supports(Request $request): ?bool
     {
         return $request->isMethod(Request::METHOD_POST) && $request->get('_route') === $this->routeLogin;
     }
 
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $csrfToken = $request->request->get('token');
@@ -76,6 +78,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
         );
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $targetPath = $this->getTargetPath($request->getSession(), $firewallName);
@@ -83,6 +86,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
         return $this->httpUtils->createRedirectResponse($request, $targetPath ?? '/');
     }
 
+    #[\Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);

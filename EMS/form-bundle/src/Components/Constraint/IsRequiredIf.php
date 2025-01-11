@@ -13,6 +13,7 @@ class IsRequiredIf extends Constraint
     public string $message = 'This value should not be blank.';
 
     /** @return string[] */
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['expression'];

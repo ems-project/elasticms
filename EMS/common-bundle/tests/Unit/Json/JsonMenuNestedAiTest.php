@@ -12,6 +12,7 @@ class JsonMenuNestedAiTest extends TestCase
 {
     private JsonMenuNested $menu;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->menu = new JsonMenuNested([

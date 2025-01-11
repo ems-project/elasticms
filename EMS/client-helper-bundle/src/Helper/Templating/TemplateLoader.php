@@ -21,6 +21,7 @@ final readonly class TemplateLoader implements LoaderInterface
     /**
      * @param string $name
      */
+    #[\Override]
     public function getSourceContext($name): Source
     {
         $environment = $this->getEnvironment();
@@ -40,6 +41,7 @@ final readonly class TemplateLoader implements LoaderInterface
     /**
      * @param string $name
      */
+    #[\Override]
     public function getCacheKey($name): string
     {
         $environment = $this->getEnvironment();
@@ -56,6 +58,7 @@ final readonly class TemplateLoader implements LoaderInterface
      * @param string $name
      * @param int    $time
      */
+    #[\Override]
     public function isFresh($name, $time): bool
     {
         return $this->builder->isFresh($this->getEnvironment(), new TemplateName($name), $time);
@@ -64,6 +67,7 @@ final readonly class TemplateLoader implements LoaderInterface
     /**
      * @param string $name
      */
+    #[\Override]
     public function exists($name): bool
     {
         if (null === $this->environmentHelper->getCurrentEnvironment()) {

@@ -29,6 +29,7 @@ class Form extends AbstractType
      * @param FormBuilderInterface<FormBuilderInterface> $builder
      * @param array<string, mixed>                       $options
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $config = $this->getConfig($options);
@@ -46,6 +47,7 @@ class Form extends AbstractType
      * @param FormInterface<FormInterface> $form
      * @param array<string, mixed>         $options
      */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['form_config'] = $options['config'];
@@ -53,6 +55,7 @@ class Form extends AbstractType
         parent::buildView($view, $form, $options);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);

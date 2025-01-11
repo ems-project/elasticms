@@ -27,6 +27,7 @@ final class File implements FileInterface
     {
     }
 
+    #[\Override]
     public function uploadStream(StreamInterface $stream, string $filename, string $mimeType, bool $head = true): string
     {
         $hash = $this->hashStream($stream);
@@ -58,6 +59,7 @@ final class File implements FileInterface
         return $hash;
     }
 
+    #[\Override]
     public function uploadContents(string $contents, string $filename, string $mimeType): string
     {
         $hash = $this->storageManager->computeStringHash($contents);
@@ -74,6 +76,7 @@ final class File implements FileInterface
         return $hash;
     }
 
+    #[\Override]
     public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
     {
         $hash = $this->hashFile($realPath);
@@ -110,11 +113,13 @@ final class File implements FileInterface
         return $hash;
     }
 
+    #[\Override]
     public function hashFile(string $filename): string
     {
         return $this->storageManager->computeFileHash($filename);
     }
 
+    #[\Override]
     public function downloadFile(string $hash): string
     {
         if (!$this->headHash($hash)) {
@@ -125,21 +130,25 @@ final class File implements FileInterface
         return (new StorageFile($stream))->getFilename();
     }
 
+    #[\Override]
     public function downloadLink(string $hash): string
     {
         return \sprintf('%s/data/file/%s', $this->client->getBaseUrl(), $hash);
     }
 
+    #[\Override]
     public function getHashAlgo(): string
     {
         return $this->client->get('/api/file/hash-algo')->getData()['hash_algo'];
     }
 
+    #[\Override]
     public function hashStream(StreamInterface $stream): string
     {
         return $this->storageManager->computeStreamHash($stream);
     }
 
+    #[\Override]
     public function initUpload(string $hash, int $size, string $filename, string $mimetype): int
     {
         $response = $this->client->post(HttpStorage::INIT_URL, HttpStorage::initBody($hash, $size, $filename, $mimetype));
@@ -152,6 +161,7 @@ final class File implements FileInterface
         return $data['uploaded'];
     }
 
+    #[\Override]
     public function addChunk(string $hash, string $chunk): int
     {
         $response = $this->client->postBody(HttpStorage::addChunkUrl($hash), $chunk);
@@ -164,6 +174,7 @@ final class File implements FileInterface
         return $data['uploaded'];
     }
 
+    #[\Override]
     public function headFile(string $realPath): bool
     {
         $hash = $this->hashFile($realPath);
@@ -171,6 +182,7 @@ final class File implements FileInterface
         return $this->headHash($hash);
     }
 
+    #[\Override]
     public function headHash(string $hash): bool
     {
         try {
@@ -180,6 +192,7 @@ final class File implements FileInterface
         }
     }
 
+    #[\Override]
     public function heads(string ...$fileHashes): \Traversable
     {
         $uniqueFileHashes = \array_unique($fileHashes);
@@ -191,11 +204,13 @@ final class File implements FileInterface
         }
     }
 
+    #[\Override]
     public function getContents(string $hash): string
     {
         return $this->getStream($hash)->getContents();
     }
 
+    #[\Override]
     public function getStream(string $hash): StreamInterface
     {
         return $this->client->download($this->downloadLink($hash));
@@ -204,11 +219,13 @@ final class File implements FileInterface
     /**
      * @param int<1, max> $chunkSize
      */
+    #[\Override]
     public function setHeadChunkSize(int $chunkSize): void
     {
         $this->headChunkSize = $chunkSize;
     }
 
+    #[\Override]
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): void
     {
         $admin = new Admin($this->client);
@@ -216,6 +233,7 @@ final class File implements FileInterface
         $admin->runCommand($command);
     }
 
+    #[\Override]
     public function getFile(string $hash): StorageFileInterface
     {
         return new StorageFile($this->getStream($hash));

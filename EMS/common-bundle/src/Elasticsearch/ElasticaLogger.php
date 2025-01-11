@@ -24,16 +24,19 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
     ) {
     }
 
+    #[\Override]
     public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
+    #[\Override]
     public function disable(): void
     {
         $this->enabled = false;
     }
 
+    #[\Override]
     public function enable(): void
     {
         $this->enabled = true;
@@ -52,6 +55,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
         return $this->queries;
     }
 
+    #[\Override]
     public function log($level, string|\Stringable $message, array $context = []): void
     {
         if (null !== $this->logger && $this->isEnabled()) {

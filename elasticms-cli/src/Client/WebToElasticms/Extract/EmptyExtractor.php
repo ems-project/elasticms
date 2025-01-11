@@ -10,7 +10,7 @@ use App\CLI\Client\WebToElasticms\Config\WebResource;
 
 class EmptyExtractor
 {
-    final public const TYPE = 'empty-extractor';
+    final public const string TYPE = 'empty-extractor';
 
     /**
      * @param array<mixed> $data

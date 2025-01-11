@@ -10,7 +10,7 @@ use EMS\CommonBundle\Helper\Url;
 
 class LinkMediaFile
 {
-    final public const TYPE = 'link-media-file';
+    final public const string TYPE = 'link-media-file';
 
     public function __construct(private readonly ConfigManager $config, private readonly Rapport $rapport)
     {

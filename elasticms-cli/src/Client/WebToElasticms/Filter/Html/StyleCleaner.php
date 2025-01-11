@@ -10,12 +10,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class StyleCleaner implements HtmlInterface
 {
-    final public const TYPE = 'style-cleaner';
+    final public const string TYPE = 'style-cleaner';
 
     public function __construct(private readonly ConfigManager $config)
     {
     }
 
+    #[\Override]
     public function process(WebResource $resource, Crawler $content): void
     {
         foreach ($content->filter('[style]') as $item) {

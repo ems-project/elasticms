@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraint;
 
 class Expression extends AbstractValidation
 {
+    #[\Override]
     public function getConstraint(): Constraint
     {
         return new IsExpression(['expression' => $this->value]);

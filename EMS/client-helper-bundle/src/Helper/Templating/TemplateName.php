@@ -12,8 +12,8 @@ final readonly class TemplateName
     private string $searchValue;
     private ?string $searchField;
 
-    private const REGEX_MATCH_OUUID = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*):(?<search_val>.*)$/';
-    private const REGEX_MATCH_NAME = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*)\/(?<search_val>.*)$/';
+    private const string REGEX_MATCH_OUUID = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*):(?<search_val>.*)$/';
+    private const string REGEX_MATCH_NAME = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*)\/(?<search_val>.*)$/';
 
     public function __construct(string $name)
     {

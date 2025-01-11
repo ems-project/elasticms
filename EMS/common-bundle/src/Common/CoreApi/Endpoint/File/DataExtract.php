@@ -16,6 +16,7 @@ final readonly class DataExtract implements DataExtractInterface
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function get(string $hash): array
     {
         $result = $this->client->get(\sprintf('/api/extract-data/get/%s', $hash));

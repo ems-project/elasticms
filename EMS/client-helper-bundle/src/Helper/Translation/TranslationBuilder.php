@@ -48,6 +48,7 @@ final class TranslationBuilder extends AbstractBuilder
         return $this->searchDocuments($contentType);
     }
 
+    #[\Override]
     protected function modifySearch(Search $search): void
     {
         $search->setSort(['key' => ['order' => 'asc', 'missing' => '_last', 'unmapped_type' => 'text']]);

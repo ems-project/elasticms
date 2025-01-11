@@ -12,6 +12,7 @@ final readonly class EntityRow implements TableRowInterface
     {
     }
 
+    #[\Override]
     public function getData(): EntityInterface
     {
         return $this->entity;

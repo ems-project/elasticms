@@ -29,6 +29,7 @@ final class DatabaseStatsCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -42,6 +43,7 @@ final class DatabaseStatsCommand extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $style = new SymfonyStyle($input, $output);

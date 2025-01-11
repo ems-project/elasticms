@@ -27,7 +27,7 @@ use Twig\Environment;
 
 class SorterViewType extends ViewType
 {
-    final public const SEARCH_SIZE = 100;
+    final public const int SEARCH_SIZE = 100;
 
     public function __construct(
         FormFactory $formFactory,
@@ -42,11 +42,13 @@ class SorterViewType extends ViewType
         parent::__construct($formFactory, $twig, $logger, $templateNamespace);
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return 'Sorter: order a sub set (based on a ES query)';
     }
 
+    #[\Override]
     public function getName(): string
     {
         return 'Sorter';
@@ -56,6 +58,7 @@ class SorterViewType extends ViewType
      * @param FormBuilderInterface<FormBuilderInterface> $builder
      * @param array<string, mixed>                       $options
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
@@ -89,16 +92,19 @@ class SorterViewType extends ViewType
             ], ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'sorter_view';
     }
 
+    #[\Override]
     public function getParameters(View $view, FormFactoryInterface $formFactory, Request $request): array
     {
         return [];
     }
 
+    #[\Override]
     public function generateResponse(View $view, Request $request): Response
     {
         $options = $view->getOptions();

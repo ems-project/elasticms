@@ -14,6 +14,7 @@ class DataExtractAiTest extends TestCase
     private Client $client;
     private DataExtract $dataExtract;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);

@@ -40,6 +40,7 @@ final class SoapRequest extends AbstractRequest
         return $this->endpoint['options'];
     }
 
+    #[\Override]
     protected function getEndpointOptionResolver(): OptionsResolver
     {
         $optionsResolver = new OptionsResolver();

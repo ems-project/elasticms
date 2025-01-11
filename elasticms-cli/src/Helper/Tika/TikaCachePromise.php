@@ -9,9 +9,9 @@ use Psr\Http\Message\StreamInterface;
 
 class TikaCachePromise implements TikaPromiseInterface
 {
-    private const TYPE_TEXT = 'text';
-    private const TYPE_META = 'meta';
-    private const TYPE_HTML = 'html';
+    private const string TYPE_TEXT = 'text';
+    private const string TYPE_META = 'meta';
+    private const string TYPE_HTML = 'html';
     private readonly string $hash;
 
     public function __construct(StreamInterface $stream, private readonly string $cacheFolder, private readonly TikaPromiseInterface $promise)
@@ -27,6 +27,7 @@ class TikaCachePromise implements TikaPromiseInterface
         $this->hash = \hash_final($hashContext);
     }
 
+    #[\Override]
     public function startText(): void
     {
         if (!$this->isCached(self::TYPE_TEXT)) {
@@ -34,6 +35,7 @@ class TikaCachePromise implements TikaPromiseInterface
         }
     }
 
+    #[\Override]
     public function getText(): string
     {
         if ($this->isCached(self::TYPE_TEXT)) {
@@ -45,6 +47,7 @@ class TikaCachePromise implements TikaPromiseInterface
         return $text;
     }
 
+    #[\Override]
     public function startMeta(): void
     {
         if (!$this->isCached(self::TYPE_META)) {
@@ -52,6 +55,7 @@ class TikaCachePromise implements TikaPromiseInterface
         }
     }
 
+    #[\Override]
     public function getMeta(): TikaMeta
     {
         if ($this->isCached(self::TYPE_META)) {
@@ -63,6 +67,7 @@ class TikaCachePromise implements TikaPromiseInterface
         return $meta;
     }
 
+    #[\Override]
     public function startHtml(): void
     {
         if (!$this->isCached(self::TYPE_HTML)) {
@@ -70,6 +75,7 @@ class TikaCachePromise implements TikaPromiseInterface
         }
     }
 
+    #[\Override]
     public function getHtml(): string
     {
         if ($this->isCached(self::TYPE_HTML)) {

@@ -13,6 +13,7 @@ final class MappingAiTest extends TestCase
     private Client $client;
     private Mapping $mapping;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);

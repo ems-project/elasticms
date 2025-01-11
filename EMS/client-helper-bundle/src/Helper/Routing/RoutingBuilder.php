@@ -55,6 +55,7 @@ final class RoutingBuilder extends AbstractBuilder
         return $this->searchDocuments($contentType);
     }
 
+    #[\Override]
     protected function modifySearch(Search $search): void
     {
         $search->setSort(['order' => ['order' => 'asc', 'missing' => '_last', 'unmapped_type' => 'long']]);

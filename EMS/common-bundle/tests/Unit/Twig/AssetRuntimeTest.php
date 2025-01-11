@@ -18,6 +18,7 @@ class AssetRuntimeTest extends TestCase
     private UrlGeneratorInterface $urlGenerator;
     private Processor $processor;
 
+    #[\Override]
     public function setUp(): void
     {
         $this->storageManager = $this->createMock(StorageManager::class);

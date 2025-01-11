@@ -32,6 +32,7 @@ class MergeCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -41,6 +42,7 @@ class MergeCommand extends AbstractCommand
         $this->query = Json::decode($this->getOptionString(self::QUERY_OPTION));
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -49,6 +51,7 @@ class MergeCommand extends AbstractCommand
         $this->addOption(self::QUERY_OPTION, null, InputOption::VALUE_OPTIONAL, 'Elasticsearch query to filter the documents in a JSON format', '{}');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $coreApi = $this->adminHelper->getCoreApi();

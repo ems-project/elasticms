@@ -9,19 +9,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreDataEntityFactory implements StoreDataFactoryInterface
 {
-    final public const TYPE_DB = 'db';
-    private const TTL = 'ttl';
+    final public const string TYPE_DB = 'db';
+    private const string TTL = 'ttl';
 
     public function __construct(
         private readonly StoreDataRepository $repository,
     ) {
     }
 
+    #[\Override]
     public function getType(): string
     {
         return self::TYPE_DB;
     }
 
+    #[\Override]
     public function createService(array $parameters): StoreDataServiceInterface
     {
         $resolver = new OptionsResolver();

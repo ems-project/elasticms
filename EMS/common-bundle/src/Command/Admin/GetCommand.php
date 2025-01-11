@@ -16,9 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GetCommand extends AbstractCommand
 {
-    final public const CONFIG_TYPE = 'config-type';
-    final public const EXPORT = 'export';
-    final public const FOLDER = 'folder';
+    final public const string CONFIG_TYPE = 'config-type';
+    final public const string EXPORT = 'export';
+    final public const string FOLDER = 'folder';
     private string $configType;
     private bool $export;
     private string $folder;
@@ -30,6 +30,7 @@ class GetCommand extends AbstractCommand
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -42,6 +43,7 @@ class GetCommand extends AbstractCommand
         }
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -50,6 +52,7 @@ class GetCommand extends AbstractCommand
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export folder');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->coreApi = $this->adminHelper->getCoreApi();

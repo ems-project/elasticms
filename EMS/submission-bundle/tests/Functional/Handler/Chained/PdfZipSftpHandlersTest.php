@@ -26,6 +26,7 @@ final class PdfZipSftpHandlersTest extends AbstractChainedTest
     private $zipHandler;
     private TempFile $tempFile;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

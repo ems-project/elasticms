@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HttpStorage extends AbstractUrlStorage
 {
-    final public const INIT_URL = '/api/file/init-upload';
+    final public const string INIT_URL = '/api/file/init-upload';
 
     public function __construct(LoggerInterface $logger, private readonly string $baseUrl, private readonly string $getUrl, int $usage, private readonly ?string $authKey = null, int $hotSynchronizeLimit = 0)
     {
@@ -50,16 +50,19 @@ class HttpStorage extends AbstractUrlStorage
         return $client;
     }
 
+    #[\Override]
     protected function getBaseUrl(): string
     {
         return $this->baseUrl.$this->getUrl;
     }
 
+    #[\Override]
     protected function getPath(string $hash, string $ds = '/'): string
     {
         return $this->baseUrl.$this->getUrl.$hash;
     }
 
+    #[\Override]
     public function health(): bool
     {
         try {
@@ -77,6 +80,7 @@ class HttpStorage extends AbstractUrlStorage
         }
     }
 
+    #[\Override]
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         try {
@@ -86,6 +90,7 @@ class HttpStorage extends AbstractUrlStorage
         }
     }
 
+    #[\Override]
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         try {
@@ -102,6 +107,7 @@ class HttpStorage extends AbstractUrlStorage
         }
     }
 
+    #[\Override]
     public function addChunk(string $hash, string $chunk): bool
     {
         try {
@@ -118,11 +124,13 @@ class HttpStorage extends AbstractUrlStorage
         }
     }
 
+    #[\Override]
     public function finalizeUpload(string $hash): bool
     {
         return $this->head($hash);
     }
 
+    #[\Override]
     public function head(string $hash): bool
     {
         try {
@@ -135,6 +143,7 @@ class HttpStorage extends AbstractUrlStorage
         }
     }
 
+    #[\Override]
     public function create(string $hash, string $filename): bool
     {
         try {
@@ -156,6 +165,7 @@ class HttpStorage extends AbstractUrlStorage
         }
     }
 
+    #[\Override]
     public function getSize(string $hash): int
     {
         try {
@@ -177,16 +187,19 @@ class HttpStorage extends AbstractUrlStorage
         throw new NotFoundHttpException($hash);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return HttpStorage::class." ($this->baseUrl)";
     }
 
+    #[\Override]
     public function remove(string $hash): bool
     {
         return false;
     }
 
+    #[\Override]
     public function removeUpload(string $hash): void
     {
     }
@@ -194,6 +207,7 @@ class HttpStorage extends AbstractUrlStorage
     /**
      * @return null
      */
+    #[\Override]
     protected function getContext()
     {
         return null;

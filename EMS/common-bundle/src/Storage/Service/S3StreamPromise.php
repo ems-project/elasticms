@@ -18,6 +18,7 @@ class S3StreamPromise implements StreamInterface
     {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         $result = $this->s3Client->getObject([
@@ -32,15 +33,18 @@ class S3StreamPromise implements StreamInterface
         return $stream->getContents();
     }
 
+    #[\Override]
     public function close(): void
     {
     }
 
+    #[\Override]
     public function detach()
     {
         return null;
     }
 
+    #[\Override]
     public function getSize(): int
     {
         if (null !== $this->size) {
@@ -57,21 +61,25 @@ class S3StreamPromise implements StreamInterface
         return $this->size;
     }
 
+    #[\Override]
     public function tell(): int
     {
         return $this->offset;
     }
 
+    #[\Override]
     public function eof(): bool
     {
         return $this->offset >= $this->getSize();
     }
 
+    #[\Override]
     public function isSeekable(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
         switch ($whence) {
@@ -89,26 +97,31 @@ class S3StreamPromise implements StreamInterface
         }
     }
 
+    #[\Override]
     public function rewind(): void
     {
         $this->offset = 0;
     }
 
+    #[\Override]
     public function isWritable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function write(string $string): never
     {
         throw new \RuntimeException('Write is not supported');
     }
 
+    #[\Override]
     public function isReadable(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function read(int $length): string
     {
         $endOffset = \min($this->offset + $length - 1, $this->getSize() - 1);
@@ -130,11 +143,13 @@ class S3StreamPromise implements StreamInterface
         return $this->contents;
     }
 
+    #[\Override]
     public function getContents(): string
     {
         return $this->read($this->getSize() - $this->offset);
     }
 
+    #[\Override]
     public function getMetadata(?string $key = null): void
     {
     }

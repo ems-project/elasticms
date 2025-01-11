@@ -27,12 +27,14 @@ abstract class AbstractPhotosMigrationCommand extends AbstractCommand
         $this->mimeTypes = new MimeTypes();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addOption(self::OPTION_CONTENT_TYPE_NAME, null, InputOption::VALUE_OPTIONAL, 'Content type name in elasticms', 'photo');
         $this->addOption(self::OPTION_UPLOAD_ORIGINAL, null, InputOption::VALUE_NONE, 'Uploads original file');
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -40,6 +42,7 @@ abstract class AbstractPhotosMigrationCommand extends AbstractCommand
         $this->uploadOriginal = $this->getOptionBool(self::OPTION_UPLOAD_ORIGINAL);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->adminHelper->getCoreApi()->isAuthenticated()) {

@@ -22,11 +22,13 @@ class Scroll implements \Iterator
     {
     }
 
+    #[\Override]
     public function current(): DocumentInterface
     {
         return $this->currentResponse->getDocument($this->index);
     }
 
+    #[\Override]
     public function next(): void
     {
         ++$this->index;
@@ -54,6 +56,7 @@ class Scroll implements \Iterator
         $this->nextScrollId = $this->currentPage <= $totalPages ? $this->currentResponse->getScrollId() : null;
     }
 
+    #[\Override]
     public function key(): string
     {
         if (null === $this->nextScrollId) {
@@ -63,11 +66,13 @@ class Scroll implements \Iterator
         return $this->currentResponse->getDocument($this->index)->getId();
     }
 
+    #[\Override]
     public function valid(): bool
     {
         return null !== $this->nextScrollId && $this->currentResponse->getTotalDocuments() > 0;
     }
 
+    #[\Override]
     public function rewind(): void
     {
         $this->initScroll();

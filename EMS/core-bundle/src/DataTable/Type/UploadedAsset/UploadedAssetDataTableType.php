@@ -42,6 +42,7 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
     ) {
     }
 
+    #[\Override]
     public function build(QueryTable $table): void
     {
         /** @var array{'location': string} $context */
@@ -141,11 +142,13 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
      *
      * @return array{ 'location': string }
      */
+    #[\Override]
     public function getContext(array $options): mixed
     {
         return ['location' => $options['location']];
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver
@@ -157,16 +160,19 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
             ]);
     }
 
+    #[\Override]
     public function getQueryName(): string
     {
         return 'uploaded_asset';
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->createQueryBuilder($searchValue);
@@ -190,6 +196,7 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
         return $qb->getQuery()->getArrayResult();
     }
 
+    #[\Override]
     public function countQuery(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->createQueryBuilder($searchValue)

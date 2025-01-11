@@ -13,6 +13,7 @@ final class IsVerificationCode extends Constraint
     public string $messageMissing = 'You have not requested a confirmation code.';
 
     /** @return string[] */
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return ['field'];

@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 final readonly class ChannelRegistrar
 {
-    public const EMSCO_CHANNEL_PATH_REGEX = '/^(\\/index\\.php)?\\/channel\\/(?P<channel>([a-z\\-0-9_]+))(\\/)?/';
+    public const string EMSCO_CHANNEL_PATH_REGEX = '/^(\\/index\\.php)?\\/channel\\/(?P<channel>([a-z\\-0-9_]+))(\\/)?/';
 
     public function __construct(
         private ChannelRepository $channelRepository,

@@ -14,6 +14,7 @@ final class FormTest extends TestCase
     private Client $client;
     private Form $form;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);

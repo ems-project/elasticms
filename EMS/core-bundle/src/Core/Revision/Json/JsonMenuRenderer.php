@@ -20,15 +20,15 @@ use Twig\TemplateWrapper;
 
 final readonly class JsonMenuRenderer implements RuntimeExtensionInterface
 {
-    public const TYPE_MODAL = 'modal';
-    public const TYPE_PASTE = 'paste';
-    public const TYPE_SILENT_PUBLISH = 'silent_publish';
-    public const TYPE_VIEW = 'view';
-    public const TYPE_PREVIEW = 'preview';
-    public const TYPE_REVISION_EDIT = 'revision_edit';
+    public const string TYPE_MODAL = 'modal';
+    public const string TYPE_PASTE = 'paste';
+    public const string TYPE_SILENT_PUBLISH = 'silent_publish';
+    public const string TYPE_VIEW = 'view';
+    public const string TYPE_PREVIEW = 'preview';
+    public const string TYPE_REVISION_EDIT = 'revision_edit';
 
-    public const NESTED_TEMPLATE = '/revision/json/json_menu_nested.html.twig';
-    private const ITEM_ACTIONS = ['move', 'copy', 'paste', 'add', 'edit', 'delete', 'preview'];
+    public const string NESTED_TEMPLATE = '/revision/json/json_menu_nested.html.twig';
+    private const array ITEM_ACTIONS = ['move', 'copy', 'paste', 'add', 'edit', 'delete', 'preview'];
 
     public function __construct(
         private Environment $twig,

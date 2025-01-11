@@ -13,11 +13,13 @@ class MarkupConfig implements ElementInterface
     {
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getClassName(): string
     {
         return MarkupType::class;
@@ -28,6 +30,7 @@ class MarkupConfig implements ElementInterface
         return $this->markup;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;

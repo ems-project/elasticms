@@ -17,6 +17,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
     ) {
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->wysiwygStylesSetRepository->makeQueryBuilder(searchValue: $searchValue)
@@ -25,6 +26,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
             ->getSingleScalarResult();
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         $styleSet = WysiwygStylesSet::fromJson($json);
@@ -52,6 +54,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         $styleSet = $this->wysiwygStylesSetRepository->getByName($name);
@@ -64,6 +67,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
         return \strval($id);
     }
 
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->wysiwygStylesSetRepository->makeQueryBuilder(searchValue: $searchValue);
@@ -79,6 +83,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [
@@ -93,6 +98,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
         return $this->wysiwygStylesSetRepository->findById($id);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->wysiwygStylesSetRepository->getByName($name);
@@ -107,6 +113,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
         return $this->wysiwygStylesSetRepository->getByName($name);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'wysiwyg-style-set';
@@ -122,6 +129,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
         return $stylesSets ?? $this->wysiwygStylesSetRepository->findAll();
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return true;
@@ -145,6 +153,7 @@ class WysiwygStylesSetService implements EntityServiceInterface
         ]);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         if (!$entity instanceof WysiwygStylesSet) {

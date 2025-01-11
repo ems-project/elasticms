@@ -15,6 +15,7 @@ class IsVerificationCodeValidator extends ConstraintValidator
     {
     }
 
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (null === $value || !$constraint instanceof IsVerificationCode) {

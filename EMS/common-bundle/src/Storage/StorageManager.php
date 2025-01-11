@@ -95,6 +95,7 @@ class StorageManager implements FileManagerInterface
         return false;
     }
 
+    #[\Override]
     public function heads(string ...$fileHashes): \Traversable
     {
         $uniqueFileHashes = \array_unique($fileHashes);
@@ -123,6 +124,7 @@ class StorageManager implements FileManagerInterface
         return $storages;
     }
 
+    #[\Override]
     public function getStream(string $hash): StreamInterface
     {
         /** @var StorageInterface[] $missingIn */
@@ -144,6 +146,7 @@ class StorageManager implements FileManagerInterface
         throw new NotFoundException($hash);
     }
 
+    #[\Override]
     public function getContents(string $hash): string
     {
         return $this->getStream($hash)->getContents();
@@ -162,6 +165,7 @@ class StorageManager implements FileManagerInterface
         return $this->fileLocator->locate('@EMSCommonBundle/Resources/public/images/'.$name);
     }
 
+    #[\Override]
     public function getHashAlgo(): string
     {
         return $this->hashAlgo;
@@ -436,6 +440,7 @@ class StorageManager implements FileManagerInterface
         return $this->saveContents($normalizedArray, 'assetConfig.json', 'application/json', $usageType);
     }
 
+    #[\Override]
     public function getFile(string $filenameOrHash): FileInterface
     {
         if (\file_exists($filenameOrHash)) {
@@ -646,6 +651,7 @@ class StorageManager implements FileManagerInterface
         return new StreamWrapper($this->getStream($file->hash), $file->type, $file->size);
     }
 
+    #[\Override]
     public function uploadFile(string $realPath, ?string $mimeType = null, ?string $filename = null, ?callable $callback = null): string
     {
         $fileHash = $this->computeFileHash($realPath);
@@ -678,6 +684,7 @@ class StorageManager implements FileManagerInterface
         return $fileHash;
     }
 
+    #[\Override]
     public function uploadContents(string $contents, string $filename, string $mimeType): string
     {
         return $this->saveContents(
@@ -688,6 +695,7 @@ class StorageManager implements FileManagerInterface
         );
     }
 
+    #[\Override]
     public function downloadFile(string $hash): string
     {
         return $this->getFile($hash)->getFilename();
@@ -696,11 +704,13 @@ class StorageManager implements FileManagerInterface
     /**
      * @param int<1, max> $chunkSize
      */
+    #[\Override]
     public function setHeadChunkSize(int $chunkSize): void
     {
         $this->headChunkSize = $chunkSize;
     }
 
+    #[\Override]
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): void
     {
         foreach ($this->adapters as $adapter) {

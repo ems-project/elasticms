@@ -15,6 +15,7 @@ class AnalyzeResponse implements \JsonSerializable, \Stringable
     {
     }
 
+    #[\Override]
     public function __toString(): string
     {
         $tokens = [];
@@ -43,6 +44,7 @@ class AnalyzeResponse implements \JsonSerializable, \Stringable
         }
     }
 
+    #[\Override]
     public function jsonSerialize(): mixed
     {
         return $this->tokens;

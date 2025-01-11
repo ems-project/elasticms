@@ -33,31 +33,37 @@ final readonly class Endpoint implements EndpointInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->type;
     }
 
+    #[\Override]
     public function getFieldName(): string
     {
         return $this->fieldName;
     }
 
+    #[\Override]
     public function getHttpRequest(): HttpRequest
     {
         return $this->httpRequest;
     }
 
+    #[\Override]
     public function getMessageTranslationKey(): ?string
     {
         return $this->messageTranslationKey;
     }
 
+    #[\Override]
     public function saveInSession(): bool
     {
         return $this->saveSession;

@@ -15,6 +15,7 @@ final readonly class VerificationCodeGenerator implements VerificationCodeGenera
     {
     }
 
+    #[\Override]
     public function getVerificationCode(EndpointInterface $endpoint, string $confirmValue): ?string
     {
         if ($endpoint->saveInSession()) {
@@ -26,6 +27,7 @@ final readonly class VerificationCodeGenerator implements VerificationCodeGenera
         return \is_string($verificationCode) ? $verificationCode : null;
     }
 
+    #[\Override]
     public function generate(EndpointInterface $endpoint, string $confirmValue): string
     {
         if (!$endpoint->saveInSession()) {

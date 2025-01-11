@@ -19,6 +19,7 @@ final readonly class FileCollection implements \IteratorAggregate
     /**
      * @return \Generator<array<mixed>>
      */
+    #[\Override]
     public function getIterator(): \Generator
     {
         foreach ($this->files as $file) {

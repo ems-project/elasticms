@@ -12,7 +12,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
 {
-    private const PATTERN = '/%(?<parameter>(_|)[[:alnum:]_]*)%/m';
+    private const string PATTERN = '/%(?<parameter>(_|)[[:alnum:]_]*)%/m';
 
     public function __construct(
         private readonly LoggerInterface $logger,
@@ -21,21 +21,25 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
     ) {
     }
 
+    #[\Override]
     public function message(string $level, TranslatableMessage $message, array $context = []): void
     {
         $this->logger->log($level, $message->trans($this->translator), $context);
     }
 
+    #[\Override]
     public function messageError(TranslatableMessage $message, array $context = []): void
     {
         $this->message('error', $message, $context);
     }
 
+    #[\Override]
     public function messageWarning(TranslatableMessage $message, array $context = []): void
     {
         $this->message('warning', $message, $context);
     }
 
+    #[\Override]
     public function messageNotice(TranslatableMessage $message, array $context = []): void
     {
         $this->message('notice', $message, $context);
@@ -44,6 +48,7 @@ class LocalizedLogger extends AbstractLogger implements LocalizedLoggerInterface
     /**
      * @param array<string, mixed> $context
      */
+    #[\Override]
     public function log($level, string|\Stringable $message, array $context = []): void
     {
         $this->logger->log($level, $this->translateMessage($message, $context), $context);

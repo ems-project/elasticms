@@ -20,11 +20,13 @@ class Draft implements DraftInterface
         $this->ouuid = $data['ouuid'] ?? null;
     }
 
+    #[\Override]
     public function getRevisionId(): int
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getOuuid(): ?string
     {
         return $this->ouuid;

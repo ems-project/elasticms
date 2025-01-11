@@ -15,16 +15,19 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
 final class Kernel extends BaseKernel
 {
+    #[\Override]
     public function getCacheDir(): string
     {
         return \sys_get_temp_dir().'/cache-'.\spl_object_hash($this);
     }
 
+    #[\Override]
     public function getLogDir(): string
     {
         return \sys_get_temp_dir().'/log-'.\spl_object_hash($this);
     }
 
+    #[\Override]
     public function registerBundles(): array
     {
         return [
@@ -37,6 +40,7 @@ final class Kernel extends BaseKernel
         ];
     }
 
+    #[\Override]
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/config/config.yml');

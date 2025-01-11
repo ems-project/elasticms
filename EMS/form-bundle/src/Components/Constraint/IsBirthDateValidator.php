@@ -10,6 +10,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 final class IsBirthDateValidator extends ConstraintValidator
 {
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof IsBirthDate) {

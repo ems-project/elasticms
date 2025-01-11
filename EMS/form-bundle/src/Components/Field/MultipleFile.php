@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints\Count;
 
 class MultipleFile extends File
 {
+    #[\Override]
     public function getOptions(): array
     {
         $options = parent::getOptions();
@@ -16,6 +17,7 @@ class MultipleFile extends File
         return $options;
     }
 
+    #[\Override]
     protected function getValidationConstraints(): array
     {
         $constraints = parent::getValidationConstraints();

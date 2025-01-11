@@ -23,14 +23,15 @@ use function Symfony\Component\String\u;
 class BatchCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::BATCH;
-    private const ARGUMENT_TEMPLATE = 'template';
-    private const OPTION_CONTEXT = 'context';
+    private const string ARGUMENT_TEMPLATE = 'template';
+    private const string OPTION_CONTEXT = 'context';
 
     public function __construct(private readonly Environment $twig)
     {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -41,6 +42,7 @@ class BatchCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

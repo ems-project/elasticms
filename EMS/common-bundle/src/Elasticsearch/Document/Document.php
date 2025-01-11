@@ -73,21 +73,25 @@ class Document implements DocumentInterface
         ]);
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getOuuid(): string
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getContentType(): string
     {
         return $this->contentType;
     }
 
+    #[\Override]
     public function getEmsId(): string
     {
         $id = $this->getEMSSource()->get('_version_uuid', $this->id);
@@ -95,6 +99,7 @@ class Document implements DocumentInterface
         return \sprintf('%s:%s', $this->contentType, $id);
     }
 
+    #[\Override]
     public function getEmsLink(): EMSLink
     {
         $id = $this->getEMSSource()->get('_version_uuid', $this->id);
@@ -102,6 +107,7 @@ class Document implements DocumentInterface
         return EMSLink::fromContentTypeOuuid($this->contentType, $id);
     }
 
+    #[\Override]
     public function getDocumentEmsId(): string
     {
         return EMSLink::fromContentTypeOuuid($this->contentType, $this->id)->getEmsId();
@@ -110,6 +116,7 @@ class Document implements DocumentInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function getSource(bool $cleaned = false): array
     {
         if ($cleaned) {
@@ -129,6 +136,7 @@ class Document implements DocumentInterface
         return $this->source;
     }
 
+    #[\Override]
     public function getEMSSource(): EMSSourceInterface
     {
         return new EMSSource($this->source);
@@ -152,6 +160,7 @@ class Document implements DocumentInterface
         return $this->highlight;
     }
 
+    #[\Override]
     public function getValue(string $fieldPath, mixed $defaultValue = null): mixed
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -159,6 +168,7 @@ class Document implements DocumentInterface
         return $propertyAccessor->getValue($this->source, self::fieldPathToPropertyPath($fieldPath)) ?? $defaultValue;
     }
 
+    #[\Override]
     public function setValue(string $fieldPath, mixed $value): self
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();

@@ -12,6 +12,7 @@ class SpreadsheetGeneratorTest extends TestCase
 {
     private SpreadsheetGeneratorService $spreadSheetGenerator;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->spreadSheetGenerator = new SpreadsheetGeneratorService();

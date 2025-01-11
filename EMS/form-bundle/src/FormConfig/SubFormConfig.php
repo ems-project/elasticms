@@ -11,6 +11,7 @@ class SubFormConfig extends AbstractFormConfig implements ElementInterface
         parent::__construct($id, $locale, $translationDomain, $name);
     }
 
+    #[\Override]
     public function getClassName(): string
     {
         return SubFormType::class;

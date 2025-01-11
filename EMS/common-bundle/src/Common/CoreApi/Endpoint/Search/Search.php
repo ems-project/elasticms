@@ -21,11 +21,13 @@ class Search implements SearchInterface
     {
     }
 
+    #[\Override]
     public function search(SearchObject $search): ResponseInterface
     {
         return Response::fromArray($this->client->post('/api/search/search', ['search' => $search->serialize()])->getData());
     }
 
+    #[\Override]
     public function count(SearchObject $search): int
     {
         $count = $this->client->post('/api/search/count', ['search' => $search->serialize()])->getData()['count'] ?? null;
@@ -36,6 +38,7 @@ class Search implements SearchInterface
         return $count;
     }
 
+    #[\Override]
     public function scroll(SearchObject $search, int $scrollSize = 10, string $expireTime = '3m'): Scroll
     {
         $search->setSize($scrollSize);
@@ -44,6 +47,7 @@ class Search implements SearchInterface
         return new Scroll($this->client, $search, $expireTime);
     }
 
+    #[\Override]
     public function version(): string
     {
         $version = $this->client->get('/api/search/version')->getData()['version'] ?? null;
@@ -54,6 +58,7 @@ class Search implements SearchInterface
         return $version;
     }
 
+    #[\Override]
     public function healthStatus(): string
     {
         $status = $this->client->get('/api/search/health-status')->getData()['status'] ?? null;
@@ -64,6 +69,7 @@ class Search implements SearchInterface
         return $status;
     }
 
+    #[\Override]
     public function refresh(?string $index = null): bool
     {
         $success = $this->client->post('/api/search/refresh', [
@@ -104,6 +110,7 @@ class Search implements SearchInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getIndicesFromAlias(string $alias): array
     {
         $indices = $this->client->post('/api/search/indices-from-alias', [
@@ -119,6 +126,7 @@ class Search implements SearchInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesFromIndex(string $index): array
     {
         $aliases = $this->client->post('/api/search/aliases-from-index', [
@@ -135,6 +143,7 @@ class Search implements SearchInterface
      * @param string[] $sourceIncludes
      * @param string[] $sourcesExcludes
      */
+    #[\Override]
     public function getDocument(string $index, ?string $contentType, string $id, array $sourceIncludes = [], array $sourcesExcludes = []): DocumentInterface
     {
         return Document::fromArray($this->client->post('/api/search/document', [
@@ -151,6 +160,7 @@ class Search implements SearchInterface
      *
      * @return array<string, array<int, string>>
      */
+    #[\Override]
     public function getIndicesForContentTypes(array $aliases): array
     {
         $indices = $this->client->post('/api/search/indices-for-content-type', [
@@ -168,6 +178,7 @@ class Search implements SearchInterface
      *
      * @return string[]
      */
+    #[\Override]
     public function filterStopWords(string $index, string $analyzer, array $words): array
     {
         $filtered = $this->client->post('/api/search/filter-stop-words', [
@@ -201,6 +212,7 @@ class Search implements SearchInterface
         return $tokens;
     }
 
+    #[\Override]
     public function hasIndex(string $index): bool
     {
         $response = $this->client->post('/api/search/has-index', [

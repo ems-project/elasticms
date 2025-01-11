@@ -16,8 +16,8 @@ final class ContentTypeHelper
     /** @var ContentTypeCollection[] */
     private array $contentTypeCollections = [];
 
-    public const AGG_CONTENT_TYPE = 'contentType';
-    public const AGG_LAST_PUBLISHED = 'lastPublished';
+    public const string AGG_CONTENT_TYPE = 'contentType';
+    public const string AGG_LAST_PUBLISHED = 'lastPublished';
 
     public function clear(): void
     {

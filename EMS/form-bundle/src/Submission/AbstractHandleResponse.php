@@ -33,11 +33,13 @@ abstract class AbstractHandleResponse implements HandleResponseInterface
         $this->extra = $extra;
     }
 
+    #[\Override]
     public function getStatus(): string
     {
         return $this->status;
     }
 
+    #[\Override]
     public function getResponse(): string
     {
         try {
@@ -50,6 +52,7 @@ abstract class AbstractHandleResponse implements HandleResponseInterface
         }
     }
 
+    #[\Override]
     public function getSummary(): array
     {
         /** @var array{status: string, data: string, success: string} $summary */

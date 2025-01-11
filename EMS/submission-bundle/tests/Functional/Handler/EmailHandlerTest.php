@@ -13,12 +13,14 @@ final class EmailHandlerTest extends AbstractHandlerTest
 {
     private MessageLoggerListener $messageLogger;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
         $this->messageLogger = $this->container->get('functional_test.message_listener');
     }
 
+    #[\Override]
     protected function getHandler(): AbstractHandler
     {
         return $this->container->get('functional_test.emss.handler.email');

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ImageAiTest extends TestCase
 {
-    private const TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
+    private const string TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
 
     public function testImageCreateFromString(): void
     {

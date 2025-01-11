@@ -15,6 +15,7 @@ final readonly class LocalizedLoggerFactory implements LocalizedLoggerFactoryInt
     {
     }
 
+    #[\Override]
     public function __invoke(LoggerInterface $logger, string $translationDomain): LocalizedLoggerInterface
     {
         return new LocalizedLogger($logger, $this->translator, $translationDomain);

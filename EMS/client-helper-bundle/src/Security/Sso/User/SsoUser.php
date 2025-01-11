@@ -12,6 +12,7 @@ class SsoUser implements UserInterface
     {
     }
 
+    #[\Override]
     public function getRoles(): array
     {
         return [];
@@ -27,10 +28,12 @@ class SsoUser implements UserInterface
         return null;
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->identifier;

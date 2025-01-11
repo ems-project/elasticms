@@ -27,7 +27,7 @@ class HtmlSanitizerConfigBuilder
      */
     private readonly array $classes;
 
-    private const CONFIG_ORDER = [
+    private const array CONFIG_ORDER = [
         'max_input_length',
         'allow_safe_elements',
         'allow_attributes',

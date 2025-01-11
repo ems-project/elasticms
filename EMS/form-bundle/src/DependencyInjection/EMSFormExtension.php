@@ -12,6 +12,7 @@ class EMSFormExtension extends Extension
     /**
      * @param mixed[] $configs
      */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));

@@ -16,6 +16,7 @@ class LocalizedLoggerAiTest extends TestCase
     private TranslatorInterface $translator;
     private string $translationDomain = 'test_domain';
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);

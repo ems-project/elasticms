@@ -27,6 +27,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
 
     abstract protected function getUsernameFromResource(ResourceOwnerInterface $resourceOwner): ?string;
 
+    #[\Override]
     public function createToken(AccessTokenInterface $accessToken, Passport $passport, string $firewallName): OAuth2Token
     {
         return new OAuth2Token($accessToken, $passport->getUser(), $firewallName, $passport->getUser()->getRoles());
@@ -35,6 +36,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
     /**
      * @param AccessToken $token
      */
+    #[\Override]
     public function getUsername(AccessTokenInterface $token): string
     {
         $resourceOwner = $this->getProvider()->getResourceOwner($token);
@@ -47,6 +49,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
         return $username;
     }
 
+    #[\Override]
     public function redirect(Request $request): RedirectResponse
     {
         $options = $this->getOptions();
@@ -57,6 +60,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
         return new RedirectResponse($url);
     }
 
+    #[\Override]
     public function refreshToken(OAuth2Token $token): OAuth2Token
     {
         if (!$token->getAccessToken()->hasExpired()) {
@@ -79,6 +83,7 @@ abstract class AbstractOAuth2Provider implements ProviderInterface
         );
     }
 
+    #[\Override]
     public function getAccessToken(Request $request): AccessTokenInterface
     {
         $expectedState = $request->getSession()->get($this->getName());

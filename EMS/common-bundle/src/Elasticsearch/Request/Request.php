@@ -16,11 +16,13 @@ class Request implements RequestInterface
     {
     }
 
+    #[\Override]
     public function getScroll(): string
     {
         return $this->scroll;
     }
 
+    #[\Override]
     public function setSize(int $size): void
     {
         $this->size = $size;
@@ -29,6 +31,7 @@ class Request implements RequestInterface
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function toArray(): array
     {
         return [

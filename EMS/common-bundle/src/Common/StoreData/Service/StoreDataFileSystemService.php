@@ -14,6 +14,7 @@ class StoreDataFileSystemService implements StoreDataServiceInterface
     {
     }
 
+    #[\Override]
     public function save(StoreDataHelper $data): void
     {
         $filename = $this->filename($data->getKey());
@@ -22,6 +23,7 @@ class StoreDataFileSystemService implements StoreDataServiceInterface
         }
     }
 
+    #[\Override]
     public function read(string $key): ?StoreDataHelper
     {
         $filename = $this->filename($key);
@@ -35,6 +37,7 @@ class StoreDataFileSystemService implements StoreDataServiceInterface
         return new StoreDataHelper($key, Json::decode($json));
     }
 
+    #[\Override]
     public function delete(string $key): void
     {
         $filename = $this->filename($key);
@@ -57,6 +60,7 @@ class StoreDataFileSystemService implements StoreDataServiceInterface
         return Folder::createFileDirectories(\sprintf('%s%s%s.json', $realPath, DIRECTORY_SEPARATOR, $key));
     }
 
+    #[\Override]
     public function gc(): void
     {
     }

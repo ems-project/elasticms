@@ -22,6 +22,7 @@ final readonly class CoreApiFactory implements CoreApiFactoryInterface
     ) {
     }
 
+    #[\Override]
     public function create(string $baseUrl): CoreApiInterface
     {
         $httpClient = new CurlHttpClient(

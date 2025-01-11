@@ -15,6 +15,7 @@ class AnalyzerManager implements EntityServiceInterface
     {
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->analyzerRepository->makeQueryBuilder(searchValue: $searchValue)
@@ -23,6 +24,7 @@ class AnalyzerManager implements EntityServiceInterface
             ->getSingleScalarResult();
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         $analyzer = Analyzer::fromJson($json);
@@ -47,6 +49,7 @@ class AnalyzerManager implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         $analyzer = $this->analyzerRepository->findByName($name);
@@ -59,6 +62,7 @@ class AnalyzerManager implements EntityServiceInterface
         return \strval($id);
     }
 
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->analyzerRepository->makeQueryBuilder(searchValue: $searchValue);
@@ -71,6 +75,7 @@ class AnalyzerManager implements EntityServiceInterface
         return $qb->getQuery()->execute();
     }
 
+    #[\Override]
     public function getAliasesName(): array
     {
         return [
@@ -84,16 +89,19 @@ class AnalyzerManager implements EntityServiceInterface
         ];
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->analyzerRepository->findByName($name);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'analyzer';
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return true;
@@ -119,6 +127,7 @@ class AnalyzerManager implements EntityServiceInterface
         $this->analyzerRepository->update($analyzer);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         $analyzer = Analyzer::fromJson($json, $entity);

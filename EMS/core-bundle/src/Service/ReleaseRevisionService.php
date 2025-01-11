@@ -24,6 +24,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
     ) {
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
@@ -39,6 +40,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
      *
      * @return Revision[]
      */
+    #[\Override]
     public function query(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
     {
         if (!$context instanceof Release) {
@@ -50,6 +52,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
         return $this->revisionRepository->getAvailableRevisionsForRelease($from, $size, $context, $contentTypeNames, $orderField, $orderDirection, $searchValue);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'release_revision';
@@ -58,6 +61,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [];
@@ -66,6 +70,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
     /**
      * @param mixed $context
      */
+    #[\Override]
     public function countQuery(string $searchValue = '', $context = null): int
     {
         if (!$context instanceof Release) {
@@ -93,6 +98,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
         }
     }
 
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (!$context instanceof Release) {
@@ -102,6 +108,7 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
         return $this->releaseRevisionRepository->findByRelease($context, $from, $size, $orderField, $orderDirection, $searchValue);
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         if (!$context instanceof Release) {
@@ -121,21 +128,25 @@ final readonly class ReleaseRevisionService implements QueryServiceInterface, En
         return $this->releaseRevisionRepository->getByIds($ids);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->releaseRevisionRepository->getById($name);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         throw new \RuntimeException('updateEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         throw new \RuntimeException('createEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');

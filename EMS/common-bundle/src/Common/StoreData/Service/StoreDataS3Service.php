@@ -19,6 +19,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
     {
     }
 
+    #[\Override]
     public function save(StoreDataHelper $data): void
     {
         $args = [
@@ -33,6 +34,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
         $this->getS3Client()->putObject($args);
     }
 
+    #[\Override]
     public function read(string $key): ?StoreDataHelper
     {
         if (!$this->getS3Client()->doesObjectExist($this->bucket, $key)) {
@@ -51,6 +53,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
         return new StoreDataHelper($key, Json::decode((string) $file->get('Body')));
     }
 
+    #[\Override]
     public function delete(string $key): void
     {
         if (!$this->getS3Client()->doesObjectExist($this->bucket, $key)) {
@@ -62,6 +65,7 @@ class StoreDataS3Service implements StoreDataServiceInterface
         ]);
     }
 
+    #[\Override]
     public function gc(): void
     {
         $files = $this->getS3Client()->listObjects([

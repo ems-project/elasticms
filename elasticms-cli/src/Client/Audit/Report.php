@@ -169,6 +169,7 @@ class Report extends AbstractReport
     /**
      * @return array{array{name: string, rows: string[][]}}
      */
+    #[\Override]
     protected function getSheets(): array
     {
         return [

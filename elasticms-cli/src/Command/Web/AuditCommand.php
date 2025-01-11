@@ -37,16 +37,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class AuditCommand extends AbstractCommand
 {
-    private const ARG_URL = 'url';
-    private const OPTION_CONTINUE = 'continue';
-    private const OPTION_CACHE_FOLDER = 'cache-folder';
-    private const OPTION_SAVE_FOLDER = 'save-folder';
-    private const OPTION_MAX_UPDATES = 'max-updates';
-    private const OPTION_IGNORE_REGEX = 'ignore-regex';
-    private const OPTION_DRY_RUN = 'dry-run';
-    private const OPTION_CONTENT_TYPE = 'content-type';
-    private const OPTION_BASE_URL = 'base-url';
-    private const OPTION_LABELS = 'labels';
+    private const string ARG_URL = 'url';
+    private const string OPTION_CONTINUE = 'continue';
+    private const string OPTION_CACHE_FOLDER = 'cache-folder';
+    private const string OPTION_SAVE_FOLDER = 'save-folder';
+    private const string OPTION_MAX_UPDATES = 'max-updates';
+    private const string OPTION_IGNORE_REGEX = 'ignore-regex';
+    private const string OPTION_DRY_RUN = 'dry-run';
+    private const string OPTION_CONTENT_TYPE = 'content-type';
+    private const string OPTION_BASE_URL = 'base-url';
+    private const string OPTION_LABELS = 'labels';
     private ConsoleLogger $logger;
     private string $jsonPath;
     private string $cacheFolder;
@@ -72,6 +72,7 @@ class AuditCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -87,6 +88,7 @@ class AuditCommand extends AbstractCommand
             ->addOption(self::OPTION_LABELS, null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Labels for this audit (e.g. "internet")');
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -104,6 +106,7 @@ class AuditCommand extends AbstractCommand
         $this->labels = $this->getOptionStringArray(self::OPTION_LABELS);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->adminHelper->getCoreApi()->isAuthenticated()) {

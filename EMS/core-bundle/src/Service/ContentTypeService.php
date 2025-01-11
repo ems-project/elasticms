@@ -42,7 +42,7 @@ use function Symfony\Component\Translation\t;
 
 class ContentTypeService implements EntityServiceInterface
 {
-    private const CONTENT_TYPE_AGGREGATION_NAME = 'content-types';
+    private const string CONTENT_TYPE_AGGREGATION_NAME = 'content-types';
     /** @var ContentType[] */
     protected array $orderedContentTypes = [];
     /** @var ContentType[] */
@@ -634,6 +634,7 @@ class ContentTypeService implements EntityServiceInterface
         $draftInProgress->setBadge($menuEntry->getBadge(), $contentType->getColor());
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return true;
@@ -642,6 +643,7 @@ class ContentTypeService implements EntityServiceInterface
     /**
      * @return ContentType[]
      */
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (null !== $context) {
@@ -651,6 +653,7 @@ class ContentTypeService implements EntityServiceInterface
         return $this->getContentTypeRepository()->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'content-type';
@@ -659,6 +662,7 @@ class ContentTypeService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [
@@ -670,6 +674,7 @@ class ContentTypeService implements EntityServiceInterface
         ];
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         if (null !== $context) {
@@ -680,6 +685,7 @@ class ContentTypeService implements EntityServiceInterface
         return $contentTypeRepository->counter($searchValue);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         $contentTypeRepository = $this->getContentTypeRepository();
@@ -687,6 +693,7 @@ class ContentTypeService implements EntityServiceInterface
         return $contentTypeRepository->findByName($name);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         if (!$entity instanceof ContentType) {
@@ -696,6 +703,7 @@ class ContentTypeService implements EntityServiceInterface
         return $this->updateFromJson($entity, $json, false, false);
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         $contentType = $this->contentTypeFromJson($json);
@@ -814,6 +822,7 @@ class ContentTypeService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         $contentTypeRepository = $this->getContentTypeRepository();

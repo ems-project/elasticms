@@ -13,6 +13,7 @@ abstract class AbstractFunctionalTest extends TestCase
     /** @var ContainerInterface */
     protected $container;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

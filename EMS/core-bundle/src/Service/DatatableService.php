@@ -14,9 +14,9 @@ use Symfony\Component\Routing\RouterInterface;
 
 final readonly class DatatableService
 {
-    private const CONFIG = 'config';
-    private const ALIASES = 'aliases';
-    private const CONTENT_TYPES = 'contentTypes';
+    private const string CONFIG = 'config';
+    private const string ALIASES = 'aliases';
+    private const string CONTENT_TYPES = 'contentTypes';
 
     public function __construct(
         private LoggerInterface $logger,

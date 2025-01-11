@@ -9,16 +9,19 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 final class InternationalPhone extends AbstractForgivingNumberField
 {
+    #[\Override]
     public function getHtmlClass(): string
     {
         return 'phone-international';
     }
 
+    #[\Override]
     public function getFieldClass(): string
     {
         return TelType::class;
     }
 
+    #[\Override]
     public function getOptions(): array
     {
         $options = parent::getOptions();
@@ -30,6 +33,7 @@ final class InternationalPhone extends AbstractForgivingNumberField
         return $options;
     }
 
+    #[\Override]
     public function getTransformerClasses(): array
     {
         return [InternationalPhoneNumber::class];

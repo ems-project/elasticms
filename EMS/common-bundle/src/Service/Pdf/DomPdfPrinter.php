@@ -25,6 +25,7 @@ final class DomPdfPrinter implements PdfPrinterInterface
         }
     }
 
+    #[\Override]
     public function getPdfOutput(PdfInterface $pdf, ?PdfPrintOptions $options = null): PdfOutput
     {
         $options ??= new PdfPrintOptions([]);
@@ -33,6 +34,7 @@ final class DomPdfPrinter implements PdfPrinterInterface
         return new PdfOutput(fn (): ?string => $dompdf->output());
     }
 
+    #[\Override]
     public function getStreamedResponse(PdfInterface $pdf, ?PdfPrintOptions $options = null): StreamedResponse
     {
         $options ??= new PdfPrintOptions([]);

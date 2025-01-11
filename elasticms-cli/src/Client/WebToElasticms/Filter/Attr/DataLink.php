@@ -9,7 +9,7 @@ use App\CLI\Client\WebToElasticms\Rapport\Rapport;
 
 class DataLink
 {
-    final public const TYPE = 'data-link';
+    final public const string TYPE = 'data-link';
 
     public function __construct(private readonly ConfigManager $config, private readonly string $currentUrl, private readonly Rapport $rapport)
     {

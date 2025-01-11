@@ -16,16 +16,19 @@ class HtmlSanitizerClass implements AttributeSanitizerInterface
     {
     }
 
+    #[\Override]
     public function getSupportedElements(): ?array
     {
         return null;
     }
 
+    #[\Override]
     public function getSupportedAttributes(): ?array
     {
         return ['class'];
     }
 
+    #[\Override]
     public function sanitizeAttribute(string $element, string $attribute, string $value, HtmlSanitizerConfig $config): ?string
     {
         $classes = \explode(' ', $value);

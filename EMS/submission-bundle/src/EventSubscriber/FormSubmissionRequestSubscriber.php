@@ -37,6 +37,7 @@ final readonly class FormSubmissionRequestSubscriber implements EventSubscriberI
     /**
      * @return array<string, string>
      */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

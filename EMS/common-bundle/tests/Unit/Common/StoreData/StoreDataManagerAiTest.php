@@ -16,6 +16,7 @@ class StoreDataManagerAiTest extends TestCase
     private LoggerInterface $logger;
     private StoreDataFactoryInterface $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);

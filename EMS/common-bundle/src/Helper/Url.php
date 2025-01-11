@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Url
 {
-    private const ABSOLUTE_SCHEME = ['mailto', 'javascript', 'tel'];
+    private const array ABSOLUTE_SCHEME = ['mailto', 'javascript', 'tel'];
     private string $scheme;
     private string $host;
     private ?int $port;

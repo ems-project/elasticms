@@ -73,6 +73,7 @@ class ObjectChoiceListItem implements \Stringable
         return $this->color;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getValue();

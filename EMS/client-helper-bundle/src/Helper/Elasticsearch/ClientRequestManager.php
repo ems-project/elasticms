@@ -32,6 +32,7 @@ final class ClientRequestManager implements ClientRequestManagerInterface
         return $this->logger;
     }
 
+    #[\Override]
     public function getDefault(): ClientRequest
     {
         return $this->default;

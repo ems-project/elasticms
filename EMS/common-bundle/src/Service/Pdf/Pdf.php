@@ -10,11 +10,13 @@ final readonly class Pdf implements PdfInterface
     {
     }
 
+    #[\Override]
     public function getFilename(): string
     {
         return $this->filename;
     }
 
+    #[\Override]
     public function getHtml(): string
     {
         return $this->html;

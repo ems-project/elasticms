@@ -27,7 +27,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 final class ClientRequest implements ClientRequestInterface
 {
-    private const CONTENT_TYPE_LIMIT = 500;
+    private const int CONTENT_TYPE_LIMIT = 500;
 
     /**
      * @param array<string, mixed> $options
@@ -68,6 +68,7 @@ final class ClientRequest implements ClientRequestInterface
     /**
      * @return array{_id: string, _type?: string, _source: array<mixed>}
      */
+    #[\Override]
     public function get(string $type, string $id): array
     {
         $this->logger->debug('ClientRequest : get {type}:{id}', ['type' => $type, 'id' => $id]);
@@ -108,6 +109,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<string, mixed>|false
      */
+    #[\Override]
     public function getByEmsKey(string $emsLink, array $sourceFields = []): array|false
     {
         $type = ClientRequest::getType($emsLink);
@@ -149,6 +151,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return array<mixed>
      */
+    #[\Override]
     public function getByOuuids(string $type, array $ouuids): array
     {
         $this->logger->debug('ClientRequest : getByOuuids {type}:{id}', ['type' => $type, 'id' => $ouuids]);
@@ -274,6 +277,7 @@ final class ClientRequest implements ClientRequestInterface
         return $settings;
     }
 
+    #[\Override]
     public function getContentType(string $name, ?Environment $environment = null): ?ContentType
     {
         if (null === $environment) {
@@ -336,6 +340,7 @@ final class ClientRequest implements ClientRequestInterface
      *
      * @return mixed|null
      */
+    #[\Override]
     public function getOption(string $propertyPath, $default = null)
     {
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
@@ -558,6 +563,7 @@ final class ClientRequest implements ClientRequestInterface
         return $this->name;
     }
 
+    #[\Override]
     public function getCacheKey(string $prefix = '', ?string $environment = null): string
     {
         if ($environment) {

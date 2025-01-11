@@ -55,16 +55,19 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         ]);
     }
 
+    #[\Override]
     public function head(string $hash): bool
     {
         return \file_exists($this->getPath($hash));
     }
 
+    #[\Override]
     public function heads(string ...$hashes): array
     {
         return \array_values(\array_map(fn (string $hash) => $this->head($hash) ? true : $hash, $hashes));
     }
 
+    #[\Override]
     public function create(string $hash, string $filename): bool
     {
         $path = $this->getPath($hash);
@@ -73,6 +76,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return \copy($filename, $path);
     }
 
+    #[\Override]
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         if ($confirmed) {
@@ -96,11 +100,13 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return new Stream($resource);
     }
 
+    #[\Override]
     public function health(): bool
     {
         return \is_dir($this->getBaseUrl());
     }
 
+    #[\Override]
     public function getSize(string $hash): int
     {
         $path = $this->getPath($hash);
@@ -117,8 +123,10 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return $size;
     }
 
+    #[\Override]
     abstract public function __toString(): string;
 
+    #[\Override]
     public function remove(string $hash): bool
     {
         $file = $this->getPath($hash);
@@ -129,6 +137,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return true;
     }
 
+    #[\Override]
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $path = $this->getUploadPath($hash);
@@ -137,6 +146,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return false !== \file_put_contents($path, '');
     }
 
+    #[\Override]
     public function addChunk(string $hash, string $chunk): bool
     {
         $path = $this->getUploadPath($hash);
@@ -164,6 +174,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return true;
     }
 
+    #[\Override]
     public function finalizeUpload(string $hash): bool
     {
         $source = $this->getUploadPath($hash);
@@ -196,16 +207,19 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         return $copyResult;
     }
 
+    #[\Override]
     public function getUsage(): int
     {
         return $this->usage;
     }
 
+    #[\Override]
     public function getHotSynchronizeLimit(): int
     {
         return $this->hotSynchronizeLimit;
     }
 
+    #[\Override]
     public function removeUpload(string $hash): void
     {
         try {
@@ -217,6 +231,7 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
         }
     }
 
+    #[\Override]
     public function initFinalize(string $hash): void
     {
     }
@@ -226,31 +241,37 @@ abstract class AbstractUrlStorage implements StorageInterface, \Stringable
      */
     abstract protected function getContext();
 
+    #[\Override]
     public function readCache(Config $config): ?StreamInterface
     {
         return null;
     }
 
+    #[\Override]
     public function saveCache(Config $config, FileInterface $file): bool
     {
         return false;
     }
 
+    #[\Override]
     public function clearCache(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
     {
         return null;
     }
 
+    #[\Override]
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
     {
         return false;
     }
 
+    #[\Override]
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
     {
         return false;

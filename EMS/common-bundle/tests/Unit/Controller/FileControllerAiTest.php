@@ -16,11 +16,12 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FileControllerAiTest extends TestCase
 {
-    private const TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
+    private const string TEST_IMAGE_PATH = __DIR__.'/fixtures/image.png';
     private FileController $controller;
     private Processor $processor;
     private RequestRuntime $requestRuntime;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->processor = $this->createMock(Processor::class);

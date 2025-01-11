@@ -24,6 +24,7 @@ final readonly class Translator implements CacheWarmerInterface
         }
     }
 
+    #[\Override]
     public function isOptional(): bool
     {
         return false;
@@ -34,6 +35,7 @@ final readonly class Translator implements CacheWarmerInterface
      *
      * @return string[]
      */
+    #[\Override]
     public function warmUp($cacheDir)
     {
         try {

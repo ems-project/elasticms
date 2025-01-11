@@ -16,13 +16,14 @@ use Symfony\Component\Config\FileLocator;
 
 class StorageManagerTest extends WebTestCase
 {
-    private const BAR = 'bar';
-    private const FOO = 'foo';
+    private const string BAR = 'bar';
+    private const string FOO = 'foo';
     private StorageManager $storageManager;
     private TempFile $tempFile;
     private string $hash;
     private LoggerInterface $mockLogger;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->mockLogger = $this->createMock(LoggerInterface::class);

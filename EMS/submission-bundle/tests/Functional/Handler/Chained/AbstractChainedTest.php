@@ -26,6 +26,7 @@ abstract class AbstractChainedTest extends AbstractFunctionalTest
     /** @var HandleResponseCollector */
     protected $responseCollector;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -59,6 +59,7 @@ final readonly class ActionService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return true;
@@ -67,6 +68,7 @@ final readonly class ActionService implements EntityServiceInterface
     /**
      * @return Template[]
      */
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (!$context instanceof ContentType) {
@@ -76,6 +78,7 @@ final readonly class ActionService implements EntityServiceInterface
         return $this->templateRepository->get($from, $size, $orderField, $orderDirection, $searchValue, $context);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'action';
@@ -84,11 +87,13 @@ final readonly class ActionService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [];
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         if (!$context instanceof ContentType) {
@@ -98,21 +103,25 @@ final readonly class ActionService implements EntityServiceInterface
         return $this->templateRepository->counter($searchValue, $context);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->templateRepository->getById((int) $name);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         throw new \RuntimeException('updateEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         throw new \RuntimeException('createEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');

@@ -27,6 +27,7 @@ final readonly class CacheListener implements EventSubscriberInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

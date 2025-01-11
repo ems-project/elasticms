@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class EMSAdminUIExtension extends Extension implements PrependExtensionInterface
 {
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -23,6 +24,7 @@ class EMSAdminUIExtension extends Extension implements PrependExtensionInterface
         $container->setParameter('emsui.dev_server_url', $config['dev_server_url']);
     }
 
+    #[\Override]
     public function prepend(ContainerBuilder $container): void
     {
         $bundles = $container->getParameter('kernel.bundles');

@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 final class IsInternationalPhoneNumberValidator extends AbstractConstraintValidator
 {
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof IsInternationalPhoneNumber) {

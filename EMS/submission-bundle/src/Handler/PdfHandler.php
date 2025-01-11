@@ -20,6 +20,7 @@ final class PdfHandler extends AbstractHandler
     {
     }
 
+    #[\Override]
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface
     {
         try {

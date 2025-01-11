@@ -11,16 +11,17 @@ use Psr\Log\LoggerInterface;
 
 class S3Factory extends AbstractFactory implements StorageFactoryInterface
 {
-    final public const STORAGE_TYPE = 's3';
-    final public const STORAGE_CONFIG_CREDENTIALS = 'credentials';
-    final public const STORAGE_CONFIG_BUCKET = 'bucket';
-    final public const STORAGE_CONFIG_UPLOAD_FOLDER = 'upload-folder';
-    final public const STORAGE_CONFIG_MULTIPART_UPLOAD = 'multipart-upload';
+    final public const string STORAGE_TYPE = 's3';
+    final public const string STORAGE_CONFIG_CREDENTIALS = 'credentials';
+    final public const string STORAGE_CONFIG_BUCKET = 'bucket';
+    final public const string STORAGE_CONFIG_UPLOAD_FOLDER = 'upload-folder';
+    final public const string STORAGE_CONFIG_MULTIPART_UPLOAD = 'multipart-upload';
 
     public function __construct(private readonly LoggerInterface $logger, private readonly Cache $cache)
     {
     }
 
+    #[\Override]
     public function createService(array $parameters): ?StorageInterface
     {
         $config = $this->resolveParameters($parameters);
@@ -40,6 +41,7 @@ class S3Factory extends AbstractFactory implements StorageFactoryInterface
         return new S3Storage($this->logger, $this->cache, $credentials, $bucket, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $config[self::STORAGE_CONFIG_MULTIPART_UPLOAD]);
     }
 
+    #[\Override]
     public function getStorageType(): string
     {
         return self::STORAGE_TYPE;

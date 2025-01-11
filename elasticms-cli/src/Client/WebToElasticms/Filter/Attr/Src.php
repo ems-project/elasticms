@@ -10,7 +10,7 @@ use EMS\CommonBundle\Helper\Url;
 
 class Src
 {
-    final public const TYPE = 'src';
+    final public const string TYPE = 'src';
 
     public function __construct(private readonly ConfigManager $config, private readonly string $currentUrl, private readonly Rapport $rapport)
     {

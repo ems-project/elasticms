@@ -43,16 +43,19 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
         }
     }
 
+    #[\Override]
     protected function getName(): string
     {
         return 'keycloak';
     }
 
+    #[\Override]
     protected function getOptions(): array
     {
         return [];
     }
 
+    #[\Override]
     protected function getProvider(): AbstractProvider
     {
         return $this->keycloak;
@@ -61,6 +64,7 @@ class KeycloakOAuth2Provider extends AbstractOAuth2Provider
     /**
      * @param KeycloakResourceOwner $resourceOwner
      */
+    #[\Override]
     protected function getUsernameFromResource(ResourceOwnerInterface $resourceOwner): ?string
     {
         return $resourceOwner->getUsername();

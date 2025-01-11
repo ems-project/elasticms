@@ -15,7 +15,7 @@ final class Generator
      * Regex for getting the base URL without the phpApp
      * So we can relative link to other applications.
      */
-    private const REGEX_BASE_URL = '/^(?P<baseUrl>\/.*?)(?:(?P<phpApp>\/[\-_A-Za-z0-9]*.php)|\/|)$/i';
+    private const string REGEX_BASE_URL = '/^(?P<baseUrl>\/.*?)(?:(?P<phpApp>\/[\-_A-Za-z0-9]*.php)|\/|)$/i';
 
     public function __construct(RouterInterface $router)
     {

@@ -19,7 +19,7 @@ use Symfony\Component\Finder\Finder;
 
 class CacheManager
 {
-    private const WEB_TO_ELASTICMS = 'WebToElasticms';
+    private const string WEB_TO_ELASTICMS = 'WebToElasticms';
     private readonly Client $client;
     /** @var UrlReport[] */
     private array $cachedReport = [];

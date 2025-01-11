@@ -10,7 +10,7 @@ use EMS\Helpers\Standard\Json;
 
 final class TemplateDocument implements BuilderDocumentInterface
 {
-    public const PREFIX = '@EMSCH';
+    public const string PREFIX = '@EMSCH';
 
     /**
      * @param array<mixed>          $source
@@ -23,16 +23,19 @@ final class TemplateDocument implements BuilderDocumentInterface
         }
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->source[$this->mapping['name']];
     }
 
+    #[\Override]
     public function getContentType(): string
     {
         return $this->source['_contenttype'];
@@ -46,6 +49,7 @@ final class TemplateDocument implements BuilderDocumentInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function getDataSource(): array
     {
         return [

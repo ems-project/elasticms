@@ -9,7 +9,7 @@ use Psr\Http\Message\StreamInterface;
 
 class TempFile
 {
-    private const PREFIX = 'EMS_temp_file_';
+    private const string PREFIX = 'EMS_temp_file_';
     /** @var self[] */
     private static array $collector = [];
 

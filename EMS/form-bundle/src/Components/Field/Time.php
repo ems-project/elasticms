@@ -6,16 +6,19 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 
 class Time extends AbstractField
 {
+    #[\Override]
     public function getHtmlClass(): string
     {
         return 'time';
     }
 
+    #[\Override]
     public function getFieldClass(): string
     {
         return TimeType::class;
     }
 
+    #[\Override]
     public function getOptions(): array
     {
         $label = $this->config->getLabel() ?? '';

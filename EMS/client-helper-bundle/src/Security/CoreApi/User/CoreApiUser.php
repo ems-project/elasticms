@@ -30,6 +30,7 @@ class CoreApiUser implements UserInterface
         return $this->token;
     }
 
+    #[\Override]
     public function getRoles(): array
     {
         return $this->profile->getRoles();
@@ -40,10 +41,12 @@ class CoreApiUser implements UserInterface
         return null;
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->profile->getUsername();

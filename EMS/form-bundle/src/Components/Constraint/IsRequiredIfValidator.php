@@ -14,6 +14,7 @@ class IsRequiredIfValidator extends ConstraintValidator
     {
     }
 
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$this->isEmpty($value) || !$constraint instanceof IsRequiredIf) {

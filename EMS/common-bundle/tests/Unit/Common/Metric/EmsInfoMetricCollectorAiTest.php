@@ -15,6 +15,7 @@ class EmsInfoMetricCollectorAiTest extends TestCase
     private EmsInfoMetricCollector $emsInfoMetricCollector;
     private ComposerInfo $composerInfo;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->composerInfo = $this->createMock(ComposerInfo::class);

@@ -23,6 +23,7 @@ class FirewallEntryPoint implements AuthenticationEntryPointInterface
     ) {
     }
 
+    #[\Override]
     public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         $routeLogin = $this->router->getRouteCollection()->get($this->routeLoginName);

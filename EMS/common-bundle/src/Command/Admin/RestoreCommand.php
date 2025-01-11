@@ -20,12 +20,12 @@ use Symfony\Component\Finder\Finder;
 
 class RestoreCommand extends AbstractCommand
 {
-    final public const FORCE = 'force';
-    final public const IMPORT_FOLDER = 'import-folder';
-    final public const CONFIGS_FOLDER = 'configs-folder';
-    final public const DOCUMENTS_FOLDER = 'documents-folder';
-    final public const CONFIGS_OPTION = 'configs';
-    final public const DOCUMENTS_OPTION = 'documents';
+    final public const string FORCE = 'force';
+    final public const string IMPORT_FOLDER = 'import-folder';
+    final public const string CONFIGS_FOLDER = 'configs-folder';
+    final public const string DOCUMENTS_FOLDER = 'documents-folder';
+    final public const string CONFIGS_OPTION = 'configs';
+    final public const string DOCUMENTS_OPTION = 'documents';
     private bool $force;
     private string $configsFolder;
     private string $documentsFolder;
@@ -43,6 +43,7 @@ class RestoreCommand extends AbstractCommand
         $this->documentsFolder = $projectFolder.DIRECTORY_SEPARATOR.DownloadCommand::DEFAULT_FOLDER;
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -65,6 +66,7 @@ class RestoreCommand extends AbstractCommand
         $this->restoreDocumentsOnly = $this->getOptionBool(self::DOCUMENTS_OPTION);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -76,6 +78,7 @@ class RestoreCommand extends AbstractCommand
         $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, 'Restore elasticMS\'s documents only');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->coreApi = $this->adminHelper->getCoreApi();

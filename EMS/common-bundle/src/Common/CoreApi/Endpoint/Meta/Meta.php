@@ -13,6 +13,7 @@ final readonly class Meta implements MetaInterface
     {
     }
 
+    #[\Override]
     public function getDefaultContentTypeEnvironmentAlias(string $contentTypeName): string
     {
         /** @var array{alias: string} $meta */

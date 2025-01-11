@@ -18,6 +18,7 @@ final class MetricControllerAiTest extends TestCase
     private ?string $metricPort;
     private MetricController $controller;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->metricCollector = $this->createMock(MetricCollector::class);

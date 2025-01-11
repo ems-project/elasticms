@@ -15,6 +15,7 @@ class StoreDataCacheServiceAiTest extends TestCase
     private Cache $cache;
     private StoreDataCacheService $service;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->cache = $this->createMock(Cache::class);

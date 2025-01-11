@@ -14,16 +14,19 @@ final readonly class EmsInfoMetricCollector implements MetricCollectorInterface
     {
     }
 
+    #[\Override]
     public function getName(): string
     {
         return 'ems_info';
     }
 
+    #[\Override]
     public function validUntil(): int
     {
         return DateTime::create('+1 day')->getTimestamp();
     }
 
+    #[\Override]
     public function collect(CollectorRegistry $collectorRegistry): void
     {
         $versionPackages = $this->composerInfo->getVersionPackages();

@@ -12,14 +12,16 @@ use Symfony\Component\Mime\MimeTypes;
 
 final class FolderUploadCommand extends AbstractLocalCommand
 {
-    private const ARG_FOLDER = 'folder';
+    private const string ARG_FOLDER = 'folder';
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
         $this->addArgument(self::ARG_FOLDER, InputArgument::REQUIRED, 'Folder where are located the assets to upload');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Local development - Upload all assets located in a folder');

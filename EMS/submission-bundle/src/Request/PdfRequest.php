@@ -43,6 +43,7 @@ final class PdfRequest extends AbstractRequest
         ]);
     }
 
+    #[\Override]
     protected function getEndpointOptionResolver(): OptionsResolver
     {
         $optionsResolver = new OptionsResolver();

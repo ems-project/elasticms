@@ -23,7 +23,7 @@ use Symfony\Component\Mime\MimeTypes;
 
 final class MediaLibrarySync
 {
-    public const SYNC_METADATA = '_sync_metadata';
+    public const string SYNC_METADATA = '_sync_metadata';
     /** @var mixed[] */
     private array $metadatas = [];
     /** @var string[] */

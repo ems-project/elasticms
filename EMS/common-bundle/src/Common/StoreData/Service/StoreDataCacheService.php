@@ -13,6 +13,7 @@ class StoreDataCacheService implements StoreDataServiceInterface
     {
     }
 
+    #[\Override]
     public function save(StoreDataHelper $data): void
     {
         $cacheItem = $this->cache->getItem($data->getKey());
@@ -23,6 +24,7 @@ class StoreDataCacheService implements StoreDataServiceInterface
         $this->cache->save($cacheItem);
     }
 
+    #[\Override]
     public function read(string $key): ?StoreDataHelper
     {
         $cacheItem = $this->cache->getItem($key);
@@ -30,11 +32,13 @@ class StoreDataCacheService implements StoreDataServiceInterface
         return new StoreDataHelper($key, $cacheItem->get() ?? []);
     }
 
+    #[\Override]
     public function delete(string $key): void
     {
         $this->cache->delete($key);
     }
 
+    #[\Override]
     public function gc(): void
     {
     }

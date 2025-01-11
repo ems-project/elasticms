@@ -68,6 +68,7 @@ final readonly class ChannelService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return true;
@@ -76,6 +77,7 @@ final readonly class ChannelService implements EntityServiceInterface
     /**
      * @return Channel[]
      */
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (null !== $context) {
@@ -85,6 +87,7 @@ final readonly class ChannelService implements EntityServiceInterface
         return $this->channelRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'channel';
@@ -93,6 +96,7 @@ final readonly class ChannelService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [
@@ -102,6 +106,7 @@ final readonly class ChannelService implements EntityServiceInterface
         ];
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         if (null !== $context) {
@@ -111,11 +116,13 @@ final readonly class ChannelService implements EntityServiceInterface
         return $this->channelRepository->counter($searchValue);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->channelRepository->getByName($name);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         $schedule = Channel::fromJson($json, $entity);
@@ -124,6 +131,7 @@ final readonly class ChannelService implements EntityServiceInterface
         return $schedule;
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         $channel = Channel::fromJson($json);
@@ -135,6 +143,7 @@ final readonly class ChannelService implements EntityServiceInterface
         return $channel;
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         $channel = $this->channelRepository->getByName($name);

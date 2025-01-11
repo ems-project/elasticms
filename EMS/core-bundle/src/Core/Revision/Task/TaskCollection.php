@@ -24,6 +24,7 @@ final readonly class TaskCollection implements \IteratorAggregate
     /**
      * @return \ArrayIterator<int, Task>
      */
+    #[\Override]
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->tasks);

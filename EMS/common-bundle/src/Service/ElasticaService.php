@@ -40,7 +40,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ElasticaService
 {
-    private const MAX_INDICES_BY_ALIAS = 100;
+    private const int MAX_INDICES_BY_ALIAS = 100;
     private ?string $version = null;
     private ?string $healthStatus = null;
     /** @var array<string, bool> */

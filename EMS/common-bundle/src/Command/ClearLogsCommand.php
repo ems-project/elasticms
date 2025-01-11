@@ -23,14 +23,15 @@ class ClearLogsCommand extends AbstractCommand
     /** @var string[] */
     private array $channels = [];
 
-    private const OPTION_BEFORE = 'before';
-    private const OPTION_CHANNEL = 'channel';
+    private const string OPTION_BEFORE = 'before';
+    private const string OPTION_CHANNEL = 'channel';
 
     public function __construct(private readonly LogRepository $logRepository)
     {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -39,6 +40,7 @@ class ClearLogsCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -52,6 +54,7 @@ class ClearLogsCommand extends AbstractCommand
         $this->channels = $this->getOptionStringArray(self::OPTION_CHANNEL, false);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {

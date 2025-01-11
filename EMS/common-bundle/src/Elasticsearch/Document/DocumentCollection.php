@@ -32,11 +32,13 @@ final class DocumentCollection implements DocumentCollectionInterface
         return $collection;
     }
 
+    #[\Override]
     public function getTotal(): int
     {
         return $this->total;
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->documents);
@@ -45,6 +47,7 @@ final class DocumentCollection implements DocumentCollectionInterface
     /**
      * @return \Traversable<DocumentInterface>
      */
+    #[\Override]
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->documents);

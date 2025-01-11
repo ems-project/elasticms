@@ -27,6 +27,7 @@ class SamlAuthenticator extends AbstractAuthenticator
     ) {
     }
 
+    #[\Override]
     public function supports(Request $request): ?bool
     {
         return $this->samlService->isEnabled()
@@ -34,6 +35,7 @@ class SamlAuthenticator extends AbstractAuthenticator
             && $this->httpUtils->checkRequestPath($request, SamlService::ROUTE_ACS);
     }
 
+    #[\Override]
     public function authenticate(Request $request): Passport
     {
         $auth = $this->samlService->auth();
@@ -51,6 +53,7 @@ class SamlAuthenticator extends AbstractAuthenticator
         );
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $loginPath = $this->httpUtils->generateUri($request, SamlService::ROUTE_LOGIN);
@@ -61,6 +64,7 @@ class SamlAuthenticator extends AbstractAuthenticator
         return $this->httpUtils->createRedirectResponse($request, $path);
     }
 
+    #[\Override]
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);

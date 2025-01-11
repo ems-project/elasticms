@@ -11,8 +11,8 @@ use Psr\Log\LoggerInterface;
 
 class FileSystemFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    final public const STORAGE_TYPE = 'fs';
-    final public const STORAGE_CONFIG_PATH = 'path';
+    final public const string STORAGE_TYPE = 'fs';
+    final public const string STORAGE_CONFIG_PATH = 'path';
     /** @var string[] */
     private array $usedFolder = [];
 
@@ -23,6 +23,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
     /**
      * @param array<string, mixed> $parameters
      */
+    #[\Override]
     public function createService(array $parameters): ?StorageInterface
     {
         $config = $this->resolveParameters($parameters);
@@ -52,6 +53,7 @@ class FileSystemFactory extends AbstractFactory implements StorageFactoryInterfa
         return new FileSystemStorage($this->logger, $realPath, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
     }
 
+    #[\Override]
     public function getStorageType(): string
     {
         return self::STORAGE_TYPE;

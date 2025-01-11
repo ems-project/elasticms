@@ -15,11 +15,13 @@ class StoreDataS3Factory implements StoreDataFactoryInterface
     public const BUCKET = 'bucket';
     public const TTL = 'ttl';
 
+    #[\Override]
     public function getType(): string
     {
         return self::TYPE_S3;
     }
 
+    #[\Override]
     public function createService(array $parameters): StoreDataServiceInterface
     {
         $resolver = new OptionsResolver();

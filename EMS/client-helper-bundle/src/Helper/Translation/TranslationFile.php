@@ -23,11 +23,13 @@ final class TranslationFile implements \Countable, \Stringable
         $this->resource = $file->getPathname();
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->resource;
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->toArray());

@@ -17,6 +17,7 @@ class JobOutputAiTest extends TestCase
     private Job $job;
     private OutputInterface $otherOutput;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->admin = $this->createMock(AdminInterface::class);

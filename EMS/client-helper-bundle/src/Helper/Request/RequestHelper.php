@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class RequestHelper
 {
-    private const PATTERN = '/%(?<parameter>(_|)[[:alnum:]_]*)%/m';
+    private const string PATTERN = '/%(?<parameter>(_|)[[:alnum:]_]*)%/m';
 
     public static function replace(Request $request, string $subject): string
     {

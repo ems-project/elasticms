@@ -337,11 +337,13 @@ class FileService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->uploadedAssetRepository->makeQueryBuilder(searchValue: $searchValue);
@@ -354,6 +356,7 @@ class FileService implements EntityServiceInterface
         return $qb->getQuery()->execute();
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'UploadedAsset';
@@ -362,11 +365,13 @@ class FileService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [];
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->uploadedAssetRepository->makeQueryBuilder(searchValue: $searchValue)
@@ -403,21 +408,25 @@ class FileService implements EntityServiceInterface
         return $this->uploadedAssetRepository->hashesToIds($hashes);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->uploadedAssetRepository->find($name);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         throw new \RuntimeException('updateEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         throw new \RuntimeException('createEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');

@@ -157,6 +157,7 @@ final readonly class ReleaseService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
@@ -165,6 +166,7 @@ final readonly class ReleaseService implements EntityServiceInterface
     /**
      * @return Release[]
      */
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if ($context instanceof Revision) {
@@ -177,6 +179,7 @@ final readonly class ReleaseService implements EntityServiceInterface
         return $this->releaseRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'release';
@@ -185,11 +188,13 @@ final readonly class ReleaseService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [];
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         if ($context instanceof Revision) {
@@ -296,21 +301,25 @@ final readonly class ReleaseService implements EntityServiceInterface
         return $this->releaseRepository->getById($id);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         return $this->releaseRepository->getById($name);
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         throw new \RuntimeException('updateEntityFromJson method not supported for releases');
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         throw new \RuntimeException('createEntityFromJson method not supported for releases');
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         throw new \RuntimeException('deleteByItemName method not supported for releases');

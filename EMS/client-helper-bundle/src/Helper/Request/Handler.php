@@ -34,6 +34,7 @@ final readonly class Handler implements HandlerInterface
     /**
      * @return array{template: string, context: array<mixed>}
      */
+    #[\Override]
     public function handle(Request $request): array
     {
         $emschRequest = EmschRequest::fromRequest($request);

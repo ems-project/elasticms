@@ -14,6 +14,7 @@ final class ResultAiTest extends TestCase
     private ResponseInterface $response;
     private LoggerInterface $logger;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->response = $this->createMock(ResponseInterface::class);

@@ -48,13 +48,13 @@ final class Filter
 
     private readonly bool|string $dateFormat;
 
-    private const TYPE_TERM = 'term';
-    private const TYPE_TERMS = 'terms';
-    private const TYPE_DATE_RANGE = 'date_range';
-    private const TYPE_DATE_TIME_RANGE = 'datetime_range';
-    private const TYPE_DATE_VERSION = 'date_version';
+    private const string TYPE_TERM = 'term';
+    private const string TYPE_TERMS = 'terms';
+    private const string TYPE_DATE_RANGE = 'date_range';
+    private const string TYPE_DATE_TIME_RANGE = 'datetime_range';
+    private const string TYPE_DATE_VERSION = 'date_version';
 
-    private const TYPES = [
+    private const array TYPES = [
         self::TYPE_TERM,
         self::TYPE_TERMS,
         self::TYPE_DATE_RANGE,

@@ -13,6 +13,7 @@ class CommonExtensionTest extends TestCase
 {
     private Environment $twig;
 
+    #[\Override]
     public function setUp(): void
     {
         $twig = new Environment(

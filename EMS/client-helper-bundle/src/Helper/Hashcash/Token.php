@@ -10,7 +10,7 @@ final readonly class Token
     private string $csrf;
     private string $random;
 
-    private const DELIMITER = '|';
+    private const string DELIMITER = '|';
 
     public function __construct(string $hashcash)
     {

@@ -36,6 +36,7 @@ final readonly class FormSubmissionService implements EntityServiceInterface
     /**
      * @return FormSubmission[]
      */
+    #[\Override]
     public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         return $this->formSubmissionRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
@@ -257,11 +258,13 @@ final readonly class FormSubmissionService implements EntityServiceInterface
         }
     }
 
+    #[\Override]
     public function isSortable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function getEntityName(): string
     {
         return 'formSubmission';
@@ -270,31 +273,37 @@ final readonly class FormSubmissionService implements EntityServiceInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getAliasesName(): array
     {
         return [];
     }
 
+    #[\Override]
     public function count(string $searchValue = '', mixed $context = null): int
     {
         return $this->formSubmissionRepository->countAllUnprocessed($searchValue);
     }
 
+    #[\Override]
     public function getByItemName(string $name): ?EntityInterface
     {
         throw new \RuntimeException('getByItemName method not yet implemented');
     }
 
+    #[\Override]
     public function updateEntityFromJson(EntityInterface $entity, string $json): EntityInterface
     {
         throw new \RuntimeException('updateEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function createEntityFromJson(string $json, ?string $name = null): EntityInterface
     {
         throw new \RuntimeException('createEntityFromJson method not yet implemented');
     }
 
+    #[\Override]
     public function deleteByItemName(string $name): string
     {
         throw new \RuntimeException('deleteByItemName method not yet implemented');

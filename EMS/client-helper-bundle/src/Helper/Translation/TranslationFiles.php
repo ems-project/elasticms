@@ -16,7 +16,7 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
     /** @var TranslationFile[] */
     private array $files = [];
 
-    private const DIRECTORY = 'translations';
+    private const string DIRECTORY = 'translations';
 
     public function __construct(string $directory)
     {
@@ -45,6 +45,7 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
         return new self($directory);
     }
 
+    #[\Override]
     public function count(): int
     {
         $count = 0;
@@ -59,6 +60,7 @@ final class TranslationFiles implements \IteratorAggregate, \Countable
     /**
      * @return \ArrayIterator<int, TranslationFile>
      */
+    #[\Override]
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->files);

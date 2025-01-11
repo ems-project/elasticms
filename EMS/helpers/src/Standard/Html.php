@@ -33,6 +33,7 @@ class Html implements \Stringable
         return new Html($sanitized);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->html;

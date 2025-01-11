@@ -32,6 +32,7 @@ final class HealthCheckCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -40,6 +41,7 @@ final class HealthCheckCommand extends AbstractCommand
             ->addOption('skip-storage', 's', InputOption::VALUE_NONE, 'Skip the storage health check.', null);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Performing Health Check');

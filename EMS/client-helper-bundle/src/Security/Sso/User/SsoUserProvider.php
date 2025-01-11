@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class SsoUserProvider implements UserProviderInterface
 {
+    #[\Override]
     public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof SsoUser) {
@@ -22,6 +23,7 @@ class SsoUserProvider implements UserProviderInterface
         return $user;
     }
 
+    #[\Override]
     public function supportsClass(string $class): bool
     {
         return SsoUser::class === $class;
@@ -32,6 +34,7 @@ class SsoUserProvider implements UserProviderInterface
         return $this->loadUserByIdentifier($username);
     }
 
+    #[\Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         return new SsoUser($identifier);

@@ -9,6 +9,7 @@ use League\Flysystem\FilesystemAdapter;
 
 final class FilesystemFactory implements FilesystemFactoryInterface
 {
+    #[\Override]
     public function create(FilesystemAdapter $adapter): Filesystem
     {
         return new Filesystem($adapter);

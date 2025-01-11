@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 final readonly class CacheResponse
 {
-    public const HEADER_X_EMSCH_CACHE = 'X-emsch-cache';
+    public const string HEADER_X_EMSCH_CACHE = 'X-emsch-cache';
 
     /**
      * @param array<mixed> $headers

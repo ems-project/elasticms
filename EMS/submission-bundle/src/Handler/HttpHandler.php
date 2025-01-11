@@ -22,6 +22,7 @@ final class HttpHandler extends AbstractHandler
     {
     }
 
+    #[\Override]
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface
     {
         try {

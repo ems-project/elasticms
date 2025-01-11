@@ -32,6 +32,7 @@ final readonly class SimpleBatchIteratorAggregate implements \IteratorAggregate
     /**
      * @return \Traversable<string|int, EntityInterface>
      */
+    #[\Override]
     public function getIterator(): \Traversable
     {
         $iteration = 0;

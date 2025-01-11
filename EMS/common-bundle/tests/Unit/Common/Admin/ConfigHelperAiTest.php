@@ -15,6 +15,7 @@ class ConfigHelperAiTest extends TestCase
     private ConfigHelper $configHelper;
     private string $tempDir;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->config = $this->createMock(ConfigInterface::class);
@@ -22,6 +23,7 @@ class ConfigHelperAiTest extends TestCase
         $this->configHelper = new ConfigHelper($this->config, $this->tempDir);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         \array_map('unlink', \glob("$this->tempDir/*.*"));

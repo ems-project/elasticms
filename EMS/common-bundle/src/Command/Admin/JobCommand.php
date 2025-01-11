@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class JobCommand extends AbstractCommand
 {
-    final public const JOB_ID = 'job-id';
+    final public const string JOB_ID = 'job-id';
     private CoreApiInterface $coreApi;
     private string $jobIdOrJsonFile;
     private readonly string $folder;
@@ -27,6 +27,7 @@ class JobCommand extends AbstractCommand
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -34,12 +35,14 @@ class JobCommand extends AbstractCommand
         $this->jobIdOrJsonFile = $this->getArgumentString(self::JOB_ID);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
         $this->addArgument(self::JOB_ID, InputArgument::REQUIRED, 'Job\'s ID or path to a json file or to a job admin\'s file name');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->coreApi = $this->adminHelper->getCoreApi();

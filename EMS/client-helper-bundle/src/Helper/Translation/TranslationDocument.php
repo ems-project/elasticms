@@ -22,16 +22,19 @@ final class TranslationDocument implements BuilderDocumentInterface
         $this->source = $document->getSource();
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getContentType(): string
     {
         return $this->source['_contenttype'];
     }
 
+    #[\Override]
     public function getName(): string
     {
         return (string) $this->source['key'];
@@ -40,6 +43,7 @@ final class TranslationDocument implements BuilderDocumentInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function getDataSource(): array
     {
         return \array_filter($this->source, fn ($key) => 'key' === $key || \str_starts_with($key, 'label_'), ARRAY_FILTER_USE_KEY);

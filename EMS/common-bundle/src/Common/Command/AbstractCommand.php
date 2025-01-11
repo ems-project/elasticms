@@ -27,6 +27,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
         parent::__construct();
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $this->io = new SymfonyStyle($input, $output);
@@ -37,6 +38,7 @@ abstract class AbstractCommand extends Command implements CommandInterface
         $this->processHelper = $processHelper;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         return self::EXECUTE_SUCCESS;

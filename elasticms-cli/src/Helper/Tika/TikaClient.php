@@ -9,7 +9,7 @@ use Symfony\Component\HttpClient\CurlHttpClient;
 
 class TikaClient
 {
-    final public const TIKA_BASE_URL = 'http://localhost:9998/';
+    final public const string TIKA_BASE_URL = 'http://localhost:9998/';
     private readonly Url $serverUrl;
     private ?CurlHttpClient $client = null;
 

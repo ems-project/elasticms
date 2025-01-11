@@ -18,6 +18,7 @@ final class Form implements FormInterface
     {
     }
 
+    #[\Override]
     public function submit(array $data): array
     {
         $resource = $this->makeResource('submissions');
@@ -25,6 +26,7 @@ final class Form implements FormInterface
         return $this->client->post($resource, $data)->getData();
     }
 
+    #[\Override]
     public function getSubmission(string $submissionId, ?string $property = null): array
     {
         $resource = $this->makeResource('submissions/'.$submissionId);
@@ -33,6 +35,7 @@ final class Form implements FormInterface
         return $this->client->get($resource, $query)->getData();
     }
 
+    #[\Override]
     public function getSubmissionFile(string $submissionId, ?string $submissionFileId): ResponseInterface
     {
         $resource = $this->makeResource(\sprintf('submissions/%s/files/%s', $submissionId, $submissionFileId));
@@ -40,6 +43,7 @@ final class Form implements FormInterface
         return $this->client->getResponse($resource);
     }
 
+    #[\Override]
     public function getSubmissionFileAsStreamResponse(string $submissionId, ?string $submissionFileId): StreamedResponse
     {
         $resource = $this->makeResource(\sprintf('submissions/%s/files/%s', $submissionId, $submissionFileId));
@@ -47,6 +51,7 @@ final class Form implements FormInterface
         return $this->client->forwardResponse($resource);
     }
 
+    #[\Override]
     public function createVerification(string $value): string
     {
         $resource = $this->makeResource('verifications');
@@ -56,6 +61,7 @@ final class Form implements FormInterface
         return $data['code'];
     }
 
+    #[\Override]
     public function getVerification(string $value): string
     {
         $resource = $this->makeResource('verifications');

@@ -32,6 +32,7 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -42,6 +43,7 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -49,6 +51,7 @@ class LoadArchiveItemsInCacheCommand extends AbstractCommand
         $this->continue = $this->getOptionInt(self::OPTION_CONTINUE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Load archive\'s items in storage cache');

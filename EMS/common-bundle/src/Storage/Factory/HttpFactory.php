@@ -10,10 +10,10 @@ use Psr\Log\LoggerInterface;
 
 class HttpFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    final public const STORAGE_TYPE = 'http';
-    final public const STORAGE_CONFIG_BASE_URL = 'base-url';
-    final public const STORAGE_CONFIG_GET_URL = 'get-url';
-    final public const STORAGE_CONFIG_AUTH_KEY = 'auth-key';
+    final public const string STORAGE_TYPE = 'http';
+    final public const string STORAGE_CONFIG_BASE_URL = 'base-url';
+    final public const string STORAGE_CONFIG_GET_URL = 'get-url';
+    final public const string STORAGE_CONFIG_AUTH_KEY = 'auth-key';
 
     public function __construct(private readonly LoggerInterface $logger)
     {
@@ -22,6 +22,7 @@ class HttpFactory extends AbstractFactory implements StorageFactoryInterface
     /**
      * @param array<string, mixed> $parameters
      */
+    #[\Override]
     public function createService(array $parameters): ?StorageInterface
     {
         $config = $this->resolveParameters($parameters);
@@ -40,6 +41,7 @@ class HttpFactory extends AbstractFactory implements StorageFactoryInterface
         return new HttpStorage($this->logger, $baseUrl, $getUrl, $usage, $authKey, $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
     }
 
+    #[\Override]
     public function getStorageType(): string
     {
         return self::STORAGE_TYPE;

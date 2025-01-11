@@ -14,6 +14,7 @@ class StoreDataEntityFactoryAiTest extends TestCase
 {
     private StoreDataRepository $repository;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->repository = $this->createMock(StoreDataRepository::class);

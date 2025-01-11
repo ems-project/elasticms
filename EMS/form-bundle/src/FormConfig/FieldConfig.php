@@ -27,6 +27,7 @@ class FieldConfig implements ElementInterface
         $this->class[] = $name;
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id;
@@ -78,6 +79,7 @@ class FieldConfig implements ElementInterface
         return \implode(' ', $classes);
     }
 
+    #[\Override]
     public function getClassName(): string
     {
         return $this->className;
@@ -108,6 +110,7 @@ class FieldConfig implements ElementInterface
         return $this->label;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;

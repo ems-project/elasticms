@@ -15,6 +15,7 @@ final class HttpHandlerTest extends AbstractHandlerTest
     /** @var ResponseFactory */
     private $responseFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -22,6 +23,7 @@ final class HttpHandlerTest extends AbstractHandlerTest
         $this->responseFactory = $this->container->get(ResponseFactory::class);
     }
 
+    #[\Override]
     protected function getHandler(): AbstractHandler
     {
         return $this->container->get('functional_test.emss.handler.http');

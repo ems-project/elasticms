@@ -26,6 +26,7 @@ final readonly class AccessDeniedListener implements EventSubscriberInterface
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

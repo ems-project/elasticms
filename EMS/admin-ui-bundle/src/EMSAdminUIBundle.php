@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EMSAdminUIBundle extends Bundle
 {
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);

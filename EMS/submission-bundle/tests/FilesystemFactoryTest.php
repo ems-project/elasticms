@@ -13,6 +13,7 @@ final class FilesystemFactoryTest extends TestCase
 {
     private FilesystemFactory $filesystemFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

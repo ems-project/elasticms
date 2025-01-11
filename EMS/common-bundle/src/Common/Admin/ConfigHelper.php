@@ -10,7 +10,7 @@ use Symfony\Component\Finder\Finder;
 
 final readonly class ConfigHelper
 {
-    public const DEFAULT_FOLDER = 'admin';
+    public const string DEFAULT_FOLDER = 'admin';
     private string $directory;
 
     public function __construct(private ConfigInterface $config, string $saveFolder)

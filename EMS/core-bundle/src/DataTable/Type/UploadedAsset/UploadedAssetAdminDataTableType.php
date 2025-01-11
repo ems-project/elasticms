@@ -32,6 +32,7 @@ class UploadedAssetAdminDataTableType extends AbstractEntityTableType
         parent::__construct($entityService);
     }
 
+    #[\Override]
     public function build(EntityTable $table): void
     {
         $table->setDefaultOrder('created', 'desc');
@@ -107,6 +108,7 @@ class UploadedAssetAdminDataTableType extends AbstractEntityTableType
         $this->addTableActionDelete($table, 'uploaded_file');
     }
 
+    #[\Override]
     public function getRoles(): array
     {
         return [Roles::ROLE_ADMIN];

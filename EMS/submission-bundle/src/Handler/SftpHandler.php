@@ -20,6 +20,7 @@ final class SftpHandler extends AbstractHandler
     {
     }
 
+    #[\Override]
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface
     {
         try {

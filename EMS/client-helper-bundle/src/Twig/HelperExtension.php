@@ -14,6 +14,7 @@ use Twig\TwigFunction;
 
 final class HelperExtension extends AbstractExtension
 {
+    #[\Override]
     public function getFilters(): array
     {
         return [
@@ -25,6 +26,7 @@ final class HelperExtension extends AbstractExtension
         ];
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [

@@ -28,6 +28,7 @@ final readonly class RevisionTask implements DashboardInterface
     ) {
     }
 
+    #[\Override]
     public function getResponse(Dashboard $dashboard): Response
     {
         $request = $this->requestStack->getCurrentRequest();

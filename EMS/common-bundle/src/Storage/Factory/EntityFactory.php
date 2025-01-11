@@ -12,9 +12,9 @@ use Psr\Log\LoggerInterface;
 class EntityFactory extends AbstractFactory implements StorageFactoryInterface
 {
     /** @var string */
-    final public const STORAGE_TYPE = 'db';
+    final public const string STORAGE_TYPE = 'db';
     /** @var string */
-    final public const STORAGE_CONFIG_ACTIVATE = 'activate';
+    final public const string STORAGE_CONFIG_ACTIVATE = 'activate';
     private bool $registered = false;
 
     public function __construct(private readonly LoggerInterface $logger, private readonly Registry $doctrine)
@@ -24,6 +24,7 @@ class EntityFactory extends AbstractFactory implements StorageFactoryInterface
     /**
      * @param array<string, mixed> $parameters
      */
+    #[\Override]
     public function createService(array $parameters): ?StorageInterface
     {
         $config = $this->resolveParameters($parameters);
@@ -44,6 +45,7 @@ class EntityFactory extends AbstractFactory implements StorageFactoryInterface
         return new EntityStorage($this->doctrine, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
     }
 
+    #[\Override]
     public function getStorageType(): string
     {
         return self::STORAGE_TYPE;

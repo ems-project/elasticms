@@ -14,6 +14,7 @@ class StoreDataEntityService implements StoreDataServiceInterface
     {
     }
 
+    #[\Override]
     public function save(StoreDataHelper $data): void
     {
         $entity = $this->repository->getByKey($data->getKey());
@@ -28,6 +29,7 @@ class StoreDataEntityService implements StoreDataServiceInterface
         $this->repository->update($entity);
     }
 
+    #[\Override]
     public function read(string $key): ?StoreDataHelper
     {
         $entity = $this->repository->getByKey($key);
@@ -38,6 +40,7 @@ class StoreDataEntityService implements StoreDataServiceInterface
         return new StoreDataHelper($key, $entity->getData());
     }
 
+    #[\Override]
     public function delete(string $key): void
     {
         $entity = $this->repository->getByKey($key);
@@ -47,6 +50,7 @@ class StoreDataEntityService implements StoreDataServiceInterface
         $this->repository->delete($entity);
     }
 
+    #[\Override]
     public function gc(): void
     {
         $this->repository->deleteExpired();

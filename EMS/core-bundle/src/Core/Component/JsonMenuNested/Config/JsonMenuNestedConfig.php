@@ -28,11 +28,13 @@ class JsonMenuNestedConfig implements ConfigInterface
     ) {
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getHash(): string
     {
         return $this->hash;

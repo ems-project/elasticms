@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class IsInternationalPhoneNumberValidatorTest extends ConstraintValidatorTestCase
 {
+    #[\Override]
     protected function createValidator(): IsInternationalPhoneNumberValidator
     {
         return new IsInternationalPhoneNumberValidator();

@@ -9,7 +9,7 @@ use Psr\Http\Message\StreamInterface;
 
 class TikaWrapper extends ProcessWrapper
 {
-    private const EMSCLI_TIKA_PATH = 'EMSCLI_TIKA_PATH';
+    private const string EMSCLI_TIKA_PATH = 'EMSCLI_TIKA_PATH';
     private readonly string $tikaJar;
 
     private function __construct(StreamInterface $stream, string $option, float $timeout = 3 * 60.0)
@@ -53,6 +53,7 @@ class TikaWrapper extends ProcessWrapper
         return new self($stream, '--detect');
     }
 
+    #[\Override]
     protected function initialize(): void
     {
         if (!\file_exists($this->tikaJar)) {

@@ -640,18 +640,15 @@ class ContentTypeService implements EntityServiceInterface
     }
 
     /**
-     * @param mixed|null $context
-     *
      * @return ContentType[]
      */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (null !== $context) {
             throw new \RuntimeException('Unexpected non-null object');
         }
-        $contentTypeRepository = $this->getContentTypeRepository();
 
-        return $contentTypeRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
+        return $this->getContentTypeRepository()->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
 
     public function getEntityName(): string
@@ -673,7 +670,7 @@ class ContentTypeService implements EntityServiceInterface
         ];
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         if (null !== $context) {
             throw new \RuntimeException('Unexpected non-null object');
@@ -750,7 +747,7 @@ class ContentTypeService implements EntityServiceInterface
         }
 
         $versionTags = $contentType->getVersionTags();
-        $versionTagsLabels = \array_map(fn(string $versionTag) => $this->translator->trans(
+        $versionTagsLabels = \array_map(fn (string $versionTag) => $this->translator->trans(
             'field.revision_version_tag',
             ['%version_tag%' => $versionTag],
             'emsco-core'

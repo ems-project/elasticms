@@ -371,7 +371,7 @@ class EnvironmentService implements EntityServiceInterface
         return true;
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->environmentRepository->makeQueryBuilder(
             isManaged: \is_array($context) ? ($context['managed'] ?? false) : null,
@@ -412,7 +412,7 @@ class EnvironmentService implements EntityServiceInterface
         ];
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->environmentRepository
             ->makeQueryBuilder(

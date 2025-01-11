@@ -74,11 +74,9 @@ final class ChannelService implements EntityServiceInterface
     }
 
     /**
-     * @param mixed $context
-     *
      * @return Channel[]
      */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (null !== $context) {
             throw new \RuntimeException('Unexpected context');
@@ -104,10 +102,7 @@ final class ChannelService implements EntityServiceInterface
         ];
     }
 
-    /**
-     * @param mixed $context
-     */
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         if (null !== $context) {
             throw new \RuntimeException('Unexpected non-null object');

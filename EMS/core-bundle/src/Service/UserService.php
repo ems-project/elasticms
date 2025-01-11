@@ -238,7 +238,7 @@ class UserService implements EntityServiceInterface
         return false;
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         return $this->userRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
@@ -256,7 +256,7 @@ class UserService implements EntityServiceInterface
         return [];
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         return $this->userRepository->countUsers($searchValue);
     }

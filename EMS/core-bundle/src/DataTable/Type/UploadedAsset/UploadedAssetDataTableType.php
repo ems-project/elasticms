@@ -59,13 +59,13 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
         ]);
 
         if (self::LOCATION_WYSIWYG_BROWSER === $location || self::LOCATION_FILE_MODAL === $location) {
-            $columnName->addHtmlAttribute('data-url', fn(array $data) => \vsprintf('%s%s?name=%s&type=%s', [
+            $columnName->addHtmlAttribute('data-url', fn (array $data) => \vsprintf('%s%s?name=%s&type=%s', [
                 EMSLink::EMSLINK_ASSET_PREFIX,
                 $data['id'],
                 $data['name'],
                 $data['type'],
             ]));
-            $columnName->addHtmlAttribute('data-json', fn(array $data) => Json::encode([
+            $columnName->addHtmlAttribute('data-json', fn (array $data) => Json::encode([
                 EmsFields::CONTENT_FILE_NAME_FIELD => $data['name'],
                 EmsFields::CONTENT_FILE_SIZE_FIELD => $data['size'] ?? 0,
                 EmsFields::CONTENT_MIME_TYPE_FIELD => $data['type'],
@@ -86,13 +86,13 @@ class UploadedAssetDataTableType extends AbstractTableType implements QueryServi
         }
 
         if (self::LOCATION_FILE_MODAL === $location) {
-            $columnName->setItemIconCallback(fn(array $data) => Encoder::getFontAwesomeFromMimeType($data['type'], EMSCoreBundle::FONTAWESOME_VERSION));
+            $columnName->setItemIconCallback(fn (array $data) => Encoder::getFontAwesomeFromMimeType($data['type'], EMSCoreBundle::FONTAWESOME_VERSION));
         } else {
             $table->addColumnDefinition(new TranslationTableColumn(
                 titleKey: t('field.file.type', [], 'emsco-core'),
                 attribute: 'type',
                 domain: 'emsco-mimetypes'
-            ))->setItemIconCallback(fn(array $data) => Encoder::getFontAwesomeFromMimeType($data['type'], EMSCoreBundle::FONTAWESOME_VERSION));
+            ))->setItemIconCallback(fn (array $data) => Encoder::getFontAwesomeFromMimeType($data['type'], EMSCoreBundle::FONTAWESOME_VERSION));
         }
 
         $table->addColumnDefinition(new UserTableColumn(

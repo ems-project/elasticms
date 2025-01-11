@@ -93,7 +93,7 @@ final class ReleaseRevisionService implements QueryServiceInterface, EntityServi
         }
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (!$context instanceof Release) {
             throw new \RuntimeException('Unexpected non Release context');
@@ -102,7 +102,7 @@ final class ReleaseRevisionService implements QueryServiceInterface, EntityServi
         return $this->releaseRevisionRepository->findByRelease($context, $from, $size, $orderField, $orderDirection, $searchValue);
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         if (!$context instanceof Release) {
             throw new \RuntimeException('Unexpected non Release context');

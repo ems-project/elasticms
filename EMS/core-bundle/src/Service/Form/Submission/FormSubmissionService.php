@@ -34,11 +34,9 @@ final class FormSubmissionService implements EntityServiceInterface
     }
 
     /**
-     * @param mixed $context
-     *
      * @return FormSubmission[]
      */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         return $this->formSubmissionRepository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }
@@ -277,7 +275,7 @@ final class FormSubmissionService implements EntityServiceInterface
         return [];
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         return $this->formSubmissionRepository->countAllUnprocessed($searchValue);
     }

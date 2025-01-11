@@ -163,11 +163,9 @@ final class ReleaseService implements EntityServiceInterface
     }
 
     /**
-     * @param mixed $context
-     *
      * @return Release[]
      */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if ($context instanceof Revision) {
             return $this->releaseRepository->getInWip($from, $size, $orderField, $orderDirection, $searchValue);
@@ -192,10 +190,7 @@ final class ReleaseService implements EntityServiceInterface
         return [];
     }
 
-    /**
-     * @param mixed $context
-     */
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         if ($context instanceof Revision) {
             return $this->releaseRepository->countWipReleases();

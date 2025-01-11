@@ -89,7 +89,7 @@ class JobService implements EntityServiceInterface
         return $doneJobs;
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         if (null !== $context) {
             throw new \RuntimeException('Unexpected context');
@@ -243,7 +243,7 @@ class JobService implements EntityServiceInterface
     /**
      * @return Job[]
      */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         return $this->repository->get($from, $size, $orderField, $orderDirection, $searchValue);
     }

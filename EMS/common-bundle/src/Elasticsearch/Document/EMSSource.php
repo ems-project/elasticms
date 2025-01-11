@@ -49,7 +49,7 @@ final class EMSSource implements EMSSourceInterface
         }
     }
 
-    public function get(string $field, $default = null)
+    public function get(string $field, mixed $default = null)
     {
         return $this->source[$field] ?? $default;
     }

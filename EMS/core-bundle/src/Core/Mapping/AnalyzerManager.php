@@ -15,7 +15,7 @@ class AnalyzerManager implements EntityServiceInterface
     {
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->analyzerRepository->makeQueryBuilder(searchValue: $searchValue)
             ->select('count(a.id)')
@@ -59,7 +59,7 @@ class AnalyzerManager implements EntityServiceInterface
         return \strval($id);
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->analyzerRepository->makeQueryBuilder(searchValue: $searchValue);
         $qb->setFirstResult($from)->setMaxResults($size);

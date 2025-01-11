@@ -15,7 +15,7 @@ class FilterManager implements EntityServiceInterface
     {
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->filterRepository->makeQueryBuilder(searchValue: $searchValue)
             ->select('count(f.id)')
@@ -59,7 +59,7 @@ class FilterManager implements EntityServiceInterface
         return \strval($id);
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->filterRepository->makeQueryBuilder(searchValue: $searchValue);
         $qb->setFirstResult($from)->setMaxResults($size);

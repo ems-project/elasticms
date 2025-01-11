@@ -45,7 +45,7 @@ class LogManager implements EntityServiceInterface
         return false;
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (!$context instanceof LogEntityTableContext) {
             throw new \RuntimeException('Unexpected context');
@@ -73,7 +73,7 @@ class LogManager implements EntityServiceInterface
         return [];
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         if (!$context instanceof LogEntityTableContext) {
             throw new \RuntimeException('Unexpected context');

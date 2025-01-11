@@ -89,7 +89,7 @@ final class TaskManager
 
         $taskCollection = new TaskCollection(revision: $revision, tasks: $tasksApproved ?? []);
 
-        return $taskCollection->sort(fn(Task $a, Task $b) => $b->getModified() <=> $a->getModified());
+        return $taskCollection->sort(fn (Task $a, Task $b) => $b->getModified() <=> $a->getModified());
     }
 
     public function getTaskCurrent(Revision $revision): ?Task

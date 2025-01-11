@@ -37,7 +37,7 @@ class UploadedAssetAdminDataTableType extends AbstractEntityTableType
         $table->setDefaultOrder('created', 'desc');
 
         $columnName = $table->addColumn(t('field.name', [], 'emsco-core'), 'name');
-        $columnName->setItemIconCallback(fn(UploadedAsset $data) => Encoder::getFontAwesomeFromMimeType($data->getType(), EMSCoreBundle::FONTAWESOME_VERSION));
+        $columnName->setItemIconCallback(fn (UploadedAsset $data) => Encoder::getFontAwesomeFromMimeType($data->getType(), EMSCoreBundle::FONTAWESOME_VERSION));
         $columnName->setRoute('ems_file_download', function (UploadedAsset $data) {
             if (!$data->getAvailable()) {
                 return null;

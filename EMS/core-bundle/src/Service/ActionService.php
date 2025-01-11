@@ -65,11 +65,9 @@ final class ActionService implements EntityServiceInterface
     }
 
     /**
-     * @param mixed $context
-     *
      * @return Template[]
      */
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         if (!$context instanceof ContentType) {
             throw new \RuntimeException('Unexpected non-ContentType object');
@@ -91,10 +89,7 @@ final class ActionService implements EntityServiceInterface
         return [];
     }
 
-    /**
-     * @param mixed $context
-     */
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         if (!$context instanceof ContentType) {
             throw new \RuntimeException('Unexpected non-ContentType object');

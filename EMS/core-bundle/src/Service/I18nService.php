@@ -14,7 +14,7 @@ class I18nService implements EntityServiceInterface
     {
     }
 
-    public function count(string $searchValue = '', $context = null): int
+    public function count(string $searchValue = '', mixed $context = null): int
     {
         return (int) $this->repository->makeQueryBuilder(searchValue: $searchValue)
             ->select('count(i.id)')
@@ -58,7 +58,7 @@ class I18nService implements EntityServiceInterface
         return \strval($id);
     }
 
-    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, $context = null): array
+    public function get(int $from, int $size, ?string $orderField, string $orderDirection, string $searchValue, mixed $context = null): array
     {
         $qb = $this->repository->makeQueryBuilder(searchValue: $searchValue);
         $qb->setFirstResult($from)->setMaxResults($size);

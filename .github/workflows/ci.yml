@@ -45,7 +45,7 @@ jobs:
         run: composer install --no-progress
 
       - name: "Run PHPStan"
-        run: vendor/bin/phpstan analyse --error-format=github --configuration==phpstan.neon.dist -vvv
+        run: vendor/bin/phpstan analyse --error-format=github --configuration=phpstan.neon.dist -vvv
 
       - name: "Run PHP-CS-Fixer"
         run: >-

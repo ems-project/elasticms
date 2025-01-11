@@ -2875,12 +2875,6 @@ parameters:
 			path: EMS/core-bundle/src/Service/DataService.php
 
 		-
-			message: '#^PHPDoc tag @var with type Symfony\\Component\\Form\\FormError is not subtype of native type T of Symfony\\Component\\Form\\FormError\|Symfony\\Component\\Form\\FormErrorIterator\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: EMS/core-bundle/src/Service/DataService.php
-
-		-
 			message: '#^Strict comparison using \!\=\= between null and non\-falsy\-string will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1

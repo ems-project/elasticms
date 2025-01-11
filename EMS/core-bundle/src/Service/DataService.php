@@ -793,7 +793,6 @@ class DataService
     private function logFormErrors(FormInterface $form): void
     {
         $formErrors = $form->getErrors(true);
-        /** @var FormError $formError */
         foreach ($formErrors as $formError) {
             $fieldForm = $formError->getOrigin();
             $dataField = null;

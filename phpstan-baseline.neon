@@ -325,12 +325,6 @@ parameters:
 			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
 
 		-
-			message: '#^PHPDoc tag @var with type Symfony\\Component\\Form\\Form is not subtype of native type Symfony\\Component\\Form\\FormInterface\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
-
-		-
 			message: '#^Call to function is_countable\(\) with Symfony\\Component\\Form\\FormErrorIterator will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -340,12 +334,6 @@ parameters:
 			message: '#^Cannot call method getErrors\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 3
-			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
-
-		-
-			message: '#^PHPDoc tag @var with type Symfony\\Component\\Form\\FormError is not subtype of native type T of Symfony\\Component\\Form\\FormError\|Symfony\\Component\\Form\\FormErrorIterator\.$#'
-			identifier: varTag.nativeType
-			count: 1
 			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
 
 		-
@@ -481,12 +469,6 @@ parameters:
 			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
 
 		-
-			message: '#^PHPDoc tag @var with type EMS\\CoreBundle\\Entity\\Revision is not subtype of native type null\.$#'
-			identifier: varTag.nativeType
-			count: 2
-			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
-
-		-
 			message: '#^Method EMS\\CoreBundle\\Controller\\WysiwygController\:\:datatableProfiles\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -605,12 +587,6 @@ parameters:
 			identifier: instanceof.alwaysTrue
 			count: 1
 			path: EMS/core-bundle/src/Elasticsearch/Bulker.php
-
-		-
-			message: '#^PHPDoc tag @var with type EMS\\CoreBundle\\Form\\DataField\\DataFieldType is not subtype of native type string\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: EMS/core-bundle/src/Entity/FieldType.php
 
 		-
 			message: '#^Property EMS\\CoreBundle\\Entity\\User\:\:\$circles \(array\<string\>\|null\) is never assigned null so it can be removed from the property type\.$#'
@@ -2927,12 +2903,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: EMS/core-bundle/src/Service/Revision/RevisionService.php
-
-		-
-			message: '#^PHPDoc tag @var with type SoapClient is not subtype of native type null\.$#'
-			identifier: varTag.nativeType
-			count: 1
-			path: EMS/core-bundle/src/Twig/AppExtension.php
 
 		-
 			message: '#^Method EMS\\CoreBundle\\Twig\\FormRuntime\:\:getDataField\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'

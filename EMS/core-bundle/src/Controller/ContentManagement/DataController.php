@@ -623,8 +623,11 @@ class DataController extends AbstractController
         }
 
         $serialisedFormErrors = [];
-        /** @var FormError $error */
         foreach ($formErrors as $error) {
+            if (!$error instanceof FormError) {
+                continue;
+            }
+
             $serialisedFormErrors[] = [
                 'propertyPath' => AppExtension::propertyPath($error),
                 'message' => $error->getMessage(),

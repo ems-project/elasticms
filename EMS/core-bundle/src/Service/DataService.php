@@ -794,6 +794,10 @@ class DataService
     {
         $formErrors = $form->getErrors(true);
         foreach ($formErrors as $formError) {
+            if (!$formError instanceof FormError) {
+                continue;
+            }
+
             $fieldForm = $formError->getOrigin();
             $dataField = null;
             while (null !== $fieldForm && !$fieldForm->getNormData() instanceof DataField) {

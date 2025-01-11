@@ -111,7 +111,6 @@ class CriteriaController extends AbstractController
                                     $type = $structuredTarget[0];
                                     $ouuid = $structuredTarget[1];
 
-                                    /** @var Revision $revision */
                                     $revision = $this->dataService->getNewestRevision($type, $ouuid);
                                 }
 
@@ -165,7 +164,6 @@ class CriteriaController extends AbstractController
                                     $type = $structuredTarget[0];
                                     $ouuid = $structuredTarget[1];
 
-                                    /** @var Revision $revision */
                                     $revision = $this->dataService->getNewestRevision($type, $ouuid);
                                 }
 
@@ -648,7 +646,6 @@ class CriteriaController extends AbstractController
 
             return $revision;
         } elseif (1 == $response->getTotal()) {
-            /** @var Revision $revision */
             $revision = null;
             /** @var Document $document */
             foreach ($response->getDocuments() as $document) {
@@ -899,7 +896,6 @@ class CriteriaController extends AbstractController
                 'field_name' => $targetFieldName,
             ]);
         } elseif (1 == $response->getTotal()) {
-            /** @var Revision $revision */
             $revision = null;
             $queryDocument = null;
             /** @var Document $document */

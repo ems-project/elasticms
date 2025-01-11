@@ -1196,14 +1196,7 @@ class AppExtension extends AbstractExtension
      */
     public function soapRequest(mixed $wsdl, array $arguments)
     {
-        /** @var \SoapClient $soapClient */
-        $soapClient = null;
-        if (\array_key_exists('options', $arguments)) {
-            $soapClient = new \SoapClient($wsdl, $arguments['options']);
-        } else {
-            $soapClient = new \SoapClient($wsdl);
-        }
-
+        $soapClient = new \SoapClient($wsdl, $arguments['options'] ?? []);
         $function = $arguments['function'];
 
         if (\array_key_exists('parameters', $arguments)) {

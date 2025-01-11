@@ -19,7 +19,6 @@ use EMS\CoreBundle\Form\DataField\IndexedAssetFieldType;
 use EMS\CoreBundle\Form\DataField\IntegerFieldType;
 use EMS\CoreBundle\Form\DataField\NestedFieldType;
 use EMS\CoreBundle\Form\DataField\NumberFieldType;
-use EMS\CoreBundle\Form\DataField\TextStringFieldType;
 use EMS\CoreBundle\Form\DataField\TimeFieldType;
 use EMS\CoreBundle\Form\DataField\VersionTagFieldType;
 use EMS\Helpers\Standard\Json;

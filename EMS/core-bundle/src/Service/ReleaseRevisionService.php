@@ -14,13 +14,13 @@ use EMS\CoreBundle\Repository\ReleaseRevisionRepository;
 use EMS\CoreBundle\Repository\RevisionRepository;
 use Psr\Log\LoggerInterface;
 
-final class ReleaseRevisionService implements QueryServiceInterface, EntityServiceInterface
+final readonly class ReleaseRevisionService implements QueryServiceInterface, EntityServiceInterface
 {
     public function __construct(
-        private readonly ReleaseRevisionRepository $releaseRevisionRepository,
-        private readonly RevisionRepository $revisionRepository,
-        private readonly LoggerInterface $logger,
-        private readonly ContentTypeService $contentTypeService,
+        private ReleaseRevisionRepository $releaseRevisionRepository,
+        private RevisionRepository $revisionRepository,
+        private LoggerInterface $logger,
+        private ContentTypeService $contentTypeService,
     ) {
     }
 

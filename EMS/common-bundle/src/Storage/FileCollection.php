@@ -7,12 +7,12 @@ namespace EMS\CommonBundle\Storage;
 /**
  * @implements \IteratorAggregate<array>
  */
-final class FileCollection implements \IteratorAggregate
+final readonly class FileCollection implements \IteratorAggregate
 {
     /**
      * @param array<mixed, mixed> $files
      */
-    public function __construct(private readonly array $files, private readonly StorageManager $storageManager)
+    public function __construct(private array $files, private StorageManager $storageManager)
     {
     }
 

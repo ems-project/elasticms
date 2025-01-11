@@ -14,9 +14,9 @@ use EMS\CoreBundle\Entity\Revision;
 use EMS\CoreBundle\Repository\ReleaseRepository;
 use Psr\Log\LoggerInterface;
 
-final class ReleaseService implements EntityServiceInterface
+final readonly class ReleaseService implements EntityServiceInterface
 {
-    public function __construct(private readonly ReleaseRepository $releaseRepository, private readonly ContentTypeService $contentTypeService, private readonly DataService $dataService, private readonly ReleaseRevisionService $releaseRevisionService, private readonly PublishService $publishService, private readonly LoggerInterface $logger)
+    public function __construct(private ReleaseRepository $releaseRepository, private ContentTypeService $contentTypeService, private DataService $dataService, private ReleaseRevisionService $releaseRevisionService, private PublishService $publishService, private LoggerInterface $logger)
     {
     }
 

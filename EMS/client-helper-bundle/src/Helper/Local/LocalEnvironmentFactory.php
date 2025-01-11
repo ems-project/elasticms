@@ -6,11 +6,11 @@ namespace EMS\ClientHelperBundle\Helper\Local;
 
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
 
-final class LocalEnvironmentFactory
+final readonly class LocalEnvironmentFactory
 {
     public function __construct(
-        private readonly string $projectDir,
-        private readonly ?string $localPath = null,
+        private string $projectDir,
+        private ?string $localPath = null,
     ) {
     }
 

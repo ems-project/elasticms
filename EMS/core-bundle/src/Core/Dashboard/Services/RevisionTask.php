@@ -16,15 +16,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
-final class RevisionTask implements DashboardInterface
+final readonly class RevisionTask implements DashboardInterface
 {
     public function __construct(
-        private readonly Environment $twig,
-        private readonly RequestStack $requestStack,
-        private readonly FormFactoryInterface $formFactory,
-        private readonly TaskManager $taskManager,
-        private readonly DataTableFactory $dataTableFactory,
-        private readonly string $templateNamespace,
+        private Environment $twig,
+        private RequestStack $requestStack,
+        private FormFactoryInterface $formFactory,
+        private TaskManager $taskManager,
+        private DataTableFactory $dataTableFactory,
+        private string $templateNamespace,
     ) {
     }
 

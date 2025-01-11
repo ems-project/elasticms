@@ -21,13 +21,13 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\UserInterface;
 use EMS\CommonBundle\Storage\StorageManager;
 use Psr\Log\LoggerInterface;
 
-final class CoreApi implements CoreApiInterface
+final readonly class CoreApi implements CoreApiInterface
 {
-    private readonly File $fileEndpoint;
-    private readonly Search $searchEndpoint;
-    private readonly DataExtract $dataExtractEndpoint;
+    private File $fileEndpoint;
+    private Search $searchEndpoint;
+    private DataExtract $dataExtractEndpoint;
 
-    public function __construct(private readonly Client $client, StorageManager $storageManager)
+    public function __construct(private Client $client, StorageManager $storageManager)
     {
         $this->fileEndpoint = new File($client, $storageManager);
         $this->searchEndpoint = new Search($client, $this->admin());

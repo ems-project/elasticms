@@ -10,9 +10,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
-final class LoginListener implements EventSubscriberInterface
+final readonly class LoginListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly UserManager $userManager)
+    public function __construct(private UserManager $userManager)
     {
     }
 

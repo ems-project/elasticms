@@ -11,9 +11,9 @@ use EMS\CoreBundle\Repository\ChannelRepository;
 use EMS\CoreBundle\Service\EntityServiceInterface;
 use Psr\Log\LoggerInterface;
 
-final class ChannelService implements EntityServiceInterface
+final readonly class ChannelService implements EntityServiceInterface
 {
-    public function __construct(private readonly ChannelRepository $channelRepository, private readonly LoggerInterface $logger)
+    public function __construct(private ChannelRepository $channelRepository, private LoggerInterface $logger)
     {
     }
 

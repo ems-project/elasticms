@@ -7,12 +7,12 @@ namespace EMS\ClientHelperBundle\Helper\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class LocaleHelper
+final readonly class LocaleHelper
 {
     /**
      * @param string[] $locales
      */
-    public function __construct(private readonly array $locales)
+    public function __construct(private array $locales)
     {
     }
 

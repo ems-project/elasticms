@@ -12,7 +12,7 @@ use IteratorAggregate;
 /**
  * @implements IteratorAggregate<string|int, EntityInterface>
  */
-final class SimpleBatchIteratorAggregate implements \IteratorAggregate
+final readonly class SimpleBatchIteratorAggregate implements \IteratorAggregate
 {
     public static function fromQuery(AbstractQuery $query, int $batchSize): self
     {
@@ -78,7 +78,7 @@ final class SimpleBatchIteratorAggregate implements \IteratorAggregate
      *
      * @param iterable<string|int, EntityInterface> $resultSet
      */
-    private function __construct(private readonly iterable $resultSet, private readonly EntityManagerInterface $entityManager, private readonly int $batchSize)
+    private function __construct(private iterable $resultSet, private EntityManagerInterface $entityManager, private int $batchSize)
     {
     }
 

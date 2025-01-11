@@ -6,9 +6,9 @@ namespace EMS\CommonBundle\Elasticsearch;
 
 use EMS\CommonBundle\Elasticsearch\Document\EMSSource;
 
-final class Mapping
+final readonly class Mapping
 {
-    public function __construct(private readonly Client $client)
+    public function __construct(private Client $client)
     {
     }
 

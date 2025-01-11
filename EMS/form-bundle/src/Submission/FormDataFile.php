@@ -8,11 +8,11 @@ use EMS\FormBundle\FormConfig\ElementInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mime\MimeTypes;
 
-final class FormDataFile
+final readonly class FormDataFile
 {
-    private readonly string $filename;
+    private string $filename;
 
-    public function __construct(private readonly UploadedFile $file, private readonly ElementInterface $formElement)
+    public function __construct(private UploadedFile $file, private ElementInterface $formElement)
     {
         $filename = $file->getClientOriginalName();
         $extension = MimeTypes::getDefault()->getExtensions($file->getClientMimeType())[0] ?? null;

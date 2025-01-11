@@ -10,9 +10,9 @@ use EMS\CoreBundle\Entity\Template;
 use EMS\CoreBundle\Repository\TemplateRepository;
 use Psr\Log\LoggerInterface;
 
-final class ActionService implements EntityServiceInterface
+final readonly class ActionService implements EntityServiceInterface
 {
-    public function __construct(private readonly TemplateRepository $templateRepository, private readonly LoggerInterface $logger)
+    public function __construct(private TemplateRepository $templateRepository, private LoggerInterface $logger)
     {
     }
 

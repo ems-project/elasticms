@@ -8,9 +8,9 @@ use EMS\FormBundle\Submission\HandleRequestInterface;
 use EMS\Helpers\Standard\Json;
 use Twig\Environment;
 
-final class TwigRenderer
+final readonly class TwigRenderer
 {
-    public function __construct(private readonly Environment $templating)
+    public function __construct(private Environment $templating)
     {
     }
 

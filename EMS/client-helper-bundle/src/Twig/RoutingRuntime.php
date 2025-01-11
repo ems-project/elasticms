@@ -7,9 +7,9 @@ namespace EMS\ClientHelperBundle\Twig;
 use EMS\ClientHelperBundle\Helper\Routing\Url\Transformer;
 use Twig\Extension\RuntimeExtensionInterface;
 
-final class RoutingRuntime implements RuntimeExtensionInterface
+final readonly class RoutingRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly Transformer $transformer)
+    public function __construct(private Transformer $transformer)
     {
     }
 

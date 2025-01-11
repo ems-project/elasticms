@@ -21,18 +21,18 @@ use Twig\Environment;
 /**
  * @todo use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface
  */
-final class ApiService
+final readonly class ApiService
 {
     /**
      * @param ClientRequest[] $clientRequests
      * @param Client[]        $apiClients
      */
     public function __construct(
-        private readonly Environment $twig,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security,
-        private readonly iterable $clientRequests = [],
-        private readonly iterable $apiClients = [],
+        private Environment $twig,
+        private UrlGeneratorInterface $urlGenerator,
+        private Security $security,
+        private iterable $clientRequests = [],
+        private iterable $apiClients = [],
     ) {
     }
 

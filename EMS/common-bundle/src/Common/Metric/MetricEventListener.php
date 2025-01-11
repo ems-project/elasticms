@@ -9,9 +9,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class MetricEventListener implements EventSubscriberInterface
+final readonly class MetricEventListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly MetricCollector $metricCollector)
+    public function __construct(private MetricCollector $metricCollector)
     {
     }
 

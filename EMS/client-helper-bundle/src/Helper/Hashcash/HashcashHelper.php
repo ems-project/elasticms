@@ -9,9 +9,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
-final class HashcashHelper
+final readonly class HashcashHelper
 {
-    public function __construct(private readonly CsrfTokenManager $csrfTokenManager)
+    public function __construct(private CsrfTokenManager $csrfTokenManager)
     {
     }
 

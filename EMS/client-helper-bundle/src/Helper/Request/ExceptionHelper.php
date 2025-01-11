@@ -10,9 +10,9 @@ use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class ExceptionHelper
+final readonly class ExceptionHelper
 {
-    public function __construct(private readonly Environment $twig, private readonly ClientRequestManager $manager, private readonly bool $enabled, private readonly bool $debug, private readonly string $template = '')
+    public function __construct(private Environment $twig, private ClientRequestManager $manager, private bool $enabled, private bool $debug, private string $template = '')
     {
     }
 

@@ -7,9 +7,9 @@ namespace EMS\CommonBundle\Twig;
 use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use Twig\Extension\RuntimeExtensionInterface;
 
-final class InfoRuntime implements RuntimeExtensionInterface
+final readonly class InfoRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly ComposerInfo $composerInfo)
+    public function __construct(private ComposerInfo $composerInfo)
     {
     }
 

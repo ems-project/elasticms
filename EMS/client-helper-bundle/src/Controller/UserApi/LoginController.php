@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Helper\UserApi\AuthService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class LoginController
+final readonly class LoginController
 {
-    public function __construct(private readonly AuthService $authService)
+    public function __construct(private AuthService $authService)
     {
     }
 

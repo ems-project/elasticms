@@ -17,9 +17,9 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class KernelListener implements EventSubscriberInterface
+final readonly class KernelListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly Translator $translationHelper, private readonly LocaleHelper $localeHelper, private readonly ExceptionHelper $exceptionHelper, private readonly bool $bindLocale)
+    public function __construct(private EnvironmentHelper $environmentHelper, private Translator $translationHelper, private LocaleHelper $localeHelper, private ExceptionHelper $exceptionHelper, private bool $bindLocale)
     {
     }
 

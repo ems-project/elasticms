@@ -7,9 +7,9 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Meta;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\MetaInterface;
 
-final class Meta implements MetaInterface
+final readonly class Meta implements MetaInterface
 {
-    public function __construct(private readonly Client $client)
+    public function __construct(private Client $client)
     {
     }
 

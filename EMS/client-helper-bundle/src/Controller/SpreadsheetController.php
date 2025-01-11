@@ -11,9 +11,9 @@ use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class SpreadsheetController
+final readonly class SpreadsheetController
 {
-    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly SpreadsheetGeneratorServiceInterface $spreadsheetGenerator)
+    public function __construct(private Handler $handler, private Environment $templating, private SpreadsheetGeneratorServiceInterface $spreadsheetGenerator)
     {
     }
 

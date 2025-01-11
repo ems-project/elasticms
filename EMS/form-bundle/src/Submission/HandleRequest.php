@@ -8,17 +8,17 @@ use EMS\FormBundle\FormConfig\FormConfig;
 use EMS\FormBundle\FormConfig\SubmissionConfig;
 use Symfony\Component\Form\FormInterface;
 
-final class HandleRequest implements HandleRequestInterface
+final readonly class HandleRequest implements HandleRequestInterface
 {
     /**
      * @param FormInterface<FormInterface> $form
      */
     public function __construct(
-        private readonly FormInterface $form,
-        private readonly FormConfig $formConfig,
-        private readonly FormData $formData,
-        private readonly HandleResponseCollector $responseCollector,
-        private readonly SubmissionConfig $submissionConfig,
+        private FormInterface $form,
+        private FormConfig $formConfig,
+        private FormData $formData,
+        private HandleResponseCollector $responseCollector,
+        private SubmissionConfig $submissionConfig,
     ) {
     }
 

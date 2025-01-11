@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle\Connection;
 
-final class Transformer
+final readonly class Transformer
 {
     /**
      * @param array<array<string, string>> $connections
      */
-    public function __construct(private readonly array $connections)
+    public function __construct(private array $connections)
     {
     }
 

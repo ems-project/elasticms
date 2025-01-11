@@ -9,9 +9,9 @@ use EMS\CommonBundle\Routes;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
-final class Loader
+final readonly class Loader
 {
-    public function __construct(private readonly bool $metricEnabled)
+    public function __construct(private bool $metricEnabled)
     {
     }
 

@@ -13,11 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-final class ApiController
+final readonly class ApiController
 {
     public function __construct(
-        private readonly ApiService $service,
-        private readonly HashcashHelper $hashcashHelper,
+        private ApiService $service,
+        private HashcashHelper $hashcashHelper,
     ) {
     }
 

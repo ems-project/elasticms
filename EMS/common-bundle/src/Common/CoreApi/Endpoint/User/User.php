@@ -8,9 +8,9 @@ use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\ProfileInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\User\UserInterface;
 
-final class User implements UserInterface
+final readonly class User implements UserInterface
 {
-    public function __construct(private readonly Client $client)
+    public function __construct(private Client $client)
     {
     }
 

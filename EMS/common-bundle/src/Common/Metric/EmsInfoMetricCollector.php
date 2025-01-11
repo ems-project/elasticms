@@ -8,9 +8,9 @@ use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use EMS\Helpers\Standard\DateTime;
 use Prometheus\CollectorRegistry;
 
-final class EmsInfoMetricCollector implements MetricCollectorInterface
+final readonly class EmsInfoMetricCollector implements MetricCollectorInterface
 {
-    public function __construct(private readonly ComposerInfo $composerInfo)
+    public function __construct(private ComposerInfo $composerInfo)
     {
     }
 

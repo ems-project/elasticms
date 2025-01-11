@@ -7,9 +7,9 @@ namespace EMS\CommonBundle\Twig;
 use Twig\Environment as TwigEnvironment;
 use Twig\Extension\RuntimeExtensionInterface;
 
-final class TemplateRuntime implements RuntimeExtensionInterface
+final readonly class TemplateRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly TwigEnvironment $twig)
+    public function __construct(private TwigEnvironment $twig)
     {
     }
 

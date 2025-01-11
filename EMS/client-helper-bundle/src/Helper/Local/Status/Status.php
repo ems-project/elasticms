@@ -6,11 +6,11 @@ namespace EMS\ClientHelperBundle\Helper\Local\Status;
 
 use EMS\ClientHelperBundle\Helper\Builder\BuilderDocumentInterface;
 
-final class Status
+final readonly class Status
 {
-    private readonly Items $items;
+    private Items $items;
 
-    public function __construct(private readonly string $name)
+    public function __construct(private string $name)
     {
         $this->items = new Items([]);
     }

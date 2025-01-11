@@ -10,7 +10,7 @@ use EMS\Helpers\Standard\DateTime;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
 use Prometheus\CollectorRegistry;
 
-final class SubmissionMetricCollector implements MetricCollectorInterface
+final readonly class SubmissionMetricCollector implements MetricCollectorInterface
 {
     private const VALID_UNTIL = '+5 minutes';
     private const GAUGES = [
@@ -19,7 +19,7 @@ final class SubmissionMetricCollector implements MetricCollectorInterface
         'errors_total' => 'Total count error submissions',
     ];
 
-    public function __construct(private readonly FormSubmissionRepository $formSubmissionRepository, private readonly Connection $connection)
+    public function __construct(private FormSubmissionRepository $formSubmissionRepository, private Connection $connection)
     {
     }
 

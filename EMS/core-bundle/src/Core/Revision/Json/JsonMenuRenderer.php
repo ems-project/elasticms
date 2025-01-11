@@ -18,7 +18,7 @@ use Twig\Environment;
 use Twig\Extension\RuntimeExtensionInterface;
 use Twig\TemplateWrapper;
 
-final class JsonMenuRenderer implements RuntimeExtensionInterface
+final readonly class JsonMenuRenderer implements RuntimeExtensionInterface
 {
     public const TYPE_MODAL = 'modal';
     public const TYPE_PASTE = 'paste';
@@ -31,12 +31,12 @@ final class JsonMenuRenderer implements RuntimeExtensionInterface
     private const ITEM_ACTIONS = ['move', 'copy', 'paste', 'add', 'edit', 'delete', 'preview'];
 
     public function __construct(
-        private readonly Environment $twig,
-        private readonly AuthorizationCheckerInterface $authorizationChecker,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ContentTypeRepository $contentTypeRepository,
-        private readonly RevisionService $revisionService,
-        private readonly string $templateNamespace)
+        private Environment $twig,
+        private AuthorizationCheckerInterface $authorizationChecker,
+        private UrlGeneratorInterface $urlGenerator,
+        private ContentTypeRepository $contentTypeRepository,
+        private RevisionService $revisionService,
+        private string $templateNamespace)
     {
     }
 

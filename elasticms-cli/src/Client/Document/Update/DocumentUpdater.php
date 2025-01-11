@@ -13,9 +13,9 @@ use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class DocumentUpdater
+final readonly class DocumentUpdater
 {
-    public function __construct(private readonly Data $data, private readonly DocumentUpdateConfig $config, private readonly CoreApiInterface $coreApi, private readonly SymfonyStyle $io, private readonly bool $dryRun)
+    public function __construct(private Data $data, private DocumentUpdateConfig $config, private CoreApiInterface $coreApi, private SymfonyStyle $io, private bool $dryRun)
     {
     }
 

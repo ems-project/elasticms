@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Helper\UserApi\DocumentService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class DocumentController
+final readonly class DocumentController
 {
-    public function __construct(private readonly DocumentService $documentService)
+    public function __construct(private DocumentService $documentService)
     {
     }
 

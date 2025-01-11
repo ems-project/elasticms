@@ -6,9 +6,9 @@ namespace EMS\ClientHelperBundle\Helper\Asset;
 
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
-final class AssetVersionStrategy implements VersionStrategyInterface
+final readonly class AssetVersionStrategy implements VersionStrategyInterface
 {
-    public function __construct(private readonly AssetHelperRuntime $assetHelperRuntime)
+    public function __construct(private AssetHelperRuntime $assetHelperRuntime)
     {
     }
 

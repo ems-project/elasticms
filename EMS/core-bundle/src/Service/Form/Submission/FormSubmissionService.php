@@ -22,14 +22,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use ZipStream\ZipStream;
 
-final class FormSubmissionService implements EntityServiceInterface
+final readonly class FormSubmissionService implements EntityServiceInterface
 {
     public function __construct(
-        private readonly FormSubmissionRepository $formSubmissionRepository,
-        private readonly FormSubmissionFileRepository $formSubmissionFileRepository, private readonly Environment $twig,
-        private readonly RequestStack $requestStack,
-        private readonly TranslatorInterface $translator,
-        private readonly string $templateNamespace,
+        private FormSubmissionRepository $formSubmissionRepository,
+        private FormSubmissionFileRepository $formSubmissionFileRepository, private Environment $twig,
+        private RequestStack $requestStack,
+        private TranslatorInterface $translator,
+        private string $templateNamespace,
     ) {
     }
 

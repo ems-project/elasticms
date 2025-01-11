@@ -8,7 +8,7 @@ use EMS\FormBundle\Submission\AbstractHandleResponse;
 use EMS\FormBundle\Submission\HandleRequestInterface;
 use EMS\SubmissionBundle\Twig\TwigRenderer;
 
-final class ResponseTransformer
+final readonly class ResponseTransformer
 {
     /**
      * Twig block inside the message template,
@@ -16,7 +16,7 @@ final class ResponseTransformer
      */
     private const BLOCK_EXTRA = 'handleResponseExtra';
 
-    public function __construct(private readonly TwigRenderer $twigRenderer)
+    public function __construct(private TwigRenderer $twigRenderer)
     {
     }
 

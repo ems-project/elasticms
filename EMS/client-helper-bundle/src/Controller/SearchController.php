@@ -11,9 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class SearchController
+final readonly class SearchController
 {
-    public function __construct(private readonly Manager $manager, private readonly Handler $handler, private readonly Environment $templating, private readonly CacheHelper $cacheHelper)
+    public function __construct(private Manager $manager, private Handler $handler, private Environment $templating, private CacheHelper $cacheHelper)
     {
     }
 

@@ -14,9 +14,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
-final class ConfirmationService
+final readonly class ConfirmationService
 {
-    public function __construct(private readonly FormConfigFactory $configFactory, private readonly CsrfTokenManager $csrfTokenManager, private readonly LoggerInterface $logger, private readonly EndpointManager $endpointManager)
+    public function __construct(private FormConfigFactory $configFactory, private CsrfTokenManager $csrfTokenManager, private LoggerInterface $logger, private EndpointManager $endpointManager)
     {
     }
 

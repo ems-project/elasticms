@@ -12,12 +12,12 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class Data implements DataInterface
+final readonly class Data implements DataInterface
 {
     /** @var string[] */
-    private readonly array $endPoint;
+    private array $endPoint;
 
-    public function __construct(private readonly Client $client, string $contentType, private readonly string $version)
+    public function __construct(private Client $client, string $contentType, private string $version)
     {
         $this->endPoint = ['api', 'data', $contentType];
     }

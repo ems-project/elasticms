@@ -7,9 +7,9 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\File;
 use EMS\CommonBundle\Common\CoreApi\Client;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\File\DataExtractInterface;
 
-final class DataExtract implements DataExtractInterface
+final readonly class DataExtract implements DataExtractInterface
 {
-    public function __construct(private readonly Client $client)
+    public function __construct(private Client $client)
     {
     }
 

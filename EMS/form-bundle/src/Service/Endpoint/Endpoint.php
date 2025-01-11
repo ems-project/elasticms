@@ -7,15 +7,15 @@ namespace EMS\FormBundle\Service\Endpoint;
 use EMS\FormBundle\Service\Confirmation\Endpoint\HttpEndpointType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class Endpoint implements EndpointInterface
+final readonly class Endpoint implements EndpointInterface
 {
-    private readonly string $fieldName;
-    private readonly ?string $messageTranslationKey;
-    private readonly HttpRequest $httpRequest;
-    private readonly bool $saveSession;
-    private readonly string $type;
+    private string $fieldName;
+    private ?string $messageTranslationKey;
+    private HttpRequest $httpRequest;
+    private bool $saveSession;
+    private string $type;
     /** @var array<mixed> */
-    private readonly array $options;
+    private array $options;
 
     /** @param array<string, mixed> $config */
     public function __construct(array $config)

@@ -12,9 +12,9 @@ use Twig\Source;
 /**
  * @see EMSClientHelperExtension::defineTwigLoader()
  */
-final class TemplateLoader implements LoaderInterface
+final readonly class TemplateLoader implements LoaderInterface
 {
-    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly TemplateBuilder $builder)
+    public function __construct(private EnvironmentHelper $environmentHelper, private TemplateBuilder $builder)
     {
     }
 

@@ -9,9 +9,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class TestService
+final readonly class TestService
 {
-    public function __construct(private readonly ClientFactory $client, private readonly LoggerInterface $logger)
+    public function __construct(private ClientFactory $client, private LoggerInterface $logger)
     {
     }
 

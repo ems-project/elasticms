@@ -7,9 +7,9 @@ namespace EMS\FormBundle\Components\ValueObject;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validation;
 
-final class EmailMultiple
+final readonly class EmailMultiple
 {
-    public function __construct(private readonly string $emails)
+    public function __construct(private string $emails)
     {
         if (!$this->validate()) {
             throw new \Exception(\sprintf('At least one email is not valid: %s', $this->emails));

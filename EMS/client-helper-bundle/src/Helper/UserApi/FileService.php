@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class FileService
+final readonly class FileService
 {
-    public function __construct(private readonly ClientFactory $client, private readonly LoggerInterface $logger)
+    public function __construct(private ClientFactory $client, private LoggerInterface $logger)
     {
     }
 

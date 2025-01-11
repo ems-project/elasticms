@@ -92,6 +92,7 @@ export default class Editor {
 
   async getDefaultOptions(): Promise<EditorOptions> {
     return {
+      licenseKey: 'GPL',
       heading: {
         options: [
           { model: 'paragraph', title: 'Paragraph', class: '' },

@@ -42,7 +42,7 @@ final class Synonym
         return $this->searchField ?? '_all';
     }
 
-    public function getField(): ?string
+    public function getField(): string
     {
         return $this->field ?? '_all';
     }

@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method EMS\\ClientHelperBundle\\Helper\\Asset\\AssetHelperRuntime\:\:getVersionSaveDir\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Asset/AssetHelperRuntime.php
-
-		-
 			message: '#^Instanceof between Psr\\Cache\\CacheItemInterface and Psr\\Cache\\CacheItemInterface will always evaluate to true\.$#'
 			identifier: instanceof.alwaysTrue
 			count: 1
@@ -41,12 +35,6 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: EMS/client-helper-bundle/src/Helper/Search/Search.php
-
-		-
-			message: '#^Method EMS\\ClientHelperBundle\\Helper\\Search\\Synonym\:\:getField\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Search/Synonym.php
 
 		-
 			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
@@ -1203,36 +1191,6 @@ parameters:
 		-
 			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
 			identifier: missingType.generics
-			count: 1
-			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns bool so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns float so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns int so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns string so it can be removed from the return type\.$#'
-			identifier: return.unusedType
 			count: 1
 			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
 
@@ -2761,24 +2719,6 @@ parameters:
 			path: EMS/core-bundle/src/Repository/WysiwygStylesSetRepository.php
 
 		-
-			message: '#^Method EMS\\CoreBundle\\Security\\Authenticator\\AuthTokenAuthenticator\:\:onAuthenticationFailure\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Security/Authenticator/AuthTokenAuthenticator.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Security\\Authenticator\\AuthTokenLoginAuthenticator\:\:onAuthenticationSuccess\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Security/Authenticator/AuthTokenLoginAuthenticator.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Service\\ActionService\:\:getByItemName\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Service/ActionService.php
-
-		-
 			message: '#^Call to function is_countable\(\) with array\<mixed\> will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 2
@@ -2873,18 +2813,6 @@ parameters:
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: EMS/core-bundle/src/Service/Form/Submission/FormSubmissionService.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Service\\ReleaseRevisionService\:\:getByItemName\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Service/ReleaseRevisionService.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Service\\ReleaseService\:\:getByItemName\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: EMS/core-bundle/src/Service/ReleaseService.php
 
 		-
 			message: '#^Method EMS\\CoreBundle\\Service\\Revision\\PostProcessingService\:\:jsonMenuNested\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'

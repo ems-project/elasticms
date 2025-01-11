@@ -121,12 +121,13 @@ final class SelectUserPropertyFieldType extends DataFieldType
         }
     }
 
+    /**
+     * @return array{'value': array<mixed>|string|int|float|bool|null}
+     */
     #[\Override]
-    public function viewTransform(DataField $dataField)
+    public function viewTransform(DataField $dataField): array
     {
-        $test = parent::viewTransform($dataField);
-
-        return ['value' => $test];
+        return ['value' => parent::viewTransform($dataField)];
     }
 
     /**

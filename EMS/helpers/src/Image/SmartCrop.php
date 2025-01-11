@@ -176,10 +176,10 @@ class SmartCrop
                 }
 
                 $p = $y * $width * 4 + $x * 4;
-                $data[$p] = \round($r * $ifactor2 * 0.5 + $mr * 0.5, 0, PHP_ROUND_HALF_EVEN);
-                $data[$p + 1] = \round($g * $ifactor2 * 0.7 + $mg * 0.3, 0, PHP_ROUND_HALF_EVEN);
-                $data[$p + 2] = \round($b * $ifactor2, 0, PHP_ROUND_HALF_EVEN);
-                $data[$p + 3] = \round($a * $ifactor2, 0, PHP_ROUND_HALF_EVEN);
+                $data[$p] = \round($r * $ifactor2 * 0.5 + $mr * 0.5, 0, \RoundingMode::HalfEven);
+                $data[$p + 1] = \round($g * $ifactor2 * 0.7 + $mg * 0.3, 0, \RoundingMode::HalfEven);
+                $data[$p + 2] = \round($b * $ifactor2, 0, \RoundingMode::HalfEven);
+                $data[$p + 3] = \round($a * $ifactor2, 0, \RoundingMode::HalfEven);
             }
         }
 
@@ -199,7 +199,7 @@ class SmartCrop
             $lightness = $centerLightness * 4 - $leftLightness - $rightLightness - $topLightness - $bottomLightness;
         }
 
-        return (int) \round($lightness, 0, PHP_ROUND_HALF_EVEN);
+        return (int) \round($lightness, 0, \RoundingMode::HalfEven);
     }
 
     private function skinDetect(int $r, int $g, int $b, float $lightness): int
@@ -209,7 +209,7 @@ class SmartCrop
         $isSkinColor = $skin > $this->skinThreshold;
         $isSkinBrightness = $lightness > $this->skinBrightnessMin && $lightness <= $this->skinBrightnessMax;
         if ($isSkinColor && $isSkinBrightness) {
-            return (int) \round(($skin - $this->skinThreshold) * (255 / (1 - $this->skinThreshold)), 0, PHP_ROUND_HALF_EVEN);
+            return (int) \round(($skin - $this->skinThreshold) * (255 / (1 - $this->skinThreshold)), 0, \RoundingMode::HalfEven);
         } else {
             return 0;
         }
@@ -222,7 +222,7 @@ class SmartCrop
         $acceptableSaturation = $sat > $this->saturationThreshold;
         $acceptableLightness = $lightness >= $this->saturationBrightnessMin && $lightness <= $this->saturationBrightnessMax;
         if ($acceptableLightness && $acceptableSaturation) {
-            return (int) \round(($sat - $this->saturationThreshold) * (255 / (1 - $this->saturationThreshold)), 0, PHP_ROUND_HALF_EVEN);
+            return (int) \round(($sat - $this->saturationThreshold) * (255 / (1 - $this->saturationThreshold)), 0, \RoundingMode::HalfEven);
         } else {
             return 0;
         }

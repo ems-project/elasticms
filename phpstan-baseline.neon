@@ -13,18 +13,6 @@ parameters:
 			path: EMS/client-helper-bundle/src/Helper/Environment/Environment.php
 
 		-
-			message: '#^Method EMS\\ClientHelperBundle\\Helper\\Local\\Status\\Items\:\:getIterator\(\) return type with generic class ArrayIterator does not specify its types\: TKey, TValue$#'
-			identifier: missingType.generics
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Local/Status/Items.php
-
-		-
-			message: '#^PHPDoc tag @return with type array\<EMS\\ClientHelperBundle\\Helper\\Local\\Status\\Item\>\|ArrayIterator\<int, EMS\\ClientHelperBundle\\Helper\\Local\\Status\\Item\> is not subtype of native type ArrayIterator\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Local/Status/Items.php
-
-		-
 			message: '#^Parameter \#1 \$array \(array\<Elastica\\Aggregation\\AbstractAggregation\>\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
 			identifier: arrayFilter.same
 			count: 1
@@ -95,18 +83,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: EMS/common-bundle/src/Common/Text/EmsHtml.php
-
-		-
-			message: '#^Method EMS\\CommonBundle\\Elasticsearch\\Aggregation\\Bucket\:\:getSubBucket\(\) return type has no value type specified in iterable type Traversable\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: EMS/common-bundle/src/Elasticsearch/Aggregation/Bucket.php
-
-		-
-			message: '#^PHPDoc tag @return with type array\<EMS\\CommonBundle\\Elasticsearch\\Aggregation\\Bucket\>\|Traversable\<mixed, EMS\\CommonBundle\\Elasticsearch\\Aggregation\\Bucket\> is not subtype of native type Traversable\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: EMS/common-bundle/src/Elasticsearch/Aggregation/Bucket.php
 
 		-
 			message: '#^Property EMS\\CommonBundle\\Entity\\AssetStorage\:\:\$contents \(resource\|string\) is never assigned resource so it can be removed from the property type\.$#'
@@ -533,18 +509,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 2
 			path: EMS/core-bundle/src/Core/Revision/RawDataTransformer.php
-
-		-
-			message: '#^Method EMS\\CoreBundle\\Core\\Revision\\Search\\Revisions\:\:getIterator\(\) return type with generic class ArrayIterator does not specify its types\: TKey, TValue$#'
-			identifier: missingType.generics
-			count: 1
-			path: EMS/core-bundle/src/Core/Revision/Search/Revisions.php
-
-		-
-			message: '#^PHPDoc tag @return with type array\<EMS\\CoreBundle\\Entity\\Revision\>\|ArrayIterator\<int, EMS\\CoreBundle\\Entity\\Revision\> is not subtype of native type ArrayIterator\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: EMS/core-bundle/src/Core/Revision/Search/Revisions.php
 
 		-
 			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
@@ -3071,18 +3035,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: EMS/helpers/src/Standard/Color.php
-
-		-
-			message: '#^Method EMS\\SubmissionBundle\\Entity\\FormSubmission\:\:getFiles\(\) return type with generic interface Doctrine\\Common\\Collections\\Collection does not specify its types\: TKey, T$#'
-			identifier: missingType.generics
-			count: 1
-			path: EMS/submission-bundle/src/Entity/FormSubmission.php
-
-		-
-			message: '#^PHPDoc tag @return with type array\<EMS\\SubmissionBundle\\Entity\\FormSubmissionFile\>\|Doctrine\\Common\\Collections\\Collection\<int, EMS\\SubmissionBundle\\Entity\\FormSubmissionFile\> is not subtype of native type Doctrine\\Common\\Collections\\Collection\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: EMS/submission-bundle/src/Entity/FormSubmission.php
 
 		-
 			message: '#^Property EMS\\SubmissionBundle\\Entity\\FormSubmissionFile\:\:\$file \(resource\|string\) is never assigned resource so it can be removed from the property type\.$#'

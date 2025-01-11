@@ -103,7 +103,7 @@ class FormSubmission implements EntityInterface, \JsonSerializable
     }
 
     /**
-     * @return Collection<int, FormSubmissionFile>|FormSubmissionFile[]
+     * @return Collection<int, FormSubmissionFile>
      */
     public function getFiles(): Collection
     {

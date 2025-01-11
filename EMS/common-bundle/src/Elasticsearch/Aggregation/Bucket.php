@@ -21,7 +21,7 @@ class Bucket
     }
 
     /**
-     * @return \Traversable<Bucket>|Bucket[]
+     * @return \Traversable<Bucket>
      */
     public function getSubBucket(string $name): \Traversable
     {

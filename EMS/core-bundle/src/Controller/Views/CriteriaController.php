@@ -501,9 +501,6 @@ class CriteriaController extends AbstractController
             $ouuid = $structuredTarget[1];
 
             $revision = $this->dataService->getNewestRevision($type, $ouuid);
-            if (!$revision instanceof Revision) {
-                throw new \RuntimeException('Unexpected revision type');
-            }
 
             $authorized = $this->authorizationChecker->isGranted($view->getContentType()->role(ContentTypeRoles::EDIT));
             if (!$authorized) {
@@ -536,10 +533,6 @@ class CriteriaController extends AbstractController
                     $this->dataService->finalizeDraft($revision);
                 }
             } catch (LockedException) {
-                if (!$revision instanceof Revision) {
-                    throw new \RuntimeException('Unexpected revision type');
-                }
-
                 $this->logger->warning('log.view.criteria.locked_revision', [
                     EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
                     EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),

@@ -186,9 +186,6 @@ class Bulker
     private function logResponse(ResponseSet $response): void
     {
         foreach ($response as $item) {
-            if (!$item instanceof Response) {
-                continue;
-            }
             if (!$item->hasError()) {
                 continue; // no error
             }

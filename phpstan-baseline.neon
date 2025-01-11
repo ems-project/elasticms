@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Instanceof between Psr\\Cache\\CacheItemInterface and Psr\\Cache\\CacheItemInterface will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Cache/CacheHelper.php
-
-		-
 			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
@@ -29,12 +23,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: EMS/client-helper-bundle/src/Security/Login/LoginForm.php
-
-		-
-			message: '#^Instanceof between Symfony\\Component\\Finder\\SplFileInfo and Symfony\\Component\\Finder\\SplFileInfo will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: EMS/common-bundle/src/Command/Document/UpdateCommand.php
 
 		-
 			message: '#^Method EMS\\CommonBundle\\Common\\Admin\\ConfigHelper\:\:remote\(\) return type has no value type specified in iterable type array\.$#'
@@ -119,12 +107,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: EMS/core-bundle/src/Command/Asset/RefreshFileFieldCommand.php
-
-		-
-			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\ContentType and EMS\\CoreBundle\\Entity\\ContentType will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: EMS/core-bundle/src/Command/MigrateCommand.php
 
 		-
 			message: '#^Property EMS\\CoreBundle\\Command\\Xliff\\UpdateCommand\:\:\$baseUrl \(string\|null\) is never assigned string so it can be removed from the property type\.$#'
@@ -307,12 +289,6 @@ parameters:
 			path: EMS/core-bundle/src/Controller/UploadedFileController.php
 
 		-
-			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\Revision and EMS\\CoreBundle\\Entity\\Revision will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 2
-			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
-
-		-
 			message: '#^Method EMS\\CoreBundle\\Controller\\WysiwygController\:\:datatableProfiles\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -379,12 +355,6 @@ parameters:
 			path: EMS/core-bundle/src/Core/Doctrine/SimpleBatchIteratorAggregate.php
 
 		-
-			message: '#^Instanceof between EMS\\CoreBundle\\Form\\DataField\\DataFieldType and EMS\\CoreBundle\\Form\\DataField\\DataFieldType will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: EMS/core-bundle/src/Core/Form/FieldTypeManager.php
-
-		-
 			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 2
@@ -401,12 +371,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: EMS/core-bundle/src/DataTable/Type/Revision/RevisionTasksDataTableType.php
-
-		-
-			message: '#^Instanceof between Elastica\\Bulk\\Response and Elastica\\Bulk\\Response will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: EMS/core-bundle/src/Elasticsearch/Bulker.php
 
 		-
 			message: '#^Property EMS\\CoreBundle\\Entity\\User\:\:\$circles \(array\<string\>\|null\) is never assigned null so it can be removed from the property type\.$#'
@@ -455,12 +419,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
-
-		-
-			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\FieldType and EMS\\CoreBundle\\Entity\\FieldType will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 2
-			path: EMS/core-bundle/src/Form/DataField/AssetFieldType.php
 
 		-
 			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\AssetFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
@@ -2815,18 +2773,6 @@ parameters:
 			path: EMS/submission-bundle/src/Entity/FormSubmissionFile.php
 
 		-
-			message: '#^Instanceof between DOMNode and DOMNode will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: EMS/xliff/src/Xliff/Extractor.php
-
-		-
-			message: '#^Instanceof between DOMNodeList and DOMNodeList will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: EMS/xliff/src/Xliff/Extractor.php
-
-		-
 			message: '#^Strict comparison using \!\=\= between null and DOMNode will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 1
@@ -2862,8 +2808,4 @@ parameters:
 			count: 1
 			path: elasticms-cli/src/Client/WebToElasticms/Filter/Html/DataLink.php
 
-		-
-			message: '#^Instanceof between DOMNode and DOMNode will always evaluate to true\.$#'
-			identifier: instanceof.alwaysTrue
-			count: 1
-			path: elasticms-cli/src/ExpressionLanguage/Functions.php
+

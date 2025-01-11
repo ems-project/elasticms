@@ -35,7 +35,7 @@ class Functions
         $output = [];
         $body = self::trimDivContainers($body);
         foreach ($body->childNodes as $child) {
-            if ($child instanceof \DOMNode && $tag === $child->nodeName) {
+            if ($tag === $child->nodeName) {
                 self::addNodeToJsonMenu($document, $current, $output, $tag, $fieldName, $typeName, $labelField);
                 $current = [$child];
             } else {

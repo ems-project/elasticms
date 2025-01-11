@@ -189,7 +189,7 @@ class AssetFieldType extends DataFieldType
     private function testDataField(DataField $dataField): void
     {
         $fieldType = $dataField->getFieldType();
-        if (null === $fieldType || !$fieldType instanceof FieldType) {
+        if (null === $fieldType) {
             throw new \RuntimeException('Unexpected fieldType type');
         }
 
@@ -243,7 +243,7 @@ class AssetFieldType extends DataFieldType
     public function viewTransform(DataField $dataField)
     {
         $fieldType = $dataField->getFieldType();
-        if (null === $fieldType || !$fieldType instanceof FieldType) {
+        if (null === $fieldType) {
             throw new \RuntimeException('Unexpected fieldType type');
         }
 

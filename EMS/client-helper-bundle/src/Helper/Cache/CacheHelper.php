@@ -71,12 +71,6 @@ final readonly class CacheHelper
     {
         $item = $this->cache->getItem($contentType->getCacheKey());
 
-        if (!$item instanceof CacheItemInterface) {
-            $this->logger->warning('Unexpected non-CacheItem cache item');
-
-            return;
-        }
-
         $item->set($contentType);
         $this->cache->save($item);
     }

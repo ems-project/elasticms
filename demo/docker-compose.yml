@@ -67,7 +67,7 @@ services:
       - "traefik.http.services.kibana.loadbalancer.server.port=5601"
 
   postgres:
-    image: postgres:12
+    image: postgres:17
 #    ports:
 #      - "5432:5432"
     environment:

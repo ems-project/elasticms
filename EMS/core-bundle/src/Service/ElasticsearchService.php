@@ -50,13 +50,6 @@ class ElasticsearchService
             }
         }
 
-        if (isset($mapping['index']) && 'No' === $mapping['index']) {
-            $mapping['index'] = false;
-        }
-        if (isset($mapping['index']) && false !== $mapping['index']) {
-            $mapping['index'] = true;
-        }
-
         return $mapping;
     }
 

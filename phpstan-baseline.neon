@@ -19,12 +19,6 @@ parameters:
 			path: EMS/client-helper-bundle/src/Helper/Search/QueryBuilder.php
 
 		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Search/Search.php
-
-		-
 			message: '#^Dead catch \- EMS\\CommonBundle\\Contracts\\CoreApi\\Exception\\NotAuthenticatedExceptionInterface is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
@@ -103,12 +97,6 @@ parameters:
 			path: EMS/common-bundle/src/Repository/StoreDataRepository.php
 
 		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/common-bundle/src/Search/Search.php
-
-		-
 			message: '#^Property EMS\\CommonBundle\\Service\\Pdf\\PdfPrintOptions\:\:\$chroot \(string\|null\) is never assigned null so it can be removed from the property type\.$#'
 			identifier: property.unusedType
 			count: 1
@@ -131,12 +119,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: EMS/core-bundle/src/Command/Asset/RefreshFileFieldCommand.php
-
-		-
-			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/core-bundle/src/Command/CreateEnvironmentCommand.php
 
 		-
 			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\ContentType and EMS\\CoreBundle\\Entity\\ContentType will always evaluate to true\.$#'
@@ -217,15 +199,9 @@ parameters:
 			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
 
 		-
-			message: '#^Call to function is_countable\(\) with Symfony\\Component\\Form\\FormErrorIterator will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
-
-		-
 			message: '#^Cannot call method getErrors\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
 			identifier: method.nonObject
-			count: 3
+			count: 2
 			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
 
 		-
@@ -301,12 +277,6 @@ parameters:
 			path: EMS/core-bundle/src/Controller/Revision/Action/ActionImportController.php
 
 		-
-			message: '#^Call to function is_countable\(\) with Symfony\\Component\\Form\\FormErrorIterator will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 2
-			path: EMS/core-bundle/src/Controller/Revision/EditController.php
-
-		-
 			message: '#^Cannot call method createView\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 1
@@ -316,12 +286,6 @@ parameters:
 			message: '#^Cannot call method get\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 1
-			path: EMS/core-bundle/src/Controller/Revision/EditController.php
-
-		-
-			message: '#^Cannot call method getErrors\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
-			identifier: method.nonObject
-			count: 4
 			path: EMS/core-bundle/src/Controller/Revision/EditController.php
 
 		-
@@ -491,12 +455,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
-
-		-
-			message: '#^Call to function is_array\(\) with non\-empty\-array\<mixed, mixed\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/core-bundle/src/Form/DataField/AssetFieldType.php
 
 		-
 			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\FieldType and EMS\\CoreBundle\\Entity\\FieldType will always evaluate to true\.$#'
@@ -2581,18 +2539,6 @@ parameters:
 			path: EMS/core-bundle/src/Repository/WysiwygStylesSetRepository.php
 
 		-
-			message: '#^Call to function is_countable\(\) with array\<mixed\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 2
-			path: EMS/core-bundle/src/Service/DataService.php
-
-		-
-			message: '#^Call to function is_object\(\) with EMS\\CoreBundle\\Entity\\Environment will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/core-bundle/src/Service/DataService.php
-
-		-
 			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:buildForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -2671,12 +2617,6 @@ parameters:
 			path: EMS/core-bundle/src/Service/EntityService.php
 
 		-
-			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/core-bundle/src/Service/Form/Submission/FormSubmissionService.php
-
-		-
 			message: '#^Method EMS\\CoreBundle\\Service\\Revision\\PostProcessingService\:\:jsonMenuNested\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -2711,12 +2651,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: EMS/core-bundle/src/Twig/FormRuntime.php
-
-		-
-			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/core-bundle/src/Twig/I18nRuntime.php
 
 		-
 			message: '#^PHPDoc tag @var for variable \$form contains generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
@@ -2845,12 +2779,6 @@ parameters:
 			path: EMS/form-bundle/src/Form/Extension/FieldExtension.php
 
 		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: EMS/form-bundle/src/Service/Confirmation/Endpoint/HttpEndpointType.php
-
-		-
 			message: '#^Method EMS\\FormBundle\\Submission\\Client\:\:submit\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -2927,12 +2855,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: elasticms-cli/src/Client/Audit/AuditManager.php
-
-		-
-			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: elasticms-cli/src/Client/Report/AbstractReport.php
 
 		-
 			message: '#^Strict comparison using \!\=\= between null and string will always evaluate to true\.$#'

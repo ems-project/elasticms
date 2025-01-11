@@ -664,7 +664,7 @@ class DataController extends AbstractController
             }
 
             $revision = $this->dataService->finalizeDraft($revision, $form);
-            if (0 !== (\is_countable($form->getErrors()) ? \count($form->getErrors()) : 0)) {
+            if (0 !== $form->getErrors()->count()) {
                 $this->logger->error('log.data.revision.can_finalized_as_invalid', [
                     EmsFields::LOG_CONTENTTYPE_FIELD => $revision->giveContentType()->getName(),
                     EmsFields::LOG_OUUID_FIELD => $revision->getOuuid(),

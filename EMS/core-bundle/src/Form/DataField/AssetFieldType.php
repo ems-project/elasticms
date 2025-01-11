@@ -172,7 +172,7 @@ class AssetFieldType extends DataFieldType
         $multiple = true === $fieldType->getDisplayOption('multiple', false);
         if (\is_array($data) && $multiple) {
             foreach ($data as &$file) {
-                if (!\is_array($data)) {
+                if (!\is_array($file)) {
                     throw new \RuntimeException('Unexpected non array item');
                 }
                 self::loadFromForm($file, $this->fileService->getAlgo());

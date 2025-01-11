@@ -608,7 +608,9 @@ class DataController extends AbstractController
             $this->revisionRepository->save($revision);
 
             $this->dataService->isValid($form, null, $objectArray);
-            $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), false, false);
+            if (\is_array($objectArray)) {
+                $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $revision->giveContentType(), $revision->giveContentType()->getName(), $revision->getOuuid(), false, false);
+            }
 
             $session = $request->getSession();
             if ($session instanceof Session) {

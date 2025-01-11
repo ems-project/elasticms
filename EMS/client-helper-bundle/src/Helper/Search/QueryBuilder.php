@@ -27,7 +27,7 @@ final readonly class QueryBuilder
     }
 
     /**
-     * @param string[] $types
+     * @param list<string> $types
      */
     public function buildSearch(array $types): CommonSearch
     {

@@ -36,7 +36,7 @@ class ElasticaTable extends TableAbstract
 
     /**
      * @param string[]              $aliases
-     * @param string[]              $contentTypeNames
+     * @param list<string>          $contentTypeNames
      * @param array<string, string> $defaultSort
      */
     public function __construct(
@@ -66,7 +66,7 @@ class ElasticaTable extends TableAbstract
 
     /**
      * @param string[]             $aliases
-     * @param string[]             $contentTypeNames
+     * @param list<string>         $contentTypeNames
      * @param array<string, mixed> $options
      */
     public static function fromConfig(string $templateNamespace, ElasticaService $elasticaService, string $ajaxUrl, array $aliases, array $contentTypeNames, array $options): ElasticaTable

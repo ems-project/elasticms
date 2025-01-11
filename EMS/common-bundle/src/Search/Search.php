@@ -80,11 +80,11 @@ class Search
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getContentTypes(): array
     {
-        return $this->contentTypes;
+        return \array_values($this->contentTypes);
     }
 
     /**

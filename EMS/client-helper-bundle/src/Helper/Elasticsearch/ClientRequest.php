@@ -147,7 +147,7 @@ final class ClientRequest implements ClientRequestInterface
     }
 
     /**
-     * @param string[] $ouuids
+     * @param list<string> $ouuids
      *
      * @return array<mixed>
      */
@@ -410,7 +410,7 @@ final class ClientRequest implements ClientRequestInterface
     }
 
     /**
-     * @param string[] $types
+     * @param list<string> $types
      */
     public function initializeCommonSearch(array $types, ?AbstractQuery $query = null): Search
     {

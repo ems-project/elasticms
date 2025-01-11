@@ -25,12 +25,6 @@ parameters:
 			path: EMS/client-helper-bundle/src/Helper/Search/Search.php
 
 		-
-			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Search/Synonym.php
-
-		-
 			message: '#^Dead catch \- EMS\\CommonBundle\\Contracts\\CoreApi\\Exception\\NotAuthenticatedExceptionInterface is never thrown in the try block\.$#'
 			identifier: catch.neverThrown
 			count: 1
@@ -79,12 +73,6 @@ parameters:
 			path: EMS/common-bundle/src/Common/PropertyAccess/PropertyPath.php
 
 		-
-			message: '#^Parameter \#2 \$replace of function str_replace expects array\<string\>\|string, list\<array\<string, string\>\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Common/Text/EmsHtml.php
-
-		-
 			message: '#^Property EMS\\CommonBundle\\Entity\\AssetStorage\:\:\$contents \(resource\|string\) is never assigned resource so it can be removed from the property type\.$#'
 			identifier: property.unusedType
 			count: 1
@@ -121,18 +109,6 @@ parameters:
 			path: EMS/common-bundle/src/Search/Search.php
 
 		-
-			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, array\<string\> given\.$#'
-			identifier: argument.type
-			count: 2
-			path: EMS/common-bundle/src/Service/ElasticaService.php
-
-		-
-			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Service/ElasticaService.php
-
-		-
 			message: '#^Property EMS\\CommonBundle\\Service\\Pdf\\PdfPrintOptions\:\:\$chroot \(string\|null\) is never assigned null so it can be removed from the property type\.$#'
 			identifier: property.unusedType
 			count: 1
@@ -149,54 +125,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: EMS/common-bundle/src/Storage/Processor/Config.php
-
-		-
-			message: '#^Parameter \#1 \$width of function imagecreate expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
-			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
-			message: '#^Parameter \#2 \$height of function imagecreate expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
-			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
-			message: '#^Parameter \#2 \$red of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
-			message: '#^Parameter \#3 \$green of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
-			message: '#^Parameter \#4 \$blue of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
-
-		-
-			message: '#^Parameter \#5 \$alpha of function imagecolorallocatealpha expects int\<0, 127\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Image.php
 
 		-
 			message: '#^Strict comparison using \!\=\= between null and int\|string will always evaluate to true\.$#'
@@ -298,12 +226,6 @@ parameters:
 			message: '#^Cannot call method getErrors\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
 			identifier: method.nonObject
 			count: 3
-			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
-
-		-
-			message: '#^Parameter \#2 \$objectArray of method EMS\\CoreBundle\\Service\\DataService\:\:propagateDataToComputedField\(\) expects array\<mixed\>, array\<mixed\>\|null given\.$#'
-			identifier: argument.type
-			count: 1
 			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
 
 		-
@@ -409,12 +331,6 @@ parameters:
 			path: EMS/core-bundle/src/Controller/Revision/EditController.php
 
 		-
-			message: '#^Parameter \#3 \$object of method EMS\\CoreBundle\\Service\\Revision\\PostProcessingService\:\:jsonMenuNested\(\) expects array\<mixed\>, array\<mixed\>\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/core-bundle/src/Controller/Revision/JsonMenuNestedController.php
-
-		-
 			message: '#^Method EMS\\CoreBundle\\Controller\\Revision\\TrashController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -509,18 +425,6 @@ parameters:
 			identifier: notIdentical.alwaysTrue
 			count: 2
 			path: EMS/core-bundle/src/Core/Revision/RawDataTransformer.php
-
-		-
-			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/core-bundle/src/DataTable/Type/Release/ReleaseRevisionsUnpublishDataTableType.php
-
-		-
-			message: '#^Parameter \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, array\<string\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/core-bundle/src/DataTable/Type/Release/ReleaseRevisionsUnpublishDataTableType.php
 
 		-
 			message: '#^Method EMS\\CoreBundle\\DataTable\\Type\\Revision\\RevisionTasksDataTableType\:\:filterFormAddToContext\(\) has parameter \$filterForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
@@ -981,12 +885,6 @@ parameters:
 		-
 			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\NestedFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
 			identifier: missingType.generics
-			count: 1
-			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
-
-		-
-			message: '#^Parameter \#1 \$elasticIndexDatas of method EMS\\CoreBundle\\Entity\\DataField\:\:updateDataValue\(\) expects array\<mixed\>, array\<mixed\>\|bool\|float\|int\|string\|null given\.$#'
-			identifier: argument.type
 			count: 1
 			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
 
@@ -2981,60 +2879,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: EMS/form-bundle/src/Submission/HandleRequestInterface.php
-
-		-
-			message: '#^Parameter \#2 \$allowedAttributes of method Symfony\\Component\\HtmlSanitizer\\HtmlSanitizerConfig\:\:allowElement\(\) expects list\<string\>\|string, array\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/helpers/src/Html/Sanitizer/HtmlSanitizerConfigBuilder.php
-
-		-
-			message: '#^Parameter \#2 \$allowedElements of method Symfony\\Component\\HtmlSanitizer\\HtmlSanitizerConfig\:\:allowAttribute\(\) expects list\<string\>\|string, array\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/helpers/src/Html/Sanitizer/HtmlSanitizerConfigBuilder.php
-
-		-
-			message: '#^Parameter \#2 \$droppedElements of method Symfony\\Component\\HtmlSanitizer\\HtmlSanitizerConfig\:\:dropAttribute\(\) expects list\<string\>\|string, array\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/helpers/src/Html/Sanitizer/HtmlSanitizerConfigBuilder.php
-
-		-
-			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 2
-			path: EMS/helpers/src/Image/SmartCrop.php
-
-		-
-			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
-			identifier: argument.type
-			count: 2
-			path: EMS/helpers/src/Image/SmartCrop.php
-
-		-
-			message: '#^Parameter \#2 \$red of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/helpers/src/Standard/Color.php
-
-		-
-			message: '#^Parameter \#3 \$green of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/helpers/src/Standard/Color.php
-
-		-
-			message: '#^Parameter \#4 \$blue of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/helpers/src/Standard/Color.php
-
-		-
-			message: '#^Parameter \#5 \$alpha of function imagecolorallocatealpha expects int\<0, 127\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: EMS/helpers/src/Standard/Color.php
 
 		-
 			message: '#^Property EMS\\SubmissionBundle\\Entity\\FormSubmissionFile\:\:\$file \(resource\|string\) is never assigned resource so it can be removed from the property type\.$#'

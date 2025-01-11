@@ -135,11 +135,11 @@ final class Search
     }
 
     /**
-     * @return string[]
+     * @return list<string>
      */
     public function getTypes(): array
     {
-        return $this->types;
+        return \array_values($this->types);
     }
 
     /**

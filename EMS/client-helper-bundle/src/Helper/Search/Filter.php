@@ -37,7 +37,7 @@ final class Filter
     /** if not all doc contain the filter */
     private bool $optional = false;
     private ?AbstractQuery $queryFilters = null;
-    /** @var string[] */
+    /** @var list<string> */
     private array $queryTypes = [];
 
     private ?AbstractQuery $query = null;
@@ -190,7 +190,7 @@ final class Filter
 
     /**
      * @param array<mixed> $aggregation
-     * @param string[]     $types
+     * @param list<string> $types
      */
     public function handleAggregation(array $aggregation, array $types = [], ?AbstractQuery $queryFilters = null): void
     {

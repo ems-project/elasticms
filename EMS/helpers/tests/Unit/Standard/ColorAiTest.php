@@ -12,53 +12,53 @@ class ColorAiTest extends TestCase
     public function testConstructorWithEMSColor()
     {
         $color = new Color('ems-blue');
-        $this->assertEquals(60, $color->getRed());
-        $this->assertEquals(141, $color->getGreen());
-        $this->assertEquals(188, $color->getBlue());
+        $this->assertEquals(60, $color->red);
+        $this->assertEquals(141, $color->green);
+        $this->assertEquals(188, $color->blue);
     }
 
     public function testConstructorWithStandardHtmlColor()
     {
         $color = new Color('blue');
-        $this->assertEquals(0, $color->getRed());
-        $this->assertEquals(0, $color->getGreen());
-        $this->assertEquals(255, $color->getBlue());
+        $this->assertEquals(0, $color->red);
+        $this->assertEquals(0, $color->green);
+        $this->assertEquals(255, $color->blue);
     }
 
     public function testConstructorWithHexColor()
     {
         $color = new Color('#FF5733');
-        $this->assertEquals(255, $color->getRed());
-        $this->assertEquals(87, $color->getGreen());
-        $this->assertEquals(51, $color->getBlue());
+        $this->assertEquals(255, $color->red);
+        $this->assertEquals(87, $color->green);
+        $this->assertEquals(51, $color->blue);
     }
 
     public function testGetSetRed()
     {
         $color = new Color('#000000');
-        $color->setRed(123);
-        $this->assertEquals(123, $color->getRed());
+        $color->red = 123;
+        $this->assertEquals(123, $color->red);
     }
 
     public function testGetSetGreen()
     {
         $color = new Color('#000000');
-        $color->setGreen(123);
-        $this->assertEquals(123, $color->getGreen());
+        $color->green = 123;
+        $this->assertEquals(123, $color->green);
     }
 
     public function testGetSetBlue()
     {
         $color = new Color('#000000');
-        $color->setBlue(123);
-        $this->assertEquals(123, $color->getBlue());
+        $color->blue = 123;
+        $this->assertEquals(123, $color->blue);
     }
 
     public function testGetSetAlpha()
     {
         $color = new Color('#000000');
-        $color->setAlpha(123);
-        $this->assertEquals(123, $color->getAlpha());
+        $color->alpha = 123;
+        $this->assertEquals(123, $color->alpha);
     }
 
     public function testGetColorId()
@@ -87,9 +87,9 @@ class ColorAiTest extends TestCase
     {
         $color = new Color('#FFFFFF');
         $complementary = $color->getComplementary();
-        $this->assertEquals(0, $complementary->getRed());
-        $this->assertEquals(0, $complementary->getGreen());
-        $this->assertEquals(0, $complementary->getBlue());
+        $this->assertEquals(0, $complementary->red);
+        $this->assertEquals(0, $complementary->green);
+        $this->assertEquals(0, $complementary->blue);
     }
 
     public function testGetRGB()
@@ -101,7 +101,7 @@ class ColorAiTest extends TestCase
     public function testGetRGBA()
     {
         $color = new Color('#FF5733');
-        $color->setAlpha(127);
+        $color->alpha = 127;
         $this->assertEquals('#FF57337F', $color->getRGBA());
     }
 }

@@ -36,7 +36,9 @@ class NestedFieldType extends DataFieldType
         $migrationOptions = $dataField->giveFieldType()->getMigrationOptions();
         if (!$isMigration || empty($migrationOptions) || !$migrationOptions['protected']) {
             foreach ($dataField->getChildren() as $child) {
-                $child->updateDataValue($sourceArray);
+                if (\is_array($sourceArray)) {
+                    $child->updateDataValue($sourceArray);
+                }
             }
         }
 

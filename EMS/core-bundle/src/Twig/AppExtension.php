@@ -823,7 +823,7 @@ class AppExtension extends AbstractExtension
     /**
      * @param string|string[]     $indexes
      * @param string|array<mixed> $body
-     * @param string|string[]     $contentTypes
+     * @param string|list<string> $contentTypes
      * @param array<mixed>|null   $sort
      * @param string[]|null       $sources
      */

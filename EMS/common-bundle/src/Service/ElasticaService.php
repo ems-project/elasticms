@@ -169,9 +169,9 @@ class ElasticaService
     }
 
     /**
-     * @param string[] $indexes
-     * @param string[] $terms
-     * @param string[] $contentTypes
+     * @param string[]     $indexes
+     * @param list<string> $terms
+     * @param list<string> $contentTypes
      */
     public function generateTermsSearch(array $indexes, string $field, array $terms, array $contentTypes = []): Search
     {
@@ -189,7 +189,7 @@ class ElasticaService
     }
 
     /**
-     * @param string[] $terms
+     * @param list<string> $terms
      */
     public function getTermsQuery(string $field, array $terms): Terms
     {
@@ -281,7 +281,7 @@ class ElasticaService
 
     /**
      * @param AbstractQuery|array<mixed>|null $query
-     * @param string[]                        $contentTypes
+     * @param list<string>                    $contentTypes
      *
      * @return AbstractQuery|array<mixed>|null
      */
@@ -397,7 +397,7 @@ class ElasticaService
 
     /**
      * @param string[]     $indexes
-     * @param string[]     $contentTypes
+     * @param list<string> $contentTypes
      * @param array<mixed> $body
      */
     public function convertElasticsearchBody(array $indexes, array $contentTypes, array $body): Search
@@ -525,7 +525,7 @@ class ElasticaService
     /**
      * @param array<mixed> $parameters
      *
-     * @return array{type: string[], index: string[], body: array<mixed>, size: int, from: int, _source: string[], sort: ?array<mixed>}
+     * @return array{type: list<string>, index: string[], body: array<mixed>, size: int, from: int, _source: string[], sort: ?array<mixed>}
      */
     private function resolveElasticsearchSearchParameters(array $parameters): array
     {
@@ -568,7 +568,7 @@ class ElasticaService
                 return $value;
             })
         ;
-        /** @var array{type: string[], index: string[], body: array<mixed>, size: int, from: int, _source: string[], sort: ?array<mixed>} $resolvedParameters */
+        /** @var array{type: list<string>, index: string[], body: array<mixed>, size: int, from: int, _source: string[], sort: ?array<mixed>} $resolvedParameters */
         $resolvedParameters = $optionResolver->resolve($parameters);
 
         return $resolvedParameters;

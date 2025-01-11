@@ -74,16 +74,25 @@ class HtmlSanitizerConfigBuilder
                 'allow_relative_media' => $config->allowRelativeMedias($value),
                 'allow_safe_elements' => true === $value ? $config->allowSafeElements() : $config,
                 'allow_attributes' => $this->eachItem($config, $value,
-                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowAttribute($key, $item)
+                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowAttribute(
+                        attribute: $key,
+                        allowedElements: \is_array($item) ? \array_values($item) : $item
+                    )
                 ),
                 'allow_elements' => $this->eachItem($config, $value,
-                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowElement($key, $item)
+                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->allowElement(
+                        element: $key,
+                        allowedAttributes: \is_array($item) ? \array_values($item) : $item
+                    )
                 ),
                 'block_elements' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, string $item) => $config->blockElement($item)
                 ),
                 'drop_attributes' => $this->eachItem($config, $value,
-                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->dropAttribute($key, $item)
+                    fn (HtmlSanitizerConfig $config, array|string $item, string $key) => $config->dropAttribute(
+                        attribute: $key,
+                        droppedElements: \is_array($item) ? \array_values($item) : $item
+                    )
                 ),
                 'drop_elements' => $this->eachItem($config, $value,
                     fn (HtmlSanitizerConfig $config, string $item) => $config->dropElement($item)
@@ -96,7 +105,7 @@ class HtmlSanitizerConfigBuilder
     }
 
     /**
-     * @param array<mixed> $items
+     * @param array<int, list<string>|string> $items
      */
     private function eachItem(HtmlSanitizerConfig $config, array $items, callable $callback): HtmlSanitizerConfig
     {

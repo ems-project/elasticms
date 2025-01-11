@@ -13,7 +13,7 @@ final class VersionLockFile
     private readonly string $filename;
     /** @var array<mixed> */
     private array $lock = [];
-    private const NAME = 'version.lock';
+    private const string NAME = 'version.lock';
 
     public function __construct(string $directory)
     {

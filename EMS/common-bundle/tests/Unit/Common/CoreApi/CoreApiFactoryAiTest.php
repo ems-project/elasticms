@@ -17,6 +17,7 @@ final class CoreApiFactoryAiTest extends TestCase
     private StorageManager $storageManager;
     private CoreApiFactory $factory;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);

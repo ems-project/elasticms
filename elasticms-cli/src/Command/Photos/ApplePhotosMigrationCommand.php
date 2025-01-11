@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
 {
-    final public const ARG_PHOTOS_LIBRARY_PATH = 'photos-library-path';
+    final public const string ARG_PHOTOS_LIBRARY_PATH = 'photos-library-path';
     private string $applePhotosPathPath;
 
     public function __construct(AdminHelper $adminHelper)
@@ -26,6 +26,7 @@ class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
         parent::__construct($adminHelper);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -37,12 +38,14 @@ class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
         parent::configure();
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->applePhotosPathPath = $this->getArgumentString(self::ARG_PHOTOS_LIBRARY_PATH);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Start migrating Apple Photos Library %s', $this->applePhotosPathPath));
@@ -50,6 +53,7 @@ class ApplePhotosMigrationCommand extends AbstractPhotosMigrationCommand
         return parent::execute($input, $output);
     }
 
+    #[\Override]
     protected function getLibrary(): PhotosLibraryInterface
     {
         return new ApplePhotosLibrary($this->applePhotosPathPath);

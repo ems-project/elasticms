@@ -6,16 +6,19 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ChoiceRadios extends AbstractField
 {
+    #[\Override]
     public function getHtmlClass(): string
     {
         return 'choice-radios';
     }
 
+    #[\Override]
     public function getFieldClass(): string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getOptions(): array
     {
         $options = parent::getOptions();

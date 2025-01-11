@@ -13,14 +13,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class DoctrineHandler extends AbstractProcessingHandler
 {
-    private const SECRET_VALUE = '***';
-    private const SECRET_KEYS = ['api_key'];
+    private const string SECRET_VALUE = '***';
+    private const array SECRET_KEYS = ['api_key'];
 
     public function __construct(private readonly LogRepository $logRepository, private readonly TokenStorageInterface $tokenStorage, private readonly int $minLevel)
     {
         parent::__construct();
     }
 
+    #[\Override]
     protected function write(LogRecord $record): void
     {
         $logArray = $record->toArray();

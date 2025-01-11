@@ -11,12 +11,13 @@ use Psr\Log\LoggerInterface;
 
 class ApiFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    final public const STORAGE_TYPE = 'api';
+    final public const string STORAGE_TYPE = 'api';
 
     public function __construct(private readonly LoggerInterface $logger, private readonly TokenStore $tokenStore)
     {
     }
 
+    #[\Override]
     public function createService(array $parameters): ?StorageInterface
     {
         $config = $this->resolveParameters($parameters);
@@ -24,6 +25,7 @@ class ApiFactory extends AbstractFactory implements StorageFactoryInterface
         return new ApiStorage($this->logger, $this->tokenStore, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT]);
     }
 
+    #[\Override]
     public function getStorageType(): string
     {
         return self::STORAGE_TYPE;

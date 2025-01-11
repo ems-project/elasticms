@@ -19,6 +19,7 @@ final class SearchAiTest extends TestCase
     private Client $client;
     private Search $search;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);

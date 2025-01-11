@@ -10,12 +10,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ClassCleaner implements HtmlInterface
 {
-    final public const TYPE = 'class-cleaner';
+    final public const string TYPE = 'class-cleaner';
 
     public function __construct(private readonly ConfigManager $config)
     {
     }
 
+    #[\Override]
     public function process(WebResource $resource, Crawler $content): void
     {
         foreach ($content->filter('[class]') as $item) {

@@ -9,22 +9,26 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ItemsType extends AbstractType
 {
+    public const PREFIX = 'item-';
+
     /**
      * @param FormBuilderInterface<FormBuilderInterface> $builder
      * @param array<string, mixed>                       $options
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $result = $options['result'];
 
         foreach ($result['hits']['hits'] as $hit) {
-            $builder->add($hit['_id'], HiddenType::class, [
+            $builder->add(\join('', [self::PREFIX, $hit['_id']]), HiddenType::class, [
                 'attr' => [
                 ],
             ]);
         }
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

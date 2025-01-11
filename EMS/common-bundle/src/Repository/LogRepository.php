@@ -20,7 +20,7 @@ class LogRepository extends ServiceEntityRepository
 {
     private readonly Connection $connection;
 
-    private const COLUMN_TYPES = [
+    private const array COLUMN_TYPES = [
         'id' => Types::STRING,
         'created' => Types::DATETIME_MUTABLE,
         'modified' => Types::DATETIME_MUTABLE,

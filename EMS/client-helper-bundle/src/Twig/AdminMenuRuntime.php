@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Helper\Environment\EnvironmentHelper;
 use EMS\CommonBundle\Common\EMSLink;
 use Twig\Extension\RuntimeExtensionInterface;
 
-final class AdminMenuRuntime implements RuntimeExtensionInterface
+final readonly class AdminMenuRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly EnvironmentHelper $environmentHelper)
+    public function __construct(private EnvironmentHelper $environmentHelper)
     {
     }
 

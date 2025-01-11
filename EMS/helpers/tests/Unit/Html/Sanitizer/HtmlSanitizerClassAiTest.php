@@ -12,6 +12,7 @@ class HtmlSanitizerClassAiTest extends TestCase
 {
     private HtmlSanitizerClass $sanitizer;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->sanitizer = new HtmlSanitizerClass([

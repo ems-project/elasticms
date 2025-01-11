@@ -9,8 +9,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 final class EmschRequest extends Request
 {
-    public const ATTRIBUTE_EMSCH_CACHE = '_emsch_cache';
-    public const ATTRIBUTE_SUB_REQUEST = '_emsch_sub_request';
+    public const string ATTRIBUTE_EMSCH_CACHE = '_emsch_cache';
+    public const string ATTRIBUTE_SUB_REQUEST = '_emsch_sub_request';
 
     public static function fromRequest(Request $request): self
     {

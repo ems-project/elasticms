@@ -11,6 +11,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 final class EMSClientHelperBundle extends Bundle
 {
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);

@@ -12,10 +12,10 @@ use EMS\Xliff\XML\DomHelper;
 
 class InsertionRevision
 {
-    private const HTML_FIELD = 'html_field';
-    private const SIMPLE_FIELD = 'simple_field';
-    private const UNKNOWN_FIELD_TYPE = 'UNKNOWN_FIELD_TYPE';
-    final public const LOCALE_PLACE_HOLDER = '%locale%';
+    private const string HTML_FIELD = 'html_field';
+    private const string SIMPLE_FIELD = 'simple_field';
+    private const string UNKNOWN_FIELD_TYPE = 'UNKNOWN_FIELD_TYPE';
+    final public const string LOCALE_PLACE_HOLDER = '%locale%';
     private readonly string $contentType;
     private readonly string $ouuid;
     private readonly string $revisionId;

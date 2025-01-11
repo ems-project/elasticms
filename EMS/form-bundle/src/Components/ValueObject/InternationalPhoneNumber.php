@@ -7,9 +7,9 @@ namespace EMS\FormBundle\Components\ValueObject;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 
-final class InternationalPhoneNumber
+final readonly class InternationalPhoneNumber
 {
-    private readonly NumberValue $number;
+    private NumberValue $number;
 
     public function __construct(string $phone)
     {

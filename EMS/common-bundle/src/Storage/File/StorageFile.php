@@ -15,11 +15,13 @@ class StorageFile implements FileInterface
     {
     }
 
+    #[\Override]
     public function getContent(): string
     {
         return $this->stream->getContents();
     }
 
+    #[\Override]
     public function getFilename(): string
     {
         if (null === $this->tempFile) {

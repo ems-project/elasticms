@@ -6,15 +6,16 @@ namespace EMS\ClientHelperBundle\Helper\Asset;
 
 use Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface;
 
-final class AssetVersionStrategy implements VersionStrategyInterface
+final readonly class AssetVersionStrategy implements VersionStrategyInterface
 {
-    public function __construct(private readonly AssetHelperRuntime $assetHelperRuntime)
+    public function __construct(private AssetHelperRuntime $assetHelperRuntime)
     {
     }
 
     /**
      * @param string $path
      */
+    #[\Override]
     public function getVersion($path): string
     {
         return $this->assetHelperRuntime->getVersionHash();
@@ -23,6 +24,7 @@ final class AssetVersionStrategy implements VersionStrategyInterface
     /**
      * @param string $path
      */
+    #[\Override]
     public function applyVersion($path): string
     {
         return $this->assetHelperRuntime->applyVersion($path);

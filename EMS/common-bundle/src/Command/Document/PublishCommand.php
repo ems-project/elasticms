@@ -13,20 +13,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PublishCommand extends AbstractCommand
 {
-    private const ARGUMENT_CONTENT_TYPE = 'content-type';
-    private const ARGUMENT_OUUID = 'ouuid';
-    private const ARGUMENT_TARGET_ENVIRONMENT = 'target-environment';
-    private const ARGUMENT_REVISION_ID = 'revisison-id';
+    private const string ARGUMENT_CONTENT_TYPE = 'content-type';
+    private const string ARGUMENT_OUUID = 'ouuid';
+    private const string ARGUMENT_TARGET_ENVIRONMENT = 'target-environment';
+    private const string ARGUMENT_REVISION_ID = 'revisison-id';
     private string $contentTypeName;
     private string $ouuid;
     private string $targetEnvironmentName;
-    private ?string $revisionId;
+    private ?string $revisionId = null;
 
     public function __construct(private readonly AdminHelper $adminHelper)
     {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -38,6 +39,7 @@ class PublishCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -48,6 +50,7 @@ class PublishCommand extends AbstractCommand
         $this->revisionId = $this->getArgumentStringNull(self::ARGUMENT_REVISION_ID);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Publish the document %s to the environment %s', $this->ouuid, $this->targetEnvironmentName));

@@ -6,14 +6,14 @@ namespace EMS\ClientHelperBundle\Helper\Templating;
 
 use EMS\ClientHelperBundle\Exception\TemplatingException;
 
-final class TemplateName
+final readonly class TemplateName
 {
-    private readonly string $contentType;
-    private readonly string $searchValue;
-    private readonly ?string $searchField;
+    private string $contentType;
+    private string $searchValue;
+    private ?string $searchField;
 
-    private const REGEX_MATCH_OUUID = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*):(?<search_val>.*)$/';
-    private const REGEX_MATCH_NAME = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*)\/(?<search_val>.*)$/';
+    private const string REGEX_MATCH_OUUID = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*):(?<search_val>.*)$/';
+    private const string REGEX_MATCH_NAME = '/^@EMSCH\/(?<content_type>[a-z][a-z0-9\-_]*)\/(?<search_val>.*)$/';
 
     public function __construct(string $name)
     {
@@ -57,7 +57,7 @@ final class TemplateName
      */
     private function match(string $name): array
     {
-        if ('@' !== \substr($name, 0, 1)) {
+        if (!\str_starts_with($name, '@')) {
             $name = "@EMSCH/$name";
         }
         \preg_match(self::REGEX_MATCH_OUUID, $name, $matchOuuid);

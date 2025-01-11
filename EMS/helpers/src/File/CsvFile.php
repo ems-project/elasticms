@@ -10,7 +10,7 @@ namespace EMS\Helpers\File;
 class CsvFile implements \Countable, \IteratorAggregate
 {
     public const DEFAULT_DELIMITER = ',';
-    private const UTF8_BOM = "\xEF\xBB\xBF";
+    private const string UTF8_BOM = "\xEF\xBB\xBF";
 
     public function __construct(
         private readonly string $filename,
@@ -22,6 +22,7 @@ class CsvFile implements \Countable, \IteratorAggregate
     /**
      * @yield array<int, mixed>
      */
+    #[\Override]
     public function getIterator(): \Generator
     {
         foreach ($this->getRows() as $row) {
@@ -32,6 +33,7 @@ class CsvFile implements \Countable, \IteratorAggregate
         }
     }
 
+    #[\Override]
     public function count(): int
     {
         $count = 0;

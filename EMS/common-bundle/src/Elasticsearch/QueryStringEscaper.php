@@ -6,7 +6,7 @@ namespace EMS\CommonBundle\Elasticsearch;
 
 class QueryStringEscaper
 {
-    private const REGEX_RESERVED_CHARACTERS = '/[\\+\\-\\=\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\<\\>\\?\\:\\\\\\/]/';
+    private const string REGEX_RESERVED_CHARACTERS = '/[\\+\\-\\=\\&\\|\\!\\(\\)\\{\\}\\[\\]\\^\\\"\\~\\*\\<\\>\\?\\:\\\\\\/]/';
 
     public static function escape(string $queryString): string
     {

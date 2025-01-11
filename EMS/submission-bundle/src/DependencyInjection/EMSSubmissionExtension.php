@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 final class EMSSubmissionExtension extends Extension implements PrependExtensionInterface
 {
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -26,6 +27,7 @@ final class EMSSubmissionExtension extends Extension implements PrependExtension
         $container->setParameter('emss.connections', $config['connections']);
     }
 
+    #[\Override]
     public function prepend(ContainerBuilder $container): void
     {
         $bundles = $container->getParameter('kernel.bundles');

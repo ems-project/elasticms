@@ -17,6 +17,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
     }
 
     /** @return string[] */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

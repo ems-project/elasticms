@@ -11,7 +11,7 @@ class MimeTypeHelper
 {
     public const TEXT_PLAIN = 'text/plain';
     private static ?self $instance = null;
-    private MimeTypes $mimeTypes;
+    private readonly MimeTypes $mimeTypes;
 
     private function __construct()
     {

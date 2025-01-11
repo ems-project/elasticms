@@ -17,11 +17,13 @@ class ForgivingNumberDataTransformer implements DataTransformerInterface
     {
     }
 
+    #[\Override]
     public function transform($value)
     {
         return $value;
     }
 
+    #[\Override]
     public function reverseTransform($value)
     {
         if (null === $value) {

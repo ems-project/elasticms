@@ -11,7 +11,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class DataLink
 {
-    final public const TYPE = 'data-link';
+    final public const string TYPE = 'data-link';
 
     public function __construct(private readonly ConfigManager $config, private readonly Rapport $rapport)
     {

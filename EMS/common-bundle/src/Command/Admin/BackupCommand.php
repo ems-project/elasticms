@@ -19,12 +19,12 @@ use Symfony\Component\Finder\Finder;
 
 class BackupCommand extends AbstractCommand
 {
-    final public const EXPORT = 'export';
-    final public const EXPORT_FOLDER = 'export-folder';
-    final public const CONFIGS_FOLDER = 'configs-folder';
-    final public const DOCUMENTS_FOLDER = 'documents-folder';
-    final public const CONFIGS_OPTION = 'configs';
-    final public const DOCUMENTS_OPTION = 'documents';
+    final public const string EXPORT = 'export';
+    final public const string EXPORT_FOLDER = 'export-folder';
+    final public const string CONFIGS_FOLDER = 'configs-folder';
+    final public const string DOCUMENTS_FOLDER = 'documents-folder';
+    final public const string CONFIGS_OPTION = 'configs';
+    final public const string DOCUMENTS_OPTION = 'documents';
     private bool $export;
     private string $configsFolder;
     private string $documentsFolder;
@@ -42,6 +42,7 @@ class BackupCommand extends AbstractCommand
         $this->documentsFolder = $projectFolder.DIRECTORY_SEPARATOR.DownloadCommand::DEFAULT_FOLDER;
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -64,6 +65,7 @@ class BackupCommand extends AbstractCommand
         $this->exportDocumentsOnly = $this->getOptionBool(self::DOCUMENTS_OPTION);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -75,6 +77,7 @@ class BackupCommand extends AbstractCommand
         $this->addOption(self::DOCUMENTS_OPTION, null, InputOption::VALUE_NONE, 'Export elasticMS\'s documents only');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->coreApi = $this->adminHelper->getCoreApi();

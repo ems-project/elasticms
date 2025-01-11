@@ -21,11 +21,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FileStructurePushCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::FILE_STRUCTURE_PUSH;
-    private const ARGUMENT_FOLDER = 'folder';
-    private const OPTION_ADMIN = 'admin';
-    private const OPTION_CHUNK_SIZE = 'chunk-size';
-    private const OPTION_SAVE_HASH_FILENAME = 'save-hash-filename';
-    private const DEFAULT_SAVE_HASH_FILE = '.hash';
+    private const string ARGUMENT_FOLDER = 'folder';
+    private const string OPTION_ADMIN = 'admin';
+    private const string OPTION_CHUNK_SIZE = 'chunk-size';
+    private const string OPTION_SAVE_HASH_FILENAME = 'save-hash-filename';
+    private const string DEFAULT_SAVE_HASH_FILE = '.hash';
     private string $folderPath;
     private FileManagerInterface $fileManager;
     private int $chunkSize;
@@ -38,6 +38,7 @@ class FileStructurePushCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -50,6 +51,7 @@ class FileStructurePushCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -62,6 +64,7 @@ class FileStructurePushCommand extends AbstractCommand
         $this->saveHashFilename = $this->getOptionString(self::OPTION_SAVE_HASH_FILENAME);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('EMS - File structure - Push');

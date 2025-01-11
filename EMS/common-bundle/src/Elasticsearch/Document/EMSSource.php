@@ -16,16 +16,16 @@ final class EMSSource implements EMSSourceInterface
     /** @var array<mixed> */
     private readonly array $source;
 
-    public const FIELD_CONTENT_TYPE = '_contenttype';
-    public const FIELD_FINALIZED_BY = '_finalized_by';
-    public const FIELD_FINALIZATION_DATETIME = '_finalization_datetime';
-    public const FIELD_HASH = '_sha1';
-    public const FIELD_SIGNATURE = '_signature';
-    public const FIELD_PUBLICATION_DATETIME = '_published_datetime';
-    public const FIELD_VERSION_UUID = '_version_uuid';
-    public const FIELD_VERSION_TAG = '_version_tag';
+    public const string FIELD_CONTENT_TYPE = '_contenttype';
+    public const string FIELD_FINALIZED_BY = '_finalized_by';
+    public const string FIELD_FINALIZATION_DATETIME = '_finalization_datetime';
+    public const string FIELD_HASH = '_sha1';
+    public const string FIELD_SIGNATURE = '_signature';
+    public const string FIELD_PUBLICATION_DATETIME = '_published_datetime';
+    public const string FIELD_VERSION_UUID = '_version_uuid';
+    public const string FIELD_VERSION_TAG = '_version_tag';
 
-    public const REQUIRED_FIELDS = [
+    public const array REQUIRED_FIELDS = [
         EMSSource::FIELD_CONTENT_TYPE,
         EMSSource::FIELD_VERSION_UUID,
         EMSSource::FIELD_HASH,
@@ -49,26 +49,31 @@ final class EMSSource implements EMSSourceInterface
         }
     }
 
-    public function get(string $field, $default = null)
+    #[\Override]
+    public function get(string $field, mixed $default = null)
     {
         return $this->source[$field] ?? $default;
     }
 
+    #[\Override]
     public function getContentType(): string
     {
         return $this->contentType;
     }
 
+    #[\Override]
     public function getHash(): string
     {
         return $this->hash;
     }
 
+    #[\Override]
     public function hasFinalizedBy(): bool
     {
         return null !== $this->finalizedBy;
     }
 
+    #[\Override]
     public function getFinalizedBy(): string
     {
         if (null === $finalizedBy = $this->finalizedBy) {
@@ -78,11 +83,13 @@ final class EMSSource implements EMSSourceInterface
         return $finalizedBy;
     }
 
+    #[\Override]
     public function hasFinalizationDateTime(): bool
     {
         return null !== $this->finalizationDateTime;
     }
 
+    #[\Override]
     public function getFinalizationDateTime(): \DateTimeInterface
     {
         if (null === $finalizationDateTime = $this->finalizationDateTime) {
@@ -92,11 +99,13 @@ final class EMSSource implements EMSSourceInterface
         return $finalizationDateTime;
     }
 
+    #[\Override]
     public function hasPublicationDateTime(): bool
     {
         return null !== $this->publicationDateTime;
     }
 
+    #[\Override]
     public function getPublicationDateTime(): \DateTimeInterface
     {
         if (null === $publicationDateTime = $this->publicationDateTime) {
@@ -106,6 +115,7 @@ final class EMSSource implements EMSSourceInterface
         return $publicationDateTime;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return $this->source;

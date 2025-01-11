@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class DocumentService
+final readonly class DocumentService
 {
-    public function __construct(private readonly ClientFactory $client)
+    public function __construct(private ClientFactory $client)
     {
     }
 

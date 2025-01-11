@@ -15,12 +15,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class InternalLink implements HtmlInterface
 {
-    final public const TYPE = 'internal-link';
+    final public const string TYPE = 'internal-link';
 
     public function __construct(private readonly ConfigManager $config, private readonly Rapport $rapport, private readonly string $currentUrl)
     {
     }
 
+    #[\Override]
     public function process(WebResource $resource, Crawler $content): void
     {
         $this->convertAttribute($resource, $content, 'src');

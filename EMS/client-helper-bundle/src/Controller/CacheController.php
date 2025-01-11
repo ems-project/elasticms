@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Helper\Cache\CacheHelper;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-final class CacheController
+final readonly class CacheController
 {
-    public function __construct(private readonly CacheHelper $cacheHelper)
+    public function __construct(private CacheHelper $cacheHelper)
     {
     }
 

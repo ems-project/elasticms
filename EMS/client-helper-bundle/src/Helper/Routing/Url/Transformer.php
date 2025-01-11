@@ -87,6 +87,9 @@ final class Transformer
                 $baseUrl = $config['baseUrl'] ?? '';
             }
             $transformed = $baseUrl.$route;
+            if (\strlen($match['query'] ?? '') > 0) {
+                $transformed = \join('?', [$transformed, $match['query']]);
+            }
 
             return $srcAttribute ? 'src="'.$transformed : $transformed;
         }, $content);

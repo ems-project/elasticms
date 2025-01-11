@@ -4,7 +4,7 @@ namespace App\CLI\Client\Photos;
 
 class Photo
 {
-    private const DATETIME_FORMAT = 'c';
+    private const string DATETIME_FORMAT = 'c';
     /** @var mixed[]|null */
     private ?array $previewFile = null;
     /**

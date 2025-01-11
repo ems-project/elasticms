@@ -34,6 +34,7 @@ final class EndpointManager implements EndpointManagerInterface, RuntimeExtensio
         throw new \Exception(\sprintf('Endpoint type "%s" not found!', $endpoint->getType()));
     }
 
+    #[\Override]
     public function getEndpointByFieldName(string $fieldName): EndpointInterface
     {
         foreach ($this->loadEndpoints() as $endpoint) {

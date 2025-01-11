@@ -23,6 +23,7 @@ final class DatabaseStatsCommandTest extends KernelTestCase
     private Application $application;
     private MessageLoggerListener $messageLogger;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

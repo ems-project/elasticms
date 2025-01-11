@@ -26,11 +26,13 @@ final class AssetVersionStrategy implements VersionStrategyInterface
     ) {
     }
 
+    #[\Override]
     public function getVersion(string $path): string
     {
         return $this->applyVersion($path);
     }
 
+    #[\Override]
     public function applyVersion(string $path): string
     {
         return $this->getManifestPath($path) ?: $path;

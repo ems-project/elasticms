@@ -10,16 +10,19 @@ use EMS\FormBundle\Components\Validation\VerificationCode;
  */
 class SendConfirmation extends AbstractField
 {
+    #[\Override]
     public function getHtmlClass(): string
     {
         return 'number';
     }
 
+    #[\Override]
     public function getFieldClass(): string
     {
         return SendConfirmationType::class;
     }
 
+    #[\Override]
     public function getOptions(): array
     {
         $options = parent::getOptions();

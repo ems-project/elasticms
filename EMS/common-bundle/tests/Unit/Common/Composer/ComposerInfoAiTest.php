@@ -11,6 +11,7 @@ final class ComposerInfoAiTest extends TestCase
 {
     private ComposerInfo $composerInfo;
 
+    #[\Override]
     protected function setUp(): void
     {
         $projectDir = __DIR__.'/fixtures';

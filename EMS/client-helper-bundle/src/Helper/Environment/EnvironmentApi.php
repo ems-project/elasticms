@@ -8,9 +8,9 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
 
-final class EnvironmentApi
+final readonly class EnvironmentApi
 {
-    public function __construct(private readonly CoreApiFactoryInterface $coreApiFactory)
+    public function __construct(private CoreApiFactoryInterface $coreApiFactory)
     {
     }
 

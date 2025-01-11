@@ -9,6 +9,7 @@ class EncoderAiTest extends TestCase
 {
     private Encoder $encoder;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->encoder = new Encoder();

@@ -26,7 +26,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Html
 {
-    final public const TYPE = 'html';
+    final public const string TYPE = 'html';
 
     public function __construct(private readonly ConfigManager $config, private readonly Document $document, private readonly Rapport $rapport)
     {

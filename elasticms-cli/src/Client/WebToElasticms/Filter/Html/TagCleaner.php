@@ -10,12 +10,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class TagCleaner implements HtmlInterface
 {
-    final public const TYPE = 'tag-cleaner';
+    final public const string TYPE = 'tag-cleaner';
 
     public function __construct(private readonly ConfigManager $config)
     {
     }
 
+    #[\Override]
     public function process(WebResource $resource, Crawler $content): void
     {
         foreach ($content->filter(\implode(', ', $this->config->getCleanTags())) as $item) {

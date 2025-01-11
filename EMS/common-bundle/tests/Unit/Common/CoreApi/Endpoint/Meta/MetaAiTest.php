@@ -14,6 +14,7 @@ final class MetaAiTest extends TestCase
     private Client $client;
     private Meta $meta;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);

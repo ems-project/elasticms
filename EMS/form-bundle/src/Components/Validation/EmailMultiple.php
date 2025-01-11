@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraint;
 
 final class EmailMultiple extends AbstractValidation
 {
+    #[\Override]
     public function getConstraint(): Constraint
     {
         return new IsEmailMultiple($this->value);

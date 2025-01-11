@@ -7,9 +7,9 @@ namespace EMS\ClientHelperBundle\Helper\UserApi;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class UserService
+final readonly class UserService
 {
-    public function __construct(private readonly ClientFactory $client)
+    public function __construct(private ClientFactory $client)
     {
     }
 

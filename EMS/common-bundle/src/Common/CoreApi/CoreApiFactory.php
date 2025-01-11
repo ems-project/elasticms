@@ -10,18 +10,19 @@ use EMS\CommonBundle\Storage\StorageManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\CurlHttpClient;
 
-final class CoreApiFactory implements CoreApiFactoryInterface
+final readonly class CoreApiFactory implements CoreApiFactoryInterface
 {
     /**
      * @param array{ headers: array<string, string>, max_connections: int, verify: bool, timeout: int } $options
      */
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly StorageManager $storageManager,
-        private readonly array $options,
+        private LoggerInterface $logger,
+        private StorageManager $storageManager,
+        private array $options,
     ) {
     }
 
+    #[\Override]
     public function create(string $baseUrl): CoreApiInterface
     {
         $httpClient = new CurlHttpClient(

@@ -12,15 +12,15 @@ use GuzzleHttp\Client as HttpClient;
 /**
  * @todo use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface
  */
-final class Client
+final readonly class Client
 {
-    private readonly HttpClient $client;
+    private HttpClient $client;
 
     public function __construct(
-        private readonly string $name,
+        private string $name,
         string $baseUrl,
-        private readonly string $key,
-        public readonly CoreApi $coreApi,
+        private string $key,
+        public CoreApi $coreApi,
     ) {
         $this->client = HttpClientFactory::create($baseUrl, ['X-Auth-Token' => $this->key]);
     }

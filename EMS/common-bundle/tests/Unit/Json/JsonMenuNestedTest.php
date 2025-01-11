@@ -12,6 +12,7 @@ class JsonMenuNestedTest extends TestCase
     private JsonMenuNested $jsonMenuNested1;
     private JsonMenuNested $jsonMenuNested2;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->jsonMenuNested1 = JsonMenuNested::fromStructure(\file_get_contents(__DIR__.'/json_menu_nested_1.json'));

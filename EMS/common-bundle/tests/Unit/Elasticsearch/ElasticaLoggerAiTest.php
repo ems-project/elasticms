@@ -16,6 +16,7 @@ final class ElasticaLoggerAiTest extends TestCase
     private LoggerInterface $logger;
     private ElasticaLogger $elasticaLogger;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);

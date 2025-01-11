@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
 final class EmschRequestResolver implements ArgumentValueResolverInterface
 {
+    #[\Override]
     public function supports(Request $request, ArgumentMetadata $argument): bool
     {
         return EmschRequest::class === $argument->getType();
@@ -18,6 +19,7 @@ final class EmschRequestResolver implements ArgumentValueResolverInterface
     /**
      * @return iterable<EmschRequest>
      */
+    #[\Override]
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         yield EmschRequest::fromRequest($request);

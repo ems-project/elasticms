@@ -12,6 +12,7 @@ class StoreDataAiTest extends TestCase
 {
     private StoreData $storeData;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

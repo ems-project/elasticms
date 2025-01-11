@@ -12,9 +12,10 @@ use Symfony\Component\Console\Question\Question;
 
 final class LoginCommand extends AbstractLocalCommand
 {
-    private const ARG_USERNAME = 'username';
-    private const ARG_PASSWORD = 'password';
+    private const string ARG_USERNAME = 'username';
+    private const string ARG_PASSWORD = 'password';
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -24,6 +25,7 @@ final class LoginCommand extends AbstractLocalCommand
         ;
     }
 
+    #[\Override]
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         if (null === $input->getArgument(self::ARG_USERNAME)) {
@@ -35,6 +37,7 @@ final class LoginCommand extends AbstractLocalCommand
         }
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Local development - login');

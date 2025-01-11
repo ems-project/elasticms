@@ -10,9 +10,9 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class FormSubmissionRequestSubscriber implements EventSubscriberInterface
+final readonly class FormSubmissionRequestSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly FormSubmissionRepository $formSubmissionRepository)
+    public function __construct(private FormSubmissionRepository $formSubmissionRepository)
     {
     }
 
@@ -37,6 +37,7 @@ final class FormSubmissionRequestSubscriber implements EventSubscriberInterface
     /**
      * @return array<string, string>
      */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

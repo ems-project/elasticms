@@ -15,6 +15,7 @@ class IsCompanyNumberMultipleValidator extends AbstractConstraintValidator
      * @param mixed      $value      The value that should be validated
      * @param Constraint $constraint The constraint for the validation
      */
+    #[\Override]
     public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof IsCompanyNumberMultiple) {

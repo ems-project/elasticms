@@ -13,8 +13,8 @@ use Psr\Http\Message\StreamInterface;
 
 class S3Client implements FileStructureClientInterface
 {
-    private const EMS_ARCHIVE_IDENTIFIER_FILE = '.ems_archive_digest';
-    private AwsS3Client $client;
+    private const string EMS_ARCHIVE_IDENTIFIER_FILE = '.ems_archive_digest';
+    private readonly AwsS3Client $client;
     private string $hash;
     /** @var mixed[] */
     private array $batch;
@@ -29,6 +29,7 @@ class S3Client implements FileStructureClientInterface
         $this->client = new AwsS3Client($credential);
     }
 
+    #[\Override]
     public function initSync(string $hash): void
     {
         $this->hash = $hash;
@@ -43,10 +44,12 @@ class S3Client implements FileStructureClientInterface
         }
     }
 
+    #[\Override]
     public function createFolder(string $path, string $getLabel): void
     {
     }
 
+    #[\Override]
     public function createFile(string $path, StreamInterface $stream, string $contentType): void
     {
         $key = "$this->hash/$path";
@@ -66,6 +69,7 @@ class S3Client implements FileStructureClientInterface
         ]);
     }
 
+    #[\Override]
     public function finalize(): void
     {
         $key = "$this->hash/".self::EMS_ARCHIVE_IDENTIFIER_FILE;
@@ -91,6 +95,7 @@ class S3Client implements FileStructureClientInterface
         CommandPool::batch($this->client, $this->batch);
     }
 
+    #[\Override]
     public function isUpToDate(): bool
     {
         try {

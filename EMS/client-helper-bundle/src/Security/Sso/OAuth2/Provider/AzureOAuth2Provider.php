@@ -17,7 +17,7 @@ use function Symfony\Component\String\u;
 
 class AzureOAuth2Provider extends AbstractOAuth2Provider
 {
-    private Azure $azure;
+    private readonly Azure $azure;
     /** @var array<string, string[]> */
     private array $serviceScopes = [];
 
@@ -34,7 +34,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         ?array $scopes,
         ?string $version,
     ) {
-        $scopes = $scopes ?? self::DEFAULT_SCOPES;
+        $scopes ??= self::DEFAULT_SCOPES;
         $serviceScopes = \array_filter($scopes, static fn (string $s) => u($s)->startsWith('http'));
         $defaultScopes = \array_diff($scopes, $serviceScopes);
 
@@ -54,6 +54,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         ]);
     }
 
+    #[\Override]
     public function createToken(AccessTokenInterface $accessToken, Passport $passport, string $firewallName): OAuth2Token
     {
         $token = new OAuth2Token($accessToken, $passport->getUser(), $firewallName, $passport->getUser()->getRoles());
@@ -68,6 +69,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         return $token;
     }
 
+    #[\Override]
     public function refreshToken(OAuth2Token $token): OAuth2Token
     {
         $refreshedToken = parent::refreshToken($token);
@@ -86,16 +88,19 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
         return $refreshedToken;
     }
 
+    #[\Override]
     protected function getName(): string
     {
         return 'azure';
     }
 
+    #[\Override]
     protected function getOptions(): array
     {
         return ['scope' => $this->azure->scope];
     }
 
+    #[\Override]
     protected function getProvider(): AbstractProvider
     {
         return $this->azure;
@@ -104,6 +109,7 @@ class AzureOAuth2Provider extends AbstractOAuth2Provider
     /**
      * @param AzureResourceOwner $resourceOwner
      */
+    #[\Override]
     protected function getUsernameFromResource(ResourceOwnerInterface $resourceOwner): ?string
     {
         return $resourceOwner->getUpn();

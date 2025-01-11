@@ -24,11 +24,13 @@ class Data implements \Countable, \IteratorAggregate
     /**
      * @return \ArrayIterator<int, array<mixed>>
      */
+    #[\Override]
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->data);
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->data);

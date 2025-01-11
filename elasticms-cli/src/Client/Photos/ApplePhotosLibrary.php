@@ -17,6 +17,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
         $this->photosDatabase = new \SQLite3($this->libraryPath.'/database/Photos.sqlite', SQLITE3_OPEN_READONLY);
     }
 
+    #[\Override]
     public function photosCount(): int
     {
         return \intval($this->photosDatabase->querySingle('select count(*) from ZASSET'));
@@ -25,6 +26,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
     /**
      * @return iterable<Photo>
      */
+    #[\Override]
     public function getPhotos(): iterable
     {
         $results = $this->photosDatabase->query('SELECT ASSET.Z_PK, ASSET.ZUUID, ASSET.ZANALYSISSTATEMODIFICATIONDATE, ASSET.ZADDEDDATE, ASSET.ZDATECREATED, ASSET.ZLATITUDE, ASSET.ZLONGITUDE, ATTR.ZORIGINALFILENAME FROM ZASSET ASSET, ZADDITIONALASSETATTRIBUTES ATTR WHERE ATTR.ZASSET = ASSET.Z_PK ORDER BY COALESCE(ASSET.ZANALYSISSTATEMODIFICATIONDATE, ASSET.ZADDEDDATE)  ASC');
@@ -55,6 +57,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
         return $photo;
     }
 
+    #[\Override]
     public function getPreviewFile(Photo $photo): ?SplFileInfo
     {
         $zuuid = \strtoupper($photo->getOuuid());
@@ -68,6 +71,7 @@ class ApplePhotosLibrary implements PhotosLibraryInterface
         return null;
     }
 
+    #[\Override]
     public function getOriginalFile(Photo $photo): ?SplFileInfo
     {
         $zuuid = \strtoupper($photo->getOuuid());

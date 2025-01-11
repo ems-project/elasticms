@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,7 +18,7 @@ class DefaultControllerTest extends WebTestCase
     public function testRedirect(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/');
+        $client->request(Request::METHOD_GET, '/');
         $this->assertEquals(Response::HTTP_FOUND, $client->getResponse()->getStatusCode());
         $this->assertEquals('/dashboard', $client->getResponse()->headers->get('location'));
     }

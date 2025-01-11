@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
 
 class UrlEncodeEnvVarProcessor implements EnvVarProcessorInterface
 {
+    #[\Override]
     public function getEnv(string $prefix, string $name, \Closure $getEnv): string
     {
         $env = $getEnv($name);
@@ -15,6 +16,7 @@ class UrlEncodeEnvVarProcessor implements EnvVarProcessorInterface
         return \urlencode((string) $env);
     }
 
+    #[\Override]
     public static function getProvidedTypes(): array
     {
         return [

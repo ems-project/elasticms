@@ -207,11 +207,8 @@ class Processor
         if (!$noCache) {
             $cache = $this->storageManager->readCache($config);
         }
-        if (isset($cache)) {
-            return $cache;
-        }
 
-        return $this->generateStream($config);
+        return $cache ?? $this->generateStream($config);
     }
 
     private function getResponseFromStreamInterface(StreamInterface $stream, Request $request): StreamedResponse

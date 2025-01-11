@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class Cache
 {
-    private const HASH_SEED = 'AuditHashSeed';
+    private const string HASH_SEED = 'AuditHashSeed';
     /** @var array<string, Url> */
     private array $urls = [];
     /** @var string[] */

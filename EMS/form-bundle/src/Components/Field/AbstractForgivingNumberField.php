@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 abstract class AbstractForgivingNumberField extends AbstractField
 {
+    #[\Override]
     public function getFieldClass(): string
     {
         return TextType::class;

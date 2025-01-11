@@ -9,18 +9,20 @@ use Symfony\Component\HttpFoundation\Session\Storage\Handler\AbstractSessionHand
 
 class StoreDataSessionHandler extends AbstractSessionHandler
 {
-    private const SESSION = '[_ems_session]';
+    private const string SESSION = '[_ems_session]';
     private bool $gcCalled = false;
 
     public function __construct(private readonly StoreDataManager $storeDataManager)
     {
     }
 
+    #[\Override]
     protected function doRead(string $sessionId): string
     {
         return (string) $this->storeDataManager->read($sessionId)->get(self::SESSION);
     }
 
+    #[\Override]
     protected function doWrite(string $sessionId, string $data): bool
     {
         $dataHelper = $this->storeDataManager->read($sessionId);
@@ -30,6 +32,7 @@ class StoreDataSessionHandler extends AbstractSessionHandler
         return true;
     }
 
+    #[\Override]
     protected function doDestroy(string $sessionId): bool
     {
         $this->storeDataManager->delete($sessionId);
@@ -37,6 +40,7 @@ class StoreDataSessionHandler extends AbstractSessionHandler
         return true;
     }
 
+    #[\Override]
     public function close(): bool
     {
         if ($this->gcCalled) {
@@ -46,6 +50,7 @@ class StoreDataSessionHandler extends AbstractSessionHandler
         return true;
     }
 
+    #[\Override]
     public function gc(int $max_lifetime): int|false
     {
         $this->gcCalled = true;
@@ -53,6 +58,7 @@ class StoreDataSessionHandler extends AbstractSessionHandler
         return 0;
     }
 
+    #[\Override]
     public function updateTimestamp(string $id, string $data): bool
     {
         $this->doWrite($id, $data);

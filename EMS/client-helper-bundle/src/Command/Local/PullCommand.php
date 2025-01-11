@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PullCommand extends AbstractLocalCommand
 {
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Local development - pull');

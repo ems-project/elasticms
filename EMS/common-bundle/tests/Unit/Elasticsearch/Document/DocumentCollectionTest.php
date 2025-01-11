@@ -13,6 +13,7 @@ class DocumentCollectionTest extends TestCase
 {
     private ResponseInterface $mockResponse;
 
+    #[\Override]
     protected function setUp(): void
     {
         $mockResponse = $this->createMock(ResponseInterface::class);

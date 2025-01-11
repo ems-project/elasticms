@@ -6,5 +6,5 @@ namespace EMS\ClientHelperBundle;
 
 final class Commands
 {
-    public const HEALTH_CHECK = 'emsch:health-check';
+    public const string HEALTH_CHECK = 'emsch:health-check';
 }

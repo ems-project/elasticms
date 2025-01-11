@@ -12,8 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionCommand extends AbstractCommand
 {
-    private const SHORT_NAME = 'short-name';
-    private const DEFAULT_SHORT_NAME = 'common';
+    private const string SHORT_NAME = 'short-name';
+    private const string DEFAULT_SHORT_NAME = 'common';
     private string $shortName;
 
     public function __construct(private readonly ComposerInfo $composerInfo)
@@ -21,18 +21,21 @@ class VersionCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
         $this->shortName = $this->getArgumentString(self::SHORT_NAME);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
         $this->addArgument(self::SHORT_NAME, InputArgument::OPTIONAL, \sprintf('Package composer short name'), self::DEFAULT_SHORT_NAME);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $version = $this->composerInfo->getVersionPackages()[$this->shortName] ?? null;

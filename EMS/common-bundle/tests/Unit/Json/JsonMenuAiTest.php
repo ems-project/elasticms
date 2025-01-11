@@ -12,6 +12,7 @@ class JsonMenuAiTest extends TestCase
     private JsonMenu $jsonMenu;
     private string $sampleJson;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->sampleJson = '[{"id":"1","label":"Home","type":"page","children":[{"id":"2","label":"About","type":"page"}]}]';

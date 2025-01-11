@@ -1,5 +1,14 @@
 # Changelog 5.x
 
+## 5.25.1 (2025-01-09)
+### Bug Fixes
+* fix(common/job): escape jobs command by @Davidmattei in https://github.com/ems-project/elasticms/pull/1121
+* fix(common/storage): put zip archive in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1108
+* fix(core/field): a symfony form type name can not start by a dash by @theus77 in https://github.com/ems-project/elasticms/pull/1119
+* fix(core/file): return size and mimetype in the file api by @theus77 in https://github.com/ems-project/elasticms/pull/1118
+* fix(helper/file): bigger chunks for tempFile by @theus77 in https://github.com/ems-project/elasticms/pull/1109
+* fix(web/routing): emsch_routing transform with query string by @theus77 in https://github.com/ems-project/elasticms/pull/1120
+
 ## 5.25.0 (2024-12-18)
 ### Features
 * feat(admin/environment): cli align unpublish not published documents by @Davidmattei in https://github.com/ems-project/elasticms/pull/1089
@@ -12,6 +21,13 @@
 * fix(web/twig): ems_template_exists use template builder by @theus77 in https://github.com/ems-project/elasticms/pull/1062
 ### Code Refactoring
 * refactor(common): add ems:submissions:forward from core by @theus77 in https://github.com/ems-project/elasticms/pull/1106
+
+## 5.24.4 (2025-01-09)
+### Bug Fixes
+* fix(common/storage): put zip archive in cache by @theus77 in https://github.com/ems-project/elasticms/pull/1108
+* fix(core/file): return size and mimetype in the file api by @theus77 in https://github.com/ems-project/elasticms/pull/1118
+* fix(helper/file): bigger chunks for tempFile by @theus77 in https://github.com/ems-project/elasticms/pull/1109
+* fix(web/routing): emsch_routing transform with query string by @theus77 in https://github.com/ems-project/elasticms/pull/1120
 
 ## 5.24.3 (2024-12-17)
 ### Bug Fixes
@@ -59,6 +75,12 @@
 * fix(cli/file-structure): improve push command (save_hash_file, chunk size) by @theus77 in https://github.com/ems-project/elasticms/pull/1076
 ### Code Refactoring
 * refactor(web): routing and templating match the content type name by @theus77 in https://github.com/ems-project/elasticms/pull/1073
+
+## 5.23.6 (2025-01-09)
+### Bug Fixes
+* fix(core/file): return size and mimetype in the file api by @theus77 in https://github.com/ems-project/elasticms/pull/1118
+* fix(helper/file): bigger chunks for tempFile by @theus77 in https://github.com/ems-project/elasticms/pull/1109
+* fix(web/routing): emsch_routing transform with query string by @theus77 in https://github.com/ems-project/elasticms/pull/1120
 
 ## 5.23.5 (2024-12-17)
 ### Bug Fixes

@@ -21,6 +21,7 @@ final class DatabaseHandler extends AbstractHandler
     {
     }
 
+    #[\Override]
     public function handle(HandleRequestInterface $handleRequest): HandleResponseInterface
     {
         try {

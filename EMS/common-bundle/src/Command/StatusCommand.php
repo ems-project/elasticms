@@ -20,15 +20,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class StatusCommand extends AbstractCommand
 {
-    private const OPTION_TIMEOUT = 'timeout';
-    private const OPTION_SILENT = 'silent';
-    private const OPTION_WAIT_FOR_STATUS = 'wait-for-status';
+    private const string OPTION_TIMEOUT = 'timeout';
+    private const string OPTION_SILENT = 'silent';
+    private const string OPTION_WAIT_FOR_STATUS = 'wait-for-status';
 
     public function __construct(private readonly ElasticaService $elasticaService, private readonly StorageManager $storageManager)
     {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -54,6 +55,7 @@ class StatusCommand extends AbstractCommand
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $silent = $this->getOptionBool(self::OPTION_SILENT);

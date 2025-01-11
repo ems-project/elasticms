@@ -26,7 +26,7 @@ class Cache
     {
         $rewritedEtags = [];
         foreach ($request->getETags() as $requestEtag) {
-            $rewritedEtags[] = \preg_replace('/\-gzip"$/i', '"', $requestEtag);
+            $rewritedEtags[] = \preg_replace('/\-gzip"$/i', '"', (string) $requestEtag);
         }
         $request->headers->replace([Headers::IF_NONE_MATCH => $rewritedEtags]);
         $response->setCache([

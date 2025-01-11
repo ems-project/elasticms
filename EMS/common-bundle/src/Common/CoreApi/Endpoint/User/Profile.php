@@ -44,21 +44,25 @@ final class Profile implements ProfileInterface
         }
     }
 
+    #[\Override]
     public function getId(): int
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    #[\Override]
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    #[\Override]
     public function getDisplayName(): ?string
     {
         return $this->displayName;
@@ -67,6 +71,7 @@ final class Profile implements ProfileInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getRoles(): array
     {
         return $this->roles;
@@ -75,11 +80,13 @@ final class Profile implements ProfileInterface
     /**
      * @return string[]
      */
+    #[\Override]
     public function getCircles(): array
     {
         return $this->circles;
     }
 
+    #[\Override]
     public function getLastLogin(): ?\DateTimeImmutable
     {
         return $this->lastLogin;
@@ -93,6 +100,7 @@ final class Profile implements ProfileInterface
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function getUserOptions(): array
     {
         return $this->userOptions;

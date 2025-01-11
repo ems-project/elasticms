@@ -8,12 +8,12 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigInterface;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Finder\Finder;
 
-final class ConfigHelper
+final readonly class ConfigHelper
 {
-    public const DEFAULT_FOLDER = 'admin';
-    private readonly string $directory;
+    public const string DEFAULT_FOLDER = 'admin';
+    private string $directory;
 
-    public function __construct(private readonly ConfigInterface $config, string $saveFolder)
+    public function __construct(private ConfigInterface $config, string $saveFolder)
     {
         $this->directory = \implode(DIRECTORY_SEPARATOR, [$saveFolder, $this->config->getType()]);
         if (!\is_dir($this->directory)) {

@@ -25,6 +25,7 @@ class AuthenticatedListener implements EventSubscriberInterface
     /**
      * @return array<string, array<mixed>>
      */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

@@ -15,6 +15,7 @@ final class UserAiTest extends TestCase
     private Client $client;
     private User $user;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);

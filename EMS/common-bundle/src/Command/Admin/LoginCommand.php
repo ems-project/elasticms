@@ -16,9 +16,9 @@ use Symfony\Component\Console\Question\Question;
 
 class LoginCommand extends AbstractCommand
 {
-    private const ARG_BASE_URL = 'base-url';
-    private const OPTION_USERNAME = 'username';
-    private const OPTION_PASSWORD = 'password';
+    private const string ARG_BASE_URL = 'base-url';
+    private const string OPTION_USERNAME = 'username';
+    private const string OPTION_PASSWORD = 'password';
     private string $username;
 
     public function __construct(private readonly AdminHelper $adminHelper, private ?string $backendUrl)
@@ -26,6 +26,7 @@ class LoginCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -36,6 +37,7 @@ class LoginCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         if (null === $this->backendUrl) {
@@ -52,6 +54,7 @@ class LoginCommand extends AbstractCommand
         }
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -62,6 +65,7 @@ class LoginCommand extends AbstractCommand
         }
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (null === $this->backendUrl) {

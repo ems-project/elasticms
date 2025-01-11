@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace EMS\CoreBundle\Core\Revision;
 
 use Doctrine\ORM\QueryBuilder;
-use DoctrineBatchUtils\BatchProcessing\SimpleBatchIteratorAggregate;
+use EMS\CoreBundle\Core\Doctrine\SimpleBatchIteratorAggregate;
 use EMS\CoreBundle\Entity\Revision;
 use EMS\Helpers\Standard\Type;
 
@@ -45,12 +45,16 @@ final class Revisions implements \IteratorAggregate
     /**
      * @return \Traversable<int, Revision>
      */
+    #[\Override]
     public function getIterator(): \Traversable
     {
-        return SimpleBatchIteratorAggregate::fromQuery(
+        /** @var \Traversable<int, Revision> $iterator */
+        $iterator = SimpleBatchIteratorAggregate::fromQuery(
             $this->qb->getQuery(),
             $this->batchSize
         );
+
+        return $iterator;
     }
 
     public function batch(callable $batch): void

@@ -17,11 +17,11 @@ final class Cache
     private ?\Redis $redis = null;
     private ?AdapterInterface $adapter = null;
 
-    public const TYPE_REDIS = 'redis';
-    public const TYPE_APC = 'apc';
-    public const TYPE_FILE_SYSTEM = 'file_system';
+    public const string TYPE_REDIS = 'redis';
+    public const string TYPE_APC = 'apc';
+    public const string TYPE_FILE_SYSTEM = 'file_system';
 
-    public const TYPES = [
+    public const array TYPES = [
         self::TYPE_REDIS,
         self::TYPE_APC,
         self::TYPE_FILE_SYSTEM,

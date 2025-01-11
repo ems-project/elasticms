@@ -7,11 +7,13 @@ use Symfony\Component\Validator\Constraint;
 
 class CompanyNumber extends AbstractValidation
 {
+    #[\Override]
     public function getConstraint(): Constraint
     {
         return new IsCompanyNumber($this->value);
     }
 
+    #[\Override]
     public function getHtml5Attribute(): array
     {
         return [];

@@ -19,7 +19,7 @@ final class MetricCollector
     private ?CollectorRegistry $collectorRegistry = null;
     private ?Adapter $storageAdapter = null;
 
-    private const CACHE_VALIDITY = 'ems_metrics_validity';
+    private const string CACHE_VALIDITY = 'ems_metrics_validity';
 
     /**
      * @param iterable<MetricCollectorInterface> $collectors

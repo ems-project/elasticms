@@ -23,11 +23,13 @@ class LocalFile implements FileInterface
         return $localFile;
     }
 
+    #[\Override]
     public function getContent(): string
     {
         return Type::string(\file_get_contents($this->filename));
     }
 
+    #[\Override]
     public function getFilename(): string
     {
         return $this->filename;

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class CommandCommand extends AbstractCommand
 {
-    final public const COMMAND = 'remote-command';
+    final public const string COMMAND = 'remote-command';
     private string $command;
 
     public function __construct(private readonly AdminHelper $adminHelper)
@@ -27,6 +27,7 @@ class CommandCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -34,12 +35,14 @@ class CommandCommand extends AbstractCommand
         $this->command = $this->getArgumentString(self::COMMAND);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
         $this->addArgument(self::COMMAND, InputArgument::REQUIRED, 'Command to remote execute');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->adminHelper->getCoreApi()->admin()->runCommand($this->command, $this->output);

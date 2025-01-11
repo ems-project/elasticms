@@ -21,9 +21,9 @@ use Symfony\Component\Finder\Finder;
 class FileStructurePullCommand extends AbstractCommand
 {
     protected static $defaultName = Commands::FILE_STRUCTURE_PULL;
-    private const ARGUMENT_ARCHIVE_HASH = 'hash';
-    private const ARGUMENT_FOLDER = 'folder';
-    private const OPTION_ADMIN = 'admin';
+    private const string ARGUMENT_ARCHIVE_HASH = 'hash';
+    private const string ARGUMENT_FOLDER = 'folder';
+    private const string OPTION_ADMIN = 'admin';
 
     private string $folderPath;
     private string $archiveHash;
@@ -36,6 +36,7 @@ class FileStructurePullCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -47,6 +48,7 @@ class FileStructurePullCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -58,6 +60,7 @@ class FileStructurePullCommand extends AbstractCommand
         };
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('EMS - File structure - Pull');

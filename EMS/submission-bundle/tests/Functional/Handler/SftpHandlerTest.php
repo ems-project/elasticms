@@ -13,6 +13,7 @@ final class SftpHandlerTest extends AbstractHandlerTest
     /** @var FilesystemFactory */
     private $filesystemFactory;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -21,6 +22,7 @@ final class SftpHandlerTest extends AbstractHandlerTest
         // $this->filesystemFactory->setFlagNullAdapter(false); uncomment for enabling sftp
     }
 
+    #[\Override]
     protected function getHandler(): AbstractHandler
     {
         return $this->container->get('functional_test.emss.handler.sftp');

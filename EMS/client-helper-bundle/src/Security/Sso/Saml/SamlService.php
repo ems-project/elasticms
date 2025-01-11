@@ -15,12 +15,12 @@ use Symfony\Component\Security\Http\HttpUtils;
 
 class SamlService
 {
-    private const PATH_SAML = '/saml';
-    private const ROUTE_METADATA = 'emsch_saml_metadata';
+    private const string PATH_SAML = '/saml';
+    private const string ROUTE_METADATA = 'emsch_saml_metadata';
     public const ROUTE_LOGIN = 'emsch_saml_login';
     public const ROUTE_ACS = 'emsch_saml_acs';
 
-    private const DEFAULT_SECURITY = [
+    private const array DEFAULT_SECURITY = [
         'nameIdEncrypted' => false,
         'authnRequestsSigned' => false,
         'logoutRequestSigned' => false,

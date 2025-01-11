@@ -12,13 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class MetricCollectCommand extends AbstractCommand
 {
-    private const OPTION_CLEAR = 'clear';
+    private const string OPTION_CLEAR = 'clear';
 
     public function __construct(private readonly MetricCollector $metricCollector)
     {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -26,6 +27,7 @@ final class MetricCollectCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('EMS - Metric - Collect');

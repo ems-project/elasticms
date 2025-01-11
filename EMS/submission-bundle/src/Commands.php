@@ -6,5 +6,5 @@ namespace EMS\SubmissionBundle;
 
 final class Commands
 {
-    public const DATABASE_STATS = 'emss:database:stats';
+    public const string DATABASE_STATS = 'emss:database:stats';
 }

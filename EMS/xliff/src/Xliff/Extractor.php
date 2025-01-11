@@ -10,7 +10,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class Extractor
 {
     // Source: https://docs.oasis-open.org/xliff/v1.2/xliff-profile-html/xliff-profile-html-1.2.html#SectionDetailsElements
-    final public const PRE_DEFINED_VALUES = [
+    final public const array PRE_DEFINED_VALUES = [
         'b' => 'bold',
         'br' => 'lb',
         'caption' => 'caption',
@@ -29,8 +29,8 @@ class Extractor
         'u' => 'underlined',
     ];
 
-    private const TRANSLATABLE_ATTRIBUTES = ['title', 'alt', 'aria-label'];
-    private const INTERNAL_TAGS = [
+    private const array TRANSLATABLE_ATTRIBUTES = ['title', 'alt', 'aria-label'];
+    private const array INTERNAL_TAGS = [
         'a',
         'abbr',
         'acronym',
@@ -85,9 +85,9 @@ class Extractor
         'wbr',
     ];
 
-    final public const XLIFF_1_2 = '1.2';
-    final public const XLIFF_2_0 = '2.0';
-    final public const XLIFF_VERSIONS = [self::XLIFF_1_2, self::XLIFF_2_0];
+    final public const string XLIFF_1_2 = '1.2';
+    final public const string XLIFF_2_0 = '2.0';
+    final public const array XLIFF_VERSIONS = [self::XLIFF_1_2, self::XLIFF_2_0];
 
     private int $nextId = 1;
     private readonly string $xliffVersion;

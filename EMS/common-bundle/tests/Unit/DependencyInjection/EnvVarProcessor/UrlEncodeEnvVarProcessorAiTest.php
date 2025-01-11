@@ -11,6 +11,7 @@ final class UrlEncodeEnvVarProcessorAiTest extends TestCase
 {
     private UrlEncodeEnvVarProcessor $processor;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->processor = new UrlEncodeEnvVarProcessor();

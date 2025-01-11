@@ -21,15 +21,15 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
 
-final class RouterController
+final readonly class RouterController
 {
     public function __construct(
-        private readonly Handler $handler,
-        private readonly Environment $templating,
-        private readonly Processor $processor,
-        private readonly CacheHelper $cacheHelper,
-        private readonly ExceptionHelper $exceptionHelper,
-        private readonly HttpKernel $httpKernel)
+        private Handler $handler,
+        private Environment $templating,
+        private Processor $processor,
+        private CacheHelper $cacheHelper,
+        private ExceptionHelper $exceptionHelper,
+        private HttpKernel $httpKernel)
     {
     }
 

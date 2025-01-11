@@ -12,12 +12,14 @@ final class ZipHandlerTest extends AbstractHandlerTest
 {
     private TempFile $tempFile;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
         $this->tempFile = TempFile::create();
     }
 
+    #[\Override]
     protected function getHandler(): AbstractHandler
     {
         return $this->container->get('functional_test.emss.handler.zip');

@@ -12,9 +12,9 @@ use EMS\ClientHelperBundle\Helper\Templating\TemplateBuilder;
 use EMS\ClientHelperBundle\Helper\Translation\TranslationBuilder;
 use EMS\Helpers\Standard\Hash;
 
-final class Builders
+final readonly class Builders
 {
-    public function __construct(private readonly RoutingBuilder $routing, private readonly TemplateBuilder $templating, private readonly TranslationBuilder $translation)
+    public function __construct(private RoutingBuilder $routing, private TemplateBuilder $templating, private TranslationBuilder $translation)
     {
     }
 

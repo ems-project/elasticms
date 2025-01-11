@@ -12,7 +12,7 @@ final class HttpRequest extends AbstractRequest
     /** @var array{method: string, url: string, ignore_body_value: string|null}|array<mixed> */
     private readonly array $endpoint;
 
-    private const HTTP_OPTIONS = [
+    private const array HTTP_OPTIONS = [
         'auth_basic' => null,
         'auth_bearer' => null,
         'headers' => [],
@@ -67,6 +67,7 @@ final class HttpRequest extends AbstractRequest
         return $this->endpoint['ignore_body_value'];
     }
 
+    #[\Override]
     protected function getEndpointOptionResolver(): OptionsResolver
     {
         $optionsResolver = new OptionsResolver();

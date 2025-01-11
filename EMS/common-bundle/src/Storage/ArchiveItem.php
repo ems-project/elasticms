@@ -22,6 +22,7 @@ class ArchiveItem implements \JsonSerializable
     /**
      * @return array{filename: string, hash: string, type: string, size: int}
      */
+    #[\Override]
     public function jsonSerialize(): array
     {
         return [

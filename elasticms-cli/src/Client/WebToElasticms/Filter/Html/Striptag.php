@@ -9,8 +9,9 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class Striptag implements HtmlInterface
 {
-    final public const TYPE = 'striptags';
+    final public const string TYPE = 'striptags';
 
+    #[\Override]
     public function process(WebResource $resource, Crawler $content): void
     {
     }

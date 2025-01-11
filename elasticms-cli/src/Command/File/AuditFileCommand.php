@@ -23,10 +23,10 @@ use Symfony\Component\Mime\MimeTypes;
 )]
 class AuditFileCommand extends AbstractCommand
 {
-    final public const UPPERCASE_EXTENSION = 'ExtensionWithUppercase';
-    final public const EXTENSION_MISMATCH = 'ExtensionMismatch';
+    final public const string UPPERCASE_EXTENSION = 'ExtensionWithUppercase';
+    final public const string EXTENSION_MISMATCH = 'ExtensionMismatch';
 
-    private const ARG_FOLDER = 'folder';
+    private const string ARG_FOLDER = 'folder';
     private ConsoleLogger $logger;
     private string $folder;
     private readonly MimeTypes $mimeTypes;
@@ -39,6 +39,7 @@ class AuditFileCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -49,6 +50,7 @@ class AuditFileCommand extends AbstractCommand
             );
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -56,6 +58,7 @@ class AuditFileCommand extends AbstractCommand
         $this->folder = $this->getArgumentString(self::ARG_FOLDER);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Audit files in %s', $this->folder));

@@ -6,9 +6,9 @@ namespace EMS\ClientHelperBundle\Helper\Search;
 
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 
-final class Analyzer
+final readonly class Analyzer
 {
-    public function __construct(private readonly ClientRequest $clientRequest)
+    public function __construct(private ClientRequest $clientRequest)
     {
     }
 

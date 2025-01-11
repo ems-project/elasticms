@@ -35,6 +35,7 @@ class ForwardCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -50,6 +51,7 @@ class ForwardCommand extends AbstractCommand
             );
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -57,6 +59,7 @@ class ForwardCommand extends AbstractCommand
         $this->toUrl = new Url($this->getArgumentString(self::ARG_FORM_URL_TO));
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->section(\sprintf('Forward the form %s to %s', $this->fromUuid, $this->toUrl->getUrl()));

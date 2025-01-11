@@ -7,16 +7,19 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class EmailWithConfirmation extends AbstractField
 {
+    #[\Override]
     public function getHtmlClass(): string
     {
         return 'email-with-confirmation';
     }
 
+    #[\Override]
     public function getFieldClass(): string
     {
         return RepeatedType::class;
     }
 
+    #[\Override]
     public function getOptions(): array
     {
         $label = $this->config->getLabel() ?? '';

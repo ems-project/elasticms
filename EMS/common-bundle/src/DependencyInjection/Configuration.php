@@ -11,11 +11,12 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    private const ELASTICSEARCH_DEFAULT_HOSTS = ['http://localhost:9200'];
-    private const LOG_LEVEL = Logger::NOTICE;
-    final public const WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9_| \-.'\/])|(\.$)/";
-    final public const WEBALIZE_DASHABLE_REGEX = "/[\/| ']+/";
+    private const array ELASTICSEARCH_DEFAULT_HOSTS = ['http://localhost:9200'];
+    private const int LOG_LEVEL = Logger::NOTICE;
+    final public const string WEBALIZE_REMOVABLE_REGEX = "/([^a-zA-Z0-9_| \-.'\/])|(\.$)/";
+    final public const string WEBALIZE_DASHABLE_REGEX = "/[\/| ']+/";
 
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('ems_common');

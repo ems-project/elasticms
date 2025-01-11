@@ -35,16 +35,19 @@ class EntityStorage implements StorageInterface, \Stringable
         $this->repository = $repository;
     }
 
+    #[\Override]
     public function head(string $hash): bool
     {
         return $this->repository->head($hash);
     }
 
+    #[\Override]
     public function heads(string ...$hashes): array
     {
         return \array_values(\array_map(fn (string $hash) => $this->head($hash) ? true : $hash, $hashes));
     }
 
+    #[\Override]
     public function getSize(string $hash): int
     {
         $size = $this->repository->getSize($hash);
@@ -55,6 +58,7 @@ class EntityStorage implements StorageInterface, \Stringable
         return $size;
     }
 
+    #[\Override]
     public function create(string $hash, string $filename): bool
     {
         $entity = $this->createEntity($hash);
@@ -86,6 +90,7 @@ class EntityStorage implements StorageInterface, \Stringable
         return $entity;
     }
 
+    #[\Override]
     public function read(string $hash, bool $confirmed = true): StreamInterface
     {
         $entity = $this->repository->findByHash($hash, $confirmed);
@@ -110,6 +115,7 @@ class EntityStorage implements StorageInterface, \Stringable
         return new Stream($resource);
     }
 
+    #[\Override]
     public function health(): bool
     {
         try {
@@ -120,11 +126,13 @@ class EntityStorage implements StorageInterface, \Stringable
         return false;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return EntityStorage::class;
     }
 
+    #[\Override]
     public function remove(string $hash): bool
     {
         if (!$this->head($hash)) {
@@ -134,6 +142,7 @@ class EntityStorage implements StorageInterface, \Stringable
         return $this->repository->removeByHash($hash);
     }
 
+    #[\Override]
     public function initUpload(string $hash, int $size, string $name, string $type): bool
     {
         $entity = $this->repository->findByHash($hash, false);
@@ -151,6 +160,7 @@ class EntityStorage implements StorageInterface, \Stringable
         return true;
     }
 
+    #[\Override]
     public function finalizeUpload(string $hash): bool
     {
         $entity = $this->repository->findByHash($hash, false);
@@ -166,6 +176,7 @@ class EntityStorage implements StorageInterface, \Stringable
         return false;
     }
 
+    #[\Override]
     public function addChunk(string $hash, string $chunk): bool
     {
         $entity = $this->repository->findByHash($hash, false);
@@ -187,16 +198,19 @@ class EntityStorage implements StorageInterface, \Stringable
         return false;
     }
 
+    #[\Override]
     public function getUsage(): int
     {
         return $this->usage;
     }
 
+    #[\Override]
     public function getHotSynchronizeLimit(): int
     {
         return $this->hotSynchronizeLimit;
     }
 
+    #[\Override]
     public function removeUpload(string $hash): void
     {
         try {
@@ -218,35 +232,42 @@ class EntityStorage implements StorageInterface, \Stringable
         return $usageRequested <= $this->usage;
     }
 
+    #[\Override]
     public function initFinalize(string $hash): void
     {
     }
 
+    #[\Override]
     public function readCache(Config $config): ?StreamInterface
     {
         return null;
     }
 
+    #[\Override]
     public function saveCache(Config $config, FileInterface $file): bool
     {
         return false;
     }
 
+    #[\Override]
     public function clearCache(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function readFromArchiveInCache(string $hash, string $path): ?StreamWrapper
     {
         return null;
     }
 
+    #[\Override]
     public function addFileInArchiveCache(string $hash, SplFileInfo $file, string $mimeType): bool
     {
         return false;
     }
 
+    #[\Override]
     public function loadArchiveItemsInCache(string $archiveHash, Archive $archive, ?callable $callback = null): bool
     {
         return false;

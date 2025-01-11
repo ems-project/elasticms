@@ -18,6 +18,7 @@ class DoctrineHandlerAiTest extends TestCase
     private LogRepository $logRepository;
     private TokenStorageInterface $tokenStorage;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->logRepository = $this->createMock(LogRepository::class);

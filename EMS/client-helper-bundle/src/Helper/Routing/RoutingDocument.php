@@ -28,16 +28,19 @@ final class RoutingDocument implements BuilderDocumentInterface
         }
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->source['name'];
     }
 
+    #[\Override]
     public function getContentType(): string
     {
         return $this->source['_contenttype'];
@@ -46,6 +49,7 @@ final class RoutingDocument implements BuilderDocumentInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function getDataSource(): array
     {
         return \array_filter([

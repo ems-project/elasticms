@@ -48,6 +48,7 @@ final class TemplateFiles implements \IteratorAggregate, \Countable
         return new self($directory, $settings);
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->templateFiles);
@@ -56,6 +57,7 @@ final class TemplateFiles implements \IteratorAggregate, \Countable
     /**
      * @return \ArrayIterator<int, TemplateFile>
      */
+    #[\Override]
     public function getIterator(): \ArrayIterator
     {
         return new \ArrayIterator($this->templateFiles);

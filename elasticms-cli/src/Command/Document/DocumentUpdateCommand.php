@@ -32,18 +32,19 @@ final class DocumentUpdateCommand extends AbstractCommand
     private bool $dataSkipFirstRow;
     private bool $dryRun;
 
-    private const ARGUMENT_DATA_FILE = 'data-file';
-    private const ARGUMENT_CONFIG_FILE = 'config-file';
-    private const OPTION_DATA_OFFSET = 'data-offset';
-    private const OPTION_DATA_LENGTH = 'data-length';
-    private const OPTION_DATA_SKIP_FIRST_ROW = 'data-skip-first';
-    private const OPTION_DRY_RUN = 'dry-run';
+    private const string ARGUMENT_DATA_FILE = 'data-file';
+    private const string ARGUMENT_CONFIG_FILE = 'config-file';
+    private const string OPTION_DATA_OFFSET = 'data-offset';
+    private const string OPTION_DATA_LENGTH = 'data-length';
+    private const string OPTION_DATA_SKIP_FIRST_ROW = 'data-skip-first';
+    private const string OPTION_DRY_RUN = 'dry-run';
 
     public function __construct(private readonly AdminHelper $adminHelper, private readonly FileReaderInterface $fileReader)
     {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -56,6 +57,7 @@ final class DocumentUpdateCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -68,6 +70,7 @@ final class DocumentUpdateCommand extends AbstractCommand
         $this->dryRun = $this->getOptionBool(self::OPTION_DRY_RUN);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('EMS Client - update documents');

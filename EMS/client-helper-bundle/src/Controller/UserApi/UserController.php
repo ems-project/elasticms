@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Helper\UserApi\UserService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class UserController
+final readonly class UserController
 {
-    public function __construct(private readonly UserService $userService)
+    public function __construct(private UserService $userService)
     {
     }
 

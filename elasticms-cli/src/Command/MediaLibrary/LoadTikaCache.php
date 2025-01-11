@@ -20,11 +20,12 @@ use Symfony\Component\Finder\Finder;
 )]
 final class LoadTikaCache extends AbstractCommand
 {
-    private const ARGUMENT_FOLDER = 'folder';
-    private const ARGUMENT_TIKA_CACHE_FOLDER = 'tika-cache-folder';
+    private const string ARGUMENT_FOLDER = 'folder';
+    private const string ARGUMENT_TIKA_CACHE_FOLDER = 'tika-cache-folder';
     private string $folder;
     private string $tikaCacheFolder;
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -33,6 +34,7 @@ final class LoadTikaCache extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -40,6 +42,7 @@ final class LoadTikaCache extends AbstractCommand
         $this->tikaCacheFolder = $this->getArgumentString(self::ARGUMENT_TIKA_CACHE_FOLDER);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title(\sprintf('Generate Tika cache for files in %s', $this->folder));

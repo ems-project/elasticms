@@ -23,6 +23,7 @@ class Client extends BaseClient
      * @param array<mixed>        $query
      * @param string              $contentType
      */
+    #[\Override]
     public function request($path, $method = Request::GET, $data = [], array $query = [], $contentType = Request::DEFAULT_CONTENT_TYPE): Response
     {
         $this->stopwatch?->start('es_request', 'fos_elastica');

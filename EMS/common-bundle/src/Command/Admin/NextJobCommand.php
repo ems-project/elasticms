@@ -22,8 +22,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class NextJobCommand extends AbstractCommand
 {
-    final public const TAG_ARGUMENT = 'tag';
-    final public const SILENT_OPTION = 'silent';
+    final public const string TAG_ARGUMENT = 'tag';
+    final public const string SILENT_OPTION = 'silent';
     private string $tag;
     private bool $silent;
 
@@ -32,6 +32,7 @@ class NextJobCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -39,6 +40,7 @@ class NextJobCommand extends AbstractCommand
         $this->addOption(self::SILENT_OPTION, null, InputOption::VALUE_NONE, 'Dont echo outputs in the console (only in the admin job logs)');
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -47,6 +49,7 @@ class NextJobCommand extends AbstractCommand
         $this->silent = $this->getOptionBool(self::SILENT_OPTION);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $job = $this->adminHelper->getCoreApi()->admin()->getNextJob($this->tag);

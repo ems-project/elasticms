@@ -57,6 +57,7 @@ class FormSubmission implements EntityInterface, \JsonSerializable
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function jsonSerialize(): array
     {
         return $this->toArray();
@@ -87,6 +88,7 @@ class FormSubmission implements EntityInterface, \JsonSerializable
         return $data;
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id->toString();

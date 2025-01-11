@@ -12,12 +12,13 @@ use EMS\CoreBundle\Entity\Job as JobEntity;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpClient\Exception\TransportException;
 
-final class Admin implements AdminInterface
+final readonly class Admin implements AdminInterface
 {
-    public function __construct(private readonly Client $client)
+    public function __construct(private Client $client)
     {
     }
 
+    #[\Override]
     public function getConfig(string $typeName): ConfigInterface
     {
         return new Config($this->client, $typeName);
@@ -26,6 +27,7 @@ final class Admin implements AdminInterface
     /**
      * @return array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string}
      */
+    #[\Override]
     public function getJobStatus(string $jobId): array
     {
         /** @var array{id: string, created: string, modified: string, command: string, user: string, started: bool, done: bool, output: ?string} $status */
@@ -34,6 +36,7 @@ final class Admin implements AdminInterface
         return $status;
     }
 
+    #[\Override]
     public function startJob(string $jobId): void
     {
         try {
@@ -44,6 +47,7 @@ final class Admin implements AdminInterface
         }
     }
 
+    #[\Override]
     public function writeJobOutput(string $jobId, OutputInterface $output): void
     {
         $currentLine = 0;
@@ -70,6 +74,7 @@ final class Admin implements AdminInterface
         }
     }
 
+    #[\Override]
     public function getConfigTypes(): array
     {
         /** @var string[] $configTypes */
@@ -78,6 +83,7 @@ final class Admin implements AdminInterface
         return $configTypes;
     }
 
+    #[\Override]
     public function getContentTypes(): array
     {
         /** @var string[] $contentTypes */
@@ -86,6 +92,7 @@ final class Admin implements AdminInterface
         return $contentTypes;
     }
 
+    #[\Override]
     public function runCommand(string $command, ?OutputInterface $output = null): void
     {
         $job = [
@@ -102,6 +109,7 @@ final class Admin implements AdminInterface
         }
     }
 
+    #[\Override]
     public function getNextJob(string $tag): ?Job
     {
         $result = $this->client->post(\implode('/', ['api', 'admin', 'next-job', $tag]));
@@ -112,11 +120,13 @@ final class Admin implements AdminInterface
         return new Job($result);
     }
 
+    #[\Override]
     public function jobCompleted(Job $job): void
     {
         $this->client->post(\implode('/', ['api', 'admin', 'job-completed', $job->getJobId()]));
     }
 
+    #[\Override]
     public function jobFailed(Job $job, string $message): void
     {
         $this->client->post(\implode('/', ['api', 'admin', 'job-failed', $job->getJobId()]), [
@@ -124,6 +134,7 @@ final class Admin implements AdminInterface
         ]);
     }
 
+    #[\Override]
     public function jobDoWrite(Job $job, string $message, bool $newline): void
     {
         $this->client->post(\implode('/', ['api', 'admin', 'job-write', $job->getJobId()]), [
@@ -132,6 +143,7 @@ final class Admin implements AdminInterface
         ]);
     }
 
+    #[\Override]
     public function getVersions(): array
     {
         try {
@@ -148,6 +160,7 @@ final class Admin implements AdminInterface
         }
     }
 
+    #[\Override]
     public function getCoreVersion(): string
     {
         return $this->getVersions()['core'];

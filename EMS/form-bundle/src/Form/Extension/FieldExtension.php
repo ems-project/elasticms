@@ -17,6 +17,7 @@ final class FieldExtension extends AbstractTypeExtension
      * @param FormInterface<FormInterface> $form
      * @param array<string, mixed>         $options
      */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
@@ -26,6 +27,7 @@ final class FieldExtension extends AbstractTypeExtension
         $view->vars['ems_meta'] = $options['ems_meta'];
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -37,6 +39,7 @@ final class FieldExtension extends AbstractTypeExtension
     }
 
     /** @return string[] */
+    #[\Override]
     public static function getExtendedTypes(): iterable
     {
         return [FormType::class, SubmitType::class];

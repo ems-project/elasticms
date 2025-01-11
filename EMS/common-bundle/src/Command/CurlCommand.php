@@ -32,11 +32,11 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 )]
 class CurlCommand extends AbstractCommand
 {
-    final public const ARGUMENT_URL = 'url';
-    final public const ARGUMENT_FILENAME = 'filename';
-    final public const OPTION_METHOD = 'method';
-    final public const OPTION_BASE_URL = 'base-url';
-    final public const OPTION_SAVE = 'save';
+    final public const string ARGUMENT_URL = 'url';
+    final public const string ARGUMENT_FILENAME = 'filename';
+    final public const string OPTION_METHOD = 'method';
+    final public const string OPTION_BASE_URL = 'base-url';
+    final public const string OPTION_SAVE = 'save';
     private ?SessionInterface $session = null;
 
     private string $url;
@@ -50,6 +50,7 @@ class CurlCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addArgument(self::ARGUMENT_URL, InputArgument::REQUIRED, 'Absolute url to the resource');
@@ -59,6 +60,7 @@ class CurlCommand extends AbstractCommand
         $this->addOption(self::OPTION_SAVE, null, InputOption::VALUE_NONE, 'Save the to the file storages');
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -69,6 +71,7 @@ class CurlCommand extends AbstractCommand
         $this->save = $this->getOptionBool(self::OPTION_SAVE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->performRequest();

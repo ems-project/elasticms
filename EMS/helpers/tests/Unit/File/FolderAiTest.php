@@ -12,6 +12,7 @@ class FolderAiTest extends TestCase
 {
     private string $testFolderPath;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->testFolderPath = TempDirectory::create()->path;
@@ -29,6 +30,7 @@ class FolderAiTest extends TestCase
         $this->assertEquals(\realpath($this->testFolderPath), $realPath);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         \rmdir($this->testFolderPath);

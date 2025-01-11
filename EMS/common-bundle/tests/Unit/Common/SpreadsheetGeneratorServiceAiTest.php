@@ -14,6 +14,7 @@ class SpreadsheetGeneratorServiceAiTest extends TestCase
 {
     private SpreadsheetGeneratorService $service;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->service = new SpreadsheetGeneratorService();

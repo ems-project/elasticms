@@ -18,12 +18,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class UploadAssetsCommand extends AbstractLocalCommand
 {
-    private const ARG_BASE_URL = 'base_url';
-    private const OPTION_FILENAME = 'filename';
-    private const OPTION_AS_STYLE_SET_ASSETS = 'as-style-set-assets';
-    private const OPTION_ARCHIVE_TYPE = 'archive';
-    private const ARCHIVE_ZIP = 'zip';
-    private const ARCHIVE_EMS = 'ems';
+    private const string ARG_BASE_URL = 'base_url';
+    private const string OPTION_FILENAME = 'filename';
+    private const string OPTION_AS_STYLE_SET_ASSETS = 'as-style-set-assets';
+    private const string OPTION_ARCHIVE_TYPE = 'archive';
+    private const string ARCHIVE_ZIP = 'zip';
+    private const string ARCHIVE_EMS = 'ems';
     private ?string $filename = null;
     private bool $updateStyleSets;
     private string $baseUrl;
@@ -34,6 +34,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         parent::__construct($environmentHelper, $localHelper);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -45,6 +46,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -54,6 +56,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
         $this->archiveType = $this->getOptionString(self::OPTION_ARCHIVE_TYPE);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Local development - Upload assets');

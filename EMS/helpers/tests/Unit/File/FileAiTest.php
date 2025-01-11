@@ -9,13 +9,15 @@ use PHPUnit\Framework\TestCase;
 
 class FileAiTest extends TestCase
 {
-    private const TEST_FILE_PATH = __DIR__.'/file.txt';
+    private const string TEST_FILE_PATH = __DIR__.'/file.txt';
 
+    #[\Override]
     protected function setUp(): void
     {
         \file_put_contents(self::TEST_FILE_PATH, \str_repeat('Test content', 1000));
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         \unlink(self::TEST_FILE_PATH);

@@ -26,6 +26,7 @@ abstract class AbstractHandlerTest extends AbstractFunctionalTest
     protected FormFactoryInterface $formFactory;
     protected FormConfig $formConfig;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

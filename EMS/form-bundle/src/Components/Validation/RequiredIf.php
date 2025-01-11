@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraint;
 
 class RequiredIf extends AbstractValidation
 {
+    #[\Override]
     public function getConstraint(): Constraint
     {
         return new IsRequiredIf(['expression' => $this->value]);

@@ -11,6 +11,7 @@ final class ProfileAiTest extends TestCase
 {
     private Profile $profile;
 
+    #[\Override]
     protected function setUp(): void
     {
         $data = [

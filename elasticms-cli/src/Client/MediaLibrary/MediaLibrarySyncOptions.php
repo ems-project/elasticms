@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace App\CLI\Client\MediaLibrary;
 
-final class MediaLibrarySyncOptions
+final readonly class MediaLibrarySyncOptions
 {
     public function __construct(
-        public readonly string $folder,
-        public readonly string $contentType,
-        public readonly string $folderField,
-        public readonly string $pathField,
-        public readonly string $fileField,
-        public readonly ?string $metaDataFile,
-        public readonly string $locateRowExpression,
-        public readonly string $targetFolder,
-        public readonly bool $dryRun,
-        public readonly bool $onlyMissingFile,
-        public readonly bool $onlyMetadataFile,
-        public readonly bool $hashFolder,
-        public readonly bool $hashMetaDataFile,
-        public readonly bool $forceExtract = false,
-        public readonly int $maxContentSize = 5120,
-        public readonly int $maxFileSizeExtract = (64 * 1024 * 1024),
+        public string $folder,
+        public string $contentType,
+        public string $folderField,
+        public string $pathField,
+        public string $fileField,
+        public ?string $metaDataFile,
+        public string $locateRowExpression,
+        public string $targetFolder,
+        public bool $dryRun,
+        public bool $onlyMissingFile,
+        public bool $onlyMetadataFile,
+        public bool $hashFolder,
+        public bool $hashMetaDataFile,
+        public bool $forceExtract = false,
+        public int $maxContentSize = 5120,
+        public int $maxFileSizeExtract = (64 * 1024 * 1024),
     ) {
         if (!\str_starts_with($targetFolder, '/')) {
             throw new \RuntimeException('The target-folder options must start with a /');

@@ -8,17 +8,17 @@ use EMS\Helpers\Standard\DateTime;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class DatabaseRequest
+final readonly class DatabaseRequest
 {
-    private readonly string $formName;
-    private readonly string $instance;
-    private readonly string $locale;
+    private string $formName;
+    private string $instance;
+    private string $locale;
     /** @var array<mixed> */
-    private readonly array $data;
+    private array $data;
     /** @var array<int, array{filename: string, mimeType: string, base64: string, size: string, form_field: string}> */
-    private readonly array $files;
-    private readonly string $label;
-    private readonly ?\DateTimeImmutable $expireDate;
+    private array $files;
+    private string $label;
+    private ?\DateTimeImmutable $expireDate;
 
     /**
      * @param array<string, mixed> $databaseRecord

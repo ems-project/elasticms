@@ -16,6 +16,7 @@ class SubmissionConfig implements \JsonSerializable
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function jsonSerialize(): array
     {
         return \get_object_vars($this);

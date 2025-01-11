@@ -15,7 +15,7 @@ final class RoutingFile implements \Countable
     /** @var array<string, mixed> */
     private array $routes = [];
 
-    private const FILE_NAME = 'routes.yaml';
+    private const string FILE_NAME = 'routes.yaml';
 
     public function __construct(string $directory, private readonly TemplateFiles $templateFiles)
     {
@@ -87,6 +87,7 @@ final class RoutingFile implements \Countable
         return $data;
     }
 
+    #[\Override]
     public function count(): int
     {
         return \count($this->routes);

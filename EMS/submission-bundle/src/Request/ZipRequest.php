@@ -36,6 +36,7 @@ final class ZipRequest extends AbstractRequest
         return $this->parseFiles($this->files);
     }
 
+    #[\Override]
     protected function getEndpointOptionResolver(): OptionsResolver
     {
         $optionsResolver = new OptionsResolver();

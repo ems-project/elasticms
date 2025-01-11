@@ -15,22 +15,25 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class HttpEndpointType extends ConfirmationEndpointType implements EndpointTypeInterface
 {
-    public const NAME = 'http';
+    public const string NAME = 'http';
 
     public function __construct(private readonly HttpClientInterface $httpClient, private readonly TranslatorInterface $translator, private readonly VerificationCodeGeneratorInterface $verificationCodeGenerator)
     {
     }
 
+    #[\Override]
     public function canExecute(EndpointInterface $endpoint): bool
     {
         return self::NAME === $endpoint->getType();
     }
 
+    #[\Override]
     public function getVerificationCode(EndpointInterface $endpoint, string $confirmValue): ?string
     {
         return $this->verificationCodeGenerator->getVerificationCode($endpoint, $confirmValue);
     }
 
+    #[\Override]
     public function confirm(EndpointInterface $endpoint, FormConfig $formConfig, string $confirmValue): bool
     {
         $verificationCode = $this->verificationCodeGenerator->generate($endpoint, $confirmValue);

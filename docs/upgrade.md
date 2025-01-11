@@ -94,6 +94,19 @@ Here is an example.
 
 ## version 6.0.x
 
+### Symfony request inputBag
+
+Since symfony 6 the inputBag becomes stricter.
+
+```twig
+{# request example http://localhost?filters[]=value1&filters[]=value2&filters[]=value3 #}
+
+{%- set selectedFilters = app.request.query.get('filters') -%} {# can only work with scalar values #}
+Expected a scalar value as a 2nd argument to "Symfony\Component\HttpFoundation\InputBag::get()", "array" given."
+
+{%- set selectedFilters = app.request.query.all('filters') -%} {# correct #}
+```
+
 ### Renamed embed methods in web/skeleton templates
 
 All controller methods have lost any trailing `Action`

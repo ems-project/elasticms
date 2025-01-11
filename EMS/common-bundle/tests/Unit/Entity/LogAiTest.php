@@ -12,6 +12,7 @@ class LogAiTest extends TestCase
 {
     private Log $log;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->log = new Log();

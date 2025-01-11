@@ -33,6 +33,7 @@ class Log implements EntityInterface
         $this->modified = DateTime::create('now');
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id->toString();

@@ -13,6 +13,7 @@ class CacheAiTest extends TestCase
     private string $cacheDir;
     private Cache $cache;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->cacheDir = TempDirectory::create()->path;
@@ -27,6 +28,7 @@ class CacheAiTest extends TestCase
         \rmdir($path);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         \array_map('unlink', \glob("$this->cacheDir/*.*"));

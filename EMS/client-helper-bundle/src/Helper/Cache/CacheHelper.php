@@ -11,9 +11,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final class CacheHelper
+final readonly class CacheHelper
 {
-    public function __construct(private readonly CacheItemPoolInterface $cache, private readonly LoggerInterface $logger, private readonly string $hashAlgo)
+    public function __construct(private CacheItemPoolInterface $cache, private LoggerInterface $logger, private string $hashAlgo)
     {
     }
 

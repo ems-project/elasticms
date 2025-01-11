@@ -6,15 +6,15 @@ namespace EMS\FormBundle\Service\Endpoint;
 
 use Symfony\Component\HttpFoundation\Request;
 
-final class HttpRequest
+final readonly class HttpRequest
 {
-    private readonly string $method;
-    private readonly string $url;
+    private string $method;
+    private string $url;
     /** @var mixed[] */
-    private readonly array $headers;
-    private readonly string $body;
+    private array $headers;
+    private string $body;
     /** @var array<string, mixed> */
-    private readonly array $options;
+    private array $options;
 
     /** @param array<string, mixed> $config */
     public function __construct(array $config)

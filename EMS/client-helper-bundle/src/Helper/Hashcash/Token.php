@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Hashcash;
 
-final class Token
+final readonly class Token
 {
-    private readonly string $level;
-    private readonly string $csrf;
-    private readonly string $random;
+    private string $level;
+    private string $csrf;
+    private string $random;
 
-    private const DELIMITER = '|';
+    private const string DELIMITER = '|';
 
     public function __construct(string $hashcash)
     {

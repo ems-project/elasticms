@@ -7,13 +7,13 @@ namespace EMS\ClientHelperBundle\Helper\Templating;
 use EMS\Helpers\Standard\Hash;
 use Symfony\Component\Finder\SplFileInfo;
 
-final class TemplateFile
+final readonly class TemplateFile
 {
-    private readonly string $ouuid;
-    private readonly string $name;
-    private readonly string $path;
+    private string $ouuid;
+    private string $name;
+    private string $path;
 
-    public function __construct(SplFileInfo $file, private readonly string $contentTypeName)
+    public function __construct(SplFileInfo $file, private string $contentTypeName)
     {
         $this->path = $file->getPathname();
 

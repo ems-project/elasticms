@@ -11,6 +11,7 @@ class ConverterTest extends TestCase
 {
     private Converter $converter;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->converter = new Converter();

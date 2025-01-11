@@ -8,24 +8,25 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    final public const LOAD_FROM_JSON = 'load_from_json';
-    final public const SUBMISSION_FIELD = 'submission_field';
-    final public const THEME_FIELD = 'theme_field';
-    final public const FORM_TEMPLATE_FIELD = 'form_template_field';
-    final public const FORM_FIELD = 'form_field';
-    final public const FORM_SUBFORM_FIELD = 'form_subform_field';
-    final public const TYPE_FORM_CHOICE = 'type_form_choice';
-    final public const TYPE_FORM_SUBFORM = 'type_form_subform';
-    final public const TYPE_FORM_MARKUP = 'type_form_markup';
-    final public const TYPE_FORM_FIELD = 'type_form_field';
-    final public const TYPE_FORM_VALIDATION = 'type_form_validation';
-    final public const TYPE = 'type';
-    final public const HASHCASH_DIFFICULTY = 'hashcash_difficulty';
-    final public const ENDPOINTS = 'endpoints';
-    final public const DOMAIN_FIELD = 'domain';
-    final public const CACHEABLE = 'cacheable';
-    final public const NAME_FIELD = 'name';
+    final public const string LOAD_FROM_JSON = 'load_from_json';
+    final public const string SUBMISSION_FIELD = 'submission_field';
+    final public const string THEME_FIELD = 'theme_field';
+    final public const string FORM_TEMPLATE_FIELD = 'form_template_field';
+    final public const string FORM_FIELD = 'form_field';
+    final public const string FORM_SUBFORM_FIELD = 'form_subform_field';
+    final public const string TYPE_FORM_CHOICE = 'type_form_choice';
+    final public const string TYPE_FORM_SUBFORM = 'type_form_subform';
+    final public const string TYPE_FORM_MARKUP = 'type_form_markup';
+    final public const string TYPE_FORM_FIELD = 'type_form_field';
+    final public const string TYPE_FORM_VALIDATION = 'type_form_validation';
+    final public const string TYPE = 'type';
+    final public const string HASHCASH_DIFFICULTY = 'hashcash_difficulty';
+    final public const string ENDPOINTS = 'endpoints';
+    final public const string DOMAIN_FIELD = 'domain';
+    final public const string CACHEABLE = 'cacheable';
+    final public const string NAME_FIELD = 'name';
 
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('ems_form');

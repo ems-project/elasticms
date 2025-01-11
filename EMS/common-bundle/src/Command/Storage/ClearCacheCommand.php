@@ -19,12 +19,14 @@ class ClearCacheCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
         $this->setDescription('Clear storage services caches');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Clear cache from storage services');

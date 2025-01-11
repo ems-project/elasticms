@@ -17,6 +17,7 @@ final class EMSCommonExtensionAiTest extends TestCase
     private EMSCommonExtension $extension;
     private ContainerBuilder $container;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->extension = new EMSCommonExtension();

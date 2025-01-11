@@ -30,11 +30,13 @@ abstract class AbstractLocalCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->addOption(self::OPTION_EMSCH_ENV, null, InputOption::VALUE_OPTIONAL, 'emsch env name');
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);

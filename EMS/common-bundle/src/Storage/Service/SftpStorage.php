@@ -16,6 +16,7 @@ class SftpStorage extends AbstractUrlStorage
         parent::__construct($logger, $usage, $hotSynchronizeLimit);
     }
 
+    #[\Override]
     protected function getBaseUrl(): string
     {
         if (null === $this->sftp) {
@@ -50,6 +51,7 @@ class SftpStorage extends AbstractUrlStorage
         $this->sftp = $sftp;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return SftpStorage::class." ($this->host)";
@@ -58,6 +60,7 @@ class SftpStorage extends AbstractUrlStorage
     /**
      * @return null
      */
+    #[\Override]
     protected function getContext()
     {
         return null;

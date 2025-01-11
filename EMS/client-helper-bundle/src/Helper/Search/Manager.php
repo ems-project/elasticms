@@ -9,9 +9,9 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\CommonBundle\Elasticsearch\Response\Response;
 use Symfony\Component\HttpFoundation\Request;
 
-final class Manager
+final readonly class Manager
 {
-    private readonly ClientRequest $clientRequest;
+    private ClientRequest $clientRequest;
 
     public function __construct(ClientRequestManager $clientRequestManager)
     {

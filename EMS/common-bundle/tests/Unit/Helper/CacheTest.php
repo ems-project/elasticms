@@ -16,6 +16,7 @@ class CacheTest extends TestCase
 
     private Response $response;
 
+    #[\Override]
     protected function setUp(): void
     {
         $hashAlgo = 'sha1'; // Maybe SHA-256 -> sha("Secret Key" + "Timestamp" + signed message)

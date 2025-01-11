@@ -19,14 +19,14 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Symfony\Component\Routing\RouterInterface;
 
-final class Handler implements HandlerInterface
+final readonly class Handler implements HandlerInterface
 {
-    private readonly ClientRequest $clientRequest;
+    private ClientRequest $clientRequest;
 
     public function __construct(
         ClientRequestManager $manager,
-        private readonly RouterInterface $router,
-        private readonly ?Profiler $profiler,
+        private RouterInterface $router,
+        private ?Profiler $profiler,
     ) {
         $this->clientRequest = $manager->getDefault();
     }
@@ -34,6 +34,7 @@ final class Handler implements HandlerInterface
     /**
      * @return array{template: string, context: array<mixed>}
      */
+    #[\Override]
     public function handle(Request $request): array
     {
         $emschRequest = EmschRequest::fromRequest($request);

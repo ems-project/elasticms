@@ -44,6 +44,7 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function jsonSerialize(): array
     {
         return $this->toArray();
@@ -81,6 +82,7 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
         return \sprintf('%s:%s', $this->getFormSubmission()->getName(), $this->filename);
     }
 
+    #[\Override]
     public function getId(): string
     {
         return $this->id->toString();

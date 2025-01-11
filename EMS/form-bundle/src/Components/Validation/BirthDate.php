@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraint;
 
 class BirthDate extends AbstractValidation
 {
+    #[\Override]
     public function getConstraint(): Constraint
     {
         return new IsBirthDate(['age' => $this->value]);

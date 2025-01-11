@@ -8,9 +8,9 @@ use EMS\CommonBundle\Service\ElasticaService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class ProbeController
+final readonly class ProbeController
 {
-    public function __construct(private readonly ElasticaService $elasticaService)
+    public function __construct(private ElasticaService $elasticaService)
     {
     }
 

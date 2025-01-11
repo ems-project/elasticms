@@ -13,6 +13,7 @@ final class ConfigurationAiTest extends TestCase
 {
     private Configuration $configuration;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->configuration = new Configuration();

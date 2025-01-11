@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Helper\UserApi\FileService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class FileController
+final readonly class FileController
 {
-    public function __construct(private readonly FileService $fileService)
+    public function __construct(private FileService $fileService)
     {
     }
 

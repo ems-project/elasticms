@@ -8,9 +8,9 @@ use EMS\SubmissionBundle\Connection\Transformer;
 use EMS\SubmissionBundle\Exception\SkipSubmissionException;
 use Twig\Extension\RuntimeExtensionInterface;
 
-final class ConnectionRuntime implements RuntimeExtensionInterface
+final readonly class ConnectionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly Transformer $transformer)
+    public function __construct(private Transformer $transformer)
     {
     }
 

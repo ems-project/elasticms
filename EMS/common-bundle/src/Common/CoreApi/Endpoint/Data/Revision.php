@@ -7,12 +7,12 @@ namespace EMS\CommonBundle\Common\CoreApi\Endpoint\Data;
 use EMS\CommonBundle\Common\CoreApi\Result;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
 
-final class Revision implements RevisionInterface
+final readonly class Revision implements RevisionInterface
 {
-    private readonly int $id;
-    private readonly string $ouuid;
+    private int $id;
+    private string $ouuid;
     /** @var array<string, mixed> */
-    private readonly array $rawData;
+    private array $rawData;
 
     public function __construct(Result $result)
     {
@@ -23,11 +23,13 @@ final class Revision implements RevisionInterface
         $this->rawData = $data['revision'];
     }
 
+    #[\Override]
     public function getRevisionId(): int
     {
         return $this->id;
     }
 
+    #[\Override]
     public function getOuuid(): string
     {
         return $this->ouuid;
@@ -36,6 +38,7 @@ final class Revision implements RevisionInterface
     /**
      * @return array<string, mixed>
      */
+    #[\Override]
     public function getRawData(): array
     {
         return $this->rawData;

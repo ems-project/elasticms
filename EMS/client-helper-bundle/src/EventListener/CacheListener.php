@@ -18,15 +18,16 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class CacheListener implements EventSubscriberInterface
+final readonly class CacheListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly CacheHelper $cacheHelper, private readonly CacheController $cacheController, private readonly Kernel $kernel, private readonly LoggerInterface $logger, private readonly QueryLoggerInterface $queryLogger)
+    public function __construct(private CacheHelper $cacheHelper, private CacheController $cacheController, private Kernel $kernel, private LoggerInterface $logger, private QueryLoggerInterface $queryLogger)
     {
     }
 
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

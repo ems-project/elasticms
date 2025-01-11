@@ -8,14 +8,14 @@ use Psr\Cache\CacheItemInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-final class CacheResponse
+final readonly class CacheResponse
 {
-    public const HEADER_X_EMSCH_CACHE = 'X-emsch-cache';
+    public const string HEADER_X_EMSCH_CACHE = 'X-emsch-cache';
 
     /**
      * @param array<mixed> $headers
      */
-    public function __construct(private readonly int $statusCode, private readonly string $log, private readonly array $headers = [], private readonly ?string $content = null)
+    public function __construct(private int $statusCode, private string $log, private array $headers = [], private ?string $content = null)
     {
     }
 

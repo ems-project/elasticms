@@ -12,15 +12,16 @@ use Twig\Source;
 /**
  * @see EMSClientHelperExtension::defineTwigLoader()
  */
-final class TemplateLoader implements LoaderInterface
+final readonly class TemplateLoader implements LoaderInterface
 {
-    public function __construct(private readonly EnvironmentHelper $environmentHelper, private readonly TemplateBuilder $builder)
+    public function __construct(private EnvironmentHelper $environmentHelper, private TemplateBuilder $builder)
     {
     }
 
     /**
      * @param string $name
      */
+    #[\Override]
     public function getSourceContext($name): Source
     {
         $environment = $this->getEnvironment();
@@ -40,6 +41,7 @@ final class TemplateLoader implements LoaderInterface
     /**
      * @param string $name
      */
+    #[\Override]
     public function getCacheKey($name): string
     {
         $environment = $this->getEnvironment();
@@ -56,6 +58,7 @@ final class TemplateLoader implements LoaderInterface
      * @param string $name
      * @param int    $time
      */
+    #[\Override]
     public function isFresh($name, $time): bool
     {
         return $this->builder->isFresh($this->getEnvironment(), new TemplateName($name), $time);
@@ -64,6 +67,7 @@ final class TemplateLoader implements LoaderInterface
     /**
      * @param string $name
      */
+    #[\Override]
     public function exists($name): bool
     {
         if (null === $this->environmentHelper->getCurrentEnvironment()) {

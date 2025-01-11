@@ -23,6 +23,7 @@ class BisNumber extends RrNumber
         }
     }
 
+    #[\Override]
     protected function validate(): bool
     {
         $baseInt = (int) $this->base;

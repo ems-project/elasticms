@@ -16,6 +16,7 @@ final class FilesystemFactory implements FilesystemFactoryInterface
      */
     private bool $flagNullAdapter = true;
 
+    #[\Override]
     public function create(FilesystemAdapter $adapter): Filesystem
     {
         $adapter = $this->flagNullAdapter ? new InMemoryFilesystemAdapter() : $adapter;

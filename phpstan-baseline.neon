@@ -1,0 +1,3253 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method EMS\\ClientHelperBundle\\Helper\\Asset\\AssetHelperRuntime\:\:getVersionSaveDir\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Asset/AssetHelperRuntime.php
+
+		-
+			message: '#^Instanceof between Psr\\Cache\\CacheItemInterface and Psr\\Cache\\CacheItemInterface will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Cache/CacheHelper.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Environment/Environment.php
+
+		-
+			message: '#^Method EMS\\ClientHelperBundle\\Helper\\Local\\Status\\Items\:\:getIterator\(\) return type with generic class ArrayIterator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Local/Status/Items.php
+
+		-
+			message: '#^PHPDoc tag @return with type array\<EMS\\ClientHelperBundle\\Helper\\Local\\Status\\Item\>\|ArrayIterator\<int, EMS\\ClientHelperBundle\\Helper\\Local\\Status\\Item\> is not subtype of native type ArrayIterator\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Local/Status/Items.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\<Elastica\\Aggregation\\AbstractAggregation\>\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
+			identifier: arrayFilter.same
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Search/QueryBuilder.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Search/Search.php
+
+		-
+			message: '#^Method EMS\\ClientHelperBundle\\Helper\\Search\\Synonym\:\:getField\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Search/Synonym.php
+
+		-
+			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Search/Synonym.php
+
+		-
+			message: '#^Dead catch \- EMS\\CommonBundle\\Contracts\\CoreApi\\Exception\\NotAuthenticatedExceptionInterface is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: EMS/client-helper-bundle/src/Security/CoreApi/CoreApiAuthenticator.php
+
+		-
+			message: '#^Class EMS\\ClientHelperBundle\\Security\\Login\\LoginForm extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/client-helper-bundle/src/Security/Login/LoginForm.php
+
+		-
+			message: '#^Instanceof between Symfony\\Component\\Finder\\SplFileInfo and Symfony\\Component\\Finder\\SplFileInfo will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: EMS/common-bundle/src/Command/Document/UpdateCommand.php
+
+		-
+			message: '#^Method EMS\\CommonBundle\\Common\\Admin\\ConfigHelper\:\:remote\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/common-bundle/src/Common/Admin/ConfigHelper.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(string\[\];\)\: Unexpected token ";", expected TOKEN_HORIZONTAL_WS at offset 27 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: EMS/common-bundle/src/Common/Admin/ConfigHelper.php
+
+		-
+			message: '#^Property EMS\\CommonBundle\\Common\\CoreApi\\Endpoint\\Admin\\Message\\Job\:\:\$command \(string\|null\) is never assigned null so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: EMS/common-bundle/src/Common/CoreApi/Endpoint/Admin/Message/Job.php
+
+		-
+			message: '#^Method EMS\\CommonBundle\\Common\\CoreApi\\ResponseQueue\:\:count\(\) should return int\<0, max\> but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: EMS/common-bundle/src/Common/CoreApi/ResponseQueue.php
+
+		-
+			message: '#^Method EMS\\CommonBundle\\Common\\PropertyAccess\\PropertyPath\:\:count\(\) should return int\<0, max\> but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: EMS/common-bundle/src/Common/PropertyAccess/PropertyPath.php
+
+		-
+			message: '#^Parameter \#2 \$replace of function str_replace expects array\<string\>\|string, list\<array\<string, string\>\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Common/Text/EmsHtml.php
+
+		-
+			message: '#^Method EMS\\CommonBundle\\Elasticsearch\\Aggregation\\Bucket\:\:getSubBucket\(\) return type has no value type specified in iterable type Traversable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/common-bundle/src/Elasticsearch/Aggregation/Bucket.php
+
+		-
+			message: '#^PHPDoc tag @return with type array\<EMS\\CommonBundle\\Elasticsearch\\Aggregation\\Bucket\>\|Traversable\<mixed, EMS\\CommonBundle\\Elasticsearch\\Aggregation\\Bucket\> is not subtype of native type Traversable\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: EMS/common-bundle/src/Elasticsearch/Aggregation/Bucket.php
+
+		-
+			message: '#^Property EMS\\CommonBundle\\Entity\\AssetStorage\:\:\$contents \(resource\|string\) is never assigned resource so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: EMS/common-bundle/src/Entity/AssetStorage.php
+
+		-
+			message: '#^Class EMS\\CommonBundle\\Repository\\StoreDataRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/common-bundle/src/Repository/StoreDataRepository.php
+
+		-
+			message: '#^Class EMS\\CommonBundle\\Repository\\StoreDataRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/common-bundle/src/Repository/StoreDataRepository.php
+
+		-
+			message: '#^Class EMS\\CommonBundle\\Repository\\StoreDataRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/common-bundle/src/Repository/StoreDataRepository.php
+
+		-
+			message: '#^Class EMS\\CommonBundle\\Repository\\StoreDataRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/common-bundle/src/Repository/StoreDataRepository.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/common-bundle/src/Search/Search.php
+
+		-
+			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, array\<string\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: EMS/common-bundle/src/Service/ElasticaService.php
+
+		-
+			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Service/ElasticaService.php
+
+		-
+			message: '#^Property EMS\\CommonBundle\\Service\\Pdf\\PdfPrintOptions\:\:\$chroot \(string\|null\) is never assigned null so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: EMS/common-bundle/src/Service/Pdf/PdfPrintOptions.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and EMS\\CommonBundle\\Storage\\Archive will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/common-bundle/src/Storage/Archive.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Config.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreate expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreate expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Parameter \#2 \$red of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Parameter \#3 \$green of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Parameter \#4 \$blue of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Parameter \#5 \$alpha of function imagecolorallocatealpha expects int\<0, 127\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/common-bundle/src/Storage/Processor/Image.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and int\|string will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/core-bundle/src/Command/Asset/RefreshFileFieldCommand.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/core-bundle/src/Command/CreateEnvironmentCommand.php
+
+		-
+			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\ContentType and EMS\\CoreBundle\\Entity\\ContentType will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: EMS/core-bundle/src/Command/MigrateCommand.php
+
+		-
+			message: '#^Property EMS\\CoreBundle\\Command\\Xliff\\UpdateCommand\:\:\$baseUrl \(string\|null\) is never assigned string so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Command/Xliff/UpdateCommand.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Admin\\ElasticSearchController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Admin/ElasticSearchController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Admin\\EnvironmentController\:\:dataTableEnvironment\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Admin/EnvironmentController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Admin\\EnvironmentController\:\:dataTableExternalEnvironment\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Admin/EnvironmentController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Admin\\EnvironmentController\:\:dataTableManagedAlias\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Admin/EnvironmentController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Admin\\EnvironmentController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Admin/EnvironmentController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ChannelController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ChannelController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Component\\JsonMenuNestedController\:\:createFormItem\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Component/JsonMenuNestedController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Component\\JsonMenuNestedController\:\:handleFormItem\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Component/JsonMenuNestedController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\ActionController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/ActionController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\AnalyzerController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/AnalyzerController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
+
+		-
+			message: '#^PHPDoc tag @var with type Symfony\\Component\\Form\\Form is not subtype of native type Symfony\\Component\\Form\\FormInterface\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
+
+		-
+			message: '#^Call to function is_countable\(\) with Symfony\\Component\\Form\\FormErrorIterator will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
+
+		-
+			message: '#^Cannot call method getErrors\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
+
+		-
+			message: '#^PHPDoc tag @var with type Symfony\\Component\\Form\\FormError is not subtype of native type T of Symfony\\Component\\Form\\FormError\|Symfony\\Component\\Form\\FormErrorIterator\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
+
+		-
+			message: '#^Parameter \#2 \$objectArray of method EMS\\CoreBundle\\Service\\DataService\:\:propagateDataToComputedField\(\) expects array\<mixed\>, array\<mixed\>\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/DataController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\FilterController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/FilterController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\JobController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/JobController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\ManagedAliasController\:\:getIndexActions\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/ManagedAliasController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\ReleaseController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/ReleaseController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\ContentManagement\\ViewController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/ViewController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Dashboard\\DashboardController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Dashboard/DashboardController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Form\\FormController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Form/FormController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\I18nController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/I18nController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Job\\ScheduleController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Job/ScheduleController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Log\\LogController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Log/LogController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\QuerySearchController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/QuerySearchController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Revision\\Action\\ActionImportController\:\:getForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Revision/Action/ActionImportController.php
+
+		-
+			message: '#^Call to function is_countable\(\) with Symfony\\Component\\Form\\FormErrorIterator will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: EMS/core-bundle/src/Controller/Revision/EditController.php
+
+		-
+			message: '#^Cannot call method createView\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: EMS/core-bundle/src/Controller/Revision/EditController.php
+
+		-
+			message: '#^Cannot call method get\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: EMS/core-bundle/src/Controller/Revision/EditController.php
+
+		-
+			message: '#^Cannot call method getErrors\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 4
+			path: EMS/core-bundle/src/Controller/Revision/EditController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Revision\\EditController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Revision/EditController.php
+
+		-
+			message: '#^Parameter \#3 \$object of method EMS\\CoreBundle\\Service\\Revision\\PostProcessingService\:\:jsonMenuNested\(\) expects array\<mixed\>, array\<mixed\>\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/core-bundle/src/Controller/Revision/JsonMenuNestedController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\Revision\\TrashController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/Revision/TrashController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\UploadedFileController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/UploadedFileController.php
+
+		-
+			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\Revision and EMS\\CoreBundle\\Entity\\Revision will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
+
+		-
+			message: '#^PHPDoc tag @var with type EMS\\CoreBundle\\Entity\\Revision is not subtype of native type null\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\WysiwygController\:\:datatableProfiles\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/WysiwygController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\WysiwygController\:\:datatableStyleSets\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/WysiwygController.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Controller\\WysiwygController\:\:getClickedButtonName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Controller/WysiwygController.php
+
+		-
+			message: '#^Cannot call method getErrors\(\) on Symfony\\Component\\Form\\FormInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: EMS/core-bundle/src/Core/Component/MediaLibrary/MediaLibraryService.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: EMS/core-bundle/src/Core/DataTable/ArrayDataSource.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Core\\DataTable\\DataTableFactory\:\:addFilterFormToContext\(\) has parameter \$filterForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Core/DataTable/DataTableFactory.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Core\\DataTable\\DataTableFactory\:\:buildFilterForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Core/DataTable/DataTableFactory.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Core\\DataTable\\DataTableFactory\:\:generateUrlParams\(\) has parameter \$filterForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Core/DataTable/DataTableFactory.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Core\\DataTable\\Type\\DataTableFilterFormInterface\:\:filterFormAddToContext\(\) has parameter \$filterForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Core/DataTable/Type/DataTableFilterFormInterface.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Core\\DataTable\\Type\\DataTableFilterFormInterface\:\:filterFormBuild\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Core/DataTable/Type/DataTableFilterFormInterface.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Core\\Doctrine\\SimpleBatchIteratorAggregate\:\:fromQuery\(\) has parameter \$query with generic class Doctrine\\ORM\\AbstractQuery but does not specify its types\: TKey, TResult$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Core/Doctrine/SimpleBatchIteratorAggregate.php
+
+		-
+			message: '#^Instanceof between EMS\\CoreBundle\\Form\\DataField\\DataFieldType and EMS\\CoreBundle\\Form\\DataField\\DataFieldType will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: EMS/core-bundle/src/Core/Form/FieldTypeManager.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 2
+			path: EMS/core-bundle/src/Core/Revision/RawDataTransformer.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Core\\Revision\\Search\\Revisions\:\:getIterator\(\) return type with generic class ArrayIterator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Core/Revision/Search/Revisions.php
+
+		-
+			message: '#^PHPDoc tag @return with type array\<EMS\\CoreBundle\\Entity\\Revision\>\|ArrayIterator\<int, EMS\\CoreBundle\\Entity\\Revision\> is not subtype of native type ArrayIterator\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: EMS/core-bundle/src/Core/Revision/Search/Revisions.php
+
+		-
+			message: '#^Parameter \#2 \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, non\-empty\-array\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/core-bundle/src/DataTable/Type/Release/ReleaseRevisionsUnpublishDataTableType.php
+
+		-
+			message: '#^Parameter \$terms of class Elastica\\Query\\Terms constructor expects list\<bool\|float\|int\|string\>, array\<string\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/core-bundle/src/DataTable/Type/Release/ReleaseRevisionsUnpublishDataTableType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\DataTable\\Type\\Revision\\RevisionTasksDataTableType\:\:filterFormAddToContext\(\) has parameter \$filterForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/DataTable/Type/Revision/RevisionTasksDataTableType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\DataTable\\Type\\Revision\\RevisionTasksDataTableType\:\:filterFormBuild\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/DataTable/Type/Revision/RevisionTasksDataTableType.php
+
+		-
+			message: '#^Instanceof between Elastica\\Bulk\\Response and Elastica\\Bulk\\Response will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: EMS/core-bundle/src/Elasticsearch/Bulker.php
+
+		-
+			message: '#^PHPDoc tag @var with type EMS\\CoreBundle\\Form\\DataField\\DataFieldType is not subtype of native type string\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: EMS/core-bundle/src/Entity/FieldType.php
+
+		-
+			message: '#^Property EMS\\CoreBundle\\Entity\\User\:\:\$circles \(array\<string\>\|null\) is never assigned null so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Entity/User.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Data\\ElasticaTable\:\:count\(\) should return int\<0, max\> but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: EMS/core-bundle/src/Form/Data/ElasticaTable.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Data\\EntityTable\:\:count\(\) should return int\<0, max\> but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: EMS/core-bundle/src/Form/Data/EntityTable.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Data\\QueryTable\:\:count\(\) should return int\<0, max\> but returns int\.$#'
+			identifier: return.type
+			count: 1
+			path: EMS/core-bundle/src/Form/Data/QueryTable.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Data\\TableAbstract\:\:getFilterForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Data\\TableAbstract\:\:setFilterForm\(\) has parameter \$filterForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
+
+		-
+			message: '#^Property EMS\\CoreBundle\\Form\\Data\\TableAbstract\:\:\$filterForm with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and int\<0, max\> will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
+
+		-
+			message: '#^Call to function is_array\(\) with non\-empty\-array\<mixed, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/AssetFieldType.php
+
+		-
+			message: '#^Instanceof between EMS\\CoreBundle\\Entity\\FieldType and EMS\\CoreBundle\\Entity\\FieldType will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: EMS/core-bundle/src/Form/DataField/AssetFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\AssetFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/AssetFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\AssetFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/AssetFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CheckboxFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CheckboxFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CheckboxFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CheckboxFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ChoiceFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ChoiceFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ChoiceFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ChoiceFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ChoiceFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ChoiceFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CodeFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CodeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CodeFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CodeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CollectionFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CollectionFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CollectionFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CollectionFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CollectionItemFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CollectionItemFieldType.php
+
+		-
+			message: '#^Parameter &\$out by\-ref type of method EMS\\CoreBundle\\Form\\DataField\\CollectionItemFieldType\:\:buildObjectArray\(\) expects array\<string, mixed\>, array\<int\|string, mixed\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CollectionItemFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ComputedFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ComputedFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ComputedFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ContainerFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ContainerFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\ContainerFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/ContainerFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CopyToFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CopyToFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\CopyToFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/CopyToFieldType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\DataFieldType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DataFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DataFieldType\:\:buildChildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DataFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DataFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DataFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DataFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DataFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DataFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DataFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DataLinkFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DataLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DataLinkFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DataLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DateFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DateFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DateFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DateFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DateRangeFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DateRangeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DateRangeFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DateRangeFieldType.php
+
+		-
+			message: '#^Parameter &\$out by\-ref type of method EMS\\CoreBundle\\Form\\DataField\\DateRangeFieldType\:\:buildObjectArray\(\) expects array\<string, mixed\>, array\<mixed\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DateRangeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DateTimeFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DateTimeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\DateTimeFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/DateTimeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\EmailFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/EmailFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\EmailFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/EmailFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\FormFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/FormFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\FormFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/FormFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\FormFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/FormFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\HiddenFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/HiddenFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\HolderFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/HolderFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\HolderFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/HolderFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\IconFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/IconFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\IndexedAssetFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/IndexedAssetFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\IntegerFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/IntegerFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\IntegerFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/IntegerFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JSONFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JSONFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JSONFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JSONFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JSONFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JSONFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuEditorFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuEditorFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuEditorFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuEditorFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuLinkFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuLinkFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuLinkFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuNestedEditorFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuNestedEditorFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuNestedEditorFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuNestedEditorFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuNestedLinkFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuNestedLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuNestedLinkFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuNestedLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\JsonMenuNestedLinkFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/JsonMenuNestedLinkFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/MultiplexedTabContainerFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\MultiplexedTabContainerFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/MultiplexedTabContainerFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\NestedFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\NestedFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\NestedFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
+
+		-
+			message: '#^Parameter \#1 \$elasticIndexDatas of method EMS\\CoreBundle\\Entity\\DataField\:\:updateDataValue\(\) expects array\<mixed\>, array\<mixed\>\|bool\|float\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
+
+		-
+			message: '#^Parameter &\$out by\-ref type of method EMS\\CoreBundle\\Form\\DataField\\NestedFieldType\:\:buildObjectArray\(\) expects array\<string, mixed\>, array\<int\|string, mixed\> given\.$#'
+			identifier: parameterByRef.type
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\NumberFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NumberFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\NumberFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NumberFieldType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\DisplayOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/DisplayOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\DisplayOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/DisplayOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\ExtraOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/ExtraOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\ExtraOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/ExtraOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\MappingOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/MappingOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\MappingOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/MappingOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\MigrationOptionsTransformerType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/MigrationOptionsTransformerType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\MigrationOptionsTransformerType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/MigrationOptionsTransformerType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\MigrationOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/MigrationOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\MigrationOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/MigrationOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\OptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/OptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\OptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/OptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\RestrictionOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/RestrictionOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\RestrictionOptionsType\:\:addJsonMenuNestedRestrictionFields\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/RestrictionOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\RestrictionOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/RestrictionOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\DataField\\Options\\SubOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/SubOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\Options\\SubOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/Options/SubOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\PasswordFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/PasswordFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\PasswordFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/PasswordFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\RadioFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/RadioFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\RadioFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/RadioFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns bool so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns float so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns int so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SelectUserPropertyFieldType\:\:viewTransform\(\) never returns string so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SelectUserPropertyFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\SubfieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/SubfieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TabsFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TabsFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TabsFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TabsFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TextStringFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TextStringFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TextStringFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TextareaFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TextareaFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TextareaFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TextareaFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TextareaFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TextareaFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TimeFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TimeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\TimeFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/TimeFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\VersionTagFieldType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/VersionTagFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\VersionTagFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/VersionTagFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\WysiwygFieldType\:\:buildOptionsForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/WysiwygFieldType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\DataField\\WysiwygFieldType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/WysiwygFieldType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\AnalyzerOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/AnalyzerOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\AnalyzerOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/AnalyzerOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\AssetType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/AssetType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\AssetType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/AssetType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\CodeEditorType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/CodeEditorType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\CodeEditorType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/CodeEditorType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\ContentTypePickerType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/ContentTypePickerType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\EditImageType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/EditImageType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\EditImageType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/EditImageType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\EnvironmentPickerType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/EnvironmentPickerType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\FileType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/FileType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\FileType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/FileType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\FileType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/FileType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\FilterOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/FilterOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\FilterOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/FilterOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\FormPickerType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/FormPickerType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\I18nContentType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/I18nContentType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\I18nContentType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/I18nContentType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\IconTextType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/IconTextType.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 2
+			path: EMS/core-bundle/src/Form/Field/ObjectChoiceListItem.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\ObjectPickerType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/ObjectPickerType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\QuerySearchPickerType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/QuerySearchPickerType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Field\\SelectUserPropertyType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/SelectUserPropertyType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\SelectUserPropertyType\:\:allowDynamicChoices\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/SelectUserPropertyType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\SelectUserPropertyType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/SelectUserPropertyType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Field\\SubmitEmsType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Field/SubmitEmsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\FieldType\\FieldTypeType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/FieldType/FieldTypeType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\FieldType\\FieldTypeType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/FieldType/FieldTypeType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\FieldType\\FieldTypeType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/FieldType/FieldTypeType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ActionType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ActionType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ActionType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ActionType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\AggregateOptionType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/AggregateOptionType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\AggregateOptionType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/AggregateOptionType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\AnalyzerType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/AnalyzerType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\AnalyzerType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/AnalyzerType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ChannelType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ChannelType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ChannelType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ChannelType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\CompareEnvironmentFormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/CompareEnvironmentFormType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\CompareEnvironmentFormType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/CompareEnvironmentFormType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeFieldsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeFieldsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeFieldsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeFieldsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeRolesType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeRolesType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeRolesType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeRolesType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeSettingsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeSettingsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeSettingsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeSettingsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeStructureType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeStructureType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeStructureType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeStructureType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeUpdateType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeUpdateType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeUpdateType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeUpdateType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeVersionFieldsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeVersionFieldsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeVersionFieldsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeVersionFieldsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ContentTypeVersionOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeVersionOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ContentTypeVersionOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ContentTypeVersionOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\Dashboard\\DashboardOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/Dashboard/DashboardOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\Dashboard\\DashboardOptionsType\:\:buildForExport\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/Dashboard/DashboardOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\Dashboard\\DashboardOptionsType\:\:buildForTemplate\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/Dashboard/DashboardOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\Dashboard\\DashboardOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/Dashboard/DashboardOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\Dashboard\\DashboardType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/Dashboard/DashboardType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\Dashboard\\DashboardType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/Dashboard/DashboardType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\EditEnvironmentType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/EditEnvironmentType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\EditEnvironmentType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/EditEnvironmentType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\EditFieldTypeType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/EditFieldTypeType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\EditFieldTypeType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/EditFieldTypeType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\EditImageModalType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/EditImageModalType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\EditImageModalType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/EditImageModalType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\EmsCollectionType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/EmsCollectionType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ExportDocumentsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ExportDocumentsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ExportDocumentsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ExportDocumentsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\FieldHolderType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/FieldHolderType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\FieldHolderType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/FieldHolderType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\FilterType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/FilterType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\FilterType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/FilterType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\FormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/FormType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\FormType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/FormType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\I18nFormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/I18nFormType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\I18nFormType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/I18nFormType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\I18nType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/I18nType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\I18nType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/I18nType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\JobType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/JobType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\JobType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/JobType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\LoadLinkModalType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/LoadLinkModalType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\LoadLinkModalType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/LoadLinkModalType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ManagedAliasType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ManagedAliasType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ManagedAliasType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ManagedAliasType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\MediaLibrary\\MediaLibraryDocumentFormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/MediaLibrary/MediaLibraryDocumentFormType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\MediaLibrary\\MediaLibraryDocumentFormType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/MediaLibrary/MediaLibraryDocumentFormType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\NotificationFormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/NotificationFormType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\NotificationFormType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/NotificationFormType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\QuerySearchType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/QuerySearchType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\QuerySearchType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/QuerySearchType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\RebuildIndexType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RebuildIndexType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\RebuildIndexType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RebuildIndexType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ReleaseType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ReleaseType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ReleaseType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ReleaseType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ReorderType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ReorderType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ReorderType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ReorderType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\RevisionJsonMenuNestedType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RevisionJsonMenuNestedType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\RevisionJsonMenuNestedType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RevisionJsonMenuNestedType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\RevisionJsonType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RevisionJsonType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\RevisionJsonType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RevisionJsonType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\RevisionType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RevisionType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\RevisionType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/RevisionType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ScheduleType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ScheduleType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ScheduleType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ScheduleType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\SearchFieldOptionType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/SearchFieldOptionType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\SearchFieldOptionType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/SearchFieldOptionType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\SearchFormType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/SearchFormType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\SearchFormType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/SearchFormType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\SearchFormType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/SearchFormType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\SortOptionType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/SortOptionType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\SortOptionType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/SortOptionType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\TableType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/TableType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\TableType\:\:addAction\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/TableType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\TableType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/TableType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\TableType\:\:buildView\(\) has parameter \$form with generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/TableType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\TreatNotificationsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/TreatNotificationsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\TreatNotificationsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/TreatNotificationsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\UserOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/UserOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\UserOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/UserOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\UserType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/UserType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\UserType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/UserType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\ViewType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\ViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/ViewType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\WysiwygProfileType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/WysiwygProfileType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\WysiwygProfileType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/WysiwygProfileType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Form\\WysiwygStylesSetType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/WysiwygStylesSetType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Form\\WysiwygStylesSetType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Form/WysiwygStylesSetType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Nature\\ImporterType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ImporterType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Nature\\ImporterType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ImporterType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Nature\\ItemsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ItemsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Nature\\ItemsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ItemsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Nature\\ReorderType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ReorderType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Nature\\ReorderType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ReorderType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Nature\\ReorganizeType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ReorganizeType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Nature\\ReorganizeType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ReorganizeType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Revision\\Task\\RevisionTaskFiltersType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Revision/Task/RevisionTaskFiltersType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Revision\\Task\\RevisionTaskFiltersType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Revision/Task/RevisionTaskFiltersType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Revision\\Task\\RevisionTaskHandleType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Revision/Task/RevisionTaskHandleType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Revision\\Task\\RevisionTaskHandleType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Revision/Task/RevisionTaskHandleType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Revision\\Task\\RevisionTaskType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Revision/Task/RevisionTaskType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Revision\\Task\\RevisionTaskType\:\:addTitle\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Revision/Task/RevisionTaskType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Revision\\Task\\RevisionTaskType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Revision/Task/RevisionTaskType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Subform\\BouttonGroupType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Subform/BouttonGroupType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Subform\\ChannelOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Subform/ChannelOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Subform\\ChannelOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Subform/ChannelOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Subform\\QuerySearchOptionsType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Subform/QuerySearchOptionsType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Subform\\QuerySearchOptionsType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Subform/QuerySearchOptionsType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Subform\\SearchFilterType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Subform/SearchFilterType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Subform\\SearchFilterType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Subform/SearchFilterType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\Submission\\ProcessType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Submission/ProcessType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\Submission\\ProcessType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/Submission/ProcessType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\User\\ChangePasswordType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/ChangePasswordType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\User\\ChangePasswordType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/ChangePasswordType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\User\\ResettingRequestType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/ResettingRequestType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\User\\ResettingRequestType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/ResettingRequestType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\User\\ResettingResetType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/ResettingResetType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\User\\ResettingResetType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/ResettingResetType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\User\\UserProfileType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/UserProfileType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\User\\UserProfileType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/User/UserProfileType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\CalendarViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/CalendarViewType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\View\\Criteria\\CriteriaFilterType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\Criteria\\CriteriaFilterType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\CriteriaViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/CriteriaViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\DataLinkViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/DataLinkViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\ExportViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/ExportViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\GalleryViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/GalleryViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\HierarchicalViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/HierarchicalViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\ImporterViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/ImporterViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\KeywordsViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/KeywordsViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\ReportViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/ReportViewType.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Form\\View\\SorterViewType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/SorterViewType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Form\\View\\ViewType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Form/View/ViewType.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\AnalyzerRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/AnalyzerRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\AnalyzerRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/AnalyzerRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\AuthTokenRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/AuthTokenRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\AuthTokenRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/AuthTokenRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ChannelRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ChannelRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ChannelRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ChannelRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ChannelRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ChannelRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ChannelRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ChannelRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ContentTypeRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ContentTypeRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ContentTypeRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ContentTypeRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ContentTypeRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ContentTypeRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ContentTypeRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ContentTypeRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\DashboardRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/DashboardRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\DashboardRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/DashboardRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\DashboardRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/DashboardRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\DashboardRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/DashboardRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\EnvironmentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/EnvironmentRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\EnvironmentRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/EnvironmentRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FilterRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FilterRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FilterRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FilterRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormSubmissionFileRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormSubmissionFileRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormSubmissionFileRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormSubmissionFileRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormSubmissionRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormSubmissionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\FormSubmissionRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/FormSubmissionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\I18nRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/I18nRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\I18nRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/I18nRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\JobRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/JobRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\JobRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/JobRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\QuerySearchRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/QuerySearchRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\QuerySearchRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/QuerySearchRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ReleaseRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ReleaseRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ReleaseRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ReleaseRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ReleaseRevisionRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ReleaseRevisionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ReleaseRevisionRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ReleaseRevisionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\RevisionRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/RevisionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\RevisionRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/RevisionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\RevisionRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/RevisionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\RevisionRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/RevisionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ScheduleRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ScheduleRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ScheduleRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ScheduleRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ScheduleRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ScheduleRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ScheduleRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ScheduleRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\SearchFieldOptionRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/SearchFieldOptionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\SearchFieldOptionRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/SearchFieldOptionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\SearchRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/SearchRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\SearchRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/SearchRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\SortOptionRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/SortOptionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\SortOptionRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/SortOptionRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\TemplateRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/TemplateRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\TemplateRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/TemplateRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\UploadedAssetRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/UploadedAssetRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\UploadedAssetRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/UploadedAssetRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\UserRepository has PHPDoc tag @method for method findBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/UserRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\UserRepository has PHPDoc tag @method for method findBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/UserRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\UserRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/UserRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\UserRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/UserRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ViewRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ViewRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\ViewRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/ViewRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\WysiwygProfileRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/WysiwygProfileRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\WysiwygProfileRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/WysiwygProfileRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\WysiwygStylesSetRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#1 \$criteria with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/WysiwygStylesSetRepository.php
+
+		-
+			message: '#^Class EMS\\CoreBundle\\Repository\\WysiwygStylesSetRepository has PHPDoc tag @method for method findOneBy\(\) parameter \#2 \$orderBy with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: EMS/core-bundle/src/Repository/WysiwygStylesSetRepository.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Security\\Authenticator\\AuthTokenAuthenticator\:\:onAuthenticationFailure\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Security/Authenticator/AuthTokenAuthenticator.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Security\\Authenticator\\AuthTokenLoginAuthenticator\:\:onAuthenticationSuccess\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Security/Authenticator/AuthTokenLoginAuthenticator.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\ActionService\:\:getByItemName\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Service/ActionService.php
+
+		-
+			message: '#^Call to function is_countable\(\) with array\<mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Call to function is_object\(\) with EMS\\CoreBundle\\Entity\\Environment will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:buildForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:finalizeDraft\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:finalizeDraft\(\) never assigns null to &\$form so it can be removed from the by\-ref type\.$#'
+			identifier: parameterByRef.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:getDataFieldsStructure\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:getSubmitData\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:isValid\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:logFormErrors\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:postFinalizeTreatment\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:propagateDataToComputedField\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\DataService\:\:walkRecursive\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and non\-falsy\-string will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and string will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\EntityService\:\:reorder\(\) has parameter \$reorderForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/EntityService.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/core-bundle/src/Service/Form/Submission/FormSubmissionService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\ReleaseRevisionService\:\:getByItemName\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Service/ReleaseRevisionService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\ReleaseService\:\:getByItemName\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: EMS/core-bundle/src/Service/ReleaseService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\Revision\\PostProcessingService\:\:jsonMenuNested\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/Revision/PostProcessingService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\Revision\\PostProcessingService\:\:postProcessing\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/Revision/PostProcessingService.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Service\\Revision\\RevisionService\:\:createRevisionForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Service/Revision/RevisionService.php
+
+		-
+			message: '#^PHPDoc tag @var with type SoapClient is not subtype of native type null\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: EMS/core-bundle/src/Twig/AppExtension.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Twig\\FormRuntime\:\:getDataField\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Twig/FormRuntime.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Twig\\FormRuntime\:\:getFormByName\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Twig/FormRuntime.php
+
+		-
+			message: '#^Method EMS\\CoreBundle\\Twig\\FormRuntime\:\:handleForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/core-bundle/src/Twig/FormRuntime.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/core-bundle/src/Twig/I18nRuntime.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$form contains generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Constraint/IsExpressionValidator.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$form contains generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Constraint/IsRequiredIfValidator.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$field contains generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Constraint/IsVerificationCodeValidator.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$form contains generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Constraint/IsVerificationCodeValidator.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\EventSubscriber\\NestedChoiceEventSubscriber\:\:addField\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/EventSubscriber/NestedChoiceEventSubscriber.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\EventSubscriber\\NestedChoiceEventSubscriber\:\:initialFieldName\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/EventSubscriber/NestedChoiceEventSubscriber.php
+
+		-
+			message: '#^Class EMS\\FormBundle\\Components\\Form extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\:\:addField\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\:\:addModelTransformers\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form.php
+
+		-
+			message: '#^Class EMS\\FormBundle\\Components\\Form\\MarkupType extends generic class Symfony\\Component\\Form\\AbstractType but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form/MarkupType.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\\MarkupType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form/MarkupType.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\\NestedChoiceType\:\:buildForm\(\) has parameter \$builder with generic interface Symfony\\Component\\Form\\FormBuilderInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form/NestedChoiceType.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\\NestedChoiceType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form/NestedChoiceType.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\\SendConfirmationType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form/SendConfirmationType.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Components\\Form\\SubFormType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Components/Form/SubFormType.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Controller\\AbstractFormController\:\:getFormConfig\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Controller/AbstractFormController.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Controller\\FormController\:\:generateFormResponse\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Controller/FormController.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Form\\Extension\\ConfirmationExtension\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Form/Extension/ConfirmationExtension.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Form\\Extension\\FieldExtension\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Form/Extension/FieldExtension.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: EMS/form-bundle/src/Service/Confirmation/Endpoint/HttpEndpointType.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Submission\\Client\:\:submit\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Submission/Client.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Submission\\FormData\:\:__construct\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Submission/FormData.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Submission\\HandleRequest\:\:__construct\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Submission/HandleRequest.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Submission\\HandleRequest\:\:getForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Submission/HandleRequest.php
+
+		-
+			message: '#^Method EMS\\FormBundle\\Submission\\HandleRequestInterface\:\:getForm\(\) return type with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/form-bundle/src/Submission/HandleRequestInterface.php
+
+		-
+			message: '#^Parameter \#2 \$allowedAttributes of method Symfony\\Component\\HtmlSanitizer\\HtmlSanitizerConfig\:\:allowElement\(\) expects list\<string\>\|string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/helpers/src/Html/Sanitizer/HtmlSanitizerConfigBuilder.php
+
+		-
+			message: '#^Parameter \#2 \$allowedElements of method Symfony\\Component\\HtmlSanitizer\\HtmlSanitizerConfig\:\:allowAttribute\(\) expects list\<string\>\|string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/helpers/src/Html/Sanitizer/HtmlSanitizerConfigBuilder.php
+
+		-
+			message: '#^Parameter \#2 \$droppedElements of method Symfony\\Component\\HtmlSanitizer\\HtmlSanitizerConfig\:\:dropAttribute\(\) expects list\<string\>\|string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/helpers/src/Html/Sanitizer/HtmlSanitizerConfigBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: EMS/helpers/src/Image/SmartCrop.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: EMS/helpers/src/Image/SmartCrop.php
+
+		-
+			message: '#^Parameter \#2 \$red of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/helpers/src/Standard/Color.php
+
+		-
+			message: '#^Parameter \#3 \$green of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/helpers/src/Standard/Color.php
+
+		-
+			message: '#^Parameter \#4 \$blue of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/helpers/src/Standard/Color.php
+
+		-
+			message: '#^Parameter \#5 \$alpha of function imagecolorallocatealpha expects int\<0, 127\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: EMS/helpers/src/Standard/Color.php
+
+		-
+			message: '#^Method EMS\\SubmissionBundle\\Entity\\FormSubmission\:\:getFiles\(\) return type with generic interface Doctrine\\Common\\Collections\\Collection does not specify its types\: TKey, T$#'
+			identifier: missingType.generics
+			count: 1
+			path: EMS/submission-bundle/src/Entity/FormSubmission.php
+
+		-
+			message: '#^PHPDoc tag @return with type array\<EMS\\SubmissionBundle\\Entity\\FormSubmissionFile\>\|Doctrine\\Common\\Collections\\Collection\<int, EMS\\SubmissionBundle\\Entity\\FormSubmissionFile\> is not subtype of native type Doctrine\\Common\\Collections\\Collection\.$#'
+			identifier: return.phpDocType
+			count: 1
+			path: EMS/submission-bundle/src/Entity/FormSubmission.php
+
+		-
+			message: '#^Property EMS\\SubmissionBundle\\Entity\\FormSubmissionFile\:\:\$file \(resource\|string\) is never assigned resource so it can be removed from the property type\.$#'
+			identifier: property.unusedType
+			count: 1
+			path: EMS/submission-bundle/src/Entity/FormSubmissionFile.php
+
+		-
+			message: '#^Instanceof between DOMNode and DOMNode will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: EMS/xliff/src/Xliff/Extractor.php
+
+		-
+			message: '#^Instanceof between DOMNodeList and DOMNodeList will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: EMS/xliff/src/Xliff/Extractor.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and DOMNode will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: EMS/xliff/src/Xliff/Extractor.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{''repository'', ''before'', ''now'', ''sha''\}\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
+			identifier: arrayFilter.same
+			count: 1
+			path: build/src/Release/Command/ReleaseCommand.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{''repository'', ''release'', ''sha'', ''url''\}\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
+			identifier: arrayFilter.same
+			count: 1
+			path: build/src/Release/Command/ReleaseCommand.php
+
+		-
+			message: '#^Parameter \#1 \$array \(array\{''repository'', ''status''\}\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
+			identifier: arrayFilter.same
+			count: 1
+			path: build/src/Release/Command/ReleaseCommand.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and non\-falsy\-string will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: elasticms-cli/src/Client/Audit/AuditManager.php
+
+		-
+			message: '#^Call to function is_string\(\) with non\-falsy\-string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: elasticms-cli/src/Client/Report/AbstractReport.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between null and string will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: elasticms-cli/src/Client/WebToElasticms/Filter/Html/DataLink.php
+
+		-
+			message: '#^Instanceof between DOMNode and DOMNode will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: elasticms-cli/src/ExpressionLanguage/Functions.php

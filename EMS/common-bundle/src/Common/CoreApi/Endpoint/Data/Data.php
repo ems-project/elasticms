@@ -12,12 +12,12 @@ use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Data\RevisionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class Data implements DataInterface
+final readonly class Data implements DataInterface
 {
     /** @var string[] */
-    private readonly array $endPoint;
+    private array $endPoint;
 
-    public function __construct(private readonly Client $client, string $contentType, private readonly string $version)
+    public function __construct(private Client $client, string $contentType, private string $version)
     {
         $this->endPoint = ['api', 'data', $contentType];
     }
@@ -25,6 +25,7 @@ final class Data implements DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
+    #[\Override]
     public function create(array $rawData, ?string $ouuid = null): DraftInterface
     {
         $resource = $this->makeResource('create', $ouuid);
@@ -32,6 +33,7 @@ final class Data implements DataInterface
         return new Draft($this->client->post($resource, $rawData));
     }
 
+    #[\Override]
     public function discard(int $revisionId): bool
     {
         $resource = $this->makeResource('discard', \strval($revisionId));
@@ -39,6 +41,7 @@ final class Data implements DataInterface
         return $this->client->post($resource)->isSuccess();
     }
 
+    #[\Override]
     public function delete(string $ouuid): bool
     {
         $resource = $this->makeResource('delete', $ouuid);
@@ -46,6 +49,7 @@ final class Data implements DataInterface
         return $this->client->post($resource)->isSuccess();
     }
 
+    #[\Override]
     public function finalize(int $revisionId): string
     {
         $resource = $this->makeResource('finalize', \strval($revisionId));
@@ -55,6 +59,7 @@ final class Data implements DataInterface
         return $data['ouuid'];
     }
 
+    #[\Override]
     public function get(string $ouuid): RevisionInterface
     {
         $resource = $this->makeResource($ouuid);
@@ -65,6 +70,7 @@ final class Data implements DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
+    #[\Override]
     public function replace(string $ouuid, array $rawData): DraftInterface
     {
         $resource = $this->makeResource('replace', $ouuid);
@@ -75,6 +81,7 @@ final class Data implements DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
+    #[\Override]
     public function update(string $ouuid, array $rawData): DraftInterface
     {
         $resource = $this->makeResource('merge', $ouuid);
@@ -82,6 +89,7 @@ final class Data implements DataInterface
         return new Draft($this->client->post($resource, $rawData));
     }
 
+    #[\Override]
     public function head(string $ouuid): bool
     {
         $resource = $this->makeResource($ouuid);
@@ -92,6 +100,7 @@ final class Data implements DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
+    #[\Override]
     public function save(string $ouuid, array $rawData, int $mode = self::MODE_UPDATE, bool $discardDraft = true): int
     {
         if (\version_compare($this->version, '5.9.2') >= 0) {
@@ -123,6 +132,7 @@ final class Data implements DataInterface
     /**
      * @param array<string, mixed> $rawData
      */
+    #[\Override]
     public function index(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): Index
     {
         $resource = $this->makeResource($merge && $ouuid ? 'update' : 'index', $ouuid);
@@ -134,6 +144,7 @@ final class Data implements DataInterface
         return new Index($this->client->post($resource, $rawData));
     }
 
+    #[\Override]
     public function indexAsync(?string $ouuid, array $rawData, bool $merge = false, bool $refresh = false): ResponseInterface
     {
         $resource = $this->makeResource($merge && $ouuid ? 'update' : 'index', $ouuid);
@@ -150,6 +161,7 @@ final class Data implements DataInterface
         return \implode('/', \array_merge($this->endPoint, \array_filter($path)));
     }
 
+    #[\Override]
     public function publish(string $ouuid, string $environment, ?string $revisionId = null): bool
     {
         $resource = $this->makeResource('publish', $ouuid, $environment, $revisionId ?? '');

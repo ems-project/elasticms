@@ -10,29 +10,32 @@ use EMS\Helpers\Standard\DateTime;
 use EMS\SubmissionBundle\Repository\FormSubmissionRepository;
 use Prometheus\CollectorRegistry;
 
-final class SubmissionMetricCollector implements MetricCollectorInterface
+final readonly class SubmissionMetricCollector implements MetricCollectorInterface
 {
-    private const VALID_UNTIL = '+5 minutes';
-    private const GAUGES = [
+    private const string VALID_UNTIL = '+5 minutes';
+    private const array GAUGES = [
         'total' => 'Total form submissions',
         'unprocessed_total' => 'Total unprocessed submissions',
         'errors_total' => 'Total count error submissions',
     ];
 
-    public function __construct(private readonly FormSubmissionRepository $formSubmissionRepository, private readonly Connection $connection)
+    public function __construct(private FormSubmissionRepository $formSubmissionRepository, private Connection $connection)
     {
     }
 
+    #[\Override]
     public function getName(): string
     {
         return 'emss_submissions';
     }
 
+    #[\Override]
     public function validUntil(): int
     {
         return DateTime::create(self::VALID_UNTIL)->getTimestamp();
     }
 
+    #[\Override]
     public function collect(CollectorRegistry $collectorRegistry): void
     {
         if (!$this->hasDatabaseConnection()) {

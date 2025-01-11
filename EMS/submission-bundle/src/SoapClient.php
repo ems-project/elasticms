@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\SubmissionBundle;
 
-final class SoapClient
+final readonly class SoapClient
 {
-    private readonly \SoapClient $client;
+    private \SoapClient $client;
 
     /**
      * @param array<mixed> $options

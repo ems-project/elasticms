@@ -19,11 +19,13 @@ abstract class BaseRouter implements RouterInterface, RequestMatcherInterface
     protected ?UrlMatcher $matcher = null;
     protected ?UrlGenerator $generator = null;
 
+    #[\Override]
     public function getContext(): RequestContext
     {
         return $this->context;
     }
 
+    #[\Override]
     public function setContext(RequestContext $context): void
     {
         $this->context = $context;
@@ -32,6 +34,7 @@ abstract class BaseRouter implements RouterInterface, RequestMatcherInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function match($pathInfo): array
     {
         return $this->getMatcher()->match($pathInfo);
@@ -40,6 +43,7 @@ abstract class BaseRouter implements RouterInterface, RequestMatcherInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function matchRequest(Request $request): array
     {
         return $this->getMatcher()->matchRequest($request);
@@ -48,6 +52,7 @@ abstract class BaseRouter implements RouterInterface, RequestMatcherInterface
     /**
      * @param array<string, string> $parameters
      */
+    #[\Override]
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         return $this->getGenerator()->generate($name, $parameters, $referenceType);

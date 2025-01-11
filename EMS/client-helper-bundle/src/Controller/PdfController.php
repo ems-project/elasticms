@@ -10,9 +10,9 @@ use EMS\CommonBundle\Contracts\Generator\Pdf\PdfGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class PdfController
+final readonly class PdfController
 {
-    public function __construct(private readonly Handler $handler, private readonly Environment $templating, private readonly PdfGeneratorInterface $pdfGenerator)
+    public function __construct(private Handler $handler, private Environment $templating, private PdfGeneratorInterface $pdfGenerator)
     {
     }
 

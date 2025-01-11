@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreDataCacheFactory implements StoreDataFactoryInterface
 {
-    final public const TYPE_CACHE = 'cache';
+    final public const string TYPE_CACHE = 'cache';
     public const TTL = 'ttl';
 
     public function __construct(
@@ -17,11 +17,13 @@ class StoreDataCacheFactory implements StoreDataFactoryInterface
     ) {
     }
 
+    #[\Override]
     public function getType(): string
     {
         return self::TYPE_CACHE;
     }
 
+    #[\Override]
     public function createService(array $parameters): StoreDataServiceInterface
     {
         $resolver = new OptionsResolver();

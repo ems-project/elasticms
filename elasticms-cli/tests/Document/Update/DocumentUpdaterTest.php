@@ -22,6 +22,7 @@ final class DocumentUpdaterTest extends TestCase
     private MockObject $coreApi;
     private MockObject $io;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->coreApi = $this->createMock(CoreApiInterface::class);

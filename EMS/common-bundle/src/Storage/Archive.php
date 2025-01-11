@@ -91,6 +91,7 @@ class Archive implements \JsonSerializable
     /**
      * @return ArchiveItem[]
      */
+    #[\Override]
     public function jsonSerialize(): array
     {
         \ksort($this->files);

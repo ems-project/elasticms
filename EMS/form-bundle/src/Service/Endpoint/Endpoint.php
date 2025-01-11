@@ -7,15 +7,15 @@ namespace EMS\FormBundle\Service\Endpoint;
 use EMS\FormBundle\Service\Confirmation\Endpoint\HttpEndpointType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class Endpoint implements EndpointInterface
+final readonly class Endpoint implements EndpointInterface
 {
-    private readonly string $fieldName;
-    private readonly ?string $messageTranslationKey;
-    private readonly HttpRequest $httpRequest;
-    private readonly bool $saveSession;
-    private readonly string $type;
+    private string $fieldName;
+    private ?string $messageTranslationKey;
+    private HttpRequest $httpRequest;
+    private bool $saveSession;
+    private string $type;
     /** @var array<mixed> */
-    private readonly array $options;
+    private array $options;
 
     /** @param array<string, mixed> $config */
     public function __construct(array $config)
@@ -33,31 +33,37 @@ final class Endpoint implements EndpointInterface
     /**
      * @return array<mixed>
      */
+    #[\Override]
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->type;
     }
 
+    #[\Override]
     public function getFieldName(): string
     {
         return $this->fieldName;
     }
 
+    #[\Override]
     public function getHttpRequest(): HttpRequest
     {
         return $this->httpRequest;
     }
 
+    #[\Override]
     public function getMessageTranslationKey(): ?string
     {
         return $this->messageTranslationKey;
     }
 
+    #[\Override]
     public function saveInSession(): bool
     {
         return $this->saveSession;

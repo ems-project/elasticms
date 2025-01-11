@@ -43,6 +43,7 @@ final class DataColumnBusinessId extends DataColumn
         $this->scrollMust = $options['scrollMust'];
     }
 
+    #[\Override]
     protected function getOptionsResolver(): OptionsResolver
     {
         $optionsResolver = parent::getOptionsResolver();
@@ -59,6 +60,7 @@ final class DataColumnBusinessId extends DataColumn
         return $optionsResolver;
     }
 
+    #[\Override]
     public function transform(Data $data, TransformContext $transformContext): void
     {
         parent::transform($data, $transformContext);

@@ -18,6 +18,7 @@ class MetricEventListenerAiTest extends TestCase
     private MetricEventListener $metricEventListener;
     private MetricCollector $metricCollector;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->metricCollector = $this->createMock(MetricCollector::class);

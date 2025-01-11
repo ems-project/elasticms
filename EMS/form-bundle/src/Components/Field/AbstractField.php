@@ -21,6 +21,7 @@ abstract class AbstractField implements FieldInterface
     }
 
     /** @return mixed[] */
+    #[\Override]
     public function getOptions(): array
     {
         return [

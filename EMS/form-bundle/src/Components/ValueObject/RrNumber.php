@@ -8,7 +8,7 @@ class RrNumber
     protected $base;
     private readonly string $controlNumber;
 
-    final public const RRN = '/(?<base>(?<year>\d\d)(?<month>\d\d)(?<day>\d\d)(?<dayCounter>\d\d\d))(?<controlNumber>\d\d)/m';
+    final public const string RRN = '/(?<base>(?<year>\d\d)(?<month>\d\d)(?<day>\d\d)(?<dayCounter>\d\d\d))(?<controlNumber>\d\d)/m';
 
     /**
      * Rijksregisternummer.

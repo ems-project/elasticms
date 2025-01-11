@@ -10,14 +10,14 @@ use Psr\Log\LoggerInterface;
 
 class SftpFactory extends AbstractFactory implements StorageFactoryInterface
 {
-    final public const STORAGE_TYPE = 'sftp';
-    final public const STORAGE_CONFIG_HOST = 'host';
-    final public const STORAGE_CONFIG_PATH = 'path';
-    final public const STORAGE_CONFIG_USERNAME = 'username';
-    final public const STORAGE_CONFIG_PUBLIC_KEY_FILE = 'public-key-file';
-    final public const STORAGE_CONFIG_PRIVATE_KEY_FILE = 'private-key-file';
-    final public const STORAGE_CONFIG_PASSWORD_PHRASE = 'password-phrase';
-    final public const STORAGE_CONFIG_PORT = 'port';
+    final public const string STORAGE_TYPE = 'sftp';
+    final public const string STORAGE_CONFIG_HOST = 'host';
+    final public const string STORAGE_CONFIG_PATH = 'path';
+    final public const string STORAGE_CONFIG_USERNAME = 'username';
+    final public const string STORAGE_CONFIG_PUBLIC_KEY_FILE = 'public-key-file';
+    final public const string STORAGE_CONFIG_PRIVATE_KEY_FILE = 'private-key-file';
+    final public const string STORAGE_CONFIG_PASSWORD_PHRASE = 'password-phrase';
+    final public const string STORAGE_CONFIG_PORT = 'port';
 
     public function __construct(private readonly LoggerInterface $logger)
     {
@@ -26,6 +26,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
     /**
      * @param array<string, mixed> $parameters
      */
+    #[\Override]
     public function createService(array $parameters): ?StorageInterface
     {
         $config = $this->resolveParameters($parameters);
@@ -46,6 +47,7 @@ class SftpFactory extends AbstractFactory implements StorageFactoryInterface
         return new SftpStorage($this->logger, $host, $path, $username, $publicKeyFile, $privateKeyFile, $config[self::STORAGE_CONFIG_USAGE], $config[self::STORAGE_CONFIG_HOT_SYNCHRONIZE_LIMIT], $passwordPhrase, $port);
     }
 
+    #[\Override]
     public function getStorageType(): string
     {
         return self::STORAGE_TYPE;

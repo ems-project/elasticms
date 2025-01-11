@@ -18,6 +18,7 @@ class FileAiTest extends TestCase
     private StorageManager $storageManager;
     private File $file;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(Client::class);

@@ -13,8 +13,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteCommand extends AbstractCommand
 {
-    final public const CONFIG_TYPE = 'config-type';
-    final public const ENTITY_NAME = 'entity-name';
+    final public const string CONFIG_TYPE = 'config-type';
+    final public const string ENTITY_NAME = 'entity-name';
     private string $configType;
     private string $entityName;
 
@@ -23,6 +23,7 @@ class DeleteCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -31,6 +32,7 @@ class DeleteCommand extends AbstractCommand
         $this->entityName = $this->getArgumentString(self::ENTITY_NAME);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -38,6 +40,7 @@ class DeleteCommand extends AbstractCommand
         $this->addArgument(self::ENTITY_NAME, InputArgument::REQUIRED, 'Entity\'s name to update');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Admin - delete');

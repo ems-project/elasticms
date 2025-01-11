@@ -13,11 +13,13 @@ class SmartCropAiTest extends TestCase
     private int $cropWidth = 100;
     private int $cropHeight = 100;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->image = \imagecreatetruecolor(200, 200);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         \imagedestroy($this->image);

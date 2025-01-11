@@ -20,6 +20,7 @@ class Token implements \Stringable
         return Type::string($this->token['token']);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getToken();

@@ -8,9 +8,9 @@ use EMS\ClientHelperBundle\Helper\UserApi\TestService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class TestController
+final readonly class TestController
 {
-    public function __construct(private readonly TestService $testService)
+    public function __construct(private TestService $testService)
     {
     }
 

@@ -9,9 +9,9 @@ use GuzzleHttp\Client;
 /**
  * @todo use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface
  */
-final class ClientFactory
+final readonly class ClientFactory
 {
-    public function __construct(private readonly string $baseUrl)
+    public function __construct(private string $baseUrl)
     {
     }
 

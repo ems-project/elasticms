@@ -7,6 +7,7 @@ use Symfony\Component\Validator\Constraints\File;
 
 class MaxFileSize extends AbstractValidation
 {
+    #[\Override]
     public function getHtml5Attribute(): array
     {
         /** @var File */
@@ -17,6 +18,7 @@ class MaxFileSize extends AbstractValidation
         ];
     }
 
+    #[\Override]
     public function getConstraint(): Constraint
     {
         return new File(['maxSize' => $this->value]);

@@ -16,9 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateCommand extends AbstractCommand
 {
-    final public const CONFIG_TYPE = 'config-type';
-    final public const JSON_PATH = 'json-path';
-    final public const FOLDER = 'folder';
+    final public const string CONFIG_TYPE = 'config-type';
+    final public const string JSON_PATH = 'json-path';
+    final public const string FOLDER = 'folder';
     private string $configType;
     private string $jsonPath;
     private string $folder;
@@ -29,6 +29,7 @@ class CreateCommand extends AbstractCommand
         $this->folder = $projectFolder.DIRECTORY_SEPARATOR.ConfigHelper::DEFAULT_FOLDER;
     }
 
+    #[\Override]
     public function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -41,6 +42,7 @@ class CreateCommand extends AbstractCommand
         }
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -49,6 +51,7 @@ class CreateCommand extends AbstractCommand
         $this->addOption(self::FOLDER, null, InputOption::VALUE_OPTIONAL, 'Export folder');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('Admin - create');

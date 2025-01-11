@@ -28,7 +28,7 @@ class FileStructurePublishCommand extends AbstractCommand
     public const OPTION_FORCE = 'force';
     public const OPTION_ADMIN = 'admin';
     private string $target;
-    private ?string $s3Credential;
+    private ?string $s3Credential = null;
     private string $archiveHash;
     private bool $force;
     private FileManagerInterface $fileManager;
@@ -40,6 +40,7 @@ class FileStructurePublishCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
@@ -53,6 +54,7 @@ class FileStructurePublishCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -67,6 +69,7 @@ class FileStructurePublishCommand extends AbstractCommand
         };
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('EMS - File structure - Publish');

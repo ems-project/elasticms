@@ -25,25 +25,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class MediaLibrarySyncCommand extends AbstractCommand
 {
-    private const ARGUMENT_FOLDER = 'folder';
-    private const OPTION_CONTENT_TYPE = 'content-type';
-    private const OPTION_FOLDER_FIELD = 'folder-field';
-    private const OPTION_PATH_FIELD = 'path-field';
-    private const OPTION_FILE_FIELD = 'file-field';
-    private const OPTION_DRY_RUN = 'dry-run';
-    private const OPTION_METADATA_FILE = 'metadata-file';
-    private const OPTION_LOCATE_ROW_EXPRESSION = 'locate-row-expression';
-    private const OPTION_ONLY_MISSING = 'only-missing';
-    private const OPTION_ONLY_METADATA_FILE = 'only-metadata-file';
-    private const OPTION_TIKA = 'tika';
-    private const OPTION_TIKA_BASE_URL = 'tika-base-url';
-    private const OPTION_TIKA_CACHE_FOLDER = 'tika-cache-folder';
-    private const OPTION_MAX_CONTENT_SIZE = 'max-content-size';
-    private const OPTION_HASH_FOLDER = 'hash-folder';
-    private const OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
-    private const OPTION_TARGET_FOLDER = 'target-folder';
-    private const OPTION_FORCE_EXTRACT = 'force-extract';
-    private const OPTION_EXTRACT_SIZE = 'max-extract-size';
+    private const string ARGUMENT_FOLDER = 'folder';
+    private const string OPTION_CONTENT_TYPE = 'content-type';
+    private const string OPTION_FOLDER_FIELD = 'folder-field';
+    private const string OPTION_PATH_FIELD = 'path-field';
+    private const string OPTION_FILE_FIELD = 'file-field';
+    private const string OPTION_DRY_RUN = 'dry-run';
+    private const string OPTION_METADATA_FILE = 'metadata-file';
+    private const string OPTION_LOCATE_ROW_EXPRESSION = 'locate-row-expression';
+    private const string OPTION_ONLY_MISSING = 'only-missing';
+    private const string OPTION_ONLY_METADATA_FILE = 'only-metadata-file';
+    private const string OPTION_TIKA = 'tika';
+    private const string OPTION_TIKA_BASE_URL = 'tika-base-url';
+    private const string OPTION_TIKA_CACHE_FOLDER = 'tika-cache-folder';
+    private const string OPTION_MAX_CONTENT_SIZE = 'max-content-size';
+    private const string OPTION_HASH_FOLDER = 'hash-folder';
+    private const string OPTION_HASH_METADATA_FILE = 'hash-metadata-file';
+    private const string OPTION_TARGET_FOLDER = 'target-folder';
+    private const string OPTION_FORCE_EXTRACT = 'force-extract';
+    private const string OPTION_EXTRACT_SIZE = 'max-extract-size';
 
     private bool $tika;
     private ?string $tikaBaseUrl = null;
@@ -59,6 +59,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -84,6 +85,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -112,6 +114,7 @@ final class MediaLibrarySyncCommand extends AbstractCommand
         $this->tikaCacheFolder = $this->getOptionStringNull(self::OPTION_TIKA_CACHE_FOLDER);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io->title('EMS Client - Media Library sync');

@@ -8,9 +8,9 @@ use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-final class AuthService
+final readonly class AuthService
 {
-    public function __construct(private readonly ClientFactory $client)
+    public function __construct(private ClientFactory $client)
     {
     }
 

@@ -13,6 +13,7 @@ class CacheAiTest extends TestCase
 {
     private Cache $cache;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->cache = new Cache('sha256');

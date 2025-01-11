@@ -15,6 +15,7 @@ use EMS\SubmissionBundle\Response\PdfHandleResponse;
 
 final class PdfHandlerTest extends AbstractHandlerTest
 {
+    #[\Override]
     protected function getHandler(): AbstractHandler
     {
         return $this->container->get('functional_test.emss.handler.pdf');

@@ -15,11 +15,13 @@ class PdfGenerator implements PdfGeneratorInterface
     {
     }
 
+    #[\Override]
     public function createOptionsFromHtml(string $html): PdfPrintOptions
     {
         return new PdfPrintOptionsHtml($html);
     }
 
+    #[\Override]
     public function generateResponseFromHtml(string $html, ?PdfPrintOptions $options = null): Response
     {
         $options ??= new PdfPrintOptions([]);
@@ -38,6 +40,7 @@ class PdfGenerator implements PdfGeneratorInterface
         return $response;
     }
 
+    #[\Override]
     public function generateStreamedResponseFromHtml(string $html, ?PdfPrintOptions $options = null): StreamedResponse
     {
         $options ??= new PdfPrintOptions([]);

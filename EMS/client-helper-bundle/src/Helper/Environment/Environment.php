@@ -11,17 +11,17 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 final class Environment
 {
-    public const ENVIRONMENT_ATTRIBUTE = '_environment';
-    public const BACKEND_ATTRIBUTE = '_backend';
-    public const LOCALE_ATTRIBUTE = '_locale';
-    public const REGEX_CONFIG = 'regex';
-    public const ROUTE_PREFIX = 'route_prefix';
-    public const BACKEND_CONFIG = 'backend';
-    public const REQUEST_CONFIG = 'request';
-    public const ALIAS_CONFIG = 'alias';
-    public const REMOTE_CLUSTER = 'remote_cluster';
-    public const DEFAULT = 'default';
-    public const ROUTER = 'router';
+    public const string ENVIRONMENT_ATTRIBUTE = '_environment';
+    public const string BACKEND_ATTRIBUTE = '_backend';
+    public const string LOCALE_ATTRIBUTE = '_locale';
+    public const string REGEX_CONFIG = 'regex';
+    public const string ROUTE_PREFIX = 'route_prefix';
+    public const string BACKEND_CONFIG = 'backend';
+    public const string REQUEST_CONFIG = 'request';
+    public const string ALIAS_CONFIG = 'alias';
+    public const string REMOTE_CLUSTER = 'remote_cluster';
+    public const string DEFAULT = 'default';
+    public const string ROUTER = 'router';
     private bool $active = false;
     private readonly bool $default;
     private readonly bool $routerEnabled;

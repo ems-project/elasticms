@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class MetricController extends AbstractController
 {
-    public const METRICS = 'ems.controller.metric::metrics';
+    public const string METRICS = 'ems.controller.metric::metrics';
 
     public function __construct(private readonly MetricCollector $metricCollector, private readonly ?string $metricPort)
     {

@@ -13,6 +13,7 @@ final class EmsHtml extends Markup implements \Stringable
         parent::__construct($html, 'UTF-8');
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->html;

@@ -9,12 +9,13 @@ use EMS\FormBundle\Contracts\Confirmation\VerificationCodeGeneratorInterface;
 use EMS\FormBundle\Service\Endpoint\EndpointInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class VerificationCodeGenerator implements VerificationCodeGeneratorInterface
+final readonly class VerificationCodeGenerator implements VerificationCodeGeneratorInterface
 {
-    public function __construct(private readonly CoreApiInterface $coreApi, private readonly RequestStack $requestStack)
+    public function __construct(private CoreApiInterface $coreApi, private RequestStack $requestStack)
     {
     }
 
+    #[\Override]
     public function getVerificationCode(EndpointInterface $endpoint, string $confirmValue): ?string
     {
         if ($endpoint->saveInSession()) {
@@ -26,6 +27,7 @@ final class VerificationCodeGenerator implements VerificationCodeGeneratorInterf
         return \is_string($verificationCode) ? $verificationCode : null;
     }
 
+    #[\Override]
     public function generate(EndpointInterface $endpoint, string $confirmValue): string
     {
         if (!$endpoint->saveInSession()) {

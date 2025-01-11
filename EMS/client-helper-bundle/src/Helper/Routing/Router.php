@@ -15,6 +15,7 @@ final class Router extends BaseRouter
     ) {
     }
 
+    #[\Override]
     public function getRouteCollection(): RouteCollection
     {
         $environment = $this->environmentHelper->getCurrentEnvironment();

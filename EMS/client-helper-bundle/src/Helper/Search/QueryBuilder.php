@@ -18,11 +18,11 @@ use Elastica\Suggest\Term;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\CommonBundle\Search\Search as CommonSearch;
 
-final class QueryBuilder
+final readonly class QueryBuilder
 {
     public function __construct(
-        private readonly ClientRequest $clientRequest,
-        private readonly Search $search,
+        private ClientRequest $clientRequest,
+        private Search $search,
     ) {
     }
 

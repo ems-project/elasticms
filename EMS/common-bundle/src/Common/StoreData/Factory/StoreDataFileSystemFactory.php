@@ -8,14 +8,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StoreDataFileSystemFactory implements StoreDataFactoryInterface
 {
-    final public const TYPE_FS = 'fs';
-    final public const ROOT_PATH = 'path';
+    final public const string TYPE_FS = 'fs';
+    final public const string ROOT_PATH = 'path';
 
+    #[\Override]
     public function getType(): string
     {
         return self::TYPE_FS;
     }
 
+    #[\Override]
     public function createService(array $parameters): StoreDataServiceInterface
     {
         $resolver = new OptionsResolver();

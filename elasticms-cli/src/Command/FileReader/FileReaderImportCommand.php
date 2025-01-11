@@ -31,20 +31,20 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 )]
 final class FileReaderImportCommand extends AbstractCommand
 {
-    private const ARGUMENT_FILE = 'file';
-    private const ARGUMENT_CONTENT_TYPE = 'content-type';
-    private const OPTION_CONFIG = 'config';
-    private const OPTION_DRY_RUN = 'dry-run';
-    private const OPTION_LIMIT = 'limit';
-    private const OPTION_FLUSH_SIZE = 'flush-size';
-    private const OPTION_MERGE = 'merge';
+    private const string ARGUMENT_FILE = 'file';
+    private const string ARGUMENT_CONTENT_TYPE = 'content-type';
+    private const string OPTION_CONFIG = 'config';
+    private const string OPTION_DRY_RUN = 'dry-run';
+    private const string OPTION_LIMIT = 'limit';
+    private const string OPTION_FLUSH_SIZE = 'flush-size';
+    private const string OPTION_MERGE = 'merge';
 
     private string $file;
     private string $contentType;
     private bool $dryRun;
     private bool $merge;
     private int $flushSize;
-    private ?int $limit;
+    private ?int $limit = null;
     private ExpressionLanguage $expressionLanguage;
 
     public function __construct(
@@ -55,6 +55,7 @@ final class FileReaderImportCommand extends AbstractCommand
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -68,6 +69,7 @@ final class FileReaderImportCommand extends AbstractCommand
         ;
     }
 
+    #[\Override]
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         parent::initialize($input, $output);
@@ -81,6 +83,7 @@ final class FileReaderImportCommand extends AbstractCommand
         $this->expressionLanguage = new ExpressionLanguage();
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         try {

@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-final class ConfirmationController
+final readonly class ConfirmationController
 {
-    public function __construct(private readonly Guard $guard, private readonly ConfirmationService $confirmationService, private readonly LoggerInterface $logger)
+    public function __construct(private Guard $guard, private ConfirmationService $confirmationService, private LoggerInterface $logger)
     {
     }
 

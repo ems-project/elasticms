@@ -395,7 +395,7 @@ class PublishService
             return;
         }
 
-        $publishedRevision = $this->revRepository->findLatestVersion($contentType, $versionUuid, $environment);
+        $publishedRevision = $this->revRepository->findLatestVersion($contentType, $versionUuid->toString(), $environment);
 
         $now = new \DateTimeImmutable();
         $form = null;

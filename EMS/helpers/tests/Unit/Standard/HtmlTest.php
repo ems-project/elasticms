@@ -17,26 +17,26 @@ class HtmlTest extends TestCase
     public function testPrettyPrint(): void
     {
         $html = <<<HTML
-            <div class="test">
-              <h1 class="title"> 
-               Title </h1>
-              <hr />
-              <p style="color: red"> 
-              Hello  </p>
-            </div>
-HTML;
+                        <div class="test">
+                          <h1 class="title"> 
+                           Title </h1>
+                          <hr />
+                          <p style="color: red"> 
+                          Hello  </p>
+                        </div>
+            HTML;
 
         $result = <<<HTML
-<div class="test">
-  <h1 class="title">
-    Title
-  </h1>
-  <hr>
-  <p style="color: red">
-    Hello
-  </p>
-</div>
-HTML;
+            <div class="test">
+              <h1 class="title">
+                Title
+              </h1>
+              <hr>
+              <p style="color: red">
+                Hello
+              </p>
+            </div>
+            HTML;
 
         $this->assertEquals($result, (string) (new Html($html))->prettyPrint());
     }

@@ -54,10 +54,12 @@ class Html implements \Stringable
             'drop-empty-elements' => false,
         ], $settings));
 
-        return new Html(\trim(\str_replace(
-            ["<body>\n  ", "\n</body>", "\n  ", '<body>'],
-            ['', '', "\n", ''],
-            $formatter->body()->value)
+        return new Html(\trim(
+            \str_replace(
+                ["<body>\n  ", "\n</body>", "\n  ", '<body>'],
+                ['', '', "\n", ''],
+                $formatter->body()->value
+            )
         ));
     }
 }

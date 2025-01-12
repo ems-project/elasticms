@@ -26,10 +26,11 @@ class CommonExtensionTest extends TestCase
 
     public function testFilterEmsLink(): void
     {
-        $template = $this->twig->createTemplate(<<<TEMPLATE
-            {%- set emsLink = 'page:064efcc7751ee8b0915416a717e2db46d15c77eb'|ems_link -%}
-            {{- emsLink.contentType }} | {{ emsLink.ouuid -}}   
-TEMPLATE
+        $template = $this->twig->createTemplate(
+            <<<TEMPLATE
+                            {%- set emsLink = 'page:064efcc7751ee8b0915416a717e2db46d15c77eb'|ems_link -%}
+                            {{- emsLink.contentType }} | {{ emsLink.ouuid -}}   
+                TEMPLATE
         );
 
         $this->assertEquals('page | 064efcc7751ee8b0915416a717e2db46d15c77eb', $template->render());

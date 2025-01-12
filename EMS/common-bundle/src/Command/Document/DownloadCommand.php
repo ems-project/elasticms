@@ -68,7 +68,7 @@ class DownloadCommand extends AbstractCommand
 
         $directory = \implode(DIRECTORY_SEPARATOR, [$this->folder, $this->contentType]);
         if (!\is_dir($directory)) {
-            \mkdir($directory, 0777, true);
+            \mkdir($directory, 0o777, true);
         }
 
         $this->io->progressStart($searchApi->count($search));

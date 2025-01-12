@@ -29,8 +29,8 @@ final readonly class RouterController
         private Processor $processor,
         private CacheHelper $cacheHelper,
         private ExceptionHelper $exceptionHelper,
-        private HttpKernel $httpKernel)
-    {
+        private HttpKernel $httpKernel
+    ) {
     }
 
     public function handle(Request $request): Response

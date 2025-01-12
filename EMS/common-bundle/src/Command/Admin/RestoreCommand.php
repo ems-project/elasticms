@@ -194,7 +194,7 @@ class RestoreCommand extends AbstractCommand
 
         $directory = \implode(DIRECTORY_SEPARATOR, [$this->documentsFolder, $contentType]);
         if (!\is_dir($directory)) {
-            \mkdir($directory, 0777, true);
+            \mkdir($directory, 0o777, true);
         }
 
         $defaultAlias = $this->coreApi->meta()->getDefaultContentTypeEnvironmentAlias($contentType);

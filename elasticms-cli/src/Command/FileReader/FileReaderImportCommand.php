@@ -146,7 +146,8 @@ final class FileReaderImportCommand extends AbstractCommand
                 $this->deleteMissingDocuments($contentTypeApi, ...\array_keys($ouuids));
             }
 
-            $this->io->definitionList('Summary',
+            $this->io->definitionList(
+                'Summary',
                 ['Index' => $count],
                 ['Delete' => \count($ouuids)]
             );

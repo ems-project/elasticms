@@ -116,7 +116,7 @@ class TikaCachePromise implements TikaPromiseInterface
         $filename = $this->filename($type);
         $dirname = \dirname($filename);
         if (!\file_exists($dirname)) {
-            \mkdir($dirname, 0755, true);
+            \mkdir($dirname, 0o755, true);
         }
         \file_put_contents($filename, $contents);
     }

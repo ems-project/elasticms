@@ -21,11 +21,14 @@ class ClassCleanerTest extends TestCase
 
         $internalLink = new ClassCleaner($config);
         $crawler = new Crawler(
-            '<div class="to-keep       top no get-away">foobar</div>');
+            '<div class="to-keep       top no get-away">foobar</div>'
+        );
 
         $internalLink->process($webResource, $crawler->filter('body'));
         $this->assertEquals(
-            '<div class="to-keep top">foobar</div>', $crawler->filter('body')->html());
+            '<div class="to-keep top">foobar</div>',
+            $crawler->filter('body')->html()
+        );
     }
 
     public function testClassCleanerNested(): void
@@ -37,10 +40,13 @@ class ClassCleanerTest extends TestCase
 
         $internalLink = new ClassCleaner($config);
         $crawler = new Crawler(
-            '<div class="to-keep       top no get-away">foobar <div class="to-keep       top no get-away">foobar</div></div>');
+            '<div class="to-keep       top no get-away">foobar <div class="to-keep       top no get-away">foobar</div></div>'
+        );
 
         $internalLink->process($webResource, $crawler->filter('body'));
         $this->assertEquals(
-            '<div class="to-keep top">foobar <div class="to-keep top">foobar</div></div>', $crawler->filter('body')->html());
+            '<div class="to-keep top">foobar <div class="to-keep top">foobar</div></div>',
+            $crawler->filter('body')->html()
+        );
     }
 }

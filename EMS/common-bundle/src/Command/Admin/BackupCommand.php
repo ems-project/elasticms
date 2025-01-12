@@ -121,7 +121,7 @@ class BackupCommand extends AbstractCommand
 
         $directory = \implode(DIRECTORY_SEPARATOR, [$this->documentsFolder, $contentType]);
         if (!\is_dir($directory)) {
-            \mkdir($directory, 0777, true);
+            \mkdir($directory, 0o777, true);
         }
 
         $counter = 0;

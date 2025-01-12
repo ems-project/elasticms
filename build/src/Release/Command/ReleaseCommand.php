@@ -38,7 +38,7 @@ class ReleaseCommand extends AbstractCommand
         $this->packagist = new PackagistService();
 
         $version = $input->getArgument('version');
-        $version = $version ?? (string) $this->question->ask($input, $output, new Question('Version: '));
+        $version ??= (string) $this->question->ask($input, $output, new Question('Version: '));
         $this->version = Version::fromTag($version);
     }
 

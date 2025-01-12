@@ -17,7 +17,7 @@ final readonly class ConfigHelper
     {
         $this->directory = \implode(DIRECTORY_SEPARATOR, [$saveFolder, $this->config->getType()]);
         if (!\is_dir($this->directory)) {
-            \mkdir($this->directory, 0777, true);
+            \mkdir($this->directory, 0o777, true);
         }
     }
 

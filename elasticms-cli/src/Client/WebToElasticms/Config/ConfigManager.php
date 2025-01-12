@@ -418,57 +418,68 @@ class ConfigManager
         }
         $this->expressionLanguage = new ExpressionLanguage();
 
-        $this->expressionLanguage->register('uuid',
+        $this->expressionLanguage->register(
+            'uuid',
             fn () => '(\\Ramsey\\Uuid\\Uuid::uuid4()->toString())',
             fn ($arguments) => Uuid::uuid4()->toString()
         );
 
-        $this->expressionLanguage->register('json_escape',
+        $this->expressionLanguage->register(
+            'json_escape',
             fn ($str) => \sprintf('(null === %1$s ? null : \\EMS\\CommonBundle\\Common\\Standard\\Json::escape(%1$s))', $str),
             fn ($arguments, $str) => null === $str ? null : Json::escape($str)
         );
 
-        $this->expressionLanguage->register('strtotime',
+        $this->expressionLanguage->register(
+            'strtotime',
             fn ($str) => \sprintf('(null === %1$s ? null : \\strtotime(%1$s))', $str),
             fn ($arguments, $str) => null === $str ? null : \strtotime((string) $str)
         );
 
-        $this->expressionLanguage->register('date',
+        $this->expressionLanguage->register(
+            'date',
             fn ($format, $timestamp) => \sprintf('((null === %1$s || null === %2$s) ? null : \\date(%1$s, %2$s))', $format, $timestamp),
             fn ($arguments, $format, $timestamp) => (null === $format || null === $timestamp) ? null : \date($format, $timestamp)
         );
 
-        $this->expressionLanguage->register('dom_to_json_menu',
+        $this->expressionLanguage->register(
+            'dom_to_json_menu',
             fn ($html, $tag, $fieldName, $typeName, $labelField) => \sprintf('((null === %1$s || null === %2$s || null === %3$s || null === %4$s || null === %5$s) ? null : \\App\\ExpressionLanguage\\Functions::domToJsonMenu(%1$s, %2$s, %3$s, %4$s, %5$s))', $html, $tag, $fieldName, $typeName, $labelField),
             fn ($arguments, $html, $tag, $fieldName, $typeName, $labelField) => (null === $html || null === $tag || null === $fieldName || null === $typeName || null === $labelField) ? null : Functions::domToJsonMenu($html, $tag, $fieldName, $typeName, $labelField)
         );
 
-        $this->expressionLanguage->register('split',
+        $this->expressionLanguage->register(
+            'split',
             fn ($pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => \sprintf('((null === %1$s || null === %2$s) ? null : \\preg_split(%1$s, %2$s, %3$d, %4$d))', $pattern, $str, $limit, $flags),
             fn ($arguments, $pattern, $str, $limit = -1, $flags = PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY) => (null === $pattern || null === $str) ? null : \preg_split($pattern, (string) $str, $limit, $flags)
         );
 
-        $this->expressionLanguage->register('match',
+        $this->expressionLanguage->register(
+            'match',
             fn ($pattern, $str, $flags = 0) => \sprintf('((null === %1$s || null === %2$s) ? null : \\preg_match(%1$s, %2$s, %3$d))', $pattern, $str, $flags),
             fn ($arguments, $pattern, $str, $flags = 0) => (null === $pattern || null === $str) ? null : $this->matches($pattern, (string) $str, $flags)
         );
 
-        $this->expressionLanguage->register('datalinks',
+        $this->expressionLanguage->register(
+            'datalinks',
             fn ($value, $type) => \sprintf('((null === %1$s || null === %2$s) ? null : (is_array($value) ? \\$this->findDataLinksArray(%1$s, %2$s): $this->findDataLinkString(%1$s, %2$s)))', \strval($value), $type),
             fn ($arguments, $value, $type) => (null === $value || null === $type) ? null : (\is_array($value) ? $this->findDataLinksArray($value, $type) : $this->findDataLinkString($value, $type))
         );
 
-        $this->expressionLanguage->register('list_to_json_menu_nested',
+        $this->expressionLanguage->register(
+            'list_to_json_menu_nested',
             fn ($values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => \sprintf('((null === %1$s || null === %2$s || null === %3$s) ? null : \\App\\ExpressionLanguage\\Functions::listToJsonMenuNested(%1$s, %2$s, %3$s, %4$s, %5$s, %6$s))', \strval($values), $fieldName, $typeName, \strval($labels), $labelField, \strval($multiplex)),
             fn ($arguments, $values, $fieldName, $typeName, $labels = null, $labelField = null, $multiplex = false) => (null === $values || null === $fieldName || null === $typeName) ? null : Functions::listToJsonMenuNested($values, $fieldName, $typeName, $labels, $labelField, $multiplex)
         );
 
-        $this->expressionLanguage->register('array_to_json_menu_nested',
+        $this->expressionLanguage->register(
+            'array_to_json_menu_nested',
             fn ($values, $keys) => \sprintf('((null === %1$s || null === %2$s)) ? null : \\App\\ExpressionLanguage\\Functions::arrayToJsonMenuNested(%1$s, %2$s))', \strval($values), \strval($keys)),
             fn ($arguments, $values, $keys) => (null === $values || null === $keys) ? null : Functions::arrayToJsonMenuNested($values, $keys)
         );
 
-        $this->expressionLanguage->register('merge',
+        $this->expressionLanguage->register(
+            'merge',
             fn ($arr1, $arr2) => \sprintf('((null === %1$s || null === %2$s) ? null : \\array_merge(%1$s, %2$s))', \strval($arr1), \strval($arr2)),
             fn ($arguments, $arr1, $arr2) => (null === $arr1 || null === $arr2) ? null : \array_values(\array_unique(\array_merge($arr1, $arr2)))
         );

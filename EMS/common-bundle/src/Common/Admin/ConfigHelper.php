@@ -79,7 +79,7 @@ final readonly class ConfigHelper
     }
 
     /**
-     * @return string[];
+     * @return string[]
      */
     public function remote(): array
     {

@@ -12,8 +12,8 @@ use EMS\CommonBundle\Entity\StoreData;
  * @extends ServiceEntityRepository<StoreData>
  *
  * @method StoreData|null find($id, $lockMode = null, $lockVersion = null)
- * @method StoreData|null findOneBy(array $criteria, array $orderBy = null)
- * @method StoreData[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method StoreData|null findOneBy(mixed[] $criteria, mixed[] $orderBy = null)
+ * @method StoreData[]    findBy(mixed[] $criteria, mixed[] $orderBy = null, $limit = null, $offset = null)
  */
 final class StoreDataRepository extends ServiceEntityRepository
 {

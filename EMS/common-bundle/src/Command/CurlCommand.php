@@ -111,7 +111,7 @@ class CurlCommand extends AbstractCommand
 
             return '';
         });
-        $response = $kernel->handle($request, HttpKernelInterface::MASTER_REQUEST, false);
+        $response = $kernel->handle($request, HttpKernelInterface::MAIN_REQUEST, false);
         $length = \ob_get_length();
         \ob_end_clean();
 

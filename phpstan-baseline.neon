@@ -11,16 +11,6 @@ parameters:
 
 		-
 			message: '''
-				#^Fetching deprecated class constant MASTER_REQUEST of interface Symfony\\Component\\HttpKernel\\HttpKernelInterface\:
-				since symfony/http\-kernel 5\.3, use MAIN_REQUEST instead\.
-				            To ease the migration, this constant won't be removed until Symfony 7\.0\.$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: EMS/common-bundle/src/Command/CurlCommand.php
-
-		-
-			message: '''
 				#^Call to deprecated method setInputEncoding\(\) of class PhpOffice\\PhpSpreadsheet\\Reader\\Html\:
 				no use is made of this property$#
 			'''

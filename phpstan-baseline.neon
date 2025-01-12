@@ -2,15 +2,6 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
-				#^Class EMS\\ClientHelperBundle\\Helper\\Request\\EmschRequestResolver implements deprecated interface Symfony\\Component\\HttpKernel\\Controller\\ArgumentValueResolverInterface\:
-				since Symfony 6\.2, implement ValueResolverInterface instead$#
-			'''
-			identifier: class.implementsDeprecatedInterface
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Request/EmschRequestResolver.php
-
-		-
-			message: '''
 				#^Call to deprecated method setInputEncoding\(\) of class PhpOffice\\PhpSpreadsheet\\Reader\\Html\:
 				no use is made of this property$#
 			'''

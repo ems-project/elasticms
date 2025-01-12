@@ -550,7 +550,7 @@ class RevisionRepository extends EntityRepository
         $qb
             ->from('revision', 'r')
             ->andWhere($qb->expr()->in('r.ouuid', ':ouuids'))
-            ->setParameter('ouuids', $ouuids, Connection::PARAM_STR_ARRAY);
+            ->setParameter('ouuids', $ouuids, ArrayParameterType::STRING);
 
         return $this->deleteByQueryBuilder($qb);
     }

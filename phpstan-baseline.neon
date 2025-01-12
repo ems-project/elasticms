@@ -125,15 +125,6 @@ parameters:
 
 		-
 			message: '''
-				#^Fetching deprecated class constant PARAM_STR_ARRAY of class Doctrine\\DBAL\\Connection\:
-				Use \{@see ArrayParameterType\:\:STRING\} instead\.$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: EMS/core-bundle/src/Repository/RevisionRepository.php
-
-		-
-			message: '''
 				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
 				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
 			'''

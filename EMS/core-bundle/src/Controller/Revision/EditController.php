@@ -180,7 +180,7 @@ class EditController extends AbstractController
                 if (isset($requestRevision['publish'])) {// Finalize
                     $revision = $this->dataService->finalizeDraft($revision, $form);
 
-                    if ($form && 0 === $form->getErrors(true)->count()) {
+                    if (0 === $form->getErrors(true)->count()) {
                         if ($revision->getOuuid()) {
                             return $this->redirectToRoute(Routes::VIEW_REVISIONS, [
                                 'ouuid' => $revision->getOuuid(),
@@ -202,7 +202,7 @@ class EditController extends AbstractController
             // if Save or Discard
             if (!isset($requestRevision['publish'])) {
                 if (null != $revision->getOuuid()) {
-                    if ($form && 0 === $form->getErrors()->count() && $contentType->isAutoPublish()) {
+                    if (0 === $form->getErrors()->count() && $contentType->isAutoPublish()) {
                         $this->publishService->silentPublish($revision);
                     }
 
@@ -230,9 +230,7 @@ class EditController extends AbstractController
         }
 
         $objectArray = $revision->getRawData();
-        if ($form) {
-            $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), false, false);
-        }
+        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), false, false);
 
         if ($revision->getOuuid()) {
             $this->logger->info('log.data.revision.start_edit', LogRevisionContext::read($revision));
@@ -251,7 +249,7 @@ class EditController extends AbstractController
 
         return $this->render("@$this->templateNamespace/data/edit-revision.html.twig", [
             'revision' => $revision,
-            'form' => $form?->createView(),
+            'form' => $form->createView(),
         ]);
     }
 

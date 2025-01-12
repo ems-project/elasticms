@@ -423,7 +423,7 @@ class MediaLibraryService
 
         $this->refresh();
 
-        return $form && 0 === $form->getErrors(true)->count() ? $uuid->toString() : null;
+        return 0 === $form->getErrors(true)->count() ? $uuid->toString() : null;
     }
 
     /**

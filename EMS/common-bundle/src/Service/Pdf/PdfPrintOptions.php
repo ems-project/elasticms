@@ -15,7 +15,7 @@ class PdfPrintOptions
     private readonly bool $isPhpEnabled;
     private readonly string $orientation;
     private readonly string $size;
-    private readonly ?string $chroot;
+    private readonly string $chroot;
 
     final public const string FILENAME = 'filename';
     final public const string ATTACHMENT = 'attachment';

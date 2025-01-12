@@ -16,7 +16,11 @@ class FormSubmissionFile implements EntityInterface, \JsonSerializable
     use CreatedModifiedTrait;
 
     private readonly UuidInterface $id;
-    /** @var string|resource */
+
+    /**
+     * @var resource|string
+     * @phpstan-ignore-next-line
+     */
     private $file;
     private readonly string $filename;
     private readonly string $formField;

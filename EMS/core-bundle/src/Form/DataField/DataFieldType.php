@@ -332,7 +332,7 @@ abstract class DataFieldType extends AbstractType
      * Build an array representing the object, this array is ready to be serialized in json
      * and push in elasticsearch.
      *
-     * @param array<string, mixed> $out
+     * @param array<int|string, mixed> $out
      */
     public function buildObjectArray(DataField $data, array &$out): void
     {

@@ -11,7 +11,7 @@ class Job
 {
     private readonly string $jobId;
     private readonly ?string $output;
-    private readonly ?string $command;
+    private readonly string $command;
 
     public function __construct(private readonly Result $result)
     {

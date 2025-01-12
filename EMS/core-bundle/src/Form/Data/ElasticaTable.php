@@ -147,7 +147,7 @@ class ElasticaTable extends TableAbstract
             $this->count = Response::fromResultSet($resultSet)->getTotal();
         }
 
-        return $this->count;
+        return $this->count > 0 ? $this->count : 0;
     }
 
     #[\Override]

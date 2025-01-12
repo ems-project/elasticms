@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\Components\EventSubscriber;
 
 use EMS\FormBundle\Components\Field\FieldInterface;

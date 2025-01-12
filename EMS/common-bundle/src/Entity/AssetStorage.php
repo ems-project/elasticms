@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Entity;
 
 use EMS\Helpers\Standard\DateTime;

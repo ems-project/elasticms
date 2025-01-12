@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\Submission;
 
 use EMS\Helpers\Standard\Json;

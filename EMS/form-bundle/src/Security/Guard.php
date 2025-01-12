@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\Security;
 
 use EMS\Helpers\Security\HashcashToken;

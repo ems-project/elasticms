@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Common\Admin;
 
 use EMS\CommonBundle\Common\CoreApi\TokenStore;

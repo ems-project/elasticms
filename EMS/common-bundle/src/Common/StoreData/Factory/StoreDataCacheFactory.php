@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Common\StoreData\Factory;
 
 use EMS\CommonBundle\Common\Cache\Cache;

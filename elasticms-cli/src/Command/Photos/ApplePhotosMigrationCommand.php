@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CLI\Command\Photos;
 
 use App\CLI\Client\Photos\ApplePhotosLibrary;

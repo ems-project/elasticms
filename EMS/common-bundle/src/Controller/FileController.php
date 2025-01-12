@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\CommonBundle\Controller;
 
 use EMS\CommonBundle\Helper\EmsFields;

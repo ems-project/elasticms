@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace EMS\FormBundle\Components;
 
 use EMS\FormBundle\Components\Field\AbstractForgivingNumberField;

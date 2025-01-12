@@ -19,6 +19,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @extends AbstractType<mixed>
+ */
 class Form extends AbstractType
 {
     public function __construct(private readonly FormConfigFactory $configFactory)
@@ -26,8 +29,8 @@ class Form extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param array<string, mixed>                       $options
+     * @param FormBuilderInterface<mixed> $builder
+     * @param array<string, mixed>        $options
      */
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -44,8 +47,8 @@ class Form extends AbstractType
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
-     * @param array<string, mixed>         $options
+     * @param FormInterface<mixed> $form
+     * @param array<string, mixed> $options
      */
     #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
@@ -103,8 +106,8 @@ class Form extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
-     * @param mixed|null                                 $data
+     * @param FormBuilderInterface<mixed> $builder
+     * @param mixed|null                  $data
      */
     private function addField(FormBuilderInterface $builder, FieldConfig $element, $data): void
     {
@@ -120,7 +123,7 @@ class Form extends AbstractType
     }
 
     /**
-     * @param FormBuilderInterface<FormBuilderInterface> $builder
+     * @param FormBuilderInterface<mixed> $builder
      */
     private function addModelTransformers(FormBuilderInterface $builder, ElementInterface $element, FieldInterface $field): void
     {

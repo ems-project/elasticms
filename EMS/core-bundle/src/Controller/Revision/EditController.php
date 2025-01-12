@@ -230,7 +230,9 @@ class EditController extends AbstractController
         }
 
         $objectArray = $revision->getRawData();
-        $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), false, false);
+        if ($form) {
+            $this->dataService->propagateDataToComputedField($form->get('data'), $objectArray, $contentType, $contentType->getName(), $revision->getOuuid(), false, false);
+        }
 
         if ($revision->getOuuid()) {
             $this->logger->info('log.data.revision.start_edit', LogRevisionContext::read($revision));
@@ -249,7 +251,7 @@ class EditController extends AbstractController
 
         return $this->render("@$this->templateNamespace/data/edit-revision.html.twig", [
             'revision' => $revision,
-            'form' => $form->createView(),
+            'form' => $form?->createView(),
         ]);
     }
 

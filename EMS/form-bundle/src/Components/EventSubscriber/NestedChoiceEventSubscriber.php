@@ -73,7 +73,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     private function initialFieldName(FormInterface $form): string
     {
@@ -88,7 +88,7 @@ class NestedChoiceEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     private function addField(string $fieldName, string $choice, FormInterface $form, ?string $defaultData = null): void
     {

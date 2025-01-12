@@ -47,6 +47,9 @@ abstract class AbstractHandlerTest extends AbstractFunctionalTest
         return $handler->handle($handleRequest);
     }
 
+    /**
+     * @return FormInterface<mixed>
+     */
     protected function createForm(array $data = []): FormInterface
     {
         if (null == $data) {
@@ -65,6 +68,9 @@ abstract class AbstractHandlerTest extends AbstractFunctionalTest
             ->getForm();
     }
 
+    /**
+     * @return FormInterface<mixed>
+     */
     protected function createFormUploadFiles(): FormInterface
     {
         $data = [

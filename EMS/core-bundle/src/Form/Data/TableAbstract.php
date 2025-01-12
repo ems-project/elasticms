@@ -44,6 +44,7 @@ abstract class TableAbstract implements TableInterface
 
     /** @var array<string, string> */
     private array $exportUrls = [];
+    /** @var ?FormInterface<mixed> */
     private ?FormInterface $filterForm = null;
 
     private string $exportSheetName = 'table';
@@ -355,11 +356,17 @@ abstract class TableAbstract implements TableInterface
         return $this->ajaxUrl;
     }
 
+    /**
+     * @return ?FormInterface<mixed>
+     */
     public function getFilterForm(): ?FormInterface
     {
         return $this->filterForm;
     }
 
+    /**
+     * @param ?FormInterface<mixed> $filterForm
+     */
     public function setFilterForm(?FormInterface $filterForm): self
     {
         $this->filterForm = $filterForm;

@@ -230,8 +230,8 @@ class DataService
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
-     * @param array<mixed>                 $objectArray
+     * @param FormInterface<mixed> $form
+     * @param array<mixed>         $objectArray
      *
      * @throws \Throwable
      */
@@ -350,7 +350,7 @@ class DataService
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     private function walkRecursive(FormInterface $form, mixed $rawData, callable $callback): mixed
     {
@@ -660,7 +660,7 @@ class DataService
     }
 
     /**
-     * @return FormInterface<FormInterface>
+     * @return FormInterface<mixed>
      *
      * @throws \Exception
      */
@@ -683,6 +683,8 @@ class DataService
     }
 
     /**
+     * @param ?FormInterface<mixed> &$form
+     *
      * @throws DataStateException
      * @throws \Exception
      * @throws \Throwable
@@ -788,7 +790,7 @@ class DataService
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     private function logFormErrors(FormInterface $form): void
     {
@@ -842,7 +844,7 @@ class DataService
     /**
      * Parcours all fields and call DataFieldsType postFinalizeTreament function.
      *
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     public function postFinalizeTreatment(string $type, string $id, FormInterface $form, mixed $previousObjectArray = null): void
     {
@@ -1455,7 +1457,7 @@ class DataService
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      *
      * @return mixed
      */
@@ -1518,8 +1520,8 @@ class DataService
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
-     * @param ?array<mixed>                $masterRawData
+     * @param FormInterface<mixed> $form
+     * @param ?array<mixed>        $masterRawData
      *
      * @throws \Exception
      */
@@ -1686,7 +1688,7 @@ class DataService
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     public function getDataFieldsStructure(FormInterface $form): DataField
     {

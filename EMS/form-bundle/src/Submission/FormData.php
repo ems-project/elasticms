@@ -21,7 +21,7 @@ final class FormData
     private array $allFiles = [];
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     public function __construct(private readonly FormConfig $formConfig, FormInterface $form)
     {

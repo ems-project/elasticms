@@ -88,7 +88,7 @@ class FormController extends AbstractFormController
     }
 
     /**
-     * @param FormInterface<FormInterface> $form
+     * @param FormInterface<mixed> $form
      */
     private function generateFormResponse(string $ouuid, FormInterface $form, Request $request): JsonResponse
     {

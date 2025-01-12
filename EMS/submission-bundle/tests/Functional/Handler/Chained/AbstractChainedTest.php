@@ -44,6 +44,9 @@ abstract class AbstractChainedTest extends AbstractFunctionalTest
         return new HandleRequest($this->form, $this->formConfig, $formData, $this->responseCollector, $submissionConfig);
     }
 
+    /**
+     * @return FormInterface<mixed>
+     */
     protected function createForm(array $data = []): FormInterface
     {
         if (null == $data) {

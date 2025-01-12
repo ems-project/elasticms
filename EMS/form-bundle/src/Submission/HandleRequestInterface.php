@@ -13,7 +13,7 @@ interface HandleRequestInterface
 
     public function getClass(): string;
 
-    /** @return FormInterface<FormInterface> */
+    /** @return FormInterface<mixed> */
     public function getForm(): FormInterface;
 
     public function getFormData(): FormData;

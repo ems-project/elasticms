@@ -32,7 +32,7 @@ class IsRequiredIfValidator extends ConstraintValidator
             return true;
         }
 
-        /** @var FormInterface<FormInterface> $form */
+        /** @var FormInterface<mixed> $form */
         $form = $this->context->getRoot();
         $values = ['data' => $form->getData()];
 

@@ -22,15 +22,6 @@ parameters:
 			path: EMS/core-bundle/src/Command/IndexFileCommand.php
 
 		-
-			message: '''
-				#^Call to deprecated method setSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\:
-				Use \{@see setMiddlewares\(\)\} and \{@see \\Doctrine\\DBAL\\Logging\\Middleware\} instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: EMS/core-bundle/src/Command/ReindexCommand.php
-
-		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
@@ -68,21 +59,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
-
-		-
-			message: '#^Call to deprecated method getSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\.$#'
-			identifier: method.deprecated
-			count: 1
-			path: EMS/core-bundle/src/Core/Revision/Search/RevisionSearcher.php
-
-		-
-			message: '''
-				#^Call to deprecated method setSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\:
-				Use \{@see setMiddlewares\(\)\} and \{@see \\Doctrine\\DBAL\\Logging\\Middleware\} instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: EMS/core-bundle/src/Core/Revision/Search/RevisionSearcher.php
 
 		-
 			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
@@ -131,15 +107,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: EMS/core-bundle/src/Service/DataService.php
-
-		-
-			message: '''
-				#^Call to deprecated method setSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\:
-				Use \{@see setMiddlewares\(\)\} and \{@see \\Doctrine\\DBAL\\Logging\\Middleware\} instead\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: EMS/core-bundle/src/Service/DocumentService.php
 
 		-
 			message: '''

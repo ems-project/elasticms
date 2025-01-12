@@ -30,15 +30,6 @@ parameters:
 			path: EMS/common-bundle/src/Controller/FileController.php
 
 		-
-			message: '''
-				#^Fetching deprecated class constant NOTICE of class Monolog\\Logger\:
-				Use \\Monolog\\Level\:\:Notice$#
-			'''
-			identifier: classConstant.deprecated
-			count: 1
-			path: EMS/common-bundle/src/DependencyInjection/Configuration.php
-
-		-
 			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
 			identifier: method.deprecated
 			count: 1
@@ -112,15 +103,6 @@ parameters:
 			identifier: method.deprecated
 			count: 2
 			path: EMS/core-bundle/src/Core/Revision/Search/RevisionSearcher.php
-
-		-
-			message: '''
-				#^Fetching deprecated class constant NOTICE of class Monolog\\Logger\:
-				Use \\Monolog\\Level\:\:Notice$#
-			'''
-			identifier: classConstant.deprecated
-			count: 2
-			path: EMS/core-bundle/src/Core/UI/FlashMessageLogger.php
 
 		-
 			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'

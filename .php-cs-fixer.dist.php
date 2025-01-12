@@ -18,6 +18,7 @@ return new PhpCsFixer\Config()
     ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRules([
         '@Symfony' => true,
+        '@PHP84Migration' => true,
         'declare_strict_types' => true,
         'phpdoc_separation' => ['skip_unlisted_annotations' => true],
         'native_function_invocation' => ['include' => ['@all']],

@@ -28,5 +28,5 @@ interface ResponseInterface
 
     public function getTotalDocuments(): int;
 
-    public function buildResultSet(Query $query, string $version): ResultSet;
+    public function buildResultSet(Query $query): ResultSet;
 }

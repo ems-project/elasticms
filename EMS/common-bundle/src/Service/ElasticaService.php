@@ -200,7 +200,7 @@ class ElasticaService
     {
         if ($this->useAdminProxy) {
             $response = $this->adminHelper->getCoreApi()->search()->search($search);
-            $resultSet = $response->buildResultSet($this->createElasticaSearch($search, $search->getSearchOptions())->getQuery(), $this->getVersion());
+            $resultSet = $response->buildResultSet($this->createElasticaSearch($search, $search->getSearchOptions())->getQuery());
         } else {
             $resultSet = $this->createElasticaSearch($search, $search->getSearchOptions())->search();
         }

@@ -1,0 +1,370 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '''
+				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/client-helper-bundle/src/Controller/Security/LoginController.php
+
+		-
+			message: '''
+				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 2
+			path: EMS/client-helper-bundle/src/Controller/Security/Sso/OAuth2Controller.php
+
+		-
+			message: '''
+				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/client-helper-bundle/src/Controller/Security/Sso/SamlController.php
+
+		-
+			message: '''
+				#^Parameter \$security of method EMS\\ClientHelperBundle\\Helper\\Api\\ApiService\:\:__construct\(\) has typehint with deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Api/ApiService.php
+
+		-
+			message: '''
+				#^Class EMS\\ClientHelperBundle\\Helper\\Request\\EmschRequestResolver implements deprecated interface Symfony\\Component\\HttpKernel\\Controller\\ArgumentValueResolverInterface\:
+				since Symfony 6\.2, implement ValueResolverInterface instead$#
+			'''
+			identifier: class.implementsDeprecatedInterface
+			count: 1
+			path: EMS/client-helper-bundle/src/Helper/Request/EmschRequestResolver.php
+
+		-
+			message: '''
+				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/client-helper-bundle/src/Security/CoreApi/CoreApiAuthenticator.php
+
+		-
+			message: '''
+				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/client-helper-bundle/src/Security/CoreApi/CoreApiAuthenticator.php
+
+		-
+			message: '''
+				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/client-helper-bundle/src/Security/Sso/OAuth2/OAuth2Authenticator.php
+
+		-
+			message: '''
+				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/client-helper-bundle/src/Security/Sso/Saml/SamlAuthenticator.php
+
+		-
+			message: '''
+				#^Fetching deprecated class constant MASTER_REQUEST of interface Symfony\\Component\\HttpKernel\\HttpKernelInterface\:
+				since symfony/http\-kernel 5\.3, use MAIN_REQUEST instead\.
+				            To ease the migration, this constant won't be removed until Symfony 7\.0\.$#
+			'''
+			identifier: classConstant.deprecated
+			count: 1
+			path: EMS/common-bundle/src/Command/CurlCommand.php
+
+		-
+			message: '''
+				#^Call to deprecated method setInputEncoding\(\) of class PhpOffice\\PhpSpreadsheet\\Reader\\Html\:
+				no use is made of this property$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/common-bundle/src/Common/File/FileReader.php
+
+		-
+			message: '''
+				#^Call to deprecated method doesObjectExist\(\) of class Aws\\S3\\S3Client\:
+				Use doesObjectExistV2\(\) instead
+
+				Determines whether or not an object exists by name\.$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: EMS/common-bundle/src/Common/StoreData/Service/StoreDataS3Service.php
+
+		-
+			message: '''
+				#^Call to deprecated method assetPath\(\) of class EMS\\CommonBundle\\Twig\\RequestRuntime\:
+				assetPath will be removed in elasticms/common\-bundle 1\.20\. Use AssetRuntime\:\:assetPath instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/common-bundle/src/Controller/FileController.php
+
+		-
+			message: '''
+				#^Fetching deprecated class constant NOTICE of class Monolog\\Logger\:
+				Use \\Monolog\\Level\:\:Notice$#
+			'''
+			identifier: classConstant.deprecated
+			count: 1
+			path: EMS/common-bundle/src/DependencyInjection/Configuration.php
+
+		-
+			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Command/ExtractAssetCommand.php
+
+		-
+			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Command/IndexFileCommand.php
+
+		-
+			message: '''
+				#^Call to deprecated method getName\(\) of class Doctrine\\DBAL\\Platforms\\AbstractPlatform\:
+				Identify platforms by their class\.$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: EMS/core-bundle/src/Command/IndexFileCommand.php
+
+		-
+			message: '''
+				#^Call to deprecated method setSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\:
+				Use \{@see setMiddlewares\(\)\} and \{@see \\Doctrine\\DBAL\\Logging\\Middleware\} instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Command/ReindexCommand.php
+
+		-
+			message: '#^Call to deprecated method extractData\(\) of class EMS\\CoreBundle\\Service\\AssetExtractorService\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Controller/Api/File/ExtractDataController.php
+
+		-
+			message: '#^Call to deprecated method isValidName\(\) of class EMS\\CoreBundle\\Controller\\ContentManagement\\ContentTypeController\.$#'
+			identifier: staticMethod.deprecated
+			count: 2
+			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getContentType\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
+				since Symfony 6\.2, use getContentTypeFormat\(\) instead$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Controller/ContentManagement/JobController.php
+
+		-
+			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
+			identifier: method.deprecated
+			count: 2
+			path: EMS/core-bundle/src/Controller/ElasticsearchController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getContentType\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
+				since Symfony 6\.2, use getContentTypeFormat\(\) instead$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Controller/Revision/JsonMenuNestedController.php
+
+		-
+			message: '#^Call to deprecated method deprecatedSearchApi\(\) of class EMS\\CoreBundle\\Controller\\ElasticsearchController\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Controller/Search/QuerySearchController.php
+
+		-
+			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Controller/Views/CalendarController.php
+
+		-
+			message: '''
+				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
+				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
+
+		-
+			message: '''
+				#^Parameter \$security of method EMS\\CoreBundle\\Core\\DataTable\\DataTableFactory\:\:__construct\(\) has typehint with deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: EMS/core-bundle/src/Core/DataTable/DataTableFactory.php
+
+		-
+			message: '#^Call to deprecated method getSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Core/Revision/Search/RevisionSearcher.php
+
+		-
+			message: '''
+				#^Call to deprecated method setSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\:
+				Use \{@see setMiddlewares\(\)\} and \{@see \\Doctrine\\DBAL\\Logging\\Middleware\} instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: EMS/core-bundle/src/Core/Revision/Search/RevisionSearcher.php
+
+		-
+			message: '''
+				#^Fetching deprecated class constant NOTICE of class Monolog\\Logger\:
+				Use \\Monolog\\Level\:\:Notice$#
+			'''
+			identifier: classConstant.deprecated
+			count: 2
+			path: EMS/core-bundle/src/Core/UI/FlashMessageLogger.php
+
+		-
+			message: '#^Call to deprecated method updateDataStructure\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Entity/DataField.php
+
+		-
+			message: '''
+				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
+				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
+			'''
+			identifier: method.deprecated
+			count: 2
+			path: EMS/core-bundle/src/Entity/Form/CriteriaUpdateConfig.php
+
+		-
+			message: '#^Call to deprecated method updateDataValue\(\) of class EMS\\CoreBundle\\Entity\\DataField\.$#'
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Form/DataField/NestedFieldType.php
+
+		-
+			message: '''
+				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
+				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Form/Nature/ReorganizeType.php
+
+		-
+			message: '''
+				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
+				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
+			'''
+			identifier: method.deprecated
+			count: 3
+			path: EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
+
+		-
+			message: '''
+				#^Call to deprecated method getName\(\) of class Doctrine\\DBAL\\Platforms\\AbstractPlatform\:
+				Identify platforms by their class\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Repository/RevisionRepository.php
+
+		-
+			message: '''
+				#^Fetching deprecated class constant PARAM_STR_ARRAY of class Doctrine\\DBAL\\Connection\:
+				Use \{@see ArrayParameterType\:\:STRING\} instead\.$#
+			'''
+			identifier: classConstant.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Repository/RevisionRepository.php
+
+		-
+			message: '''
+				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/core-bundle/src/Security/Authenticator/FormLoginAuthenticator.php
+
+		-
+			message: '''
+				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/core-bundle/src/Security/Authenticator/FormLoginAuthenticator.php
+
+		-
+			message: '''
+				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: classConstant.deprecatedClass
+			count: 1
+			path: EMS/core-bundle/src/Security/Ldap/LdapFormLoginAuthenticator.php
+
+		-
+			message: '''
+				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
+				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Service/DataService.php
+
+		-
+			message: '''
+				#^Call to deprecated method setSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\:
+				Use \{@see setMiddlewares\(\)\} and \{@see \\Doctrine\\DBAL\\Logging\\Middleware\} instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Service/DocumentService.php
+
+		-
+			message: '''
+				#^Parameter \$security of method EMS\\CoreBundle\\Service\\UserService\:\:__construct\(\) has typehint with deprecated class Symfony\\Component\\Security\\Core\\Security\:
+				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
+			'''
+			identifier: parameter.deprecatedClass
+			count: 1
+			path: EMS/core-bundle/src/Service/UserService.php
+
+		-
+			message: '''
+				#^Call to deprecated method assetPath\(\) of class EMS\\CommonBundle\\Twig\\RequestRuntime\:
+				assetPath will be removed in elasticms/common\-bundle 1\.20\. Use AssetRuntime\:\:assetPath instead\.$#
+			'''
+			identifier: method.deprecated
+			count: 1
+			path: EMS/core-bundle/src/Twig/AppExtension.php

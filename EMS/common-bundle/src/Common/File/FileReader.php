@@ -21,7 +21,7 @@ final class FileReader implements FileReaderInterface
         $reader = IOFactory::createReaderForFile($filename);
 
         $encoding = $options['encoding'] ?? null;
-        if (($reader instanceof Csv || $reader instanceof Html || $reader instanceof Slk) && null !== $encoding) {
+        if ($reader instanceof Csv && null !== $encoding) {
             $reader->setInputEncoding($encoding);
         }
 

@@ -2,15 +2,6 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
-				#^Call to deprecated method setInputEncoding\(\) of class PhpOffice\\PhpSpreadsheet\\Reader\\Html\:
-				no use is made of this property$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: EMS/common-bundle/src/Common/File/FileReader.php
-
-		-
-			message: '''
 				#^Call to deprecated method doesObjectExist\(\) of class Aws\\S3\\S3Client\:
 				Use doesObjectExistV2\(\) instead
 

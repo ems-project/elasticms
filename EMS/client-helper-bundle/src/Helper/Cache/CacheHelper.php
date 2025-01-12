@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace EMS\ClientHelperBundle\Helper\Cache;
 
 use EMS\ClientHelperBundle\Helper\ContentType\ContentType;
-use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;

@@ -6,7 +6,6 @@ namespace EMS\CoreBundle\Elasticsearch;
 
 use Elastica\Bulk;
 use Elastica\Bulk\Action;
-use Elastica\Bulk\Response;
 use Elastica\Bulk\ResponseSet;
 use Elastica\Exception\Bulk\ResponseException;
 use Elastica\JSON;

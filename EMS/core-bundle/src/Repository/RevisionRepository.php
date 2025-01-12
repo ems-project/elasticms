@@ -6,6 +6,7 @@ namespace EMS\CoreBundle\Repository;
 
 use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Query\QueryBuilder as DBALQueryBuilder;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
@@ -179,7 +180,7 @@ class RevisionRepository extends EntityRepository
     {
         $connection = $this->getEntityManager()->getConnection();
 
-        if ('postgresql' === $connection->getDatabasePlatform()->getName()) {
+        if ($connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $result = $this->getEntityManager()->getConnection()->fetchAllAssociative("select count(*) as counter FROM public.revision where raw_data::text like '%$hash%'");
 
             return \intval($result[0]['counter']);

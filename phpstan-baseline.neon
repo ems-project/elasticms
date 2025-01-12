@@ -52,15 +52,6 @@ parameters:
 
 		-
 			message: '''
-				#^Call to deprecated method getName\(\) of class Doctrine\\DBAL\\Platforms\\AbstractPlatform\:
-				Identify platforms by their class\.$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: EMS/core-bundle/src/Command/IndexFileCommand.php
-
-		-
-			message: '''
 				#^Call to deprecated method setSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\:
 				Use \{@see setMiddlewares\(\)\} and \{@see \\Doctrine\\DBAL\\Logging\\Middleware\} instead\.$#
 			'''
@@ -169,15 +160,6 @@ parameters:
 			identifier: method.deprecated
 			count: 3
 			path: EMS/core-bundle/src/Form/View/Criteria/CriteriaFilterType.php
-
-		-
-			message: '''
-				#^Call to deprecated method getName\(\) of class Doctrine\\DBAL\\Platforms\\AbstractPlatform\:
-				Identify platforms by their class\.$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: EMS/core-bundle/src/Repository/RevisionRepository.php
 
 		-
 			message: '''

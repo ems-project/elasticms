@@ -18,7 +18,7 @@ final class EmschRequestResolver implements ValueResolverInterface
     {
         $argumentType = $argument->getType();
 
-        if ($argumentType !== EmschRequest::class) {
+        if (EmschRequest::class !== $argumentType) {
             return [];
         }
 

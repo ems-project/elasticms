@@ -8,7 +8,6 @@ use EMS\ClientHelperBundle\Security\Sso\OAuth2\OAuth2Service;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 class OAuth2Controller

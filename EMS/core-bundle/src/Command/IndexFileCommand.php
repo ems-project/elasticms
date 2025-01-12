@@ -283,7 +283,7 @@ class IndexFileCommand extends AbstractCommand
 
         $platform = $connection->getDatabasePlatform();
 
-        if ($platform instanceof PostgreSqlPlatform) {
+        if ($platform instanceof PostgreSQLPlatform) {
             $query = "SELECT pg_size_pretty(pg_database_size('$dbName')) AS size";
         } elseif ($platform instanceof MySQLPlatform) {
             $query = "SELECT SUM(data_length + index_length)/1024/1024 AS size FROM information_schema.TABLES WHERE table_schema='$dbName' GROUP BY table_schema";

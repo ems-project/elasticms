@@ -8,8 +8,6 @@ use EMS\CommonBundle\Contracts\File\FileReaderInterface;
 use EMS\Helpers\File\CsvFile;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Csv;
-use PhpOffice\PhpSpreadsheet\Reader\Html;
-use PhpOffice\PhpSpreadsheet\Reader\Slk;
 
 use function Symfony\Component\String\u;
 

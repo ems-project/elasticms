@@ -7,7 +7,6 @@ namespace EMS\ClientHelperBundle\Controller\Security\Sso;
 use EMS\ClientHelperBundle\Security\Sso\Saml\SamlService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 class SamlController

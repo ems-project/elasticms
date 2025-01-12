@@ -10,12 +10,12 @@ use EMS\CommonBundle\Common\CoreApi\Exception\NotSuccessfulException;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\Helpers\Standard\Json;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Environment;
 
 /**

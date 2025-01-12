@@ -308,7 +308,7 @@ abstract class TableAbstract implements TableInterface
         }
         $options = [];
 
-        if (null !== $this->orderField && null !== $columnIndex) {
+        if (null !== $this->orderField) {
             $options['order'] = [[$columnIndex, $this->orderDirection]];
         }
 

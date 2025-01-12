@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Environment/Environment.php
-
-		-
 			message: '#^Parameter \#1 \$array \(array\<Elastica\\Aggregation\\AbstractAggregation\>\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
 			identifier: arrayFilter.same
 			count: 1
@@ -89,24 +83,6 @@ parameters:
 			identifier: property.unusedType
 			count: 1
 			path: EMS/common-bundle/src/Service/Pdf/PdfPrintOptions.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between null and EMS\\CommonBundle\\Storage\\Archive will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: EMS/common-bundle/src/Storage/Archive.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: EMS/common-bundle/src/Storage/Processor/Config.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between null and int\|string will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: EMS/core-bundle/src/Command/Asset/RefreshFileFieldCommand.php
 
 		-
 			message: '#^Property EMS\\CoreBundle\\Command\\Xliff\\UpdateCommand\:\:\$baseUrl \(string\|null\) is never assigned string so it can be removed from the property type\.$#'
@@ -355,12 +331,6 @@ parameters:
 			path: EMS/core-bundle/src/Core/Doctrine/SimpleBatchIteratorAggregate.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 2
-			path: EMS/core-bundle/src/Core/Revision/RawDataTransformer.php
-
-		-
 			message: '#^Method EMS\\CoreBundle\\DataTable\\Type\\Revision\\RevisionTasksDataTableType\:\:filterFormAddToContext\(\) has parameter \$filterForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -411,12 +381,6 @@ parameters:
 		-
 			message: '#^Property EMS\\CoreBundle\\Form\\Data\\TableAbstract\:\:\$filterForm with generic interface Symfony\\Component\\Form\\FormInterface does not specify its types\: TData$#'
 			identifier: missingType.generics
-			count: 1
-			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between null and int\<0, max\> will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
 			count: 1
 			path: EMS/core-bundle/src/Form/Data/TableAbstract.php
 
@@ -1169,12 +1133,6 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: EMS/core-bundle/src/Form/Field/IconTextType.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between null and mixed will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 2
-			path: EMS/core-bundle/src/Form/Field/ObjectChoiceListItem.php
 
 		-
 			message: '#^Method EMS\\CoreBundle\\Form\\Field\\ObjectPickerType\:\:buildView\(\) has parameter \$form with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
@@ -2557,18 +2515,6 @@ parameters:
 			path: EMS/core-bundle/src/Service/DataService.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between null and non\-falsy\-string will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: EMS/core-bundle/src/Service/DataService.php
-
-		-
-			message: '#^Strict comparison using \!\=\= between null and string will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: EMS/core-bundle/src/Service/DataService.php
-
-		-
 			message: '#^Method EMS\\CoreBundle\\Service\\EntityService\:\:reorder\(\) has parameter \$reorderForm with generic interface Symfony\\Component\\Form\\FormInterface but does not specify its types\: TData$#'
 			identifier: missingType.generics
 			count: 1
@@ -2773,12 +2719,6 @@ parameters:
 			path: EMS/submission-bundle/src/Entity/FormSubmissionFile.php
 
 		-
-			message: '#^Strict comparison using \!\=\= between null and DOMNode will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: EMS/xliff/src/Xliff/Extractor.php
-
-		-
 			message: '#^Parameter \#1 \$array \(array\{''repository'', ''before'', ''now'', ''sha''\}\) to function array_filter does not contain falsy values, the array will always stay the same\.$#'
 			identifier: arrayFilter.same
 			count: 1
@@ -2796,16 +2736,8 @@ parameters:
 			count: 1
 			path: build/src/Release/Command/ReleaseCommand.php
 
-		-
-			message: '#^Strict comparison using \!\=\= between null and non\-falsy\-string will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: elasticms-cli/src/Client/Audit/AuditManager.php
 
-		-
-			message: '#^Strict comparison using \!\=\= between null and string will always evaluate to true\.$#'
-			identifier: notIdentical.alwaysTrue
-			count: 1
-			path: elasticms-cli/src/Client/WebToElasticms/Filter/Html/DataLink.php
+
+
 
 

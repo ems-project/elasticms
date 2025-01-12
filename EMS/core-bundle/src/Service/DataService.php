@@ -976,10 +976,7 @@ class DataService
                     $revision->setCircles([$revision->getRawData()[$contentType->getCirclesField()]]);
                 }
             } else {
-                $fieldType = null;
-                if (null !== $contentTypeCircleField = $contentType->getCirclesField()) {
-                    $fieldType = $contentType->getFieldType()->getChildByPath($contentTypeCircleField);
-                }
+                $fieldType = $contentType->getFieldType()->getChildByPath($contentType->getCirclesField());
 
                 if ($fieldType) {
                     $options = $fieldType->getDisplayOptions();
@@ -1549,7 +1546,7 @@ class DataService
         $dataField = $viewData;
 
         $dataFieldType = null;
-        if (null !== $dataField->getFieldType() && null !== $dataField->getFieldType()->getType()) {
+        if (null !== $dataField->getFieldType()?->getType()) {
             /** @var DataFieldType $dataFieldType */
             $dataFieldType = $this->formRegistry->getType($dataField->getFieldType()->getType())->getInnerType();
             $dataFieldType->isValid($dataField, $parent, $masterRawData);

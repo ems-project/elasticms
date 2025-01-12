@@ -260,7 +260,7 @@ final class Config
 
     public function getImageFormat(): ?string
     {
-        if (isset($this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT]) && null !== $this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT]) {
+        if (isset($this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT])) {
             return (string) $this->options[EmsFields::ASSET_CONFIG_IMAGE_FORMAT];
         }
 

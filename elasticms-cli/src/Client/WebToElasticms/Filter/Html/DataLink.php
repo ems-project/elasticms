@@ -21,9 +21,7 @@ class DataLink
     {
         if (null !== $content->getNode(0)) {
             $path = $this->config->findDataLink($content->getNode(0)->textContent, $this->rapport, $resource->getUrl(), $type);
-            if (null !== $path) {
-                $content->getNode(0)->nodeValue = $path;
-            }
+            $content->getNode(0)->nodeValue = $path;
         }
     }
 }

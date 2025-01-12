@@ -2,17 +2,6 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
-				#^Call to deprecated method doesObjectExist\(\) of class Aws\\S3\\S3Client\:
-				Use doesObjectExistV2\(\) instead
-
-				Determines whether or not an object exists by name\.$#
-			'''
-			identifier: method.deprecated
-			count: 2
-			path: EMS/common-bundle/src/Common/StoreData/Service/StoreDataS3Service.php
-
-		-
-			message: '''
 				#^Call to deprecated method assetPath\(\) of class EMS\\CommonBundle\\Twig\\RequestRuntime\:
 				assetPath will be removed in elasticms/common\-bundle 1\.20\. Use AssetRuntime\:\:assetPath instead\.$#
 			'''

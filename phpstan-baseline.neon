@@ -81,28 +81,10 @@ parameters:
 			path: EMS/core-bundle/src/Controller/ContentManagement/ContentTypeController.php
 
 		-
-			message: '''
-				#^Call to deprecated method getContentType\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 6\.2, use getContentTypeFormat\(\) instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: EMS/core-bundle/src/Controller/ContentManagement/JobController.php
-
-		-
 			message: '#^Call to deprecated method generateSearchBody\(\) of class EMS\\CoreBundle\\Service\\SearchService\.$#'
 			identifier: method.deprecated
 			count: 2
 			path: EMS/core-bundle/src/Controller/ElasticsearchController.php
-
-		-
-			message: '''
-				#^Call to deprecated method getContentType\(\) of class Symfony\\Component\\HttpFoundation\\Request\:
-				since Symfony 6\.2, use getContentTypeFormat\(\) instead$#
-			'''
-			identifier: method.deprecated
-			count: 1
-			path: EMS/core-bundle/src/Controller/Revision/JsonMenuNestedController.php
 
 		-
 			message: '#^Call to deprecated method deprecatedSearchApi\(\) of class EMS\\CoreBundle\\Controller\\ElasticsearchController\.$#'

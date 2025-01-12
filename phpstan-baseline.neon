@@ -2,84 +2,12 @@ parameters:
 	ignoreErrors:
 		-
 			message: '''
-				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/client-helper-bundle/src/Controller/Security/LoginController.php
-
-		-
-			message: '''
-				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 2
-			path: EMS/client-helper-bundle/src/Controller/Security/Sso/OAuth2Controller.php
-
-		-
-			message: '''
-				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/client-helper-bundle/src/Controller/Security/Sso/SamlController.php
-
-		-
-			message: '''
-				#^Parameter \$security of method EMS\\ClientHelperBundle\\Helper\\Api\\ApiService\:\:__construct\(\) has typehint with deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: EMS/client-helper-bundle/src/Helper/Api/ApiService.php
-
-		-
-			message: '''
 				#^Class EMS\\ClientHelperBundle\\Helper\\Request\\EmschRequestResolver implements deprecated interface Symfony\\Component\\HttpKernel\\Controller\\ArgumentValueResolverInterface\:
 				since Symfony 6\.2, implement ValueResolverInterface instead$#
 			'''
 			identifier: class.implementsDeprecatedInterface
 			count: 1
 			path: EMS/client-helper-bundle/src/Helper/Request/EmschRequestResolver.php
-
-		-
-			message: '''
-				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/client-helper-bundle/src/Security/CoreApi/CoreApiAuthenticator.php
-
-		-
-			message: '''
-				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/client-helper-bundle/src/Security/CoreApi/CoreApiAuthenticator.php
-
-		-
-			message: '''
-				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/client-helper-bundle/src/Security/Sso/OAuth2/OAuth2Authenticator.php
-
-		-
-			message: '''
-				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/client-helper-bundle/src/Security/Sso/Saml/SamlAuthenticator.php
 
 		-
 			message: '''
@@ -217,15 +145,6 @@ parameters:
 			path: EMS/core-bundle/src/Controller/Views/CriteriaController.php
 
 		-
-			message: '''
-				#^Parameter \$security of method EMS\\CoreBundle\\Core\\DataTable\\DataTableFactory\:\:__construct\(\) has typehint with deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: EMS/core-bundle/src/Core/DataTable/DataTableFactory.php
-
-		-
 			message: '#^Call to deprecated method getSQLLogger\(\) of class Doctrine\\DBAL\\Configuration\.$#'
 			identifier: method.deprecated
 			count: 1
@@ -308,33 +227,6 @@ parameters:
 
 		-
 			message: '''
-				#^Fetching class constant AUTHENTICATION_ERROR of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/core-bundle/src/Security/Authenticator/FormLoginAuthenticator.php
-
-		-
-			message: '''
-				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/core-bundle/src/Security/Authenticator/FormLoginAuthenticator.php
-
-		-
-			message: '''
-				#^Fetching class constant LAST_USERNAME of deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: classConstant.deprecatedClass
-			count: 1
-			path: EMS/core-bundle/src/Security/Ldap/LdapFormLoginAuthenticator.php
-
-		-
-			message: '''
 				#^Call to deprecated method getChildByPath\(\) of class EMS\\CoreBundle\\Entity\\FieldType\:
 				it's not clear if its the mapping of the rawdata or of the formdata \(with ou without the virtual fields\) see the same function in the contenttypeservice$#
 			'''
@@ -350,15 +242,6 @@ parameters:
 			identifier: method.deprecated
 			count: 1
 			path: EMS/core-bundle/src/Service/DocumentService.php
-
-		-
-			message: '''
-				#^Parameter \$security of method EMS\\CoreBundle\\Service\\UserService\:\:__construct\(\) has typehint with deprecated class Symfony\\Component\\Security\\Core\\Security\:
-				since Symfony 6\.2, use \\Symfony\\Bundle\\SecurityBundle\\Security instead$#
-			'''
-			identifier: parameter.deprecatedClass
-			count: 1
-			path: EMS/core-bundle/src/Service/UserService.php
 
 		-
 			message: '''

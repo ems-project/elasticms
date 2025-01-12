@@ -11,8 +11,8 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
 
@@ -30,7 +30,7 @@ class LoginController
         $result = $this->handler->handle($request);
 
         $credentials = new LoginCredentials();
-        $credentials->username = $request->getSession()->get(Security::LAST_USERNAME);
+        $credentials->username = $request->getSession()->get(SecurityRequestAttributes::LAST_USERNAME);
 
         $context = [...$result['context'], ...[
             'last_username' => $authenticationUtils->getLastUsername(),

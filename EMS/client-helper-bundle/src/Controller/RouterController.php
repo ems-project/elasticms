@@ -33,13 +33,7 @@ final readonly class RouterController
 
     public function handle(Request $request): Response
     {
-        $template = $this->handler->handle($request);
-
-        try {
-            $response = new Response($template->render());
-        } catch (RuntimeError $e) {
-            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
-        }
+        $response = $this->handler->handle($request)->response();
         $this->cacheHelper->makeResponseCacheable($request, $response);
 
         return $response;

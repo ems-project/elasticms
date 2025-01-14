@@ -10,10 +10,8 @@ use EMS\ClientHelperBundle\Security\Login\LoginForm;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
-use Twig\Error\RuntimeError;
 
 readonly class LoginController
 {
@@ -36,12 +34,6 @@ readonly class LoginController
             'form' => $this->formFactory->create(LoginForm::class, $credentials)->createView(),
         ]);
 
-        try {
-            $response = new Response($template->render());
-        } catch (RuntimeError $e) {
-            throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
-        }
-
-        return $response;
+        return $template->response();
     }
 }

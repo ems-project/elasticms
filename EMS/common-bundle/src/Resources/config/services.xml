@@ -106,6 +106,9 @@
             <argument type="service" id="ems_common.service.elastica" />
             <tag name="twig.runtime" />
         </service>
+        <service id="ems.common.twig.template_factory" class="EMS\CommonBundle\Common\Twig\TemplateFactory">
+            <argument type="service" id="twig"/>
+        </service>
 
         <service id="ems_common.file.reader" class="EMS\CommonBundle\Common\File\FileReader" />
 

@@ -16,6 +16,7 @@
         "php": "^8.4",
         "composer/ca-bundle": "^1.4",
         "elasticms/common-bundle": "6.0.*",
+        "league/oauth2-client": "^2.8",
         "onelogin/php-saml": "^4.1",
         "stevenmaguire/oauth2-keycloak": "^5.1",
         "symfony-cmf/routing": "^3.0",
@@ -26,7 +27,8 @@
         "symfony/security-bundle": "6.4.*",
         "symfony/security-csrf": "6.4.*",
         "symfony/twig-bundle": "6.4.*",
-        "symfony/yaml": "6.4.*"
+        "symfony/yaml": "6.4.*",
+        "thenetworg/oauth2-azure": "^2.2"
     },
     "require-dev": {
         "symfony/test-pack": "^1.0"

@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\Twig;
 
-use Symfony\Component\HttpFoundation\Response;
 use Twig\Error\RuntimeError;
 
 interface TemplateInterface
 {
     /**
+     * @param array<string, mixed> $context
+     */
+    public function contextAppend(array $context): self;
+
+    /**
      * @throws RuntimeError
      */
     public function render(): string;
 
-    public function response(): Response;
-
     /**
-     * @param array<string, mixed> $context
+     * @return array<string, mixed>
      */
-    public function contextAppend(array $context): self;
+    public function json(): array;
 }

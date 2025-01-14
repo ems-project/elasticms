@@ -7,7 +7,6 @@ namespace EMS\ClientHelperBundle\Controller;
 use EMS\ClientHelperBundle\Helper\Request\EmschRequest;
 use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\CommonBundle\Contracts\SpreadsheetGeneratorServiceInterface;
-use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class SpreadsheetController
@@ -20,9 +19,8 @@ final readonly class SpreadsheetController
 
     public function __invoke(EmschRequest $request): Response
     {
-        $template = $this->handler->handle($request);
+        $config = $this->handler->handle($request)->json();
 
-        $config = Json::decode($template->render());
         if ($request->isSubRequest()) {
             return $this->spreadsheetGenerator->generateSpreadsheetCacheableResponse($config);
         }

@@ -34,6 +34,6 @@ readonly class LoginController
             'form' => $this->formFactory->create(LoginForm::class, $credentials)->createView(),
         ]);
 
-        return $template->response();
+        return new Response($template->render());
     }
 }

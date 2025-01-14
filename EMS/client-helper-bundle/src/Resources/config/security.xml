@@ -8,7 +8,6 @@
 
         <service id="emsch.controller.security.login" class="EMS\ClientHelperBundle\Controller\Security\LoginController">
             <argument type="service" id="emsch.routing.handler"/>
-            <argument type="service" id="twig"/>
             <argument type="service" id="form.factory"/>
             <tag name="controller.service_arguments"/>
         </service>

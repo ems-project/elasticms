@@ -125,7 +125,6 @@
         <service id="emsch.controller.search" class="EMS\ClientHelperBundle\Controller\SearchController" public="true">
             <argument type="service" id="emsch.search.manager" />
             <argument type="service" id="emsch.routing.handler" />
-            <argument type="service" id="twig" />
             <argument type="service" id="emsch.helper_cache"/>
         </service>
         <service id="emsch.controller.embed" class="EMS\ClientHelperBundle\Controller\EmbedController" public="true">

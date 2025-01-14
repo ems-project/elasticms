@@ -9,22 +9,24 @@ use EMS\ClientHelperBundle\Helper\Request\Handler;
 use EMS\ClientHelperBundle\Helper\Search\Manager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
 
 final readonly class SearchController
 {
-    public function __construct(private Manager $manager, private Handler $handler, private Environment $templating, private CacheHelper $cacheHelper)
-    {
+    public function __construct(
+        private Manager $manager,
+        private Handler $handler,
+        private CacheHelper $cacheHelper
+    ) {
     }
 
     public function handle(Request $request): Response
     {
-        $result = $this->handler->handle($request);
+        $template = $this->handler->handle($request);
+
         $search = $this->manager->search($request);
+        $template->contextAppend($search);
 
-        $context = \array_merge($result['context'], $search);
-
-        $response = new Response($this->templating->render($result['template'], $context), Response::HTTP_OK);
+        $response = new Response($template->render(), Response::HTTP_OK);
         $this->cacheHelper->makeResponseCacheable($request, $response);
 
         return $response;

@@ -30,13 +30,13 @@
         <service id="EMS\ClientHelperBundle\Contracts\Request\HandlerInterface" alias="emsch.routing.handler" />
         <service id="emsch.routing.handler" class="EMS\ClientHelperBundle\Helper\Request\Handler">
             <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="EMS\CommonBundle\Contracts\Twig\TemplateFactoryInterface" />
             <argument type="service" id="router" />
             <argument type="service" id="profiler" on-invalid="null" />
         </service>
 
         <service id="emsch.controller.router" class="EMS\ClientHelperBundle\Controller\RouterController">
             <argument type="service" id="emsch.routing.handler" />
-            <argument type="service" id="twig"/>
             <argument type="service" id="ems_common.storage.processor"/>
             <argument type="service" id="emsch.helper_cache"/>
             <argument type="service" id="emsch.helper_exception" />
@@ -51,14 +51,12 @@
 
         <service id="emsch.controller.pdf" class="EMS\ClientHelperBundle\Controller\PdfController">
             <argument type="service" id="emsch.routing.handler" />
-            <argument type="service" id="twig"/>
             <argument type="service" id="emsch.common.pdf_generator"/>
             <tag name="controller.service_arguments"/>
         </service>
 
         <service id="emsch.controller.spreadsheet" class="EMS\ClientHelperBundle\Controller\SpreadsheetController">
             <argument type="service" id="emsch.routing.handler" />
-            <argument type="service" id="twig"/>
             <argument type="service" id="ems_common.service.spreadsheet_generator_service"/>
             <tag name="controller.service_arguments"/>
         </service>

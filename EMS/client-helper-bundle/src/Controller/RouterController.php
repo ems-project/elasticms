@@ -18,14 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Twig\Environment;
 use Twig\Error\RuntimeError;
 
 final readonly class RouterController
 {
     public function __construct(
         private Handler $handler,
-        private Environment $templating,
         private Processor $processor,
         private CacheHelper $cacheHelper,
         private ExceptionHelper $exceptionHelper,
@@ -35,10 +33,10 @@ final readonly class RouterController
 
     public function handle(Request $request): Response
     {
-        $result = $this->handler->handle($request);
+        $template = $this->handler->handle($request);
 
         try {
-            $response = new Response($this->templating->render($result['template'], $result['context']));
+            $response = new Response($template->render());
         } catch (RuntimeError $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
@@ -49,9 +47,9 @@ final readonly class RouterController
 
     public function redirect(Request $request): Response
     {
-        $result = $this->handler->handle($request);
+        $template = $this->handler->handle($request);
         try {
-            $json = $this->templating->render($result['template'], $result['context']);
+            $json = $template->render();
         } catch (RuntimeError $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
@@ -79,9 +77,9 @@ final readonly class RouterController
 
     public function asset(Request $request): Response
     {
-        $result = $this->handler->handle($request);
+        $template = $this->handler->handle($request);
         try {
-            $json = $this->templating->render($result['template'], $result['context']);
+            $json = $template->render();
         } catch (RuntimeError $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
@@ -105,9 +103,9 @@ final readonly class RouterController
 
     public function makeResponse(Request $request): Response
     {
-        $result = $this->handler->handle($request);
+        $template = $this->handler->handle($request);
         try {
-            $json = $this->templating->render($result['template'], $result['context']);
+            $json = $template->render();
         } catch (RuntimeError $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }

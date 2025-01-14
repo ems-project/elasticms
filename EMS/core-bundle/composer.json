@@ -27,7 +27,6 @@
         "elasticms/xliff": "6.0.*",
         "guzzlehttp/guzzle": "^7.8",
         "maennchen/zipstream-php": "^3.0",
-        "ramsey/uuid-doctrine": "^1.8",
         "scssphp/scssphp": "^1.12",
         "sensiolabs/ansi-to-html": "^1.2",
         "symfony/asset": "6.4.*",

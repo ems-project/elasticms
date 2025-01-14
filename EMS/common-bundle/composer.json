@@ -32,7 +32,7 @@
         "phpoffice/phpspreadsheet": "^1.29",
         "promphp/prometheus_client_php": "^2.9",
         "psr/simple-cache": "^2.0",
-        "ramsey/uuid-doctrine": "^1.8",
+        "ramsey/uuid-doctrine": "^2.1",
         "ruflin/elastica": "^7.3",
         "symfony/console": "6.4.*",
         "symfony/dom-crawler": "6.4.*",

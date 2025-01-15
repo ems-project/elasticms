@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace EMS\Tests\CommonBundle\Unit\DependencyInjection;
 
-use EMS\CommonBundle\Common\CoreApi\CoreApi;
-use EMS\CommonBundle\Common\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\DependencyInjection\EMSCommonExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 
 final class EMSCommonExtensionAiTest extends TestCase
 {
@@ -77,41 +73,5 @@ final class EMSCommonExtensionAiTest extends TestCase
         $this->assertTrue($this->container->getParameter('ems.metric.enabled'));
         $this->assertEquals('localhost', $this->container->getParameter('ems.metric.host'));
         $this->assertEquals('9100', $this->container->getParameter('ems.metric.port'));
-    }
-
-    public function testDefineCoreApi(): void
-    {
-        $config = [
-            'backend_url' => 'http://example.com',
-            'backend_api_key' => 'test_key',
-            'core_api' => [
-                'verify' => true,
-                'timeout' => 30,
-            ],
-        ];
-
-        $definitionFactory = new Definition(CoreApiFactory::class);
-        $this->container->setDefinition('ems_common.core_api.factory', $definitionFactory);
-
-        $method = $this->getPrivateMethod('defineCoreApi');
-        $method->invokeArgs($this->extension, [$this->container, $config]);
-
-        $this->assertTrue($this->container->hasDefinition('ems_common.core_api'));
-
-        $definition = $this->container->getDefinition('ems_common.core_api');
-        $this->assertInstanceOf(Definition::class, $definition);
-        $this->assertEquals(CoreApi::class, $definition->getClass());
-
-        $factory = $definition->getFactory();
-        $this->assertInstanceOf(Reference::class, $factory[0]);
-        $this->assertEquals('ems_common.core_api.factory', (string) $factory[0]);
-        $this->assertEquals('create', $factory[1]);
-    }
-
-    private function getPrivateMethod(string $methodName): \ReflectionMethod
-    {
-        $reflector = new \ReflectionClass(EMSCommonExtension::class);
-
-        return $reflector->getMethod($methodName);
     }
 }

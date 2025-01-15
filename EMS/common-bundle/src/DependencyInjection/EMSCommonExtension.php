@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\DependencyInjection;
 
-use EMS\CommonBundle\Common\CoreApi\CoreApi;
-use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
 
 class EMSCommonExtension extends Extension
 {
@@ -55,8 +51,6 @@ class EMSCommonExtension extends Extension
 
         $container->setParameter('ems_common.core_api.options', $config['core_api']);
 
-        $this->defineCoreApi($container, $config);
-
         $metricsEnabled = $config['metric']['enabled'] ?? false;
         $container->setParameter('ems.metric.enabled', $metricsEnabled);
         if ($metricsEnabled) {
@@ -64,27 +58,5 @@ class EMSCommonExtension extends Extension
             $container->setParameter('ems.metric.port', $config['metric']['port'] ?? null);
             $loader->load('metric.xml');
         }
-    }
-
-    /**
-     * @param array<string, mixed> $config
-     */
-    private function defineCoreApi(ContainerBuilder $container, array $config): void
-    {
-        if (!isset($config['backend_url'])) {
-            return;
-        }
-
-        $definition = new Definition(CoreApi::class);
-        $definition
-            ->setFactory([new Reference('ems_common.core_api.factory'), 'create'])
-            ->addArgument($config['backend_url']);
-
-        if (isset($config['backend_api_key'])) {
-            $definition->addMethodCall('setToken', [$config['backend_api_key']]);
-        }
-
-        $container->setDefinition('ems_common.core_api', $definition);
-        $container->setAlias(CoreApiInterface::class, 'ems_common.core_api');
     }
 }

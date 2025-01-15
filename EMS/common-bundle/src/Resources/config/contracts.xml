@@ -7,7 +7,9 @@
     <services>
         <defaults public="false" />
 
+        <service id="EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface" alias="ems_common.core_api" />
         <service id="EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface" alias="ems_common.core_api.factory" />
+
         <service id="EMS\CommonBundle\Contracts\Elasticsearch\QueryLoggerInterface" alias="ems_common.elasticsearch.elastica_logger" />
 
         <service id="EMS\CommonBundle\Contracts\File\FileReaderInterface" alias="ems_common.file.reader" />

@@ -53,6 +53,8 @@ class EMSCommonExtension extends Extension
         $container->setParameter('ems_common.webalize.removable_regex', $config['webalize']['removable_regex']);
         $container->setParameter('ems_common.webalize.dashable_regex', $config['webalize']['dashable_regex']);
 
+        $container->setParameter('ems_common.core_api.options', $config['core_api']);
+
         $this->defineCoreApi($container, $config);
 
         $metricsEnabled = $config['metric']['enabled'] ?? false;
@@ -69,8 +71,6 @@ class EMSCommonExtension extends Extension
      */
     private function defineCoreApi(ContainerBuilder $container, array $config): void
     {
-        $container->getDefinition('ems_common.core_api.factory')->setArgument(2, $config['core_api']);
-
         if (!isset($config['backend_url'])) {
             return;
         }

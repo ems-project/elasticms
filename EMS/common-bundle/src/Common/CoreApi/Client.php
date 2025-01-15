@@ -23,11 +23,11 @@ class Client
 {
     /** @var array<string, string> */
     private array $headers = [];
+    private ?string $baseUrl = null;
     private LoggerInterface $logger;
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
-        private readonly ?string $baseUrl = '',
         LoggerInterface $logger,
     ) {
         $this->setLogger($logger);
@@ -43,9 +43,14 @@ class Client
         return isset($this->headers[$name]);
     }
 
+    public function setBaseUrl(string $baseUrl): void
+    {
+        $this->baseUrl = $baseUrl;
+    }
+
     public function getBaseUrl(): string
     {
-        if ('' === $this->baseUrl) {
+        if ('' === $this->baseUrl || null === $this->baseUrl) {
             throw new BaseUrlNotDefinedException();
         }
 

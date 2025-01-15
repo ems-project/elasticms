@@ -19,15 +19,16 @@ final readonly class CoreApiFactory implements CoreApiFactoryInterface
         private LoggerInterface $logger,
         private StorageManager $storageManager,
         private array $options,
+        private ?string $defaultUrl = null,
+        private ?string $defaultToken = null,
     ) {
     }
 
     #[\Override]
-    public function create(string $baseUrl): CoreApiInterface
+    public function create(?string $baseUrl = null): CoreApiInterface
     {
         $httpClient = new CurlHttpClient(
             defaultOptions: [
-                'base_uri' => $baseUrl,
                 'headers' => [
                     ...$this->options['headers'],
                     ...['Content-Type' => 'application/json'],
@@ -39,8 +40,16 @@ final readonly class CoreApiFactory implements CoreApiFactoryInterface
             maxHostConnections: $this->options['max_connections']
         );
 
-        $coreApiClient = new Client($httpClient, $baseUrl, $this->logger);
+        $coreApiClient = new Client($httpClient, $this->logger);
+        if (null !== $baseUrl ??= $this->defaultUrl) {
+            $coreApiClient->setBaseUrl($baseUrl);
+        }
 
-        return new CoreApi($coreApiClient, $this->storageManager);
+        $coreApi = new CoreApi($coreApiClient, $this->storageManager);
+        if (null !== $this->defaultToken && '' !== $this->defaultToken) {
+            $coreApi->setToken($this->defaultToken);
+        }
+
+        return $coreApi;
     }
 }

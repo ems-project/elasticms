@@ -6,5 +6,5 @@ namespace EMS\CommonBundle\Contracts\CoreApi;
 
 interface CoreApiFactoryInterface
 {
-    public function create(string $baseUrl): CoreApiInterface;
+    public function create(?string $baseUrl = null): CoreApiInterface;
 }

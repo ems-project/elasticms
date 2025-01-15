@@ -23,6 +23,8 @@
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.storage.manager" />
             <argument>%ems_common.core_api.options%</argument>
+            <argument type="string">%ems_common.backend_url%</argument>
+            <argument type="string">%ems_common.backend_api_key%</argument>
         </service>
 
         <!-- use this factory services, it will set the tracer to common.ems.logger -->

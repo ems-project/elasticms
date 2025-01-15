@@ -27,7 +27,7 @@ class Client
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
-        private readonly string $baseUrl,
+        private readonly ?string $baseUrl = '',
         LoggerInterface $logger,
     ) {
         $this->setLogger($logger);

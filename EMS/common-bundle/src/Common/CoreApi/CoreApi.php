@@ -37,9 +37,7 @@ final readonly class CoreApi implements CoreApiInterface
     #[\Override]
     public function authenticate(string $username, string $password, ?string $baseUrl = null): CoreApiInterface
     {
-        if (null !== $baseUrl) {
-            $this->client->setBaseUrl($baseUrl);
-        }
+        $this->setBaseUrl($baseUrl);
 
         $response = $this->client->post('/auth-token', [
             'username' => $username,
@@ -91,6 +89,16 @@ final readonly class CoreApi implements CoreApiInterface
     public function getBaseUrl(): string
     {
         return $this->client->getBaseUrl();
+    }
+
+    #[\Override]
+    public function setBaseUrl(?string $baseUrl = null): CoreApiInterface
+    {
+        if (null !== $baseUrl) {
+            $this->client->setBaseUrl($baseUrl);
+        }
+
+        return $this;
     }
 
     #[\Override]

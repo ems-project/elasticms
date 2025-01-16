@@ -40,12 +40,12 @@ final readonly class CoreApiFactory implements CoreApiFactoryInterface
             maxHostConnections: $this->options['max_connections']
         );
 
-        $coreApiClient = new Client($httpClient, $this->logger);
-        if (null !== $baseUrl ??= $this->defaultUrl) {
-            $coreApiClient->setBaseUrl($baseUrl);
-        }
+        $coreApi = new CoreApi(
+            client: new Client($httpClient, $this->logger),
+            storageManager: $this->storageManager
+        );
+        $coreApi->setBaseUrl($baseUrl ?? $this->defaultUrl);
 
-        $coreApi = new CoreApi($coreApiClient, $this->storageManager);
         if (null !== $this->defaultToken && '' !== $this->defaultToken) {
             $coreApi->setToken($this->defaultToken);
         }

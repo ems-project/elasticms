@@ -42,6 +42,8 @@ interface CoreApiInterface
      */
     public function getBaseUrl(): string;
 
+    public function setBaseUrl(?string $baseUrl = null): CoreApiInterface;
+
     public function getToken(): string;
 
     public function isAuthenticated(): bool;

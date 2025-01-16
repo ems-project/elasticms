@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Helper\Api;
 
-use EMS\CommonBundle\Common\CoreApi\CoreApi;
 use EMS\CommonBundle\Common\HttpClientFactory;
+use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\Helpers\Standard\Json;
 use GuzzleHttp\Client as HttpClient;
 
@@ -18,11 +18,16 @@ final readonly class Client
 
     public function __construct(
         private string $name,
-        string $baseUrl,
+        private string $baseUrl,
         private string $key,
-        public CoreApi $coreApi,
+        private CoreApiInterface $coreApi,
     ) {
         $this->client = HttpClientFactory::create($baseUrl, ['X-Auth-Token' => $this->key]);
+    }
+
+    public function getCoreApi(): CoreApiInterface
+    {
+        return $this->coreApi->setBaseUrl($this->baseUrl);
     }
 
     public function getName(): string

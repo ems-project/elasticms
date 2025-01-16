@@ -6,6 +6,7 @@ namespace EMS\CommonBundle\Common\Admin;
 
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
+use EMS\CommonBundle\Contracts\CoreApi\Exception\BaseUrlNotDefinedExceptionInterface;
 use Psr\Log\LoggerInterface;
 
 class AdminHelper
@@ -20,6 +21,15 @@ class AdminHelper
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
+    }
+
+    public function getDefaultBaseUrl(): ?string
+    {
+        try {
+            return $this->coreApi->getBaseUrl();
+        } catch (BaseUrlNotDefinedExceptionInterface) {
+            return null;
+        }
     }
 
     public function login(string $baseUrl, string $username, string $password): CoreApiInterface

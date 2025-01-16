@@ -35,8 +35,12 @@ final readonly class CoreApi implements CoreApiInterface
     }
 
     #[\Override]
-    public function authenticate(string $username, string $password): CoreApiInterface
+    public function authenticate(string $username, string $password, ?string $baseUrl = null): CoreApiInterface
     {
+        if (null !== $baseUrl) {
+            $this->client->setBaseUrl($baseUrl);
+        }
+
         $response = $this->client->post('/auth-token', [
             'username' => $username,
             'password' => $password,

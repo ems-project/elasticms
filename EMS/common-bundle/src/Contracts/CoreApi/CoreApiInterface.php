@@ -25,7 +25,7 @@ interface CoreApiInterface
      * @throws CoreApiExceptionInterface
      * @throws NotAuthenticatedExceptionInterface
      */
-    public function authenticate(string $username, string $password): CoreApiInterface;
+    public function authenticate(string $username, string $password, ?string $baseUrl = null): CoreApiInterface;
 
     public function queue(int $flushSize): ResponseQueue;
 

@@ -92,7 +92,7 @@
             <argument type="string">%ems_common.elasticsearch_proxy_api%</argument>
         </service>
         <service id="ems.helper.admin_api" class="EMS\CommonBundle\Common\Admin\AdminHelper">
-            <argument type="service" id="ems_common.core_api.factory" />
+            <argument type="service" id="ems_common.core_api" />
             <argument type="service" id="ems_common.core_api.token_store" />
             <argument type="service" id="logger" />
         </service>

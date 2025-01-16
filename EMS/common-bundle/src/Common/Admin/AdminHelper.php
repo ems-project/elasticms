@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\Admin;
 
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
-use EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use Psr\Log\LoggerInterface;
 
 class AdminHelper
 {
-    private ?CoreApiInterface $coreApi = null;
-
     public function __construct(
-        private readonly CoreApiFactoryInterface $coreApiFactory,
+        private readonly CoreApiInterface $coreApi,
         private readonly TokenStore $tokenStore,
         private LoggerInterface $logger,
     ) {
@@ -27,9 +24,10 @@ class AdminHelper
 
     public function login(string $baseUrl, string $username, string $password): CoreApiInterface
     {
-        $this->coreApi = $this->coreApiFactory->create($baseUrl);
-        $this->coreApi->setLogger($this->logger);
-        $this->coreApi->authenticate($username, $password);
+        $this->coreApi
+            ->setLogger($this->logger)
+            ->authenticate($username, $password, $baseUrl);
+
         $this->tokenStore->saveToken($this->coreApi->getBaseUrl(), $this->coreApi->getToken());
 
         return $this->coreApi;
@@ -37,35 +35,23 @@ class AdminHelper
 
     public function alreadyConnected(string $baseUrl, string $username): bool
     {
-        if (null !== $this->coreApi) {
-            return true;
-        }
-        $coreApi = $this->coreApiFactory->create($baseUrl);
-        $coreApi->setLogger($this->logger);
-        $token = $this->tokenStore->getToken($baseUrl);
-        if (!\is_string($token)) {
+        if (null === $token = $this->tokenStore->getToken($baseUrl)) {
             return false;
         }
-        $coreApi->setToken($token);
-        $user = $coreApi->user();
-        if ($user->getProfileAuthenticated()->getUsername() === $username) {
-            $this->coreApi = $coreApi;
 
-            return true;
-        }
+        $this->coreApi
+            ->setLogger($this->logger)
+            ->setBaseUrl($baseUrl)
+            ->setToken($token);
 
-        return false;
+        return $this->coreApi->user()->getProfileAuthenticated()->getUsername() === $username;
     }
 
     public function getCoreApi(): CoreApiInterface
     {
-        if (null !== $this->coreApi) {
-            return $this->coreApi;
-        }
-        $this->coreApi = $this->coreApiFactory->create($this->tokenStore->giveBaseUrl());
-        $this->coreApi->setLogger($this->logger);
-        $this->coreApi->setToken($this->tokenStore->giveToken());
-
-        return $this->coreApi;
+        return $this->coreApi
+            ->setLogger($this->logger)
+            ->setBaseUrl($this->tokenStore->getBaseUrl())
+            ->setToken($this->tokenStore->giveToken());
     }
 }

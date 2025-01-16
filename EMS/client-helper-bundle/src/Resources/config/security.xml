@@ -31,7 +31,7 @@
         </service>
 
         <service id="emsch.security.core_api.user_provider" class="EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider">
-            <argument type="service" id="emsch.security.core_api"/>
+            <argument type="service" id="ems_common.core_api"/>
             <argument type="service" id="logger"/>
         </service>
         <service id="emsch.security.core_api.authenticator" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiAuthenticator">

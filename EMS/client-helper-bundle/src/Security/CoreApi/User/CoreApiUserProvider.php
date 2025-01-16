@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Security\CoreApi\User;
 
-use EMS\ClientHelperBundle\Security\CoreApi\CoreApiFactory;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;

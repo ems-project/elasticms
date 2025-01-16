@@ -24,12 +24,6 @@
         </service>
 
         <!-- Core API -->
-        <service id="emsch.security.core_api" class="EMS\ClientHelperBundle\Security\CoreApi\CoreApiFactory">
-            <argument type="service" id="emsch.manager.client_request"/>
-            <argument type="service" id="emsch.helper.environment.api"/>
-
-        </service>
-
         <service id="emsch.security.core_api.user_provider" class="EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider">
             <argument type="service" id="ems_common.core_api"/>
             <argument type="service" id="logger"/>

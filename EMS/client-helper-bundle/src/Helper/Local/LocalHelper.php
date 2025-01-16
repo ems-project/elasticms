@@ -10,7 +10,6 @@ use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequest;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\ClientRequestManager;
 use EMS\ClientHelperBundle\Helper\Elasticsearch\Settings;
 use EMS\ClientHelperBundle\Helper\Environment\Environment;
-use EMS\ClientHelperBundle\Helper\Environment\EnvironmentApi;
 use EMS\ClientHelperBundle\Helper\Local\Status\Status;
 use EMS\CommonBundle\Common\CoreApi\TokenStore;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
@@ -28,7 +27,7 @@ final class LocalHelper
         ClientRequestManager $clientRequestManager,
         private readonly ContentTypeHelper $contentTypeHelper,
         private readonly Builders $builders,
-        private readonly EnvironmentApi $environmentApi,
+        private readonly CoreApiInterface $coreApi,
         private LoggerInterface $logger,
         private readonly string $projectDir,
     ) {
@@ -37,14 +36,13 @@ final class LocalHelper
 
     public function api(Environment $environment): CoreApiInterface
     {
-        $coreApi = $this->environmentApi->api($environment);
-        $coreApi->setLogger($this->logger);
-        $token = $this->tokenStore->getToken($coreApi->getBaseUrl());
-        if (null !== $token) {
-            $coreApi->setToken($token);
+        $this->coreApi->setBaseUrl($environment->getBackendUrl())->setLogger($this->logger);
+
+        if (null !== $token = $this->tokenStore->getToken($this->coreApi->getBaseUrl())) {
+            $this->coreApi->setToken($token);
         }
 
-        return $coreApi;
+        return $this->coreApi;
     }
 
     public function getUrl(): string
@@ -67,11 +65,13 @@ final class LocalHelper
      */
     public function login(Environment $environment, string $username, string $password): CoreApiInterface
     {
-        $coreApi = $this->environmentApi->login($environment, $username, $password);
-        $coreApi->setLogger($this->logger);
-        $this->tokenStore->saveToken($coreApi->getBaseUrl(), $coreApi->getToken());
+        $this->coreApi
+            ->authenticate($username, $password, $environment->getBackendUrl())
+            ->setLogger($this->logger);
 
-        return $coreApi;
+        $this->tokenStore->saveToken($this->coreApi->getBaseUrl(), $this->coreApi->getToken());
+
+        return $this->coreApi;
     }
 
     public function isUpToDate(Environment $environment): bool

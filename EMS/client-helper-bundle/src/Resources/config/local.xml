@@ -14,7 +14,7 @@
             <argument type="service" id="emsch.manager.client_request" />
             <argument type="service" id="emsch.helper_content_type" />
             <argument type="service" id="emsch.helper.builders" />
-            <argument type="service" id="emsch.helper.environment.api"/>
+            <argument type="service" id="ems_common.core_api" />
             <argument type="service" id="logger" />
             <argument type="string">%kernel.project_dir%</argument>
         </service>

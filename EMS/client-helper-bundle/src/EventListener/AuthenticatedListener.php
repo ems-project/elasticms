@@ -52,7 +52,7 @@ class AuthenticatedListener implements EventSubscriberInterface
         }
 
         $request = $event->getRequest();
-        $forceAuthenticated = $request->get('_authenticated', false);
+        $forceAuthenticated = $request->attributes->get('_authenticated', false);
 
         if ($forceAuthenticated && !$this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY')) {
             throw new AccessDeniedException();

@@ -65,7 +65,7 @@
         </service>
 
         <!-- event listeners -->
-        <service id="emsch.event_listener.authenticated" class="EMS\ClientHelperBundle\EventListener\AuthenticatedListener">
+        <service id="emsch.event_listener.security" class="EMS\ClientHelperBundle\EventListener\SecurityListener">
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="emsch.security.sso.oauth2" />

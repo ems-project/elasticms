@@ -7,6 +7,7 @@ namespace EMS\ClientHelperBundle\Security\CoreApi;
 use EMS\ClientHelperBundle\Security\CoreApi\User\CoreApiUserProvider;
 use EMS\ClientHelperBundle\Security\Login\LoginCredentials;
 use EMS\ClientHelperBundle\Security\Login\LoginForm;
+use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Contracts\CoreApi\Exception\NotAuthenticatedExceptionInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactory;
@@ -31,7 +32,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
 
     public function __construct(
         private readonly HttpUtils $httpUtils,
-        private readonly CoreApiFactory $coreApiFactory,
+        private readonly CoreApiInterface $coreApi,
         private readonly CoreApiUserProvider $coreApiUserProvider,
         private readonly FormFactory $formFactory,
         private readonly LoggerInterface $logger,
@@ -61,8 +62,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $credentials->giveUsername());
 
         try {
-            $coreApi = $this->coreApiFactory->create();
-            $coreApi->authenticate($credentials->giveUsername(), $credentials->givePassword());
+            $this->coreApi->authenticate($credentials->giveUsername(), $credentials->givePassword());
         } catch (\Throwable $e) {
             $key = $e instanceof NotAuthenticatedExceptionInterface ? 'emsch.security.exception.bad_credentials' : 'emsch.security.exception.error';
             $this->logger->error($e->getMessage(), ['trace' => $e->getTraceAsString(), 'code' => $e->getCode()]);
@@ -71,7 +71,7 @@ class CoreApiAuthenticator extends AbstractAuthenticator
 
         return new SelfValidatingPassport(
             new UserBadge(
-                $coreApi->getToken(),
+                $this->coreApi->getToken(),
                 fn (string $token) => $this->coreApiUserProvider->loadUserByIdentifier($token)
             ),
             [new CsrfTokenBadge(self::CSRF_ID, $csrfToken)]

@@ -92,7 +92,7 @@ final readonly class CoreApi implements CoreApiInterface
     }
 
     #[\Override]
-    public function setBaseUrl(?string $baseUrl = null): CoreApiInterface
+    public function setBaseUrl(?string $baseUrl = null): self
     {
         if (null !== $baseUrl) {
             $this->client->setBaseUrl($baseUrl);
@@ -114,15 +114,19 @@ final readonly class CoreApi implements CoreApiInterface
     }
 
     #[\Override]
-    public function setLogger(LoggerInterface $logger): void
+    public function setLogger(LoggerInterface $logger): self
     {
         $this->client->setLogger($logger);
+
+        return $this;
     }
 
     #[\Override]
-    public function setToken(string $token): void
+    public function setToken(string $token): self
     {
         $this->client->addHeader(self::HEADER_TOKEN, $token);
+
+        return $this;
     }
 
     #[\Override]

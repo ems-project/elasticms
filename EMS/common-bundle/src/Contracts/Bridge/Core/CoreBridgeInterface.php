@@ -9,5 +9,5 @@ interface CoreBridgeInterface
     /** @return array<mixed> */
     public function versions(): array;
 
-    public function data(): CoreDataBridgeInterface;
+    public function data(string $contentType): CoreDataBridgeInterface;
 }

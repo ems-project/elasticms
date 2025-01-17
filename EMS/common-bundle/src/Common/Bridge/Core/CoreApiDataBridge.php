@@ -9,12 +9,14 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 
 readonly class CoreApiDataBridge implements CoreDataBridgeInterface
 {
-    public function __construct(private CoreApiInterface $coreApi)
-    {
+    public function __construct(
+        private CoreApiInterface $coreApi,
+        private string $contentType
+    ) {
     }
 
-    public function create(string $contentType, array $rawData = []): int
+    public function create(array $rawData = []): int
     {
-        return $this->coreApi->data($contentType)->create($rawData)->getRevisionId();
+        return $this->coreApi->data($this->contentType)->create($rawData)->getRevisionId();
     }
 }

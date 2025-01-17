@@ -10,12 +10,13 @@ use EMS\CoreBundle\Service\Revision\RevisionService;
 readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
 {
     public function __construct(
-        private RevisionService $revisionService
+        private RevisionService $revisionService,
+        private string $contentType,
     ) {
     }
 
-    public function create(string $contentType, array $rawData = []): int
+    public function create(array $rawData = []): int
     {
-        return $this->revisionService->create(contentType: $contentType, rawData: $rawData)->getId();
+        return $this->revisionService->create(contentType: $this->contentType, rawData: $rawData)->getId();
     }
 }

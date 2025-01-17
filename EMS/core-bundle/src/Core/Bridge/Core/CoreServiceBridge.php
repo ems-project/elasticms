@@ -22,8 +22,8 @@ readonly class CoreServiceBridge implements CoreBridgeInterface
         return $this->composerInfo->getVersionPackages();
     }
 
-    public function data(): CoreDataBridgeInterface
+    public function data(string $contentType): CoreDataBridgeInterface
     {
-        return new CoreDataServiceBridge($this->revisionService);
+        return new CoreDataServiceBridge($this->revisionService, $contentType);
     }
 }

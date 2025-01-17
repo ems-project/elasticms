@@ -7,5 +7,5 @@ namespace EMS\CommonBundle\Contracts\Bridge\Core;
 interface CoreDataBridgeInterface
 {
     /** @param array<mixed> $rawData */
-    public function create(string $contentType, array $rawData = []): int;
+    public function create(array $rawData = []): int;
 }

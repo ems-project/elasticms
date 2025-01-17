@@ -19,8 +19,8 @@ readonly class CoreApiBridge implements CoreBridgeInterface
         return $this->coreApi->admin()->getVersions();
     }
 
-    public function data(): CoreDataBridgeInterface
+    public function data(string $contentType): CoreDataBridgeInterface
     {
-        return new CoreApiDataBridge($this->coreApi);
+        return new CoreApiDataBridge($this->coreApi, $contentType);
     }
 }

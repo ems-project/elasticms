@@ -24,4 +24,5 @@ security:
                 path: emsch_logout
 
     access_control:
+        - { path: ^/emsch/api, roles: ROLE_API }
         - { path: ^/, roles: PUBLIC_ACCESS }

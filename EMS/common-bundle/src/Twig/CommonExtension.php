@@ -37,6 +37,7 @@ class CommonExtension extends AbstractExtension
             new TwigFunction('ems_store_delete', [StoreDataRuntime::class, 'delete']),
             new TwigFunction('ems_template_exists', [TemplateRuntime::class, 'templateExists']),
             new TwigFunction('ems_file_from_archive', [AssetRuntime::class, 'fileFromArchive']),
+            new TwigFunction('ems_core', [CoreBridgeRuntime::class, 'build']),
             new TwigFunction('ems_unzip', [AssetRuntime::class, 'unzip'], [
                 'deprecation_info' => new DeprecatedCallableInfo('elasticms/common-bundle', '5.19.0', 'ems_file_from_archive'),
             ]),

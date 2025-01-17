@@ -7,7 +7,7 @@
     <services>
         <defaults public="false" />
 
-        <service id="EMS\CommonBundle\Contracts\Bridge\CoreBridgeInterface" alias="ems.core_bridge.api" />
+        <service id="EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface" alias="ems.core_bridge.api" />
 
         <service id="EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface" alias="ems_common.core_api" />
         <service id="EMS\CommonBundle\Contracts\CoreApi\CoreApiFactoryInterface" alias="ems_common.core_api.factory" />

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EMS\CoreBundle\Core\Bridge;
+namespace EMS\CoreBundle\Core\Bridge\Core;
 
 use EMS\CommonBundle\Common\Composer\ComposerInfo;
-use EMS\CommonBundle\Contracts\Bridge\CoreBridgeInterface;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 
 readonly class CoreServiceBridge implements CoreBridgeInterface
@@ -21,8 +22,8 @@ readonly class CoreServiceBridge implements CoreBridgeInterface
         return $this->composerInfo->getVersionPackages();
     }
 
-    public function documentCreate(string $contentType, array $rawData = []): int
+    public function data(): CoreDataBridgeInterface
     {
-        return $this->revisionService->create(contentType: $contentType, rawData: $rawData)->getId();
+        return new CoreDataServiceBridge($this->revisionService);
     }
 }

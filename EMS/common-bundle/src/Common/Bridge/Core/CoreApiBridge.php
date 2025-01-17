@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace EMS\CommonBundle\Common\Bridge;
+namespace EMS\CommonBundle\Common\Bridge\Core;
 
-use EMS\CommonBundle\Contracts\Bridge\CoreBridgeInterface;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 
 readonly class CoreApiBridge implements CoreBridgeInterface
@@ -18,8 +19,8 @@ readonly class CoreApiBridge implements CoreBridgeInterface
         return $this->coreApi->admin()->getVersions();
     }
 
-    public function documentCreate(string $contentType, array $rawData = []): int
+    public function data(): CoreDataBridgeInterface
     {
-        return $this->coreApi->data($contentType)->create($rawData)->getRevisionId();
+        return new CoreApiDataBridge($this->coreApi);
     }
 }

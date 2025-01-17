@@ -5,7 +5,7 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-        <service id="emsco.core_bridge.service" class="EMS\CoreBundle\Core\Bridge\CoreServiceBridge">
+        <service id="emsco.core_bridge.service" class="EMS\CoreBundle\Core\Bridge\Core\CoreServiceBridge">
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="ems_common.composer.info" />
         </service>

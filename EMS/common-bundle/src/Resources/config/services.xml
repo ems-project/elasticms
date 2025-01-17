@@ -13,7 +13,7 @@
             <tag name="monolog.logger" channel="elastica" />
         </service>
 
-        <service id="ems.core_bridge.api" class="EMS\CommonBundle\Common\Bridge\CoreApiBridge">
+        <service id="ems.core_bridge.api" class="EMS\CommonBundle\Common\Bridge\Core\CoreApiBridge">
             <argument type="service" id="ems_common.core_api" />
         </service>
 

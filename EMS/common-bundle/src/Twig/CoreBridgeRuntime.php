@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Twig;
 
-use EMS\CommonBundle\Contracts\Bridge\CoreBridgeInterface;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 
 readonly class CoreBridgeRuntime
 {

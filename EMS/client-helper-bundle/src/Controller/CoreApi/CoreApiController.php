@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\ClientHelperBundle\Controller\CoreApi;
 
-use EMS\CommonBundle\Contracts\Bridge\CoreBridgeInterface;
+use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 readonly class CoreApiController

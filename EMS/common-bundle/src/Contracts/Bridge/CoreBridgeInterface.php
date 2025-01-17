@@ -8,4 +8,7 @@ interface CoreBridgeInterface
 {
     /** @return array<mixed> */
     public function versions(): array;
+
+    /** @param array<mixed> $rawData */
+    public function documentCreate(string $contentType, array $rawData = []): int;
 }

@@ -346,9 +346,13 @@ class RevisionService implements RevisionServiceInterface
     /**
      * @param array<mixed> $rawData
      */
-    public function create(ContentType $contentType, ?UuidInterface $uuid = null, array $rawData = [], ?string $username = null): Revision
+    public function create(ContentType|string $contentType, ?UuidInterface $uuid = null, array $rawData = [], ?string $username = null): Revision
     {
-        return $this->dataService->newDocument($contentType, null === $uuid ? null : $uuid->toString(), $rawData, $username);
+        if (\is_string($contentType)) {
+            $contentType = $this->contentTypeService->giveByName($contentType);
+        }
+
+        return $this->dataService->newDocument($contentType->validate(), $uuid?->toString(), $rawData, $username);
     }
 
     /**

@@ -17,4 +17,9 @@ readonly class CoreApiBridge implements CoreBridgeInterface
     {
         return $this->coreApi->admin()->getVersions();
     }
+
+    public function documentCreate(string $contentType, array $rawData = []): int
+    {
+        return $this->coreApi->data($contentType)->create($rawData)->getRevisionId();
+    }
 }

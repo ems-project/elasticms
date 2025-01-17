@@ -69,6 +69,7 @@
             <argument type="service" id="security.authorization_checker" />
             <argument type="service" id="security.token_storage" />
             <argument type="service" id="emsch.security.sso.oauth2" />
+            <argument type="service" id="ems_common.core_api" />
             <tag name="kernel.event_subscriber" />
         </service>
 

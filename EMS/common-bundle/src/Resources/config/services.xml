@@ -13,6 +13,10 @@
             <tag name="monolog.logger" channel="elastica" />
         </service>
 
+        <service id="ems.core_bridge.api" class="EMS\CommonBundle\Common\Bridge\CoreApiBridge">
+            <argument type="service" id="ems_common.core_api" />
+        </service>
+
         <service id="ems_common.core_api.token_store" class="EMS\CommonBundle\Common\CoreApi\TokenStore">
             <argument type="service" id="Psr\Cache\CacheItemPoolInterface" />
             <argument type="string">%ems_common.backend_url%</argument>

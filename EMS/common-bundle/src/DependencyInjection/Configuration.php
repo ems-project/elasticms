@@ -79,7 +79,6 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                         ->children()
                             ->variableNode('headers')->defaultValue([])->end()
-                            ->scalarNode('max_connections')->defaultValue(6)->end()
                             ->scalarNode('timeout')->defaultValue(30)->end()
                             ->scalarNode('verify')->defaultValue(true)->end()
                         ->end()

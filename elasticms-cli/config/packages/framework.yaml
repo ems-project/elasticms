@@ -1,8 +1,13 @@
-# see https://symfony.com/doc/current/reference/configuration/framework.html
+parameters:
+    env(HTTP_CLIENT_MAX_CONNECTIONS): 4
+
 framework:
     secret: '%env(APP_SECRET)%'
     http_method_override: false
     handle_all_throwables: true
+
+    http_client:
+        max_host_connections: '%env(int:HTTP_CLIENT_MAX_CONNECTIONS)%'
 
     session:
         handler_id: null

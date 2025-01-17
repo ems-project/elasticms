@@ -24,6 +24,7 @@
         </service>
 
         <service id="ems_common.core_api.factory" class="EMS\CommonBundle\Common\CoreApi\CoreApiFactory">
+            <argument type="service" id="http_client" />
             <argument type="service" id="logger" />
             <argument type="service" id="ems_common.storage.manager" />
             <argument>%ems_common.core_api.options%</argument>

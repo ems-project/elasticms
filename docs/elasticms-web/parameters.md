@@ -20,6 +20,10 @@ But there is 2 more possible values, specific to elasticms:
 A secret seed.
  - Example `APP_SECRET=7b19a4a6e37b9303e4f6bca1dc6691ed`
 
+### HTTP_CLIENT_MAX_CONNECTIONS
+
+Define the max connections to the API client, when using async calls. By default it is set to `4`.
+
 ### Behind a Load Balancer or a Reverse Proxy
 
 ```dotenv
@@ -219,10 +223,6 @@ Define extra headers for the API client, helpful for adding cookie header for xd
 ```dotenv
 EMS_CORE_API_HEADERS='{"Cookie":"XDEBUG_SESSION=PHPSTORM"}'
 ```
-
-### EMS_CORE_API_MAX_CONNECTIONS
-
-Define the max connections to the API client, when using async calls. By default it is set to `6`.
 
 ### EMS_BACKEND_API_TIMEOUT
 

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Contracts\Twig;
 
-use Twig\Error\RuntimeError;
-
 interface TemplateInterface
 {
     /**
@@ -13,13 +11,17 @@ interface TemplateInterface
      */
     public function contextAppend(array $context): self;
 
-    /**
-     * @throws RuntimeError
-     */
     public function render(): string;
+
+    public function renderBlock(string $name): ?string;
 
     /**
      * @return array<string, mixed>
      */
     public function json(): array;
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonBlock(string $name): array;
 }

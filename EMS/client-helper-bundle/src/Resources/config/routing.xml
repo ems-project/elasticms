@@ -49,6 +49,12 @@
             <tag name="controller.service_arguments"/>
         </service>
 
+        <service id="emsch.controller.form" class="EMS\ClientHelperBundle\Controller\FormController">
+            <argument type="service" id="emsch.routing.handler" />
+            <argument type="service" id="form.factory" />
+            <tag name="controller.service_arguments"/>
+        </service>
+
         <service id="emsch.controller.pdf" class="EMS\ClientHelperBundle\Controller\PdfController">
             <argument type="service" id="emsch.routing.handler" />
             <argument type="service" id="emsch.common.pdf_generator"/>

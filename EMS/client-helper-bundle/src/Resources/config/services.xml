@@ -120,6 +120,10 @@
         </service>
 
         <!-- controllers -->
+        <service id="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController" public="true">
+            <argument type="service" id="EMS\CommonBundle\Contracts\Bridge\CoreBridgeInterface"/>
+        </service>
+
         <service id="emsch.controller.search" class="EMS\ClientHelperBundle\Controller\SearchController" public="true">
             <argument type="service" id="emsch.search.manager" />
             <argument type="service" id="emsch.routing.handler" />

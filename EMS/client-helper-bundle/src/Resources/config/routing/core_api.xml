@@ -4,6 +4,10 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing https://symfony.com/schema/routing/routing-1.0.xsd">
 
+    <route id="emsch_api" path="/emsch/api"
+           controller="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController::api"
+           methods="HEAD">
+    </route>
     <route id="emsch_api_version" path="/emsch/api/versions"
            controller="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController::getVersions"
            methods="GET">

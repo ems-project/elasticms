@@ -13,6 +13,10 @@ readonly class CoreApiController
     {
     }
 
+    public function api(): void
+    {
+    }
+
     public function getVersions(): JsonResponse
     {
         return new JsonResponse($this->coreBridge->versions());

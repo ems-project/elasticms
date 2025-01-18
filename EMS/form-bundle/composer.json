@@ -27,11 +27,6 @@
             "EMS\\FormBundle\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\FormBundle\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true

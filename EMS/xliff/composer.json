@@ -26,11 +26,6 @@
             "EMS\\Xliff\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\Xliff\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true

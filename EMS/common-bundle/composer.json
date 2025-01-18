@@ -65,11 +65,6 @@
             "EMS\\CommonBundle\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\CommonBundle\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true

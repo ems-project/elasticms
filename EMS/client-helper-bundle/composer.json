@@ -35,11 +35,6 @@
             "EMS\\ClientHelperBundle\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\ClientHelperBundle\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true

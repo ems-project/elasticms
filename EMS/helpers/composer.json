@@ -28,11 +28,6 @@
             "EMS\\Helpers\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\Helpers\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true

@@ -46,11 +46,6 @@
             "EMS\\CoreBundle\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\CoreBundle\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true

@@ -30,11 +30,6 @@
             "EMS\\SubmissionBundle\\": "src/"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "EMS\\SubmissionBundle\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "lock": false,
         "sort-packages": true

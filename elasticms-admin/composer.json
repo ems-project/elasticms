@@ -96,10 +96,7 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
-        "phpcs": "php-cs-fixer fix",
-        "phpstan": "phpstan analyse",
-        "phpunit": "phpunit",
-        "phpall": "phpunit && php-cs-fixer fix && phpstan analyse"
+        "phpunit": "phpunit"
     },
     "conflict": {
         "symfony/symfony": "*"

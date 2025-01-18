@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\CLI\Client\Audit;
 
 use EMS\CommonBundle\Helper\Url;
+use EMS\Helpers\File\File;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
 use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
@@ -71,13 +72,13 @@ class Cache
         ]);
     }
 
-    public function save(string $jsonPath, bool $finish = false): bool
+    public function save(string $jsonPath, bool $finish = false): void
     {
         if ($finish) {
             $this->lastUpdated = null;
         }
 
-        return false !== \file_put_contents($jsonPath, $this->serialize());
+        File::putContents($jsonPath, $this->serialize());
     }
 
     /**

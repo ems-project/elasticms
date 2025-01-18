@@ -13,6 +13,7 @@ use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Helper\Url;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Psr\Log\LoggerInterface;
 use Ramsey\Uuid\Uuid;
@@ -402,13 +403,12 @@ class ConfigManager
         throw new \RuntimeException(\sprintf('Type %s not found', $name));
     }
 
-    public function save(string $jsonPath, bool $finish = false): bool
+    public function save(string $jsonPath, bool $finish = false): void
     {
         if ($finish) {
             $this->lastUpdated = null;
         }
-
-        return false !== \file_put_contents($jsonPath, $this->serialize());
+        File::putContents($jsonPath, $this->serialize());
     }
 
     public function getExpressionLanguage(): ExpressionLanguage

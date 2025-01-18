@@ -146,10 +146,6 @@
         }
     },
     "autoload": {
-        "exclude-from-classmap": [
-            "EMS/helpers/tests/",
-            "EMS/xliff/tests/"
-        ],
         "psr-4": {
             "App\\Admin\\": "elasticms-admin/src/",
             "App\\CLI\\": "elasticms-cli/src/",

@@ -47,7 +47,7 @@
         "onelogin/php-saml": "^4.1",
         "phpoffice/phpspreadsheet": "^1.29",
         "promphp/prometheus_client_php": "^2.9",
-        "psr/simple-cache": "^2.0",
+        "psr/simple-cache": "^3.0",
         "ramsey/uuid-doctrine": "^2.1",
         "ruflin/elastica": "^7.3",
         "scssphp/scssphp": "^2.0",

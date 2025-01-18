@@ -73,6 +73,5 @@
   </listeners>
   <extensions>
     <extension class="Zalas\PHPUnit\Globals\AnnotationExtension" />
-    <extension class="EMS\CommonBundle\Tests\Hook\BypassFinalHook" />
   </extensions>
 </phpunit>

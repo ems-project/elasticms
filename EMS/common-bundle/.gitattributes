@@ -3,7 +3,6 @@
 /.gitignore export-ignore
 /.php-cs-fixer.dist.php export-ignore
 /phpstan.neon.dist export-ignore
-/phpunit.xml.dist export-ignore
 /tests export-ignore
 
 # Set the default behavior, in case people don't have core.autocrlf set.

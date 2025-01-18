@@ -25,9 +25,6 @@
         "symfony/mime": "6.4.*",
         "symfony/twig-bundle": "6.4.*"
     },
-    "require-dev": {
-        "symfony/test-pack": "^1.0"
-    },
     "autoload": {
         "psr-4": {
             "EMS\\SubmissionBundle\\": "src/"
@@ -41,8 +38,5 @@
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

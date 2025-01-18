@@ -60,10 +60,6 @@
         "twig/string-extra": "^3.8",
         "twig/twig": "^3.8"
     },
-    "require-dev": {
-        "symfony/test-pack": "^1.0",
-        "symfony/yaml": "6.4.*"
-    },
     "autoload": {
         "psr-4": {
             "EMS\\CommonBundle\\": "src/"
@@ -77,8 +73,5 @@
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

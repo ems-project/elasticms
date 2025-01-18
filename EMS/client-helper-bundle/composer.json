@@ -30,9 +30,6 @@
         "symfony/yaml": "6.4.*",
         "thenetworg/oauth2-azure": "^2.2"
     },
-    "require-dev": {
-        "symfony/test-pack": "^1.0"
-    },
     "autoload": {
         "psr-4": {
             "EMS\\ClientHelperBundle\\": "src/"
@@ -46,8 +43,5 @@
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

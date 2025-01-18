@@ -21,17 +21,10 @@
         "symfony/dom-crawler": "6.4.*",
         "symfony/property-access": "6.4.*"
     },
-    "require-dev": {
-        "mockery/mockery": "^1.6",
-        "phpunit/phpunit": "^9.5"
-    },
     "autoload": {
         "psr-4": {
             "EMS\\Xliff\\": "src/"
-        },
-        "exclude-from-classmap": [
-            "tests/"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -41,13 +34,5 @@
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.1-dev"
-        }
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

@@ -41,10 +41,6 @@
         "symfony/validator": "6.4.*",
         "symfony/web-link": "6.4.*"
     },
-    "require-dev": {
-        "symfony/test-pack": "^1.0",
-        "symfony/yaml": "6.4.*"
-    },
     "autoload": {
         "psr-4": {
             "EMS\\CoreBundle\\": "src/"
@@ -58,8 +54,5 @@
     "config": {
         "lock": false,
         "sort-packages": true
-    },
-    "scripts": {
-        "phpunit": "phpunit"
     }
 }

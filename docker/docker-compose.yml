@@ -74,7 +74,7 @@ services:
 
   postgres:
     container_name: ems-mono-postgres
-    image: postgres:12
+    image: postgres:${POSTGRES_VERSION-12}
     ports:
       - "5432:5432"
     environment:

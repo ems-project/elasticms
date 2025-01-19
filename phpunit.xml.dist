@@ -7,9 +7,12 @@
          cacheDirectory=".cache/.phpunit.cache"
          stopOnError="true"
          failOnRisky="true"
-         failOnWarning="true">
+         failOnWarning="true"
+         failOnPhpunitDeprecation="true">
 
-  <source>
+  <source ignoreIndirectDeprecations="true"
+          restrictNotices="true"
+          restrictWarnings="true">
     <include>
       <directory>./elasticms-admin/src/</directory>
       <directory>./elasticms-cli/src/</directory>

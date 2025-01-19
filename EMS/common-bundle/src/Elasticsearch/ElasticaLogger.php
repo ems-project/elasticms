@@ -86,7 +86,7 @@ class ElasticaLogger extends AbstractLogger implements QueryLoggerInterface
                 'data' => $data,
                 'executionMS' => $executionMS,
                 'engineMS' => $responseData['took'] ?? 0,
-                'exception' => $responseException,
+                'error' => $response->getFullError(),
                 'connection' => [
                     'host' => $connection->getHost(),
                     'port' => $connection->getPort(),

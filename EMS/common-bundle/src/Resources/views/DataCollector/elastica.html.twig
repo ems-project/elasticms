@@ -105,16 +105,16 @@
             <tbody id="queries">
             {% for key, query in collector.queries %}
                 <tr id="queryNo-{{ key }}" class="{{ html_classes({
-                    'log-status-error': query.exception is not null,
-                    'status-error': query.exception is not null,
+                    'log-status-error': query.error is not null,
+                    'status-error': query.error is not null,
                 }) }}">
                     <td class="nowrap">{{ loop.index }}</td>
                     <td class="nowrap">{{ '%0.2f'|format(query.executionMS) }}&nbsp;ms</td>
                     <td class="nowrap">{{ '%0.2f'|format(query.engineMS) }}&nbsp;ms</td>
                     <td>
-                        {% if query.exception is not null %}
+                        {% if query.error is not null %}
                             <div>
-                                {{ query.exception.message }}
+                                {{ query.error.reason|default(query.error.type) }}
                                 <hr />
                             </div>
                         {% endif %}

@@ -5,21 +5,18 @@ declare(strict_types=1);
 namespace App\CLI\Tests\Data;
 
 use App\CLI\Client\Data\Data;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class DataTest extends TestCase
 {
-    /**
-     * @dataProvider provideTestData
-     */
+    #[DataProvider('provideTestData')]
     public function testCount(array $testData): void
     {
         $this->assertCount(10, $testData);
     }
 
-    /**
-     * @dataProvider provideTestData
-     */
+    #[DataProvider('provideTestData')]
     public function testSearchAndReplace(array $testData): void
     {
         $testData = new Data($testData);
@@ -29,9 +26,7 @@ final class DataTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider provideTestData
-     */
+    #[DataProvider('provideTestData')]
     public function testSliceFirst3(array $testData): void
     {
         $testData = new Data($testData);
@@ -43,9 +38,7 @@ final class DataTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider provideTestData
-     */
+    #[DataProvider('provideTestData')]
     public function testSliceLast8(array $testData): void
     {
         $testData = new Data($testData);
@@ -57,9 +50,7 @@ final class DataTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider provideTestData
-     */
+    #[DataProvider('provideTestData')]
     public function testSliceFrom4Until6(array $testData): void
     {
         $testData = new Data($testData);
@@ -71,7 +62,7 @@ final class DataTest extends TestCase
         }
     }
 
-    public function provideTestData(): array
+    public static function provideTestData(): array
     {
         return [
             'exampleDataPages' => [

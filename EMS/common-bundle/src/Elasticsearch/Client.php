@@ -31,7 +31,7 @@ class Client extends BaseClient
         try {
             $response = parent::request($path, $method, $data, $query, $contentType);
         } catch (ResponseException $e) {
-            $this->getLogger()?->logResponse($e->getResponse(), $e->getRequest(), $e);
+            $this->getLogger()?->logResponse($e->getResponse(), $e->getRequest());
             throw $e;
         }
         $responseData = $response->getData();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Helpers\Tests\Unit\Standard;
 
 use EMS\Helpers\Standard\Html;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class HtmlTest extends TestCase
@@ -18,10 +19,10 @@ class HtmlTest extends TestCase
     {
         $html = <<<HTML
                         <div class="test">
-                          <h1 class="title"> 
+                          <h1 class="title">
                            Title </h1>
                           <hr />
-                          <p style="color: red"> 
+                          <p style="color: red">
                           Hello  </p>
                         </div>
             HTML;
@@ -41,15 +42,13 @@ class HtmlTest extends TestCase
         $this->assertEquals($result, (string) (new Html($html))->prettyPrint());
     }
 
-    /**
-     * @dataProvider getDataHtmlSanitize
-     */
+    #[DataProvider('getDataHtmlSanitize')]
     public function testSanitize(string $html, string $expected, array $sanitize): void
     {
         $this->assertEquals($expected, (string) (new Html($html))->sanitize($sanitize));
     }
 
-    private function getDataHtmlSanitize(): array
+    public static function getDataHtmlSanitize(): array
     {
         return [
             'testMaxInputLength' => [

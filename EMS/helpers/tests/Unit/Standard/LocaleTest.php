@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace EMS\Helpers\Tests\Unit\Standard;
 
 use EMS\Helpers\Standard\Locale;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class LocaleTest extends TestCase
 {
-    /**
-     * @dataProvider provideLocaleInput
-     */
+    #[DataProvider('provideLocaleInput')]
     public function testLanguage(?string $input, ?string $default, string $expected): void
     {
         $this->assertEquals($expected, Locale::getLanguage($input, $default));
@@ -26,7 +25,7 @@ class LocaleTest extends TestCase
     /**
      * @return array<int, array<int, string|null>>
      */
-    public function provideLocaleInput(): array
+    public static function provideLocaleInput(): array
     {
         return [
             ['fr', 'en', 'fr'],

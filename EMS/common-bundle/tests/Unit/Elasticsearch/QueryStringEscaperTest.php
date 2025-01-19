@@ -5,19 +5,18 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Elasticsearch;
 
 use EMS\CommonBundle\Elasticsearch\QueryStringEscaper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class QueryStringEscaperTest extends TestCase
 {
-    /**
-     * @dataProvider provider
-     */
+    #[DataProvider('provider')]
     public function testEscape(string $input, string $output): void
     {
         $this->assertSame($output, QueryStringEscaper::escape($input));
     }
 
-    public function provider(): array
+    public static function provider(): array
     {
         return [
             ['example \ / ', 'example \\\ \\/ '],

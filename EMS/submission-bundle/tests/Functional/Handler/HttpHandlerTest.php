@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-final class HttpHandlerTest extends AbstractHandlerTest
+final class HttpHandlerTest extends AbstractHandlerTestCase
 {
     /** @var ResponseFactory */
     private $responseFactory;

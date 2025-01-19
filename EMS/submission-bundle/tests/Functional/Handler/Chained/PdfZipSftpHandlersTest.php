@@ -14,7 +14,7 @@ use EMS\SubmissionBundle\Response\ZipHandleResponse;
 use EMS\SubmissionBundle\Tests\Functional\App\FilesystemFactory;
 use Symfony\Component\Filesystem\Filesystem;
 
-final class PdfZipSftpHandlersTest extends AbstractChainedTest
+final class PdfZipSftpHandlersTest extends AbstractChainedTestCase
 {
     /** @var FilesystemFactory */
     private $filesystemFactory;

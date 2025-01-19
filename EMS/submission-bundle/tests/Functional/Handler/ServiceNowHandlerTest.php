@@ -8,7 +8,7 @@ use EMS\FormBundle\Submission\AbstractHandler;
 use EMS\SubmissionBundle\Tests\Functional\App\ResponseFactory;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-final class ServiceNowHandlerTest extends AbstractHandlerTest
+final class ServiceNowHandlerTest extends AbstractHandlerTestCase
 {
     private string $credentials;
     /** @var ResponseFactory */

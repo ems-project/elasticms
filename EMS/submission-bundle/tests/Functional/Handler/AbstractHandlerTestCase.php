@@ -11,7 +11,7 @@ use EMS\FormBundle\Submission\FormData;
 use EMS\FormBundle\Submission\HandleRequest;
 use EMS\FormBundle\Submission\HandleResponseCollector;
 use EMS\FormBundle\Submission\HandleResponseInterface;
-use EMS\SubmissionBundle\Tests\Functional\AbstractFunctionalTest;
+use EMS\SubmissionBundle\Tests\Functional\AbstractFunctionalTestCase;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -21,7 +21,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-abstract class AbstractHandlerTest extends AbstractFunctionalTest
+abstract class AbstractHandlerTestCase extends AbstractFunctionalTestCase
 {
     protected FormFactoryInterface $formFactory;
     protected FormConfig $formConfig;

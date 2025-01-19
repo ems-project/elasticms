@@ -8,7 +8,7 @@ use EMS\SubmissionBundle\Tests\Functional\App\Kernel;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
-abstract class AbstractFunctionalTest extends TestCase
+abstract class AbstractFunctionalTestCase extends TestCase
 {
     /** @var ContainerInterface */
     protected $container;

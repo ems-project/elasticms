@@ -9,7 +9,7 @@ use EMS\FormBundle\FormConfig\SubmissionConfig;
 use EMS\FormBundle\Submission\FormData;
 use EMS\FormBundle\Submission\HandleRequest;
 use EMS\FormBundle\Submission\HandleResponseCollector;
-use EMS\SubmissionBundle\Tests\Functional\AbstractFunctionalTest;
+use EMS\SubmissionBundle\Tests\Functional\AbstractFunctionalTestCase;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -18,7 +18,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-abstract class AbstractChainedTest extends AbstractFunctionalTest
+abstract class AbstractChainedTestCase extends AbstractFunctionalTestCase
 {
     private FormInterface $form;
     /** @var FormConfig */

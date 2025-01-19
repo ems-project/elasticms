@@ -46,7 +46,7 @@ class ConverterTest extends TestCase
      *
      * @return array<array<int|string>>
      */
-    public function byteProvider(): array
+    public static function byteProvider(): array
     {
         return [
             [243, '243 B', '243 B', '243 B'],

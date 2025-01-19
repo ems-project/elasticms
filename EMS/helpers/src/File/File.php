@@ -29,6 +29,10 @@ class File
 
     public static function fromFilename(string $filename): self
     {
+        if (!\file_exists($filename)) {
+            throw new \RuntimeException(\sprintf('File "%s" does not exits', $filename));
+        }
+        
         return new self(new \SplFileInfo($filename));
     }
 

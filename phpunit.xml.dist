@@ -44,7 +44,6 @@
   <testsuites>
       <testsuite name="Unit suite">
           <directory>./elasticms-admin/tests</directory>
-          <exclude>./elasticms-admin/tests/Controller</exclude>
           <directory>./elasticms-cli/tests</directory>
           <exclude>./elasticms-cli/tests/WebToElasticms/Helper/TikaClientTest.php</exclude>
           <exclude>./elasticms-cli/tests/WebToElasticms/Helper/TikaPromiseTest.php</exclude>
@@ -60,7 +59,4 @@
       </testsuite>
   </testsuites>
 
-  <extensions>
-    <bootstrap class="Zalas\PHPUnit\Globals\AnnotationExtension" />
-  </extensions>
 </phpunit>

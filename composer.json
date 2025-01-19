@@ -132,8 +132,7 @@
         "symfony/phpunit-bridge": "6.4.*",
         "symfony/var-dumper": "6.4.*",
         "symfony/web-profiler-bundle": "6.4.*",
-        "symplify/monorepo-builder": "^11.2",
-        "zalas/phpunit-globals": "^3.5"
+        "symplify/monorepo-builder": "^11.2"
     },
     "config": {
         "sort-packages": true,

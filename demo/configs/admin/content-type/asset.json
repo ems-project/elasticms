@@ -214,7 +214,6 @@
                                                 "collection_label_field": null
                                             },
                                             "mappingOptions": {
-                                                "index": "not_analyzed",
                                                 "analyzer": "keyword",
                                                 "copy_to": null
                                             },
@@ -262,7 +261,6 @@
                                                 "collection_label_field": null
                                             },
                                             "mappingOptions": {
-                                                "index": "not_analyzed",
                                                 "analyzer": "keyword",
                                                 "copy_to": null
                                             },

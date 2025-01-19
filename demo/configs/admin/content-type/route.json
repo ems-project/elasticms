@@ -113,8 +113,7 @@
                                     "querySearch": null
                                 },
                                 "mappingOptions": {
-                                    "index": "not_analyzed",
-                                    "analyzer": null,
+                                    "analyzer": "keyword",
                                     "copy_to": null
                                 },
                                 "restrictionOptions": {

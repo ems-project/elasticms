@@ -65,7 +65,6 @@
                                     "icon": null
                                 },
                                 "mappingOptions": {
-                                    "index": "analyzed",
                                     "analyzer": "keyword",
                                     "copy_to": "live_search"
                                 },
@@ -98,7 +97,6 @@
                                         "options": {
                                             "displayOptions": [],
                                             "mappingOptions": {
-                                                "index": "analyzed",
                                                 "analyzer": "alpha_order",
                                                 "fielddata": true
                                             },
@@ -140,7 +138,6 @@
                                     "icon": null
                                 },
                                 "mappingOptions": {
-                                    "index": "analyzed",
                                     "analyzer": "keyword",
                                     "copy_to": null
                                 },
@@ -262,7 +259,6 @@
                                                 "placeholder": null
                                             },
                                             "mappingOptions": {
-                                                "index": "not_analyzed",
                                                 "analyzer": "keyword",
                                                 "copy_to": null
                                             },

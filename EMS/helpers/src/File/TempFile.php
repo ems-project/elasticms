@@ -10,20 +10,9 @@ use Psr\Http\Message\StreamInterface;
 class TempFile
 {
     private const string PREFIX = 'EMS_temp_file_';
-    /** @var self[] */
-    private static array $collector = [];
 
     private function __construct(public readonly string $path)
     {
-        self::$collector[] = $this;
-    }
-
-    /**
-     * @return self[]
-     */
-    public static function getIterator(): array
-    {
-        return self::$collector;
     }
 
     public function __destruct()

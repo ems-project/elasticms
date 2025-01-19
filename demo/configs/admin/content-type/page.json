@@ -97,8 +97,7 @@
                                     "environment": null
                                 },
                                 "mappingOptions": {
-                                    "index": "not_analyzed",
-                                    "analyzer": null,
+                                    "analyzer": "keyword",
                                     "copy_to": null
                                 },
                                 "restrictionOptions": {
@@ -622,7 +621,7 @@
                                                                                     "placeholder": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -698,7 +697,7 @@
                                                                                                 "defaultValue": null
                                                                                             },
                                                                                             "mappingOptions": {
-                                                                                                "index": "not_analyzed"
+                                                                                                "analyzer": "keyword"
                                                                                             },
                                                                                             "restrictionOptions": {
                                                                                                 "mandatory": false,
@@ -828,7 +827,7 @@
                                                                                     "defaultValue": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": true,
@@ -912,7 +911,7 @@
                                                                                     "placeholder": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": true,
@@ -994,7 +993,7 @@
                                                                                     "defaultValue": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -1299,8 +1298,7 @@
                                                             "placeholder": null
                                                         },
                                                         "mappingOptions": {
-                                                            "index": "not_analyzed",
-                                                            "analyzer": null,
+                                                            "analyzer": "keyword",
                                                             "copy_to": null
                                                         },
                                                         "restrictionOptions": {

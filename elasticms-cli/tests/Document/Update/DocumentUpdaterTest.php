@@ -69,7 +69,7 @@ final class DocumentUpdaterTest extends TestCase
                     ['id2', ['title' => 'title 222']],
                 ];
 
-                $expectedCall = array_shift($expectedCalls);
+                $expectedCall = \array_shift($expectedCalls);
 
                 $this->assertSame($expectedCall[0], $id);
                 $this->assertSame($expectedCall[1], $data);
@@ -106,7 +106,6 @@ final class DocumentUpdaterTest extends TestCase
 
         $dataEndpoint = $this->createMock(DataInterface::class);
 
-
         $dataEndpoint
             ->expects($this->exactly(2))
             ->method('save')
@@ -116,7 +115,7 @@ final class DocumentUpdaterTest extends TestCase
                     ['id2', ['collection' => [['title' => 'title 222']]]],
                 ];
 
-                $expectedCall = array_shift($expectedCalls);
+                $expectedCall = \array_shift($expectedCalls);
 
                 $this->assertSame($expectedCall[0], $id);
                 $this->assertSame($expectedCall[1], $data);

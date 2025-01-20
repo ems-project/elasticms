@@ -62,9 +62,7 @@ final readonly class CoreApi implements CoreApiInterface
     #[\Override]
     public function data(string $contentType): DataInterface
     {
-        $versions = $this->admin()->getVersions();
-
-        return new Data($this->client, $contentType, $versions['core'] ?? '1.0.0');
+        return new Data($this->client, $contentType);
     }
 
     #[\Override]

@@ -63,7 +63,13 @@ final class ExceptionHelper
             return $customCodeTemplate;
         }
 
-        $errorTemplate = \str_replace('{code}', '', $this->template);
+        $errorTemplate = \str_replace([
+            '{code}',
+            '{_format}',
+        ], [
+            '',
+            $format,
+        ], $this->template);
 
         if ($this->templateExists($errorTemplate)) {
             return $errorTemplate;

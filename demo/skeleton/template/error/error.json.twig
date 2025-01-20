@@ -1,0 +1,8 @@
+{%- set message = {
+    code: status_code,
+    test: status_text,
+    exception: {
+        message: exception.message
+    }
+} -%}
+{{- message|json_encode(constant('JSON_PRETTY_PRINT'))|raw -}}

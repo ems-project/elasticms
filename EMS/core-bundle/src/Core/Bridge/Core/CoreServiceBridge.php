@@ -7,11 +7,13 @@ namespace EMS\CoreBundle\Core\Bridge\Core;
 use EMS\CommonBundle\Common\Composer\ComposerInfo;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreBridgeInterface;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
+use EMS\CoreBundle\Service\DataService;
 use EMS\CoreBundle\Service\Revision\RevisionService;
 
 readonly class CoreServiceBridge implements CoreBridgeInterface
 {
     public function __construct(
+        private DataService $dataService,
         private RevisionService $revisionService,
         private ComposerInfo $composerInfo,
     ) {
@@ -24,6 +26,6 @@ readonly class CoreServiceBridge implements CoreBridgeInterface
 
     public function data(string $contentType): CoreDataBridgeInterface
     {
-        return new CoreDataServiceBridge($this->revisionService, $contentType);
+        return new CoreDataServiceBridge($this->dataService, $this->revisionService, $contentType);
     }
 }

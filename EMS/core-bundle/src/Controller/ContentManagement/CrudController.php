@@ -142,10 +142,7 @@ class CrudController extends AbstractController
         return $this->flashMessageLogger->buildJsonResponse($out);
     }
 
-    /**
-     * @param int $id
-     */
-    public function discard($id, string $name): Response
+    public function discard(int $id, string $name): Response
     {
         $contentType = $this->giveContentType($name);
         if (!$contentType->giveEnvironment()->getManaged()) {

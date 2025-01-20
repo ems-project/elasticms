@@ -29,4 +29,14 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
 
         return !$revision->hasId();
     }
+
+    public function getDraft(int $revisionId): array
+    {
+        $revision = $this->revisionService->getByRevisionId($revisionId);
+
+        return [
+            'id' => $revision->getId(),
+            'data' => $revision->getDraftData(),
+        ];
+    }
 }

@@ -24,4 +24,9 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     {
         return $this->coreApi->data($this->contentType)->discard($revisionId);
     }
+
+    public function getDraft(int $revisionId): array
+    {
+        return $this->coreApi->data($this->contentType)->getDraft($revisionId);
+    }
 }

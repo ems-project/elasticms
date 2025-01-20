@@ -15,12 +15,12 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     ) {
     }
 
-    public function create(array $rawData = []): int
+    public function draftCreate(array $rawData = []): int
     {
         return $this->coreApi->data($this->contentType)->create($rawData)->getRevisionId();
     }
 
-    public function discard(int $revisionId): bool
+    public function draftDiscard(int $revisionId): bool
     {
         return $this->coreApi->data($this->contentType)->discard($revisionId);
     }

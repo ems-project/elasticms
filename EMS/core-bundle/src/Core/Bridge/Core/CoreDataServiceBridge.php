@@ -17,12 +17,12 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     ) {
     }
 
-    public function create(array $rawData = []): int
+    public function draftCreate(array $rawData = []): int
     {
         return $this->revisionService->create(contentType: $this->contentType, rawData: $rawData)->getId();
     }
 
-    public function discard(int $revisionId): bool
+    public function draftDiscard(int $revisionId): bool
     {
         $revision = $this->revisionService->getByRevisionId($revisionId);
         $this->dataService->discardDraft($revision);

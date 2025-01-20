@@ -15,6 +15,7 @@ readonly class CoreApiController
 
     public function api(): void
     {
+        // keep for generating the base url for calling the api.
     }
 
     public function getVersions(): JsonResponse

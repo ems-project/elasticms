@@ -130,13 +130,13 @@ class FileStructurePushCommand extends AbstractCommand
         $progressBar->finish();
         $this->io->newLine();
 
-        \file_put_contents($hashFilename, $hash);
-
         if ($this->output->isQuiet()) {
             echo $hash;
         } else {
             $this->io->success(\sprintf('Archive %s have been uploaded with the directory content of %s', $hash, $this->folderPath));
         }
+
+        File::putContents($hashFilename, $hash);
 
         return self::EXECUTE_SUCCESS;
     }

@@ -32,6 +32,13 @@ class File
         return new self(new \SplFileInfo($filename));
     }
 
+    public static function putContents(string $filename, string $contents): void
+    {
+        if (false === \file_put_contents($filename, $contents)) {
+            throw new \RuntimeException(\sprintf('Unexpected false result on file_put_contents for file %s', $filename));
+        }
+    }
+
     public function getContents(): string
     {
         if (false === $contents = \file_get_contents($this->file->getRealPath())) {

@@ -7,6 +7,7 @@ namespace EMS\CommonBundle\Command\Document;
 use EMS\CommonBundle\Common\Admin\AdminHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -74,7 +75,7 @@ class DownloadCommand extends AbstractCommand
         $this->io->progressStart($searchApi->count($search));
         foreach ($searchApi->scroll($search) as $hit) {
             $json = Json::encode($hit->getSource(true), true);
-            \file_put_contents(\implode(DIRECTORY_SEPARATOR, [$directory, $hit->getId().'.json']), $json);
+            File::putContents(\implode(DIRECTORY_SEPARATOR, [$directory, $hit->getId().'.json']), $json);
             $this->io->progressAdvance();
         }
         $this->io->progressFinish();

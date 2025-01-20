@@ -9,6 +9,7 @@ use EMS\ClientHelperBundle\Helper\Local\LocalHelper;
 use EMS\CommonBundle\Contracts\CoreApi\Endpoint\Admin\ConfigTypes;
 use EMS\CommonBundle\Helper\EmsFields;
 use EMS\CommonBundle\Storage\Archive;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputArgument;
@@ -84,7 +85,7 @@ final class UploadAssetsCommand extends AbstractLocalCommand
             $this->io->success(\sprintf('Assets %s have been uploaded', $hash));
 
             if (null !== $this->filename) {
-                \file_put_contents($this->filename, $hash);
+                File::putContents($this->filename, $hash);
             }
 
             $this->updateStyleSets($hash);

@@ -97,7 +97,6 @@
                                     "display_template": null
                                 },
                                 "mappingOptions": {
-                                    "index": "not_analyzed",
                                     "analyzer": "keyword",
                                     "copy_to": null
                                 },

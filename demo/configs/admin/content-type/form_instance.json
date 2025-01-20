@@ -142,8 +142,7 @@
                                     "collection_label_field": null
                                 },
                                 "mappingOptions": {
-                                    "index": "not_analyzed",
-                                    "analyzer": null,
+                                    "analyzer": "keyword",
                                     "copy_to": null
                                 },
                                 "restrictionOptions": {
@@ -190,8 +189,7 @@
                                     "collection_label_field": null
                                 },
                                 "mappingOptions": {
-                                    "index": "not_analyzed",
-                                    "analyzer": null,
+                                    "analyzer": "keyword",
                                     "copy_to": null
                                 },
                                 "restrictionOptions": {
@@ -431,7 +429,7 @@
                                                                         "collection_label_field": null
                                                                     },
                                                                     "mappingOptions": {
-                                                                        "index": "not_analyzed"
+                                                                        "analyzer": "keyword"
                                                                     },
                                                                     "restrictionOptions": {
                                                                         "mandatory": true,
@@ -820,7 +818,7 @@
                                                                                     "collection_label_field": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -866,7 +864,7 @@
                                                                                     "collection_label_field": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -997,7 +995,7 @@
                                                                                                 "collection_label_field": null
                                                                                             },
                                                                                             "mappingOptions": {
-                                                                                                "index": "not_analyzed"
+                                                                                                "analyzer": "keyword"
                                                                                             },
                                                                                             "restrictionOptions": {
                                                                                                 "mandatory": true,
@@ -1177,7 +1175,7 @@
                                                             "collection_label_field": null
                                                         },
                                                         "mappingOptions": {
-                                                            "index": "not_analyzed"
+                                                            "analyzer": "keyword"
                                                         },
                                                         "restrictionOptions": {
                                                             "mandatory": true,
@@ -1345,7 +1343,7 @@
                                                             "collection_label_field": null
                                                         },
                                                         "mappingOptions": {
-                                                            "index": "not_analyzed"
+                                                            "analyzer": "keyword"
                                                         },
                                                         "restrictionOptions": {
                                                             "mandatory": false,
@@ -1727,7 +1725,7 @@
                                                                                     "collection_label_field": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -1773,7 +1771,7 @@
                                                                                     "collection_label_field": null
                                                                                 },
                                                                                 "mappingOptions": {
-                                                                                    "index": "not_analyzed"
+                                                                                    "analyzer": "keyword"
                                                                                 },
                                                                                 "restrictionOptions": {
                                                                                     "mandatory": false,
@@ -1904,7 +1902,7 @@
                                                                                                 "collection_label_field": null
                                                                                             },
                                                                                             "mappingOptions": {
-                                                                                                "index": "not_analyzed"
+                                                                                                "analyzer": "keyword"
                                                                                             },
                                                                                             "restrictionOptions": {
                                                                                                 "mandatory": true,
@@ -2171,7 +2169,7 @@
                                                             "collection_label_field": null
                                                         },
                                                         "mappingOptions": {
-                                                            "index": "not_analyzed"
+                                                            "analyzer": "keyword"
                                                         },
                                                         "restrictionOptions": {
                                                             "mandatory": true,

@@ -10,6 +10,7 @@ use EMS\CommonBundle\Common\Admin\ConfigHelper;
 use EMS\CommonBundle\Common\Command\AbstractCommand;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 use EMS\CommonBundle\Search\Search;
+use EMS\Helpers\File\File;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -128,7 +129,7 @@ class BackupCommand extends AbstractCommand
         $ouuids = [];
         foreach ($this->coreApi->search()->scroll($search) as $hit) {
             $json = Json::encode($hit->getSource(true), true);
-            \file_put_contents(\implode(DIRECTORY_SEPARATOR, [$directory, $hit->getId().'.json']), $json);
+            File::putContents(\implode(DIRECTORY_SEPARATOR, [$directory, $hit->getId().'.json']), $json);
             $ouuids[] = $hit->getId();
             ++$counter;
         }

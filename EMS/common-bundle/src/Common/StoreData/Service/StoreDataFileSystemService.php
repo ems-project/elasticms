@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Common\StoreData\Service;
 
 use EMS\CommonBundle\Common\StoreData\StoreDataHelper;
+use EMS\Helpers\File\File;
 use EMS\Helpers\File\Folder;
 use EMS\Helpers\Standard\Json;
 
@@ -18,9 +19,7 @@ class StoreDataFileSystemService implements StoreDataServiceInterface
     public function save(StoreDataHelper $data): void
     {
         $filename = $this->filename($data->getKey());
-        if (false === \file_put_contents($filename, Json::encode($data->getData(), true))) {
-            throw new \RuntimeException(\sprintf('Error while saving data at %s', $filename));
-        }
+        File::putContents($filename, Json::encode($data->getData(), true));
     }
 
     #[\Override]

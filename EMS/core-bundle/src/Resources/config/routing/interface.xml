@@ -36,6 +36,13 @@
         <default key="interface">api</default>
         <requirement key="interface">api|json</requirement>
     </route>
+    <route id="emsco_interface_document_get_draft" path="/{interface}/data/{name}/draft/{revisionId}"
+           controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::getDraft"
+           methods="GET"
+           format="json">
+        <default key="interface">api</default>
+        <requirement key="interface">api|json</requirement>
+    </route>
     <route id="emsco_interface_document_finalize" path="/{interface}/data/{name}/finalize/{id}"
            controller="EMS\CoreBundle\Controller\ContentManagement\CrudController::finalize"
            methods="POST"

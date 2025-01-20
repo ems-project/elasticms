@@ -35,6 +35,9 @@ interface DataInterface
      */
     public function finalize(int $revisionId): string;
 
+    /** @return array{'id': int, 'data': array<string, mixed>} */
+    public function getDraft(int $revisionId): array;
+
     /**
      * @param array<string, mixed> $rawData
      *

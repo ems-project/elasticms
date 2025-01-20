@@ -11,6 +11,7 @@ use EMS\CoreBundle\Entity\User;
 use EMS\CoreBundle\Exception\DataStateException;
 use EMS\CoreBundle\Service\ContentTypeService;
 use EMS\CoreBundle\Service\DataService;
+use EMS\CoreBundle\Service\Revision\RevisionService;
 use EMS\CoreBundle\Service\UserService;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
@@ -31,6 +32,7 @@ class CrudController extends AbstractController
         private readonly DataService $dataService,
         private readonly ContentTypeService $contentTypeService,
         private readonly FlashMessageLogger $flashMessageLogger,
+        private readonly RevisionService $revisionService,
     ) {
     }
 
@@ -105,6 +107,17 @@ class CrudController extends AbstractController
             'revision' => $revision->getRawData(),
             'ouuid' => $revision->getOuuid(),
             'id' => $revision->getId(),
+        ]);
+    }
+
+    public function getDraft(int $revisionId): JsonResponse
+    {
+        $revision = $this->revisionService->getByRevisionId($revisionId);
+
+        return $this->flashMessageLogger->buildJsonResponse([
+            'success' => true,
+            'id' => $revision->getId(),
+            'data' => $revision->getDraftData(),
         ]);
     }
 

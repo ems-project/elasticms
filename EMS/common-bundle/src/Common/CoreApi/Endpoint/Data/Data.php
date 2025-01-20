@@ -67,6 +67,17 @@ final readonly class Data implements DataInterface
         return new Revision($this->client->get($resource));
     }
 
+    public function getDraft(int $revisionId): array
+    {
+        $resource = $this->makeResource('draft', (string) $revisionId);
+        $response = $this->client->get($resource)->getData();
+
+        return [
+            'id' => $response['id'],
+            'data' => $response['data'],
+        ];
+    }
+
     /**
      * @param array<string, mixed> $rawData
      */

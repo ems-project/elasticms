@@ -644,6 +644,18 @@ class Revision implements EntityInterface, \Stringable
         return $this->autoSave;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function getDraftData(): array
+    {
+        if (!$this->isDraft()) {
+            return [];
+        }
+
+        return $this->getAutoSave() ?? $this->getRawData();
+    }
+
     public function getLabel(): string
     {
         $contentTypeLabelField = $this->giveContentType()->getLabelField();

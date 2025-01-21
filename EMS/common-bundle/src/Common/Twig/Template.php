@@ -50,7 +50,9 @@ class Template implements TemplateInterface
                 return null;
             }
 
-            return $this->template->renderBlock($name, $this->context->getRaw());
+            $render = $this->template->renderBlock($name, $this->context->getRaw());
+
+            return '' !== $render ? $render : null;
         } catch (\Throwable $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }

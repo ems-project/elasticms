@@ -328,19 +328,21 @@ class RevisionService implements RevisionServiceInterface
             throw new \RuntimeException('Revision is not draft');
         }
 
-        $rootFieldType = $revision->giveContentType()->getFieldType();
         $user = $this->userManager->getAuthenticatedUser();
+        $this->lock($revision, $user);
+
+        $rootFieldType = $revision->giveContentType()->getFieldType();
+        $data = [...$revision->getRawData(), ...$autoSave];
 
         $form = $this->createRevisionForm($revision);
-        $form->submit(['data' => RawDataTransformer::transform($rootFieldType, $autoSave)]);
+        $form->submit(['data' => RawDataTransformer::transform($rootFieldType, $data)]);
 
         $revision->setDraftSaveDate(new \DateTime());
-        $revision->autoSave(
+        $revision->applyAutoSave(
             user: $this->userManager->getAuthenticatedUser(),
             autoSave: RawDataTransformer::reverseTransform($rootFieldType, $form->get('data')->getData()),
         );
 
-        $this->lock($revision, $user);
         $this->revisionRepository->save($revision);
     }
 
@@ -370,12 +372,8 @@ class RevisionService implements RevisionServiceInterface
     /**
      * @param array<mixed> $rawData
      */
-    public function create(ContentType|string $contentType, ?UuidInterface $uuid = null, array $rawData = [], ?string $username = null): Revision
+    public function create(ContentType $contentType, ?UuidInterface $uuid = null, array $rawData = [], ?string $username = null): Revision
     {
-        if (\is_string($contentType)) {
-            $contentType = $this->contentTypeService->giveByName($contentType);
-        }
-
         return $this->dataService->newDocument($contentType->validate(), $uuid?->toString(), $rawData, $username);
     }
 

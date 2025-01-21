@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\CommonBundle\Tests\Unit\Helper\Text;
 
 use EMS\CommonBundle\Helper\Text\Encoder;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 
 class EncoderAiTest extends TestCase
@@ -45,6 +46,7 @@ class EncoderAiTest extends TestCase
         $this->assertEquals('far fa-file-pdf', $icon);
     }
 
+    #[IgnoreDeprecations]
     public function testWebalizeForUsers(): void
     {
         $text = 'This is a Test';

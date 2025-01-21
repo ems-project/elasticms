@@ -8,6 +8,7 @@ use EMS\CommonBundle\Controller\FileController;
 use EMS\CommonBundle\Storage\Processor\Processor;
 use EMS\CommonBundle\Twig\RequestRuntime;
 use GuzzleHttp\Psr7\Stream;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,6 +50,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[IgnoreDeprecations]
     public function testView(): void
     {
         $this->requestRuntime->expects($this->once())
@@ -59,6 +61,7 @@ class FileControllerAiTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
+    #[IgnoreDeprecations]
     public function testDownload(): void
     {
         $this->requestRuntime->expects($this->once())

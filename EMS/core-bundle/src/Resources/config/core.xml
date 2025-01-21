@@ -9,6 +9,7 @@
             <argument type="service" id="EMS\CoreBundle\Service\DataService" />
             <argument type="service" id="ems.service.revision" />
             <argument type="service" id="ems_common.composer.info" />
+            <argument type="service" id="EMS\CoreBundle\Service\ContentTypeService" />
         </service>
 
         <!-- Config -->

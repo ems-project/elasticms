@@ -38,4 +38,10 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     {
         return $this->coreApi->data($this->contentType)->getDraft($revisionId);
     }
+
+    #[\Override]
+    public function finalize(int $revisionId): string
+    {
+        return $this->coreApi->data($this->contentType)->finalize($revisionId);
+    }
 }

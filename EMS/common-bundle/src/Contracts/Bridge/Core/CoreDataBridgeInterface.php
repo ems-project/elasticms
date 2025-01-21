@@ -14,6 +14,8 @@ interface CoreDataBridgeInterface
 
     public function draftDiscard(int $revisionId): bool;
 
+    public function finalize(int $revisionId): string;
+
     /** @return array{'id': int, 'data': array<string, mixed>} */
     public function getDraft(int $revisionId): array;
 }

@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 readonly class FormController
 {
     public const string BLOCK_SUCCESS_REDIRECT = 'emschFormSuccessRedirect';
+    public const string BLOCK_DATA = 'emschFormData';
 
     public function __construct(
         private Handler $handler,
@@ -25,7 +26,9 @@ readonly class FormController
     {
         $template = $this->handler->handle($request);
 
-        $form = $this->formFactory->create(EmschFormType::class, [], ['template' => $template]);
+        $data = $template->jsonBlock(self::BLOCK_DATA);
+
+        $form = $this->formFactory->create(EmschFormType::class, $data, ['template' => $template]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

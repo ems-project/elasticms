@@ -51,6 +51,12 @@ class EmschFormType extends AbstractType
     }
 
     #[\Override]
+    public function getBlockPrefix(): string
+    {
+        return '';
+    }
+
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver

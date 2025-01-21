@@ -34,7 +34,7 @@ readonly class FormController
         if ($form->isSubmitted() && $form->isValid()) {
             $template->context()->append(['emschFormData' => $form->getData()]);
 
-            if ($redirect = $template->renderBlock(self::BLOCK_SUCCESS_REDIRECT)) {
+            if ('' !== $redirect = $template->renderBlock(self::BLOCK_SUCCESS_REDIRECT)) {
                 return new RedirectResponse($redirect);
             }
         }

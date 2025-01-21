@@ -13,6 +13,9 @@ interface DataInterface
     public const MODE_UPDATE = 1;
     public const MODE_REPLACE = 2;
 
+    /** @param array<string, mixed> $data */
+    public function autoSave(int $revisionId, array $data): bool;
+
     /**
      * @param array<string, mixed> $rawData
      *

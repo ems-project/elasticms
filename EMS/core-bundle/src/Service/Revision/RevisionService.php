@@ -14,6 +14,7 @@ use EMS\CoreBundle\Common\DocumentInfo;
 use EMS\CoreBundle\Contracts\Revision\RevisionServiceInterface;
 use EMS\CoreBundle\Core\ContentType\ContentTypeFields;
 use EMS\CoreBundle\Core\Log\LogRevisionContext;
+use EMS\CoreBundle\Core\Revision\RawDataTransformer;
 use EMS\CoreBundle\Core\Revision\Revisions;
 use EMS\CoreBundle\Core\User\UserManager;
 use EMS\CoreBundle\Entity\ContentType;
@@ -318,6 +319,29 @@ class RevisionService implements RevisionServiceInterface
         $this->auditLogger->info('log.revision.draft.updated', LogRevisionContext::update($revision));
 
         $this->logger->debug('Revision after persist flush');
+    }
+
+    /** @param array<string, mixed> $autoSave */
+    public function autoSave(Revision $revision, array $autoSave): void
+    {
+        if (!$revision->isDraft()) {
+            throw new \RuntimeException('Revision is not draft');
+        }
+
+        $rootFieldType = $revision->giveContentType()->getFieldType();
+        $user = $this->userManager->getAuthenticatedUser();
+
+        $form = $this->createRevisionForm($revision);
+        $form->submit(['data' => RawDataTransformer::transform($rootFieldType, $autoSave)]);
+
+        $revision->setDraftSaveDate(new \DateTime());
+        $revision->autoSave(
+            user: $this->userManager->getAuthenticatedUser(),
+            autoSave: RawDataTransformer::reverseTransform($rootFieldType, $form->get('data')->getData()),
+        );
+
+        $this->lock($revision, $user);
+        $this->revisionRepository->save($revision);
     }
 
     public function getDocumentInfo(EMSLink $documentLink): DocumentInfo

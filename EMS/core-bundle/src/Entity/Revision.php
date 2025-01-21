@@ -644,6 +644,16 @@ class Revision implements EntityInterface, \Stringable
         return $this->autoSave;
     }
 
+    /** @param array<string, mixed> $autoSave */
+    public function autoSave(UserInterface $user, array $autoSave = []): self
+    {
+        $this->autoSaveAt = new \DateTime();
+        $this->autoSaveBy = $user->getUsername();
+        $this->autoSave = $autoSave;
+
+        return $this;
+    }
+
     /**
      * @return array<string, mixed>
      */

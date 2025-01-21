@@ -79,6 +79,16 @@ class CrudController extends AbstractController
         ]);
     }
 
+    public function autoSave(Request $request, int $revisionId): JsonResponse
+    {
+        $this->revisionService->autoSave(
+            revision: $this->revisionService->getByRevisionId($revisionId),
+            autoSave: Json::decode(Type::string($request->getContent()))
+        );
+
+        return $this->flashMessageLogger->buildJsonResponse(['success' => true]);
+    }
+
     public function get(string $ouuid, string $name): Response
     {
         $contentType = $this->giveContentType($name);

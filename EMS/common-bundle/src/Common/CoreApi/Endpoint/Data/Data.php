@@ -21,6 +21,14 @@ final readonly class Data implements DataInterface
         $this->endPoint = ['api', 'data', $contentType];
     }
 
+    #[\Override]
+    public function autoSave(int $revisionId, array $data): bool
+    {
+        $resource = $this->makeResource('auto-save', (string) $revisionId);
+
+        return $this->client->post($resource, $data)->isSuccess();
+    }
+
     /**
      * @param array<string, mixed> $rawData
      */
@@ -66,6 +74,7 @@ final readonly class Data implements DataInterface
         return new Revision($this->client->get($resource));
     }
 
+    #[\Override]
     public function getDraft(int $revisionId): array
     {
         $resource = $this->makeResource('draft', (string) $revisionId);
@@ -143,11 +152,6 @@ final readonly class Data implements DataInterface
         return $this->client->asyncRequest(Request::METHOD_POST, $resource, ['json' => $rawData]);
     }
 
-    private function makeResource(?string ...$path): string
-    {
-        return \implode('/', \array_merge($this->endPoint, \array_filter($path)));
-    }
-
     #[\Override]
     public function publish(string $ouuid, string $environment, ?string $revisionId = null): bool
     {
@@ -158,5 +162,10 @@ final readonly class Data implements DataInterface
         }
 
         return $success;
+    }
+
+    private function makeResource(?string ...$path): string
+    {
+        return \implode('/', \array_merge($this->endPoint, \array_filter($path)));
     }
 }

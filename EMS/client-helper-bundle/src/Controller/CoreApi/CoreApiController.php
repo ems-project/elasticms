@@ -29,7 +29,7 @@ readonly class CoreApiController
     public function autoSave(Request $request, string $contentType, int $revisionId): JsonResponse
     {
         return new JsonResponse([
-            'success' => $this->coreBridge->data($contentType)->draftAutoSave(
+            'success' => $this->coreBridge->data($contentType)->autoSave(
                 revisionId: $revisionId,
                 data: Json::decode(Type::string($request->getContent()))
             ),

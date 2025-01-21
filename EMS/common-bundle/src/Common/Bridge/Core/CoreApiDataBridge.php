@@ -15,16 +15,25 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     ) {
     }
 
+    #[\Override]
+    public function draftAutoSave(int $revisionId, array $data): bool
+    {
+        return $this->coreApi->data($this->contentType)->autoSave($revisionId, $data);
+    }
+
+    #[\Override]
     public function draftCreate(array $rawData = []): int
     {
         return $this->coreApi->data($this->contentType)->create($rawData)->getRevisionId();
     }
 
+    #[\Override]
     public function draftDiscard(int $revisionId): bool
     {
         return $this->coreApi->data($this->contentType)->discard($revisionId);
     }
 
+    #[\Override]
     public function getDraft(int $revisionId): array
     {
         return $this->coreApi->data($this->contentType)->getDraft($revisionId);

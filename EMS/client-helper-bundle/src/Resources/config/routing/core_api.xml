@@ -12,5 +12,8 @@
            controller="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController::getVersions"
            methods="GET">
     </route>
-
+    <route id="emsch_api_auto_save" path="/emsch/api/autosave/{contentType}/{revisionId}"
+           controller="EMS\ClientHelperBundle\Controller\CoreApi\CoreApiController::autoSave"
+           methods="POST">
+    </route>
 </routes>

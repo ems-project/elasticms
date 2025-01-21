@@ -17,11 +17,22 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     ) {
     }
 
+    #[\Override]
+    public function draftAutoSave(int $revisionId, array $data): bool
+    {
+        $revision = $this->revisionService->getByRevisionId($revisionId);
+        $this->revisionService->autoSave($revision, $data);
+
+        return true;
+    }
+
+    #[\Override]
     public function draftCreate(array $rawData = []): int
     {
         return $this->revisionService->create(contentType: $this->contentType, rawData: $rawData)->getId();
     }
 
+    #[\Override]
     public function draftDiscard(int $revisionId): bool
     {
         $revision = $this->revisionService->getByRevisionId($revisionId);
@@ -30,6 +41,7 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
         return !$revision->hasId();
     }
 
+    #[\Override]
     public function getDraft(int $revisionId): array
     {
         $revision = $this->revisionService->getByRevisionId($revisionId);

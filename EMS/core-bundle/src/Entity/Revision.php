@@ -203,7 +203,7 @@ class Revision implements EntityInterface, \Stringable
         $draft->setStartTime($now);
         $draft->setCreated($now);
         $draft->setEndTime(null);
-        $draft->setAutoSave(null);
+        $draft->clearAutoSave();
         $draft->setDraft(true);
 
         return $draft;
@@ -237,7 +237,7 @@ class Revision implements EntityInterface, \Stringable
             $this->setEndTime($endTime);
         }
         $this->setDraft(false);
-        $this->setAutoSave(null);
+        $this->clearAutoSave();
         $this->removeEnvironment($this->giveContentType()->giveEnvironment());
     }
 
@@ -624,6 +624,13 @@ class Revision implements EntityInterface, \Stringable
     public function getAutoSaveBy(): ?string
     {
         return $this->autoSaveBy;
+    }
+
+    public function clearAutoSave(): self
+    {
+        $this->autoSave = null;
+
+        return $this;
     }
 
     /**

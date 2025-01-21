@@ -74,7 +74,7 @@ class EditController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $revision->setAutoSave(null);
+            $revision->clearAutoSave();
             $objectArray = Json::decode($form->get('json')->getData());
             $this->revisionService->save($revision, $objectArray);
 
@@ -143,7 +143,7 @@ class EditController extends AbstractController
                 ]);
             }
 
-            $revision->setAutoSave(null);
+            $revision->clearAutoSave();
             if (!isset($requestRevision['discard'])) {// Save, Copy, Paste or Finalize
                 // Save anyway
                 /** @var Revision $revision */

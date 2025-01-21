@@ -32,13 +32,15 @@ readonly class FormController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $template->contextAppend(['emschFormData' => $form->getData()]);
+            $template->context()->append(['emschFormData' => $form->getData()]);
 
             if ($redirect = $template->renderBlock(self::BLOCK_SUCCESS_REDIRECT)) {
                 return new RedirectResponse($redirect);
             }
         }
 
-        return new Response($template->contextAppend(['emschForm' => $form->createView()])->render());
+        $template->context()->append(['emschForm' => $form->createView()]);
+
+        return new Response($template->render());
     }
 }

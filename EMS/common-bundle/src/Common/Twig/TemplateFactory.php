@@ -16,8 +16,11 @@ readonly class TemplateFactory implements TemplateFactoryInterface
 
     public function create(string $templateName, array $context = []): TemplateInterface
     {
-        $template = $this->twig->load($templateName);
+        $twigTemplate = $this->twig->load($templateName);
 
-        return new Template($template, $context);
+        $template = new Template($twigTemplate);
+        $template->context->append($context);
+
+        return $template;
     }
 }

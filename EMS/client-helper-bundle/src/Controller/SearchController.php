@@ -24,7 +24,7 @@ final readonly class SearchController
         $template = $this->handler->handle($request);
 
         $search = $this->manager->search($request);
-        $template->contextAppend($search);
+        $template->context()->append($search);
 
         $response = new Response($template->render());
         $this->cacheHelper->makeResponseCacheable($request, $response);

@@ -28,7 +28,7 @@ readonly class LoginController
         $credentials = new LoginCredentials();
         $credentials->username = $request->getSession()->get(SecurityRequestAttributes::LAST_USERNAME);
 
-        $template->contextAppend([
+        $template->context()->append([
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError(),
             'form' => $this->formFactory->create(LoginForm::class, $credentials)->createView(),

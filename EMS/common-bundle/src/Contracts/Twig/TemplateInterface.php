@@ -6,10 +6,7 @@ namespace EMS\CommonBundle\Contracts\Twig;
 
 interface TemplateInterface
 {
-    /**
-     * @param array<string, mixed> $context
-     */
-    public function contextAppend(array $context): self;
+    public function context(): TemplateContextInterface;
 
     public function render(): string;
 

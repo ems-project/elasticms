@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace EMS\CommonBundle\Common\Twig;
 
+use EMS\CommonBundle\Contracts\Twig\TemplateContextInterface;
 use EMS\CommonBundle\Contracts\Twig\TemplateInterface;
 use EMS\Helpers\Standard\Json;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -11,20 +12,16 @@ use Twig\TemplateWrapper;
 
 class Template implements TemplateInterface
 {
-    /**
-     * @param array<string, mixed> $context
-     */
-    public function __construct(
-        private readonly TemplateWrapper $template,
-        private array $context = [],
-    ) {
+    public TemplateContextInterface $context;
+
+    public function __construct(private readonly TemplateWrapper $template)
+    {
+        $this->context = new TemplateContext(['template' => $this]);
     }
 
-    public function contextAppend(array $context): self
+    public function context(): TemplateContextInterface
     {
-        $this->context = [...$this->context, ...$context];
-
-        return $this;
+        return $this->context;
     }
 
     public function json(): array
@@ -40,7 +37,7 @@ class Template implements TemplateInterface
     public function render(): string
     {
         try {
-            return $this->template->render($this->context);
+            return $this->template->render($this->context->getRaw());
         } catch (\Throwable $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }
@@ -53,7 +50,7 @@ class Template implements TemplateInterface
                 return null;
             }
 
-            return $this->template->renderBlock($name, $this->context);
+            return $this->template->renderBlock($name, $this->context->getRaw());
         } catch (\Throwable $e) {
             throw $e->getPrevious() instanceof HttpException ? $e->getPrevious() : $e;
         }

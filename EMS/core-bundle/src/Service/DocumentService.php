@@ -102,7 +102,7 @@ class DocumentService
 
             $currentRevision->setEndTime($newRevision->getStartTime());
             $currentRevision->setDraft(false);
-            $currentRevision->clearAutoSave();
+            $currentRevision->autoSaveClear();
             if ($documentImportContext->shouldFinalize()) {
                 $currentRevision->removeEnvironment($documentImportContext->getEnvironment());
             }

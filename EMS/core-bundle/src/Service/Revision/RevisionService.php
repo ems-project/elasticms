@@ -337,11 +337,12 @@ class RevisionService implements RevisionServiceInterface
         $form = $this->createRevisionForm($revision);
         $form->submit(['data' => RawDataTransformer::transform($rootFieldType, $data)]);
 
-        $revision->setDraftSaveDate(new \DateTime());
-        $revision->applyAutoSave(
-            user: $this->userManager->getAuthenticatedUser(),
-            autoSave: RawDataTransformer::reverseTransform($rootFieldType, $form->get('data')->getData()),
-        );
+        $now = new \DateTime();
+        $revision
+            ->setDraftSaveDate($now)
+            ->setAutoSaveAt($now)
+            ->setAutoSaveBy($user->getUsername())
+            ->setAutoSave(RawDataTransformer::reverseTransform($rootFieldType, $form->get('data')->getData()));
 
         $this->revisionRepository->save($revision);
     }

@@ -203,7 +203,7 @@ class Revision implements EntityInterface, \Stringable
         $draft->setStartTime($now);
         $draft->setCreated($now);
         $draft->setEndTime(null);
-        $draft->clearAutoSave();
+        $draft->autoSaveClear();
         $draft->setDraft(true);
 
         return $draft;
@@ -237,7 +237,7 @@ class Revision implements EntityInterface, \Stringable
             $this->setEndTime($endTime);
         }
         $this->setDraft(false);
-        $this->clearAutoSave();
+        $this->autoSaveClear();
         $this->removeEnvironment($this->giveContentType()->giveEnvironment());
     }
 
@@ -626,13 +626,6 @@ class Revision implements EntityInterface, \Stringable
         return $this->autoSaveBy;
     }
 
-    public function clearAutoSave(): self
-    {
-        $this->autoSave = null;
-
-        return $this;
-    }
-
     /**
      * @param array<string, mixed> $autoSave
      */
@@ -651,23 +644,20 @@ class Revision implements EntityInterface, \Stringable
         return $this->autoSave;
     }
 
-    /** @param array<string, mixed> $autoSave */
-    public function applyAutoSave(UserInterface $user, array $autoSave = []): self
+    public function autoSaveClear(): self
     {
-        $this->autoSaveAt = new \DateTime();
-        $this->autoSaveBy = $user->getUsername();
-        $this->autoSave = $autoSave;
+        $this->autoSaveAt = null;
+        $this->autoSaveBy = null;
+        $this->autoSave = null;
 
         return $this;
     }
 
-    public function checkAutoSave(): self
+    public function autoSaveToRawData(): self
     {
         if (null !== $this->autoSave) {
             $this->rawData = $this->autoSave;
-            $this->autoSaveAt = null;
-            $this->autoSaveBy = null;
-            $this->autoSave = null;
+            $this->autoSaveClear();
         }
 
         return $this;
@@ -903,9 +893,11 @@ class Revision implements EntityInterface, \Stringable
         return $this->draftSaveDate;
     }
 
-    public function setDraftSaveDate(?\DateTime $draftSaveDate): void
+    public function setDraftSaveDate(?\DateTime $draftSaveDate): self
     {
         $this->draftSaveDate = $draftSaveDate;
+
+        return $this;
     }
 
     /**

@@ -57,7 +57,7 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     public function finalize(int $revisionId): string
     {
         $revision = $this->dataService->getRevisionById($revisionId, $this->contentType);
-        $revision->checkAutoSave();
+        $revision->autoSaveToRawData();
         $newRevision = $this->dataService->finalizeDraft($revision);
 
         $this->dataService->refresh($this->contentType->giveEnvironment());

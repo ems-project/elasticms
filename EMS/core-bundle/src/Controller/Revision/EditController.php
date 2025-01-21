@@ -74,7 +74,7 @@ class EditController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
-            $revision->clearAutoSave();
+            $revision->autoSaveClear();
             $objectArray = Json::decode($form->get('json')->getData());
             $this->revisionService->save($revision, $objectArray);
 
@@ -108,8 +108,8 @@ class EditController extends AbstractController
             throw new \RuntimeException('Only a draft is allowed for editing the revision!');
         }
 
-        if ($request->isMethod('GET') && null != $revision->getAutoSave()) {
-            $revision->setRawData($revision->getAutoSave());
+        if ($request->isMethod('GET') && null !== $revision->getAutoSave()) {
+            $revision->autoSaveToRawData();
             $this->logger->notice('log.data.revision.load_from_auto_save', LogRevisionContext::read($revision));
         }
 
@@ -143,7 +143,6 @@ class EditController extends AbstractController
                 ]);
             }
 
-            $revision->clearAutoSave();
             if (!isset($requestRevision['discard'])) {// Save, Copy, Paste or Finalize
                 // Save anyway
                 /** @var Revision $revision */

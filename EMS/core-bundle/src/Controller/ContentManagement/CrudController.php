@@ -137,7 +137,7 @@ class CrudController extends AbstractController
             $contentType = $this->giveContentType($name)->validate();
 
             $revision = $this->dataService->getRevisionById($id, $contentType);
-            $revision->clearAutoSave();
+            $revision->checkAutoSave();
 
             $newRevision = $this->dataService->finalizeDraft($revision);
 

@@ -627,7 +627,7 @@ class Revision implements EntityInterface, \Stringable
     }
 
     /**
-     * @param array<mixed> $autoSave
+     * @param array<string, mixed> $autoSave
      */
     public function setAutoSave(?array $autoSave): self
     {
@@ -654,7 +654,7 @@ class Revision implements EntityInterface, \Stringable
         return $this;
     }
 
-    public function clearAutoSave(): self
+    public function checkAutoSave(): self
     {
         if (null !== $this->autoSave) {
             $this->rawData = $this->autoSave;

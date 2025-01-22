@@ -103,6 +103,7 @@ class FileControllerAiTest extends TestCase
         $this->assertTrue($request->hasSession());
     }
 
+    #[IgnoreDeprecations]
     public function testGetFile(): void
     {
         $this->requestRuntime->expects($this->once())

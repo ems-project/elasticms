@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace EMS\Tests\CommonBundle\Unit\DependencyInjection;
 
 use EMS\CommonBundle\DependencyInjection\EMSCommonExtension;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -20,6 +21,7 @@ final class EMSCommonExtensionAiTest extends TestCase
         $this->container = new ContainerBuilder();
     }
 
+    #[IgnoreDeprecations]
     public function testLoadWithFullConfig(): void
     {
         $configs = [

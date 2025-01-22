@@ -13,14 +13,19 @@ use EMS\CommonBundle\Storage\StorageManager;
 use EMS\Helpers\File\File;
 use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Standard\Json;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: Commands::FILE_STRUCTURE_PUSH,
+    description: 'Push an EMS Archive file structure into a EMS Admin storage services (via the API)',
+    hidden: false
+)]
 class FileStructurePushCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::FILE_STRUCTURE_PUSH;
     private const string ARGUMENT_FOLDER = 'folder';
     private const string OPTION_ADMIN = 'admin';
     private const string OPTION_CHUNK_SIZE = 'chunk-size';
@@ -43,7 +48,6 @@ class FileStructurePushCommand extends AbstractCommand
     {
         parent::configure();
         $this
-            ->setDescription('Push an EMS Archive file structure into a EMS Admin storage services (via the API)')
             ->addArgument(self::ARGUMENT_FOLDER, InputArgument::REQUIRED, 'Source folder')
             ->addOption(self::OPTION_ADMIN, null, InputOption::VALUE_NONE, 'Push to admin')
             ->addOption(self::OPTION_CHUNK_SIZE, null, InputOption::VALUE_OPTIONAL, 'Set the heads method chunk size', FileManagerInterface::HEADS_CHUNK_SIZE)

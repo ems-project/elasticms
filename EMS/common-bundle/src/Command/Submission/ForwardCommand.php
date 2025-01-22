@@ -13,6 +13,7 @@ use EMS\Helpers\Html\MimeTypes;
 use EMS\Helpers\Security\HashcashToken;
 use EMS\Helpers\Standard\Json;
 use EMS\Helpers\Standard\Type;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,10 +24,13 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 
+#[AsCommand(
+    name: Commands::SUBMISSION_FORWARD,
+    description: 'Forward a form submission form the admin to a form\'s url.',
+    hidden: false
+)]
 class ForwardCommand extends AbstractCommand
 {
-    protected static $defaultName = Commands::SUBMISSION_FORWARD;
-
     public const ARG_FORM_UUID_FROM = 'form-uuid';
     public const ARG_FORM_URL_TO = 'post-url';
     private string $fromUuid;
@@ -41,7 +45,6 @@ class ForwardCommand extends AbstractCommand
     protected function configure(): void
     {
         $this
-            ->setDescription('Forward a form submission form the admin to a form\'s url')
             ->addArgument(
                 self::ARG_FORM_UUID_FROM,
                 InputArgument::REQUIRED,

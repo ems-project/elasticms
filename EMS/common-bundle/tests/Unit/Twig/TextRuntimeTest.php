@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class TextRuntimeTest extends TestCase
 {
     private LoggerInterface $logger;
+    private ValidatorInterface $validator;
 
     #[\Override]
     public function setUp(): void

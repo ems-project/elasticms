@@ -68,8 +68,8 @@
             <tag name="doctrine.event_listener" event="postGenerateSchema"/>
         </service>
         <service id="ems.event_listener.ip_address_listener" class="EMS\CommonBundle\EventListener\IpAddressListener">
-            <argument type="service" id="ems.request_matcher.trusted_ips"/>
             <argument>%ems.metric.enabled%</argument>
+            <argument key="$trustedIps">%ems_common.request.trusted_ips%</argument>
             <tag name="kernel.event_subscriber" />
         </service>
 
@@ -100,10 +100,6 @@
             <argument type="service" id="ems_common.core_api" />
             <argument type="service" id="ems_common.core_api.token_store" />
             <argument type="service" id="logger" />
-        </service>
-
-        <service id="ems.request_matcher.trusted_ips" class="Symfony\Component\HttpFoundation\RequestMatcher">
-            <argument key="$ips">%ems_common.request.trusted_ips%</argument>
         </service>
 
         <!-- twig -->

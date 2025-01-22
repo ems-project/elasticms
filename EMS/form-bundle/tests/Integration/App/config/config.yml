@@ -17,6 +17,8 @@ framework:
     resource: 'config/routes.yml'
     utf8: true
     strict_requirements: ~
+  validation:
+    email_validation_mode: html5
 
 security:
   firewalls:

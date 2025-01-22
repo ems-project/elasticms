@@ -21,6 +21,8 @@ framework:
     strict_requirements: ~
   profiler:
     enabled: true
+  validation:
+    email_validation_mode: html5
 
 twig:
   debug: true

@@ -18,6 +18,8 @@ framework:
     resource: '%kernel.project_dir%/config/routes.yaml'
     utf8: true
     strict_requirements: ~
+  php_errors:
+    log: true
   validation:
     email_validation_mode: html5
 

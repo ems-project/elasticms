@@ -201,7 +201,7 @@
         "rector": "rector",
         "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix",
         "phpstan": "phpstan analyse --memory-limit 1G",
-        "phpunit": "phpunit",
+        "phpunit": "phpunit --display-deprecations",
         "phpall": [
             "@phpunit",
             "@phpstan",

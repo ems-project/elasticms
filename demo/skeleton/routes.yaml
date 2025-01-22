@@ -114,9 +114,10 @@ emsch_path:
     template_static: template/structure/by_path.html.twig
 emsch_error:
     config:
-        path: '/_error/{statusCode}'
+        path: '/_error/{statusCode}.{_format}'
         controller: 'emsch.controller.router::errorPreview'
-        requirements: { statusCode: '[0-9]{3}' }
+        requirements: { statusCode: '[0-9]{3}', _format: 'html|json' }
+        defaults: { _format: html }
 emsch_login:
     config:
         controller: emsch.controller.security.login

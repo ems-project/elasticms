@@ -42,6 +42,7 @@
         <service id="emsch.helper_exception" class="EMS\ClientHelperBundle\Helper\Request\ExceptionHelper">
             <argument type="service" id="twig" />
             <argument type="service" id="emsch.manager.client_request" />
+            <argument type="service" id="request_stack" />
             <argument>%emsch.handle_exceptions%</argument>
             <argument>%kernel.debug%</argument>
             <argument><!-- template injection --></argument>

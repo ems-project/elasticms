@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\CLI\Tests\WebToElasticms\Helper;
 
 use App\CLI\Helper\HtmlHelper;
-use App\CLI\Helper\Tika\TikaClient;
 use App\CLI\Helper\Tika\TikaHelper;
 use EMS\CommonBundle\Helper\Url;
 use GuzzleHttp\Psr7\BufferStream;
@@ -28,7 +27,6 @@ class TikaHelperTest extends TestCase
 
         $promiseNL = $helper->extract($streamDutch, 'text/plain');
         $promiseNL->startMeta();
-
 
         $this->assertEquals('fr', $promiseFR->getMeta()->getLocale());
         $this->assertEquals('nl', $promiseNL->getMeta()->getLocale());
@@ -60,7 +58,7 @@ class TikaHelperTest extends TestCase
         $this->assertEquals('Elasticms', $meta->getPublisher());
         $this->assertEquals('[bookmark: _GoBack]Bonjour, comment allez-vous ? Voici un lien vers google. Bonne journée.', $text);
         $this->assertEquals('Bonjour, comment allez-vous ? Voici un lien vers google. Bonne journée.', $html->getText());
-        $this->assertEquals(['https://www.google.com/' => 'google'], iterator_to_array($html->getLinks()));
+        $this->assertEquals(['https://www.google.com/' => 'google'], \iterator_to_array($html->getLinks()));
     }
 
     public function testPdfFile(): void
@@ -85,6 +83,6 @@ class TikaHelperTest extends TestCase
         $this->assertEquals(new \DateTimeImmutable('2022-11-13T10:46:47Z'), $meta->getCreated());
         $this->assertEquals('Bonjour, comment allez-vous ? Voici un lien vers google. Bonne journée. https://www.google.com/', $text);
         $this->assertEquals('Bonjour, comment allez-vous ? Voici un lien vers google. Bonne journée. https://www.google.com/', $html->getText());
-        $this->assertEquals(['https://www.google.com/' => 'https://www.google.com/'], iterator_to_array($html->getLinks()));
+        $this->assertEquals(['https://www.google.com/' => 'https://www.google.com/'], \iterator_to_array($html->getLinks()));
     }
 }

@@ -202,13 +202,44 @@ final class ClientRequest implements ClientRequestInterface
 
     /**
      * @param string[] $sourceFields
+     * @param mixed[]  $cache
      */
-    public function getHierarchy(string $emsKey, string $childrenField, int $depth = null, array $sourceFields = [], EMSLink $activeChild = null): ?HierarchicalStructure
+    public function getHierarchy(string $emsKey, string $childrenField, int $depth = null, array $sourceFields = [], EMSLink $activeChild = null, int $querySize = 1000, array $cache = []): ?HierarchicalStructure
     {
         $this->logger->debug('ClientRequest : getHierarchy for {emsKey}', ['emsKey' => $emsKey]);
-        $item = $this->getByEmsKey($emsKey, $sourceFields);
+        $emsLink = EMSLink::fromText($emsKey);
+        $items = $cache;
+        if (empty($items)) {
+            $result = $this->search($emsLink->getContentType(), [
+                '_source' => $sourceFields,
+            ], 0, $querySize);
 
-        if (false === $item) {
+            $ids = [];
+            foreach ($result['hits']['hits'] ?? [] as $document) {
+                $items[\sprintf('%s:%s', $emsLink->getContentType(), $document['_id'])] = $document;
+                $ids = \array_merge($ids, \array_filter(\array_map(fn (string $a): EMSLink => EMSLink::fromText($a), $document['_source'][$childrenField] ?? []), fn (EMSLink $a): bool => $emsLink->getContentType() !== $a->getContentType()));
+            }
+            $contentTypes = \array_keys(\array_reduce($ids, function (array $carry, $l): array {
+                $carry[$l->getContentType()] = $l->getContentType();
+
+                return $carry;
+            }, []));
+            $result = $this->search($contentTypes, [
+                '_source' => $sourceFields,
+                'query' => [
+                    'terms' => [
+                        '_id' => \array_map(fn (EMSLink $l): string => $l->getOuuid(), $ids),
+                    ],
+                ],
+            ], 0, \count($ids));
+            foreach ($result['hits']['hits'] ?? [] as $document) {
+                $items[\sprintf('%s:%s', $document['_source'][EMSSource::FIELD_CONTENT_TYPE], $document['_id'])] = $document;
+            }
+        }
+
+        $item = $items[$emsKey] ?? null;
+
+        if (null === $item) {
             return null;
         }
         $contentType = $item['_source'][EMSSource::FIELD_CONTENT_TYPE] ?? null;
@@ -221,7 +252,7 @@ final class ClientRequest implements ClientRequestInterface
             if (isset($item['_source'][$childrenField]) && \is_array($item['_source'][$childrenField])) {
                 foreach ($item['_source'][$childrenField] as $key) {
                     if ($key) {
-                        $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild);
+                        $child = $this->getHierarchy($key, $childrenField, null === $depth ? null : $depth - 1, $sourceFields, $activeChild, $querySize, $items);
                         if ($child) {
                             $out->addChild($child);
                         }

@@ -34,9 +34,9 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function delete(string $ouuid): bool
+    public function delete(string $uuid): bool
     {
-        $this->dataService->delete($this->contentType, $ouuid);
+        $this->dataService->delete($this->contentType, $uuid);
 
         return true;
     }

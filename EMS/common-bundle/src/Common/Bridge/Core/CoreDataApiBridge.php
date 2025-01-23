@@ -7,7 +7,7 @@ namespace EMS\CommonBundle\Common\Bridge\Core;
 use EMS\CommonBundle\Contracts\Bridge\Core\CoreDataBridgeInterface;
 use EMS\CommonBundle\Contracts\CoreApi\CoreApiInterface;
 
-readonly class CoreApiDataBridge implements CoreDataBridgeInterface
+readonly class CoreDataApiBridge implements CoreDataBridgeInterface
 {
     public function __construct(
         private CoreApiInterface $coreApi,
@@ -28,9 +28,9 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function delete(string $ouuid): bool
+    public function delete(string $uuid): bool
     {
-        return $this->coreApi->data($this->contentType)->delete($ouuid);
+        return $this->coreApi->data($this->contentType)->delete($uuid);
     }
 
     #[\Override]

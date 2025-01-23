@@ -51,17 +51,6 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function getDraft(int $revisionId): array
-    {
-        $revision = $this->revisionService->getByRevisionId($revisionId);
-
-        return [
-            'id' => $revision->getId(),
-            'data' => $revision->getDraftData(),
-        ];
-    }
-
-    #[\Override]
     public function finalize(int $revisionId): string
     {
         $revision = $this->dataService->getRevisionById($revisionId, $this->contentType);
@@ -71,5 +60,16 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
         $this->dataService->refresh($this->contentType->giveEnvironment());
 
         return $newRevision->giveOuuid();
+    }
+
+    #[\Override]
+    public function getDraft(int $revisionId): array
+    {
+        $revision = $this->revisionService->getByRevisionId($revisionId);
+
+        return [
+            'id' => $revision->getId(),
+            'data' => $revision->getDraftData(),
+        ];
     }
 }

@@ -45,13 +45,7 @@
     </source>
 
     <testsuites>
-        <testsuite name="Unit suite">
-            <directory>./elasticms-admin/tests</directory>
-            <directory>./elasticms-cli/tests</directory>
-            <exclude>./elasticms-cli/tests/WebToElasticms/Helper/TikaClientTest.php</exclude>
-            <exclude>./elasticms-cli/tests/WebToElasticms/Helper/TikaPromiseTest.php</exclude>
-            <exclude>./elasticms-cli/tests/WebToElasticms/Helper/TikaTest.php</exclude>
-            <directory>./elasticms-web/tests</directory>
+        <testsuite name="EMS">
             <directory>./EMS/client-helper-bundle/tests</directory>
             <directory>./EMS/common-bundle/tests</directory>
             <directory>./EMS/core-bundle/tests</directory>

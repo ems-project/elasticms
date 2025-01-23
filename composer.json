@@ -40,7 +40,7 @@
         "endroid/qr-code-bundle": "^6.0",
         "giggsey/libphonenumber-for-php": "^8.13",
         "guzzlehttp/guzzle": "^7.8",
-        "kevinrob/guzzle-cache-middleware": "^4.1",
+        "kevinrob/guzzle-cache-middleware": "^6.0",
         "league/flysystem-memory": "^3.19",
         "league/flysystem-sftp-v3": "^3.22",
         "maennchen/zipstream-php": "^3.0",

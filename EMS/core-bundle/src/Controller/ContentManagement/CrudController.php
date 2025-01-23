@@ -131,12 +131,17 @@ class CrudController extends AbstractController
         ]);
     }
 
-    public function finalize(int $id, string $name): Response
+    public function finalize(Request $request, int $id, string $name): Response
     {
         try {
             $contentType = $this->giveContentType($name)->validate();
-
             $revision = $this->dataService->getRevisionById($id, $contentType);
+
+            $rawData = Json::decode(Type::string($request->getContent()));
+            if (\count($rawData) > 0) {
+                $this->revisionService->autoSave($revision, $rawData);
+            }
+
             $revision->autoSaveToRawData();
 
             $newRevision = $this->dataService->finalizeDraft($revision);

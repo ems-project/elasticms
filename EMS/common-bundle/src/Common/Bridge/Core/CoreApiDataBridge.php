@@ -16,9 +16,9 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function autoSave(int $revisionId, array $data): bool
+    public function autoSave(int $revisionId, array $rawData): bool
     {
-        return $this->coreApi->data($this->contentType)->autoSave($revisionId, $data);
+        return $this->coreApi->data($this->contentType)->autoSave($revisionId, $rawData);
     }
 
     #[\Override]
@@ -46,8 +46,8 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function finalize(int $revisionId): string
+    public function finalize(int $revisionId, array $rawData = []): string
     {
-        return $this->coreApi->data($this->contentType)->finalize($revisionId);
+        return $this->coreApi->data($this->contentType)->finalize($revisionId, $rawData);
     }
 }

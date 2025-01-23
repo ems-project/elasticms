@@ -31,7 +31,7 @@ readonly class CoreApiController
         return new JsonResponse([
             'success' => $this->coreBridge->data($contentType)->autoSave(
                 revisionId: $revisionId,
-                data: Json::decode(Type::string($request->getContent()))
+                rawData: Json::decode(Type::string($request->getContent()))
             ),
         ]);
     }

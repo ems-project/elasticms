@@ -19,10 +19,10 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function autoSave(int $revisionId, array $data): bool
+    public function autoSave(int $revisionId, array $rawData): bool
     {
         $revision = $this->revisionService->getByRevisionId($revisionId);
-        $this->revisionService->autoSave($revision, $data);
+        $this->revisionService->autoSave($revision, $rawData);
 
         return true;
     }
@@ -51,9 +51,14 @@ readonly class CoreDataServiceBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
-    public function finalize(int $revisionId): string
+    public function finalize(int $revisionId, array $rawData = []): string
     {
         $revision = $this->dataService->getRevisionById($revisionId, $this->contentType);
+
+        if (\count($rawData) > 0) {
+            $this->revisionService->autoSave($revision, $rawData);
+        }
+
         $revision->autoSaveToRawData();
         $newRevision = $this->dataService->finalizeDraft($revision);
 

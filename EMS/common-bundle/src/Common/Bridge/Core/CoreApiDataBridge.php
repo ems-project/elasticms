@@ -28,6 +28,12 @@ readonly class CoreApiDataBridge implements CoreDataBridgeInterface
     }
 
     #[\Override]
+    public function delete(string $ouuid): bool
+    {
+        return $this->coreApi->data($this->contentType)->delete($ouuid);
+    }
+
+    #[\Override]
     public function discard(int $revisionId): bool
     {
         return $this->coreApi->data($this->contentType)->discard($revisionId);

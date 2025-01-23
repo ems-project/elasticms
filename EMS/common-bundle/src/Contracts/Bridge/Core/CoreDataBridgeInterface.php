@@ -12,6 +12,8 @@ interface CoreDataBridgeInterface
     /** @param array<string, mixed> $rawData */
     public function create(array $rawData = []): int;
 
+    public function delete(string $ouuid): bool;
+
     public function discard(int $revisionId): bool;
 
     public function finalize(int $revisionId): string;

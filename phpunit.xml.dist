@@ -10,8 +10,20 @@
          failOnRisky="true"
          failOnWarning="true">
 
-    <source ignoreSuppressionOfDeprecations="true">
+    <php>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="intl.default_locale" value="en"/>
+        <ini name="intl.error_level" value="0"/>
+        <ini name="memory_limit" value="-1"/>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_DEBUG" value="1"/>
+        <env name="APP_SECRET" value="s$cretf0rt3st"/>
+        <env name="SHELL_VERBOSITY" value="-1"/>
+        <env name="MAILER_URL" value="null://localhost"/>
+        <env name="DATABASE_URL" value="mysql://db_user:db_password@127.0.0.1:3306/db_name"/>
+    </php>
 
+    <source ignoreSuppressionOfDeprecations="true">
         <include>
             <directory>./elasticms-admin/src/</directory>
             <directory>./elasticms-cli/src/</directory>
@@ -31,19 +43,6 @@
             <method>Doctrine\Deprecations\Deprecation::delegateTriggerToBackend</method>
         </deprecationTrigger>
     </source>
-
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <ini name="intl.default_locale" value="en"/>
-        <ini name="intl.error_level" value="0"/>
-        <ini name="memory_limit" value="-1"/>
-        <env name="APP_ENV" value="test"/>
-        <env name="APP_DEBUG" value="1"/>
-        <env name="APP_SECRET" value="s$cretf0rt3st"/>
-        <env name="SHELL_VERBOSITY" value="-1"/>
-        <env name="MAILER_URL" value="null://localhost"/>
-        <env name="DATABASE_URL" value="mysql://db_user:db_password@127.0.0.1:3306/db_name"/>
-    </php>
 
     <testsuites>
         <testsuite name="Unit suite">

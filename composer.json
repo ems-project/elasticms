@@ -202,6 +202,9 @@
         "phpcs": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix",
         "phpstan": "phpstan analyse --memory-limit 1G",
         "phpunit": "phpunit --display-deprecations",
+        "phpunit-admin": "phpunit -c elasticms-admin/phpunit.xml.dist  --display-deprecations",
+        "phpunit-cli": "phpunit -c elasticms-cli/phpunit.xml.dist  --display-deprecations",
+        "phpunit-web": "phpunit -c elasticms-web/phpunit.xml.dist  --display-deprecations",
         "phpall": [
             "@phpunit",
             "@phpstan",
